@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/Zilla/Documents/workspace/softtek/LaiApp/Lai/app/build/intermediates/transforms/instantRunSlicer/debug/jars/1/1a/dependencies.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="01a8d89d6c40ed5196394402092be2cb07186882">
+        <dex dex="/Users/Zilla/Documents/workspace/softtek/LaiApp/Lai/app/build/intermediates/transforms/dex/debug/folders/1000/1a/dependencies_d5fe6ac5a91343dca75642137213b192607e5052/classes.dex" />
+    </item>
+    <item
+        jar="/Users/Zilla/Documents/workspace/softtek/LaiApp/Lai/app/build/intermediates/transforms/instantRunSlicer/debug/jars/1/5/main_sliceb.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="20c7b632a3caf24c47d6ac075d4db76c9cb6ce29">
+        <dex dex="/Users/Zilla/Documents/workspace/softtek/LaiApp/Lai/app/build/intermediates/transforms/dex/debug/folders/1000/5/main_sliceb_731113495ad1afde40af0ccfbcd19a207f6f496f/classes.dex" />
+    </item>
+
+</items>
