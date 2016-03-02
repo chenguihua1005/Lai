@@ -32,6 +32,8 @@ public class TabMainActivity extends BaseActivity implements BaseFragment.OnFrag
     @Override
     protected void initViews() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+
+
     }
 
     @Override
