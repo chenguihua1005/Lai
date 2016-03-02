@@ -2,18 +2,25 @@
 <items version="2" >
 
     <item
-        jar="/Users/Zilla/Documents/workspace/softtek/LaiApp/Lai/app/build/intermediates/transforms/instantRunSlicer/debug/jars/1/1a/dependencies.jar"
+        jar="D:\LaiApp\app\build\intermediates\transforms\instantRunSlicer\debug\jars\1\1a\dependencies.jar"
         jumboMode="false"
         revision="23.0.2"
-        sha1="01a8d89d6c40ed5196394402092be2cb07186882">
-        <dex dex="/Users/Zilla/Documents/workspace/softtek/LaiApp/Lai/app/build/intermediates/transforms/dex/debug/folders/1000/1a/dependencies_d5fe6ac5a91343dca75642137213b192607e5052/classes.dex" />
+        sha1="35cf95bb5b26174a0433f43f42d849a1054f7c9a">
+        <dex dex="D:\LaiApp\app\build\intermediates\transforms\dex\debug\folders\1000\1a\dependencies_d946f8e15183d586bfa7a25626a1f4d7a295abf3\classes.dex" />
     </item>
     <item
-        jar="/Users/Zilla/Documents/workspace/softtek/LaiApp/Lai/app/build/intermediates/transforms/instantRunSlicer/debug/jars/1/5/main_sliceb.jar"
+        jar="D:\LaiApp\app\build\intermediates\transforms\instantRunSlicer\debug\jars\1\5\main_sliceb.jar"
         jumboMode="false"
         revision="23.0.2"
-        sha1="20c7b632a3caf24c47d6ac075d4db76c9cb6ce29">
-        <dex dex="/Users/Zilla/Documents/workspace/softtek/LaiApp/Lai/app/build/intermediates/transforms/dex/debug/folders/1000/5/main_sliceb_731113495ad1afde40af0ccfbcd19a207f6f496f/classes.dex" />
+        sha1="ce2be01f224f0ffe03f1e5bb93730b82d1d95bcc">
+        <dex dex="D:\LaiApp\app\build\intermediates\transforms\dex\debug\folders\1000\5\main_sliceb_b0e231462ee15a744ef0b7bc6ad88948aa4812f8\classes.dex" />
+    </item>
+    <item
+        jar="D:\LaiApp\app\build\intermediates\transforms\instantRunSlicer\debug\jars\1\5\main_slice.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="1849d283d4ae2e2d97b53e5f791a4c7021a71541">
+        <dex dex="D:\LaiApp\app\build\intermediates\transforms\dex\debug\folders\1000\5\main_slice_1100835d7084de3c474b033e96ac2cf9f166c53a\classes.dex" />
     </item>
 
 </items>
