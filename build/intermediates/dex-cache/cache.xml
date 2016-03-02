@@ -2,25 +2,11 @@
 <items version="2" >
 
     <item
-        jar="D:\LaiApp\app\build\intermediates\transforms\instantRunSlicer\debug\jars\1\1a\dependencies.jar"
+        jar="D:\workspace\laiApp\lai\app\build\intermediates\incremental-classes\debug\classes.jar"
         jumboMode="false"
-        revision="23.0.2"
-        sha1="35cf95bb5b26174a0433f43f42d849a1054f7c9a">
-        <dex dex="D:\LaiApp\app\build\intermediates\transforms\dex\debug\folders\1000\1a\dependencies_d946f8e15183d586bfa7a25626a1f4d7a295abf3\classes.dex" />
-    </item>
-    <item
-        jar="D:\LaiApp\app\build\intermediates\transforms\instantRunSlicer\debug\jars\1\5\main_sliceb.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="ce2be01f224f0ffe03f1e5bb93730b82d1d95bcc">
-        <dex dex="D:\LaiApp\app\build\intermediates\transforms\dex\debug\folders\1000\5\main_sliceb_b0e231462ee15a744ef0b7bc6ad88948aa4812f8\classes.dex" />
-    </item>
-    <item
-        jar="D:\LaiApp\app\build\intermediates\transforms\instantRunSlicer\debug\jars\1\5\main_slice.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="1849d283d4ae2e2d97b53e5f791a4c7021a71541">
-        <dex dex="D:\LaiApp\app\build\intermediates\transforms\dex\debug\folders\1000\5\main_slice_1100835d7084de3c474b033e96ac2cf9f166c53a\classes.dex" />
+        revision="23.0.0"
+        sha1="4a727d127daba7c505335bce9f87d4331b22aa7c">
+        <dex dex="D:\workspace\laiApp\lai\app\build\intermediates\pre-dexed\debug\classes_d81c76e1c7096365f765a33e0dcafa2296d05c91.jar" />
     </item>
 
 </items>
