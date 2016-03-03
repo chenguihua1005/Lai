@@ -2,18 +2,11 @@
 <items version="2" >
 
     <item
-        jar="/Users/Zilla/Documents/workspace/softtek/LaiApp/Lai/app/build/intermediates/transforms/instantRunSlicer/debug/jars/1/1a/dependencies.jar"
+        jar="D:\workspace\laiApp\lai\app\build\intermediates\incremental-classes\debug\classes.jar"
         jumboMode="false"
-        revision="23.0.2"
-        sha1="01a8d89d6c40ed5196394402092be2cb07186882">
-        <dex dex="/Users/Zilla/Documents/workspace/softtek/LaiApp/Lai/app/build/intermediates/transforms/dex/debug/folders/1000/1a/dependencies_d5fe6ac5a91343dca75642137213b192607e5052/classes.dex" />
-    </item>
-    <item
-        jar="/Users/Zilla/Documents/workspace/softtek/LaiApp/Lai/app/build/intermediates/transforms/instantRunSlicer/debug/jars/1/5/main_sliceb.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="20c7b632a3caf24c47d6ac075d4db76c9cb6ce29">
-        <dex dex="/Users/Zilla/Documents/workspace/softtek/LaiApp/Lai/app/build/intermediates/transforms/dex/debug/folders/1000/5/main_sliceb_731113495ad1afde40af0ccfbcd19a207f6f496f/classes.dex" />
+        revision="23.0.0"
+        sha1="4a727d127daba7c505335bce9f87d4331b22aa7c">
+        <dex dex="D:\workspace\laiApp\lai\app\build\intermediates\pre-dexed\debug\classes_d81c76e1c7096365f765a33e0dcafa2296d05c91.jar" />
     </item>
 
 </items>
