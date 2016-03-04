@@ -2,6 +2,7 @@
 <items version="2" >
 
     <item
+<<<<<<< HEAD
         jar="C:\Users\jerry.guan\.gradle\caches\modules-2\files-2.1\org.apache.commons\commons-lang3\3.1\905075e6c80f206bbe6cf1e809d2caa69f420c76\commons-lang3-3.1.jar"
         jumboMode="false"
         revision="23.0.0"
@@ -84,22 +85,58 @@
         revision="23.0.0"
         sha1="7941cd2c2c8ec006800d75c35f8a9dacf892ab93">
         <dex dex="D:\as-workspace\LaiApp\app\build\intermediates\pre-dexed\debug\otto-1.3.5-0f0f1caa5865216593e142f0dd56473822f04a20.jar" />
+=======
+        jar="D:\LaiApp\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="57ae0d750ff83f0c738d21720224ac7ea866a094">
+        <dex dex="D:\LaiApp\app\build\intermediates\pre-dexed\debug\classes-50ce8ca2ac8da99d6a93857059d1918b35ce287f.jar" />
+>>>>>>> 25172b89276d33ed0ac78f9de06fb456a4848001
     </item>
     <item
-        jar="D:\as-workspace\LaiApp\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.1.0\jars\classes.jar"
+        jar="C:\Users\julie.zhu\.gradle\caches\modules-2\files-2.1\com.github.snowdream.android.util\log\1.0.4\9201d518181f9dc5cd7ea49216611a327e2e07f7\log-1.0.4.jar"
         jumboMode="false"
-        revision="23.0.2"
-        sha1="3f151e49c316a5ab2c065969a3b3b55ef9b393fc">
-        <dex dex="D:\as-workspace\LaiApp\app\build\intermediates\pre-dexed\debug\classes-cefc4ca2089d9bd8de00b369647e1ffa47284c94.jar" />
+        revision="23.0.0"
+        sha1="9201d518181f9dc5cd7ea49216611a327e2e07f7">
+        <dex dex="D:\LaiApp\app\build\intermediates\pre-dexed\debug\log-1.0.4-283e571242824de58e505c583663fb88cfd12ac1.jar" />
     </item>
     <item
-        jar="D:\as-workspace\LaiApp\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.0\jars\libs\internal_impl-23.1.0.jar"
+        jar="C:\Users\julie.zhu\.gradle\caches\modules-2\files-2.1\com.mobsandgeeks\android-saripaar\1.0.3\c24cfd9331b6d5a2ee15dccb60774c7cc5debd99\android-saripaar-1.0.3.jar"
         jumboMode="false"
-        revision="23.0.2"
+        revision="23.0.0"
+        sha1="c24cfd9331b6d5a2ee15dccb60774c7cc5debd99">
+        <dex dex="D:\LaiApp\app\build\intermediates\pre-dexed\debug\android-saripaar-1.0.3-54ad21ac83968059c7069fa8fc0b91d4d3ef23f3.jar" />
+    </item>
+    <item
+        jar="D:\LaiApp\app\build\intermediates\exploded-aar\com.rainim\libzilla\1.0.59\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="9686f155305843a46774ac989c59e4026c85e8d7">
+        <dex dex="D:\LaiApp\app\build\intermediates\pre-dexed\debug\classes-e1c0146a3dfda8bb9b1d8cf331ddfa8c0cf6e935.jar" />
+    </item>
+    <item
+        jar="C:\Users\julie.zhu\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp\okhttp-urlconnection\2.0.0\afe8399d352713b66e597e9670c741d1e60ae923\okhttp-urlconnection-2.0.0.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="afe8399d352713b66e597e9670c741d1e60ae923">
+        <dex dex="D:\LaiApp\app\build\intermediates\pre-dexed\debug\okhttp-urlconnection-2.0.0-6339d17b40e8e2b5400b288d05f171827a3c7081.jar" />
+    </item>
+    <item
+        jar="C:\Users\julie.zhu\.gradle\caches\modules-2\files-2.1\org.apache.commons\commons-lang3\3.1\905075e6c80f206bbe6cf1e809d2caa69f420c76\commons-lang3-3.1.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="905075e6c80f206bbe6cf1e809d2caa69f420c76">
+        <dex dex="D:\LaiApp\app\build\intermediates\pre-dexed\debug\commons-lang3-3.1-3981110a75fcd16a62702e773509c9c583923173.jar" />
+    </item>
+    <item
+        jar="D:\LaiApp\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.0\jars\libs\internal_impl-23.1.0.jar"
+        jumboMode="false"
+        revision="23.0.0"
         sha1="8716243bf04bae8d6c9ca94d27b9a9be7236f0a3">
-        <dex dex="D:\as-workspace\LaiApp\app\build\intermediates\pre-dexed\debug\internal_impl-23.1.0-503c813ad1de21cad84a7c18621a07f530f6ad23.jar" />
+        <dex dex="D:\LaiApp\app\build\intermediates\pre-dexed\debug\internal_impl-23.1.0-ba3c71427f4f15f4e148951bf4d8bcfb414e3bba.jar" />
     </item>
     <item
+<<<<<<< HEAD
         jar="C:\Users\jerry.guan\.gradle\caches\modules-2\files-2.1\com.squareup.retrofit\retrofit\1.8.0\a517f29ed06be2b2879524fcd94b6e9b36e2e0b5\retrofit-1.8.0.jar"
         jumboMode="false"
         revision="23.0.0"
@@ -175,6 +212,90 @@
         revision="23.0.0"
         sha1="c24cfd9331b6d5a2ee15dccb60774c7cc5debd99">
         <dex dex="D:\as-workspace\LaiApp\app\build\intermediates\pre-dexed\debug\android-saripaar-1.0.3-9f42ca664ae6ae095b1c6dfaf4e81a050a2d821a.jar" />
+=======
+        jar="C:\Users\julie.zhu\.gradle\caches\modules-2\files-2.1\com.jakewharton\butterknife\6.0.0\3a10b25b6820e19102e118711afe6a66c0bae123\butterknife-6.0.0.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="3a10b25b6820e19102e118711afe6a66c0bae123">
+        <dex dex="D:\LaiApp\app\build\intermediates\pre-dexed\debug\butterknife-6.0.0-97a7119fbcdcd396dd3c80ffed725792023868fc.jar" />
+    </item>
+    <item
+        jar="C:\Users\julie.zhu\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp\okhttp\2.0.0\4c8d1536dba3812cc1592090dc20c47a4ed3c35e\okhttp-2.0.0.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="4c8d1536dba3812cc1592090dc20c47a4ed3c35e">
+        <dex dex="D:\LaiApp\app\build\intermediates\pre-dexed\debug\okhttp-2.0.0-846f051636a609213d296bcf360c0fcae6785acf.jar" />
+    </item>
+    <item
+        jar="C:\Users\julie.zhu\.gradle\caches\modules-2\files-2.1\com.squareup.picasso\picasso\2.4.0\f36d2d4e3a36b3259aaf9d004d29b4cdc6c1bfb2\picasso-2.4.0.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="f36d2d4e3a36b3259aaf9d004d29b4cdc6c1bfb2">
+        <dex dex="D:\LaiApp\app\build\intermediates\pre-dexed\debug\picasso-2.4.0-9af919e89b941b383c325f21eb1bf89ef81b8300.jar" />
+    </item>
+    <item
+        jar="D:\LaiApp\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="ddde541c289c8b816a8f8fd6c325d80788c522a6">
+        <dex dex="D:\LaiApp\app\build\intermediates\pre-dexed\debug\classes-b78d34808369f4d30daca2c358c598cc5f1aa08a.jar" />
+    </item>
+    <item
+        jar="C:\Users\julie.zhu\.gradle\caches\modules-2\files-2.1\com.squareup.retrofit\retrofit\1.8.0\a517f29ed06be2b2879524fcd94b6e9b36e2e0b5\retrofit-1.8.0.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="a517f29ed06be2b2879524fcd94b6e9b36e2e0b5">
+        <dex dex="D:\LaiApp\app\build\intermediates\pre-dexed\debug\retrofit-1.8.0-06d7b47667d930c428a6c2fa359cb8cbaf673139.jar" />
+    </item>
+    <item
+        jar="C:\Users\julie.zhu\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.3\5fc52c41ef0239d1093a1eb7c3697036183677ce\gson-2.3.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="5fc52c41ef0239d1093a1eb7c3697036183677ce">
+        <dex dex="D:\LaiApp\app\build\intermediates\pre-dexed\debug\gson-2.3-a42a4e688e478465216e6a5fe679b55c6de2e630.jar" />
+    </item>
+    <item
+        jar="D:\LaiApp\app\build\intermediates\exploded-aar\com.android.support\design\23.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="19026d31f5d3ae868db81319671a642be5fbba08">
+        <dex dex="D:\LaiApp\app\build\intermediates\pre-dexed\debug\classes-2a769733d1cc80f588c4034ee73b97fbd7dbc257.jar" />
+    </item>
+    <item
+        jar="C:\Users\julie.zhu\.gradle\caches\modules-2\files-2.1\com.squareup\otto\1.3.5\7941cd2c2c8ec006800d75c35f8a9dacf892ab93\otto-1.3.5.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="7941cd2c2c8ec006800d75c35f8a9dacf892ab93">
+        <dex dex="D:\LaiApp\app\build\intermediates\pre-dexed\debug\otto-1.3.5-949804285ad222a0e5b91470af1bec77a7a7a7e6.jar" />
+    </item>
+    <item
+        jar="C:\Users\julie.zhu\.gradle\caches\modules-2\files-2.1\joda-time\joda-time\2.3\56498efd17752898cfcc3868c1b6211a07b12b8f\joda-time-2.3.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="56498efd17752898cfcc3868c1b6211a07b12b8f">
+        <dex dex="D:\LaiApp\app\build\intermediates\pre-dexed\debug\joda-time-2.3-cd6d13828b78279630e29500e497b1c97d5bde22.jar" />
+    </item>
+    <item
+        jar="D:\LaiApp\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="3f151e49c316a5ab2c065969a3b3b55ef9b393fc">
+        <dex dex="D:\LaiApp\app\build\intermediates\pre-dexed\debug\classes-4edd1a1db68108bac8e83cce8fbc2108b3522a7f.jar" />
+    </item>
+    <item
+        jar="D:\sdk\extras\android\m2repository\com\android\support\support-annotations\23.1.0\support-annotations-23.1.0.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="92e3fc113ec3ee36b64603a38857b95700025633">
+        <dex dex="D:\LaiApp\app\build\intermediates\pre-dexed\debug\support-annotations-23.1.0-0eb46c88ef1a1fcccc511ab3b2b53107b88e0413.jar" />
+    </item>
+    <item
+        jar="C:\Users\julie.zhu\.gradle\caches\modules-2\files-2.1\com.squareup.okio\okio\1.0.0\2534c458682c73f5b9871131ab3098d3f987ca3\okio-1.0.0.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="02534c458682c73f5b9871131ab3098d3f987ca3">
+        <dex dex="D:\LaiApp\app\build\intermediates\pre-dexed\debug\okio-1.0.0-c69989bbf05772839bdfbf7d1ea44341237d5d17.jar" />
+>>>>>>> 25172b89276d33ed0ac78f9de06fb456a4848001
     </item>
 
 </items>
