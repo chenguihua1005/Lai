@@ -2,11 +2,88 @@
 <items version="2" >
 
     <item
-        jar="D:\android-studio-ide-143.2637817-windows\sdk\extras\android\m2repository\com\android\support\support-annotations\23.1.0\support-annotations-23.1.0.jar"
+        jar="C:\Users\jerry.guan\.gradle\caches\modules-2\files-2.1\org.apache.commons\commons-lang3\3.1\905075e6c80f206bbe6cf1e809d2caa69f420c76\commons-lang3-3.1.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="905075e6c80f206bbe6cf1e809d2caa69f420c76">
+        <dex dex="D:\as-workspace\LaiApp\app\build\intermediates\pre-dexed\debug\commons-lang3-3.1-f50263dbd53acec83d43ba9862d5ce868f6d644f.jar" />
+    </item>
+    <item
+        jar="C:\Users\jerry.guan\.gradle\caches\modules-2\files-2.1\com.jakewharton\butterknife\6.0.0\3a10b25b6820e19102e118711afe6a66c0bae123\butterknife-6.0.0.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="3a10b25b6820e19102e118711afe6a66c0bae123">
+        <dex dex="D:\as-workspace\LaiApp\app\build\intermediates\pre-dexed\debug\butterknife-6.0.0-094d1a01cbe1cecc7ad25b393943c87a3c8600ae.jar" />
+    </item>
+    <item
+        jar="C:\Users\jerry.guan\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp\okhttp-urlconnection\2.0.0\afe8399d352713b66e597e9670c741d1e60ae923\okhttp-urlconnection-2.0.0.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="afe8399d352713b66e597e9670c741d1e60ae923">
+        <dex dex="D:\as-workspace\LaiApp\app\build\intermediates\pre-dexed\debug\okhttp-urlconnection-2.0.0-a34e000739ade69cab65f0943883d21e6bb551e6.jar" />
+    </item>
+    <item
+        jar="C:\Users\jerry.guan\.gradle\caches\modules-2\files-2.1\com.squareup.okio\okio\1.0.0\2534c458682c73f5b9871131ab3098d3f987ca3\okio-1.0.0.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="02534c458682c73f5b9871131ab3098d3f987ca3">
+        <dex dex="D:\as-workspace\LaiApp\app\build\intermediates\pre-dexed\debug\okio-1.0.0-9de4b53a2441ee48281fe0d168f6cf3297dbfd90.jar" />
+    </item>
+    <item
+        jar="D:\as-workspace\LaiApp\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.0\jars\classes.jar"
         jumboMode="false"
         revision="23.0.2"
-        sha1="92e3fc113ec3ee36b64603a38857b95700025633">
-        <dex dex="D:\as-workspace\LaiApp\app\build\intermediates\pre-dexed\debug\support-annotations-23.1.0-234562043ffca9a310c27af99b6b6719a465152e.jar" />
+        sha1="ddde541c289c8b816a8f8fd6c325d80788c522a6">
+        <dex dex="D:\as-workspace\LaiApp\app\build\intermediates\pre-dexed\debug\classes-fdc05a6a712a18b74752e944c51f4bd331e0be31.jar" />
+    </item>
+    <item
+        jar="D:\as-workspace\LaiApp\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="ddde541c289c8b816a8f8fd6c325d80788c522a6">
+        <dex dex="D:\as-workspace\LaiApp\app\build\intermediates\pre-dexed\debug\classes-fdc05a6a712a18b74752e944c51f4bd331e0be31.jar" />
+    </item>
+    <item
+        jar="D:\as-workspace\LaiApp\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="57ae0d750ff83f0c738d21720224ac7ea866a094">
+        <dex dex="D:\as-workspace\LaiApp\app\build\intermediates\pre-dexed\debug\classes-13a2b350f4336a19dcbfa9ffd4ddc078c22d9bfe.jar" />
+    </item>
+    <item
+        jar="D:\as-workspace\LaiApp\app\build\intermediates\exploded-aar\com.android.support\design\23.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="19026d31f5d3ae868db81319671a642be5fbba08">
+        <dex dex="D:\as-workspace\LaiApp\app\build\intermediates\pre-dexed\debug\classes-c6a3d118f69ea77319dc73d2483600b084b576d1.jar" />
+    </item>
+    <item
+        jar="D:\as-workspace\LaiApp\app\build\intermediates\exploded-aar\com.android.support\design\23.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="19026d31f5d3ae868db81319671a642be5fbba08">
+        <dex dex="D:\as-workspace\LaiApp\app\build\intermediates\pre-dexed\debug\classes-c6a3d118f69ea77319dc73d2483600b084b576d1.jar" />
+    </item>
+    <item
+        jar="D:\as-workspace\LaiApp\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="57ae0d750ff83f0c738d21720224ac7ea866a094">
+        <dex dex="D:\as-workspace\LaiApp\app\build\intermediates\pre-dexed\debug\classes-13a2b350f4336a19dcbfa9ffd4ddc078c22d9bfe.jar" />
+    </item>
+    <item
+        jar="C:\Users\jerry.guan\.gradle\caches\modules-2\files-2.1\com.github.snowdream.android.util\log\1.0.4\9201d518181f9dc5cd7ea49216611a327e2e07f7\log-1.0.4.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="9201d518181f9dc5cd7ea49216611a327e2e07f7">
+        <dex dex="D:\as-workspace\LaiApp\app\build\intermediates\pre-dexed\debug\log-1.0.4-e237681ac589e20802f4d04e553b10c08ec77de2.jar" />
+    </item>
+    <item
+        jar="C:\Users\jerry.guan\.gradle\caches\modules-2\files-2.1\com.squareup\otto\1.3.5\7941cd2c2c8ec006800d75c35f8a9dacf892ab93\otto-1.3.5.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="7941cd2c2c8ec006800d75c35f8a9dacf892ab93">
+        <dex dex="D:\as-workspace\LaiApp\app\build\intermediates\pre-dexed\debug\otto-1.3.5-0f0f1caa5865216593e142f0dd56473822f04a20.jar" />
     </item>
     <item
         jar="D:\as-workspace\LaiApp\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.1.0\jars\classes.jar"
@@ -23,25 +100,81 @@
         <dex dex="D:\as-workspace\LaiApp\app\build\intermediates\pre-dexed\debug\internal_impl-23.1.0-503c813ad1de21cad84a7c18621a07f530f6ad23.jar" />
     </item>
     <item
-        jar="D:\as-workspace\LaiApp\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.1.0\jars\classes.jar"
+        jar="C:\Users\jerry.guan\.gradle\caches\modules-2\files-2.1\com.squareup.retrofit\retrofit\1.8.0\a517f29ed06be2b2879524fcd94b6e9b36e2e0b5\retrofit-1.8.0.jar"
         jumboMode="false"
-        revision="23.0.2"
-        sha1="57ae0d750ff83f0c738d21720224ac7ea866a094">
-        <dex dex="D:\as-workspace\LaiApp\app\build\intermediates\pre-dexed\debug\classes-13a2b350f4336a19dcbfa9ffd4ddc078c22d9bfe.jar" />
+        revision="23.0.0"
+        sha1="a517f29ed06be2b2879524fcd94b6e9b36e2e0b5">
+        <dex dex="D:\as-workspace\LaiApp\app\build\intermediates\pre-dexed\debug\retrofit-1.8.0-dacd92298bf7d677d181a0bcb13f726fca02dc66.jar" />
     </item>
     <item
-        jar="D:\as-workspace\LaiApp\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.0\jars\classes.jar"
+        jar="D:\android-studio-ide-143.2637817-windows\sdk\extras\android\m2repository\com\android\support\support-annotations\23.1.0\support-annotations-23.1.0.jar"
         jumboMode="false"
-        revision="23.0.2"
-        sha1="ddde541c289c8b816a8f8fd6c325d80788c522a6">
-        <dex dex="D:\as-workspace\LaiApp\app\build\intermediates\pre-dexed\debug\classes-fdc05a6a712a18b74752e944c51f4bd331e0be31.jar" />
+        revision="23.0.0"
+        sha1="92e3fc113ec3ee36b64603a38857b95700025633">
+        <dex dex="D:\as-workspace\LaiApp\app\build\intermediates\pre-dexed\debug\support-annotations-23.1.0-234562043ffca9a310c27af99b6b6719a465152e.jar" />
     </item>
     <item
-        jar="D:\as-workspace\LaiApp\app\build\intermediates\exploded-aar\com.android.support\design\23.1.0\jars\classes.jar"
+        jar="D:\as-workspace\LaiApp\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.0\jars\libs\internal_impl-23.1.0.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="8716243bf04bae8d6c9ca94d27b9a9be7236f0a3">
+        <dex dex="D:\as-workspace\LaiApp\app\build\intermediates\pre-dexed\debug\internal_impl-23.1.0-503c813ad1de21cad84a7c18621a07f530f6ad23.jar" />
+    </item>
+    <item
+        jar="D:\android-studio-ide-143.2637817-windows\sdk\extras\android\m2repository\com\android\support\support-annotations\23.1.0\support-annotations-23.1.0.jar"
         jumboMode="false"
         revision="23.0.2"
-        sha1="19026d31f5d3ae868db81319671a642be5fbba08">
-        <dex dex="D:\as-workspace\LaiApp\app\build\intermediates\pre-dexed\debug\classes-c6a3d118f69ea77319dc73d2483600b084b576d1.jar" />
+        sha1="92e3fc113ec3ee36b64603a38857b95700025633">
+        <dex dex="D:\as-workspace\LaiApp\app\build\intermediates\pre-dexed\debug\support-annotations-23.1.0-234562043ffca9a310c27af99b6b6719a465152e.jar" />
+    </item>
+    <item
+        jar="C:\Users\jerry.guan\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp\okhttp\2.0.0\4c8d1536dba3812cc1592090dc20c47a4ed3c35e\okhttp-2.0.0.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="4c8d1536dba3812cc1592090dc20c47a4ed3c35e">
+        <dex dex="D:\as-workspace\LaiApp\app\build\intermediates\pre-dexed\debug\okhttp-2.0.0-1bf57d62688f81c25deaa54beafd95fa379faa2a.jar" />
+    </item>
+    <item
+        jar="D:\as-workspace\LaiApp\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="3f151e49c316a5ab2c065969a3b3b55ef9b393fc">
+        <dex dex="D:\as-workspace\LaiApp\app\build\intermediates\pre-dexed\debug\classes-cefc4ca2089d9bd8de00b369647e1ffa47284c94.jar" />
+    </item>
+    <item
+        jar="C:\Users\jerry.guan\.gradle\caches\modules-2\files-2.1\joda-time\joda-time\2.3\56498efd17752898cfcc3868c1b6211a07b12b8f\joda-time-2.3.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="56498efd17752898cfcc3868c1b6211a07b12b8f">
+        <dex dex="D:\as-workspace\LaiApp\app\build\intermediates\pre-dexed\debug\joda-time-2.3-02a31cc24faf4805fdcd063b3d157212e436105a.jar" />
+    </item>
+    <item
+        jar="D:\as-workspace\LaiApp\app\build\intermediates\exploded-aar\com.rainim\libzilla\1.0.59\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="9686f155305843a46774ac989c59e4026c85e8d7">
+        <dex dex="D:\as-workspace\LaiApp\app\build\intermediates\pre-dexed\debug\classes-43921c761e64d7c4722d837e475fa10526add286.jar" />
+    </item>
+    <item
+        jar="C:\Users\jerry.guan\.gradle\caches\modules-2\files-2.1\com.squareup.picasso\picasso\2.4.0\f36d2d4e3a36b3259aaf9d004d29b4cdc6c1bfb2\picasso-2.4.0.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="f36d2d4e3a36b3259aaf9d004d29b4cdc6c1bfb2">
+        <dex dex="D:\as-workspace\LaiApp\app\build\intermediates\pre-dexed\debug\picasso-2.4.0-89632797dc0af2605ff3a172b71e095efcb02702.jar" />
+    </item>
+    <item
+        jar="C:\Users\jerry.guan\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.3\5fc52c41ef0239d1093a1eb7c3697036183677ce\gson-2.3.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="5fc52c41ef0239d1093a1eb7c3697036183677ce">
+        <dex dex="D:\as-workspace\LaiApp\app\build\intermediates\pre-dexed\debug\gson-2.3-dfd66fbf66d4fde532924a1ef82f8d17c6651fb0.jar" />
+    </item>
+    <item
+        jar="C:\Users\jerry.guan\.gradle\caches\modules-2\files-2.1\com.mobsandgeeks\android-saripaar\1.0.3\c24cfd9331b6d5a2ee15dccb60774c7cc5debd99\android-saripaar-1.0.3.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="c24cfd9331b6d5a2ee15dccb60774c7cc5debd99">
+        <dex dex="D:\as-workspace\LaiApp\app\build\intermediates\pre-dexed\debug\android-saripaar-1.0.3-9f42ca664ae6ae095b1c6dfaf4e81a050a2d821a.jar" />
     </item>
 
 </items>
