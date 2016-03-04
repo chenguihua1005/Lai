@@ -25,4 +25,5 @@
     <string name="phoneNum">手机号</string>
     <string name="password">密码</string>
     <string name="forgetPsd"><u>忘记密码</u></string>
+    <string name="hello_world">hello_world</string>
 </resources>
