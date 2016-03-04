@@ -72,6 +72,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".module.home.Archives.Mydata"></activity>
+        <activity android:name=".module.home.Archives.NewArchivesActivity">
+
+        </activity>
         <activity android:name=".module.login.view.RegistActivity"></activity>
     </application>
 
