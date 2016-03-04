@@ -19,23 +19,30 @@ import retrofit.http.Query;
 public interface LoginService {
 
     @FormUrlEncoded
-    @POST("/UserLogIn")
+    @POST("/HerbUser/UserLogIn")
     void doLogin(@Field("appid")String appid,
                  @Field("user")String userName,
                  @Field("psd")String password,
                  Callback<ResponseData<User>> callback);
 
-    @GET("/GetVerificationNum")
+    @GET("/HerbUser/GetVerificationNum")
     void getIdentify(@Query("appid") String appid,
                      @Query("phone") String phone,
                      @Query("status") String status,
                      Callback<ResponseData<Identify>> callback);
 
-
-    @POST("/UserRegister")
-    void doRegist(@Query("appid") String appid,
-                  @Query("user") String userName,
-                  @Query("psd") String password,
+    @FormUrlEncoded
+    @POST("/HerbUser/UserRegister")
+    void doRegist(@Field("appid") String appid,
+                  @Field("user") String userName,
+                  @Field("psd") String password,
                   Callback<ResponseData<Regist>> callback);
+
+    @FormUrlEncoded
+    @POST("/HerbUser/ResetPassWord")
+    void doResetPassword(@Field("appid")String appid,
+                         @Field("newpsd")String newPassword,
+                         Callback<ResponseData> callback);
+
 
 }
