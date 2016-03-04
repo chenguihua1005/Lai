@@ -22,7 +22,7 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_creatfile)
-public class CreatFlleActivity extends BaseActivity implements IFileView,View.OnClickListener{
+public class CreatFlleActivity extends BaseActivity{
 
 //    private EditText nickname;
 //    private EditText birth;
@@ -40,7 +40,6 @@ public class CreatFlleActivity extends BaseActivity implements IFileView,View.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_creatfile);
 
 //        nickname= (EditText) findViewById(R.id.nickname);
 //        birth= (EditText) findViewById(R.id.birth);
@@ -48,7 +47,13 @@ public class CreatFlleActivity extends BaseActivity implements IFileView,View.On
 //        height= (EditText) findViewById(R.id.height);
 //        weight= (EditText) findViewById(R.id.weight);
 //        tiaoguo= (TextView) findViewById(R.id.tiaoguo);
-          tiaoguo.setOnClickListener(this);
+          tiaoguo.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                  Intent intent=new Intent(CreatFlleActivity.this, TabMainActivity.class);
+                  startActivity(intent);
+              }
+          });
 
 
 //        nickname
@@ -121,13 +126,4 @@ public class CreatFlleActivity extends BaseActivity implements IFileView,View.On
 
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.tiaoguo:
-                Intent intent=new Intent(CreatFlleActivity.this, TabMainActivity.class);
-                startActivity(intent);
-                break;
-        }
-    }
 }
