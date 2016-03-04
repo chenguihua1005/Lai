@@ -63,22 +63,16 @@
         <activity
             android:name=".module.login.view.LoginActivity"
             android:windowSoftInputMode="adjustResize|stateVisible"></activity>
-        <activity android:name=".module.home.guide.guide">
+        <activity android:name=".module.guide.Guide">
+             <intent-filter>
+             <action android:name="android.intent.action.MAIN" />
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
+             <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
         </activity>
         <activity android:name=".module.home.File.view.Mydata" />
         <activity android:name=".module.home.File.view.CreatFlleActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".module.login.view.RegistActivity" />
         <activity android:name=".module.home.File.view.SexActivity"></activity>
