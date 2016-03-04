@@ -1,11 +1,8 @@
 package com.softtek.lai.module.login.presenter;
 
-import com.github.snowdream.android.util.Log;
-import com.softtek.lai.ZillaApplication;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.login.model.User;
 import com.softtek.lai.module.login.net.LoginService;
-import com.softtek.lai.module.login.view.ILoginView;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -18,10 +15,9 @@ import zilla.libcore.file.PropertiesManager;
  */
 public class LoginPresenterImpl implements ILoginPresenter {
 
-    private ILoginView loginView;
 
-    public LoginPresenterImpl(ILoginView loginView){
-        this.loginView=loginView;
+    public LoginPresenterImpl(){
+
     }
 
     @Override

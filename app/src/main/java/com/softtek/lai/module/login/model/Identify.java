@@ -14,4 +14,11 @@ public class Identify {
     public void setIdentify(String identify) {
         this.identify = identify;
     }
+
+    @Override
+    public String toString() {
+        return "Identify{" +
+                "identify='" + identify + '\'' +
+                '}';
+    }
 }
