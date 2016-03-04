@@ -65,7 +65,7 @@
             android:windowSoftInputMode="adjustResize|stateVisible">
 
         </activity>
-        <activity android:name=".module.home.guide.guide">
+        <activity android:name=".module.guide.Guide">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
