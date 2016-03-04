@@ -1,6 +1,5 @@
 package com.softtek.lai.module.login.view;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -8,7 +7,7 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.module.login.model.UserFile;
+import com.softtek.lai.module.login.contants.Constants;
 import com.softtek.lai.module.login.presenter.IRegistPresenter;
 import com.softtek.lai.module.login.presenter.RegistPresenterImpl;
 
@@ -16,7 +15,7 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_regist)
-public class RegistActivity extends BaseActivity implements IRegistView,View.OnClickListener{
+public class RegistActivity extends BaseActivity implements View.OnClickListener{
 
     private IRegistPresenter registPresenter;
 
@@ -45,7 +44,7 @@ public class RegistActivity extends BaseActivity implements IRegistView,View.OnC
 
     @Override
     protected void initDatas() {
-        registPresenter=new RegistPresenterImpl(this);
+        registPresenter=new RegistPresenterImpl();
     }
 
     @Override
@@ -53,14 +52,12 @@ public class RegistActivity extends BaseActivity implements IRegistView,View.OnC
         switch (v.getId()){
             case R.id.tv_get_identify:
                 String phone=et_phone.getText().toString();
-                registPresenter.getIdentify(phone,"0");
+                registPresenter.getIdentify(phone, Constants.REGIST_IDENTIFY);
                 /*String phoneNum=et_phone.getText().toString();
                 String password=et_password.getText().toString();
                 registPresenter.doRegist(phoneNum,password,"0");*/
                 break;
-            case R.id.tv_regist:
 
-                break;
         }
     }
 }
