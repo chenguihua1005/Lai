@@ -26,7 +26,7 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_login)
-public class LoginActivity extends BaseActivity implements ILoginView,View.OnClickListener{
+public class LoginActivity extends BaseActivity implements View.OnClickListener{
 
     private ILoginPresenter loginPresenter;
 
@@ -49,6 +49,7 @@ public class LoginActivity extends BaseActivity implements ILoginView,View.OnCli
         super.onCreate(savedInstanceState);
 
         tv_login.setOnClickListener(this);
+        tv_forgetpsd.setOnClickListener(this);
     }
 
     @Override
@@ -58,7 +59,7 @@ public class LoginActivity extends BaseActivity implements ILoginView,View.OnCli
 
     @Override
     protected void initDatas() {
-        loginPresenter=new LoginPresenterImpl(this);
+        loginPresenter=new LoginPresenterImpl();
     }
 
 
@@ -70,10 +71,13 @@ public class LoginActivity extends BaseActivity implements ILoginView,View.OnCli
                 String password=et_password.getText().toString();
                 loginPresenter.doLogin(phone,password);
                 break;
-            case R.id.tv_regist:
+            case R.id.tv_forgetpsd:
+                startActivity(new Intent(this,ForgetActivity.class));
+                break;
+            case R.id.tv_left:
                 startActivity(new Intent(this,RegistActivity.class));
                 break;
-            case R.id.tv_visitor:
+            case R.id.tv_right:
                 break;
 
         }
@@ -87,8 +91,8 @@ public class LoginActivity extends BaseActivity implements ILoginView,View.OnCli
 
             actionBar.setCustomView(layoutId);
             View v=actionBar.getCustomView();
-            v.findViewById(R.id.tv_regist).setOnClickListener(this);
-            v.findViewById(R.id.tv_visitor).setOnClickListener(this);
+            v.findViewById(R.id.tv_left).setOnClickListener(this);
+            v.findViewById(R.id.tv_right).setOnClickListener(this);
         }
     }
 
