@@ -1,21 +1,29 @@
-package com.softtek.lai.module.home.guide;
+package com.softtek.lai.module.guide;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.softtek.lai.R;
+import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.login.view.LoginActivity;
 
-public class Guide extends Activity {
+import butterknife.InjectView;
+import zilla.libcore.ui.InjectLayout;
+
+@InjectLayout(R.layout.activity_guide)
+public class Guide extends BaseActivity {
+
+    @InjectView(R.id.textView2)
+    TextView tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_guide);
-
+        getSupportActionBar().hide();
         new android.os.Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -29,6 +37,9 @@ public class Guide extends Activity {
 
 
     }
+
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -50,5 +61,15 @@ public class Guide extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void initViews() {
+        
+    }
+
+    @Override
+    protected void initDatas() {
+        tv.setText("欢迎");
     }
 }

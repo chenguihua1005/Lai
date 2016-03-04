@@ -1,4 +1,4 @@
-package com.softtek.lai.module.home.Archives;
+package com.softtek.lai.module.home.File.view;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
