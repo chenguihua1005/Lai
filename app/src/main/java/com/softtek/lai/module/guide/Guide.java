@@ -1,4 +1,4 @@
-package com.softtek.lai.module.home.guide;
+package com.softtek.lai.module.guide;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,10 +7,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.softtek.lai.R;
-import com.softtek.lai.module.home.tab.TabMainActivity;
 import com.softtek.lai.module.login.view.LoginActivity;
 
-public class guide extends Activity {
+public class Guide extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +19,7 @@ public class guide extends Activity {
         new android.os.Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent=new Intent(guide.this,LoginActivity.class);
+                Intent intent=new Intent(Guide.this,LoginActivity.class);
                 startActivity(intent);
                 finish();
             }
