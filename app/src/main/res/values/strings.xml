@@ -22,6 +22,7 @@
     <string name="title_3">title_3</string>
     <string name="title_4">title_4</string>
     <string name="title_activity_guide">guide</string>
+    <string name="title_activity_NewArchivesActivity">NewArchivesActivity</string>
 
     <string name="hello_world">Hello world!</string>
 </resources>
