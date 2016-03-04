@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.softtek.lai" >
+    package="com.softtek.lai">
 
     <!-- <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> -->
     <!-- <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> -->
@@ -20,7 +20,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
 
         <!-- <activity -->
         <!-- android:name=".module.home.draw.DrawMainActivity" -->
@@ -36,8 +36,15 @@
 
         <activity
             android:name=".module.home.tab.TabMainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
 
+            <!--
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            -->
         </activity>
         <activity
             android:name=".test.adapter.ListViewTestActivity"
@@ -54,14 +61,18 @@
             android:name=".test.validate.ValidateActivity"
             android:label="@string/title_activity_validate" />
         <activity
-            android:name=".module.home.guide.guide"
-            android:label="@string/title_activity_guide" >
+            android:name=".module.login.view.LoginActivity"
+            android:windowSoftInputMode="adjustResize|stateVisible">
+
+        </activity>
+        <activity android:name=".module.home.guide.guide">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".module.login.view.RegistActivity"></activity>
     </application>
 
 </manifest>

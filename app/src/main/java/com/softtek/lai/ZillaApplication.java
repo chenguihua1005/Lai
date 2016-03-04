@@ -26,11 +26,14 @@ import retrofit.RequestInterceptor;
 import zilla.libcore.Zilla;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.db.DBHelper;
+import zilla.libcore.file.PropertiesManager;
 
 /**
  * Created by zilla on 9/8/15.
  */
 public class ZillaApplication extends Application implements Zilla.InitCallback, DBHelper.DBUpgradeListener {
+
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -65,6 +68,8 @@ public class ZillaApplication extends Application implements Zilla.InitCallback,
     @Override
     public void onCreate(SQLiteDatabase db) {
         Log.d("onCreate(SQLiteDatabase db)");
+
+
     }
 
     @Override
