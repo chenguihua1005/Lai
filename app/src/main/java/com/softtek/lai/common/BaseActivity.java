@@ -26,6 +26,8 @@ import com.softtek.lai.R;
 
 import butterknife.ButterKnife;
 import zilla.libcore.Zilla;
+import zilla.libcore.file.FileHelper;
+import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.lifecircle.LifeCircle;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.exit.AppExitLife;
@@ -52,15 +54,17 @@ public abstract class BaseActivity extends AppCompatActivity implements Toolbar.
         setContentView(LayoutInjectUtil.getInjectLayoutId(this));
         Zilla.ACTIVITY = this;
         LifeCircle.onCreate(this);
-        initToolbars();
+        //initToolbars();
         ButterKnife.inject(this);
         initViews();
         initDatas();
+        
     }
 
     public void onResume() {
         super.onResume();
         LifeCircle.onResume(this);
+
     }
 
     public void onPause() {
@@ -117,7 +121,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Toolbar.
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.setting, menu);
+        //getMenuInflater().inflate(R.menu.activity_main_drawer, menu);
         return super.onCreateOptionsMenu(menu);
     }
 }

@@ -116,7 +116,6 @@ public class TabMainActivity extends BaseActivity implements BaseFragment.OnFrag
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
-//                            LoginActivity.isLogin = false;
                             finish();
                         }
                     })
