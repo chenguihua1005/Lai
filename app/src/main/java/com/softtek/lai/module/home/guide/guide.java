@@ -8,6 +8,7 @@ import android.view.MenuItem;
 
 import com.softtek.lai.R;
 import com.softtek.lai.module.home.tab.TabMainActivity;
+import com.softtek.lai.module.login.view.LoginActivity;
 
 public class guide extends Activity {
 
@@ -19,7 +20,7 @@ public class guide extends Activity {
         new android.os.Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent=new Intent(guide.this,TabMainActivity.class);
+                Intent intent=new Intent(guide.this,LoginActivity.class);
                 startActivity(intent);
                 finish();
             }
