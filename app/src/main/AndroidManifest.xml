@@ -76,6 +76,7 @@
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".module.login.view.ForgetActivity2"
             android:windowSoftInputMode="adjustResize"></activity>
+        <activity android:name=".module.home.File.view.CreatFlleActivity"></activity>
     </application>
 
 </manifest>

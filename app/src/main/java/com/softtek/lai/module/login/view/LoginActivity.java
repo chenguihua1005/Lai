@@ -9,6 +9,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
+import com.mobsandgeeks.saripaar.Rule;
+import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.Password;
+import com.mobsandgeeks.saripaar.annotation.Regex;
+import com.mobsandgeeks.saripaar.annotation.TextRule;
 import com.softtek.lai.R;
 import com.softtek.lai.ZillaApplication;
 import com.softtek.lai.common.BaseActivity;
@@ -22,17 +27,24 @@ import org.w3c.dom.Text;
 
 import butterknife.InjectView;
 import zilla.libcore.file.PropertiesManager;
+import zilla.libcore.lifecircle.LifeCircleInject;
+import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_login)
-public class LoginActivity extends BaseActivity implements View.OnClickListener{
+public class LoginActivity extends BaseActivity implements View.OnClickListener,Validator.ValidationListener{
 
     private ILoginPresenter loginPresenter;
 
+    @LifeCircleInject
+    ValidateLife validateLife;
+
+    @Regex(order = 1,pattern ="[0-9]{11}",messageResId = R.string.phoneValidate)
     @InjectView(R.id.et_phone)
     EditText et_phone;
 
+    @Password(order = 2)
     @InjectView(R.id.et_password)
     EditText et_password;
 
@@ -59,7 +71,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
 
     @Override
     protected void initDatas() {
-        loginPresenter=new LoginPresenterImpl();
+        loginPresenter=new LoginPresenterImpl(this);
     }
 
 
@@ -67,9 +79,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.tv_login:
-                String phone=et_phone.getText().toString();
-                String password=et_password.getText().toString();
-                loginPresenter.doLogin(phone,password);
+                validateLife.validate();
                 break;
             case R.id.tv_forgetpsd:
                 startActivity(new Intent(this,ForgetActivity.class));
@@ -96,4 +106,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
         }
     }
 
+    @Override
+    public void onValidationSucceeded() {
+        String phone=et_phone.getText().toString();
+        String password=et_password.getText().toString();
+        loginPresenter.doLogin(phone,password);
+    }
+
+    @Override
+    public void onValidationFailed(View failedView, Rule<?> failedRule) {
+        validateLife.onValidationFailed(failedView,failedRule);
+    }
 }

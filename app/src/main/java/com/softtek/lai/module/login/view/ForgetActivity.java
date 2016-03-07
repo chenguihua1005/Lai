@@ -44,7 +44,7 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     protected void initDatas() {
-        registPresenter=new RegistPresenterImpl();
+        registPresenter=new RegistPresenterImpl(this);
     }
 
     @Override
