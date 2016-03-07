@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/LaiApp.iml" filepath="$PROJECT_DIR$/LaiApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lai.iml" filepath="$PROJECT_DIR$/lai.iml" />
       <module fileurl="file://$PROJECT_DIR$/ruler_lib/ruler_lib.iml" filepath="$PROJECT_DIR$/ruler_lib/ruler_lib.iml" />
       <module fileurl="file://$PROJECT_DIR$/viewflow/viewflow.iml" filepath="$PROJECT_DIR$/viewflow/viewflow.iml" />
     </modules>
