@@ -1,6 +1,7 @@
 package com.softtek.lai.module.login.view;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -39,6 +40,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     protected void initViews() {
+
 
     }
 
