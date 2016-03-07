@@ -12,7 +12,9 @@ import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.ZillaApplication;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.module.home.File.presenter.CreateFile;
 import com.softtek.lai.module.home.File.view.CreatFlleActivity;
+import com.softtek.lai.module.home.File.view.Height;
 import com.softtek.lai.module.home.File.view.Mydata;
 import com.softtek.lai.module.login.model.UserFile;
 import com.softtek.lai.module.login.presenter.ILoginPresenter;
@@ -70,6 +72,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
                 String phone=et_phone.getText().toString();
                 String password=et_password.getText().toString();
                 loginPresenter.doLogin(phone,password);
+                Intent intent=new Intent(LoginActivity.this,CreatFlleActivity.class);
+                startActivity(intent);
                 break;
             case R.id.tv_forgetpsd:
                 startActivity(new Intent(this,ForgetActivity.class));
