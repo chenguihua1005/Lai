@@ -30,6 +30,7 @@
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
             android:background="@drawable/border"
+            android:inputType="textPassword"
             android:hint="@string/password"
             android:singleLine="true"
             android:paddingLeft="5dp"/>

@@ -1,7 +1,11 @@
 package com.softtek.lai.module.login.presenter;
 
+import android.content.Context;
+import android.content.Intent;
+
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.module.home.File.view.CreatFlleActivity;
 import com.softtek.lai.module.login.model.Identify;
 import com.softtek.lai.module.login.model.Regist;
 import com.softtek.lai.module.login.net.LoginService;
@@ -19,22 +23,24 @@ import zilla.libcore.file.SharedPreferenceService;
 public class RegistPresenterImpl implements IRegistPresenter{
 
     private LoginService service;
+    private Context context;
 
-    public RegistPresenterImpl(){
+    public RegistPresenterImpl(Context context){
         service=ZillaApi.NormalRestAdapter.create(LoginService.class);
+        this.context=context;
     }
 
     @Override
     public void doRegist(String userName, String password, String identify) {
         String key=SharedPreferenceService.getInstance().get("identify","");
-       // if(!"".equals(key)&&identify.equals(key)){
+        if(!"".equals(key)&&identify.equals(key)){
             SharedPreferenceService.getInstance().put("identify","");
             service.doRegist(PropertiesManager.get("appid"),userName, password, new Callback<ResponseData<Regist>>() {
                 @Override
                 public void success(ResponseData<Regist> userResponseData, Response response) {
-                    Log.i(userResponseData.toString());
                     Log.i("注册成功");
-
+                    Log.i(userResponseData.toString());
+                    context.startActivity(new Intent(context, CreatFlleActivity.class));
 
                 }
 
@@ -45,7 +51,9 @@ public class RegistPresenterImpl implements IRegistPresenter{
 
                 }
             });
-       // }
+       }else{
+            Log.i("注册停止验证码为填写");
+        }
 
     }
 

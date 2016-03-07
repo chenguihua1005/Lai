@@ -79,4 +79,18 @@ public class User {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "token='" + token + '\'' +
+                ", userName='" + userName + '\'' +
+                ", nick='" + nick + '\'' +
+                ", age='" + age + '\'' +
+                ", sex='" + sex + '\'' +
+                ", weight='" + weight + '\'' +
+                ", height='" + height + '\'' +
+                ", phone='" + phone + '\'' +
+                '}';
+    }
 }

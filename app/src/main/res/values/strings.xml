@@ -26,4 +26,9 @@
     <string name="password">密码</string>
     <string name="forgetPsd"><u>忘记密码</u></string>
 
+    <string name="phoneValidate">请输入11为手机号码</string>
+    <string name="passwordValidate">请输入至少6位数密码</string>
+    <string name="termValidate">必须遵循该条款</string>
+    <string name="identiftValidtae">请填写验证信息</string>
+
 </resources>
