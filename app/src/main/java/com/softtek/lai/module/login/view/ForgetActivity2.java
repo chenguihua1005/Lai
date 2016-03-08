@@ -17,6 +17,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.login.presenter.IPasswordPresenter;
 import com.softtek.lai.module.login.presenter.PasswordPresnter;
+import com.softtek.lai.utils.SoftInputUtil;
 
 import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
@@ -60,6 +61,7 @@ public class ForgetActivity2 extends BaseActivity implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
+        SoftInputUtil.hidden(this);
         switch (v.getId()){
             case R.id.tv_left:
                 finish();

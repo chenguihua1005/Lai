@@ -24,6 +24,7 @@ import com.softtek.lai.module.login.contants.Constants;
 import com.softtek.lai.module.login.presenter.IRegistPresenter;
 import com.softtek.lai.module.login.presenter.RegistPresenterImpl;
 import com.softtek.lai.utils.RegexUtil;
+import com.softtek.lai.utils.SoftInputUtil;
 
 import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
@@ -92,6 +93,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
+        SoftInputUtil.hidden(this);
         switch (v.getId()){
             case R.id.tv_get_identify:
                 String phone=et_phone.getText().toString();
