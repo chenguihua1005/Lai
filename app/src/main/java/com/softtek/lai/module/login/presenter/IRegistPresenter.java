@@ -1,7 +1,5 @@
 package com.softtek.lai.module.login.presenter;
 
-import com.softtek.lai.module.login.model.UserFile;
-
 /**
  * Created by jerry.guan on 3/3/2016.
  */
