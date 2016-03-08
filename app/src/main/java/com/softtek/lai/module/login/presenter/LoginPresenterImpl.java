@@ -14,6 +14,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.PropertiesManager;
+import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.util.Util;
 
 /**
@@ -36,6 +37,7 @@ public class LoginPresenterImpl implements ILoginPresenter {
                 int status=userResponseData.getStatus();
                 switch (status){
                     case 200:
+                        SharedPreferenceService.getInstance().put("token",userResponseData.getData().getToken());
                         context.startActivity(new Intent(context, TabMainActivity.class));
                         break;
                     default:
