@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.module.home.File.presenter.CreateFilepresenter;
 import com.softtek.lai.module.home.tab.TabMainActivity;
 
 import butterknife.InjectView;
@@ -24,41 +25,42 @@ import zilla.libcore.ui.InjectLayout;
 @InjectLayout(R.layout.activity_creatfile)
 public class CreatFlleActivity extends BaseActivity{
 
-//    private EditText nickname;
-//    private EditText birth;
-//    private EditText sex;
-//    private EditText height;
-//    private EditText weight;
-//    private TextView tiaoguo;
+    @InjectView(R.id.nickname)
+    EditText nickname;
 
+    @InjectView(R.id.birth)
+    EditText birth;
 
-      @InjectView(R.id.tiaoguo)
-      TextView tiaoguo;
+    @InjectView(R.id.sex)
+    EditText sex;
 
+    @InjectView(R.id.height)
+    EditText height;
 
-    //private String SexData[] = {"男", "女" };//性别数据
+    @InjectView(R.id.weight)
+    EditText weight;
+
+    @InjectView(R.id.tiaoguo)
+    TextView tiaoguo;
+
+    private String SexData[] = {"男", "女" };//性别数据
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        nickname= (EditText) findViewById(R.id.nickname);
-//        birth= (EditText) findViewById(R.id.birth);
-//        sex= (EditText) findViewById(R.id.sex);
-//        height= (EditText) findViewById(R.id.height);
-//        weight= (EditText) findViewById(R.id.weight);
-//        tiaoguo= (TextView) findViewById(R.id.tiaoguo);
-          tiaoguo.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View v) {
-                  Intent intent=new Intent(CreatFlleActivity.this, TabMainActivity.class);
-                  startActivity(intent);
-              }
-          });
+//        String nickname=nickname.getText().toString();
+//        String birthday=birth.getText().toString();
+//        CreateFilepresenter.doFile(nickname,brithday, height, weight, gender);
 
 
-//        nickname
-//        height
-//        weight
+//        tiaoguo.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                  Intent intent=new Intent(CreatFlleActivity.this, TabMainActivity.class);
+//                  startActivity(intent);
+//            }
+//        });
+
 
 //       birth.setOnFocusChangeListener(new android.view.View.
 //                OnFocusChangeListener() {
@@ -86,8 +88,7 @@ public class CreatFlleActivity extends BaseActivity{
 //                }
 //            }
 //        });
-//
-//
+
 //       sex.setOnClickListener(new View.OnClickListener() {
 //
 //
@@ -104,7 +105,7 @@ public class CreatFlleActivity extends BaseActivity{
 //                                    })
 //                        .setNegativeButton("取消",null)
 //                        .setPositiveButton("确认",null)
-
+//
 //                            .create();
 //                    WindowManager.LayoutParams wlp = dialog.getWindow().getAttributes();
 //                    wlp.gravity = Gravity.BOTTOM;
@@ -113,7 +114,7 @@ public class CreatFlleActivity extends BaseActivity{
 //                    dialog.show();
 //            }
 //       });
-//
+
    }
 
     @Override

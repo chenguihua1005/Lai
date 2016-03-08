@@ -77,4 +77,17 @@ public class File {
     public void setGender(int gender) {
         this.gender = gender;
     }
+
+    @Override
+    public String toString() {
+        return "File{" +
+                "token='" + token + '\'' +
+                ", appid='" + appid + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", birthday='" + birthday + '\'' +
+                ", height=" + height +
+                ", weight=" + weight +
+                ", gender=" + gender +
+                '}';
+    }
 }
