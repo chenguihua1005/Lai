@@ -68,11 +68,11 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
         switch (v.getId()){
             case R.id.tv_get_identify:
                 String phone=et_phone.getText().toString();
+                //验证手机号
                 if("".equals(phone)||!RegexUtil.match("[0-9]{11}",phone)){
                     et_phone.setError(Html.fromHtml("<font color=#FFFFFF>" + getString(R.string.phoneValidate) + "</font>"));
                     return;
                 }
-                //验证手机号
                 countDown=new CountDown(60000,1000);
                 countDown.start();
                 tv_get_identify.setEnabled(false);
