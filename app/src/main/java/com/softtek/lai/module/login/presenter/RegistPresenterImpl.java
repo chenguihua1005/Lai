@@ -35,7 +35,7 @@ public class RegistPresenterImpl implements IRegistPresenter{
         String key=SharedPreferenceService.getInstance().get("identify","");
         if(!"".equals(key)&&identify.equals(key)){
             SharedPreferenceService.getInstance().put("identify","");
-            service.doRegist(PropertiesManager.get("appid"),userName, password, new Callback<ResponseData<Regist>>() {
+            service.doRegist(userName, password, new Callback<ResponseData<Regist>>() {
                 @Override
                 public void success(ResponseData<Regist> userResponseData, Response response) {
                     Log.i("注册成功");
@@ -59,7 +59,7 @@ public class RegistPresenterImpl implements IRegistPresenter{
 
     @Override
     public void getIdentify(String phone, String state) {
-        service.getIdentify(PropertiesManager.get("appid"),phone, state, new Callback<ResponseData<Identify>>() {
+        service.getIdentify(phone, state, new Callback<ResponseData<Identify>>() {
             @Override
             public void success(ResponseData<Identify> stringResponseData, Response response) {
                 SharedPreferenceService.getInstance().put("identify",stringResponseData.getData().getIdentify());
