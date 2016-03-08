@@ -4,6 +4,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.home.File.model.File;
 
 import retrofit.Callback;
+import retrofit.http.Body;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.POST;
@@ -15,7 +16,7 @@ public interface  FileService {
 
     @FormUrlEncoded
     @POST("/HerbUser/CreatFile")
-    void doFile(@Field("appid") String appid,
+    void doFile(
                 @Field("token") String token,
                 @Field("nickname") String nickname,
                 @Field("birthday") String birthday,
@@ -23,4 +24,12 @@ public interface  FileService {
                 @Field("weight") Integer weight,
                 @Field("gender") Integer gender,
                 Callback<ResponseData<File>> callback);
+
+//    @FormUrlEncoded
+//    @POST("/HerbUser/CreatFile")
+//    void doFile1(@Field("token")String token,
+//                 @Body File file,
+//                 Callback<ResponseData<File>> callback);
+
+
 }

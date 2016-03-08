@@ -1,29 +1,36 @@
 package com.softtek.lai.module.home.File.view;
 
-import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
-import android.view.Gravity;
+import android.support.v7.app.ActionBar;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.DatePicker;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
+import com.mobsandgeeks.saripaar.Rule;
+import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.module.home.File.model.File;
+import com.softtek.lai.module.home.File.presenter.CreateFile;
 import com.softtek.lai.module.home.File.presenter.CreateFilepresenter;
 import com.softtek.lai.module.home.tab.TabMainActivity;
 
 import butterknife.InjectView;
+import zilla.libcore.file.PropertiesManager;
+import zilla.libcore.file.SharedPreferenceService;
+import zilla.libcore.lifecircle.LifeCircleInject;
+import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_creatfile)
-public class CreatFlleActivity extends BaseActivity{
+public class CreatFlleActivity extends BaseActivity implements View.OnClickListener,Validator.ValidationListener{
+
+    private int gener=0;
+    private CreateFilepresenter createFilepresenter;
+//    ,CreateFile.ICreateFileView
+    @LifeCircleInject
+    ValidateLife validateLife;
 
     @InjectView(R.id.nickname)
     EditText nickname;
@@ -40,14 +47,20 @@ public class CreatFlleActivity extends BaseActivity{
     @InjectView(R.id.weight)
     EditText weight;
 
-    @InjectView(R.id.tiaoguo)
-    TextView tiaoguo;
+    @InjectView(R.id.btn_Add_bodydimension)
+    Button btn_Add_bodydimension;
+
+    @InjectView(R.id.btn_finish)
+    Button btn_finish;
 
     private String SexData[] = {"男", "女" };//性别数据
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        btn_finish.setOnClickListener(this);
+        sex.setOnClickListener(this);
+        height.setOnClickListener(this);
 //        String nickname=nickname.getText().toString();
 //        String birthday=birth.getText().toString();
 //        CreateFilepresenter.doFile(nickname,brithday, height, weight, gender);
@@ -119,12 +132,98 @@ public class CreatFlleActivity extends BaseActivity{
 
     @Override
     protected void initViews() {
-
+        setActionBarLayout(R.layout.actionbar);
     }
 
     @Override
     protected void initDatas() {
+        createFilepresenter= new CreateFile(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btn_finish:
+                validateLife.validate();
+                break;
+            case R.id.sex: {
+                if (sex.getText().equals("男")){
+                    gener=1;
+
+                }
+                else {
+                    gener=0;
+
+                }
+
+            }
+            case R.id.height:{
+                if (sex.getText().equals("男")){
+                    gener=1;
+
+                }
+                else {
+                    gener=0;
+
+                }
+            }
+        }
+    }
+
+    private void setActionBarLayout(int layoutId){
+        ActionBar actionBar=getSupportActionBar();
+        if(actionBar!=null){
+            actionBar.setDisplayShowHomeEnabled(false);
+            actionBar.setDisplayShowCustomEnabled(true);
+
+            actionBar.setCustomView(layoutId);
+            View v=actionBar.getCustomView();
+            v.findViewById(R.id.tv_left).setOnClickListener(this);
+            v.findViewById(R.id.tv_right).setOnClickListener(this);
+        }
+    }
+
+    @Override
+    public void onValidationSucceeded() {
+//        String appid=PropertiesManager.get("appid");
+        String nickn=nickname.getText().toString();
+//        String nickname=nickname.getText().toString();
+//        String birth=birth.getText().toString();
+//        String sex=sex.getText().toString();
+//        String height=height.getText().toString();
+//        String weight=weight.getText().toString();
+
+        String bir=birth.getText().toString();
+        int se=gener;
+        int heig=Integer.getInteger(height.getText().toString());
+        int weigh=Integer.getInteger(weight.getText().toString());
+
+        File file =new File(nickn,bir,se,heig,weigh);
+        file.setNickname(nickn);
+        file.setBirthday(bir);
+        file.setGender(se);
+        file.setHeight(heig);
+        file.setWeight(weigh);
+
+
+        String token=SharedPreferenceService.getInstance().get("token","");
+//        createFilepresenter.CreateFile(nickname,birth,sex,height,weight);
+//        createFilepresenter.createFile("","",file);
 
     }
 
+    @Override
+    public void onValidationFailed(View failedView, Rule<?> failedRule) {
+        validateLife.onValidationFailed(failedView,failedRule);
+    }
+
+
+
+
+
+
+//    @Override
+//    public void toActivity() {
+//        startActivity(new Intent(this, TabMainActivity.class));
+//    }
 }
