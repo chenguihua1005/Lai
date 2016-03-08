@@ -3,6 +3,7 @@ package com.softtek.lai.module.login.presenter;
 import android.content.Context;
 import android.content.Intent;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.home.tab.TabMainActivity;
 import com.softtek.lai.module.login.model.User;
@@ -13,6 +14,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.PropertiesManager;
+import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.util.Util;
 
 /**
@@ -28,15 +30,25 @@ public class LoginPresenterImpl implements ILoginPresenter {
     @Override
     public void doLogin(String userName, String password) {
         LoginService service= ZillaApi.NormalRestAdapter.create(LoginService.class);
-        service.doLogin(PropertiesManager.get("appid"),userName, password, new Callback<ResponseData<User>>() {
+        service.doLogin(userName, password, new Callback<ResponseData<User>>() {
             @Override
             public void success(ResponseData<User> userResponseData, Response response) {
                 System.out.println(userResponseData);
-                context.startActivity(new Intent(context, TabMainActivity.class));
+                int status=userResponseData.getStatus();
+                switch (status){
+                    case 200:
+                        SharedPreferenceService.getInstance().put("token",userResponseData.getData().getToken());
+                        context.startActivity(new Intent(context, TabMainActivity.class));
+                        break;
+                    default:
+                        Util.toastMsg(userResponseData.getMsg());
+                        break;
+                }
             }
 
             @Override
             public void failure(RetrofitError error) {
+                error.printStackTrace();
                 Util.toastMsg("登录失败");
             }
         });

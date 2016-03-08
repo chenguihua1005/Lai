@@ -9,6 +9,9 @@ import retrofit.Callback;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
+import retrofit.http.HEAD;
+import retrofit.http.Header;
+import retrofit.http.Headers;
 import retrofit.http.POST;
 import retrofit.http.Query;
 
@@ -20,27 +23,27 @@ public interface LoginService {
 
     @FormUrlEncoded
     @POST("/HerbUser/UserLogIn")
-    void doLogin(@Field("appid")String appid,
+    void doLogin(
                  @Field("user")String userName,
                  @Field("psd")String password,
                  Callback<ResponseData<User>> callback);
 
     @GET("/HerbUser/GetVerificationNum")
-    void getIdentify(@Query("appid") String appid,
+    void getIdentify(
                      @Query("phone") String phone,
                      @Query("status") String status,
                      Callback<ResponseData<Identify>> callback);
 
     @FormUrlEncoded
     @POST("/HerbUser/UserRegister")
-    void doRegist(@Field("appid") String appid,
+    void doRegist(
                   @Field("user") String userName,
                   @Field("psd") String password,
                   Callback<ResponseData<Regist>> callback);
 
     @FormUrlEncoded
     @POST("/HerbUser/ResetPassWord")
-    void doResetPassword(@Field("appid")String appid,
+    void doResetPassword(
                          @Field("phone")String phone,
                          @Field("newpsd")String newPassword,
                          Callback<ResponseData> callback);

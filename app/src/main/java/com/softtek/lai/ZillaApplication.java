@@ -59,6 +59,7 @@ public class ZillaApplication extends Application implements Zilla.InitCallback,
             @Override
             public void intercept(RequestFacade requestFacade) {
 //                requestFacade.addEncodedPathParam();
+                requestFacade.addHeader("appid",PropertiesManager.get("appid"));
             }
         });
 

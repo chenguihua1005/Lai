@@ -31,7 +31,7 @@ public class PasswordPresnter implements IPasswordPresenter{
 
     @Override
     public void resetPassword(String phone,String password) {
-        service.doResetPassword(PropertiesManager.get("appid"),phone, password, new Callback<ResponseData>() {
+        service.doResetPassword(phone, password, new Callback<ResponseData>() {
             @Override
             public void success(ResponseData responseData, Response response) {
                 Log.i("重置成功");
