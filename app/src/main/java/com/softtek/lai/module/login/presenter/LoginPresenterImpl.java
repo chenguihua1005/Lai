@@ -3,12 +3,10 @@ package com.softtek.lai.module.login.presenter;
 import android.content.Context;
 import android.content.Intent;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.home.tab.TabMainActivity;
 import com.softtek.lai.module.login.model.User;
 import com.softtek.lai.module.login.net.LoginService;
-import com.softtek.lai.utils.CountDownTimer;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;

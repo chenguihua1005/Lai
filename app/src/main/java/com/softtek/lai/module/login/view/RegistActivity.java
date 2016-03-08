@@ -8,10 +8,10 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Checked;
-import com.mobsandgeeks.saripaar.annotation.NumberRule;
 import com.mobsandgeeks.saripaar.annotation.Password;
 import com.mobsandgeeks.saripaar.annotation.Regex;
 import com.mobsandgeeks.saripaar.annotation.Required;
@@ -26,12 +26,12 @@ import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_regist)
 public class RegistActivity extends BaseActivity implements View.OnClickListener,Validator.ValidationListener{
 
     private IRegistPresenter registPresenter;
+    private MyCountDown countDown;
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -81,7 +81,11 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.tv_get_identify:
+                Log.i("点击了按钮");
+                countDown=new MyCountDown(60000,1000);
+                countDown.start();
                 String phone=et_phone.getText().toString();
+                tv_get_identify.setEnabled(false);
                 registPresenter.getIdentify(phone, Constants.REGIST_IDENTIFY);
                 break;
             case R.id.btn_regist:
@@ -91,6 +95,14 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
+    @Override
+    protected void onStop() {
+        if(countDown!=null){
+            countDown.cancel();
+        }
+        super.onStop();
+    }
+
     //验证
     @Override
     public void onValidationSucceeded() {
@@ -98,6 +110,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
         String password=et_password.getText().toString();
         String identify=et_identify.getText().toString();
         registPresenter.doRegist(phoneNum,password,identify);
+
     }
 
     @Override
@@ -105,4 +118,35 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
 
         validateLife.onValidationFailed(failedView,failedRule);
     }
+
+    public class MyCountDown extends CountDownTimer {
+
+        /**
+         * @param millisInFuture    The number of millis in the future from the call
+         *                          to {@link #start()} until the countdown is done and {@link #onFinish()}
+         *                          is called.
+         * @param countDownInterval The interval along the way to receive
+         *                          {@link #onTick(long)} callbacks.
+         */
+        public MyCountDown(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+            //更新获取验证码按钮文字
+            Log.i("倒计时工作中-----"+millisUntilFinished/1000);
+            tv_get_identify.setText("("+millisUntilFinished/1000+"s)后重新获取");
+        }
+
+        @Override
+        public void onFinish() {
+            tv_get_identify.setText("获取验证码");
+            tv_get_identify.setEnabled(true);
+
+
+        }
+    }
+
+
 }
