@@ -41,6 +41,7 @@ public interface LoginService {
     @FormUrlEncoded
     @POST("/HerbUser/ResetPassWord")
     void doResetPassword(@Field("appid")String appid,
+                         @Field("phone")String phone,
                          @Field("newpsd")String newPassword,
                          Callback<ResponseData> callback);
 

@@ -62,7 +62,7 @@
             android:label="@string/title_activity_validate" />
         <activity
             android:name=".module.login.view.LoginActivity"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity android:name=".module.guide.Guide">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -70,12 +70,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".module.login.view.RegistActivity" />
+        <activity android:name=".module.login.view.RegistActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
         <activity
             android:name=".module.login.view.ForgetActivity"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity android:name=".module.login.view.ForgetActivity2"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
         <activity android:name=".module.home.File.view.CreatFlleActivity"></activity>
     </application>
 

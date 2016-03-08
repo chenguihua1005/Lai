@@ -7,24 +7,39 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
+import com.mobsandgeeks.saripaar.Rule;
+import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.ConfirmPassword;
+import com.mobsandgeeks.saripaar.annotation.Password;
+import com.mobsandgeeks.saripaar.annotation.TextRule;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.login.presenter.IPasswordPresenter;
 import com.softtek.lai.module.login.presenter.PasswordPresnter;
 
 import butterknife.InjectView;
+import zilla.libcore.lifecircle.LifeCircleInject;
+import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_forget2)
-public class ForgetActivity2 extends BaseActivity implements View.OnClickListener{
+public class ForgetActivity2 extends BaseActivity implements View.OnClickListener,Validator.ValidationListener{
 
+    @LifeCircleInject
+    ValidateLife validateLife;
+
+    @Password(order = 1)
+    @TextRule(order = 2,minLength = 6,messageResId = R.string.passwordValidate)
     @InjectView(R.id.et_password)
     EditText et_password;
 
+    @ConfirmPassword(order = 3,messageResId = R.string.confirmPassword)
     @InjectView(R.id.et_repassword)
     EditText et_repassword;
 
     private IPasswordPresenter passwordPresenter;
+    private String phone="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +54,8 @@ public class ForgetActivity2 extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initDatas() {
-        passwordPresenter=new PasswordPresnter();
+        passwordPresenter=new PasswordPresnter(this);
+        phone=getIntent().getStringExtra("phone");
     }
 
     @Override
@@ -49,9 +65,7 @@ public class ForgetActivity2 extends BaseActivity implements View.OnClickListene
                 finish();
                 break;
             case R.id.tv_right:
-                String psd1=et_password.getText().toString();
-                String psd2=et_repassword.getText().toString();
-                passwordPresenter.resetPassword(psd1,psd2);
+                validateLife.validate();
                 break;
         }
     }
@@ -77,4 +91,15 @@ public class ForgetActivity2 extends BaseActivity implements View.OnClickListene
     }
 
 
+    @Override
+    public void onValidationSucceeded() {
+        String psd=et_password.getText().toString();
+        Log.i("手机号码>>>>"+phone);
+        passwordPresenter.resetPassword(phone,psd);
+    }
+
+    @Override
+    public void onValidationFailed(View failedView, Rule<?> failedRule) {
+        validateLife.onValidationFailed(failedView,failedRule);
+    }
 }

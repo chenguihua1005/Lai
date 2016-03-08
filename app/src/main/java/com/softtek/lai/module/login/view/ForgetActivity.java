@@ -8,6 +8,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.mobsandgeeks.saripaar.Rule;
+import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.Regex;
+import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.login.contants.Constants;
@@ -15,14 +19,23 @@ import com.softtek.lai.module.login.presenter.IRegistPresenter;
 import com.softtek.lai.module.login.presenter.RegistPresenterImpl;
 
 import butterknife.InjectView;
+import zilla.libcore.file.SharedPreferenceService;
+import zilla.libcore.lifecircle.LifeCircleInject;
+import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_forget)
-public class ForgetActivity extends BaseActivity implements View.OnClickListener{
+public class ForgetActivity extends BaseActivity implements View.OnClickListener,Validator.ValidationListener{
 
+    @LifeCircleInject
+    ValidateLife validateLife;
+
+    @Regex(order = 1,patternResId = R.string.phonePattern,messageResId = R.string.phoneValidate)
     @InjectView(R.id.et_phone)
     EditText et_phone;
 
+    @Required(order = 2,messageResId = R.string.identiftValidtae)
     @InjectView(R.id.et_identify)
     EditText et_identify;
 
@@ -58,7 +71,7 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
                 finish();
                 break;
             case R.id.tv_right:
-                startActivity(new Intent(this,ForgetActivity2.class));
+                validateLife.validate();
                 break;
         }
     }
@@ -81,5 +94,29 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
             btn_right.setText("下一步");
 
         }
+    }
+
+    @Override
+    public void onValidationSucceeded() {
+        String identify=et_identify.getText().toString();
+        String key= SharedPreferenceService.getInstance().get("identify","");
+        if(!"".equals(key)){
+            if(identify.equals(key)){
+                SharedPreferenceService.getInstance().put("identify","");
+                String phone=et_phone.getText().toString();
+                Intent intent=new Intent(this,ForgetActivity2.class);
+                intent.putExtra("phone",phone);
+                startActivity(intent);
+            }else{
+                Util.toastMsg(R.string.identifyValidateMsg);
+            }
+        }else{
+            Util.toastMsg(R.string.identifyAsNull);
+        }
+    }
+
+    @Override
+    public void onValidationFailed(View failedView, Rule<?> failedRule) {
+        validateLife.onValidationFailed(failedView,failedRule);
     }
 }

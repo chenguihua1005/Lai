@@ -36,7 +36,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
     @LifeCircleInject
     ValidateLife validateLife;
 
-    @Regex(order = 1,pattern = "[0-9]{11}",messageResId = R.string.phoneValidate)
+    @Regex(order = 1,patternResId = R.string.phonePattern,messageResId = R.string.phoneValidate)
     @InjectView(R.id.et_phone)
     EditText et_phone;
 

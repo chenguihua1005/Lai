@@ -30,5 +30,11 @@
     <string name="passwordValidate">请输入至少6位数密码</string>
     <string name="termValidate">必须遵循该条款</string>
     <string name="identiftValidtae">请填写验证信息</string>
+    <string name="phonePattern">[0-9]{11}</string>
+    <string name="identifyValidateMsg">验证码填写错误</string>
+    <string name="identifyAsNull">请获取验证码</string>
+    <string name="confirmPassword">密码不匹配</string>
+    <string name="psdResetY">重置成功</string>
+    <string name="psdResetN">重置失败</string>
 
 </resources>

@@ -6,5 +6,5 @@ package com.softtek.lai.module.login.presenter;
 public interface IPasswordPresenter {
 
     //重置密码
-    void resetPassword(String password1,String password2);
+    void resetPassword(String phone,String password);
 }
