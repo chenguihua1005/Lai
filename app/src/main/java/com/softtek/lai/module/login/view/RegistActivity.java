@@ -2,9 +2,11 @@ package com.softtek.lai.module.login.view;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -21,6 +23,7 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.login.contants.Constants;
 import com.softtek.lai.module.login.presenter.IRegistPresenter;
 import com.softtek.lai.module.login.presenter.RegistPresenterImpl;
+import com.softtek.lai.utils.RegexUtil;
 
 import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
@@ -52,7 +55,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
     @InjectView(R.id.tv_get_identify)
     TextView tv_get_identify;
 
-    @Checked(order = 5,messageResId = R.string.termValidate)
+    @Checked(order = 5)
     @InjectView(R.id.cb_term)
     CheckBox cb_term;
 
@@ -64,6 +67,16 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         tv_get_identify.setOnClickListener(this);
         btn_regist.setOnClickListener(this);
+        cb_term.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    btn_regist.setEnabled(true);
+                }else {
+                    btn_regist.setEnabled(false);
+                }
+            }
+        });
     }
 
     @Override
@@ -81,10 +94,13 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.tv_get_identify:
-                Log.i("点击了按钮");
+                String phone=et_phone.getText().toString();
+                if("".equals(phone)||!RegexUtil.match("[0-9]{11}",phone)){
+                    et_phone.setError(Html.fromHtml("<font color=#FFFFFF>" + getString(R.string.phoneValidate) + "</font>"));
+                    return;
+                }
                 countDown=new MyCountDown(60000,1000);
                 countDown.start();
-                String phone=et_phone.getText().toString();
                 tv_get_identify.setEnabled(false);
                 registPresenter.getIdentify(phone, Constants.REGIST_IDENTIFY);
                 break;

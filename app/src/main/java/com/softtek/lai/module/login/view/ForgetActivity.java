@@ -1,9 +1,10 @@
 package com.softtek.lai.module.login.view;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.support.v7.app.ActionBar;
+import android.text.Html;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -17,6 +18,7 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.login.contants.Constants;
 import com.softtek.lai.module.login.presenter.IRegistPresenter;
 import com.softtek.lai.module.login.presenter.RegistPresenterImpl;
+import com.softtek.lai.utils.RegexUtil;
 
 import butterknife.InjectView;
 import zilla.libcore.file.SharedPreferenceService;
@@ -43,6 +45,7 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
     TextView tv_get_identify;
 
     private IRegistPresenter registPresenter;
+    private CountDown countDown;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +68,14 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
         switch (v.getId()){
             case R.id.tv_get_identify:
                 String phone=et_phone.getText().toString();
+                if("".equals(phone)||!RegexUtil.match("[0-9]{11}",phone)){
+                    et_phone.setError(Html.fromHtml("<font color=#FFFFFF>" + getString(R.string.phoneValidate) + "</font>"));
+                    return;
+                }
+                //验证手机号
+                countDown=new CountDown(60000,1000);
+                countDown.start();
+                tv_get_identify.setEnabled(false);
                 registPresenter.getIdentify(phone, Constants.RESET_PASSWORD_IDENTIFY);
                 break;
             case R.id.tv_left:
@@ -75,6 +86,8 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
                 break;
         }
     }
+
+
 
     private void setActionBarLayout(int layoutId){
         ActionBar actionBar=getSupportActionBar();
@@ -94,6 +107,14 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
             btn_right.setText("下一步");
 
         }
+    }
+
+    @Override
+    protected void onStop() {
+        if(countDown!=null){
+            countDown.cancel();
+        }
+        super.onStop();
     }
 
     @Override
@@ -118,5 +139,24 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
     @Override
     public void onValidationFailed(View failedView, Rule<?> failedRule) {
         validateLife.onValidationFailed(failedView,failedRule);
+    }
+
+
+    public class CountDown extends CountDownTimer{
+
+        public CountDown(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+            tv_get_identify.setText("("+millisUntilFinished/1000+"s)后重新获取");
+        }
+
+        @Override
+        public void onFinish() {
+            tv_get_identify.setText("获取验证码");
+            tv_get_identify.setEnabled(true);
+        }
     }
 }
