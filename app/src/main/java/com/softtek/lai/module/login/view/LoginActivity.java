@@ -72,7 +72,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onClick(View v) {
-        SoftInputUtil.hidden(this);
         switch (v.getId()){
             case R.id.tv_login:
                 validateLife.validate();
@@ -106,6 +105,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onValidationSucceeded() {
+
         String phone=et_phone.getText().toString();
         String password=et_password.getText().toString();
         loginPresenter.doLogin(phone,password);

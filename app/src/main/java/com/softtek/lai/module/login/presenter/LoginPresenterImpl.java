@@ -5,12 +5,17 @@ import android.content.Intent;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.module.home.View.HomeActviity;
+import com.softtek.lai.module.home.draw.DrawMainActivity;
 import com.softtek.lai.module.home.tab.TabMainActivity;
 import com.softtek.lai.module.login.model.User;
 import com.softtek.lai.module.login.net.LoginService;
 
+import java.util.List;
+
 import retrofit.Callback;
 import retrofit.RetrofitError;
+import retrofit.client.Header;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.PropertiesManager;
@@ -34,11 +39,15 @@ public class LoginPresenterImpl implements ILoginPresenter {
             @Override
             public void success(ResponseData<User> userResponseData, Response response) {
                 System.out.println(userResponseData);
+                List<Header> headers=response.getHeaders();
+                for(Header header:headers){
+                    System.out.println(header.toString());
+                }
                 int status=userResponseData.getStatus();
                 switch (status){
                     case 200:
                         SharedPreferenceService.getInstance().put("token",userResponseData.getData().getToken());
-                        context.startActivity(new Intent(context, TabMainActivity.class));
+                        context.startActivity(new Intent(context, HomeActviity.class));
                         break;
                     default:
                         Util.toastMsg(userResponseData.getMsg());

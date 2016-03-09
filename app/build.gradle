@@ -57,4 +57,5 @@ dependencies {
     compile 'com.android.support:design:23.1.0'
     compile project(':viewflow')
     compile project(':ruler_lib')
+    compile project(':widget_lib')
 }
