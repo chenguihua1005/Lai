@@ -15,7 +15,7 @@
             android:layout_height="50dp"
             android:hint="*昵称"
             android:paddingLeft="15dp"
-            android:id="@+id/nickname"
+            android:id="@+id/et_nickname"
             android:background="@drawable/bg_edittext" />
 
         <EditText
@@ -25,7 +25,7 @@
             android:layout_marginBottom="10dp"
             android:paddingLeft="15dp"
             android:hint="*生日"
-            android:id="@+id/birth"
+            android:id="@+id/et_birth"
             android:background="@drawable/bg_edittext" />
 
         <EditText
@@ -34,7 +34,7 @@
             android:layout_marginBottom="10dp"
             android:hint="*性别"
             android:paddingLeft="15dp"
-            android:id="@+id/sex"
+            android:id="@+id/et_sex"
             android:background="@drawable/bg_edittext" />
 
         <EditText
@@ -43,7 +43,7 @@
             android:layout_marginBottom="10dp"
             android:hint="*身高"
             android:paddingLeft="15dp"
-            android:id="@+id/height"
+            android:id="@+id/et_height"
             android:background="@drawable/bg_edittext" />
 
         <EditText
@@ -52,7 +52,7 @@
             android:hint="*体重"
             android:paddingLeft="15dp"
             android:layout_marginBottom="30dp"
-            android:id="@+id/weight"
+            android:id="@+id/et_weight"
             android:background="@drawable/bg_edittext" />
 
         <Button

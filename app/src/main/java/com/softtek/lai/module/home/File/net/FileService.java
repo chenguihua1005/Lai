@@ -7,6 +7,7 @@ import retrofit.Callback;
 import retrofit.http.Body;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
+import retrofit.http.Header;
 import retrofit.http.POST;
 
 /**
@@ -17,9 +18,9 @@ public interface  FileService {
     @FormUrlEncoded
     @POST("/HerbUser/CreatFile")
     void doFile(
-                @Field("token") String token,
+                @Header("token") String token,
                 @Field("nickname") String nickname,
-                @Field("birthday") String birthday,
+                @Field("brithday") String birthday,
                 @Field("height") Integer height,
                 @Field("weight") Integer weight,
                 @Field("gender") Integer gender,

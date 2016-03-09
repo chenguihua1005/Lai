@@ -1,6 +1,5 @@
 package com.softtek.lai.module.home.File.presenter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
@@ -13,23 +12,22 @@ import com.softtek.lai.module.home.tab.TabMainActivity;
 
 import retrofit.RetrofitError;
 import zilla.libcore.api.ZillaApi;
-import zilla.libcore.file.PropertiesManager;
 
 /**
  * Created by julie.zhu on 3/7/2016.
  */
-public class CreateFile implements CreateFilepresenter {
+public class CreateFileImpl implements ICreateFilepresenter {
 
     private FileService service;
     private Context context;
 
-    public CreateFile(CreatFlleActivity creatFlleActivity){
+    public CreateFileImpl(CreatFlleActivity creatFlleActivity){
         service=ZillaApi.NormalRestAdapter.create(FileService.class);
         context=creatFlleActivity;
     }
 
     @Override
-    public void CreateFile(String token, String appid, String nickname, String brithday, int height, int weight, int gender) {
+    public void CreateFile(String token, String nickname, String brithday, int height, int weight, int gender) {
 
         service.doFile(token, nickname, brithday, height, weight, gender, new retrofit.Callback<ResponseData<File>>() {
             @Override
@@ -44,12 +42,6 @@ public class CreateFile implements CreateFilepresenter {
             }
         });
     }
-
-    @Override
-    public void createFile(String token, String appid, File file) {
-        //......
-    }
-
 
 //    public interface ICreateFileView {
 //        void toActivity();
