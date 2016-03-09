@@ -32,7 +32,7 @@
             app:normalBitmap="@drawable/alg"
             app:pitchBitmap="@drawable/ale"
             app:alpha="true"
-            app:text="主页"/>
+            app:text="@string/home"/>
 
         <com.ggx.jerryguan.widget_lib.SimpleButton
             android:id="@+id/btn_healthy"
@@ -42,7 +42,7 @@
             app:normalBitmap="@drawable/alg"
             app:pitchBitmap="@drawable/ale"
             app:alpha="true"
-            app:text="健康圈"/>
+            app:text="@string/healthy"/>
 
         <com.ggx.jerryguan.widget_lib.SimpleButton
             android:id="@+id/btn_contact"
@@ -52,7 +52,7 @@
             app:normalBitmap="@drawable/alg"
             app:pitchBitmap="@drawable/ale"
             app:alpha="true"
-            app:text="通讯录"/>
+            app:text="@string/contact"/>
 
         <com.ggx.jerryguan.widget_lib.SimpleButton
             android:id="@+id/btn_healthy_record"
@@ -62,7 +62,7 @@
             app:normalBitmap="@drawable/alg"
             app:pitchBitmap="@drawable/ale"
             app:alpha="true"
-            app:text="健康记录"/>
+            app:text="@string/healthyRecord"/>
 
         <com.ggx.jerryguan.widget_lib.SimpleButton
             android:id="@+id/btn_mine"
@@ -72,7 +72,7 @@
             app:normalBitmap="@drawable/alg"
             app:pitchBitmap="@drawable/ale"
             app:alpha="true"
-            app:text="我的"/>
+            app:text="@string/mine"/>
 
     </LinearLayout>
 
