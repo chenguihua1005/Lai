@@ -113,4 +113,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     public void onValidationFailed(View failedView, Rule<?> failedRule) {
         validateLife.onValidationFailed(failedView,failedRule);
     }
+
+    
 }
