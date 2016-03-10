@@ -8,7 +8,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.home.File.model.File;
 import com.softtek.lai.module.home.File.net.FileService;
 import com.softtek.lai.module.home.File.view.CreatFlleActivity;
-import com.softtek.lai.module.home.tab.TabMainActivity;
+import com.softtek.lai.module.home.View.HomeActviity;
 
 import retrofit.RetrofitError;
 import zilla.libcore.api.ZillaApi;
@@ -33,7 +33,7 @@ public class CreateFileImpl implements ICreateFilepresenter {
             @Override
             public void success(ResponseData<File> fileResponseData, retrofit.client.Response response) {
                 Log.i("档案创建成功");
-                context.startActivity(new Intent(context, TabMainActivity.class));
+                context.startActivity(new Intent(context, HomeActviity.class));
             }
 
             @Override
