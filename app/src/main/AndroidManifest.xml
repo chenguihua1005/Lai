@@ -42,6 +42,7 @@
             android:name=".module.login.view.ForgetActivity2"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity android:name=".module.home.File.view.CreatFlleActivity" />
+        <activity android:name=".module.home.View.HomeActviity"/>
     </application>
 
 </manifest>
