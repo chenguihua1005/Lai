@@ -63,6 +63,15 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
     @InjectView(R.id.btn_regist)
     Button btn_regist;
 
+    @InjectView(R.id.tv_left)
+    TextView tv_left;
+
+    @InjectView(R.id.tv_title)
+    TextView tv_title;
+
+    @InjectView(R.id.tv_right)
+    TextView tv_right;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +91,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     protected void initViews() {
-
+        tv_title.setText("注册");
 
     }
 
@@ -93,7 +102,6 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        SoftInputUtil.hidden(this);
         switch (v.getId()){
             case R.id.tv_get_identify:
                 String phone=et_phone.getText().toString();

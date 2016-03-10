@@ -13,6 +13,8 @@ import com.mobsandgeeks.saripaar.annotation.Password;
 import com.mobsandgeeks.saripaar.annotation.Regex;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.module.home.File.view.CreatFlleActivity;
+import com.softtek.lai.module.home.View.HomeActviity;
 import com.softtek.lai.module.home.tab.TabMainActivity;
 import com.softtek.lai.module.login.presenter.ILoginPresenter;
 import com.softtek.lai.module.login.presenter.LoginPresenterImpl;
@@ -45,20 +47,29 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @InjectView(R.id.tv_forgetpsd)
     TextView tv_forgetpsd;
 
+    @InjectView(R.id.tv_left)
+    TextView tv_left;
 
+    @InjectView(R.id.tv_title)
+    TextView tv_title;
+
+    @InjectView(R.id.tv_right)
+    TextView tv_right;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         tv_login.setOnClickListener(this);
         tv_forgetpsd.setOnClickListener(this);
-
+        tv_left.setOnClickListener(this);
+        tv_right.setOnClickListener(this);
     }
 
     @Override
     protected void initViews() {
-        setActionBarLayout(R.layout.actionbar);
+        tv_left.setText("注册");
+        tv_title.setText("登录");
+        tv_right.setText("游客模式");
     }
 
     @Override
@@ -69,10 +80,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onClick(View v) {
-        SoftInputUtil.hidden(this);
         switch (v.getId()){
             case R.id.tv_login:
                 validateLife.validate();
+                startActivity(new Intent(LoginActivity.this, CreatFlleActivity.class));
                 break;
             case R.id.tv_forgetpsd:
                 startActivity(new Intent(this,ForgetActivity.class));
@@ -81,27 +92,17 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 startActivity(new Intent(this,RegistActivity.class));
                 break;
             case R.id.tv_right:
-                startActivity(new Intent(this, TabMainActivity.class));
+                startActivity(new Intent(this, HomeActviity.class));
                 break;
 
         }
     }
 
-    private void setActionBarLayout(int layoutId){
-        ActionBar actionBar=getSupportActionBar();
-        if(actionBar!=null){
-            actionBar.setDisplayShowHomeEnabled(false);
-            actionBar.setDisplayShowCustomEnabled(true);
 
-            actionBar.setCustomView(layoutId);
-            View v=actionBar.getCustomView();
-            v.findViewById(R.id.tv_left).setOnClickListener(this);
-            v.findViewById(R.id.tv_right).setOnClickListener(this);
-        }
-    }
 
     @Override
     public void onValidationSucceeded() {
+
         String phone=et_phone.getText().toString();
         String password=et_password.getText().toString();
         loginPresenter.doLogin(phone,password);
@@ -111,4 +112,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     public void onValidationFailed(View failedView, Rule<?> failedRule) {
         validateLife.onValidationFailed(failedView,failedRule);
     }
+
+    
 }

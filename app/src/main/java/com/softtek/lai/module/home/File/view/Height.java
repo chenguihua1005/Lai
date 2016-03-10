@@ -16,15 +16,13 @@ public class Height extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_height);
+        setContentView(R.layout.activity_dimension_record);
         tv= (TextView) findViewById(R.id.tv);
         rv= (RulerView) findViewById(R.id.rv);
-        //rv.setCallback(this);
         rv.setCallback(new RulerView.RulerCallback() {
             @Override
             public void resultNum(int num) {
-                tv.setText("身高"+num+"cm");
+                tv.setText(num+"cm");
             }
         });
     }

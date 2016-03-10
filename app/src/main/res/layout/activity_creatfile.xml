@@ -9,58 +9,90 @@
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:gravity="center">
-
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="50dp">
         <EditText
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="昵称"
-            android:paddingLeft="15dp"
-            android:id="@+id/nickname"
-            android:background="@drawable/bg_edittext" />
-
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="*昵称"
+        android:paddingLeft="15dp"
+        android:id="@+id/et_nickname"
+        android:background="@drawable/bg_edittext" />
+    </LinearLayout>
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="50dp">
         <EditText
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:paddingLeft="15dp"
-            android:hint="生日"
-            android:id="@+id/birth"
-            android:background="@drawable/bg_edittext" />
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:paddingLeft="15dp"
+        android:hint="*生日"
+        android:id="@+id/et_birth"
+        android:background="@drawable/bg_edittext" />
+    </LinearLayout>
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginBottom="10dp"
-            android:hint="性别"
-            android:paddingLeft="15dp"
-            android:id="@+id/sex"
-            android:background="@drawable/bg_edittext" />
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="50dp">
+    <EditText
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:layout_marginBottom="10dp"
+    android:hint="*性别"
+    android:paddingLeft="15dp"
+    android:id="@+id/et_sex"
+    android:background="@drawable/bg_edittext" />
+    </LinearLayout>
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="50dp">
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="10dp"
+        android:hint="*身高"
+        android:paddingLeft="15dp"
+        android:id="@+id/et_height"
+        android:background="@drawable/bg_edittext" />
+    </LinearLayout>
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="50dp">
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="*体重"
+        android:paddingLeft="15dp"
+        android:layout_marginBottom="30dp"
+        android:id="@+id/et_weight"
+        android:background="@drawable/bg_edittext" />
+    </LinearLayout>
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginBottom="10dp"
-            android:hint="身高"
-            android:paddingLeft="15dp"
-            android:id="@+id/height"
-            android:background="@drawable/bg_edittext" />
 
-        <EditText
+
+
+
+
+        <Button
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="体重"
-            android:paddingLeft="15dp"
-            android:layout_marginBottom="30dp"
-            android:id="@+id/weight"
-            android:background="@drawable/bg_edittext" />
+            android:layout_height="wrap_content"
+            android:text="添加身体维度"
+            android:id="@+id/btn_Add_bodydimension" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="完成"
+            android:id="@+id/btn_finish" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="跳过>"
-            android:id="@+id/tiaoguo"
-            android:layout_gravity="right"
+            android:text="*为必填项>"
+            android:layout_gravity="left"
             android:textSize="20dp" />
 
     </LinearLayout>

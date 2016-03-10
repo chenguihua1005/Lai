@@ -36,5 +36,10 @@
     <string name="confirmPassword">密码不匹配</string>
     <string name="psdResetY">重置成功</string>
     <string name="psdResetN">重置失败</string>
+    <string name="home">主页</string>
+    <string name="healthy">健康圈</string>
+    <string name="contact">通讯录</string>
+    <string name="healthyRecord">健康表</string>
+    <string name="mine">我的</string>
 
 </resources>

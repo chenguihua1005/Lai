@@ -21,10 +21,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 
 import butterknife.ButterKnife;
+import butterknife.InjectView;
 import zilla.libcore.Zilla;
 import zilla.libcore.file.FileHelper;
 import zilla.libcore.file.SharedPreferenceService;
@@ -36,7 +39,7 @@ import zilla.libcore.ui.LayoutInjectUtil;
 /**
  * Created by zilla on 14/12/1.
  */
-public abstract class BaseActivity extends AppCompatActivity implements Toolbar.OnMenuItemClickListener {
+public abstract class BaseActivity extends AppCompatActivity {
 
     /**
      * 生命周期管理
@@ -48,13 +51,15 @@ public abstract class BaseActivity extends AppCompatActivity implements Toolbar.
      */
     protected Toolbar mToolbar;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(LayoutInjectUtil.getInjectLayoutId(this));
         Zilla.ACTIVITY = this;
         LifeCircle.onCreate(this);
-        //initToolbars();
+        initToolbars();
         ButterKnife.inject(this);
         initViews();
         initDatas();
@@ -95,11 +100,11 @@ public abstract class BaseActivity extends AppCompatActivity implements Toolbar.
         View view = findViewById(R.id.toolbar);
         if (view != null) {
             mToolbar = (Toolbar) view;
+            mToolbar.setTitle("");
+            mToolbar.setSubtitle("");
+            //getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             setSupportActionBar(mToolbar);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            mToolbar.setOnMenuItemClickListener(this);
-        }else {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         }
     }
 
@@ -107,21 +112,10 @@ public abstract class BaseActivity extends AppCompatActivity implements Toolbar.
 
     protected abstract void initDatas();
 
-    @Override
-    public boolean onMenuItemClick(MenuItem menuItem) {
-        switch (menuItem.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
-            default:
-                break;
-        }
-        return false;
-    }
 
-    @Override
+   /* @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         //getMenuInflater().inflate(R.menu.activity_main_drawer, menu);
         return super.onCreateOptionsMenu(menu);
-    }
+    }*/
 }
