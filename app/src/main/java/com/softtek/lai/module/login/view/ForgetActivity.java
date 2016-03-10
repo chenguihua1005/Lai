@@ -45,6 +45,15 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
     @InjectView(R.id.tv_get_identify)
     TextView tv_get_identify;
 
+    @InjectView(R.id.tv_left)
+    TextView tv_left;
+
+    @InjectView(R.id.tv_title)
+    TextView tv_title;
+
+    @InjectView(R.id.tv_right)
+    TextView tv_right;
+
     private IRegistPresenter registPresenter;
     private CountDown countDown;
 
@@ -52,11 +61,15 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         tv_get_identify.setOnClickListener(this);
+        tv_left.setOnClickListener(this);
+        tv_right.setOnClickListener(this);
     }
 
     @Override
     protected void initViews() {
-        setActionBarLayout(R.layout.actionbar);
+        tv_left.setText("返回");
+        tv_right.setText("下一步");
+        tv_title.setText("忘记密码");
     }
 
     @Override
@@ -89,27 +102,6 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
-
-
-    private void setActionBarLayout(int layoutId){
-        ActionBar actionBar=getSupportActionBar();
-        if(actionBar!=null){
-            actionBar.setDisplayShowHomeEnabled(false);
-            actionBar.setDisplayShowCustomEnabled(true);
-
-            actionBar.setCustomView(layoutId);
-            View v=actionBar.getCustomView();
-            TextView btn_left= (TextView) v.findViewById(R.id.tv_left);
-            btn_left.setOnClickListener(this);
-            TextView btn_right= (TextView) v.findViewById(R.id.tv_right);
-            btn_right.setOnClickListener(this);
-            TextView btn_title= (TextView) v.findViewById(R.id.tv_title);
-            btn_title.setText("重置密码");
-            btn_left.setText("返回");
-            btn_right.setText("下一步");
-
-        }
-    }
 
     @Override
     protected void onStop() {

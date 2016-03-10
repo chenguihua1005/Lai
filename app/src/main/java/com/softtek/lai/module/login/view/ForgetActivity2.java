@@ -39,18 +39,30 @@ public class ForgetActivity2 extends BaseActivity implements View.OnClickListene
     @InjectView(R.id.et_repassword)
     EditText et_repassword;
 
+    @InjectView(R.id.tv_left)
+    TextView tv_left;
+
+    @InjectView(R.id.tv_title)
+    TextView tv_title;
+
+    @InjectView(R.id.tv_right)
+    TextView tv_right;
+
     private IPasswordPresenter passwordPresenter;
     private String phone="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        tv_left.setOnClickListener(this);
+        tv_right.setOnClickListener(this);
     }
 
     @Override
     protected void initViews() {
-        setActionBarLayout(R.layout.actionbar);
+        tv_left.setText("返回");
+        tv_right.setText("提交");
+        tv_title.setText("输入密码");
     }
 
     @Override
@@ -72,25 +84,9 @@ public class ForgetActivity2 extends BaseActivity implements View.OnClickListene
         }
     }
 
-    private void setActionBarLayout(int layoutId){
-        ActionBar actionBar=getSupportActionBar();
-        if(actionBar!=null){
-            actionBar.setDisplayShowHomeEnabled(false);
-            actionBar.setDisplayShowCustomEnabled(true);
 
-            actionBar.setCustomView(layoutId);
-            View v=actionBar.getCustomView();
-            TextView btn_left= (TextView) v.findViewById(R.id.tv_left);
-            btn_left.setOnClickListener(this);
-            TextView btn_right= (TextView) v.findViewById(R.id.tv_right);
-            btn_right.setOnClickListener(this);
-            TextView btn_title= (TextView) v.findViewById(R.id.tv_title);
-            btn_title.setText("输入新密码");
-            btn_left.setText("返回");
-            btn_right.setText("提交");
 
-        }
-    }
+
 
 
     @Override
