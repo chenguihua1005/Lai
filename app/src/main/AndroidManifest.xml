@@ -21,6 +21,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".module.login.view.LoginActivity"
             android:windowSoftInputMode="adjustResize|stateHidden" />
@@ -40,8 +41,8 @@
         <activity
             android:name=".module.login.view.ForgetActivity2"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-        <activity android:name=".module.File.view.CreatFlleActivity" />
-        <activity android:name=".module.home.View.HomeActviity" />
+        <activity android:name=".module.home.File.view.CreatFlleActivity" />
+        <activity android:name=".module.home.view.HomeActviity"/>
     </application>
 
 </manifest>

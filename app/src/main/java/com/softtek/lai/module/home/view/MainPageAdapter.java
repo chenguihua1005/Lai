@@ -1,10 +1,8 @@
-package com.softtek.lai.module.home.View;
+package com.softtek.lai.module.home.view;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-
-import com.github.snowdream.android.util.Log;
 
 /**
  * Created by jerry.guan on 3/9/2016.

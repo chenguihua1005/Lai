@@ -1,4 +1,4 @@
-package com.softtek.lai.module.home.View;
+package com.softtek.lai.module.home.view;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

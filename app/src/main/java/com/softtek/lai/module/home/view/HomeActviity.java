@@ -1,9 +1,8 @@
-package com.softtek.lai.module.home.View;
+package com.softtek.lai.module.home.view;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
