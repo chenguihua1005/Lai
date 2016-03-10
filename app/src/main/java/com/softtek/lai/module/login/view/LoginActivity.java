@@ -2,7 +2,6 @@ package com.softtek.lai.module.login.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -15,10 +14,8 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.home.File.view.CreatFlleActivity;
 import com.softtek.lai.module.home.View.HomeActviity;
-import com.softtek.lai.module.home.tab.TabMainActivity;
 import com.softtek.lai.module.login.presenter.ILoginPresenter;
 import com.softtek.lai.module.login.presenter.LoginPresenterImpl;
-import com.softtek.lai.utils.SoftInputUtil;
 
 import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
