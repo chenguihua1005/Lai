@@ -99,34 +99,19 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void initToolbars() {
         View view = findViewById(R.id.toolbar);
         if (view != null) {
-            Log.i("hahahahahhaahhahahahahahahaha");
             mToolbar = (Toolbar) view;
             mToolbar.setTitle("");
             mToolbar.setSubtitle("");
             //getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             setSupportActionBar(mToolbar);
 
-            //mToolbar.setOnMenuItemClickListener(this);
-        }/*else {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }*/
+        }
     }
 
     protected abstract void initViews();
 
     protected abstract void initDatas();
 
-    /*@Override
-    public boolean onMenuItemClick(MenuItem menuItem) {
-        switch (menuItem.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
-            default:
-                break;
-        }
-        return false;
-    }*/
 
    /* @Override
     public boolean onCreateOptionsMenu(Menu menu) {
