@@ -70,14 +70,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".module.login.view.RegistActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden"/>
+        <activity
+            android:name=".module.login.view.RegistActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name=".module.login.view.ForgetActivity"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-        <activity android:name=".module.login.view.ForgetActivity2"
-            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
-        <activity android:name=".module.home.File.view.CreatFlleActivity"></activity>
+        <activity
+            android:name=".module.login.view.ForgetActivity2"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity android:name=".module.home.File.view.CreatFlleActivity" />
+        <activity android:name=".module.archive.view.ArchiveActivity"></activity>
     </application>
 
 </manifest>
