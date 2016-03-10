@@ -8,7 +8,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.home.File.model.File;
 import com.softtek.lai.module.home.File.net.FileService;
 import com.softtek.lai.module.home.File.view.CreatFlleActivity;
-import com.softtek.lai.module.home.View.HomeActviity;
+import com.softtek.lai.module.home.view.HomeActviity;
 
 import retrofit.RetrofitError;
 import zilla.libcore.api.ZillaApi;

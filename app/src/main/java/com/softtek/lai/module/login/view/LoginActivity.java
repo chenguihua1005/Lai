@@ -13,7 +13,7 @@ import com.mobsandgeeks.saripaar.annotation.Regex;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.home.File.view.CreatFlleActivity;
-import com.softtek.lai.module.home.View.HomeActviity;
+import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.login.presenter.ILoginPresenter;
 import com.softtek.lai.module.login.presenter.LoginPresenterImpl;
 
