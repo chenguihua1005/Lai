@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.softtek.lai.module.home.File.view.DimensionRecordActivity">
+    tools:context=".module.File.view.DimensionRecordActivity">
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"

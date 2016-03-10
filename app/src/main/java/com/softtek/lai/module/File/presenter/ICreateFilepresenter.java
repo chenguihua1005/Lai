@@ -1,6 +1,4 @@
-package com.softtek.lai.module.home.File.presenter;
-
-import com.softtek.lai.module.home.File.model.File;
+package com.softtek.lai.module.File.presenter;
 
 /**
  * Created by julie.zhu on 3/7/2016.

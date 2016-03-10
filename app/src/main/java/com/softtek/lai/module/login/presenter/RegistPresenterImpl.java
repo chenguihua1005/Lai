@@ -5,7 +5,7 @@ import android.content.Intent;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.home.File.view.CreatFlleActivity;
+import com.softtek.lai.module.File.view.CreatFlleActivity;
 import com.softtek.lai.module.login.model.Identify;
 import com.softtek.lai.module.login.model.Regist;
 import com.softtek.lai.module.login.net.LoginService;
@@ -14,7 +14,6 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
-import zilla.libcore.file.PropertiesManager;
 import zilla.libcore.file.SharedPreferenceService;
 
 /**
