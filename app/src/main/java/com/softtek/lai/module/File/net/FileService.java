@@ -1,10 +1,9 @@
-package com.softtek.lai.module.home.File.net;
+package com.softtek.lai.module.File.net;
 
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.home.File.model.File;
+import com.softtek.lai.module.File.model.File;
 
 import retrofit.Callback;
-import retrofit.http.Body;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.Header;

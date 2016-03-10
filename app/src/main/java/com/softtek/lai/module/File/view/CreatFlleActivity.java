@@ -1,4 +1,4 @@
-package com.softtek.lai.module.home.File.view;
+package com.softtek.lai.module.File.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,8 +12,8 @@ import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.module.home.File.presenter.CreateFileImpl;
-import com.softtek.lai.module.home.File.presenter.ICreateFilepresenter;
+import com.softtek.lai.module.File.presenter.CreateFileImpl;
+import com.softtek.lai.module.File.presenter.ICreateFilepresenter;
 
 import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;

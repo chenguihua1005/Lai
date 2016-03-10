@@ -1,4 +1,4 @@
-package com.softtek.lai.module.home.File.model;
+package com.softtek.lai.module.File.model;
 
 /**
  * Created by julie.zhu on 3/4/2016.

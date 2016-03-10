@@ -1,4 +1,4 @@
-package com.softtek.lai.module.home.File.view;
+package com.softtek.lai.module.File.view;
 
 import android.app.Activity;
 import android.os.Bundle;
