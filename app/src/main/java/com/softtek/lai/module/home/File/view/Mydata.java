@@ -25,7 +25,7 @@ public class Mydata extends Activity {
         birth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showPopwindow();
+               // showPopwindow();
             }
         });
     }
@@ -62,7 +62,7 @@ public class Mydata extends Activity {
 /**
  * 显示popupWindow
  */
-    private void showPopwindow() {
+    /*private void showPopwindow() {
         // 利用layoutInflater获得View
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.popwindow, null);
@@ -128,5 +128,5 @@ public class Mydata extends Activity {
             }
         });
 
-    }
+    }*/
  }

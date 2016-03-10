@@ -3,11 +3,8 @@ package com.softtek.lai.module.login.presenter;
 import android.content.Context;
 import android.content.Intent;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.home.View.HomeActviity;
-import com.softtek.lai.module.home.draw.DrawMainActivity;
-import com.softtek.lai.module.home.tab.TabMainActivity;
 import com.softtek.lai.module.login.model.User;
 import com.softtek.lai.module.login.net.LoginService;
 
@@ -18,7 +15,6 @@ import retrofit.RetrofitError;
 import retrofit.client.Header;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
-import zilla.libcore.file.PropertiesManager;
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.util.Util;
 

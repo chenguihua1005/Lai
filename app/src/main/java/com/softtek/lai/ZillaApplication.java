@@ -20,6 +20,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.github.snowdream.android.util.Log;
+import com.softtek.lai.utils.NetErrorHandler;
 
 import retrofit.RequestInterceptor;
 import zilla.libcore.Zilla;
