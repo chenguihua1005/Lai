@@ -68,13 +68,13 @@ public class ZillaApplication extends Application implements Zilla.InitCallback,
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.d("onCreate(SQLiteDatabase db)");
-
+        Log.i("onCreate(SQLiteDatabase db)");
 
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.d("onUpgrade(SQLiteDatabase db)");
+        Log.i("onUpgrade(SQLiteDatabase db)");
+
     }
 }
