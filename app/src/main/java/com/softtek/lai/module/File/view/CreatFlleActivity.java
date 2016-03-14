@@ -21,11 +21,14 @@ import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.module.File.model.File;
 import com.softtek.lai.module.File.presenter.CreateFileImpl;
 import com.softtek.lai.module.File.presenter.ICreateFilepresenter;
 import com.softtek.lai.module.home.view.HomeActviity;
+import com.softtek.lai.module.login.view.RegistActivity;
 
 import butterknife.InjectView;
+import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
@@ -89,6 +92,9 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
     @InjectView(R.id.tv_right)
     TextView tv_right;
 
+    private File file;//存储用户表单数据
+    private static final int GET_BODY_DIMENSION=1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,6 +105,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         tv_height.setText("170");
         tv_weight.setText("66");
         btn_Add_bodydimension.setOnClickListener(this);
+        tv_left.setOnClickListener(this);
         tv_right.setOnClickListener(this);
    }
 
@@ -110,9 +117,10 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void initDatas() {
         ICreateFilepresenter = new CreateFileImpl(this);
+        file=new File();
         //tv_left.setText("返回");
         tv_left.setBackgroundResource(R.drawable.ale);
-        tv_title.setText("创建档案");
+        tv_title.setText("我的档案");
         tv_right.setText("跳过");
     }
 
@@ -123,7 +131,9 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                 validateLife.validate();
                 break;
             case R.id.btn_Add_bodydimension:
-                startActivity(new Intent(CreatFlleActivity.this,DimensionRecordActivity.class));
+                Intent intent=new Intent(this,DimensionRecordActivity.class);
+                intent.putExtra("file",file);
+                startActivityForResult(intent,GET_BODY_DIMENSION);
                 break;
             case R.id.ll_birth:
                 DatePickerDialog dialog=new DatePickerDialog(
@@ -134,6 +144,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                     }
                 },2014,8,17);
                 dialog.setTitle("");
+                dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
                 dialog.show();
                 break;
             case R.id.ll_sex:
@@ -148,13 +159,18 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                                 }).setIcon(R.mipmap.ic_launcher)
                         .setNegativeButton("取消",null)
                         .setPositiveButton("确认",null).create();
+                genderdialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
                 genderdialog.show();
                 break;
             case R.id.ll_height:
 
                 break;
+            case R.id.tv_left:
+                startActivity(new Intent(CreatFlleActivity.this,RegistActivity.class));
+                break;
             case R.id.tv_right:
                 startActivity(new Intent(CreatFlleActivity.this,HomeActviity.class));
+                break;
         }
     }
 
@@ -176,9 +192,9 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         file.setWeight(weigh);*/
 
 
-       // String token=SharedPreferenceService.getInstance().get("token","");
-        String token="A027ED74A15F155734E66868438AA289";
-        ICreateFilepresenter.CreateFile(token,nick,birthday,Integer.parseInt(height),Integer.parseInt(weight),gender.equals("男")?1:0);
+        String token= SharedPreferenceService.getInstance().get("token","");
+//        String token="8024F670BB230B9C5B6190F7EDAC3C86";
+       // ICreateFilepresenter.createFile(token,nick,birthday,Integer.parseInt(height),Integer.parseInt(weight),gender.equals("男")?1:0);
 //        createFilepresenter.createFile("","",file);
     }
 
@@ -187,9 +203,12 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         validateLife.onValidationFailed(failedView,failedRule);
     }
 
-
-//    @Override
-//    public void toActivity() {
-//        startActivity(new Intent(this, TabMainActivity.class));
-//    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_OK&&requestCode==GET_BODY_DIMENSION){
+                file= (File) data.getSerializableExtra("file");
+                Log.i(file.toString());
+        }
+    }
 }
