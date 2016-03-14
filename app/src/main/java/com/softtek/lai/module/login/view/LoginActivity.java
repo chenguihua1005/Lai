@@ -43,29 +43,24 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @InjectView(R.id.tv_forgetpsd)
     TextView tv_forgetpsd;
 
-    @InjectView(R.id.tv_left)
-    TextView tv_left;
+    @InjectView(R.id.tv_regist)
+    TextView tv_regist;
 
-    @InjectView(R.id.tv_title)
-    TextView tv_title;
-
-    @InjectView(R.id.tv_right)
-    TextView tv_right;
+    @InjectView(R.id.tv_visitor)
+    TextView tv_visitor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         tv_login.setOnClickListener(this);
         tv_forgetpsd.setOnClickListener(this);
-        tv_left.setOnClickListener(this);
-        tv_right.setOnClickListener(this);
+        tv_regist.setOnClickListener(this);
+        tv_visitor.setOnClickListener(this);
     }
 
     @Override
     protected void initViews() {
-        tv_left.setText("注册");
-        tv_title.setText("登录");
-        tv_right.setText("游客模式");
+
     }
 
     @Override
@@ -83,10 +78,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             case R.id.tv_forgetpsd:
                 startActivity(new Intent(this,ForgetActivity.class));
                 break;
-            case R.id.tv_left:
+            case R.id.tv_regist:
                 startActivity(new Intent(this,RegistActivity.class));
                 break;
-            case R.id.tv_right:
+            case R.id.tv_visitor:
                 startActivity(new Intent(this, HomeActviity.class));
                 break;
 

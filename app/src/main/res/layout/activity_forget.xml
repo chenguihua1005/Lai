@@ -19,7 +19,7 @@
             android:layout_height="50dp"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
-            android:background="@drawable/border"
+            android:background="@drawable/bg_regist_btn"
             android:inputType="phone"
             android:hint="@string/phoneNum"
             android:singleLine="true"
@@ -41,7 +41,7 @@
                 android:hint="验证码"
                 android:paddingLeft="5dp"
                 android:layout_marginRight="-50dp"
-                android:background="@drawable/border"
+                android:background="@drawable/bg_regist_btn"
                 />
             <TextView
                 android:id="@+id/tv_get_identify"
@@ -52,7 +52,7 @@
                 android:layout_gravity="fill"
                 android:gravity="center"
                 android:layout_marginLeft="50dp"
-                android:background="@drawable/border"
+                android:background="@drawable/bg_regist_btn"
                 android:text="获取验证码"/>
         </LinearLayout>
 
