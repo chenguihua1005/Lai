@@ -1,5 +1,6 @@
 package com.softtek.lai.module.login.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Html;
@@ -20,6 +21,7 @@ import com.mobsandgeeks.saripaar.annotation.Required;
 import com.mobsandgeeks.saripaar.annotation.TextRule;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.module.File.view.CreatFlleActivity;
 import com.softtek.lai.module.login.contants.Constants;
 import com.softtek.lai.module.login.presenter.IRegistPresenter;
 import com.softtek.lai.module.login.presenter.RegistPresenterImpl;
@@ -115,7 +117,8 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
                 registPresenter.getIdentify(phone, Constants.REGIST_IDENTIFY);
                 break;
             case R.id.btn_regist:
-                validateLife.validate();
+//                validateLife.validate();
+                startActivity(new Intent(this,CreatFlleActivity.class));
                 break;
 
         }
