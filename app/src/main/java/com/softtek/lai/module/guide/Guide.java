@@ -18,8 +18,6 @@ import zilla.libcore.ui.InjectLayout;
 @InjectLayout(R.layout.activity_guide)
 public class Guide extends BaseActivity {
 
-    @InjectView(R.id.textView2)
-    TextView tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +70,6 @@ public class Guide extends BaseActivity {
 
     @Override
     protected void initDatas() {
-        tv.setText("欢迎");
+
     }
 }
