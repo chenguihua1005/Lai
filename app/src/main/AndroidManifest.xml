@@ -43,6 +43,7 @@
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity android:name=".module.File.view.CreatFlleActivity"/>
         <activity android:name=".module.home.view.HomeActviity"/>
+        <activity android:name=".module.File.view.DimensionRecordActivity"></activity>
     </application>
 
 </manifest>
