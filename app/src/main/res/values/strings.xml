@@ -24,7 +24,7 @@
     <string name="title_activity_login">LoginActivity</string>
     <string name="phoneNum">手机号</string>
     <string name="password">密码</string>
-    <string name="forgetPsd"><u>忘记密码</u></string>
+    <string name="forgetPsd"><u>忘记密码?</u></string>
 
     <string name="phoneValidate">请输入11为手机号码</string>
     <string name="passwordValidate">请输入至少6位数密码</string>
@@ -42,5 +42,8 @@
     <string name="healthyRecord">健康表</string>
     <string name="mine">我的</string>
     <string name="aa">&lt;2016年6月6日&gt;</string>
+    <string name="visitor">游客模式&gt;</string>
+    <string name="login">登录</string>
+    <string name="regist">注册</string>
 
 </resources>
