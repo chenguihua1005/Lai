@@ -33,7 +33,6 @@ public interface  FileService {
 //            @Field("circum") double circum,
 //            @Field("waistline") double waistline,
 //            @Field("hiplie") double hiplie,
-//            @Field("armgirth") double armgirth,
 //            @Field("uparmgirth") double uparmgirth,
 //            @Field("upleggirth") double upleggirth,
 //            @Field("doleggirth") double doleggirth,

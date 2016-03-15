@@ -16,7 +16,6 @@ public class File implements Serializable{
      private double circum;      //胸围:可空
      private double waistline;   //(腰围:,可空)
      private double hiplie;      //臀围:可空
-     private double armgirth;    //臂围:可空)
      private double uparmgirth;//(上臂围:,可空)
      private double upleggirth;//(大腿围 :,可空)
      private double doleggirth;//(小腿围:,可空)
@@ -33,11 +32,10 @@ public class File implements Serializable{
         this.gender = gender;
 
     }
-    public File(double circum, double waistline, double hiplie, double armgirth, double uparmgirth, double upleggirth, double doleggirth) {
+    public File(double circum, double waistline, double hiplie,double uparmgirth, double upleggirth, double doleggirth) {
         this.circum = circum;
         this.waistline = waistline;
         this.hiplie = hiplie;
-        this.armgirth = armgirth;
         this.uparmgirth = uparmgirth;
         this.upleggirth = upleggirth;
         this.doleggirth = doleggirth;
@@ -94,10 +92,6 @@ public class File implements Serializable{
         return hiplie;
     }
 
-    public double getArmgirth() {
-        return armgirth;
-    }
-
     public double getUparmgirth() {
         return uparmgirth;
     }
@@ -120,10 +114,6 @@ public class File implements Serializable{
 
     public void setHiplie(double hiplie) {
         this.hiplie = hiplie;
-    }
-
-    public void setArmgirth(double armgirth) {
-        this.armgirth = armgirth;
     }
 
     public void setUparmgirth(double uparmgirth) {
@@ -149,7 +139,6 @@ public class File implements Serializable{
                 ", circum=" + circum +
                 ", waistline=" + waistline +
                 ", hiplie=" + hiplie +
-                ", armgirth=" + armgirth +
                 ", uparmgirth=" + uparmgirth +
                 ", upleggirth=" + upleggirth +
                 ", doleggirth=" + doleggirth +

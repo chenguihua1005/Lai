@@ -7,11 +7,13 @@ import android.app.TabActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,11 +65,13 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
     @InjectView(R.id.tv_weight)
     TextView tv_weight;
 
+    //按钮
     @InjectView(R.id.btn_Add_bodydimension)
     Button btn_Add_bodydimension;
 
     @InjectView(R.id.btn_finish)
     Button btn_finish;
+
 
     @InjectView(R.id.ll_nickname)
     LinearLayout ll_nickname;
@@ -98,12 +102,12 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+       // ll_nickname.setOnClickListener(this);
         ll_birth.setOnClickListener(this);
         ll_sex.setOnClickListener(this);
         ll_height.setOnClickListener(this);
+        ll_weight.setOnClickListener(this);
         btn_finish.setOnClickListener(this);
-        tv_height.setText("170");
-        tv_weight.setText("66");
         btn_Add_bodydimension.setOnClickListener(this);
         tv_left.setOnClickListener(this);
         tv_right.setOnClickListener(this);
@@ -118,8 +122,8 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
     protected void initDatas() {
         ICreateFilepresenter = new CreateFileImpl(this);
         file=new File();
-        //tv_left.setText("返回");
-        tv_left.setBackgroundResource(R.drawable.ale);
+        tv_left.setText("返回");
+      //  tv_left.setBackgroundResource(R.drawable.ale);
         tv_title.setText("我的档案");
         tv_right.setText("跳过");
     }
@@ -163,7 +167,10 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                 genderdialog.show();
                 break;
             case R.id.ll_height:
-
+                show_height_dialog();
+                break;
+            case R.id.ll_weight:
+                show_weight_dialog();
                 break;
             case R.id.tv_left:
                 startActivity(new Intent(CreatFlleActivity.this,RegistActivity.class));
@@ -174,6 +181,65 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
+    public void show_height_dialog()
+    {
+        final Dialog height_dialog = new Dialog(CreatFlleActivity.this);
+        height_dialog.setTitle("选择身高");
+        height_dialog.setContentView(R.layout.dialog);
+        Button b1 = (Button) height_dialog.findViewById(R.id.button1);
+        Button b2 = (Button) height_dialog.findViewById(R.id.button2);
+        final NumberPicker np = (NumberPicker) height_dialog.findViewById(R.id.numberPicker1);
+        np.setMaxValue(220);
+        np.setMinValue(50);
+        np.setWrapSelectorWheel(false);
+        b1.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                tv_height.setText(String.valueOf(np.getValue())); //set the value to textview
+                height_dialog.dismiss();
+            }
+        });
+        b2.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                height_dialog.dismiss(); // dismiss the dialog
+            }
+        });
+        height_dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
+        height_dialog.show();
+    }
+
+    public void show_weight_dialog()
+    {
+        final Dialog weight_dialog = new Dialog(CreatFlleActivity.this);
+        weight_dialog.setTitle("选择体重");
+        weight_dialog.setContentView(R.layout.dialog);
+        Button b1 = (Button) weight_dialog.findViewById(R.id.button1);
+        Button b2 = (Button) weight_dialog.findViewById(R.id.button2);
+        final NumberPicker np = (NumberPicker) weight_dialog.findViewById(R.id.numberPicker1);
+        np.setMaxValue(220);
+        np.setMinValue(20);
+        np.setWrapSelectorWheel(false);
+        b1.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                tv_weight.setText(String.valueOf(np.getValue())); //set the value to textview
+                weight_dialog.dismiss();
+            }
+        });
+        b2.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                weight_dialog.dismiss(); // dismiss the dialog
+            }
+        });
+        weight_dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
+        weight_dialog.show();
+    }
 
     @Override
     public void onValidationSucceeded() {
@@ -191,11 +257,12 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         file.setHeight(heig);
         file.setWeight(weigh);*/
 
-
         String token= SharedPreferenceService.getInstance().get("token","");
 //        String token="8024F670BB230B9C5B6190F7EDAC3C86";
-       // ICreateFilepresenter.createFile(token,nick,birthday,Integer.parseInt(height),Integer.parseInt(weight),gender.equals("男")?1:0);
+        ICreateFilepresenter.createFile(token,file);
+//        ICreateFilepresenter.createFile(token,nick,birthday,Integer.parseInt(height),Integer.parseInt(weight),gender.equals("男")?1:0);
 //        createFilepresenter.createFile("","",file);
+       // Toast.makeText(CreatFlleActivity.this,"创建档案成功",Toast.LENGTH_LONG).show();
     }
 
     @Override

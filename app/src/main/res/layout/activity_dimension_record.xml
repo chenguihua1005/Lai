@@ -10,11 +10,13 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+    <include layout="@layout/toolbar" />
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <include layout="@layout/toolbar" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -78,24 +80,6 @@
                 android:layout_height="wrap_content"
                 android:text=""
                 android:id="@+id/tv_hiplie" />
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/ll_armgirth"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:gravity="center_vertical"
-            android:background="@drawable/bg_edittext">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="臂围" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:id="@+id/tv_armgirth" />
         </LinearLayout>
         <LinearLayout
             android:id="@+id/ll_uparmgirth"
@@ -211,5 +195,8 @@
             android:textColor="#00f"
             android:id="@+id/textView9" />
     </LinearLayout>
-</LinearLayout>
+
+
+    </LinearLayout>
+
 </RelativeLayout>

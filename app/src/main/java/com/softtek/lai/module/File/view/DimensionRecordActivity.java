@@ -37,9 +37,6 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
     @InjectView(R.id.tv_hiplie)
     TextView tv_hiplie;
 
-    @InjectView(R.id.tv_armgirth)
-    TextView tv_armgirth;
-
     @InjectView(R.id.tv_uparmgirth)
     TextView tv_uparmgirth;
 
@@ -67,9 +64,6 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
     @InjectView(R.id.ll_hiplie)
     LinearLayout ll_hiplie;
 
-    @InjectView(R.id.ll_armgirth)
-    LinearLayout ll_armgirth;
-
     @InjectView(R.id.ll_uparmgirth)
     LinearLayout ll_uparmgirth;
 
@@ -95,7 +89,6 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
         ll_circum.setOnClickListener(this);
         ll_waistline.setOnClickListener(this);
         ll_hiplie.setOnClickListener(this);
-        ll_armgirth.setOnClickListener(this);
         ll_uparmgirth.setOnClickListener(this);
         ll_upleggirth.setOnClickListener(this);
         ll_doleggirth.setOnClickListener(this);
@@ -123,7 +116,6 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            //胸围
             case R.id.ll_circum:
                 rv.setCallback(new RulerView.RulerCallback() {
                     @Override
@@ -148,15 +140,6 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
                     public void resultNum(int num) {
                         tv_size.setText(num+"cm");
                         tv_hiplie.setText(num+"");
-                    }
-                });
-                break;
-            case R.id.ll_armgirth:
-                rv.setCallback(new RulerView.RulerCallback() {
-                    @Override
-                    public void resultNum(int num) {
-                        tv_size.setText(num+"cm");
-                        tv_armgirth.setText(num+"");
                     }
                 });
                 break;
@@ -201,14 +184,12 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
                 double circum=Double.parseDouble(tv_circum.getText().toString().equals("")?"0":(tv_circum.getText().toString()));
                 double waistline=Double.parseDouble(tv_waistline.getText().toString().equals("")?"0":tv_waistline.getText().toString());
                 double hiplie=Double.parseDouble(tv_hiplie.getText().toString().equals("")?"0":tv_hiplie.getText().toString());
-                double armgirth=Double.parseDouble(tv_armgirth.getText().toString().equals("")?"0":tv_armgirth.getText().toString());
                 double uparmgirth=Double.parseDouble(tv_uparmgirth.getText().toString().equals("")?"0":tv_uparmgirth.getText().toString());
                 double tupleggirth=Double.parseDouble(tv_upleggirth.getText().toString().equals("")?"0":tv_upleggirth.getText().toString());
                 double doleggirth=Double.parseDouble(tv_doleggirth.getText().toString().equals("")?"0":tv_doleggirth.getText().toString());
                 file.setCircum(circum);
                 file.setWaistline(waistline);
                 file.setHiplie(hiplie);
-                file.setArmgirth(armgirth);
                 file.setUparmgirth(uparmgirth);
                 file.setUpleggirth(tupleggirth);
                 file.setDoleggirth(doleggirth);
