@@ -2,6 +2,7 @@ package com.softtek.lai.module.home.view;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -11,12 +12,14 @@ import com.ggx.jerryguan.widget_lib.SimpleButton;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.module.home.adapter.MainPageAdapter;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_home_actviity)
-public class HomeActviity extends BaseActivity implements View.OnClickListener{
+public class HomeActviity extends BaseActivity implements View.OnClickListener,BaseFragment.OnFragmentInteractionListener{
 
     @InjectView(R.id.content)
     ViewPager content;
@@ -171,5 +174,10 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener{
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }
