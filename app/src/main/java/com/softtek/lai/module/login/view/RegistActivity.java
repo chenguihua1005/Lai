@@ -47,7 +47,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
     EditText et_phone;
 
     @Password(order = 2)
-    @TextRule(order = 3,minLength = 6,messageResId = R.string.passwordValidate)
+    @TextRule(order = 3,minLength = 6,maxLength = 16,messageResId = R.string.passwordValidate)
     @InjectView(R.id.et_password)
     EditText et_password;
 
