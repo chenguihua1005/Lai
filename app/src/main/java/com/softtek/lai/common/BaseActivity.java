@@ -102,6 +102,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             mToolbar = (Toolbar) view;
             mToolbar.setTitle("");
             mToolbar.setSubtitle("");
+            mToolbar.setLogo(null);
             //getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             setSupportActionBar(mToolbar);
 

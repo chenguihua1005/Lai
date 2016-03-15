@@ -4,4 +4,5 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="sc_transparent_background">#ffffffff</color>
+    <color name="mytoolbar_green">#9CCC65</color>
 </resources>

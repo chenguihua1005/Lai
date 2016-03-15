@@ -3,9 +3,12 @@ package com.softtek.lai.module.guide;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.text.Layout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
@@ -15,15 +18,14 @@ import com.softtek.lai.module.login.view.LoginActivity;
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
-@InjectLayout(R.layout.activity_guide)
-public class Guide extends BaseActivity {
-
+public class Guide extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+
         super.onCreate(savedInstanceState);
-        //getSupportActionBar().hide();
+        setContentView(getLayoutInflater().inflate(R.layout.activity_guide,null,false));
         new android.os.Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -63,13 +65,5 @@ public class Guide extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void initViews() {
-        
-    }
 
-    @Override
-    protected void initDatas() {
-
-    }
 }
