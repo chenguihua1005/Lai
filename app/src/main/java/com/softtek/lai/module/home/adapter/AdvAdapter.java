@@ -1,9 +1,14 @@
 package com.softtek.lai.module.home.adapter;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.softtek.lai.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,21 +18,24 @@ import java.util.List;
  */
 public class AdvAdapter extends BaseAdapter{
 
-    private List datas=new ArrayList();
+    //private List<Integer> datas=new ArrayList();
+    private static final int[] ids = {R.drawable.froyo,
+            R.drawable.gingerbread, R.drawable.honeycomb, R.drawable.icecream };
     private Context context;
 
     public AdvAdapter(Context context){
         this.context=context;
+
     }
 
     @Override
     public int getCount() {
-        return 3;
+        return ids.length;
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return ids[position];
     }
 
     @Override
@@ -37,10 +45,24 @@ public class AdvAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        return null;
+        ViewHolder holder;
+        if(convertView==null){
+            convertView=LayoutInflater.from(context).inflate(R.layout.image_item,parent,false);
+            holder=new ViewHolder(convertView);
+            convertView.setTag(holder);
+        }else{
+            holder= (ViewHolder) convertView.getTag();
+        }
+        holder.imgView.setBackgroundResource(ids[position]);
+        return convertView;
     }
 
     static class ViewHolder{
 
+        public ImageView imgView;
+
+        public ViewHolder(View view){
+            imgView= (ImageView) view.findViewById(R.id.imgView);
+        }
     }
 }
