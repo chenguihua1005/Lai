@@ -44,8 +44,12 @@
         <activity android:name=".module.home.view.HomeActviity"
             android:launchMode="singleInstance"/>
         <activity android:name=".module.File.view.DimensionRecordActivity" />
-        <activity android:name=".module.retest.Write"></activity>
+
+        <activity android:name=".module.retest.Write" />
+        <activity android:name=".module.retest.Audit" />
+        <activity android:name=".module.retest.Retest"></activity>
         <activity android:name=".module.login.view.TermActivity"/>
+
     </application>
 
 </manifest>
