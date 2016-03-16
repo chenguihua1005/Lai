@@ -104,6 +104,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:paddingLeft="40dp"
+                            android:inputType="number"
                             android:singleLine="true"
                             android:hint="验证码"/>
                     </FrameLayout>
@@ -155,7 +156,7 @@
                     android:textSize="14sp"
                     android:gravity="center"
                     android:layout_marginTop="20dp"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/textview"
                     android:text="@string/protocol"/>
             </LinearLayout>
         </RelativeLayout>

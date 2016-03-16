@@ -14,6 +14,7 @@ import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.ConfirmPassword;
 import com.mobsandgeeks.saripaar.annotation.Password;
+import com.mobsandgeeks.saripaar.annotation.Required;
 import com.mobsandgeeks.saripaar.annotation.TextRule;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
@@ -33,12 +34,14 @@ public class ForgetActivity2 extends BaseActivity implements View.OnClickListene
     @LifeCircleInject
     ValidateLife validateLife;
 
-    @Password(order = 1)
-    @TextRule(order = 2,minLength = 6,maxLength = 16,messageResId = R.string.passwordValidate)
+    @Required(order = 1,messageResId = R.string.newPasswordNull)
+    @Password(order = 2)
+    @TextRule(order = 3,minLength = 6,maxLength = 16,messageResId = R.string.passwordValidate)
     @InjectView(R.id.et_password)
     EditText et_password;
 
-    @ConfirmPassword(order = 3,messageResId = R.string.confirmPassword)
+    @Required(order = 4,messageResId = R.string.resetpasswordNull)
+    @ConfirmPassword(order = 5,messageResId = R.string.confirmPassword)
     @InjectView(R.id.et_repassword)
     EditText et_repassword;
 
@@ -53,6 +56,7 @@ public class ForgetActivity2 extends BaseActivity implements View.OnClickListene
 
     private IPasswordPresenter passwordPresenter;
     private String phone="";
+    private String identify="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +76,8 @@ public class ForgetActivity2 extends BaseActivity implements View.OnClickListene
     protected void initDatas() {
         passwordPresenter=new PasswordPresnter(this);
         phone=getIntent().getStringExtra("phone");
+        identify=getIntent().getStringExtra("identify");
+        Log.i("phone:"+phone+";identify:"+identify);
     }
 
     @Override
@@ -95,8 +101,7 @@ public class ForgetActivity2 extends BaseActivity implements View.OnClickListene
     @Override
     public void onValidationSucceeded() {
         String psd=et_password.getText().toString();
-        Log.i("手机号码>>>>"+phone);
-        passwordPresenter.resetPassword(phone,psd);
+        passwordPresenter.resetPassword(phone,psd,identify);
     }
 
     @Override

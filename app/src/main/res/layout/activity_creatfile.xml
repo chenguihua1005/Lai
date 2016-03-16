@@ -31,6 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
+            android:singleLine="true"
             android:hint="必填项"
             android:textSize="18dp"
             android:textColor="#808080"
@@ -60,14 +61,18 @@
             android:textSize="20dp"
             android:textColor="#000"
             android:text="生日" />
-        <TextView
-            android:id="@+id/tv_birth"
+        <EditText
+            android:id="@+id/et_birth"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="18dp"
+            android:singleLine="true"
             android:textColor="#808080"
             android:layout_marginLeft="40dp"
-            android:hint="必填项"/>
+            android:hint="必填项"
+            android:background="@null"
+            android:focusable="true"
+        />
     </LinearLayout>
     <View
         android:layout_height="1dp"
@@ -95,6 +100,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="18dp"
+            android:text=""
+            android:singleLine="true"
             android:textColor="#808080"
             android:layout_marginLeft="40dp"
             android:hint="必填项"/>
@@ -126,6 +133,7 @@
             android:layout_height="wrap_content"
             android:textSize="18dp"
             android:textColor="#808080"
+            android:singleLine="true"
             android:layout_marginLeft="40dp"
             android:hint="必填项"/>
     </LinearLayout>
@@ -156,6 +164,7 @@
             android:layout_height="wrap_content"
             android:textSize="18dp"
             android:textColor="#808080"
+            android:singleLine="true"
             android:layout_marginLeft="40dp"
             android:hint="必填项"/>
     </LinearLayout>

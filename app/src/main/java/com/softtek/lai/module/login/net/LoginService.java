@@ -40,13 +40,15 @@ public interface LoginService {
     void doRegist(
                   @Field("user") String userName,
                   @Field("psd") String password,
-                  Callback<ResponseData<Regist>> callback);
+                  @Field("identify")String identify,
+                  Callback<ResponseData<User>> callback);
 
     @FormUrlEncoded
     @POST("/HerbUser/ResetPassWord")
     void doResetPassword(
                          @Field("phone")String phone,
                          @Field("newpsd")String newPassword,
+                         @Field("identify")String identify,
                          Callback<ResponseData> callback);
 
 

@@ -12,14 +12,12 @@ public class User implements Serializable{
 
     private String token;
 
-    private String userName;
-
-    private String nick;
-    private String age;
-    private String sex;
+    private String userid;
+    private String userrole;
+    private String nickname;
+    private String gender;
     private String weight;
     private String height;
-    private String phone;
 
 
     public String getToken() {
@@ -30,36 +28,36 @@ public class User implements Serializable{
         this.token = token;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUserid() {
+        return userid;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUserid(String userid) {
+        this.userid = userid;
     }
 
-    public String getNick() {
-        return nick;
+    public String getUserrole() {
+        return userrole;
     }
 
-    public void setNick(String nick) {
-        this.nick = nick;
+    public void setUserrole(String userrole) {
+        this.userrole = userrole;
     }
 
-    public String getAge() {
-        return age;
+    public String getNickname() {
+        return nickname;
     }
 
-    public void setAge(String age) {
-        this.age = age;
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
-    public String getSex() {
-        return sex;
+    public String getGender() {
+        return gender;
     }
 
-    public void setSex(String sex) {
-        this.sex = sex;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public String getWeight() {
@@ -78,25 +76,16 @@ public class User implements Serializable{
         this.height = height;
     }
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
     @Override
     public String toString() {
         return "User{" +
                 "token='" + token + '\'' +
-                ", userName='" + userName + '\'' +
-                ", nick='" + nick + '\'' +
-                ", age='" + age + '\'' +
-                ", sex='" + sex + '\'' +
+                ", userid='" + userid + '\'' +
+                ", userrole='" + userrole + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", gender='" + gender + '\'' +
                 ", weight='" + weight + '\'' +
                 ", height='" + height + '\'' +
-                ", phone='" + phone + '\'' +
                 '}';
     }
 }

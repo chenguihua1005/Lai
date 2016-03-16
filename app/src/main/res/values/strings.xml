@@ -26,14 +26,19 @@
     <string name="password">密码</string>
     <string name="forgetPsd"><u>忘记密码?</u></string>
 
-    <string name="phoneValidate">请输入11为手机号码</string>
+    <string name="neterror">服务器异常</string>
+    <string name="newPasswordNull">请输入新密码</string>
+    <string name="resetpasswordNull">请输入确认密码</string>
+    <string name="phoneValidateNull">请输入手机号码</string>
+    <string name="passwordValidateNull">请输入密码</string>
+    <string name="phoneValidate">请输入正确的手机号码</string>
     <string name="passwordValidate">请输入至少6位数密码</string>
     <string name="termValidate">必须遵循该条款</string>
-    <string name="identiftValidtae">请填写验证信息</string>
+    <string name="identiftValidtae">请输入验证码</string>
     <string name="phonePattern">[0-9]{11}</string>
-    <string name="identifyValidateMsg">验证码填写错误</string>
+    <string name="identifyValidateMsg">验证码错误</string>
     <string name="identifyAsNull">请获取验证码</string>
-    <string name="confirmPassword">密码不匹配</string>
+    <string name="confirmPassword">两次密码不一致</string>
     <string name="psdResetY">重置成功</string>
     <string name="psdResetN">重置失败</string>
     <string name="home">主页</string>
@@ -53,4 +58,6 @@
     <string name="inputNewPassword">输入新密码</string>
     <string name="reNewPassword">重新输入新密码</string>
 
+    <!--用户使用协议和隐私-->
+    <string name="term"></string>
 </resources>

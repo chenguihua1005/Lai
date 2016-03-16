@@ -50,6 +50,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingLeft="40dp"
+                    android:inputType="phone"
                     android:singleLine="true"
                     android:textColor="#333333"
                     android:hint="@string/phoneNum"/>
@@ -102,9 +103,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/forgetPsd"
+                android:textColor="@color/textview"
                 android:layout_marginTop="20dp"
                 android:textSize="18sp"/>
             <LinearLayout
+                android:id="@+id/ll_visitor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
@@ -117,7 +120,7 @@
                     android:text="@string/visitor"
                     android:layout_gravity="center|right"
                     android:textSize="20sp"
-                    android:textColor="#89C341"/>
+                    android:textColor="@color/textview_green"/>
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="20dp"
