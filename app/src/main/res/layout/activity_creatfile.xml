@@ -16,9 +16,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_launcher"/>
+            android:src="@drawable/nick"
+            android:layout_marginRight="15dp"/>
         <TextView
             android:gravity="center_vertical"
             android:layout_width="wrap_content"
@@ -28,10 +29,13 @@
             android:text="昵称"/>
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:hint="必填项"
-            android:layout_marginLeft="15dp"
+            android:textSize="18dp"
+            android:textColor="#808080"
+            android:background="@null"
+            android:layout_marginLeft="40dp"
             android:id="@+id/et_nickname" />
 
     </LinearLayout>
@@ -42,11 +46,13 @@
     <LinearLayout
         android:id="@+id/ll_birth"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="50dp"
+        android:gravity="center_vertical">
         <ImageView
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_launcher"/>
+            android:src="@drawable/birthday_h"
+            android:layout_marginRight="15dp"/>
         <TextView
             android:gravity="center_vertical"
             android:layout_width="wrap_content"
@@ -58,7 +64,9 @@
             android:id="@+id/tv_birth"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
+            android:textSize="18dp"
+            android:textColor="#808080"
+            android:layout_marginLeft="40dp"
             android:hint="必填项"/>
     </LinearLayout>
     <View
@@ -68,11 +76,13 @@
     <LinearLayout
         android:id="@+id/ll_sex"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
         <ImageView
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_launcher"/>
+            android:src="@drawable/male_back"
+            android:layout_marginRight="15dp"/>
         <TextView
             android:gravity="center_vertical"
             android:layout_width="wrap_content"
@@ -84,7 +94,9 @@
             android:id="@+id/tv_sex"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
+            android:textSize="18dp"
+            android:textColor="#808080"
+            android:layout_marginLeft="40dp"
             android:hint="必填项"/>
     </LinearLayout>
     <View
@@ -94,11 +106,13 @@
     <LinearLayout
         android:id="@+id/ll_height"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
         <ImageView
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_launcher"/>
+            android:src="@drawable/height_h"
+            android:layout_marginRight="15dp"/>
         <TextView
             android:gravity="center_vertical"
             android:layout_width="wrap_content"
@@ -110,7 +124,9 @@
             android:id="@+id/tv_height"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
+            android:textSize="18dp"
+            android:textColor="#808080"
+            android:layout_marginLeft="40dp"
             android:hint="必填项"/>
     </LinearLayout>
     <View
@@ -120,11 +136,13 @@
     <LinearLayout
         android:id="@+id/ll_weight"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
         <ImageView
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_launcher"/>
+            android:src="@drawable/weight_h"
+            android:layout_marginRight="15dp"/>
         <TextView
             android:gravity="center_vertical"
             android:layout_width="wrap_content"
@@ -136,30 +154,28 @@
             android:id="@+id/tv_weight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
+            android:textSize="18dp"
+            android:textColor="#808080"
+            android:layout_marginLeft="40dp"
             android:hint="必填项"/>
     </LinearLayout>
         <View
             android:layout_height="1dp"
             android:layout_width="match_parent"
-            android:background="#78BC27"/>
+            android:background="#78BC27"
+            android:layout_marginBottom="30dp"/>
         <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="添加身体维度"
-            android:textSize="20sp"
-            android:background="@drawable/bg_login_btn"
-            android:textColor="#FFFFFD"
             android:id="@+id/btn_Add_bodydimension"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="40dp"/>
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/addbodydimensionrecord_background_h"
+            android:textColor="#FFFFFD"
+            android:layout_marginBottom="60dp"/>
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="完成"
-            android:background="@drawable/bg_login_btn"
+            android:layout_height="50dp"
+            android:background="@drawable/finish_btn_backgroung_h"
             android:textColor="#FFFFFD"
             android:id="@+id/btn_finish" />
 

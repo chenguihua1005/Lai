@@ -41,7 +41,13 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
     private String SexData[] = { "男", "女" };//性别数据
     private int gender=0;
     private ICreateFilepresenter ICreateFilepresenter;
-
+    //敏感词
+    private String SensitiveWord[]={"康宝来","康葆来","康葆莱","康寳来","康寳莱","Herbalife","贺宝芙","賀寶芙",
+            "力腾","LIFTOFF","普莱乐","PROLESSA","奈沃科","NITEWORKS","燃脂美","THERMOJETICS","美纤宝","THERMO-BOND","科迪赛","维迪片","夜新宁","维康宝","CR7","代乐",
+            "莱聚","萊聚","莱秤","萊秤","莱表格","萊表格",
+            "天使听见爱","Let angels hear love","服务提供商","SP","小康莱了","营养俱乐部",
+            "马克休斯","小康康","C罗","克里斯蒂亚诺*罗纳尔多","罗纳尔多","吉米*罗恩","伊格纳罗","沙欣贤",
+            "100%","专家"};
     @LifeCircleInject
     ValidateLife validateLife;
 
@@ -122,8 +128,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
     protected void initDatas() {
         ICreateFilepresenter = new CreateFileImpl(this);
         file=new File();
-        tv_left.setText("返回");
-      //  tv_left.setBackgroundResource(R.drawable.ale);
+        tv_left.setBackgroundResource(R.drawable.back_h);
         tv_title.setText("我的档案");
         tv_right.setText("跳过");
     }

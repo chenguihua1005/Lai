@@ -24,12 +24,6 @@ public interface  FileService {
 //                @Field("height") Integer height,
 //                @Field("weight") Integer weight,
 //                @Field("gender") Integer gender,
-//                Callback<ResponseData<File>> callback);
-//
-//    @FormUrlEncoded
-//    @POST("/HerbUser/CreatFile")
-//    void addDimensionRecord(
-//            @Header("token") String token,
 //            @Field("circum") double circum,
 //            @Field("waistline") double waistline,
 //            @Field("hiplie") double hiplie,
