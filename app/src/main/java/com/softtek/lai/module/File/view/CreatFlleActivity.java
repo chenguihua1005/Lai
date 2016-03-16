@@ -7,7 +7,10 @@ import android.app.TabActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.InputType;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -22,8 +25,10 @@ import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
+import com.softtek.lai.ZillaApplication;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.File.model.File;
+import com.softtek.lai.module.File.model.Filter;
 import com.softtek.lai.module.File.presenter.CreateFileImpl;
 import com.softtek.lai.module.File.presenter.ICreateFilepresenter;
 import com.softtek.lai.module.home.view.HomeActviity;
@@ -34,20 +39,14 @@ import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_creatfile)
-public class CreatFlleActivity extends BaseActivity implements View.OnClickListener,Validator.ValidationListener{
+public class CreatFlleActivity extends BaseActivity implements View.OnClickListener,Validator.ValidationListener, View.OnTouchListener {
 
-    private String SexData[] = { "男", "女" };//性别数据
+    private String SexData[] = { "男","女" };//性别数据
     private int gender=0;
     private ICreateFilepresenter ICreateFilepresenter;
-    //敏感词
-    private String SensitiveWord[]={"康宝来","康葆来","康葆莱","康寳来","康寳莱","Herbalife","贺宝芙","賀寶芙",
-            "力腾","LIFTOFF","普莱乐","PROLESSA","奈沃科","NITEWORKS","燃脂美","THERMOJETICS","美纤宝","THERMO-BOND","科迪赛","维迪片","夜新宁","维康宝","CR7","代乐",
-            "莱聚","萊聚","莱秤","萊秤","莱表格","萊表格",
-            "天使听见爱","Let angels hear love","服务提供商","SP","小康莱了","营养俱乐部",
-            "马克休斯","小康康","C罗","克里斯蒂亚诺*罗纳尔多","罗纳尔多","吉米*罗恩","伊格纳罗","沙欣贤",
-            "100%","专家"};
     @LifeCircleInject
     ValidateLife validateLife;
 
@@ -56,8 +55,8 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
     EditText et_nickname;
 
     @Required(order = 2,message = "生日必填项")
-    @InjectView(R.id.tv_birth)
-    TextView tv_birth;
+    @InjectView(R.id.et_birth)
+    EditText et_birth;
 
     @Required(order = 3,message = "性别必填项")
     @InjectView(R.id.tv_sex)
@@ -93,6 +92,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
 
     @InjectView(R.id.ll_weight)
     LinearLayout ll_weight;
+
     @InjectView(R.id.tv_left)
     TextView tv_left;
 
@@ -109,7 +109,11 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
        // ll_nickname.setOnClickListener(this);
-        ll_birth.setOnClickListener(this);
+
+      //  ll_birth.setOnClickListener(this);
+       // et_birth.setOnClickListener(this);
+et_birth.setOnTouchListener(this);
+
         ll_sex.setOnClickListener(this);
         ll_height.setOnClickListener(this);
         ll_weight.setOnClickListener(this);
@@ -129,6 +133,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         ICreateFilepresenter = new CreateFileImpl(this);
         file=new File();
         tv_left.setBackgroundResource(R.drawable.back_h);
+       // tv_left.setLayoutParams();
         tv_title.setText("我的档案");
         tv_right.setText("跳过");
     }
@@ -137,7 +142,12 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_finish:
-                validateLife.validate();
+                String nick=et_nickname.getText().toString();
+                if(ZillaApplication.getInstance().getFilterList().contains(new Filter(nick))){
+                    Util.toastMsg("名字已经存在");
+                }else{
+                    validateLife.validate();
+                }
                 break;
             case R.id.btn_Add_bodydimension:
                 Intent intent=new Intent(this,DimensionRecordActivity.class);
@@ -149,12 +159,25 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                         CreatFlleActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        tv_birth.setText(year+"-"+(monthOfYear+1)+"-"+dayOfMonth);
+                        et_birth.setText(year+"-"+(monthOfYear+1)+"-"+dayOfMonth);
                     }
                 },2014,8,17);
                 dialog.setTitle("");
                 dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
                 dialog.show();
+                break;
+
+            case R.id.et_birth:
+                DatePickerDialog dialog1=new DatePickerDialog(
+                        CreatFlleActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        et_birth.setText(year+"-"+(monthOfYear+1)+"-"+dayOfMonth);
+                    }
+                },2014,8,17);
+                dialog1.setTitle("");
+                dialog1.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
+                dialog1.show();
                 break;
             case R.id.ll_sex:
                 Dialog genderdialog=new AlertDialog.Builder(CreatFlleActivity.this)
@@ -163,12 +186,15 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                                 new DialogInterface.OnClickListener(){
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
+                                        if (tv_sex.getText().toString()==null){
+                                            tv_sex.setText(SexData[0]);
+                                        }
                                         tv_sex.setText(SexData[which]);
                                     }
-                                }).setIcon(R.mipmap.ic_launcher)
+                                })
                         .setNegativeButton("取消",null)
                         .setPositiveButton("确认",null).create();
-                genderdialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
+                genderdialog.setCanceledOnTouchOutside(false);  // 设置点击屏幕Dialog不消失
                 genderdialog.show();
                 break;
             case R.id.ll_height:
@@ -201,7 +227,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         {
             @Override
             public void onClick(View v) {
-                tv_height.setText(String.valueOf(np.getValue())); //set the value to textview
+                tv_height.setText(String.valueOf(np.getValue())+"cm"); //set the value to textview
                 height_dialog.dismiss();
             }
         });
@@ -231,7 +257,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         {
             @Override
             public void onClick(View v) {
-                tv_weight.setText(String.valueOf(np.getValue())); //set the value to textview
+                tv_weight.setText(String.valueOf(np.getValue())+"kg"); //set the value to textview
                 weight_dialog.dismiss();
             }
         });
@@ -249,7 +275,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void onValidationSucceeded() {
         String nick=et_nickname.getText().toString();
-        String birthday=tv_birth.getText().toString();
+        String birthday=et_birth.getText().toString();
         String gender=tv_sex.getText().toString();
         String height=tv_height.getText().toString();
         String weight=tv_weight.getText().toString();
@@ -266,8 +292,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
 //        String token="8024F670BB230B9C5B6190F7EDAC3C86";
         ICreateFilepresenter.createFile(token,file);
 //        ICreateFilepresenter.createFile(token,nick,birthday,Integer.parseInt(height),Integer.parseInt(weight),gender.equals("男")?1:0);
-//        createFilepresenter.createFile("","",file);
-       // Toast.makeText(CreatFlleActivity.this,"创建档案成功",Toast.LENGTH_LONG).show();
+        Toast.makeText(CreatFlleActivity.this,"创建档案成功",Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -275,6 +300,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         validateLife.onValidationFailed(failedView,failedRule);
     }
 
+    //身体围度值传递
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -282,5 +308,24 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                 file= (File) data.getSerializableExtra("file");
                 Log.i(file.toString());
         }
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+    switch (v.getId()){
+        case R.id.et_birth:
+            DatePickerDialog dialog1=new DatePickerDialog(
+                    CreatFlleActivity.this, new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                    et_birth.setText(year+"-"+(monthOfYear+1)+"-"+dayOfMonth);
+                }
+            },2014,8,17);
+            dialog1.setTitle("");
+            dialog1.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
+            dialog1.show();
+            break;
+    }
+        return false;
     }
 }

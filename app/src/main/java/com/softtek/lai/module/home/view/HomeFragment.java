@@ -1,5 +1,6 @@
 package com.softtek.lai.module.home.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -20,6 +21,7 @@ import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.home.adapter.AdvAdapter;
+import com.softtek.lai.module.retest.Write;
 import com.softtek.lai.widgets.CustomGridView;
 
 import java.util.ArrayList;
@@ -47,10 +49,19 @@ public class HomeFragment extends BaseFragment implements View.OnTouchListener{
     @InjectView(R.id.gv_model)
     CustomGridView gv_model;
 
+   @InjectView(R.id.button)
+   Button button;
+
 
     @Override
     protected void initViews() {
-
+button.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        Intent intent=new Intent(getActivity(), Write.class);
+        startActivity(intent);
+    }
+});
     }
 
     @Override
