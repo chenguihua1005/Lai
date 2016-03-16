@@ -23,7 +23,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".module.login.view.LoginActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity android:name=".module.guide.Guide">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,13 +33,13 @@
         </activity>
         <activity
             android:name=".module.login.view.RegistActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".module.login.view.ForgetActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
             android:name=".module.login.view.ForgetActivity2"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity android:name=".module.File.view.CreatFlleActivity" />
         <activity android:name=".module.home.view.HomeActviity" />
         <activity android:name=".module.File.view.DimensionRecordActivity" />

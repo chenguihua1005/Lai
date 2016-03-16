@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".module.login.view.LoginActivity">
 
     <LinearLayout
@@ -21,16 +22,8 @@
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_centerInParent="true"
-                android:scaleType="center"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Nutrition for a better life."
-                android:layout_alignParentBottom="true"
-                android:layout_centerInParent="true"
-                android:textSize="20sp"
-                android:textColor="#92CD5D"
-                android:typeface="monospace"/>
+                android:scaleType="fitCenter"
+                android:src="@drawable/logo"/>
 
         </RelativeLayout>
 
@@ -50,13 +43,15 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:scaleType="center"
-                    android:layout_gravity="left|center"/>
+                    android:layout_gravity="left|center"
+                    android:src="@drawable/phone"/>
                 <EditText
                     android:id="@+id/et_phone"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingLeft="40dp"
                     android:singleLine="true"
+                    android:textColor="#333333"
                     android:hint="@string/phoneNum"/>
             </FrameLayout>
 
@@ -67,14 +62,17 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:scaleType="center"
-                    android:layout_gravity="left|center"/>
+                    android:layout_gravity="left|center"
+                    android:src="@drawable/password"/>
                 <EditText
                     android:id="@+id/et_password"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingLeft="40dp"
                     android:singleLine="true"
-                    android:hint="@string/password"/>
+                    android:hint="@string/password"
+                    android:textColor="#333333"
+                    android:inputType="textPassword"/>
             </FrameLayout>
 
             <TextView
@@ -106,16 +104,28 @@
                 android:text="@string/forgetPsd"
                 android:layout_marginTop="20dp"
                 android:textSize="18sp"/>
-
-            <TextView
-                android:id="@+id/tv_visitor"
-                android:layout_marginTop="30dp"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|right"
-                android:text="@string/visitor"
-                android:textSize="18sp"
-                android:textColor="#89C341"/>
+                android:layout_marginTop="25dp"
+                android:orientation="horizontal"
+                android:layout_gravity="right">
+                <TextView
+                    android:id="@+id/tv_visitor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/visitor"
+                    android:layout_gravity="center|right"
+                    android:textSize="20sp"
+                    android:textColor="#89C341"/>
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="20dp"
+                    android:scaleType="fitCenter"
+                    android:layout_gravity="center|right"
+                    android:src="@drawable/arrow_copy"/>
+            </LinearLayout>
+
 
         </LinearLayout>
 

@@ -3,7 +3,9 @@ package com.softtek.lai.module.login.view;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -17,6 +19,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.login.presenter.IPasswordPresenter;
 import com.softtek.lai.module.login.presenter.PasswordPresnter;
+import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.SoftInputUtil;
 
 import butterknife.InjectView;
@@ -31,7 +34,7 @@ public class ForgetActivity2 extends BaseActivity implements View.OnClickListene
     ValidateLife validateLife;
 
     @Password(order = 1)
-    @TextRule(order = 2,minLength = 6,messageResId = R.string.passwordValidate)
+    @TextRule(order = 2,minLength = 6,maxLength = 16,messageResId = R.string.passwordValidate)
     @InjectView(R.id.et_password)
     EditText et_password;
 
@@ -45,8 +48,8 @@ public class ForgetActivity2 extends BaseActivity implements View.OnClickListene
     @InjectView(R.id.tv_title)
     TextView tv_title;
 
-    @InjectView(R.id.tv_right)
-    TextView tv_right;
+    @InjectView(R.id.btn_submit)
+    Button btn_submit;
 
     private IPasswordPresenter passwordPresenter;
     private String phone="";
@@ -55,14 +58,14 @@ public class ForgetActivity2 extends BaseActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         tv_left.setOnClickListener(this);
-        tv_right.setOnClickListener(this);
+        btn_submit.setOnClickListener(this);
     }
 
     @Override
     protected void initViews() {
-        tv_left.setText("返回");
-        tv_right.setText("提交");
-        tv_title.setText("输入密码");
+        tv_left.setBackgroundResource(R.drawable.back);
+        tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
+        tv_title.setText("输入新密码");
     }
 
     @Override
@@ -78,7 +81,7 @@ public class ForgetActivity2 extends BaseActivity implements View.OnClickListene
             case R.id.tv_left:
                 finish();
                 break;
-            case R.id.tv_right:
+            case R.id.btn_submit:
                 validateLife.validate();
                 break;
         }

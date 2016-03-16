@@ -42,7 +42,7 @@
     <string name="healthyRecord">健康表</string>
     <string name="mine">我的</string>
     <string name="aa">&lt;2016年6月6日&gt;</string>
-    <string name="visitor">游客模式&gt;</string>
+    <string name="visitor">游客模式</string>
     <string name="login">登录</string>
     <string name="regist">注册</string>
     <string name="repassword">重复密码</string>
@@ -50,5 +50,7 @@
     <string name="next">下一步</string>
     <string name="sendIdentify">发送验证码</string>
     <string name="readeAndAgress">我已阅读并同意遵守</string>
+    <string name="inputNewPassword">输入新密码</string>
+    <string name="reNewPassword">重新输入新密码</string>
 
 </resources>

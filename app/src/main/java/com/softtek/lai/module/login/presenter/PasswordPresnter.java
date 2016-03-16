@@ -7,6 +7,7 @@ import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.login.net.LoginService;
+import com.softtek.lai.module.login.view.ForgetActivity2;
 import com.softtek.lai.module.login.view.LoginActivity;
 
 import retrofit.Callback;
@@ -36,6 +37,7 @@ public class PasswordPresnter implements IPasswordPresenter{
             public void success(ResponseData responseData, Response response) {
                 Log.i("重置成功");
                 Util.toastMsg(R.string.psdResetY);
+
                 context.startActivity(new Intent(context, LoginActivity.class));
             }
 
@@ -46,5 +48,23 @@ public class PasswordPresnter implements IPasswordPresenter{
             }
         });
 
+    }
+
+    @Override
+    public void checkIdentify(final String phone, String identify) {
+        service.checkIdentify(phone, identify, new Callback<ResponseData>() {
+            @Override
+            public void success(ResponseData responseData, Response response) {
+                Log.i("校验成功>>>"+responseData.toString());
+                Intent intent=new Intent(context, ForgetActivity2.class);
+                intent.putExtra("phone",phone);
+                context.startActivity(new Intent(context, ForgetActivity2.class));
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.i("校验失败");
+            }
+        });
     }
 }
