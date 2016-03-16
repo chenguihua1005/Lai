@@ -43,7 +43,9 @@
         <activity android:name=".module.File.view.CreatFlleActivity" />
         <activity android:name=".module.home.view.HomeActviity" />
         <activity android:name=".module.File.view.DimensionRecordActivity" />
-        <activity android:name=".module.retest.Write"></activity>
+        <activity android:name=".module.retest.Write" />
+        <activity android:name=".module.retest.Audit" />
+        <activity android:name=".module.retest.Retest"></activity>
     </application>
 
 </manifest>
