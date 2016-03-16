@@ -1,10 +1,13 @@
 package com.softtek.lai.module.File.view;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -106,12 +109,30 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
         tv_title.setText("添加记录");
         tv_right.setText("保存");
     }
-
+    public void show_height_dialog() {
+        final Dialog height_dialog = new Dialog(this);
+        height_dialog.setTitle("选择腰围");
+        height_dialog.setContentView(R.layout.dialog);
+        Button b1 = (Button) height_dialog.findViewById(R.id.button1);
+        Button b2 = (Button) height_dialog.findViewById(R.id.button2);
+        final NumberPicker np = (NumberPicker) height_dialog.findViewById(R.id.numberPicker1);
+        np.setMaxValue(220);
+        np.setMinValue(50);
+        np.setWrapSelectorWheel(false);
+        b1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tv_circum.setText(String.valueOf(np.getValue())); //set the value to textview
+                height_dialog.dismiss();
+            }
+        });
+        height_dialog.show();
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ll_circum:
-
+                    show_height_dialog();
                 break;
             case R.id.ll_waistline:
 
