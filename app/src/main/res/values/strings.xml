@@ -50,5 +50,54 @@
     <string name="next">下一步</string>
     <string name="sendIdentify">发送验证码</string>
     <string name="readeAndAgress">我已阅读并同意遵守</string>
+    <!--敏感词列表数组-->
+    <string-array name="SensitiveWord">
+        <item>康宝来</item>
+        <item>康葆来</item>
+        <item>康葆莱</item>
+        <item>康寳来</item>
+        <item>康寳莱</item>
+        <item>Herbalife</item>
+        <item>贺宝芙</item>
+        <item>賀寶芙</item>
+        <item>力腾</item>
+        <item>LIFTOFF</item>
+        <item>普莱乐</item>
+        <item>PROLESSA</item>
+        <item>奈沃科</item>
+        <item>NITEWORKS</item>
+        <item>燃脂美</item>
+        <item>THERMOJETICS</item>
+        <item>美纤宝</item>
+        <item>THERMO-BOND</item>
+        <item>科迪赛</item>
+        <item>维迪片</item>
+        <item>夜新宁</item>
+        <item>维康宝</item>
+        <item>CR7</item>
+        <item>代乐</item>
+        <item>莱聚</item>
+        <item>萊聚</item>
+        <item>莱秤</item>
+        <item>萊秤</item>
+        <item>莱表格</item>
+        <item>萊表格</item>
+        <item>天使听见爱</item>
+        <item>Let angels hear love</item>
+        <item>服务提供商</item>
+        <item>SP</item>
+        <item>小康莱了</item>
+        <item>营养俱乐部</item>
+        <item>马克休斯</item>
+        <item>小康康</item>
+        <item>C罗</item>
+        <item>克里斯蒂亚诺*罗纳尔多</item>
+        <item>罗纳尔多</item>
+        <item>吉米*罗恩</item>
+        <item>伊格纳罗</item>
+        <item>沙欣贤</item>
+        <item>100%</item>
+        <item>专家</item>
 
+    </string-array>
 </resources>
