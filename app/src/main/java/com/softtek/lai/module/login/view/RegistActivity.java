@@ -15,6 +15,7 @@ import com.github.snowdream.android.util.Log;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Checked;
+import com.mobsandgeeks.saripaar.annotation.ConfirmPassword;
 import com.mobsandgeeks.saripaar.annotation.Password;
 import com.mobsandgeeks.saripaar.annotation.Regex;
 import com.mobsandgeeks.saripaar.annotation.Required;
@@ -51,34 +52,37 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
     @InjectView(R.id.et_password)
     EditText et_password;
 
-    @Required(order = 4,messageResId = R.string.identiftValidtae)
+    @ConfirmPassword(order = 4,messageResId = R.string.confirmPassword)
+    @InjectView(R.id.et_repassword)
+    EditText et_repassword;
+
+    @Required(order = 5,messageResId = R.string.identiftValidtae)
     @InjectView(R.id.et_identify)
     EditText et_identify;
 
     @InjectView(R.id.tv_get_identify)
     TextView tv_get_identify;
 
-    @Checked(order = 5)
+    @Checked(order = 6)
     @InjectView(R.id.cb_term)
     CheckBox cb_term;
 
     @InjectView(R.id.btn_regist)
     Button btn_regist;
 
-    @InjectView(R.id.tv_left)
-    TextView tv_left;
+    @InjectView(R.id.tv_protocol)
+    TextView tv_protocol;
 
     @InjectView(R.id.tv_title)
     TextView tv_title;
 
-    @InjectView(R.id.tv_right)
-    TextView tv_right;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         tv_get_identify.setOnClickListener(this);
         btn_regist.setOnClickListener(this);
+        tv_protocol.setOnClickListener(this);
         cb_term.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -119,6 +123,9 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
             case R.id.btn_regist:
 //                validateLife.validate();
                 startActivity(new Intent(this,CreatFlleActivity.class));
+                break;
+            case R.id.tv_protocol:
+
                 break;
 
         }

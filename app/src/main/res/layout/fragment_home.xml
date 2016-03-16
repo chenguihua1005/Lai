@@ -24,9 +24,8 @@
                 android:id="@+id/cfi_circle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
-                app:fadeOut="1000"
-                app:radius="10dp"
+                app:fadeOut="500"
+                app:radius="5dp"
                 app:inactiveType="fill"
                 android:layout_alignParentBottom="true"
                 android:layout_centerInParent="true"/>
@@ -36,14 +35,23 @@
             android:id="@+id/gv_model"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:horizontalSpacing="10dp"
+            android:horizontalSpacing="5dp"
             android:verticalSpacing="10dp"
+            android:layout_marginTop="5dp"
             android:gravity="center"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:numColumns="5">
 
         </com.softtek.lai.widgets.CustomGridView>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#c0c0c0"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"/>
+
 
     </LinearLayout>
 </ScrollView>
