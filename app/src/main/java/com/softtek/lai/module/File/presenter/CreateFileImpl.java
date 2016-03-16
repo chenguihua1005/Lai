@@ -49,7 +49,6 @@ public class CreateFileImpl implements ICreateFilepresenter {
                     case 100:
                         Util.toastMsg("创建档案失败");
                         break;
-
                 }
 
             }
@@ -60,6 +59,7 @@ public class CreateFileImpl implements ICreateFilepresenter {
             }
         });
     }
+
 
 //    public interface ICreateFileView {
 //        void toActivity();

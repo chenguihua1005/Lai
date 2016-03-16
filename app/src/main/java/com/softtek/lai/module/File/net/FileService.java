@@ -32,9 +32,9 @@ public interface  FileService {
 //            @Field("doleggirth") double doleggirth,
 //            Callback<ResponseData<File>> callback);
 
-    @FormUrlEncoded
+
     @POST("/HerbUser/CreatFile")
-    void doFile(@Field("token")String token,
+    void doFile(@Header("token") String token,
                  @Body File file,
                  Callback<ResponseData<File>> callback);
 

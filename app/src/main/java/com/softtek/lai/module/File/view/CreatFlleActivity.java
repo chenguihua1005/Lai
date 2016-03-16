@@ -7,6 +7,7 @@ import android.app.TabActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -33,6 +34,7 @@ import com.softtek.lai.module.File.presenter.CreateFileImpl;
 import com.softtek.lai.module.File.presenter.ICreateFilepresenter;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.login.view.RegistActivity;
+import com.softtek.lai.utils.DisplayUtil;
 
 import butterknife.InjectView;
 import zilla.libcore.file.SharedPreferenceService;
@@ -42,7 +44,7 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_creatfile)
-public class CreatFlleActivity extends BaseActivity implements View.OnClickListener,Validator.ValidationListener, View.OnTouchListener {
+public class CreatFlleActivity extends BaseActivity implements View.OnClickListener,Validator.ValidationListener {
 
     private String SexData[] = { "男","女" };//性别数据
     private int gender=0;
@@ -55,8 +57,8 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
     EditText et_nickname;
 
     @Required(order = 2,message = "生日必填项")
-    @InjectView(R.id.et_birth)
-    EditText et_birth;
+    @InjectView(R.id.tv_birth)
+    TextView tv_birth;
 
     @Required(order = 3,message = "性别必填项")
     @InjectView(R.id.tv_sex)
@@ -109,11 +111,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
        // ll_nickname.setOnClickListener(this);
-
-      //  ll_birth.setOnClickListener(this);
-       // et_birth.setOnClickListener(this);
-et_birth.setOnTouchListener(this);
-
+        ll_birth.setOnClickListener(this);
         ll_sex.setOnClickListener(this);
         ll_height.setOnClickListener(this);
         ll_weight.setOnClickListener(this);
@@ -133,7 +131,7 @@ et_birth.setOnTouchListener(this);
         ICreateFilepresenter = new CreateFileImpl(this);
         file=new File();
         tv_left.setBackgroundResource(R.drawable.back_h);
-       // tv_left.setLayoutParams();
+        tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,20)));
         tv_title.setText("我的档案");
         tv_right.setText("跳过");
     }
@@ -146,7 +144,10 @@ et_birth.setOnTouchListener(this);
                 if(ZillaApplication.getInstance().getFilterList().contains(new Filter(nick))){
                     Util.toastMsg("名字已经存在");
                 }else{
-                    validateLife.validate();
+                        validateLife.validate();
+
+//                        tv_weight.setError(Html.fromHtml("<font color=#FFFFFF>" + "体重必填项") + "</font>");
+
                 }
                 break;
             case R.id.btn_Add_bodydimension:
@@ -159,41 +160,26 @@ et_birth.setOnTouchListener(this);
                         CreatFlleActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        et_birth.setText(year+"-"+(monthOfYear+1)+"-"+dayOfMonth);
+                        tv_birth.setText(year+"-"+(monthOfYear+1)+"-"+dayOfMonth);
                     }
                 },2014,8,17);
                 dialog.setTitle("");
                 dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
                 dialog.show();
                 break;
-
-            case R.id.et_birth:
-                DatePickerDialog dialog1=new DatePickerDialog(
-                        CreatFlleActivity.this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        et_birth.setText(year+"-"+(monthOfYear+1)+"-"+dayOfMonth);
-                    }
-                },2014,8,17);
-                dialog1.setTitle("");
-                dialog1.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
-                dialog1.show();
-                break;
             case R.id.ll_sex:
                 Dialog genderdialog=new AlertDialog.Builder(CreatFlleActivity.this)
                         .setTitle("请选择您的性别")
-                        .setSingleChoiceItems(SexData,0,
+                        .setSingleChoiceItems(SexData,2,
                                 new DialogInterface.OnClickListener(){
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        if (tv_sex.getText().toString()==null){
-                                            tv_sex.setText(SexData[0]);
-                                        }
                                         tv_sex.setText(SexData[which]);
                                     }
                                 })
                         .setNegativeButton("取消",null)
-                        .setPositiveButton("确认",null).create();
+                        .setPositiveButton("确认",null)
+                        .create();
                 genderdialog.setCanceledOnTouchOutside(false);  // 设置点击屏幕Dialog不消失
                 genderdialog.show();
                 break;
@@ -275,24 +261,22 @@ et_birth.setOnTouchListener(this);
     @Override
     public void onValidationSucceeded() {
         String nick=et_nickname.getText().toString();
-        String birthday=et_birth.getText().toString();
+        String birthday=tv_birth.getText().toString();
         String gender=tv_sex.getText().toString();
         String height=tv_height.getText().toString();
         String weight=tv_weight.getText().toString();
         Log.i("nick:"+nick+";birthday:"+birthday+";gender:"+gender+";height:"+height+";weight:"+weight);
-
        /* File file =new File(nickn,bir,se,heig,weigh);
         file.setNickname(nickn);
         file.setBirthday(bir);
         file.setGender(se);
         file.setHeight(heig);
         file.setWeight(weigh);*/
-
         String token= SharedPreferenceService.getInstance().get("token","");
 //        String token="8024F670BB230B9C5B6190F7EDAC3C86";
         ICreateFilepresenter.createFile(token,file);
+
 //        ICreateFilepresenter.createFile(token,nick,birthday,Integer.parseInt(height),Integer.parseInt(weight),gender.equals("男")?1:0);
-        Toast.makeText(CreatFlleActivity.this,"创建档案成功",Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -310,22 +294,4 @@ et_birth.setOnTouchListener(this);
         }
     }
 
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-    switch (v.getId()){
-        case R.id.et_birth:
-            DatePickerDialog dialog1=new DatePickerDialog(
-                    CreatFlleActivity.this, new DatePickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                    et_birth.setText(year+"-"+(monthOfYear+1)+"-"+dayOfMonth);
-                }
-            },2014,8,17);
-            dialog1.setTitle("");
-            dialog1.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
-            dialog1.show();
-            break;
-    }
-        return false;
-    }
 }
