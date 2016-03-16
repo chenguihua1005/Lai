@@ -3,59 +3,92 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context="com.softtek.lai.module.login.view.ForgetActivity">
 
-    <include layout="@layout/toolbar"/>
-
-    <LinearLayout
+    <include layout="@layout/toolbar"
+        android:id="@+id/toolbar"
+        />
+    <!--<ScrollView
+        android:layout_below="@id/toolbar"
+        android:layout_alignLeft="@id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:orientation="vertical">
-
-        <EditText
-            android:id="@+id/et_phone"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
-            android:background="@drawable/bg_regist_btn"
-            android:inputType="phone"
-            android:hint="@string/phoneNum"
-            android:singleLine="true"
-            android:paddingLeft="5dp"/>
+        android:layout_height="match_parent">-->
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-            <EditText
-                android:id="@+id/et_identify"
-                android:layout_width="0dp"
+            android:gravity="center_vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp">
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:scaleType="center"
+                    android:layout_gravity="left|center"
+                    android:src="@drawable/phone"/>
+                <EditText
+                    android:id="@+id/et_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="40dp"
+                    android:singleLine="true"
+                    android:textColor="#343434"
+                    android:hint="@string/phoneNum"/>
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.5">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:scaleType="center"
+                        android:layout_gravity="left|center"
+                        android:src="@drawable/identify"/>
+                    <EditText
+                        android:id="@+id/et_identify"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="40dp"
+                        android:singleLine="true"
+                        android:textColor="#343434"
+                        android:hint="验证码"/>
+                </FrameLayout>
+                <TextView
+                    android:id="@+id/tv_get_identify"
+                    android:layout_width="0dp"
+                    android:layout_weight="1.2"
+                    android:layout_height="40dp"
+                    android:layout_gravity="fill"
+                    android:gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="#6a6a6a"
+                    android:background="@drawable/identify_bg"
+                    android:text="@string/sendIdentify"/>
+            </LinearLayout>
+            <Button
+                android:id="@+id/btn_next"
+                android:layout_marginTop="50dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:inputType="number"
-                android:hint="验证码"
-                android:paddingLeft="5dp"
-                android:layout_marginRight="-50dp"
-                android:background="@drawable/bg_regist_btn"
-                />
-            <TextView
-                android:id="@+id/tv_get_identify"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:layout_columnSpan="1"
-                android:layout_gravity="fill"
-                android:gravity="center"
-                android:layout_marginLeft="50dp"
-                android:background="@drawable/bg_regist_btn"
-                android:text="获取验证码"/>
+                android:background="@drawable/bg_next_btn"
+                android:text="@string/next"
+                android:textSize="20sp"
+                android:textColor="#ffffff"/>
         </LinearLayout>
-
-    </LinearLayout>
-
+    <!--</ScrollView>-->
 </RelativeLayout>

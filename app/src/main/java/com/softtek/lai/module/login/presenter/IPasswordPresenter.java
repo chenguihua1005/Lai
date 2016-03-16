@@ -7,4 +7,7 @@ public interface IPasswordPresenter {
 
     //重置密码
     void resetPassword(String phone,String password);
+
+    //校验验证码是否正确
+    void checkIdentify(String phone,String identify);
 }

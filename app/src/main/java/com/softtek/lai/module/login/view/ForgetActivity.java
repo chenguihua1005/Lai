@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -16,8 +18,11 @@ import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.login.contants.Constants;
+import com.softtek.lai.module.login.presenter.IPasswordPresenter;
 import com.softtek.lai.module.login.presenter.IRegistPresenter;
+import com.softtek.lai.module.login.presenter.PasswordPresnter;
 import com.softtek.lai.module.login.presenter.RegistPresenterImpl;
+import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RegexUtil;
 import com.softtek.lai.utils.SoftInputUtil;
 
@@ -45,16 +50,19 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
     @InjectView(R.id.tv_get_identify)
     TextView tv_get_identify;
 
+    @InjectView(R.id.btn_next)
+    Button btn_next;
+
     @InjectView(R.id.tv_left)
     TextView tv_left;
 
     @InjectView(R.id.tv_title)
     TextView tv_title;
 
-    @InjectView(R.id.tv_right)
-    TextView tv_right;
+
 
     private IRegistPresenter registPresenter;
+    private IPasswordPresenter passwordPresenter;
     private CountDown countDown;
 
     @Override
@@ -62,19 +70,21 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         tv_get_identify.setOnClickListener(this);
         tv_left.setOnClickListener(this);
-        tv_right.setOnClickListener(this);
+        btn_next.setOnClickListener(this);
     }
 
     @Override
     protected void initViews() {
-        tv_left.setText("返回");
-        tv_right.setText("下一步");
-        tv_title.setText("忘记密码");
+        tv_left.setBackgroundResource(R.drawable.back);
+        tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
+        tv_title.setText("重置密码");
+
     }
 
     @Override
     protected void initDatas() {
         registPresenter=new RegistPresenterImpl(this);
+        passwordPresenter=new PasswordPresnter(this);
     }
 
     @Override
@@ -96,7 +106,7 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
             case R.id.tv_left:
                 finish();
                 break;
-            case R.id.tv_right:
+            case R.id.btn_next:
                 validateLife.validate();
                 break;
         }
@@ -119,9 +129,7 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
             if(identify.equals(key)){
                 SharedPreferenceService.getInstance().put("identify","");
                 String phone=et_phone.getText().toString();
-                Intent intent=new Intent(this,ForgetActivity2.class);
-                intent.putExtra("phone",phone);
-                startActivity(intent);
+                passwordPresenter.checkIdentify(phone,identify);
             }else{
                 Util.toastMsg(R.string.identifyValidateMsg);
             }
