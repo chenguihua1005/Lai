@@ -54,7 +54,7 @@
     <string name="reNewPassword">重新输入新密码</string>
 
     <string-array name="SensitiveWord"></string-array>
- 
+
     <!--用户使用协议和隐私-->
     <string name="term"><![CDATA[
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t“莱APP”使用协议\n

@@ -107,7 +107,12 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
     protected void initDatas() {
 
         file= (File) getIntent().getSerializableExtra("file");
-        tv_circum.setText(file.getCircum()+"");
+        tv_circum.setText(file.getCircum()==0?"":file.getCircum()+"");
+        tv_waistline.setText(file.getWaistline()==0?"":file.getWaistline()+"");
+        tv_uparmgirth.setText(file.getUparmgirth()==0?"":file.getUparmgirth()+"");
+        tv_doleggirth.setText(file.getDoleggirth()==0?"":file.getDoleggirth()+"");
+        tv_upleggirth.setText(file.getUpleggirth()==0?"":file.getUpleggirth()+"");
+        tv_hiplie.setText(file.getHiplie()==0?"":file.getHiplie()+"");
         tv_left.setText("返回");
         tv_title.setText("添加记录");
         tv_right.setText("保存");
