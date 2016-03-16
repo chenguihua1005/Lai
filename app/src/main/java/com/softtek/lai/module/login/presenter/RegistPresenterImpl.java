@@ -9,6 +9,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.File.view.CreatFlleActivity;
 import com.softtek.lai.module.login.model.Identify;
 import com.softtek.lai.module.login.model.Regist;
+import com.softtek.lai.module.login.model.User;
 import com.softtek.lai.module.login.net.LoginService;
 
 import retrofit.Callback;
@@ -36,15 +37,16 @@ public class RegistPresenterImpl implements IRegistPresenter{
         String key=SharedPreferenceService.getInstance().get("identify","");
         if(!"".equals(key)&&identify.equals(key)){
             SharedPreferenceService.getInstance().put("identify","");
-            service.doRegist(userName, password,identify, new Callback<ResponseData<Regist>>() {
+            service.doRegist(userName, password,identify, new Callback<ResponseData<User>>() {
                 @Override
-                public void success(ResponseData<Regist> userResponseData, Response response) {
+                public void success(ResponseData<User> userResponseData, Response response) {
                     Log.i("注册成功");
                     Log.i(userResponseData.toString());
                     int status=userResponseData.getStatus();
                     Util.toastMsg(userResponseData.getMsg());
                     switch (status){
                         case 200:
+                            SharedPreferenceService.getInstance().put("token",userResponseData.getData().getToken());
                             context.startActivity(new Intent(context, CreatFlleActivity.class));
                             break;
                         default:

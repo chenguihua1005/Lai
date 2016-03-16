@@ -58,5 +58,6 @@
     <string name="inputNewPassword">输入新密码</string>
     <string name="reNewPassword">重新输入新密码</string>
 
-
+    <!--用户使用协议和隐私-->
+    <string name="term"></string>
 </resources>

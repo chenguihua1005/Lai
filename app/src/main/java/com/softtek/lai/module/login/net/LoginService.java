@@ -41,7 +41,7 @@ public interface LoginService {
                   @Field("user") String userName,
                   @Field("psd") String password,
                   @Field("identify")String identify,
-                  Callback<ResponseData<Regist>> callback);
+                  Callback<ResponseData<User>> callback);
 
     @FormUrlEncoded
     @POST("/HerbUser/ResetPassWord")
