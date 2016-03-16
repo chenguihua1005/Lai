@@ -57,7 +57,12 @@
     <string name="readeAndAgress">我已阅读并同意遵守</string>
     <string name="inputNewPassword">输入新密码</string>
     <string name="reNewPassword">重新输入新密码</string>
-
+    <string-array name="SensitiveWord">
+        <item>123</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
     <!--用户使用协议和隐私-->
     <string name="term"></string>
 </resources>

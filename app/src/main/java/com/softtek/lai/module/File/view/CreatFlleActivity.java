@@ -266,17 +266,14 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         String height=tv_height.getText().toString();
         String weight=tv_weight.getText().toString();
         Log.i("nick:"+nick+";birthday:"+birthday+";gender:"+gender+";height:"+height+";weight:"+weight);
-       /* File file =new File(nickn,bir,se,heig,weigh);
-        file.setNickname(nickn);
-        file.setBirthday(bir);
-        file.setGender(se);
-        file.setHeight(heig);
-        file.setWeight(weigh);*/
+        file.setNickname(nick);
+        file.setBrithday(birthday);
+        file.setGender(gender.equals("女")?0:1);
+        file.setHeight(50);
+        file.setWeight(20);
         String token= SharedPreferenceService.getInstance().get("token","");
-//        String token="8024F670BB230B9C5B6190F7EDAC3C86";
         ICreateFilepresenter.createFile(token,file);
 
-//        ICreateFilepresenter.createFile(token,nick,birthday,Integer.parseInt(height),Integer.parseInt(weight),gender.equals("男")?1:0);
     }
 
     @Override

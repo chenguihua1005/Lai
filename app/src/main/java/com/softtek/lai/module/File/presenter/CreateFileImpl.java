@@ -33,7 +33,7 @@ public class CreateFileImpl implements ICreateFilepresenter {
 
     @Override
     public void createFile(String token, File file) {
-
+        Log.i(file.toString());
         service.doFile(token, file, new Callback<ResponseData<File>>() {
             @Override
             public void success(ResponseData<File> fileResponseData, Response response) {

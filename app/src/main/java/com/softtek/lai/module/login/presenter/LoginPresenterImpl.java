@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.module.File.view.CreatFlleActivity;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.login.model.User;
 import com.softtek.lai.module.login.net.LoginService;
@@ -43,7 +44,7 @@ public class LoginPresenterImpl implements ILoginPresenter {
                 switch (status){
                     case 200:
                         SharedPreferenceService.getInstance().put("token",userResponseData.getData().getToken());
-                        context.startActivity(new Intent(context, HomeActviity.class));
+                        context.startActivity(new Intent(context, CreatFlleActivity.class));
                         break;
                     default:
                         Util.toastMsg(userResponseData.getMsg());
