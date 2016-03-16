@@ -40,6 +40,7 @@ public interface LoginService {
     void doRegist(
                   @Field("user") String userName,
                   @Field("psd") String password,
+                  @Field("identify")String identify,
                   Callback<ResponseData<Regist>> callback);
 
     @FormUrlEncoded
@@ -47,6 +48,7 @@ public interface LoginService {
     void doResetPassword(
                          @Field("phone")String phone,
                          @Field("newpsd")String newPassword,
+                         @Field("identify")String identify,
                          Callback<ResponseData> callback);
 
 

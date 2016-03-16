@@ -134,7 +134,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
                 startActivity(new Intent(this,CreatFlleActivity.class));
                 break;
             case R.id.tv_protocol:
-
+                startActivity(new Intent(this,TermActivity.class));
                 break;
 
         }

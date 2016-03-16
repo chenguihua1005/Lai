@@ -39,6 +39,7 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
     @LifeCircleInject
     ValidateLife validateLife;
 
+    @Required(order=1,messageResId = R.string.phoneValidateNull)
     @Regex(order = 1,patternResId = R.string.phonePattern,messageResId = R.string.phoneValidate)
     @InjectView(R.id.et_phone)
     EditText et_phone;

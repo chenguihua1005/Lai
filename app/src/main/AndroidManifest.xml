@@ -41,9 +41,11 @@
             android:name=".module.login.view.ForgetActivity2"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity android:name=".module.File.view.CreatFlleActivity" />
-        <activity android:name=".module.home.view.HomeActviity" />
+        <activity android:name=".module.home.view.HomeActviity"
+            android:launchMode="singleInstance"/>
         <activity android:name=".module.File.view.DimensionRecordActivity" />
         <activity android:name=".module.retest.Write"></activity>
+        <activity android:name=".module.login.view.TermActivity"/>
     </application>
 
 </manifest>

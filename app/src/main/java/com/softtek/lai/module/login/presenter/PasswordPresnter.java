@@ -31,8 +31,8 @@ public class PasswordPresnter implements IPasswordPresenter{
     }
 
     @Override
-    public void resetPassword(String phone,String password) {
-        service.doResetPassword(phone, password, new Callback<ResponseData>() {
+    public void resetPassword(String phone,String password,String identify) {
+        service.doResetPassword(phone, password,identify, new Callback<ResponseData>() {
             @Override
             public void success(ResponseData responseData, Response response) {
                 Log.i("重置成功");
@@ -51,18 +51,29 @@ public class PasswordPresnter implements IPasswordPresenter{
     }
 
     @Override
-    public void checkIdentify(final String phone, String identify) {
+    public void checkIdentify(final String phone, final String identify) {
         service.checkIdentify(phone, identify, new Callback<ResponseData>() {
             @Override
             public void success(ResponseData responseData, Response response) {
-                Log.i("校验成功>>>"+responseData.toString());
-                Intent intent=new Intent(context, ForgetActivity2.class);
-                intent.putExtra("phone",phone);
-                context.startActivity(new Intent(context, ForgetActivity2.class));
+                Log.i("校验结果>>>"+responseData.toString());
+                int status=responseData.getStatus();
+                switch (status){
+                    case 200:
+                        Intent intent=new Intent(context, ForgetActivity2.class);
+                        intent.putExtra("phone",phone);
+                        intent.putExtra("identify",identify);
+                        context.startActivity(intent);
+                        break;
+                    default:
+                        Util.toastMsg(responseData.getMsg());
+                        break;
+                }
+
             }
 
             @Override
             public void failure(RetrofitError error) {
+                Util.toastMsg("服务器异常");
                 Log.i("校验失败");
             }
         });
