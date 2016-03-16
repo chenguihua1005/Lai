@@ -12,194 +12,270 @@
         android:layout_height="wrap_content">
 
     <include layout="@layout/toolbar" />
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
         <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:gravity="center">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/aa"
-                android:gravity="center"
-                android:id="@+id/textView5" />
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/ll_circum"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:gravity="center_vertical"
-            android:background="@drawable/bg_edittext">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="胸围" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:id="@+id/tv_circum" />
-            <TextView
-                android:gravity="right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="cm"/>
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/ll_waistline"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:gravity="center_vertical"
-            android:background="@drawable/bg_edittext">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="腰围" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:id="@+id/tv_waistline" />
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/ll_hiplie"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:gravity="center_vertical"
-            android:background="@drawable/bg_edittext">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="臀围" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:id="@+id/tv_hiplie" />
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/ll_uparmgirth"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:gravity="center_vertical"
-            android:background="@drawable/bg_edittext">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="上臂围" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:id="@+id/tv_uparmgirth" />
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/ll_upleggirth"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:gravity="center_vertical"
-            android:background="@drawable/bg_edittext">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="大腿围" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:id="@+id/tv_upleggirth" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_doleggirth"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:gravity="center_vertical"
-            android:background="@drawable/bg_edittext">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="小腿围" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:id="@+id/tv_doleggirth" />
-        </LinearLayout>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <LinearLayout
-                android:id="@+id/ll_size"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center_vertical">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="cm"
-                    android:textSize="20dp"
-                    android:gravity="center"
-                    android:id="@+id/tv_size" />
-            </LinearLayout>
+            android:layout_height="match_parent">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center_vertical">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="清除"
-                    android:textSize="20dp"
-                    android:gravity="right"
-                    android:id="@+id/tv_clear" />
-            </LinearLayout>
-
-        </RelativeLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <com.ggx.ruler_lib.RulerView
-            android:id="@+id/rv"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            app:direction="horizontal"
-            android:layout_centerInParent="true"
-            app:defaultValue="170"
-            app:endValue="250">
-        </com.ggx.ruler_lib.RulerView>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
-
-        <TextView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="填写说明"
-            android:textColor="#00f"
-            android:id="@+id/textView9" />
-    </LinearLayout>
+                android:padding="10dp">
+
+                <RelativeLayout
+                android:id="@+id/ll_circum"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:textSize="18dp"
+                    android:text="胸围" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="18dp"
+                    android:layout_toLeftOf="@+id/tv_unit"
+                    android:layout_marginRight="5dp"
+                    android:id="@+id/tv_circum" />
+                <TextView
+                    android:gravity="right"
+                    android:id="@+id/tv_unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:layout_alignParentRight="true"
+                    android:text="cm"/>
+            </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#75BA2B">
+                </View>
+            <RelativeLayout
+                android:id="@+id/ll_waistline"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:textSize="18dp"
+                    android:text="腰围" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="18dp"
+                    android:layout_toLeftOf="@+id/tv_unit2"
+                    android:id="@+id/tv_waistline" />
+                <TextView
+                    android:gravity="right"
+                    android:id="@+id/tv_unit2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:layout_alignParentRight="true"
+                    android:text="cm"/>
+            </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#75BA2B">
+                </View>
+            <RelativeLayout
+                android:id="@+id/ll_hiplie"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:textSize="18dp"
+                    android:text="臀围" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="18dp"
+                    android:layout_toLeftOf="@+id/tv_unit3"
+                    android:id="@+id/tv_hiplie" />
+                <TextView
+                    android:gravity="right"
+                    android:id="@+id/tv_unit3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:layout_alignParentRight="true"
+                    android:text="cm"/>
+            </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#75BA2B">
+                </View>
+            <RelativeLayout
+                android:id="@+id/ll_uparmgirth"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:textSize="18dp"
+                    android:text="上臂围" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="18dp"
+                    android:layout_toLeftOf="@+id/tv_unit4"
+                    android:id="@+id/tv_uparmgirth" />
+                <TextView
+                    android:gravity="right"
+                    android:id="@+id/tv_unit4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:layout_alignParentRight="true"
+                    android:text="cm"/>
+            </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#75BA2B">
+                </View>
+            <RelativeLayout
+                android:id="@+id/ll_upleggirth"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:textSize="18dp"
+                    android:text="大腿围" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="18dp"
+                    android:layout_toLeftOf="@+id/tv_unit5"
+                    android:id="@+id/tv_upleggirth" />
+                <TextView
+                    android:gravity="right"
+                    android:id="@+id/tv_unit5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:layout_alignParentRight="true"
+                    android:text="cm"/>
+            </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#75BA2B">
+                </View>
+
+            <RelativeLayout
+                android:id="@+id/ll_doleggirth"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                >
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:textSize="18dp"
+                    android:text="小腿围" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="18dp"
+                    android:layout_toLeftOf="@+id/tv_unit6"
+                    android:id="@+id/tv_doleggirth" />
+                <TextView
+                    android:gravity="right"
+                    android:id="@+id/tv_unit6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:layout_alignParentRight="true"
+                    android:text="cm"/>
+            </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#75BA2B">
+                </View>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:paddingTop="20dp"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:gravity="right"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="填写说明"
+                            android:textSize="20dp"
+                            android:textColor="#75BA2B"
+                            android:id="@+id/textView5" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/back"
+                            android:id="@+id/imageView2" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="保存"
+                            android:textColor="#ffffff"
+                            android:background="@drawable/shape_write_layout"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
 
 
     </LinearLayout>

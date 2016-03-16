@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ggx.ruler_lib.RulerView;
@@ -46,32 +47,25 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
     @InjectView(R.id.tv_doleggirth)
     TextView tv_doleggirth;
 
-    @InjectView(R.id.tv_size)
-    TextView tv_size;
 
-    @InjectView(R.id.tv_clear)
-    TextView tv_clear;
 
-    @InjectView(R.id.rv)
-    RulerView rv;
-    //布局
     @InjectView(R.id.ll_circum)
-    LinearLayout ll_circum;
+    RelativeLayout ll_circum;
 
     @InjectView(R.id.ll_waistline)
-    LinearLayout ll_waistline;
+    RelativeLayout ll_waistline;
 
     @InjectView(R.id.ll_hiplie)
-    LinearLayout ll_hiplie;
+    RelativeLayout ll_hiplie;
 
     @InjectView(R.id.ll_uparmgirth)
-    LinearLayout ll_uparmgirth;
+    RelativeLayout ll_uparmgirth;
 
     @InjectView(R.id.ll_upleggirth)
-    LinearLayout ll_upleggirth;
+    RelativeLayout ll_upleggirth;
 
     @InjectView(R.id.ll_doleggirth)
-    LinearLayout ll_doleggirth;
+    RelativeLayout ll_doleggirth;
 
     private File file;//存储用户表对象
 
@@ -80,19 +74,14 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        rv.setCallback(new RulerView.RulerCallback() {
-            @Override
-            public void resultNum(int num) {
-                tv_size.setText(num+"cm");
-            }
-        });
+
         ll_circum.setOnClickListener(this);
         ll_waistline.setOnClickListener(this);
         ll_hiplie.setOnClickListener(this);
         ll_uparmgirth.setOnClickListener(this);
         ll_upleggirth.setOnClickListener(this);
         ll_doleggirth.setOnClickListener(this);
-        tv_clear.setOnClickListener(this);
+
 
         tv_left.setOnClickListener(this);
         tv_right.setOnClickListener(this);
@@ -122,62 +111,25 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ll_circum:
-                rv.setCallback(new RulerView.RulerCallback() {
-                    @Override
-                    public void resultNum(int num) {
-                        tv_size.setText(num+"cm");
-                        tv_circum.setText(num+"");
-                    }
-                });
+
                 break;
             case R.id.ll_waistline:
-                rv.setCallback(new RulerView.RulerCallback() {
-                    @Override
-                    public void resultNum(int num) {
-                        tv_size.setText(num+"cm");
-                        tv_waistline.setText(num+"");
-                    }
-                });
+
                 break;
             case R.id.ll_hiplie:
-                rv.setCallback(new RulerView.RulerCallback() {
-                    @Override
-                    public void resultNum(int num) {
-                        tv_size.setText(num+"cm");
-                        tv_hiplie.setText(num+"");
-                    }
-                });
+
                 break;
             case R.id.ll_uparmgirth:
-                rv.setCallback(new RulerView.RulerCallback() {
-                    @Override
-                    public void resultNum(int num) {
-                        tv_size.setText(num+"cm");
-                        tv_uparmgirth.setText(num+"");
-                    }
-                });
+
                 break;
             case R.id.ll_upleggirth:
-                rv.setCallback(new RulerView.RulerCallback() {
-                    @Override
-                    public void resultNum(int num) {
-                        tv_size.setText(num+"cm");
-                        tv_upleggirth.setText(num+"");
-                    }
-                });
+
                 break;
             case R.id.ll_doleggirth:
-                rv.setCallback(new RulerView.RulerCallback() {
-                    @Override
-                    public void resultNum(int num) {
-                        tv_size.setText(num+"cm");
-                        tv_doleggirth.setText(num+"");
-                    }
-                });
+
                 break;
-            case R.id.tv_clear:
-                //清除功能......
-                break;
+
+
             case R.id.tv_left:
                 startActivity(new Intent(DimensionRecordActivity.this,CreatFlleActivity.class));
                 break;
