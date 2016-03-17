@@ -3,14 +3,9 @@ package com.softtek.lai.module.File.view;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.app.TabActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.text.Html;
-import android.text.InputType;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -19,7 +14,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.snowdream.android.util.Log;
 import com.mobsandgeeks.saripaar.Rule;
@@ -33,8 +27,6 @@ import com.softtek.lai.module.File.model.Filter;
 import com.softtek.lai.module.File.presenter.CreateFileImpl;
 import com.softtek.lai.module.File.presenter.ICreateFilepresenter;
 import com.softtek.lai.module.home.view.HomeActviity;
-import com.softtek.lai.module.login.view.RegistActivity;
-import com.softtek.lai.utils.DisplayUtil;
 
 import butterknife.InjectView;
 import zilla.libcore.file.SharedPreferenceService;
@@ -45,10 +37,10 @@ import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_creatfile)
 public class CreatFlleActivity extends BaseActivity implements View.OnClickListener,Validator.ValidationListener {
-
-    private String SexData[] = { "男","女" };//性别数据
+    private String SexData[] = {"男","女"};//性别数据
     private int gender=0;
     private ICreateFilepresenter ICreateFilepresenter;
+
     @LifeCircleInject
     ValidateLife validateLife;
 
@@ -58,7 +50,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
 
     @Required(order = 2,message = "生日必填项")
     @InjectView(R.id.tv_birth)
-    TextView tv_birth;
+    EditText tv_birth;
 
     @Required(order = 3,message = "性别必填项")
     @InjectView(R.id.tv_sex)
@@ -95,9 +87,6 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
     @InjectView(R.id.ll_weight)
     LinearLayout ll_weight;
 
-    @InjectView(R.id.tv_left)
-    TextView tv_left;
-
     @InjectView(R.id.tv_title)
     TextView tv_title;
 
@@ -110,14 +99,41 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // ll_nickname.setOnClickListener(this);
-        ll_birth.setOnClickListener(this);
+        tv_birth.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int action=event.getAction();
+                switch (action){
+                    case MotionEvent.ACTION_DOWN:
+                        tv_birth.setFocusable(false);
+                        DatePickerDialog dialog=new DatePickerDialog(
+                                CreatFlleActivity.this, new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                tv_birth.setText(year+"-"+(monthOfYear+1)+"-"+dayOfMonth);
+                            }
+                        },2016,8,17);
+                        dialog.setTitle("");
+                        dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
+                        dialog.show();
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        break;
+                    case MotionEvent.ACTION_UP:
+
+                        tv_birth.setFocusable(true);
+                        break;
+
+                }
+                return false;
+            }
+        });
+//        ll_birth.setOnClickListener(this);
         ll_sex.setOnClickListener(this);
         ll_height.setOnClickListener(this);
         ll_weight.setOnClickListener(this);
         btn_finish.setOnClickListener(this);
         btn_Add_bodydimension.setOnClickListener(this);
-        tv_left.setOnClickListener(this);
         tv_right.setOnClickListener(this);
    }
 
@@ -130,8 +146,6 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
     protected void initDatas() {
         ICreateFilepresenter = new CreateFileImpl(this);
         file=new File();
-        tv_left.setBackgroundResource(R.drawable.back_h);
-        tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,20)));
         tv_title.setText("我的档案");
         tv_right.setText("跳过");
     }
@@ -144,10 +158,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                 if(ZillaApplication.getInstance().getFilterList().contains(new Filter(nick))){
                     Util.toastMsg("名字已经存在");
                 }else{
-                        validateLife.validate();
-
-//                        tv_weight.setError(Html.fromHtml("<font color=#FFFFFF>" + "体重必填项") + "</font>");
-
+                    validateLife.validate();
                 }
                 break;
             case R.id.btn_Add_bodydimension:
@@ -162,26 +173,13 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         tv_birth.setText(year+"-"+(monthOfYear+1)+"-"+dayOfMonth);
                     }
-                },2014,8,17);
+                },2016,8,17);
                 dialog.setTitle("");
                 dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
                 dialog.show();
                 break;
             case R.id.ll_sex:
-                Dialog genderdialog=new AlertDialog.Builder(CreatFlleActivity.this)
-                        .setTitle("请选择您的性别")
-                        .setSingleChoiceItems(SexData,2,
-                                new DialogInterface.OnClickListener(){
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        tv_sex.setText(SexData[which]);
-                                    }
-                                })
-                        .setNegativeButton("取消",null)
-                        .setPositiveButton("确认",null)
-                        .create();
-                genderdialog.setCanceledOnTouchOutside(false);  // 设置点击屏幕Dialog不消失
-                genderdialog.show();
+                show_sex_dialog();
                 break;
             case R.id.ll_height:
                 show_height_dialog();
@@ -189,73 +187,11 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
             case R.id.ll_weight:
                 show_weight_dialog();
                 break;
-            case R.id.tv_left:
-                startActivity(new Intent(CreatFlleActivity.this,RegistActivity.class));
-                break;
             case R.id.tv_right:
-                startActivity(new Intent(CreatFlleActivity.this,HomeActviity.class));
+                Intent intent1=new Intent(CreatFlleActivity.this,HomeActviity.class);
+                startActivity(intent1);
                 break;
         }
-    }
-
-    public void show_height_dialog()
-    {
-        final Dialog height_dialog = new Dialog(CreatFlleActivity.this);
-        height_dialog.setTitle("选择身高");
-        height_dialog.setContentView(R.layout.dialog);
-        Button b1 = (Button) height_dialog.findViewById(R.id.button1);
-        Button b2 = (Button) height_dialog.findViewById(R.id.button2);
-        final NumberPicker np = (NumberPicker) height_dialog.findViewById(R.id.numberPicker1);
-        np.setMaxValue(220);
-        np.setMinValue(50);
-        np.setWrapSelectorWheel(false);
-        b1.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
-                tv_height.setText(String.valueOf(np.getValue())+"cm"); //set the value to textview
-                height_dialog.dismiss();
-            }
-        });
-        b2.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
-                height_dialog.dismiss(); // dismiss the dialog
-            }
-        });
-        height_dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
-        height_dialog.show();
-    }
-
-    public void show_weight_dialog()
-    {
-        final Dialog weight_dialog = new Dialog(CreatFlleActivity.this);
-        weight_dialog.setTitle("选择体重");
-        weight_dialog.setContentView(R.layout.dialog);
-        Button b1 = (Button) weight_dialog.findViewById(R.id.button1);
-        Button b2 = (Button) weight_dialog.findViewById(R.id.button2);
-        final NumberPicker np = (NumberPicker) weight_dialog.findViewById(R.id.numberPicker1);
-        np.setMaxValue(220);
-        np.setMinValue(20);
-        np.setWrapSelectorWheel(false);
-        b1.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
-                tv_weight.setText(String.valueOf(np.getValue())+"kg"); //set the value to textview
-                weight_dialog.dismiss();
-            }
-        });
-        b2.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
-                weight_dialog.dismiss(); // dismiss the dialog
-            }
-        });
-        weight_dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
-        weight_dialog.show();
     }
 
     @Override
@@ -269,11 +205,10 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         file.setNickname(nick);
         file.setBrithday(birthday);
         file.setGender(gender.equals("女")?0:1);
-        file.setHeight(50);
-        file.setWeight(20);
+        file.setHeight(Integer.parseInt(height));
+        file.setWeight(Integer.parseInt(weight));
         String token= SharedPreferenceService.getInstance().get("token","");
         ICreateFilepresenter.createFile(token,file);
-
     }
 
     @Override
@@ -291,4 +226,83 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
+    //性别对话框
+    public void show_sex_dialog(){
+        Dialog genderdialog=new AlertDialog.Builder(CreatFlleActivity.this)
+                .setTitle("请选择您的性别")
+                .setSingleChoiceItems(SexData,2,
+                        new DialogInterface.OnClickListener(){
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                tv_sex.setText(SexData[which]);
+                            }
+                        })
+                .setNegativeButton("取消",null)
+                .setPositiveButton("确认",null)
+                .create();
+        genderdialog.setCanceledOnTouchOutside(false);  // 设置点击屏幕Dialog不消失
+        genderdialog.show();
+    }
+    //身高对话框
+    public void show_height_dialog()
+    {
+        final Dialog height_dialog = new Dialog(CreatFlleActivity.this);
+        height_dialog.setTitle("选择身高(单位：cm)");
+        height_dialog.setContentView(R.layout.dialog);
+        Button b1 = (Button) height_dialog.findViewById(R.id.button1);
+        Button b2 = (Button) height_dialog.findViewById(R.id.button2);
+        final NumberPicker np = (NumberPicker) height_dialog.findViewById(R.id.numberPicker1);
+        np.setMaxValue(220);
+        np.setValue(155);
+        np.setMinValue(50);
+        np.setWrapSelectorWheel(false);
+        b1.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                tv_height.setText(String.valueOf(np.getValue())); //set the value to textview
+                height_dialog.dismiss();
+            }
+        });
+        b2.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                height_dialog.dismiss(); // dismiss the dialog
+            }
+        });
+        height_dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
+        height_dialog.show();
+    }
+    //体重对话框
+    public void show_weight_dialog()
+    {
+        final Dialog weight_dialog = new Dialog(CreatFlleActivity.this);
+        weight_dialog.setTitle("选择体重(单位：kg)");
+        weight_dialog.setContentView(R.layout.dialog);
+        Button b1 = (Button) weight_dialog.findViewById(R.id.button1);
+        Button b2 = (Button) weight_dialog.findViewById(R.id.button2);
+        final NumberPicker np = (NumberPicker) weight_dialog.findViewById(R.id.numberPicker1);
+        np.setMaxValue(220);
+        np.setValue(55);
+        np.setMinValue(20);
+        np.setWrapSelectorWheel(false);
+        b1.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                tv_weight.setText(String.valueOf(np.getValue())); //set the value to textview
+                weight_dialog.dismiss();
+            }
+        });
+        b2.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                weight_dialog.dismiss(); // dismiss the dialog
+            }
+        });
+        weight_dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
+        weight_dialog.show();
+    }
 }

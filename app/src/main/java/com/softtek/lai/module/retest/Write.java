@@ -1,13 +1,18 @@
 package com.softtek.lai.module.retest;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.utils.DisplayUtil;
 
 import butterknife.InjectView;
@@ -43,4 +48,14 @@ public class Write extends BaseActivity {
 
 
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            startActivity(new Intent(this, HomeActviity.class));
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 }
