@@ -25,11 +25,15 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.module.bodygame.Counselor;
 import com.softtek.lai.module.home.adapter.AdvAdapter;
 import com.softtek.lai.module.home.model.HomeInfo;
 import com.softtek.lai.module.home.presenter.HomeInfoImpl;
 import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
+import com.softtek.lai.module.login.contants.Constants;
+import com.softtek.lai.module.login.model.User;
 import com.softtek.lai.module.retest.Write;
+import com.softtek.lai.utils.ACache;
 import com.softtek.lai.widgets.CustomGridView;
 import com.squareup.picasso.Picasso;
 
@@ -42,6 +46,7 @@ import java.util.List;
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.ui.ZillaAdapter;
+import zilla.libcore.util.Util;
 
 /**
  * Created by jerry.guan on 3/15/2016.
@@ -79,6 +84,7 @@ public class HomeFragment extends BaseFragment implements View.OnTouchListener,P
     @InjectView(R.id.button)
     Button button;
 
+    private ACache aCache;
 
     private IHomeInfoPresenter homeInfoPresenter;
 
@@ -86,13 +92,62 @@ public class HomeFragment extends BaseFragment implements View.OnTouchListener,P
 
     @Override
     protected void initViews() {
-button.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        Intent intent=new Intent(getActivity(), Write.class);
-        startActivity(intent);
-    }
-});
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                aCache=ACache.get(getActivity(), Constants.USER_ACACHE_DATA_DIR);
+                User user= (User) aCache.getAsObject(Constants.USER_ACACHE_KEY);
+                switch(user.getUserrole())
+                {
+                    case "0":
+                    {
+                        Intent intent = new Intent(getContext(), Counselor.class);
+                        startActivity(intent);
+                        Util.toastMsg(user.getUserrole());
+
+                    }
+                    break;
+                    case "1":
+                    {
+                        Intent intent = new Intent(getActivity(), Write.class);
+                        startActivity(intent);
+                        Util.toastMsg(user.getUserrole());
+                    }
+                    break;
+                    case "2":
+                    {
+                        Intent intent = new Intent(getActivity(), Write.class);
+                        startActivity(intent);
+                        Util.toastMsg(user.getUserrole());
+                    }
+                    break;
+                    case "3":
+                    {
+                        Intent intent = new Intent(getActivity(), Write.class);
+                        startActivity(intent);
+                        Util.toastMsg(user.getUserrole());
+                    }
+                    break;
+                    case "4":
+                    {
+                        Intent intent = new Intent(getActivity(), Write.class);
+                        startActivity(intent);
+                        Util.toastMsg(user.getUserrole());
+                    }
+                    break;
+                    case "5":
+                    {
+                        Intent intent = new Intent(getActivity(), Write.class);
+                        startActivity(intent);
+                        Log.i("用户角色",user.getUserrole());
+                        Util.toastMsg(user.getUserrole());
+                    }
+                    break;
+                }
+
+            }
+        });
+
     }
 
     @Override
@@ -155,11 +210,9 @@ button.setOnClickListener(new View.OnClickListener() {
                     advList.add(info);
                     break;
                 case "1":
-                    Log.i("hahahhah"+info.getImg_Type());
                     Picasso.with(getContext()).load(info.getImg_Addr()).placeholder(R.drawable.froyo).error(R.drawable.gingerbread).into(iv_activity);
                     break;
                 case "2":
-                    Log.i("heihehhie"+info.getImg_Type());
                     Picasso.with(getContext()).load(info.getImg_Addr()).placeholder(R.drawable.froyo).error(R.drawable.gingerbread).into(iv_healthy);
                     break;
             }
