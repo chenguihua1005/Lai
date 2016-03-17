@@ -31,6 +31,7 @@ import com.softtek.lai.module.home.presenter.HomeInfoImpl;
 import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
 import com.softtek.lai.module.retest.Write;
 import com.softtek.lai.widgets.CustomGridView;
+import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -108,12 +109,14 @@ button.setOnClickListener(new View.OnClickListener() {
         vf_adv.setFlowIndicator(cfi_circle);
         vf_adv.setOnTouchListener(this);
         pull.setOnRefreshListener(this);
+
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+        getScrollView(v.getParent()).requestDisallowInterceptTouchEvent(true);
         getViewPage(v.getParent()).requestDisallowInterceptTouchEvent(true);
-        return false;
+        return true;
     }
 
     //下拉刷新回调
@@ -135,20 +138,33 @@ button.setOnClickListener(new View.OnClickListener() {
         return getViewPage(v.getParent());
     }
 
+    private ViewParent getScrollView(ViewParent v){
+        if(v!=null&&v.getClass().getName().equals("com.handmark.pulltorefresh.library.PullToRefreshScrollView")){
+            Log.i(v.getClass().getName());
+            return v;
+        }
+        return getScrollView(v.getParent());
+    }
+
     @Subscribe
     public void onEventRefresh(List<HomeInfo> infos){
+        advList.clear();
         for(HomeInfo info:infos){
             switch (info.getImg_Type()){
                 case "0":
                     advList.add(info);
                     break;
                 case "1":
+                    Log.i("hahahhah"+info.getImg_Type());
+                    Picasso.with(getContext()).load(info.getImg_Addr()).placeholder(R.drawable.froyo).error(R.drawable.gingerbread).into(iv_activity);
                     break;
                 case "2":
+                    Log.i("heihehhie"+info.getImg_Type());
+                    Picasso.with(getContext()).load(info.getImg_Addr()).placeholder(R.drawable.froyo).error(R.drawable.gingerbread).into(iv_healthy);
                     break;
             }
         }
-        vf_adv.setAdapter(new AdvAdapter(getContext(),advList));
+        ((AdvAdapter)vf_adv.getAdapter()).notifyDataSetChanged();
     }
 
     @Override
