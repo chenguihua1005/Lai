@@ -33,4 +33,8 @@ public class Constants {
     public static final int INC=4;
     public static final int VR=5;
 
+    /**
+     * home首页
+     */
+
 }

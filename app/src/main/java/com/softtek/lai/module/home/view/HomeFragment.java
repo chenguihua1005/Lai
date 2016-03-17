@@ -53,7 +53,7 @@ import zilla.libcore.util.Util;
  */
 @InjectLayout(R.layout.fragment_home)
 public class HomeFragment extends BaseFragment implements View.OnTouchListener,PullToRefreshBase.OnRefreshListener<ScrollView>{
-    private ACache aCache;
+
     @InjectView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -84,69 +84,70 @@ public class HomeFragment extends BaseFragment implements View.OnTouchListener,P
     @InjectView(R.id.button)
     Button button;
 
+    private ACache aCache;
 
     private IHomeInfoPresenter homeInfoPresenter;
 
     private List<HomeInfo> advList=new ArrayList<>();
 
-
     @Override
     protected void initViews() {
-button.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        aCache=ACache.get(getActivity(), Constants.USER_ACACHE_DATA_DIR);
-        User user= (User) aCache.getAsObject(Constants.USER_ACACHE_KEY);
-        switch(user.getUserrole())
-        {
-            case "0":
-            {
-                Intent intent = new Intent(getContext(), Counselor.class);
-                startActivity(intent);
-                Util.toastMsg(user.getUserrole());
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                aCache=ACache.get(getActivity(), Constants.USER_ACACHE_DATA_DIR);
+                User user= (User) aCache.getAsObject(Constants.USER_ACACHE_KEY);
+                switch(user.getUserrole())
+                {
+                    case "0":
+                    {
+                        Intent intent = new Intent(getContext(), Counselor.class);
+                        startActivity(intent);
+                        Util.toastMsg(user.getUserrole());
+
+                    }
+                    break;
+                    case "1":
+                    {
+                        Intent intent = new Intent(getActivity(), Write.class);
+                        startActivity(intent);
+                        Util.toastMsg(user.getUserrole());
+                    }
+                    break;
+                    case "2":
+                    {
+                        Intent intent = new Intent(getActivity(), Write.class);
+                        startActivity(intent);
+                        Util.toastMsg(user.getUserrole());
+                    }
+                    break;
+                    case "3":
+                    {
+                        Intent intent = new Intent(getActivity(), Write.class);
+                        startActivity(intent);
+                        Util.toastMsg(user.getUserrole());
+                    }
+                    break;
+                    case "4":
+                    {
+                        Intent intent = new Intent(getActivity(), Write.class);
+                        startActivity(intent);
+                        Util.toastMsg(user.getUserrole());
+                    }
+                    break;
+                    case "5":
+                    {
+                        Intent intent = new Intent(getActivity(), Write.class);
+                        startActivity(intent);
+                        Log.i("用户角色",user.getUserrole());
+                        Util.toastMsg(user.getUserrole());
+                    }
+                    break;
+                }
 
             }
-            break;
-            case "1":
-            {
-                Intent intent = new Intent(getActivity(), Write.class);
-                startActivity(intent);
-                Util.toastMsg(user.getUserrole());
-            }
-            break;
-            case "2":
-            {
-                Intent intent = new Intent(getActivity(), Write.class);
-                startActivity(intent);
-                Util.toastMsg(user.getUserrole());
-            }
-            break;
-            case "3":
-            {
-                Intent intent = new Intent(getActivity(), Write.class);
-                startActivity(intent);
-                Util.toastMsg(user.getUserrole());
-            }
-            break;
-            case "4":
-            {
-                Intent intent = new Intent(getActivity(), Write.class);
-                startActivity(intent);
-                Util.toastMsg(user.getUserrole());
-            }
-            break;
-            case "5":
-            {
-                Intent intent = new Intent(getActivity(), Write.class);
-                startActivity(intent);
-                Log.i("用户角色",user.getUserrole());
-                Util.toastMsg(user.getUserrole());
-            }
-            break;
-        }
+        });
 
-    }
-});
     }
 
     @Override
@@ -163,12 +164,14 @@ button.setOnClickListener(new View.OnClickListener() {
         vf_adv.setFlowIndicator(cfi_circle);
         vf_adv.setOnTouchListener(this);
         pull.setOnRefreshListener(this);
+
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+        getScrollView(v.getParent()).requestDisallowInterceptTouchEvent(true);
         getViewPage(v.getParent()).requestDisallowInterceptTouchEvent(true);
-        return false;
+        return true;
     }
 
     //下拉刷新回调
@@ -190,22 +193,31 @@ button.setOnClickListener(new View.OnClickListener() {
         return getViewPage(v.getParent());
     }
 
+    private ViewParent getScrollView(ViewParent v){
+        if(v!=null&&v.getClass().getName().equals("com.handmark.pulltorefresh.library.PullToRefreshScrollView")){
+            Log.i(v.getClass().getName());
+            return v;
+        }
+        return getScrollView(v.getParent());
+    }
+
     @Subscribe
     public void onEventRefresh(List<HomeInfo> infos){
+        advList.clear();
         for(HomeInfo info:infos){
             switch (info.getImg_Type()){
                 case "0":
                     advList.add(info);
                     break;
                 case "1":
-                    Picasso.with(getContext()).load(info.getImg_Addr()).into(iv_activity);
+                    Picasso.with(getContext()).load(info.getImg_Addr()).placeholder(R.drawable.froyo).error(R.drawable.gingerbread).into(iv_activity);
                     break;
                 case "2":
-                    Picasso.with(getContext()).load(info.getImg_Addr()).into(iv_healthy);
+                    Picasso.with(getContext()).load(info.getImg_Addr()).placeholder(R.drawable.froyo).error(R.drawable.gingerbread).into(iv_healthy);
                     break;
             }
         }
-        vf_adv.setAdapter(new AdvAdapter(getContext(),advList));
+        ((AdvAdapter)vf_adv.getAdapter()).notifyDataSetChanged();
     }
 
     @Override
