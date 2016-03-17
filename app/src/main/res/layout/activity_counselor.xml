@@ -20,7 +20,40 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="180dp"></LinearLayout>
+                android:layout_height="180dp">
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="20dp">
+
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="80dp"
+                        android:text="体管赛"
+                        android:layout_weight="1"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/shape_write_bt"
+                        android:id="@+id/button3" />
+
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="80dp"
+                        android:text="往期回顾"
+                        android:layout_weight="1"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/shape_write_bt"
+                        android:id="@+id/button4" />
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>
