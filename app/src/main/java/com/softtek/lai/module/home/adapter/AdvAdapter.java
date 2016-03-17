@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
+import com.softtek.lai.module.home.model.HomeInfo;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,20 +24,22 @@ public class AdvAdapter extends BaseAdapter{
     private static final int[] ids = {R.drawable.froyo,
             R.drawable.gingerbread, R.drawable.honeycomb, R.drawable.icecream };
     private Context context;
+    private List<HomeInfo> infos;
 
-    public AdvAdapter(Context context){
+    public AdvAdapter(Context context, List<HomeInfo> infos){
         this.context=context;
+        this.infos=infos;
 
     }
 
     @Override
     public int getCount() {
-        return ids.length;
+        return infos.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return ids[position];
+        return infos.get(position);
     }
 
     @Override
@@ -46,6 +50,7 @@ public class AdvAdapter extends BaseAdapter{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
+        HomeInfo info=infos.get(position);
         if(convertView==null){
             convertView=LayoutInflater.from(context).inflate(R.layout.image_item,parent,false);
             holder=new ViewHolder(convertView);
@@ -53,7 +58,8 @@ public class AdvAdapter extends BaseAdapter{
         }else{
             holder= (ViewHolder) convertView.getTag();
         }
-        holder.imgView.setBackgroundResource(ids[position]);
+        Picasso.with(context).load(info.getImg_Addr()).into(holder.imgView);
+        //holder.imgView.setBackgroundResource(ids[position]);
         return convertView;
     }
 
