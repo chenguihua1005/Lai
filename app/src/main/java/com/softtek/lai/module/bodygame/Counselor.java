@@ -60,7 +60,7 @@ public class Counselor extends BaseActivity {
 
         //Picasso.with(this).load().into(iv_adv);
 //        Picasso.with(getBaseContext()).load(tiGuanSai.getImg_Addr()).into(iv_adv);
-        Picasso.with(getBaseContext()).load("http://172.16.98.167/UpFiles/123245555.png").into(iv_adv);
+        Picasso.with(this).load("http://172.16.98.167/UpFiles/123245555.png").placeholder(R.drawable.froyo).error(R.drawable.gingerbread).into(iv_adv);
 
 
     }
