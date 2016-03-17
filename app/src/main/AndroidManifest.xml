@@ -49,6 +49,7 @@
         <activity android:name=".module.retest.Audit" />
         <activity android:name=".module.retest.Retest" />
         <activity android:name=".module.login.view.TermActivity" />
+        <activity android:name=".module.StudentDetail.view.StudentDetailActivity"></activity>
         <activity android:name=".module.bodygame.Counselor"></activity>
     </application>
 

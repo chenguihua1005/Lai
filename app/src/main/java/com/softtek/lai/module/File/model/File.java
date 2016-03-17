@@ -8,7 +8,7 @@ import java.io.Serializable;
 public class File implements Serializable{
 
      private String nickname; //昵称
-     private String brithday; //生日yyyy-MM-dd
+     private String birthday; //生日yyyy-MM-dd
      private int height;      // 身高
      private int weight;      //体重
      private int gender;      //性别 :gender(int 0女，1男)
@@ -26,7 +26,7 @@ public class File implements Serializable{
 
     public File(String nickname, String birthday, int height, int weight, int gender) {
         this.nickname = nickname;
-        this.brithday = birthday;
+        this.birthday = birthday;
         this.height = height;
         this.weight = weight;
         this.gender = gender;
@@ -45,11 +45,11 @@ public class File implements Serializable{
     }
 
     public String getBrithday() {
-        return brithday;
+        return birthday;
     }
 
     public void setBrithday(String brithday) {
-        this.brithday = brithday;
+        this.birthday = brithday;
     }
 
     public int getHeight() {
@@ -133,7 +133,7 @@ public class File implements Serializable{
     public String toString() {
         return "File{" +
                 "nickname='" + nickname + '\'' +
-                ", birthday='" + brithday + '\'' +
+                ", birthday='" + birthday + '\'' +
                 ", height=" + height +
                 ", weight=" + weight +
                 ", gender=" + gender +

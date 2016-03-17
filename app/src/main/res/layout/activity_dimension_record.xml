@@ -43,6 +43,7 @@
                     android:textSize="18dp"
                     android:layout_toLeftOf="@+id/tv_unit"
                     android:layout_marginRight="5dp"
+                    android:textColor="#ffbb00"
                     android:id="@+id/tv_circum" />
                 <TextView
                     android:gravity="right"
@@ -77,6 +78,8 @@
                     android:layout_height="wrap_content"
                     android:text=""
                     android:textSize="18dp"
+                    android:textColor="#ffbb00"
+                    android:layout_marginRight="5dp"
                     android:layout_toLeftOf="@+id/tv_unit2"
                     android:id="@+id/tv_waistline" />
                 <TextView
@@ -112,6 +115,8 @@
                     android:layout_height="wrap_content"
                     android:text=""
                     android:textSize="18dp"
+                    android:textColor="#ffbb00"
+                    android:layout_marginRight="5dp"
                     android:layout_toLeftOf="@+id/tv_unit3"
                     android:id="@+id/tv_hiplie" />
                 <TextView
@@ -145,8 +150,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="#ffbb00"
                     android:text=""
                     android:textSize="18dp"
+                    android:layout_marginRight="5dp"
                     android:layout_toLeftOf="@+id/tv_unit4"
                     android:id="@+id/tv_uparmgirth" />
                 <TextView
@@ -181,6 +188,8 @@
                     android:layout_height="wrap_content"
                     android:text=""
                     android:textSize="18dp"
+                    android:textColor="#ffbb00"
+                    android:layout_marginRight="5dp"
                     android:layout_toLeftOf="@+id/tv_unit5"
                     android:id="@+id/tv_upleggirth" />
                 <TextView
@@ -202,8 +211,7 @@
                 android:id="@+id/ll_doleggirth"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:gravity="center_vertical"
-                >
+                android:gravity="center_vertical">
 
 
                 <TextView
@@ -218,6 +226,7 @@
                     android:layout_height="wrap_content"
                     android:text=""
                     android:textSize="18dp"
+                    android:textColor="#ffbb00"
                     android:layout_toLeftOf="@+id/tv_unit6"
                     android:id="@+id/tv_doleggirth" />
                 <TextView
@@ -242,23 +251,26 @@
                     android:layout_height="match_parent">
 
                     <LinearLayout
+                        android:id="@+id/ll_explain"
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:gravity="right"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="60dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="填写说明"
-                            android:textSize="20dp"
+                            android:textSize="24dp"
                             android:textColor="#75BA2B"
                             android:id="@+id/textView5" />
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/back"
+                            android:background="@drawable/arrow"
+                            android:layout_marginLeft="10dp"
                             android:id="@+id/imageView2" />
                     </LinearLayout>
 
@@ -267,11 +279,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
                         <Button
+                            android:id="@+id/btn_save"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:text="保存"
+                            android:layout_height="50dp"
                             android:textColor="#ffffff"
-                            android:background="@drawable/shape_write_layout"/>
+                            android:background="@drawable/btn_save_background"/>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>

@@ -41,7 +41,7 @@ public class CreateFileImpl implements ICreateFilepresenter {
                 switch (status){
                     case 200: {
                         Util.toastMsg("创建档案成功");
-                        Intent intent=new Intent(context,CreatFlleActivity.class);
+                        Intent intent=new Intent(context,HomeActviity.class);
                         context.startActivity(intent);
                         break;
                     }
