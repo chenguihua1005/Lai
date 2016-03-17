@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.softtek.lai.module.bodygame.Counselor">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/toolbar"></include>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="160dp">
+
+            </LinearLayout>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/scrollView3" >
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:paddingRight="10dp"
+                            >
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="80dp"
+                                >
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    >
+                                    <Button
+                                        android:layout_width="140dp"
+                                        android:layout_height="80dp"
+                                        android:text="体管赛"
+                                        android:background="@drawable/shape_counselor_bt"
+                                        />
+                                </LinearLayout>
+                            </FrameLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:paddingLeft="10dp"
+                            android:gravity="center"
+                            android:layout_height="match_parent">
+                            <Button
+                                android:layout_width="120dp"
+                                android:layout_height="80dp"
+                                android:text="往期回顾"
+                                android:background="@drawable/shape_counselor_bt"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp" >
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:paddingRight="10dp" >
+
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="80dp" >
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center" >
+
+                                    <Button
+                                        android:layout_width="140dp"
+                                        android:layout_height="80dp"
+                                        android:text="复测"
+                                        android:background="@drawable/shape_counselor_bt" />
+                                </LinearLayout>
+
+                                <TextView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:text="10+"
+                                    android:layout_gravity="right"
+                                    android:gravity="center"
+                                    android:textColor="#000000"
+                                    android:background="@drawable/shape_write_layout" />
+                            </FrameLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:paddingLeft="10dp"
+                            android:gravity="center"
+                            android:layout_height="match_parent" >
+
+                            <Button
+                                android:layout_width="120dp"
+                                android:layout_height="80dp"
+                                android:text="新学员录入"
+                                android:background="@drawable/shape_counselor_bt" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp" >
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:paddingRight="10dp" >
+
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="80dp" >
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center" >
+
+                                    <Button
+                                        android:layout_width="140dp"
+                                        android:layout_height="80dp"
+                                        android:text="当期进度"
+                                        android:background="@drawable/shape_counselor_bt" />
+                                </LinearLayout>
+
+                            </FrameLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:paddingLeft="10dp"
+                            android:gravity="center"
+                            android:layout_height="match_parent" >
+
+                            <Button
+                                android:layout_width="120dp"
+                                android:layout_height="80dp"
+                                android:text="荣誉榜"
+                                android:background="@drawable/shape_counselor_bt" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp" >
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:paddingRight="5dp" >
+
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="80dp" >
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center" >
+
+                                    <Button
+                                        android:layout_width="140dp"
+                                        android:layout_height="80dp"
+                                        android:text="大赛赛况"
+                                        android:background="@drawable/shape_counselor_bt"/>
+                                </LinearLayout>
+
+                            </FrameLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:paddingLeft="10dp"
+                            android:gravity="center"
+                            android:layout_height="match_parent" >
+
+                            <Button
+                                android:layout_width="120dp"
+                                android:layout_height="80dp"
+                                android:text="TIPS"
+                                android:background="@drawable/shape_counselor_bt" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp" >
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:paddingRight="10dp" >
+
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="80dp" >
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center" >
+
+                                    <Button
+                                        android:layout_width="140dp"
+                                        android:layout_height="80dp"
+                                        android:text="助教管理"
+                                        android:background="@drawable/shape_counselor_bt" />
+                                </LinearLayout>
+
+                            </FrameLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:paddingLeft="10dp"
+                            android:gravity="center"
+                            android:layout_height="match_parent" >
+
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+            </ScrollView>
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

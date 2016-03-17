@@ -58,4 +58,6 @@ dependencies {
     compile project(':viewflow')
     compile project(':ruler_lib')
     compile project(':widget_lib')
+    compile 'com.github.chrisbanes:PullToRefresh:2.1.3'
+    compile 'org.greenrobot:eventbus:3.0.0'
 }
