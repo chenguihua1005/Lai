@@ -6,10 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <include layout="@layout/toolbar"/>
-    <!--<com.handmark.pulltorefresh.library.PullToRefreshScrollView
+    <com.handmark.pulltorefresh.library.PullToRefreshScrollView
         android:id="@+id/pull"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">-->
+        android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -99,5 +99,5 @@
                 android:paddingRight="10dp"/>
 
         </LinearLayout>
-    <!--</com.handmark.pulltorefresh.library.PullToRefreshScrollView>-->
+    </com.handmark.pulltorefresh.library.PullToRefreshScrollView>
 </LinearLayout>
