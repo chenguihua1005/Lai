@@ -24,11 +24,13 @@ public class Constants {
      *  2:SR 助教
      *  3:SP 顾问
      *  4:INC 受邀普通顾客
+     *  5: VR 游客
      */
-    public static final String NC="0";
-    public static final String PC="1";
-    public static final String SR="2";
-    public static final String SP="3";
-    public static final String INC="4";
+    public static final int NC=0;
+    public static final int PC=1;
+    public static final int SR=2;
+    public static final int SP=3;
+    public static final int INC=4;
+    public static final int VR=5;
 
 }
