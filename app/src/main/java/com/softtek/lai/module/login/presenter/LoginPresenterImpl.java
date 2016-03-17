@@ -6,8 +6,10 @@ import android.content.Intent;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.File.view.CreatFlleActivity;
 import com.softtek.lai.module.home.view.HomeActviity;
+import com.softtek.lai.module.login.contants.Constants;
 import com.softtek.lai.module.login.model.User;
 import com.softtek.lai.module.login.net.LoginService;
+import com.softtek.lai.utils.ACache;
 
 import java.util.List;
 
@@ -25,8 +27,10 @@ import zilla.libcore.util.Util;
 public class LoginPresenterImpl implements ILoginPresenter {
 
     private Context context;
+    private ACache aCache;
     public LoginPresenterImpl(Context context){
         this.context=context;
+        aCache=ACache.get(context, Constants.USER_ACACHE_DATA_DIR);
     }
 
     @Override
@@ -44,6 +48,7 @@ public class LoginPresenterImpl implements ILoginPresenter {
                 switch (status){
                     case 200:
                         SharedPreferenceService.getInstance().put("token",userResponseData.getData().getToken());
+                        aCache.put(Constants.USER_ACACHE_KEY,userResponseData.getData());
                         context.startActivity(new Intent(context, CreatFlleActivity.class));
                         break;
                     default:
