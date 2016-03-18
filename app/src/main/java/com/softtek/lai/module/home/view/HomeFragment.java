@@ -21,12 +21,14 @@ import android.widget.TextView;
 import com.ggx.jerryguan.viewflow.CircleFlowIndicator;
 import com.ggx.jerryguan.viewflow.ViewFlow;
 import com.github.snowdream.android.util.Log;
+import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.bodygame.Counselor;
 import com.softtek.lai.module.home.adapter.AdvAdapter;
+import com.softtek.lai.module.home.cache.HomeInfoCache;
 import com.softtek.lai.module.home.model.HomeInfo;
 import com.softtek.lai.module.home.presenter.HomeInfoImpl;
 import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
@@ -152,24 +154,45 @@ public class HomeFragment extends BaseFragment implements View.OnTouchListener,P
 
     @Override
     protected void initDatas() {
-        homeInfoPresenter=new HomeInfoImpl();
+        homeInfoPresenter=new HomeInfoImpl(getContext());
         tv_title.setText("莱APP");
+        vf_adv.setFlowIndicator(cfi_circle);
+        vf_adv.setOnTouchListener(this);
+        //加载本地缓存数据
+        aCache=ACache.get(getContext(),Constants.HOME_CACHE_DATA_DIR);
+        String json=aCache.getAsString(Constants.HOEM_ACACHE_KEY);
+        if(json!=null&&!json.equals("")){
+            Gson gson=new Gson();
+            HomeInfoCache infoCache=gson.fromJson(json,HomeInfoCache.class);
+            for(HomeInfo info:infoCache.getInfos()){
+                switch (info.getImg_Type()){
+                    case "0":
+                        advList.add(info);
+                        break;
+                    case "1":
+                        Picasso.with(getContext()).load(info.getImg_Addr()).placeholder(R.drawable.froyo).error(R.drawable.gingerbread).into(iv_activity);
+                        break;
+                    case "2":
+                        Picasso.with(getContext()).load(info.getImg_Addr()).placeholder(R.drawable.froyo).error(R.drawable.gingerbread).into(iv_healthy);
+                        break;
+                }
+            }
+            vf_adv.setAdapter(new AdvAdapter(getContext(),advList));
+        }else{
+            System.out.println("没有缓存数据");
+        }
         List<String> datas=new ArrayList<>();
         for(int i=0;i<10;i++){
             datas.add("item");
         }
         BaseAdapter adapter=new ZillaAdapter<String>(getContext(),datas,R.layout.gridview_item,ViewHolderModel.class);
         gv_model.setAdapter(adapter);
-        vf_adv.setAdapter(new AdvAdapter(getContext(),advList));
-        vf_adv.setFlowIndicator(cfi_circle);
-        vf_adv.setOnTouchListener(this);
         pull.setOnRefreshListener(this);
 
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        getScrollView(v.getParent()).requestDisallowInterceptTouchEvent(true);
         getViewPage(v.getParent()).requestDisallowInterceptTouchEvent(true);
         return true;
     }
@@ -224,6 +247,7 @@ public class HomeFragment extends BaseFragment implements View.OnTouchListener,P
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
+
     }
 
     @Override

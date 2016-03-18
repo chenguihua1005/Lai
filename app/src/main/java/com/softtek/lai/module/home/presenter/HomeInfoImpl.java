@@ -1,10 +1,16 @@
 package com.softtek.lai.module.home.presenter;
 
+import android.content.Context;
+
+import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.module.home.cache.HomeInfoCache;
 import com.softtek.lai.module.home.model.HomeInfo;
 import com.softtek.lai.module.home.net.HomeService;
+import com.softtek.lai.module.login.contants.Constants;
+import com.softtek.lai.utils.ACache;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -22,9 +28,13 @@ import zilla.libcore.util.Util;
 public class HomeInfoImpl implements IHomeInfoPresenter{
 
     private HomeService homeService;
+    private ACache aCache;
+    private Context context;
 
-    public HomeInfoImpl(){
+    public HomeInfoImpl(Context context){
+        this.context=context;
         homeService= ZillaApi.NormalRestAdapter.create(HomeService.class);
+        aCache=ACache.get(context, Constants.HOME_CACHE_DATA_DIR);
     }
 
     @Override
@@ -37,6 +47,7 @@ public class HomeInfoImpl implements IHomeInfoPresenter{
                 int status=data.getStatus();
                 switch (status){
                     case 200:
+                        aCache.put(Constants.HOEM_ACACHE_KEY,new Gson().toJson(new HomeInfoCache(data.getData())));
                         EventBus.getDefault().post(data.getData());
                         break;
                     default:
