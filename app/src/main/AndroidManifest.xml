@@ -53,6 +53,7 @@
         <activity android:name=".module.bodygame.Counselor" />
         <activity android:name=".module.StudentDetail.view.Weightlosslog" />
         <activity android:name=".module.grade.view.GradeHomeActivity"></activity>
+        <activity android:name=".module.File.view.explain"></activity>
     </application>
 
 </manifest>
