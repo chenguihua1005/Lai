@@ -34,7 +34,7 @@
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:scaleType="center"
+                        android:scaleType="fitCenter"
                         android:layout_gravity="left|center"
                         android:src="@drawable/phone"/>
                     <EditText
@@ -53,7 +53,7 @@
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:scaleType="center"
+                        android:scaleType="fitCenter"
                         android:layout_gravity="left|center"
                         android:src="@drawable/password"/>
                     <EditText
@@ -71,7 +71,7 @@
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:scaleType="center"
+                        android:scaleType="fitCenter"
                         android:layout_gravity="left|center"
                         android:src="@drawable/password"/>
                     <EditText
@@ -94,9 +94,9 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1.5">
                         <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:scaleType="center"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:scaleType="fitCenter"
                             android:layout_gravity="left|center"
                             android:src="@drawable/identify"/>
                         <EditText

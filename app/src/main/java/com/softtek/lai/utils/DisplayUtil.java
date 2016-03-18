@@ -1,6 +1,8 @@
 package com.softtek.lai.utils;
 
+import android.app.Activity;
 import android.content.Context;
+import android.util.DisplayMetrics;
 
 /**
  * dp、sp 转换为 px 的工具类
@@ -9,6 +11,36 @@ import android.content.Context;
  *
  */
 public class DisplayUtil {
+
+
+
+    /**
+     * get screen height of this cellphone
+     *
+     * @param context
+     * @return
+     */
+    public static int getMobileHeight(Context context) {
+        DisplayMetrics dm = new DisplayMetrics();
+        ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int height = dm.heightPixels; // 得到高度
+        return height;
+    }
+
+    /**
+     * get screen width of this cellphone
+     *
+     * @param context
+     * @return
+     */
+    public static int getMobileWidth(Context context) {
+        DisplayMetrics dm = new DisplayMetrics();
+        ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int width = dm.widthPixels; // 得到宽度
+        return width;
+
+    }
+
     /**
      * 将px值转换为dip或dp值，保证尺寸大小不变
      *
