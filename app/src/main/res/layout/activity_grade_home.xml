@@ -25,7 +25,7 @@
             android:orientation="horizontal"
             android:layout_alignParentBottom="true">
             <TextView
-                android:id="tv_grade_name"
+                android:id="@+id/tv_grade_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
