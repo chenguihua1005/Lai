@@ -13,24 +13,21 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.ggx.jerryguan.viewflow.CircleFlowIndicator;
-import com.ggx.jerryguan.viewflow.ViewFlow;
 import com.github.snowdream.android.util.Log;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.bodygame.Counselor;
-import com.softtek.lai.module.home.adapter.AdvAdapter;
 import com.softtek.lai.module.home.model.FunctionModel;
 import com.softtek.lai.module.home.model.HomeInfo;
 import com.softtek.lai.module.home.presenter.HomeInfoImpl;
 import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
 import com.softtek.lai.module.login.contants.Constants;
 import com.softtek.lai.module.login.model.User;
-import com.softtek.lai.module.retest.Write;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.widgets.CustomGridView;
+import com.softtek.lai.widgets.RollHeaderView;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
@@ -54,11 +51,8 @@ public class HomeFragment extends BaseFragment implements View.OnTouchListener,P
     @InjectView(R.id.toolbar)
     Toolbar toolbar;
 
-    @InjectView(R.id.vf_adv)
-    ViewFlow vf_adv;
-
-    @InjectView(R.id.cfi_circle)
-    CircleFlowIndicator cfi_circle;
+    @InjectView(R.id.rhv_adv)
+    RollHeaderView rhv_adv;
 
     @InjectView(R.id.gv_model)
     CustomGridView gv_model;
@@ -85,12 +79,11 @@ public class HomeFragment extends BaseFragment implements View.OnTouchListener,P
 
     private IHomeInfoPresenter homeInfoPresenter;
 
-    private List<HomeInfo> advList=new ArrayList<>();
+    private List<String> advList=new ArrayList<>();
 
     @Override
     protected void initViews() {
-        vf_adv.setFlowIndicator(cfi_circle);
-        vf_adv.setOnTouchListener(this);
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -197,7 +190,7 @@ public class HomeFragment extends BaseFragment implements View.OnTouchListener,P
         for(HomeInfo info:infos){
             switch (info.getImg_Type()){
                 case "0":
-                    advList.add(info);
+                    advList.add(info.getImg_Addr());
                     break;
                 case "1":
                     Picasso.with(getContext()).load(info.getImg_Addr()).placeholder(R.drawable.froyo).error(R.drawable.gingerbread).into(iv_activity);
@@ -207,13 +200,8 @@ public class HomeFragment extends BaseFragment implements View.OnTouchListener,P
                     break;
             }
         }
-        System.out.println("是否为空>>>>>>>>>>>"+vf_adv.getAdapter());
-        if((AdvAdapter)vf_adv.getAdapter()==null){
-            vf_adv.setAdapter(new AdvAdapter(getContext(),advList));
-        }else{
-            ((AdvAdapter)vf_adv.getAdapter()).notifyDataSetChanged();
+        rhv_adv.setImgUrlData(advList);
 
-        }
     }
 
     @Override
