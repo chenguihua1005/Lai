@@ -190,14 +190,6 @@
                 android:text="班级动态"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"/>
-            <ListView
-                android:layout_below="@id/tv"
-                android:layout_above="@id/v"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:dividerHeight="0.5dp">
-
-            </ListView>
 
             <LinearLayout
                 android:id="@+id/ll"
@@ -232,6 +224,14 @@
                 android:layout_marginRight="10dp"
                 android:layout_height="1dp"
                 android:background="#c0c0c0"/>
+            <ListView
+                android:layout_below="@id/tv"
+                android:layout_above="@id/v"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:dividerHeight="0.5dp">
+
+            </ListView>
         </RelativeLayout>
     </LinearLayout>
 

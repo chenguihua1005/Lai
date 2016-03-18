@@ -18,20 +18,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="130dp"
                 >
-                <com.ggx.jerryguan.viewflow.ViewFlow
-                    android:id="@+id/vf_adv"
+                <com.softtek.lai.widgets.RollHeaderView
+                    android:id="@+id/rhv_adv"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:sidebuffer="3"/>
-                <com.ggx.jerryguan.viewflow.CircleFlowIndicator
-                    android:id="@+id/cfi_circle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:fadeOut="500"
-                    app:radius="5dp"
-                    app:inactiveType="fill"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerInParent="true"/>
+                    android:layout_height="match_parent">
+
+                </com.softtek.lai.widgets.RollHeaderView>
             </RelativeLayout>
 
             <com.softtek.lai.widgets.CustomGridView
