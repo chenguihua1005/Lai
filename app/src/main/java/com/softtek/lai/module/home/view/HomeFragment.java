@@ -2,6 +2,7 @@ package com.softtek.lai.module.home.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
@@ -189,7 +190,14 @@ public class HomeFragment extends BaseFragment implements View.OnTouchListener,P
         BaseAdapter adapter=new ZillaAdapter<String>(getContext(),datas,R.layout.gridview_item,ViewHolderModel.class);
         gv_model.setAdapter(adapter);
         pull.setOnRefreshListener(this);
+        //第一次加载自动刷新
+        new Handler().postDelayed(new Runnable() {
 
+            @Override
+            public void run() {
+                pull.setRefreshing();
+            }
+        }, 1000);
     }
 
     @Override
@@ -201,6 +209,7 @@ public class HomeFragment extends BaseFragment implements View.OnTouchListener,P
     //下拉刷新回调
     @Override
     public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
+        System.out.println("正在加载......");
         homeInfoPresenter.getHomeInfoData(pull);
     }
 
