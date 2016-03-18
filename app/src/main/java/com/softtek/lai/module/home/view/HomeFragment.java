@@ -207,6 +207,7 @@ public class HomeFragment extends BaseFragment implements View.OnTouchListener,P
                     break;
             }
         }
+        System.out.println("是否为空>>>>>>>>>>>"+vf_adv.getAdapter());
         if((AdvAdapter)vf_adv.getAdapter()==null){
             vf_adv.setAdapter(new AdvAdapter(getContext(),advList));
         }else{

@@ -253,4 +253,6 @@
     <string name="CounselorH">TIPS</string>
     <string name="CounselorI">助教管理</string>
     <string name="CounselorBarL">体管赛（顾问版）</string>
+    <string name="AuditBarT">复测审核</string>
+    <string name="AuditBarR">确认</string>
 </resources>
