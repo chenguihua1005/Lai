@@ -49,18 +49,17 @@ public class AdvAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-//        ViewHolder holder;
+        ViewHolder holder=null;
         HomeInfo info=infos.get(position);
-        //if(convertView==null){
-           View view=LayoutInflater.from(context).inflate(R.layout.image_item,parent,false);
-        ImageView iv= (ImageView) view.findViewById(R.id.imgView);
-           // holder=new ViewHolder(convertView);
-            //convertView.setTag(holder);
-        /*}else{
+        if(convertView==null){
+            convertView=LayoutInflater.from(context).inflate(R.layout.image_item,parent,false);
+            holder=new ViewHolder(convertView);
+            convertView.setTag(holder);
+        }else{
             holder= (ViewHolder) convertView.getTag();
-        }*/
-        Picasso.with(context).load(ids[position]).into(iv);
-        return view;
+        }
+        Picasso.with(context).load(info.getImg_Addr()).into(holder.imgView);
+        return convertView;
     }
 
     static class ViewHolder{

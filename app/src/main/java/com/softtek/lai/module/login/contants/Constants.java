@@ -17,6 +17,12 @@ public class Constants {
     //用户数据缓存key
     public static final String USER_ACACHE_KEY="user";
 
+    //首页缓存数据
+    public static final String HOME_CACHE_DATA_DIR="homeCache";
+
+    //用户数据缓存key
+    public static final String HOEM_ACACHE_KEY="homeInfo";
+
     /**
      * 用户角色常量
      *  0:NC 普通顾客，未认证用户
@@ -33,8 +39,6 @@ public class Constants {
     public static final int INC=4;
     public static final int VR=5;
 
-    /**
-     * home首页
-     */
+
 
 }

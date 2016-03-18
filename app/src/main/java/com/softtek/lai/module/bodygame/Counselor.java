@@ -1,9 +1,13 @@
 package com.softtek.lai.module.bodygame;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,8 +16,7 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.bodygame.model.TiGuanSai;
 import com.softtek.lai.module.bodygame.presenter.ITiGuanSai;
 import com.softtek.lai.module.bodygame.presenter.TiGuanSaiImpl;
-import com.softtek.lai.module.login.contants.Constants;
-import com.softtek.lai.module.login.model.User;
+import com.softtek.lai.module.retest.Retest;
 import com.softtek.lai.utils.DisplayUtil;
 import com.squareup.picasso.Picasso;
 
@@ -24,7 +27,7 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_counselor)
-public class Counselor extends BaseActivity {
+public class Counselor extends BaseActivity implements View.OnClickListener{
     //标题栏
     @InjectView(R.id.tv_right)
     TextView bar_right;
@@ -35,6 +38,8 @@ public class Counselor extends BaseActivity {
 
     @InjectView(R.id.iv_adv)
     ImageView iv_adv;
+    @InjectView(R.id.bt_counselor_fuce)
+    Button bt_counselor_fuce;
 
     private ITiGuanSai tiGuanSai;
 
@@ -45,6 +50,7 @@ public class Counselor extends BaseActivity {
         EventBus.getDefault().register(this);
 //        User user= (User) aCache.getAsObject(Constants.USER_ACACHE_KEY);
 //        user.getUserrole();
+        bt_counselor_fuce.setOnClickListener(this);
     }
 
     @Override
@@ -56,11 +62,9 @@ public class Counselor extends BaseActivity {
     @Subscribe
     public void onEvent(TiGuanSai tiGuanSai){
         System.out.println("dsadasdsadasda>>》》》》》》》》》》》》》》"+tiGuanSai.getImg_Addr());
-        bar_title.setText("测试");
-
         //Picasso.with(this).load().into(iv_adv);
 //        Picasso.with(getBaseContext()).load(tiGuanSai.getImg_Addr()).into(iv_adv);
-        Picasso.with(this).load("http://172.16.98.167/UpFiles/123245555.png").placeholder(R.drawable.froyo).error(R.drawable.gingerbread).into(iv_adv);
+        Picasso.with(this).load(tiGuanSai.getImg_Addr()).placeholder(R.drawable.froyo).error(R.drawable.gingerbread).into(iv_adv);
 
 
     }
@@ -82,4 +86,17 @@ public class Counselor extends BaseActivity {
 
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId())
+        {
+            case R.id.bt_counselor_fuce:
+            {
+                Intent intent=new Intent(Counselor.this, Retest.class);
+                startActivity(intent);
+
+            }
+                break;
+        }
+    }
 }

@@ -190,6 +190,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
             case R.id.tv_right:
                 Intent intent1=new Intent(CreatFlleActivity.this,HomeActviity.class);
                 startActivity(intent1);
+                finish();
                 break;
         }
     }

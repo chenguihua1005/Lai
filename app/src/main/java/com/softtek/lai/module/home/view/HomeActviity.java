@@ -63,7 +63,7 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener,B
         content.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                Log.i("onPageScrolled");
+                //Log.i("onPageScrolled");
                 if(!isClick){
                     setChildProgress(position,1-positionOffset);
                     setChildProgress(position+1,positionOffset);
@@ -72,7 +72,7 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener,B
 
             @Override
             public void onPageSelected(int position) {
-                Log.i("onPageSelected");
+                //Log.i("onPageSelected");
                 //页面切换了
                 isClick=false;
 
@@ -80,7 +80,7 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener,B
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                Log.i("onPageScrollStateChanged>>>>>>"+state);
+                //Log.i("onPageScrollStateChanged>>>>>>"+state);
                 currentId=state;
             }
         });
