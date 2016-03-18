@@ -37,8 +37,8 @@ public class Audit extends BaseActivity {
     protected void initDatas() {
         bar_left.setBackgroundResource(R.drawable.back_h);
         bar_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,20)));
-        title.setText("复测审核");
-        bar_rignt.setText("确认");
+        title.setText(R.string.AuditBarT);
+        bar_rignt.setText(R.string.AuditBarR);
         bar_rignt.setTextColor(Color.BLACK);
 
     }

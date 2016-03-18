@@ -243,4 +243,16 @@
     ]]></string>
     <string name="activity">活动推荐</string>
     <string name="healthyDisport">健康娱乐</string>
+    <string name="CounselorA">体管赛</string>
+    <string name="CounselorB">往期回顾</string>
+    <string name="CounselorC">新学员录入</string>
+    <string name="CounselorD">复测</string>
+    <string name="CounselorE">当前进度</string>
+    <string name="CounselorF">荣誉榜</string>
+    <string name="CounselorG">大赛赛况</string>
+    <string name="CounselorH">TIPS</string>
+    <string name="CounselorI">助教管理</string>
+    <string name="CounselorBarL">体管赛（顾问版）</string>
+    <string name="AuditBarT">复测审核</string>
+    <string name="AuditBarR">确认</string>
 </resources>

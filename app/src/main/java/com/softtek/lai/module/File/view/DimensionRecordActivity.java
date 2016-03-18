@@ -130,7 +130,7 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
                 break;
             //填写说明
             case R.id.ll_explain:
-
+                    startActivity(new Intent(DimensionRecordActivity.this,explain.class));
                 break;
             case R.id.tv_left:
                 startActivity(new Intent(DimensionRecordActivity.this,CreatFlleActivity.class));
