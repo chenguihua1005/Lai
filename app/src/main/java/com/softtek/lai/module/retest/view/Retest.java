@@ -1,17 +1,23 @@
-package com.softtek.lai.module.retest;
+package com.softtek.lai.module.retest.view;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.module.retest.model.banji;
 import com.softtek.lai.utils.DisplayUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
+/**
+ * Created by lareina.qiao on 3/18/2016.
+ */
 @InjectLayout(R.layout.activity_retest)
 public class Retest extends BaseActivity {
     //标题栏
@@ -22,9 +28,11 @@ public class Retest extends BaseActivity {
     @InjectView(R.id.tv_left)
     TextView bar_left;
 
+    private List<banji> banjiList=new ArrayList<banji>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
     }
 
     @Override
