@@ -1,6 +1,5 @@
 package com.softtek.lai.module.File.view;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -8,22 +7,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-
 import com.softtek.lai.R;
+import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.File.adapter.ViewPagerAdapter;
-
 import java.util.ArrayList;
 import java.util.List;
-
+import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_explain)
-public class explain extends Activity implements OnPageChangeListener {
+public class explain extends BaseActivity implements OnPageChangeListener {
 
-    private ViewPager vp;
+    @InjectView(R.id.viewpager)
+    ViewPager vp;
     private ViewPagerAdapter vpAdapter;
-    private List<View> views;
+    private List<View> views= new ArrayList<View>();;
     private ImageView[]dots;
     private int currentIndex;
 
@@ -31,28 +29,28 @@ public class explain extends Activity implements OnPageChangeListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        initViews();
-        //initDots();
+        initDots();
     }
 
-    private void initViews(){
+    @Override
+    protected void initViews() {
         LayoutInflater inflater = LayoutInflater.from(this);
-
-        views = new ArrayList<View>();
         views.add(inflater.inflate(R.layout.guideone,null));
         views.add(inflater.inflate(R.layout.guidetwo, null));
         views.add(inflater.inflate(R.layout.guidethree, null));
         views.add(inflater.inflate(R.layout.guidefour, null));
         views.add(inflater.inflate(R.layout.guidefive, null));
-       // views.add(inflater.inflate(R.layout.guidesix, null));
-        Util.toastMsg(""+views.size());
-
-//        vpAdapter = new ViewPagerAdapter(views, this);
-//        vp = (ViewPager) findViewById(R.id.viewpager);
-//        vp.setAdapter(vpAdapter);
-//        vp.setOnPageChangeListener(this);
+        views.add(inflater.inflate(R.layout.guidesix, null));
+        vpAdapter = new ViewPagerAdapter(views, this);
+        vp.setAdapter(vpAdapter);
+        vp.setOnPageChangeListener(this);
     }
+
+    @Override
+    protected void initDatas() {
+
+    }
+
     private void initDots() {
         LinearLayout ll = (LinearLayout) findViewById(R.id.ll);
 
@@ -66,16 +64,7 @@ public class explain extends Activity implements OnPageChangeListener {
         dots[currentIndex].setEnabled(false);
     }
 
-    private void setCurrentDot(int position) {
-        if (position < 0 || position > views.size() - 1 || currentIndex == position) {
-            return;
-        }
 
-        dots[position].setEnabled(false);
-        dots[currentIndex].setEnabled(true);
-
-        currentIndex = position;
-    }
     @Override
     public void onPageScrollStateChanged(int arg0) {
     }
@@ -84,7 +73,7 @@ public class explain extends Activity implements OnPageChangeListener {
     }
     @Override
     public void onPageSelected(int arg0) {
-        setCurrentDot(arg0);
+
     }
 
 }
