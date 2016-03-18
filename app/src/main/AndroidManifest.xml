@@ -51,7 +51,8 @@
         <activity android:name=".module.login.view.TermActivity" />
         <activity android:name=".module.StudentDetail.view.StudentDetailActivity" />
         <activity android:name=".module.bodygame.Counselor" />
-        <activity android:name=".module.StudentDetail.view.Weightlosslog"></activity>
+        <activity android:name=".module.StudentDetail.view.Weightlosslog" />
+        <activity android:name=".module.grade.view.GradeHomeActivity"></activity>
     </application>
 
 </manifest>
