@@ -16,8 +16,11 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.File.view.CreatFlleActivity;
 import com.softtek.lai.module.home.view.HomeActviity;
+import com.softtek.lai.module.login.contants.Constants;
+import com.softtek.lai.module.login.model.User;
 import com.softtek.lai.module.login.presenter.ILoginPresenter;
 import com.softtek.lai.module.login.presenter.LoginPresenterImpl;
+import com.softtek.lai.utils.ACache;
 
 import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
@@ -79,7 +82,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         switch (v.getId()){
             case R.id.tv_login:
                 validateLife.validate();
-                finish();
                 break;
             case R.id.tv_forgetpsd:
                 startActivity(new Intent(this,ForgetActivity.class));
@@ -88,6 +90,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 startActivity(new Intent(this,RegistActivity.class));
                 break;
             case R.id.ll_visitor:
+                User user=new User();
+                user.setUserrole(String.valueOf(Constants.VR));
+                user.setNickname("游客");
+                ACache.get(this, Constants.USER_ACACHE_DATA_DIR).put(Constants.USER_ACACHE_KEY,user);
                 startActivity(new Intent(this, HomeActviity.class));
                 break;
 

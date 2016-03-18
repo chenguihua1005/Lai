@@ -2,6 +2,7 @@ package com.softtek.lai.module.login.presenter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.File.view.CreatFlleActivity;
@@ -50,6 +51,7 @@ public class LoginPresenterImpl implements ILoginPresenter {
                         SharedPreferenceService.getInstance().put("token",userResponseData.getData().getToken());
                         aCache.put(Constants.USER_ACACHE_KEY,userResponseData.getData());
                         context.startActivity(new Intent(context, CreatFlleActivity.class));
+                        ((AppCompatActivity)context).finish();
                         break;
                     default:
                         Util.toastMsg(userResponseData.getMsg());
