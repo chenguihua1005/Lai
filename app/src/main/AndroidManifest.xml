@@ -52,7 +52,8 @@
         <activity android:name=".module.StudentDetail.view.StudentDetailActivity" />
         <activity android:name=".module.bodygame.Counselor" />
         <activity android:name=".module.StudentDetail.view.Weightlosslog" />
-        <activity android:name=".module.File.view.explain"></activity>
+        <activity android:name=".module.File.view.explain" />
+        <activity android:name=".module.File.view.Flleyindao"></activity>
     </application>
 
 </manifest>
