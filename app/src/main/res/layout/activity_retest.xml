@@ -89,6 +89,7 @@
                     android:id="@+id/et_retest"
                     android:hint="学员手机号，用户名"/>
                 <Button
+                    android:id="@+id/query"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"

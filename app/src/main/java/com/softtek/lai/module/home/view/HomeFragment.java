@@ -111,40 +111,41 @@ public class HomeFragment extends BaseFragment implements View.OnTouchListener,P
                     break;
                     case "1":
                     {
-                        Intent intent = new Intent(getActivity(), Write.class);
+                        Intent intent = new Intent(getActivity(), Counselor.class);
                         startActivity(intent);
                         Util.toastMsg(user.getUserrole());
                     }
                     break;
                     case "2":
                     {
-                        Intent intent = new Intent(getActivity(), Write.class);
+                        Intent intent = new Intent(getActivity(), Counselor.class);
                         startActivity(intent);
                         Util.toastMsg(user.getUserrole());
                     }
                     break;
                     case "3":
                     {
-                        Intent intent = new Intent(getActivity(), Write.class);
+                        Intent intent = new Intent(getActivity(), Counselor.class);
                         startActivity(intent);
                         Util.toastMsg(user.getUserrole());
                     }
                     break;
                     case "4":
                     {
-                        Intent intent = new Intent(getActivity(), Write.class);
+                        Intent intent = new Intent(getActivity(), Counselor.class);
                         startActivity(intent);
                         Util.toastMsg(user.getUserrole());
                     }
                     break;
                     case "5":
                     {
-                        Intent intent = new Intent(getActivity(), Write.class);
+                        Intent intent = new Intent(getActivity(), Counselor.class);
                         startActivity(intent);
                         Log.i("用户角色",user.getUserrole());
                         Util.toastMsg(user.getUserrole());
                     }
                     break;
+
                 }
 
             }

@@ -18,6 +18,8 @@ import com.softtek.lai.module.bodygame.presenter.ITiGuanSai;
 import com.softtek.lai.module.bodygame.presenter.TiGuanSaiImpl;
 import com.softtek.lai.module.login.contants.Constants;
 import com.softtek.lai.module.login.model.User;
+import com.softtek.lai.module.retest.Audit;
+import com.softtek.lai.module.retest.Retest;
 import com.softtek.lai.module.retest.Write;
 import com.softtek.lai.utils.DisplayUtil;
 import com.squareup.picasso.Picasso;
@@ -94,7 +96,7 @@ public class Counselor extends BaseActivity implements View.OnClickListener{
         {
             case R.id.bt_counselor_fuce:
             {
-                Intent intent=new Intent(Counselor.this, Write.class);
+                Intent intent=new Intent(Counselor.this, Retest.class);
                 startActivity(intent);
 
             }
