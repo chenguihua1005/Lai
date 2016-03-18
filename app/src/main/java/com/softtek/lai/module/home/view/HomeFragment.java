@@ -140,10 +140,7 @@ public class HomeFragment extends BaseFragment implements View.OnTouchListener,P
                     break;
                     case "5":
                     {
-                        Intent intent = new Intent(getActivity(), Counselor.class);
-                        startActivity(intent);
-                        Log.i("用户角色",user.getUserrole());
-                        Util.toastMsg(user.getUserrole());
+                        Util.toastMsg("抱歉，未注册验证不能使用此功能");
                     }
                     break;
 

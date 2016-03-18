@@ -34,40 +34,45 @@
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:id="@+id/scrollView3" >
 
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    >
 
                     <LinearLayout
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="5dp">
+                        android:padding="5dp"
+                        >
 
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
+                            android:layout_margin="2dp"
                             android:layout_weight="1"
-                            android:paddingRight="10dp"
+
                             >
                             <FrameLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="80dp"
+                                android:layout_height="100dp"
                                 >
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:gravity="center"
+                                    android:background="#FCA11F"
                                     >
                                     <Button
-                                        android:layout_width="140dp"
-                                        android:layout_height="80dp"
+                                        android:layout_width="100dp"
+                                        android:layout_height="100dp"
                                         android:text="体管赛"
-                                        android:background="@drawable/shape_counselor_bt"
+                                        android:background="@null"
                                         />
                                 </LinearLayout>
                             </FrameLayout>
@@ -76,14 +81,28 @@
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_weight="1"
-                            android:paddingLeft="10dp"
                             android:gravity="center"
+                            android:background="#78BD3C"
+                            android:layout_margin="2dp"
                             android:layout_height="match_parent">
                             <Button
-                                android:layout_width="120dp"
-                                android:layout_height="80dp"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
                                 android:text="往期回顾"
-                                android:background="@drawable/shape_counselor_bt"/>
+                                android:background="@null"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:layout_margin="2dp"
+                            android:background="#D86C21"
+                            android:layout_height="match_parent">
+                            <Button
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
+                                android:text="往期回顾"
+                                android:background="@null"/>
                         </LinearLayout>
                     </LinearLayout>
 
@@ -96,24 +115,26 @@
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
+                            android:layout_margin="2dp"
                             android:layout_weight="1"
-                            android:paddingRight="10dp" >
+                             >
 
                             <FrameLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="80dp" >
+                                android:layout_height="100dp" >
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
+                                    android:background="#3FBC7A"
                                     android:gravity="center" >
 
                                     <Button
                                         android:id="@+id/bt_counselor_fuce"
-                                        android:layout_width="140dp"
-                                        android:layout_height="80dp"
+                                        android:layout_width="100dp"
+                                        android:layout_height="100dp"
                                         android:text="复测"
-                                        android:background="@drawable/shape_counselor_bt" />
+                                        android:background="@null" />
                                 </LinearLayout>
 
                                 <TextView
@@ -130,15 +151,30 @@
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_weight="1"
-                            android:paddingLeft="10dp"
                             android:gravity="center"
+                            android:layout_margin="2dp"
+                            android:background="#E1A71F"
                             android:layout_height="match_parent" >
 
                             <Button
-                                android:layout_width="120dp"
-                                android:layout_height="80dp"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
                                 android:text="新学员录入"
-                                android:background="@drawable/shape_counselor_bt" />
+                                android:background="@null" />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:background="#3EBA9E"
+                            android:layout_margin="2dp"
+                            android:gravity="center"
+                            android:layout_height="match_parent" >
+
+                            <Button
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
+                                android:text="新学员录入"
+                                android:background="@null" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -151,23 +187,25 @@
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
+                            android:layout_margin="2dp"
                             android:layout_weight="1"
-                            android:paddingRight="10dp" >
+                             >
 
                             <FrameLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="80dp" >
+                                android:layout_height="100dp" >
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
+                                    android:background="#42AF30"
                                     android:gravity="center" >
 
                                     <Button
-                                        android:layout_width="140dp"
-                                        android:layout_height="80dp"
+                                        android:layout_width="100dp"
+                                        android:layout_height="100dp"
                                         android:text="当期进度"
-                                        android:background="@drawable/shape_counselor_bt" />
+                                        android:background="@null" />
                                 </LinearLayout>
 
                             </FrameLayout>
@@ -176,103 +214,30 @@
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_weight="1"
-                            android:paddingLeft="10dp"
+                            android:background="#DFD223"
                             android:gravity="center"
+                            android:layout_margin="2dp"
                             android:layout_height="match_parent" >
 
                             <Button
-                                android:layout_width="120dp"
-                                android:layout_height="80dp"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
                                 android:text="荣誉榜"
-                                android:background="@drawable/shape_counselor_bt" />
+                                android:background="@null" />
                         </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp" >
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:paddingRight="5dp" >
-
-                            <FrameLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="80dp" >
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:gravity="center" >
-
-                                    <Button
-                                        android:layout_width="140dp"
-                                        android:layout_height="80dp"
-                                        android:text="大赛赛况"
-                                        android:background="@drawable/shape_counselor_bt"/>
-                                </LinearLayout>
-
-                            </FrameLayout>
-                        </LinearLayout>
-
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_weight="1"
-                            android:paddingLeft="10dp"
                             android:gravity="center"
+                            android:layout_margin="2dp"
+                            android:background="#A86B4C"
                             android:layout_height="match_parent" >
 
                             <Button
-                                android:layout_width="120dp"
-                                android:layout_height="80dp"
-                                android:text="TIPS"
-                                android:background="@drawable/shape_counselor_bt" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="5dp" >
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:paddingRight="10dp" >
-
-                            <FrameLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="80dp" >
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:gravity="center" >
-
-                                    <Button
-                                        android:layout_width="140dp"
-                                        android:layout_height="80dp"
-                                        android:text="助教管理"
-                                        android:background="@drawable/shape_counselor_bt" />
-                                </LinearLayout>
-
-                            </FrameLayout>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:paddingLeft="10dp"
-                            android:gravity="center"
-                            android:layout_height="match_parent" >
-
-
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
+                                android:text="荣誉榜"
+                                android:background="@null" />
                         </LinearLayout>
                     </LinearLayout>
 

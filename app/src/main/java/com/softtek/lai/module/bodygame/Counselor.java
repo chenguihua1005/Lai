@@ -16,11 +16,7 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.bodygame.model.TiGuanSai;
 import com.softtek.lai.module.bodygame.presenter.ITiGuanSai;
 import com.softtek.lai.module.bodygame.presenter.TiGuanSaiImpl;
-import com.softtek.lai.module.login.contants.Constants;
-import com.softtek.lai.module.login.model.User;
-import com.softtek.lai.module.retest.Audit;
 import com.softtek.lai.module.retest.Retest;
-import com.softtek.lai.module.retest.Write;
 import com.softtek.lai.utils.DisplayUtil;
 import com.squareup.picasso.Picasso;
 
