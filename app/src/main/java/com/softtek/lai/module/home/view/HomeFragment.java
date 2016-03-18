@@ -177,10 +177,10 @@ public class HomeFragment extends BaseFragment implements View.OnTouchListener,P
                         break;
                 }
             }
-            vf_adv.setAdapter(new AdvAdapter(getContext(),advList));
         }else{
             System.out.println("没有缓存数据");
         }
+        vf_adv.setAdapter(new AdvAdapter(getContext(),advList));
         List<String> datas=new ArrayList<>();
         for(int i=0;i<10;i++){
             datas.add("item");
