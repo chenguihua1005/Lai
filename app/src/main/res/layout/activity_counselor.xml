@@ -71,7 +71,7 @@
                                     <Button
                                         android:layout_width="100dp"
                                         android:layout_height="100dp"
-                                        android:text="体管赛"
+                                        android:text="@string/CounselorA"
                                         android:background="@null"
                                         />
                                 </LinearLayout>
@@ -88,7 +88,7 @@
                             <Button
                                 android:layout_width="100dp"
                                 android:layout_height="100dp"
-                                android:text="往期回顾"
+                                android:text="@string/CounselorB"
                                 android:background="@null"/>
                         </LinearLayout>
                         <LinearLayout
@@ -101,7 +101,7 @@
                             <Button
                                 android:layout_width="100dp"
                                 android:layout_height="100dp"
-                                android:text="往期回顾"
+                                android:text="@string/CounselorC"
                                 android:background="@null"/>
                         </LinearLayout>
                     </LinearLayout>
@@ -133,7 +133,7 @@
                                         android:id="@+id/bt_counselor_fuce"
                                         android:layout_width="100dp"
                                         android:layout_height="100dp"
-                                        android:text="复测"
+                                        android:text="@string/CounselorD"
                                         android:background="@null" />
                                 </LinearLayout>
 
@@ -159,7 +159,7 @@
                             <Button
                                 android:layout_width="100dp"
                                 android:layout_height="100dp"
-                                android:text="新学员录入"
+                                android:text="@string/CounselorE"
                                 android:background="@null" />
                         </LinearLayout>
                         <LinearLayout
@@ -173,7 +173,7 @@
                             <Button
                                 android:layout_width="100dp"
                                 android:layout_height="100dp"
-                                android:text="新学员录入"
+                                android:text="@string/CounselorF"
                                 android:background="@null" />
                         </LinearLayout>
                     </LinearLayout>
@@ -204,7 +204,7 @@
                                     <Button
                                         android:layout_width="100dp"
                                         android:layout_height="100dp"
-                                        android:text="当期进度"
+                                        android:text="@string/CounselorG"
                                         android:background="@null" />
                                 </LinearLayout>
 
@@ -222,7 +222,7 @@
                             <Button
                                 android:layout_width="100dp"
                                 android:layout_height="100dp"
-                                android:text="荣誉榜"
+                                android:text="@string/CounselorH"
                                 android:background="@null" />
                         </LinearLayout>
                         <LinearLayout
@@ -236,7 +236,7 @@
                             <Button
                                 android:layout_width="100dp"
                                 android:layout_height="100dp"
-                                android:text="荣誉榜"
+                                android:text="@string/CounselorI"
                                 android:background="@null" />
                         </LinearLayout>
                     </LinearLayout>

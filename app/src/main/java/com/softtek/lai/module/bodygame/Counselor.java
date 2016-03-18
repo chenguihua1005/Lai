@@ -72,7 +72,7 @@ public class Counselor extends BaseActivity implements View.OnClickListener{
 
     @Override
     protected void initViews() {
-        bar_title.setText("体管赛（顾问版）");
+        bar_title.setText(R.string.CounselorBarL);
         bar_left.setBackgroundResource(R.drawable.back_h);
         bar_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,20)));
 
