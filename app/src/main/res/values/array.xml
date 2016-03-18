@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="models">
+        <item>体管赛</item>
+        <item>健康圈</item>
+        <item>通讯录</item>
+        <item>莱运动</item>
+        <item>莱秤</item>
+        <item>日程表</item>
+        <item>顾客管理</item>
+        <item>莱购</item>
+        <item>莱表格</item>
+        <item>莱课堂</item>
+    </string-array>
+</resources>

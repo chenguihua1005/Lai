@@ -16,7 +16,7 @@
             android:orientation="vertical">
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="130dp"
                 >
                 <com.ggx.jerryguan.viewflow.ViewFlow
                     android:id="@+id/vf_adv"
@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:horizontalSpacing="5dp"
                 android:verticalSpacing="10dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
@@ -64,7 +64,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/activity"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:textColor="@color/black"
                 android:padding="10dp"/>
 
@@ -73,7 +73,9 @@
                 android:layout_height="150dp"
                 android:orientation="vertical"
                 android:gravity="center"
-                android:padding="10dp">
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp"
+                android:paddingBottom="10dp">
                 <ImageView
                     android:id="@+id/iv_activity"
                     android:layout_width="match_parent"
@@ -93,7 +95,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/healthyDisport"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:textColor="@color/black"
                 android:padding="10dp"/>
 
@@ -103,7 +105,9 @@
                 android:layout_height="150dp"
                 android:orientation="vertical"
                 android:gravity="center"
-                android:padding="10dp">
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp"
+                android:paddingBottom="10dp">
 
                 <ImageView
                     android:id="@+id/iv_healthy"
