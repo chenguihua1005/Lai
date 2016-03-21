@@ -39,7 +39,7 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void initDatas() {
-
+        grade.getGradeInfos(1);
     }
 
     @Override

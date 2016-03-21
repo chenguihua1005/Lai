@@ -8,7 +8,7 @@ public interface IGrade {
     /**
      * 获取班级主页信息
      */
-    void getGradeInfos();
+    void getGradeInfos(long classId);
 
 
 
