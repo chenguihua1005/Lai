@@ -15,6 +15,7 @@ import com.softtek.lai.module.bodygame.model.TiGuanSai;
 import com.softtek.lai.module.bodygame.presenter.ITiGuanSai;
 import com.softtek.lai.module.bodygame.presenter.TiGuanSaiImpl;
 import com.softtek.lai.module.grade.view.StudentsActivity;
+import com.softtek.lai.module.newmemberentry.view.EntryActivity;
 import com.softtek.lai.module.retest.view.Retest;
 import com.squareup.picasso.Picasso;
 
@@ -23,6 +24,8 @@ import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
+
 /**
  * Created by lareina.qiao on 3/17/2016.
  * 体管赛页面
@@ -45,13 +48,32 @@ public class Counselor extends BaseActivity implements View.OnClickListener{
     //体管赛按钮
     @InjectView(R.id.bt_tiguansai)
     Button bt_tiguansai;
-
+    //新学员录入按钮
+    @InjectView(R.id.bt_new_student)
+    Button bt_new_student;
+    //往期回顾按钮
+    @InjectView(R.id.bt_review)
+    Button bt_review;
+    //当前进度按钮
+    @InjectView(R.id.bt_process)
+    Button bt_process;
+    //荣誉榜按钮
+    @InjectView(R.id.bt_honor)
+    Button bt_honor;
+    //赛况
+    @InjectView(R.id.bt_match)
+    Button bt_match;
+    //提示页面
+    @InjectView(R.id.btn_tip)
+    Button btn_tip;
+    //助教管理
+    @InjectView(R.id.btn_assistant)
+    Button btn_assistant;
     private ITiGuanSai tiGuanSai;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i("d","看见对方的所得税法");
         //初始化事件总线，并注册当前类
         EventBus.getDefault().register(this);
 //        User user= (User) aCache.getAsObject(Constants.USER_ACACHE_KEY);
@@ -60,6 +82,14 @@ public class Counselor extends BaseActivity implements View.OnClickListener{
         bt_counselor_fuce.setOnClickListener(this);
         ll_left.setOnClickListener(this);
         bt_tiguansai.setOnClickListener(this);
+        bt_new_student.setOnClickListener(this);
+        bt_honor.setOnClickListener(this);
+        bt_process.setOnClickListener(this);
+        bt_review.setOnClickListener(this);
+        bt_match.setOnClickListener(this);
+        btn_assistant.setOnClickListener(this);
+        btn_tip.setOnClickListener(this);
+        
     }
 
     @Override
@@ -118,6 +148,44 @@ public class Counselor extends BaseActivity implements View.OnClickListener{
                 startActivity(intent);
             }
             break;
+            //新学员录入跳转事件
+            case R.id.bt_new_student:
+            {
+                Intent intent = new Intent(this, EntryActivity.class);
+                startActivity(intent);
+            }
+            break;
+            case R.id.bt_honor:
+            {
+                Util.toastMsg("荣誉榜页面");
+            }
+            break;
+            case R.id.bt_process:
+            {
+                Util.toastMsg("当前进度页面");
+            }
+            break;
+            case R.id.bt_review:
+            {
+                Util.toastMsg("往期回顾");
+            }
+            break;
+            case R.id.bt_match:
+            {
+                Util.toastMsg("大赛赛况页面");
+            }
+            break;
+            case R.id.btn_tip:
+            {
+                Util.toastMsg("提示页面");
+            }
+            break;
+            case R.id.btn_assistant:
+            {
+                Util.toastMsg("助教管理页面");
+            }
+            break;
+
         }
     }
 }

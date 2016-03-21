@@ -22,7 +22,6 @@
         android:layout_height="10dp"
         android:layout_width="10dp"
         android:clickable="true"
-
         android:layout_gravity="center_vertical"
         android:src="@drawable/dark_dot"/>
 
@@ -54,7 +53,7 @@
         android:src="@drawable/dark_dot"/>
 
     <ImageView
-        android:id="@+id/iv_fire"
+        android:id="@+id/iv_five"
         android:layout_height="10dp"
         android:layout_width="10dp"
         android:clickable="true"

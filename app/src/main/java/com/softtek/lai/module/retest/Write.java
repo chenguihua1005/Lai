@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
@@ -24,8 +25,8 @@ public class Write extends BaseActivity {
     //标题栏
     @InjectView(R.id.tv_title)
     TextView title;
-    @InjectView(R.id.tv_left)
-    TextView bar_left;
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
     @InjectView(R.id.tv_right)
     TextView bar_rignt;
     @Override
@@ -41,8 +42,6 @@ public class Write extends BaseActivity {
 
     @Override
     protected void initDatas() {
-        bar_left.setBackgroundResource(R.drawable.back_h);
-        bar_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,20)));
         title.setText("复测录入");
         bar_rignt.setText("保存");
         bar_rignt.setTextColor(Color.BLACK);

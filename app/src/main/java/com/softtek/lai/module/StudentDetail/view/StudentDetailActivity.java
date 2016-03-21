@@ -37,7 +37,6 @@ public class StudentDetailActivity extends BaseActivity implements View.OnClickL
     protected void initDatas() {
         tv_title.setText("学员详情");
         tv_left.setBackgroundResource(R.drawable.back_h);
-        tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15), DisplayUtil.dip2px(this,20)));
     }
 
     @Override

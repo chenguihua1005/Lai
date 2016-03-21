@@ -35,8 +35,8 @@ public class explain extends BaseActivity implements OnPageChangeListener {
     @InjectView(R.id.iv_four)
     ImageView iv_four;
 
-    @InjectView(R.id.iv_fire)
-    ImageView iv_fire;
+    @InjectView(R.id.iv_five)
+    ImageView iv_five;
 
     @InjectView(R.id.iv_six)
     ImageView iv_six;
@@ -103,7 +103,7 @@ public class explain extends BaseActivity implements OnPageChangeListener {
                 iv_two.setBackgroundResource(R.drawable.dark_dot);
                 iv_three.setBackgroundResource(R.drawable.dark_dot);
                 iv_four.setBackgroundResource(R.drawable.dark_dot);
-                iv_fire.setBackgroundResource(R.drawable.dark_dot);
+                iv_five.setBackgroundResource(R.drawable.dark_dot);
                 iv_six.setBackgroundResource(R.drawable.dark_dot);
                 break;
             case 1:
@@ -111,7 +111,7 @@ public class explain extends BaseActivity implements OnPageChangeListener {
                 iv_two.setBackgroundResource(R.drawable.white_dot);
                 iv_three.setBackgroundResource(R.drawable.dark_dot);
                 iv_four.setBackgroundResource(R.drawable.dark_dot);
-                iv_fire.setBackgroundResource(R.drawable.dark_dot);
+                iv_five.setBackgroundResource(R.drawable.dark_dot);
                 iv_six.setBackgroundResource(R.drawable.dark_dot);
                 break;
             case 2:
@@ -119,7 +119,7 @@ public class explain extends BaseActivity implements OnPageChangeListener {
                 iv_two.setBackgroundResource(R.drawable.dark_dot);
                 iv_three.setBackgroundResource(R.drawable.white_dot);
                 iv_four.setBackgroundResource(R.drawable.dark_dot);
-                iv_fire.setBackgroundResource(R.drawable.dark_dot);
+                iv_five.setBackgroundResource(R.drawable.dark_dot);
                 iv_six.setBackgroundResource(R.drawable.dark_dot);
                 break;
             case 3:
@@ -127,7 +127,7 @@ public class explain extends BaseActivity implements OnPageChangeListener {
                 iv_two.setBackgroundResource(R.drawable.dark_dot);
                 iv_three.setBackgroundResource(R.drawable.dark_dot);
                 iv_four.setBackgroundResource(R.drawable.white_dot);
-                iv_fire.setBackgroundResource(R.drawable.dark_dot);
+                iv_five.setBackgroundResource(R.drawable.dark_dot);
                 iv_six.setBackgroundResource(R.drawable.dark_dot);
                 break;
             case 4:
@@ -135,7 +135,7 @@ public class explain extends BaseActivity implements OnPageChangeListener {
                 iv_two.setBackgroundResource(R.drawable.dark_dot);
                 iv_three.setBackgroundResource(R.drawable.dark_dot);
                 iv_four.setBackgroundResource(R.drawable.dark_dot);
-                iv_fire.setBackgroundResource(R.drawable.white_dot);
+                iv_five.setBackgroundResource(R.drawable.white_dot);
                 iv_six.setBackgroundResource(R.drawable.dark_dot);
                 break;
             case 5:
@@ -143,7 +143,7 @@ public class explain extends BaseActivity implements OnPageChangeListener {
                 iv_two.setBackgroundResource(R.drawable.dark_dot);
                 iv_three.setBackgroundResource(R.drawable.dark_dot);
                 iv_four.setBackgroundResource(R.drawable.dark_dot);
-                iv_fire.setBackgroundResource(R.drawable.dark_dot);
+                iv_five.setBackgroundResource(R.drawable.dark_dot);
                 iv_six.setBackgroundResource(R.drawable.white_dot);
                 break;
 
