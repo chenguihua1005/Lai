@@ -5,15 +5,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewParent;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.softtek.lai.R;
@@ -46,7 +43,7 @@ import zilla.libcore.util.Util;
  *
  */
 @InjectLayout(R.layout.fragment_home)
-public class HomeFragment extends BaseFragment implements View.OnTouchListener,PullToRefreshBase.OnRefreshListener<ScrollView>{
+public class HomeFragment extends BaseFragment implements PullToRefreshBase.OnRefreshListener<ScrollView>{
 
     @InjectView(R.id.toolbar)
     Toolbar toolbar;
@@ -156,11 +153,6 @@ public class HomeFragment extends BaseFragment implements View.OnTouchListener,P
         }, 1000);
     }
 
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        getViewPage(v.getParent()).requestDisallowInterceptTouchEvent(true);
-        return true;
-    }
 
     //下拉刷新回调
     @Override
@@ -169,15 +161,6 @@ public class HomeFragment extends BaseFragment implements View.OnTouchListener,P
         homeInfoPresenter.getHomeInfoData(pull);
     }
 
-
-    private ViewParent getViewPage(ViewParent v){
-
-        if(v!=null&&v.getClass().getName().equals("android.support.v4.view.ViewPager")){
-            Log.i(v.getClass().getName());
-            return v;
-        }
-        return getViewPage(v.getParent());
-    }
 
     @Subscribe
     public void onLoadModelFunction(ZillaAdapter<FunctionModel> adapter){

@@ -56,7 +56,8 @@ public class HomeInfoImpl implements IHomeInfoPresenter{
             HomeInfoCache infoCache=gson.fromJson(json,HomeInfoCache.class);
             EventBus.getDefault().post(infoCache.getInfos());
         }else{
-            EventBus.getDefault().post(new ArrayList<HomeInfo>());
+            List<HomeInfo> infos=new ArrayList<>();
+            EventBus.getDefault().post(infos);
             System.out.println("没有缓存数据");
         }
         String[] models_name=context.getResources().getStringArray(R.array.models);

@@ -223,7 +223,9 @@ public class RollHeaderView extends FrameLayout implements OnPageChangeListener 
                             long moveTime = System.currentTimeMillis();
                             if (downX == moveX && (moveTime - downTime < 500)) {//点击的条件
                                 //轮播图回调点击事件
-                                headerViewClickListener.HeaderViewClick(position % mUrlList.size());
+                                if(headerViewClickListener!=null){
+                                    headerViewClickListener.HeaderViewClick(position % mUrlList.size());
+                                }
                             }
                             break;
                         case MotionEvent.ACTION_CANCEL:
@@ -235,8 +237,11 @@ public class RollHeaderView extends FrameLayout implements OnPageChangeListener 
             });
 
             //加载图片
-            Picasso.with(mContext).load(mUrlList.get(position % mUrlList.size()))
-                    .error(R.mipmap.ic_launcher).into(iv);
+            if(mUrlList.size()>position){
+                Picasso.with(mContext).load(mUrlList.get(position % mUrlList.size()))
+                        .error(R.mipmap.ic_launcher).into(iv);
+
+            }
             ((ViewPager) container).addView(iv);
 
             return iv;
@@ -254,9 +259,12 @@ public class RollHeaderView extends FrameLayout implements OnPageChangeListener 
 
     @Override
     public void onPageSelected(int position) {
-        dotList.get(prePosition).setBackgroundResource(R.drawable.banner_dot_normal);
-        dotList.get(position % dotList.size()).setBackgroundResource(R.drawable.banner_dot_select);
-        prePosition = position % dotList.size();
+        if(dotList.size()>position){
+            dotList.get(prePosition).setBackgroundResource(R.drawable.banner_dot_normal);
+            dotList.get(position % dotList.size()).setBackgroundResource(R.drawable.banner_dot_select);
+            prePosition = position % dotList.size();
+
+        }
     }
 
     @Override
