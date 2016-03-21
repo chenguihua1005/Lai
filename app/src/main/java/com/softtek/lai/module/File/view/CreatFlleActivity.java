@@ -27,6 +27,8 @@ import com.softtek.lai.module.File.model.Filter;
 import com.softtek.lai.module.File.presenter.CreateFileImpl;
 import com.softtek.lai.module.File.presenter.ICreateFilepresenter;
 import com.softtek.lai.module.home.view.HomeActviity;
+import com.softtek.lai.module.newmemberentry.view.member_entryActivity;
+import com.softtek.lai.module.studentlist.view.StudentListActivity;
 
 import butterknife.InjectView;
 import zilla.libcore.file.SharedPreferenceService;

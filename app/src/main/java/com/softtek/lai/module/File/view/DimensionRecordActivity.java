@@ -3,6 +3,7 @@ package com.softtek.lai.module.File.view;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -15,6 +16,7 @@ import com.ggx.ruler_lib.RulerView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.File.model.File;
+import com.softtek.lai.utils.DisplayUtil;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -103,7 +105,7 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
         tv_doleggirth.setText(file.getDoleggirth()==0?"":file.getDoleggirth()+"");
         tv_upleggirth.setText(file.getUpleggirth()==0?"":file.getUpleggirth()+"");
         tv_hiplie.setText(file.getHiplie()==0?"":file.getHiplie()+"");
-        tv_left.setText("返回");
+        tv_left.setBackgroundResource(R.drawable.back);
         tv_title.setText("添加记录");
     }
 
