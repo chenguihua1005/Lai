@@ -1,5 +1,6 @@
 package com.softtek.lai.module.grade.view;
 
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 
@@ -12,6 +13,9 @@ import zilla.libcore.ui.InjectLayout;
 @InjectLayout(R.layout.fragment_loss_weight)
 public class LossWeightFragment extends BaseFragment{
 
+
+    @InjectView(R.id.ptrlv)
+    PullToRefreshListView ptrlv;
 
     @Override
     protected void initViews() {
