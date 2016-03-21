@@ -7,14 +7,23 @@
                                    android:background="@color/mytoolbar_green"
                                    android:minHeight="?attr/actionBarSize"
                                    android:fitsSystemWindows="true">
-    <TextView
-        android:id="@+id/tv_left"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/ll_left"
+        android:layout_width="60dp"
         android:layout_height="match_parent"
         android:layout_gravity="left"
         android:gravity="center"
-        android:textSize="20sp"
-        android:textColor="#ffffff"/>
+        >
+
+        <TextView
+            android:id="@+id/tv_left"
+            android:layout_width="15dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="-15dp"
+            android:background="@drawable/back"
+            android:textColor="#ffffff"
+            />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tv_title"

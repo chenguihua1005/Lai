@@ -16,6 +16,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.bodygame.Counselor;
+import com.softtek.lai.module.grade.view.StudentsActivity;
 import com.softtek.lai.module.home.model.FunctionModel;
 import com.softtek.lai.module.home.model.HomeInfo;
 import com.softtek.lai.module.home.presenter.HomeInfoImpl;
@@ -84,9 +85,11 @@ public class HomeFragment extends BaseFragment implements PullToRefreshBase.OnRe
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                aCache=ACache.get(getActivity(), Constants.USER_ACACHE_DATA_DIR);
-                User user= (User) aCache.getAsObject(Constants.USER_ACACHE_KEY);
-                switch(user.getUserrole())
+                Intent intent = new Intent(getContext(), StudentsActivity.class);
+                startActivity(intent);
+                /*aCache=ACache.get(getActivity(), Constants.USER_ACACHE_DATA_DIR);
+                User user= (User) aCache.getAsObject(Constants.USER_ACACHE_KEY);*/
+               /* switch(user.getUserrole())
                 {
                     case "0":
                     {
@@ -130,7 +133,7 @@ public class HomeFragment extends BaseFragment implements PullToRefreshBase.OnRe
                     }
                     break;
 
-                }
+                }*/
 
             }
         });
