@@ -16,6 +16,10 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.bodygame.model.TiGuanSai;
 import com.softtek.lai.module.bodygame.presenter.ITiGuanSai;
 import com.softtek.lai.module.bodygame.presenter.TiGuanSaiImpl;
+import com.softtek.lai.module.home.view.HealthyFragment;
+import com.softtek.lai.module.home.view.HomeActviity;
+import com.softtek.lai.module.home.view.HomeFragment;
+import com.softtek.lai.module.retest.Write;
 import com.softtek.lai.module.retest.view.Retest;
 import com.softtek.lai.utils.DisplayUtil;
 import com.squareup.picasso.Picasso;
@@ -34,7 +38,7 @@ public class Counselor extends BaseActivity implements View.OnClickListener{
     @InjectView(R.id.tv_title)
     TextView bar_title;
     @InjectView(R.id.tv_left)
-    TextView bar_left;
+    TextView tv_left;
 
     @InjectView(R.id.iv_adv)
     ImageView iv_adv;
@@ -51,6 +55,7 @@ public class Counselor extends BaseActivity implements View.OnClickListener{
 //        User user= (User) aCache.getAsObject(Constants.USER_ACACHE_KEY);
 //        user.getUserrole();
         bt_counselor_fuce.setOnClickListener(this);
+        tv_left.setOnClickListener(this);
     }
 
     @Override
@@ -73,8 +78,8 @@ public class Counselor extends BaseActivity implements View.OnClickListener{
     @Override
     protected void initViews() {
         bar_title.setText(R.string.CounselorBarL);
-        bar_left.setBackgroundResource(R.drawable.back_h);
-        bar_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,20)));
+        tv_left.setBackgroundResource(R.drawable.back_h);
+        tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,20)));
 
 
     }
@@ -95,8 +100,15 @@ public class Counselor extends BaseActivity implements View.OnClickListener{
                 Intent intent=new Intent(Counselor.this, Retest.class);
                 startActivity(intent);
 
+
             }
                 break;
+            case R.id.tv_left:
+            {
+                Intent intent=new Intent(this, HomeActviity.class);
+                startActivity(intent);
+                finish();
+            }
         }
     }
 }

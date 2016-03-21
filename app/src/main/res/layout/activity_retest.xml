@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.softtek.lai.module.retest.Retest">
+    tools:context="com.softtek.lai.module.retest.view.Retest">
 <include layout="@layout/toolbar"></include>
 
     <ScrollView
@@ -20,7 +20,7 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
+                android:layout_height="240dp"
                 android:layout_margin="10dp"
                 android:background="@drawable/shape_boder">
 
@@ -64,6 +64,7 @@
                     android:layout_marginRight="10dp"
                     android:background="#BBBBBB"/>
                 <ListView
+                    android:id="@+id/list_class"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:padding="10dp"></ListView>
@@ -107,6 +108,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp">
                 <ListView
+                    android:id="@+id/list_query"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
