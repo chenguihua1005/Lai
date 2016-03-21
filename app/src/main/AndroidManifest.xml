@@ -43,7 +43,7 @@
         <activity android:name=".module.File.view.CreatFlleActivity" />
         <activity
             android:name=".module.home.view.HomeActviity"
-            android:launchMode="singleInstance" />
+            android:launchMode="singleTask" />
         <activity android:name=".module.File.view.DimensionRecordActivity" />
         <activity android:name=".module.retest.Write" />
         <activity android:name=".module.retest.Audit" />
@@ -52,8 +52,9 @@
         <activity android:name=".module.StudentDetail.view.StudentDetailActivity" />
         <activity android:name=".module.bodygame.Counselor" />
         <activity android:name=".module.StudentDetail.view.Weightlosslog" />
-        <activity android:name=".module.grade.view.GradeHomeActivity"></activity>
-        <activity android:name=".module.File.view.explain"></activity>
+        <activity android:name=".module.grade.view.GradeHomeActivity" />
+        <activity android:name=".module.File.view.explain" />
+        <activity android:name=".module.grade.view.StudentsActivity"></activity>
     </application>
 
 </manifest>
