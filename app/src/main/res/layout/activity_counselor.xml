@@ -69,6 +69,7 @@
                                     android:background="#FCA11F"
                                     >
                                     <Button
+                                        android:id="@+id/bt_tiguansai"
                                         android:layout_width="100dp"
                                         android:layout_height="100dp"
                                         android:text="@string/CounselorA"

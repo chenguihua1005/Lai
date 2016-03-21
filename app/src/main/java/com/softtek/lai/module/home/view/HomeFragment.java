@@ -85,17 +85,16 @@ public class HomeFragment extends BaseFragment implements PullToRefreshBase.OnRe
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), StudentsActivity.class);
-                startActivity(intent);
-                /*aCache=ACache.get(getActivity(), Constants.USER_ACACHE_DATA_DIR);
-                User user= (User) aCache.getAsObject(Constants.USER_ACACHE_KEY);*/
-               /* switch(user.getUserrole())
+
+                aCache=ACache.get(getActivity(), Constants.USER_ACACHE_DATA_DIR);
+                User user= (User) aCache.getAsObject(Constants.USER_ACACHE_KEY);
+                switch(user.getUserrole())
                 {
                     case "0":
                     {
                         Intent intent = new Intent(getContext(), Counselor.class);
                         startActivity(intent);
-
+                        Util.toastMsg(user.getUserrole());
 
                     }
                     break;
@@ -133,7 +132,7 @@ public class HomeFragment extends BaseFragment implements PullToRefreshBase.OnRe
                     }
                     break;
 
-                }*/
+                }
 
             }
         });

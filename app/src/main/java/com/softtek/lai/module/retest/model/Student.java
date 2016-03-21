@@ -8,5 +8,6 @@ public class Student {
     private String nick;
     private String phone;
     private String weeks;
+    private String classname;
 
 }

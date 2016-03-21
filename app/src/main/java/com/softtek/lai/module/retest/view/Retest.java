@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -30,8 +31,8 @@ public class Retest extends BaseActivity {
     TextView bar_right;
     @InjectView(R.id.tv_title)
     TextView bar_title;
-    @InjectView(R.id.tv_left)
-    TextView tv_left;
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
     @InjectView(R.id.list_class)
     ListView listView;
     private List<Banji> banjiList=new ArrayList<Banji>();
@@ -43,7 +44,7 @@ public class Retest extends BaseActivity {
         ClassAdapter classAdapter=new ClassAdapter(Retest.this,R.layout.listview_retest_class,banjiList);
 //        ListView listView=(ListView)findViewById(R.id.list_class);
         listView.setAdapter(classAdapter);
-        tv_left.setOnClickListener(new View.OnClickListener() {
+        ll_left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(Retest.this, Counselor.class);
@@ -60,9 +61,9 @@ public class Retest extends BaseActivity {
 
     @Override
     protected void initDatas() {
-        tv_left.setBackgroundResource(R.drawable.back_h);
+
         bar_title.setText("复测");
-        tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,20)));
+
 
 
 
