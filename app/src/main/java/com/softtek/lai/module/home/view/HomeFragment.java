@@ -95,7 +95,7 @@ public class HomeFragment extends BaseFragment implements PullToRefreshBase.OnRe
                     {
                         Intent intent = new Intent(getContext(), Counselor.class);
                         startActivity(intent);
-                        Util.toastMsg(user.getUserrole());
+
 
                     }
                     break;
