@@ -27,6 +27,10 @@ public class member_entryActivity extends BaseActivity implements View.OnClickLi
     @InjectView(R.id.tv_right)
     TextView tv_right;
 
+    //照片上传
+    @InjectView(R.id.tv_photoupload)
+    TextView tv_photoupload;
+
     @InjectView(R.id.btn_Add_bodydimension)
     Button btn_Add_bodydimension;
 
@@ -34,6 +38,7 @@ public class member_entryActivity extends BaseActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         tv_left.setOnClickListener(this);
+        tv_photoupload.setOnClickListener(this);
         btn_Add_bodydimension.setOnClickListener(this);
     }
 
@@ -65,7 +70,9 @@ public class member_entryActivity extends BaseActivity implements View.OnClickLi
             case R.id.btn_Add_bodydimension:
                 startActivity(new Intent(member_entryActivity.this, DimensionRecordActivity.class));
                 finish();
-            break;
+            case R.id.tv_photoupload:
+
+                break;
         }
     }
 }

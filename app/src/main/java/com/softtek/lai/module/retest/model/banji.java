@@ -38,5 +38,4 @@ public class Banji {
         this.classname = classname;
     }
 
-
 }
