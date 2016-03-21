@@ -18,51 +18,57 @@
         android:layout_alignParentBottom="true">
 
     <ImageView
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:padding="15.0dip"
+        android:id="@+id/iv_one"
+        android:layout_height="10dp"
+        android:layout_width="10dp"
         android:clickable="true"
+
         android:layout_gravity="center_vertical"
-        android:src="@drawable/dot"/>
+        android:src="@drawable/dark_dot"/>
 
     <ImageView
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:padding="15.0dip"
+        android:id="@+id/iv_two"
+        android:layout_height="10dp"
+        android:layout_width="10dp"
+        android:layout_marginLeft="20dp"
         android:clickable="true"
         android:layout_gravity="center_vertical"
-        android:src="@drawable/dot"/>
+        android:src="@drawable/dark_dot"/>
 
     <ImageView
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:padding="15.0dip"
+        android:id="@+id/iv_three"
+        android:layout_height="10dp"
+        android:layout_width="10dp"
         android:clickable="true"
+        android:layout_marginLeft="20dp"
         android:layout_gravity="center_vertical"
-        android:src="@drawable/dot"/>
+        android:src="@drawable/dark_dot"/>
 
     <ImageView
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:padding="15.0dip"
+        android:id="@+id/iv_four"
+        android:layout_height="10dp"
+        android:layout_width="10dp"
         android:clickable="true"
+        android:layout_marginLeft="20dp"
         android:layout_gravity="center_vertical"
-        android:src="@drawable/dot"/>
+        android:src="@drawable/dark_dot"/>
 
     <ImageView
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:padding="15.0dip"
+        android:id="@+id/iv_fire"
+        android:layout_height="10dp"
+        android:layout_width="10dp"
         android:clickable="true"
+        android:layout_marginLeft="20dp"
         android:layout_gravity="center_vertical"
-        android:src="@drawable/dot"/>
+        android:src="@drawable/dark_dot"/>
 
     <ImageView
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:padding="15.0dip"
+        android:id="@+id/iv_six"
+        android:layout_height="10dp"
+        android:layout_width="10dp"
         android:clickable="true"
+        android:layout_marginLeft="20dp"
         android:layout_gravity="center_vertical"
-        android:src="@drawable/dot"/>
+        android:src="@drawable/dark_dot"/>
 </LinearLayout>
 </RelativeLayout>
