@@ -18,8 +18,8 @@ public class Audit extends BaseActivity {
     //标题栏
     @InjectView(R.id.tv_title)
     TextView title;
-    @InjectView(R.id.tv_left)
-    TextView bar_left;
+    @InjectView(R.id.ll_left)
+    TextView ll_left;
     @InjectView(R.id.tv_right)
     TextView bar_rignt;
 
@@ -35,8 +35,7 @@ public class Audit extends BaseActivity {
 
     @Override
     protected void initDatas() {
-        bar_left.setBackgroundResource(R.drawable.back_h);
-        bar_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,20)));
+
         title.setText(R.string.AuditBarT);
         bar_rignt.setText(R.string.AuditBarR);
         bar_rignt.setTextColor(Color.BLACK);

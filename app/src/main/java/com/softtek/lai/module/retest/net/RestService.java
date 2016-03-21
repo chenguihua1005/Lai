@@ -1,4 +1,4 @@
-package com.softtek.lai.module.retest;
+package com.softtek.lai.module.retest.net;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.bodygame.model.TiGuanSai;
