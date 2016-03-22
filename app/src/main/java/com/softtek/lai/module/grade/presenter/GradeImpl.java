@@ -4,12 +4,17 @@ import android.app.ProgressDialog;
 import android.os.SystemClock;
 
 import com.github.snowdream.android.util.Log;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.module.grade.eventModel.LossWeightEvent;
 import com.softtek.lai.module.grade.model.Grade;
+import com.softtek.lai.module.grade.model.Student;
 import com.softtek.lai.module.grade.net.GradeService;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.List;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -60,7 +65,49 @@ public class GradeImpl implements IGrade{
     }
 
     @Override
-    public void sendDynamic() {
+    public void sendDynamic(long classId, String dynamicTitle, String dyContent, int dyType, long accountId) {
+        String token= SharedPreferenceService.getInstance().get("token","");
+        service.senDynamic(token, classId, dynamicTitle, dyContent, dyType, accountId, new Callback<ResponseData>() {
+            @Override
+            public void success(ResponseData responseData, Response response) {
+                Util.toastMsg(responseData.getMsg());
+                Log.i(responseData.getMsg());
+            }
 
+            @Override
+            public void failure(RetrofitError error) {
+                error.printStackTrace();
+                Util.toastMsg(R.string.neterror);
+            }
+        });
     }
+
+    @Override
+    public void getStudentList(String orderType, String classId, final PullToRefreshListView lv) {
+        String token= SharedPreferenceService.getInstance().get("token","");
+        service.getStudentsList(token, classId, orderType, new Callback<ResponseData<List<Student>>>() {
+            @Override
+            public void success(ResponseData<List<Student>> studentResponseData, Response response) {
+                lv.onRefreshComplete();
+                switch (studentResponseData.getStatus()){
+                    case 200:
+                        Log.i(studentResponseData.toString());
+                        EventBus.getDefault().post(new LossWeightEvent(studentResponseData.getData()));
+                        break;
+                    default:
+                        Util.toastMsg(studentResponseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                lv.onRefreshComplete();
+                error.printStackTrace();
+                Util.toastMsg(R.string.neterror);
+            }
+        });
+    }
+
+
 }

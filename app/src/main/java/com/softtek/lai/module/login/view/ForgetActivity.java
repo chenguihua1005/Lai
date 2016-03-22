@@ -1,10 +1,6 @@
 package com.softtek.lai.module.login.view;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.View;
 import android.widget.Button;
@@ -18,12 +14,11 @@ import com.mobsandgeeks.saripaar.annotation.Regex;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.module.login.contants.Constants;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.login.presenter.IPasswordPresenter;
 import com.softtek.lai.module.login.presenter.IRegistPresenter;
 import com.softtek.lai.module.login.presenter.PasswordPresnter;
 import com.softtek.lai.module.login.presenter.RegistPresenterImpl;
-import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RegexUtil;
 import com.softtek.lai.utils.SoftInputUtil;
 

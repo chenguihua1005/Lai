@@ -2,7 +2,6 @@ package com.softtek.lai.module.home.presenter;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -13,9 +12,8 @@ import com.softtek.lai.module.home.cache.HomeInfoCache;
 import com.softtek.lai.module.home.model.FunctionModel;
 import com.softtek.lai.module.home.model.HomeInfo;
 import com.softtek.lai.module.home.net.HomeService;
-import com.softtek.lai.module.login.contants.Constants;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.utils.ACache;
-import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 

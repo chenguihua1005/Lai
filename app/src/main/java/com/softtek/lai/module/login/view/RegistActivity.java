@@ -1,13 +1,10 @@
 package com.softtek.lai.module.login.view;
 
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -26,13 +23,10 @@ import com.mobsandgeeks.saripaar.annotation.Required;
 import com.mobsandgeeks.saripaar.annotation.TextRule;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.module.File.view.CreatFlleActivity;
-import com.softtek.lai.module.login.contants.Constants;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.login.presenter.IRegistPresenter;
 import com.softtek.lai.module.login.presenter.RegistPresenterImpl;
-import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RegexUtil;
-import com.softtek.lai.utils.SoftInputUtil;
 
 import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
