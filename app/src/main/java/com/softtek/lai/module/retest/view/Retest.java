@@ -49,9 +49,9 @@ public class Retest extends BaseActivity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
 
         initbanji();
-        ClassAdapter classAdapter=new ClassAdapter(Retest.this,R.layout.listview_retest_class,banjiList);
+       // ClassAdapter classAdapter=new ClassAdapter(Retest.this,R.layout.listview_retest_class,banjiList);
 //        ListView listView=(ListView)findViewById(R.id.list_class);
-        listView.setAdapter(classAdapter);
+        //listView.setAdapter(classAdapter);
 
     }
 
@@ -81,15 +81,15 @@ public class Retest extends BaseActivity implements View.OnClickListener{
     @Subscribe
     private void initbanji(){
 
-//        banjiList.add(lis);
-//        Banji lis1=new Banji("一月班","复仇者联盟",18);
-//        banjiList.add(lis1);
-//        Banji lis2=new Banji("一月班","健康俱乐部",8);
-//        banjiList.add(lis2);
-//        Banji lis3=new Banji("二月班","复仇者联盟",10);
-//        banjiList.add(lis3);
-//        Banji lis4=new Banji("二月班","健康俱乐部",18);
-//        banjiList.add(lis4);
+
+        Banji lis1=new Banji(0,0,"一月班",0,"复仇者联盟",18);
+        banjiList.add(lis1);
+        Banji lis2=new Banji(0,0,"一月班",0,"健康俱乐部",8);
+        banjiList.add(lis2);
+        Banji lis3=new Banji(0,0,"二月班",0,"复仇者联盟",10);
+        banjiList.add(lis3);
+        Banji lis4=new Banji(0,0,"二月班",0,"健康俱乐部",18);
+        banjiList.add(lis4);
 
 
     }
@@ -101,8 +101,7 @@ public class Retest extends BaseActivity implements View.OnClickListener{
 
         // Util.toastMsg(banji.getClassName());
 
-        Banji lis=new Banji(banji.getBanjis());
-
+//        Banji lis=new Banji();
 
 
     }

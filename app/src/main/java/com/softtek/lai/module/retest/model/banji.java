@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by lareina.qiao on 3/18/2016.
  */
-public class Banji extends BanJiEvent {
+public class Banji {
 
         private long id;
         private long ClassId;
@@ -15,11 +15,6 @@ public class Banji extends BanJiEvent {
         private long ManagerId;
         private String StartDate;
         private int Total;
-
-    public Banji(List<Banji> banjis) {
-        super(banjis);
-    }
-
 
     @Override
     public String toString() {
@@ -33,9 +28,6 @@ public class Banji extends BanJiEvent {
                 '}';
     }
 
-
-
-
     public long getId() {
         return id;
     }
@@ -45,43 +37,59 @@ public class Banji extends BanJiEvent {
     }
 
     public long getClassId() {
-            return ClassId;
-        }
+        return ClassId;
+    }
 
-        public void setClassId(long classId) {
-            ClassId = classId;
-        }
+    public void setClassId(long classId) {
+        ClassId = classId;
+    }
 
-        public String getClassName() {
-            return ClassName;
-        }
+    public String getClassName() {
+        return ClassName;
+    }
 
-        public void setClassName(String className) {
-            ClassName = className;
-        }
+    public void setClassName(String className) {
+        ClassName = className;
+    }
 
-        public long getManagerId() {
-            return ManagerId;
-        }
+    public long getManagerId() {
+        return ManagerId;
+    }
 
-        public void setManagerId(long managerId) {
-            ManagerId = managerId;
-        }
+    public void setManagerId(long managerId) {
+        ManagerId = managerId;
+    }
 
-        public String getStartDate() {
-            return StartDate;
-        }
+    public String getStartDate() {
+        return StartDate;
+    }
 
-        public void setStartDate(String startDate) {
-            StartDate = startDate;
-        }
+    public void setStartDate(String startDate) {
+        StartDate = startDate;
+    }
 
-        public int getTotal() {
-            return Total;
-        }
+    public int getTotal() {
+        return Total;
+    }
 
-        public void setTotal(int total) {
-            Total = total;
-        }
+    public void setTotal(int total) {
+        Total = total;
+    }
+
+    public Banji(long id, long classId, String className, long managerId, String startDate, int total) {
+        this.id = id;
+        ClassId = classId;
+        ClassName = className;
+        ManagerId = managerId;
+        StartDate = startDate;
+        Total = total;
+    }
+
+
+
+
+
+
+
 
 }
