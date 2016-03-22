@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
@@ -45,8 +46,8 @@ public class ForgetActivity2 extends BaseActivity implements View.OnClickListene
     @InjectView(R.id.et_repassword)
     EditText et_repassword;
 
-    @InjectView(R.id.tv_left)
-    TextView tv_left;
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
 
     @InjectView(R.id.tv_title)
     TextView tv_title;
@@ -61,14 +62,12 @@ public class ForgetActivity2 extends BaseActivity implements View.OnClickListene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        tv_left.setOnClickListener(this);
+        ll_left.setOnClickListener(this);
         btn_submit.setOnClickListener(this);
     }
 
     @Override
     protected void initViews() {
-        tv_left.setBackgroundResource(R.drawable.back);
-        tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
         tv_title.setText("输入新密码");
     }
 
@@ -84,7 +83,7 @@ public class ForgetActivity2 extends BaseActivity implements View.OnClickListene
     public void onClick(View v) {
         SoftInputUtil.hidden(this);
         switch (v.getId()){
-            case R.id.tv_left:
+            case R.id.ll_left:
                 finish();
                 break;
             case R.id.btn_submit:

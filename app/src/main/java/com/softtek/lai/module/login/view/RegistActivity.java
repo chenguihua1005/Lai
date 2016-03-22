@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
@@ -80,8 +81,8 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
     @InjectView(R.id.tv_title)
     TextView tv_title;
 
-    @InjectView(R.id.tv_left)
-    TextView tv_left;
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
 
 
     @Override
@@ -90,7 +91,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
         tv_get_identify.setOnClickListener(this);
         btn_regist.setOnClickListener(this);
         tv_protocol.setOnClickListener(this);
-        tv_left.setOnClickListener(this);
+        ll_left.setOnClickListener(this);
         cb_term.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -106,8 +107,6 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void initViews() {
         tv_title.setText("注册");
-        tv_left.setBackgroundResource(R.drawable.back);
-        tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
     }
 
     @Override
@@ -136,7 +135,9 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
             case R.id.tv_protocol:
                 startActivity(new Intent(this,TermActivity.class));
                 break;
-
+            case R.id.ll_left:
+                finish();
+                break;
         }
     }
 
