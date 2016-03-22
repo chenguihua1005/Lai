@@ -29,10 +29,10 @@ import zilla.libcore.ui.InjectLayout;
 public class StudentsActivity extends BaseActivity implements BaseFragment.OnFragmentInteractionListener,
         ViewPager.OnPageChangeListener,TabHost.OnTabChangeListener,View.OnClickListener{
 
-    @InjectView(R.id.tabhost)
+    @InjectView(android.R.id.tabhost)
     FragmentTabHost tabHost;
 
-    @InjectView(R.id.tabcontent)
+    @InjectView(R.id.page)
     ViewPager tabcontent;
 
     @InjectView(R.id.ll_left)
@@ -55,16 +55,16 @@ public class StudentsActivity extends BaseActivity implements BaseFragment.OnFra
     protected void initDatas() {
         tv_title.setText("学员列表");
         //设置tab的内容区域
-        tabHost.setup(this,getSupportFragmentManager(),R.id.tabcontent);
+        tabHost.setup(this,getSupportFragmentManager(),android.R.id.tabcontent);
         //添加标签
         tabHost.addTab(tabHost.newTabSpec("0").setIndicator("按减重斤数"),LossWeightFragment.class,null);
-        tabHost.addTab(tabHost.newTabSpec("0").setIndicator("按减重百分比"),LossWeightFragment.class,null);
-        tabHost.addTab(tabHost.newTabSpec("0").setIndicator("按体脂率"),LossWeightFragment.class,null);
-        tabHost.addTab(tabHost.newTabSpec("0").setIndicator("按腰围变化"),LossWeightFragment.class,null);
+        tabHost.addTab(tabHost.newTabSpec("1").setIndicator("按减重百分比"),LossWeightPerFragment.class,null);
+        tabHost.addTab(tabHost.newTabSpec("2").setIndicator("按体脂率"),LossWeightPerFragment.class,null);
+        tabHost.addTab(tabHost.newTabSpec("3").setIndicator("按腰围变化"),LossWeightPerFragment.class,null);
         fragments.add(new LossWeightFragment());
-        fragments.add(new LossWeightFragment());
-        fragments.add(new LossWeightFragment());
-        fragments.add(new LossWeightFragment());
+        fragments.add(new LossWeightPerFragment());
+        fragments.add(new LossWeightPerFragment());
+        fragments.add(new LossWeightPerFragment());
         tabcontent.setAdapter(new TabContentAdapter(getSupportFragmentManager(),fragments));
     }
 

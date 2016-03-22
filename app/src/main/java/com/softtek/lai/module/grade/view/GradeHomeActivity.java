@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.grade.adapter.DynamicAdapter;
 import com.softtek.lai.module.grade.model.DynamicInfo;
 import com.softtek.lai.module.grade.model.Grade;
@@ -128,14 +129,13 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
 
     }
 
-
-
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.tv_send:
                 //发布班级动态和公告
-                grade.sendDynamic();
+                String dynamicContent=et_dynamic.getText().toString();
+                grade.sendDynamic(1,"dsadas",dynamicContent, Constants.SP_SEND,1);
                 break;
             case R.id.ll_left:
                 finish();
@@ -220,15 +220,7 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
         super.onCreate(savedInstanceState);
-        Log.i("onCreate");
-    }
 
-
-    @Override
-    protected void onStart() {
-
-        super.onStart();
-        Log.i("onStart");
     }
 
     @Override
