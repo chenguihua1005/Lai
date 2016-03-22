@@ -29,6 +29,9 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
     @InjectView(R.id.tv_left)
     TextView tv_left;
 
+    @InjectView(R.id.tv_right)
+    TextView tv_right;
+
     @InjectView(R.id.tv_title)
     TextView tv_title;
 
@@ -105,7 +108,6 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
         tv_doleggirth.setText(file.getDoleggirth()==0?"":file.getDoleggirth()+"");
         tv_upleggirth.setText(file.getUpleggirth()==0?"":file.getUpleggirth()+"");
         tv_hiplie.setText(file.getHiplie()==0?"":file.getHiplie()+"");
-        tv_left.setBackgroundResource(R.drawable.back);
         tv_title.setText("添加记录");
     }
 

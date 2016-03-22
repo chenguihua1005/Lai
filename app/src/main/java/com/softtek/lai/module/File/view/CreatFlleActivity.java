@@ -89,6 +89,8 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
 
     @InjectView(R.id.tv_title)
     TextView tv_title;
+    @InjectView(R.id.tv_left)
+    TextView tv_left;
 
     @InjectView(R.id.tv_right)
     TextView tv_right;
@@ -145,8 +147,8 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void initDatas() {
         ICreateFilepresenter = new CreateFileImpl(this);
-        file=new File();
         tv_title.setText("我的档案");
+        tv_left.setBackground(null);
         tv_right.setText("跳过");
     }
 
