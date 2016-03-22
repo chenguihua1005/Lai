@@ -1,41 +1,87 @@
 package com.softtek.lai.module.retest.model;
 
+import com.softtek.lai.module.retest.eventModel.BanJiEvent;
+
+import java.util.List;
+
 /**
  * Created by lareina.qiao on 3/18/2016.
  */
-public class Banji {
-    private String classname;
-    private String classtitle;
-    private int personum;
+public class Banji extends BanJiEvent {
 
-    public Banji(String classname, String classtitle, int personum) {
-        this.classname = classname;
-        this.classtitle = classtitle;
-        this.personum = personum;
+        private long id;
+        private long ClassId;
+        private String ClassName;
+        private long ManagerId;
+        private String StartDate;
+        private int Total;
+
+    public Banji(List<Banji> banjis) {
+        super(banjis);
     }
 
-    public int getPersonum() {
-        return personum;
+
+    @Override
+    public String toString() {
+        return "Banji{" +
+                "id=" + id +
+                ", ClassId=" + ClassId +
+                ", ClassName='" + ClassName + '\'' +
+                ", ManagerId=" + ManagerId +
+                ", StartDate='" + StartDate + '\'' +
+                ", Total=" + Total +
+                '}';
     }
 
-    public void setPersonum(int personum) {
-        this.personum = personum;
+
+
+
+    public long getId() {
+        return id;
     }
 
-    public String getClasstitle() {
-        return classtitle;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public void setClasstitle(String classtitle) {
-        this.classtitle = classtitle;
-    }
+    public long getClassId() {
+            return ClassId;
+        }
 
-    public String getClassname() {
-        return classname;
-    }
+        public void setClassId(long classId) {
+            ClassId = classId;
+        }
 
-    public void setClassname(String classname) {
-        this.classname = classname;
-    }
+        public String getClassName() {
+            return ClassName;
+        }
+
+        public void setClassName(String className) {
+            ClassName = className;
+        }
+
+        public long getManagerId() {
+            return ManagerId;
+        }
+
+        public void setManagerId(long managerId) {
+            ManagerId = managerId;
+        }
+
+        public String getStartDate() {
+            return StartDate;
+        }
+
+        public void setStartDate(String startDate) {
+            StartDate = startDate;
+        }
+
+        public int getTotal() {
+            return Total;
+        }
+
+        public void setTotal(int total) {
+            Total = total;
+        }
 
 }
