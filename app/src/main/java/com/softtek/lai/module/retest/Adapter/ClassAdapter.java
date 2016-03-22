@@ -28,12 +28,12 @@ public class ClassAdapter extends ArrayAdapter<Banji> {
     public View getView(int position, View convertView, ViewGroup parent) {
         Banji banji1=getItem(position);
         View view= LayoutInflater.from(getContext()).inflate(resourceId,null);
-        TextView classname=(TextView)view.findViewById(R.id.tv_classname);
-        TextView classtitle=(TextView)view.findViewById(R.id.tv_title);
-        TextView personum=(TextView)view.findViewById(R.id.tv_personum);
-        classname.setText(banji1.getClassname());
-        classtitle.setText(banji1.getClasstitle());
-        personum.setText(banji1.getPersonum()+"");
+        TextView StartDate=(TextView)view.findViewById(R.id.tv_classname);
+        TextView ClassName=(TextView)view.findViewById(R.id.tv_title);
+        TextView Total=(TextView)view.findViewById(R.id.tv_personum);
+        StartDate.setText(banji1.getStartDate());
+        ClassName.setText(banji1.getClassName());
+        Total.setText(banji1.getTotal()+"");
         return view;
     }
 }
