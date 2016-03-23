@@ -3,7 +3,6 @@ package com.softtek.lai.module.File.view;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -12,22 +11,20 @@ import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.ggx.ruler_lib.RulerView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.File.model.File;
-import com.softtek.lai.utils.DisplayUtil;
+import com.softtek.lai.module.newmemberentry.view.model.Newstudents;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_dimension_record)
 public class DimensionRecordActivity extends BaseActivity implements OnClickListener{
 
     //toolbar布局控件
-    @InjectView(R.id.tv_left)
-    TextView tv_left;
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
 
     @InjectView(R.id.tv_right)
     TextView tv_right;
@@ -79,6 +76,7 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
     RelativeLayout ll_doleggirth;
 
     private File file;//存储用户表对象
+    private Newstudents newstudents;//存储用户表单数据
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +89,7 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
         ll_doleggirth.setOnClickListener(this);
         ll_explain.setOnClickListener(this);
         btn_save.setOnClickListener(this);
-        tv_left.setOnClickListener(this);
+        ll_left.setOnClickListener(this);
     }
 
     @Override
@@ -136,7 +134,7 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
             case R.id.ll_explain:
                     startActivity(new Intent(DimensionRecordActivity.this,explain.class));
                 break;
-            case R.id.tv_left:
+            case R.id.ll_left:
                 startActivity(new Intent(DimensionRecordActivity.this,CreatFlleActivity.class));
                 break;
             //保存记录......
@@ -155,9 +153,21 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
                 file.setUparmgirth(uparmgirth);
                 file.setUpleggirth(tupleggirth);
                 file.setDoleggirth(doleggirth);
+
+                newstudents.setCircum(circum+"");
+                newstudents.setWaistline(waistline+"");
+                newstudents.setHiplie(hiplie+"");
+                newstudents.setUparmgirth(uparmgirth+"");
+                newstudents.setUpleggirth(tupleggirth+"");
+                newstudents.setDoleggirth(doleggirth+"");
+
                 Intent intent=new Intent();
                 intent.putExtra("file",file);
                 setResult(RESULT_OK,intent);
+
+                Intent intent1=new Intent();
+                intent1.putExtra("newstudents",newstudents);
+                setResult(RESULT_OK,intent1);
                // Util.toastMsg("保存成功");
                 finish();
                 break;

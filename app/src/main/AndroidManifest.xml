@@ -54,9 +54,9 @@
         <activity android:name=".module.grade.view.GradeHomeActivity" />
         <activity android:name=".module.File.view.explain" />
         <activity android:name=".module.studentlist.view.StudentListActivity" />
-        <activity android:name=".module.newmemberentry.view.EntryActivity"/>
-        <activity android:name=".module.grade.view.StudentsActivity"></activity>
-
+        <activity android:name=".module.newmemberentry.view.EntryActivity" />
+        <activity android:name=".module.grade.view.StudentsActivity" />
+        <activity android:name=".module.studetail.view.StudentDetailActivity"></activity>
     </application>
 
 </manifest>
