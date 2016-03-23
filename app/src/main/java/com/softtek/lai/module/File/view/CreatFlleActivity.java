@@ -210,6 +210,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         file.setGender(gender.equals("女")?0:1);
         file.setHeight(Integer.parseInt(height));
         file.setWeight(Integer.parseInt(weight));
+        Log.i("file>>>>>>>>>>>>>>>>>>>"+file);
         String token= SharedPreferenceService.getInstance().get("token","");
         ICreateFilepresenter.createFile(token,file);
     }

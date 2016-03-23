@@ -107,6 +107,9 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
         tv_upleggirth.setText(file.getUpleggirth()==0?"":file.getUpleggirth()+"");
         tv_hiplie.setText(file.getHiplie()==0?"":file.getHiplie()+"");
         tv_title.setText("添加记录");
+
+     //   newstudents=(Newstudents)getIntent().getSerializableExtra("newstudents");
+
     }
 
     @Override
