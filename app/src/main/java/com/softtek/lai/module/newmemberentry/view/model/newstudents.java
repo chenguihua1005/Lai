@@ -10,7 +10,7 @@ public class Newstudents implements Serializable {
     private String nickname;    //昵称:必填
     private String certification;//资格证号: 选填
     private String mobile;  //手机号码: 必填
-    private String classid; //参赛班级:必填
+    private String ClassId; //参赛班级:必填
     private String weight;  //初始体重:必填
     private String pysical; //体脂:选填
     private String fat;     //内脂:选填
@@ -23,14 +23,13 @@ public class Newstudents implements Serializable {
     private String uparmgirth;//上臂围:,可空
     private String upleggirth;//大腿围 :,可空
     private String doleggirth;//小腿围:,可空
-    public Newstudents(String s){
 
-    }
+
     public Newstudents(String nickname, String certification, String mobile, String classid, String weight, String pysical, String fat, String birthday, String gender) {
         this.nickname = nickname;
         this.certification = certification;
         this.mobile = mobile;
-        this.classid = classid;
+        this.ClassId = classid;
         this.weight = weight;
         this.pysical = pysical;
         this.fat = fat;
@@ -69,12 +68,12 @@ public class Newstudents implements Serializable {
         this.mobile = mobile;
     }
 
-    public String getClassid() {
-        return classid;
+    public String getClassId() {
+        return ClassId;
     }
 
-    public void setClassid(String classid) {
-        this.classid = classid;
+    public void setClassId(String ClassId) {
+        this.ClassId = ClassId;
     }
 
     public String getWeight() {
@@ -171,7 +170,7 @@ public class Newstudents implements Serializable {
                 "nickname='" + nickname + '\'' +
                 ", certification='" + certification + '\'' +
                 ", mobile='" + mobile + '\'' +
-                ", classid='" + classid + '\'' +
+                ", classid='" + ClassId + '\'' +
                 ", weight='" + weight + '\'' +
                 ", pysical='" + pysical + '\'' +
                 ", fat='" + fat + '\'' +

@@ -27,11 +27,19 @@ import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.File.view.DimensionRecordActivity;
+import com.softtek.lai.module.newmemberentry.view.EventModel.ClassEvent;
+import com.softtek.lai.module.newmemberentry.view.model.ClassList;
 import com.softtek.lai.module.newmemberentry.view.model.Newstudents;
+import com.softtek.lai.module.newmemberentry.view.presenter.GuwenClassImp;
+import com.softtek.lai.module.newmemberentry.view.presenter.GuwenClassPre;
 import com.softtek.lai.module.newmemberentry.view.presenter.INewStudentpresenter;
 import com.softtek.lai.module.newmemberentry.view.presenter.NewStudentInputImpl;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.io.File;
+import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
@@ -45,6 +53,7 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
             "参赛班级7", "参赛班级8", "参赛班级9", "参赛班级10", "参赛班级11", "参赛班级12", "参赛班级13", "参赛班级14", "参赛班级15" };
 
     private INewStudentpresenter INewStudentpresenter;
+    private GuwenClassPre guwenClassPre;
     //toolbar
     @InjectView(R.id.tv_title)
     TextView tv_title;
@@ -117,14 +126,16 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
     Button btn_Add_bodydimension;
 
     //照片上传
-    StringBuffer path=new StringBuffer();
-    private static final int PHOTO=1;
+    //StringBuffer path=new StringBuffer();
+    //private static final int PHOTO=1;
 
-    private Newstudents newstudents;//存储用户表单数据
-    private static final int GET_BODY_DIMENSION=2;
+    Newstudents newstudents;//存储用户表单数据
+    //private static final int GET_BODY_DIMENSION=2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        EventBus.getDefault().register(this);
+
         super.onCreate(savedInstanceState);
         //返回按钮
         ll_left.setOnClickListener(this);
@@ -140,8 +151,18 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
     }
 
     @Override
+    protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
+    }
+
+    @Override
     protected void initViews() {
+        guwenClassPre=new GuwenClassImp();
+        guwenClassPre.doGetGuwenClass(36);
+//        Newstudents newstudents=new Newstudents("df","dsf","lo","19","36","65","65","1966-03-12","nan");
         INewStudentpresenter = new NewStudentInputImpl(this);
+//        INewStudentpresenter.input(newstudents);
     }
 
     @Override
@@ -159,17 +180,31 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
                 break;
             //确定按钮
             case R.id.tv_right:
-                validateLife.validate();
+//                validateLife.validate();
+                //INewStudentpresenter.input(newstudents);
+//                newstudents.setCircum("156");
+//                newstudents.setGender("nan");
+//                newstudents.setBirthday("1992-06-08");
+//                newstudents.setFat("269");
+//                newstudents.setCertification("sdfs");
+//                newstudents.setClassId("5");
+//                newstudents.setDoleggirth("36");
+//                newstudents.setHiplie("36");
+//                newstudents.setMobile("16394485");
+//                newstudents.setNickname("dsdf");
+//                newstudents.setPysical("366");
+//                newstudents.setWeight("66");
+                Newstudents newstudents=new Newstudents("sdf","136","168","19","66","36","165","36","59");
+                INewStudentpresenter.input(newstudents);
 
                 break;
             case R.id.btn_Add_bodydimension:
-                Intent intent1=new Intent(EntryActivity.this,DimensionRecordActivity.class);
-                intent1.putExtra("newstudents",newstudents);
-                startActivityForResult(intent1,GET_BODY_DIMENSION);
+//                Intent intent1=new Intent(EntryActivity.this,DimensionRecordActivity.class);
+//                intent1.putExtra("newstudents",newstudents);
+//                startActivityForResult(intent1,GET_BODY_DIMENSION);
                 break;
             case R.id.tv_photoupload:
-                takepic();
-
+               // takepic();
                 break;
             case R.id.ll_birthday:
                 show_birth_dialog();
@@ -183,28 +218,52 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
         }
     }
 
-    public void takepic() {
-        path.append(Environment.getExternalStorageDirectory().getPath()).append("/123.jpg");
-        File file=new File(path.toString());
-        Uri uri= Uri.fromFile(file);
-        Intent intent=new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, uri);
-        startActivityForResult(intent,PHOTO);
-    }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode== Activity.RESULT_OK&&resultCode==PHOTO){
-            Bitmap bm= BitmapFactory.decodeFile(path.toString());
-            img1.setImageBitmap(bm);
+//    public void takepic() {
+//        path.append(Environment.getExternalStorageDirectory().getPath()).append("/123.jpg");
+//        File file=new File(path.toString());
+//        Uri uri= Uri.fromFile(file);
+//        Intent intent=new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+//        intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, uri);
+//        startActivityForResult(intent,PHOTO);
+//    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if(resultCode== Activity.RESULT_OK&&resultCode==PHOTO){
+//            Bitmap bm= BitmapFactory.decodeFile(path.toString());
+//            img1.setImageBitmap(bm);
+//        }
+//        //身体围度值传递
+//        if (requestCode==Activity.RESULT_OK&&resultCode==GET_BODY_DIMENSION){
+//            newstudents= (Newstudents) data.getSerializableExtra("newstudents");
+//            Log.i("身体围度值传递"+newstudents.toString());
+//        }
+//    }
+    @Subscribe
+    public void onEvent(ClassEvent classEvent){
+        System.out.println("dsadasdsadasda>>》》》》》》》》》》》》》》"+classEvent.getClassLists());
+        List<ClassList> classLists=classEvent.getClassLists();
+        for (ClassList cl:classLists){
+            System.out.println("dsfsdfsdfsdfsdfsdf?????/?????>>》》》》》》》》》》》》》》"+cl.getClassId()+cl.getClassName());
         }
-        //身体围度值传递
-        if (requestCode==Activity.RESULT_OK&&resultCode==GET_BODY_DIMENSION){
-            newstudents= (Newstudents) data.getSerializableExtra("newstudents");
-            Log.i("身体围度值传递"+newstudents.toString());
-        }
-    }
 
+
+//        List<Banji> banjis=banji.getBanjis();
+//        for(Banji bj:banjis){
+////            String a="2016-03-08";
+////            String b=a.substring(5,7);
+////            if(b.equals("03")){
+////                b="三月份";
+////
+////            }
+//            String month=bj.getStartDate().substring(5,7);
+//            Banji lis5=new Banji(tomonth(month),bj.getClassName(),bj.getTotal());
+//            banjiList.add(lis5);
+//            bj.getClassName();
+//            bj.getStartDate();
+//            bj.getTotal();
+        }
+//
     @Override
     public void onValidationSucceeded() {
         String nickname=et_nickname.getText().toString();
@@ -218,28 +277,30 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
         String gender=et_gender.getText().toString();
         Log.i("nickname:"+nickname+";certification:"+certification+";mobile:"+mobile+";classid:"+classid+";weight:"+weight+"pysical:"+pysical+"fat:"+fat+"birthday:"+birthday+"gender:"+gender);
         Log.i("newstudents------"+newstudents);
-        newstudents.setNickname(nickname);
-        newstudents.setCertification(certification);
-        newstudents.setMobile(mobile);
-        newstudents.setClassid(classid);
-        newstudents.setWeight(weight);
-        newstudents.setPysical(pysical);
-        newstudents.setFat(fat);
-        newstudents.setBirthday(birthday);
-        newstudents.setGender(gender);
-        INewStudentpresenter.input(newstudents);
+//        newstudents.setNickname(nickname);
+//        newstudents.setCertification(certification);
+//        newstudents.setMobile(mobile);
+//        newstudents.setClassid(classid);
+//        newstudents.setWeight(weight);
+//        newstudents.setPysical(pysical);
+//        newstudents.setFat(fat);
+//        newstudents.setBirthday(birthday);
+//        newstudents.setGender(gender);
+        newstudents.setCircum("156");
+        newstudents.setGender("nan");
+        newstudents.setBirthday("1992-06-08");
+        newstudents.setFat("269");
+        newstudents.setCertification("sdfs");
+        newstudents.setClassId("5");
+        newstudents.setDoleggirth("36");
+        newstudents.setHiplie("36");
+        newstudents.setMobile("16394485");
+        newstudents.setNickname("dsdf");
+        newstudents.setPysical("366");
+        newstudents.setWeight("66");
 
-//        newstudents.setNickname("name");
-//        newstudents.setCertification("1234");
-//        newstudents.setMobile("18206182087");
-//        newstudents.setClassid("id1");
-//        newstudents.setWeight("95");
-//        newstudents.setPysical("54");
-//        newstudents.setFat("60");
-//        newstudents.setBirthday("2014-01-12");
-//        newstudents.setGender("男");
-//        INewStudentpresenter.input(newstudents);
-    }
+//          INewStudentpresenter.input(newstudents);
+   }
 
     @Override
     public void onValidationFailed(View failedView, Rule<?> failedRule) {
