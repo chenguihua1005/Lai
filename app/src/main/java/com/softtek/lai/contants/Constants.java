@@ -1,4 +1,4 @@
-package com.softtek.lai.module.login.contants;
+package com.softtek.lai.contants;
 
 /**
  * Created by jerry.guan on 3/4/2016.
@@ -39,6 +39,37 @@ public class Constants {
     public static final int INC=4;
     public static final int VR=5;
 
+    /**
+     * 动态发布标识
+     * 0:复测提示
+     * 1:广告
+     * 2:sp发布
+     * 3:自动生成
+     */
+    public static final int RESET_TIP=0;
+    public static final int BANNER=1;
+    public static final int SP_SEND=2;
+    public static final int AUTO_GENERATE=3;
+
+    /**
+     * 学员列表获取数据类别
+     * 0：按减重比
+     * 1：按减重百分比
+     * 2：按体质
+     * 3：按腰围
+     */
+    public static final String LOSS_WEIGHT="0";
+    public static final String LOSS_WEIGHT_PER="1";
+    public static final String PHYSIQUE="2";
+    public static final String WAISTLINE="3";
+
+    /**
+     * 助教邀请以及未接受邀请
+     * 0：未被邀请
+     * 1：被邀请
+     */
+    public static final int NOT_INVITED=0;
+    public static final int INVITED=1;
 
 
 }

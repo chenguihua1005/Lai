@@ -1,17 +1,15 @@
 package com.softtek.lai.module.login.view;
 
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
@@ -25,13 +23,10 @@ import com.mobsandgeeks.saripaar.annotation.Required;
 import com.mobsandgeeks.saripaar.annotation.TextRule;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.module.File.view.CreatFlleActivity;
-import com.softtek.lai.module.login.contants.Constants;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.login.presenter.IRegistPresenter;
 import com.softtek.lai.module.login.presenter.RegistPresenterImpl;
-import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RegexUtil;
-import com.softtek.lai.utils.SoftInputUtil;
 
 import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
@@ -80,8 +75,8 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
     @InjectView(R.id.tv_title)
     TextView tv_title;
 
-    @InjectView(R.id.tv_left)
-    TextView tv_left;
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
 
 
     @Override
@@ -90,7 +85,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
         tv_get_identify.setOnClickListener(this);
         btn_regist.setOnClickListener(this);
         tv_protocol.setOnClickListener(this);
-        tv_left.setOnClickListener(this);
+        ll_left.setOnClickListener(this);
         cb_term.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -106,8 +101,6 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void initViews() {
         tv_title.setText("注册");
-        tv_left.setBackgroundResource(R.drawable.back);
-        tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
     }
 
     @Override
@@ -136,7 +129,9 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
             case R.id.tv_protocol:
                 startActivity(new Intent(this,TermActivity.class));
                 break;
-
+            case R.id.ll_left:
+                finish();
+                break;
         }
     }
 

@@ -6,8 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.File.view.CreatFlleActivity;
-import com.softtek.lai.module.home.view.HomeActviity;
-import com.softtek.lai.module.login.contants.Constants;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.login.model.User;
 import com.softtek.lai.module.login.net.LoginService;
 import com.softtek.lai.utils.ACache;

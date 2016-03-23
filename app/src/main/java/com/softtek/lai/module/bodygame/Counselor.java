@@ -14,6 +14,7 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.bodygame.model.TiGuanSai;
 import com.softtek.lai.module.bodygame.presenter.ITiGuanSai;
 import com.softtek.lai.module.bodygame.presenter.TiGuanSaiImpl;
+import com.softtek.lai.module.grade.view.GradeHomeActivity;
 import com.softtek.lai.module.grade.view.StudentsActivity;
 import com.softtek.lai.module.newmemberentry.view.EntryActivity;
 import com.softtek.lai.module.retest.view.Retest;
@@ -144,7 +145,7 @@ public class Counselor extends BaseActivity implements View.OnClickListener{
             //体管赛按钮点击跳转事件
             case R.id.bt_tiguansai:
             {
-                Intent intent = new Intent(this, StudentsActivity.class);
+                Intent intent = new Intent(this, GradeHomeActivity.class);
                 startActivity(intent);
             }
             break;
