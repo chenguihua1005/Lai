@@ -76,6 +76,12 @@ public class Banji {
         Total = total;
     }
 
+    public Banji(String startDate,String className,  int total) {
+
+        ClassName = className;
+        StartDate = startDate;
+        Total = total;
+    }
     public Banji(long id, long classId, String className, long managerId, String startDate, int total) {
         this.id = id;
         ClassId = classId;

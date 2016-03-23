@@ -1,9 +1,12 @@
 package com.softtek.lai.module.retest.present;
 
 import com.github.snowdream.android.util.Log;
+import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.retest.eventModel.BanJiEvent;
+import com.softtek.lai.module.retest.eventModel.StudentEvent;
 import com.softtek.lai.module.retest.model.Banji;
+import com.softtek.lai.module.retest.model.Student;
 import com.softtek.lai.module.retest.net.RestService;
 
 import org.greenrobot.eventbus.EventBus;
@@ -12,6 +15,7 @@ import java.util.List;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
+import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.util.Util;
@@ -38,11 +42,11 @@ public class RetestclassImp implements RetestPre{
                    case 200:{
                        EventBus.getDefault().post(new BanJiEvent(banjiResponseData.getData()));
                        System.out.println(banjiResponseData);
-                       Util.toastMsg("全部班级加载成功");
+                       Log.i("全部班级加载成功");
                    }
                    break;
                    case 201:{
-                       Util.toastMsg("未分配班级");
+                       Log.i("未分配班级");
                    }
                    break;
                }
@@ -50,10 +54,38 @@ public class RetestclassImp implements RetestPre{
 
            @Override
            public void failure(RetrofitError error) {
-
+               error.printStackTrace();
+               Util.toastMsg(R.string.neterror);
            }
        });
 
+    }
+
+    @Override
+    public void doGetqueryResult(String str) {
+        String token=SharedPreferenceService.getInstance().get("token","");
+        service.doGetqueryResult(token, str, new Callback<ResponseData<List<Student>>>() {
+
+            @Override
+            public void success(ResponseData<List<Student>> listResponseData, Response response) {
+                int status=listResponseData.getStatus();
+                switch (status){
+                    case 200:
+                        EventBus.getDefault().post(new StudentEvent(listResponseData.getData()));
+                        Log.i("查询成功");
+                        break;
+                    case 201:
+                        Log.i("未查询到结果");
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                error.printStackTrace();
+                Util.toastMsg(R.string.neterror);
+            }
+        });
     }
 
 }

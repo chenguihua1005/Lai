@@ -3,28 +3,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <RelativeLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
+        android:background="#BBBBBB"
         android:layout_height="60dp">
 
         <LinearLayout
+            android:id="@+id/ll_left_head"
             android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true">
 
-            <ImageView
+            <ImageButton
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="@drawable/lufei"
-                android:id="@+id/imageView4" />
+                android:id="@+id/iv_head" />
         </LinearLayout>
 
         <LinearLayout
             android:orientation="vertical"
             android:gravity="center_vertical"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/ll_left_head"
+            android:layout_marginLeft="5dp">
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -36,15 +41,15 @@
                     android:layout_height="wrap_content"
                     android:text="TOM"
                     android:textSize="20dp"
-                    android:id="@+id/textView9" />
+                    android:id="@+id/tv_retest_nick" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="10dp"
                     android:text="13842110629"
                     android:textSize="20dp"
-                    android:id="@+id/textView30" />
+                    android:id="@+id/tv_retest_phone" />
             </LinearLayout>
 
             <LinearLayout
@@ -57,7 +62,7 @@
                     android:layout_height="wrap_content"
                     android:text="一月班"
                     android:textSize="20dp"
-                    android:id="@+id/textView31" />
+                    android:id="@+id/tv_retest_classdate" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -68,23 +73,28 @@
                     android:layout_height="wrap_content"
                     android:text="第2周"
                     android:textSize="20dp"
-                    android:id="@+id/textView32" />
+                    android:id="@+id/tv_retest_classweek" />
             </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
             android:gravity="center"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"
             android:layout_height="match_parent">
+
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="录入"
                 android:textSize="20dp"
-                android:id="@+id/textView33" />
+                android:id="@+id/tv_retest_type" />
+
+
         </LinearLayout>
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>
