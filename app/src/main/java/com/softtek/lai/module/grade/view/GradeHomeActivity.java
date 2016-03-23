@@ -141,7 +141,7 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
                 finish();
                 break;
             case R.id.ll_tutor:
-
+                startActivity(new Intent(this,TutorActivity.class));
                 break;
             case R.id.ll_students:
                 startActivity(new Intent(this,StudentsActivity.class));

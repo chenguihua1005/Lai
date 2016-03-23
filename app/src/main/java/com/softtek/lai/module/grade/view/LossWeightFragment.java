@@ -12,6 +12,9 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.grade.adapter.LossWeightAdapter;
+import com.softtek.lai.module.grade.adapter.LossWeightPerAdapter;
+import com.softtek.lai.module.grade.adapter.PysicalAdapter;
+import com.softtek.lai.module.grade.adapter.WaistlineAdapter;
 import com.softtek.lai.module.grade.eventModel.LossWeightEvent;
 import com.softtek.lai.module.grade.model.Student;
 import com.softtek.lai.module.grade.presenter.GradeImpl;
@@ -41,6 +44,15 @@ public class LossWeightFragment extends BaseFragment implements PullToRefreshBas
 
     private List<Student> students=new ArrayList<>();
     private LossWeightAdapter adapter;
+    private int flagType=0;
+
+    public int getFlagType() {
+        return flagType;
+    }
+
+    public void setFlagType(int flagType) {
+        this.flagType = flagType;
+    }
 
     @Override
     protected void initViews() {
@@ -50,7 +62,7 @@ public class LossWeightFragment extends BaseFragment implements PullToRefreshBas
     @Override
     protected void initDatas() {
         grade=new GradeImpl();
-        adapter=new LossWeightAdapter(getContext(),students);
+        adapter=new LossWeightAdapter(getContext(),students,flagType);
         ptrlv.setAdapter(adapter);
         ptrlv.setOnRefreshListener(this);
         //第一次加载自动刷新
@@ -65,7 +77,6 @@ public class LossWeightFragment extends BaseFragment implements PullToRefreshBas
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUpdateListView(LossWeightEvent event){
-        Log.i("ahahahahahhahahahahahahha");
         this.students.clear();
         this.students.addAll(event.getStudents());
         adapter.notifyDataSetChanged();
@@ -85,6 +96,6 @@ public class LossWeightFragment extends BaseFragment implements PullToRefreshBas
 
     @Override
     public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-        grade.getStudentList(Constants.LOSS_WEIGHT,"1",ptrlv);
+        grade.getStudentList(String.valueOf(flagType),"1",ptrlv);
     }
 }

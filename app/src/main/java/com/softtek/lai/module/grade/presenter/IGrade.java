@@ -25,4 +25,9 @@ public interface IGrade {
      * 根据类型和班级获取学员列表
      */
     void getStudentList(String orderType, String classId, PullToRefreshListView lv);
+
+    /**
+     * 获取助教列表
+     */
+    void getTutorList(long classId,PullToRefreshListView lv);
 }

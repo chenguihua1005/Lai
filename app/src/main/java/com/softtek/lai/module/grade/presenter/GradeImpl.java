@@ -8,7 +8,9 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.grade.eventModel.LossWeightEvent;
+import com.softtek.lai.module.grade.eventModel.SRInfoEvent;
 import com.softtek.lai.module.grade.model.Grade;
+import com.softtek.lai.module.grade.model.SRInfo;
 import com.softtek.lai.module.grade.model.Student;
 import com.softtek.lai.module.grade.net.GradeService;
 
@@ -96,6 +98,33 @@ public class GradeImpl implements IGrade{
                         break;
                     default:
                         Util.toastMsg(studentResponseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                lv.onRefreshComplete();
+                error.printStackTrace();
+                Util.toastMsg(R.string.neterror);
+            }
+        });
+    }
+
+    @Override
+    public void getTutorList(long classId,final PullToRefreshListView lv) {
+        String token= SharedPreferenceService.getInstance().get("token","");
+        service.getTutorList(token, classId, new Callback<ResponseData<List<SRInfo>>>() {
+            @Override
+            public void success(ResponseData<List<SRInfo>> responseData, Response response) {
+                lv.onRefreshComplete();
+                switch (responseData.getStatus()){
+                    case 200:
+                        Log.i(responseData.toString());
+                        EventBus.getDefault().post(new SRInfoEvent(responseData.getData()));
+                        break;
+                    default:
+                        Util.toastMsg(responseData.getMsg());
                         break;
                 }
             }

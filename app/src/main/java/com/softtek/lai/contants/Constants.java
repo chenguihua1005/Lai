@@ -63,5 +63,13 @@ public class Constants {
     public static final String PHYSIQUE="2";
     public static final String WAISTLINE="3";
 
+    /**
+     * 助教邀请以及未接受邀请
+     * 0：未被邀请
+     * 1：被邀请
+     */
+    public static final int NOT_INVITED=0;
+    public static final int INVITED=1;
+
 
 }
