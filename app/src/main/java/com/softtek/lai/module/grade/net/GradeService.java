@@ -2,6 +2,7 @@ package com.softtek.lai.module.grade.net;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.grade.model.Grade;
+import com.softtek.lai.module.grade.model.SRInfo;
 import com.softtek.lai.module.grade.model.Student;
 import com.squareup.okhttp.Call;
 
@@ -42,4 +43,9 @@ public interface GradeService {
                          @Query("classId")String classId,
                          @Query("ordertype")String orderType,
                          Callback<ResponseData<List<Student>>> callback);
+    //获取助教列表
+    @GET("/HerbrClass/GetSRList")
+    void getTutorList(@Header("token")String token,
+                      @Query("classid")long classId,
+                      Callback<ResponseData<List<SRInfo>>> callback);
 }

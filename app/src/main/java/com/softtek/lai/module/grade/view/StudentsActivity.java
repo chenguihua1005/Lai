@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.grade.adapter.TabContentAdapter;
 
 import java.util.ArrayList;
@@ -58,13 +59,21 @@ public class StudentsActivity extends BaseActivity implements BaseFragment.OnFra
         tabHost.setup(this,getSupportFragmentManager(),android.R.id.tabcontent);
         //添加标签
         tabHost.addTab(tabHost.newTabSpec("0").setIndicator("按减重斤数"),LossWeightFragment.class,null);
-        tabHost.addTab(tabHost.newTabSpec("1").setIndicator("按减重百分比"),LossWeightPerFragment.class,null);
-        tabHost.addTab(tabHost.newTabSpec("2").setIndicator("按体脂率"),LossWeightPerFragment.class,null);
-        tabHost.addTab(tabHost.newTabSpec("3").setIndicator("按腰围变化"),LossWeightPerFragment.class,null);
-        fragments.add(new LossWeightFragment());
-        fragments.add(new LossWeightPerFragment());
-        fragments.add(new LossWeightPerFragment());
-        fragments.add(new LossWeightPerFragment());
+        tabHost.addTab(tabHost.newTabSpec("1").setIndicator("按减重百分比"),LossWeightFragment.class,null);
+        tabHost.addTab(tabHost.newTabSpec("2").setIndicator("按体脂率"),LossWeightFragment.class,null);
+        tabHost.addTab(tabHost.newTabSpec("3").setIndicator("按腰围变化"),LossWeightFragment.class,null);
+        LossWeightFragment lwf1=new LossWeightFragment();
+        lwf1.setFlagType(Integer.parseInt(Constants.LOSS_WEIGHT));
+        LossWeightFragment lwf2=new LossWeightFragment();
+        lwf2.setFlagType(Integer.parseInt(Constants.LOSS_WEIGHT_PER));
+        LossWeightFragment lwf3=new LossWeightFragment();
+        lwf3.setFlagType(Integer.parseInt(Constants.PHYSIQUE));
+        LossWeightFragment lwf4=new LossWeightFragment();
+        lwf4.setFlagType(Integer.parseInt(Constants.WAISTLINE));
+        fragments.add(lwf1);
+        fragments.add(lwf2);
+        fragments.add(lwf3);
+        fragments.add(lwf4);
         tabcontent.setAdapter(new TabContentAdapter(getSupportFragmentManager(),fragments));
     }
 

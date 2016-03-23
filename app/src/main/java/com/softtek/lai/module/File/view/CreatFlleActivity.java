@@ -164,7 +164,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                 }
                 break;
             case R.id.btn_Add_bodydimension:
-                Intent intent=new Intent(this,DimensionRecordActivity.class);
+                Intent intent=new Intent(CreatFlleActivity.this,DimensionRecordActivity.class);
                 intent.putExtra("file",file);
                 startActivityForResult(intent,GET_BODY_DIMENSION);
                 break;
@@ -281,13 +281,13 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
     public void show_weight_dialog()
     {
         final Dialog weight_dialog = new Dialog(CreatFlleActivity.this);
-        weight_dialog.setTitle("选择体重(单位：kg)");
+        weight_dialog.setTitle("选择体重(单位：斤)");
         weight_dialog.setContentView(R.layout.dialog);
         Button b1 = (Button) weight_dialog.findViewById(R.id.button1);
         Button b2 = (Button) weight_dialog.findViewById(R.id.button2);
         final NumberPicker np = (NumberPicker) weight_dialog.findViewById(R.id.numberPicker1);
         np.setMaxValue(220);
-        np.setValue(55);
+        np.setValue(100);
         np.setMinValue(20);
         np.setWrapSelectorWheel(false);
         b1.setOnClickListener(new View.OnClickListener()
