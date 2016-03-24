@@ -29,18 +29,19 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            app:normalBitmap="@drawable/alg"
-            app:pitchBitmap="@drawable/ale"
+            app:normalBitmap="@drawable/rehome"
+            app:pitchBitmap="@drawable/home"
             app:alpha="true"
-            app:text="@string/home"/>
+            app:text="@string/home"
+            android:background="#75BA2B"/>
 
         <com.ggx.jerryguan.widget_lib.SimpleButton
             android:id="@+id/btn_healthy"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            app:normalBitmap="@drawable/alg"
-            app:pitchBitmap="@drawable/ale"
+            app:normalBitmap="@drawable/rehealthy"
+            app:pitchBitmap="@drawable/healthy"
             app:alpha="true"
             app:text="@string/healthy"/>
 
@@ -49,8 +50,8 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            app:normalBitmap="@drawable/alg"
-            app:pitchBitmap="@drawable/ale"
+            app:normalBitmap="@drawable/recontact"
+            app:pitchBitmap="@drawable/contact"
             app:alpha="true"
             app:text="@string/contact"/>
 
@@ -59,8 +60,8 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            app:normalBitmap="@drawable/alg"
-            app:pitchBitmap="@drawable/ale"
+            app:normalBitmap="@drawable/rehrecord"
+            app:pitchBitmap="@drawable/hrecord"
             app:alpha="true"
             app:text="@string/healthyRecord"/>
 
@@ -69,8 +70,8 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            app:normalBitmap="@drawable/alg"
-            app:pitchBitmap="@drawable/ale"
+            app:normalBitmap="@drawable/remine"
+            app:pitchBitmap="@drawable/mine"
             app:alpha="true"
             app:text="@string/mine"/>
 

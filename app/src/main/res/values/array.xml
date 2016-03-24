@@ -2,14 +2,14 @@
 <resources>
     <string-array name="models">
         <item>体管赛</item>
-        <item>健康圈</item>
-        <item>通讯录</item>
         <item>莱运动</item>
-        <item>莱秤</item>
         <item>日程表</item>
-        <item>顾客管理</item>
-        <item>莱购</item>
         <item>莱表格</item>
+        <item>莱秤</item>
+        <item>办公室</item>
+        <item>积分商城</item>
+        <item>莱购</item>
         <item>莱课堂</item>
+        <item>拍照查热量</item>
     </string-array>
 </resources>

@@ -16,6 +16,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.bodygame.Counselor;
+import com.softtek.lai.module.home.adapter.ModelAdapter;
 import com.softtek.lai.module.home.model.FunctionModel;
 import com.softtek.lai.module.home.model.HomeInfo;
 import com.softtek.lai.module.home.presenter.HomeInfoImpl;
@@ -23,6 +24,7 @@ import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.login.model.User;
 import com.softtek.lai.utils.ACache;
+import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.CustomGridView;
 import com.softtek.lai.widgets.RollHeaderView;
 import com.squareup.picasso.Picasso;
@@ -62,6 +64,10 @@ public class HomeFragment extends BaseFragment implements PullToRefreshBase.OnRe
 
     @InjectView(R.id.tv_right)
     TextView tv_right;
+    @InjectView(R.id.tv_left)
+    TextView tv_left;
+    @InjectView(R.id.iv_email)
+    ImageView iv_email;
 
     @InjectView(R.id.iv_activity)
     ImageView iv_activity;
@@ -80,7 +86,8 @@ public class HomeFragment extends BaseFragment implements PullToRefreshBase.OnRe
 
     @Override
     protected void initViews() {
-
+        tv_left.setVisibility(View.INVISIBLE);
+       iv_email.setVisibility(View.VISIBLE);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -140,7 +147,8 @@ public class HomeFragment extends BaseFragment implements PullToRefreshBase.OnRe
 
     @Override
     protected void initDatas() {
-        tv_title.setText("莱APP");
+        tv_title.setText("莱聚+");
+
         //载入缓存数据
         homeInfoPresenter.loadCacheData();
         pull.setOnRefreshListener(this);
@@ -164,7 +172,7 @@ public class HomeFragment extends BaseFragment implements PullToRefreshBase.OnRe
 
 
     @Subscribe
-    public void onLoadModelFunction(ZillaAdapter<FunctionModel> adapter){
+    public void onLoadModelFunction(ModelAdapter adapter){
         gv_model.setAdapter(adapter);
     }
 

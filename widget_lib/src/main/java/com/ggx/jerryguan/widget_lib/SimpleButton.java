@@ -50,6 +50,7 @@ public class SimpleButton extends View {
 	private void init(Context context){
 		
 		bitmapPaint=new Paint();
+		bitmapPaint.setAntiAlias(true);
 		mTextPaint=new Paint();
 		mTextPaint.setTextSize(mTextSize);
 		mTextPaint.setColor(0xff555555);
@@ -85,7 +86,7 @@ public class SimpleButton extends View {
 			dstRect = new RectF();
 			
 			//double ratio = 0.1;
-			dstRect.top = (float) (height / 8f);
+			dstRect.top = (float) (height / 6f);
 			dstRect.bottom = (float) (height * 9 / 13);
 
 			int bitmapWidth = (int) (normalBitmap.getWidth()
@@ -93,7 +94,7 @@ public class SimpleButton extends View {
 			dstRect.left = (width - bitmapWidth) / 2;
 			dstRect.right = dstRect.left + bitmapWidth;
 			
-			System.out.println("top:"+dstRect.top+" bottom:"+dstRect.bottom+" left:"+dstRect.left+" right:"+dstRect.right);
+			//System.out.println("top:"+dstRect.top+" bottom:"+dstRect.bottom+" left:"+dstRect.left+" right:"+dstRect.right);
 		}
 	}
 	
@@ -117,16 +118,16 @@ public class SimpleButton extends View {
 	private void drawSourceText(Canvas canvas, int alpha)
 	{
 		mTextPaint.setTextSize(mTextSize);
-		mTextPaint.setColor(0xff555555);
+		mTextPaint.setColor(0xffCCCCCC);
 		mTextPaint.setAlpha(255 - alpha);
 		canvas.drawText(mText, dstRect.left + dstRect.width() / 2
 						- mTextBound.width() / 2,
-				dstRect.bottom + mTextBound.height(), mTextPaint);
+				dstRect.bottom + mTextBound.height()+5, mTextPaint);
 	}
 
 	private void drawTargetText(Canvas canvas, int alpha)
 	{
-		mTextPaint.setColor(0xFF45C01A);
+		mTextPaint.setColor(0xFFFFFFFF);
 		mTextPaint.setAlpha(alpha);
 		canvas.drawText(mText, dstRect.left + dstRect.width() / 2
 						- mTextBound.width() / 2,

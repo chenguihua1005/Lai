@@ -1,5 +1,6 @@
 package com.softtek.lai.module.grade.view;
 
+import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -43,7 +44,7 @@ public class TutorActivity extends BaseActivity implements PullToRefreshBase.OnR
     TextView tv_left;
 
     private IGrade grade;
-
+    private TutorAdapter adapter;
     List<SRInfo> infos=new ArrayList<>();
     @Override
     protected void initViews() {
@@ -90,7 +91,16 @@ public class TutorActivity extends BaseActivity implements PullToRefreshBase.OnR
             infos.add(info2);
             infos.add(info3);
         }
-        prlv.setAdapter(new TutorAdapter(this,infos));
+        adapter=new TutorAdapter(this,infos);
+        prlv.setAdapter(adapter);
+        //第一次加载自动刷新
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                prlv.setRefreshing();
+            }
+        }, 500);
     }
 
     @Override
@@ -101,7 +111,9 @@ public class TutorActivity extends BaseActivity implements PullToRefreshBase.OnR
 
     @Subscribe
     public void onRefreshTutor(SRInfoEvent event){
-
+        infos.clear();
+        infos.addAll(event.getInfos());
+        adapter.notifyDataSetChanged();
     }
 
     @Override
