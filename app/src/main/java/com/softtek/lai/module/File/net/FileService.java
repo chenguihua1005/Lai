@@ -5,8 +5,6 @@ import com.softtek.lai.module.File.model.File;
 
 import retrofit.Callback;
 import retrofit.http.Body;
-import retrofit.http.Field;
-import retrofit.http.FormUrlEncoded;
 import retrofit.http.Header;
 import retrofit.http.POST;
 

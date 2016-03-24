@@ -1,14 +1,11 @@
-package com.softtek.lai.module.StudentDetail.view;
+package com.softtek.lai.module.studetail.view;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.utils.DisplayUtil;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -25,7 +22,6 @@ public class StudentDetailActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
