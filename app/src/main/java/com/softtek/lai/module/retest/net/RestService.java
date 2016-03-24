@@ -27,4 +27,12 @@ public interface RestService {
             @Query("str")String str,
             Callback<ResponseData<List<Student>>> callback
     );
+    @GET("/MeasuredRecordLog/GetMeasuredRecord")
+    void doGetAudit(
+            @Header("token")String token,
+            @Query("accountId")long accountId,
+            @Query("classId")long classId,
+            @Query("typeDate")String typeDate,
+            Callback<ResponseData>callback
+    );
 }

@@ -8,13 +8,26 @@
 
 
 
-        <RelativeLayout
+        <FrameLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:gravity="center"
             android:layout_marginTop="55dp"
             android:layout_height="wrap_content">
 
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="60dp">
+                <ListView
+                    android:id="@+id/list_query"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="visible">
+
+                </ListView>
+            </RelativeLayout>
 
             <LinearLayout
                 android:orientation="vertical"
@@ -71,27 +84,13 @@
                     android:id="@+id/list_class"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:fastScrollAlwaysVisible="true"
                     android:padding="10dp"
+                    android:background="#ffffff"
                     android:visibility="invisible"></ListView>
 
             </LinearLayout>
 
 
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="60dp">
-                <ListView
-                    android:id="@+id/list_query"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:visibility="visible">
-
-                </ListView>
-            </RelativeLayout>
-
-        </RelativeLayout>
+        </FrameLayout>
 
 </RelativeLayout>

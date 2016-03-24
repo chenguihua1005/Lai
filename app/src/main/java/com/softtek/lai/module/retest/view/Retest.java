@@ -1,6 +1,8 @@
 package com.softtek.lai.module.retest.view;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -9,6 +11,7 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.retest.Adapter.QueryAdapter;
+import com.softtek.lai.module.retest.Audit;
 import com.softtek.lai.module.retest.eventModel.BanJiEvent;
 import com.softtek.lai.module.retest.Adapter.ClassAdapter;
 import com.softtek.lai.module.retest.eventModel.StudentEvent;
@@ -34,7 +37,7 @@ public class Retest extends BaseActivity implements View.OnClickListener{
     private RetestPre retestPre;
     //标题栏
     @InjectView(R.id.tv_right)
-    TextView bar_right;
+    TextView tv_right;
     @InjectView(R.id.tv_title)
     TextView bar_title;
     @InjectView(R.id.ll_left)
@@ -46,11 +49,12 @@ public class Retest extends BaseActivity implements View.OnClickListener{
     //展开班级列表
     @InjectView(R.id.ll_classlist)
     LinearLayout ll_classlist;
+
     private List<Banji> banjiList=new ArrayList<Banji>();
     private List<Student>studentList=new ArrayList<Student>();
     private   ClassAdapter classAdapter;
     private QueryAdapter queryAdapter;
-
+    boolean h=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
@@ -63,6 +67,38 @@ public class Retest extends BaseActivity implements View.OnClickListener{
 
         list_class.setAdapter(classAdapter);
         list_query.setAdapter(queryAdapter);
+        ll_classlist.setOnClickListener(this);
+        ll_left.setOnClickListener(this);
+        tv_right.setOnClickListener(this);
+        ll_classlist.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+
+                switch (event.getAction()){
+                    case MotionEvent.ACTION_DOWN:
+
+                        if (h==false) {
+                            list_class.setVisibility(View.VISIBLE);
+                            h=true;
+                        }
+                        else {
+                            list_class.setVisibility(View.INVISIBLE);
+                            h=false;
+                        }
+                        break;
+
+                    case MotionEvent.ACTION_BUTTON_PRESS:
+                        list_class.setVisibility(View.VISIBLE);
+                        break;
+                    case MotionEvent.ACTION_UP:
+//                        list_class.setVisibility(View.INVISIBLE);
+                        break;
+                }
+                return false;
+            }
+
+        });
 
     }
 
@@ -81,7 +117,8 @@ public class Retest extends BaseActivity implements View.OnClickListener{
     protected void initDatas() {
 
         bar_title.setText("复测");
-//        bar_right.setBackgroundResource(R.drawable.search);
+        tv_right.setText("搜索");
+//        tv_right.setBackgroundResource(R.drawable.search);
         retestPre =new RetestclassImp();
 //        long id=2;
         retestPre.doGetRetestclass(36);
@@ -128,7 +165,34 @@ public class Retest extends BaseActivity implements View.OnClickListener{
     public void onEvent1(StudentEvent student){
         System.out.println(">>》》》》》》》》》》》》》》"+student.getStudents());
         studentList=student.getStudents();
+//        Student lis1=new Student("","df","一月班","复仇者联盟",1993-06-07,15);
+//        studentList.add(lis1);
+//        Student lis2=new Student("","khh","一月班","健康俱乐部",1993-06-07,6);
+//        studentList.add(lis2);
+//        Student lis3=new Student("","kgg","二月班","复仇者联盟",1993-06-07,9);
+//        studentList.add(lis3);
+//        Student lis4=new Student("","hgg","二月班","健康俱乐部",1993-06-07,7);
+//        studentList.add(lis4);
+//        Student lis5=new Student("","hgg","二月班","健康俱乐部",1993-06-07,7);
+//        studentList.add(lis5);
+//        Student lis6=new Student("","hgg","二月班","健康俱乐部",1993-06-07,7);
+//        studentList.add(lis6);
+//        Student lis7=new Student("","hgg","二月班","健康俱乐部",1993-06-07,7);
+//        studentList.add(lis7);
+//        Student lis8=new Student("","hgg","二月班","健康俱乐部",1993-06-07,7);
+//        studentList.add(lis8);
+
+
         queryAdapter.updateData(studentList);
+//        List<Student> students=student.getStudents();
+//        for (Student st:students){
+//            String month=st.getStartDate().substring(5,7);
+//            Student lis=new Student(st.getPhoto(),st.getUserName(),st.getMobile(),tomonth(month),st.getWeekth(),st.getAMStatus());
+//            studentList.add(lis);
+//            queryAdapter.updateData(studentList);
+//        }
+
+
     }
 
     public String tomonth(String month){
@@ -178,6 +242,13 @@ public class Retest extends BaseActivity implements View.OnClickListener{
             case R.id.ll_classlist:
             {
 
+
+            }
+            break;
+            case R.id.ll_left:
+            {
+//                Intent intent=new Intent(Retest.this, Audit.class);
+//                startActivity(intent);
             }
             break;
         }

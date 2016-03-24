@@ -19,7 +19,8 @@ public class Student {
     private String CurrStart;
     private String CurrEnd;
 
-    public Student(String userName, String mobile, String startDate, int weekth, int AMStatus) {
+    public Student(String photo,String userName, String mobile, String startDate, int weekth, int AMStatus) {
+        Photo=photo;
         UserName = userName;
         Mobile = mobile;
         StartDate = startDate;

@@ -6,4 +6,5 @@ package com.softtek.lai.module.retest.present;
 public interface RetestPre {
     void doGetRetestclass(long id);
     void doGetqueryResult(String str);
+    void doGetAudit(long accountId,long classId,String typeDate);
 }

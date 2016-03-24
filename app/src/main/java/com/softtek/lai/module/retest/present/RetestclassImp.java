@@ -88,4 +88,31 @@ public class RetestclassImp implements RetestPre{
         });
     }
 
+    @Override
+    public void doGetAudit(long accountId, long classId, String typeDate) {
+        String token=SharedPreferenceService.getInstance().get("token","");
+        service.doGetAudit(token, accountId, classId, typeDate, new Callback<ResponseData>() {
+            @Override
+            public void success(ResponseData responseData, Response response) {
+                int status=responseData.getStatus();
+                switch (status)
+                {
+                    case 200:
+                        Util.toastMsg("保存成功");
+                        break;
+                    case 500:
+                        Util.toastMsg("数据保存异常");
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                error.printStackTrace();
+                Util.toastMsg("服务器异常");
+
+            }
+        });
+    }
+
 }
