@@ -2,18 +2,21 @@ package com.softtek.lai.module.home.presenter;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.module.home.adapter.ModelAdapter;
 import com.softtek.lai.module.home.cache.HomeInfoCache;
 import com.softtek.lai.module.home.model.FunctionModel;
 import com.softtek.lai.module.home.model.HomeInfo;
 import com.softtek.lai.module.home.net.HomeService;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.utils.ACache;
+import com.softtek.lai.widgets.CircleImageView;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -58,15 +61,15 @@ public class HomeInfoImpl implements IHomeInfoPresenter{
             EventBus.getDefault().post(infos);
             System.out.println("没有缓存数据");
         }
-        String[] models_name=context.getResources().getStringArray(R.array.models);
+        /*String[] models_name=context.getResources().getStringArray(R.array.models);
         List<FunctionModel> models=new ArrayList<>();
         for(int i=0;i<models_name.length;i++){
             FunctionModel model=new FunctionModel();
             model.setName_model(models_name[i]);
             models.add(model);
-        }
-        ZillaAdapter<FunctionModel> adapter=new ZillaAdapter<FunctionModel>(context,models,R.layout.gridview_item,ViewHolderModel.class);
-        EventBus.getDefault().post(adapter);
+        }*/
+        //ZillaAdapter<FunctionModel> adapter=new ZillaAdapter<FunctionModel>(context,models,R.layout.gridview_item,ViewHolderModel.class);
+        EventBus.getDefault().post(new ModelAdapter(context));
     }
 
     @Override
@@ -98,13 +101,15 @@ public class HomeInfoImpl implements IHomeInfoPresenter{
         });
     }
 
-    static class ViewHolderModel {
+    /*static class ViewHolderModel {
 
         @InjectView(R.id.tv_name)
         TextView name_model;
+        @InjectView(R.id.iv_icon)
+        ImageView ci_icon;
 
         public ViewHolderModel(View view){
             ButterKnife.inject(this,view);
         }
-    }
+    }*/
 }

@@ -42,6 +42,14 @@
         android:gravity="center"
         android:textSize="20sp"
         android:layout_marginRight="10dp"
-        android:textColor="#ffffff"/>
+        android:textColor="#ffffff"
+        />
+    <ImageView
+        android:id="@+id/iv_email"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/email"
+        android:layout_gravity="right"
+        android:visibility="visible"/>
 
 </android.support.v7.widget.Toolbar>
