@@ -17,7 +17,7 @@ import java.util.List;
  * Created by lareina.qiao on 3/18/2016.
  */
 public class ClassAdapter extends BaseAdapter {
-    private int resourceId;
+
     private Context context;
     private List<Banji> banjiList;
     private LayoutInflater inflater;
@@ -52,6 +52,7 @@ public class ClassAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
         ViewHolder viewHolder=null;
         if (convertView==null)
         {
@@ -62,9 +63,10 @@ public class ClassAdapter extends BaseAdapter {
         else {
             viewHolder=(ViewHolder)convertView.getTag();
         }
-        viewHolder.StartDate.setText("");
-        viewHolder.ClassName.setText("dsf");
-        viewHolder.Total.setText("dfs");
+        Banji banji=banjiList.get(position);
+        viewHolder.StartDate.setText(banji.getStartDate());
+        viewHolder.ClassName.setText(banji.getClassName());
+        viewHolder.Total.setText(banji.getTotal()+"");
         return convertView;
     }
 
