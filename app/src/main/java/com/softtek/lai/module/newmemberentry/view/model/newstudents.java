@@ -10,8 +10,9 @@ public class Newstudents implements Serializable {
     private long sentaccid; //Sp id
     private String nickname;    //昵称:必填
     private String certification;//资格证号: 选填
+    private int userrole;
     private String mobile;  //手机号码: 必填
-    private String classid; //参赛班级:必填
+    private int classid; //参赛班级:必填
     private double weight;  //初始体重:必填
     private double pysical; //体脂:选填
     private double fat;     //内脂:选填
@@ -31,6 +32,7 @@ public class Newstudents implements Serializable {
                 "sentaccid=" + sentaccid +
                 ", nickname='" + nickname + '\'' +
                 ", certification='" + certification + '\'' +
+                ", userrole=" + userrole +
                 ", mobile='" + mobile + '\'' +
                 ", classid='" + classid + '\'' +
                 ", weight=" + weight +
@@ -72,6 +74,14 @@ public class Newstudents implements Serializable {
         this.certification = certification;
     }
 
+    public int getUserrole() {
+        return userrole;
+    }
+
+    public void setUserrole(int userrole) {
+        this.userrole = userrole;
+    }
+
     public String getMobile() {
         return mobile;
     }
@@ -80,11 +90,11 @@ public class Newstudents implements Serializable {
         this.mobile = mobile;
     }
 
-    public String getClassid() {
+    public int getClassid() {
         return classid;
     }
 
-    public void setClassid(String classid) {
+    public void setClassid(int classid) {
         this.classid = classid;
     }
 
@@ -184,10 +194,11 @@ public class Newstudents implements Serializable {
         this.doleggirth = doleggirth;
     }
 
-    public Newstudents(long sentaccid, String nickname, String certification, String mobile, String classid, double weight, double pysical, double fat, String birthday, int gender, String photo, double circum, double waistline, double hiplie, double uparmgirth, double upleggirth, double doleggirth) {
+    public Newstudents(long sentaccid, String nickname, String certification, int userrole, String mobile, int classid, double weight, double pysical, double fat, String birthday, int gender, String photo, double circum, double waistline, double hiplie, double uparmgirth, double upleggirth, double doleggirth) {
         this.sentaccid = sentaccid;
         this.nickname = nickname;
         this.certification = certification;
+        this.userrole = userrole;
         this.mobile = mobile;
         this.classid = classid;
         this.weight = weight;
@@ -203,9 +214,7 @@ public class Newstudents implements Serializable {
         this.upleggirth = upleggirth;
         this.doleggirth = doleggirth;
     }
-
-    public Newstudents() {
+    public Newstudents(){
 
     }
-
 }

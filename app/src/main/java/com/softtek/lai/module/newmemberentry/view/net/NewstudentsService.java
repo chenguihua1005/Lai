@@ -4,6 +4,8 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.newmemberentry.view.model.Newstudents;
 import com.softtek.lai.module.newmemberentry.view.model.Phot;
 
+import java.util.List;
+
 import retrofit.Callback;
 import retrofit.http.Body;
 import retrofit.http.Header;
@@ -20,7 +22,7 @@ public interface NewstudentsService {
     @POST("/HerbNewUser/CreatNewUser")
     void memberentry(@Header("token") String token,
                      @Body Newstudents newstudents,
-                     Callback<ResponseData<Newstudents>> callback);
+                     Callback<ResponseData<List<Newstudents>>> callback);
 
 
     //上传图片

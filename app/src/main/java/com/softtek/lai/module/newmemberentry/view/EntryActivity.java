@@ -134,7 +134,7 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
     Newstudents newstudents;//存储用户表单数据
     Phot imphot;
     private static final int GET_BODY=2;
-    boolean w=true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
@@ -167,6 +167,7 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
     @Override
     protected void initDatas() {
         iNewStudentpresenter = new NewStudentInputImpl(this);
+        newstudents=new Newstudents();
         tv_title.setText("新学员录入");
         //tv_left.setBackground(null);
         tv_right.setText("确定");
@@ -186,7 +187,7 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
                 Intent intent1=new Intent(EntryActivity.this,DimensionRecordActivity.class);
                 intent1.putExtra("newstudents",newstudents);
                 startActivityForResult(intent1,GET_BODY);
-                w=false;
+
                 break;
             case R.id.tv_photoupload:
                 takepic();
@@ -228,7 +229,12 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
            System.out.println("dsfsdfsdfsdfsdfsdf?????/?????>>》》》》》》》》》》》》》》"+"ClassId:"+cl.getClassId()+"ClassName:"+cl.getClassName());
         }
     }
+    @Subscribe
+    public void onEvent1(Phot phot){
+        System.out.println("classEvent.getClassLists()>>》》》》》》》》》》》》》》"+phot.getImg());
+        newstudents.setPhoto(phot.getImg());
 
+    }
 
     @Override
     public void onValidationSucceeded() {
@@ -242,20 +248,21 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
         String birthday=et_birthday.getText().toString();
         String gender=et_gender.getText().toString();
         Log.i("新学员录入："+"nickname:"+nickname+";certification:"+certification+";mobile:"+mobile+";classid:"+classid+";weight:"+weight+"pysical:"+pysical+"fat:"+fat+"birthday:"+birthday+"gender:"+gender);
-        if (w==true){newstudents=new Newstudents();}
+
+        newstudents.setUserrole(0);
         newstudents.setSentaccid(1);
         newstudents.setNickname(nickname);
         newstudents.setCertification(certification);
         newstudents.setMobile(mobile);
-        newstudents.setClassid(classid);
+        newstudents.setClassid(Integer.parseInt(classid));
         newstudents.setWeight(Double.parseDouble(weight.equals("")?"0":weight));
         newstudents.setPysical(Double.parseDouble(pysical.equals("")?"0":pysical));
         newstudents.setFat(Double.parseDouble(fat.equals("")?"0":fat));
         newstudents.setBirthday(birthday);
         newstudents.setGender(gender.equals("女")?0:1);
-        newstudents.setPhoto(imphot.getPhoto());
+
 //        newstudents.setPhoto(img.getPhoto()+"");
-        Log.i("newstudents>>>>>>>>>>>>>>>>>>>"+newstudents+imphot.getPhoto()+"");
+
         iNewStudentpresenter.input(newstudents);
 
 
