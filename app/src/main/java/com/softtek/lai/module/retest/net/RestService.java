@@ -3,6 +3,7 @@ package com.softtek.lai.module.retest.net;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.bodygame.model.TiGuanSai;
 import com.softtek.lai.module.retest.model.Banji;
+import com.softtek.lai.module.retest.model.BanjiStudent;
 import com.softtek.lai.module.retest.model.Student;
 
 import java.util.List;
@@ -27,6 +28,12 @@ public interface RestService {
             @Query("str")String str,
             Callback<ResponseData<List<Student>>> callback
     );
+    @GET("/MeasuredRecordLog/SearchMeasuredInfoByClassId")
+    void doGetBanjiStudent(
+            @Header("token")String token,
+            @Query("classId")long classId,
+            Callback<ResponseData<List<BanjiStudent>>>callback
+    );
     @GET("/MeasuredRecordLog/GetMeasuredRecord")
     void doGetAudit(
             @Header("token")String token,
@@ -35,4 +42,5 @@ public interface RestService {
             @Query("typeDate")String typeDate,
             Callback<ResponseData>callback
     );
+
 }

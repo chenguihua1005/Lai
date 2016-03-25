@@ -4,8 +4,10 @@ import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.retest.eventModel.BanJiEvent;
+import com.softtek.lai.module.retest.eventModel.BanjiStudentEvent;
 import com.softtek.lai.module.retest.eventModel.StudentEvent;
 import com.softtek.lai.module.retest.model.Banji;
+import com.softtek.lai.module.retest.model.BanjiStudent;
 import com.softtek.lai.module.retest.model.Student;
 import com.softtek.lai.module.retest.net.RestService;
 
@@ -75,6 +77,7 @@ public class RetestclassImp implements RetestPre{
                         Log.i("查询成功");
                         break;
                     case 201:
+                        Util.toastMsg("未查询到结果");
                         Log.i("未查询到结果");
                         break;
                 }
@@ -84,6 +87,35 @@ public class RetestclassImp implements RetestPre{
             public void failure(RetrofitError error) {
                 error.printStackTrace();
                 Util.toastMsg(R.string.neterror);
+            }
+        });
+    }
+
+    @Override
+    public void doGetBanjiStudent(long classId) {
+
+        String token=SharedPreferenceService.getInstance().get("token","");
+        service.doGetBanjiStudent(token, classId, new Callback<ResponseData<List<BanjiStudent>>>() {
+            @Override
+            public void success(ResponseData<List<BanjiStudent>> listResponseData, Response response) {
+                int status=listResponseData.getStatus();
+                switch (status){
+                    case 200:
+                        Log.i("service>>>>>>>>>>>>>>>>>>>>>>>dsfdsssssssssssssssssssssssssssssssssssssss>>>"+service);
+                        EventBus.getDefault().post(new BanjiStudentEvent(listResponseData.getData()));
+                        Log.i("查询成功");
+                        break;
+                    case 201:
+                        Log.i("未查询到结果");
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                error.printStackTrace();
+                Util.toastMsg(R.string.neterror);
+
             }
         });
     }

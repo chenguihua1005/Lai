@@ -2,20 +2,27 @@ package com.softtek.lai.module.retest.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.retest.Adapter.QueryAdapter;
+import com.softtek.lai.module.retest.Adapter.StudentAdapter;
 import com.softtek.lai.module.retest.Audit;
+import com.softtek.lai.module.retest.Write;
 import com.softtek.lai.module.retest.eventModel.BanJiEvent;
 import com.softtek.lai.module.retest.Adapter.ClassAdapter;
-import com.softtek.lai.module.retest.eventModel.StudentEvent;
+import com.softtek.lai.module.retest.eventModel.BanjiStudentEvent;
 import com.softtek.lai.module.retest.model.Banji;
+import com.softtek.lai.module.retest.model.BanjiStudent;
 import com.softtek.lai.module.retest.model.Student;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.module.retest.present.RetestclassImp;
@@ -28,6 +35,7 @@ import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 /**
  * Created by lareina.qiao on 3/18/2016.
@@ -42,34 +50,69 @@ public class Retest extends BaseActivity implements View.OnClickListener{
     TextView bar_title;
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
+    @InjectView(R.id.iv_email)
+    ImageView iv_email;
+
+
+    @InjectView(R.id.Iv_fold)
+    ImageView Iv_fold;
     @InjectView(R.id.list_class)
     ListView list_class;
     @InjectView(R.id.list_query)
     ListView list_query;
     //展开班级列表
     @InjectView(R.id.ll_classlist)
-    LinearLayout ll_classlist;
+    RelativeLayout ll_classlist;
 
     private List<Banji> banjiList=new ArrayList<Banji>();
-    private List<Student>studentList=new ArrayList<Student>();
-    private   ClassAdapter classAdapter;
-    private QueryAdapter queryAdapter;
+    private List<BanjiStudent>banjiStudentList=new ArrayList<BanjiStudent>();
+    private ClassAdapter classAdapter;
+    private StudentAdapter studentAdapter;
     boolean h=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
         super.onCreate(savedInstanceState);
-
-        initbanji();
+        System.out.println("dsadasdsadasda>>》》》》》》》》》》》》》》-----------");
         classAdapter=new ClassAdapter(this,banjiList);
-        queryAdapter=new QueryAdapter(this,studentList);
-//        ListView listView=(ListView)findViewById(R.id.list_class);
-
+        studentAdapter=new StudentAdapter(this,banjiStudentList);
         list_class.setAdapter(classAdapter);
-        list_query.setAdapter(queryAdapter);
+//        queryAdapter=new QueryAdapter(this,banjiStudentList);
+
+//        ListView listView=(ListView)findViewById(R.id.list_class);
+        System.out.println("dsadasdsadasda>>》》》》》》》》》》》》》》==============");
+
+        list_query.setAdapter(studentAdapter);
         ll_classlist.setOnClickListener(this);
         ll_left.setOnClickListener(this);
         tv_right.setOnClickListener(this);
+        iv_email.setOnClickListener(this);
+        list_class.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Banji banji=banjiList.get(position);
+                retestPre.doGetBanjiStudent(banji.getClassId());
+                list_class.setVisibility(View.INVISIBLE);
+                Iv_fold.setImageResource(R.drawable.unfold);
+                h=false;
+            }
+        });
+        list_query.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                BanjiStudent banjiStudent=banjiStudentList.get(position);
+                if (banjiStudent.getAMStatus()=="")
+                {
+                    Intent intent=new Intent(Retest.this,Audit.class);
+                    startActivity(intent);
+
+                }
+                else {
+                    Intent intent=new Intent(Retest.this, Write.class);
+                    startActivity(intent);
+                }
+            }
+        });
         ll_classlist.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -80,10 +123,12 @@ public class Retest extends BaseActivity implements View.OnClickListener{
 
                         if (h==false) {
                             list_class.setVisibility(View.VISIBLE);
+                            Iv_fold.setImageResource(R.drawable.retract);
                             h=true;
                         }
                         else {
                             list_class.setVisibility(View.INVISIBLE);
+                            Iv_fold.setImageResource(R.drawable.unfold);
                             h=false;
                         }
                         break;
@@ -117,73 +162,31 @@ public class Retest extends BaseActivity implements View.OnClickListener{
     protected void initDatas() {
 
         bar_title.setText("复测");
-        tv_right.setText("搜索");
+//        tv_right.setText("搜索");
+        iv_email.setImageResource(R.drawable.retestsearch);
 //        tv_right.setBackgroundResource(R.drawable.search);
         retestPre =new RetestclassImp();
-//        long id=2;
         retestPre.doGetRetestclass(36);
-        retestPre.doGetqueryResult("135");
 
 
-
-    }
-
-    @Subscribe
-    private void initbanji(){
-        Banji lis1=new Banji("一月班","复仇者联盟",18);
-        banjiList.add(lis1);
-        Banji lis2=new Banji("一月班","健康俱乐部",8);
-        banjiList.add(lis2);
-        Banji lis3=new Banji("二月班","复仇者联盟",10);
-        banjiList.add(lis3);
-        Banji lis4=new Banji("二月班","健康俱乐部",18);
-        banjiList.add(lis4);
 
 
     }
+
 
     @Subscribe
     public void onEvent(BanJiEvent banji){
         System.out.println("dsadasdsadasda>>》》》》》》》》》》》》》》"+banji.getBanjis());
-         List<Banji> banjis=banji.getBanjis();
-        for(Banji bj:banjis){
-//            String a="2016-03-08";
-//            String b=a.substring(5,7);
-//            if(b.equals("03")){
-//                b="三月份";
-//
-//            }
-            String month=bj.getStartDate().substring(5,7);
-            Banji lis5=new Banji(tomonth(month),bj.getClassName(),bj.getTotal());
-            banjiList.add(lis5);
-            bj.getClassName();
-            bj.getStartDate();
-            bj.getTotal();
-        }
+        banjiList=banji.getBanjis();
+        Log.i("sdfsdfsdfsdfsd",""+banjiList);
+        classAdapter.updateData(banjiList);
+
     }
     @Subscribe
-    public void onEvent1(StudentEvent student){
-        System.out.println(">>》》》》》》》》》》》》》》"+student.getStudents());
-        studentList=student.getStudents();
-//        Student lis1=new Student("","df","一月班","复仇者联盟",1993-06-07,15);
-//        studentList.add(lis1);
-//        Student lis2=new Student("","khh","一月班","健康俱乐部",1993-06-07,6);
-//        studentList.add(lis2);
-//        Student lis3=new Student("","kgg","二月班","复仇者联盟",1993-06-07,9);
-//        studentList.add(lis3);
-//        Student lis4=new Student("","hgg","二月班","健康俱乐部",1993-06-07,7);
-//        studentList.add(lis4);
-//        Student lis5=new Student("","hgg","二月班","健康俱乐部",1993-06-07,7);
-//        studentList.add(lis5);
-//        Student lis6=new Student("","hgg","二月班","健康俱乐部",1993-06-07,7);
-//        studentList.add(lis6);
-//        Student lis7=new Student("","hgg","二月班","健康俱乐部",1993-06-07,7);
-//        studentList.add(lis7);
-//        Student lis8=new Student("","hgg","二月班","健康俱乐部",1993-06-07,7);
-//        studentList.add(lis8);
-
-
-        queryAdapter.updateData(studentList);
+    public void onEvent1(BanjiStudentEvent banjiStudent){
+        banjiStudentList=banjiStudent.getBanjiStudents();
+        Log.i("sdfsdfsdfsdfsd",""+banjiStudentList);
+        studentAdapter.updateData(banjiStudentList);
 //        List<Student> students=student.getStudents();
 //        for (Student st:students){
 //            String month=st.getStartDate().substring(5,7);
@@ -194,6 +197,7 @@ public class Retest extends BaseActivity implements View.OnClickListener{
 
 
     }
+
 
     public String tomonth(String month){
         if (month.equals("01")){
@@ -239,9 +243,10 @@ public class Retest extends BaseActivity implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.ll_classlist:
+            case R.id.iv_email:
             {
-
+                Intent intent=new Intent(Retest.this,QueryActivity.class);
+                startActivity(intent);
 
             }
             break;
@@ -251,6 +256,7 @@ public class Retest extends BaseActivity implements View.OnClickListener{
 //                startActivity(intent);
             }
             break;
+
         }
 
     }

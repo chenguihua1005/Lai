@@ -2,17 +2,15 @@ package com.softtek.lai.module.retest.Adapter;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
-import com.softtek.lai.module.bodygame.Counselor;
+import com.softtek.lai.module.retest.model.Banji;
 import com.softtek.lai.module.retest.model.BanjiStudent;
 import com.softtek.lai.module.retest.model.Student;
 import com.softtek.lai.widgets.CircleImageView;
@@ -21,33 +19,28 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 /**
- * Created by lareina.qiao on 3/23/2016.
+ * Created by lareina.qiao on 3/24/2016.
  */
-public class QueryAdapter extends BaseAdapter{
-    private List<Student> studentList;
-
+public class StudentAdapter extends BaseAdapter {
+    private List<BanjiStudent> banjiStudentList;
     private Context context;
-    public QueryAdapter(Context context,List<Student> studentList){
-        this.studentList=studentList;
+    public StudentAdapter(Context context, List<BanjiStudent>banjiStudentList){
+        this.banjiStudentList=banjiStudentList;
         this.context=context;
-
     }
-
-
-
-    public void updateData(List<Student> studentList){
-        this.studentList=studentList;
+    public void updateData(List<BanjiStudent> banjiStudentList){
+        this.banjiStudentList=banjiStudentList;
         notifyDataSetChanged();
     }
 
     @Override
     public int getCount() {
-        return studentList.size();
+        return banjiStudentList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return studentList.get(position);
+        return banjiStudentList.get(position);
     }
 
     @Override
@@ -76,19 +69,20 @@ public class QueryAdapter extends BaseAdapter{
         else {
             holder= (Holder) convertView.getTag();
         }
-        Student student=studentList.get(position);
-        if(!TextUtils.isEmpty(student.getPhoto())){
-        Picasso.with(context).load(student.getPhoto()).placeholder(R.drawable.lufei).error(R.drawable.lufei).into(holder.iv_head);
+        BanjiStudent banjiStudent=banjiStudentList.get(position);
+        if(!TextUtils.isEmpty(banjiStudent.getPhoto())){
+            Picasso.with(context).load(banjiStudent.getPhoto()).placeholder(R.drawable.lufei).error(R.drawable.lufei).into(holder.iv_head);
         }else{
             Picasso.with(context).load("www").placeholder(R.drawable.lufei).error(R.drawable.lufei).into(holder.iv_head);
         }
-//        holder.iv_head.setImageDrawable();
-        holder.tv_retest_nick.setText(student.getUserName());
-        holder.tv_retest_phone.setText(student.getMobile());
+
+        holder.tv_retest_nick.setText(banjiStudent.getUserName());
+        holder.tv_retest_phone.setText(banjiStudent.getMobile());
 //        Log.i(">>>>>>>>>>>>","<<<<<<<<<<"+tomonth((student.getStartDate().substring(5,7))));
-        holder.tv_retest_classdate.setText(tomonth((student.getStartDate().substring(5,7))));
-        holder.tv_retest_classweek.setText(student.getWeekth()+"");
-        String status="".equals(student.getAMStatus())?"录入":"审核";
+        holder.tv_retest_classdate.setText(tomonth((banjiStudent.getStartDate().substring(5,7))));
+        holder.tv_retest_classweek.setText(banjiStudent.getWeekth()+"");
+
+        String status= "".equals(banjiStudent.getAMStatus())?"录入":"审核";
         if (status=="录入")
         {
             holder.tv_retest_type.setText("录入");
@@ -103,10 +97,11 @@ public class QueryAdapter extends BaseAdapter{
 //            holder.iv_type_ls.setImageResource(R.drawable.shenhe);
             holder.tv_retest_type.setTextColor(context.getResources().getColor(R.color.orange));
         }
-        holder.tv_month.setText(student.getCurrStart().substring(6,7));
-        holder.tv_month1.setText(student.getCurrEnd().substring(6,7));
-        holder.tv_date.setText(student.getCurrStart().substring(8,10));
-        holder.tv_date1.setText(student.getCurrEnd().substring(8,10));
+//        holder.tv_retest_type.setText();
+        holder.tv_month.setText(banjiStudent.getCurrStart().substring(6,7));
+        holder.tv_month1.setText(banjiStudent.getCurrEnd().substring(6,7));
+        holder.tv_date.setText(banjiStudent.getCurrStart().substring(8,10));
+        holder.tv_date1.setText(banjiStudent.getCurrEnd().substring(8,10));
         return convertView;
     }
     class Holder{

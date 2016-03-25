@@ -46,9 +46,13 @@
             android:layout_toRightOf="@+id/tv_personum"
             android:textSize="20dp"/>
         <RadioButton
+            android:id="@+id/rbtn_retest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:background="@drawable/select"
+            android:focusable="false"
+            android:button="@null"
             />
     </RelativeLayout>
 </LinearLayout>
