@@ -20,8 +20,22 @@ public class File implements Serializable{
      private double upleggirth;//(大腿围 :,可空)
      private double doleggirth;//(小腿围:,可空)
 
-    public File(String s){
+    public File() {
 
+    }
+
+    public File(String nickname, String birthday, int height, int weight, int gender, double circum, double waistline, double hiplie, double uparmgirth, double upleggirth, double doleggirth) {
+        this.nickname = nickname;
+        this.birthday = birthday;
+        this.height = height;
+        this.weight = weight;
+        this.gender = gender;
+        this.circum = circum;
+        this.waistline = waistline;
+        this.hiplie = hiplie;
+        this.uparmgirth = uparmgirth;
+        this.upleggirth = upleggirth;
+        this.doleggirth = doleggirth;
     }
 
     public File(String nickname, String birthday, int height, int weight, int gender) {

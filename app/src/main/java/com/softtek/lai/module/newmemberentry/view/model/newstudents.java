@@ -7,43 +7,57 @@ import java.io.Serializable;
  */
 public class Newstudents implements Serializable {
 
+    private long sentaccid; //Sp id
     private String nickname;    //昵称:必填
     private String certification;//资格证号: 选填
+    private int userrole;
     private String mobile;  //手机号码: 必填
-    private String ClassId; //参赛班级:必填
-    private String weight;  //初始体重:必填
-    private String pysical; //体脂:选填
-    private String fat;     //内脂:选填
+    private int classid; //参赛班级:必填
+    private double weight;  //初始体重:必填
+    private double pysical; //体脂:选填
+    private double fat;     //内脂:选填
     private String birthday; //生日:必填
-    private String gender;      //性别 :gender(int 0女，1男)必填
-                            //照片上传: 选填
-    private String circum;      //胸围:可空
-    private String waistline;   //腰围:,可空
-    private String hiplie;      //臀围:可空
-    private String uparmgirth;//上臂围:,可空
-    private String upleggirth;//大腿围 :,可空
-    private String doleggirth;//小腿围:,可空
+    private int gender;      //性别 :gender(int 0女，1男)必填
+    private String photo;
+    private double circum;      //胸围:可空
+    private double waistline;   //腰围:,可空
+    private double hiplie;      //臀围:可空
+    private double uparmgirth;//上臂围:,可空
+    private double upleggirth;//大腿围 :,可空
+    private double doleggirth;//小腿围:,可空
 
+    @Override
+    public String toString() {
+        return "Newstudents{" +
+                "sentaccid=" + sentaccid +
+                ", nickname='" + nickname + '\'' +
+                ", certification='" + certification + '\'' +
+                ", userrole=" + userrole +
+                ", mobile='" + mobile + '\'' +
+                ", classid='" + classid + '\'' +
+                ", weight=" + weight +
+                ", pysical=" + pysical +
+                ", fat=" + fat +
+                ", birthday='" + birthday + '\'' +
+                ", gender=" + gender +
+                ", photo='" + photo + '\'' +
+                ", circum=" + circum +
+                ", waistline=" + waistline +
+                ", hiplie=" + hiplie +
+                ", uparmgirth=" + uparmgirth +
+                ", upleggirth=" + upleggirth +
+                ", doleggirth=" + doleggirth +
+                '}';
+    }
 
-    public Newstudents(String nickname, String certification, String mobile, String classid, String weight, String pysical, String fat, String birthday, String gender) {
-        this.nickname = nickname;
-        this.certification = certification;
-        this.mobile = mobile;
-        this.ClassId = classid;
-        this.weight = weight;
-        this.pysical = pysical;
-        this.fat = fat;
-        this.birthday = birthday;
-        this.gender = gender;
+    public long getSentaccid() {
+        return sentaccid;
     }
-    public Newstudents( String circum, String waistline, String hiplie, String uparmgirth, String upleggirth, String doleggirth) {
-        this.circum = circum;
-        this.waistline = waistline;
-        this.hiplie = hiplie;
-        this.uparmgirth = uparmgirth;
-        this.upleggirth = upleggirth;
-        this.doleggirth = doleggirth;
+
+    public void setSentaccid(long sentaccid) {
+        this.sentaccid = sentaccid;
     }
+
     public String getNickname() {
         return nickname;
     }
@@ -60,6 +74,14 @@ public class Newstudents implements Serializable {
         this.certification = certification;
     }
 
+    public int getUserrole() {
+        return userrole;
+    }
+
+    public void setUserrole(int userrole) {
+        this.userrole = userrole;
+    }
+
     public String getMobile() {
         return mobile;
     }
@@ -68,35 +90,35 @@ public class Newstudents implements Serializable {
         this.mobile = mobile;
     }
 
-    public String getClassId() {
-        return ClassId;
+    public int getClassid() {
+        return classid;
     }
 
-    public void setClassId(String ClassId) {
-        this.ClassId = ClassId;
+    public void setClassid(int classid) {
+        this.classid = classid;
     }
 
-    public String getWeight() {
+    public double getWeight() {
         return weight;
     }
 
-    public void setWeight(String weight) {
+    public void setWeight(double weight) {
         this.weight = weight;
     }
 
-    public String getPysical() {
+    public double getPysical() {
         return pysical;
     }
 
-    public void setPysical(String pysical) {
+    public void setPysical(double pysical) {
         this.pysical = pysical;
     }
 
-    public String getFat() {
+    public double getFat() {
         return fat;
     }
 
-    public void setFat(String fat) {
+    public void setFat(double fat) {
         this.fat = fat;
     }
 
@@ -108,80 +130,91 @@ public class Newstudents implements Serializable {
         this.birthday = birthday;
     }
 
-    public String getGender() {
+    public int getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(int gender) {
         this.gender = gender;
     }
 
-    public String getCircum() {
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    public double getCircum() {
         return circum;
     }
 
-    public void setCircum(String circum) {
+    public void setCircum(double circum) {
         this.circum = circum;
     }
 
-    public String getWaistline() {
+    public double getWaistline() {
         return waistline;
     }
 
-    public void setWaistline(String waistline) {
+    public void setWaistline(double waistline) {
         this.waistline = waistline;
     }
 
-    public String getHiplie() {
+    public double getHiplie() {
         return hiplie;
     }
 
-    public void setHiplie(String hiplie) {
+    public void setHiplie(double hiplie) {
         this.hiplie = hiplie;
     }
 
-    public String getUparmgirth() {
+    public double getUparmgirth() {
         return uparmgirth;
     }
 
-    public void setUparmgirth(String uparmgirth) {
+    public void setUparmgirth(double uparmgirth) {
         this.uparmgirth = uparmgirth;
     }
 
-    public String getUpleggirth() {
+    public double getUpleggirth() {
         return upleggirth;
     }
 
-    public void setUpleggirth(String upleggirth) {
+    public void setUpleggirth(double upleggirth) {
         this.upleggirth = upleggirth;
     }
 
-    public String getDoleggirth() {
+    public double getDoleggirth() {
         return doleggirth;
     }
 
-    public void setDoleggirth(String doleggirth) {
+    public void setDoleggirth(double doleggirth) {
         this.doleggirth = doleggirth;
     }
 
-    @Override
-    public String toString() {
-        return "Newstudents{" +
-                "nickname='" + nickname + '\'' +
-                ", certification='" + certification + '\'' +
-                ", mobile='" + mobile + '\'' +
-                ", classid='" + ClassId + '\'' +
-                ", weight='" + weight + '\'' +
-                ", pysical='" + pysical + '\'' +
-                ", fat='" + fat + '\'' +
-                ", birthday='" + birthday + '\'' +
-                ", gender='" + gender + '\'' +
-                ", circum='" + circum + '\'' +
-                ", waistline='" + waistline + '\'' +
-                ", hiplie='" + hiplie + '\'' +
-                ", uparmgirth='" + uparmgirth + '\'' +
-                ", upleggirth='" + upleggirth + '\'' +
-                ", doleggirth='" + doleggirth + '\'' +
-                '}';
+    public Newstudents(long sentaccid, String nickname, String certification, int userrole, String mobile, int classid, double weight, double pysical, double fat, String birthday, int gender, String photo, double circum, double waistline, double hiplie, double uparmgirth, double upleggirth, double doleggirth) {
+        this.sentaccid = sentaccid;
+        this.nickname = nickname;
+        this.certification = certification;
+        this.userrole = userrole;
+        this.mobile = mobile;
+        this.classid = classid;
+        this.weight = weight;
+        this.pysical = pysical;
+        this.fat = fat;
+        this.birthday = birthday;
+        this.gender = gender;
+        this.photo = photo;
+        this.circum = circum;
+        this.waistline = waistline;
+        this.hiplie = hiplie;
+        this.uparmgirth = uparmgirth;
+        this.upleggirth = upleggirth;
+        this.doleggirth = doleggirth;
+    }
+    public Newstudents(){
+
     }
 }

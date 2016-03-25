@@ -5,6 +5,7 @@ import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -36,11 +37,11 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
     ValidateLife validateLife;
 
     @Required(order=1,messageResId = R.string.phoneValidateNull)
-    @Regex(order = 1,patternResId = R.string.phonePattern,messageResId = R.string.phoneValidate)
+    @Regex(order = 2,patternResId = R.string.phonePattern,messageResId = R.string.phoneValidate)
     @InjectView(R.id.et_phone)
     EditText et_phone;
 
-    @Required(order = 2,messageResId = R.string.identiftValidtae)
+    @Required(order = 3,messageResId = R.string.identiftValidtae)
     @InjectView(R.id.et_identify)
     EditText et_identify;
 
@@ -52,6 +53,9 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
+
+    @InjectView(R.id.iv_email)
+    ImageView iv_email;
 
     @InjectView(R.id.tv_title)
     TextView tv_title;
@@ -69,7 +73,7 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
         ll_left.setOnClickListener(this);
         btn_next.setOnClickListener(this);
         tv_title.setText("重置密码");
-
+        iv_email.setVisibility(View.GONE);
     }
 
     @Override

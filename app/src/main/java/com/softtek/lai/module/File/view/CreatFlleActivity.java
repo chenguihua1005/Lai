@@ -97,6 +97,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
 
     private File file;//存储用户表单数据
     private static final int GET_BODY_DIMENSION=1;
+    private boolean w=true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,7 +131,6 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                 return false;
             }
         });
-//        ll_birth.setOnClickListener(this);
         ll_sex.setOnClickListener(this);
         ll_height.setOnClickListener(this);
         ll_weight.setOnClickListener(this);
@@ -160,6 +160,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                 if(ZillaApplication.getInstance().getFilterList().contains(new Filter(nick))){
                     Util.toastMsg("名字已经存在");
                 }else{
+
                     validateLife.validate();
                 }
                 break;
@@ -167,6 +168,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                 Intent intent=new Intent(CreatFlleActivity.this,DimensionRecordActivity.class);
                 intent.putExtra("file",file);
                 startActivityForResult(intent,GET_BODY_DIMENSION);
+                w=false;
                 break;
             case R.id.ll_birth:
                 DatePickerDialog dialog=new DatePickerDialog(
@@ -204,7 +206,9 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         String gender=tv_sex.getText().toString();
         String height=tv_height.getText().toString();
         String weight=tv_weight.getText().toString();
-        Log.i("nick:"+nick+";birthday:"+birthday+";gender:"+gender+";height:"+height+";weight:"+weight);
+        Log.i("创建档案："+"nick:"+nick+";birthday:"+birthday+";gender:"+gender+";height:"+height+";weight:"+weight);
+        if (w==true){file=new File();}
+
         file.setNickname(nick);
         file.setBrithday(birthday);
         file.setGender(gender.equals("女")?0:1);
@@ -226,7 +230,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode==RESULT_OK&&requestCode==GET_BODY_DIMENSION){
                 file= (File) data.getSerializableExtra("file");
-                Log.i(file.toString());
+                Log.i("创建档案围度File:"+file);
         }
     }
 

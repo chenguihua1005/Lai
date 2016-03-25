@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -15,6 +16,7 @@ import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.ConfirmPassword;
 import com.mobsandgeeks.saripaar.annotation.Password;
+import com.mobsandgeeks.saripaar.annotation.Regex;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.mobsandgeeks.saripaar.annotation.TextRule;
 import com.softtek.lai.R;
@@ -37,7 +39,8 @@ public class ForgetActivity2 extends BaseActivity implements View.OnClickListene
 
     @Required(order = 1,messageResId = R.string.newPasswordNull)
     @Password(order = 2)
-    @TextRule(order = 3,minLength = 6,maxLength = 16,messageResId = R.string.passwordValidate)
+    @Regex(order = 4,pattern = "(?![^a-zA-Z]+$)(?!\\D+$).{6,16}",messageResId = R.string.passwordValidate)
+    //@TextRule(order = 3,minLength = 6,maxLength = 16,messageResId = R.string.passwordValidate)
     @InjectView(R.id.et_password)
     EditText et_password;
 
@@ -48,6 +51,9 @@ public class ForgetActivity2 extends BaseActivity implements View.OnClickListene
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
+
+    @InjectView(R.id.iv_email)
+    ImageView iv_email;
 
     @InjectView(R.id.tv_title)
     TextView tv_title;
@@ -69,6 +75,7 @@ public class ForgetActivity2 extends BaseActivity implements View.OnClickListene
     @Override
     protected void initViews() {
         tv_title.setText("输入新密码");
+        iv_email.setVisibility(View.GONE);
     }
 
     @Override

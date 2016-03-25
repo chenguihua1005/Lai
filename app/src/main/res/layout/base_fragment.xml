@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.softtek.lai.widgets.SuperSwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.softtek.lai.widgets.SuperSwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:id="@+id/refresh">
+    android:id="@+id/refresh"
+    >
     
    <android.support.v7.widget.RecyclerView
        android:layout_width="match_parent"

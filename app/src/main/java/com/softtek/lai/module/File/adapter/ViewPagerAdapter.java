@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import com.softtek.lai.R;
 import com.softtek.lai.module.File.view.CreatFlleActivity;
 import com.softtek.lai.R.id;
+import com.softtek.lai.module.File.view.DimensionRecordActivity;
 
 /**
  * Created by julie.zhu on 3/18/2016.
@@ -59,7 +60,7 @@ public class ViewPagerAdapter extends PagerAdapter {
     }
 
     private void creat() {
-        Intent intent = new Intent(activity, CreatFlleActivity.class);
+        Intent intent = new Intent(activity, DimensionRecordActivity.class);
         activity.startActivity(intent);
         activity.finish();
     }

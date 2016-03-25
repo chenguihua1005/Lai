@@ -16,6 +16,6 @@ public interface IHomeInfoPresenter {
     //获取主页信息
     void getHomeInfoData(SwipeRefreshLayout pull);
 
-    //分页查询活动等信息
-    void getContentByPage(int page, int img_type, SuperSwipeRefreshLayout pull, ProgressBar footerProgressBar, ImageView footerImageView);
+    //分页查询活动等信息flag=0表示更新1表示加载
+    void getContentByPage(int flag,int page, int img_type);
 }

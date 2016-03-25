@@ -140,37 +140,15 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     @Subscribe
     public void onEventRefresh(List<HomeInfo> infos){
         advList.clear();
-        List<HomeInfo> activitys=new ArrayList<>();
-        List<HomeInfo> products=new ArrayList<>();
-        List<HomeInfo> sales=new ArrayList<>();
-        HomeInfo in=null;
         for(HomeInfo info:infos){
             switch (info.getImg_Type()){
                 case "0":
                     advList.add(info.getImg_Addr());
                     break;
-                case "1":
-                    in=info;
-                    activitys.add(info);
-                    break;
-                case "2":
-                    products.add(info);
-                    break;
-                case "6":
-                    sales.add(info);
-                    break;
             }
         }
         rhv_adv.setImgUrlData(advList);
-        activitys.add(in);
-        activitys.add(in);activitys.add(in);
-        activitys.add(in);
-        activitys.add(in);activitys.add(in);
 
-
-        EventBus.getDefault().post(new ActivityEvent(activitys));
-        EventBus.getDefault().post(new ProductEvent(products));
-        EventBus.getDefault().post(new SaleEvent(sales));
     }
 
     @Override

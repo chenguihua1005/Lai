@@ -8,4 +8,6 @@ import com.softtek.lai.module.newmemberentry.view.model.Newstudents;
 public interface INewStudentpresenter {
     //新学员录入信息
     void input(Newstudents newstudents);
+
+    void upload(String filePath);
 }
