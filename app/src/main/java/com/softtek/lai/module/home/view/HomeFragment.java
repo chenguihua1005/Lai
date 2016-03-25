@@ -10,11 +10,13 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.softtek.lai.R;
@@ -53,7 +55,7 @@ import zilla.libcore.util.Util;
  *
  */
 @InjectLayout(R.layout.fragment_home2)
-public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetChangedListener,SwipeRefreshLayout.OnRefreshListener {
+public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetChangedListener,SwipeRefreshLayout.OnRefreshListener,AdapterView.OnItemClickListener{
 
     @InjectView(R.id.toolbar)
     Toolbar toolbar;
@@ -117,8 +119,8 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         //载入缓存数据
         homeInfoPresenter.loadCacheData();
 
+        gv_model.setOnItemClickListener(this);
         //第一次加载自动刷新
-
         pull.post(new Runnable() {
             @Override
             public void run() {
@@ -209,5 +211,47 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     public void onRefresh() {
         System.out.println("正在加载......");
         homeInfoPresenter.getHomeInfoData(pull);
+    }
+
+    /**
+     * 功能模块按钮
+     * @param parent
+     * @param view
+     * @param position
+     * @param id
+     */
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        aCache=ACache.get(getContext(),Constants.USER_ACACHE_DATA_DIR);
+        User user= (User) aCache.getAsObject(Constants.USER_ACACHE_KEY);
+        if(Integer.parseInt(user.getUserrole())==Constants.VR){
+            Util.toastMsg("游客");
+            return;
+        }
+        switch (position){
+            case 0:
+                startActivity(new Intent(getContext(),Counselor.class));
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+            case 6:
+                break;
+            case 7:
+                break;
+            case 8:
+                break;
+            case 9:
+                break;
+
+
+        }
     }
 }
