@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -42,27 +43,30 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
     @LifeCircleInject
     ValidateLife validateLife;
 
-    @Regex(order = 1,patternResId = R.string.phonePattern,messageResId = R.string.phoneValidate)
+    @Required(order =1,messageResId = R.string.phoneValidateNull)
+    @Regex(order = 2,patternResId = R.string.phonePattern,messageResId = R.string.phoneValidate)
     @InjectView(R.id.et_phone)
     EditText et_phone;
 
-    @Password(order = 2)
-    @TextRule(order = 3,minLength = 6,maxLength = 16,messageResId = R.string.passwordValidate)
+    @Password(order = 3,messageResId = R.string.passwordValidateNull)
+    @Regex(order = 4,pattern = "(?![^a-zA-Z]+$)(?!\\D+$).{6,16}",messageResId = R.string.passwordValidate)
+    //@TextRule(order = 4,minLength = 6,maxLength = 16,messageResId = R.string.passwordValidate)
     @InjectView(R.id.et_password)
     EditText et_password;
 
-    @ConfirmPassword(order = 4,messageResId = R.string.confirmPassword)
+    @Required(order = 5,messageResId =R.string.confirmPasswordNull )
+    @ConfirmPassword(order = 6,messageResId = R.string.confirmPassword)
     @InjectView(R.id.et_repassword)
     EditText et_repassword;
 
-    @Required(order = 5,messageResId = R.string.identiftValidtae)
+    @Required(order = 7,messageResId = R.string.identiftValidtae)
     @InjectView(R.id.et_identify)
     EditText et_identify;
 
     @InjectView(R.id.tv_get_identify)
     TextView tv_get_identify;
 
-    @Checked(order = 6)
+    @Checked(order = 8)
     @InjectView(R.id.cb_term)
     CheckBox cb_term;
 
@@ -77,6 +81,8 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
+    @InjectView(R.id.iv_email)
+    ImageView iv_email;
 
 
     @Override
@@ -101,6 +107,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void initViews() {
         tv_title.setText("注册");
+        iv_email.setVisibility(View.GONE);
     }
 
     @Override
@@ -124,7 +131,6 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
                 break;
             case R.id.btn_regist:
                 validateLife.validate();
-                //startActivity(new Intent(this,CreatFlleActivity.class));
                 break;
             case R.id.tv_protocol:
                 startActivity(new Intent(this,TermActivity.class));

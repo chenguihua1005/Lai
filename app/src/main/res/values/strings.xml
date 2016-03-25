@@ -19,6 +19,7 @@
     <string name="title_activity_login">LoginActivity</string>
     <string name="phoneNum">手机号</string>
     <string name="password">密码</string>
+    <string name="passwordReg">密码(字母+数字,6~16位)</string>
     <string name="forgetPsd"><u>忘记密码?</u></string>
 
     <string name="neterror">服务器异常</string>
@@ -27,13 +28,14 @@
     <string name="phoneValidateNull">请输入手机号码</string>
     <string name="passwordValidateNull">请输入密码</string>
     <string name="phoneValidate">请输入正确的手机号码</string>
-    <string name="passwordValidate">请输入至少6位数密码</string>
+    <string name="passwordValidate">密码不符合规则</string>
     <string name="termValidate">必须遵循该条款</string>
     <string name="identiftValidtae">请输入验证码</string>
     <string name="phonePattern">[0-9]{11}</string>
     <string name="identifyValidateMsg">验证码错误</string>
     <string name="identifyAsNull">请获取验证码</string>
     <string name="confirmPassword">两次密码不一致</string>
+    <string name="confirmPasswordNull">请输入确认密码</string>
     <string name="psdResetY">重置成功</string>
     <string name="psdResetN">重置失败</string>
     <string name="home">主页</string>

@@ -15,6 +15,7 @@ import com.softtek.lai.module.home.adapter.ModelAdapter;
 import com.softtek.lai.module.home.cache.HomeInfoCache;
 import com.softtek.lai.module.home.eventModel.ActivityEvent;
 import com.softtek.lai.module.home.eventModel.ProductEvent;
+import com.softtek.lai.module.home.eventModel.RefreshEvent;
 import com.softtek.lai.module.home.eventModel.SaleEvent;
 import com.softtek.lai.module.home.model.FunctionModel;
 import com.softtek.lai.module.home.model.HomeInfo;
@@ -100,21 +101,19 @@ public class HomeInfoImpl implements IHomeInfoPresenter{
     }
 
     @Override
-    public void getContentByPage(int page, final int img_type, final SuperSwipeRefreshLayout pull, final ProgressBar footerProgressBar, final ImageView footerImageView) {
+    public void getContentByPage(final int flag,int page, final int img_type) {
         homeService.getActivityByPage(img_type, page, new Callback<ResponseData<List<HomeInfo>>>() {
             @Override
             public void success(ResponseData<List<HomeInfo>> homeInfoResponseData, Response response) {
-                footerImageView.setVisibility(View.VISIBLE);
-                footerProgressBar.setVisibility(View.GONE);
-                pull.setLoadMore(false);
+                EventBus.getDefault().post(new RefreshEvent());
                 switch (homeInfoResponseData.getStatus()){
                     case 200:
                         if(img_type==1){
-                            EventBus.getDefault().post(new ActivityEvent(1,homeInfoResponseData.getData()));
+                            EventBus.getDefault().post(new ActivityEvent(flag,homeInfoResponseData.getData()));
                         }else if(img_type==2){
-                            EventBus.getDefault().post(new ProductEvent(1,homeInfoResponseData.getData()));
+                            EventBus.getDefault().post(new ProductEvent(flag,homeInfoResponseData.getData()));
                         }else if(img_type==6){
-                            EventBus.getDefault().post(new SaleEvent(1,homeInfoResponseData.getData()));
+                            EventBus.getDefault().post(new SaleEvent(flag,homeInfoResponseData.getData()));
                         }
                         break;
                     default:
@@ -125,13 +124,12 @@ public class HomeInfoImpl implements IHomeInfoPresenter{
 
             @Override
             public void failure(RetrofitError error) {
-                footerImageView.setVisibility(View.VISIBLE);
-                footerProgressBar.setVisibility(View.GONE);
-                pull.setLoadMore(false);
+                EventBus.getDefault().post(new RefreshEvent());
                 error.printStackTrace();
                 Util.toastMsg(R.string.neterror);
             }
         });
     }
+
 
 }
