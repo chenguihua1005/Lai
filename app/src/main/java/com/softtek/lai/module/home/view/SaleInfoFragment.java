@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.module.home.eventModel.RefreshEvent;
 import com.softtek.lai.module.home.eventModel.SaleEvent;
 import com.softtek.lai.module.home.model.HomeInfo;
 import com.softtek.lai.module.home.presenter.HomeInfoImpl;
@@ -75,10 +76,16 @@ public class SaleInfoFragment extends BaseFragment implements SuperSwipeRefreshL
 
     @Override
     protected void initDatas() {
+        for(int i=0;i<5;i++){
+            HomeInfo info=new HomeInfo();
+            info.setImg_Title("");
+            infos.add(info);
+        }
         homeInfoPresenter=new HomeInfoImpl(getContext());
         rl.setLayoutManager(new LinearLayoutManager(rl.getContext()));
         rl.setAdapter(new RecyclerViewAdapter(getActivity()));
         refresh.setOnPushLoadMoreListener(this);
+        homeInfoPresenter.getContentByPage(0,1, 6);
     }
 
 
@@ -105,12 +112,19 @@ public class SaleInfoFragment extends BaseFragment implements SuperSwipeRefreshL
         rl.getAdapter().notifyDataSetChanged();
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onRefreshResult(RefreshEvent event){
+        footerImageView.setVisibility(View.VISIBLE);
+        footerProgressBar.setVisibility(View.GONE);
+        refresh.setLoadMore(false);
+    }
+
     @Override
     public void onLoadMore() {
         footerTextView.setText("正在加载...");
         footerImageView.setVisibility(View.GONE);
         footerProgressBar.setVisibility(View.VISIBLE);
-        homeInfoPresenter.getContentByPage(++page,1,refresh,footerProgressBar,footerImageView);
+        homeInfoPresenter.getContentByPage(1,++page,1);
     }
 
     @Override
@@ -144,7 +158,7 @@ public class SaleInfoFragment extends BaseFragment implements SuperSwipeRefreshL
         public void onBindViewHolder(final RecyclerViewAdapter.ViewHolder holder, int position) {
             //绑定数据
             HomeInfo info=infos.get(position);
-            Picasso.with(mContext).load(info.getImg_Addr()).into(holder.iv_image);
+            Picasso.with(mContext).load(info.getImg_Addr()).error(R.drawable.froyo).into(holder.iv_image);
             holder.tv_title.setText(info.getImg_Title());
 
         }
