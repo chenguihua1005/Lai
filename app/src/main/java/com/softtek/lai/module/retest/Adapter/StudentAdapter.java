@@ -60,6 +60,7 @@ public class StudentAdapter extends BaseAdapter {
             holder.tv_retest_classdate= (TextView) convertView.findViewById(R.id.tv_retest_classdate);
             holder.tv_retest_classweek= (TextView) convertView.findViewById(R.id.tv_retest_classweek);
             holder.tv_retest_type= (TextView) convertView.findViewById(R.id.tv_retest_type);
+            holder.iv_type_ls=(ImageView)convertView.findViewById(R.id.iv_type_ls);
             holder.tv_month= (TextView) convertView.findViewById(R.id.iv_month);
             holder.tv_month1=(TextView)convertView.findViewById(R.id.iv_month1);
             holder.tv_date= (TextView) convertView.findViewById(R.id.iv_date);
@@ -78,8 +79,8 @@ public class StudentAdapter extends BaseAdapter {
 
         holder.tv_retest_nick.setText(banjiStudent.getUserName());
         holder.tv_retest_phone.setText(banjiStudent.getMobile());
-//        Log.i(">>>>>>>>>>>>","<<<<<<<<<<"+tomonth((student.getStartDate().substring(5,7))));
-        holder.tv_retest_classdate.setText(tomonth((banjiStudent.getStartDate().substring(5,7))));
+        String[] startClass=banjiStudent.getStartDate().split("-");
+        holder.tv_retest_classdate.setText(tomonth(startClass[1]));
         holder.tv_retest_classweek.setText(banjiStudent.getWeekth()+"");
 
         String status= "".equals(banjiStudent.getAMStatus())?"录入":"审核";
@@ -87,21 +88,24 @@ public class StudentAdapter extends BaseAdapter {
         {
             holder.tv_retest_type.setText("录入");
 
-//            holder.iv_type_ls.setImageResource(R.drawable.shenhe);
+            holder.iv_type_ls.setImageResource(R.drawable.luru);
 
 
             holder.tv_retest_type.setTextColor(context.getResources().getColor(R.color.green));
         }
         else {
             holder.tv_retest_type.setText("审核");
-//            holder.iv_type_ls.setImageResource(R.drawable.shenhe);
+            holder.iv_type_ls.setImageResource(R.drawable.shenhe);
             holder.tv_retest_type.setTextColor(context.getResources().getColor(R.color.orange));
         }
 //        holder.tv_retest_type.setText();
-        holder.tv_month.setText(banjiStudent.getCurrStart().substring(6,7));
-        holder.tv_month1.setText(banjiStudent.getCurrEnd().substring(6,7));
-        holder.tv_date.setText(banjiStudent.getCurrStart().substring(8,10));
-        holder.tv_date1.setText(banjiStudent.getCurrEnd().substring(8,10));
+
+        String[] currStart=banjiStudent.getCurrStart().split("-");
+        String[] currEnd=banjiStudent.getCurrEnd().split("-");
+        holder.tv_month.setText(currStart[1]);
+        holder.tv_month1.setText(currEnd[1]);
+        holder.tv_date.setText(currStart[2]);
+        holder.tv_date1.setText(currEnd[2]);
         return convertView;
     }
     class Holder{
