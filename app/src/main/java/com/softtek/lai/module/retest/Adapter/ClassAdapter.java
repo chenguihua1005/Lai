@@ -64,7 +64,7 @@ public class ClassAdapter extends BaseAdapter {
             viewHolder=(ViewHolder)convertView.getTag();
         }
         Banji banji=banjiList.get(position);
-        viewHolder.StartDate.setText(banji.getStartDate());
+        viewHolder.StartDate.setText(tomonth((banji.getStartDate().substring(5,7))));
         viewHolder.ClassName.setText(banji.getClassName());
         viewHolder.Total.setText(banji.getTotal()+"");
         return convertView;
@@ -80,5 +80,46 @@ public class ClassAdapter extends BaseAdapter {
             ClassName=(TextView)view.findViewById(R.id.tv_title);
             Total=(TextView)view.findViewById(R.id.tv_personum);
         }
+    }
+    public String tomonth(String month){
+
+        if (month.equals("01")){
+            month="一月班";
+        }
+        else if (month.equals("02")){
+            month="二月班";
+        }else if (month.equals("03"))
+        {
+            month="三月班";
+        }else if (month.equals("04"))
+        {
+            month="四月班";
+
+        }else if (month.equals("05"))
+        {
+            month="五月班";
+        }else if (month.equals("06"))
+        {
+            month="六月班";
+        }else if (month.equals("07"))
+        {
+            month="七月班";
+        } else if (month.equals("08"))
+        {
+            month="八月班";
+        }else if (month.equals("09"))
+        {
+            month="九月班";
+        }else if (month.equals("10"))
+        {
+            month="十月班";
+        }else if (month.equals("11"))
+        {
+            month="十一月班";
+        }else
+        {
+            month="十二月班";
+        }
+        return month;
     }
 }

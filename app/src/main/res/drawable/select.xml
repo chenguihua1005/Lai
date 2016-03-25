@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/unfold" android:state_window_focused="false"/>
-    <item android:drawable="@drawable/retract" android:state_focused="true"/>
+    <item android:state_window_focused="false"
+        android:drawable="@drawable/radiocir" />
+    <item android:drawable="@drawable/radiosel" android:state_checked="true" android:state_enabled="true"/>
+    <item android:drawable="@drawable/radiocir" android:state_checked="false" android:state_enabled="true"/>
 
 </selector>
