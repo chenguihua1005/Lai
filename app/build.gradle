@@ -18,9 +18,9 @@ android {
     signingConfigs {
         release {
             try {
-                storeFile file("e2e.jks")
+                storeFile file("lai.jks")
                 storePassword properties.getProperty("keystore.pass")
-                keyAlias "e2e"
+                keyAlias "lai"
                 keyPassword properties.getProperty("key.pass")
             }
             catch (ex) {
