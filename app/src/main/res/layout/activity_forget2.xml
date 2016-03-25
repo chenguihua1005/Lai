@@ -8,45 +8,70 @@
     <include layout="@layout/toolbar"/>
 
     <LinearLayout
+        android:id="@+id/ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
         android:orientation="vertical">
 
-        <TextView
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textColor="#000000"
-            android:layout_marginLeft="50dp"
-            android:layout_marginBottom="30dp"
-            android:text="帐号验证成功，您可以重新设置密码:"/>
-
-        <EditText
-            android:id="@+id/et_password"
+            android:layout_height="60dp">
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleType="center"
+                android:layout_gravity="left|center"
+                android:src="@drawable/password"/>
+            <EditText
+                android:id="@+id/et_password"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="40dp"
+                android:singleLine="true"
+                android:inputType="textPassword"
+                android:hint="@string/inputNewPassword"/>
+        </FrameLayout>
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/bg_regist_btn"
-            android:inputType="textPassword"
-            android:hint="输入新密码"
-            android:singleLine="true"
-            android:paddingLeft="5dp"/>
+            android:layout_height="60dp">
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleType="center"
+                android:layout_gravity="left|center"
+                android:src="@drawable/password"/>
+            <EditText
+                android:id="@+id/et_repassword"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="40dp"
+                android:singleLine="true"
+                android:inputType="textPassword"
+                android:hint="@string/reNewPassword"/>
+        </FrameLayout>
 
-        <EditText
-            android:id="@+id/et_repassword"
+        <Button
+            android:id="@+id/btn_submit"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
-            android:background="@drawable/bg_regist_btn"
-            android:inputType="textPassword"
-            android:hint="重复输入新密码"
-            android:singleLine="true"
-            android:paddingLeft="5dp"/>
-
+            android:layout_height="match_parent"
+            android:textColor="#FFFFFF"
+            android:text="提交"
+            android:textSize="20sp"
+            android:background="@drawable/bg_sumbit_btn"
+            android:layout_marginTop="50dp"/>
     </LinearLayout>
+    <TextView
+        android:layout_alignTop="@id/ll"
+        android:layout_below="@id/ll"
+        android:layout_marginTop="-30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textColor="#000000"
+        android:layout_marginLeft="50dp"
 
+        android:text="帐号验证成功，您可以重新设置密码:"/>
 </RelativeLayout>

@@ -2,6 +2,7 @@ package com.softtek.lai.module.home.view;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
@@ -42,6 +43,9 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener,B
     private int currentId=0;
     private boolean isClick=false;
 
+    Drawable white;
+    Drawable green;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +54,8 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener,B
         btn_contact.setOnClickListener(this);
         btn_healthy_record.setOnClickListener(this);
         btn_mine.setOnClickListener(this);
+        white=getResources().getDrawable(R.drawable.bg_white);
+        green=getResources().getDrawable(R.drawable.bg_green);
     }
 
     @Override
@@ -63,7 +69,7 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener,B
         content.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                Log.i("onPageScrolled");
+                //Log.i("onPageScrolled");
                 if(!isClick){
                     setChildProgress(position,1-positionOffset);
                     setChildProgress(position+1,positionOffset);
@@ -72,15 +78,51 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener,B
 
             @Override
             public void onPageSelected(int position) {
-                Log.i("onPageSelected");
+                Log.i("onPageSelected>>>>>"+position);
                 //页面切换了
                 isClick=false;
-
+                switch (position){
+                    case 0:
+                        btn_home.setBackground(green);
+                        btn_healthy.setBackground(white);
+                        btn_contact.setBackground(white);
+                        btn_healthy_record.setBackground(white);
+                        btn_mine.setBackground(white);
+                        break;
+                    case 1:
+                        btn_home.setBackground(white);
+                        btn_healthy.setBackground(green);
+                        btn_contact.setBackground(white);
+                        btn_healthy_record.setBackground(white);
+                        btn_mine.setBackground(white);
+                        break;
+                    case 2:
+                        btn_home.setBackground(white);
+                        btn_healthy.setBackground(white);
+                        btn_contact.setBackground(green);
+                        btn_healthy_record.setBackground(white);
+                        btn_mine.setBackground(white);
+                        break;
+                    case 3:
+                        btn_home.setBackground(white);
+                        btn_healthy.setBackground(white);
+                        btn_contact.setBackground(white);
+                        btn_healthy_record.setBackground(green);
+                        btn_mine.setBackground(white);
+                        break;
+                    case 4:
+                        btn_home.setBackground(white);
+                        btn_healthy.setBackground(white);
+                        btn_contact.setBackground(white);
+                        btn_healthy_record.setBackground(white);
+                        btn_mine.setBackground(green);
+                        break;
+                }
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                Log.i("onPageScrollStateChanged>>>>>>"+state);
+                //Log.i("onPageScrollStateChanged>>>>>>"+state);
                 currentId=state;
             }
         });

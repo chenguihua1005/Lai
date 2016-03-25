@@ -5,4 +5,7 @@
     <color name="colorAccent">#FF4081</color>
     <color name="sc_transparent_background">#ffffffff</color>
     <color name="mytoolbar_green">#9CCC65</color>
+    <color name="black">#000000</color>
+    <color name="green">#75BA29</color>
+    <color name="orange">#FFA100</color>
 </resources>

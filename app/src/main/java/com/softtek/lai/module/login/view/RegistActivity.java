@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
@@ -22,12 +23,10 @@ import com.mobsandgeeks.saripaar.annotation.Required;
 import com.mobsandgeeks.saripaar.annotation.TextRule;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.module.File.view.CreatFlleActivity;
-import com.softtek.lai.module.login.contants.Constants;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.login.presenter.IRegistPresenter;
 import com.softtek.lai.module.login.presenter.RegistPresenterImpl;
 import com.softtek.lai.utils.RegexUtil;
-import com.softtek.lai.utils.SoftInputUtil;
 
 import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
@@ -76,6 +75,9 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
     @InjectView(R.id.tv_title)
     TextView tv_title;
 
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +85,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
         tv_get_identify.setOnClickListener(this);
         btn_regist.setOnClickListener(this);
         tv_protocol.setOnClickListener(this);
+        ll_left.setOnClickListener(this);
         cb_term.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -98,7 +101,6 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void initViews() {
         tv_title.setText("注册");
-
     }
 
     @Override
@@ -121,13 +123,15 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
                 registPresenter.getIdentify(phone, Constants.REGIST_IDENTIFY);
                 break;
             case R.id.btn_regist:
-//                validateLife.validate();
-                startActivity(new Intent(this,CreatFlleActivity.class));
+                validateLife.validate();
+                //startActivity(new Intent(this,CreatFlleActivity.class));
                 break;
             case R.id.tv_protocol:
-
+                startActivity(new Intent(this,TermActivity.class));
                 break;
-
+            case R.id.ll_left:
+                finish();
+                break;
         }
     }
 

@@ -7,6 +7,7 @@ import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.login.net.LoginService;
+import com.softtek.lai.module.login.view.ForgetActivity2;
 import com.softtek.lai.module.login.view.LoginActivity;
 
 import retrofit.Callback;
@@ -30,12 +31,13 @@ public class PasswordPresnter implements IPasswordPresenter{
     }
 
     @Override
-    public void resetPassword(String phone,String password) {
-        service.doResetPassword(phone, password, new Callback<ResponseData>() {
+    public void resetPassword(String phone,String password,String identify) {
+        service.doResetPassword(phone, password,identify, new Callback<ResponseData>() {
             @Override
             public void success(ResponseData responseData, Response response) {
                 Log.i("重置成功");
                 Util.toastMsg(R.string.psdResetY);
+
                 context.startActivity(new Intent(context, LoginActivity.class));
             }
 
@@ -46,5 +48,34 @@ public class PasswordPresnter implements IPasswordPresenter{
             }
         });
 
+    }
+
+    @Override
+    public void checkIdentify(final String phone, final String identify) {
+        service.checkIdentify(phone, identify, new Callback<ResponseData>() {
+            @Override
+            public void success(ResponseData responseData, Response response) {
+                Log.i("校验结果>>>"+responseData.toString());
+                int status=responseData.getStatus();
+                switch (status){
+                    case 200:
+                        Intent intent=new Intent(context, ForgetActivity2.class);
+                        intent.putExtra("phone",phone);
+                        intent.putExtra("identify",identify);
+                        context.startActivity(intent);
+                        break;
+                    default:
+                        Util.toastMsg(responseData.getMsg());
+                        break;
+                }
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Util.toastMsg("服务器异常");
+                Log.i("校验失败");
+            }
+        });
     }
 }

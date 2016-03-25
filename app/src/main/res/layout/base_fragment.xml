@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.softtek.lai.widgets.SuperSwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:id="@+id/refresh">
     
-    <TextView 
-        android:id="@+id/fragment_text"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:textColor="@android:color/holo_blue_dark"
-        android:textSize="30sp"
-        />
+   <android.support.v7.widget.RecyclerView
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:dividerHeight="1dp"
+       android:id="@+id/rl"></android.support.v7.widget.RecyclerView>
     
 
-</LinearLayout>
+</com.softtek.lai.widgets.SuperSwipeRefreshLayout>

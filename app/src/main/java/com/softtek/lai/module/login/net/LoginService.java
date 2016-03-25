@@ -28,10 +28,11 @@ public interface LoginService {
                  @Field("psd")String password,
                  Callback<ResponseData<User>> callback);
 
-    @GET("/HerbUser/GetVerificationNum")
+    @FormUrlEncoded
+    @POST("/HerbUser/GetVerificationNum")
     void getIdentify(
-                     @Query("phone") String phone,
-                     @Query("status") String status,
+                     @Field("phone") String phone,
+                     @Field("status") String status,
                      Callback<ResponseData<Identify>> callback);
 
     @FormUrlEncoded
@@ -39,14 +40,21 @@ public interface LoginService {
     void doRegist(
                   @Field("user") String userName,
                   @Field("psd") String password,
-                  Callback<ResponseData<Regist>> callback);
+                  @Field("identify")String identify,
+                  Callback<ResponseData<User>> callback);
 
     @FormUrlEncoded
     @POST("/HerbUser/ResetPassWord")
     void doResetPassword(
                          @Field("phone")String phone,
                          @Field("newpsd")String newPassword,
+                         @Field("identify")String identify,
                          Callback<ResponseData> callback);
 
 
+    @FormUrlEncoded
+    @POST("/HerbUser/ValidationResetPassWord")
+    void checkIdentify(@Field("phone") String phone,
+                       @Field("identify") String identify,
+                       Callback<ResponseData> callback);
 }

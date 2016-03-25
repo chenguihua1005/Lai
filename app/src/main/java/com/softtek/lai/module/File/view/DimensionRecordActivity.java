@@ -1,16 +1,20 @@
 package com.softtek.lai.module.File.view;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.NumberPicker;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.ggx.ruler_lib.RulerView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.File.model.File;
+import com.softtek.lai.module.newmemberentry.view.model.Newstudents;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -19,14 +23,21 @@ import zilla.libcore.ui.InjectLayout;
 public class DimensionRecordActivity extends BaseActivity implements OnClickListener{
 
     //toolbar布局控件
-    @InjectView(R.id.tv_left)
-    TextView tv_left;
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
+
+    @InjectView(R.id.tv_right)
+    TextView tv_right;
 
     @InjectView(R.id.tv_title)
     TextView tv_title;
 
-    @InjectView(R.id.tv_right)
-    TextView tv_right;
+    @InjectView(R.id.btn_save)
+    Button btn_save;
+
+    @InjectView(R.id.ll_explain)
+    LinearLayout ll_explain;
+
     //TextView
     @InjectView(R.id.tv_circum)
     TextView tv_circum;
@@ -46,56 +57,39 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
     @InjectView(R.id.tv_doleggirth)
     TextView tv_doleggirth;
 
-    @InjectView(R.id.tv_size)
-    TextView tv_size;
-
-    @InjectView(R.id.tv_clear)
-    TextView tv_clear;
-
-    @InjectView(R.id.rv)
-    RulerView rv;
-    //布局
     @InjectView(R.id.ll_circum)
-    LinearLayout ll_circum;
+    RelativeLayout ll_circum;
 
     @InjectView(R.id.ll_waistline)
-    LinearLayout ll_waistline;
+    RelativeLayout ll_waistline;
 
     @InjectView(R.id.ll_hiplie)
-    LinearLayout ll_hiplie;
+    RelativeLayout ll_hiplie;
 
     @InjectView(R.id.ll_uparmgirth)
-    LinearLayout ll_uparmgirth;
+    RelativeLayout ll_uparmgirth;
 
     @InjectView(R.id.ll_upleggirth)
-    LinearLayout ll_upleggirth;
+    RelativeLayout ll_upleggirth;
 
     @InjectView(R.id.ll_doleggirth)
-    LinearLayout ll_doleggirth;
+    RelativeLayout ll_doleggirth;
 
     private File file;//存储用户表对象
-
+    private Newstudents newstudents;//存储用户表单数据
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        rv.setCallback(new RulerView.RulerCallback() {
-            @Override
-            public void resultNum(int num) {
-                tv_size.setText(num+"cm");
-            }
-        });
         ll_circum.setOnClickListener(this);
         ll_waistline.setOnClickListener(this);
         ll_hiplie.setOnClickListener(this);
         ll_uparmgirth.setOnClickListener(this);
         ll_upleggirth.setOnClickListener(this);
         ll_doleggirth.setOnClickListener(this);
-        tv_clear.setOnClickListener(this);
-
-        tv_left.setOnClickListener(this);
-        tv_right.setOnClickListener(this);
+        ll_explain.setOnClickListener(this);
+        btn_save.setOnClickListener(this);
+        ll_left.setOnClickListener(this);
     }
 
     @Override
@@ -105,82 +99,51 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
 
     @Override
     protected void initDatas() {
-
         file= (File) getIntent().getSerializableExtra("file");
-        tv_circum.setText(file.getCircum()+"");
-        tv_left.setText("返回");
+        tv_circum.setText(file.getCircum()==0?"":file.getCircum()+"");
+        tv_waistline.setText(file.getWaistline()==0?"":file.getWaistline()+"");
+        tv_uparmgirth.setText(file.getUparmgirth()==0?"":file.getUparmgirth()+"");
+        tv_doleggirth.setText(file.getDoleggirth()==0?"":file.getDoleggirth()+"");
+        tv_upleggirth.setText(file.getUpleggirth()==0?"":file.getUpleggirth()+"");
+        tv_hiplie.setText(file.getHiplie()==0?"":file.getHiplie()+"");
         tv_title.setText("添加记录");
-        tv_right.setText("保存");
+
+     //   newstudents=(Newstudents)getIntent().getSerializableExtra("newstudents");
+
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ll_circum:
-                rv.setCallback(new RulerView.RulerCallback() {
-                    @Override
-                    public void resultNum(int num) {
-                        tv_size.setText(num+"cm");
-                        tv_circum.setText(num+"");
-                    }
-                });
+                    show_circum_dialog();
                 break;
             case R.id.ll_waistline:
-                rv.setCallback(new RulerView.RulerCallback() {
-                    @Override
-                    public void resultNum(int num) {
-                        tv_size.setText(num+"cm");
-                        tv_waistline.setText(num+"");
-                    }
-                });
+                show_waistline_dialog();
                 break;
             case R.id.ll_hiplie:
-                rv.setCallback(new RulerView.RulerCallback() {
-                    @Override
-                    public void resultNum(int num) {
-                        tv_size.setText(num+"cm");
-                        tv_hiplie.setText(num+"");
-                    }
-                });
+                show_hiplie_dialog();
                 break;
             case R.id.ll_uparmgirth:
-                rv.setCallback(new RulerView.RulerCallback() {
-                    @Override
-                    public void resultNum(int num) {
-                        tv_size.setText(num+"cm");
-                        tv_uparmgirth.setText(num+"");
-                    }
-                });
+                show_uparmgirth_dialog();
                 break;
             case R.id.ll_upleggirth:
-                rv.setCallback(new RulerView.RulerCallback() {
-                    @Override
-                    public void resultNum(int num) {
-                        tv_size.setText(num+"cm");
-                        tv_upleggirth.setText(num+"");
-                    }
-                });
+                show_upleggirth_dialog();
                 break;
             case R.id.ll_doleggirth:
-                rv.setCallback(new RulerView.RulerCallback() {
-                    @Override
-                    public void resultNum(int num) {
-                        tv_size.setText(num+"cm");
-                        tv_doleggirth.setText(num+"");
-                    }
-                });
+                show_doleggirth_dialog();
                 break;
-            case R.id.tv_clear:
-                //清除功能......
+            //填写说明
+            case R.id.ll_explain:
+                    startActivity(new Intent(DimensionRecordActivity.this,explain.class));
                 break;
-            case R.id.tv_left:
+            case R.id.ll_left:
                 startActivity(new Intent(DimensionRecordActivity.this,CreatFlleActivity.class));
                 break;
             //保存记录......
-            case R.id.tv_right:
+            case R.id.btn_save:
                 /*getIntent().putExtra("","token");
                 String token= SharedPreferenceService.getInstance().get("token","");*/
-
                 double circum=Double.parseDouble(tv_circum.getText().toString().equals("")?"0":(tv_circum.getText().toString()));
                 double waistline=Double.parseDouble(tv_waistline.getText().toString().equals("")?"0":tv_waistline.getText().toString());
                 double hiplie=Double.parseDouble(tv_hiplie.getText().toString().equals("")?"0":tv_hiplie.getText().toString());
@@ -193,14 +156,223 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
                 file.setUparmgirth(uparmgirth);
                 file.setUpleggirth(tupleggirth);
                 file.setDoleggirth(doleggirth);
+
+                newstudents.setCircum(circum+"");
+                newstudents.setWaistline(waistline+"");
+                newstudents.setHiplie(hiplie+"");
+                newstudents.setUparmgirth(uparmgirth+"");
+                newstudents.setUpleggirth(tupleggirth+"");
+                newstudents.setDoleggirth(doleggirth+"");
+
                 Intent intent=new Intent();
                 intent.putExtra("file",file);
                 setResult(RESULT_OK,intent);
+
+                Intent intent1=new Intent();
+                intent1.putExtra("newstudents",newstudents);
+                setResult(RESULT_OK,intent1);
+               // Util.toastMsg("保存成功");
                 finish();
                 break;
-
         }
     }
+    //围度dialog
+    public void show_circum_dialog() {
+        final Dialog circum_dialog = new Dialog(this);
+        circum_dialog.setTitle("选择胸围");
+        circum_dialog.setContentView(R.layout.dimension_dialog);
+        Button b1 = (Button) circum_dialog.findViewById(R.id.button1);
+        Button b2 = (Button) circum_dialog.findViewById(R.id.button2);
+        final NumberPicker np1 = (NumberPicker) circum_dialog.findViewById(R.id.numberPicker1);
+        final NumberPicker np2 = (NumberPicker) circum_dialog.findViewById(R.id.numberPicker2);
+        np1.setMaxValue(220);
+        np1.setValue(100);
+        np1.setMinValue(50);
+        np1.setWrapSelectorWheel(false);
+        np2.setMaxValue(9);
+        np2.setValue(5);
+        np2.setMinValue(0);
+        np2.setWrapSelectorWheel(false);
+        b1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tv_circum.setText(String.valueOf(np1.getValue())+"."+String.valueOf(np2.getValue())); //set the value to textview
+                circum_dialog.dismiss();
+            }
+        });
+        b2.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                circum_dialog.dismiss();
+            }
+        });
+        circum_dialog.show();
+        circum_dialog.setCanceledOnTouchOutside(false);
+    }
 
+    public void show_waistline_dialog() {
+        final Dialog waistline_dialog = new Dialog(this);
+        waistline_dialog.setTitle("选择腰围");
+        waistline_dialog.setContentView(R.layout.dimension_dialog);
+        Button b1 = (Button) waistline_dialog.findViewById(R.id.button1);
+        Button b2 = (Button) waistline_dialog.findViewById(R.id.button2);
+        final NumberPicker np1 = (NumberPicker) waistline_dialog.findViewById(R.id.numberPicker1);
+        final NumberPicker np2 = (NumberPicker) waistline_dialog.findViewById(R.id.numberPicker2);
+        np1.setMaxValue(220);
+        np1.setValue(100);
+        np1.setMinValue(50);
+        np1.setWrapSelectorWheel(false);
+        np2.setMaxValue(9);
+        np2.setValue(5);
+        np2.setMinValue(0);
+        np2.setWrapSelectorWheel(false);
+        b1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tv_waistline.setText(String.valueOf(np1.getValue())+"."+String.valueOf(np2.getValue())); //set the value to textview
+                waistline_dialog.dismiss();
+            }
+        });
+        b2.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                waistline_dialog.dismiss();
+            }
+        });
+        waistline_dialog.show();
+        waistline_dialog.setCanceledOnTouchOutside(false);
+    }
+
+    public void show_hiplie_dialog(){
+        final Dialog hiplie_dialog = new Dialog(this);
+        hiplie_dialog.setTitle("选择臀围");
+        hiplie_dialog.setContentView(R.layout.dimension_dialog);
+        Button b1 = (Button) hiplie_dialog.findViewById(R.id.button1);
+        Button b2 = (Button) hiplie_dialog.findViewById(R.id.button2);
+        final NumberPicker np1 = (NumberPicker) hiplie_dialog.findViewById(R.id.numberPicker1);
+        final NumberPicker np2 = (NumberPicker) hiplie_dialog.findViewById(R.id.numberPicker2);
+        np1.setMaxValue(220);
+        np1.setValue(100);
+        np1.setMinValue(50);
+        np1.setWrapSelectorWheel(false);
+        np2.setMaxValue(9);
+        np2.setValue(5);
+        np2.setMinValue(0);
+        np2.setWrapSelectorWheel(false);
+        b1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tv_hiplie.setText(String.valueOf(np1.getValue())+"."+String.valueOf(np2.getValue())); //set the value to textview
+                hiplie_dialog.dismiss();
+            }
+        });
+        b2.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hiplie_dialog.dismiss();
+            }
+        });
+        hiplie_dialog.show();
+        hiplie_dialog.setCanceledOnTouchOutside(false);
+    }
+
+    public void show_uparmgirth_dialog() {
+        final Dialog uparmgirth_dialog = new Dialog(this);
+        uparmgirth_dialog.setTitle("选择上臂围");
+        uparmgirth_dialog.setContentView(R.layout.dimension_dialog);
+        Button b1 = (Button) uparmgirth_dialog.findViewById(R.id.button1);
+        Button b2 = (Button) uparmgirth_dialog.findViewById(R.id.button2);
+        final NumberPicker np1 = (NumberPicker) uparmgirth_dialog.findViewById(R.id.numberPicker1);
+        final NumberPicker np2 = (NumberPicker) uparmgirth_dialog.findViewById(R.id.numberPicker2);
+        np1.setMaxValue(220);
+        np1.setValue(100);
+        np1.setMinValue(50);
+        np1.setWrapSelectorWheel(false);
+        np2.setMaxValue(9);
+        np2.setValue(5);
+        np2.setMinValue(0);
+        np2.setWrapSelectorWheel(false);
+        b1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tv_uparmgirth.setText(String.valueOf(np1.getValue())+"."+String.valueOf(np2.getValue())); //set the value to textview
+                uparmgirth_dialog.dismiss();
+            }
+        });
+        b2.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                uparmgirth_dialog.dismiss();
+            }
+        });
+        uparmgirth_dialog.show();
+        uparmgirth_dialog.setCanceledOnTouchOutside(false);
+    }
+
+    public void show_upleggirth_dialog() {
+        final Dialog upleggirth_dialog = new Dialog(this);
+        upleggirth_dialog.setTitle("选择大腿围");
+        upleggirth_dialog.setContentView(R.layout.dimension_dialog);
+        Button b1 = (Button) upleggirth_dialog.findViewById(R.id.button1);
+        Button b2 = (Button) upleggirth_dialog.findViewById(R.id.button2);
+        final NumberPicker np1 = (NumberPicker) upleggirth_dialog.findViewById(R.id.numberPicker1);
+        final NumberPicker np2 = (NumberPicker) upleggirth_dialog.findViewById(R.id.numberPicker2);
+        np1.setMaxValue(220);
+        np1.setValue(100);
+        np1.setMinValue(50);
+        np1.setWrapSelectorWheel(false);
+        np2.setMaxValue(9);
+        np2.setValue(5);
+        np2.setMinValue(0);
+        np2.setWrapSelectorWheel(false);
+        b1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tv_upleggirth.setText(String.valueOf(np1.getValue())+"."+String.valueOf(np2.getValue())); //set the value to textview
+                upleggirth_dialog.dismiss();
+            }
+        });
+        b2.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                upleggirth_dialog.dismiss();
+            }
+        });
+        upleggirth_dialog.show();
+        upleggirth_dialog.setCanceledOnTouchOutside(false);
+    }
+
+    public void show_doleggirth_dialog() {
+        final Dialog doleggirth_dialog = new Dialog(this);
+        doleggirth_dialog.setTitle("选择小腿围");
+        doleggirth_dialog.setContentView(R.layout.dimension_dialog);
+        Button b1 = (Button) doleggirth_dialog.findViewById(R.id.button1);
+        Button b2 = (Button) doleggirth_dialog.findViewById(R.id.button2);
+        final NumberPicker np1 = (NumberPicker) doleggirth_dialog.findViewById(R.id.numberPicker1);
+        final NumberPicker np2 = (NumberPicker) doleggirth_dialog.findViewById(R.id.numberPicker2);
+        np1.setMaxValue(220);
+        np1.setValue(100);
+        np1.setMinValue(50);
+        np1.setWrapSelectorWheel(false);
+        np2.setMaxValue(9);
+        np2.setValue(5);
+        np2.setMinValue(0);
+        np2.setWrapSelectorWheel(false);
+        b1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tv_doleggirth.setText(String.valueOf(np1.getValue())+"."+String.valueOf(np2.getValue())); //set the value to textview
+                doleggirth_dialog.dismiss();
+            }
+        });
+        b2.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                doleggirth_dialog.dismiss();
+            }
+        });
+        doleggirth_dialog.show();
+        doleggirth_dialog.setCanceledOnTouchOutside(false);
+    }
 
 }

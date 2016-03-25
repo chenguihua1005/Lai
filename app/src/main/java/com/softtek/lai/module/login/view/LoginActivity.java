@@ -4,18 +4,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
-import com.mobsandgeeks.saripaar.annotation.Password;
 import com.mobsandgeeks.saripaar.annotation.Regex;
+import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.module.File.view.CreatFlleActivity;
 import com.softtek.lai.module.home.view.HomeActviity;
+import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.login.model.User;
 import com.softtek.lai.module.login.presenter.ILoginPresenter;
 import com.softtek.lai.module.login.presenter.LoginPresenterImpl;
+import com.softtek.lai.utils.ACache;
 
 import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
@@ -30,11 +33,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @LifeCircleInject
     ValidateLife validateLife;
 
-    @Regex(order = 1,patternResId = R.string.phonePattern,messageResId = R.string.phoneValidate)
+    @Required(order = 1,messageResId = R.string.phoneValidateNull)
+    @Regex(order = 2,patternResId = R.string.phonePattern,messageResId = R.string.phoneValidate)
     @InjectView(R.id.et_phone)
     EditText et_phone;
 
-    @Password(order = 2)
+    @Required(order = 3,messageResId = R.string.passwordValidateNull)
     @InjectView(R.id.et_password)
     EditText et_password;
 
@@ -47,8 +51,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @InjectView(R.id.tv_regist)
     TextView tv_regist;
 
-    @InjectView(R.id.tv_visitor)
-    TextView tv_visitor;
+    @InjectView(R.id.ll_visitor)
+    LinearLayout ll_visitor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +61,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         tv_login.setOnClickListener(this);
         tv_forgetpsd.setOnClickListener(this);
         tv_regist.setOnClickListener(this);
-        tv_visitor.setOnClickListener(this);
+        ll_visitor.setOnClickListener(this);
     }
 
     @Override
@@ -82,7 +87,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             case R.id.tv_regist:
                 startActivity(new Intent(this,RegistActivity.class));
                 break;
-            case R.id.tv_visitor:
+            case R.id.ll_visitor:
+                User user=new User();
+                user.setUserrole(String.valueOf(Constants.VR));
+                user.setNickname("游客");
+                ACache.get(this, Constants.USER_ACACHE_DATA_DIR).put(Constants.USER_ACACHE_KEY,user);
                 startActivity(new Intent(this, HomeActviity.class));
                 break;
 

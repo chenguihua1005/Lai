@@ -20,7 +20,7 @@ public class File implements Serializable{
      private double upleggirth;//(大腿围 :,可空)
      private double doleggirth;//(小腿围:,可空)
 
-    public File(){
+    public File(String s){
 
     }
 
@@ -44,8 +44,12 @@ public class File implements Serializable{
         return nickname;
     }
 
-    public String getBirthday() {
+    public String getBrithday() {
         return birthday;
+    }
+
+    public void setBrithday(String brithday) {
+        this.birthday = brithday;
     }
 
     public int getHeight() {
@@ -64,9 +68,6 @@ public class File implements Serializable{
         this.nickname = nickname;
     }
 
-    public void setBirthday(String birthday) {
-        this.birthday = birthday;
-    }
 
     public void setHeight(int height) {
         this.height = height;

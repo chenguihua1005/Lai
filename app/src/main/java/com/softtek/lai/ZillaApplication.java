@@ -21,7 +21,11 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.CrashHandler;
+import com.softtek.lai.module.File.model.Filter;
 import com.softtek.lai.utils.NetErrorHandler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit.RequestInterceptor;
 import zilla.libcore.Zilla;
@@ -34,13 +38,34 @@ import zilla.libcore.file.PropertiesManager;
  */
 public class ZillaApplication extends Application implements Zilla.InitCallback, DBHelper.DBUpgradeListener {
 
+    private List<Filter> filterList=new ArrayList<>();
+
+
+    public List<Filter> getFilterList() {
+        return filterList;
+    }
+
+    public void setFilterList(List<Filter> filterList) {
+        this.filterList = filterList;
+    }
+
+    private static ZillaApplication zillaApplication;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        zillaApplication=this;
+        String[] datas=getResources().getStringArray(R.array.SensitiveWord);
+        for(int i=0;i<datas.length;i++){
+            filterList.add(new Filter(datas[i]));
+        }
         new Zilla().setCallBack(this).initSystem(this);
         CrashHandler catchHandler = CrashHandler.getInstance();
         catchHandler.init(getApplicationContext());
+    }
+
+    public static ZillaApplication getInstance(){
+        return zillaApplication;
     }
 
     /**

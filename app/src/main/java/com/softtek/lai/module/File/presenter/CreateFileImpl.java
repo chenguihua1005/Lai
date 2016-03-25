@@ -2,7 +2,6 @@ package com.softtek.lai.module.File.presenter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.widget.Toast;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
@@ -33,7 +32,7 @@ public class CreateFileImpl implements ICreateFilepresenter {
 
     @Override
     public void createFile(String token, File file) {
-
+        Log.i(file.toString());
         service.doFile(token, file, new Callback<ResponseData<File>>() {
             @Override
             public void success(ResponseData<File> fileResponseData, Response response) {
@@ -41,7 +40,7 @@ public class CreateFileImpl implements ICreateFilepresenter {
                 switch (status){
                     case 200: {
                         Util.toastMsg("创建档案成功");
-                        Intent intent=new Intent(context,CreatFlleActivity.class);
+                        Intent intent=new Intent(context,HomeActviity.class);
                         context.startActivity(intent);
                         break;
                     }
@@ -49,7 +48,6 @@ public class CreateFileImpl implements ICreateFilepresenter {
                     case 100:
                         Util.toastMsg("创建档案失败");
                         break;
-
                 }
 
             }
@@ -60,6 +58,7 @@ public class CreateFileImpl implements ICreateFilepresenter {
             }
         });
     }
+
 
 //    public interface ICreateFileView {
 //        void toActivity();

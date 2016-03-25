@@ -5,8 +5,6 @@ import com.softtek.lai.module.File.model.File;
 
 import retrofit.Callback;
 import retrofit.http.Body;
-import retrofit.http.Field;
-import retrofit.http.FormUrlEncoded;
 import retrofit.http.Header;
 import retrofit.http.POST;
 
@@ -24,12 +22,6 @@ public interface  FileService {
 //                @Field("height") Integer height,
 //                @Field("weight") Integer weight,
 //                @Field("gender") Integer gender,
-//                Callback<ResponseData<File>> callback);
-//
-//    @FormUrlEncoded
-//    @POST("/HerbUser/CreatFile")
-//    void addDimensionRecord(
-//            @Header("token") String token,
 //            @Field("circum") double circum,
 //            @Field("waistline") double waistline,
 //            @Field("hiplie") double hiplie,
@@ -38,9 +30,9 @@ public interface  FileService {
 //            @Field("doleggirth") double doleggirth,
 //            Callback<ResponseData<File>> callback);
 
-    @FormUrlEncoded
+
     @POST("/HerbUser/CreatFile")
-    void doFile(@Field("token")String token,
+    void doFile(@Header("token") String token,
                  @Body File file,
                  Callback<ResponseData<File>> callback);
 
