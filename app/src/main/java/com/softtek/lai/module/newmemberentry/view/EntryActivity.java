@@ -1,6 +1,5 @@
 package com.softtek.lai.module.newmemberentry.view;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -30,6 +29,7 @@ import com.softtek.lai.module.File.view.DimensionRecordActivity;
 import com.softtek.lai.module.newmemberentry.view.EventModel.ClassEvent;
 import com.softtek.lai.module.newmemberentry.view.model.ClassList;
 import com.softtek.lai.module.newmemberentry.view.model.Newstudents;
+import com.softtek.lai.module.newmemberentry.view.model.Phot;
 import com.softtek.lai.module.newmemberentry.view.presenter.GuwenClassImp;
 import com.softtek.lai.module.newmemberentry.view.presenter.GuwenClassPre;
 import com.softtek.lai.module.newmemberentry.view.presenter.INewStudentpresenter;
@@ -39,6 +39,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -52,7 +53,8 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
     private String classidDate[]={ "参赛班级1", "参赛班级2", "参赛班级3", "参赛班级4", "参赛班级5", "参赛班级6",
             "参赛班级7", "参赛班级8", "参赛班级9", "参赛班级10", "参赛班级11", "参赛班级12", "参赛班级13", "参赛班级14", "参赛班级15" };
 
-    private INewStudentpresenter INewStudentpresenter;
+    private INewStudentpresenter iNewStudentpresenter;
+
     private GuwenClassPre guwenClassPre;
     //toolbar
     @InjectView(R.id.tv_title)
@@ -126,16 +128,16 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
     Button btn_Add_bodydimension;
 
     //照片上传
-    //StringBuffer path=new StringBuffer();
-    //private static final int PHOTO=1;
+    String path="";
+    private static final int PHOTO=1;
 
     Newstudents newstudents;//存储用户表单数据
-    //private static final int GET_BODY_DIMENSION=2;
-
+    Phot imphot;
+    private static final int GET_BODY=2;
+    boolean w=true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
-
         super.onCreate(savedInstanceState);
         //返回按钮
         ll_left.setOnClickListener(this);
@@ -160,13 +162,11 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
     protected void initViews() {
         guwenClassPre=new GuwenClassImp();
         guwenClassPre.doGetGuwenClass(36);
-//        Newstudents newstudents=new Newstudents("df","dsf","lo","19","36","65","65","1966-03-12","nan");
-        INewStudentpresenter = new NewStudentInputImpl(this);
-//        INewStudentpresenter.input(newstudents);
     }
 
     @Override
     protected void initDatas() {
+        iNewStudentpresenter = new NewStudentInputImpl(this);
         tv_title.setText("新学员录入");
         //tv_left.setBackground(null);
         tv_right.setText("确定");
@@ -180,31 +180,16 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
                 break;
             //确定按钮
             case R.id.tv_right:
-//                validateLife.validate();
-                //INewStudentpresenter.input(newstudents);
-//                newstudents.setCircum("156");
-//                newstudents.setGender("nan");
-//                newstudents.setBirthday("1992-06-08");
-//                newstudents.setFat("269");
-//                newstudents.setCertification("sdfs");
-//                newstudents.setClassId("5");
-//                newstudents.setDoleggirth("36");
-//                newstudents.setHiplie("36");
-//                newstudents.setMobile("16394485");
-//                newstudents.setNickname("dsdf");
-//                newstudents.setPysical("366");
-//                newstudents.setWeight("66");
-                Newstudents newstudents=new Newstudents("sdf","136","168","19","66","36","165","36","59");
-                INewStudentpresenter.input(newstudents);
-
+                validateLife.validate();
                 break;
             case R.id.btn_Add_bodydimension:
-//                Intent intent1=new Intent(EntryActivity.this,DimensionRecordActivity.class);
-//                intent1.putExtra("newstudents",newstudents);
-//                startActivityForResult(intent1,GET_BODY_DIMENSION);
+                Intent intent1=new Intent(EntryActivity.this,DimensionRecordActivity.class);
+                intent1.putExtra("newstudents",newstudents);
+                startActivityForResult(intent1,GET_BODY);
+                w=false;
                 break;
             case R.id.tv_photoupload:
-               // takepic();
+                takepic();
                 break;
             case R.id.ll_birthday:
                 show_birth_dialog();
@@ -218,52 +203,33 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
         }
     }
 
-//    public void takepic() {
-//        path.append(Environment.getExternalStorageDirectory().getPath()).append("/123.jpg");
-//        File file=new File(path.toString());
-//        Uri uri= Uri.fromFile(file);
-//        Intent intent=new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-//        intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, uri);
-//        startActivityForResult(intent,PHOTO);
-//    }
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if(resultCode== Activity.RESULT_OK&&resultCode==PHOTO){
-//            Bitmap bm= BitmapFactory.decodeFile(path.toString());
-//            img1.setImageBitmap(bm);
-//        }
-//        //身体围度值传递
-//        if (requestCode==Activity.RESULT_OK&&resultCode==GET_BODY_DIMENSION){
-//            newstudents= (Newstudents) data.getSerializableExtra("newstudents");
-//            Log.i("身体围度值传递"+newstudents.toString());
-//        }
-//    }
+    public void takepic() {
+        path=(Environment.getExternalStorageDirectory().getPath())+"/123.jpg";
+        File file=new File(path.toString());
+        Uri uri= Uri.fromFile(file);
+        Intent intent=new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, uri);
+        startActivityForResult(intent,PHOTO);
+        Bitmap bitmap= null;
+        try {
+            bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        img1.setImageBitmap(bitmap);
+        Log.i("path:"+path);
+    }
+
     @Subscribe
     public void onEvent(ClassEvent classEvent){
-        System.out.println("dsadasdsadasda>>》》》》》》》》》》》》》》"+classEvent.getClassLists());
+        System.out.println("classEvent.getClassLists()>>》》》》》》》》》》》》》》"+classEvent.getClassLists());
         List<ClassList> classLists=classEvent.getClassLists();
         for (ClassList cl:classLists){
-            System.out.println("dsfsdfsdfsdfsdfsdf?????/?????>>》》》》》》》》》》》》》》"+cl.getClassId()+cl.getClassName());
+           System.out.println("dsfsdfsdfsdfsdfsdf?????/?????>>》》》》》》》》》》》》》》"+"ClassId:"+cl.getClassId()+"ClassName:"+cl.getClassName());
         }
+    }
 
 
-//        List<Banji> banjis=banji.getBanjis();
-//        for(Banji bj:banjis){
-////            String a="2016-03-08";
-////            String b=a.substring(5,7);
-////            if(b.equals("03")){
-////                b="三月份";
-////
-////            }
-//            String month=bj.getStartDate().substring(5,7);
-//            Banji lis5=new Banji(tomonth(month),bj.getClassName(),bj.getTotal());
-//            banjiList.add(lis5);
-//            bj.getClassName();
-//            bj.getStartDate();
-//            bj.getTotal();
-        }
-//
     @Override
     public void onValidationSucceeded() {
         String nickname=et_nickname.getText().toString();
@@ -275,31 +241,25 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
         String fat=et_fat.getText().toString();
         String birthday=et_birthday.getText().toString();
         String gender=et_gender.getText().toString();
-        Log.i("nickname:"+nickname+";certification:"+certification+";mobile:"+mobile+";classid:"+classid+";weight:"+weight+"pysical:"+pysical+"fat:"+fat+"birthday:"+birthday+"gender:"+gender);
-        Log.i("newstudents------"+newstudents);
-//        newstudents.setNickname(nickname);
-//        newstudents.setCertification(certification);
-//        newstudents.setMobile(mobile);
-//        newstudents.setClassid(classid);
-//        newstudents.setWeight(weight);
-//        newstudents.setPysical(pysical);
-//        newstudents.setFat(fat);
-//        newstudents.setBirthday(birthday);
-//        newstudents.setGender(gender);
-        newstudents.setCircum("156");
-        newstudents.setGender("nan");
-        newstudents.setBirthday("1992-06-08");
-        newstudents.setFat("269");
-        newstudents.setCertification("sdfs");
-        newstudents.setClassId("5");
-        newstudents.setDoleggirth("36");
-        newstudents.setHiplie("36");
-        newstudents.setMobile("16394485");
-        newstudents.setNickname("dsdf");
-        newstudents.setPysical("366");
-        newstudents.setWeight("66");
+        Log.i("新学员录入："+"nickname:"+nickname+";certification:"+certification+";mobile:"+mobile+";classid:"+classid+";weight:"+weight+"pysical:"+pysical+"fat:"+fat+"birthday:"+birthday+"gender:"+gender);
+        if (w==true){newstudents=new Newstudents();}
+        newstudents.setSentaccid(1);
+        newstudents.setNickname(nickname);
+        newstudents.setCertification(certification);
+        newstudents.setMobile(mobile);
+        newstudents.setClassid(classid);
+        newstudents.setWeight(Double.parseDouble(weight.equals("")?"0":weight));
+        newstudents.setPysical(Double.parseDouble(pysical.equals("")?"0":pysical));
+        newstudents.setFat(Double.parseDouble(fat.equals("")?"0":fat));
+        newstudents.setBirthday(birthday);
+        newstudents.setGender(gender.equals("女")?0:1);
+        newstudents.setPhoto(imphot.getPhoto());
+//        newstudents.setPhoto(img.getPhoto()+"");
+        Log.i("newstudents>>>>>>>>>>>>>>>>>>>"+newstudents+imphot.getPhoto()+"");
+        iNewStudentpresenter.input(newstudents);
 
-//          INewStudentpresenter.input(newstudents);
+
+        //newstudents.setPhoto("/storage/emulated/0/123.jpg");
    }
 
     @Override
@@ -307,7 +267,24 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
         validateLife.onValidationFailed(failedView,failedRule);
     }
 
-    //所在班级
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode==RESULT_OK&&requestCode==PHOTO){
+            Bitmap bm= BitmapFactory.decodeFile(path.toString());
+            img1.setImageBitmap(bm);
+            iNewStudentpresenter.upload(path.toString());
+        }
+        //身体围度值传递
+        if (requestCode==GET_BODY&&resultCode==RESULT_OK){
+            newstudents=(Newstudents)data.getSerializableExtra("newstudents");
+            Log.i("新学员录入围度:newstudents"+newstudents);
+        }
+    }
+
+
+    //所在班级对话框
     public void show_participating_dialog() {
         Dialog dialog = new AlertDialog.Builder(EntryActivity.this)
                 .setTitle("请选择参赛班级")

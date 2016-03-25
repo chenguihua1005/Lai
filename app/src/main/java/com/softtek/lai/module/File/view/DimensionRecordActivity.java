@@ -11,6 +11,7 @@ import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.File.model.File;
@@ -100,15 +101,18 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
     @Override
     protected void initDatas() {
         file= (File) getIntent().getSerializableExtra("file");
-        tv_circum.setText(file.getCircum()==0?"":file.getCircum()+"");
-        tv_waistline.setText(file.getWaistline()==0?"":file.getWaistline()+"");
-        tv_uparmgirth.setText(file.getUparmgirth()==0?"":file.getUparmgirth()+"");
-        tv_doleggirth.setText(file.getDoleggirth()==0?"":file.getDoleggirth()+"");
-        tv_upleggirth.setText(file.getUpleggirth()==0?"":file.getUpleggirth()+"");
-        tv_hiplie.setText(file.getHiplie()==0?"":file.getHiplie()+"");
+        newstudents=(Newstudents)getIntent().getSerializableExtra("newstudents");
         tv_title.setText("添加记录");
 
-     //   newstudents=(Newstudents)getIntent().getSerializableExtra("newstudents");
+//        tv_circum.setText("0.0".equals((file.getCircum()+""))?"":file.getCircum()+"");
+//        tv_circum.setText(file.getCircum()+"");
+//        tv_waistline.setText(file.getCircum()+"");
+//        tv_hiplie.setText(file.getCircum()+"");
+//        tv_circum.setText(file.getCircum()+"");
+//        tv_circum.setText(file.getCircum()+"");
+//        tv_circum.setText(file.getCircum()+"");
+//        tv_circum.setText(file.getCircum()+"");
+//        tv_circum.setText(file.getCircum()+"");
 
     }
 
@@ -116,7 +120,7 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ll_circum:
-                    show_circum_dialog();
+                show_circum_dialog();
                 break;
             case R.id.ll_waistline:
                 show_waistline_dialog();
@@ -136,9 +140,12 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
             //填写说明
             case R.id.ll_explain:
                     startActivity(new Intent(DimensionRecordActivity.this,explain.class));
+                    finish();
                 break;
+            //返回按钮
             case R.id.ll_left:
-                startActivity(new Intent(DimensionRecordActivity.this,CreatFlleActivity.class));
+                //startActivity(new Intent(DimensionRecordActivity.this,CreatFlleActivity.class));
+                finish();
                 break;
             //保存记录......
             case R.id.btn_save:
@@ -150,32 +157,39 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
                 double uparmgirth=Double.parseDouble(tv_uparmgirth.getText().toString().equals("")?"0":tv_uparmgirth.getText().toString());
                 double tupleggirth=Double.parseDouble(tv_upleggirth.getText().toString().equals("")?"0":tv_upleggirth.getText().toString());
                 double doleggirth=Double.parseDouble(tv_doleggirth.getText().toString().equals("")?"0":tv_doleggirth.getText().toString());
+                //创建档案的添加围度
+                file=new File();
                 file.setCircum(circum);
                 file.setWaistline(waistline);
                 file.setHiplie(hiplie);
                 file.setUparmgirth(uparmgirth);
                 file.setUpleggirth(tupleggirth);
                 file.setDoleggirth(doleggirth);
-
-                newstudents.setCircum(circum+"");
-                newstudents.setWaistline(waistline+"");
-                newstudents.setHiplie(hiplie+"");
-                newstudents.setUparmgirth(uparmgirth+"");
-                newstudents.setUpleggirth(tupleggirth+"");
-                newstudents.setDoleggirth(doleggirth+"");
-
                 Intent intent=new Intent();
                 intent.putExtra("file",file);
                 setResult(RESULT_OK,intent);
 
+                //新学员录入的添加围度
+
+                newstudents=new Newstudents();
+                newstudents.setCircum(circum);
+                newstudents.setWaistline(waistline);
+                newstudents.setHiplie(hiplie);
+                newstudents.setUparmgirth(uparmgirth);
+                newstudents.setUpleggirth(tupleggirth);
+                newstudents.setDoleggirth(doleggirth);
                 Intent intent1=new Intent();
                 intent1.putExtra("newstudents",newstudents);
                 setResult(RESULT_OK,intent1);
-               // Util.toastMsg("保存成功");
                 finish();
+                Log.i("-------------------file----------------------"+file);
+              //  Log.i("-------------------newstudents----------------------"+newstudents);
                 break;
         }
     }
+
+
+
     //围度dialog
     public void show_circum_dialog() {
         final Dialog circum_dialog = new Dialog(this);
