@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
@@ -21,7 +22,7 @@ public class Audit extends BaseActivity {
     @InjectView(R.id.tv_title)
     TextView title;
     @InjectView(R.id.ll_left)
-    TextView ll_left;
+    LinearLayout ll_left;
     @InjectView(R.id.tv_right)
     TextView tv_right;
 private RetestPre retestPre;

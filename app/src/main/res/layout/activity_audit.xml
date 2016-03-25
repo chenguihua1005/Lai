@@ -9,11 +9,11 @@
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/scrollView" >
+        android:id="@+id/scrollView"
+        android:layout_marginTop="60dp">
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_marginTop="60dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -30,10 +30,10 @@
                     android:layout_height="match_parent"
                     android:padding="10dp">
 
-                    <ImageView
+                    <com.softtek.lai.widgets.CircleImageView
                         android:layout_width="80dp"
                         android:layout_height="80dp"
-                        android:background="@drawable/lufei"
+                        android:background="@drawable/audit_head"
                         android:id="@+id/iv_write_head" />
                 </LinearLayout>
 
@@ -258,8 +258,6 @@
                         android:id="@+id/textView21" />
                 </RelativeLayout>
             </LinearLayout>
-
-
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -267,8 +265,8 @@
                 android:gravity="center"
                 android:padding="20dp" >
 
-                <RelativeLayout
-                    android:orientation="horizontal"
+                <LinearLayout
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     >
@@ -280,10 +278,68 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textSize="20dp"
                             android:text="胸围"/>
                     </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:gravity="center_vertical"
+                        android:background="@drawable/shape_boder">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="20dp"
+                            android:text="腰围"/>
+                    </LinearLayout>
 
-                </RelativeLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:gravity="center_vertical"
+                        android:background="@drawable/shape_boder">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="20dp"
+                            android:text="臀围"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:gravity="center_vertical"
+                        android:background="@drawable/shape_boder">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="20dp"
+                            android:text="上臂围"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:gravity="center_vertical"
+                        android:background="@drawable/shape_boder">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="20dp"
+                            android:text="大腿围"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:gravity="center_vertical"
+                        android:background="@drawable/shape_boder">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="20dp"
+                            android:text="小腿围"/>
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
             <View
                 android:layout_height="1dp"
