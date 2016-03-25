@@ -16,6 +16,7 @@ import com.softtek.lai.module.bodygame.presenter.ITiGuanSai;
 import com.softtek.lai.module.bodygame.presenter.TiGuanSaiImpl;
 import com.softtek.lai.module.grade.view.GradeHomeActivity;
 import com.softtek.lai.module.grade.view.StudentsActivity;
+import com.softtek.lai.module.jingdu.view.JingduActivity;
 import com.softtek.lai.module.newmemberentry.view.EntryActivity;
 import com.softtek.lai.module.retest.view.Retest;
 import com.squareup.picasso.Picasso;
@@ -163,7 +164,8 @@ public class Counselor extends BaseActivity implements View.OnClickListener{
             break;
             case R.id.bt_process:
             {
-                Util.toastMsg("当前进度页面");
+                Intent intent = new Intent(this, JingduActivity.class);
+                startActivity(intent);
             }
             break;
             case R.id.bt_review:
