@@ -3,17 +3,18 @@
 
     <item android:state_pressed="true">
         <shape>
-            <solid android:color="#E5E5E5"/>
+            <solid android:color="#B274BB2A"/>
         </shape>
     </item>
     <item android:state_focused="true">
         <shape>
-            <solid android:color="#E5E5E5"/>
+            <solid android:color="#B274BB2A"/>
         </shape>
     </item>
-    <item>
+    <item >
         <shape>
-            <solid android:color="#F1F1F1"/>
+            <solid android:color="#74BB2A"/>
         </shape>
     </item>
+
 </selector>

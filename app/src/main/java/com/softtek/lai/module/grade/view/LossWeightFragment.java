@@ -5,16 +5,11 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.widget.ListView;
 
-import com.github.snowdream.android.util.Log;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
-import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.grade.adapter.LossWeightAdapter;
-import com.softtek.lai.module.grade.adapter.LossWeightPerAdapter;
-import com.softtek.lai.module.grade.adapter.PysicalAdapter;
-import com.softtek.lai.module.grade.adapter.WaistlineAdapter;
 import com.softtek.lai.module.grade.eventModel.LossWeightEvent;
 import com.softtek.lai.module.grade.model.Student;
 import com.softtek.lai.module.grade.presenter.GradeImpl;
@@ -62,6 +57,13 @@ public class LossWeightFragment extends BaseFragment implements PullToRefreshBas
     @Override
     protected void initDatas() {
         grade=new GradeImpl();
+        for(int i=0;i<10;i++){
+            Student student=new Student();
+            student.setLossAfter("30");
+            student.setLossPercent("15");
+            student.setLossWeght("60");
+            students.add(student);
+        }
         adapter=new LossWeightAdapter(getContext(),students,flagType);
         ptrlv.setAdapter(adapter);
         ptrlv.setOnRefreshListener(this);

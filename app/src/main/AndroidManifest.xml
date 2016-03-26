@@ -58,6 +58,7 @@
         <activity android:name=".module.studetail.view.StudentDetailActivity" />
         <activity android:name=".module.retest.view.QueryActivity" />
         <activity android:name=".module.bodygamest.view.Student"></activity>
+        <activity android:name=".module.grade.view.TutorActivity"></activity>
     </application>
 
 </manifest>

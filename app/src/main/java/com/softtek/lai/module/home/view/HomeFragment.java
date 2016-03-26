@@ -202,10 +202,10 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         aCache=ACache.get(getContext(),Constants.USER_ACACHE_DATA_DIR);
         User user= (User) aCache.getAsObject(Constants.USER_ACACHE_KEY);
-        if(Integer.parseInt(user.getUserrole())==Constants.VR){
+        /*if(Integer.parseInt(user.getUserrole())==Constants.VR){
             Util.toastMsg("游客");
             return;
-        }
+        }*/
         switch (position){
             case 0:
                 startActivity(new Intent(getContext(),Counselor.class));
