@@ -103,12 +103,12 @@ public class Retest extends BaseActivity implements View.OnClickListener{
                 BanjiStudent banjiStudent=banjiStudentList.get(position);
                 if (banjiStudent.getAMStatus()=="")
                 {
-                    Intent intent=new Intent(Retest.this,Audit.class);
+                    Intent intent=new Intent(Retest.this,Write.class);
                     startActivity(intent);
 
                 }
                 else {
-                    Intent intent=new Intent(Retest.this, Write.class);
+                    Intent intent=new Intent(Retest.this, Audit.class);
                     startActivity(intent);
                 }
             }
