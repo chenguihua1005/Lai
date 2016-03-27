@@ -3,7 +3,7 @@ package com.softtek.lai.module.newmemberentry.view.presenter;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.newmemberentry.view.EventModel.ClassEvent;
-import com.softtek.lai.module.newmemberentry.view.model.ClassList;
+import com.softtek.lai.module.newmemberentry.view.model.Pargrade;
 import com.softtek.lai.module.newmemberentry.view.net.GuwenService;
 
 import org.greenrobot.eventbus.EventBus;
@@ -12,7 +12,6 @@ import java.util.List;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
-import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.util.Util;
@@ -29,9 +28,9 @@ public class GuwenClassImp implements GuwenClassPre {
     public void doGetGuwenClass(long managerId) {
         Log.i("service>>>>>>>>>>>>>>>>>>>>>>>>>>"+service);
         String token= SharedPreferenceService.getInstance().get("token","");
-        service.doGetGuwenClass(token, managerId, new Callback<ResponseData<List<ClassList>>>() {
+        service.doGetGuwenClass(token, managerId, new Callback<ResponseData<List<Pargrade>>>() {
             @Override
-            public void success(ResponseData<List<ClassList>> listResponseData, retrofit.client.Response response) {
+            public void success(ResponseData<List<Pargrade>> listResponseData, retrofit.client.Response response) {
                 int status=listResponseData.getStatus();
                 switch (status){
                     case 200:

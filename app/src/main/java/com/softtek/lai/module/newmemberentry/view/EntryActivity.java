@@ -1,22 +1,29 @@
 package com.softtek.lai.module.newmemberentry.view;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.snowdream.android.util.Log;
 import com.mobsandgeeks.saripaar.Rule;
@@ -26,8 +33,9 @@ import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.File.view.DimensionRecordActivity;
+import com.softtek.lai.module.newmemberentry.view.Adapter.MemberAdapter;
 import com.softtek.lai.module.newmemberentry.view.EventModel.ClassEvent;
-import com.softtek.lai.module.newmemberentry.view.model.ClassList;
+import com.softtek.lai.module.newmemberentry.view.model.Pargrade;
 import com.softtek.lai.module.newmemberentry.view.model.Newstudents;
 import com.softtek.lai.module.newmemberentry.view.model.Phot;
 import com.softtek.lai.module.newmemberentry.view.presenter.GuwenClassImp;
@@ -40,21 +48,22 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_member_entry)
 public class EntryActivity extends BaseActivity implements View.OnClickListener,Validator.ValidationListener {
+
+    GetPhotoDialog photoDialog;
     private String SexData[] = {"男","女"};//性别数据
-    private String classidDate[]={ "参赛班级1", "参赛班级2", "参赛班级3", "参赛班级4", "参赛班级5", "参赛班级6",
-            "参赛班级7", "参赛班级8", "参赛班级9", "参赛班级10", "参赛班级11", "参赛班级12", "参赛班级13", "参赛班级14", "参赛班级15" };
 
     private INewStudentpresenter iNewStudentpresenter;
-
     private GuwenClassPre guwenClassPre;
     //toolbar
     @InjectView(R.id.tv_title)
@@ -135,6 +144,12 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
     Phot imphot;
     private static final int GET_BODY=2;
 
+   @InjectView(R.id.list_cansaibanji)
+   ListView list_cansaibanji;
+   boolean state=true;
+   private List<Pargrade> pargradeList=new ArrayList<Pargrade>();
+   String classidDate[] ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
@@ -150,6 +165,9 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
         ll_birthday.setOnClickListener(this);
         ll_gender.setOnClickListener(this);
         ll_classid.setOnClickListener(this);
+
+        MemberAdapter memberAdapter=new MemberAdapter(EntryActivity.this,R.layout.member_item,pargradeList);
+        list_cansaibanji.setAdapter(memberAdapter);
     }
 
     @Override
@@ -187,10 +205,48 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
                 Intent intent1=new Intent(EntryActivity.this,DimensionRecordActivity.class);
                 intent1.putExtra("newstudents",newstudents);
                 startActivityForResult(intent1,GET_BODY);
-
                 break;
             case R.id.tv_photoupload:
-                takepic();
+//                final Dialog dialog=new AlertDialog.Builder(EntryActivity.this)
+//                        .setTitle("照片上传")
+//                        .setPositiveButton("从相机选择图片",
+//                                new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialogInterface, int which) {
+//                                        takecamera();
+//                                        dialogInterface.dismiss();
+//
+//                                    }
+//                                })
+//                        .setNegativeButton("从相册选择图片",
+//                                new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialogInterface, int arg1) {
+//                                        takepic();
+//                                        dialogInterface.dismiss();
+//                                    }
+//                                })
+//                        .create();
+//                dialog.show();
+                
+                final GetPhotoDialog  dialog = new GetPhotoDialog(this,
+                        new GetPhotoDialog.GetPhotoDialogListener() {
+                            @Override
+                            public void onClick(View view) {
+                                switch(view.getId()){
+                                    case R.id.imgbtn_camera:
+                                       takecamera();
+                                        break;
+                                    case R.id.imgbtn_pic:
+                                        takepic();
+                                        break;
+                                }
+                            }
+                        });
+                dialog.setTitle("照片上传");
+                dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
+                dialog.show();
+
                 break;
             case R.id.ll_birthday:
                 show_birth_dialog();
@@ -199,12 +255,34 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
                 show_sex_dialog();
                 break;
             case R.id.ll_classid:
-                show_participating_dialog();
+                if (state=true)
+                {
+                    list_cansaibanji.setVisibility(View.VISIBLE);
+                    state=false;
+                }
+                else {
+                    list_cansaibanji.setVisibility(View.INVISIBLE);
+                    state=true;
+
+                }
+
+//                if (list_cansaibanji.getVisibility()==View.VISIBLE)
+//                {
+//                    list_cansaibanji.setVisibility(View.INVISIBLE);
+//                }
+//                if (list_cansaibanji.getVisibility()==View.INVISIBLE)
+//                {
+//                    list_cansaibanji.setVisibility(View.VISIBLE);
+//                }
+
+//                show_participating_dialog();
+
                 break;
         }
     }
 
-    public void takepic() {
+    public void takecamera() {
+
         path=(Environment.getExternalStorageDirectory().getPath())+"/123.jpg";
         File file=new File(path.toString());
         Uri uri= Uri.fromFile(file);
@@ -218,22 +296,29 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
             e.printStackTrace();
         }
         img1.setImageBitmap(bitmap);
-        Log.i("path:"+path);
+            Log.i("path:"+path);
+    }
+    public void takepic() {
+        Intent picture = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(picture, 101);
     }
 
     @Subscribe
     public void onEvent(ClassEvent classEvent){
-        System.out.println("classEvent.getClassLists()>>》》》》》》》》》》》》》》"+classEvent.getClassLists());
-        List<ClassList> classLists=classEvent.getClassLists();
-        for (ClassList cl:classLists){
+        System.out.println("classEvent.getPargrades()>>》》》》》》》》》》》》》》"+classEvent.getPargrades());
+//        String SexData[] = {"男","女"};//性别数据
+        List<Pargrade> pargrades =classEvent.getPargrades();
+        for (Pargrade cl: pargrades){
            System.out.println("dsfsdfsdfsdfsdfsdf?????/?????>>》》》》》》》》》》》》》》"+"ClassId:"+cl.getClassId()+"ClassName:"+cl.getClassName());
+            Pargrade p1=new Pargrade(cl.getClassId(),cl.getClassName());
+            pargradeList.add(p1);
         }
+
     }
     @Subscribe
     public void onEvent1(Phot phot){
-        System.out.println("classEvent.getClassLists()>>》》》》》》》》》》》》》》"+phot.getImg());
+        System.out.println("classEvent.getPargrades()>>》》》》》》》》》》》》》》"+phot.getImg());
         newstudents.setPhoto(phot.getImg());
-
     }
 
     @Override
@@ -248,7 +333,6 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
         String birthday=et_birthday.getText().toString();
         String gender=et_gender.getText().toString();
         Log.i("新学员录入："+"nickname:"+nickname+";certification:"+certification+";mobile:"+mobile+";classid:"+classid+";weight:"+weight+"pysical:"+pysical+"fat:"+fat+"birthday:"+birthday+"gender:"+gender);
-
         newstudents.setUserrole(0);
         newstudents.setSentaccid(1);
         newstudents.setNickname(nickname);
@@ -260,12 +344,8 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
         newstudents.setFat(Double.parseDouble(fat.equals("")?"0":fat));
         newstudents.setBirthday(birthday);
         newstudents.setGender(gender.equals("女")?0:1);
-
 //        newstudents.setPhoto(img.getPhoto()+"");
-
         iNewStudentpresenter.input(newstudents);
-
-
         //newstudents.setPhoto("/storage/emulated/0/123.jpg");
    }
 
@@ -283,6 +363,25 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
             img1.setImageBitmap(bm);
             iNewStudentpresenter.upload(path.toString());
         }
+        if(requestCode == 101 && resultCode == Activity.RESULT_OK && null != data){
+            Uri selectedImage = data.getData();
+            String[] filePathColumns={MediaStore.Images.Media.DATA};
+            Cursor c = this.getContentResolver().query(selectedImage, filePathColumns, null,null, null);
+            c.moveToFirst();
+            int columnIndex = c.getColumnIndex(filePathColumns[0]);
+            String picturePath= c.getString(columnIndex);
+            Bitmap bitmap= null;
+            try {
+                bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(selectedImage));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            img1.setImageBitmap(bitmap);
+            iNewStudentpresenter.upload(picturePath.toString());
+            Log.i("picturePath------------------------------------------------:"+picturePath);
+            c.close();
+        }
+
         //身体围度值传递
         if (requestCode==GET_BODY&&resultCode==RESULT_OK){
             newstudents=(Newstudents)data.getSerializableExtra("newstudents");
