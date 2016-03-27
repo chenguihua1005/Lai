@@ -12,9 +12,6 @@ import com.softtek.lai.module.grade.model.DynamicInfo;
 
 import java.util.List;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-
 /**
  * Created by jerry.guan on 3/22/2016.
  */
@@ -54,19 +51,18 @@ public class DynamicAdapter extends BaseAdapter{
             holder= (ViewHolder) convertView.getTag();
         }
         DynamicInfo  info=dynamicInfoList.get(position);
-        holder.tv_data.setText(info.getCreateDate());
+        holder.tv_date.setText(info.getCreateDate());
         holder.tv_content.setText(info.getDyContent());
         return convertView;
     }
 
     static class ViewHolder{
 
-        TextView tv_data;
-
+        TextView tv_date;
         TextView tv_content;
 
         public ViewHolder(View view){
-            tv_data= (TextView) view.findViewById(R.id.tv_data);
+            tv_date= (TextView) view.findViewById(R.id.tv_date);
             tv_content= (TextView) view.findViewById(R.id.tv_content);
         }
 

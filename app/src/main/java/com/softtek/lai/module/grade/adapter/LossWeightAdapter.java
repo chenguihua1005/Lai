@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.module.grade.model.Student;
+import com.softtek.lai.widgets.CircleImageView;
 
 import java.util.List;
 
@@ -71,10 +72,10 @@ public class LossWeightAdapter extends BaseAdapter{
             holder= (ViewHolder) convertView.getTag();
         }
         Student student=students.get(position);
-        holder.tv_order.setText(position+"");
+        holder.tv_order.setText(position+1+"");
         holder.tv_name.setText(student.getUserName());
-        holder.tv_lw_before.setText(student.getLossBefor());
-        holder.tv_lw_after.setText(student.getLossAfter());
+        holder.tv_lw_before.setText("前 "+student.getLossBefor()+"kg");
+        holder.tv_lw_after.setText("后 "+student.getLossAfter()+"kg");
         holder.tv_lw_totle.setText(student.getLossWeght());
         return convertView;
     }
@@ -122,8 +123,9 @@ public class LossWeightAdapter extends BaseAdapter{
         Student student=students.get(position);
         holder.tv_order.setText(position+"");
         holder.tv_name.setText(student.getUserName());
-        holder.tv_wl_before.setText(student.getWaistlinebefor());
-        holder.tv_wl_after.setText(student.getWaistlineAfter());
+        holder.tv_wl_before.setText("前 "+student.getWaistlinebefor()+"cm");
+        holder.tv_wl_after.setText("后 "+student.getWaistlineAfter()+"cm");
+        holder.tv_wl_totle.setText("00");
         return convertView;
     }
 
@@ -133,6 +135,7 @@ public class LossWeightAdapter extends BaseAdapter{
         TextView tv_lw_before;
         TextView tv_lw_after;
         TextView tv_lw_totle;
+        CircleImageView civ_header_image;
 
         public ViewHolder(View view){
             tv_order= (TextView) view.findViewById(R.id.tv_order);
@@ -140,6 +143,7 @@ public class LossWeightAdapter extends BaseAdapter{
             tv_lw_before= (TextView) view.findViewById(R.id.tv_lw_before);
             tv_lw_after= (TextView) view.findViewById(R.id.tv_lw_after);
             tv_lw_totle= (TextView) view.findViewById(R.id.tv_lw_totle);
+            civ_header_image= (CircleImageView) view.findViewById(R.id.civ_header_image);
 
         }
     }
@@ -148,20 +152,24 @@ public class LossWeightAdapter extends BaseAdapter{
         TextView tv_order;
         TextView tv_name;
         TextView tv_lw_per;
+        CircleImageView civ_header_image;
         public  LossWeightPerHolder(View view){
             tv_order= (TextView) view.findViewById(R.id.tv_order);
             tv_name = (TextView) view.findViewById(R.id.tv_name);
             tv_lw_per= (TextView) view.findViewById(R.id.tv_lw_per);
+            civ_header_image= (CircleImageView) view.findViewById(R.id.civ_header_image);
         }
     }
     static class PhysicalHolder{
         TextView tv_order;
         TextView tv_name;
         TextView tv_physical;
+        CircleImageView civ_header_image;
         public PhysicalHolder(View view){
             tv_order= (TextView) view.findViewById(R.id.tv_order);
             tv_name = (TextView) view.findViewById(R.id.tv_name);
             tv_physical= (TextView) view.findViewById(R.id.tv_pysical);
+            civ_header_image= (CircleImageView) view.findViewById(R.id.civ_header_image);
         }
     }
     static class WaistlineHolder{
@@ -169,11 +177,15 @@ public class LossWeightAdapter extends BaseAdapter{
         TextView tv_name;
         TextView tv_wl_before;
         TextView tv_wl_after;
+        TextView tv_wl_totle;
+        CircleImageView civ_header_image;
         public WaistlineHolder(View view){
             tv_order= (TextView) view.findViewById(R.id.tv_order);
             tv_name = (TextView) view.findViewById(R.id.tv_name);
             tv_wl_before= (TextView) view.findViewById(R.id.tv_wl_before);
             tv_wl_after= (TextView) view.findViewById(R.id.tv_wl_after);
+            tv_wl_totle= (TextView) view.findViewById(R.id.tv_wl_totle);
+            civ_header_image= (CircleImageView) view.findViewById(R.id.civ_header_image);
         }
     }
 

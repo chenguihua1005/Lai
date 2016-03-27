@@ -59,6 +59,7 @@
         <activity android:name=".module.retest.view.QueryActivity" />
         <activity android:name=".module.bodygamest.view.Student" />
         <activity android:name=".module.jingdu.view.JingduActivity"></activity>
+        <activity android:name=".module.grade.view.TutorActivity"></activity>
     </application>
 
 </manifest>

@@ -4,9 +4,12 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AbsListView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -40,26 +43,26 @@ public class TutorActivity extends BaseActivity implements PullToRefreshBase.OnR
     TextView tv_title;
     @InjectView(R.id.tv_right)
     TextView tv_right;
-    @InjectView(R.id.tv_left)
-    TextView tv_left;
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
+    @InjectView(R.id.iv_email)
+    ImageView iv_email;
 
     private IGrade grade;
     private TutorAdapter adapter;
     List<SRInfo> infos=new ArrayList<>();
     @Override
     protected void initViews() {
+        iv_email.setVisibility(View.GONE);
         prlv.setOnRefreshListener(this);
-        AbsListView.LayoutParams layoutParams = new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, DisplayUtil.dip2px(this,60));
-        View view=getLayoutInflater().inflate(R.layout.tutor_lv_header,null);
-        view.setLayoutParams(layoutParams);
-        prlv.getRefreshableView().addHeaderView(view);
-        tv_left.setOnClickListener(this);
+        ll_left.setOnClickListener(this);
     }
 
     @Override
     protected void initDatas() {
         tv_title.setText("助教列表");
-        tv_right.setText("添加");
+        tv_right.setText("邀请助教");
+        tv_right.setTextSize(TypedValue.COMPLEX_UNIT_SP,14f);
         grade=new GradeImpl();
         for(int i=0;i<1;i++){
             SRInfo info=new SRInfo();
@@ -131,7 +134,7 @@ public class TutorActivity extends BaseActivity implements PullToRefreshBase.OnR
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.tv_left:
+            case R.id.ll_left:
                 finish();
                 break;
         }
