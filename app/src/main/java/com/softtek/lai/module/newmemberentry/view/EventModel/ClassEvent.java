@@ -1,6 +1,6 @@
 package com.softtek.lai.module.newmemberentry.view.EventModel;
 
-import com.softtek.lai.module.newmemberentry.view.model.ClassList;
+import com.softtek.lai.module.newmemberentry.view.model.Pargrade;
 
 import java.util.List;
 
@@ -8,18 +8,17 @@ import java.util.List;
  * Created by julie.zhu on 3/23/2016.
  */
 public class ClassEvent {
-    private List<ClassList> classLists;
+    private List<Pargrade> pargrades;
 
-
-    public List<ClassList> getClassLists() {
-        return classLists;
+    public List<Pargrade> getPargrades() {
+        return pargrades;
     }
 
-    public void setClassLists(List<ClassList> classLists) {
-        this.classLists = classLists;
+    public ClassEvent(List<Pargrade> pargrades) {
+        this.pargrades = pargrades;
     }
 
-    public ClassEvent(List<ClassList> classLists) {
-        this.classLists = classLists;
+    public void setPargrades(List<Pargrade> pargrades) {
+        this.pargrades = pargrades;
     }
 }
