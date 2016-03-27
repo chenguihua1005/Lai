@@ -12,7 +12,6 @@ import com.softtek.lai.R;
  * Created by julie.zhu on 3/26/2016.
  */
 public class GetPhotoDialog extends Dialog  implements View.OnClickListener {
-
     private ImageButton camera,pic;
 
 
@@ -21,6 +20,8 @@ public class GetPhotoDialog extends Dialog  implements View.OnClickListener {
     public interface GetPhotoDialogListener{
         public void onClick(View view);
     }
+
+
     public GetPhotoDialog(Context context,GetPhotoDialogListener listener) {
         super(context);
         this.listener=listener;
@@ -43,6 +44,7 @@ public class GetPhotoDialog extends Dialog  implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         listener.onClick(v);
+        dismiss();
     }
 
 }

@@ -18,10 +18,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.snowdream.android.util.Log;
 import com.mobsandgeeks.saripaar.Rule;
@@ -57,6 +59,8 @@ import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_member_entry)
 public class EntryActivity extends BaseActivity implements View.OnClickListener,Validator.ValidationListener {
+
+    GetPhotoDialog photoDialog;
     private String SexData[] = {"男","女"};//性别数据
 
     private INewStudentpresenter iNewStudentpresenter;
@@ -144,7 +148,7 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
    ListView list_cansaibanji;
    boolean state=true;
    private List<Pargrade> pargradeList=new ArrayList<Pargrade>();
-    String classidDate[] ;
+   String classidDate[] ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,10 +166,8 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
         ll_gender.setOnClickListener(this);
         ll_classid.setOnClickListener(this);
 
-     //   initPargrade();
         MemberAdapter memberAdapter=new MemberAdapter(EntryActivity.this,R.layout.member_item,pargradeList);
         list_cansaibanji.setAdapter(memberAdapter);
-
     }
 
     @Override
@@ -205,13 +207,35 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
                 startActivityForResult(intent1,GET_BODY);
                 break;
             case R.id.tv_photoupload:
+//                final Dialog dialog=new AlertDialog.Builder(EntryActivity.this)
+//                        .setTitle("照片上传")
+//                        .setPositiveButton("从相机选择图片",
+//                                new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialogInterface, int which) {
+//                                        takecamera();
+//                                        dialogInterface.dismiss();
+//
+//                                    }
+//                                })
+//                        .setNegativeButton("从相册选择图片",
+//                                new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialogInterface, int arg1) {
+//                                        takepic();
+//                                        dialogInterface.dismiss();
+//                                    }
+//                                })
+//                        .create();
+//                dialog.show();
+                
                 final GetPhotoDialog  dialog = new GetPhotoDialog(this,
                         new GetPhotoDialog.GetPhotoDialogListener() {
                             @Override
                             public void onClick(View view) {
                                 switch(view.getId()){
                                     case R.id.imgbtn_camera:
-                                        takecamera();
+                                       takecamera();
                                         break;
                                     case R.id.imgbtn_pic:
                                         takepic();
@@ -220,8 +244,9 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
                             }
                         });
                 dialog.setTitle("照片上传");
-//                dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
+                dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
                 dialog.show();
+
                 break;
             case R.id.ll_birthday:
                 show_birth_dialog();
@@ -241,23 +266,23 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
 
                 }
 
+//                if (list_cansaibanji.getVisibility()==View.VISIBLE)
+//                {
+//                    list_cansaibanji.setVisibility(View.INVISIBLE);
+//                }
+//                if (list_cansaibanji.getVisibility()==View.INVISIBLE)
+//                {
+//                    list_cansaibanji.setVisibility(View.VISIBLE);
+//                }
+
 //                show_participating_dialog();
 
-//                initPargrade();
-//                MemberAdapter memberAdapter=new MemberAdapter(EntryActivity.this,R.layout.member_item,pargradeList);
-//                list_cansaibanji.setAdapter(memberAdapter);
                 break;
         }
     }
 
-    private void initPargrade(){
-        Pargrade p1=new Pargrade("ClassId","ClassName");
-        pargradeList.add(p1);
-        Pargrade p2=new Pargrade("0000001","班级名称");
-        pargradeList.add(p2);
-    }
-
     public void takecamera() {
+
         path=(Environment.getExternalStorageDirectory().getPath())+"/123.jpg";
         File file=new File(path.toString());
         Uri uri= Uri.fromFile(file);
