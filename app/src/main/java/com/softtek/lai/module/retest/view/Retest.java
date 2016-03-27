@@ -252,8 +252,7 @@ public class Retest extends BaseActivity implements View.OnClickListener{
             break;
             case R.id.ll_left:
             {
-//                Intent intent=new Intent(Retest.this, Audit.class);
-//                startActivity(intent);
+                finish();
             }
             break;
 
