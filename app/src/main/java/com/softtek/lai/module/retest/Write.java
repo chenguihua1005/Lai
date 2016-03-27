@@ -17,6 +17,9 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.bodygame.Counselor;
 import com.softtek.lai.module.home.view.HomeActviity;
+import com.softtek.lai.module.retest.model.RetestWrite;
+import com.softtek.lai.module.retest.present.RetestPre;
+import com.softtek.lai.module.retest.present.RetestclassImp;
 import com.softtek.lai.utils.DisplayUtil;
 
 import butterknife.InjectView;
@@ -33,9 +36,15 @@ public class Write extends BaseActivity implements View.OnClickListener{
     TextView tv_right;
     @InjectView(R.id.iv_email)
     ImageView iv_email;
+
+    private RetestPre retestPre;
+    private RetestWrite retestWrite;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ll_left.setOnClickListener(this);
+        tv_right.setOnClickListener(this);
 
     }
 
@@ -49,6 +58,20 @@ public class Write extends BaseActivity implements View.OnClickListener{
         title.setText("复测录入");
         tv_right.setText("保存");
         iv_email.setVisibility(View.INVISIBLE);
+        retestPre=new RetestclassImp();
+        retestWrite=new RetestWrite();
+        retestWrite.setCircum("13");
+        retestWrite.setAccountId("18175239201");
+        retestWrite.setClassId("");
+        retestWrite.setDoLegGirth("");
+        retestWrite.setFat("");
+        retestWrite.setHiplie("");
+        retestWrite.setImage("");
+        retestWrite.setPysical("");
+        retestWrite.setUpArmGirth("");
+        retestWrite.setWaistline("");
+        retestWrite.setWeight("");
+        retestPre.doGetWrite(19,16,retestWrite);
 
 
 
