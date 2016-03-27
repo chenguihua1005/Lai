@@ -8,8 +8,11 @@ import com.softtek.lai.module.retest.eventModel.BanjiStudentEvent;
 import com.softtek.lai.module.retest.eventModel.StudentEvent;
 import com.softtek.lai.module.retest.model.Banji;
 import com.softtek.lai.module.retest.model.BanjiStudent;
+import com.softtek.lai.module.retest.model.RetestAudit;
+import com.softtek.lai.module.retest.model.RetestWrite;
 import com.softtek.lai.module.retest.model.Student;
 import com.softtek.lai.module.retest.net.RestService;
+import com.softtek.lai.module.retest.view.Retest;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -123,17 +126,17 @@ public class RetestclassImp implements RetestPre{
     @Override
     public void doGetAudit(long accountId, long classId, String typeDate) {
         String token=SharedPreferenceService.getInstance().get("token","");
-        service.doGetAudit(token, accountId, classId, typeDate, new Callback<ResponseData>() {
+        service.doGetAudit(token, accountId, classId, typeDate, new Callback<ResponseData<List<RetestAudit>>>() {
             @Override
-            public void success(ResponseData responseData, Response response) {
-                int status=responseData.getStatus();
+            public void success(ResponseData<List<RetestAudit>> listResponseData, Response response) {
+                int status=listResponseData.getStatus();
                 switch (status)
                 {
                     case 200:
                         Util.toastMsg("保存成功");
                         break;
                     case 500:
-                        Util.toastMsg("数据保存异常");
+                        Util.toastMsg("复测记录获取失败");
                         break;
                 }
             }
@@ -142,9 +145,36 @@ public class RetestclassImp implements RetestPre{
             public void failure(RetrofitError error) {
                 error.printStackTrace();
                 Util.toastMsg("服务器异常");
-
             }
         });
     }
+
+
+    @Override
+    public void doGetWrite(long accountId, long loginId, RetestWrite retestWrite) {
+        String token=SharedPreferenceService.getInstance().get("token","");
+        service.doGetWrite(token, accountId, loginId, retestWrite, new Callback<ResponseData<List<RetestWrite>>>() {
+            @Override
+            public void success(ResponseData<List<RetestWrite>> listResponseData, Response response) {
+                int status=listResponseData.getStatus();
+                switch (status)
+                {
+                    case 200:
+                        Util.toastMsg("复测记录保存成功");
+                        break;
+                    case 201:
+                        Util.toastMsg("复测记录保存失败");
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                error.printStackTrace();
+                Util.toastMsg("服务器异常");
+            }
+        });
+    }
+
 
 }

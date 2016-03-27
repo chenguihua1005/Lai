@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.module.retest.model.RetestAudit;
+import com.softtek.lai.module.retest.model.RetestWrite;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.module.retest.present.RetestclassImp;
 import com.softtek.lai.utils.DisplayUtil;
@@ -26,6 +28,7 @@ public class Audit extends BaseActivity {
     @InjectView(R.id.tv_right)
     TextView tv_right;
 private RetestPre retestPre;
+    private RetestAudit retestAudit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,8 +46,9 @@ private RetestPre retestPre;
         title.setText(R.string.AuditBarT);
         tv_right.setText(R.string.AuditBarR);
         tv_right.setTextColor(Color.BLACK);
-//        retestPre=new RetestclassImp();
-//        retestPre.doGetAudit(3,2,"36");
+        retestPre=new RetestclassImp();
+        retestAudit=new RetestAudit();
+        retestPre.doGetAudit(3,2,"36");
 
     }
 }
