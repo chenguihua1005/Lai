@@ -2,23 +2,15 @@ package com.softtek.lai.module.grade.view;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.Handler;
-import android.os.PersistableBundle;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.grade.adapter.DynamicAdapter;
 import com.softtek.lai.module.grade.model.DynamicInfo;
 import com.softtek.lai.module.grade.model.Grade;
@@ -38,64 +30,58 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
-import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libzilla.dialog.LoadingDialog;
 
 @InjectLayout(R.layout.activity_grade_home)
-public class GradeHomeActivity extends BaseActivity implements View.OnClickListener, TextWatcher{
-
-
-    @InjectView(R.id.et_dynamic)
-    EditText et_dynamic;
-
-    @InjectView(R.id.tv_send)
-    TextView tv_send;
-
-    @InjectView(R.id.iv_grade_pic)
-    ImageView iv_grade_pic;
-
-    @InjectView(R.id.tv_grade_name)
-    TextView tv_grade_name;
-
-    @InjectView(R.id.tv_date)
-    TextView tv_date;
-
-    @InjectView(R.id.iv_editor)
-    ImageView iv_editor;
+public class GradeHomeActivity extends BaseActivity implements View.OnClickListener{
 
     @InjectView(R.id.tv_title)
     TextView tv_title;
+    @InjectView(R.id.tv_title_date)
+    TextView tv_title_date;
     @InjectView(R.id.ll_left)
-    LinearLayout ll_left;
-    @InjectView(R.id.tv_right)
-    TextView tv_right;
+    LinearLayout ll_back;
+    @InjectView(R.id.tv_editor)
+    TextView tv_editor;
 
-    @InjectView(R.id.ll_tutor)
-    LinearLayout ll_tutor;
-
-    @InjectView(R.id.ll_students)
-    LinearLayout ll_students;
-
-    @InjectView(R.id.tv_pc_num)
-    TextView tv_pc_num;
-    @InjectView(R.id.tv_sr_num)
-    TextView tv_sr_num;
-    @InjectView(R.id.civ_pc_one)
-    CircleImageView cir_pc_one;
-    @InjectView(R.id.civ_pc_two)
-    CircleImageView cir_pc_two;
-    @InjectView(R.id.civ_pc_three)
-    CircleImageView cir_pc_three;
-    @InjectView(R.id.civ_sr_one)
+    @InjectView(R.id.civ_tutorfirst)
     CircleImageView cir_sr_one;
-    @InjectView(R.id.civ_sr_two)
+    @InjectView(R.id.civ_tutorsecond)
     CircleImageView cir_sr_two;
-    @InjectView(R.id.civ_sr_three)
+    @InjectView(R.id.civ_tutorthird)
     CircleImageView cir_sr_three;
+    @InjectView(R.id.civ_stufirst)
+    CircleImageView cir_pc_one;
+    @InjectView(R.id.civ_stusecond)
+    CircleImageView cir_pc_two;
+    @InjectView(R.id.civ_stuthird)
+    CircleImageView cir_pc_three;
+    @InjectView(R.id.tv_tutor_num)
+    TextView tv_sr_num;
+    @InjectView(R.id.tv_student_num)
+    TextView tv_pc_num;
+
+    @InjectView(R.id.ll_sr)
+    LinearLayout ll_sr;
+    @InjectView(R.id.ll_pc)
+    LinearLayout ll_pc;
+
+    @InjectView(R.id.ll_invite_tutor)
+    LinearLayout ll_invite_sr;
+
+    @InjectView(R.id.ll_invite_student)
+    LinearLayout ll_invite_pc;
+
+    @InjectView(R.id.ll_send_dynamic)
+    LinearLayout ll_send_dynamic;
+
+    @InjectView(R.id.iv_banner)
+    ImageView iv_grade_banner;
 
     @InjectView(R.id.lv_dynamic)
     ListView lv_dynamic;
+
+
     List<DynamicInfo> dynamicInfos=new ArrayList<>();
 
     private IGrade grade;
@@ -105,12 +91,13 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void initViews() {
-        ll_left.setOnClickListener(this);
-        ll_students.setOnClickListener(this);
-        ll_tutor.setOnClickListener(this);
-        tv_right.setOnClickListener(this);
-        tv_send.setOnClickListener(this);
-        et_dynamic.addTextChangedListener(this);
+        ll_back.setOnClickListener(this);
+        ll_pc.setOnClickListener(this);
+        ll_sr.setOnClickListener(this);
+        tv_editor.setOnClickListener(this);
+        ll_invite_pc.setOnClickListener(this);
+        ll_invite_sr.setOnClickListener(this);
+        ll_send_dynamic.setOnClickListener(this);
         progressDialog=new ProgressDialog(this);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setMessage(getResources().getString(zilla.libcore.R.string.dialog_loading));
@@ -120,33 +107,49 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void initDatas() {
         tv_title.setText("班级主页");
-        tv_right.setText("邀请参赛");
 
         grade=new GradeImpl();
         progressDialog.show();
-        grade.getGradeInfos(1,progressDialog);
-
+        grade.getGradeInfos(1, progressDialog);
+        for(int i=0;i<10;i++){
+            DynamicInfo info=new DynamicInfo();
+            info.setCreateDate("2016年2月20日");
+            info.setDyContent("你好我是管国祥 我今天加入了这个班级的哈哈哈哈");
+            dynamicInfos.add(info);
+        }
+        lv_dynamic.setAdapter(new DynamicAdapter(this, dynamicInfos));
 
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.tv_send:
-                //发布班级动态和公告
-                String dynamicContent=et_dynamic.getText().toString();
-                grade.sendDynamic(1,"dsadas",dynamicContent, Constants.SP_SEND,1);
-                break;
-            case R.id.ll_left:
+            case R.id.left:
                 finish();
                 break;
-            case R.id.ll_tutor:
-                startActivity(new Intent(this,TutorActivity.class));
+            case R.id.tv_editor:
+                //点击编辑按钮
                 break;
-            case R.id.ll_students:
+            case R.id.ll_pc:
+                //点击学员条
                 startActivity(new Intent(this,StudentsActivity.class));
                 break;
-            case R.id.tv_right:
+            case R.id.ll_sr:
+                //点击助教条
+                startActivity(new Intent(this,TutorActivity.class));
+                break;
+            case R.id.ll_invite_tutor:
+                //邀请助教按钮
+                break;
+            case R.id.ll_invite_student:
+                //邀请学员按钮
+                break;
+            case R.id.ll_send_dynamic:
+                /*
+                发布班级动态：打开dialog用户编辑输入
+                 */
+
+                //grade.sendDynamic(1, "dsadas", dynamicContent, Constants.SP_SEND, 1);
                 break;
         }
     }
@@ -156,14 +159,14 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
         //加载班级Banner
         List<PhotoInfo> banners=grade.getPhotoInfo();
         if(banners!=null&&banners.size()>0){
-            Picasso.with(this).load(grade.getPhotoInfo().get(0).getImg_Addr()).into(iv_grade_pic);
+            Picasso.with(this).load(grade.getPhotoInfo().get(0).getImg_Addr()).into(iv_grade_banner);
         }
         //更新班级信息
         List<GradeInfo> grades=grade.getClassInfo();
         if(grades!=null&&grades.size()>0){
             GradeInfo info=grades.get(0);
-            tv_grade_name.setText(info.getClassName());
-            tv_date.setText(info.getStartDate());
+            tv_title.setText(info.getClassName());
+            tv_title_date.setText(info.getStartDate());
         }
         //加载学员头像
         List<People> pcs=grade.getPCInfo();
@@ -184,15 +187,12 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
             switch (i){
                 case 0:
                     Picasso.with(this).load(pc.getPhoto()).into(cir_pc_one);
-                    cir_pc_one.setVisibility(View.VISIBLE);
                     break;
                 case 1:
                     Picasso.with(this).load(pc.getPhoto()).into(cir_pc_two);
-                    cir_pc_two.setVisibility(View.VISIBLE);
                     break;
                 case 2:
                     Picasso.with(this).load(pc.getPhoto()).into(cir_pc_three);
-                    cir_pc_three.setVisibility(View.VISIBLE);
                     break;
             }
         }
@@ -201,15 +201,12 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
             switch (i){
                 case 0:
                     Picasso.with(this).load(sr.getPhoto()).into(cir_sr_one);
-                    cir_sr_one.setVisibility(View.VISIBLE);
                     break;
                 case 1:
                     Picasso.with(this).load(sr.getPhoto()).into(cir_sr_two);
-                    cir_sr_two.setVisibility(View.VISIBLE);
                     break;
                 case 2:
                     Picasso.with(this).load(sr.getPhoto()).into(cir_sr_three);
-                    cir_sr_three.setVisibility(View.VISIBLE);
                     break;
             }
         }
@@ -229,22 +226,4 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
         super.onDestroy();
     }
 
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-        if(s.length()==0){
-            tv_send.setEnabled(false);
-        }else{
-            tv_send.setEnabled(true);
-        }
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-
-    }
 }

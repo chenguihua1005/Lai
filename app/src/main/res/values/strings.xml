@@ -257,5 +257,7 @@
     <string name="CounselorBarL">体管赛（顾问版）</string>
     <string name="AuditBarT">复测审核</string>
     <string name="AuditBarR">确认</string>
-    <string name="sendDynamic">发布动态/公告</string>
+    <string name="sendDynamic">发布动态</string>
+    <string name="inviteTutor">邀请助教</string>
+    <string name="inviteStudent">邀请学员</string>
 </resources>
