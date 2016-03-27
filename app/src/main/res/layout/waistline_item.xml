@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="70dp"
     android:gravity="center|left"
-    android:background="#c0c0c0">
+    android:background="#f1f1f1">
 
     <TextView
         android:id="@+id/tv_order"

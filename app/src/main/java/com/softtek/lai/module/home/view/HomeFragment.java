@@ -2,7 +2,6 @@ package com.softtek.lai.module.home.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
@@ -11,23 +10,14 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.bodygame.Counselor;
 import com.softtek.lai.module.home.adapter.FragementAdapter;
 import com.softtek.lai.module.home.adapter.ModelAdapter;
-import com.softtek.lai.module.home.eventModel.ActivityEvent;
-import com.softtek.lai.module.home.eventModel.ProductEvent;
-import com.softtek.lai.module.home.eventModel.SaleEvent;
-import com.softtek.lai.module.home.model.FunctionModel;
 import com.softtek.lai.module.home.model.HomeInfo;
 import com.softtek.lai.module.home.presenter.HomeInfoImpl;
 import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
@@ -37,7 +27,6 @@ import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.CustomGridView;
 import com.softtek.lai.widgets.RollHeaderView;
-import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -47,14 +36,12 @@ import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.ui.ZillaAdapter;
-import zilla.libcore.util.Util;
 
 /**
  * Created by jerry.guan on 3/15/2016.
  *
  */
-@InjectLayout(R.layout.fragment_home2)
+@InjectLayout(R.layout.fragment_home)
 public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetChangedListener,SwipeRefreshLayout.OnRefreshListener,AdapterView.OnItemClickListener{
 
     @InjectView(R.id.toolbar)

@@ -1,6 +1,7 @@
 package com.softtek.lai.module.grade.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,6 +74,9 @@ public class LossWeightAdapter extends BaseAdapter{
         }
         Student student=students.get(position);
         holder.tv_order.setText(position+1+"");
+        if((position+1)<4){
+            holder.tv_order.setTextColor(Color.parseColor("#FDB02B"));
+        }
         holder.tv_name.setText(student.getUserName());
         holder.tv_lw_before.setText("前 "+student.getLossBefor()+"kg");
         holder.tv_lw_after.setText("后 "+student.getLossAfter()+"kg");
@@ -90,7 +94,10 @@ public class LossWeightAdapter extends BaseAdapter{
             holder= (LossWeightPerHolder) convertView.getTag();
         }
         Student student=students.get(position);
-        holder.tv_order.setText(position+"");
+        holder.tv_order.setText(position+1+"");
+        if((position+1)<4){
+            holder.tv_order.setTextColor(Color.parseColor("#FDB02B"));
+        }
         holder.tv_name.setText(student.getUserName());
         holder.tv_lw_per.setText(student.getLossPercent());
         return convertView;
@@ -106,7 +113,10 @@ public class LossWeightAdapter extends BaseAdapter{
             holder= (PhysicalHolder) convertView.getTag();
         }
         Student student=students.get(position);
-        holder.tv_order.setText(position+"");
+        holder.tv_order.setText(position+1+"");
+        if((position+1)<4){
+            holder.tv_order.setTextColor(Color.parseColor("#FDB02B"));
+        }
         holder.tv_name.setText(student.getUserName());
         holder.tv_physical.setText(student.getPysical());
         return convertView;
@@ -121,7 +131,10 @@ public class LossWeightAdapter extends BaseAdapter{
             holder= (WaistlineHolder) convertView.getTag();
         }
         Student student=students.get(position);
-        holder.tv_order.setText(position+"");
+        holder.tv_order.setText(position+1+"");
+        if((position+1)<4){
+            holder.tv_order.setTextColor(Color.parseColor("#FDB02B"));
+        }
         holder.tv_name.setText(student.getUserName());
         holder.tv_wl_before.setText("前 "+student.getWaistlinebefor()+"cm");
         holder.tv_wl_after.setText("后 "+student.getWaistlineAfter()+"cm");

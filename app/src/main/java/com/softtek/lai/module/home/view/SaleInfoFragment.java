@@ -1,27 +1,25 @@
 package com.softtek.lai.module.home.view;
 
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.lhh.ptrrv.library.PullToRefreshRecyclerView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.home.adapter.DemoLoadMoreView;
+import com.softtek.lai.module.home.adapter.DividerItemDecoration;
+import com.softtek.lai.module.home.adapter.RecyclerViewAdapter;
+import com.softtek.lai.module.home.cache.HomeInfoCache;
+import com.softtek.lai.module.home.eventModel.ActivityEvent;
 import com.softtek.lai.module.home.eventModel.RefreshEvent;
-import com.softtek.lai.module.home.eventModel.SaleEvent;
 import com.softtek.lai.module.home.model.HomeInfo;
 import com.softtek.lai.module.home.presenter.HomeInfoImpl;
 import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
-import com.softtek.lai.widgets.SuperSwipeRefreshLayout;
-import com.squareup.picasso.Picasso;
+import com.softtek.lai.utils.ACache;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -34,58 +32,56 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.base_fragment)
-public class SaleInfoFragment extends BaseFragment implements SuperSwipeRefreshLayout.OnPushLoadMoreListener{
+public class SaleInfoFragment extends BaseFragment implements PullToRefreshRecyclerView.PagingableListener{
 
 
-    @InjectView(R.id.rl)
-    RecyclerView rl;
+    @InjectView(R.id.ptrrv)
+    PullToRefreshRecyclerView ptrrv;
 
-    @InjectView(R.id.refresh)
-    SuperSwipeRefreshLayout refresh;
-    // Footer View
-    private ProgressBar footerProgressBar;
-    private TextView footerTextView;
-    private ImageView footerImageView;
     private List<HomeInfo> infos=new ArrayList<>();
 
     private IHomeInfoPresenter homeInfoPresenter;
 
-    int page=1;
+    int page=0;
+
+    private ACache aCache;
 
     @Override
     protected void initViews() {
-        refresh.setFooterView(createFooterView());
-        refresh.setTargetScrollWithLayout(true);
+        ptrrv.setSwipeEnable(false);
+        DemoLoadMoreView loadMoreView=new DemoLoadMoreView(getContext(),ptrrv.getRecyclerView());
+        loadMoreView.setLoadmoreString("正在加载...");
+        loadMoreView.setLoadMorePadding(100);
+        ptrrv.setLoadMoreFooter(loadMoreView);
+        ptrrv.setLayoutManager(new LinearLayoutManager(getContext()));
+        ptrrv.getRecyclerView().addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));
+        ptrrv.setPagingableListener(this);
+
     }
 
-    private View createFooterView() {
-        View footerView = LayoutInflater.from(refresh.getContext())
-                .inflate(R.layout.layout_footer, null);
-        footerProgressBar = (ProgressBar) footerView
-                .findViewById(R.id.footer_pb_view);
-        footerImageView = (ImageView) footerView
-                .findViewById(R.id.footer_image_view);
-        footerTextView = (TextView) footerView
-                .findViewById(R.id.footer_text_view);
-        footerProgressBar.setVisibility(View.GONE);
-        footerImageView.setVisibility(View.VISIBLE);
-        footerImageView.setImageResource(R.drawable.down_arrow);
-        footerTextView.setText("上拉加载更多...");
-        return footerView;
-    }
+
 
     @Override
     protected void initDatas() {
-        for(int i=0;i<5;i++){
-            HomeInfo info=new HomeInfo();
-            info.setImg_Title("");
-            infos.add(info);
-        }
+        aCache=ACache.get(getContext(), Constants.HOME_CACHE_DATA_DIR);
+        page=0;
         homeInfoPresenter=new HomeInfoImpl(getContext());
-        rl.setLayoutManager(new LinearLayoutManager(rl.getContext()));
-        rl.setAdapter(new RecyclerViewAdapter(getActivity()));
-        refresh.setOnPushLoadMoreListener(this);
-        homeInfoPresenter.getContentByPage(0,1, 6);
+        //获取缓存数据
+        List<HomeInfo> caches=homeInfoPresenter.loadActivityCacheDate(Constants.HOEM_SALE_KEY);
+        infos.clear();
+        if(caches==null){
+            for(int i=0;i<10;i++){
+                infos.add(new HomeInfo());
+            }
+        }else if(caches.size()<10){
+            for(int i=0;i<10-infos.size();i++){
+                caches.add(new HomeInfo());
+            }
+            infos.addAll(caches);
+        }
+        ptrrv.setAdapter(new RecyclerViewAdapter(getContext(),infos));
+        ptrrv.onFinishLoading(true, false);
+        homeInfoPresenter.getContentByPage(0, ++page, 6);
     }
 
 
@@ -102,80 +98,36 @@ public class SaleInfoFragment extends BaseFragment implements SuperSwipeRefreshL
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onRefreshView(SaleEvent sale){
-        if(sale.flag==0){
+    public void onRefreshView(ActivityEvent activity){
+        if(activity.flag==0){
             infos.clear();
-            infos.addAll(sale.sales);
-        }else {
-            infos.addAll(sale.sales);
-        }
-        rl.getAdapter().notifyDataSetChanged();
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onRefreshResult(RefreshEvent event){
-        footerImageView.setVisibility(View.VISIBLE);
-        footerProgressBar.setVisibility(View.GONE);
-        refresh.setLoadMore(false);
-    }
-
-    @Override
-    public void onLoadMore() {
-        footerTextView.setText("正在加载...");
-        footerImageView.setVisibility(View.GONE);
-        footerProgressBar.setVisibility(View.VISIBLE);
-        homeInfoPresenter.getContentByPage(1,++page,1);
-    }
-
-    @Override
-    public void onPushDistance(int distance) {
-
-    }
-
-    @Override
-    public void onPushEnable(boolean enable) {
-        footerTextView.setText(enable ? "松开加载" : "上拉加载");
-        footerImageView.setVisibility(View.VISIBLE);
-        footerImageView.setRotation(enable ? 0 : 180);
-    }
-
-
-    public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
-
-        private Context mContext;
-
-        public RecyclerViewAdapter(Context mContext) {
-            this.mContext = mContext;
-        }
-
-        @Override
-        public RecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
-            return new ViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(final RecyclerViewAdapter.ViewHolder holder, int position) {
-            //绑定数据
-            HomeInfo info=infos.get(position);
-            Picasso.with(mContext).load(info.getImg_Addr()).error(R.drawable.froyo).into(holder.iv_image);
-            holder.tv_title.setText(info.getImg_Title());
-
-        }
-
-        @Override
-        public int getItemCount() {
-            return infos.size();
-        }
-
-        public  class ViewHolder extends RecyclerView.ViewHolder {
-            public ImageView iv_image;
-            public TextView tv_title;
-            public ViewHolder(View view) {
-                super(view);
-                iv_image= (ImageView) view.findViewById(R.id.iv_image);
-                tv_title= (TextView) view.findViewById(R.id.tv_title);
+            if(activity.activitys.size()<10){
+                for(int i=0;i<10-activity.activitys.size();i++){
+                    activity.activitys.add(new HomeInfo());
+                }
             }
+            infos.addAll(activity.activitys);
+        }else {
+            infos.addAll(activity.activitys);
         }
+        ptrrv.getRecyclerView().getAdapter().notifyDataSetChanged();
+        aCache.put(Constants.HOEM_SALE_KEY, new Gson().toJson(new HomeInfoCache(infos)));
     }
+
+    @Override
+    public void onLoadMoreItems() {
+        System.out.println("加载啦....");
+        homeInfoPresenter.getContentByPage(1, page, 6);
+    }
+
+    @Subscribe
+    public void onRefreshEnd(RefreshEvent event){
+        System.out.print("加载结束了");
+        if(event.result){
+            page++;
+        }
+        ptrrv.onFinishLoading(true, true);
+    }
+
+
 }
