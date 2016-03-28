@@ -105,6 +105,7 @@ public class Retest extends BaseActivity implements View.OnClickListener{
                 if (banjiStudent.getAMStatus()=="")
                 {
                     Intent intent=new Intent(Retest.this,Write.class);
+
                     startActivity(intent);
 
                 }
