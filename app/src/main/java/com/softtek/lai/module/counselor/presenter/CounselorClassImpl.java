@@ -26,7 +26,6 @@ import com.softtek.lai.module.home.model.FunctionModel;
 import com.softtek.lai.module.home.model.HomeInfo;
 import com.softtek.lai.module.home.net.HomeService;
 import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
-import com.softtek.lai.module.login.contants.Constants;
 import com.softtek.lai.module.login.model.User;
 import com.softtek.lai.module.login.net.LoginService;
 import com.softtek.lai.utils.ACache;
@@ -131,8 +130,10 @@ public class CounselorClassImpl implements ICounselorClassPresenter{
                 int status=classIdResponseData.getStatus();
                 switch (status){
                     case 200:
-                        SharedPreferenceService.getInstance().put("classId",classIdResponseData.getData().getClassId());
-                        context.startActivity(new Intent(context, AssistantListActivity.class));
+                        SharedPreferenceService.getInstance().put("classId", classIdResponseData.getData().getClassId());
+                        Intent intent=new Intent(context, AssistantListActivity.class);
+                        intent.putExtra("classId",classIdResponseData.getData().getClassId());
+                        context.startActivity(intent);
                         break;
                     default:
                         Util.toastMsg(classIdResponseData.getMsg());

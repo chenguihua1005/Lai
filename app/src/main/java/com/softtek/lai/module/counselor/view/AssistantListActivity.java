@@ -19,12 +19,12 @@ import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.counselor.adapter.CounselorClassAdapter;
 import com.softtek.lai.module.counselor.presenter.AssistantImpl;
 import com.softtek.lai.module.counselor.presenter.CounselorClassImpl;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 import com.softtek.lai.module.counselor.presenter.ICounselorClassPresenter;
-import com.softtek.lai.module.login.contants.Constants;
 import com.softtek.lai.module.login.model.User;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.SoftInputUtil;
@@ -88,7 +88,7 @@ public class AssistantListActivity extends BaseActivity implements View.OnClickL
     protected void initDatas() {
         assistantPresenter = new AssistantImpl(this);
         aCache= ACache.get(this, Constants.USER_ACACHE_DATA_DIR);
-        String classId= SharedPreferenceService.getInstance().get("classId","");
+        String classId=getIntent().getStringExtra("classId");
         System.out.println("classId:"+classId);
         assistantPresenter.getAssistantList(classId,list_assistant);
     }

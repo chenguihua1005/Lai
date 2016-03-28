@@ -1,16 +1,13 @@
 package com.softtek.lai.module.assistant.view;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.assistant.presenter.AssistantManageImpl;
 import com.softtek.lai.module.assistant.presenter.IAssistantManagePresenter;
-import com.softtek.lai.module.login.contants.Constants;
 import com.softtek.lai.module.login.model.User;
 import com.softtek.lai.utils.ACache;
 
