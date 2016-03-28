@@ -45,7 +45,7 @@
                     android:scaleType="fitCenter"
                     android:layout_gravity="left|center"
                     android:src="@drawable/phone"/>
-                <EditText
+                189<EditText
                     android:id="@+id/et_phone"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -53,6 +53,7 @@
                     android:inputType="phone"
                     android:singleLine="true"
                     android:textColor="#333333"
+                    android:text="18961765466"
                     android:hint="@string/phoneNum"/>
             </FrameLayout>
 
@@ -72,6 +73,7 @@
                     android:paddingLeft="40dp"
                     android:singleLine="true"
                     android:hint="@string/password"
+                    android:text="willian"
                     android:textColor="#333333"
                     android:inputType="textPassword"/>
             </FrameLayout>

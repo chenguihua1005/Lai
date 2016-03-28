@@ -31,10 +31,10 @@ public class StudentsActivity extends BaseActivity implements BaseFragment.OnFra
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
-
     @InjectView(R.id.tv_title)
     TextView tv_title;
-
+    @InjectView(R.id.tv_right)
+    TextView tv_right;
     @InjectView(R.id.iv_email)
     ImageView iv_email;
 
@@ -45,25 +45,27 @@ public class StudentsActivity extends BaseActivity implements BaseFragment.OnFra
         LossWeightFragment lwf1=new LossWeightFragment();
         lwf1.setFlagType(Integer.parseInt(Constants.LOSS_WEIGHT));
         LossWeightFragment lwf2=new LossWeightFragment();
-        lwf2.setFlagType(Integer.parseInt(Constants.LOSS_WEIGHT_PER));
+        lwf2.setFlagType(Integer.parseInt(Constants.WAISTLINE));
         LossWeightFragment lwf3=new LossWeightFragment();
         lwf3.setFlagType(Integer.parseInt(Constants.PHYSIQUE));
         LossWeightFragment lwf4=new LossWeightFragment();
-        lwf4.setFlagType(Integer.parseInt(Constants.WAISTLINE));
+        lwf4.setFlagType(Integer.parseInt(Constants.LOSS_WEIGHT_PER));
         fragments.add(lwf1);
         fragments.add(lwf2);
         fragments.add(lwf3);
         fragments.add(lwf4);
+        tabcontent.setOffscreenPageLimit(4);
         tabcontent.setAdapter(new TabContentAdapter(getSupportFragmentManager(),fragments));
         tabLayout.setupWithViewPager(tabcontent);
 
         ll_left.setOnClickListener(this);
+        tv_right.setOnClickListener(this);
     }
 
     @Override
     protected void initDatas() {
         tv_title.setText("学员列表");
-
+        tv_right.setText("邀请学员");
 
     }
 
@@ -74,6 +76,8 @@ public class StudentsActivity extends BaseActivity implements BaseFragment.OnFra
         switch (v.getId()){
             case R.id.ll_left:
                 finish();
+                break;
+            case R.id.tv_right:
                 break;
         }
     }

@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:orientation="vertical"
-        android:layout_marginLeft="5dp"
+        android:layout_marginLeft="10dp"
         android:gravity="center|left">
         <TextView
             android:id="@+id/tv_name"
@@ -41,13 +41,12 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:gravity="center|left"
-            android:visibility="gone">
+            android:gravity="center|left">
             <TextView
-                android:id="@+id/tv_wl_before"
+                android:id="@+id/tv_py_before"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:text="前 78.5kg"/>
             <View
                 android:layout_width="1dp"
@@ -58,9 +57,10 @@
                 android:layout_marginRight="10dp"
                 android:background="@color/white"/>
             <TextView
-                android:id="@+id/tv_wl_after"
+                android:id="@+id/tv_py_after"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="14sp"
                 android:text="后 60.5kg"/>
         </LinearLayout>
     </LinearLayout>

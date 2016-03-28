@@ -1,4 +1,11 @@
 <resources>
+    <!-- 顾问版-->
+    <string name="crateClassVlaue">我要开班</string>
+    <string name="bodyGameVlaue">体管赛</string>
+    <string name="crateClassClassNameValue">班级名称:</string>
+    <string name="crateClassTimeValue">时间段:</string>
+    <string name="crateClassChooseValue">请选择</string>
+
     <string name="app_name">Lai</string>
     <string name="hello_world">hello_world</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -54,6 +61,12 @@
     <string name="readeAndAgress">我已阅读并同意遵守</string>
     <string name="inputNewPassword">输入新密码</string>
     <string name="reNewPassword">重新输入新密码</string>
+    <string name="className">请输入班级名称</string>
+    <string name="classTime">请输入时间段</string>
+    <string name="allClass">全部班级</string>
+    <string name="customerServiceCount">服务顾客数:</string>
+    <string name="retestValue">顾客复测率:</string>
+    <string name="totalValue">服务顾客减重总斤数:</string>
 
     <string-array name="SensitiveWord">
         <item>康宝来</item>

@@ -90,20 +90,24 @@ public class HomeInfoImpl implements IHomeInfoPresenter{
     }
 
     @Override
-    public void getContentByPage(final int flag,int page, final int img_type) {
+    public void getContentByPage(final int flag, final int page, final int img_type) {
         homeService.getActivityByPage(img_type, page, new Callback<ResponseData<List<HomeInfo>>>() {
             @Override
             public void success(ResponseData<List<HomeInfo>> homeInfoResponseData, Response response) {
-                if(flag==1){
-                    EventBus.getDefault().post(new RefreshEvent(true));
+                int size=homeInfoResponseData.getData().size();
+                boolean succOrFailed=false;
+                if(size>0){
+                    succOrFailed=true;
                 }
+                EventBus.getDefault().post(new RefreshEvent(succOrFailed,img_type));
+                System.out.println("第"+page+"页,类型"+img_type+"数据有多少？"+size+"succOrFailed="+succOrFailed);
                 switch (homeInfoResponseData.getStatus()){
                     case 200:
-                        if(img_type==1){
+                        if(img_type==Constants.ACTIVITY_RECORD){
                             EventBus.getDefault().post(new ActivityEvent(flag,homeInfoResponseData.getData()));
-                        }else if(img_type==2){
+                        }else if(img_type==Constants.PRODUCT_INFO){
                             EventBus.getDefault().post(new ProductEvent(flag,homeInfoResponseData.getData()));
-                        }else if(img_type==6){
+                        }else if(img_type==Constants.SALE_INFO){
                             EventBus.getDefault().post(new SaleEvent(flag,homeInfoResponseData.getData()));
                         }
                         break;
@@ -115,9 +119,7 @@ public class HomeInfoImpl implements IHomeInfoPresenter{
 
             @Override
             public void failure(RetrofitError error) {
-                if(flag==1){
-                    EventBus.getDefault().post(new RefreshEvent(false));
-                }
+                EventBus.getDefault().post(new RefreshEvent(false,img_type));
                 error.printStackTrace();
                 Util.toastMsg(R.string.neterror);
             }

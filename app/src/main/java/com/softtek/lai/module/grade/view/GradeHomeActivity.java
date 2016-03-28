@@ -3,6 +3,7 @@ package com.softtek.lai.module.grade.view;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -81,7 +82,7 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
     @InjectView(R.id.lv_dynamic)
     ListView lv_dynamic;
 
-
+    private AlertDialog alertDialog;
     List<DynamicInfo> dynamicInfos=new ArrayList<>();
 
     private IGrade grade;
@@ -102,6 +103,7 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setMessage(getResources().getString(zilla.libcore.R.string.dialog_loading));
         progressDialog.setMessage("正在加载内容...");
+
     }
 
     @Override

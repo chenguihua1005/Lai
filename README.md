@@ -7,7 +7,7 @@ LaiApp Android 版本
 
 版本号：2.0 beta 6
 
-Android SDK版本号：23
+Android SDK版本号：23.0.1
 
 Gradle 插件版本号：2.0.0-beta6
 

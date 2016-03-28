@@ -6,4 +6,37 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+
+    <!-- 顾问版-->
+    <dimen name="circleImage">100dip</dimen>
+
+    <dimen name="counselorClassTextSize">20sp</dimen>
+    <dimen name="counselorClassTextMargin">20dip</dimen>
+    <dimen name="counselorClassLinMarginTop">10dip</dimen>
+    <dimen name="counselorClassTextMarginLeft">5dip</dimen>
+
+    <dimen name="createClassTextSize">18sp</dimen>
+    <dimen name="createClassTextMargin">20dip</dimen>
+    <dimen name="createClassTextMarginLeft">10dip</dimen>
+
+    <dimen name="assistantMargin">10dip</dimen>
+    <dimen name="assistantMarginLeft">5dip</dimen>
+    <dimen name="assistantNameTextSize">20sp</dimen>
+    <dimen name="assistantPhoneTextSize">18sp</dimen>
+
+    <dimen name="fragmentAssistantApplyMargin">10dip</dimen>
+    <dimen name="fragmentAssistantApplyNameTextSize">20sp</dimen>
+    <dimen name="fragmentAssistantApplyValueTextSize">18sp</dimen>
+
+    <dimen name="fragmentAssistantListMargin">10dip</dimen>
+    <dimen name="fragmentAssistantListNameSize">20sp</dimen>
+    <dimen name="fragmentAssistantListTextSize">18sp</dimen>
+    <dimen name="fragmentAssistantListHeight">200dip</dimen>
+
+
+    <dimen name="assistantDetailMargin">20dip</dimen>
+    <dimen name="assistantDetailMarginLeft">20dip</dimen>
+    <dimen name="assistantdetailNameTextSize">20sp</dimen>
+    <dimen name="assistantdetailPhoneTextSize">18sp</dimen>
+
 </resources>

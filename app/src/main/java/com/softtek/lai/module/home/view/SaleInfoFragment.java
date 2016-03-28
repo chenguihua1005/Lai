@@ -16,6 +16,7 @@ import com.softtek.lai.module.home.adapter.RecyclerViewAdapter;
 import com.softtek.lai.module.home.cache.HomeInfoCache;
 import com.softtek.lai.module.home.eventModel.ActivityEvent;
 import com.softtek.lai.module.home.eventModel.RefreshEvent;
+import com.softtek.lai.module.home.eventModel.SaleEvent;
 import com.softtek.lai.module.home.model.HomeInfo;
 import com.softtek.lai.module.home.presenter.HomeInfoImpl;
 import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
@@ -43,8 +44,10 @@ public class SaleInfoFragment extends BaseFragment implements PullToRefreshRecyc
     private IHomeInfoPresenter homeInfoPresenter;
 
     int page=0;
-
+    //下次加载插入的列表位置
+    private int index=0;
     private ACache aCache;
+    private RecyclerViewAdapter adapter;
 
     @Override
     protected void initViews() {
@@ -70,18 +73,21 @@ public class SaleInfoFragment extends BaseFragment implements PullToRefreshRecyc
         List<HomeInfo> caches=homeInfoPresenter.loadActivityCacheDate(Constants.HOEM_SALE_KEY);
         infos.clear();
         if(caches==null){
+            index=0;//下次加载从第0条插入
             for(int i=0;i<10;i++){
                 infos.add(new HomeInfo());
             }
         }else if(caches.size()<10){
+            index=caches.size();//下次加载插入的位置
             for(int i=0;i<10-infos.size();i++){
                 caches.add(new HomeInfo());
             }
             infos.addAll(caches);
         }
-        ptrrv.setAdapter(new RecyclerViewAdapter(getContext(),infos));
-        ptrrv.onFinishLoading(true, false);
-        homeInfoPresenter.getContentByPage(0, ++page, 6);
+        adapter=new RecyclerViewAdapter(getContext(),infos);
+        ptrrv.setAdapter(adapter);
+        ptrrv.onFinishLoading(true, true);
+        homeInfoPresenter.getContentByPage(0, ++page, Constants.SALE_INFO);
     }
 
 
@@ -98,35 +104,46 @@ public class SaleInfoFragment extends BaseFragment implements PullToRefreshRecyc
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onRefreshView(ActivityEvent activity){
-        if(activity.flag==0){
+    public void onRefreshView(SaleEvent sale){
+        if(sale.flag==0){
             infos.clear();
-            if(activity.activitys.size()<10){
-                for(int i=0;i<10-activity.activitys.size();i++){
-                    activity.activitys.add(new HomeInfo());
-                }
-            }
-            infos.addAll(activity.activitys);
+            infos.addAll(sale.sales);
+            System.out.println("这次是更新，目前数据有"+infos.size()+"条");
         }else {
-            infos.addAll(activity.activitys);
+            //插入上次数据的末尾
+            infos.addAll(index,sale.sales);
+            System.out.println("这次是添加插入，目前数据有"+infos.size()+"条");
         }
-        ptrrv.getRecyclerView().getAdapter().notifyDataSetChanged();
+        index=index+sale.sales.size();
+        if(infos.size()<10){
+            int size=10-infos.size();
+            System.out.println("数据小于10条需要添加"+size+"条");
+            HomeInfo info=new HomeInfo();
+            for(int i=0;i<size;i++){
+                infos.add(info);
+                System.out.println("添加了第"+(i+1)+"条");
+            }
+        }
+        System.out.println("当前数据大小....."+infos.size());
+        adapter.notifyDataSetChanged();
         aCache.put(Constants.HOEM_SALE_KEY, new Gson().toJson(new HomeInfoCache(infos)));
     }
 
     @Override
     public void onLoadMoreItems() {
         System.out.println("加载啦....");
-        homeInfoPresenter.getContentByPage(1, page, 6);
+        homeInfoPresenter.getContentByPage(1, page, Constants.SALE_INFO);
     }
 
     @Subscribe
     public void onRefreshEnd(RefreshEvent event){
         System.out.print("加载结束了");
-        if(event.result){
-            page++;
+        if(event.flag==Constants.SALE_INFO){
+            if(event.result) {
+                page++;
+            }
+            ptrrv.onFinishLoading(true,true);
         }
-        ptrrv.onFinishLoading(true, true);
     }
 
 
