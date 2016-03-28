@@ -16,6 +16,8 @@ import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.bodygame.Counselor;
+import com.softtek.lai.module.counselor.view.AssistantListActivity;
+import com.softtek.lai.module.counselor.view.CounselorClassListActivity;
 import com.softtek.lai.module.grade.view.StudentsActivity;
 import com.softtek.lai.module.home.model.FunctionModel;
 import com.softtek.lai.module.home.model.HomeInfo;
@@ -92,7 +94,10 @@ public class HomeFragment extends BaseFragment implements PullToRefreshBase.OnRe
                 {
                     case "0":
                     {
-                        Intent intent = new Intent(getContext(), Counselor.class);
+//                        Intent intent = new Intent(getContext(), Counselor.class);
+//                        startActivity(intent);
+//                        Util.toastMsg(user.getUserrole());
+                        Intent intent = new Intent(getContext(), CounselorClassListActivity.class);
                         startActivity(intent);
                         Util.toastMsg(user.getUserrole());
 
