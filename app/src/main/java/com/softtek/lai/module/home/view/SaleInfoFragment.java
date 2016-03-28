@@ -16,6 +16,7 @@ import com.softtek.lai.module.home.adapter.RecyclerViewAdapter;
 import com.softtek.lai.module.home.cache.HomeInfoCache;
 import com.softtek.lai.module.home.eventModel.ActivityEvent;
 import com.softtek.lai.module.home.eventModel.RefreshEvent;
+import com.softtek.lai.module.home.eventModel.SaleEvent;
 import com.softtek.lai.module.home.model.HomeInfo;
 import com.softtek.lai.module.home.presenter.HomeInfoImpl;
 import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
@@ -43,7 +44,8 @@ public class SaleInfoFragment extends BaseFragment implements PullToRefreshRecyc
     private IHomeInfoPresenter homeInfoPresenter;
 
     int page=0;
-
+    //下次加载插入的列表位置
+    private int index=0;
     private ACache aCache;
 
     @Override
@@ -70,10 +72,12 @@ public class SaleInfoFragment extends BaseFragment implements PullToRefreshRecyc
         List<HomeInfo> caches=homeInfoPresenter.loadActivityCacheDate(Constants.HOEM_SALE_KEY);
         infos.clear();
         if(caches==null){
+            index=0;//下次加载从第0条插入
             for(int i=0;i<10;i++){
                 infos.add(new HomeInfo());
             }
         }else if(caches.size()<10){
+            index=caches.size();//下次加载插入的位置
             for(int i=0;i<10-infos.size();i++){
                 caches.add(new HomeInfo());
             }
@@ -98,17 +102,18 @@ public class SaleInfoFragment extends BaseFragment implements PullToRefreshRecyc
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onRefreshView(ActivityEvent activity){
-        if(activity.flag==0){
+    public void onRefreshView(SaleEvent sale){
+        if(sale.flag==0){
             infos.clear();
-            if(activity.activitys.size()<10){
-                for(int i=0;i<10-activity.activitys.size();i++){
-                    activity.activitys.add(new HomeInfo());
-                }
-            }
-            infos.addAll(activity.activitys);
+            infos.addAll(sale.sales);
         }else {
-            infos.addAll(activity.activitys);
+            infos.addAll(sale.sales);
+        }
+        index=index+sale.sales.size();
+        if(infos.size()<10){
+            for(int i=0;i<10-infos.size();i++){
+                infos.add(new HomeInfo());
+            }
         }
         ptrrv.getRecyclerView().getAdapter().notifyDataSetChanged();
         aCache.put(Constants.HOEM_SALE_KEY, new Gson().toJson(new HomeInfoCache(infos)));

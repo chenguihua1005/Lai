@@ -42,6 +42,8 @@ public class ActivityRecordFragment extends BaseFragment implements PullToRefres
     private IHomeInfoPresenter homeInfoPresenter;
 
     int page=0;
+    //下次加载插入的列表位置
+    private int index=0;
 
     private ACache aCache;
 
@@ -69,10 +71,12 @@ public class ActivityRecordFragment extends BaseFragment implements PullToRefres
         List<HomeInfo> caches=homeInfoPresenter.loadActivityCacheDate(Constants.HOEM_ACTIVITY_KEY);
         infos.clear();
         if(caches==null){
+            index=0;//下次加载从第0条插入
             for(int i=0;i<10;i++){
                 infos.add(new HomeInfo());
             }
         }else if(caches.size()<10){
+            index=caches.size();//下次加载插入的位置
             for(int i=0;i<10-infos.size();i++){
                 caches.add(new HomeInfo());
             }
@@ -100,15 +104,18 @@ public class ActivityRecordFragment extends BaseFragment implements PullToRefres
     public void onRefreshView(ActivityEvent activity){
         if(activity.flag==0){
             infos.clear();
-            if(activity.activitys.size()<10){
-                for(int i=0;i<10-activity.activitys.size();i++){
-                    activity.activitys.add(new HomeInfo());
-                }
-            }
             infos.addAll(activity.activitys);
         }else {
-            infos.addAll(activity.activitys);
+            //插入上次数据的末尾
+            infos.addAll(index,activity.activitys);
         }
+        index=index+activity.activitys.size();
+        if(infos.size()<10){
+            for(int i=0;i<10-infos.size();i++){
+                infos.add(new HomeInfo());
+            }
+        }
+
         ptrrv.getRecyclerView().getAdapter().notifyDataSetChanged();
         aCache.put(Constants.HOEM_ACTIVITY_KEY,new Gson().toJson(new HomeInfoCache(infos)));
     }
