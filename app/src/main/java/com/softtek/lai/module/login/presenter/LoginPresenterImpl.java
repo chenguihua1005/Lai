@@ -48,8 +48,7 @@ public class LoginPresenterImpl implements ILoginPresenter {
                     case 200:
                         SharedPreferenceService.getInstance().put("token", userResponseData.getData().getToken());
                         aCache.put(Constants.USER_ACACHE_KEY, userResponseData.getData());
-                        //context.startActivity(new Intent(context, HomeActviity.class));
-                        context.startActivity(new Intent(context, AssistantActivity.class));
+                        context.startActivity(new Intent(context, HomeActviity.class));
                         ((AppCompatActivity)context).finish();
                         break;
                     default:
