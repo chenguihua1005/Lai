@@ -14,8 +14,12 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.bodygame.model.TiGuanSai;
 import com.softtek.lai.module.bodygame.presenter.ITiGuanSai;
 import com.softtek.lai.module.bodygame.presenter.TiGuanSaiImpl;
+import com.softtek.lai.module.grade.view.GradeHomeActivity;
 import com.softtek.lai.module.grade.view.StudentsActivity;
+import com.softtek.lai.module.jingdu.view.JingduActivity;
 import com.softtek.lai.module.newmemberentry.view.EntryActivity;
+import com.softtek.lai.module.retest.Audit;
+import com.softtek.lai.module.retest.Write;
 import com.softtek.lai.module.retest.view.Retest;
 import com.squareup.picasso.Picasso;
 
@@ -144,7 +148,7 @@ public class Counselor extends BaseActivity implements View.OnClickListener{
             //体管赛按钮点击跳转事件
             case R.id.bt_tiguansai:
             {
-                Intent intent = new Intent(this, StudentsActivity.class);
+                Intent intent = new Intent(this, GradeHomeActivity.class);
                 startActivity(intent);
             }
             break;
@@ -162,7 +166,8 @@ public class Counselor extends BaseActivity implements View.OnClickListener{
             break;
             case R.id.bt_process:
             {
-                Util.toastMsg("当前进度页面");
+                Intent intent = new Intent(this, JingduActivity.class);
+                startActivity(intent);
             }
             break;
             case R.id.bt_review:
@@ -177,11 +182,15 @@ public class Counselor extends BaseActivity implements View.OnClickListener{
             break;
             case R.id.btn_tip:
             {
+                Intent intent=new Intent(Counselor.this,Write.class);
+                startActivity(intent);
                 Util.toastMsg("提示页面");
             }
             break;
             case R.id.btn_assistant:
             {
+                Intent intent=new Intent(Counselor.this,Audit.class);
+                startActivity(intent);
                 Util.toastMsg("助教管理页面");
             }
             break;

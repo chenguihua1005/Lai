@@ -3,32 +3,39 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <RelativeLayout
+        android:layout_marginTop="5dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="60dp">
+        android:background="#F1F1F1"
+        android:layout_height="100dp">
 
         <LinearLayout
+            android:id="@+id/ll_left_head"
             android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:layout_alignParentLeft="true">
 
-            <ImageView
+            <com.softtek.lai.widgets.CircleImageView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="@drawable/lufei"
-                android:id="@+id/imageView4" />
+                android:id="@+id/iv_head" />
         </LinearLayout>
 
         <LinearLayout
             android:orientation="vertical"
             android:gravity="center_vertical"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/ll_left_head"
+            android:layout_marginLeft="5dp">
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
+                android:gravity="center_vertical"
                 android:layout_height="wrap_content">
 
                 <TextView
@@ -36,55 +43,141 @@
                     android:layout_height="wrap_content"
                     android:text="TOM"
                     android:textSize="20dp"
-                    android:id="@+id/textView9" />
+                    android:id="@+id/tv_retest_nick" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:text="13842110629"
-                    android:textSize="20dp"
-                    android:id="@+id/textView30" />
+
             </LinearLayout>
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:gravity="center_vertical"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="15dp"
+                    android:src="@drawable/retestphone" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="13842110629"
+                    android:textSize="22dp"
+                    android:id="@+id/tv_retest_phone" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="一月班"
-                    android:textSize="20dp"
-                    android:id="@+id/textView31" />
+                    android:textSize="18dp"
+                    android:id="@+id/tv_retest_classdate" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="/"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="第"
+                    android:textSize="18dp"
+                     />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="第2周"
-                    android:textSize="20dp"
-                    android:id="@+id/textView32" />
+                    android:text="2"
+                    android:textSize="18dp"
+                    android:id="@+id/tv_retest_classweek" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="周"
+                    android:textSize="18dp"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:text="（"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:id="@+id/iv_month"
+                    android:text="1"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:text="月"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:id="@+id/iv_date"
+                    android:text="9"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:text="-"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:id="@+id/iv_month1"
+                    android:text="1"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:text="月"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:id="@+id/iv_date1"
+                    android:text="15"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:text="）"/>
             </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
             android:gravity="center"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"
             android:layout_height="match_parent">
+
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="录入"
                 android:textSize="20dp"
-                android:id="@+id/textView33" />
+                android:id="@+id/tv_retest_type" />
+            <ImageView
+                android:id="@+id/iv_type_ls"
+                android:layout_width="30dp"
+                android:layout_height="15dp"
+                android:src="@drawable/luru"/>
+
+
         </LinearLayout>
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>

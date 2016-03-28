@@ -18,9 +18,9 @@ android {
     signingConfigs {
         release {
             try {
-                storeFile file("e2e.jks")
+                storeFile file("lai.jks")
                 storePassword properties.getProperty("keystore.pass")
-                keyAlias "e2e"
+                keyAlias "lai"
                 keyPassword properties.getProperty("key.pass")
             }
             catch (ex) {
@@ -59,4 +59,5 @@ dependencies {
     compile project(':widget_lib')
     compile 'com.github.chrisbanes:PullToRefresh:2.1.3'
     compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'homhomlin.lib:ptrrv-library:1.2.0'
 }

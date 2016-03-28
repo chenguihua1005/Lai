@@ -97,6 +97,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
 
     private File file;//存储用户表单数据
     private static final int GET_BODY_DIMENSION=1;
+    private boolean w=true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,7 +131,6 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                 return false;
             }
         });
-//        ll_birth.setOnClickListener(this);
         ll_sex.setOnClickListener(this);
         ll_height.setOnClickListener(this);
         ll_weight.setOnClickListener(this);
@@ -160,13 +160,15 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                 if(ZillaApplication.getInstance().getFilterList().contains(new Filter(nick))){
                     Util.toastMsg("名字已经存在");
                 }else{
+
                     validateLife.validate();
                 }
                 break;
             case R.id.btn_Add_bodydimension:
-                Intent intent=new Intent(this,DimensionRecordActivity.class);
+                Intent intent=new Intent(CreatFlleActivity.this,DimensionRecordActivity.class);
                 intent.putExtra("file",file);
                 startActivityForResult(intent,GET_BODY_DIMENSION);
+                w=false;
                 break;
             case R.id.ll_birth:
                 DatePickerDialog dialog=new DatePickerDialog(
@@ -204,12 +206,15 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         String gender=tv_sex.getText().toString();
         String height=tv_height.getText().toString();
         String weight=tv_weight.getText().toString();
-        Log.i("nick:"+nick+";birthday:"+birthday+";gender:"+gender+";height:"+height+";weight:"+weight);
+        Log.i("创建档案："+"nick:"+nick+";birthday:"+birthday+";gender:"+gender+";height:"+height+";weight:"+weight);
+        if (w==true){file=new File();}
+
         file.setNickname(nick);
         file.setBrithday(birthday);
         file.setGender(gender.equals("女")?0:1);
         file.setHeight(Integer.parseInt(height));
         file.setWeight(Integer.parseInt(weight));
+        Log.i("file>>>>>>>>>>>>>>>>>>>"+file);
         String token= SharedPreferenceService.getInstance().get("token","");
         ICreateFilepresenter.createFile(token,file);
     }
@@ -225,7 +230,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode==RESULT_OK&&requestCode==GET_BODY_DIMENSION){
                 file= (File) data.getSerializableExtra("file");
-                Log.i(file.toString());
+                Log.i("创建档案围度File:"+file);
         }
     }
 
@@ -281,13 +286,13 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
     public void show_weight_dialog()
     {
         final Dialog weight_dialog = new Dialog(CreatFlleActivity.this);
-        weight_dialog.setTitle("选择体重(单位：kg)");
+        weight_dialog.setTitle("选择体重(单位：斤)");
         weight_dialog.setContentView(R.layout.dialog);
         Button b1 = (Button) weight_dialog.findViewById(R.id.button1);
         Button b2 = (Button) weight_dialog.findViewById(R.id.button2);
         final NumberPicker np = (NumberPicker) weight_dialog.findViewById(R.id.numberPicker1);
         np.setMaxValue(220);
-        np.setValue(55);
+        np.setValue(100);
         np.setMinValue(20);
         np.setWrapSelectorWheel(false);
         b1.setOnClickListener(new View.OnClickListener()

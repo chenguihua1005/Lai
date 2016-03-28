@@ -1,14 +1,12 @@
 package com.softtek.lai.module.login.view;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mobsandgeeks.saripaar.Rule;
@@ -17,12 +15,11 @@ import com.mobsandgeeks.saripaar.annotation.Regex;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.module.login.contants.Constants;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.login.presenter.IPasswordPresenter;
 import com.softtek.lai.module.login.presenter.IRegistPresenter;
 import com.softtek.lai.module.login.presenter.PasswordPresnter;
 import com.softtek.lai.module.login.presenter.RegistPresenterImpl;
-import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RegexUtil;
 import com.softtek.lai.utils.SoftInputUtil;
 
@@ -40,11 +37,11 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
     ValidateLife validateLife;
 
     @Required(order=1,messageResId = R.string.phoneValidateNull)
-    @Regex(order = 1,patternResId = R.string.phonePattern,messageResId = R.string.phoneValidate)
+    @Regex(order = 2,patternResId = R.string.phonePattern,messageResId = R.string.phoneValidate)
     @InjectView(R.id.et_phone)
     EditText et_phone;
 
-    @Required(order = 2,messageResId = R.string.identiftValidtae)
+    @Required(order = 3,messageResId = R.string.identiftValidtae)
     @InjectView(R.id.et_identify)
     EditText et_identify;
 
@@ -54,8 +51,11 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
     @InjectView(R.id.btn_next)
     Button btn_next;
 
-    @InjectView(R.id.tv_left)
-    TextView tv_left;
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
+
+    @InjectView(R.id.iv_email)
+    ImageView iv_email;
 
     @InjectView(R.id.tv_title)
     TextView tv_title;
@@ -66,20 +66,14 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
     private IPasswordPresenter passwordPresenter;
     private CountDown countDown;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        tv_get_identify.setOnClickListener(this);
-        tv_left.setOnClickListener(this);
-        btn_next.setOnClickListener(this);
-    }
 
     @Override
     protected void initViews() {
-        tv_left.setBackgroundResource(R.drawable.back);
-        tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
+        tv_get_identify.setOnClickListener(this);
+        ll_left.setOnClickListener(this);
+        btn_next.setOnClickListener(this);
         tv_title.setText("重置密码");
-
+        iv_email.setVisibility(View.GONE);
     }
 
     @Override
@@ -104,7 +98,7 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
                 tv_get_identify.setEnabled(false);
                 registPresenter.getIdentify(phone, Constants.RESET_PASSWORD_IDENTIFY);
                 break;
-            case R.id.tv_left:
+            case R.id.ll_left:
                 finish();
                 break;
             case R.id.btn_next:

@@ -1,8 +1,6 @@
 package com.softtek.lai.module.home.view;
 
 
-import android.support.v4.app.Fragment;
-
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 

@@ -26,6 +26,7 @@
     <string name="title_activity_login">LoginActivity</string>
     <string name="phoneNum">手机号</string>
     <string name="password">密码</string>
+    <string name="passwordReg">密码(字母+数字,6~16位)</string>
     <string name="forgetPsd"><u>忘记密码?</u></string>
 
     <string name="neterror">服务器异常</string>
@@ -34,19 +35,20 @@
     <string name="phoneValidateNull">请输入手机号码</string>
     <string name="passwordValidateNull">请输入密码</string>
     <string name="phoneValidate">请输入正确的手机号码</string>
-    <string name="passwordValidate">请输入至少6位数密码</string>
+    <string name="passwordValidate">密码不符合规则</string>
     <string name="termValidate">必须遵循该条款</string>
     <string name="identiftValidtae">请输入验证码</string>
     <string name="phonePattern">[0-9]{11}</string>
     <string name="identifyValidateMsg">验证码错误</string>
     <string name="identifyAsNull">请获取验证码</string>
     <string name="confirmPassword">两次密码不一致</string>
+    <string name="confirmPasswordNull">请输入确认密码</string>
     <string name="psdResetY">重置成功</string>
     <string name="psdResetN">重置失败</string>
     <string name="home">主页</string>
     <string name="healthy">健康圈</string>
     <string name="contact">通讯录</string>
-    <string name="healthyRecord">健康表</string>
+    <string name="healthyRecord">健康记录</string>
     <string name="mine">我的</string>
     <string name="aa">&lt;2016年6月6日&gt;</string>
     <string name="visitor">游客模式</string>
@@ -268,5 +270,7 @@
     <string name="CounselorBarL">体管赛（顾问版）</string>
     <string name="AuditBarT">复测审核</string>
     <string name="AuditBarR">确认</string>
-    <string name="sendDynamic">发布动态/公告</string>
+    <string name="sendDynamic">发布动态</string>
+    <string name="inviteTutor">邀请助教</string>
+    <string name="inviteStudent">邀请学员</string>
 </resources>

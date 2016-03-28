@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
@@ -15,25 +16,110 @@ import java.util.List;
 /**
  * Created by lareina.qiao on 3/18/2016.
  */
-public class ClassAdapter extends ArrayAdapter<Banji> {
-    private int resourceId;
+public class ClassAdapter extends BaseAdapter {
 
-    public ClassAdapter(Context context,  int textViewResourceId, List<Banji> objects) {
-        super(context, textViewResourceId, objects);
-        resourceId=textViewResourceId;
+    private Context context;
+    private List<Banji> banjiList;
+    private LayoutInflater inflater;
+
+    public ClassAdapter(Context context,List<Banji> banjiList) {
+        this.context=context;
+        inflater=LayoutInflater.from(context);
+        this.banjiList=banjiList;
+    }
+
+
+    public void updateData(List<Banji> banjiList){
+        this.banjiList=banjiList;
+        notifyDataSetChanged();;
     }
 
 
     @Override
+    public int getCount() {
+        return banjiList.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return banjiList.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Banji banji1=getItem(position);
-        View view= LayoutInflater.from(getContext()).inflate(resourceId,null);
-        TextView classname=(TextView)view.findViewById(R.id.tv_classname);
-        TextView classtitle=(TextView)view.findViewById(R.id.tv_title);
-        TextView personum=(TextView)view.findViewById(R.id.tv_personum);
-        classname.setText(banji1.getClassname());
-        classtitle.setText(banji1.getClasstitle());
-        personum.setText(banji1.getPersonum()+"");
-        return view;
+
+        ViewHolder viewHolder=null;
+        if (convertView==null)
+        {
+            convertView=LayoutInflater.from(context).inflate(R.layout.listview_retest_class,parent,false);
+            viewHolder=new ViewHolder(convertView);
+            convertView.setTag(viewHolder);
+        }
+        else {
+            viewHolder=(ViewHolder)convertView.getTag();
+        }
+        Banji banji=banjiList.get(position);
+        viewHolder.StartDate.setText(tomonth((banji.getStartDate().substring(5,7))));
+        viewHolder.ClassName.setText(banji.getClassName());
+        viewHolder.Total.setText(banji.getTotal()+"");
+        return convertView;
+    }
+
+
+    class ViewHolder{
+        TextView StartDate;
+        TextView ClassName;
+        TextView Total;
+        public ViewHolder(View view){
+            StartDate=(TextView)view.findViewById(R.id.tv_classname);
+            ClassName=(TextView)view.findViewById(R.id.tv_title);
+            Total=(TextView)view.findViewById(R.id.tv_personum);
+        }
+    }
+    public String tomonth(String month){
+
+        if (month.equals("01")){
+            month="一月班";
+        }
+        else if (month.equals("02")){
+            month="二月班";
+        }else if (month.equals("03"))
+        {
+            month="三月班";
+        }else if (month.equals("04"))
+        {
+            month="四月班";
+
+        }else if (month.equals("05"))
+        {
+            month="五月班";
+        }else if (month.equals("06"))
+        {
+            month="六月班";
+        }else if (month.equals("07"))
+        {
+            month="七月班";
+        } else if (month.equals("08"))
+        {
+            month="八月班";
+        }else if (month.equals("09"))
+        {
+            month="九月班";
+        }else if (month.equals("10"))
+        {
+            month="十月班";
+        }else if (month.equals("11"))
+        {
+            month="十一月班";
+        }else
+        {
+            month="十二月班";
+        }
+        return month;
     }
 }

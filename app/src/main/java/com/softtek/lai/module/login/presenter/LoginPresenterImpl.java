@@ -6,12 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.File.view.CreatFlleActivity;
-import com.softtek.lai.module.assistant.view.AssistantActivity;
-import com.softtek.lai.module.assistant.view.TestActivity;
-import com.softtek.lai.module.counselor.view.AssistantListActivity;
-import com.softtek.lai.module.counselor.view.CounselorClassListActivity;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.home.view.HomeActviity;
-import com.softtek.lai.module.login.contants.Constants;
 import com.softtek.lai.module.login.model.User;
 import com.softtek.lai.module.login.net.LoginService;
 import com.softtek.lai.utils.ACache;
@@ -33,36 +29,25 @@ public class LoginPresenterImpl implements ILoginPresenter {
 
     private Context context;
     private ACache aCache;
-
-    public LoginPresenterImpl(Context context) {
-        this.context = context;
-        aCache = ACache.get(context, Constants.USER_ACACHE_DATA_DIR);
+    public LoginPresenterImpl(Context context){
+        this.context=context;
+        aCache=ACache.get(context, Constants.USER_ACACHE_DATA_DIR);
     }
 
     @Override
     public void doLogin(String userName, String password) {
-        LoginService service = ZillaApi.NormalRestAdapter.create(LoginService.class);
+        LoginService service= ZillaApi.NormalRestAdapter.create(LoginService.class);
         service.doLogin(userName, password, new Callback<ResponseData<User>>() {
             @Override
             public void success(ResponseData<User> userResponseData, Response response) {
                 System.out.println(userResponseData);
-                List<Header> headers = response.getHeaders();
-                for (Header header : headers) {
-                    System.out.println(header.toString());
-                }
-                int status = userResponseData.getStatus();
-                switch (status) {
+                int status=userResponseData.getStatus();
+                switch (status){
                     case 200:
-                        SharedPreferenceService.getInstance().put("token", userResponseData.getData().getToken());
-                        aCache.put(Constants.USER_ACACHE_KEY, userResponseData.getData());
-                        //context.startActivity(new Intent(context, CreatFlleActivity.class));
-                        context.startActivity(new Intent(context, CounselorClassListActivity.class));
-                        // context.startActivity(new Intent(context, AssistantListActivity.class));
-                        //context.startActivity(new Intent(context, AssistantActivity.class));
-                        //context.startActivity(new Intent(context, TestActivity.class));
-
-
-                        ((AppCompatActivity) context).finish();
+                        SharedPreferenceService.getInstance().put("token",userResponseData.getData().getToken());
+                        aCache.put(Constants.USER_ACACHE_KEY,userResponseData.getData());
+                        context.startActivity(new Intent(context, HomeActviity.class));
+                        ((AppCompatActivity)context).finish();
                         break;
                     default:
                         Util.toastMsg(userResponseData.getMsg());
@@ -77,6 +62,8 @@ public class LoginPresenterImpl implements ILoginPresenter {
             }
         });
     }
+
+
 
 
 }
