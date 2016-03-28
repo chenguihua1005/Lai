@@ -22,6 +22,12 @@ public class Constants {
 
     //用户数据缓存key
     public static final String HOEM_ACACHE_KEY="homeInfo";
+    //活动记录缓存key
+    public static final String HOEM_ACTIVITY_KEY="activityRecord";
+    //产品信息缓存key
+    public static final String HOEM_PRODUCT_KEY="productInfo";
+    //销售信息key
+    public static final String HOEM_SALE_KEY="saleInfo";
 
     /**
      * 用户角色常量
