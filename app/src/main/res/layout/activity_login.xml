@@ -97,8 +97,8 @@
                 android:text="@string/regist"
                 android:gravity="center"
                 android:textSize="22sp"
-                android:background="@drawable/bg_regist_btn"
-                android:textColor="#7DBF30"/>
+                android:background="@drawable/bg_next_btn"
+                android:textColor="#FFFFFd"/>
             
             <TextView
                 android:id="@+id/tv_forgetpsd"
