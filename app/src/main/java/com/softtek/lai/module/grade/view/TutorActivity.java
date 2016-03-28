@@ -52,6 +52,7 @@ public class TutorActivity extends BaseActivity implements PullToRefreshBase.OnR
         iv_email.setVisibility(View.GONE);
         prlv.setOnRefreshListener(this);
         ll_left.setOnClickListener(this);
+        tv_right.setOnClickListener(this);
     }
 
     @Override
@@ -60,36 +61,6 @@ public class TutorActivity extends BaseActivity implements PullToRefreshBase.OnR
         tv_right.setText("邀请助教");
         tv_right.setTextSize(TypedValue.COMPLEX_UNIT_SP,14f);
         grade=new GradeImpl();
-        for(int i=0;i<1;i++){
-            SRInfo info=new SRInfo();
-            info.setIsInvited("1");
-            info.setUserName("张三");
-            info.setMobile("11111111111");
-            info.setNum("22");
-            info.setRtest("100%");
-            SRInfo info1=new SRInfo();
-            info1.setIsInvited("0");
-            info1.setUserName("张三");
-            info1.setMobile("11111111111");
-            info1.setNum("22");
-            info1.setRtest("100%");
-            SRInfo info2=new SRInfo();
-            info2.setIsInvited("1");
-            info2.setUserName("张三");
-            info2.setMobile("11111111111");
-            info2.setNum("22");
-            info2.setRtest("100%");
-            SRInfo info3=new SRInfo();
-            info3.setIsInvited("1");
-            info3.setUserName("张三");
-            info3.setMobile("11111111111");
-            info3.setNum("22");
-            info3.setRtest("100%");
-            infos.add(info);
-            infos.add(info1);
-            infos.add(info2);
-            infos.add(info3);
-        }
         adapter=new TutorAdapter(this,infos);
         prlv.setAdapter(adapter);
         //第一次加载自动刷新
@@ -132,6 +103,8 @@ public class TutorActivity extends BaseActivity implements PullToRefreshBase.OnR
         switch (v.getId()){
             case R.id.ll_left:
                 finish();
+                break;
+            case R.id.tv_right:
                 break;
         }
     }

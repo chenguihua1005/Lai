@@ -60,7 +60,7 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener,B
 
     @Override
     protected void initViews() {
-
+        content.setOffscreenPageLimit(5);
     }
 
     @Override
