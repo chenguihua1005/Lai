@@ -3,6 +3,7 @@ package com.softtek.lai.module.retest.present;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.module.newmemberentry.view.model.Phot;
 import com.softtek.lai.module.retest.eventModel.BanJiEvent;
 import com.softtek.lai.module.retest.eventModel.BanjiStudentEvent;
 import com.softtek.lai.module.retest.eventModel.StudentEvent;
@@ -16,11 +17,13 @@ import com.softtek.lai.module.retest.view.Retest;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.File;
 import java.util.List;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import retrofit.mime.TypedFile;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.util.Util;
@@ -164,6 +167,34 @@ public class RetestclassImp implements RetestPre{
                         break;
                     case 201:
                         Util.toastMsg("复测记录保存失败");
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                error.printStackTrace();
+                Util.toastMsg("服务器异常");
+            }
+        });
+    }
+
+    @Override
+    public void goGetPicture(String filePath) {
+        String token=SharedPreferenceService.getInstance().get("token","");
+        service.goGetPicture(token, new TypedFile("image/png", new File(filePath)), new Callback<ResponseData<Phot>>() {
+            @Override
+            public void success(ResponseData<Phot> photResponseData, Response response) {
+
+                int status=photResponseData.getStatus();
+                switch (status) {
+                    case 200:
+                        Phot phot= (Phot) photResponseData.getData();
+                        EventBus.getDefault().post(phot);
+                        Util.toastMsg("获取成功");
+                        break;
+                    case 500:
+                        Util.toastMsg("上传图片异常");
                         break;
                 }
             }

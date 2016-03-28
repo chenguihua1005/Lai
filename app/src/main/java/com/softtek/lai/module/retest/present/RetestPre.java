@@ -13,4 +13,5 @@ public interface RetestPre {
     void doGetBanjiStudent(long classId);
     void doGetAudit(long accountId, long classId, String typeDate);
     void doGetWrite(long accountId, long loginId, RetestWrite retestWrite);
+    void goGetPicture(String filePath);
 }

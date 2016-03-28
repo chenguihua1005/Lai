@@ -433,12 +433,12 @@
                         android:layout_height="wrap_content"
                         android:text=""
                         android:textSize="22dp"
-                        android:layout_toLeftOf="@+id/textView27"
+                        android:layout_toLeftOf="@+id/im_retestwrite_takephoto"
                         android:id="@+id/textView26" />
 
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:src="@drawable/retest_write_takephoto"
                         android:layout_alignParentRight="true"
                         android:id="@+id/im_retestwrite_takephoto" />
@@ -458,6 +458,7 @@
                 android:gravity="center"
                 android:padding="10dp" >
                 <Button
+                    android:id="@+id/btn_retest_write_addbody"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="添加身体围度"

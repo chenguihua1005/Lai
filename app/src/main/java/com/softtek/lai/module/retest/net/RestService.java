@@ -1,6 +1,7 @@
 package com.softtek.lai.module.retest.net;
 
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.module.newmemberentry.view.model.Phot;
 import com.softtek.lai.module.retest.Write;
 import com.softtek.lai.module.retest.model.Banji;
 import com.softtek.lai.module.retest.model.BanjiStudent;
@@ -16,7 +17,9 @@ import retrofit.http.Field;
 import retrofit.http.GET;
 import retrofit.http.Header;
 import retrofit.http.POST;
+import retrofit.http.Part;
 import retrofit.http.Query;
+import retrofit.mime.TypedFile;
 
 /**
  * Created by lareina.qiao on 3/21/2016.
@@ -53,6 +56,12 @@ public interface RestService {
             @Query("loginId") long loginId,
             @Body RetestWrite retestWrite,
             Callback<ResponseData<List<RetestWrite>>>callback
+    );
+    @GET("/MeasuredRecordLog/AddMeasuredPhoto")
+    void goGetPicture(
+            @Header("token") String token,
+            @Part("photo") TypedFile photo,
+            Callback<ResponseData<Phot>> callback
     );
 
 }

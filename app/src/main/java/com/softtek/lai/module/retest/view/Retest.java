@@ -95,6 +95,7 @@ public class Retest extends BaseActivity implements View.OnClickListener{
                 list_class.setVisibility(View.INVISIBLE);
                 Iv_fold.setImageResource(R.drawable.unfold);
                 h=false;
+
             }
         });
         list_query.setOnItemClickListener(new AdapterView.OnItemClickListener() {

@@ -18,6 +18,8 @@ import com.softtek.lai.module.grade.view.GradeHomeActivity;
 import com.softtek.lai.module.grade.view.StudentsActivity;
 import com.softtek.lai.module.jingdu.view.JingduActivity;
 import com.softtek.lai.module.newmemberentry.view.EntryActivity;
+import com.softtek.lai.module.retest.Audit;
+import com.softtek.lai.module.retest.Write;
 import com.softtek.lai.module.retest.view.Retest;
 import com.squareup.picasso.Picasso;
 
@@ -180,11 +182,15 @@ public class Counselor extends BaseActivity implements View.OnClickListener{
             break;
             case R.id.btn_tip:
             {
+                Intent intent=new Intent(Counselor.this,Write.class);
+                startActivity(intent);
                 Util.toastMsg("提示页面");
             }
             break;
             case R.id.btn_assistant:
             {
+                Intent intent=new Intent(Counselor.this,Audit.class);
+                startActivity(intent);
                 Util.toastMsg("助教管理页面");
             }
             break;
