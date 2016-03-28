@@ -8,6 +8,8 @@
     <dimen name="fab_margin">16dp</dimen>
 
     <!-- 顾问版-->
+    <dimen name="circleImage">100dip</dimen>
+
     <dimen name="counselorClassTextSize">20sp</dimen>
     <dimen name="counselorClassTextMargin">20dip</dimen>
     <dimen name="counselorClassLinMarginTop">10dip</dimen>

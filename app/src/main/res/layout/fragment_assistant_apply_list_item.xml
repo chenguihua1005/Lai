@@ -10,10 +10,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <ImageView
+        <com.softtek.lai.widgets.CircleImageView
             android:id="@+id/img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/circleImage"
+            android:layout_height="@dimen/circleImage"
             android:layout_margin="@dimen/fragmentAssistantApplyMargin"
             android:src="@drawable/img_default" />
 
@@ -21,11 +21,11 @@
             android:id="@+id/text_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="已通过"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_margin="@dimen/fragmentAssistantApplyMargin"
-            android:visibility="gone"/>
+            android:text="已通过"
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/lin_buttons"

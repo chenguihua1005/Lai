@@ -10,10 +10,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <ImageView
+        <com.softtek.lai.widgets.CircleImageView
             android:id="@+id/img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/circleImage"
+            android:layout_height="@dimen/circleImage"
             android:layout_margin="@dimen/assistantMargin"
             android:src="@drawable/img_default" />
 
