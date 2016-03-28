@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -35,13 +36,10 @@ public class StudentsActivity extends BaseActivity implements BaseFragment.OnFra
     TextView tv_title;
     @InjectView(R.id.tv_right)
     TextView tv_right;
-    @InjectView(R.id.iv_email)
-    ImageView iv_email;
 
     private List<Fragment> fragments=new ArrayList<>();
     @Override
     protected void initViews() {
-        iv_email.setVisibility(View.GONE);
         LossWeightFragment lwf1=new LossWeightFragment();
         lwf1.setFlagType(Integer.parseInt(Constants.LOSS_WEIGHT));
         LossWeightFragment lwf2=new LossWeightFragment();
@@ -66,6 +64,7 @@ public class StudentsActivity extends BaseActivity implements BaseFragment.OnFra
     protected void initDatas() {
         tv_title.setText("学员列表");
         tv_right.setText("邀请学员");
+        tv_right.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
 
     }
 

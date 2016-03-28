@@ -91,6 +91,6 @@ public class LossWeightFragment extends BaseFragment implements PullToRefreshBas
 
     @Override
     public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-        grade.getStudentList(String.valueOf(flagType),"1",ptrlv);
+        grade.getStudentList(String.valueOf(flagType),"4",ptrlv);
     }
 }
