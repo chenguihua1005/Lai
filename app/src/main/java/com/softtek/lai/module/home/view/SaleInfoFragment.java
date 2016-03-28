@@ -47,6 +47,7 @@ public class SaleInfoFragment extends BaseFragment implements PullToRefreshRecyc
     //下次加载插入的列表位置
     private int index=0;
     private ACache aCache;
+    private RecyclerViewAdapter adapter;
 
     @Override
     protected void initViews() {
@@ -83,9 +84,10 @@ public class SaleInfoFragment extends BaseFragment implements PullToRefreshRecyc
             }
             infos.addAll(caches);
         }
-        ptrrv.setAdapter(new RecyclerViewAdapter(getContext(),infos));
-        ptrrv.onFinishLoading(true, false);
-        homeInfoPresenter.getContentByPage(0, ++page, 6);
+        adapter=new RecyclerViewAdapter(getContext(),infos);
+        ptrrv.setAdapter(adapter);
+        ptrrv.onFinishLoading(true, true);
+        homeInfoPresenter.getContentByPage(0, ++page, Constants.SALE_INFO);
     }
 
 
@@ -106,32 +108,42 @@ public class SaleInfoFragment extends BaseFragment implements PullToRefreshRecyc
         if(sale.flag==0){
             infos.clear();
             infos.addAll(sale.sales);
+            System.out.println("这次是更新，目前数据有"+infos.size()+"条");
         }else {
-            infos.addAll(sale.sales);
+            //插入上次数据的末尾
+            infos.addAll(index,sale.sales);
+            System.out.println("这次是添加插入，目前数据有"+infos.size()+"条");
         }
         index=index+sale.sales.size();
         if(infos.size()<10){
-            for(int i=0;i<10-infos.size();i++){
-                infos.add(new HomeInfo());
+            int size=10-infos.size();
+            System.out.println("数据小于10条需要添加"+size+"条");
+            HomeInfo info=new HomeInfo();
+            for(int i=0;i<size;i++){
+                infos.add(info);
+                System.out.println("添加了第"+(i+1)+"条");
             }
         }
-        ptrrv.getRecyclerView().getAdapter().notifyDataSetChanged();
+        System.out.println("当前数据大小....."+infos.size());
+        adapter.notifyDataSetChanged();
         aCache.put(Constants.HOEM_SALE_KEY, new Gson().toJson(new HomeInfoCache(infos)));
     }
 
     @Override
     public void onLoadMoreItems() {
         System.out.println("加载啦....");
-        homeInfoPresenter.getContentByPage(1, page, 6);
+        homeInfoPresenter.getContentByPage(1, page, Constants.SALE_INFO);
     }
 
     @Subscribe
     public void onRefreshEnd(RefreshEvent event){
         System.out.print("加载结束了");
-        if(event.result){
-            page++;
+        if(event.flag==Constants.SALE_INFO){
+            if(event.result) {
+                page++;
+            }
+            ptrrv.onFinishLoading(true,true);
         }
-        ptrrv.onFinishLoading(true, true);
     }
 
 

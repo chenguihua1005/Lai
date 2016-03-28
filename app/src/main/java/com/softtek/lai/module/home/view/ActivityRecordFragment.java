@@ -46,9 +46,11 @@ public class ActivityRecordFragment extends BaseFragment implements PullToRefres
     private int index=0;
 
     private ACache aCache;
+    private RecyclerViewAdapter adapter;
 
     @Override
     protected void initViews() {
+        EventBus.getDefault().register(this);
         ptrrv.setSwipeEnable(false);
         DemoLoadMoreView loadMoreView=new DemoLoadMoreView(getContext(),ptrrv.getRecyclerView());
         loadMoreView.setLoadmoreString("正在加载...");
@@ -82,22 +84,18 @@ public class ActivityRecordFragment extends BaseFragment implements PullToRefres
             }
             infos.addAll(caches);
         }
-        ptrrv.setAdapter(new RecyclerViewAdapter(getContext(),infos));
-        ptrrv.onFinishLoading(true, false);
-        homeInfoPresenter.getContentByPage(0, ++page, 1);
+
+        adapter=new RecyclerViewAdapter(getContext(),infos);
+        ptrrv.setAdapter(adapter);
+        ptrrv.onFinishLoading(true, true);
+        homeInfoPresenter.getContentByPage(0, ++page, Constants.ACTIVITY_RECORD);
     }
 
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    public void onDestroy() {
+    public void onDestroyView() {
         EventBus.getDefault().unregister(this);
-        super.onDestroy();
+        super.onDestroyView();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -105,34 +103,43 @@ public class ActivityRecordFragment extends BaseFragment implements PullToRefres
         if(activity.flag==0){
             infos.clear();
             infos.addAll(activity.activitys);
+            System.out.println("这次是更新，目前数据有"+infos.size()+"条");
         }else {
             //插入上次数据的末尾
             infos.addAll(index,activity.activitys);
+            System.out.println("这次是添加插入，目前数据有"+infos.size()+"条");
         }
         index=index+activity.activitys.size();
         if(infos.size()<10){
-            for(int i=0;i<10-infos.size();i++){
-                infos.add(new HomeInfo());
+            int size=10-infos.size();
+            System.out.println("数据小于10条需要添加"+size+"条");
+            HomeInfo info=new HomeInfo();
+            for(int i=0;i<size;i++){
+                infos.add(info);
+                System.out.println("添加了第"+(i+1)+"条");
             }
         }
-
-        ptrrv.getRecyclerView().getAdapter().notifyDataSetChanged();
+        System.out.println("当前数据大小....."+infos.size());
+        adapter.notifyDataSetChanged();
         aCache.put(Constants.HOEM_ACTIVITY_KEY,new Gson().toJson(new HomeInfoCache(infos)));
     }
 
     @Override
     public void onLoadMoreItems() {
         System.out.println("加载啦....");
-        homeInfoPresenter.getContentByPage(1, page, 1);
+        homeInfoPresenter.getContentByPage(1, page, Constants.ACTIVITY_RECORD);
+
     }
 
     @Subscribe
     public void onRefreshEnd(RefreshEvent event){
         System.out.print("加载结束了");
-        if(event.result){
-            page++;
+        if(event.flag==Constants.ACTIVITY_RECORD){
+            if(event.result) {
+                page++;
+            }
+            ptrrv.onFinishLoading(true,true);
         }
-        ptrrv.onFinishLoading(true,true);
     }
 
 

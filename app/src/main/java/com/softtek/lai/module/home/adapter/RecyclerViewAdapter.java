@@ -39,7 +39,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         //绑定数据
         HomeInfo info=infos.get(position);
         Picasso.with(mContext).load(info.getImg_Addr()).error(R.drawable.froyo).into(holder.iv_image);
-        holder.tv_title.setText(info.getImg_Title());
+        holder.tv_title.setText("item"+position);
 
     }
 
