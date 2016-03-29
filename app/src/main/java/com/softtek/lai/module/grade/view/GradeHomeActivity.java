@@ -1,10 +1,15 @@
 package com.softtek.lai.module.grade.view;
 
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -22,6 +27,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.grade.adapter.DynamicAdapter;
+import com.softtek.lai.module.grade.model.BannerUpdateCallBack;
 import com.softtek.lai.module.grade.model.DynamicInfo;
 import com.softtek.lai.module.grade.model.Grade;
 import com.softtek.lai.module.grade.model.GradeInfo;
@@ -36,15 +42,24 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import zilla.libcore.file.FileHelper;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_grade_home)
 public class GradeHomeActivity extends BaseActivity implements View.OnClickListener,DialogInterface.OnClickListener
-, TextWatcher{
+, TextWatcher,BannerUpdateCallBack{
+
+    private static final int GET_IMAGE_VIA_CAMERA=1;//相机
+    private static final int GET_IMAGE_VIA_PICTURE=2;//图库
+    private static final String localTempImgDir="laiImage";//相机拍照临时存储目录
+    private static final String localTempImgFileName="GradeHomeActivityBanner.png";
+
 
     @InjectView(R.id.tv_title)
     TextView tv_title;
@@ -94,14 +109,15 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
 
     private EditText et_content;
     private TextView tv_dialog_title;
+    private ImageView camera,picture;
 
     private View view;
     List<DynamicInfo> dynamicInfos=new ArrayList<>();
 
     private IGrade grade;
-
+    private DynamicAdapter adapter;
     private ProgressDialog progressDialog;
-
+    private AlertDialog dialog;
     private int count=0;
 
     @Override
@@ -122,23 +138,30 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void initDatas() {
         tv_title.setText("班级主页");
-
-        grade=new GradeImpl();
+        grade=new GradeImpl(this);
         progressDialog.show();
         grade.getGradeInfos(1, progressDialog);
-        lv_dynamic.setAdapter(new DynamicAdapter(this, dynamicInfos));
+        adapter=new DynamicAdapter(this, dynamicInfos);
+        lv_dynamic.setAdapter(adapter);
 
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.left:
+            case R.id.ll_left:
                 finish();
                 break;
             case R.id.tv_editor:
                 //点击编辑按钮
-
+                AlertDialog.Builder builder=new AlertDialog.Builder(this);
+                View view1=getLayoutInflater().inflate(R.layout.camera_or_picture,null);
+                camera= (ImageView) view1.findViewById(R.id.camera);
+                picture= (ImageView) view1.findViewById(R.id.picture);
+                camera.setOnClickListener(this);
+                picture.setOnClickListener(this);
+                builder.setTitle("请选择").setView(view1).create();
+                dialog=builder.show();
                 break;
             case R.id.ll_pc:
                 //点击学员条
@@ -167,6 +190,33 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
                         .setNegativeButton("取消", this);
                 alert.create().show();
                 break;
+            case R.id.camera:
+                //选择相机
+                //先验证手机是否有sdcard
+                String status= Environment.getExternalStorageState();
+                if(status.equals(Environment.MEDIA_MOUNTED)){
+                    try {
+                        File dir=new File(Environment.getExternalStorageDirectory() + File.separator+localTempImgDir);
+                        if(!dir.exists())dir.mkdirs();
+                        Intent intent=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        File f=new File(dir, localTempImgFileName);
+                        Uri u=Uri.fromFile(f);
+                        intent.putExtra(MediaStore.Images.Media.ORIENTATION, 0);
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, u);
+                        startActivityForResult(intent, GET_IMAGE_VIA_CAMERA);
+                    } catch (ActivityNotFoundException e) {
+                        Util.toastMsg("没有找到存储目录");
+                    }
+                }else{
+                    Util.toastMsg("没有存储卡");
+                }
+                if(dialog!=null){
+                    dialog.dismiss();
+                }
+                break;
+            case R.id.picture:
+                //选择图片
+                break;
         }
     }
 
@@ -189,16 +239,12 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
         List<People> srs=grade.getSRInfo();
         tv_pc_num.setText(pcs.size()+"人");
         tv_sr_num.setText(srs.size()+"人");
-        dynamicInfos=grade.getDynamicInfo();
 
         //更新班级动态
-        if(lv_dynamic.getAdapter()==null){
-            lv_dynamic.setAdapter(new DynamicAdapter(this,dynamicInfos));
-        }else{
-            dynamicInfos.clear();
-            dynamicInfos.addAll(grade.getDynamicInfo());
-            ((DynamicAdapter)lv_dynamic.getAdapter()).notifyDataSetChanged();
-        }
+        dynamicInfos.clear();
+        dynamicInfos.addAll(grade.getDynamicInfo());
+        adapter.notifyDataSetChanged();
+
         for(int i=0;i<pcs.size();i++){
             People pc=pcs.get(i);
             switch (i){
@@ -228,6 +274,14 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
             }
         }
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onListViewUpdate(DynamicInfo info){
+        System.out.println("listView列表更新请求"+info.toString());
+        dynamicInfos.add(info);
+        System.out.println("listView列表更新请求集合"+dynamicInfos);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -262,7 +316,6 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        Log.e("文字改变了....."+s.length());
         int surplus=((100-s.length())<0)?0:100-s.length();
         et_content.setSelection(s.length());
         tv_dialog_title.setText("请输入100字以内的文字("+surplus+")");
@@ -274,5 +327,44 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
         if(count>100){
             s.delete(100,et_content.getSelectionEnd());
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_OK){
+            switch (requestCode){
+                case GET_IMAGE_VIA_CAMERA:
+                    //从指定目录获取图片原图
+                    String imagePath=Environment.getExternalStorageDirectory() + File.separator+localTempImgDir+
+                            File.separator+localTempImgFileName;
+                    File image=new File(imagePath);
+                    Log.i("文件存在吗？"+image.exists());
+                    if(image.exists()){
+                        progressDialog.setMessage("正在上传图片,请稍候...");
+                        progressDialog.show();
+                        grade.updateClassBanner(1,"2",image);
+                    }
+                    break;
+                case GET_IMAGE_VIA_PICTURE:
+                    break;
+            }
+        }
+    }
+
+    @Override
+    public void onSuccess(String bannerUrl, File image) {
+        progressDialog.dismiss();
+        Picasso.with(this).load(image).into(iv_grade_banner);
+    }
+
+    @Override
+    public void onFailed() {
+        progressDialog.dismiss();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
     }
 }
