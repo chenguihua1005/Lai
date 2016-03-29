@@ -13,10 +13,12 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.assistant.adapter.AssistantApplyAdapter;
 import com.softtek.lai.module.assistant.adapter.AssistantClassAdapter;
 import com.softtek.lai.module.assistant.adapter.AssistantClassListAdapter;
+import com.softtek.lai.module.assistant.adapter.InviteStudentAdapter;
 import com.softtek.lai.module.assistant.model.AssistantApplyInfo;
 import com.softtek.lai.module.assistant.model.AssistantClassInfo;
 import com.softtek.lai.module.assistant.model.AssistantDetailInfo;
 import com.softtek.lai.module.assistant.model.AssistantInfo;
+import com.softtek.lai.module.assistant.model.InviteStudentInfo;
 import com.softtek.lai.module.assistant.net.AssistantManageService;
 import com.softtek.lai.module.counselor.adapter.AssistantAdapter;
 import com.softtek.lai.module.counselor.model.Assistant;
@@ -71,6 +73,59 @@ public class AssistantManageImpl implements IAssistantManagePresenter {
             @Override
             public void failure(RetrofitError error) {
                 Util.toastMsg("获取助教申请列表失败");
+            }
+        });
+    }
+
+    @Override
+    public void sendInviterMsg(String inviters, String classId, final ImageView img_invite) {
+        String token = SharedPreferenceService.getInstance().get("token", "");
+        assistantManageService.sendInviterMsg(token, inviters, classId, new Callback<ResponseData>() {
+            @Override
+            public void success(ResponseData listResponseData, Response response) {
+                Log.e("jarvis", listResponseData.toString());
+                int status = listResponseData.getStatus();
+                switch (status) {
+                    case 200:
+                        img_invite.setImageDrawable(context.getResources().getDrawable(R.drawable.img_invited));
+                        Util.toastMsg("邀请成功");
+                        break;
+                    default:
+                        Util.toastMsg(listResponseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Util.toastMsg("邀请失败");
+            }
+        });
+    }
+
+    @Override
+    public void getNotInvitePC(String classid, String spaccid, final ListView list_student) {
+        String token = SharedPreferenceService.getInstance().get("token", "");
+        assistantManageService.getNotInvitePC(token, classid, spaccid, new Callback<ResponseData<List<InviteStudentInfo>>>() {
+            @Override
+            public void success(ResponseData<List<InviteStudentInfo>> listResponseData, Response response) {
+                Log.e("jarvis", listResponseData.toString());
+                int status = listResponseData.getStatus();
+                List<InviteStudentInfo> list = listResponseData.getData();
+                switch (status) {
+                    case 200:
+                        InviteStudentAdapter adapter = new InviteStudentAdapter(context, list);
+                        list_student.setAdapter(adapter);
+                        break;
+                    default:
+                        Util.toastMsg(listResponseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Util.toastMsg("获取学员列表失败");
             }
         });
     }

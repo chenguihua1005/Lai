@@ -71,7 +71,8 @@
         <activity android:name=".module.counselor.view.AssistantListActivity"/>
         <activity android:name=".module.assistant.view.AssistantActivity"/>
         <activity android:name=".module.assistant.view.AssistantDetailActivity"/>
-        <activity android:name=".module.assistant.view.TestActivity"/>
+        <activity android:name=".module.assistant.view.InviteStudentActivity"/>
+        <activity android:name=".module.assistant.view.InviteContantActivity"/>
 
     </application>
 
