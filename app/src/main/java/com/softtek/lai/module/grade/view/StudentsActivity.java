@@ -56,7 +56,7 @@ public class StudentsActivity extends BaseActivity implements BaseFragment.OnFra
         tabcontent.setAdapter(new TabContentAdapter(getSupportFragmentManager(),fragments));
         tabLayout.setupWithViewPager(tabcontent);
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
-        
+
         ll_left.setOnClickListener(this);
         tv_right.setOnClickListener(this);
     }

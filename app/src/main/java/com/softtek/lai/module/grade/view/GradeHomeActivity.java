@@ -1,17 +1,26 @@
 package com.softtek.lai.module.grade.view;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.grade.adapter.DynamicAdapter;
 import com.softtek.lai.module.grade.model.DynamicInfo;
 import com.softtek.lai.module.grade.model.Grade;
@@ -34,7 +43,8 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_grade_home)
-public class GradeHomeActivity extends BaseActivity implements View.OnClickListener{
+public class GradeHomeActivity extends BaseActivity implements View.OnClickListener,DialogInterface.OnClickListener
+, TextWatcher{
 
     @InjectView(R.id.tv_title)
     TextView tv_title;
@@ -82,13 +92,17 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
     @InjectView(R.id.lv_dynamic)
     ListView lv_dynamic;
 
-    private AlertDialog alertDialog;
+    private EditText et_content;
+    private TextView tv_dialog_title;
+
+    private View view;
     List<DynamicInfo> dynamicInfos=new ArrayList<>();
 
     private IGrade grade;
 
     private ProgressDialog progressDialog;
 
+    private int count=0;
 
     @Override
     protected void initViews() {
@@ -101,7 +115,6 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
         ll_send_dynamic.setOnClickListener(this);
         progressDialog=new ProgressDialog(this);
         progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.setMessage(getResources().getString(zilla.libcore.R.string.dialog_loading));
         progressDialog.setMessage("正在加载内容...");
 
     }
@@ -113,12 +126,6 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
         grade=new GradeImpl();
         progressDialog.show();
         grade.getGradeInfos(1, progressDialog);
-        for(int i=0;i<10;i++){
-            DynamicInfo info=new DynamicInfo();
-            info.setCreateDate("2016年2月20日");
-            info.setDyContent("你好我是管国祥 我今天加入了这个班级的哈哈哈哈");
-            dynamicInfos.add(info);
-        }
         lv_dynamic.setAdapter(new DynamicAdapter(this, dynamicInfos));
 
     }
@@ -131,6 +138,7 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.tv_editor:
                 //点击编辑按钮
+
                 break;
             case R.id.ll_pc:
                 //点击学员条
@@ -150,8 +158,14 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
                 /*
                 发布班级动态：打开dialog用户编辑输入
                  */
-
-                //grade.sendDynamic(1, "dsadas", dynamicContent, Constants.SP_SEND, 1);
+                view=getLayoutInflater().inflate(R.layout.activity_input_dynamic_alert,null);
+                et_content= (EditText) view.findViewById(R.id.et_content);
+                tv_dialog_title= (TextView) view.findViewById(R.id.tv__dialog_title);
+                et_content.addTextChangedListener(this);
+                AlertDialog.Builder alert=new AlertDialog.Builder(this).setView(view)
+                        .setPositiveButton("确认", this)
+                        .setNegativeButton("取消", this);
+                alert.create().show();
                 break;
         }
     }
@@ -176,6 +190,7 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
         tv_pc_num.setText(pcs.size()+"人");
         tv_sr_num.setText(srs.size()+"人");
         dynamicInfos=grade.getDynamicInfo();
+
         //更新班级动态
         if(lv_dynamic.getAdapter()==null){
             lv_dynamic.setAdapter(new DynamicAdapter(this,dynamicInfos));
@@ -228,4 +243,36 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
         super.onDestroy();
     }
 
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        dialog.dismiss();
+        if(which==DialogInterface.BUTTON_POSITIVE){
+            String content=et_content.getText().toString();
+            if("".equals(content.trim())){
+                return;
+            }
+            grade.sendDynamic(1, "dsadas", content, Constants.SP_SEND, 1);
+        }
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        Log.e("文字改变了....."+s.length());
+        int surplus=((100-s.length())<0)?0:100-s.length();
+        et_content.setSelection(s.length());
+        tv_dialog_title.setText("请输入100字以内的文字("+surplus+")");
+        this.count=s.length();
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        if(count>100){
+            s.delete(100,et_content.getSelectionEnd());
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package com.softtek.lai.module.login.view;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -54,6 +55,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @InjectView(R.id.ll_visitor)
     LinearLayout ll_visitor;
 
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +68,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     protected void initViews() {
-
+        progressDialog=new ProgressDialog(this);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setMessage("登录中，请稍候...");
     }
 
     @Override
@@ -105,7 +109,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
         String phone=et_phone.getText().toString();
         String password=et_password.getText().toString();
-        loginPresenter.doLogin(phone,password);
+        progressDialog.show();
+        loginPresenter.doLogin(phone,password,progressDialog);
     }
 
     @Override
