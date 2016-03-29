@@ -6,4 +6,5 @@ package com.softtek.lai.module.bodygame.presenter;
 public interface ITiGuanSai {
 
     void getTiGuanSai();
+    void doGetFuceNum(long id);
 }
