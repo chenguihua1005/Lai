@@ -63,14 +63,17 @@
         <activity android:name=".module.studetail.view.StudentDetailActivity" />
         <activity android:name=".module.retest.view.QueryActivity" />
         <activity android:name=".module.bodygamest.view.Student" />
-        <activity android:name=".module.jingdu.view.JingduActivity" />
-        <activity android:name=".module.grade.view.TutorActivity" />
-        <activity android:name=".module.counselor.view.CounselorClassListActivity" />
-        <activity android:name=".module.counselor.view.CreateCounselorClassActivity" />
-        <activity android:name=".module.counselor.view.AssistantListActivity" />
-        <activity android:name=".module.assistant.view.AssistantActivity" />
-        <activity android:name=".module.assistant.view.AssistantDetailActivity" />
-        <activity android:name=".module.assistant.view.TestActivity" />
+
+        <activity android:name=".module.jingdu.view.JingduActivity"></activity>
+        <activity android:name=".module.grade.view.TutorActivity"></activity>
+        <activity android:name=".module.counselor.view.CounselorClassListActivity"/>
+        <activity android:name=".module.counselor.view.CreateCounselorClassActivity"/>
+        <activity android:name=".module.counselor.view.AssistantListActivity"/>
+        <activity android:name=".module.assistant.view.AssistantActivity"/>
+        <activity android:name=".module.assistant.view.AssistantDetailActivity"/>
+        <activity android:name=".module.assistant.view.InviteStudentActivity"/>
+        <activity android:name=".module.assistant.view.InviteContantActivity"/>
+
 
     </application>
 

@@ -68,6 +68,7 @@
     <string name="customerServiceCount">服务顾客数:</string>
     <string name="retestValue">顾客复测率:</string>
     <string name="totalValue">服务顾客减重总斤数:</string>
+    <string name="contactList">手机通讯录邀请</string>
 
     <string-array name="SensitiveWord">
         <item>康宝来</item>

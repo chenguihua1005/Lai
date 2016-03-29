@@ -39,4 +39,10 @@
     <dimen name="assistantdetailNameTextSize">20sp</dimen>
     <dimen name="assistantdetailPhoneTextSize">18sp</dimen>
 
+    <dimen name="inviteStudentMargin">20dip</dimen>
+    <dimen name="inviteStudentMargins">10dip</dimen>
+    <dimen name="inviteStudentTextSize">20sp</dimen>
+    <dimen name="inviteStudentNameTextSize">16sp</dimen>
+    <dimen name="inviteStudentMarginLeft">5dip</dimen>
+
 </resources>

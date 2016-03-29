@@ -25,5 +25,11 @@ public interface IAssistantManagePresenter {
     //助教详情
     void showAssistantDetails(String assistantId,String classId);
 
+    //Sp邀请学员参赛学员列表
+    void getNotInvitePC(String classid,String spaccid,ListView list_student);
+
+    //Sp邀请学员参赛学员列表
+    void sendInviterMsg(String inviters,String classId,ImageView img_invite);
+
 
 }
