@@ -44,23 +44,23 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
     @LifeCircleInject
     ValidateLife validateLife;
 
-    @Required(order = 1,message = "昵称必填项")
+    @Required(order = 1,message = "请输入昵称")
     @InjectView(R.id.et_nickname)
     EditText et_nickname;
 
-    @Required(order = 2,message = "生日必填项")
+    @Required(order = 2,message = "请选择生日")
     @InjectView(R.id.tv_birth)
     EditText tv_birth;
 
-    @Required(order = 3,message = "性别必填项")
+    @Required(order = 3,message = "请选择性别")
     @InjectView(R.id.tv_sex)
     TextView tv_sex;
 
-    @Required(order = 4,message = "身高必填项")
+    @Required(order = 4,message = "请选择身高")
     @InjectView(R.id.tv_height)
     TextView tv_height;
 
-    @Required(order = 5,message = "体重必填项")
+    @Required(order = 5,message = "请选择体重")
     @InjectView(R.id.tv_weight)
     TextView tv_weight;
 
@@ -158,7 +158,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
             case R.id.btn_finish:
                 String nick=et_nickname.getText().toString();
                 if(ZillaApplication.getInstance().getFilterList().contains(new Filter(nick))){
-                    Util.toastMsg("名字已经存在");
+                    Util.toastMsg("该昵称不合法");
                 }else{
 
                     validateLife.validate();
