@@ -41,15 +41,13 @@ public class TutorActivity extends BaseActivity implements PullToRefreshBase.OnR
     TextView tv_right;
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
-    @InjectView(R.id.iv_email)
-    ImageView iv_email;
+
 
     private IGrade grade;
     private TutorAdapter adapter;
     List<SRInfo> infos=new ArrayList<>();
     @Override
     protected void initViews() {
-        iv_email.setVisibility(View.GONE);
         prlv.setOnRefreshListener(this);
         ll_left.setOnClickListener(this);
         tv_right.setOnClickListener(this);

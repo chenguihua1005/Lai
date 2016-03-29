@@ -18,10 +18,18 @@ import java.util.List;
 public class RankAdapter extends ArrayAdapter<Rank>{
 
     private int resourceId;
+    private List<Rank> rankList;
 
-    public RankAdapter(Context context, int textViewResourceId, List<Rank> objects) {
-        super(context, textViewResourceId, objects);
+
+    public RankAdapter(Context context, int textViewResourceId, List<Rank> rankList) {
+        super(context, textViewResourceId, rankList);
         resourceId=textViewResourceId;
+        this.rankList=rankList;
+    }
+
+    public void updateData(List<Rank> rankList){
+        this.rankList=rankList;
+        notifyDataSetChanged();;
     }
 
     @Override
@@ -33,11 +41,11 @@ public class RankAdapter extends ArrayAdapter<Rank>{
         TextView LossAfter=(TextView) view.findViewById(R.id.tv_LossAfter);
         TextView LossBefore=(TextView) view.findViewById(R.id.tv_LossBefore);
         TextView LossWeight=(TextView) view.findViewById(R.id.tv_LossWeight);
-        ran.setText(rank.getRan());
-        name.setText(rank.getName());
+        ran.setText(rank.getOrderNum()+"");
+        name.setText(rank.getUserName());
         LossAfter.setText(rank.getLossAfter()+"");
-        LossBefore.setText(rank.getLossBefore()+"");
-        LossWeight.setText(rank.getLossWeight()+"");
+        LossBefore.setText(rank.getLossBefor()+"");
+        LossWeight.setText(rank.getLossAfter()+"");
         return view;
     }
 }

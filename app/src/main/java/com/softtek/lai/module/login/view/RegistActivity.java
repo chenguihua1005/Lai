@@ -35,7 +35,7 @@ import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_regist)
-public class RegistActivity extends BaseActivity implements View.OnClickListener,Validator.ValidationListener{
+public class RegistActivity extends BaseActivity implements View.OnClickListener,Validator.ValidationListener,RegistPresenterImpl.IdentifyCallBack{
 
     private IRegistPresenter registPresenter;
     private MyCountDown countDown;
@@ -50,7 +50,6 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
 
     @Password(order = 3,messageResId = R.string.passwordValidateNull)
     @Regex(order = 4,pattern = "(?![^a-zA-Z]+$)(?!\\D+$).{6,16}",messageResId = R.string.passwordValidate)
-    //@TextRule(order = 4,minLength = 6,maxLength = 16,messageResId = R.string.passwordValidate)
     @InjectView(R.id.et_password)
     EditText et_password;
 
@@ -81,8 +80,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
-    @InjectView(R.id.iv_email)
-    ImageView iv_email;
+
 
 
     @Override
@@ -107,12 +105,11 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void initViews() {
         tv_title.setText("注册");
-        iv_email.setVisibility(View.GONE);
     }
 
     @Override
     protected void initDatas() {
-        registPresenter=new RegistPresenterImpl(this);
+        registPresenter=new RegistPresenterImpl(this,this);
     }
 
     @Override
@@ -120,8 +117,8 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
         switch (v.getId()){
             case R.id.tv_get_identify:
                 String phone=et_phone.getText().toString();
-                if("".equals(phone)||!RegexUtil.match("[0-9]{11}",phone)){
-                    et_phone.setError(Html.fromHtml("<font color=#FFFFFF>" + getString(R.string.phoneValidate) + "</font>"));
+                boolean validate=registPresenter.validateGetIdentify(et_phone,et_password,et_repassword);
+                if(!validate){
                     return;
                 }
                 countDown=new MyCountDown(60000,1000);
@@ -142,9 +139,20 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        if(countDown!=null){
+            countDown.onFinish();
+
+        }
+    }
+
+    @Override
     protected void onStop() {
+
         if(countDown!=null){
             countDown.cancel();
+
         }
         super.onStop();
     }
@@ -154,8 +162,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
     public void onValidationSucceeded() {
         String phoneNum=et_phone.getText().toString();
         String password=et_password.getText().toString();
-        String identify=et_identify.getText().toString();
-        registPresenter.doRegist(phoneNum,password,identify);
+        registPresenter.doRegist(phoneNum,password,et_identify);
 
     }
 
@@ -163,6 +170,16 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
     public void onValidationFailed(View failedView, Rule<?> failedRule) {
 
         validateLife.onValidationFailed(failedView,failedRule);
+    }
+
+    @Override
+    public void getIdentifyCallback(boolean result) {
+        if(!result){
+            if(countDown!=null){
+                countDown.cancel();
+                countDown.onFinish();
+            }
+        }
     }
 
     public class MyCountDown extends CountDownTimer {

@@ -15,6 +15,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -60,11 +61,11 @@ import zilla.libcore.util.Util;
 @InjectLayout(R.layout.activity_member_entry)
 public class EntryActivity extends BaseActivity implements View.OnClickListener,Validator.ValidationListener {
 
-    GetPhotoDialog photoDialog;
     private String SexData[] = {"男","女"};//性别数据
 
     private INewStudentpresenter iNewStudentpresenter;
     private GuwenClassPre guwenClassPre;
+
     //toolbar
     @InjectView(R.id.tv_title)
     TextView tv_title;
@@ -144,11 +145,9 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
     Phot imphot;
     private static final int GET_BODY=2;
 
-   @InjectView(R.id.list_cansaibanji)
-   ListView list_cansaibanji;
-   boolean state=true;
-   private List<Pargrade> pargradeList=new ArrayList<Pargrade>();
-   String classidDate[] ;
+    @InjectView(R.id.list_cansaibanji)
+    ListView list_cansaibanji;
+    private List<Pargrade> pargradeList=new ArrayList<Pargrade>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,6 +167,15 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
 
         MemberAdapter memberAdapter=new MemberAdapter(EntryActivity.this,R.layout.member_item,pargradeList);
         list_cansaibanji.setAdapter(memberAdapter);
+        list_cansaibanji.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Pargrade pargrade=pargradeList.get(position);
+                et_classid.setText(pargrade.getClassId());
+                list_cansaibanji.setVisibility(View.INVISIBLE);
+
+            }
+        });
     }
 
     @Override
@@ -229,7 +237,7 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
 //                                })
 //                        .create();
 //                dialog.show();
-                
+
                 final GetPhotoDialog  dialog = new GetPhotoDialog(this,
                         new GetPhotoDialog.GetPhotoDialogListener() {
                             @Override
@@ -247,7 +255,6 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
                 dialog.setTitle("照片上传");
                 dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
                 dialog.show();
-
                 break;
             case R.id.ll_birthday:
                 show_birth_dialog();
@@ -256,27 +263,14 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
                 show_sex_dialog();
                 break;
             case R.id.ll_classid:
-                if (state=true)
+                if (list_cansaibanji.getVisibility()==View.VISIBLE)
+                {
+                    list_cansaibanji.setVisibility(View.INVISIBLE);
+                }
+                else if (list_cansaibanji.getVisibility()==View.INVISIBLE)
                 {
                     list_cansaibanji.setVisibility(View.VISIBLE);
-                    state=false;
                 }
-                else {
-                    list_cansaibanji.setVisibility(View.INVISIBLE);
-                    state=true;
-
-                }
-
-//                if (list_cansaibanji.getVisibility()==View.VISIBLE)
-//                {
-//                    list_cansaibanji.setVisibility(View.INVISIBLE);
-//                }
-//                if (list_cansaibanji.getVisibility()==View.INVISIBLE)
-//                {
-//                    list_cansaibanji.setVisibility(View.VISIBLE);
-//                }
-
-//                show_participating_dialog();
 
                 break;
         }
@@ -316,6 +310,7 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
         }
 
     }
+
     @Subscribe
     public void onEvent1(Phot phot){
         System.out.println("classEvent.getPargrades()>>》》》》》》》》》》》》》》"+phot.getImg());
@@ -390,21 +385,6 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
         }
     }
 
-
-    //所在班级对话框
-    public void show_participating_dialog() {
-        Dialog dialog = new AlertDialog.Builder(EntryActivity.this)
-                .setTitle("请选择参赛班级")
-                .setNegativeButton("取消", null)
-                .setItems(classidDate,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int which) {
-                                et_classid.setText(classidDate[which]);
-                            }
-                        }).create();
-        dialog.show();
-    }
     //生日对话框
     public void show_birth_dialog(){
         DatePickerDialog dialog=new DatePickerDialog(
