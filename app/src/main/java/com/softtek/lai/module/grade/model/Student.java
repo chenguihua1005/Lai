@@ -10,17 +10,17 @@ public class Student {
     private long ClassId;
     private int OrderNum;
     //按照学员减重
-    private String UserName;
-    private String LossAfter;
-    private String LossBefor;
-    private String LossWeght;
+    private String UserName="";
+    private String LossAfter="0";
+    private String LossBefor="0";
+    private String LossWeght="0";
     //按照学员减重百分比
-    private String LossPercent;
+    private String LossPercent="0";
     //按照体质排序
-    private String Pysical;
+    private String Pysical="0";
     //按照学员腰围排序
-    private String WaistlineAfter;
-    private String Waistlinebefor;
+    private String WaistlineAfter="0";
+    private String Waistlinebefor="0";
 
     public long getAccountId() {
         return AccountId;

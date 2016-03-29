@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.softtek.lai">
 
     <!-- <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> -->
@@ -13,6 +14,10 @@
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+    <!-- 读取联系人权限 -->
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <!-- 拨打电话权限 -->
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:name=".ZillaApplication"
@@ -50,7 +55,8 @@
         <activity android:name=".module.retest.view.Retest" />
         <activity android:name=".module.login.view.TermActivity" />
         <activity android:name=".module.bodygame.Counselor" />
-        <activity android:name=".module.grade.view.GradeHomeActivity" />
+        <activity android:name=".module.grade.view.GradeHomeActivity"
+            android:configChanges="orientation|keyboardHidden"/>
         <activity android:name=".module.File.view.explain" />
         <activity android:name=".module.studentlist.view.StudentListActivity" />
         <activity android:name=".module.newmemberentry.view.EntryActivity" />
@@ -58,8 +64,18 @@
         <activity android:name=".module.studetail.view.StudentDetailActivity" />
         <activity android:name=".module.retest.view.QueryActivity" />
         <activity android:name=".module.bodygamest.view.Student" />
+
         <activity android:name=".module.jingdu.view.JingduActivity"></activity>
         <activity android:name=".module.grade.view.TutorActivity"></activity>
+        <activity android:name=".module.counselor.view.CounselorClassListActivity"/>
+        <activity android:name=".module.counselor.view.CreateCounselorClassActivity"/>
+        <activity android:name=".module.counselor.view.AssistantListActivity"/>
+        <activity android:name=".module.assistant.view.AssistantActivity"/>
+        <activity android:name=".module.assistant.view.AssistantDetailActivity"/>
+        <activity android:name=".module.assistant.view.InviteStudentActivity"/>
+        <activity android:name=".module.assistant.view.InviteContantActivity"/>
+
+
     </application>
 
 </manifest>

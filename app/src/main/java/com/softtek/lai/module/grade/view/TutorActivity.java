@@ -1,13 +1,10 @@
 package com.softtek.lai.module.grade.view;
 
-import android.os.Handler;
-import android.os.SystemClock;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -22,7 +19,6 @@ import com.softtek.lai.module.grade.eventModel.SRInfoEvent;
 import com.softtek.lai.module.grade.model.SRInfo;
 import com.softtek.lai.module.grade.presenter.GradeImpl;
 import com.softtek.lai.module.grade.presenter.IGrade;
-import com.softtek.lai.utils.DisplayUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -45,17 +41,16 @@ public class TutorActivity extends BaseActivity implements PullToRefreshBase.OnR
     TextView tv_right;
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
-    @InjectView(R.id.iv_email)
-    ImageView iv_email;
+
 
     private IGrade grade;
     private TutorAdapter adapter;
     List<SRInfo> infos=new ArrayList<>();
     @Override
     protected void initViews() {
-        iv_email.setVisibility(View.GONE);
         prlv.setOnRefreshListener(this);
         ll_left.setOnClickListener(this);
+        tv_right.setOnClickListener(this);
     }
 
     @Override
@@ -64,36 +59,6 @@ public class TutorActivity extends BaseActivity implements PullToRefreshBase.OnR
         tv_right.setText("邀请助教");
         tv_right.setTextSize(TypedValue.COMPLEX_UNIT_SP,14f);
         grade=new GradeImpl();
-        for(int i=0;i<1;i++){
-            SRInfo info=new SRInfo();
-            info.setIsInvited("1");
-            info.setUserName("张三");
-            info.setMobile("11111111111");
-            info.setNum("22");
-            info.setRtest("100%");
-            SRInfo info1=new SRInfo();
-            info1.setIsInvited("0");
-            info1.setUserName("张三");
-            info1.setMobile("11111111111");
-            info1.setNum("22");
-            info1.setRtest("100%");
-            SRInfo info2=new SRInfo();
-            info2.setIsInvited("1");
-            info2.setUserName("张三");
-            info2.setMobile("11111111111");
-            info2.setNum("22");
-            info2.setRtest("100%");
-            SRInfo info3=new SRInfo();
-            info3.setIsInvited("1");
-            info3.setUserName("张三");
-            info3.setMobile("11111111111");
-            info3.setNum("22");
-            info3.setRtest("100%");
-            infos.add(info);
-            infos.add(info1);
-            infos.add(info2);
-            infos.add(info3);
-        }
         adapter=new TutorAdapter(this,infos);
         prlv.setAdapter(adapter);
         //第一次加载自动刷新
@@ -136,6 +101,8 @@ public class TutorActivity extends BaseActivity implements PullToRefreshBase.OnR
         switch (v.getId()){
             case R.id.ll_left:
                 finish();
+                break;
+            case R.id.tv_right:
                 break;
         }
     }

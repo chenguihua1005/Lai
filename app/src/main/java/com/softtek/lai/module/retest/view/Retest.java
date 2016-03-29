@@ -95,6 +95,7 @@ public class Retest extends BaseActivity implements View.OnClickListener{
                 list_class.setVisibility(View.INVISIBLE);
                 Iv_fold.setImageResource(R.drawable.unfold);
                 h=false;
+
             }
         });
         list_query.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -104,6 +105,7 @@ public class Retest extends BaseActivity implements View.OnClickListener{
                 if (banjiStudent.getAMStatus()=="")
                 {
                     Intent intent=new Intent(Retest.this,Write.class);
+
                     startActivity(intent);
 
                 }

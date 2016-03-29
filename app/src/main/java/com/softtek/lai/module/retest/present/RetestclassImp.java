@@ -3,6 +3,7 @@ package com.softtek.lai.module.retest.present;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.module.newmemberentry.view.model.Phot;
 import com.softtek.lai.module.retest.eventModel.BanJiEvent;
 import com.softtek.lai.module.retest.eventModel.BanjiStudentEvent;
 import com.softtek.lai.module.retest.eventModel.StudentEvent;
@@ -16,11 +17,13 @@ import com.softtek.lai.module.retest.view.Retest;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.File;
 import java.util.List;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import retrofit.mime.TypedFile;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.util.Util;
@@ -156,14 +159,41 @@ public class RetestclassImp implements RetestPre{
         service.doGetWrite(token, accountId, loginId, retestWrite, new Callback<ResponseData<List<RetestWrite>>>() {
             @Override
             public void success(ResponseData<List<RetestWrite>> listResponseData, Response response) {
+//                int status=listResponseData.getStatus();
+//
+//                switch (status)
+//                {
+//                    case 200:
+//                        Util.toastMsg("复测记录获取成功");
+//                        break;
+//                    case 201:
+//                        Util.toastMsg("复测记录获取失败");
+//                        break;
+//                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                error.printStackTrace();
+                Util.toastMsg("服务器异常");
+            }
+        });
+    }
+//复测审核提交
+    @Override
+    public void doPostWrite(String loginId, String accountId, String typeDate, RetestAudit retestAudit) {
+        String token=SharedPreferenceService.getInstance().get("token","");
+        service.doPostAudit(token, loginId, accountId, typeDate, retestAudit, new Callback<ResponseData<List<RetestAudit>>>() {
+            @Override
+            public void success(ResponseData<List<RetestAudit>> listResponseData, Response response) {
                 int status=listResponseData.getStatus();
                 switch (status)
                 {
                     case 200:
-                        Util.toastMsg("复测记录保存成功");
+                        Util.toastMsg("复测数据更新成功");
                         break;
                     case 201:
-                        Util.toastMsg("复测记录保存失败");
+                        Util.toastMsg("复测数据更新失败");
                         break;
                 }
             }
@@ -175,6 +205,42 @@ public class RetestclassImp implements RetestPre{
             }
         });
     }
+//图片上传
+    @Override
+    public void goGetPicture(String filePath) {
+        System.out.println("上传图片路径>>>>>>>"+filePath);
+        String token=SharedPreferenceService.getInstance().get("token","");
+        service.goGetPicture(token, new TypedFile("image/png", new File(filePath)), new Callback<ResponseData<Phot>>() {
+            @Override
+            public void success(ResponseData<Phot> photResponseData, Response response) {
+
+                int status=photResponseData.getStatus();
+                switch (status) {
+                    case 200:
+                        Phot phot= (Phot) photResponseData.getData();
+                        EventBus.getDefault().post(phot);
+                        Util.toastMsg("获取成功");
+                        break;
+                    case 500:
+                        Util.toastMsg("上传图片异常");
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                error.printStackTrace();
+                Util.toastMsg("服务器异常");
+            }
+        });
+    }
+
+    @Override
+    public void doGetMeasure(String accesstoken, String phone) {
+
+    }
+
+
 
 
 }

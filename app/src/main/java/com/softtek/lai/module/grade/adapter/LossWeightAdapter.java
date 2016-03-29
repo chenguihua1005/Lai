@@ -1,6 +1,7 @@
 package com.softtek.lai.module.grade.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,6 +74,9 @@ public class LossWeightAdapter extends BaseAdapter{
         }
         Student student=students.get(position);
         holder.tv_order.setText(position+1+"");
+        if((position+1)<4){
+            holder.tv_order.setTextColor(Color.parseColor("#FDB02B"));
+        }
         holder.tv_name.setText(student.getUserName());
         holder.tv_lw_before.setText("前 "+student.getLossBefor()+"kg");
         holder.tv_lw_after.setText("后 "+student.getLossAfter()+"kg");
@@ -90,7 +94,12 @@ public class LossWeightAdapter extends BaseAdapter{
             holder= (LossWeightPerHolder) convertView.getTag();
         }
         Student student=students.get(position);
-        holder.tv_order.setText(position+"");
+        holder.tv_order.setText(position+1+"");
+        if((position+1)<4){
+            holder.tv_order.setTextColor(Color.parseColor("#FDB02B"));
+        }
+        holder.tv_lw_before.setText("前 "+student.getLossBefor()+"kg");
+        holder.tv_lw_after.setText("后 "+student.getLossAfter()+"kg");
         holder.tv_name.setText(student.getUserName());
         holder.tv_lw_per.setText(student.getLossPercent());
         return convertView;
@@ -106,7 +115,12 @@ public class LossWeightAdapter extends BaseAdapter{
             holder= (PhysicalHolder) convertView.getTag();
         }
         Student student=students.get(position);
-        holder.tv_order.setText(position+"");
+        holder.tv_order.setText(position+1+"");
+        if((position+1)<4){
+            holder.tv_order.setTextColor(Color.parseColor("#FDB02B"));
+        }
+        holder.tv_py_before.setText("前 "+student.getLossBefor()+"kg");
+        holder.tv_py_after.setText("后 "+student.getLossAfter()+"kg");
         holder.tv_name.setText(student.getUserName());
         holder.tv_physical.setText(student.getPysical());
         return convertView;
@@ -121,7 +135,10 @@ public class LossWeightAdapter extends BaseAdapter{
             holder= (WaistlineHolder) convertView.getTag();
         }
         Student student=students.get(position);
-        holder.tv_order.setText(position+"");
+        holder.tv_order.setText(position+1+"");
+        if((position+1)<4){
+            holder.tv_order.setTextColor(Color.parseColor("#FDB02B"));
+        }
         holder.tv_name.setText(student.getUserName());
         holder.tv_wl_before.setText("前 "+student.getWaistlinebefor()+"cm");
         holder.tv_wl_after.setText("后 "+student.getWaistlineAfter()+"cm");
@@ -153,11 +170,15 @@ public class LossWeightAdapter extends BaseAdapter{
         TextView tv_name;
         TextView tv_lw_per;
         CircleImageView civ_header_image;
+        TextView tv_lw_before;
+        TextView tv_lw_after;
         public  LossWeightPerHolder(View view){
             tv_order= (TextView) view.findViewById(R.id.tv_order);
             tv_name = (TextView) view.findViewById(R.id.tv_name);
             tv_lw_per= (TextView) view.findViewById(R.id.tv_lw_per);
             civ_header_image= (CircleImageView) view.findViewById(R.id.civ_header_image);
+            tv_lw_before= (TextView) view.findViewById(R.id.tv_lw_before);
+            tv_lw_after= (TextView) view.findViewById(R.id.tv_lw_after);
         }
     }
     static class PhysicalHolder{
@@ -165,11 +186,15 @@ public class LossWeightAdapter extends BaseAdapter{
         TextView tv_name;
         TextView tv_physical;
         CircleImageView civ_header_image;
+        TextView tv_py_before;
+        TextView tv_py_after;
         public PhysicalHolder(View view){
             tv_order= (TextView) view.findViewById(R.id.tv_order);
             tv_name = (TextView) view.findViewById(R.id.tv_name);
             tv_physical= (TextView) view.findViewById(R.id.tv_pysical);
             civ_header_image= (CircleImageView) view.findViewById(R.id.civ_header_image);
+            tv_py_after= (TextView) view.findViewById(R.id.tv_py_after);
+            tv_py_before= (TextView) view.findViewById(R.id.tv_py_before);
         }
     }
     static class WaistlineHolder{

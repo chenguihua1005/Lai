@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -31,39 +32,40 @@ public class StudentsActivity extends BaseActivity implements BaseFragment.OnFra
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
-
     @InjectView(R.id.tv_title)
     TextView tv_title;
-
-    @InjectView(R.id.iv_email)
-    ImageView iv_email;
+    @InjectView(R.id.tv_right)
+    TextView tv_right;
 
     private List<Fragment> fragments=new ArrayList<>();
     @Override
     protected void initViews() {
-        iv_email.setVisibility(View.GONE);
         LossWeightFragment lwf1=new LossWeightFragment();
         lwf1.setFlagType(Integer.parseInt(Constants.LOSS_WEIGHT));
         LossWeightFragment lwf2=new LossWeightFragment();
-        lwf2.setFlagType(Integer.parseInt(Constants.LOSS_WEIGHT_PER));
+        lwf2.setFlagType(Integer.parseInt(Constants.WAISTLINE));
         LossWeightFragment lwf3=new LossWeightFragment();
         lwf3.setFlagType(Integer.parseInt(Constants.PHYSIQUE));
         LossWeightFragment lwf4=new LossWeightFragment();
-        lwf4.setFlagType(Integer.parseInt(Constants.WAISTLINE));
+        lwf4.setFlagType(Integer.parseInt(Constants.LOSS_WEIGHT_PER));
         fragments.add(lwf1);
         fragments.add(lwf2);
         fragments.add(lwf3);
         fragments.add(lwf4);
+        tabcontent.setOffscreenPageLimit(4);
         tabcontent.setAdapter(new TabContentAdapter(getSupportFragmentManager(),fragments));
         tabLayout.setupWithViewPager(tabcontent);
+        tabLayout.setTabMode(TabLayout.MODE_FIXED);
 
         ll_left.setOnClickListener(this);
+        tv_right.setOnClickListener(this);
     }
 
     @Override
     protected void initDatas() {
         tv_title.setText("学员列表");
-
+        tv_right.setText("邀请学员");
+        tv_right.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
 
     }
 
@@ -74,6 +76,8 @@ public class StudentsActivity extends BaseActivity implements BaseFragment.OnFra
         switch (v.getId()){
             case R.id.ll_left:
                 finish();
+                break;
+            case R.id.tv_right:
                 break;
         }
     }

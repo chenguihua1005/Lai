@@ -139,15 +139,6 @@
                     />
 
                 </LinearLayout>
-                <Button
-                    android:id="@+id/btn_regist"
-                    android:layout_marginTop="50dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/bg_next_btn"
-                    android:text="@string/next"
-                    android:textSize="20sp"
-                    android:textColor="#ffffff"/>
                 <TextView
                     android:id="@+id/tv_protocol"
                     android:layout_width="match_parent"
@@ -158,6 +149,15 @@
                     android:layout_marginTop="20dp"
                     android:textColor="@color/textview"
                     android:text="@string/protocol"/>
+                <Button
+                    android:id="@+id/btn_regist"
+                    android:layout_marginTop="50dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_next_btn"
+                    android:text="@string/next"
+                    android:textSize="20sp"
+                    android:textColor="#ffffff"/>
             </LinearLayout>
         </RelativeLayout>
     </ScrollView>

@@ -16,6 +16,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.File.model.File;
 import com.softtek.lai.module.newmemberentry.view.model.Newstudents;
+import com.softtek.lai.module.retest.model.RetestWrite;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -78,6 +79,7 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
 
     private File file;//存储用户表对象
     private Newstudents newstudents;//存储用户表单数据
+    private RetestWrite retestWrite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -181,6 +183,18 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
                 Intent intent1=new Intent();
                 intent1.putExtra("newstudents",newstudents);
                 setResult(RESULT_OK,intent1);
+                //复测录入
+
+                retestWrite=new RetestWrite();
+                retestWrite.setCircum(circum+"");
+                retestWrite.setWaistline(waistline+"");
+                retestWrite.setHiplie(hiplie+"");
+                retestWrite.setUpArmGirth(uparmgirth+"");
+                retestWrite.setUpLegGirth(tupleggirth+"");
+                retestWrite.setDoLegGirth(doleggirth+"");
+                Intent intent2=new Intent();
+                intent2.putExtra("retestWrite",retestWrite+"");
+                setResult(RESULT_OK,intent2);
                 finish();
                 Log.i("-------------------file----------------------"+file);
               //  Log.i("-------------------newstudents----------------------"+newstudents);
