@@ -104,6 +104,7 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
     protected void initDatas() {
         file= (File) getIntent().getSerializableExtra("file");
         newstudents=(Newstudents)getIntent().getSerializableExtra("newstudents");
+        retestWrite=(RetestWrite)getIntent().getSerializableExtra("retestWrite");
         tv_title.setText("添加记录");
 
 //        tv_circum.setText("0.0".equals((file.getCircum()+""))?"":file.getCircum()+"");
@@ -142,7 +143,7 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
             //填写说明
             case R.id.ll_explain:
                     startActivity(new Intent(DimensionRecordActivity.this,explain.class));
-                    finish();
+
                 break;
             //返回按钮
             case R.id.ll_left:
@@ -196,7 +197,7 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
                 intent2.putExtra("retestWrite",retestWrite+"");
                 setResult(RESULT_OK,intent2);
                 finish();
-                Log.i("-------------------file----------------------"+file);
+                Log.i("-------------------retestWrite----------------------"+retestWrite);
               //  Log.i("-------------------newstudents----------------------"+newstudents);
                 break;
         }

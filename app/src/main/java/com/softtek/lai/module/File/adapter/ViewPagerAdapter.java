@@ -60,8 +60,7 @@ public class ViewPagerAdapter extends PagerAdapter {
     }
 
     private void creat() {
-        Intent intent = new Intent(activity, DimensionRecordActivity.class);
-        activity.startActivity(intent);
+
         activity.finish();
     }
 

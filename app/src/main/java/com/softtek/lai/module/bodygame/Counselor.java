@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.module.bodygame.model.FuceNum;
 import com.softtek.lai.module.bodygame.model.TiGuanSai;
 import com.softtek.lai.module.bodygame.presenter.ITiGuanSai;
 import com.softtek.lai.module.bodygame.presenter.TiGuanSaiImpl;
@@ -73,7 +74,10 @@ public class Counselor extends BaseActivity implements View.OnClickListener{
     //助教管理
     @InjectView(R.id.btn_assistant)
     Button btn_assistant;
+    @InjectView(R.id.tv_fucenum)
+    TextView tv_fucenum;
     private ITiGuanSai tiGuanSai;
+    private FuceNum fuceNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +115,18 @@ public class Counselor extends BaseActivity implements View.OnClickListener{
 
 
     }
+    @Subscribe
+    public void onEvent1(FuceNum fuceNum){
+        System.out.println("dsadasdsadasda>>》》》》》》》》》》》》》》"+fuceNum.getCount());
+        if (Integer.parseInt(fuceNum.getCount())>10)
+        {
+            tv_fucenum.setText("10+");
+        }
+        else {
+            tv_fucenum.setText(fuceNum.getCount());
+        }
+
+    }
 
 
     @Override
@@ -122,6 +138,8 @@ public class Counselor extends BaseActivity implements View.OnClickListener{
     protected void initDatas() {
         tiGuanSai=new TiGuanSaiImpl();
         tiGuanSai.getTiGuanSai();
+        tiGuanSai.doGetFuceNum(36);
+
 
     }
 

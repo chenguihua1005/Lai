@@ -82,10 +82,8 @@ public class RetestclassImp implements RetestPre{
                         EventBus.getDefault().post(new StudentEvent(listResponseData.getData()));
                         Log.i("查询成功");
                         break;
-                    case 201:
+                    default:
                         Util.toastMsg("未查询到结果");
-                        Log.i("未查询到结果");
-                        break;
                 }
             }
 
@@ -152,24 +150,24 @@ public class RetestclassImp implements RetestPre{
         });
     }
 
-
+//复测写入提交
     @Override
-    public void doGetWrite(long accountId, long loginId, RetestWrite retestWrite) {
+    public void doPostWrite(long accountId, long loginId, RetestWrite retestWrite) {
         String token=SharedPreferenceService.getInstance().get("token","");
-        service.doGetWrite(token, accountId, loginId, retestWrite, new Callback<ResponseData<List<RetestWrite>>>() {
+        service.doPostWrite(token, accountId, loginId, retestWrite, new Callback<ResponseData<RetestWrite>>() {
+
             @Override
-            public void success(ResponseData<List<RetestWrite>> listResponseData, Response response) {
-//                int status=listResponseData.getStatus();
-//
-//                switch (status)
-//                {
-//                    case 200:
-//                        Util.toastMsg("复测记录获取成功");
-//                        break;
-//                    case 201:
-//                        Util.toastMsg("复测记录获取失败");
-//                        break;
-//                }
+            public void success(ResponseData<RetestWrite> retestWriteResponseData, Response response) {
+                int status=retestWriteResponseData.getStatus();
+                switch (status)
+                {
+                    case 200:
+                        Util.toastMsg("复测记保存取成功");
+                        break;
+                    case 201:
+                        Util.toastMsg("复测记录保存失败");
+                        break;
+                }
             }
 
             @Override
@@ -181,7 +179,7 @@ public class RetestclassImp implements RetestPre{
     }
 //复测审核提交
     @Override
-    public void doPostWrite(String loginId, String accountId, String typeDate, RetestAudit retestAudit) {
+    public void doPostAudit(String loginId, String accountId, String typeDate, RetestAudit retestAudit) {
         String token=SharedPreferenceService.getInstance().get("token","");
         service.doPostAudit(token, loginId, accountId, typeDate, retestAudit, new Callback<ResponseData<List<RetestAudit>>>() {
             @Override
