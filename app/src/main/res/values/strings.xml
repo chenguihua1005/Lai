@@ -27,6 +27,7 @@
     <string name="phoneNum">手机号</string>
     <string name="password">密码</string>
     <string name="passwordReg">密码(字母+数字,6~16位)</string>
+    <string name="psdReg">(?![^a-zA-Z]+$)(?!\\D+$).{6,16}</string>
     <string name="forgetPsd"><u>忘记密码?</u></string>
 
     <string name="neterror">服务器异常</string>

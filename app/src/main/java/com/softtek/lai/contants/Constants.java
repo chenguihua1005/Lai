@@ -77,5 +77,13 @@ public class Constants {
     public static final int NOT_INVITED=0;
     public static final int INVITED=1;
 
-
+    /**
+     * 主页活动类型
+     * 1：活动记录
+     * 2：产品信息
+     * 6：销售信息
+     */
+    public static final int ACTIVITY_RECORD=1;
+    public static final int PRODUCT_INFO=2;
+    public static final int SALE_INFO=6;
 }

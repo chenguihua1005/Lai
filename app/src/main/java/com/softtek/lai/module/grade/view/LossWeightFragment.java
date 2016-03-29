@@ -57,13 +57,6 @@ public class LossWeightFragment extends BaseFragment implements PullToRefreshBas
     @Override
     protected void initDatas() {
         grade=new GradeImpl();
-        for(int i=0;i<10;i++){
-            Student student=new Student();
-            student.setLossAfter("30");
-            student.setLossPercent("15");
-            student.setLossWeght("60");
-            students.add(student);
-        }
         adapter=new LossWeightAdapter(getContext(),students,flagType);
         ptrlv.setAdapter(adapter);
         ptrlv.setOnRefreshListener(this);
@@ -98,6 +91,6 @@ public class LossWeightFragment extends BaseFragment implements PullToRefreshBas
 
     @Override
     public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-        grade.getStudentList(String.valueOf(flagType),"1",ptrlv);
+        grade.getStudentList(String.valueOf(flagType),"4",ptrlv);
     }
 }

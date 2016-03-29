@@ -58,8 +58,8 @@ public class Write extends BaseActivity implements View.OnClickListener{
     private RetestPre retestPre;
     private RetestWrite retestWrite;
     String path="";
-    private static final int PHOTO=5;
-    private static final int GET_BODY=6;
+    private static final int PHOTO=1;
+    private static final int GET_BODY=2;
 
 
     @Override
@@ -69,7 +69,7 @@ public class Write extends BaseActivity implements View.OnClickListener{
         tv_right.setOnClickListener(this);
         im_retestwrite_takephoto.setOnClickListener(this);
         btn_retest_write_addbody.setOnClickListener(this);
-
+        tv_right.setOnClickListener(this);
     }
 
     @Override
@@ -95,7 +95,7 @@ public class Write extends BaseActivity implements View.OnClickListener{
         retestWrite.setUpArmGirth("");
         retestWrite.setWaistline("");
         retestWrite.setWeight("");
-        retestPre.doGetWrite(19,16,retestWrite);
+        retestPre.doGetWrite(3,36,retestWrite);
 
 
 
@@ -140,6 +140,7 @@ public class Write extends BaseActivity implements View.OnClickListener{
                 intent.putExtra("retestWrite",retestWrite+"");
                 startActivityForResult(intent,GET_BODY);
                 break;
+
 
         }
 

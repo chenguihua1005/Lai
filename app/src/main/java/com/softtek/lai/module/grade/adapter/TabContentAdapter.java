@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class TabContentAdapter extends FragmentPagerAdapter{
 
-    private  String[] titles={"减重数排名","减重百分比排名","体脂排名","腰围变化排名"};
+    private  String[] titles={"减重斤数","腰围变化","体脂率","减重百分比"};
     private List<Fragment> fragments;
 
     public TabContentAdapter(FragmentManager fm,List<Fragment> fragments) {

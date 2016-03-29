@@ -31,7 +31,7 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_forget)
-public class ForgetActivity extends BaseActivity implements View.OnClickListener,Validator.ValidationListener{
+public class ForgetActivity extends BaseActivity implements View.OnClickListener,Validator.ValidationListener,RegistPresenterImpl.IdentifyCallBack{
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -54,9 +54,6 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
 
-    @InjectView(R.id.iv_email)
-    ImageView iv_email;
-
     @InjectView(R.id.tv_title)
     TextView tv_title;
 
@@ -73,12 +70,11 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
         ll_left.setOnClickListener(this);
         btn_next.setOnClickListener(this);
         tv_title.setText("重置密码");
-        iv_email.setVisibility(View.GONE);
     }
 
     @Override
     protected void initDatas() {
-        registPresenter=new RegistPresenterImpl(this);
+        registPresenter=new RegistPresenterImpl(this,this);
         passwordPresenter=new PasswordPresnter(this);
     }
 
@@ -107,6 +103,13 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(countDown!=null){
+            countDown.onFinish();
+        }
+    }
 
     @Override
     protected void onStop() {
@@ -136,6 +139,16 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
     @Override
     public void onValidationFailed(View failedView, Rule<?> failedRule) {
         validateLife.onValidationFailed(failedView,failedRule);
+    }
+
+    @Override
+    public void getIdentifyCallback(boolean result) {
+        if(!result){
+            if(countDown!=null){
+                countDown.cancel();
+                countDown.onFinish();
+            }
+        }
     }
 
 
