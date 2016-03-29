@@ -1,0 +1,119 @@
+package com.softtek.lai.utils;
+
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.v7.app.AppCompatActivity;
+
+import com.github.snowdream.android.util.Log;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import zilla.libcore.file.FileHelper;
+
+/**
+ * Created by jerry.guan on 3/29/2016.
+ * 常用系统工具
+ * 调用系统相机
+ * 调用系统图片库
+ * 调用系统裁剪
+ */
+public class SystemUtils {
+
+    /**
+     * 调用系统裁剪工具
+     * @param aspectX 裁剪框的比例x
+     * @param aspectY 裁剪框的比例Y
+     * @param outputX 裁剪后输出图片的宽
+     * @param outputY 裁剪后输出图片的高
+     * @param uri 需要裁剪的图片Uri
+     */
+    public static Intent crop(Uri uri,Uri out,float aspectX,float aspectY,int outputX,int outputY) {
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(uri, "image/*");
+        // crop为true是设置在开启的intent中设置显示的view可以剪裁
+        intent.putExtra("crop", "true");
+        intent.putExtra("scale",true);
+        // aspectX aspectY 是宽高的比例
+        intent.putExtra("aspectX", aspectX);
+        intent.putExtra("aspectY", aspectY);
+
+        // outputX,outputY 是剪裁图片的宽高
+        //if(outputX<=0||outputY<=0){
+            intent.putExtra("outputX", outputX);
+            intent.putExtra("outputY", outputY);
+
+       // }
+        intent.putExtra("return-data", true);
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.PNG.toString());
+        if(out!=null)intent.putExtra(MediaStore.EXTRA_OUTPUT, out);
+        intent.putExtra("noFaceDetection", true);
+        return intent;
+    }
+
+    /**
+     * 获取拍完照后返回图片的路径
+     * @param resolver
+     * @param uri 资源
+     * @return 资源路径
+     */
+    public static String getImagePath(Uri uri, ContentResolver resolver){
+        String path=null;
+        if(uri==null){
+            return path;
+        }
+        //获取图片路径
+        String[] filePathColumn  = {MediaStore.Images.Media.DATA};
+        //在系统中查找指定对应的图片
+        Cursor cursor=resolver.query(uri,filePathColumn ,null,null,null);
+        if(cursor.moveToFirst()){
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            path=cursor.getString(columnIndex);
+        }
+        cursor.close();
+        return path;
+    }
+
+    /**
+     * 将bitmap保存到指定的目录
+     * @param bitmap
+     * @param file
+     */
+    public static void saveBitmap(Bitmap bitmap,File file){
+        if(file.exists()){
+            file.delete();
+        }
+        try {
+            FileOutputStream os=new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.PNG,90,os);
+            os.flush();
+            os.close();
+            Log.i("文件保存成功...");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 调用系统相机拍摄
+     *
+     * @param uri 指定拍摄完成后将图片的存储位置，如果为null则不存储
+     * @return
+     */
+    public static Intent openCamera(Uri uri){
+        Intent intent=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.Images.Media.ORIENTATION, 0);
+        if(uri==null) intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+        return intent;
+    }
+}
