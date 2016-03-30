@@ -84,8 +84,7 @@ public class InviteStudentActivity extends BaseActivity implements View.OnClickL
         aCache = ACache.get(this, Constants.USER_ACACHE_DATA_DIR);
         user = (User) aCache.getAsObject(Constants.USER_ACACHE_KEY);
         String id = user.getUserid();
-        String classId = SharedPreferenceService.getInstance().get("classId", "");
-        classId = "12";
+        String classId = SharedPreferenceService.getInstance().get("classId","");
         assistantManagePresenter.getNotInvitePC(classId, id, list_student);
 
     }

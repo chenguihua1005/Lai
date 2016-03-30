@@ -78,6 +78,12 @@ public class CounselorClassImpl implements ICounselorClassPresenter{
                         Calendar calendar = Calendar.getInstance();
                         int year = calendar.get(Calendar.YEAR);
                         int monthOfYear = calendar.get(Calendar.MONTH) + 1;
+                        int nextMonth=1;
+                        if(monthOfYear==12){
+                            nextMonth=1;
+                        }else {
+                            nextMonth=monthOfYear+1;
+                        }
                         int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
                         System.out.println("list--------------" + list);
                         int count=0;
@@ -90,7 +96,7 @@ public class CounselorClassImpl implements ICounselorClassPresenter{
                             }else {
                                 System.out.println("当前月未开班" + str[1]);
                             }
-                            if(str[1].equals(monthOfYear+1+"") || str[1].equals("0"+(monthOfYear+1))){
+                            if(str[1].equals(nextMonth+"") || str[1].equals("0"+(nextMonth))){
                                 System.out.println("次月已开班" + str[1]);
                                 count++;
                             }else {

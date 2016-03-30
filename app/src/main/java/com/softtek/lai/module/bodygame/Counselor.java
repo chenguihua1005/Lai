@@ -11,9 +11,12 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.module.assistant.view.AssistantActivity;
+import com.softtek.lai.module.assistant.view.GameActivity;
 import com.softtek.lai.module.bodygame.model.TiGuanSai;
 import com.softtek.lai.module.bodygame.presenter.ITiGuanSai;
 import com.softtek.lai.module.bodygame.presenter.TiGuanSaiImpl;
+import com.softtek.lai.module.counselor.view.CounselorClassListActivity;
 import com.softtek.lai.module.grade.view.GradeHomeActivity;
 import com.softtek.lai.module.grade.view.StudentsActivity;
 import com.softtek.lai.module.jingdu.view.JingduActivity;
@@ -148,7 +151,7 @@ public class Counselor extends BaseActivity implements View.OnClickListener{
             //体管赛按钮点击跳转事件
             case R.id.bt_tiguansai:
             {
-                Intent intent = new Intent(this, GradeHomeActivity.class);
+                Intent intent = new Intent(this, CounselorClassListActivity.class);
                 startActivity(intent);
             }
             break;
@@ -177,6 +180,8 @@ public class Counselor extends BaseActivity implements View.OnClickListener{
             break;
             case R.id.bt_match:
             {
+                Intent intent=new Intent(Counselor.this,GameActivity.class);
+                startActivity(intent);
                 Util.toastMsg("大赛赛况页面");
             }
             break;
@@ -189,7 +194,7 @@ public class Counselor extends BaseActivity implements View.OnClickListener{
             break;
             case R.id.btn_assistant:
             {
-                Intent intent=new Intent(Counselor.this,Audit.class);
+                Intent intent=new Intent(Counselor.this,AssistantActivity.class);
                 startActivity(intent);
                 Util.toastMsg("助教管理页面");
             }

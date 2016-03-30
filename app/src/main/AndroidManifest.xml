@@ -73,6 +73,7 @@
         <activity android:name=".module.assistant.view.AssistantDetailActivity"/>
         <activity android:name=".module.assistant.view.InviteStudentActivity"/>
         <activity android:name=".module.assistant.view.InviteContantActivity"/>
+        <activity android:name=".module.assistant.view.GameActivity"/>
 
     </application>
 

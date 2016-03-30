@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.module.assistant.view.InviteStudentActivity;
+import com.softtek.lai.module.counselor.view.AssistantListActivity;
 import com.softtek.lai.module.grade.adapter.DynamicAdapter;
 import com.softtek.lai.module.grade.model.DynamicInfo;
 import com.softtek.lai.module.grade.model.Grade;
@@ -141,9 +143,15 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
                 startActivity(new Intent(this,TutorActivity.class));
                 break;
             case R.id.ll_invite_tutor:
+                Intent intent = new Intent(this, AssistantListActivity.class);
+                intent.putExtra("classId",getIntent().getStringExtra("classId"));
+                startActivity(intent);
                 //邀请助教按钮
                 break;
             case R.id.ll_invite_student:
+                Intent intents = new Intent(this, InviteStudentActivity.class);
+                intents.putExtra("classId",getIntent().getStringExtra("classId"));
+                startActivity(intents);
                 //邀请学员按钮
                 break;
             case R.id.ll_send_dynamic:
