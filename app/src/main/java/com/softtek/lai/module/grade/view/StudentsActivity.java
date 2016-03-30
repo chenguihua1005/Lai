@@ -71,6 +71,7 @@ public class StudentsActivity extends BaseActivity implements BaseFragment.OnFra
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
         ll_left.setOnClickListener(this);
         tv_right.setOnClickListener(this);
+
     }
 
     @Override
