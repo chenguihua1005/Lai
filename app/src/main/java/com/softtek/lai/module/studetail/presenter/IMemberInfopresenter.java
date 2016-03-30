@@ -7,5 +7,5 @@ import com.softtek.lai.module.studetail.model.Member;
  */
 public interface IMemberInfopresenter {
 
-    void getmemberinfo(Member member);
+    void getMemberinfo(String classId,String userId);
 }
