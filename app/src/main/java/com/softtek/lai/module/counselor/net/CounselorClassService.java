@@ -5,6 +5,7 @@ import com.softtek.lai.module.File.model.File;
 import com.softtek.lai.module.bodygame.model.TiGuanSai;
 import com.softtek.lai.module.counselor.model.ClassId;
 import com.softtek.lai.module.counselor.model.ClassInfo;
+import com.softtek.lai.module.counselor.model.HonorInfo;
 import com.softtek.lai.module.login.model.Identify;
 import com.softtek.lai.module.login.model.User;
 
@@ -26,6 +27,10 @@ public interface CounselorClassService {
     @GET("/HerbrClass/GetClass")
     void getClassList(@Header("token") String token,
                       Callback<ResponseData<List<ClassInfo>>> callback);
+
+    @GET("/Index/GetSPHonor")
+    void getSPHonor(@Header("token") String token,
+                      Callback<ResponseData<HonorInfo>> callback);
 
     @FormUrlEncoded
     @POST("/HerbrClass/CreateClass")

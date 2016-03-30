@@ -10,7 +10,7 @@ public class Newstudents implements Serializable {
     private long sentaccid; //Sp id
     private String nickname;    //昵称:必填
     private String certification;//资格证号: 选填
-    private int userrole;
+    private String password;    //密码：手机号码后6位
     private String mobile;  //手机号码: 必填
     private int classid; //参赛班级:必填
     private double weight;  //初始体重:必填
@@ -32,7 +32,7 @@ public class Newstudents implements Serializable {
                 "sentaccid=" + sentaccid +
                 ", nickname='" + nickname + '\'' +
                 ", certification='" + certification + '\'' +
-                ", userrole=" + userrole +
+                ", password=" + password +
                 ", mobile='" + mobile + '\'' +
                 ", classid='" + classid + '\'' +
                 ", weight=" + weight +
@@ -74,12 +74,12 @@ public class Newstudents implements Serializable {
         this.certification = certification;
     }
 
-    public int getUserrole() {
-        return userrole;
+    public String getPassword() {
+        return password;
     }
 
-    public void setUserrole(int userrole) {
-        this.userrole = userrole;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getMobile() {
@@ -194,11 +194,11 @@ public class Newstudents implements Serializable {
         this.doleggirth = doleggirth;
     }
 
-    public Newstudents(long sentaccid, String nickname, String certification, int userrole, String mobile, int classid, double weight, double pysical, double fat, String birthday, int gender, String photo, double circum, double waistline, double hiplie, double uparmgirth, double upleggirth, double doleggirth) {
+    public Newstudents(long sentaccid, String nickname, String certification, String password, String mobile, int classid, double weight, double pysical, double fat, String birthday, int gender, String photo, double circum, double waistline, double hiplie, double uparmgirth, double upleggirth, double doleggirth) {
         this.sentaccid = sentaccid;
         this.nickname = nickname;
         this.certification = certification;
-        this.userrole = userrole;
+        this.password = password;
         this.mobile = mobile;
         this.classid = classid;
         this.weight = weight;

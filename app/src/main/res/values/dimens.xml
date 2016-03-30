@@ -60,4 +60,8 @@
     <dimen name="gametButtonWidth">60dip</dimen>
     <dimen name="gametButtonHeight">40dip</dimen>
 
+    <dimen name="spHonorTextSize">16sp</dimen>
+    <dimen name="spHonorTextSizes">20sp</dimen>
+    <dimen name="spHonorMargin">20dip</dimen>
+    <dimen name="spHonorMarginLeft">5dip</dimen>
 </resources>

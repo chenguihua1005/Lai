@@ -64,7 +64,7 @@
     <string name="reNewPassword">重新输入新密码</string>
     <string name="className">请输入班级名称</string>
     <string name="classTime">请输入时间段</string>
-    <string name="allClass">全部班级</string>
+    <string name="allClass">选择班级</string>
     <string name="customerServiceCount">服务顾客数:</string>
     <string name="retestValue">顾客复测率:</string>
     <string name="totalValue">服务顾客减重总斤数:</string>
@@ -146,10 +146,10 @@
     <string name="inviteStudent">邀请学员</string>
     <string name="gamestA">基本数据</string>
     <string name="gamestB">上传照片</string>
-    <string name="gamestC">复测</string>
     <string name="gamestD">减重故事</string>
     <string name="gamestE">成绩单</string>
+    <string name="tipsgamestI">Tips</string>
+    <string name="gamestC">复测</string>
     <string name="gamestF">荣誉榜</string>
     <string name="gamestG">大赛赛况</string>
-    <string name="tipsgamestI">Tips</string>
 </resources>

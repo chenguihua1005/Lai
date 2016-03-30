@@ -15,4 +15,6 @@ public interface ICounselorClassPresenter {
     void getClassList(ListView expand_lis,LinearLayout lin_create_class);
     //创建班级
     void createClass(String className,String startDate,String endDate,String managerId);
+    //获取荣誉榜
+    void getSPHonor();
 }

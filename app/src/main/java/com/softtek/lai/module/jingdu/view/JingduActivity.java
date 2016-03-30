@@ -37,6 +37,12 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
     @InjectView(R.id.list_rank)
     ListView list_rank;
 
+    @InjectView(R.id.tv_wz)
+    TextView tv_wz;
+
+    @InjectView(R.id.tv_wz2)
+    TextView tv_wz2;
+
     private List<Rank>rankList=new ArrayList<Rank>();
     private IGetProinfopresenter iGetProinfopresenter;
 
@@ -50,7 +56,16 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
         rankAdapter=new RankAdapter(JingduActivity.this,R.layout.rank_item,rankList);
         list_rank.setAdapter(rankAdapter);
         ll_left.setOnClickListener(this);
-        tv_right.setOnClickListener(this);    }
+        tv_right.setOnClickListener(this);
+
+        String a ="";
+        String b ="";
+        String c ="";
+        String text ="我本月已新开班"+a+"个,新增学员"+b+"名,累计减重"+c+"斤！";
+        String text2 ="我本月已新开班,我的一月班本月累计减重××斤，2月班本月累计减重××斤，2月班本月累计减重××斤！相当于××头大象！";
+        tv_wz.setText(text);
+        tv_wz2.setText(text2);
+    }
 
     @Override
     protected void onDestroy() {

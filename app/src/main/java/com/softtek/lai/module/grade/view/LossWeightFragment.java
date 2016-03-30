@@ -3,8 +3,11 @@ package com.softtek.lai.module.grade.view;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.github.snowdream.android.util.Log;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
@@ -29,7 +32,8 @@ import zilla.libcore.ui.InjectLayout;
  * Created by jerry.guan on 3/21/2016.
  */
 @InjectLayout(R.layout.fragment_loss_weight)
-public class LossWeightFragment extends BaseFragment implements PullToRefreshBase.OnRefreshListener<ListView>{
+public class LossWeightFragment extends BaseFragment implements PullToRefreshBase.OnRefreshListener<ListView>,
+        AdapterView.OnItemClickListener{
 
 
     @InjectView(R.id.ptrlv)
@@ -51,7 +55,7 @@ public class LossWeightFragment extends BaseFragment implements PullToRefreshBas
 
     @Override
     protected void initViews() {
-
+        ptrlv.setOnItemClickListener(this);
     }
 
     @Override
@@ -92,5 +96,11 @@ public class LossWeightFragment extends BaseFragment implements PullToRefreshBas
     @Override
     public void onRefresh(PullToRefreshBase<ListView> refreshView) {
         grade.getStudentList(String.valueOf(flagType),"4",ptrlv);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Student student= students.get(position-1);
+        Log.i("点击了"+position+",学员，数据是>>"+student.toString());
     }
 }

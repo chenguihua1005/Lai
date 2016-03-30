@@ -17,6 +17,7 @@ import com.softtek.lai.module.bodygame.model.TiGuanSai;
 import com.softtek.lai.module.bodygame.presenter.ITiGuanSai;
 import com.softtek.lai.module.bodygame.presenter.TiGuanSaiImpl;
 import com.softtek.lai.module.counselor.view.CounselorClassListActivity;
+import com.softtek.lai.module.counselor.view.SPHonorActivity;
 import com.softtek.lai.module.jingdu.view.JingduActivity;
 import com.softtek.lai.module.newmemberentry.view.EntryActivity;
 import com.softtek.lai.module.retest.Write;
@@ -179,6 +180,8 @@ public class Counselor extends BaseActivity implements View.OnClickListener{
             break;
             case R.id.ll_honor:
             {
+                Intent intent = new Intent(this, SPHonorActivity.class);
+                startActivity(intent);
                 Util.toastMsg("荣誉榜页面");
             }
             break;

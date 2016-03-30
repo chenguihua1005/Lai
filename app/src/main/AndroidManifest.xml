@@ -45,7 +45,7 @@
         <activity
             android:name=".module.login.view.ForgetActivity2"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-        <activity android:name=".module.File.view.CreatFlleActivity" />
+        <activity android:name=".module.File.view.CreatFlleActivity"></activity>
         <activity
             android:name=".module.home.view.HomeActviity"
             android:launchMode="singleTask" />
@@ -59,7 +59,6 @@
             android:name=".module.grade.view.GradeHomeActivity"
             android:configChanges="orientation|keyboardHidden" />
         <activity android:name=".module.File.view.explain" />
-        <activity android:name=".module.studentlist.view.StudentListActivity" />
         <activity android:name=".module.newmemberentry.view.EntryActivity" />
         <activity android:name=".module.grade.view.StudentsActivity" />
         <activity android:name=".module.studetail.view.StudentDetailActivity" />
@@ -74,8 +73,10 @@
         <activity android:name=".module.assistant.view.AssistantDetailActivity" />
         <activity android:name=".module.assistant.view.InviteStudentActivity" />
         <activity android:name=".module.assistant.view.InviteContantActivity" />
+        <activity android:name=".module.newmemberentry.view.DimensioninputActivity"></activity>
         <activity android:name=".module.assistant.view.GameActivity" />
         <activity android:name=".module.bodygamest.view.FuceStActivity"></activity>
+        <activity android:name=".module.counselor.view.SPHonorActivity"/>
     </application>
 
 </manifest>
