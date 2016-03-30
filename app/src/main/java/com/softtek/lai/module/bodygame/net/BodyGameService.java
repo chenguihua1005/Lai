@@ -16,7 +16,7 @@ import retrofit.http.Query;
  */
 public interface BodyGameService {
 
-
+//banner接口
     @GET("/Index/TiGuanSaiClick")
     void doGetTiGuanSaiClickw(@Header("token")String token,
                               Callback<ResponseData<TiGuanSai>> callback);
