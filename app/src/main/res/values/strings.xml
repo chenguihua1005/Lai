@@ -64,7 +64,7 @@
     <string name="reNewPassword">重新输入新密码</string>
     <string name="className">请输入班级名称</string>
     <string name="classTime">请输入时间段</string>
-    <string name="allClass">全部班级</string>
+    <string name="allClass">选择班级</string>
     <string name="customerServiceCount">服务顾客数:</string>
     <string name="retestValue">顾客复测率:</string>
     <string name="totalValue">服务顾客减重总斤数:</string>
