@@ -17,6 +17,7 @@ import com.softtek.lai.module.bodygame.model.TiGuanSai;
 import com.softtek.lai.module.bodygame.presenter.ITiGuanSai;
 import com.softtek.lai.module.bodygame.presenter.TiGuanSaiImpl;
 import com.softtek.lai.module.counselor.view.CounselorClassListActivity;
+import com.softtek.lai.module.counselor.view.SPHonorActivity;
 import com.softtek.lai.module.jingdu.view.JingduActivity;
 import com.softtek.lai.module.newmemberentry.view.EntryActivity;
 import com.softtek.lai.module.retest.Write;
@@ -47,32 +48,33 @@ public class Counselor extends BaseActivity implements View.OnClickListener{
     @InjectView(R.id.iv_adv)
     ImageView iv_adv;
     //复测按钮
-    @InjectView(R.id.bt_counselor_fuce)
-    Button bt_counselor_fuce;
-    //体管赛按钮
-    @InjectView(R.id.bt_tiguansai)
-    Button bt_tiguansai;
+    @InjectView(R.id.ll_counselor_fuce)
+    LinearLayout ll_counselor_fuce;
+    //体管赛点击
+    @InjectView(R.id.ll_tiguansai)
+    LinearLayout ll_tiguansai;
+
     //新学员录入按钮
-    @InjectView(R.id.bt_new_student)
-    Button bt_new_student;
+    @InjectView(R.id.ll_new_student)
+    LinearLayout ll_new_student;
     //往期回顾按钮
-    @InjectView(R.id.bt_review)
-    Button bt_review;
+    @InjectView(R.id.ll_review)
+    LinearLayout ll_review;
     //当前进度按钮
-    @InjectView(R.id.bt_process)
-    Button bt_process;
+    @InjectView(R.id.ll_process)
+    LinearLayout ll_process;
     //荣誉榜按钮
-    @InjectView(R.id.bt_honor)
-    Button bt_honor;
+    @InjectView(R.id.ll_honor)
+    LinearLayout ll_honor;
     //赛况
-    @InjectView(R.id.bt_match)
-    Button bt_match;
+    @InjectView(R.id.ll_match)
+    LinearLayout ll_match;
     //提示页面
-    @InjectView(R.id.btn_tip)
-    Button btn_tip;
+    @InjectView(R.id.ll_tip)
+    LinearLayout ll_tip;
     //助教管理
-    @InjectView(R.id.btn_assistant)
-    Button btn_assistant;
+    @InjectView(R.id.ll_assistant)
+    LinearLayout ll_assistant;
     @InjectView(R.id.tv_fucenum)
     TextView tv_fucenum;
     private ITiGuanSai tiGuanSai;
@@ -86,16 +88,16 @@ public class Counselor extends BaseActivity implements View.OnClickListener{
 //        User user= (User) aCache.getAsObject(Constants.USER_ACACHE_KEY);
 //        user.getUserrole();
         //按钮监听
-        bt_counselor_fuce.setOnClickListener(this);
+        ll_counselor_fuce.setOnClickListener(this);
         ll_left.setOnClickListener(this);
-        bt_tiguansai.setOnClickListener(this);
-        bt_new_student.setOnClickListener(this);
-        bt_honor.setOnClickListener(this);
-        bt_process.setOnClickListener(this);
-        bt_review.setOnClickListener(this);
-        bt_match.setOnClickListener(this);
-        btn_assistant.setOnClickListener(this);
-        btn_tip.setOnClickListener(this);
+        ll_tiguansai.setOnClickListener(this);
+        ll_new_student.setOnClickListener(this);
+        ll_honor.setOnClickListener(this);
+        ll_process.setOnClickListener(this);
+        ll_review.setOnClickListener(this);
+        ll_match.setOnClickListener(this);
+        ll_assistant.setOnClickListener(this);
+        ll_tip.setOnClickListener(this);
         
     }
 
@@ -147,7 +149,7 @@ public class Counselor extends BaseActivity implements View.OnClickListener{
         switch (v.getId())
         {
             //复测按钮点击跳转事件
-            case R.id.bt_counselor_fuce:
+            case R.id.ll_counselor_fuce:
             {
                 Intent intent=new Intent(Counselor.this, Retest.class);
                 startActivity(intent);
@@ -163,50 +165,56 @@ public class Counselor extends BaseActivity implements View.OnClickListener{
             }
             break;
             //体管赛按钮点击跳转事件
-            case R.id.bt_tiguansai:
+            case R.id.ll_tiguansai:
             {
                 Intent intent = new Intent(this, CounselorClassListActivity.class);
                 startActivity(intent);
             }
             break;
             //新学员录入跳转事件
-            case R.id.bt_new_student:
+            case R.id.ll_new_student:
             {
                 Intent intent = new Intent(this, EntryActivity.class);
                 startActivity(intent);
             }
             break;
-            case R.id.bt_honor:
+            case R.id.ll_honor:
             {
+                Intent intent = new Intent(this, SPHonorActivity.class);
+                startActivity(intent);
                 Util.toastMsg("荣誉榜页面");
             }
             break;
-            case R.id.bt_process:
+            //当前进度事件跳转
+            case R.id.ll_process:
             {
                 Intent intent = new Intent(this, JingduActivity.class);
                 startActivity(intent);
             }
             break;
-            case R.id.bt_review:
+            case R.id.ll_review:
             {
                 Util.toastMsg("往期回顾");
             }
             break;
-            case R.id.bt_match:
+            //大赛赛况事件跳转
+            case R.id.ll_match:
             {
                 Intent intent=new Intent(Counselor.this,GameActivity.class);
                 startActivity(intent);
                 Util.toastMsg("大赛赛况页面");
             }
             break;
-            case R.id.btn_tip:
+            //提示事件跳转
+            case R.id.ll_tip:
             {
                 Intent intent=new Intent(Counselor.this,Write.class);
                 startActivity(intent);
                 Util.toastMsg("提示页面");
             }
             break;
-            case R.id.btn_assistant:
+            //助教管理跳转事件
+            case R.id.ll_assistant:
             {
                 Intent intent=new Intent(Counselor.this,AssistantActivity.class);
                 startActivity(intent);

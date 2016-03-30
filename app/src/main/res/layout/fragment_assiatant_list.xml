@@ -19,7 +19,7 @@
             android:layout_centerHorizontal="true"
             android:layout_margin="@dimen/fragmentAssistantListMargin"
             android:text="@string/allClass"
-            android:textSize="@dimen/fragmentAssistantListTextSize" />
+            android:textSize="@dimen/fragmentAssistantListNameSize" />
 
         <ImageView
             android:id="@+id/img_more"
@@ -52,7 +52,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/grey"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -60,7 +61,8 @@
                     android:layout_centerVertical="true"
                     android:layout_margin="@dimen/fragmentAssistantListMargin"
                     android:text="@string/allClass"
-                    android:textSize="@dimen/fragmentAssistantListTextSizes"/>
+                    android:textSize="@dimen/fragmentAssistantListTextSizes"
+                    />
 
                 <ImageView
                     android:id="@+id/img_all_class"

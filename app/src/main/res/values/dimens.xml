@@ -8,29 +8,33 @@
     <dimen name="fab_margin">16dp</dimen>
 
     <!-- 顾问版-->
-    <dimen name="circleImage">100dip</dimen>
+    <dimen name="circleImage">50dip</dimen>
 
-    <dimen name="counselorClassTextSize">20sp</dimen>
-    <dimen name="counselorClassTextMargin">20dip</dimen>
+    <dimen name="counselorClassTextSize">16sp</dimen>
+    <dimen name="counselorClassTextMargin">10dip</dimen>
     <dimen name="counselorClassLinMarginTop">10dip</dimen>
     <dimen name="counselorClassTextMarginLeft">5dip</dimen>
 
-    <dimen name="createClassTextSize">18sp</dimen>
+    <dimen name="createClassTextSize">16sp</dimen>
     <dimen name="createClassTextMargin">20dip</dimen>
     <dimen name="createClassTextMarginLeft">10dip</dimen>
 
     <dimen name="assistantMargin">10dip</dimen>
     <dimen name="assistantMarginLeft">5dip</dimen>
-    <dimen name="assistantNameTextSize">20sp</dimen>
-    <dimen name="assistantPhoneTextSize">18sp</dimen>
+    <dimen name="assistantNameTextSize">16sp</dimen>
+    <dimen name="assistantPhoneTextSize">14sp</dimen>
+    <dimen name="assistantButtonWidth">60dip</dimen>
+    <dimen name="assistantButtonHeight">40dip</dimen>
 
     <dimen name="fragmentAssistantApplyMargin">10dip</dimen>
-    <dimen name="fragmentAssistantApplyNameTextSize">20sp</dimen>
-    <dimen name="fragmentAssistantApplyValueTextSize">18sp</dimen>
+    <dimen name="fragmentAssistantApplyNameTextSize">16sp</dimen>
+    <dimen name="fragmentAssistantApplyValueTextSize">14sp</dimen>
+    <dimen name="fragmentAssistantApplyButtonWidth">60dip</dimen>
+    <dimen name="fragmentAssistantApplyButtonHeight">35dip</dimen>
 
     <dimen name="fragmentAssistantListMargin">10dip</dimen>
-    <dimen name="fragmentAssistantListNameSize">20sp</dimen>
-    <dimen name="fragmentAssistantListTextSize">18sp</dimen>
+    <dimen name="fragmentAssistantListNameSize">16sp</dimen>
+    <dimen name="fragmentAssistantListTextSize">14sp</dimen>
     <dimen name="fragmentAssistantListTextSizes">16sp</dimen>
     <dimen name="fragmentAssistantListHeight">200dip</dimen>
 
@@ -42,9 +46,11 @@
 
     <dimen name="inviteStudentMargin">20dip</dimen>
     <dimen name="inviteStudentMargins">10dip</dimen>
-    <dimen name="inviteStudentTextSize">20sp</dimen>
-    <dimen name="inviteStudentNameTextSize">16sp</dimen>
+    <dimen name="inviteStudentTextSize">16sp</dimen>
+    <dimen name="inviteStudentNameTextSize">14sp</dimen>
     <dimen name="inviteStudentMarginLeft">5dip</dimen>
+    <dimen name="inviteStudentButtonWidth">60dip</dimen>
+    <dimen name="inviteStudentButtonHeight">40dip</dimen>
 
     <dimen name="gametMargin">20dip</dimen>
     <dimen name="gametMarginLeft">10dip</dimen>
@@ -54,4 +60,8 @@
     <dimen name="gametButtonWidth">60dip</dimen>
     <dimen name="gametButtonHeight">40dip</dimen>
 
+    <dimen name="spHonorTextSize">16sp</dimen>
+    <dimen name="spHonorTextSizes">20sp</dimen>
+    <dimen name="spHonorMargin">20dip</dimen>
+    <dimen name="spHonorMarginLeft">5dip</dimen>
 </resources>

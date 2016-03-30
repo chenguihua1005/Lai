@@ -62,13 +62,14 @@
         <activity android:name=".module.grade.view.StudentsActivity" />
         <activity android:name=".module.studetail.view.StudentDetailActivity" />
         <activity android:name=".module.retest.view.QueryActivity" />
-        <activity android:name=".module.bodygamest.view.Student" />
+        <activity android:name=".module.bodygamest.view.StudentActivity" />
 
         <activity android:name=".module.jingdu.view.JingduActivity"></activity>
         <activity android:name=".module.grade.view.TutorActivity"></activity>
         <activity android:name=".module.counselor.view.CounselorClassListActivity"/>
         <activity android:name=".module.counselor.view.CreateCounselorClassActivity"/>
         <activity android:name=".module.counselor.view.AssistantListActivity"/>
+        <activity android:name=".module.counselor.view.SPHonorActivity"/>
         <activity android:name=".module.assistant.view.AssistantActivity"/>
         <activity android:name=".module.assistant.view.AssistantDetailActivity"/>
         <activity android:name=".module.assistant.view.InviteStudentActivity"/>

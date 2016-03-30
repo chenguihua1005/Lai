@@ -17,6 +17,7 @@
         android:gravity="center"
         android:layout_margin="@dimen/inviteStudentMargin"
         android:textSize="@dimen/inviteStudentTextSize"
+        android:background="@drawable/bg_login_btn"
         android:text="@string/contactList"/>
     <ListView
         android:id="@+id/list_student"
