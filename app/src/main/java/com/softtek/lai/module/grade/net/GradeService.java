@@ -1,6 +1,7 @@
 package com.softtek.lai.module.grade.net;
 
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.module.grade.model.Banner;
 import com.softtek.lai.module.grade.model.Grade;
 import com.softtek.lai.module.grade.model.SRInfo;
 import com.softtek.lai.module.grade.model.Student;
@@ -13,8 +14,11 @@ import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.Header;
+import retrofit.http.Multipart;
 import retrofit.http.POST;
+import retrofit.http.Part;
 import retrofit.http.Query;
+import retrofit.mime.TypedFile;
 
 /**
  * Created by jerry.guan on 3/21/2016.
@@ -48,4 +52,13 @@ public interface GradeService {
     void getTutorList(@Header("token")String token,
                       @Query("classid")long classId,
                       Callback<ResponseData<List<SRInfo>>> callback);
+
+    //修改班级banner
+    @Multipart
+    @POST("/HerbrClass/UpClassImg")
+    void updateClassBanner(@Header("token")String token,
+                           @Query("ClassId") long classId,
+                           @Query("type") String type,
+                           @Part("photo")TypedFile photo,
+                           Callback<ResponseData<Banner>> callback);
 }

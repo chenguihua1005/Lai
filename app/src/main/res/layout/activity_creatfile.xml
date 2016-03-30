@@ -177,16 +177,27 @@
             android:id="@+id/btn_Add_bodydimension"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@drawable/addbodydimensionrecord_background_h"
-            android:textColor="#FFFFFD"
+            android:text="添加身体围度"
+            android:background="@drawable/bg_addbody_btn"
+            android:textColor="#FFA302"
+            android:textSize="22sp"
             android:layout_marginBottom="60dp"/>
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@drawable/finish_btn_backgroung_h"
+            android:background="@drawable/bg_login_btn"
+            android:text="完成"
             android:textColor="#FFFFFD"
+            android:textSize="22sp"
             android:id="@+id/btn_finish" />
 
     </LinearLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitCenter"
+        android:src="@drawable/buttom"
+        android:layout_alignParentBottom="true"
+        />
 </RelativeLayout>

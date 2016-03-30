@@ -1,5 +1,6 @@
 package com.softtek.lai.module.login.presenter;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -36,11 +37,12 @@ public class LoginPresenterImpl implements ILoginPresenter {
     }
 
     @Override
-    public void doLogin(String userName, String password) {
+    public void doLogin(String userName, String password,final ProgressDialog dialog) {
         LoginService service= ZillaApi.NormalRestAdapter.create(LoginService.class);
         service.doLogin(userName, password, new Callback<ResponseData<User>>() {
             @Override
             public void success(ResponseData<User> userResponseData, Response response) {
+                dialog.dismiss();
                 System.out.println(userResponseData);
                 int status=userResponseData.getStatus();
                 switch (status){
@@ -58,6 +60,7 @@ public class LoginPresenterImpl implements ILoginPresenter {
 
             @Override
             public void failure(RetrofitError error) {
+                dialog.dismiss();
                 error.printStackTrace();
                 Util.toastMsg("登录失败");
             }

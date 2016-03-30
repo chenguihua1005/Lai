@@ -1,9 +1,11 @@
 package com.softtek.lai.module.retest.model;
 
+import java.io.Serializable;
+
 /**
  * Created by lareina.qiao on 3/26/2016.
  */
-public class RetestWrite {
+public class RetestWrite implements Serializable{
     private String accountId;
     private String weight;
     private String pysical;
@@ -17,9 +19,13 @@ public class RetestWrite {
     private String image;
     private String classId;
 
+    public RetestWrite() {
+
+    }
+
     @Override
     public String toString() {
-        return "Write{" +
+        return "RetestWrite{" +
                 "accountId='" + accountId + '\'' +
                 ", weight='" + weight + '\'' +
                 ", pysical='" + pysical + '\'' +
@@ -144,8 +150,5 @@ public class RetestWrite {
         this.doLegGirth = doLegGirth;
         this.image = image;
         this.classId = classId;
-    }
-    public RetestWrite(){
-
     }
 }

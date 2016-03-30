@@ -8,6 +8,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
@@ -27,6 +28,7 @@ public class StudentsActivity extends BaseActivity implements BaseFragment.OnFra
 
     @InjectView(R.id.tab)
     TabLayout tabLayout;
+
     @InjectView(R.id.page)
     ViewPager tabcontent;
 
@@ -40,6 +42,8 @@ public class StudentsActivity extends BaseActivity implements BaseFragment.OnFra
     private List<Fragment> fragments=new ArrayList<>();
     @Override
     protected void initViews() {
+
+
         LossWeightFragment lwf1=new LossWeightFragment();
         lwf1.setFlagType(Integer.parseInt(Constants.LOSS_WEIGHT));
         LossWeightFragment lwf2=new LossWeightFragment();
@@ -53,10 +57,18 @@ public class StudentsActivity extends BaseActivity implements BaseFragment.OnFra
         fragments.add(lwf3);
         fragments.add(lwf4);
         tabcontent.setOffscreenPageLimit(4);
-        tabcontent.setAdapter(new TabContentAdapter(getSupportFragmentManager(),fragments));
+        tabcontent.setAdapter(new TabContentAdapter(getSupportFragmentManager(), fragments));
         tabLayout.setupWithViewPager(tabcontent);
+        View tab1=getLayoutInflater().inflate(R.layout.tab1,null);
+        View tab2=getLayoutInflater().inflate(R.layout.tab2,null);
+        View tab3=getLayoutInflater().inflate(R.layout.tab3,null);
+        View tab4=getLayoutInflater().inflate(R.layout.tab4,null);
+        tabLayout.removeAllTabs();
+        tabLayout.addTab(tabLayout.newTab().setCustomView(tab1), 0, true);
+        tabLayout.addTab(tabLayout.newTab().setCustomView(tab2),1);
+        tabLayout.addTab(tabLayout.newTab().setCustomView(tab3),2);
+        tabLayout.addTab(tabLayout.newTab().setCustomView(tab4),3);
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
-        
         ll_left.setOnClickListener(this);
         tv_right.setOnClickListener(this);
     }

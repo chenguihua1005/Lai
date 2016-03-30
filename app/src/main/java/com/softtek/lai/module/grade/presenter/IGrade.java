@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
+import java.io.File;
+
 import zilla.libzilla.dialog.LoadingDialog;
 
 /**
@@ -30,4 +32,9 @@ public interface IGrade {
      * 获取助教列表
      */
     void getTutorList(long classId,PullToRefreshListView lv);
+
+    /*
+    修改班级主页的banner
+     */
+    void updateClassBanner(long classId, String type, File image);
 }
