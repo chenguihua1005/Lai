@@ -3,8 +3,8 @@ package com.softtek.lai.module.home.view;
 import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.View;
@@ -31,9 +31,6 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener,B
     @InjectView(R.id.btn_healthy)
     SimpleButton btn_healthy;
 
-    @InjectView(R.id.btn_contact)
-    SimpleButton btn_contact;
-
     @InjectView(R.id.btn_healthy_record)
     SimpleButton btn_healthy_record;
 
@@ -51,7 +48,6 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener,B
         super.onCreate(savedInstanceState);
         btn_home.setOnClickListener(this);
         btn_healthy.setOnClickListener(this);
-        btn_contact.setOnClickListener(this);
         btn_healthy_record.setOnClickListener(this);
         btn_mine.setOnClickListener(this);
         white=getResources().getDrawable(R.drawable.bg_white);
@@ -85,35 +81,24 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener,B
                     case 0:
                         btn_home.setBackground(green);
                         btn_healthy.setBackground(white);
-                        btn_contact.setBackground(white);
                         btn_healthy_record.setBackground(white);
                         btn_mine.setBackground(white);
                         break;
                     case 1:
                         btn_home.setBackground(white);
                         btn_healthy.setBackground(green);
-                        btn_contact.setBackground(white);
                         btn_healthy_record.setBackground(white);
                         btn_mine.setBackground(white);
                         break;
                     case 2:
                         btn_home.setBackground(white);
                         btn_healthy.setBackground(white);
-                        btn_contact.setBackground(green);
-                        btn_healthy_record.setBackground(white);
+                        btn_healthy_record.setBackground(green);
                         btn_mine.setBackground(white);
                         break;
                     case 3:
                         btn_home.setBackground(white);
                         btn_healthy.setBackground(white);
-                        btn_contact.setBackground(white);
-                        btn_healthy_record.setBackground(green);
-                        btn_mine.setBackground(white);
-                        break;
-                    case 4:
-                        btn_home.setBackground(white);
-                        btn_healthy.setBackground(white);
-                        btn_contact.setBackground(white);
                         btn_healthy_record.setBackground(white);
                         btn_mine.setBackground(green);
                         break;
@@ -146,17 +131,13 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener,B
                 btn_healthy.setProgress(1);
                 currentId=1;
                 break;
-            case R.id.btn_contact:
-                btn_contact.setProgress(1);
-                currentId=2;
-                break;
             case R.id.btn_healthy_record:
                 btn_healthy_record.setProgress(1);
-                currentId=3;
+                currentId=2;
                 break;
             case R.id.btn_mine:
                 btn_mine.setProgress(1);
-                currentId=4;
+                currentId=3;
                 break;
         }
         content.setCurrentItem(currentId, false);
@@ -171,12 +152,9 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener,B
                 btn_healthy.setProgress(progress);
                 break;
             case 2 :
-                btn_contact.setProgress(progress);
-                break;
-            case 3 :
                 btn_healthy_record.setProgress(progress);
                 break;
-            case 4:
+            case 3:
                 btn_mine.setProgress(progress);
                 break;
         }
@@ -185,7 +163,6 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener,B
     private void restoreState(){
         btn_home.setProgress(0);
         btn_healthy.setProgress(0);
-        btn_contact.setProgress(0);
         btn_healthy_record.setProgress(0);
         btn_mine.setProgress(0);
 

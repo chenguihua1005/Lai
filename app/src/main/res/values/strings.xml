@@ -69,6 +69,14 @@
     <string name="retestValue">顾客复测率:</string>
     <string name="totalValue">服务顾客减重总斤数:</string>
     <string name="contactList">手机通讯录邀请</string>
+    <string name="selectMonthValue">选择月份：</string>
+    <string name="selectGradeValue">选择组别：</string>
+    <string name="gameValue">减重龙虎榜</string>
+    <string name="rnumValue">排行</string>
+    <string name="beforeWightValue">减重前</string>
+    <string name="afterWeightValue">减重后</string>
+    <string name="loseWeightValue">共减重</string>
+    <string name="userNameValue">姓名</string>
 
     <string-array name="SensitiveWord">
         <item>康宝来</item>

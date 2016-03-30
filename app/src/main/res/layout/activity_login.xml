@@ -53,7 +53,7 @@
                     android:inputType="phone"
                     android:singleLine="true"
                     android:textColor="#333333"
-                    android:text="18961765466"
+                    android:text="18261576084"
                     android:hint="@string/phoneNum"/>
             </FrameLayout>
 
@@ -73,7 +73,7 @@
                     android:paddingLeft="40dp"
                     android:singleLine="true"
                     android:hint="@string/password"
-                    android:text="willian"
+                    android:text="123456"
                     android:textColor="#333333"
                     android:inputType="textPassword"/>
             </FrameLayout>

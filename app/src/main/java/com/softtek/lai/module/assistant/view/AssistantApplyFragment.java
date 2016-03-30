@@ -37,7 +37,6 @@ public class AssistantApplyFragment extends BaseFragment implements View.OnClick
         aCache= ACache.get(getContext(), Constants.USER_ACACHE_DATA_DIR);
         user=(User)aCache.getAsObject(Constants.USER_ACACHE_KEY);
         String id=user.getUserid();
-        id="36";
         assistantManagePresenter.showAllApplyAssistants(id,list);
     }
 

@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame.Counselor;
 import com.softtek.lai.module.bodygamest.view.StudentActivity;
 import com.softtek.lai.module.home.adapter.FragementAdapter;
@@ -22,7 +23,6 @@ import com.softtek.lai.module.home.adapter.ModelAdapter;
 import com.softtek.lai.module.home.model.HomeInfo;
 import com.softtek.lai.module.home.presenter.HomeInfoImpl;
 import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
-import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.login.model.User;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.DisplayUtil;
