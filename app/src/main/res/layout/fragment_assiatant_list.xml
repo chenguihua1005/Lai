@@ -19,7 +19,7 @@
             android:layout_centerHorizontal="true"
             android:layout_margin="@dimen/fragmentAssistantListMargin"
             android:text="@string/allClass"
-            android:textSize="@dimen/fragmentAssistantListTextSize" />
+            android:textSize="@dimen/fragmentAssistantListNameSize" />
 
         <ImageView
             android:id="@+id/img_more"

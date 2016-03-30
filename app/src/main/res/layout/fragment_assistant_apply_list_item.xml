@@ -14,6 +14,7 @@
             android:id="@+id/img"
             android:layout_width="@dimen/circleImage"
             android:layout_height="@dimen/circleImage"
+            android:layout_centerVertical="true"
             android:layout_margin="@dimen/fragmentAssistantApplyMargin"
             android:src="@drawable/img_default" />
 
@@ -38,14 +39,16 @@
 
             <Button
                 android:id="@+id/but_accept"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/fragmentAssistantApplyButtonWidth"
+                android:layout_height="@dimen/fragmentAssistantApplyButtonHeight"
+
                 android:text="接受" />
 
             <Button
                 android:id="@+id/img_refuse"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/fragmentAssistantApplyButtonWidth"
+                android:layout_height="@dimen/fragmentAssistantApplyButtonHeight"
+
                 android:text="拒绝" />
         </LinearLayout>
 
