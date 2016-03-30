@@ -57,9 +57,12 @@ public class Write extends BaseActivity implements View.OnClickListener{
     ImageView iv_email;
     @InjectView(R.id.im_retestwrite_takephoto)
     ImageView im_retestwrite_takephoto;
-//显示照片
+    //显示照片
     @InjectView(R.id.im_retestwrite_showphoto)
     ImageView im_retestwrite_showphoto;
+    //删除照片
+    @InjectView(R.id.im_delete)
+    ImageView im_delete;
     //信息点击弹框
     //初始体重
     @InjectView(R.id.ll_retestWrite_chu_weight)
@@ -106,6 +109,7 @@ public class Write extends BaseActivity implements View.OnClickListener{
         ll_retestWrite_nowweight.setOnClickListener(this);
         ll_retestWrite_tizhi.setOnClickListener(this);
         ll_retestWrite_neizhi.setOnClickListener(this);
+        im_delete.setOnClickListener(this);
     }
 
     @Override
@@ -137,6 +141,11 @@ public class Write extends BaseActivity implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId())
         {
+            //删除照片
+            case R.id.im_delete:
+                im_retestwrite_showphoto.setVisibility(View.GONE);
+                im_delete.setVisibility(View.GONE);
+                break;
             //标题栏左返回
             case R.id.ll_left:
                 finish();
@@ -206,6 +215,7 @@ public class Write extends BaseActivity implements View.OnClickListener{
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        im_delete.setVisibility(View.VISIBLE);
         im_retestwrite_showphoto.setVisibility(View.VISIBLE);
         im_retestwrite_showphoto.setImageBitmap(bitmap);
         Log.i("path:"+path);
@@ -236,6 +246,7 @@ public class Write extends BaseActivity implements View.OnClickListener{
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
+            im_delete.setVisibility(View.VISIBLE);
             im_retestwrite_showphoto.setVisibility(View.VISIBLE);
             im_retestwrite_showphoto.setImageBitmap(bitmap);
             retestPre.goGetPicture(picturePath.toString());
