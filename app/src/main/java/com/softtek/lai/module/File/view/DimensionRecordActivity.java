@@ -219,11 +219,7 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
 
 
                 finish();
-<<<<<<< HEAD
 
-=======
-                Log.i("-------------------retestWrite----------------------"+retestWrite);
->>>>>>> bd0ef66503a048d95284a76f53c7e76c0e58914f
               //  Log.i("-------------------newstudents----------------------"+newstudents);
                 break;
         }
