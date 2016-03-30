@@ -13,18 +13,34 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <EditText
+                <LinearLayout
+                    android:id="@+id/ll_nickname"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="昵称（必填）"
-                    android:singleLine="true"
-                    android:id="@+id/et_nickname" />
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/nick"
+                        android:layout_marginRight="15dp"/>
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="昵称（必填）"
+                        android:singleLine="true"
+                        android:id="@+id/et_nickname"
+                        android:background="@null"/>
 
+                </LinearLayout>
+                <View
+                    android:layout_height="1dp"
+                    android:layout_width="match_parent"
+                    android:background="#78BC27"/>
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

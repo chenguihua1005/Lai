@@ -210,7 +210,7 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
                 validateLife.validate();
                 break;
             case R.id.btn_Add_bodydimension:
-                Intent intent1=new Intent(EntryActivity.this,DimensionRecordActivity.class);
+                Intent intent1=new Intent(EntryActivity.this,DimensioninputActivity.class);
                 intent1.putExtra("newstudents",newstudents);
                 startActivityForResult(intent1,GET_BODY);
                 break;
@@ -328,7 +328,10 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
         String birthday=et_birthday.getText().toString();
         String gender=et_gender.getText().toString();
         Log.i("新学员录入："+"nickname:"+nickname+";certification:"+certification+";mobile:"+mobile+";classid:"+classid+";weight:"+weight+"pysical:"+pysical+"fat:"+fat+"birthday:"+birthday+"gender:"+gender);
-        newstudents.setUserrole(0);
+
+        String b=mobile.substring(mobile.length()-6,mobile.length());
+        Log.i("获取新学员录入手机号码后6位："+b);
+        newstudents.setPassword(b);
         newstudents.setSentaccid(1);
         newstudents.setNickname(nickname);
         newstudents.setCertification(certification);
