@@ -59,7 +59,8 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_margin="@dimen/fragmentAssistantListMargin"
-                    android:text="@string/allClass" />
+                    android:text="@string/allClass"
+                    android:textSize="@dimen/fragmentAssistantListTextSizes"/>
 
                 <ImageView
                     android:id="@+id/img_all_class"

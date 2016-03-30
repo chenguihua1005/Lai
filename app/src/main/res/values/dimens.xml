@@ -31,6 +31,7 @@
     <dimen name="fragmentAssistantListMargin">10dip</dimen>
     <dimen name="fragmentAssistantListNameSize">20sp</dimen>
     <dimen name="fragmentAssistantListTextSize">18sp</dimen>
+    <dimen name="fragmentAssistantListTextSizes">16sp</dimen>
     <dimen name="fragmentAssistantListHeight">200dip</dimen>
 
 
@@ -47,7 +48,10 @@
 
     <dimen name="gametMargin">20dip</dimen>
     <dimen name="gametMarginLeft">10dip</dimen>
-    <dimen name="gametTextSize">18sp</dimen>
-    <dimen name="gametValueTextSize">20sp</dimen>
+    <dimen name="gametTextSize">15sp</dimen>
+    <dimen name="gametValueTextSize">16sp</dimen>
+    <dimen name="gametValueTextSizes">18sp</dimen>
+    <dimen name="gametButtonWidth">60dip</dimen>
+    <dimen name="gametButtonHeight">40dip</dimen>
 
 </resources>
