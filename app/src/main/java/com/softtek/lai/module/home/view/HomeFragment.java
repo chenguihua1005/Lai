@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.bodygame.Counselor;
+import com.softtek.lai.module.bodygamest.view.StudentActivity;
 import com.softtek.lai.module.home.adapter.FragementAdapter;
 import com.softtek.lai.module.home.adapter.ModelAdapter;
 import com.softtek.lai.module.home.model.HomeInfo;
@@ -36,6 +37,7 @@ import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 /**
  * Created by jerry.guan on 3/15/2016.
@@ -189,15 +191,16 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         aCache=ACache.get(getContext(),Constants.USER_ACACHE_DATA_DIR);
         User user= (User) aCache.getAsObject(Constants.USER_ACACHE_KEY);
-        /*if(Integer.parseInt(user.getUserrole())==Constants.VR){
+        if(Integer.parseInt(user.getUserrole())==Constants.VR){
             Util.toastMsg("游客");
             return;
-        }*/
+        }
         switch (position){
             case 0:
                 startActivity(new Intent(getContext(),Counselor.class));
                 break;
             case 1:
+                startActivity(new Intent(getContext(),StudentActivity.class));
                 break;
             case 2:
                 break;

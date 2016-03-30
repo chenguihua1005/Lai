@@ -9,7 +9,7 @@ import com.softtek.lai.common.BaseActivity;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_student)
-public class Student extends BaseActivity {
+public class StudentActivity extends BaseActivity {
 
 
     @Override
