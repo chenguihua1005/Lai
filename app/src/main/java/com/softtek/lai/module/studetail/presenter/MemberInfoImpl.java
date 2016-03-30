@@ -2,6 +2,7 @@ package com.softtek.lai.module.studetail.presenter;
 
 import android.content.Context;
 
+import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.File.model.File;
 import com.softtek.lai.module.studetail.model.Member;
@@ -12,6 +13,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
+import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.util.Util;
 
 /**
@@ -22,31 +24,24 @@ public class MemberInfoImpl implements IMemberInfopresenter {
     private Context context;
 
     public MemberInfoImpl(StudentDetailActivity studentDetailActivity){
-        service= (MemberInfoService) ZillaApi.NormalRestAdapter.create(MemberInfoImpl.class);
+        service=ZillaApi.NormalRestAdapter.create(MemberInfoService.class);
         context=studentDetailActivity;
     }
 
     @Override
-    public void getmemberinfo(Member member) {
-        service.getmemberInfo(member, new Callback<ResponseData<File>>() {
+    public void getMemberinfo(String classId,String userId) {
+        String token= SharedPreferenceService.getInstance().get("token","");
+        service.getmemberInfo(token,userId,classId, new Callback<ResponseData<Member>>() {
             @Override
-            public void success(ResponseData<File> fileResponseData, Response response) {
+            public void success(ResponseData<Member> fileResponseData, Response response) {
                 int status=fileResponseData.getStatus();
-                switch (status){
-                    case 200: {
-                        Util.toastMsg("保存成功");
-                        break;
-                    }
 
-                    case 300:
-                        Util.toastMsg("参数错误");
-                        break;
-                }
             }
 
             @Override
             public void failure(RetrofitError error) {
-
+                Util.toastMsg(R.string.neterror);
+                error.printStackTrace();
             }
         });
     }
