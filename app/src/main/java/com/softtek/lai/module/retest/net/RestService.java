@@ -68,12 +68,12 @@ public interface RestService {
     );
 //复测录入提交
     @POST("/MeasuredRecordLog/SaveMeasuredRecord")
-    void doGetWrite(
+    void doPostWrite(
             @Header("token")String token,
             @Query("accountId") long accountId,
             @Query("loginId") long loginId,
             @Body RetestWrite retestWrite,
-            Callback<ResponseData<List<RetestWrite>>>callback
+            Callback<ResponseData<RetestWrite>>callback
     );
     //上传图片
     @POST("/MeasuredRecordLog/AddMeasuredPhoto")

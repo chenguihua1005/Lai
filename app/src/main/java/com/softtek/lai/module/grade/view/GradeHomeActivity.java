@@ -2,29 +2,28 @@ package com.softtek.lai.module.grade.view;
 
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.module.assistant.view.InviteStudentActivity;
+import com.softtek.lai.module.counselor.view.AssistantListActivity;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.grade.adapter.DynamicAdapter;
 import com.softtek.lai.module.grade.model.BannerUpdateCallBack;
@@ -35,6 +34,7 @@ import com.softtek.lai.module.grade.model.People;
 import com.softtek.lai.module.grade.model.PhotoInfo;
 import com.softtek.lai.module.grade.presenter.GradeImpl;
 import com.softtek.lai.module.grade.presenter.IGrade;
+import com.softtek.lai.utils.SystemUtils;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
@@ -47,7 +47,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
-import zilla.libcore.file.FileHelper;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
@@ -57,8 +56,10 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
 
     private static final int GET_IMAGE_VIA_CAMERA=1;//相机
     private static final int GET_IMAGE_VIA_PICTURE=2;//图库
+    private static final int CROP_VIA_IMAGE=3;//裁剪
     private static final String localTempImgDir="laiImage";//相机拍照临时存储目录
     private static final String localTempImgFileName="GradeHomeActivityBanner.png";
+    private static final String uploadloadImageDir=Environment.getExternalStorageDirectory()+File.separator+localTempImgDir;
 
 
     @InjectView(R.id.tv_title)
@@ -120,6 +121,8 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
     private AlertDialog dialog;
     private int count=0;
 
+    private File dir=new File(uploadloadImageDir);
+
     @Override
     protected void initViews() {
         ll_back.setOnClickListener(this);
@@ -172,9 +175,15 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
                 startActivity(new Intent(this,TutorActivity.class));
                 break;
             case R.id.ll_invite_tutor:
+                Intent intent = new Intent(this, AssistantListActivity.class);
+                intent.putExtra("classId",getIntent().getStringExtra("classId"));
+                startActivity(intent);
                 //邀请助教按钮
                 break;
             case R.id.ll_invite_student:
+                Intent intents = new Intent(this, InviteStudentActivity.class);
+                intents.putExtra("classId",getIntent().getStringExtra("classId"));
+                startActivity(intents);
                 //邀请学员按钮
                 break;
             case R.id.ll_send_dynamic:
@@ -196,14 +205,9 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
                 String status= Environment.getExternalStorageState();
                 if(status.equals(Environment.MEDIA_MOUNTED)){
                     try {
-                        File dir=new File(Environment.getExternalStorageDirectory() + File.separator+localTempImgDir);
                         if(!dir.exists())dir.mkdirs();
-                        Intent intent=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                         File f=new File(dir, localTempImgFileName);
-                        Uri u=Uri.fromFile(f);
-                        intent.putExtra(MediaStore.Images.Media.ORIENTATION, 0);
-                        intent.putExtra(MediaStore.EXTRA_OUTPUT, u);
-                        startActivityForResult(intent, GET_IMAGE_VIA_CAMERA);
+                        startActivityForResult(SystemUtils.openCamera(Uri.fromFile(f)), GET_IMAGE_VIA_CAMERA);
                     } catch (ActivityNotFoundException e) {
                         Util.toastMsg("没有找到存储目录");
                     }
@@ -216,6 +220,12 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.picture:
                 //选择图片
+                Intent getAlbum = new Intent(Intent.ACTION_PICK);
+                getAlbum.setType("image/*");
+                startActivityForResult(getAlbum,GET_IMAGE_VIA_PICTURE);
+                if(dialog!=null){
+                    dialog.dismiss();
+                }
                 break;
         }
     }
@@ -278,9 +288,7 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onListViewUpdate(DynamicInfo info){
-        System.out.println("listView列表更新请求"+info.toString());
         dynamicInfos.add(info);
-        System.out.println("listView列表更新请求集合"+dynamicInfos);
         adapter.notifyDataSetChanged();
     }
 
@@ -339,14 +347,25 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
                     String imagePath=Environment.getExternalStorageDirectory() + File.separator+localTempImgDir+
                             File.separator+localTempImgFileName;
                     File image=new File(imagePath);
-                    Log.i("文件存在吗？"+image.exists());
-                    if(image.exists()){
-                        progressDialog.setMessage("正在上传图片,请稍候...");
-                        progressDialog.show();
-                        grade.updateClassBanner(1,"2",image);
-                    }
+                    startActivityForResult(SystemUtils.crop(Uri.fromFile(image),null,3,2,300, 300),CROP_VIA_IMAGE);
                     break;
                 case GET_IMAGE_VIA_PICTURE:
+                    Intent intent=SystemUtils.crop(data.getData(),null,3,2,0,0);
+                    startActivityForResult(intent,CROP_VIA_IMAGE);
+                    break;
+                case CROP_VIA_IMAGE:
+                    Bitmap bitmap=data.getParcelableExtra("data");
+                    if(!dir.exists()){
+                        dir.mkdirs();
+                    }
+                    File saveImage=new File(dir,localTempImgFileName);
+                    SystemUtils.saveBitmap(bitmap,saveImage);
+                    Log.i("文件存在吗？"+saveImage.exists());
+                    if(saveImage.exists()){
+                        progressDialog.setMessage("正在上传图片,请稍候...");
+                        progressDialog.show();
+                        grade.updateClassBanner(1,"2",saveImage);
+                    }
                     break;
             }
         }

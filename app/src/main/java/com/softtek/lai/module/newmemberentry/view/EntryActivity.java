@@ -186,12 +186,13 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     protected void initViews() {
-        guwenClassPre=new GuwenClassImp();
-        guwenClassPre.doGetGuwenClass(36);
+
     }
 
     @Override
     protected void initDatas() {
+        guwenClassPre=new GuwenClassImp();
+        guwenClassPre.doGetGuwenClass(36);
         iNewStudentpresenter = new NewStudentInputImpl(this);
         newstudents=new Newstudents();
         tv_title.setText("新学员录入");

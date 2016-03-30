@@ -151,7 +151,8 @@ public class AssistantManageImpl implements IAssistantManagePresenter {
 
             @Override
             public void failure(RetrofitError error) {
-                Util.toastMsg("获取助教申请列表失败");
+                System.out.println("error:"+error);
+                Util.toastMsg("获取助教详情失败");
             }
         });
     }

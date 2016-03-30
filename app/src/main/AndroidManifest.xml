@@ -75,6 +75,9 @@
         <activity android:name=".module.assistant.view.InviteStudentActivity" />
         <activity android:name=".module.assistant.view.InviteContantActivity" />
         <activity android:name=".module.newmemberentry.view.DimensioninputActivity"></activity>
+        <activity android:name=".module.bodygamest.view.StudentActivity" />
+        <activity android:name=".module.counselor.view.SPHonorActivity"/>
+        <activity android:name=".module.assistant.view.GameActivity"/>
     </application>
 
 </manifest>

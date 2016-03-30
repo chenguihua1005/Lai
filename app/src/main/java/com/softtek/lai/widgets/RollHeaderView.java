@@ -15,6 +15,7 @@ import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.utils.DisplayUtil;
 import com.squareup.picasso.Picasso;
@@ -94,7 +95,8 @@ public class RollHeaderView extends FrameLayout implements OnPageChangeListener 
             dotList.clear();
             mDotLl.removeAllViews();
             ImageView dotIv;
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(DisplayUtil.dip2px(mContext,5), DisplayUtil.dip2px(mContext,5));
+            Log.i("一共有多少个点？"+mUrlList.size());
             for (int i = 0; i < mUrlList.size(); i++) {
                 dotIv = new ImageView(mContext);
                 if (i == 0) {
@@ -166,7 +168,7 @@ public class RollHeaderView extends FrameLayout implements OnPageChangeListener 
         public void run() {
             if (isRunning) {
                 mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1);
-                mHandler.postDelayed(this, 3000);
+                mHandler.postDelayed(this, 4000);
             }
         }
     }
@@ -258,12 +260,12 @@ public class RollHeaderView extends FrameLayout implements OnPageChangeListener 
 
     @Override
     public void onPageSelected(int position) {
-        if(dotList.size()>position){
+       // if(dotList.size()>position){
             dotList.get(prePosition).setBackgroundResource(R.drawable.banner_dot_normal);
             dotList.get(position % dotList.size()).setBackgroundResource(R.drawable.banner_dot_select);
             prePosition = position % dotList.size();
 
-        }
+        //}
     }
 
     @Override

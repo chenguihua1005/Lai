@@ -12,8 +12,8 @@ public interface RetestPre {
     void doGetqueryResult(String str);
     void doGetBanjiStudent(long classId);
     void doGetAudit(long accountId, long classId, String typeDate);
-    void doGetWrite(long accountId, long loginId, RetestWrite retestWrite);
-    void doPostWrite(String loginId,String accountId,String typeDate,RetestAudit retestAudit);
+    void doPostWrite(long accountId, long loginId, RetestWrite retestWrite);
+    void doPostAudit(String loginId,String accountId,String typeDate,RetestAudit retestAudit);
     void goGetPicture(String filePath);
     void doGetMeasure(String accesstoken,String phone);
 

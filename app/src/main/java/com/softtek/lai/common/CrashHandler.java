@@ -116,7 +116,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
             }
         }.start();
         //保存日志文件
-        //saveCatchInfo2File(ex);
+        saveCatchInfo2File(ex);
         ex.printStackTrace();
         return true;
     }
@@ -189,7 +189,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
                 FileOutputStream fos = new FileOutputStream(path + fileName);
                 fos.write(sb.toString().getBytes());
                 //发送给开发人员
-                sendCrashLog2PM(path+fileName);
+                //sendCrashLog2PM(path+fileName);
                 fos.close();
             }
             return fileName;

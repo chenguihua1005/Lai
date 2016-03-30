@@ -23,6 +23,7 @@ import com.softtek.lai.module.retest.Adapter.ClassAdapter;
 import com.softtek.lai.module.retest.eventModel.BanjiStudentEvent;
 import com.softtek.lai.module.retest.model.Banji;
 import com.softtek.lai.module.retest.model.BanjiStudent;
+import com.softtek.lai.module.retest.model.RetestWrite;
 import com.softtek.lai.module.retest.model.Student;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.module.retest.present.RetestclassImp;
@@ -69,6 +70,8 @@ public class Retest extends BaseActivity implements View.OnClickListener{
     private ClassAdapter classAdapter;
     private StudentAdapter studentAdapter;
     boolean h=false;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
@@ -105,12 +108,21 @@ public class Retest extends BaseActivity implements View.OnClickListener{
                 if (banjiStudent.getAMStatus()=="")
                 {
                     Intent intent=new Intent(Retest.this,Write.class);
+                    intent.putExtra("accountId",banjiStudent.getAccountId());
+                    intent.putExtra("classId",banjiStudent.getClassId());
+                    intent.putExtra("typeDate",banjiStudent.getTypeDate());
+                    intent.putExtra("loginid","36");
 
                     startActivity(intent);
 
                 }
                 else {
+
                     Intent intent=new Intent(Retest.this, Audit.class);
+                    intent.putExtra("accountId",banjiStudent.getAccountId());
+                    intent.putExtra("classId",banjiStudent.getClassId());
+                    intent.putExtra("typeDate",banjiStudent.getTypeDate());
+                    intent.putExtra("loginid","36");
                     startActivity(intent);
                 }
             }
@@ -169,6 +181,7 @@ public class Retest extends BaseActivity implements View.OnClickListener{
 //        tv_right.setBackgroundResource(R.drawable.search);
         retestPre =new RetestclassImp();
         retestPre.doGetRetestclass(36);
+
 
 
 

@@ -64,11 +64,19 @@
     <string name="reNewPassword">重新输入新密码</string>
     <string name="className">请输入班级名称</string>
     <string name="classTime">请输入时间段</string>
-    <string name="allClass">全部班级</string>
+    <string name="allClass">选择班级</string>
     <string name="customerServiceCount">服务顾客数:</string>
     <string name="retestValue">顾客复测率:</string>
     <string name="totalValue">服务顾客减重总斤数:</string>
     <string name="contactList">手机通讯录邀请</string>
+    <string name="selectMonthValue">选择月份：</string>
+    <string name="selectGradeValue">选择组别：</string>
+    <string name="gameValue">减重龙虎榜</string>
+    <string name="rnumValue">排行</string>
+    <string name="beforeWightValue">减重前</string>
+    <string name="afterWeightValue">减重后</string>
+    <string name="loseWeightValue">共减重</string>
+    <string name="userNameValue">姓名</string>
 
     <string-array name="SensitiveWord">
         <item>康宝来</item>
@@ -136,5 +144,9 @@
     <string name="sendDynamic">发布动态</string>
     <string name="inviteTutor">邀请助教</string>
     <string name="inviteStudent">邀请学员</string>
-
+    <string name="gamestA">基本数据</string>
+    <string name="gamestB">上传照片</string>
+    <string name="gamestD">减重故事</string>
+    <string name="gamestE">成绩单</string>
+    <string name="tipsgamestI">Tips</string>
 </resources>

@@ -45,15 +45,6 @@
             app:alpha="true"
             app:text="@string/healthy"/>
 
-        <com.ggx.jerryguan.widget_lib.SimpleButton
-            android:id="@+id/btn_contact"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            app:normalBitmap="@drawable/recontact"
-            app:pitchBitmap="@drawable/contact"
-            app:alpha="true"
-            app:text="@string/contact"/>
 
         <com.ggx.jerryguan.widget_lib.SimpleButton
             android:id="@+id/btn_healthy_record"
