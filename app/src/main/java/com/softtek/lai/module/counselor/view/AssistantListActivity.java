@@ -2,6 +2,7 @@ package com.softtek.lai.module.counselor.view;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,6 +26,7 @@ import com.softtek.lai.module.counselor.presenter.AssistantImpl;
 import com.softtek.lai.module.counselor.presenter.CounselorClassImpl;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 import com.softtek.lai.module.counselor.presenter.ICounselorClassPresenter;
+import com.softtek.lai.module.grade.view.GradeHomeActivity;
 import com.softtek.lai.module.login.model.User;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.SoftInputUtil;
@@ -65,6 +67,7 @@ public class AssistantListActivity extends BaseActivity implements View.OnClickL
 
     private IAssistantPresenter assistantPresenter;
     private ACache aCache;
+    String classId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +91,7 @@ public class AssistantListActivity extends BaseActivity implements View.OnClickL
     protected void initDatas() {
         assistantPresenter = new AssistantImpl(this);
         aCache= ACache.get(this, Constants.USER_ACACHE_DATA_DIR);
-        String classId=getIntent().getStringExtra("classId");
+        classId=SharedPreferenceService.getInstance().get("classId","");
         System.out.println("classId:"+classId);
         assistantPresenter.getAssistantList(classId,list_assistant);
     }
@@ -98,7 +101,9 @@ public class AssistantListActivity extends BaseActivity implements View.OnClickL
         SoftInputUtil.hidden(this);
         switch (v.getId()) {
             case R.id.tv_right:
-
+                Intent intent = new Intent(this, GradeHomeActivity.class);
+                intent.putExtra("classId",classId);
+                startActivity(intent);
                 break;
 
             case R.id.tv_left:

@@ -45,4 +45,9 @@
     <dimen name="inviteStudentNameTextSize">16sp</dimen>
     <dimen name="inviteStudentMarginLeft">5dip</dimen>
 
+    <dimen name="gametMargin">20dip</dimen>
+    <dimen name="gametMarginLeft">10dip</dimen>
+    <dimen name="gametTextSize">18sp</dimen>
+    <dimen name="gametValueTextSize">20sp</dimen>
+
 </resources>

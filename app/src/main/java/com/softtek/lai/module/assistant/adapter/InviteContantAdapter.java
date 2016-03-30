@@ -91,7 +91,6 @@ public class InviteContantAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 String classId = SharedPreferenceService.getInstance().get("classId", "");
-                classId = "12";
                 assistantManagePresenter.sendInviterMsg(contactListInfo.getMobile().toString(),classId,holder.img_invite);
             }
         });

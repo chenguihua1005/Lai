@@ -6,6 +6,7 @@ import android.os.CountDownTimer;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
@@ -23,10 +24,12 @@ import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.File.view.CreatFlleActivity;
+import com.softtek.lai.module.assistant.model.AssistantClassInfo;
 import com.softtek.lai.module.counselor.adapter.CounselorClassAdapter;
 import com.softtek.lai.module.counselor.model.ClassInfo;
 import com.softtek.lai.module.counselor.presenter.CounselorClassImpl;
 import com.softtek.lai.module.counselor.presenter.ICounselorClassPresenter;
+import com.softtek.lai.module.grade.view.GradeHomeActivity;
 import com.softtek.lai.module.login.presenter.IPasswordPresenter;
 import com.softtek.lai.module.login.presenter.IRegistPresenter;
 import com.softtek.lai.module.login.presenter.PasswordPresnter;
@@ -79,6 +82,16 @@ public class CounselorClassListActivity extends BaseActivity implements View.OnC
         super.onCreate(savedInstanceState);
         tv_left.setOnClickListener(this);
         lin_create_class.setOnClickListener(this);
+        expand_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(CounselorClassListActivity.this,GradeHomeActivity.class);
+                ClassInfo classInfo = (ClassInfo) expand_list.getAdapter().getItem(position);
+                SharedPreferenceService.getInstance().put("classId", classInfo.getClassId());
+                intent.putExtra("classId",classInfo.getClassId());
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
