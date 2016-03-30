@@ -1,10 +1,8 @@
-package com.softtek.lai.module.File.view;
+package com.softtek.lai.module.newmemberentry.view;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -12,29 +10,20 @@ import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.File.model.File;
+import com.softtek.lai.module.File.view.explain;
 import com.softtek.lai.module.newmemberentry.view.model.Newstudents;
 import com.softtek.lai.module.retest.model.RetestWrite;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
-@InjectLayout(R.layout.activity_dimension_record)
-public class DimensionRecordActivity extends BaseActivity implements OnClickListener{
+@InjectLayout(R.layout.activity_dimensioninput)
+public class DimensioninputActivity extends BaseActivity implements OnClickListener{
 
     //toolbar布局控件
     @InjectView(R.id.ll_left)
@@ -89,9 +78,7 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
     @InjectView(R.id.ll_doleggirth)
     RelativeLayout ll_doleggirth;
 
-    private File file;//存储用户表对象
     private Newstudents newstudents;//存储用户表单数据
-    private RetestWrite retestWrite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,13 +92,6 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
         ll_explain.setOnClickListener(this);
         btn_save.setOnClickListener(this);
         ll_left.setOnClickListener(this);
-//
-//        String data=load();
-//        if (!TextUtils.isEmpty(data)){
-//            tv_circum.setText(data);
-//            //tv_circum.setSelection(circum.length());
-//        }
-
     }
 
     @Override
@@ -121,19 +101,14 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
 
     @Override
     protected void initDatas() {
-        file= (File) getIntent().getSerializableExtra("file");
         newstudents=(Newstudents)getIntent().getSerializableExtra("newstudents");
-        retestWrite=(RetestWrite)getIntent().getSerializableExtra("retestWrite");
         tv_title.setText("添加记录");
-        tv_circum.setText("0.0".equals(file.getCircum()+"")?"":file.getCircum()+"");
-        tv_waistline.setText("0.0".equals(file.getWaistline()+"")?"":file.getWaistline()+"");
-        tv_hiplie.setText("0.0".equals(file.getHiplie()+"")?"":file.getHiplie()+"");
-        tv_uparmgirth.setText("0.0".equals(file.getUparmgirth()+"")?"":file.getUparmgirth()+"");
-        tv_upleggirth.setText("0.0".equals(file.getUpleggirth()+"")?"":file.getUpleggirth()+"");
-        tv_doleggirth.setText("0.0".equals(file.getDoleggirth()+"")?"":file.getDoleggirth()+"");
-
-
-
+        tv_circum.setText("0.0".equals(newstudents.getCircum()+"")?"":newstudents.getCircum()+"");
+        tv_waistline.setText("0.0".equals(newstudents.getWaistline()+"")?"":newstudents.getWaistline()+"");
+        tv_hiplie.setText("0.0".equals(newstudents.getHiplie()+"")?"":newstudents.getHiplie()+"");
+        tv_uparmgirth.setText("0.0".equals(newstudents.getUparmgirth()+"")?"":newstudents.getUparmgirth()+"");
+        tv_upleggirth.setText("0.0".equals(newstudents.getUpleggirth()+"")?"":newstudents.getUpleggirth()+"");
+        tv_doleggirth.setText("0.0".equals(newstudents.getDoleggirth()+"")?"":newstudents.getDoleggirth()+"");
     }
 
     @Override
@@ -159,105 +134,38 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
                 break;
             //填写说明
             case R.id.ll_explain:
-                    startActivity(new Intent(DimensionRecordActivity.this,explain.class));
-
+                startActivity(new Intent(DimensioninputActivity.this,explain.class));
+                finish();
                 break;
             //返回按钮
             case R.id.ll_left:
-                //startActivity(new Intent(DimensionRecordActivity.this,CreatFlleActivity.class));
                 finish();
                 break;
             //保存记录......
             case R.id.btn_save:
-                /*getIntent().putExtra("","token");
-                String token= SharedPreferenceService.getInstance().get("token","");*/
                 double circum=Double.parseDouble(tv_circum.getText().toString().equals("")?"0":(tv_circum.getText().toString()));
                 double waistline=Double.parseDouble(tv_waistline.getText().toString().equals("")?"0":tv_waistline.getText().toString());
                 double hiplie=Double.parseDouble(tv_hiplie.getText().toString().equals("")?"0":tv_hiplie.getText().toString());
                 double uparmgirth=Double.parseDouble(tv_uparmgirth.getText().toString().equals("")?"0":tv_uparmgirth.getText().toString());
                 double tupleggirth=Double.parseDouble(tv_upleggirth.getText().toString().equals("")?"0":tv_upleggirth.getText().toString());
                 double doleggirth=Double.parseDouble(tv_doleggirth.getText().toString().equals("")?"0":tv_doleggirth.getText().toString());
-
-                //创建档案的添加围度
-                file=new File();
-                file.setCircum(circum);
-                file.setWaistline(waistline);
-                file.setHiplie(hiplie);
-                file.setUparmgirth(uparmgirth);
-                file.setUpleggirth(tupleggirth);
-                file.setDoleggirth(doleggirth);
+                //新学员录入的添加围度
+                newstudents=new Newstudents();
+                newstudents.setCircum(circum);
+                newstudents.setWaistline(waistline);
+                newstudents.setHiplie(hiplie);
+                newstudents.setUparmgirth(uparmgirth);
+                newstudents.setUpleggirth(tupleggirth);
+                newstudents.setDoleggirth(doleggirth);
                 Intent intent=new Intent();
-                intent.putExtra("file",file);
+                intent.putExtra("newstudents",newstudents);
                 setResult(RESULT_OK,intent);
-//
-//                //新学员录入的添加围度
-//                newstudents=new Newstudents();
-//                newstudents.setCircum(circum);
-//                newstudents.setWaistline(waistline);
-//                newstudents.setHiplie(hiplie);
-//                newstudents.setUparmgirth(uparmgirth);
-//                newstudents.setUpleggirth(tupleggirth);
-//                newstudents.setDoleggirth(doleggirth);
-//                Intent intent1=new Intent();
-//                intent1.putExtra("newstudents",newstudents);
-//                setResult(RESULT_OK,intent1);
-//                //复测录入
-//                retestWrite=new RetestWrite();
-//                retestWrite.setCircum(circum+"");
-//                retestWrite.setWaistline(waistline+"");
-//                retestWrite.setHiplie(hiplie+"");
-//                retestWrite.setUpArmGirth(uparmgirth+"");
-//                retestWrite.setUpLegGirth(tupleggirth+"");
-//                retestWrite.setDoLegGirth(doleggirth+"");
-//                Intent intent2=new Intent();
-//                intent2.putExtra("retestWrite",retestWrite+"");
-//                setResult(RESULT_OK,intent2);
-//
-//                Intent intent3=new Intent();
-//                intent.putExtra("data_return","Hello");
-//                setResult(RESULT_OK,intent3);
-
-
                 finish();
-
-              //  Log.i("-------------------newstudents----------------------"+newstudents);
+                Log.i("-------------------newstudents----------------------"+newstudents);
                 break;
         }
     }
 
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-    }
-
-
-//    public String load(){
-//        FileInputStream in=null;
-//        BufferedReader reader=null;
-//        StringBuilder content=new StringBuilder();
-//        try{
-//            in=openFileInput("data");///////
-//            reader=new BufferedReader(new InputStreamReader(in));
-//            String line="";
-//            while ((line=reader.readLine())!=null){
-//                content.append(line);
-//            }
-//        }catch (IOException e){
-//            e.printStackTrace();
-//        }finally {
-//            if (reader!=null){
-//                try {
-//                    reader.close();
-//                }catch (IOException e){
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-//        return content.toString();
-//    }
     //围度dialog
     public void show_circum_dialog() {
         final Dialog circum_dialog = new Dialog(this);
