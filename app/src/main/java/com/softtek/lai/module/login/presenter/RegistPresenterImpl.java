@@ -88,8 +88,8 @@ public class RegistPresenterImpl implements IRegistPresenter{
             @Override
             public void success(ResponseData<Identify> stringResponseData, Response response) {
                 SharedPreferenceService.getInstance().put("identify",stringResponseData.getData().getIdentify());
+                Util.toastMsg(stringResponseData.getMsg());
                 if(stringResponseData.getStatus()!=200){
-                    Util.toastMsg(stringResponseData.getMsg());
                     callBack.getIdentifyCallback(false);
                 }else{
                     callBack.getIdentifyCallback(true);

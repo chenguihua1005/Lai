@@ -31,18 +31,20 @@ public class LoginPresenterImpl implements ILoginPresenter {
 
     private Context context;
     private ACache aCache;
+    private LoginService service;
     public LoginPresenterImpl(Context context){
         this.context=context;
         aCache=ACache.get(context, Constants.USER_ACACHE_DATA_DIR);
+        service= ZillaApi.NormalRestAdapter.create(LoginService.class);
     }
 
     @Override
     public void doLogin(String userName, String password,final ProgressDialog dialog) {
-        LoginService service= ZillaApi.NormalRestAdapter.create(LoginService.class);
+
         service.doLogin(userName, password, new Callback<ResponseData<User>>() {
             @Override
             public void success(ResponseData<User> userResponseData, Response response) {
-                dialog.dismiss();
+                if(dialog!=null)dialog.dismiss();
                 System.out.println(userResponseData);
                 int status=userResponseData.getStatus();
                 switch (status){
@@ -60,14 +62,16 @@ public class LoginPresenterImpl implements ILoginPresenter {
 
             @Override
             public void failure(RetrofitError error) {
-                dialog.dismiss();
+                if(dialog!=null)dialog.dismiss();
                 error.printStackTrace();
                 Util.toastMsg("登录失败");
             }
         });
     }
 
-
+    public void autoLogin(String phone,String password,Callback<ResponseData<User>> callback){
+        service.doLogin(phone,password,callback);
+    }
 
 
 }

@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -22,6 +23,7 @@ import com.softtek.lai.module.login.presenter.LoginPresenterImpl;
 import com.softtek.lai.utils.ACache;
 
 import butterknife.InjectView;
+import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
@@ -54,6 +56,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @InjectView(R.id.ll_visitor)
     LinearLayout ll_visitor;
+
+    @InjectView(R.id.cb_remember)
+    CheckBox cb_remember;
 
     private ProgressDialog progressDialog;
 
@@ -109,6 +114,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
         String phone=et_phone.getText().toString();
         String password=et_password.getText().toString();
+        if(cb_remember.isChecked()){
+            SharedPreferenceService.getInstance().put(Constants.AUTO_LOGIN,true);
+            SharedPreferenceService.getInstance().put(Constants.AUTO_USER_NAME,phone);
+            SharedPreferenceService.getInstance().put(Constants.AUTO_PASSWORD,password);
+        }else{
+            SharedPreferenceService.getInstance().put(Constants.AUTO_LOGIN,false);
+            SharedPreferenceService.getInstance().put(Constants.AUTO_USER_NAME,"");
+            SharedPreferenceService.getInstance().put(Constants.AUTO_PASSWORD,"");
+        }
         progressDialog.show();
         loginPresenter.doLogin(phone,password,progressDialog);
     }

@@ -29,6 +29,12 @@ public class Constants {
     //销售信息key
     public static final String HOEM_SALE_KEY="saleInfo";
 
+    //自动登陆表示key
+    public static final String AUTO_LOGIN="autoLogin";
+    //用户名
+    public static final String AUTO_USER_NAME="auto_userName";
+    //密码
+    public static final String AUTO_PASSWORD="auto_password";
     /**
      * 用户角色常量
      *  0:NC 普通顾客，未认证用户
