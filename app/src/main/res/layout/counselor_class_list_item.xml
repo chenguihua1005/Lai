@@ -61,8 +61,8 @@
                 android:textSize="@dimen/counselorClassTextSize" />
             <ImageView
                 android:id="@+id/img_more"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="20dip"
+                android:layout_height="20dip"
                 android:layout_margin="@dimen/counselorClassTextMarginLeft"
                 android:src="@drawable/more"/>
         </LinearLayout>

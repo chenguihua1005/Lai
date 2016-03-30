@@ -195,6 +195,8 @@ public class InviteContantActivity extends BaseActivity implements View.OnClickL
                 System.out.println("contactListValue:" + contactListValue);
                 progressDialog.dismiss();
                 super.onQueryComplete(token, cookie, cursor);
+            }else {
+                progressDialog.dismiss();
             }
         }
 
