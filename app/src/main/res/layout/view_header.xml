@@ -14,11 +14,11 @@
         android:id="@+id/ll_dot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
+        android:layout_gravity="bottom|center"
         android:paddingRight="8dip"
         android:layout_marginBottom="8dip"
         android:gravity="center"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
     </LinearLayout>
 
 </FrameLayout>
