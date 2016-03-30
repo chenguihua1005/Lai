@@ -15,6 +15,7 @@ import retrofit.http.Query;
  * Created by julie.zhu on 3/22/2016.
  */
 public interface MemberInfoService {
+
     @GET("/HerbrClass/GetClassMemberInfo")
     void getmemberInfo(@Header("token")String token,
                        @Query("userId")String userId,

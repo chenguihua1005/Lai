@@ -1,5 +1,6 @@
 package com.softtek.lai.module.grade.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -17,6 +18,7 @@ import com.softtek.lai.module.grade.eventModel.LossWeightEvent;
 import com.softtek.lai.module.grade.model.Student;
 import com.softtek.lai.module.grade.presenter.GradeImpl;
 import com.softtek.lai.module.grade.presenter.IGrade;
+import com.softtek.lai.module.studetail.view.StudentDetailActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -101,6 +103,7 @@ public class LossWeightFragment extends BaseFragment implements PullToRefreshBas
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Student student= students.get(position-1);
-        Log.i("点击了"+position+",学员，数据是>>"+student.toString());
+        Intent intent=new Intent(getContext(), StudentDetailActivity.class);
+        startActivity(intent);
     }
 }

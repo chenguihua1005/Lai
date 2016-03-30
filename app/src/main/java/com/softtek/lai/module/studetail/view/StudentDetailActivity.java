@@ -1,6 +1,8 @@
 package com.softtek.lai.module.studetail.view;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -10,8 +12,15 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.module.studetail.model.Member;
+import com.softtek.lai.module.studetail.presenter.IMemberInfopresenter;
+import com.softtek.lai.module.studetail.presenter.MemberInfoImpl;
 import com.softtek.lai.widgets.CircleImageView;
+import com.squareup.picasso.Picasso;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.w3c.dom.Text;
 
 import butterknife.InjectView;
@@ -48,14 +57,25 @@ public class StudentDetailActivity extends BaseActivity implements View.OnClickL
     @InjectView(R.id.tabcontent)
     ViewPager tabContent;
 
+    private ProgressDialog progressDialog;
+    private IMemberInfopresenter memberInfopresenter;
+
     @Override
     protected void initViews() {
         ll_left.setOnClickListener(this);
+        progressDialog=new ProgressDialog(this);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setMessage("正在加载内容...");
     }
 
     @Override
     protected void initDatas() {
+        EventBus.getDefault().register(this);
+        memberInfopresenter=new MemberInfoImpl(this);
         tv_title.setText("学员详情");
+        progressDialog.show();
+        memberInfopresenter.getMemberinfo("1","4",progressDialog);
+
     }
 
     @Override
@@ -65,5 +85,26 @@ public class StudentDetailActivity extends BaseActivity implements View.OnClickL
                 finish();
                 break;
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onGetData(Member member){
+        Picasso.with(this).load(member.getPhoto()).error(R.drawable.default_pic).into(civ_header_image);
+        Picasso.with(this).load(member.getBeforImg()).error(R.drawable.default_pic).into(iv_loss_before);
+        Picasso.with(this).load(member.getAfterImg()).error(R.drawable.default_pic).into(iv_loss_after);
+        tv_name.setText(member.getUserName());
+        tv_phone.setText(member.getMobile());
+        tv_totle_log.setText(member.getLogCount()+"篇");
+        tv_totle_lw.setText(member.getLossWeight()+"kg");
+        tv_loss_before.setText(member.getLossBefor()+"kg");
+        tv_loss_after.setText(member.getLossAfter()+"kg");
+
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 }

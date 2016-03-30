@@ -1,5 +1,7 @@
 package com.softtek.lai.module.studetail.presenter;
 
+import android.app.ProgressDialog;
+
 import com.softtek.lai.module.studetail.model.Member;
 
 /**
@@ -7,5 +9,5 @@ import com.softtek.lai.module.studetail.model.Member;
  */
 public interface IMemberInfopresenter {
 
-    void getMemberinfo(String classId,String userId);
+    void getMemberinfo(String classId, String userId, ProgressDialog progressDialog);
 }

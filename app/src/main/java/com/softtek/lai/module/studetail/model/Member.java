@@ -113,4 +113,22 @@ public class Member {
     public void setMobile(String mobile) {
         Mobile = mobile;
     }
+
+    @Override
+    public String toString() {
+        return "Member{" +
+                "AccountId=" + AccountId +
+                ", ClassId=" + ClassId +
+                ", OrderNum=" + OrderNum +
+                ", UserName='" + UserName + '\'' +
+                ", Photo='" + Photo + '\'' +
+                ", AfterImg='" + AfterImg + '\'' +
+                ", BeforImg='" + BeforImg + '\'' +
+                ", LogCount=" + LogCount +
+                ", LossAfter='" + LossAfter + '\'' +
+                ", LossBefor='" + LossBefor + '\'' +
+                ", LossWeight='" + LossWeight + '\'' +
+                ", Mobile='" + Mobile + '\'' +
+                '}';
+    }
 }

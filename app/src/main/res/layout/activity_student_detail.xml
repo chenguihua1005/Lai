@@ -48,7 +48,7 @@
                         android:id="@+id/tv_totle_log"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="10篇"
+                        android:text="0篇"
                         android:gravity="center"
                         android:textColor="#76BA2A"
                         android:textSize="18sp"
@@ -127,7 +127,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="left|center"
-                            android:text="12345678978"
+                            android:text=""
                             android:textSize="20sp"
                             android:textStyle="bold"/>
                     </LinearLayout>
@@ -182,7 +182,7 @@
                         android:textColor="#76BA2A"
                         android:textSize="18dp"
                         android:layout_marginLeft="15dp"
-                        android:text="15.0kg"/>
+                        android:text="0.0kg"/>
                 </LinearLayout>
 
                 <View
@@ -237,7 +237,7 @@
                                 android:layout_height="50dp"
                                 android:background="@drawable/vs_left"
                                 android:layout_alignParentBottom="true"
-                                android:text="70.0kg"
+                                android:text="0.0kg"
                                 android:gravity="bottom"
                                 android:paddingLeft="4dp"
                                 android:paddingBottom="5dp"
@@ -250,7 +250,7 @@
                                 android:background="@drawable/vs_right"
                                 android:layout_alignParentBottom="true"
                                 android:layout_alignParentRight="true"
-                                android:text="70.0kg"
+                                android:text="0.0kg"
                                 android:gravity="bottom|right"
                                 android:paddingRight="4dp"
                                 android:paddingBottom="5dp"

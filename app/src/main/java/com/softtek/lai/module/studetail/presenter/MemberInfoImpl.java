@@ -1,13 +1,17 @@
 package com.softtek.lai.module.studetail.presenter;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.File.model.File;
 import com.softtek.lai.module.studetail.model.Member;
 import com.softtek.lai.module.studetail.net.MemberInfoService;
 import com.softtek.lai.module.studetail.view.StudentDetailActivity;
+
+import org.greenrobot.eventbus.EventBus;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -23,23 +27,31 @@ public class MemberInfoImpl implements IMemberInfopresenter {
     private MemberInfoService service;
     private Context context;
 
-    public MemberInfoImpl(StudentDetailActivity studentDetailActivity){
+    public MemberInfoImpl(Context context){
         service=ZillaApi.NormalRestAdapter.create(MemberInfoService.class);
-        context=studentDetailActivity;
+        this.context=context;
     }
 
     @Override
-    public void getMemberinfo(String classId,String userId) {
+    public void getMemberinfo(String classId, String userId, final ProgressDialog progressDialog) {
         String token= SharedPreferenceService.getInstance().get("token","");
         service.getmemberInfo(token,userId,classId, new Callback<ResponseData<Member>>() {
             @Override
-            public void success(ResponseData<Member> fileResponseData, Response response) {
-                int status=fileResponseData.getStatus();
-
+            public void success(ResponseData<Member> memberResponseData, Response response) {
+                Log.i("返回值>>>"+memberResponseData.toString());
+                Log.i("请求url>>>"+response.getUrl());
+                progressDialog.dismiss();
+                int status=memberResponseData.getStatus();
+                if(status==200){
+                    EventBus.getDefault().post(memberResponseData.getData());
+                }else{
+                    Util.toastMsg(memberResponseData.getMsg());
+                }
             }
 
             @Override
             public void failure(RetrofitError error) {
+                progressDialog.dismiss();
                 Util.toastMsg(R.string.neterror);
                 error.printStackTrace();
             }
