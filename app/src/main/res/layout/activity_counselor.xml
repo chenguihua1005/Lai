@@ -50,6 +50,7 @@
                         >
 
                         <LinearLayout
+                            android:id="@+id/ll_tiguansai"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_margin="2dp"
@@ -84,6 +85,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/ll_review"
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:orientation="vertical"
@@ -103,6 +105,7 @@
                                 android:background="@null"/>
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/ll_new_student"
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:orientation="vertical"
@@ -130,6 +133,7 @@
                         android:padding="5dp" >
 
                         <LinearLayout
+                            android:id="@+id/ll_counselor_fuce"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_margin="2dp"
@@ -173,6 +177,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/ll_process"
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:orientation="vertical"
@@ -193,6 +198,7 @@
                                 android:background="@null" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/ll_honor"
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:orientation="vertical"
@@ -221,6 +227,7 @@
                         android:padding="5dp" >
 
                         <LinearLayout
+                            android:id="@+id/ll_match"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_margin="2dp"
@@ -254,6 +261,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/ll_tip"
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:orientation="vertical"
@@ -274,6 +282,7 @@
                                 android:background="@null" />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/ll_assistant"
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:orientation="vertical"
