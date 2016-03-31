@@ -15,6 +15,7 @@ import com.mobsandgeeks.saripaar.annotation.Regex;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.UserInfo;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.login.model.User;
@@ -57,8 +58,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @InjectView(R.id.ll_visitor)
     LinearLayout ll_visitor;
 
-    @InjectView(R.id.cb_remember)
-    CheckBox cb_remember;
 
     private ProgressDialog progressDialog;
 
@@ -97,10 +96,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 startActivity(new Intent(this,RegistActivity.class));
                 break;
             case R.id.ll_visitor:
-                User user=new User();
-                user.setUserrole(String.valueOf(Constants.VR));
-                user.setNickname("游客");
-                ACache.get(this, Constants.USER_ACACHE_DATA_DIR).put(Constants.USER_ACACHE_KEY,user);
+                UserInfo.getInstance().visitorLogin();
                 startActivity(new Intent(this, HomeActviity.class));
                 break;
 
@@ -114,15 +110,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
         String phone=et_phone.getText().toString();
         String password=et_password.getText().toString();
-        if(cb_remember.isChecked()){
-            SharedPreferenceService.getInstance().put(Constants.AUTO_LOGIN,true);
-            SharedPreferenceService.getInstance().put(Constants.AUTO_USER_NAME,phone);
-            SharedPreferenceService.getInstance().put(Constants.AUTO_PASSWORD,password);
-        }else{
-            SharedPreferenceService.getInstance().put(Constants.AUTO_LOGIN,false);
-            SharedPreferenceService.getInstance().put(Constants.AUTO_USER_NAME,"");
-            SharedPreferenceService.getInstance().put(Constants.AUTO_PASSWORD,"");
-        }
         progressDialog.show();
         loginPresenter.doLogin(phone,password,progressDialog);
     }

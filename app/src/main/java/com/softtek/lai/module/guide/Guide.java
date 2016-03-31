@@ -6,8 +6,10 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.common.UserInfo;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.login.model.User;
@@ -27,85 +29,31 @@ import zilla.libcore.util.Util;
 
 public class Guide extends AppCompatActivity implements Runnable{
 
-    private CountDownLatch countDownLatch=new CountDownLatch(1);
-    private ILoginPresenter loginPresenter;
-    private boolean autoLogin=false;
-    private boolean success=false;
-
-    private ACache aCache;
+    private  String token=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
 
         super.onCreate(savedInstanceState);
         setContentView(getLayoutInflater().inflate(R.layout.activity_guide, null, false));
-        loginPresenter=new LoginPresenterImpl(this);
-        aCache=ACache.get(this, Constants.USER_ACACHE_DATA_DIR);
-        //检查是否设置了自动登陆
-        autoLogin= SharedPreferenceService.getInstance().get(Constants.AUTO_LOGIN,false);
-        if(autoLogin){
-            //获取用户名和密码
-            String phone=SharedPreferenceService.getInstance().get(Constants.AUTO_USER_NAME,"");
-            String password=SharedPreferenceService.getInstance().get(Constants.AUTO_PASSWORD,"");
-            if("".equals(phone)||"".equals(password)){
-                success=false;
-                countDownLatch.countDown();
-            }else{
-                ((LoginPresenterImpl)loginPresenter)
-                        .autoLogin(phone,
-                                password,
-                                new Callback<ResponseData<User>>() {
-                                    @Override
-                                    public void success(ResponseData<User> userResponseData, Response response) {
-                                        switch (userResponseData.getStatus()){
-                                            case 200:
-                                                success=true;
-                                                SharedPreferenceService.getInstance().put("token", userResponseData.getData().getToken());
-                                                aCache.put(Constants.USER_ACACHE_KEY, userResponseData.getData());
-                                                break;
-                                            default:
-                                                success=false;
-                                                break;
-                                        }
-                                        countDownLatch.countDown();
-                                    }
-
-                                    @Override
-                                    public void failure(RetrofitError error) {
-                                        success=false;
-                                        countDownLatch.countDown();
-                                    }
-                                });
-            }
-
-        }else{
-            countDownLatch.countDown();
-        }
-        new Thread(this).start();
-
+        //检查是否存在token
+        token= UserInfo.getInstance().getToken();
+        new Handler().postDelayed(this,1500);
 
 
     }
 
     @Override
     public void run() {
-        try {
-            //等待10秒阻塞
-            countDownLatch.await(10, TimeUnit.SECONDS);
-            if(!success){
-                //如果没有设置自动登陆就直接延迟2s进入登陆界面
-                SystemClock.sleep(1500);
-                Intent intent = new Intent(Guide.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
-            }else{
-                //登陆完后直接去主页
-                Intent intent = new Intent(Guide.this, HomeActviity.class);
-                startActivity(intent);
-                finish();
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        if(token==null||"".equals(token)){
+            Intent intent = new Intent(Guide.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }else{
+            //登陆完后直接去主页
+            Intent intent = new Intent(Guide.this, HomeActviity.class);
+            startActivity(intent);
+            finish();
         }
     }
 }

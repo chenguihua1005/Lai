@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
@@ -17,7 +18,9 @@ import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.home.adapter.MainPageAdapter;
 
 import butterknife.InjectView;
+import zilla.libcore.lifecircle.exit.AppManager;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_home_actviity)
 public class HomeActviity extends BaseActivity implements View.OnClickListener,BaseFragment.OnFragmentInteractionListener{
@@ -168,28 +171,25 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener,B
 
     }
 
+    int count=2;
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-
-            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this)
-                    .setTitle(getString(R.string.app_exit))
-                    .setMessage(getString(R.string.app_exit) + " " + getResources().getString(R.string.app_name) + " ?")
-                    .setPositiveButton(getString(R.string.app_sure), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            finish();
-                        }
-                    })
-                    .setNegativeButton(getString(R.string.app_cancel), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-
-            dialogBuilder.create().show();
+            if(count==2){
+                Util.toastMsg("再按一次,退出应用");
+                //5秒中后恢复
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        count=2;
+                    }
+                },5000);
+            }
+            count--;
+            if(count<=0){
+                AppManager.getAppManager().AppExit(this);
+            }
             return true;
         }
         return super.onKeyDown(keyCode, event);

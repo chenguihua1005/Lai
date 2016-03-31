@@ -21,6 +21,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.CrashHandler;
+import com.softtek.lai.common.UserInfo;
 import com.softtek.lai.module.File.model.Filter;
 import com.softtek.lai.utils.NetErrorHandler;
 
@@ -60,6 +61,7 @@ public class ZillaApplication extends Application implements Zilla.InitCallback,
             filterList.add(new Filter(datas[i]));
         }
         new Zilla().setCallBack(this).initSystem(this);
+        UserInfo.getInstance(this);
         CrashHandler catchHandler = CrashHandler.getInstance();
         catchHandler.init(getApplicationContext());
     }
