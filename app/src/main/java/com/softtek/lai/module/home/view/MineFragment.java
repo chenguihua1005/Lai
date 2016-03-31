@@ -6,9 +6,12 @@
 package com.softtek.lai.module.home.view;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import butterknife.InjectView;
 import com.mobsandgeeks.saripaar.Rule;
@@ -34,12 +37,24 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     @InjectView(R.id.but_login_out)
     Button but_login_out;
 
+    @InjectView(R.id.lin_validate_certification)
+    LinearLayout lin_validate_certification;
+
+    @InjectView(R.id.lin_setting)
+    LinearLayout lin_setting;
+
+    @InjectView(R.id.lin_reset_password)
+    LinearLayout lin_reset_password;
+
     private ACache aCache;
 
     @Override
     protected void initViews() {
         tv_left.setVisibility(View.GONE);
         but_login_out.setOnClickListener(this);
+        lin_validate_certification.setOnClickListener(this);
+        lin_setting.setOnClickListener(this);
+        lin_reset_password.setOnClickListener(this);
     }
 
     @Override
@@ -51,15 +66,38 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
 
     @Override
     public void onClick(View v) {
-        SoftInputUtil.hidden(getContext());
         switch (v.getId()) {
             case R.id.but_login_out:
-                clearData();
-                getActivity().finish();
-                startActivity(new Intent(getContext(), LoginActivity.class));
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext())
+                        .setTitle(getString(R.string.login_out_title))
+                        .setMessage(getString(R.string.login_out_message))
+                        .setPositiveButton(getString(R.string.app_sure), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                clearData();
+                                getActivity().finish();
+                                startActivity(new Intent(getContext(), LoginActivity.class));
+                            }
+                        })
+                        .setNegativeButton(getString(R.string.app_cancel), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                dialogBuilder.create().show();
+
                 break;
 
-            case R.id.img_choose:
+            case R.id.lin_reset_password:
+
+                break;
+            case R.id.lin_validate_certification:
+                startActivity(new Intent(getContext(),ValidateCertificationActivity.class));
+                break;
+            case R.id.lin_setting:
+
                 break;
         }
     }

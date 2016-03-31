@@ -27,6 +27,8 @@
     <string name="app_sure">确定</string>
     <string name="app_exit">退出</string>
     <string name="app_cancel">取消</string>
+    <string name="login_out_title">警告</string>
+    <string name="login_out_message">确定退出该账号吗？</string>
 
     <string name="title_activity_login">LoginActivity</string>
     <string name="phoneNum">手机号</string>
@@ -87,6 +89,12 @@
     <string name="afterWeightValue">减重后</string>
     <string name="loseWeightValue">共减重</string>
     <string name="userNameValue">姓名</string>
+    <string name="fragmentRenzheng">身份认证</string>
+    <string name="fragmentSetting">系统设置</string>
+    <string name="fragmentResetPassword">重置密码</string>
+    <string name="zigezhenghao">资格证号</string>
+    <string name="accountValidateNull">请输入资格证号</string>
+
 
     <string-array name="SensitiveWord">
         <item>康宝来</item>

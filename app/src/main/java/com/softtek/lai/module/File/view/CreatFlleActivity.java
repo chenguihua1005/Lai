@@ -13,8 +13,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+<<<<<<< HEAD
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.NumberPicker;
+import android.widget.TextView;
+import android.widget.Toast;
+
+=======
 import android.widget.*;
 import butterknife.InjectView;
+>>>>>>> 43349e664360282fabcb88aadd0cbb1e19867c2d
 import com.github.snowdream.android.util.Log;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
@@ -96,7 +107,11 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
     TextView tv_right;
 
     //存储用户表单数据
+<<<<<<< HEAD
+    private File file;
+=======
     private FileModel file;
+>>>>>>> 43349e664360282fabcb88aadd0cbb1e19867c2d
     private static final int GET_BODY_DIMENSION = 1;
 
     private boolean w = true;
@@ -151,7 +166,11 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         tv_title.setText("我的档案");
         tv_left.setBackground(null);
         tv_right.setText("跳过");
+<<<<<<< HEAD
+        file = new File();
+=======
         file = new FileModel();
+>>>>>>> 43349e664360282fabcb88aadd0cbb1e19867c2d
     }
 
     @Override
@@ -159,7 +178,11 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.btn_finish:
                 String nick = et_nickname.getText().toString();
+<<<<<<< HEAD
+                if (ZillaApplication.getInstance().getFilterList().contains(new Filter(nick))) {
+=======
                 if (LaiApplication.getInstance().getFilterList().contains(new FilterModel(nick))) {
+>>>>>>> 43349e664360282fabcb88aadd0cbb1e19867c2d
                     Util.toastMsg("该昵称不合法");
                 } else {
                     validateLife.validate();
@@ -209,7 +232,11 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         String weight = tv_weight.getText().toString();
         Log.i("创建档案：" + "nick:" + nick + ";birthday:" + birthday + ";gender:" + gender + ";height:" + height + ";weight:" + weight);
         if (w == true) {
+<<<<<<< HEAD
+            file = new File();
+=======
             file = new FileModel();
+>>>>>>> 43349e664360282fabcb88aadd0cbb1e19867c2d
         }
         Log.i("file:--------------" + file);
         file.setNickname(nick);
@@ -232,7 +259,11 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == GET_BODY_DIMENSION) {
+<<<<<<< HEAD
+            file = (File) data.getSerializableExtra("file");
+=======
             file = (FileModel) data.getSerializableExtra("file");
+>>>>>>> 43349e664360282fabcb88aadd0cbb1e19867c2d
             Log.i("创建档案围度file:" + file);
         }
     }
@@ -300,7 +331,29 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tv_weight.setText(String.valueOf(np.getValue())); //set the value to textview
+                if (np.getValue() < 80) {
+                    Dialog dialog = new AlertDialog.Builder(CreatFlleActivity.this)
+                            .setMessage("体重单位为斤,是否确认数值?")
+                            .setPositiveButton("确定",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int which) {
+                                            tv_weight.setText(String.valueOf(np.getValue())); //set the value to textview
+                                        }
+                                    })
+
+                            .setNegativeButton("取消",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface arg0, int arg1) {
+                                            show_weight_dialog();
+                                        }
+                                    }).create();
+                    dialog.show();
+                    dialog.setCanceledOnTouchOutside(false);
+                } else {
+                    tv_weight.setText(String.valueOf(np.getValue())); //set the value to textview
+                }
                 weight_dialog.dismiss();
             }
         });
