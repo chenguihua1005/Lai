@@ -13,15 +13,18 @@
         layout="@layout/toolbar" />
 
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/lin_create_class"
         android:layout_below="@+id/toolbar">
 
         <ImageView
+            android:id="@+id/img_mo_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/no_message" />
+            android:src="@drawable/no_message"
+            android:layout_centerInParent="true"
+            android:visibility="gone"/>
 
         <ListView
             android:id="@+id/expand_list"
@@ -35,7 +38,8 @@
         android:id="@+id/lin_create_class"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="fill_parent"

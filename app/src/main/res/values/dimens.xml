@@ -64,4 +64,6 @@
     <dimen name="spHonorTextSizes">20sp</dimen>
     <dimen name="spHonorMargin">20dip</dimen>
     <dimen name="spHonorMarginLeft">5dip</dimen>
+
+    <dimen name="fragmentMineMargin">20dip</dimen>
 </resources>

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -50,6 +51,9 @@ public class CounselorClassListActivity extends BaseActivity implements View.OnC
     @InjectView(R.id.lin_create_class)
     LinearLayout lin_create_class;
 
+    @InjectView(R.id.img_mo_message)
+    ImageView img_mo_message;
+
 
     private ICounselorClassPresenter counselorClassPresenter;
     private CounselorClassAdapter adapter;
@@ -84,7 +88,7 @@ public class CounselorClassListActivity extends BaseActivity implements View.OnC
     @Override
     protected void initDatas() {
         counselorClassPresenter = new CounselorClassImpl(this);
-        counselorClassPresenter.getClassList(expand_list,lin_create_class);
+        counselorClassPresenter.getClassList(expand_list,lin_create_class,img_mo_message);
 
     }
 

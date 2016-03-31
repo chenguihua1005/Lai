@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -39,7 +40,7 @@ public class CounselorClassImpl implements ICounselorClassPresenter {
 
 
     @Override
-    public void getClassList(final ListView expand_lis, final LinearLayout lin_create_class) {
+    public void getClassList(final ListView expand_lis, final LinearLayout lin_create_class, final ImageView img_mo_message) {
         String token = SharedPreferenceService.getInstance().get("token", "");
         counselorService.getClassList(token, new Callback<ResponseData<List<ClassInfo>>>() {
 
@@ -52,11 +53,13 @@ public class CounselorClassImpl implements ICounselorClassPresenter {
                     case 200:
                         CounselorClassAdapter adapter = new CounselorClassAdapter(context, list);
                         expand_lis.setAdapter(adapter);
-//                        if(list.size()>0){
-//                            expand_lis.setVisibility(View.VISIBLE);
-//                        }else {
-//                            expand_lis.setVisibility(View.GONE);
-//                        }
+                        if(list.size()>0){
+                            expand_lis.setVisibility(View.VISIBLE);
+                            img_mo_message.setVisibility(View.GONE);
+                        }else {
+                            expand_lis.setVisibility(View.GONE);
+                            img_mo_message.setVisibility(View.VISIBLE);
+                        }
                         Calendar calendar = Calendar.getInstance();
                         int year = calendar.get(Calendar.YEAR);
                         int monthOfYear = calendar.get(Calendar.MONTH) + 1;
