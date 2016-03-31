@@ -1,38 +1,32 @@
 package com.softtek.lai.module.login.view;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
-import com.mobsandgeeks.saripaar.annotation.Checked;
 import com.mobsandgeeks.saripaar.annotation.ConfirmPassword;
 import com.mobsandgeeks.saripaar.annotation.Password;
 import com.mobsandgeeks.saripaar.annotation.Regex;
 import com.mobsandgeeks.saripaar.annotation.Required;
-import com.mobsandgeeks.saripaar.annotation.TextRule;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.login.presenter.IRegistPresenter;
 import com.softtek.lai.module.login.presenter.RegistPresenterImpl;
-import com.softtek.lai.utils.RegexUtil;
+import com.softtek.lai.utils.JCountDownTimer;
 
 import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_regist)
 public class RegistActivity extends BaseActivity implements View.OnClickListener,Validator.ValidationListener,RegistPresenterImpl.IdentifyCallBack{
@@ -65,7 +59,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
     @InjectView(R.id.tv_get_identify)
     TextView tv_get_identify;
 
-    @Checked(order = 8)
+//    @Checked(order = 8)
     @InjectView(R.id.cb_term)
     CheckBox cb_term;
 
@@ -82,33 +76,19 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
     LinearLayout ll_left;
 
 
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void initViews() {
+        tv_title.setText("注册");
         tv_get_identify.setOnClickListener(this);
         btn_regist.setOnClickListener(this);
         tv_protocol.setOnClickListener(this);
         ll_left.setOnClickListener(this);
-        cb_term.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    btn_regist.setEnabled(true);
-                }else {
-                    btn_regist.setEnabled(false);
-                }
-            }
-        });
-    }
-
-    @Override
-    protected void initViews() {
-        tv_title.setText("注册");
     }
 
     @Override
     protected void initDatas() {
+        //初始化倒计时
+        countDown=new MyCountDown(60000,1000);
         registPresenter=new RegistPresenterImpl(this,this);
     }
 
@@ -121,7 +101,6 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
                 if(!validate){
                     return;
                 }
-                countDown=new MyCountDown(60000,1000);
                 countDown.start();
                 tv_get_identify.setEnabled(false);
                 registPresenter.getIdentify(phone, Constants.REGIST_IDENTIFY);
@@ -141,8 +120,8 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void onStart() {
         super.onStart();
-        if(countDown!=null){
-            countDown.onFinish();
+        if(countDown!=null&&countDown.isRunning()){
+            countDown.reStart();
 
         }
     }
@@ -150,16 +129,28 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void onStop() {
 
-        if(countDown!=null){
-            countDown.cancel();
+        if(countDown!=null&&countDown.isRunning()){
+            countDown.pause();
 
         }
         super.onStop();
     }
 
+    @Override
+    protected void onDestroy() {
+        if(countDown!=null){
+            countDown.cancel();
+        }
+        super.onDestroy();
+    }
+
     //验证
     @Override
     public void onValidationSucceeded() {
+        if(!cb_term.isChecked()){
+            Util.toastMsg("请先勾选用户协议");
+            return;
+        }
         String phoneNum=et_phone.getText().toString();
         String password=et_password.getText().toString();
         registPresenter.doRegist(phoneNum,password,et_identify);
@@ -182,7 +173,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
-    public class MyCountDown extends CountDownTimer {
+    public class MyCountDown extends JCountDownTimer {
 
         /**
          * @param millisInFuture    The number of millis in the future from the call
@@ -197,17 +188,14 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
 
         @Override
         public void onTick(long millisUntilFinished) {
-            //更新获取验证码按钮文字
             Log.i("倒计时工作中-----"+millisUntilFinished/1000);
             tv_get_identify.setText("("+millisUntilFinished/1000+"s)后重新获取");
         }
 
         @Override
         public void onFinish() {
-            tv_get_identify.setText("获取验证码");
+            tv_get_identify.setText("发送验证码");
             tv_get_identify.setEnabled(true);
-
-
         }
     }
 

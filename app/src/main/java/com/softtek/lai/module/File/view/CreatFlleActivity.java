@@ -33,6 +33,7 @@ import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.SystemUtil;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_creatfile)
@@ -64,10 +65,10 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
     @InjectView(R.id.tv_weight)
     TextView tv_weight;
 
-    //按钮
+    //添加身体围度按钮
     @InjectView(R.id.btn_Add_bodydimension)
     Button btn_Add_bodydimension;
-
+    //完成按钮
     @InjectView(R.id.btn_finish)
     Button btn_finish;
 
@@ -87,16 +88,20 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
     @InjectView(R.id.ll_weight)
     LinearLayout ll_weight;
 
+    //toolbar
+    //标题
     @InjectView(R.id.tv_title)
     TextView tv_title;
     @InjectView(R.id.tv_left)
     TextView tv_left;
-
+    //跳过按钮
     @InjectView(R.id.tv_right)
     TextView tv_right;
 
-    private File file;//存储用户表单数据
+    //存储用户表单数据
+    private File file;
     private static final int GET_BODY_DIMENSION=1;
+
     private boolean w=true;
 
     @Override
@@ -126,7 +131,6 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
 
                         tv_birth.setFocusable(true);
                         break;
-
                 }
                 return false;
             }
@@ -150,6 +154,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         tv_title.setText("我的档案");
         tv_left.setBackground(null);
         tv_right.setText("跳过");
+        file=new File();
     }
 
     @Override
@@ -160,7 +165,6 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                 if(ZillaApplication.getInstance().getFilterList().contains(new Filter(nick))){
                     Util.toastMsg("该昵称不合法");
                 }else{
-
                     validateLife.validate();
                 }
                 break;
@@ -207,8 +211,10 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         String height=tv_height.getText().toString();
         String weight=tv_weight.getText().toString();
         Log.i("创建档案："+"nick:"+nick+";birthday:"+birthday+";gender:"+gender+";height:"+height+";weight:"+weight);
-        if (w==true){file=new File();}
-
+        if (w==true){
+            file=new File();
+        }
+        Log.i("file:--------------"+file);
         file.setNickname(nick);
         file.setBrithday(birthday);
         file.setGender(gender.equals("女")?0:1);
@@ -230,7 +236,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode==RESULT_OK&&requestCode==GET_BODY_DIMENSION){
                 file= (File) data.getSerializableExtra("file");
-                Log.i("创建档案围度File:"+file);
+                Log.i("创建档案围度file:"+file);
         }
     }
 
@@ -245,8 +251,8 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                                 tv_sex.setText(SexData[which]);
                             }
                         })
-                .setNegativeButton("取消",null)
-                .setPositiveButton("确认",null)
+//                .setNegativeButton("取消",null)
+                .setPositiveButton("完成",null)
                 .create();
         genderdialog.setCanceledOnTouchOutside(false);  // 设置点击屏幕Dialog不消失
         genderdialog.show();
@@ -258,7 +264,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         height_dialog.setTitle("选择身高(单位：cm)");
         height_dialog.setContentView(R.layout.dialog);
         Button b1 = (Button) height_dialog.findViewById(R.id.button1);
-        Button b2 = (Button) height_dialog.findViewById(R.id.button2);
+//        Button b2 = (Button) height_dialog.findViewById(R.id.button2);
         final NumberPicker np = (NumberPicker) height_dialog.findViewById(R.id.numberPicker1);
         np.setMaxValue(220);
         np.setValue(155);
@@ -272,13 +278,13 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                 height_dialog.dismiss();
             }
         });
-        b2.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
-                height_dialog.dismiss(); // dismiss the dialog
-            }
-        });
+//        b2.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View v) {
+//                height_dialog.dismiss(); // dismiss the dialog
+//            }
+//        });
         height_dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
         height_dialog.show();
     }
@@ -289,7 +295,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         weight_dialog.setTitle("选择体重(单位：斤)");
         weight_dialog.setContentView(R.layout.dialog);
         Button b1 = (Button) weight_dialog.findViewById(R.id.button1);
-        Button b2 = (Button) weight_dialog.findViewById(R.id.button2);
+//        Button b2 = (Button) weight_dialog.findViewById(R.id.button2);
         final NumberPicker np = (NumberPicker) weight_dialog.findViewById(R.id.numberPicker1);
         np.setMaxValue(220);
         np.setValue(100);
@@ -303,13 +309,13 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                 weight_dialog.dismiss();
             }
         });
-        b2.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
-                weight_dialog.dismiss(); // dismiss the dialog
-            }
-        });
+//        b2.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View v) {
+//                weight_dialog.dismiss(); // dismiss the dialog
+//            }
+//        });
         weight_dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
         weight_dialog.show();
     }

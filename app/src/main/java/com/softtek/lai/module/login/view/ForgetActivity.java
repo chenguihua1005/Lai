@@ -20,6 +20,7 @@ import com.softtek.lai.module.login.presenter.IPasswordPresenter;
 import com.softtek.lai.module.login.presenter.IRegistPresenter;
 import com.softtek.lai.module.login.presenter.PasswordPresnter;
 import com.softtek.lai.module.login.presenter.RegistPresenterImpl;
+import com.softtek.lai.utils.JCountDownTimer;
 import com.softtek.lai.utils.RegexUtil;
 import com.softtek.lai.utils.SoftInputUtil;
 
@@ -74,6 +75,7 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     protected void initDatas() {
+        countDown=new CountDown(60000,1000);
         registPresenter=new RegistPresenterImpl(this,this);
         passwordPresenter=new PasswordPresnter(this);
     }
@@ -89,7 +91,6 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
                     et_phone.setError(Html.fromHtml("<font color=#FFFFFF>" + getString(R.string.phoneValidate) + "</font>"));
                     return;
                 }
-                countDown=new CountDown(60000,1000);
                 countDown.start();
                 tv_get_identify.setEnabled(false);
                 registPresenter.getIdentify(phone, Constants.RESET_PASSWORD_IDENTIFY);
@@ -106,17 +107,25 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void onStart() {
         super.onStart();
-        if(countDown!=null){
-            countDown.onFinish();
+        if(countDown!=null&&countDown.isRunning()){
+            countDown.reStart();
         }
     }
 
     @Override
     protected void onStop() {
+        if(countDown!=null&&countDown.isRunning()){
+            countDown.pause();
+        }
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
         if(countDown!=null){
             countDown.cancel();
         }
-        super.onStop();
+        super.onDestroy();
     }
 
     @Override
@@ -132,7 +141,7 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
                 Util.toastMsg(R.string.identifyValidateMsg);
             }
         }else{
-            Util.toastMsg(R.string.identifyAsNull);
+            Util.toastMsg(R.string.identifyValidateMsg);
         }
     }
 
@@ -152,7 +161,7 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
     }
 
 
-    public class CountDown extends CountDownTimer{
+    public class CountDown extends JCountDownTimer {
 
         public CountDown(long millisInFuture, long countDownInterval) {
             super(millisInFuture, countDownInterval);
@@ -165,7 +174,7 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
 
         @Override
         public void onFinish() {
-            tv_get_identify.setText("获取验证码");
+            tv_get_identify.setText("发送验证码");
             tv_get_identify.setEnabled(true);
         }
     }

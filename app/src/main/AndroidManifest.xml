@@ -45,7 +45,7 @@
         <activity
             android:name=".module.login.view.ForgetActivity2"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-        <activity android:name=".module.File.view.CreatFlleActivity" />
+        <activity android:name=".module.File.view.CreatFlleActivity"></activity>
         <activity
             android:name=".module.home.view.HomeActviity"
             android:launchMode="singleTask" />
@@ -55,10 +55,10 @@
         <activity android:name=".module.retest.view.Retest" />
         <activity android:name=".module.login.view.TermActivity" />
         <activity android:name=".module.bodygame.Counselor" />
-        <activity android:name=".module.grade.view.GradeHomeActivity"
-            android:configChanges="orientation|keyboardHidden"/>
+        <activity
+            android:name=".module.grade.view.GradeHomeActivity"
+            android:configChanges="orientation|keyboardHidden" />
         <activity android:name=".module.File.view.explain" />
-        <activity android:name=".module.studentlist.view.StudentListActivity" />
         <activity android:name=".module.newmemberentry.view.EntryActivity" />
         <activity android:name=".module.grade.view.StudentsActivity" />
         <activity android:name=".module.studetail.view.StudentDetailActivity" />
@@ -76,8 +76,10 @@
         <activity android:name=".module.counselor.view.InviteContantActivity"/>
         <activity android:name=".module.counselor.view.InviteStudentActivity"/>
         <activity android:name=".module.counselor.view.GameActivity"/>
-
-
+        <activity android:name=".module.jingdu.view.JingduActivity" />
+        <activity android:name=".module.grade.view.TutorActivity" />
+        <activity android:name=".module.newmemberentry.view.DimensioninputActivity"></activity>
+        <activity android:name=".module.bodygamest.view.FuceStActivity"></activity>
     </application>
 
 </manifest>

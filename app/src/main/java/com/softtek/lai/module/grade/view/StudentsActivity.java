@@ -6,9 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.TypedValue;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
@@ -71,6 +69,7 @@ public class StudentsActivity extends BaseActivity implements BaseFragment.OnFra
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
         ll_left.setOnClickListener(this);
         tv_right.setOnClickListener(this);
+
     }
 
     @Override

@@ -1,69 +1,111 @@
 package com.softtek.lai.module.guide;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Layout;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.WindowManager;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.softtek.lai.R;
-import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.home.view.HomeActviity;
+import com.softtek.lai.module.login.model.User;
+import com.softtek.lai.module.login.presenter.ILoginPresenter;
+import com.softtek.lai.module.login.presenter.LoginPresenterImpl;
 import com.softtek.lai.module.login.view.LoginActivity;
+import com.softtek.lai.utils.ACache;
 
-import butterknife.InjectView;
-import zilla.libcore.ui.InjectLayout;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
-public class Guide extends AppCompatActivity {
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import zilla.libcore.file.SharedPreferenceService;
+import zilla.libcore.util.Util;
 
+public class Guide extends AppCompatActivity implements Runnable{
+
+    private CountDownLatch countDownLatch=new CountDownLatch(1);
+    private ILoginPresenter loginPresenter;
+    private boolean autoLogin=false;
+    private boolean success=false;
+
+    private ACache aCache;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
 
         super.onCreate(savedInstanceState);
-        setContentView(getLayoutInflater().inflate(R.layout.activity_guide,null,false));
-        new android.os.Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent=new Intent(Guide.this,LoginActivity.class);
+        setContentView(getLayoutInflater().inflate(R.layout.activity_guide, null, false));
+        loginPresenter=new LoginPresenterImpl(this);
+        aCache=ACache.get(this, Constants.USER_ACACHE_DATA_DIR);
+        //检查是否设置了自动登陆
+        autoLogin= SharedPreferenceService.getInstance().get(Constants.AUTO_LOGIN,false);
+        if(autoLogin){
+            //获取用户名和密码
+            String phone=SharedPreferenceService.getInstance().get(Constants.AUTO_USER_NAME,"");
+            String password=SharedPreferenceService.getInstance().get(Constants.AUTO_PASSWORD,"");
+            if("".equals(phone)||"".equals(password)){
+                success=false;
+                countDownLatch.countDown();
+            }else{
+                ((LoginPresenterImpl)loginPresenter)
+                        .autoLogin(phone,
+                                password,
+                                new Callback<ResponseData<User>>() {
+                                    @Override
+                                    public void success(ResponseData<User> userResponseData, Response response) {
+                                        switch (userResponseData.getStatus()){
+                                            case 200:
+                                                success=true;
+                                                SharedPreferenceService.getInstance().put("token", userResponseData.getData().getToken());
+                                                aCache.put(Constants.USER_ACACHE_KEY, userResponseData.getData());
+                                                break;
+                                            default:
+                                                success=false;
+                                                break;
+                                        }
+                                        countDownLatch.countDown();
+                                    }
+
+                                    @Override
+                                    public void failure(RetrofitError error) {
+                                        success=false;
+                                        countDownLatch.countDown();
+                                    }
+                                });
+            }
+
+        }else{
+            countDownLatch.countDown();
+        }
+        new Thread(this).start();
+
+
+
+    }
+
+    @Override
+    public void run() {
+        try {
+            //等待10秒阻塞
+            countDownLatch.await(10, TimeUnit.SECONDS);
+            if(!success){
+                //如果没有设置自动登陆就直接延迟2s进入登陆界面
+                SystemClock.sleep(1500);
+                Intent intent = new Intent(Guide.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }else{
+                //登陆完后直接去主页
+                Intent intent = new Intent(Guide.this, HomeActviity.class);
                 startActivity(intent);
                 finish();
             }
-
-        },2000);
-
-
-
-    }
-
-
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_guide, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-
-        return super.onOptionsItemSelected(item);
     }
-
-
 }

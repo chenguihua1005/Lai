@@ -67,7 +67,7 @@
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:src="@drawable/retestphone"
-                             />
+                            />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -207,7 +207,7 @@
                         android:textColor="#333333"
                         android:layout_centerVertical="true"
                         android:layout_alignParentLeft="true"
-                         />
+                        />
 
                     <ImageView
                         android:layout_width="60dp"
@@ -222,7 +222,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/ll_retestWrite_chu_weight"
+                android:id="@+id/ll_fucest_chu_weight"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -238,7 +238,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="初始体重"
+                        android:text="初始体重（必填）"
                         android:textSize="22dp"
                         android:textColor="#333333"
                         android:layout_alignParentLeft="true"
@@ -272,7 +272,7 @@
                 android:background="#75ba2b"/>
 
             <LinearLayout
-                android:id="@+id/ll_retestWrite_nowweight"
+                android:id="@+id/ll_fucest_nowweight"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -287,7 +287,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="现在体重"
+                        android:text="现在体重（必填）"
                         android:textSize="22dp"
                         android:textColor="#333333"
                         android:layout_alignParentLeft="true"
@@ -320,7 +320,7 @@
                 android:background="#75ba2b"/>
 
             <LinearLayout
-                android:id="@+id/ll_retestWrite_tizhi"
+                android:id="@+id/ll_fucest_tizhi"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -458,7 +458,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                 >
+                >
+
+                <RelativeLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
+
+                    <ImageView
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:src="@drawable/retest_write_takephoto"
+                        android:layout_centerHorizontal="true"
+                        android:visibility="gone"
+                        android:id="@+id/im_retestwrite_showphoto" />
+                </RelativeLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                >
 
                 <RelativeLayout
                     android:orientation="horizontal"
@@ -471,7 +493,7 @@
                         android:src="@drawable/retest_write_takephoto"
                         android:layout_centerHorizontal="true"
                         android:visibility="gone"
-                        android:id="@+id/im_retestwrite_showphoto" />
+                        android:id="@+id/im_stfuce_showphoto" />
                     <ImageView
                         android:id="@+id/im_delete"
                         android:layout_width="wrap_content"
@@ -479,8 +501,8 @@
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="10dp"
                         android:visibility="gone"
-                        android:layout_alignBottom="@id/im_retestwrite_showphoto"
-                        android:background="@drawable/retest_write_deleteim"/>
+                        android:layout_alignBottom="@id/im_stfuce_showphoto"
+                        android:src="@drawable/retest_write_deleteim"/>
                 </RelativeLayout>
 
             </LinearLayout>
@@ -491,7 +513,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"/>
             <LinearLayout
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -506,7 +528,19 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:background="@drawable/shape_retest_write_boder"/>
+                <Button
+                    android:id="@+id/bt_pingshen"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="提交评审"
+                    android:textColor="#fea300"
+                    android:textSize="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/shape_retest_write_boder"/>
             </LinearLayout>
+
 
         </LinearLayout>
 
