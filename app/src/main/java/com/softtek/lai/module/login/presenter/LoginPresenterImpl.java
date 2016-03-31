@@ -46,7 +46,7 @@ public class LoginPresenterImpl implements ILoginPresenter {
                 int status = userResponseData.getStatus();
                 switch (status) {
                     case 200:
-
+                        ((AppCompatActivity) context).finish();
                         break;
                     default:
                         Util.toastMsg(userResponseData.getMsg());
