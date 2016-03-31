@@ -14,7 +14,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.softtek.lai.R;
-import com.softtek.lai.module.counselor.model.InviteStudentInfo;
+import com.softtek.lai.module.counselor.model.InviteStudentInfoModel;
 import com.softtek.lai.module.counselor.presenter.IStudentPresenter;
 import com.softtek.lai.module.counselor.presenter.StudentImpl;
 import com.squareup.picasso.Picasso;
@@ -27,14 +27,14 @@ import java.util.List;
  */
 public class InviteStudentAdapter extends BaseAdapter {
     private LayoutInflater mInflater;//得到一个LayoutInfalter对象用来导入布局
-    private List<InviteStudentInfo> list;
+    private List<InviteStudentInfoModel> list;
     private Context context;
     private IStudentPresenter studentPresenter;
 
     /**
      * 构造函数
      */
-    public InviteStudentAdapter(Context context, List<InviteStudentInfo> list) {
+    public InviteStudentAdapter(Context context, List<InviteStudentInfoModel> list) {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
         this.list = list;
@@ -78,7 +78,7 @@ public class InviteStudentAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();//取出ViewHolder对象
         }
         /**设置TextView显示的内容，即我们存放在动态数组中的数据*/
-        final InviteStudentInfo assistant = list.get(position);
+        final InviteStudentInfoModel assistant = list.get(position);
         if ("".equals(assistant.getPhoto())) {
             Picasso.with(context).load("111").error(R.drawable.img_default).into(holder.img);
         } else {

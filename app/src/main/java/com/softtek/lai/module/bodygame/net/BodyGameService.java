@@ -6,8 +6,8 @@
 package com.softtek.lai.module.bodygame.net;
 
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.bodygame.model.FuceNum;
-import com.softtek.lai.module.bodygame.model.TiGuanSai;
+import com.softtek.lai.module.bodygame.model.FuceNumModel;
+import com.softtek.lai.module.bodygame.model.TiGuanSaiModel;
 import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Header;
@@ -21,12 +21,12 @@ public interface BodyGameService {
     //banner接口
     @GET("/Index/TiGuanSaiClick")
     void doGetTiGuanSaiClickw(@Header("token") String token,
-                              Callback<ResponseData<TiGuanSai>> callback);
+                              Callback<ResponseData<TiGuanSaiModel>> callback);
 
     @GET("/MeasuredRecordLog/GetNotMeasuredMemberCountBySRP")
     void doGetFuceNum(
             @Header("token") String token,
             @Query("id") long id,
-            Callback<ResponseData<FuceNum>> callback
+            Callback<ResponseData<FuceNumModel>> callback
     );
 }

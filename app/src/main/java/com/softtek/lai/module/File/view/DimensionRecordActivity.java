@@ -14,9 +14,9 @@ import android.widget.*;
 import butterknife.InjectView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.module.File.model.File;
-import com.softtek.lai.module.newmemberentry.view.model.Newstudents;
-import com.softtek.lai.module.retest.model.RetestWrite;
+import com.softtek.lai.module.File.model.FileModel;
+import com.softtek.lai.module.newmemberentry.view.model.NewstudentsModel;
+import com.softtek.lai.module.retest.model.RetestWriteModel;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_dimension_record)
@@ -75,9 +75,9 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
     @InjectView(R.id.ll_doleggirth)
     RelativeLayout ll_doleggirth;
 
-    private File file;//存储用户表对象
-    private Newstudents newstudents;//存储用户表单数据
-    private RetestWrite retestWrite;
+    private FileModel file;//存储用户表对象
+    private NewstudentsModel newstudentsModel;//存储用户表单数据
+    private RetestWriteModel retestWriteModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,9 +107,9 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
 
     @Override
     protected void initDatas() {
-        file = (File) getIntent().getSerializableExtra("file");
-        newstudents = (Newstudents) getIntent().getSerializableExtra("newstudents");
-        retestWrite = (RetestWrite) getIntent().getSerializableExtra("retestWrite");
+        file = (FileModel) getIntent().getSerializableExtra("file");
+        newstudentsModel = (NewstudentsModel) getIntent().getSerializableExtra("newstudentsModel");
+        retestWriteModel = (RetestWriteModel) getIntent().getSerializableExtra("retestWriteModel");
         tv_title.setText("添加记录");
         tv_circum.setText("0.0".equals(file.getCircum() + "") ? "" : file.getCircum() + "");
         tv_waistline.setText("0.0".equals(file.getWaistline() + "") ? "" : file.getWaistline() + "");
@@ -144,7 +144,7 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
                 break;
             //填写说明
             case R.id.ll_explain:
-                startActivity(new Intent(DimensionRecordActivity.this, explain.class));
+                startActivity(new Intent(DimensionRecordActivity.this, ExplainActivity.class));
 
                 break;
             //返回按钮
@@ -164,7 +164,7 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
                 double doleggirth = Double.parseDouble(tv_doleggirth.getText().toString().equals("") ? "0" : tv_doleggirth.getText().toString());
 
                 //创建档案的添加围度
-                file = new File();
+                file = new FileModel();
                 file.setCircum(circum);
                 file.setWaistline(waistline);
                 file.setHiplie(hiplie);
@@ -176,26 +176,26 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
                 setResult(RESULT_OK, intent);
 //
 //                //新学员录入的添加围度
-//                newstudents=new Newstudents();
-//                newstudents.setCircum(circum);
-//                newstudents.setWaistline(waistline);
-//                newstudents.setHiplie(hiplie);
-//                newstudents.setUparmgirth(uparmgirth);
-//                newstudents.setUpleggirth(tupleggirth);
-//                newstudents.setDoleggirth(doleggirth);
+//                newstudentsModel=new NewstudentsModel();
+//                newstudentsModel.setCircum(circum);
+//                newstudentsModel.setWaistline(waistline);
+//                newstudentsModel.setHiplie(hiplie);
+//                newstudentsModel.setUparmgirth(uparmgirth);
+//                newstudentsModel.setUpleggirth(tupleggirth);
+//                newstudentsModel.setDoleggirth(doleggirth);
 //                Intent intent1=new Intent();
-//                intent1.putExtra("newstudents",newstudents);
+//                intent1.putExtra("newstudentsModel",newstudentsModel);
 //                setResult(RESULT_OK,intent1);
 //                //复测录入
-//                retestWrite=new RetestWrite();
-//                retestWrite.setCircum(circum+"");
-//                retestWrite.setWaistline(waistline+"");
-//                retestWrite.setHiplie(hiplie+"");
-//                retestWrite.setUpArmGirth(uparmgirth+"");
-//                retestWrite.setUpLegGirth(tupleggirth+"");
-//                retestWrite.setDoLegGirth(doleggirth+"");
+//                retestWriteModel=new RetestWriteModel();
+//                retestWriteModel.setCircum(circum+"");
+//                retestWriteModel.setWaistline(waistline+"");
+//                retestWriteModel.setHiplie(hiplie+"");
+//                retestWriteModel.setUpArmGirth(uparmgirth+"");
+//                retestWriteModel.setUpLegGirth(tupleggirth+"");
+//                retestWriteModel.setDoLegGirth(doleggirth+"");
 //                Intent intent2=new Intent();
-//                intent2.putExtra("retestWrite",retestWrite+"");
+//                intent2.putExtra("retestWriteModel",retestWriteModel+"");
 //                setResult(RESULT_OK,intent2);
 //
 //                Intent intent3=new Intent();
@@ -205,7 +205,7 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
 
                 finish();
 
-                //  Log.i("-------------------newstudents----------------------"+newstudents);
+                //  Log.i("-------------------newstudentsModel----------------------"+newstudentsModel);
                 break;
         }
     }

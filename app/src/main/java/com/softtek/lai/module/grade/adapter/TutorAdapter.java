@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.*;
 import com.softtek.lai.R;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.grade.model.SRInfo;
+import com.softtek.lai.module.grade.model.SRInfoModel;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.CircleImageView;
 
@@ -25,10 +25,10 @@ import java.util.List;
 public class TutorAdapter extends BaseAdapter {
 
     private LayoutInflater inflater;
-    private List<SRInfo> infos;
+    private List<SRInfoModel> infos;
     private int screenWidth;
 
-    public TutorAdapter(Context context, List<SRInfo> infos) {
+    public TutorAdapter(Context context, List<SRInfoModel> infos) {
         inflater = LayoutInflater.from(context);
         this.infos = infos;
         screenWidth = DisplayUtil.getMobileWidth(context);
@@ -59,7 +59,7 @@ public class TutorAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        SRInfo info = infos.get(position);
+        SRInfoModel info = infos.get(position);
         holder.tv_name.setText(info.getUserName());
         holder.tv_phone.setText(info.getMobile());
         if (Integer.parseInt(info.getIsInvited()) == Constants.NOT_INVITED) {

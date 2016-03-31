@@ -14,8 +14,8 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.File.view.CreatFlleActivity;
-import com.softtek.lai.module.login.model.Identify;
-import com.softtek.lai.module.login.model.User;
+import com.softtek.lai.module.login.model.IdentifyModel;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.net.LoginService;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.RegexUtil;
@@ -49,9 +49,9 @@ public class RegistPresenterImpl implements IRegistPresenter {
         String key = SharedPreferenceService.getInstance().get("identify", "");
         if (!"".equals(key) && identify.equals(key)) {
             SharedPreferenceService.getInstance().put("identify", "");
-            service.doRegist(userName, password, identify, new Callback<ResponseData<User>>() {
+            service.doRegist(userName, password, identify, new Callback<ResponseData<UserModel>>() {
                 @Override
-                public void success(ResponseData<User> userResponseData, Response response) {
+                public void success(ResponseData<UserModel> userResponseData, Response response) {
                     Log.i("注册成功");
                     Log.i(userResponseData.toString());
                     int status = userResponseData.getStatus();
@@ -87,9 +87,9 @@ public class RegistPresenterImpl implements IRegistPresenter {
 
     @Override
     public void getIdentify(String phone, String state) {
-        service.getIdentify(phone, state, new Callback<ResponseData<Identify>>() {
+        service.getIdentify(phone, state, new Callback<ResponseData<IdentifyModel>>() {
             @Override
-            public void success(ResponseData<Identify> stringResponseData, Response response) {
+            public void success(ResponseData<IdentifyModel> stringResponseData, Response response) {
                 SharedPreferenceService.getInstance().put("identify", stringResponseData.getData().getIdentify());
                 Util.toastMsg(stringResponseData.getMsg());
                 if (stringResponseData.getStatus() != 200) {

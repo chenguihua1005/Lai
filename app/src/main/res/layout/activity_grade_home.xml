@@ -9,7 +9,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#F0F0F2"
-                tools:context="com.softtek.lai.module.grade.view.GradeHomeActivity">
+                tools:context="com.softtek.lai.module.gradeModel.view.GradeHomeActivity">
     <!-- toolbar-->
     <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"

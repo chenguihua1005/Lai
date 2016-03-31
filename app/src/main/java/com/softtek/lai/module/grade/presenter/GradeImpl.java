@@ -49,9 +49,9 @@ public class GradeImpl implements IGrade {
     public void getGradeInfos(final long classId, final ProgressDialog loadingDialog) {
         String token = SharedPreferenceService.getInstance().get("token", "");
         System.out.println("班级主页信息请求 token?" + token + "------");
-        service.getGradeInfo(token, String.valueOf(classId), new Callback<ResponseData<Grade>>() {
+        service.getGradeInfo(token, String.valueOf(classId), new Callback<ResponseData<GradeModel>>() {
             @Override
-            public void success(ResponseData<Grade> gradeResponseData, Response response) {
+            public void success(ResponseData<GradeModel> gradeResponseData, Response response) {
                 loadingDialog.dismiss();
                 int status = gradeResponseData.getStatus();
                 switch (status) {
@@ -80,7 +80,7 @@ public class GradeImpl implements IGrade {
         service.senDynamic(token, classId, dynamicTitle, dyContent, dyType, accountId, new Callback<ResponseData>() {
             @Override
             public void success(ResponseData responseData, Response response) {
-                DynamicInfo info = new DynamicInfo();
+                DynamicInfoModel info = new DynamicInfoModel();
                 info.setCreateDate(SimpleDateFormat.getDateTimeInstance().format(new Date()));
                 info.setDyContent(dyContent);
                 EventBus.getDefault().post(info);
@@ -99,9 +99,9 @@ public class GradeImpl implements IGrade {
     @Override
     public void getStudentList(String orderType, String classId, final PullToRefreshListView lv) {
         String token = SharedPreferenceService.getInstance().get("token", "");
-        service.getStudentsList(token, classId, orderType, new Callback<ResponseData<List<Student>>>() {
+        service.getStudentsList(token, classId, orderType, new Callback<ResponseData<List<StudentModel>>>() {
             @Override
-            public void success(ResponseData<List<Student>> studentResponseData, Response response) {
+            public void success(ResponseData<List<StudentModel>> studentResponseData, Response response) {
                 lv.onRefreshComplete();
                 switch (studentResponseData.getStatus()) {
                     case 200:
@@ -126,9 +126,9 @@ public class GradeImpl implements IGrade {
     @Override
     public void getTutorList(long classId, final PullToRefreshListView lv) {
         String token = SharedPreferenceService.getInstance().get("token", "");
-        service.getTutorList(token, classId, new Callback<ResponseData<List<SRInfo>>>() {
+        service.getTutorList(token, classId, new Callback<ResponseData<List<SRInfoModel>>>() {
             @Override
-            public void success(ResponseData<List<SRInfo>> responseData, Response response) {
+            public void success(ResponseData<List<SRInfoModel>> responseData, Response response) {
                 lv.onRefreshComplete();
                 switch (responseData.getStatus()) {
                     case 200:
@@ -157,9 +157,9 @@ public class GradeImpl implements IGrade {
                 classId,
                 type,
                 new TypedFile("image/png", image),
-                new Callback<ResponseData<Banner>>() {
+                new Callback<ResponseData<BannerModel>>() {
                     @Override
-                    public void success(ResponseData<Banner> responseData, Response response) {
+                    public void success(ResponseData<BannerModel> responseData, Response response) {
                         Util.toastMsg("上传成功");
                         if (callBack != null) {
                             callBack.onSuccess(responseData.getData().getPath(), image);

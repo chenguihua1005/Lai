@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.softtek.lai.R;
-import com.softtek.lai.module.counselor.model.AssistantClassInfo;
+import com.softtek.lai.module.counselor.model.AssistantClassInfoModel;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 
 import java.util.List;
@@ -25,14 +25,14 @@ import java.util.List;
  */
 public class AssistantClassAdapter extends BaseAdapter {
     private LayoutInflater mInflater;//得到一个LayoutInfalter对象用来导入布局
-    private List<AssistantClassInfo> list;
+    private List<AssistantClassInfoModel> list;
     private Context context;
     private IAssistantPresenter assistantPresenter;
 
     /**
      * 构造函数
      */
-    public AssistantClassAdapter(Context context, List<AssistantClassInfo> list) {
+    public AssistantClassAdapter(Context context, List<AssistantClassInfoModel> list) {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
         this.list = list;
@@ -74,7 +74,7 @@ public class AssistantClassAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();//取出ViewHolder对象
         }
         /**设置TextView显示的内容，即我们存放在动态数组中的数据*/
-        AssistantClassInfo assistantClassInfo = list.get(position);
+        AssistantClassInfoModel assistantClassInfo = list.get(position);
         String startTimeStr = assistantClassInfo.getStartDate().toString();
         String str[] = startTimeStr.split("-");
         if ("01".equals(str[1]) || "1".equals(str[1])) {

@@ -17,7 +17,7 @@ import com.softtek.lai.module.home.eventModel.ActivityEvent;
 import com.softtek.lai.module.home.eventModel.ProductEvent;
 import com.softtek.lai.module.home.eventModel.RefreshEvent;
 import com.softtek.lai.module.home.eventModel.SaleEvent;
-import com.softtek.lai.module.home.model.HomeInfo;
+import com.softtek.lai.module.home.model.HomeInfoModel;
 import com.softtek.lai.module.home.net.HomeService;
 import com.softtek.lai.utils.ACache;
 import org.greenrobot.eventbus.EventBus;
@@ -54,7 +54,7 @@ public class HomeInfoImpl implements IHomeInfoPresenter {
             HomeInfoCache infoCache = gson.fromJson(json, HomeInfoCache.class);
             EventBus.getDefault().post(infoCache.getInfos());
         } else {
-            List<HomeInfo> infos = new ArrayList<>();
+            List<HomeInfoModel> infos = new ArrayList<>();
             EventBus.getDefault().post(infos);
             System.out.println("没有缓存数据");
         }
@@ -64,9 +64,9 @@ public class HomeInfoImpl implements IHomeInfoPresenter {
 
     @Override
     public void getHomeInfoData(final SwipeRefreshLayout pull) {
-        homeService.doLoadHomeData(new Callback<ResponseData<List<HomeInfo>>>() {
+        homeService.doLoadHomeData(new Callback<ResponseData<List<HomeInfoModel>>>() {
             @Override
-            public void success(ResponseData<List<HomeInfo>> data, Response response) {
+            public void success(ResponseData<List<HomeInfoModel>> data, Response response) {
                 pull.setRefreshing(false);
                 System.out.println(data);
                 int status = data.getStatus();
@@ -93,9 +93,9 @@ public class HomeInfoImpl implements IHomeInfoPresenter {
 
     @Override
     public void getContentByPage(final int flag, final int page, final int img_type) {
-        homeService.getActivityByPage(img_type, page, new Callback<ResponseData<List<HomeInfo>>>() {
+        homeService.getActivityByPage(img_type, page, new Callback<ResponseData<List<HomeInfoModel>>>() {
             @Override
-            public void success(ResponseData<List<HomeInfo>> homeInfoResponseData, Response response) {
+            public void success(ResponseData<List<HomeInfoModel>> homeInfoResponseData, Response response) {
                 int size = homeInfoResponseData.getData().size();
                 boolean succOrFailed = false;
                 if (size > 0) {
@@ -129,7 +129,7 @@ public class HomeInfoImpl implements IHomeInfoPresenter {
     }
 
     @Override
-    public List<HomeInfo> loadActivityCacheDate(String key) {
+    public List<HomeInfoModel> loadActivityCacheDate(String key) {
         String json = aCache.getAsString(key);
         if (json != null && !json.equals("")) {
             Gson gson = new Gson();

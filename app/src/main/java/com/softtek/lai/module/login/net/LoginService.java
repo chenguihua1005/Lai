@@ -6,8 +6,8 @@
 package com.softtek.lai.module.login.net;
 
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.login.model.Identify;
-import com.softtek.lai.module.login.model.User;
+import com.softtek.lai.module.login.model.IdentifyModel;
+import com.softtek.lai.module.login.model.UserModel;
 import retrofit.Callback;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
@@ -23,14 +23,14 @@ public interface LoginService {
     void doLogin(
             @Field("user") String userName,
             @Field("psd") String password,
-            Callback<ResponseData<User>> callback);
+            Callback<ResponseData<UserModel>> callback);
 
     @FormUrlEncoded
     @POST("/HerbUser/GetVerificationNum")
     void getIdentify(
             @Field("phone") String phone,
             @Field("status") String status,
-            Callback<ResponseData<Identify>> callback);
+            Callback<ResponseData<IdentifyModel>> callback);
 
     @FormUrlEncoded
     @POST("/HerbUser/UserRegister")
@@ -38,7 +38,7 @@ public interface LoginService {
             @Field("user") String userName,
             @Field("psd") String password,
             @Field("identify") String identify,
-            Callback<ResponseData<User>> callback);
+            Callback<ResponseData<UserModel>> callback);
 
     @FormUrlEncoded
     @POST("/HerbUser/ResetPassWord")

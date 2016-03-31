@@ -7,8 +7,8 @@ package com.softtek.lai.module.bodygame.presenter;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.bodygame.model.FuceNum;
-import com.softtek.lai.module.bodygame.model.TiGuanSai;
+import com.softtek.lai.module.bodygame.model.FuceNumModel;
+import com.softtek.lai.module.bodygame.model.TiGuanSaiModel;
 import com.softtek.lai.module.bodygame.net.BodyGameService;
 import org.greenrobot.eventbus.EventBus;
 import retrofit.Callback;
@@ -32,9 +32,9 @@ public class TiGuanSaiImpl implements ITiGuanSai {
     @Override
     public void getTiGuanSai() {
         String token = SharedPreferenceService.getInstance().get("token", "");
-        service.doGetTiGuanSaiClickw(token, new Callback<ResponseData<TiGuanSai>>() {
+        service.doGetTiGuanSaiClickw(token, new Callback<ResponseData<TiGuanSaiModel>>() {
             @Override
-            public void success(ResponseData<TiGuanSai> tiGuanSaiResponseData, Response response) {
+            public void success(ResponseData<TiGuanSaiModel> tiGuanSaiResponseData, Response response) {
                 int status = tiGuanSaiResponseData.getStatus();
                 switch (status) {
                     case 200:
@@ -58,9 +58,9 @@ public class TiGuanSaiImpl implements ITiGuanSai {
     @Override
     public void doGetFuceNum(long id) {
         String token = SharedPreferenceService.getInstance().get("token", "");
-        service.doGetFuceNum(token, id, new Callback<ResponseData<FuceNum>>() {
+        service.doGetFuceNum(token, id, new Callback<ResponseData<FuceNumModel>>() {
             @Override
-            public void success(ResponseData<FuceNum> fuceNumResponseData, Response response) {
+            public void success(ResponseData<FuceNumModel> fuceNumResponseData, Response response) {
                 int status = fuceNumResponseData.getStatus();
                 switch (status) {
                     case 200:

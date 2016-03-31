@@ -19,9 +19,9 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.counselor.adapter.HonorStudentAdapter;
-import com.softtek.lai.module.counselor.model.HonorInfo;
-import com.softtek.lai.module.counselor.model.HonorTable;
-import com.softtek.lai.module.counselor.model.HonorTable1;
+import com.softtek.lai.module.counselor.model.HonorInfoModel;
+import com.softtek.lai.module.counselor.model.HonorTable1Model;
+import com.softtek.lai.module.counselor.model.HonorTableModel;
 import com.softtek.lai.module.counselor.presenter.HonorImpl;
 import com.softtek.lai.module.counselor.presenter.IHonorPresenter;
 import com.softtek.lai.utils.ACache;
@@ -86,15 +86,15 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
     }
 
     @Subscribe
-    public void onEvent(HonorInfo honorInfo) {
+    public void onEvent(HonorInfoModel honorInfo) {
         System.out.println("honorInfo:" + honorInfo);
-        List<HonorTable1> honorTable1 = honorInfo.getTable1();
-        List<HonorTable> honorTable = honorInfo.getTable();
+        List<HonorTable1Model> honorTable1 = honorInfo.getTable1();
+        List<HonorTableModel> honorTable = honorInfo.getTable();
         HonorStudentAdapter adapter = new HonorStudentAdapter(this, honorTable1);
         list_stars.setAdapter(adapter);
 
         for (int i = 0; i < honorTable.size(); i++) {
-            HonorTable honor = honorTable.get(i);
+            HonorTableModel honor = honorTable.get(i);
             String rowname = honor.getRowname().toString();
             String num = honor.getNum().toString();
             String rank_num = honor.getRank_num().toString();

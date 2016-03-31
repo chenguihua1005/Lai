@@ -6,7 +6,7 @@
 package com.softtek.lai.module.jingdu.net;
 
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.jingdu.model.Rank;
+import com.softtek.lai.module.jingdu.model.RankModel;
 import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Header;
@@ -22,5 +22,5 @@ public interface JingduService {
     void getproinfo(@Header("token") String token,
                     @Query("classId") String classId,
                     @Query("ordertype") String ordertype,
-                    Callback<ResponseData<List<Rank>>> callback);
+                    Callback<ResponseData<List<RankModel>>> callback);
 }

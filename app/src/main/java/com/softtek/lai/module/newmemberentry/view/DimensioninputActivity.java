@@ -15,8 +15,8 @@ import butterknife.InjectView;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.module.File.view.explain;
-import com.softtek.lai.module.newmemberentry.view.model.Newstudents;
+import com.softtek.lai.module.File.view.ExplainActivity;
+import com.softtek.lai.module.newmemberentry.view.model.NewstudentsModel;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_dimensioninput)
@@ -75,7 +75,7 @@ public class DimensioninputActivity extends BaseActivity implements OnClickListe
     @InjectView(R.id.ll_doleggirth)
     RelativeLayout ll_doleggirth;
 
-    private Newstudents newstudents;//存储用户表单数据
+    private NewstudentsModel newstudentsModel;//存储用户表单数据
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,14 +98,14 @@ public class DimensioninputActivity extends BaseActivity implements OnClickListe
 
     @Override
     protected void initDatas() {
-        newstudents = (Newstudents) getIntent().getSerializableExtra("newstudents");
+        newstudentsModel = (NewstudentsModel) getIntent().getSerializableExtra("newstudentsModel");
         tv_title.setText("添加记录");
-        tv_circum.setText("0.0".equals(newstudents.getCircum() + "") ? "" : newstudents.getCircum() + "");
-        tv_waistline.setText("0.0".equals(newstudents.getWaistline() + "") ? "" : newstudents.getWaistline() + "");
-        tv_hiplie.setText("0.0".equals(newstudents.getHiplie() + "") ? "" : newstudents.getHiplie() + "");
-        tv_uparmgirth.setText("0.0".equals(newstudents.getUparmgirth() + "") ? "" : newstudents.getUparmgirth() + "");
-        tv_upleggirth.setText("0.0".equals(newstudents.getUpleggirth() + "") ? "" : newstudents.getUpleggirth() + "");
-        tv_doleggirth.setText("0.0".equals(newstudents.getDoleggirth() + "") ? "" : newstudents.getDoleggirth() + "");
+        tv_circum.setText("0.0".equals(newstudentsModel.getCircum() + "") ? "" : newstudentsModel.getCircum() + "");
+        tv_waistline.setText("0.0".equals(newstudentsModel.getWaistline() + "") ? "" : newstudentsModel.getWaistline() + "");
+        tv_hiplie.setText("0.0".equals(newstudentsModel.getHiplie() + "") ? "" : newstudentsModel.getHiplie() + "");
+        tv_uparmgirth.setText("0.0".equals(newstudentsModel.getUparmgirth() + "") ? "" : newstudentsModel.getUparmgirth() + "");
+        tv_upleggirth.setText("0.0".equals(newstudentsModel.getUpleggirth() + "") ? "" : newstudentsModel.getUpleggirth() + "");
+        tv_doleggirth.setText("0.0".equals(newstudentsModel.getDoleggirth() + "") ? "" : newstudentsModel.getDoleggirth() + "");
     }
 
     @Override
@@ -131,7 +131,7 @@ public class DimensioninputActivity extends BaseActivity implements OnClickListe
                 break;
             //填写说明
             case R.id.ll_explain:
-                startActivity(new Intent(DimensioninputActivity.this, explain.class));
+                startActivity(new Intent(DimensioninputActivity.this, ExplainActivity.class));
                 finish();
                 break;
             //返回按钮
@@ -147,18 +147,18 @@ public class DimensioninputActivity extends BaseActivity implements OnClickListe
                 double tupleggirth = Double.parseDouble(tv_upleggirth.getText().toString().equals("") ? "0" : tv_upleggirth.getText().toString());
                 double doleggirth = Double.parseDouble(tv_doleggirth.getText().toString().equals("") ? "0" : tv_doleggirth.getText().toString());
                 //新学员录入的添加围度
-                newstudents = new Newstudents();
-                newstudents.setCircum(circum);
-                newstudents.setWaistline(waistline);
-                newstudents.setHiplie(hiplie);
-                newstudents.setUparmgirth(uparmgirth);
-                newstudents.setUpleggirth(tupleggirth);
-                newstudents.setDoleggirth(doleggirth);
+                newstudentsModel = new NewstudentsModel();
+                newstudentsModel.setCircum(circum);
+                newstudentsModel.setWaistline(waistline);
+                newstudentsModel.setHiplie(hiplie);
+                newstudentsModel.setUparmgirth(uparmgirth);
+                newstudentsModel.setUpleggirth(tupleggirth);
+                newstudentsModel.setDoleggirth(doleggirth);
                 Intent intent = new Intent();
-                intent.putExtra("newstudents", newstudents);
+                intent.putExtra("newstudentsModel", newstudentsModel);
                 setResult(RESULT_OK, intent);
                 finish();
-                Log.i("-------------------newstudents----------------------" + newstudents);
+                Log.i("-------------------newstudentsModel----------------------" + newstudentsModel);
                 break;
         }
     }

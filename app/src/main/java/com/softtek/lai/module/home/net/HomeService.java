@@ -6,7 +6,7 @@
 package com.softtek.lai.module.home.net;
 
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.home.model.HomeInfo;
+import com.softtek.lai.module.home.model.HomeInfoModel;
 import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Query;
@@ -19,10 +19,10 @@ import java.util.List;
 public interface HomeService {
 
     @GET("/Index/IndexInfo")
-    void doLoadHomeData(Callback<ResponseData<List<HomeInfo>>> callback);
+    void doLoadHomeData(Callback<ResponseData<List<HomeInfoModel>>> callback);
 
     @GET("/Index/PageInfo")
     void getActivityByPage(@Query("img_type") int img_type,
                            @Query("pageindex") int page,
-                           Callback<ResponseData<List<HomeInfo>>> callback);
+                           Callback<ResponseData<List<HomeInfoModel>>> callback);
 }

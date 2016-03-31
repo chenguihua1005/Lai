@@ -10,10 +10,10 @@ import android.content.Context;
 import android.content.Intent;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.bodygame.Counselor;
+import com.softtek.lai.module.bodygame.CounselorActivity;
 import com.softtek.lai.module.newmemberentry.view.EntryActivity;
-import com.softtek.lai.module.newmemberentry.view.model.Newstudents;
-import com.softtek.lai.module.newmemberentry.view.model.Phot;
+import com.softtek.lai.module.newmemberentry.view.model.NewstudentsModel;
+import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
 import com.softtek.lai.module.newmemberentry.view.net.NewstudentsService;
 import org.greenrobot.eventbus.EventBus;
 import retrofit.Callback;
@@ -41,18 +41,18 @@ public class NewStudentInputImpl implements INewStudentpresenter {
     }
 
     @Override
-    public void input(Newstudents newstudents) {
+    public void input(NewstudentsModel newstudentsModel) {
         Log.i("NewstudentsService>>>>>>>>>>>>>>" + newstudentsService);
         String token = SharedPreferenceService.getInstance().get("token", "");
-        newstudentsService.memberentry(token, newstudents, new Callback<ResponseData<List<Newstudents>>>() {
+        newstudentsService.memberentry(token, newstudentsModel, new Callback<ResponseData<List<NewstudentsModel>>>() {
 
 
             @Override
-            public void success(ResponseData<List<Newstudents>> listResponseData, Response response) {
+            public void success(ResponseData<List<NewstudentsModel>> listResponseData, Response response) {
                 int status = listResponseData.getStatus();
                 switch (status) {
                     case 200:
-                        Intent intent = new Intent(context, Counselor.class);
+                        Intent intent = new Intent(context, CounselorActivity.class);
                         context.startActivity(intent);
                         Util.toastMsg("录入成功");
                         break;
@@ -73,15 +73,15 @@ public class NewStudentInputImpl implements INewStudentpresenter {
     @Override
     public void upload(final String upimg) {
         String token = SharedPreferenceService.getInstance().get("token", "");
-        newstudentsService.upimg(token, new TypedFile("image/png", new File(upimg)), new Callback<ResponseData<Phot>>() {
+        newstudentsService.upimg(token, new TypedFile("image/png", new File(upimg)), new Callback<ResponseData<PhotModel>>() {
             @Override
             public void success(ResponseData upimgResponseData, Response response) {
 
                 int status = upimgResponseData.getStatus();
                 switch (status) {
                     case 200:
-                        Phot phot = (Phot) upimgResponseData.getData();
-                        EventBus.getDefault().post(phot);
+                        PhotModel photModel = (PhotModel) upimgResponseData.getData();
+                        EventBus.getDefault().post(photModel);
                         Util.toastMsg("获取成功");
                         break;
                     case 500:

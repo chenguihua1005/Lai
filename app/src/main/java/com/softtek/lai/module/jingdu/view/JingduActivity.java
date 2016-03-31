@@ -16,7 +16,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.jingdu.Adapter.RankAdapter;
 import com.softtek.lai.module.jingdu.EventModel.RankEvent;
-import com.softtek.lai.module.jingdu.model.Rank;
+import com.softtek.lai.module.jingdu.model.RankModel;
 import com.softtek.lai.module.jingdu.presenter.GetProinfoImpl;
 import com.softtek.lai.module.jingdu.presenter.IGetProinfopresenter;
 import org.greenrobot.eventbus.EventBus;
@@ -44,10 +44,10 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
     @InjectView(R.id.tv_wz2)
     TextView tv_wz2;
 
-    private List<Rank> rankList = new ArrayList<Rank>();
+    private List<RankModel> rankList = new ArrayList<RankModel>();
     private IGetProinfopresenter iGetProinfopresenter;
 
-    private Rank rank;
+    private RankModel rank;
     private RankAdapter rankAdapter;
 
     @Override
@@ -89,10 +89,10 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
     @Subscribe
     public void onEvent(RankEvent rankEvent) {
         System.out.println("rankEvent.getRanks()》》》》》》》》》》》》》》" + rankEvent.getRanks());
-        List<Rank> ranks = rankEvent.getRanks();
-        for (Rank rk : ranks) {
-            System.out.println("》》》》》》》" + "AccountId:" + rk.getAccountId() + "ClassId:" + rk.getClassId() + "OrderNum:" + rk.getOrderNum() + "UserName:" + rk.getUserName() + "LossAfter:" + rk.getLossAfter() + "LossBefor:" + rk.getLossBefor() + "LossWeght:" + rk.getLossWeght());
-            Rank r1 = new Rank(rk.getLossWeght(), rk.getAccountId(), rk.getClassId(), rk.getOrderNum(), rk.getUserName(), rk.getLossAfter(), rk.getLossBefor());
+        List<RankModel> ranks = rankEvent.getRanks();
+        for (RankModel rk : ranks) {
+            System.out.println("》》》》》》》" + "AccountId:" + rk.getAccountId() + "ClassIdModel:" + rk.getClassId() + "OrderNum:" + rk.getOrderNum() + "UserName:" + rk.getUserName() + "LossAfter:" + rk.getLossAfter() + "LossBefor:" + rk.getLossBefor() + "LossWeght:" + rk.getLossWeght());
+            RankModel r1 = new RankModel(rk.getLossWeght(), rk.getAccountId(), rk.getClassId(), rk.getOrderNum(), rk.getUserName(), rk.getLossAfter(), rk.getLossBefor());
             rankList.add(r1);
 
         }

@@ -15,7 +15,7 @@ import android.widget.TextView;
 import butterknife.InjectView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.module.studetail.model.Member;
+import com.softtek.lai.module.studetail.model.MemberModel;
 import com.softtek.lai.module.studetail.presenter.IMemberInfopresenter;
 import com.softtek.lai.module.studetail.presenter.MemberInfoImpl;
 import com.softtek.lai.widgets.CircleImageView;
@@ -87,16 +87,16 @@ public class StudentDetailActivity extends BaseActivity implements View.OnClickL
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onGetData(Member member) {
-        Picasso.with(this).load(member.getPhoto()).error(R.drawable.default_pic).into(civ_header_image);
-        Picasso.with(this).load(member.getBeforImg()).error(R.drawable.default_pic).into(iv_loss_before);
-        Picasso.with(this).load(member.getAfterImg()).error(R.drawable.default_pic).into(iv_loss_after);
-        tv_name.setText(member.getUserName());
-        tv_phone.setText(member.getMobile());
-        tv_totle_log.setText(member.getLogCount() + "篇");
-        tv_totle_lw.setText(member.getLossWeight() + "kg");
-        tv_loss_before.setText(member.getLossBefor() + "kg");
-        tv_loss_after.setText(member.getLossAfter() + "kg");
+    public void onGetData(MemberModel memberModel) {
+        Picasso.with(this).load(memberModel.getPhoto()).error(R.drawable.default_pic).into(civ_header_image);
+        Picasso.with(this).load(memberModel.getBeforImg()).error(R.drawable.default_pic).into(iv_loss_before);
+        Picasso.with(this).load(memberModel.getAfterImg()).error(R.drawable.default_pic).into(iv_loss_after);
+        tv_name.setText(memberModel.getUserName());
+        tv_phone.setText(memberModel.getMobile());
+        tv_totle_log.setText(memberModel.getLogCount() + "篇");
+        tv_totle_lw.setText(memberModel.getLossWeight() + "kg");
+        tv_loss_before.setText(memberModel.getLossBefor() + "kg");
+        tv_loss_after.setText(memberModel.getLossAfter() + "kg");
 
     }
 

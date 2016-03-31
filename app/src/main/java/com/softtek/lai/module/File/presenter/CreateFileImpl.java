@@ -9,7 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.File.model.File;
+import com.softtek.lai.module.File.model.FileModel;
 import com.softtek.lai.module.File.net.FileService;
 import com.softtek.lai.module.File.view.CreatFlleActivity;
 import com.softtek.lai.module.home.view.HomeActviity;
@@ -34,11 +34,11 @@ public class CreateFileImpl implements ICreateFilepresenter {
 
 
     @Override
-    public void createFile(String token, File file) {
+    public void createFile(String token, FileModel file) {
         Log.i(file.toString());
-        service.doFile(token, file, new Callback<ResponseData<File>>() {
+        service.doFile(token, file, new Callback<ResponseData<FileModel>>() {
             @Override
-            public void success(ResponseData<File> fileResponseData, Response response) {
+            public void success(ResponseData<FileModel> fileResponseData, Response response) {
                 int status = fileResponseData.getStatus();
                 switch (status) {
                     case 200: {

@@ -6,7 +6,7 @@
 package com.softtek.lai.module.home.presenter;
 
 import android.support.v4.widget.SwipeRefreshLayout;
-import com.softtek.lai.module.home.model.HomeInfo;
+import com.softtek.lai.module.home.model.HomeInfoModel;
 
 import java.util.List;
 
@@ -26,5 +26,5 @@ public interface IHomeInfoPresenter {
     /*
     3个活动缓存
      */
-    List<HomeInfo> loadActivityCacheDate(String key);
+    List<HomeInfoModel> loadActivityCacheDate(String key);
 }

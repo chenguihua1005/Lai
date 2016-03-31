@@ -22,7 +22,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.home.view.HomeActviity;
-import com.softtek.lai.module.login.model.User;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.presenter.ILoginPresenter;
 import com.softtek.lai.module.login.presenter.LoginPresenterImpl;
 import com.softtek.lai.utils.ACache;
@@ -100,10 +100,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 startActivity(new Intent(this, RegistActivity.class));
                 break;
             case R.id.ll_visitor:
-                User user = new User();
-                user.setUserrole(String.valueOf(Constants.VR));
-                user.setNickname("游客");
-                ACache.get(this, Constants.USER_ACACHE_DATA_DIR).put(Constants.USER_ACACHE_KEY, user);
+                UserModel userModel = new UserModel();
+                userModel.setUserrole(String.valueOf(Constants.VR));
+                userModel.setNickname("游客");
+                ACache.get(this, Constants.USER_ACACHE_DATA_DIR).put(Constants.USER_ACACHE_KEY, userModel);
                 startActivity(new Intent(this, HomeActviity.class));
                 break;
 

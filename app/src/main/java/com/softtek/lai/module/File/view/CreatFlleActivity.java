@@ -22,8 +22,8 @@ import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.module.File.model.File;
-import com.softtek.lai.module.File.model.Filter;
+import com.softtek.lai.module.File.model.FileModel;
+import com.softtek.lai.module.File.model.FilterModel;
 import com.softtek.lai.module.File.presenter.CreateFileImpl;
 import com.softtek.lai.module.File.presenter.ICreateFilepresenter;
 import com.softtek.lai.module.home.view.HomeActviity;
@@ -96,7 +96,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
     TextView tv_right;
 
     //存储用户表单数据
-    private File file;
+    private FileModel file;
     private static final int GET_BODY_DIMENSION = 1;
 
     private boolean w = true;
@@ -151,7 +151,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         tv_title.setText("我的档案");
         tv_left.setBackground(null);
         tv_right.setText("跳过");
-        file = new File();
+        file = new FileModel();
     }
 
     @Override
@@ -159,7 +159,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.btn_finish:
                 String nick = et_nickname.getText().toString();
-                if (LaiApplication.getInstance().getFilterList().contains(new Filter(nick))) {
+                if (LaiApplication.getInstance().getFilterList().contains(new FilterModel(nick))) {
                     Util.toastMsg("该昵称不合法");
                 } else {
                     validateLife.validate();
@@ -209,7 +209,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         String weight = tv_weight.getText().toString();
         Log.i("创建档案：" + "nick:" + nick + ";birthday:" + birthday + ";gender:" + gender + ";height:" + height + ";weight:" + weight);
         if (w == true) {
-            file = new File();
+            file = new FileModel();
         }
         Log.i("file:--------------" + file);
         file.setNickname(nick);
@@ -232,7 +232,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == GET_BODY_DIMENSION) {
-            file = (File) data.getSerializableExtra("file");
+            file = (FileModel) data.getSerializableExtra("file");
             Log.i("创建档案围度file:" + file);
         }
     }

@@ -46,12 +46,12 @@ public class AssistantImpl implements IAssistantPresenter {
     @Override
     public void showAllApplyAssistants(String accountId, final ListView listView) {
         String token = SharedPreferenceService.getInstance().get("token", "");
-        counselorService.showAllApplyAssistants(token, accountId, new Callback<ResponseData<List<AssistantApplyInfo>>>() {
+        counselorService.showAllApplyAssistants(token, accountId, new Callback<ResponseData<List<AssistantApplyInfoModel>>>() {
             @Override
-            public void success(ResponseData<List<AssistantApplyInfo>> listResponseData, Response response) {
+            public void success(ResponseData<List<AssistantApplyInfoModel>> listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
-                List<AssistantApplyInfo> list = listResponseData.getData();
+                List<AssistantApplyInfoModel> list = listResponseData.getData();
                 switch (status) {
                     case 200:
                         AssistantApplyAdapter adapter = new AssistantApplyAdapter(context, list);
@@ -73,9 +73,9 @@ public class AssistantImpl implements IAssistantPresenter {
     @Override
     public void showAssistantDetails(String assistantId, String classId) {
         String token = SharedPreferenceService.getInstance().get("token", "");
-        counselorService.showAssistantDetails(token, assistantId, classId, new Callback<ResponseData<AssistantDetailInfo>>() {
+        counselorService.showAssistantDetails(token, assistantId, classId, new Callback<ResponseData<AssistantDetailInfoModel>>() {
             @Override
-            public void success(ResponseData<AssistantDetailInfo> listResponseData, Response response) {
+            public void success(ResponseData<AssistantDetailInfoModel> listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
 
@@ -100,12 +100,12 @@ public class AssistantImpl implements IAssistantPresenter {
     @Override
     public void showAssistantByClass(String accountId, String classId, final ListView list_assistant) {
         String token = SharedPreferenceService.getInstance().get("token", "");
-        counselorService.showAssistantByClass(token, accountId, classId, new Callback<ResponseData<List<AssistantInfo>>>() {
+        counselorService.showAssistantByClass(token, accountId, classId, new Callback<ResponseData<List<AssistantInfoModel>>>() {
             @Override
-            public void success(ResponseData<List<AssistantInfo>> listResponseData, Response response) {
+            public void success(ResponseData<List<AssistantInfoModel>> listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
-                List<AssistantInfo> list = listResponseData.getData();
+                List<AssistantInfoModel> list = listResponseData.getData();
                 switch (status) {
                     case 200:
                         EventBus.getDefault().post(listResponseData.getData());
@@ -128,12 +128,12 @@ public class AssistantImpl implements IAssistantPresenter {
     @Override
     public void showAllClassList(String managerId, final ListView list_class) {
         String token = SharedPreferenceService.getInstance().get("token", "");
-        counselorService.showAllClassList(token, managerId, new Callback<ResponseData<List<AssistantClassInfo>>>() {
+        counselorService.showAllClassList(token, managerId, new Callback<ResponseData<List<AssistantClassInfoModel>>>() {
             @Override
-            public void success(ResponseData<List<AssistantClassInfo>> listResponseData, Response response) {
+            public void success(ResponseData<List<AssistantClassInfoModel>> listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
-                List<AssistantClassInfo> list = listResponseData.getData();
+                List<AssistantClassInfoModel> list = listResponseData.getData();
                 switch (status) {
                     case 200:
                         AssistantClassAdapter adapter = new AssistantClassAdapter(context, list);
@@ -188,12 +188,12 @@ public class AssistantImpl implements IAssistantPresenter {
     @Override
     public void getAssistantList(String classId, final ListView list_assistant) {
         String token = SharedPreferenceService.getInstance().get("token", "");
-        counselorService.getAssistantList(token, classId, new Callback<ResponseData<List<Assistant>>>() {
+        counselorService.getAssistantList(token, classId, new Callback<ResponseData<List<AssistantModel>>>() {
             @Override
-            public void success(ResponseData<List<Assistant>> listResponseData, Response response) {
+            public void success(ResponseData<List<AssistantModel>> listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
-                List<Assistant> list = listResponseData.getData();
+                List<AssistantModel> list = listResponseData.getData();
                 switch (status) {
                     case 200:
                         AssistantAdapter adapter = new AssistantAdapter(context, list);

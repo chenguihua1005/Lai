@@ -20,7 +20,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.grade.adapter.TutorAdapter;
 import com.softtek.lai.module.grade.eventModel.SRInfoEvent;
-import com.softtek.lai.module.grade.model.SRInfo;
+import com.softtek.lai.module.grade.model.SRInfoModel;
 import com.softtek.lai.module.grade.presenter.GradeImpl;
 import com.softtek.lai.module.grade.presenter.IGrade;
 import org.greenrobot.eventbus.EventBus;
@@ -46,7 +46,7 @@ public class TutorActivity extends BaseActivity implements PullToRefreshBase.OnR
 
     private IGrade grade;
     private TutorAdapter adapter;
-    List<SRInfo> infos = new ArrayList<>();
+    List<SRInfoModel> infos = new ArrayList<>();
 
     @Override
     protected void initViews() {

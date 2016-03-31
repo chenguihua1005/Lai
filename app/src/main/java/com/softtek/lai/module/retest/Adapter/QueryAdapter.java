@@ -14,7 +14,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.softtek.lai.R;
-import com.softtek.lai.module.retest.model.Student;
+import com.softtek.lai.module.retest.model.StudentModel;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
@@ -24,30 +24,30 @@ import java.util.List;
  * Created by lareina.qiao on 3/23/2016.
  */
 public class QueryAdapter extends BaseAdapter {
-    private List<Student> studentList;
+    private List<StudentModel> studentModelList;
 
     private Context context;
 
-    public QueryAdapter(Context context, List<Student> studentList) {
-        this.studentList = studentList;
+    public QueryAdapter(Context context, List<StudentModel> studentModelList) {
+        this.studentModelList = studentModelList;
         this.context = context;
 
     }
 
 
-    public void updateData(List<Student> studentList) {
-        this.studentList = studentList;
+    public void updateData(List<StudentModel> studentModelList) {
+        this.studentModelList = studentModelList;
         notifyDataSetChanged();
     }
 
     @Override
     public int getCount() {
-        return studentList.size();
+        return studentModelList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return studentList.get(position);
+        return studentModelList.get(position);
     }
 
     @Override
@@ -75,19 +75,19 @@ public class QueryAdapter extends BaseAdapter {
         } else {
             holder = (Holder) convertView.getTag();
         }
-        Student student = studentList.get(position);
-        if (!TextUtils.isEmpty(student.getPhoto())) {
-            Picasso.with(context).load(student.getPhoto()).placeholder(R.drawable.lufei).error(R.drawable.lufei).into(holder.iv_head);
+        StudentModel studentModel = studentModelList.get(position);
+        if (!TextUtils.isEmpty(studentModel.getPhoto())) {
+            Picasso.with(context).load(studentModel.getPhoto()).placeholder(R.drawable.lufei).error(R.drawable.lufei).into(holder.iv_head);
         } else {
             Picasso.with(context).load("www").placeholder(R.drawable.lufei).error(R.drawable.lufei).into(holder.iv_head);
         }
 //        holder.iv_head.setImageDrawable();
-        holder.tv_retest_nick.setText(student.getUserName());
-        holder.tv_retest_phone.setText(student.getMobile());
-//        Log.i(">>>>>>>>>>>>","<<<<<<<<<<"+tomonth((student.getStartDate().substring(5,7))));
-        holder.tv_retest_classdate.setText(tomonth((student.getStartDate().substring(5, 7))));
-        holder.tv_retest_classweek.setText(student.getWeekth() + "");
-        String status = "".equals(student.getAMStatus()) ? "录入" : "审核";
+        holder.tv_retest_nick.setText(studentModel.getUserName());
+        holder.tv_retest_phone.setText(studentModel.getMobile());
+//        Log.i(">>>>>>>>>>>>","<<<<<<<<<<"+tomonth((studentModel.getStartDate().substring(5,7))));
+        holder.tv_retest_classdate.setText(tomonth((studentModel.getStartDate().substring(5, 7))));
+        holder.tv_retest_classweek.setText(studentModel.getWeekth() + "");
+        String status = "".equals(studentModel.getAMStatus()) ? "录入" : "审核";
         if (status == "录入") {
             holder.tv_retest_type.setText("录入");
 
@@ -100,10 +100,10 @@ public class QueryAdapter extends BaseAdapter {
 //            holder.iv_type_ls.setImageResource(R.drawable.shenhe);
             holder.tv_retest_type.setTextColor(context.getResources().getColor(R.color.orange));
         }
-        holder.tv_month.setText(student.getCurrStart().substring(6, 7));
-        holder.tv_month1.setText(student.getCurrEnd().substring(6, 7));
-        holder.tv_date.setText(student.getCurrStart().substring(8, 10));
-        holder.tv_date1.setText(student.getCurrEnd().substring(8, 10));
+        holder.tv_month.setText(studentModel.getCurrStart().substring(6, 7));
+        holder.tv_month1.setText(studentModel.getCurrEnd().substring(6, 7));
+        holder.tv_date.setText(studentModel.getCurrStart().substring(8, 10));
+        holder.tv_date1.setText(studentModel.getCurrEnd().substring(8, 10));
         return convertView;
     }
 

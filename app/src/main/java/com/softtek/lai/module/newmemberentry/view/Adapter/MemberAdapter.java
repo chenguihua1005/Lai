@@ -12,44 +12,44 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import com.softtek.lai.R;
-import com.softtek.lai.module.newmemberentry.view.model.Pargrade;
+import com.softtek.lai.module.newmemberentry.view.model.PargradeModel;
 
 import java.util.List;
 
 /**
  * Created by julie.zhu on 3/26/2016.
  */
-public class MemberAdapter extends ArrayAdapter<Pargrade> {
+public class MemberAdapter extends ArrayAdapter<PargradeModel> {
 
     private int resourceId;
     private Context context;
-    private List<Pargrade> pargradeList;
+    private List<PargradeModel> pargradeModelList;
     private LayoutInflater inflater;
 
-    public MemberAdapter(Context context, int textViewResourceId, List<Pargrade> pargradeList) {
-        super(context, textViewResourceId, pargradeList);
+    public MemberAdapter(Context context, int textViewResourceId, List<PargradeModel> pargradeModelList) {
+        super(context, textViewResourceId, pargradeModelList);
         resourceId = textViewResourceId;
         this.context = context;
         inflater = LayoutInflater.from(context);
-        this.pargradeList = pargradeList;
+        this.pargradeModelList = pargradeModelList;
     }
 
 
-    public void updateData(List<Pargrade> pargradeList) {
-        this.pargradeList = pargradeList;
+    public void updateData(List<PargradeModel> pargradeModelList) {
+        this.pargradeModelList = pargradeModelList;
         notifyDataSetChanged();
     }
 
 
     @Override
     public int getCount() {
-        return pargradeList.size();
+        return pargradeModelList.size();
     }
 
 
     @Override
-    public Pargrade getItem(int position) {
-        return pargradeList.get(position);
+    public PargradeModel getItem(int position) {
+        return pargradeModelList.get(position);
     }
 
     @Override
@@ -68,9 +68,9 @@ public class MemberAdapter extends ArrayAdapter<Pargrade> {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        Pargrade pargrade = pargradeList.get(position);
-        //viewHolder.pargrade.setText(pargrade.getClassId());
-        viewHolder.pargrade.setText(pargrade.getClassName());
+        PargradeModel pargradeModel = pargradeModelList.get(position);
+        //viewHolder.pargradeModel.setText(pargradeModel.getClassId());
+        viewHolder.pargrade.setText(pargradeModel.getClassName());
         return convertView;
     }
 

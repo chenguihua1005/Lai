@@ -14,8 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.counselor.adapter.CounselorClassAdapter;
-import com.softtek.lai.module.counselor.model.ClassId;
-import com.softtek.lai.module.counselor.model.ClassInfo;
+import com.softtek.lai.module.counselor.model.ClassIdModel;
+import com.softtek.lai.module.counselor.model.ClassInfoModel;
 import com.softtek.lai.module.counselor.net.CounselorService;
 import com.softtek.lai.module.counselor.view.AssistantListActivity;
 import retrofit.Callback;
@@ -45,13 +45,13 @@ public class CounselorClassImpl implements ICounselorClassPresenter {
     @Override
     public void getClassList(final ListView expand_lis, final LinearLayout lin_create_class, final ImageView img_mo_message) {
         String token = SharedPreferenceService.getInstance().get("token", "");
-        counselorService.getClassList(token, new Callback<ResponseData<List<ClassInfo>>>() {
+        counselorService.getClassList(token, new Callback<ResponseData<List<ClassInfoModel>>>() {
 
             @Override
-            public void success(ResponseData<List<ClassInfo>> listResponseData, Response response) {
+            public void success(ResponseData<List<ClassInfoModel>> listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
-                List<ClassInfo> list = listResponseData.getData();
+                List<ClassInfoModel> list = listResponseData.getData();
                 switch (status) {
                     case 200:
                         CounselorClassAdapter adapter = new CounselorClassAdapter(context, list);
@@ -76,7 +76,7 @@ public class CounselorClassImpl implements ICounselorClassPresenter {
                         System.out.println("list--------------" + list);
                         int count = 0;
                         for (int i = 0; i < list.size(); i++) {
-                            ClassInfo classInfo = list.get(i);
+                            ClassInfoModel classInfo = list.get(i);
                             String str[] = classInfo.getStartDate().toString().split("-");
                             if (str[1].equals(monthOfYear + "") || str[1].equals("0" + monthOfYear)) {
                                 System.out.println("当前月已开班" + str[1]);
@@ -117,9 +117,9 @@ public class CounselorClassImpl implements ICounselorClassPresenter {
     @Override
     public void createClass(String className, String startDate, String endDate, String managerId) {
         String token = SharedPreferenceService.getInstance().get("token", "");
-        counselorService.createClass(token, className, startDate, endDate, managerId, new Callback<ResponseData<ClassId>>() {
+        counselorService.createClass(token, className, startDate, endDate, managerId, new Callback<ResponseData<ClassIdModel>>() {
             @Override
-            public void success(ResponseData<ClassId> classIdResponseData, Response response) {
+            public void success(ResponseData<ClassIdModel> classIdResponseData, Response response) {
                 Log.e("jarvis", classIdResponseData.toString());
                 int status = classIdResponseData.getStatus();
                 switch (status) {

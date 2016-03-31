@@ -12,7 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.home.view.HomeActviity;
-import com.softtek.lai.module.login.model.User;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.net.LoginService;
 import com.softtek.lai.utils.ACache;
 import retrofit.Callback;
@@ -40,9 +40,9 @@ public class LoginPresenterImpl implements ILoginPresenter {
     @Override
     public void doLogin(String userName, String password, final ProgressDialog dialog) {
 
-        service.doLogin(userName, password, new Callback<ResponseData<User>>() {
+        service.doLogin(userName, password, new Callback<ResponseData<UserModel>>() {
             @Override
-            public void success(ResponseData<User> userResponseData, Response response) {
+            public void success(ResponseData<UserModel> userResponseData, Response response) {
                 if (dialog != null) dialog.dismiss();
                 System.out.println(userResponseData);
                 int status = userResponseData.getStatus();
@@ -68,7 +68,7 @@ public class LoginPresenterImpl implements ILoginPresenter {
         });
     }
 
-    public void autoLogin(String phone, String password, Callback<ResponseData<User>> callback) {
+    public void autoLogin(String phone, String password, Callback<ResponseData<UserModel>> callback) {
         service.doLogin(phone, password, callback);
     }
 

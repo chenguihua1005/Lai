@@ -33,7 +33,7 @@
         <activity
                 android:name=".module.login.view.LoginActivity"
                 android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
-        <activity android:name=".module.guide.Guide">
+        <activity android:name=".module.guide.GuideActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -54,23 +54,23 @@
                 android:name=".module.home.view.HomeActviity"
                 android:launchMode="singleTask"/>
         <activity android:name=".module.File.view.DimensionRecordActivity"/>
-        <activity android:name=".module.retest.Write"/>
-        <activity android:name=".module.retest.Audit"/>
-        <activity android:name=".module.retest.view.Retest"/>
+        <activity android:name=".module.retest.WriteActivity"/>
+        <activity android:name=".module.retest.AuditActivity"/>
+        <activity android:name=".module.retest.view.RetestActivity"/>
         <activity android:name=".module.login.view.TermActivity"/>
-        <activity android:name=".module.bodygame.Counselor"/>
+        <activity android:name=".module.bodygame.CounselorActivity"/>
         <activity
-                android:name=".module.grade.view.GradeHomeActivity"
+                android:name=".module.gradeModel.view.GradeHomeActivity"
                 android:configChanges="orientation|keyboardHidden"/>
-        <activity android:name=".module.File.view.explain"/>
+        <activity android:name=".module.File.view.ExplainActivity"/>
         <activity android:name=".module.newmemberentry.view.EntryActivity"/>
-        <activity android:name=".module.grade.view.StudentsActivity"/>
+        <activity android:name=".module.gradeModel.view.StudentsActivity"/>
         <activity android:name=".module.studetail.view.StudentDetailActivity"/>
         <activity android:name=".module.retest.view.QueryActivity"/>
         <activity android:name=".module.bodygamest.view.StudentActivity"/>
 
         <activity android:name=".module.jingdu.view.JingduActivity"></activity>
-        <activity android:name=".module.grade.view.TutorActivity"></activity>
+        <activity android:name=".module.gradeModel.view.TutorActivity"></activity>
         <activity android:name=".module.counselor.view.CounselorClassListActivity"/>
         <activity android:name=".module.counselor.view.CreateCounselorClassActivity"/>
         <activity android:name=".module.counselor.view.AssistantListActivity"/>
