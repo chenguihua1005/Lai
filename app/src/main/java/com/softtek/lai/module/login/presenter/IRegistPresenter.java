@@ -1,7 +1,11 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.login.presenter;
 
 import android.widget.EditText;
-import android.widget.TextView;
 
 /**
  * Created by jerry.guan on 3/3/2016.
@@ -9,10 +13,10 @@ import android.widget.TextView;
 public interface IRegistPresenter {
 
     //注册
-    void doRegist(String userName, String password,EditText et_identify);
+    void doRegist(String userName, String password, EditText et_identify);
 
     //获取验证码
-    void getIdentify(String phone,String state);
+    void getIdentify(String phone, String state);
 
     //获取密码前的验证
     boolean validateGetIdentify(EditText et_phone, EditText et_password, EditText et_rePassword);

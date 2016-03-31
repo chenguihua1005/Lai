@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle" >
+<!--
+  ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+  ~ Date:2016-03-31
+  -->
 
-    <solid android:color="#CACACB" />
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+       android:shape="rectangle">
+
+    <solid android:color="#CACACB"/>
 
     <corners
-        android:bottomLeftRadius="3dp"
-        android:bottomRightRadius="3dp"
-        android:topLeftRadius="0dp"
-        android:topRightRadius="0dp" />
+            android:bottomLeftRadius="3dp"
+            android:bottomRightRadius="3dp"
+            android:topLeftRadius="0dp"
+            android:topRightRadius="0dp"/>
 
 </shape>

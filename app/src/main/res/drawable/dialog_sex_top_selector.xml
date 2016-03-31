@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+  ~ Date:2016-03-31
+  -->
+
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:drawable="@drawable/dialog_sex_top_pressed" android:state_focused="true"/>
-    <item android:drawable="@drawable/dialog_sex_top_pressed" android:state_focused="false" android:state_pressed="true"/>
+    <item android:drawable="@drawable/dialog_sex_top_pressed" android:state_focused="false"
+          android:state_pressed="true"/>
     <item android:drawable="@drawable/dialog_sex_top_normal" android:state_focused="false"/>
 
 </selector>

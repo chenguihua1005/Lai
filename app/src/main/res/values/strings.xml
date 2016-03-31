@@ -1,3 +1,8 @@
+<!--
+  ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+  ~ Date:2016-03-31
+  -->
+
 <resources>
     <!-- 顾问版-->
     <string name="crateClassVlaue">我要开班</string>
@@ -28,7 +33,9 @@
     <string name="password">密码</string>
     <string name="passwordReg">密码(字母+数字,6~16位)</string>
     <string name="psdReg">(?![^a-zA-Z]+$)(?!\\D+$).{6,16}</string>
-    <string name="forgetPsd"><u>忘记密码?</u></string>
+    <string name="forgetPsd">
+        <u>忘记密码?</u>
+    </string>
 
     <string name="neterror">服务器异常</string>
     <string name="newPasswordNull">请输入新密码</string>
@@ -57,7 +64,9 @@
     <string name="login">登录</string>
     <string name="regist">注册</string>
     <string name="repassword">重复密码</string>
-    <string name="protocol"><u>莱APP用户协议和隐私保护条款</u></string>
+    <string name="protocol">
+        <u>莱APP用户协议和隐私保护条款</u>
+    </string>
     <string name="next">下一步</string>
     <string name="sendIdentify">发送验证码</string>
     <string name="readeAndAgress">我已阅读并同意遵守</string>

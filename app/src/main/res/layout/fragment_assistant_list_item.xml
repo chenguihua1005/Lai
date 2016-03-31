@@ -1,57 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+  ~ Date:2016-03-31
+  -->
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal"
-    tools:context="com.softtek.lai.module.retest.Write">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                tools:context="com.softtek.lai.module.retest.Write">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
 
         <com.softtek.lai.widgets.CircleImageView
-            android:id="@+id/img"
-            android:layout_width="@dimen/circleImage"
-            android:layout_height="@dimen/circleImage"
-            android:layout_margin="@dimen/fragmentAssistantListMargin"
-            android:src="@drawable/img_default" />
+                android:id="@+id/img"
+                android:layout_width="@dimen/circleImage"
+                android:layout_height="@dimen/circleImage"
+                android:layout_margin="@dimen/fragmentAssistantListMargin"
+                android:src="@drawable/img_default"/>
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_margin="@dimen/fragmentAssistantListMargin"
-            android:src="@drawable/more" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/fragmentAssistantListMargin"
+                android:src="@drawable/more"/>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/img"
-            android:orientation="vertical">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/img"
+                android:orientation="vertical">
 
             <TextView
-                android:id="@+id/text_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Default"
-                android:textSize="@dimen/fragmentAssistantListNameSize" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/assistantMargin"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/text_class_name"
+                    android:id="@+id/text_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="18261576084"
-                    android:textSize="@dimen/fragmentAssistantListTextSize" />
+                    android:text="Default"
+                    android:textSize="@dimen/fragmentAssistantListNameSize"/>
+
+            <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/assistantMargin"
+                    android:orientation="horizontal">
+
+                <TextView
+                        android:id="@+id/text_class_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="18261576084"
+                        android:textSize="@dimen/fragmentAssistantListTextSize"/>
             </LinearLayout>
 
         </LinearLayout>

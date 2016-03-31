@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.bodygame.presenter;
 
 /**
@@ -6,5 +11,6 @@ package com.softtek.lai.module.bodygame.presenter;
 public interface ITiGuanSai {
 
     void getTiGuanSai();
+
     void doGetFuceNum(long id);
 }

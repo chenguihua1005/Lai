@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.widgets;
 
 import android.content.Context;
@@ -13,8 +18,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
-
-
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.utils.DisplayUtil;
@@ -95,8 +98,8 @@ public class RollHeaderView extends FrameLayout implements OnPageChangeListener 
             dotList.clear();
             mDotLl.removeAllViews();
             ImageView dotIv;
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(DisplayUtil.dip2px(mContext,5), DisplayUtil.dip2px(mContext,5));
-            Log.i("一共有多少个点？"+mUrlList.size());
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(DisplayUtil.dip2px(mContext, 5), DisplayUtil.dip2px(mContext, 5));
+            Log.i("一共有多少个点？" + mUrlList.size());
             for (int i = 0; i < mUrlList.size(); i++) {
                 dotIv = new ImageView(mContext);
                 if (i == 0) {
@@ -225,7 +228,7 @@ public class RollHeaderView extends FrameLayout implements OnPageChangeListener 
                             long moveTime = System.currentTimeMillis();
                             if (downX == moveX && (moveTime - downTime < 500)) {//点击的条件
                                 //轮播图回调点击事件
-                                if(headerViewClickListener!=null){
+                                if (headerViewClickListener != null) {
                                     headerViewClickListener.HeaderViewClick(position % mUrlList.size());
                                 }
                             }
@@ -239,7 +242,7 @@ public class RollHeaderView extends FrameLayout implements OnPageChangeListener 
             });
 
             //加载图片
-            if(mUrlList.size()>0){
+            if (mUrlList.size() > 0) {
                 Picasso.with(mContext).load(mUrlList.get(position % mUrlList.size()))
                         .error(R.mipmap.ic_launcher).into(iv);
             }
@@ -260,10 +263,10 @@ public class RollHeaderView extends FrameLayout implements OnPageChangeListener 
 
     @Override
     public void onPageSelected(int position) {
-       // if(dotList.size()>position){
-            dotList.get(prePosition).setBackgroundResource(R.drawable.banner_dot_normal);
-            dotList.get(position % dotList.size()).setBackgroundResource(R.drawable.banner_dot_select);
-            prePosition = position % dotList.size();
+        // if(dotList.size()>position){
+        dotList.get(prePosition).setBackgroundResource(R.drawable.banner_dot_normal);
+        dotList.get(position % dotList.size()).setBackgroundResource(R.drawable.banner_dot_select);
+        prePosition = position % dotList.size();
 
         //}
     }

@@ -1,84 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+  ~ Date:2016-03-31
+  -->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/grey"
-    android:orientation="vertical"
-    tools:context="com.softtek.lai.module.retest.Write">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/grey"
+              android:orientation="vertical"
+              tools:context="com.softtek.lai.module.retest.Write">
 
     <RelativeLayout
-        android:id="@+id/rel_all_class_more"
-        android:layout_width="fill_parent"
-        android:background="@color/sc_transparent_background"
-        android:layout_height="wrap_content">
+            android:id="@+id/rel_all_class_more"
+            android:layout_width="fill_parent"
+            android:background="@color/sc_transparent_background"
+            android:layout_height="wrap_content">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="@dimen/fragmentAssistantListMargin"
-            android:text="@string/allClass"
-            android:textSize="@dimen/fragmentAssistantListNameSize" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="@dimen/fragmentAssistantListMargin"
+                android:text="@string/allClass"
+                android:textSize="@dimen/fragmentAssistantListNameSize"/>
 
         <ImageView
-            android:id="@+id/img_more"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_margin="@dimen/fragmentAssistantListMargin"
-            android:src="@drawable/more_down" />
+                android:id="@+id/img_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/fragmentAssistantListMargin"
+                android:src="@drawable/more_down"/>
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dip"
-        android:orientation="vertical">
-        <ListView
-            android:id="@+id/list_assistant"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"/>
-        <LinearLayout
-            android:id="@+id/lin_class"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <RelativeLayout
-                android:id="@+id/rel_all_class_select"
+            android:layout_marginTop="2dip"
+            android:orientation="vertical">
+        <ListView
+                android:id="@+id/list_assistant"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"/>
+        <LinearLayout
+                android:id="@+id/lin_class"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/grey"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:visibility="gone">
 
-                <TextView
-                    android:layout_width="wrap_content"
+            <RelativeLayout
+                    android:id="@+id/rel_all_class_select"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_margin="@dimen/fragmentAssistantListMargin"
-                    android:text="@string/allClass"
-                    android:textSize="@dimen/fragmentAssistantListTextSizes"
-                    />
+                    android:background="@color/grey"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="@dimen/fragmentAssistantListMargin"
+                        android:text="@string/allClass"
+                        android:textSize="@dimen/fragmentAssistantListTextSizes"
+                />
 
                 <ImageView
-                    android:id="@+id/img_all_class"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_margin="@dimen/fragmentAssistantListMargin"
-                    android:src="@drawable/img_selceted" />
+                        android:id="@+id/img_all_class"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="@dimen/fragmentAssistantListMargin"
+                        android:src="@drawable/img_selceted"/>
             </RelativeLayout>
 
             <ListView
-                android:id="@+id/list_class"
-                android:layout_width="fill_parent"
-                android:layout_height="@dimen/fragmentAssistantListHeight"
-                android:dividerHeight="2dip"/>
+                    android:id="@+id/list_class"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/fragmentAssistantListHeight"
+                    android:dividerHeight="2dip"/>
         </LinearLayout>
     </RelativeLayout>
 </LinearLayout>

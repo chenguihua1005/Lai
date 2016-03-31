@@ -1,50 +1,43 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.counselor.view;
 
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-
+import butterknife.InjectView;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
-import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.assistant.model.AssistantDetailInfo;
-import com.softtek.lai.module.assistant.presenter.GameImpl;
-import com.softtek.lai.module.assistant.presenter.IGamePresenter;
 import com.softtek.lai.module.counselor.adapter.HonorStudentAdapter;
 import com.softtek.lai.module.counselor.model.HonorInfo;
 import com.softtek.lai.module.counselor.model.HonorTable;
 import com.softtek.lai.module.counselor.model.HonorTable1;
-import com.softtek.lai.module.counselor.presenter.CounselorClassImpl;
-import com.softtek.lai.module.counselor.presenter.ICounselorClassPresenter;
-import com.softtek.lai.module.login.model.User;
+import com.softtek.lai.module.counselor.presenter.HonorImpl;
+import com.softtek.lai.module.counselor.presenter.IHonorPresenter;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.SoftInputUtil;
-import com.softtek.lai.widgets.WheelView;
-import com.squareup.picasso.Picasso;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
-import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 
+import java.util.List;
+
+/**
+ * Created by jarvis.liu on 3/22/2016.
+ * 荣誉榜
+ */
 @InjectLayout(R.layout.activity_sp_honor)
 public class SPHonorActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener {
 
@@ -73,7 +66,7 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
     ListView list_stars;
 
 
-    private ICounselorClassPresenter counselorClassPresenter;
+    private IHonorPresenter honorPresenter;
     private ACache aCache;
 
 
@@ -95,24 +88,24 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
     @Subscribe
     public void onEvent(HonorInfo honorInfo) {
         System.out.println("honorInfo:" + honorInfo);
-        List<HonorTable1> honorTable1=honorInfo.getTable1();
-        List<HonorTable> honorTable=honorInfo.getTable();
-        HonorStudentAdapter adapter=new HonorStudentAdapter(this,honorTable1);
+        List<HonorTable1> honorTable1 = honorInfo.getTable1();
+        List<HonorTable> honorTable = honorInfo.getTable();
+        HonorStudentAdapter adapter = new HonorStudentAdapter(this, honorTable1);
         list_stars.setAdapter(adapter);
 
         for (int i = 0; i < honorTable.size(); i++) {
-            HonorTable honor=honorTable.get(i);
-            String rowname=honor.getRowname().toString();
-            String num=honor.getNum().toString();
-            String rank_num=honor.getRank_num().toString();
-            if("rtest_rank".equals(rowname)){
-                text_starnum.setText(num+"/"+rank_num);
-            }else if("servernum_rank".equals(rowname)){
-                text_servernum.setText(num+"/"+rank_num);
-            }else if("starnum_rank".equals(rowname)){
-                text_starnum.setText(num+"/"+rank_num);
-            }else if("weight_rank".equals(rowname)){
-                text_weight.setText(num+"/"+rank_num);
+            HonorTable honor = honorTable.get(i);
+            String rowname = honor.getRowname().toString();
+            String num = honor.getNum().toString();
+            String rank_num = honor.getRank_num().toString();
+            if ("rtest_rank".equals(rowname)) {
+                text_rtest.setText(num + "/" + rank_num);
+            } else if ("servernum_rank".equals(rowname)) {
+                text_servernum.setText(num + "/" + rank_num);
+            } else if ("starnum_rank".equals(rowname)) {
+                text_starnum.setText(num + "/" + rank_num);
+            } else if ("weight_rank".equals(rowname)) {
+                text_weight.setText(num + "/" + rank_num);
             }
         }
 
@@ -129,10 +122,10 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initDatas() {
-        counselorClassPresenter = new CounselorClassImpl(this);
+        honorPresenter = new HonorImpl(this);
         aCache = ACache.get(this, Constants.USER_ACACHE_DATA_DIR);
 
-        counselorClassPresenter.getSPHonor();
+        honorPresenter.getSPHonor();
     }
 
     @Override

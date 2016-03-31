@@ -1,56 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+  ~ Date:2016-03-31
+  -->
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-<LinearLayout
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <include layout="@layout/toolbar" />
-
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
     <LinearLayout
-        android:background="#909090"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="120dp">
-        <ImageView
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/ic_launcher"/>
-    </LinearLayout>
-    <LinearLayout
-        android:background="#808080"
-        android:layout_width="match_parent"
-        android:layout_height="40dp">
+            android:layout_height="match_parent">
+        <include layout="@layout/toolbar"/>
 
-    </LinearLayout>
-    <LinearLayout
-        android:background="#cccccc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        <LinearLayout
+                android:background="#909090"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="120dp">
+            <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_launcher"/>
+        </LinearLayout>
+        <LinearLayout
+                android:background="#808080"
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
 
-        <ListView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/listView" />
+        </LinearLayout>
+        <LinearLayout
+                android:background="#cccccc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <ListView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/listView"/>
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
 
     <LinearLayout
-        android:layout_marginTop="160dp"
-        android:layout_gravity="center_vertical"
-        android:gravity="right"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="40dp">
-            <TextView
+            android:layout_marginTop="160dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="right"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+        <TextView
                 android:text="nickname"
                 android:gravity="center"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp" />
-            <ImageView
+                android:layout_height="40dp"/>
+        <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/ic_launcher"/>
-        </LinearLayout>
+    </LinearLayout>
 </RelativeLayout>

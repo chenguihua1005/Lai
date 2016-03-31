@@ -1,17 +1,16 @@
-package com.softtek.lai.module.bodygame.presenter;
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
 
-import android.view.View;
+package com.softtek.lai.module.bodygame.presenter;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.bodygame.model.FuceNum;
 import com.softtek.lai.module.bodygame.model.TiGuanSai;
 import com.softtek.lai.module.bodygame.net.BodyGameService;
-
 import org.greenrobot.eventbus.EventBus;
-
-import java.util.List;
-
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -59,27 +58,27 @@ public class TiGuanSaiImpl implements ITiGuanSai {
     @Override
     public void doGetFuceNum(long id) {
         String token = SharedPreferenceService.getInstance().get("token", "");
-     service.doGetFuceNum(token, id, new Callback<ResponseData<FuceNum>>() {
-         @Override
-         public void success(ResponseData<FuceNum> fuceNumResponseData, Response response) {
-             int status = fuceNumResponseData.getStatus();
-             switch (status) {
-                 case 200:
-                     System.out.println(fuceNumResponseData);
-                     EventBus.getDefault().post(fuceNumResponseData.getData());
-                     break;
-                 default:
-                     Util.toastMsg(fuceNumResponseData.getMsg());
-                     break;
-             }
-         }
+        service.doGetFuceNum(token, id, new Callback<ResponseData<FuceNum>>() {
+            @Override
+            public void success(ResponseData<FuceNum> fuceNumResponseData, Response response) {
+                int status = fuceNumResponseData.getStatus();
+                switch (status) {
+                    case 200:
+                        System.out.println(fuceNumResponseData);
+                        EventBus.getDefault().post(fuceNumResponseData.getData());
+                        break;
+                    default:
+                        Util.toastMsg(fuceNumResponseData.getMsg());
+                        break;
+                }
+            }
 
-         @Override
-         public void failure(RetrofitError error) {
-             error.printStackTrace();
-             Util.toastMsg(R.string.neterror);
-         }
-     });
+            @Override
+            public void failure(RetrofitError error) {
+                error.printStackTrace();
+                Util.toastMsg(R.string.neterror);
+            }
+        });
 
     }
 }

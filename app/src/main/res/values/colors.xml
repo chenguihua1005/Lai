@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+  ~ Date:2016-03-31
+  -->
+
 <resources>
     <color name="colorPrimary">#7FAB11</color>
     <color name="colorPrimaryDark">#74BB2A</color>
