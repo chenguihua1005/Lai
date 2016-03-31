@@ -1,8 +1,3 @@
-/*
- * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
- * Date:2016-03-31
- */
-
 package com.softtek.lai.module.retest.model;
 
 import java.io.Serializable;
@@ -10,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by lareina.qiao on 3/26/2016.
  */
-public class RetestWriteModel implements Serializable {
+public class RetestWriteModel implements Serializable{
     private String accountId;
     private String weight;
     private String pysical;
@@ -24,13 +19,9 @@ public class RetestWriteModel implements Serializable {
     private String image;
     private String classId;
 
-    public RetestWriteModel() {
-
-    }
-
     @Override
     public String toString() {
-        return "RetestWriteModel{" +
+        return "WriteActivity{" +
                 "accountId='" + accountId + '\'' +
                 ", weight='" + weight + '\'' +
                 ", pysical='" + pysical + '\'' +
@@ -155,5 +146,8 @@ public class RetestWriteModel implements Serializable {
         this.doLegGirth = doLegGirth;
         this.image = image;
         this.classId = classId;
+    }
+    public RetestWriteModel(){
+
     }
 }

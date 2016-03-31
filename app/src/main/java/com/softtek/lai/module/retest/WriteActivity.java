@@ -1,8 +1,3 @@
-/*
- * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
- * Date:2016-03-31
- */
-
 package com.softtek.lai.module.retest;
 
 import android.app.Activity;
@@ -12,27 +7,34 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.os.Bundle;
 import android.view.View;
-import android.widget.*;
-import butterknife.InjectView;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.NumberPicker;
+import android.widget.TextView;
+
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.module.File.view.DimensionRecordActivity;
 import com.softtek.lai.module.newmemberentry.view.GetPhotoDialog;
 import com.softtek.lai.module.retest.model.RetestWriteModel;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.module.retest.present.RetestclassImp;
-import zilla.libcore.ui.InjectLayout;
+import com.softtek.lai.module.retest.view.BodyweiduActivity;
+
 
 import java.io.File;
 import java.io.FileNotFoundException;
 
+import butterknife.InjectView;
+import zilla.libcore.ui.InjectLayout;
+
 @InjectLayout(R.layout.activity_write)
-public class WriteActivity extends BaseActivity implements View.OnClickListener {
+public class WriteActivity extends BaseActivity implements View.OnClickListener{
     //标题栏
     @InjectView(R.id.tv_title)
     TextView title;
@@ -80,10 +82,10 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener 
     TextView tv_retestWrite_neizhi;
 
     private RetestPre retestPre;
-    RetestWriteModel retestWriteModel;
-    String path = "";
-    private static final int PHOTO = 1;
-    private static final int GET_BODY = 2;
+    RetestWriteModel retestWrite;
+    String path="";
+    private static final int PHOTO=1;
+    private static final int GET_BODY=2;
 
 
     @Override
@@ -111,14 +113,16 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener 
         title.setText("复测录入");
         tv_right.setText("保存");
         iv_email.setVisibility(View.INVISIBLE);
-        Intent intent = getIntent();
-        String accountId = intent.getStringExtra("accountId");
-        String loginId = intent.getStringExtra("loginId");
-        String classId = intent.getStringExtra("classId");
-        Log.i("chuanzhizhizhizhizhi", accountId + loginId + classId);
-        retestPre = new RetestclassImp();
-        retestWriteModel = new RetestWriteModel();
-        retestWriteModel.setAccountId(accountId);
+        Intent intent=getIntent();
+        String accountId=intent.getStringExtra("accountId");
+        String loginId=intent.getStringExtra("loginId");
+        String classId=intent.getStringExtra("classId");
+        Log.i("chuanzhizhizhizhizhi",accountId+loginId+classId);
+        retestPre=new RetestclassImp();
+        retestWrite=new RetestWriteModel();
+//        retestWrite.setAccountId(accountId);
+
+
 
 
     }
@@ -126,7 +130,8 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
+        switch (v.getId())
+        {
             //删除照片
             case R.id.im_delete:
                 im_retestwrite_showphoto.setVisibility(View.GONE);
@@ -136,13 +141,16 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener 
             case R.id.ll_left:
                 finish();
 
-                break;
+            break;
             //标题栏右提交保存事件
             case R.id.tv_right:
-                retestWriteModel.setWeight(tv_retestWrite_nowweight.getText() + "");
-                retestWriteModel.setPysical(tv_retestWrite_tizhi.getText() + "");
-                retestWriteModel.setFat(tv_retestWrite_neizhi.getText() + "");
-                retestPre.doPostWrite(3, 36, retestWriteModel);
+                retestWrite.setWeight(tv_retestWrite_nowweight.getText()+"");
+                retestWrite.setPysical(tv_retestWrite_tizhi.getText()+"");
+                retestWrite.setFat(tv_retestWrite_neizhi.getText()+"");
+                retestWrite.setClassId("4");
+                retestWrite.setImage("");
+                retestWrite.setAccountId("3");
+                retestPre.doPostWrite(3,36,retestWrite);
                 break;
             //拍照事件
             case R.id.im_retestwrite_takephoto:
@@ -150,7 +158,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener 
                         new GetPhotoDialog.GetPhotoDialogListener() {
                             @Override
                             public void onClick(View view) {
-                                switch (view.getId()) {
+                                switch(view.getId()){
                                     case R.id.imgbtn_camera:
                                         takecamera();
                                         break;
@@ -165,38 +173,37 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener 
                 dialog.show();
                 break;
             case R.id.btn_retest_write_addbody:
-                Intent intent = new Intent(WriteActivity.this, DimensionRecordActivity.class);
-                intent.putExtra("retestWriteModel", retestWriteModel);
-                startActivityForResult(intent, GET_BODY);
+                Intent intent=new Intent(WriteActivity.this, BodyweiduActivity.class);
+                intent.putExtra("retestWrite",retestWrite);
+                startActivityForResult(intent,GET_BODY);
                 break;
             //点击弹框事件
             case R.id.ll_retestWrite_chu_weight:
-                show_information("初始体重（kg）", 200, 70, 20, 9, 5, 0, 0);
+                show_information("初始体重（kg）",200,70,20,9,5,0,0);
                 break;
             case R.id.ll_retestWrite_nowweight:
-                show_information("现在体重（kg）", 200, 70, 20, 9, 5, 0, 1);
+                show_information("现在体重（kg）",200,70,20,9,5,0,1);
                 break;
             case R.id.ll_retestWrite_tizhi:
-                show_information("体脂（%）", 100, 50, 0, 9, 5, 0, 2);
+                show_information("体脂（%）",100,50,0,9,5,0,2);
                 break;
             case R.id.ll_retestWrite_neizhi:
-                show_information("内脂（%）", 100, 50, 0, 9, 5, 0, 3);
+                show_information("内脂（%）",100,50,0,9,5,0,3);
                 break;
 
 
         }
 
     }
-
     public void takecamera() {
 
-        path = (Environment.getExternalStorageDirectory().getPath()) + "/123.jpg";
-        File file = new File(path.toString());
-        Uri uri = Uri.fromFile(file);
-        Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        path=(Environment.getExternalStorageDirectory().getPath())+"/123.jpg";
+        File file=new File(path.toString());
+        Uri uri= Uri.fromFile(file);
+        Intent intent=new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, uri);
-        startActivityForResult(intent, PHOTO);
-        Bitmap bitmap = null;
+        startActivityForResult(intent,PHOTO);
+        Bitmap bitmap= null;
         try {
             bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
         } catch (FileNotFoundException e) {
@@ -205,31 +212,29 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener 
         im_delete.setVisibility(View.VISIBLE);
         im_retestwrite_showphoto.setVisibility(View.VISIBLE);
         im_retestwrite_showphoto.setImageBitmap(bitmap);
-        Log.i("path:" + path);
+        Log.i("path:"+path);
     }
-
     public void takepic() {
-        Intent picture = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        Intent picture = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(picture, 101);
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == RESULT_OK && requestCode == PHOTO) {
-            Bitmap bm = BitmapFactory.decodeFile(path.toString());
+        if(resultCode==RESULT_OK&&requestCode==PHOTO){
+            Bitmap bm= BitmapFactory.decodeFile(path.toString());
             im_retestwrite_showphoto.setImageBitmap(bm);
             retestPre.goGetPicture(path.toString());
         }
-        if (requestCode == 101 && resultCode == Activity.RESULT_OK && null != data) {
+        if(requestCode == 101 && resultCode == Activity.RESULT_OK && null != data){
             Uri selectedImage = data.getData();
-            String[] filePathColumns = {MediaStore.Images.Media.DATA};
-            Cursor c = this.getContentResolver().query(selectedImage, filePathColumns, null, null, null);
+            String[] filePathColumns={MediaStore.Images.Media.DATA};
+            Cursor c = this.getContentResolver().query(selectedImage, filePathColumns, null,null, null);
             c.moveToFirst();
             int columnIndex = c.getColumnIndex(filePathColumns[0]);
-            String picturePath = c.getString(columnIndex);
-            Bitmap bitmap = null;
+            String picturePath= c.getString(columnIndex);
+            Bitmap bitmap= null;
             try {
                 bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(selectedImage));
             } catch (FileNotFoundException e) {
@@ -239,18 +244,17 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener 
             im_retestwrite_showphoto.setVisibility(View.VISIBLE);
             im_retestwrite_showphoto.setImageBitmap(bitmap);
             retestPre.goGetPicture(picturePath.toString());
-            Log.i("picturePath------------------------------------------------:" + picturePath);
+            Log.i("picturePath------------------------------------------------:"+picturePath);
             c.close();
         }
 
         //身体围度值传递
-        if (requestCode == GET_BODY && resultCode == RESULT_OK) {
-            Log.i("》》》》》requestCode：" + requestCode + "resultCode：" + resultCode);
-            retestWriteModel = (RetestWriteModel) data.getSerializableExtra("retestWriteModel");
-            Log.i("新学员录入围度:retestWriteModel" + retestWriteModel);
+        if (requestCode==GET_BODY&&resultCode==RESULT_OK){
+            Log.i("》》》》》requestCode："+requestCode+"resultCode："+resultCode);
+            retestWrite=(RetestWriteModel) data.getSerializableExtra("retestWrite");
+            Log.i("新学员录入围度:retestWrite"+retestWrite);
         }
     }
-
     public void show_information(String title, int np1maxvalur, int np1value, int np1minvalue, int np2maxvalue, int np2value, int np2minvalue, final int num) {
         final Dialog information_dialog = new Dialog(this);
         information_dialog.setTitle(title);
@@ -270,16 +274,22 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener 
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (num == 0) {
+                if (num==0) {
                     tv_write_chu_weight.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())); //set the value to textview
                     information_dialog.dismiss();
-                } else if (num == 1) {
+                }
+                else if (num==1)
+                {
                     tv_retestWrite_nowweight.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
                     information_dialog.dismiss();
-                } else if (num == 2) {
+                }
+                else if (num==2)
+                {
                     tv_retestWrite_tizhi.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
                     information_dialog.dismiss();
-                } else if (num == 3) {
+                }
+                else if(num==3)
+                {
                     tv_retestWrite_neizhi.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
                     information_dialog.dismiss();
                 }
