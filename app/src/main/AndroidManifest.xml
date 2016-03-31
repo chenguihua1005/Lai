@@ -76,8 +76,6 @@
         <activity android:name=".module.counselor.view.InviteContantActivity"/>
         <activity android:name=".module.counselor.view.InviteStudentActivity"/>
         <activity android:name=".module.counselor.view.GameActivity"/>
-        <activity android:name=".module.jingdu.view.JingduActivity" />
-        <activity android:name=".module.grade.view.TutorActivity" />
         <activity android:name=".module.newmemberentry.view.DimensioninputActivity"></activity>
         <activity android:name=".module.bodygamest.view.FuceStActivity"></activity>
     </application>
