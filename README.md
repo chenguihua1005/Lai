@@ -405,3 +405,5 @@ key.password=xxx
 ###TODO
 
 ###ZillaAdapter ImageView's PlaceHolder
+
+### Customise NetError
