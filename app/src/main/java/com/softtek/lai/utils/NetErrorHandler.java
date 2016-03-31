@@ -1,19 +1,22 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.utils;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-
 import com.github.snowdream.android.util.Log;
-
-import java.io.InterruptedIOException;
-import java.net.SocketTimeoutException;
-import java.net.UnknownHostException;
-
 import retrofit.RetrofitError;
 import zilla.libcore.api.IApiError;
 import zilla.libcore.api.IApiErrorHandler;
 import zilla.libcore.util.Util;
+
+import java.io.InterruptedIOException;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 
 /**
  * Created by Zilla on 22/1/16.

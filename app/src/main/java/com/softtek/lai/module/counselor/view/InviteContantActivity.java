@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.counselor.view;
 
 
@@ -14,7 +19,7 @@ import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
-
+import butterknife.InjectView;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
@@ -28,14 +33,13 @@ import com.softtek.lai.module.counselor.presenter.StudentImpl;
 import com.softtek.lai.module.login.model.User;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.SoftInputUtil;
+import zilla.libcore.lifecircle.LifeCircleInject;
+import zilla.libcore.lifecircle.validate.ValidateLife;
+import zilla.libcore.ui.InjectLayout;
 
 import java.io.InputStream;
 import java.util.ArrayList;
 
-import butterknife.InjectView;
-import zilla.libcore.lifecircle.LifeCircleInject;
-import zilla.libcore.lifecircle.validate.ValidateLife;
-import zilla.libcore.ui.InjectLayout;
 /**
  * Created by jarvis.liu on 3/22/2016.
  * 邀请通讯录学员
@@ -196,7 +200,7 @@ public class InviteContantActivity extends BaseActivity implements View.OnClickL
                 System.out.println("contactListValue:" + contactListValue);
                 progressDialog.dismiss();
                 super.onQueryComplete(token, cookie, cursor);
-            }else {
+            } else {
                 progressDialog.dismiss();
             }
         }

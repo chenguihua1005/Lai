@@ -1,13 +1,16 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.home.view;
 
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toolbar;
-
+import butterknife.InjectView;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
@@ -16,8 +19,6 @@ import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.SoftInputUtil;
-
-import butterknife.InjectView;
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 
@@ -61,7 +62,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 break;
         }
     }
-    private void clearData(){
+
+    private void clearData() {
         SharedPreferenceService.getInstance().put("token", "");
         SharedPreferenceService.getInstance().put(Constants.AUTO_LOGIN, false);
         SharedPreferenceService.getInstance().put(Constants.AUTO_USER_NAME, "");
@@ -69,6 +71,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         SharedPreferenceService.getInstance().put("classId", "");
         aCache.put(Constants.USER_ACACHE_KEY, "");
     }
+
     @Override
     public void onValidationSucceeded() {
 

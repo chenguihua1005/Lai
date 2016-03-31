@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.home.adapter;
 
 import android.content.Context;
@@ -7,7 +12,6 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-
 import com.lhh.ptrrv.library.footer.loadmore.BaseLoadMoreView;
 
 /**
@@ -34,16 +38,16 @@ public class DemoLoadMoreView extends BaseLoadMoreView {
     @Override
     public void onDrawLoadMore(Canvas c, RecyclerView parent) {
         mProgress = mProgress + 5;
-        if(mProgress == 100){
+        if (mProgress == 100) {
             mProgress = 0;
         }
-        final int left = parent.getPaddingLeft() ;
-        final int right = parent.getMeasuredWidth() - parent.getPaddingRight() ;
-        final int childSize = parent.getChildCount() ;
-        final View child = parent.getChildAt( childSize - 1 ) ;
+        final int left = parent.getPaddingLeft();
+        final int right = parent.getMeasuredWidth() - parent.getPaddingRight();
+        final int childSize = parent.getChildCount();
+        final View child = parent.getChildAt(childSize - 1);
         RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) child.getLayoutParams();
-        final int top = child.getBottom() + layoutParams.bottomMargin ;
-        final int bottom = top + getLoadMorePadding()/2 ;
+        final int top = child.getBottom() + layoutParams.bottomMargin;
+        final int bottom = top + getLoadMorePadding() / 2;
         paint.setAntiAlias(true);// 抗锯齿
         paint.setFlags(Paint.ANTI_ALIAS_FLAG);// 增强消除锯齿
         paint.setColor(Color.GRAY);// 画笔为灰色

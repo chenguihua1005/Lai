@@ -1,10 +1,13 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.utils;
 
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
-
-import com.github.snowdream.android.util.Log;
 
 /**
  * Created by John on 2016/3/30.
@@ -30,8 +33,8 @@ public abstract class JCountDownTimer {
      */
     private boolean mCancelled = false;
 
-    private boolean mIsRunning=false;
-    private boolean mPaused=false;
+    private boolean mIsRunning = false;
+    private boolean mPaused = false;
 
     /**
      * @param millisInFuture    The number of millis in the future from the call
@@ -50,8 +53,8 @@ public abstract class JCountDownTimer {
      */
     public synchronized final void cancel() {
         mCancelled = true;
-        mPaused=false;
-        mIsRunning=false;
+        mPaused = false;
+        mIsRunning = false;
         mHandler.removeMessages(MSG);
     }
 
@@ -59,9 +62,9 @@ public abstract class JCountDownTimer {
      * reStart the countdown
      */
     public synchronized final void reStart() {
-        mPaused=false;
+        mPaused = false;
         //更新停止时间
-        mStopTimeInFuture=SystemClock.elapsedRealtime()+mPauseTime;
+        mStopTimeInFuture = SystemClock.elapsedRealtime() + mPauseTime;
         mHandler.sendMessage(mHandler.obtainMessage(MSG));
     }
 
@@ -69,14 +72,14 @@ public abstract class JCountDownTimer {
      * Puse the countdown
      */
     public synchronized final void pause() {
-        mPaused=true;
+        mPaused = true;
     }
 
-    public final boolean isPaused(){
+    public final boolean isPaused() {
         return mPaused;
     }
 
-    public final boolean isRunning(){
+    public final boolean isRunning() {
         return mIsRunning;
     }
 
@@ -85,8 +88,8 @@ public abstract class JCountDownTimer {
      */
     public synchronized final JCountDownTimer start() {
         mCancelled = false;
-        mPaused=false;
-        mIsRunning=true;
+        mPaused = false;
+        mIsRunning = true;
         if (mMillisInFuture <= 0) {
             onFinish();
             return this;
@@ -121,21 +124,21 @@ public abstract class JCountDownTimer {
 
             synchronized (JCountDownTimer.this) {
 
-                if (mCancelled||mPaused) {
+                if (mCancelled || mPaused) {
                     return;
                 }
 
                 final long millisLeft = mStopTimeInFuture - SystemClock.elapsedRealtime();
 
                 if (millisLeft <= 0) {
-                    mIsRunning=false;
+                    mIsRunning = false;
                     onFinish();
                 } else if (millisLeft < mCountdownInterval) {
                     // no tick, just delay until done
                     sendMessageDelayed(obtainMessage(MSG), millisLeft);
                 } else {
                     long lastTickStart = SystemClock.elapsedRealtime();
-                    mPauseTime=millisLeft;
+                    mPauseTime = millisLeft;
                     onTick(millisLeft);
 
                     // take into account user's onTick taking time to execute

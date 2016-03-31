@@ -1,14 +1,16 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.login.model;
 
 import java.io.Serializable;
 
-import zilla.libcore.db.Id;
-import zilla.libcore.db.Table;
-
 /**
  * Created by jerry.guan on 3/3/2016.
  */
-public class User implements Serializable{
+public class User implements Serializable {
 
     private String token;
 

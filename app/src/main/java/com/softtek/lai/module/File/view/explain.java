@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.File.view;
 
 import android.os.Bundle;
@@ -7,15 +12,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-
+import butterknife.InjectView;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.File.adapter.ViewPagerAdapter;
+import zilla.libcore.ui.InjectLayout;
+
 import java.util.ArrayList;
 import java.util.List;
-import butterknife.InjectView;
-import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_explain)
 public class explain extends BaseActivity implements OnPageChangeListener {
@@ -43,8 +48,9 @@ public class explain extends BaseActivity implements OnPageChangeListener {
 
 
     private ViewPagerAdapter vpAdapter;
-    private List<View> views= new ArrayList<View>();;
-    private ImageView[]dots;
+    private List<View> views = new ArrayList<View>();
+    ;
+    private ImageView[] dots;
     private int currentIndex;
 
 
@@ -57,7 +63,7 @@ public class explain extends BaseActivity implements OnPageChangeListener {
     @Override
     protected void initViews() {
         LayoutInflater inflater = LayoutInflater.from(this);
-        views.add(inflater.inflate(R.layout.guideone,null));
+        views.add(inflater.inflate(R.layout.guideone, null));
         views.add(inflater.inflate(R.layout.guidetwo, null));
         views.add(inflater.inflate(R.layout.guidethree, null));
         views.add(inflater.inflate(R.layout.guidefour, null));
@@ -91,13 +97,15 @@ public class explain extends BaseActivity implements OnPageChangeListener {
     @Override
     public void onPageScrollStateChanged(int arg0) {
     }
+
     @Override
     public void onPageScrolled(int arg0, float arg1, int arg2) {
     }
+
     @Override
     public void onPageSelected(int arg0) {
-        Log.i("当前第几？》》》》"+arg0);
-        switch (arg0){
+        Log.i("当前第几？》》》》" + arg0);
+        switch (arg0) {
             case 0:
                 iv_one.setBackgroundResource(R.drawable.white_dot);
                 iv_two.setBackgroundResource(R.drawable.dark_dot);

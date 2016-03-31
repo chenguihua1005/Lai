@@ -1,165 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+  ~ Date:2016-03-31
+  -->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <include layout="@layout/toolbar" />
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <include layout="@layout/toolbar"/>
 
     <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/scrollView4" >
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/scrollView4">
 
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <LinearLayout
-                    android:id="@+id/ll_nickname"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
+                android:layout_height="match_parent">
+            <LinearLayout
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/nick"
-                        android:layout_marginRight="15dp"/>
-                    <EditText
+                <LinearLayout
+                        android:id="@+id/ll_nickname"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="昵称（必填）"
-                        android:singleLine="true"
-                        android:id="@+id/et_nickname"
-                        android:background="@null"/>
+                        android:layout_height="wrap_content">
+                    <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/nick"
+                            android:layout_marginRight="15dp"/>
+                    <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="昵称（必填）"
+                            android:singleLine="true"
+                            android:id="@+id/et_nickname"
+                            android:background="@null"/>
 
                 </LinearLayout>
                 <View
-                    android:layout_height="1dp"
-                    android:layout_width="match_parent"
-                    android:background="#78BC27"/>
+                        android:layout_height="1dp"
+                        android:layout_width="match_parent"
+                        android:background="#78BC27"/>
                 <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/et_certification"
-                    android:singleLine="true"
-                    android:hint="资格证号（选填）" />
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/et_certification"
+                        android:singleLine="true"
+                        android:hint="资格证号（选填）"/>
 
                 <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="手机号码（必填）"
-                    android:singleLine="true"
-                    android:id="@+id/et_mobile" />
-                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="手机号码（必填）"
+                        android:singleLine="true"
+                        android:id="@+id/et_mobile"/>
+                <LinearLayout
                         android:id="@+id/ll_classid"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
-                        <EditText
+                    <EditText
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:hint="参赛班级（必填）"
                             android:singleLine="true"
-                            android:id="@+id/et_classid" />
-                        <TextView
+                            android:id="@+id/et_classid"/>
+                    <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="请选择" />
-                    </LinearLayout>
+                            android:text="请选择"/>
+                </LinearLayout>
 
 
                 <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="初始体重（必填）"
-                    android:singleLine="true"
-                    android:id="@+id/et_weight" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="体脂（选填）"
-                    android:singleLine="true"
-                    android:id="@+id/et_pysical" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="内脂（选填）"
-                    android:singleLine="true"
-                    android:id="@+id/et_fat" />
-                <LinearLayout
-                    android:id="@+id/ll_birthday"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <EditText
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="生日（必填）"
+                        android:hint="初始体重（必填）"
                         android:singleLine="true"
-                        android:id="@+id/et_birthday" />
-                    <TextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/et_weight"/>
+
+                <EditText
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="请选择" />
+                        android:hint="体脂（选填）"
+                        android:singleLine="true"
+                        android:id="@+id/et_pysical"/>
+
+                <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="内脂（选填）"
+                        android:singleLine="true"
+                        android:id="@+id/et_fat"/>
+                <LinearLayout
+                        android:id="@+id/ll_birthday"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                    <EditText
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="生日（必填）"
+                            android:singleLine="true"
+                            android:id="@+id/et_birthday"/>
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="请选择"/>
                 </LinearLayout>
                 <LinearLayout
-                    android:id="@+id/ll_gender"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                        android:id="@+id/ll_gender"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
                     <EditText
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:hint="性别（必填）"
-                        android:singleLine="true"
-                        android:id="@+id/et_gender" />
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="性别（必填）"
+                            android:singleLine="true"
+                            android:id="@+id/et_gender"/>
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="请选择" />
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="请选择"/>
                 </LinearLayout>
                 <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="20dp"
-                        android:hint="照片上传（选填）"
-                        android:id="@+id/tv_photoupload" />
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="20dp"
+                            android:hint="照片上传（选填）"
+                            android:id="@+id/tv_photoupload"/>
                     <ImageView
-                        android:id="@+id/img1"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:src="@mipmap/ic_launcher"/>
+                            android:id="@+id/img1"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:src="@mipmap/ic_launcher"/>
                 </LinearLayout>
 
                 <Button
-                    android:id="@+id/btn_Add_bodydimension"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:text="添加身体围度"
-                    android:background="@drawable/bg_addbody_btn"
-                    android:textColor="#FFA302"
-                    android:textSize="22sp"
-                    android:layout_marginBottom="60dp"/>
+                        android:id="@+id/btn_Add_bodydimension"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:text="添加身体围度"
+                        android:background="@drawable/bg_addbody_btn"
+                        android:textColor="#FFA302"
+                        android:textSize="22sp"
+                        android:layout_marginBottom="60dp"/>
             </LinearLayout>
             <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="180dp">
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="180dp">
 
-            <ListView
-                android:id="@+id/list_cansaibanji"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:background="#ffffff"
-                android:visibility="invisible"/>
+                <ListView
+                        android:id="@+id/list_cansaibanji"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:background="#ffffff"
+                        android:visibility="invisible"/>
 
             </LinearLayout>
         </RelativeLayout>

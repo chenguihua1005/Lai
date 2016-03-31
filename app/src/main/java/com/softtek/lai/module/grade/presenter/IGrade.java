@@ -1,12 +1,14 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.grade.presenter;
 
 import android.app.ProgressDialog;
-
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 import java.io.File;
-
-import zilla.libzilla.dialog.LoadingDialog;
 
 /**
  * Created by jerry.guan on 3/21/2016.
@@ -21,7 +23,7 @@ public interface IGrade {
     /**
      * 发布班级动态
      */
-    void sendDynamic(long classId,String dynamicTitle,String dyContent,int dyType,long accountId);
+    void sendDynamic(long classId, String dynamicTitle, String dyContent, int dyType, long accountId);
 
     /**
      * 根据类型和班级获取学员列表
@@ -31,7 +33,7 @@ public interface IGrade {
     /**
      * 获取助教列表
      */
-    void getTutorList(long classId,PullToRefreshListView lv);
+    void getTutorList(long classId, PullToRefreshListView lv);
 
     /*
     修改班级主页的banner

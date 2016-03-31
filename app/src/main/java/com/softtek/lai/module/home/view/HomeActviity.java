@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.home.view;
 
 import android.content.DialogInterface;
@@ -8,19 +13,17 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.View;
-
+import butterknife.InjectView;
 import com.ggx.jerryguan.widget_lib.SimpleButton;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.home.adapter.MainPageAdapter;
-
-import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_home_actviity)
-public class HomeActviity extends BaseActivity implements View.OnClickListener,BaseFragment.OnFragmentInteractionListener{
+public class HomeActviity extends BaseActivity implements View.OnClickListener, BaseFragment.OnFragmentInteractionListener {
 
     @InjectView(R.id.content)
     ViewPager content;
@@ -37,8 +40,8 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener,B
     @InjectView(R.id.btn_mine)
     SimpleButton btn_mine;
 
-    private int currentId=0;
-    private boolean isClick=false;
+    private int currentId = 0;
+    private boolean isClick = false;
 
     Drawable white;
     Drawable green;
@@ -50,8 +53,8 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener,B
         btn_healthy.setOnClickListener(this);
         btn_healthy_record.setOnClickListener(this);
         btn_mine.setOnClickListener(this);
-        white=getResources().getDrawable(R.drawable.bg_white);
-        green=getResources().getDrawable(R.drawable.bg_green);
+        white = getResources().getDrawable(R.drawable.bg_white);
+        green = getResources().getDrawable(R.drawable.bg_green);
     }
 
     @Override
@@ -66,18 +69,18 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener,B
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 //Log.i("onPageScrolled");
-                if(!isClick){
-                    setChildProgress(position,1-positionOffset);
-                    setChildProgress(position+1,positionOffset);
+                if (!isClick) {
+                    setChildProgress(position, 1 - positionOffset);
+                    setChildProgress(position + 1, positionOffset);
                 }
             }
 
             @Override
             public void onPageSelected(int position) {
-                Log.i("onPageSelected>>>>>"+position);
+                Log.i("onPageSelected>>>>>" + position);
                 //页面切换了
-                isClick=false;
-                switch (position){
+                isClick = false;
+                switch (position) {
                     case 0:
                         btn_home.setBackground(green);
                         btn_healthy.setBackground(white);
@@ -108,50 +111,50 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener,B
             @Override
             public void onPageScrollStateChanged(int state) {
                 //Log.i("onPageScrollStateChanged>>>>>>"+state);
-                currentId=state;
+                currentId = state;
             }
         });
 
         restoreState();
         btn_home.setProgress(1);
-        currentId = 0 ;
+        currentId = 0;
         content.setCurrentItem(0);
     }
 
     @Override
     public void onClick(View v) {
-        isClick=true;
+        isClick = true;
         restoreState();
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btn_home:
                 btn_home.setProgress(1);
-                currentId=0;
+                currentId = 0;
                 break;
             case R.id.btn_healthy:
                 btn_healthy.setProgress(1);
-                currentId=1;
+                currentId = 1;
                 break;
             case R.id.btn_healthy_record:
                 btn_healthy_record.setProgress(1);
-                currentId=2;
+                currentId = 2;
                 break;
             case R.id.btn_mine:
                 btn_mine.setProgress(1);
-                currentId=3;
+                currentId = 3;
                 break;
         }
         content.setCurrentItem(currentId, false);
     }
 
-    private  void setChildProgress(int position , float progress){
+    private void setChildProgress(int position, float progress) {
         switch (position) {
-            case 0 :
+            case 0:
                 btn_home.setProgress(progress);
                 break;
             case 1:
                 btn_healthy.setProgress(progress);
                 break;
-            case 2 :
+            case 2:
                 btn_healthy_record.setProgress(progress);
                 break;
             case 3:
@@ -160,7 +163,7 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener,B
         }
     }
 
-    private void restoreState(){
+    private void restoreState() {
         btn_home.setProgress(0);
         btn_healthy.setProgress(0);
         btn_healthy_record.setProgress(0);

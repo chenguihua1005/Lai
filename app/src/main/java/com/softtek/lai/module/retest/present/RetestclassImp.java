@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.retest.present;
 
 import com.github.snowdream.android.util.Log;
@@ -7,19 +12,9 @@ import com.softtek.lai.module.newmemberentry.view.model.Phot;
 import com.softtek.lai.module.retest.eventModel.BanJiEvent;
 import com.softtek.lai.module.retest.eventModel.BanjiStudentEvent;
 import com.softtek.lai.module.retest.eventModel.StudentEvent;
-import com.softtek.lai.module.retest.model.Banji;
-import com.softtek.lai.module.retest.model.BanjiStudent;
-import com.softtek.lai.module.retest.model.RetestAudit;
-import com.softtek.lai.module.retest.model.RetestWrite;
-import com.softtek.lai.module.retest.model.Student;
+import com.softtek.lai.module.retest.model.*;
 import com.softtek.lai.module.retest.net.RestService;
-import com.softtek.lai.module.retest.view.Retest;
-
 import org.greenrobot.eventbus.EventBus;
-
-import java.io.File;
-import java.util.List;
-
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -28,56 +23,59 @@ import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.util.Util;
 
+import java.io.File;
+import java.util.List;
+
 /**
  * Created by lareina.qiao on 3/22/2016.
  */
-public class RetestclassImp implements RetestPre{
+public class RetestclassImp implements RetestPre {
     private RestService service;
 
-    public  RetestclassImp(){
-        service= ZillaApi.NormalRestAdapter.create(RestService.class);
+    public RetestclassImp() {
+        service = ZillaApi.NormalRestAdapter.create(RestService.class);
     }
 
     @Override
     public void doGetRetestclass(long id) {
-        Log.i("service>>>>>>>>>>>>>>>>>>>>>>>>>>"+service);
-        String token=SharedPreferenceService.getInstance().get("token","0");
-       service.doGetRetestclass(token,id, new Callback<ResponseData<List<Banji>>>() {
-           @Override
-           public void success(ResponseData<List<Banji>> banjiResponseData, retrofit.client.Response response) {
-               int status=banjiResponseData.getStatus();
-               switch (status){
-                   case 200:{
-                       EventBus.getDefault().post(new BanJiEvent(banjiResponseData.getData()));
-                       System.out.println(banjiResponseData);
-                       Log.i("全部班级加载成功");
-                   }
-                   break;
-                   case 201:{
-                       Log.i("未分配班级");
-                   }
-                   break;
-               }
-           }
+        Log.i("service>>>>>>>>>>>>>>>>>>>>>>>>>>" + service);
+        String token = SharedPreferenceService.getInstance().get("token", "0");
+        service.doGetRetestclass(token, id, new Callback<ResponseData<List<Banji>>>() {
+            @Override
+            public void success(ResponseData<List<Banji>> banjiResponseData, retrofit.client.Response response) {
+                int status = banjiResponseData.getStatus();
+                switch (status) {
+                    case 200: {
+                        EventBus.getDefault().post(new BanJiEvent(banjiResponseData.getData()));
+                        System.out.println(banjiResponseData);
+                        Log.i("全部班级加载成功");
+                    }
+                    break;
+                    case 201: {
+                        Log.i("未分配班级");
+                    }
+                    break;
+                }
+            }
 
-           @Override
-           public void failure(RetrofitError error) {
-               error.printStackTrace();
-               Util.toastMsg(R.string.neterror);
-           }
-       });
+            @Override
+            public void failure(RetrofitError error) {
+                error.printStackTrace();
+                Util.toastMsg(R.string.neterror);
+            }
+        });
 
     }
 
     @Override
     public void doGetqueryResult(String str) {
-        String token=SharedPreferenceService.getInstance().get("token","");
+        String token = SharedPreferenceService.getInstance().get("token", "");
         service.doGetqueryResult(token, str, new Callback<ResponseData<List<Student>>>() {
 
             @Override
             public void success(ResponseData<List<Student>> listResponseData, Response response) {
-                int status=listResponseData.getStatus();
-                switch (status){
+                int status = listResponseData.getStatus();
+                switch (status) {
                     case 200:
                         EventBus.getDefault().post(new StudentEvent(listResponseData.getData()));
                         Log.i("查询成功");
@@ -98,14 +96,14 @@ public class RetestclassImp implements RetestPre{
     @Override
     public void doGetBanjiStudent(long classId) {
 
-        String token=SharedPreferenceService.getInstance().get("token","");
+        String token = SharedPreferenceService.getInstance().get("token", "");
         service.doGetBanjiStudent(token, classId, new Callback<ResponseData<List<BanjiStudent>>>() {
             @Override
             public void success(ResponseData<List<BanjiStudent>> listResponseData, Response response) {
-                int status=listResponseData.getStatus();
-                switch (status){
+                int status = listResponseData.getStatus();
+                switch (status) {
                     case 200:
-                        Log.i("service>>>>>>>>>>>>>>>>>>>>>>>dsfdsssssssssssssssssssssssssssssssssssssss>>>"+service);
+                        Log.i("service>>>>>>>>>>>>>>>>>>>>>>>dsfdsssssssssssssssssssssssssssssssssssssss>>>" + service);
                         EventBus.getDefault().post(new BanjiStudentEvent(listResponseData.getData()));
                         Log.i("查询成功");
                         break;
@@ -126,13 +124,12 @@ public class RetestclassImp implements RetestPre{
 
     @Override
     public void doGetAudit(long accountId, long classId, String typeDate) {
-        String token=SharedPreferenceService.getInstance().get("token","");
+        String token = SharedPreferenceService.getInstance().get("token", "");
         service.doGetAudit(token, accountId, classId, typeDate, new Callback<ResponseData<List<RetestAudit>>>() {
             @Override
             public void success(ResponseData<List<RetestAudit>> listResponseData, Response response) {
-                int status=listResponseData.getStatus();
-                switch (status)
-                {
+                int status = listResponseData.getStatus();
+                switch (status) {
                     case 200:
                         Util.toastMsg("保存成功");
                         break;
@@ -150,17 +147,16 @@ public class RetestclassImp implements RetestPre{
         });
     }
 
-//复测写入提交
+    //复测写入提交
     @Override
     public void doPostWrite(long accountId, long loginId, RetestWrite retestWrite) {
-        String token=SharedPreferenceService.getInstance().get("token","");
+        String token = SharedPreferenceService.getInstance().get("token", "");
         service.doPostWrite(token, accountId, loginId, retestWrite, new Callback<ResponseData<RetestWrite>>() {
 
             @Override
             public void success(ResponseData<RetestWrite> retestWriteResponseData, Response response) {
-                int status=retestWriteResponseData.getStatus();
-                switch (status)
-                {
+                int status = retestWriteResponseData.getStatus();
+                switch (status) {
                     case 200:
                         Util.toastMsg("复测记保存取成功");
                         break;
@@ -177,16 +173,16 @@ public class RetestclassImp implements RetestPre{
             }
         });
     }
-//复测审核提交
+
+    //复测审核提交
     @Override
     public void doPostAudit(String loginId, String accountId, String typeDate, RetestAudit retestAudit) {
-        String token=SharedPreferenceService.getInstance().get("token","");
+        String token = SharedPreferenceService.getInstance().get("token", "");
         service.doPostAudit(token, loginId, accountId, typeDate, retestAudit, new Callback<ResponseData<List<RetestAudit>>>() {
             @Override
             public void success(ResponseData<List<RetestAudit>> listResponseData, Response response) {
-                int status=listResponseData.getStatus();
-                switch (status)
-                {
+                int status = listResponseData.getStatus();
+                switch (status) {
                     case 200:
                         Util.toastMsg("复测数据更新成功");
                         break;
@@ -203,19 +199,20 @@ public class RetestclassImp implements RetestPre{
             }
         });
     }
-//图片上传
+
+    //图片上传
     @Override
     public void goGetPicture(String filePath) {
-        System.out.println("上传图片路径>>>>>>>"+filePath);
-        String token=SharedPreferenceService.getInstance().get("token","");
+        System.out.println("上传图片路径>>>>>>>" + filePath);
+        String token = SharedPreferenceService.getInstance().get("token", "");
         service.goGetPicture(token, new TypedFile("image/png", new File(filePath)), new Callback<ResponseData<Phot>>() {
             @Override
             public void success(ResponseData<Phot> photResponseData, Response response) {
 
-                int status=photResponseData.getStatus();
+                int status = photResponseData.getStatus();
                 switch (status) {
                     case 200:
-                        Phot phot= (Phot) photResponseData.getData();
+                        Phot phot = (Phot) photResponseData.getData();
                         EventBus.getDefault().post(phot);
                         Util.toastMsg("获取成功");
                         break;
@@ -237,8 +234,6 @@ public class RetestclassImp implements RetestPre{
     public void doGetMeasure(String accesstoken, String phone) {
 
     }
-
-
 
 
 }

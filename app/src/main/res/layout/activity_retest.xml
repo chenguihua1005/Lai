@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.softtek.lai.module.retest.view.Retest">
-  <include layout="@layout/toolbar"></include>
+<!--
+  ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+  ~ Date:2016-03-31
+  -->
 
-        <FrameLayout
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="com.softtek.lai.module.retest.view.Retest">
+    <include layout="@layout/toolbar"></include>
+
+    <FrameLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:gravity="center"
@@ -14,69 +19,69 @@
             android:layout_height="wrap_content">
 
 
-            <RelativeLayout
+        <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="60dp">
-                <ListView
+            <ListView
                     android:id="@+id/list_query"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:visibility="visible">
 
-                </ListView>
-            </RelativeLayout>
+            </ListView>
+        </RelativeLayout>
 
-            <LinearLayout
+        <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_marginTop="5dp"
                 android:layout_height="280dp"
 
-                >
+        >
 
-                <RelativeLayout
+            <RelativeLayout
                     android:id="@+id/ll_classlist"
                     android:layout_width="match_parent"
                     android:gravity="center_vertical"
                     android:background="#BBBBBB"
                     android:layout_height="65dp"
-                    >
-                    <LinearLayout
+            >
+                <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:gravity="center"
-                        >
+                >
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="选择班级"
-                        android:textSize="20dp"
-                        android:id="@+id/textView28" />
-                    </LinearLayout>
-                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="选择班级"
+                            android:textSize="20dp"
+                            android:id="@+id/textView28"/>
+                </LinearLayout>
+                <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_height="wrap_content">
-                        <ImageView
+                    <ImageView
                             android:id="@+id/Iv_fold"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_marginRight="20dp"
                             android:src="@drawable/unfold"/>
-                    </LinearLayout>
-                </RelativeLayout>
+                </LinearLayout>
+            </RelativeLayout>
 
-                <ListView
+            <ListView
                     android:id="@+id/list_class"
                     android:layout_width="match_parent"
                     android:layout_height="260dp"
                     android:background="#ffffff"
                     android:visibility="visible">
-                </ListView>
+            </ListView>
 
-                <LinearLayout
+            <LinearLayout
                     android:id="@+id/ll_shousuo"
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
@@ -84,9 +89,9 @@
                     android:background="#000"></LinearLayout>
 
 
-            </LinearLayout>
+        </LinearLayout>
 
 
-        </FrameLayout>
+    </FrameLayout>
 
 </RelativeLayout>

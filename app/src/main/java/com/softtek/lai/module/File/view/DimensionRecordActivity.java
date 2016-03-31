@@ -1,40 +1,26 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.File.view;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.NumberPicker;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.github.snowdream.android.util.Log;
+import android.widget.*;
+import butterknife.InjectView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.File.model.File;
 import com.softtek.lai.module.newmemberentry.view.model.Newstudents;
 import com.softtek.lai.module.retest.model.RetestWrite;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-
-import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_dimension_record)
-public class DimensionRecordActivity extends BaseActivity implements OnClickListener{
+public class DimensionRecordActivity extends BaseActivity implements OnClickListener {
 
     //toolbar布局控件
     @InjectView(R.id.ll_left)
@@ -121,24 +107,23 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
 
     @Override
     protected void initDatas() {
-        file= (File) getIntent().getSerializableExtra("file");
-        newstudents=(Newstudents)getIntent().getSerializableExtra("newstudents");
-        retestWrite=(RetestWrite)getIntent().getSerializableExtra("retestWrite");
+        file = (File) getIntent().getSerializableExtra("file");
+        newstudents = (Newstudents) getIntent().getSerializableExtra("newstudents");
+        retestWrite = (RetestWrite) getIntent().getSerializableExtra("retestWrite");
         tv_title.setText("添加记录");
-        tv_circum.setText("0.0".equals(file.getCircum()+"")?"":file.getCircum()+"");
-        tv_waistline.setText("0.0".equals(file.getWaistline()+"")?"":file.getWaistline()+"");
-        tv_hiplie.setText("0.0".equals(file.getHiplie()+"")?"":file.getHiplie()+"");
-        tv_uparmgirth.setText("0.0".equals(file.getUparmgirth()+"")?"":file.getUparmgirth()+"");
-        tv_upleggirth.setText("0.0".equals(file.getUpleggirth()+"")?"":file.getUpleggirth()+"");
-        tv_doleggirth.setText("0.0".equals(file.getDoleggirth()+"")?"":file.getDoleggirth()+"");
-
+        tv_circum.setText("0.0".equals(file.getCircum() + "") ? "" : file.getCircum() + "");
+        tv_waistline.setText("0.0".equals(file.getWaistline() + "") ? "" : file.getWaistline() + "");
+        tv_hiplie.setText("0.0".equals(file.getHiplie() + "") ? "" : file.getHiplie() + "");
+        tv_uparmgirth.setText("0.0".equals(file.getUparmgirth() + "") ? "" : file.getUparmgirth() + "");
+        tv_upleggirth.setText("0.0".equals(file.getUpleggirth() + "") ? "" : file.getUpleggirth() + "");
+        tv_doleggirth.setText("0.0".equals(file.getDoleggirth() + "") ? "" : file.getDoleggirth() + "");
 
 
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.ll_circum:
                 show_circum_dialog();
                 break;
@@ -159,7 +144,7 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
                 break;
             //填写说明
             case R.id.ll_explain:
-                    startActivity(new Intent(DimensionRecordActivity.this,explain.class));
+                startActivity(new Intent(DimensionRecordActivity.this, explain.class));
 
                 break;
             //返回按钮
@@ -171,24 +156,24 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
             case R.id.btn_save:
                 /*getIntent().putExtra("","token");
                 String token= SharedPreferenceService.getInstance().get("token","");*/
-                double circum=Double.parseDouble(tv_circum.getText().toString().equals("")?"0":(tv_circum.getText().toString()));
-                double waistline=Double.parseDouble(tv_waistline.getText().toString().equals("")?"0":tv_waistline.getText().toString());
-                double hiplie=Double.parseDouble(tv_hiplie.getText().toString().equals("")?"0":tv_hiplie.getText().toString());
-                double uparmgirth=Double.parseDouble(tv_uparmgirth.getText().toString().equals("")?"0":tv_uparmgirth.getText().toString());
-                double tupleggirth=Double.parseDouble(tv_upleggirth.getText().toString().equals("")?"0":tv_upleggirth.getText().toString());
-                double doleggirth=Double.parseDouble(tv_doleggirth.getText().toString().equals("")?"0":tv_doleggirth.getText().toString());
+                double circum = Double.parseDouble(tv_circum.getText().toString().equals("") ? "0" : (tv_circum.getText().toString()));
+                double waistline = Double.parseDouble(tv_waistline.getText().toString().equals("") ? "0" : tv_waistline.getText().toString());
+                double hiplie = Double.parseDouble(tv_hiplie.getText().toString().equals("") ? "0" : tv_hiplie.getText().toString());
+                double uparmgirth = Double.parseDouble(tv_uparmgirth.getText().toString().equals("") ? "0" : tv_uparmgirth.getText().toString());
+                double tupleggirth = Double.parseDouble(tv_upleggirth.getText().toString().equals("") ? "0" : tv_upleggirth.getText().toString());
+                double doleggirth = Double.parseDouble(tv_doleggirth.getText().toString().equals("") ? "0" : tv_doleggirth.getText().toString());
 
                 //创建档案的添加围度
-                file=new File();
+                file = new File();
                 file.setCircum(circum);
                 file.setWaistline(waistline);
                 file.setHiplie(hiplie);
                 file.setUparmgirth(uparmgirth);
                 file.setUpleggirth(tupleggirth);
                 file.setDoleggirth(doleggirth);
-                Intent intent=new Intent();
-                intent.putExtra("file",file);
-                setResult(RESULT_OK,intent);
+                Intent intent = new Intent();
+                intent.putExtra("file", file);
+                setResult(RESULT_OK, intent);
 //
 //                //新学员录入的添加围度
 //                newstudents=new Newstudents();
@@ -220,11 +205,10 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
 
                 finish();
 
-              //  Log.i("-------------------newstudents----------------------"+newstudents);
+                //  Log.i("-------------------newstudents----------------------"+newstudents);
                 break;
         }
     }
-
 
 
     @Override
@@ -234,7 +218,7 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
     }
 
 
-//    public String load(){
+    //    public String load(){
 //        FileInputStream in=null;
 //        BufferedReader reader=null;
 //        StringBuilder content=new StringBuilder();
@@ -278,7 +262,7 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tv_circum.setText(String.valueOf(np1.getValue())+"."+String.valueOf(np2.getValue())); //set the value to textview
+                tv_circum.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())); //set the value to textview
                 circum_dialog.dismiss();
             }
         });
@@ -311,7 +295,7 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tv_waistline.setText(String.valueOf(np1.getValue())+"."+String.valueOf(np2.getValue())); //set the value to textview
+                tv_waistline.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())); //set the value to textview
                 waistline_dialog.dismiss();
             }
         });
@@ -325,7 +309,7 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
         waistline_dialog.setCanceledOnTouchOutside(false);
     }
 
-    public void show_hiplie_dialog(){
+    public void show_hiplie_dialog() {
         final Dialog hiplie_dialog = new Dialog(this);
         hiplie_dialog.setTitle("选择臀围");
         hiplie_dialog.setContentView(R.layout.dimension_dialog);
@@ -344,7 +328,7 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tv_hiplie.setText(String.valueOf(np1.getValue())+"."+String.valueOf(np2.getValue())); //set the value to textview
+                tv_hiplie.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())); //set the value to textview
                 hiplie_dialog.dismiss();
             }
         });
@@ -377,7 +361,7 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tv_uparmgirth.setText(String.valueOf(np1.getValue())+"."+String.valueOf(np2.getValue())); //set the value to textview
+                tv_uparmgirth.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())); //set the value to textview
                 uparmgirth_dialog.dismiss();
             }
         });
@@ -410,7 +394,7 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tv_upleggirth.setText(String.valueOf(np1.getValue())+"."+String.valueOf(np2.getValue())); //set the value to textview
+                tv_upleggirth.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())); //set the value to textview
                 upleggirth_dialog.dismiss();
             }
         });
@@ -443,7 +427,7 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tv_doleggirth.setText(String.valueOf(np1.getValue())+"."+String.valueOf(np2.getValue())); //set the value to textview
+                tv_doleggirth.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())); //set the value to textview
                 doleggirth_dialog.dismiss();
             }
         });

@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.File.model;
 
 import java.io.Serializable;
@@ -5,20 +10,20 @@ import java.io.Serializable;
 /**
  * Created by julie.zhu on 3/4/2016.
  */
-public class File implements Serializable{
+public class File implements Serializable {
 
-     private String nickname; //昵称
-     private String birthday; //生日yyyy-MM-dd
-     private int height;      // 身高
-     private int weight;      //体重
-     private int gender;      //性别 :gender(int 0女，1男)
+    private String nickname; //昵称
+    private String birthday; //生日yyyy-MM-dd
+    private int height;      // 身高
+    private int weight;      //体重
+    private int gender;      //性别 :gender(int 0女，1男)
 
-     private double circum;      //胸围:可空
-     private double waistline;   //(腰围:,可空)
-     private double hiplie;      //臀围:可空
-     private double uparmgirth;//(上臂围:,可空)
-     private double upleggirth;//(大腿围 :,可空)
-     private double doleggirth;//(小腿围:,可空)
+    private double circum;      //胸围:可空
+    private double waistline;   //(腰围:,可空)
+    private double hiplie;      //臀围:可空
+    private double uparmgirth;//(上臂围:,可空)
+    private double upleggirth;//(大腿围 :,可空)
+    private double doleggirth;//(小腿围:,可空)
 
     public File() {
 
@@ -46,7 +51,8 @@ public class File implements Serializable{
         this.gender = gender;
 
     }
-    public File(double circum, double waistline, double hiplie,double uparmgirth, double upleggirth, double doleggirth) {
+
+    public File(double circum, double waistline, double hiplie, double uparmgirth, double upleggirth, double doleggirth) {
         this.circum = circum;
         this.waistline = waistline;
         this.hiplie = hiplie;
@@ -54,6 +60,7 @@ public class File implements Serializable{
         this.upleggirth = upleggirth;
         this.doleggirth = doleggirth;
     }
+
     public String getNickname() {
         return nickname;
     }

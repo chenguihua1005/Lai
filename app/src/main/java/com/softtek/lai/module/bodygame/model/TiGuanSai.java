@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.bodygame.model;
 
 import java.io.Serializable;
@@ -5,7 +10,7 @@ import java.io.Serializable;
 /**
  * Created by lareina.qiao on 3/17/2016.
  */
-public class TiGuanSai implements Serializable{
+public class TiGuanSai implements Serializable {
 
     private String Img_Type;
     private String Img_Title;
@@ -64,10 +69,6 @@ public class TiGuanSai implements Serializable{
     public void setImg_Type(String img_Type) {
         Img_Type = img_Type;
     }
-
-
-
-
 
 
 }

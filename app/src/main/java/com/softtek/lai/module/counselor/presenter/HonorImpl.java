@@ -1,14 +1,16 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.counselor.presenter;
 
 import android.content.Context;
 import android.util.Log;
-
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.counselor.model.HonorInfo;
 import com.softtek.lai.module.counselor.net.CounselorService;
-
 import org.greenrobot.eventbus.EventBus;
-
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;

@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.studetail.model;
 
 /**
@@ -11,7 +16,7 @@ public class Member {
     private String UserName;//用户名
     private String Photo;
     private String AfterImg;//减重前图片
-    private String  BeforImg; //减重后图片
+    private String BeforImg; //减重后图片
     private int LogCount;   //日志篇数
     private String LossAfter;//	减重前重量
     private String LossBefor;//	减重后重量

@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.newmemberentry.view.Adapter;
 
 import android.content.Context;
@@ -5,12 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
-
 import com.softtek.lai.R;
 import com.softtek.lai.module.newmemberentry.view.model.Pargrade;
-import com.softtek.lai.module.retest.model.Banji;
 
 import java.util.List;
 
@@ -24,17 +26,17 @@ public class MemberAdapter extends ArrayAdapter<Pargrade> {
     private List<Pargrade> pargradeList;
     private LayoutInflater inflater;
 
-    public MemberAdapter(Context context,int textViewResourceId, List<Pargrade> pargradeList) {
-        super(context,textViewResourceId,pargradeList);
-        resourceId=textViewResourceId;
-        this.context=context;
-        inflater=LayoutInflater.from(context);
-        this.pargradeList=pargradeList;
+    public MemberAdapter(Context context, int textViewResourceId, List<Pargrade> pargradeList) {
+        super(context, textViewResourceId, pargradeList);
+        resourceId = textViewResourceId;
+        this.context = context;
+        inflater = LayoutInflater.from(context);
+        this.pargradeList = pargradeList;
     }
 
 
-    public void updateData(List<Pargrade> pargradeList){
-        this.pargradeList=pargradeList;
+    public void updateData(List<Pargrade> pargradeList) {
+        this.pargradeList = pargradeList;
         notifyDataSetChanged();
     }
 
@@ -58,28 +60,27 @@ public class MemberAdapter extends ArrayAdapter<Pargrade> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        ViewHolder viewHolder=null;
-        if (convertView==null)
-        {
-            convertView=LayoutInflater.from(context).inflate(R.layout.member_item,parent,false);
-            viewHolder=new ViewHolder(convertView);
+        ViewHolder viewHolder = null;
+        if (convertView == null) {
+            convertView = LayoutInflater.from(context).inflate(R.layout.member_item, parent, false);
+            viewHolder = new ViewHolder(convertView);
             convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
         }
-        else {
-            viewHolder=(ViewHolder)convertView.getTag();
-        }
-        Pargrade pargrade=pargradeList.get(position);
+        Pargrade pargrade = pargradeList.get(position);
         //viewHolder.pargrade.setText(pargrade.getClassId());
         viewHolder.pargrade.setText(pargrade.getClassName());
         return convertView;
     }
 
 
-    class ViewHolder{
+    class ViewHolder {
         TextView pargrade;
-        public ViewHolder(View view){
-            pargrade=(TextView)view.findViewById(R.id.tv_pargrade);
-          //  pargrade=(TextView)view.findViewById(R.id.tv_pargrade);
+
+        public ViewHolder(View view) {
+            pargrade = (TextView) view.findViewById(R.id.tv_pargrade);
+            //  pargrade=(TextView)view.findViewById(R.id.tv_pargrade);
         }
     }
 }

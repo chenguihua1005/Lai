@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+  ~ Date:2016-03-31
+  -->
+
 <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
                                    xmlns:app="http://schemas.android.com/apk/res-auto"
                                    android:id="@+id/toolbar"
@@ -9,48 +14,48 @@
                                    app:layout_scrollFlags="scroll|enterAlways"
                                    android:fitsSystemWindows="true">
     <LinearLayout
-        android:id="@+id/ll_left"
-        android:layout_width="60dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="left"
-        android:gravity="center"
-        >
+            android:id="@+id/ll_left"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="left"
+            android:gravity="center"
+    >
 
         <TextView
-            android:id="@+id/tv_left"
-            android:layout_width="15dp"
-            android:layout_height="20dp"
-            android:layout_marginLeft="-15dp"
-            android:background="@drawable/back"
-            android:textColor="#ffffff"
-            />
+                android:id="@+id/tv_left"
+                android:layout_width="15dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="-15dp"
+                android:background="@drawable/back"
+                android:textColor="#ffffff"
+        />
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:textSize="20sp"
-        android:textColor="#FFFFFF"/>
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textColor="#FFFFFF"/>
 
     <TextView
-        android:id="@+id/tv_right"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="right"
-        android:gravity="center"
-        android:textSize="20sp"
-        android:layout_marginRight="10dp"
-        android:textColor="#ffffff"
-        />
+            android:id="@+id/tv_right"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:layout_marginRight="10dp"
+            android:textColor="#ffffff"
+    />
     <ImageView
-        android:id="@+id/iv_email"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:src="@drawable/email"
-        android:layout_gravity="right"
-        android:visibility="gone"/>
+            android:id="@+id/iv_email"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/email"
+            android:layout_gravity="right"
+            android:visibility="gone"/>
 
 </android.support.v7.widget.Toolbar>

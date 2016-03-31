@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.counselor.model;
 
 import java.io.Serializable;
@@ -11,7 +16,7 @@ public class InviteStudentInfo implements Serializable {
     private String UserName;     //助教名字
     private String Photo;          //图片路径
     private String AccountId;    //学员Id
-    private String isinvite ;    //1为已发送0为未邀请
+    private String isinvite;    //1为已发送0为未邀请
 
     public String getMobile() {
         return Mobile;

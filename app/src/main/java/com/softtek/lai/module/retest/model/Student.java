@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.retest.model;
 
 /**
@@ -19,8 +24,8 @@ public class Student {
     private String CurrStart;
     private String CurrEnd;
 
-    public Student(String photo,String userName, String mobile, String startDate, int weekth, int AMStatus) {
-        Photo=photo;
+    public Student(String photo, String userName, String mobile, String startDate, int weekth, int AMStatus) {
+        Photo = photo;
         UserName = userName;
         Mobile = mobile;
         StartDate = startDate;
@@ -159,7 +164,6 @@ public class Student {
     public void setCurrEnd(String currEnd) {
         CurrEnd = currEnd;
     }
-
 
 
     public Student(String str, String classId, String className, String managerId, String accountId, String mobile, String userName, String photo, String typeDate, String startDate, int AMStatus, int weekth, String currStart, String currEnd) {

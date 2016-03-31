@@ -1,120 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+  ~ Date:2016-03-31
+  -->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical"
-    tools:context="com.softtek.lai.module.login.view.ForgetActivity">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:fitsSystemWindows="true"
+              android:orientation="vertical"
+              tools:context="com.softtek.lai.module.login.view.ForgetActivity">
 
     <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar" />
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"/>
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/spHonorMargin"
-        android:orientation="vertical">
-
-        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spHonorMargin"
-            android:orientation="horizontal">
+            android:layout_margin="@dimen/spHonorMargin"
+            android:orientation="vertical">
 
-            <TextView
+        <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="服务人数/全国排名:"
-                android:textSize="@dimen/spHonorTextSize" />
+                android:layout_marginTop="@dimen/spHonorMargin"
+                android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/text_servernum"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/spHonorMarginLeft"
-                android:textSize="@dimen/spHonorTextSize" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="服务人数/全国排名:"
+                    android:textSize="@dimen/spHonorTextSize"/>
+
+            <TextView
+                    android:id="@+id/text_servernum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/spHonorMarginLeft"
+                    android:textSize="@dimen/spHonorTextSize"/>
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spHonorMargin"
-            android:orientation="horizontal">
-
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="减重斤数/全国排名:"
-                android:textSize="@dimen/spHonorTextSize" />
+                android:layout_marginTop="@dimen/spHonorMargin"
+                android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/text_weight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/spHonorMarginLeft"
-                android:textSize="@dimen/spHonorTextSize" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="减重斤数/全国排名:"
+                    android:textSize="@dimen/spHonorTextSize"/>
+
+            <TextView
+                    android:id="@+id/text_weight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/spHonorMarginLeft"
+                    android:textSize="@dimen/spHonorTextSize"/>
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spHonorMargin"
-            android:orientation="horizontal">
-
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="复测率/全国排名:"
-                android:textSize="@dimen/spHonorTextSize" />
+                android:layout_marginTop="@dimen/spHonorMargin"
+                android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/text_rtest"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/spHonorMarginLeft"
-                android:textSize="@dimen/spHonorTextSize" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="复测率/全国排名:"
+                    android:textSize="@dimen/spHonorTextSize"/>
+
+            <TextView
+                    android:id="@+id/text_rtest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/spHonorMarginLeft"
+                    android:textSize="@dimen/spHonorTextSize"/>
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spHonorMargin"
-            android:orientation="horizontal">
-
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="明星学员数/全国排名:"
-                android:textSize="@dimen/spHonorTextSize" />
+                android:layout_marginTop="@dimen/spHonorMargin"
+                android:orientation="horizontal">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="明星学员数/全国排名:"
+                    android:textSize="@dimen/spHonorTextSize"/>
 
             <TextView
 
-                android:id="@+id/text_starnum"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/spHonorMarginLeft"
-                android:textSize="@dimen/spHonorTextSize" />
+                    android:id="@+id/text_starnum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/spHonorMarginLeft"
+                    android:textSize="@dimen/spHonorTextSize"/>
         </LinearLayout>
 
         <View
-            android:layout_width="wrap_content"
-            android:layout_height="3dip"
-            android:layout_marginTop="@dimen/spHonorMargin"
-            android:background="@color/grey_font" />
+                android:layout_width="wrap_content"
+                android:layout_height="3dip"
+                android:layout_marginTop="@dimen/spHonorMargin"
+                android:background="@color/grey_font"/>
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spHonorMargin"
-            android:text="明星学员:"
-            android:textSize="@dimen/spHonorTextSizes" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spHonorMargin"
+                android:text="明星学员:"
+                android:textSize="@dimen/spHonorTextSizes"/>
     </LinearLayout>
 
     <ListView
-        android:id="@+id/list_stars"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_margin="@dimen/spHonorMargin" />
+            android:id="@+id/list_stars"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_margin="@dimen/spHonorMargin"/>
 </LinearLayout>

@@ -1,7 +1,9 @@
-package com.softtek.lai.module.counselor.presenter;
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
 
-import android.widget.ImageView;
-import android.widget.ListView;
+package com.softtek.lai.module.counselor.presenter;
 
 /**
  * Created by jarvis.liu on 3/22/2016.

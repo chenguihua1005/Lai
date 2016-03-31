@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.newmemberentry.view.model;
 
 import java.io.Serializable;
@@ -214,7 +219,8 @@ public class Newstudents implements Serializable {
         this.upleggirth = upleggirth;
         this.doleggirth = doleggirth;
     }
-    public Newstudents(){
+
+    public Newstudents() {
 
     }
 }

@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+  ~ Date:2016-03-31
+  -->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:layout_width="match_parent"
-    android:layout_height="50dp">
+              android:orientation="vertical"
+              android:gravity="center"
+              android:layout_width="match_parent"
+              android:layout_height="50dp">
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:gravity="center_vertical"
-        android:text="参赛班级"
-        android:layout_alignParentLeft="true"
-        android:id="@+id/tv_pargrade"
-        android:textSize="20dp"/>
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:text="参赛班级"
+            android:layout_alignParentLeft="true"
+            android:id="@+id/tv_pargrade"
+            android:textSize="20dp"/>
 
 </LinearLayout>
