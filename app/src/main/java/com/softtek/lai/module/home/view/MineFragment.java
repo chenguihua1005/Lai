@@ -15,6 +15,7 @@ import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.utils.ACache;
@@ -64,12 +65,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     }
 
     private void clearData() {
-        SharedPreferenceService.getInstance().put("token", "");
-        SharedPreferenceService.getInstance().put(Constants.AUTO_LOGIN, false);
-        SharedPreferenceService.getInstance().put(Constants.AUTO_USER_NAME, "");
-        SharedPreferenceService.getInstance().put(Constants.AUTO_PASSWORD, "");
-        SharedPreferenceService.getInstance().put("classId", "");
-        aCache.put(Constants.USER_ACACHE_KEY, "");
+        UserInfoModel.getInstance().loginOut();
     }
 
     @Override

@@ -1,22 +1,22 @@
-/*
- * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
- * Date:2016-03-31
- */
-
 package com.softtek.lai.utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+
 import com.github.snowdream.android.util.Log;
-import retrofit.RetrofitError;
-import zilla.libcore.api.IApiError;
-import zilla.libcore.api.IApiErrorHandler;
-import zilla.libcore.util.Util;
+import com.softtek.lai.LaiApplication;
+import com.softtek.lai.module.login.view.LoginActivity;
 
 import java.io.InterruptedIOException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
+
+import retrofit.RetrofitError;
+import zilla.libcore.api.IApiError;
+import zilla.libcore.api.IApiErrorHandler;
+import zilla.libcore.util.Util;
 
 /**
  * Created by Zilla on 22/1/16.
@@ -67,7 +67,9 @@ public class NetErrorHandler implements IApiErrorHandler {
                 int statusCode = error.getResponse().getStatus();
                 switch (statusCode) {
                     case 401:
-                        Util.toastMsg(zilla.libcore.R.string.net_http_401);
+                        Intent intent=new Intent(LaiApplication.getInstance(), LoginActivity.class);
+                        LaiApplication.getInstance().startActivity(intent);
+                        //Util.toastMsg(zilla.libcore.R.string.net_http_401);
                         break;
                     case 403:
                         Util.toastMsg(zilla.libcore.R.string.net_http_403);

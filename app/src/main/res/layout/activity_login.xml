@@ -1,145 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
-  ~ Date:2016-03-31
-  -->
-
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#FFFFFF"
-            tools:context=".module.login.view.LoginActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    tools:context=".module.login.view.LoginActivity">
 
     <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:background="#ffffff">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#ffffff">
 
         <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:background="#ffffff">
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="#ffffff">
 
             <ImageView
-                    android:id="@+id/iv_logo"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:layout_centerInParent="true"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/logo"/>
+                android:id="@+id/iv_logo"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_centerInParent="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/logo"/>
 
         </RelativeLayout>
 
         <LinearLayout
-                android:background="#ffffff"
+            android:background="#ffffff"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_vertical|center"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp">
+        
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:gravity="center_vertical|center"
-                android:layout_marginLeft="50dp"
-                android:layout_marginRight="50dp">
-
-            <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp">
+                android:layout_height="60dp">
                 <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:scaleType="fitCenter"
-                        android:layout_gravity="left|center"
-                        android:src="@drawable/phone"/>
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:scaleType="fitCenter"
+                    android:layout_gravity="left|center"
+                    android:src="@drawable/phone"/>
                 <EditText
-                        android:id="@+id/et_phone"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:paddingLeft="40dp"
-                        android:inputType="phone"
-                        android:singleLine="true"
-                        android:textColor="#333333"
-                        android:text="18961765466"
-                        android:hint="@string/phoneNum"/>
+                    android:id="@+id/et_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="40dp"
+                    android:inputType="phone"
+                    android:singleLine="true"
+                    android:textColor="#333333"
+                    android:hint="@string/phoneNum"/>
             </FrameLayout>
 
             <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp">
+                android:layout_width="match_parent"
+                android:layout_height="60dp">
                 <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:scaleType="fitCenter"
-                        android:layout_gravity="left|center"
-                        android:src="@drawable/password"/>
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:scaleType="fitCenter"
+                    android:layout_gravity="left|center"
+                    android:src="@drawable/password"/>
                 <EditText
-                        android:id="@+id/et_password"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:paddingLeft="40dp"
-                        android:singleLine="true"
-                        android:hint="@string/password"
-                        android:text="willian"
-                        android:textColor="#333333"
-                        android:inputType="textPassword"/>
+                    android:id="@+id/et_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="40dp"
+                    android:singleLine="true"
+                    android:hint="@string/password"
+                    android:textColor="#333333"
+                    android:inputType="textPassword"/>
             </FrameLayout>
-            <CheckBox
-                    android:id="@+id/cb_remember"
-                    android:layout_width="wrap_content"
-                    android:layout_height="20dp"
-                    android:layout_gravity="left"
-                    android:text="记住此账号密码？"
-                    android:checked="true"/>
-            <TextView
-                    android:id="@+id/tv_login"
-                    android:layout_marginTop="20dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:text="@string/login"
-                    android:gravity="center"
-                    android:textSize="22sp"
-                    android:background="@drawable/bg_login_btn"
-                    android:textColor="#FFFFFD"/>
 
             <TextView
-                    android:id="@+id/tv_regist"
-                    android:layout_marginTop="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:text="@string/regist"
-                    android:gravity="center"
-                    android:textSize="22sp"
-                    android:background="@drawable/bg_next_btn"
-                    android:textColor="#FFFFFd"/>
+                android:id="@+id/tv_login"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="@string/login"
+                android:gravity="center"
+                android:textSize="22sp"
+                android:background="@drawable/bg_login_btn"
+                android:textColor="#FFFFFD"/>
 
             <TextView
-                    android:id="@+id/tv_forgetpsd"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/forgetPsd"
-                    android:textColor="@color/textview"
-                    android:layout_marginTop="20dp"
-                    android:textSize="18sp"/>
+                android:id="@+id/tv_regist"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="@string/regist"
+                android:gravity="center"
+                android:textSize="22sp"
+                android:background="@drawable/bg_next_btn"
+                android:textColor="#FFFFFd"/>
+            
+            <TextView
+                android:id="@+id/tv_forgetpsd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/forgetPsd"
+                android:textColor="@color/textview"
+                android:layout_marginTop="20dp"
+                android:textSize="18sp"/>
             <LinearLayout
-                    android:id="@+id/ll_visitor"
+                android:id="@+id/ll_visitor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:orientation="horizontal"
+                android:layout_gravity="right">
+                <TextView
+                    android:id="@+id/tv_visitor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="25dp"
-                    android:orientation="horizontal"
-                    android:layout_gravity="right">
-                <TextView
-                        android:id="@+id/tv_visitor"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/visitor"
-                        android:layout_gravity="center|right"
-                        android:textSize="20sp"
-                        android:textColor="@color/textview_green"/>
+                    android:text="@string/visitor"
+                    android:layout_gravity="center|right"
+                    android:textSize="20sp"
+                    android:textColor="@color/textview_green"/>
                 <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="20dp"
-                        android:scaleType="fitCenter"
-                        android:layout_gravity="center|right"
-                        android:src="@drawable/arrow_copy"/>
+                    android:layout_width="30dp"
+                    android:layout_height="20dp"
+                    android:scaleType="fitCenter"
+                    android:layout_gravity="center|right"
+                    android:src="@drawable/arrow_copy"/>
             </LinearLayout>
 
 

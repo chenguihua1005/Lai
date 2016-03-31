@@ -9,17 +9,16 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
+import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.contants.Constants;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.net.LoginService;
-import com.softtek.lai.utils.ACache;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
-import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.util.Util;
 
 /**
@@ -28,12 +27,10 @@ import zilla.libcore.util.Util;
 public class LoginPresenterImpl implements ILoginPresenter {
 
     private Context context;
-    private ACache aCache;
     private LoginService service;
 
     public LoginPresenterImpl(Context context) {
         this.context = context;
-        aCache = ACache.get(context, Constants.USER_ACACHE_DATA_DIR);
         service = ZillaApi.NormalRestAdapter.create(LoginService.class);
     }
 
@@ -48,8 +45,7 @@ public class LoginPresenterImpl implements ILoginPresenter {
                 int status = userResponseData.getStatus();
                 switch (status) {
                     case 200:
-                        SharedPreferenceService.getInstance().put("token", userResponseData.getData().getToken());
-                        aCache.put(Constants.USER_ACACHE_KEY, userResponseData.getData());
+                        UserInfoModel.getInstance().saveUserCache(userResponseData.getData());
                         context.startActivity(new Intent(context, HomeActviity.class));
                         ((AppCompatActivity) context).finish();
                         break;
@@ -63,13 +59,9 @@ public class LoginPresenterImpl implements ILoginPresenter {
             public void failure(RetrofitError error) {
                 if (dialog != null) dialog.dismiss();
                 error.printStackTrace();
-                Util.toastMsg("登录失败");
+                Util.toastMsg(R.string.neterror);
             }
         });
-    }
-
-    public void autoLogin(String phone, String password, Callback<ResponseData<UserModel>> callback) {
-        service.doLogin(phone, password, callback);
     }
 
 

@@ -1,26 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
-  ~ Date:2016-03-31
-  -->
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fitsSystemWindows="true"
-                tools:context="com.softtek.lai.module.login.view.ForgetActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/white"
+    tools:context="com.softtek.lai.module.login.view.ForgetActivity">
 
     <include layout="@layout/toolbar"
-             android:id="@+id/toolbar"
-    />
+        android:id="@+id/toolbar"
+        />
     <!--<ScrollView
         android:layout_below="@id/toolbar"
         android:layout_alignLeft="@id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent">-->
 
-    <LinearLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -29,16 +25,16 @@
             android:layout_marginRight="50dp"
             android:gravity="center_vertical">
 
-        <FrameLayout
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp">
-            <ImageView
+                <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:scaleType="center"
                     android:layout_gravity="left|center"
                     android:src="@drawable/phone"/>
-            <EditText
+                <EditText
                     android:id="@+id/et_phone"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -47,25 +43,26 @@
                     android:singleLine="true"
                     android:textColor="#343434"
                     android:hint="@string/phoneNum"/>
-        </FrameLayout>
+            </FrameLayout>
 
-        <LinearLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="10dp"
+                android:background="@color/white"
                 android:orientation="horizontal">
 
-            <FrameLayout
+                <FrameLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1.5">
-                <ImageView
+                    <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:scaleType="center"
                         android:layout_gravity="left|center"
                         android:src="@drawable/identify"/>
-                <EditText
+                    <EditText
                         android:id="@+id/et_identify"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -74,8 +71,8 @@
                         android:inputType="number"
                         android:textColor="#343434"
                         android:hint="验证码"/>
-            </FrameLayout>
-            <TextView
+                </FrameLayout>
+                <TextView
                     android:id="@+id/tv_get_identify"
                     android:layout_width="0dp"
                     android:layout_weight="1.2"
@@ -86,8 +83,8 @@
                     android:textColor="#6a6a6a"
                     android:background="@drawable/identify_bg"
                     android:text="@string/sendIdentify"/>
-        </LinearLayout>
-        <Button
+            </LinearLayout>
+            <Button
                 android:id="@+id/btn_next"
                 android:layout_marginTop="50dp"
                 android:layout_width="match_parent"
@@ -96,6 +93,6 @@
                 android:text="@string/next"
                 android:textSize="20sp"
                 android:textColor="#ffffff"/>
-    </LinearLayout>
+        </LinearLayout>
     <!--</ScrollView>-->
 </RelativeLayout>

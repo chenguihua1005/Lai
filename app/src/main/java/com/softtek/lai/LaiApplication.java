@@ -9,6 +9,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.CrashHandler;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.File.model.FilterModel;
 import com.softtek.lai.utils.NetErrorHandler;
 import retrofit.RequestInterceptor;
@@ -47,6 +48,7 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
             filterList.add(new FilterModel(datas[i]));
         }
         new Zilla().setCallBack(this).initSystem(this);
+        UserInfoModel.getInstance(this);
         CrashHandler catchHandler = CrashHandler.getInstance();
         catchHandler.init(getApplicationContext());
     }
