@@ -3,29 +3,12 @@ package com.softtek.lai.module.guide;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
-import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfo;
-import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.home.view.HomeActviity;
-import com.softtek.lai.module.login.model.User;
-import com.softtek.lai.module.login.presenter.ILoginPresenter;
-import com.softtek.lai.module.login.presenter.LoginPresenterImpl;
 import com.softtek.lai.module.login.view.LoginActivity;
-import com.softtek.lai.utils.ACache;
-
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
-import zilla.libcore.file.SharedPreferenceService;
-import zilla.libcore.util.Util;
 
 public class Guide extends AppCompatActivity implements Runnable{
 
