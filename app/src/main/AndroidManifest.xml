@@ -82,6 +82,8 @@
         <activity android:name=".module.counselor.view.GameActivity"/>
         <activity android:name=".module.newmemberentry.view.DimensioninputActivity"></activity>
         <activity android:name=".module.bodygamest.view.FuceStActivity"></activity>
+        <activity android:name=".module.login.view.LoginActivity1"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
     </application>
 
 </manifest>

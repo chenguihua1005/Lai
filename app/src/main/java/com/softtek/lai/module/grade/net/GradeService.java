@@ -24,14 +24,14 @@ public interface GradeService {
     //获取班级主页信息
     @GET("/HerbrClass/GetClassDetail")
     void getGradeInfo(@Header("token") String token,
-                      @Query("ClassIdModel") String classId,
+                      @Query("ClassId") String classId,
                       Callback<ResponseData<GradeModel>> gradeInfo);
 
     //发布动态
     @FormUrlEncoded
     @POST("/HerbrClass/CreatDynamic")
     void senDynamic(@Header("token") String token,
-                    @Field("ClassIdModel") long classId,
+                    @Field("ClassId") long classId,
                     @Field("DyInfoTitle") String dyTitle,
                     @Field("DyContent") String dyContent,
                     @Field("DyType") int dyType,
@@ -55,7 +55,7 @@ public interface GradeService {
     @Multipart
     @POST("/HerbrClass/UpClassImg")
     void updateClassBanner(@Header("token") String token,
-                           @Query("ClassIdModel") long classId,
+                           @Query("ClassId") long classId,
                            @Query("type") String type,
                            @Part("photo") TypedFile photo,
                            Callback<ResponseData<BannerModel>> callback);
