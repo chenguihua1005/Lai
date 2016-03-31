@@ -10,7 +10,7 @@ import android.content.Context;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.studetail.model.Member;
+import com.softtek.lai.module.studetail.model.MemberModel;
 import com.softtek.lai.module.studetail.net.MemberInfoService;
 import org.greenrobot.eventbus.EventBus;
 import retrofit.Callback;
@@ -35,9 +35,9 @@ public class MemberInfoImpl implements IMemberInfopresenter {
     @Override
     public void getMemberinfo(String classId, String userId, final ProgressDialog progressDialog) {
         String token = SharedPreferenceService.getInstance().get("token", "");
-        service.getmemberInfo(token, userId, classId, new Callback<ResponseData<Member>>() {
+        service.getmemberInfo(token, userId, classId, new Callback<ResponseData<MemberModel>>() {
             @Override
-            public void success(ResponseData<Member> memberResponseData, Response response) {
+            public void success(ResponseData<MemberModel> memberResponseData, Response response) {
                 Log.i("返回值>>>" + memberResponseData.toString());
                 Log.i("请求url>>>" + response.getUrl());
                 progressDialog.dismiss();

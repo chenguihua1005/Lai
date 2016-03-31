@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import com.softtek.lai.R;
-import com.softtek.lai.module.grade.model.DynamicInfo;
+import com.softtek.lai.module.grade.model.DynamicInfoModel;
 
 import java.util.List;
 
@@ -22,9 +22,9 @@ import java.util.List;
 public class DynamicAdapter extends BaseAdapter {
 
     private LayoutInflater inflater;
-    private List<DynamicInfo> dynamicInfoList;
+    private List<DynamicInfoModel> dynamicInfoList;
 
-    public DynamicAdapter(Context context, List<DynamicInfo> dynamicInfos) {
+    public DynamicAdapter(Context context, List<DynamicInfoModel> dynamicInfos) {
         inflater = LayoutInflater.from(context);
         this.dynamicInfoList = dynamicInfos;
     }
@@ -54,7 +54,7 @@ public class DynamicAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        DynamicInfo info = dynamicInfoList.get(position);
+        DynamicInfoModel info = dynamicInfoList.get(position);
         holder.tv_date.setText(info.getCreateDate());
         holder.tv_content.setText(info.getDyContent());
         return convertView;

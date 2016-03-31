@@ -27,10 +27,10 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.counselor.adapter.InviteContantAdapter;
-import com.softtek.lai.module.counselor.model.ContactListInfo;
+import com.softtek.lai.module.counselor.model.ContactListInfoModel;
 import com.softtek.lai.module.counselor.presenter.IStudentPresenter;
 import com.softtek.lai.module.counselor.presenter.StudentImpl;
-import com.softtek.lai.module.login.model.User;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.SoftInputUtil;
 import zilla.libcore.lifecircle.LifeCircleInject;
@@ -63,7 +63,7 @@ public class InviteContantActivity extends BaseActivity implements View.OnClickL
 
     private IStudentPresenter studentPresenter;
     private ACache aCache;
-    private User user;
+    private UserModel userModel;
     private AsyncQueryHandler asyncQueryHandler; // 异步查询数据库类对象
 
     private static final String[] PHONES_PROJECTION = new String[]{
@@ -76,7 +76,7 @@ public class InviteContantActivity extends BaseActivity implements View.OnClickL
             ContactsContract.CommonDataKinds.Phone.LOOKUP_KEY};
 
 
-    private ArrayList<ContactListInfo> contactListValue = new ArrayList<ContactListInfo>();
+    private ArrayList<ContactListInfoModel> contactListValue = new ArrayList<ContactListInfoModel>();
     private ProgressDialog progressDialog;
 
 
@@ -193,7 +193,7 @@ public class InviteContantActivity extends BaseActivity implements View.OnClickL
 
                     }
 
-                    ContactListInfo contactListInfo = new ContactListInfo(contactPhoto, name, number);
+                    ContactListInfoModel contactListInfo = new ContactListInfoModel(contactPhoto, name, number);
                     contactListValue.add(contactListInfo);
 
                 }

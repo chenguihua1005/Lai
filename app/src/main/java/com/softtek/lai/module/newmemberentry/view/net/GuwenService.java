@@ -6,7 +6,7 @@
 package com.softtek.lai.module.newmemberentry.view.net;
 
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.newmemberentry.view.model.Pargrade;
+import com.softtek.lai.module.newmemberentry.view.model.PargradeModel;
 import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Header;
@@ -23,6 +23,6 @@ public interface GuwenService {
     void doGetGuwenClass(
             @Header("token") String token,
             @Query("managerId") long managerId,
-            Callback<ResponseData<List<Pargrade>>> callback
+            Callback<ResponseData<List<PargradeModel>>> callback
     );
 }

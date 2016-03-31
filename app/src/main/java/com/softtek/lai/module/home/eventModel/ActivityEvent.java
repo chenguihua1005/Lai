@@ -5,7 +5,7 @@
 
 package com.softtek.lai.module.home.eventModel;
 
-import com.softtek.lai.module.home.model.HomeInfo;
+import com.softtek.lai.module.home.model.HomeInfoModel;
 
 import java.util.List;
 
@@ -14,16 +14,16 @@ import java.util.List;
  */
 public class ActivityEvent {
 
-    public List<HomeInfo> activitys;
+    public List<HomeInfoModel> activitys;
     //0:刷新 1：加载
     public int flag = 0;
 
-    public ActivityEvent(int flag, List<HomeInfo> activitys) {
+    public ActivityEvent(int flag, List<HomeInfoModel> activitys) {
         this.flag = flag;
         this.activitys = activitys;
     }
 
-    public ActivityEvent(List<HomeInfo> activitys) {
+    public ActivityEvent(List<HomeInfoModel> activitys) {
         this.activitys = activitys;
     }
 }

@@ -19,7 +19,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.grade.adapter.LossWeightAdapter;
 import com.softtek.lai.module.grade.eventModel.LossWeightEvent;
-import com.softtek.lai.module.grade.model.Student;
+import com.softtek.lai.module.grade.model.StudentModel;
 import com.softtek.lai.module.grade.presenter.GradeImpl;
 import com.softtek.lai.module.grade.presenter.IGrade;
 import com.softtek.lai.module.studetail.view.StudentDetailActivity;
@@ -44,7 +44,7 @@ public class LossWeightFragment extends BaseFragment implements PullToRefreshBas
 
     private IGrade grade;
 
-    private List<Student> students = new ArrayList<>();
+    private List<StudentModel> studentModels = new ArrayList<>();
     private LossWeightAdapter adapter;
     private int flagType = 0;
 
@@ -64,7 +64,7 @@ public class LossWeightFragment extends BaseFragment implements PullToRefreshBas
     @Override
     protected void initDatas() {
         grade = new GradeImpl();
-        adapter = new LossWeightAdapter(getContext(), students, flagType);
+        adapter = new LossWeightAdapter(getContext(), studentModels, flagType);
         ptrlv.setAdapter(adapter);
         ptrlv.setOnRefreshListener(this);
         //第一次加载自动刷新
@@ -79,8 +79,8 @@ public class LossWeightFragment extends BaseFragment implements PullToRefreshBas
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUpdateListView(LossWeightEvent event) {
-        this.students.clear();
-        this.students.addAll(event.getStudents());
+        this.studentModels.clear();
+        this.studentModels.addAll(event.getStudents());
         adapter.notifyDataSetChanged();
     }
 
@@ -103,7 +103,7 @@ public class LossWeightFragment extends BaseFragment implements PullToRefreshBas
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Student student = students.get(position - 1);
+        StudentModel studentModel = studentModels.get(position - 1);
         Intent intent = new Intent(getContext(), StudentDetailActivity.class);
         startActivity(intent);
     }

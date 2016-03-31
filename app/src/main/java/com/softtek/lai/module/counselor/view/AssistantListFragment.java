@@ -14,11 +14,11 @@ import butterknife.InjectView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.counselor.model.AssistantClassInfo;
-import com.softtek.lai.module.counselor.model.AssistantInfo;
+import com.softtek.lai.module.counselor.model.AssistantClassInfoModel;
+import com.softtek.lai.module.counselor.model.AssistantInfoModel;
 import com.softtek.lai.module.counselor.presenter.AssistantImpl;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
-import com.softtek.lai.module.login.model.User;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.ACache;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -35,8 +35,8 @@ public class AssistantListFragment extends BaseFragment implements View.OnClickL
     private IAssistantPresenter ssistantPresenter;
     private ACache aCache;
     private boolean isShow = false;
-    User user;
-    List<AssistantInfo> list;
+    UserModel userModel;
+    List<AssistantInfoModel> list;
 
     @InjectView(R.id.rel_all_class_more)
     RelativeLayout rel_all_class_more;
@@ -62,14 +62,14 @@ public class AssistantListFragment extends BaseFragment implements View.OnClickL
                 System.out.println("position:" + position);
                 ImageView imageView = (ImageView) view.findViewById(R.id.img);
                 imageView.setImageDrawable(getResources().getDrawable(R.drawable.img_selceted));
-                AssistantClassInfo assistantClassInfo = (AssistantClassInfo) list_class.getAdapter().getItem(position);
-                ssistantPresenter.showAssistantByClass(user.getUserid(), assistantClassInfo.getClassId(), list_assistant);
+                AssistantClassInfoModel assistantClassInfo = (AssistantClassInfoModel) list_class.getAdapter().getItem(position);
+                ssistantPresenter.showAssistantByClass(userModel.getUserid(), assistantClassInfo.getClassId(), list_assistant);
             }
         });
         list_assistant.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                AssistantInfo assistantInfo = list.get(position);
+                AssistantInfoModel assistantInfo = list.get(position);
                 Intent intent = new Intent(getContext(), AssistantDetailActivity.class);
                 intent.putExtra("assistantId", assistantInfo.getAccountId().toString());
                 intent.putExtra("classId", assistantInfo.getClassId().toString());
@@ -86,7 +86,7 @@ public class AssistantListFragment extends BaseFragment implements View.OnClickL
     }
 
     @Subscribe
-    public void onEvent(List<AssistantInfo> list) {
+    public void onEvent(List<AssistantInfoModel> list) {
         System.out.println("list:" + list);
         this.list = list;
     }
@@ -102,8 +102,8 @@ public class AssistantListFragment extends BaseFragment implements View.OnClickL
         ssistantPresenter = new AssistantImpl(getContext());
         aCache = ACache.get(getContext(), Constants.USER_ACACHE_DATA_DIR);
 
-        user = (User) aCache.getAsObject(Constants.USER_ACACHE_KEY);
-        ssistantPresenter.showAllClassList(user.getUserid(), list_class);
+        userModel = (UserModel) aCache.getAsObject(Constants.USER_ACACHE_KEY);
+        ssistantPresenter.showAllClassList(userModel.getUserid(), list_class);
     }
 
     @Override

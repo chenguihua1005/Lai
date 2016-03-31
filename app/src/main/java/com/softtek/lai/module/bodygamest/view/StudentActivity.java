@@ -14,8 +14,8 @@ import android.widget.TextView;
 import butterknife.InjectView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.module.bodygame.model.FuceNum;
-import com.softtek.lai.module.bodygame.model.TiGuanSai;
+import com.softtek.lai.module.bodygame.model.FuceNumModel;
+import com.softtek.lai.module.bodygame.model.TiGuanSaiModel;
 import com.softtek.lai.module.bodygame.presenter.ITiGuanSai;
 import com.softtek.lai.module.bodygame.presenter.TiGuanSaiImpl;
 import com.squareup.picasso.Picasso;
@@ -26,7 +26,7 @@ import zilla.libcore.ui.InjectLayout;
 @InjectLayout(R.layout.activity_student)
 public class StudentActivity extends BaseActivity implements View.OnClickListener {
     private ITiGuanSai tiGuanSai;
-    private FuceNum fuceNum;
+    private FuceNumModel fuceNum;
     @InjectView(R.id.tv_st_num)
     TextView tv_st_num;
     @InjectView(R.id.iv_st_adv)
@@ -92,7 +92,7 @@ public class StudentActivity extends BaseActivity implements View.OnClickListene
     }
 
     @Subscribe
-    public void onEvent(TiGuanSai tiGuanSai) {
+    public void onEvent(TiGuanSaiModel tiGuanSai) {
 
         Picasso.with(this).load(tiGuanSai.getImg_Addr()).placeholder(R.drawable.froyo).error(R.drawable.gingerbread).into(iv_st_adv);
 
@@ -100,7 +100,7 @@ public class StudentActivity extends BaseActivity implements View.OnClickListene
     }
 
     @Subscribe
-    public void onEvent1(FuceNum fuceNum) {
+    public void onEvent1(FuceNumModel fuceNum) {
 
         if (Integer.parseInt(fuceNum.getCount()) > 10) {
             tv_st_num.setText("10+");

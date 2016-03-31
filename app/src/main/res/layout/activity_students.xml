@@ -10,7 +10,7 @@
               android:layout_height="match_parent"
               android:orientation="vertical"
               android:background="#F1F1F1"
-              tools:context="com.softtek.lai.module.grade.view.StudentsActivity">
+              tools:context="com.softtek.lai.module.gradeModel.view.StudentsActivity">
 
     <include layout="@layout/toolbar"
              android:id="@+id/toolbar"/>

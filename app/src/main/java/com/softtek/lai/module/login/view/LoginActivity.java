@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.login.view;
 
 import android.app.ProgressDialog;
@@ -14,7 +19,7 @@ import com.mobsandgeeks.saripaar.annotation.Regex;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.common.UserInfo;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.login.presenter.ILoginPresenter;
 import com.softtek.lai.module.login.presenter.LoginPresenterImpl;
@@ -91,7 +96,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 startActivity(new Intent(this,RegistActivity.class));
                 break;
             case R.id.ll_visitor:
-                UserInfo.getInstance().visitorLogin();
+                UserInfoModel.getInstance().visitorLogin();
                 startActivity(new Intent(this, HomeActviity.class));
                 break;
 

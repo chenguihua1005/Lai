@@ -6,7 +6,7 @@
 package com.softtek.lai.module.studetail.net;
 
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.studetail.model.Member;
+import com.softtek.lai.module.studetail.model.MemberModel;
 import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Header;
@@ -21,6 +21,6 @@ public interface MemberInfoService {
     void getmemberInfo(@Header("token") String token,
                        @Query("userId") String userId,
                        @Query("classId") String classId,
-                       Callback<ResponseData<Member>> callback);
+                       Callback<ResponseData<MemberModel>> callback);
 
 }

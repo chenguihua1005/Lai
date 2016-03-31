@@ -7,7 +7,7 @@ package com.softtek.lai.module.jingdu.presenter;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.jingdu.EventModel.RankEvent;
-import com.softtek.lai.module.jingdu.model.Rank;
+import com.softtek.lai.module.jingdu.model.RankModel;
 import com.softtek.lai.module.jingdu.net.JingduService;
 import org.greenrobot.eventbus.EventBus;
 import retrofit.Callback;
@@ -32,9 +32,9 @@ public class GetProinfoImpl implements IGetProinfopresenter {
     @Override
     public void getproinfo(String classId, String ordertype) {
         String token = SharedPreferenceService.getInstance().get("token", "");
-        service.getproinfo(token, classId, ordertype, new Callback<ResponseData<List<Rank>>>() {
+        service.getproinfo(token, classId, ordertype, new Callback<ResponseData<List<RankModel>>>() {
             @Override
-            public void success(ResponseData<List<Rank>> rankResponseData, Response response) {
+            public void success(ResponseData<List<RankModel>> rankResponseData, Response response) {
                 int status = rankResponseData.getStatus();
                 switch (status) {
                     case 200:

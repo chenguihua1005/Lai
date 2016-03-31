@@ -106,7 +106,7 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
     private ImageView camera, picture;
 
     private View view;
-    List<DynamicInfo> dynamicInfos = new ArrayList<>();
+    List<DynamicInfoModel> dynamicInfos = new ArrayList<>();
 
     private IGrade grade;
     private DynamicAdapter adapter;
@@ -224,32 +224,32 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onUpdate(Grade grade) {
+    public void onUpdate(GradeModel gradeModel) {
         //加载班级Banner
-        List<PhotoInfo> banners = grade.getPhotoInfo();
+        List<PhotoInfoModel> banners = gradeModel.getPhotoInfo();
         if (banners != null && banners.size() > 0) {
-            Picasso.with(this).load(grade.getPhotoInfo().get(0).getImg_Addr()).into(iv_grade_banner);
+            Picasso.with(this).load(gradeModel.getPhotoInfo().get(0).getImg_Addr()).into(iv_grade_banner);
         }
         //更新班级信息
-        List<GradeInfo> grades = grade.getClassInfo();
+        List<GradeInfoModel> grades = gradeModel.getClassInfo();
         if (grades != null && grades.size() > 0) {
-            GradeInfo info = grades.get(0);
+            GradeInfoModel info = grades.get(0);
             tv_title.setText(info.getClassName());
             tv_title_date.setText(info.getStartDate());
         }
         //加载学员头像
-        List<People> pcs = grade.getPCInfo();
-        List<People> srs = grade.getSRInfo();
+        List<PeopleModel> pcs = gradeModel.getPCInfo();
+        List<PeopleModel> srs = gradeModel.getSRInfo();
         tv_pc_num.setText(pcs.size() + "人");
         tv_sr_num.setText(srs.size() + "人");
 
         //更新班级动态
         dynamicInfos.clear();
-        dynamicInfos.addAll(grade.getDynamicInfo());
+        dynamicInfos.addAll(gradeModel.getDynamicInfo());
         adapter.notifyDataSetChanged();
 
         for (int i = 0; i < pcs.size(); i++) {
-            People pc = pcs.get(i);
+            PeopleModel pc = pcs.get(i);
             switch (i) {
                 case 0:
                     Picasso.with(this).load(pc.getPhoto()).into(cir_pc_one);
@@ -263,7 +263,7 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
             }
         }
         for (int i = 0; i < srs.size(); i++) {
-            People sr = srs.get(i);
+            PeopleModel sr = srs.get(i);
             switch (i) {
                 case 0:
                     Picasso.with(this).load(sr.getPhoto()).into(cir_sr_one);
@@ -280,7 +280,7 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onListViewUpdate(DynamicInfo info) {
+    public void onListViewUpdate(DynamicInfoModel info) {
         dynamicInfos.add(info);
         adapter.notifyDataSetChanged();
     }

@@ -25,7 +25,7 @@ import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.counselor.adapter.CounselorClassAdapter;
 import com.softtek.lai.module.counselor.presenter.CounselorClassImpl;
 import com.softtek.lai.module.counselor.presenter.ICounselorClassPresenter;
-import com.softtek.lai.module.login.model.User;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.widgets.WheelView;
@@ -276,8 +276,8 @@ public class CreateCounselorClassActivity extends BaseActivity implements View.O
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             System.out.println("--------end_time-------:" + sdf.format(end_time));
             System.out.println("--------start_time-------:" + sdf.format(start_time));
-            User user = (User) aCache.getAsObject(Constants.USER_ACACHE_KEY);
-            counselorClassPresenter.createClass(edit_class_name.getText().toString(), sdf.format(start_time), sdf.format(end_time), user.getUserid());
+            UserModel userModel = (UserModel) aCache.getAsObject(Constants.USER_ACACHE_KEY);
+            counselorClassPresenter.createClass(edit_class_name.getText().toString(), sdf.format(start_time), sdf.format(end_time), userModel.getUserid());
         }
     }
 

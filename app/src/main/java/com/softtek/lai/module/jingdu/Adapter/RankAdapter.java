@@ -12,26 +12,26 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import com.softtek.lai.R;
-import com.softtek.lai.module.jingdu.model.Rank;
+import com.softtek.lai.module.jingdu.model.RankModel;
 
 import java.util.List;
 
 /**
  * Created by julie.zhu on 3/25/2016.
  */
-public class RankAdapter extends ArrayAdapter<Rank> {
+public class RankAdapter extends ArrayAdapter<RankModel> {
 
     private int resourceId;
-    private List<Rank> rankList;
+    private List<RankModel> rankList;
 
 
-    public RankAdapter(Context context, int textViewResourceId, List<Rank> rankList) {
+    public RankAdapter(Context context, int textViewResourceId, List<RankModel> rankList) {
         super(context, textViewResourceId, rankList);
         resourceId = textViewResourceId;
         this.rankList = rankList;
     }
 
-    public void updateData(List<Rank> rankList) {
+    public void updateData(List<RankModel> rankList) {
         this.rankList = rankList;
         notifyDataSetChanged();
         ;
@@ -39,7 +39,7 @@ public class RankAdapter extends ArrayAdapter<Rank> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Rank rank = getItem(position);
+        RankModel rank = getItem(position);
         View view = LayoutInflater.from(getContext()).inflate(resourceId, null);
         TextView ran = (TextView) view.findViewById(R.id.tv_rank);
         TextView name = (TextView) view.findViewById(R.id.tv_name);

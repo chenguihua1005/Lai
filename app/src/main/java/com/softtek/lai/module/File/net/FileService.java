@@ -6,7 +6,7 @@
 package com.softtek.lai.module.File.net;
 
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.File.model.File;
+import com.softtek.lai.module.File.model.FileModel;
 import retrofit.Callback;
 import retrofit.http.Body;
 import retrofit.http.Header;
@@ -32,13 +32,13 @@ public interface FileService {
 //            @Field("uparmgirth") double uparmgirth,
 //            @Field("upleggirth") double upleggirth,
 //            @Field("doleggirth") double doleggirth,
-//            Callback<ResponseData<File>> callback);
+//            Callback<ResponseData<FileModel>> callback);
 
 
     @POST("/HerbUser/CreatFile")
     void doFile(@Header("token") String token,
-                @Body File file,
-                Callback<ResponseData<File>> callback);
+                @Body FileModel file,
+                Callback<ResponseData<FileModel>> callback);
 
 
 }

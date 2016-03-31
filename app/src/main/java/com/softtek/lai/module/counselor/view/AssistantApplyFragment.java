@@ -13,7 +13,7 @@ import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.counselor.presenter.AssistantImpl;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
-import com.softtek.lai.module.login.model.User;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.ACache;
 import zilla.libcore.ui.InjectLayout;
 
@@ -26,7 +26,7 @@ public class AssistantApplyFragment extends BaseFragment implements View.OnClick
 
     private IAssistantPresenter ssistantPresenter;
     private ACache aCache;
-    User user;
+    UserModel userModel;
     @InjectView(R.id.list)
     ListView list;
 
@@ -39,8 +39,8 @@ public class AssistantApplyFragment extends BaseFragment implements View.OnClick
     protected void initDatas() {
         ssistantPresenter = new AssistantImpl(getContext());
         aCache = ACache.get(getContext(), Constants.USER_ACACHE_DATA_DIR);
-        user = (User) aCache.getAsObject(Constants.USER_ACACHE_KEY);
-        String id = user.getUserid();
+        userModel = (UserModel) aCache.getAsObject(Constants.USER_ACACHE_KEY);
+        String id = userModel.getUserid();
         ssistantPresenter.showAllApplyAssistants(id, list);
     }
 

@@ -136,11 +136,11 @@ A Singleton,It provide the CURD operations for datebase.
 DBOperator.getInstance().deleteAll(User.class);
 
 //save
-User user = new User();
-user.setName("user1");
-user.setEmail("user1@example.com");
-user.setAddress("user1 address");
-DBOperator.getInstance().save(user);
+User userModel = new User();
+userModel.setName("user1");
+userModel.setEmail("user1@example.com");
+userModel.setAddress("user1 address");
+DBOperator.getInstance().save(userModel);
 
 //save list
 List<User> userList = new ArrayList<User>();
@@ -241,11 +241,11 @@ When you use ListView,you need only 3 things
 
 protected void initDatas() {
         for (int i = 0; i < 20; i++) {
-            User user = new User();
-            user.setName("User" + i);
-            user.setEmail("user" + i + "@example.com");
-            user.setAddress("address" + i);
-            userList.add(user);
+            User userModel = new User();
+            userModel.setName("User" + i);
+            userModel.setEmail("userModel" + i + "@example.com");
+            userModel.setAddress("address" + i);
+            userList.add(userModel);
         }
         adapter = new ZillaAdapter<User>(this, userList, R.layout.user_item, ViewHolder.class);
         listView.setAdapter(adapter);
@@ -294,13 +294,13 @@ Views:
     
 Binding:
 
-	user = new User();
-    user.setId(123);
-    user.setName("zilla")
-    user.setEmail("zillachan@gamil.com");
-    user.setAddress("beijing china");
+	userModel = new User();
+    userModel.setId(123);
+    userModel.setName("zilla")
+    userModel.setEmail("zillachan@gamil.com");
+    userModel.setAddress("beijing china");
 
-    ZillaBinding.binding(this, user);
+    ZillaBinding.binding(this, userModel);
 
 ```
 
@@ -407,3 +407,5 @@ key.password=xxx
 ###ZillaAdapter ImageView's PlaceHolder
 
 ### Customise NetError
+
+### Finish All Service

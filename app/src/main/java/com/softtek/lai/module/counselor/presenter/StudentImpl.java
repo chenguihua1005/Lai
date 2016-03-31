@@ -12,7 +12,7 @@ import android.widget.ListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.counselor.adapter.InviteStudentAdapter;
-import com.softtek.lai.module.counselor.model.InviteStudentInfo;
+import com.softtek.lai.module.counselor.model.InviteStudentInfoModel;
 import com.softtek.lai.module.counselor.net.CounselorService;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -66,12 +66,12 @@ public class StudentImpl implements IStudentPresenter {
     @Override
     public void getNotInvitePC(String classid, String spaccid, final ListView list_student) {
         String token = SharedPreferenceService.getInstance().get("token", "");
-        counselorService.getNotInvitePC(token, classid, spaccid, new Callback<ResponseData<List<InviteStudentInfo>>>() {
+        counselorService.getNotInvitePC(token, classid, spaccid, new Callback<ResponseData<List<InviteStudentInfoModel>>>() {
             @Override
-            public void success(ResponseData<List<InviteStudentInfo>> listResponseData, Response response) {
+            public void success(ResponseData<List<InviteStudentInfoModel>> listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
-                List<InviteStudentInfo> list = listResponseData.getData();
+                List<InviteStudentInfoModel> list = listResponseData.getData();
                 switch (status) {
                     case 200:
                         InviteStudentAdapter adapter = new InviteStudentAdapter(context, list);

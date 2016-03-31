@@ -15,7 +15,7 @@ import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.counselor.model.AssistantDetailInfo;
+import com.softtek.lai.module.counselor.model.AssistantDetailInfoModel;
 import com.softtek.lai.module.counselor.presenter.AssistantImpl;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 import com.softtek.lai.utils.ACache;
@@ -74,7 +74,7 @@ public class AssistantDetailActivity extends BaseActivity implements View.OnClic
     }
 
     @Subscribe
-    public void onEvent(AssistantDetailInfo assistantDetailInfo) {
+    public void onEvent(AssistantDetailInfoModel assistantDetailInfo) {
         System.out.println("assistantDetailInfo:" + assistantDetailInfo);
         text_name.setText(assistantDetailInfo.getUserName().toString());
         text_phone.setText(assistantDetailInfo.getMobile().toString());

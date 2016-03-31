@@ -18,6 +18,7 @@ import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.utils.ACache;
@@ -65,10 +66,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
 
     @Override
     public void onClick(View v) {
-        SoftInputUtil.hidden(getContext());
         switch (v.getId()) {
             case R.id.but_login_out:
-
                 AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext())
                         .setTitle(getString(R.string.login_out_title))
                         .setMessage(getString(R.string.login_out_message))
@@ -95,7 +94,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
 
                 break;
             case R.id.lin_validate_certification:
-
+                startActivity(new Intent(getContext(),ValidateCertificationActivity.class));
                 break;
             case R.id.lin_setting:
 
@@ -104,9 +103,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     }
 
     private void clearData() {
-        SharedPreferenceService.getInstance().put("token", "");
-        SharedPreferenceService.getInstance().put("classId", "");
-        aCache.put(Constants.USER_ACACHE_KEY, "");
+        UserInfoModel.getInstance().loginOut();
     }
 
     @Override

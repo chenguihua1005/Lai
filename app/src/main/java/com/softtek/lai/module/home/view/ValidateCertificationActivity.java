@@ -121,6 +121,8 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
     public void onValidationSucceeded() {
         String account=edit_account.getText().toString();
         String password=edit_password.getText().toString();
+        String memberId="CN1357499";
+        loginPresenter.alidateCertification(memberId,password,account);
     }
 
     @Override

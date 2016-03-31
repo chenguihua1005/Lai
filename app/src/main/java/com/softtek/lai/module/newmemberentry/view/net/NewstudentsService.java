@@ -6,8 +6,8 @@
 package com.softtek.lai.module.newmemberentry.view.net;
 
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.newmemberentry.view.model.Newstudents;
-import com.softtek.lai.module.newmemberentry.view.model.Phot;
+import com.softtek.lai.module.newmemberentry.view.model.NewstudentsModel;
+import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
 import retrofit.Callback;
 import retrofit.http.*;
 import retrofit.mime.TypedFile;
@@ -21,8 +21,8 @@ public interface NewstudentsService {
     //新成员录入
     @POST("/HerbNewUser/CreatNewUser")
     void memberentry(@Header("token") String token,
-                     @Body Newstudents newstudents,
-                     Callback<ResponseData<List<Newstudents>>> callback);
+                     @Body NewstudentsModel newstudentsModel,
+                     Callback<ResponseData<List<NewstudentsModel>>> callback);
 
 
     //上传图片
@@ -31,6 +31,6 @@ public interface NewstudentsService {
     void upimg(
             @Header("token") String token,
             @Part("photo") TypedFile photo,
-            Callback<ResponseData<Phot>> callback);
+            Callback<ResponseData<PhotModel>> callback);
 
 }

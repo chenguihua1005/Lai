@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import com.softtek.lai.R;
-import com.softtek.lai.module.grade.model.Student;
+import com.softtek.lai.module.grade.model.StudentModel;
 import com.softtek.lai.widgets.CircleImageView;
 
 import java.util.List;
@@ -25,13 +25,13 @@ public class LossWeightAdapter extends BaseAdapter {
 
     private LayoutInflater inflater;
 
-    private List<Student> students;
+    private List<StudentModel> students;
 
     private int flag;
 
-    public LossWeightAdapter(Context context, List<Student> students, int flag) {
+    public LossWeightAdapter(Context context, List<StudentModel> studentModels, int flag) {
         inflater = LayoutInflater.from(context);
-        this.students = students;
+        this.students = studentModels;
         this.flag = flag;
     }
 
@@ -76,15 +76,15 @@ public class LossWeightAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        Student student = students.get(position);
+        StudentModel studentModel = students.get(position);
         holder.tv_order.setText(position + 1 + "");
         if ((position + 1) < 4) {
             holder.tv_order.setTextColor(Color.parseColor("#FDB02B"));
         }
-        holder.tv_name.setText(student.getUserName());
-        holder.tv_lw_before.setText("前 " + student.getLossBefor() + "kg");
-        holder.tv_lw_after.setText("后 " + student.getLossAfter() + "kg");
-        holder.tv_lw_totle.setText(student.getLossWeght());
+        holder.tv_name.setText(studentModel.getUserName());
+        holder.tv_lw_before.setText("前 " + studentModel.getLossBefor() + "kg");
+        holder.tv_lw_after.setText("后 " + studentModel.getLossAfter() + "kg");
+        holder.tv_lw_totle.setText(studentModel.getLossWeght());
         return convertView;
     }
 
@@ -97,15 +97,15 @@ public class LossWeightAdapter extends BaseAdapter {
         } else {
             holder = (LossWeightPerHolder) convertView.getTag();
         }
-        Student student = students.get(position);
+        StudentModel studentModel = students.get(position);
         holder.tv_order.setText(position + 1 + "");
         if ((position + 1) < 4) {
             holder.tv_order.setTextColor(Color.parseColor("#FDB02B"));
         }
-        holder.tv_lw_before.setText("前 " + student.getLossBefor() + "kg");
-        holder.tv_lw_after.setText("后 " + student.getLossAfter() + "kg");
-        holder.tv_name.setText(student.getUserName());
-        holder.tv_lw_per.setText(student.getLossPercent());
+        holder.tv_lw_before.setText("前 " + studentModel.getLossBefor() + "kg");
+        holder.tv_lw_after.setText("后 " + studentModel.getLossAfter() + "kg");
+        holder.tv_name.setText(studentModel.getUserName());
+        holder.tv_lw_per.setText(studentModel.getLossPercent());
         return convertView;
     }
 
@@ -118,15 +118,15 @@ public class LossWeightAdapter extends BaseAdapter {
         } else {
             holder = (PhysicalHolder) convertView.getTag();
         }
-        Student student = students.get(position);
+        StudentModel studentModel = students.get(position);
         holder.tv_order.setText(position + 1 + "");
         if ((position + 1) < 4) {
             holder.tv_order.setTextColor(Color.parseColor("#FDB02B"));
         }
-        holder.tv_py_before.setText("前 " + student.getLossBefor() + "kg");
-        holder.tv_py_after.setText("后 " + student.getLossAfter() + "kg");
-        holder.tv_name.setText(student.getUserName());
-        holder.tv_physical.setText(student.getPysical());
+        holder.tv_py_before.setText("前 " + studentModel.getLossBefor() + "kg");
+        holder.tv_py_after.setText("后 " + studentModel.getLossAfter() + "kg");
+        holder.tv_name.setText(studentModel.getUserName());
+        holder.tv_physical.setText(studentModel.getPysical());
         return convertView;
     }
 
@@ -139,14 +139,14 @@ public class LossWeightAdapter extends BaseAdapter {
         } else {
             holder = (WaistlineHolder) convertView.getTag();
         }
-        Student student = students.get(position);
+        StudentModel studentModel = students.get(position);
         holder.tv_order.setText(position + 1 + "");
         if ((position + 1) < 4) {
             holder.tv_order.setTextColor(Color.parseColor("#FDB02B"));
         }
-        holder.tv_name.setText(student.getUserName());
-        holder.tv_wl_before.setText("前 " + student.getWaistlinebefor() + "cm");
-        holder.tv_wl_after.setText("后 " + student.getWaistlineAfter() + "cm");
+        holder.tv_name.setText(studentModel.getUserName());
+        holder.tv_wl_before.setText("前 " + studentModel.getWaistlinebefor() + "cm");
+        holder.tv_wl_after.setText("后 " + studentModel.getWaistlineAfter() + "cm");
         holder.tv_wl_totle.setText("00");
         return convertView;
     }

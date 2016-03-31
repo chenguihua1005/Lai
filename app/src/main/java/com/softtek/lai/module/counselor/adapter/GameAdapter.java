@@ -15,7 +15,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.softtek.lai.R;
-import com.softtek.lai.module.counselor.model.MarchInfo;
+import com.softtek.lai.module.counselor.model.MarchInfoModel;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 
 import java.util.List;
@@ -25,14 +25,14 @@ import java.util.List;
  */
 public class GameAdapter extends BaseAdapter {
     private LayoutInflater mInflater;//得到一个LayoutInfalter对象用来导入布局
-    private List<MarchInfo> list;
+    private List<MarchInfoModel> list;
     private Context context;
     private IAssistantPresenter assistantPresenter;
 
     /**
      * 构造函数
      */
-    public GameAdapter(Context context, List<MarchInfo> list) {
+    public GameAdapter(Context context, List<MarchInfoModel> list) {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
         this.list = list;
@@ -79,7 +79,7 @@ public class GameAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();//取出ViewHolder对象
         }
         /**设置TextView显示的内容，即我们存放在动态数组中的数据*/
-        MarchInfo marchInfo = list.get(position);
+        MarchInfoModel marchInfo = list.get(position);
 
 //        if ("".equals(marchInfo.getPhoto())) {
 //            Picasso.with(context).load("111").error(R.drawable.img_default).into(holder.img);

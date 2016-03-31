@@ -10,7 +10,7 @@
               android:layout_height="match_parent"
               android:orientation="horizontal"
               android:background="@color/grey"
-              tools:context="com.softtek.lai.module.retest.Write">
+              tools:context=".module.retest.WriteActivity">
 
     <RelativeLayout
             android:id="@+id/rel_item"

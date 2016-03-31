@@ -16,7 +16,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.retest.Adapter.QueryAdapter;
 import com.softtek.lai.module.retest.eventModel.StudentEvent;
-import com.softtek.lai.module.retest.model.Student;
+import com.softtek.lai.module.retest.model.StudentModel;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.module.retest.present.RetestclassImp;
 import org.greenrobot.eventbus.EventBus;
@@ -41,7 +41,7 @@ public class QueryActivity extends BaseActivity implements View.OnClickListener 
     @InjectView(R.id.ll_query_noresult)
     LinearLayout ll_query_noresult;
     private RetestPre retestPre;
-    private List<Student> studentList = new ArrayList<Student>();
+    private List<StudentModel> studentModelList = new ArrayList<StudentModel>();
     private QueryAdapter queryAdapter;
 
 
@@ -51,7 +51,7 @@ public class QueryActivity extends BaseActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
         iv_query.setOnClickListener(this);
-        queryAdapter = new QueryAdapter(this, studentList);
+        queryAdapter = new QueryAdapter(this, studentModelList);
         List_querystudent.setAdapter(queryAdapter);
         ll_query_noresult.setOnClickListener(this);
         tv_retest_query_cancel.setOnClickListener(this);
@@ -93,9 +93,9 @@ public class QueryActivity extends BaseActivity implements View.OnClickListener 
 
     @Subscribe
     public void onEvent1(StudentEvent student) {
-        System.out.println(">>》》》》》》》》》》》》》》" + student.getStudents());
-        studentList = student.getStudents();
-        queryAdapter.updateData(studentList);
+        System.out.println(">>》》》》》》》》》》》》》》" + student.getStudentModels());
+        studentModelList = student.getStudentModels();
+        queryAdapter.updateData(studentModelList);
 
 
     }

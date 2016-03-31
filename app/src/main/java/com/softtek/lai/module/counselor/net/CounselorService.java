@@ -18,23 +18,23 @@ import java.util.List;
 public interface CounselorService {
     @GET("/HerbrClass/GetSR")
     void getAssistantList(@Header("token") String token,
-                          @Query("ClassId") String classId,
-                          Callback<ResponseData<List<Assistant>>> callback);
+                          @Query("ClassIdModel") String classId,
+                          Callback<ResponseData<List<AssistantModel>>> callback);
 
     @FormUrlEncoded
     @POST("/HerbrClass/SendInviterSR")
     void sendInviterSR(@Header("token") String token,
-                       @Field("ClassId") String classId,
+                       @Field("ClassIdModel") String classId,
                        @Field("Inviters") String Inviters,
                        Callback<ResponseData> callback);
 
     @GET("/HerbrClass/GetClass")
     void getClassList(@Header("token") String token,
-                      Callback<ResponseData<List<ClassInfo>>> callback);
+                      Callback<ResponseData<List<ClassInfoModel>>> callback);
 
     @GET("/Index/GetSPHonor")
     void getSPHonor(@Header("token") String token,
-                    Callback<ResponseData<HonorInfo>> callback);
+                    Callback<ResponseData<HonorInfoModel>> callback);
 
     @FormUrlEncoded
     @POST("/HerbrClass/CreateClass")
@@ -43,29 +43,29 @@ public interface CounselorService {
                      @Field("StartDate") String startDate,
                      @Field("EndDate") String endDate,
                      @Field("ManagerId") String managerId,
-                     Callback<ResponseData<ClassId>> callback);
+                     Callback<ResponseData<ClassIdModel>> callback);
 
     @GET("/HerbAssistant/ShowAllApplyAssistants")
     void showAllApplyAssistants(@Header("token") String token,
                                 @Query("accountId") String accountId,
-                                Callback<ResponseData<List<AssistantApplyInfo>>> callback);
+                                Callback<ResponseData<List<AssistantApplyInfoModel>>> callback);
 
     @GET("/HerbAssistant/ShowAllClassList")
     void showAllClassList(@Header("token") String token,
                           @Query("managerId") String managerId,
-                          Callback<ResponseData<List<AssistantClassInfo>>> callback);
+                          Callback<ResponseData<List<AssistantClassInfoModel>>> callback);
 
     @GET("/HerbAssistant/ShowAssistantByClass")
     void showAssistantByClass(@Header("token") String token,
                               @Query("managerId") String managerId,
                               @Query("classId") String classId,
-                              Callback<ResponseData<List<AssistantInfo>>> callback);
+                              Callback<ResponseData<List<AssistantInfoModel>>> callback);
 
     @GET("/HerbAssistant/ShowAssistantDetails")
     void showAssistantDetails(@Header("token") String token,
                               @Query("assistantId") String assistantId,
                               @Query("classId") String classId,
-                              Callback<ResponseData<AssistantDetailInfo>> callback);
+                              Callback<ResponseData<AssistantDetailInfoModel>> callback);
 
     @POST("/HerbAssistant/ReviewAssistantApplyLists")
     void reviewAssistantApplyList(@Header("token") String token,
@@ -77,18 +77,18 @@ public interface CounselorService {
     @POST("/HerbrClass/SendInviterMsg")
     void sendInviterMsg(@Header("token") String token,
                         @Field("Inviters") String inviters,
-                        @Field("ClassId") String classId,
+                        @Field("ClassIdModel") String classId,
                         Callback<ResponseData> callback);
 
     @GET("/HerbrClass/GetNotInvitePC")
     void getNotInvitePC(@Header("token") String token,
                         @Query("classid") String classid,
                         @Query("spaccid") String spaccid,
-                        Callback<ResponseData<List<InviteStudentInfo>>> callback);
+                        Callback<ResponseData<List<InviteStudentInfoModel>>> callback);
 
     @GET("/Index/GetMatchInfo")
     void getMatchInfo(@Header("token") String token,
                       @Query("dtime") String dtime,
                       @Query("group") String group,
-                      Callback<ResponseData<List<MarchInfo>>> callback);
+                      Callback<ResponseData<List<MarchInfoModel>>> callback);
 }

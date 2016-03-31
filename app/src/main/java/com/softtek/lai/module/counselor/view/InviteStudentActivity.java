@@ -24,7 +24,7 @@ import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.counselor.presenter.IStudentPresenter;
 import com.softtek.lai.module.counselor.presenter.StudentImpl;
-import com.softtek.lai.module.login.model.User;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.SoftInputUtil;
 import zilla.libcore.file.SharedPreferenceService;
@@ -58,7 +58,7 @@ public class InviteStudentActivity extends BaseActivity implements View.OnClickL
 
     private IStudentPresenter studentPresenter;
     private ACache aCache;
-    private User user;
+    private UserModel userModel;
     TelephonyManager tManager;
 
 
@@ -84,8 +84,8 @@ public class InviteStudentActivity extends BaseActivity implements View.OnClickL
     protected void initDatas() {
         studentPresenter = new StudentImpl(this);
         aCache = ACache.get(this, Constants.USER_ACACHE_DATA_DIR);
-        user = (User) aCache.getAsObject(Constants.USER_ACACHE_KEY);
-        String id = user.getUserid();
+        userModel = (UserModel) aCache.getAsObject(Constants.USER_ACACHE_KEY);
+        String id = userModel.getUserid();
         String classId = SharedPreferenceService.getInstance().get("classId", "");
         studentPresenter.getNotInvitePC(classId, id, list_student);
 

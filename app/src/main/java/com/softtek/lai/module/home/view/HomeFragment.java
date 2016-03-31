@@ -21,14 +21,14 @@ import butterknife.InjectView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.bodygame.Counselor;
+import com.softtek.lai.module.bodygame.CounselorActivity;
 import com.softtek.lai.module.bodygamest.view.StudentActivity;
 import com.softtek.lai.module.home.adapter.FragementAdapter;
 import com.softtek.lai.module.home.adapter.ModelAdapter;
-import com.softtek.lai.module.home.model.HomeInfo;
+import com.softtek.lai.module.home.model.HomeInfoModel;
 import com.softtek.lai.module.home.presenter.HomeInfoImpl;
 import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
-import com.softtek.lai.module.login.model.User;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.CustomGridView;
@@ -127,9 +127,9 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     }
 
     @Subscribe
-    public void onEventRefresh(List<HomeInfo> infos) {
+    public void onEventRefresh(List<HomeInfoModel> infos) {
         advList.clear();
-        for (HomeInfo info : infos) {
+        for (HomeInfoModel info : infos) {
             switch (info.getImg_Type()) {
                 case "0":
                     advList.add(info.getImg_Addr());
@@ -191,14 +191,14 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         aCache = ACache.get(getContext(), Constants.USER_ACACHE_DATA_DIR);
-        User user = (User) aCache.getAsObject(Constants.USER_ACACHE_KEY);
-        if (Integer.parseInt(user.getUserrole()) == Constants.VR) {
+        UserModel userModel = (UserModel) aCache.getAsObject(Constants.USER_ACACHE_KEY);
+        if (Integer.parseInt(userModel.getUserrole()) == Constants.VR) {
             Util.toastMsg("游客");
             return;
         }
         switch (position) {
             case 0:
-                startActivity(new Intent(getContext(), Counselor.class));
+                startActivity(new Intent(getContext(), CounselorActivity.class));
                 break;
             case 1:
                 startActivity(new Intent(getContext(), StudentActivity.class));

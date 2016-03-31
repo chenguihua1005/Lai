@@ -24,7 +24,7 @@ import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.counselor.presenter.GameImpl;
 import com.softtek.lai.module.counselor.presenter.IGamePresenter;
-import com.softtek.lai.module.login.model.User;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.widgets.WheelView;
@@ -70,7 +70,7 @@ public class GameActivity extends BaseActivity implements View.OnClickListener, 
 
     private IGamePresenter gamePresenter;
     private ACache aCache;
-    private User user;
+    private UserModel userModel;
     private List<String> monthList = new ArrayList<String>();
     private List<String> monthsList = new ArrayList<String>();
     private List<String> gradeList = new ArrayList<String>();

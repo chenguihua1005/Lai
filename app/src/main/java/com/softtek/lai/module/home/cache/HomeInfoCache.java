@@ -5,7 +5,7 @@
 
 package com.softtek.lai.module.home.cache;
 
-import com.softtek.lai.module.home.model.HomeInfo;
+import com.softtek.lai.module.home.model.HomeInfoModel;
 
 import java.io.Serializable;
 import java.util.List;
@@ -15,20 +15,20 @@ import java.util.List;
  */
 public class HomeInfoCache implements Serializable {
 
-    private List<HomeInfo> infos;
+    private List<HomeInfoModel> infos;
 
     public HomeInfoCache() {
     }
 
-    public HomeInfoCache(List<HomeInfo> infos) {
+    public HomeInfoCache(List<HomeInfoModel> infos) {
         this.infos = infos;
     }
 
-    public List<HomeInfo> getInfos() {
+    public List<HomeInfoModel> getInfos() {
         return infos;
     }
 
-    public void setInfos(List<HomeInfo> infos) {
+    public void setInfos(List<HomeInfoModel> infos) {
         this.infos = infos;
     }
 }

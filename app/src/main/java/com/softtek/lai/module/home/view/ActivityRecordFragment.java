@@ -19,7 +19,7 @@ import com.softtek.lai.module.home.adapter.RecyclerViewAdapter;
 import com.softtek.lai.module.home.cache.HomeInfoCache;
 import com.softtek.lai.module.home.eventModel.ActivityEvent;
 import com.softtek.lai.module.home.eventModel.RefreshEvent;
-import com.softtek.lai.module.home.model.HomeInfo;
+import com.softtek.lai.module.home.model.HomeInfoModel;
 import com.softtek.lai.module.home.presenter.HomeInfoImpl;
 import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
 import com.softtek.lai.utils.ACache;
@@ -37,7 +37,7 @@ public class ActivityRecordFragment extends BaseFragment implements PullToRefres
     @InjectView(R.id.ptrrv)
     PullToRefreshRecyclerView ptrrv;
 
-    private List<HomeInfo> infos = new ArrayList<>();
+    private List<HomeInfoModel> infos = new ArrayList<>();
 
     private IHomeInfoPresenter homeInfoPresenter;
 
@@ -69,17 +69,17 @@ public class ActivityRecordFragment extends BaseFragment implements PullToRefres
         page = 0;
         homeInfoPresenter = new HomeInfoImpl(getContext());
         //获取缓存数据
-        List<HomeInfo> caches = homeInfoPresenter.loadActivityCacheDate(Constants.HOEM_ACTIVITY_KEY);
+        List<HomeInfoModel> caches = homeInfoPresenter.loadActivityCacheDate(Constants.HOEM_ACTIVITY_KEY);
         infos.clear();
         if (caches == null) {
             index = 0;//下次加载从第0条插入
             for (int i = 0; i < 10; i++) {
-                infos.add(new HomeInfo());
+                infos.add(new HomeInfoModel());
             }
         } else if (caches.size() < 10) {
             index = caches.size();//下次加载插入的位置
             for (int i = 0; i < 10 - infos.size(); i++) {
-                caches.add(new HomeInfo());
+                caches.add(new HomeInfoModel());
             }
             infos.addAll(caches);
         }
@@ -112,7 +112,7 @@ public class ActivityRecordFragment extends BaseFragment implements PullToRefres
         if (infos.size() < 10) {
             int size = 10 - infos.size();
             System.out.println("数据小于10条需要添加" + size + "条");
-            HomeInfo info = new HomeInfo();
+            HomeInfoModel info = new HomeInfoModel();
             for (int i = 0; i < size; i++) {
                 infos.add(info);
                 System.out.println("添加了第" + (i + 1) + "条");

@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.softtek.lai.R;
-import com.softtek.lai.module.counselor.model.ClassInfo;
+import com.softtek.lai.module.counselor.model.ClassInfoModel;
 
 import java.util.List;
 
@@ -21,13 +21,13 @@ import java.util.List;
  */
 public class CounselorClassAdapter extends BaseAdapter {
     private LayoutInflater mInflater;//得到一个LayoutInfalter对象用来导入布局
-    private List<ClassInfo> list;
+    private List<ClassInfoModel> list;
     Context context;
 
     /**
      * 构造函数
      */
-    public CounselorClassAdapter(Context context, List<ClassInfo> list) {
+    public CounselorClassAdapter(Context context, List<ClassInfoModel> list) {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
         this.list = list;
@@ -72,7 +72,7 @@ public class CounselorClassAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();//取出ViewHolder对象
         }
         /**设置TextView显示的内容，即我们存放在动态数组中的数据*/
-        ClassInfo classInfo = list.get(position);
+        ClassInfoModel classInfo = list.get(position);
         if (classInfo.getClassStatus().equals("-1")) {
             holder.text_state.setText("未开班");
             holder.text_state.setTextColor(context.getResources().getColor(R.color.grey_font));

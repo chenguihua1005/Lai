@@ -6,7 +6,7 @@
 package com.softtek.lai.module.retest.net;
 
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.newmemberentry.view.model.Phot;
+import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
 import com.softtek.lai.module.retest.model.*;
 import retrofit.Callback;
 import retrofit.http.*;
@@ -22,14 +22,14 @@ public interface RestService {
     @GET("/MeasuredRecordLog/ShowAllClassListBySP")
     void doGetRetestclass(@Header("token") String token,
                           @Query("id") long id,
-                          Callback<ResponseData<List<Banji>>> callback);
+                          Callback<ResponseData<List<BanjiModel>>> callback);
 
     //关键字查询结果接口
     @GET("/MeasuredRecordLog/SearchMeasuredInfoByKeyword")
     void doGetqueryResult(
             @Header("token") String token,
             @Query("str") String str,
-            Callback<ResponseData<List<Student>>> callback
+            Callback<ResponseData<List<StudentModel>>> callback
     );
 
     //获取班级学员
@@ -37,7 +37,7 @@ public interface RestService {
     void doGetBanjiStudent(
             @Header("token") String token,
             @Query("classId") long classId,
-            Callback<ResponseData<List<BanjiStudent>>> callback
+            Callback<ResponseData<List<BanjiStudentModel>>> callback
     );
 
     //复测审核获取数据
@@ -47,7 +47,7 @@ public interface RestService {
             @Query("accountId") long accountId,
             @Query("classId") long classId,
             @Query("typeDate") String typeDate,
-            Callback<ResponseData<List<RetestAudit>>> callback
+            Callback<ResponseData<List<RetestAuditModel>>> callback
     );
 
     //复测审核提交数据接口
@@ -57,8 +57,8 @@ public interface RestService {
             @Query("loginId") String loginId,
             @Query("accountId") String accountId,
             @Query("typeDate") String typeDate,
-            @Body RetestAudit retestAudit,
-            Callback<ResponseData<List<RetestAudit>>> callback
+            @Body RetestAuditModel retestAuditModel,
+            Callback<ResponseData<List<RetestAuditModel>>> callback
     );
 
     //复测录入提交
@@ -67,8 +67,8 @@ public interface RestService {
             @Header("token") String token,
             @Query("accountId") long accountId,
             @Query("loginId") long loginId,
-            @Body RetestWrite retestWrite,
-            Callback<ResponseData<RetestWrite>> callback
+            @Body RetestWriteModel retestWriteModel,
+            Callback<ResponseData<RetestWriteModel>> callback
     );
 
     //上传图片
@@ -77,7 +77,7 @@ public interface RestService {
     void goGetPicture(
             @Header("token") String token,
             @Part("photo") TypedFile photo,
-            Callback<ResponseData<Phot>> callback
+            Callback<ResponseData<PhotModel>> callback
     );
 
     //莱秤接口
@@ -85,7 +85,7 @@ public interface RestService {
     void doGetMeasure(
             @Query("accesstoken") String accesstoken,
             @Query("phone") String phone,
-            Callback<ResponseData<Measure>> callback
+            Callback<ResponseData<MeasureModel>> callback
 
     );
 

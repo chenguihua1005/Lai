@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.softtek.lai.R;
-import com.softtek.lai.module.counselor.model.AssistantApplyInfo;
+import com.softtek.lai.module.counselor.model.AssistantApplyInfoModel;
 import com.softtek.lai.module.counselor.presenter.AssistantImpl;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 import com.squareup.picasso.Picasso;
@@ -24,14 +24,14 @@ import java.util.List;
  */
 public class AssistantApplyAdapter extends BaseAdapter {
     private LayoutInflater mInflater;//得到一个LayoutInfalter对象用来导入布局
-    private List<AssistantApplyInfo> list;
+    private List<AssistantApplyInfoModel> list;
     private Context context;
     private IAssistantPresenter assistantPresenter;
 
     /**
      * 构造函数
      */
-    public AssistantApplyAdapter(Context context, List<AssistantApplyInfo> list) {
+    public AssistantApplyAdapter(Context context, List<AssistantApplyInfoModel> list) {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
         this.list = list;
@@ -78,7 +78,7 @@ public class AssistantApplyAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();//取出ViewHolder对象
         }
         /**设置TextView显示的内容，即我们存放在动态数组中的数据*/
-        final AssistantApplyInfo assistantApplyInfo = list.get(position);
+        final AssistantApplyInfoModel assistantApplyInfo = list.get(position);
         if ("".equals(assistantApplyInfo.getPhoto())) {
             Picasso.with(context).load("111").error(R.drawable.img_default).into(holder.img);
         } else {
