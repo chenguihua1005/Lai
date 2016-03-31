@@ -9,4 +9,7 @@ public interface ILoginPresenter {
 
     //登录
     void doLogin(String userName, String password, ProgressDialog dialog);
+
+    //资格认证
+    void alidateCertification(String memberId, String password, String accountId);
 }

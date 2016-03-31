@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.home.view.HomeActviity;
+import com.softtek.lai.module.login.model.RoleInfo;
 import com.softtek.lai.module.login.model.User;
 import com.softtek.lai.module.login.net.LoginService;
 import com.softtek.lai.utils.ACache;
@@ -31,6 +32,32 @@ public class LoginPresenterImpl implements ILoginPresenter {
         this.context=context;
         aCache=ACache.get(context, Constants.USER_ACACHE_DATA_DIR);
         service= ZillaApi.NormalRestAdapter.create(LoginService.class);
+    }
+
+    @Override
+    public void alidateCertification(String memberId, String password, String accountId) {
+        String token = SharedPreferenceService.getInstance().get("token", "");
+        service.alidateCertification(token,memberId, password,accountId, new Callback<ResponseData<RoleInfo>>() {
+            @Override
+            public void success(ResponseData<RoleInfo> userResponseData, Response response) {
+
+                int status = userResponseData.getStatus();
+                switch (status) {
+                    case 200:
+
+                        break;
+                    default:
+                        Util.toastMsg(userResponseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                error.printStackTrace();
+                Util.toastMsg("认证失败");
+            }
+        });
     }
 
     @Override

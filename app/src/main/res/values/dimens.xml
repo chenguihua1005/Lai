@@ -66,4 +66,11 @@
     <dimen name="spHonorMarginLeft">5dip</dimen>
 
     <dimen name="fragmentMineMargin">20dip</dimen>
+    <dimen name="fragmentMineMarginTop">10dip</dimen>
+    <dimen name="fragmentMineTextSize">16sp</dimen>
+    <dimen name="fragmentMineTextSizes">14sp</dimen>
+
+    <dimen name="validateCertificationMargin">20dip</dimen>
+    <dimen name="validateCertificationTextSize">16sp</dimen>
+    <dimen name="validateCertificationTextSizes">14sp</dimen>
 </resources>

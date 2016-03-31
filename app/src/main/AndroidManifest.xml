@@ -49,6 +49,7 @@
         <activity
             android:name=".module.home.view.HomeActviity"
             android:launchMode="singleTask" />
+        <activity android:name=".module.home.view.ValidateCertificationActivity"/>
         <activity android:name=".module.File.view.DimensionRecordActivity" />
         <activity android:name=".module.retest.Write" />
         <activity android:name=".module.retest.Audit" />
