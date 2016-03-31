@@ -85,6 +85,8 @@
         <activity android:name=".module.File.view.ExplainActivity"/>
 
         <activity android:name=".module.retest.view.BodyweiduActivity"></activity>
+        <activity android:name=".module.login.view.LoginActivity1"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
     </application>
 
 </manifest>

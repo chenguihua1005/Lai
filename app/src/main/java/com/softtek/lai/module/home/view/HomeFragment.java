@@ -31,6 +31,7 @@ import com.softtek.lai.module.home.model.HomeInfoModel;
 import com.softtek.lai.module.home.presenter.HomeInfoImpl;
 import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
 import com.softtek.lai.module.login.model.UserModel;
+import com.softtek.lai.module.login.view.LoginActivity1;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.CustomGridView;
@@ -195,7 +196,13 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         UserModel user=UserInfoModel.getInstance().getUser();
         if (String.valueOf(Constants.VR).equals(user.getUserrole())) {
             //Util.toastMsg("游客");
-            Snackbar.make(view,"您当前是游客模式，请登录后再试",Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(getView().getRootView(),"您当前是游客模式，请登录后再试",Snackbar.LENGTH_SHORT)
+                    .setAction("确定", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            startActivity(new Intent(getContext(), LoginActivity1.class));
+                        }
+                    }).show();
             return;
         }
         switch (position) {
