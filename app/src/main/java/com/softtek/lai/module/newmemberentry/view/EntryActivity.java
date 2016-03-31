@@ -273,7 +273,6 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
                 } else if (list_cansaibanji.getVisibility() == View.INVISIBLE) {
                     list_cansaibanji.setVisibility(View.VISIBLE);
                 }
-
                 break;
         }
     }
