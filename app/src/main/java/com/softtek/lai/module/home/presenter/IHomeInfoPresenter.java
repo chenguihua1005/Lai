@@ -1,11 +1,12 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.home.presenter;
 
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-
-import com.softtek.lai.module.home.model.HomeInfo;
-import com.softtek.lai.widgets.SuperSwipeRefreshLayout;
+import com.softtek.lai.module.home.model.HomeInfoModel;
 
 import java.util.List;
 
@@ -20,10 +21,10 @@ public interface IHomeInfoPresenter {
     void getHomeInfoData(SwipeRefreshLayout pull);
 
     //分页查询活动等信息flag=0表示更新1表示加载
-    void getContentByPage(int flag,int page, int img_type);
+    void getContentByPage(int flag, int page, int img_type);
 
     /*
     3个活动缓存
      */
-    List<HomeInfo> loadActivityCacheDate(String key);
+    List<HomeInfoModel> loadActivityCacheDate(String key);
 }

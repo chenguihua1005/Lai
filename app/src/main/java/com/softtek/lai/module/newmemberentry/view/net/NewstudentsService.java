@@ -1,18 +1,18 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.newmemberentry.view.net;
 
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.newmemberentry.view.model.Newstudents;
-import com.softtek.lai.module.newmemberentry.view.model.Phot;
+import com.softtek.lai.module.newmemberentry.view.model.NewstudentsModel;
+import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
+import retrofit.Callback;
+import retrofit.http.*;
+import retrofit.mime.TypedFile;
 
 import java.util.List;
-
-import retrofit.Callback;
-import retrofit.http.Body;
-import retrofit.http.Header;
-import retrofit.http.Multipart;
-import retrofit.http.POST;
-import retrofit.http.Part;
-import retrofit.mime.TypedFile;
 
 /**
  * Created by julie.zhu on 3/21/2016.
@@ -21,8 +21,8 @@ public interface NewstudentsService {
     //新成员录入
     @POST("/HerbNewUser/CreatNewUser")
     void memberentry(@Header("token") String token,
-                     @Body Newstudents newstudents,
-                     Callback<ResponseData<List<Newstudents>>> callback);
+                     @Body NewstudentsModel newstudentsModel,
+                     Callback<ResponseData<List<NewstudentsModel>>> callback);
 
 
     //上传图片
@@ -31,6 +31,6 @@ public interface NewstudentsService {
     void upimg(
             @Header("token") String token,
             @Part("photo") TypedFile photo,
-                  Callback<ResponseData<Phot>> callback);
+            Callback<ResponseData<PhotModel>> callback);
 
 }

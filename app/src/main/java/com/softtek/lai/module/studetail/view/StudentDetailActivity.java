@@ -1,24 +1,32 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.studetail.view;
 
-import android.os.Bundle;
+import android.app.ProgressDialog;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
+import butterknife.InjectView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.module.studetail.model.MemberModel;
+import com.softtek.lai.module.studetail.presenter.IMemberInfopresenter;
+import com.softtek.lai.module.studetail.presenter.MemberInfoImpl;
 import com.softtek.lai.widgets.CircleImageView;
-
-import org.w3c.dom.Text;
-
-import butterknife.InjectView;
+import com.squareup.picasso.Picasso;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_student_detail)
-public class StudentDetailActivity extends BaseActivity implements View.OnClickListener{
+public class StudentDetailActivity extends BaseActivity implements View.OnClickListener {
 
     @InjectView(R.id.tv_title)
     TextView tv_title;
@@ -48,22 +56,54 @@ public class StudentDetailActivity extends BaseActivity implements View.OnClickL
     @InjectView(R.id.tabcontent)
     ViewPager tabContent;
 
+    private ProgressDialog progressDialog;
+    private IMemberInfopresenter memberInfopresenter;
+
     @Override
     protected void initViews() {
         ll_left.setOnClickListener(this);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setMessage("正在加载内容...");
     }
 
     @Override
     protected void initDatas() {
+        EventBus.getDefault().register(this);
+        memberInfopresenter = new MemberInfoImpl(this);
         tv_title.setText("学员详情");
+        progressDialog.show();
+        memberInfopresenter.getMemberinfo("1", "4", progressDialog);
+
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.ll_left:
                 finish();
                 break;
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onGetData(MemberModel memberModel) {
+        Picasso.with(this).load(memberModel.getPhoto()).error(R.drawable.default_pic).into(civ_header_image);
+        Picasso.with(this).load(memberModel.getBeforImg()).error(R.drawable.default_pic).into(iv_loss_before);
+        Picasso.with(this).load(memberModel.getAfterImg()).error(R.drawable.default_pic).into(iv_loss_after);
+        tv_name.setText(memberModel.getUserName());
+        tv_phone.setText(memberModel.getMobile());
+        tv_totle_log.setText(memberModel.getLogCount() + "篇");
+        tv_totle_lw.setText(memberModel.getLossWeight() + "kg");
+        tv_loss_before.setText(memberModel.getLossBefor() + "kg");
+        tv_loss_after.setText(memberModel.getLossAfter() + "kg");
+
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 }

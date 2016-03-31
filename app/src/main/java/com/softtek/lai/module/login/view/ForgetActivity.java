@@ -1,14 +1,17 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.login.view;
 
-import android.os.CountDownTimer;
 import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
+import butterknife.InjectView;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Regex;
@@ -20,10 +23,9 @@ import com.softtek.lai.module.login.presenter.IPasswordPresenter;
 import com.softtek.lai.module.login.presenter.IRegistPresenter;
 import com.softtek.lai.module.login.presenter.PasswordPresnter;
 import com.softtek.lai.module.login.presenter.RegistPresenterImpl;
+import com.softtek.lai.utils.JCountDownTimer;
 import com.softtek.lai.utils.RegexUtil;
 import com.softtek.lai.utils.SoftInputUtil;
-
-import butterknife.InjectView;
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
@@ -31,17 +33,17 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_forget)
-public class ForgetActivity extends BaseActivity implements View.OnClickListener,Validator.ValidationListener,RegistPresenterImpl.IdentifyCallBack{
+public class ForgetActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, RegistPresenterImpl.IdentifyCallBack {
 
     @LifeCircleInject
     ValidateLife validateLife;
 
-    @Required(order=1,messageResId = R.string.phoneValidateNull)
-    @Regex(order = 2,patternResId = R.string.phonePattern,messageResId = R.string.phoneValidate)
+    @Required(order = 1, messageResId = R.string.phoneValidateNull)
+    @Regex(order = 2, patternResId = R.string.phonePattern, messageResId = R.string.phoneValidate)
     @InjectView(R.id.et_phone)
     EditText et_phone;
 
-    @Required(order = 3,messageResId = R.string.identiftValidtae)
+    @Required(order = 3, messageResId = R.string.identiftValidtae)
     @InjectView(R.id.et_identify)
     EditText et_identify;
 
@@ -56,7 +58,6 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
 
     @InjectView(R.id.tv_title)
     TextView tv_title;
-
 
 
     private IRegistPresenter registPresenter;
@@ -74,22 +75,22 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     protected void initDatas() {
-        registPresenter=new RegistPresenterImpl(this,this);
-        passwordPresenter=new PasswordPresnter(this);
+        countDown = new CountDown(60000, 1000);
+        registPresenter = new RegistPresenterImpl(this, this);
+        passwordPresenter = new PasswordPresnter(this);
     }
 
     @Override
     public void onClick(View v) {
         SoftInputUtil.hidden(this);
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.tv_get_identify:
-                String phone=et_phone.getText().toString();
+                String phone = et_phone.getText().toString();
                 //验证手机号
-                if("".equals(phone)||!RegexUtil.match("[0-9]{11}",phone)){
+                if ("".equals(phone) || !RegexUtil.match("[0-9]{11}", phone)) {
                     et_phone.setError(Html.fromHtml("<font color=#FFFFFF>" + getString(R.string.phoneValidate) + "</font>"));
                     return;
                 }
-                countDown=new CountDown(60000,1000);
                 countDown.start();
                 tv_get_identify.setEnabled(false);
                 registPresenter.getIdentify(phone, Constants.RESET_PASSWORD_IDENTIFY);
@@ -106,45 +107,53 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void onStart() {
         super.onStart();
-        if(countDown!=null){
-            countDown.onFinish();
+        if (countDown != null && countDown.isRunning()) {
+            countDown.reStart();
         }
     }
 
     @Override
     protected void onStop() {
-        if(countDown!=null){
-            countDown.cancel();
+        if (countDown != null && countDown.isRunning()) {
+            countDown.pause();
         }
         super.onStop();
     }
 
     @Override
+    protected void onDestroy() {
+        if (countDown != null) {
+            countDown.cancel();
+        }
+        super.onDestroy();
+    }
+
+    @Override
     public void onValidationSucceeded() {
-        String identify=et_identify.getText().toString();
-        String key= SharedPreferenceService.getInstance().get("identify","");
-        if(!"".equals(key)){
-            if(identify.equals(key)){
-                SharedPreferenceService.getInstance().put("identify","");
-                String phone=et_phone.getText().toString();
-                passwordPresenter.checkIdentify(phone,identify);
-            }else{
+        String identify = et_identify.getText().toString();
+        String key = SharedPreferenceService.getInstance().get("identify", "");
+        if (!"".equals(key)) {
+            if (identify.equals(key)) {
+                SharedPreferenceService.getInstance().put("identify", "");
+                String phone = et_phone.getText().toString();
+                passwordPresenter.checkIdentify(phone, identify);
+            } else {
                 Util.toastMsg(R.string.identifyValidateMsg);
             }
-        }else{
-            Util.toastMsg(R.string.identifyAsNull);
+        } else {
+            Util.toastMsg(R.string.identifyValidateMsg);
         }
     }
 
     @Override
     public void onValidationFailed(View failedView, Rule<?> failedRule) {
-        validateLife.onValidationFailed(failedView,failedRule);
+        validateLife.onValidationFailed(failedView, failedRule);
     }
 
     @Override
     public void getIdentifyCallback(boolean result) {
-        if(!result){
-            if(countDown!=null){
+        if (!result) {
+            if (countDown != null) {
                 countDown.cancel();
                 countDown.onFinish();
             }
@@ -152,7 +161,7 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
     }
 
 
-    public class CountDown extends CountDownTimer{
+    public class CountDown extends JCountDownTimer {
 
         public CountDown(long millisInFuture, long countDownInterval) {
             super(millisInFuture, countDownInterval);
@@ -160,12 +169,12 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
 
         @Override
         public void onTick(long millisUntilFinished) {
-            tv_get_identify.setText("("+millisUntilFinished/1000+"s)后重新获取");
+            tv_get_identify.setText("(" + millisUntilFinished / 1000 + "s)后重新获取");
         }
 
         @Override
         public void onFinish() {
-            tv_get_identify.setText("获取验证码");
+            tv_get_identify.setText("发送验证码");
             tv_get_identify.setEnabled(true);
         }
     }

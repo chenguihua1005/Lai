@@ -1,21 +1,20 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.File.adapter;
 
-import java.util.List;
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.ImageView;
-
 import com.softtek.lai.R;
-import com.softtek.lai.module.File.view.CreatFlleActivity;
-import com.softtek.lai.R.id;
-import com.softtek.lai.module.File.view.DimensionRecordActivity;
+
+import java.util.List;
 
 /**
  * Created by julie.zhu on 3/18/2016.
@@ -25,9 +24,10 @@ public class ViewPagerAdapter extends PagerAdapter {
     private Activity activity;
 
     public ViewPagerAdapter(List<View> views, Activity activity) {
-        this.views=views;
+        this.views = views;
         this.activity = activity;
     }
+
     @Override
     public void destroyItem(View arg0, int arg1, Object arg2) {
         ((ViewPager) arg0).removeView(views.get(arg1));
@@ -36,6 +36,7 @@ public class ViewPagerAdapter extends PagerAdapter {
     @Override
     public void finishUpdate(View arg0) {
     }
+
     @Override
     public int getCount() {
         if (views != null) {
@@ -52,7 +53,7 @@ public class ViewPagerAdapter extends PagerAdapter {
             btn_creat.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                   creat();
+                    creat();
                 }
             });
         }

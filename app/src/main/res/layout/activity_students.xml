@@ -1,27 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+  ~ Date:2016-03-31
+  -->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#F1F1F1"
-    tools:context="com.softtek.lai.module.grade.view.StudentsActivity">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:background="#F1F1F1"
+              tools:context="com.softtek.lai.module.gradeModel.view.StudentsActivity">
 
     <include layout="@layout/toolbar"
-        android:id="@+id/toolbar"/>
+             android:id="@+id/toolbar"/>
 
     <android.support.design.widget.TabLayout
-        android:id="@+id/tab"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        style="@style/myTabLayout"/>
+            android:id="@+id/tab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            style="@style/myTabLayout"/>
     <android.support.v4.view.ViewPager
-        android:id="@+id/page"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="-4dp"
-        />
+            android:id="@+id/page"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="-4dp"
+    />
 
 
 </LinearLayout>

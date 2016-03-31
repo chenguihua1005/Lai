@@ -29,6 +29,8 @@ public class Constants {
     //销售信息key
     public static final String HOEM_SALE_KEY="saleInfo";
 
+    //token
+    public static final String TOKEN="token";
     /**
      * 用户角色常量
      *  0:NC 普通顾客，未认证用户

@@ -1,6 +1,11 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-25
+ */
+
 package com.softtek.lai.module.retest.eventModel;
 
-import com.softtek.lai.module.retest.model.Banji;
+import com.softtek.lai.module.retest.model.BanjiModel;
 
 import java.util.List;
 
@@ -9,17 +14,17 @@ import java.util.List;
  */
 public class BanJiEvent {
 
-    private List<Banji> banjis;
+    private List<BanjiModel> banjiModels;
 
-    public BanJiEvent(List<Banji> banjis) {
-        this.banjis = banjis;
+    public BanJiEvent(List<BanjiModel> banjiModels) {
+        this.banjiModels = banjiModels;
     }
 
-    public List<Banji> getBanjis() {
-        return banjis;
+    public List<BanjiModel> getBanjiModels() {
+        return banjiModels;
     }
 
-    public void setBanjis(List<Banji> banjis) {
-        this.banjis = banjis;
+    public void setBanjiModels(List<BanjiModel> banjiModels) {
+        this.banjiModels = banjiModels;
     }
 }

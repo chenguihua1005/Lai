@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.home.view;
 
 import android.content.Intent;
@@ -12,39 +17,35 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import butterknife.InjectView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.bodygame.Counselor;
+import com.softtek.lai.module.bodygame.CounselorActivity;
 import com.softtek.lai.module.bodygamest.view.StudentActivity;
 import com.softtek.lai.module.home.adapter.FragementAdapter;
 import com.softtek.lai.module.home.adapter.ModelAdapter;
-import com.softtek.lai.module.home.model.HomeInfo;
+import com.softtek.lai.module.home.model.HomeInfoModel;
 import com.softtek.lai.module.home.presenter.HomeInfoImpl;
 import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
-import com.softtek.lai.module.login.model.User;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.CustomGridView;
 import com.softtek.lai.widgets.RollHeaderView;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.InjectView;
-import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
-
 /**
  * Created by jerry.guan on 3/15/2016.
- *
  */
 @InjectLayout(R.layout.fragment_home)
-public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetChangedListener,SwipeRefreshLayout.OnRefreshListener,AdapterView.OnItemClickListener{
+public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetChangedListener, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
 
     @InjectView(R.id.toolbar)
     Toolbar toolbar;
@@ -82,7 +83,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
 
     private IHomeInfoPresenter homeInfoPresenter;
 
-    private List<String> advList=new ArrayList<>();
+    private List<String> advList = new ArrayList<>();
 
     @Override
     protected void initViews() {
@@ -93,7 +94,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         tab.setupWithViewPager(page);
         tab.setTabMode(TabLayout.MODE_FIXED);
         appBar.addOnOffsetChangedListener(this);
-        pull.setProgressViewOffset(true, -20, DisplayUtil.dip2px(getContext(),100));
+        pull.setProgressViewOffset(true, -20, DisplayUtil.dip2px(getContext(), 100));
         pull.setColorSchemeResources(android.R.color.holo_blue_light,
                 android.R.color.holo_red_light,
                 android.R.color.holo_orange_light,
@@ -120,17 +121,16 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     }
 
 
-
     @Subscribe
-    public void onLoadModelFunction(ModelAdapter adapter){
+    public void onLoadModelFunction(ModelAdapter adapter) {
         gv_model.setAdapter(adapter);
     }
 
     @Subscribe
-    public void onEventRefresh(List<HomeInfo> infos){
+    public void onEventRefresh(List<HomeInfoModel> infos) {
         advList.clear();
-        for(HomeInfo info:infos){
-            switch (info.getImg_Type()){
+        for (HomeInfoModel info : infos) {
+            switch (info.getImg_Type()) {
                 case "0":
                     advList.add(info.getImg_Addr());
                     break;
@@ -144,7 +144,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
-        homeInfoPresenter=new HomeInfoImpl(getContext());
+        homeInfoPresenter = new HomeInfoImpl(getContext());
     }
 
     @Override
@@ -155,7 +155,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
 
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-        float num=Math.abs(1f*Math.abs(verticalOffset)/1000);
+        float num = Math.abs(1f * Math.abs(verticalOffset) / 1000);
         //toolbar.setAlpha(num);
         /*if(verticalOffset<0){
             toolbar.setVisibility(View.VISIBLE);
@@ -165,10 +165,10 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
             toolbar.setVisibility(View.GONE);
         }*/
 
-        if(verticalOffset>=0){
+        if (verticalOffset >= 0) {
             pull.setEnabled(true);
 
-        }else{
+        } else {
             pull.setEnabled(false);
 
         }
@@ -182,6 +182,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
 
     /**
      * 功能模块按钮
+     *
      * @param parent
      * @param view
      * @param position
@@ -189,18 +190,18 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
      */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        aCache=ACache.get(getContext(),Constants.USER_ACACHE_DATA_DIR);
-        User user= (User) aCache.getAsObject(Constants.USER_ACACHE_KEY);
-        if(Integer.parseInt(user.getUserrole())==Constants.VR){
+        aCache = ACache.get(getContext(), Constants.USER_ACACHE_DATA_DIR);
+        UserModel userModel = (UserModel) aCache.getAsObject(Constants.USER_ACACHE_KEY);
+        if (Integer.parseInt(userModel.getUserrole()) == Constants.VR) {
             Util.toastMsg("游客");
             return;
         }
-        switch (position){
+        switch (position) {
             case 0:
-                startActivity(new Intent(getContext(),Counselor.class));
+                startActivity(new Intent(getContext(), CounselorActivity.class));
                 break;
             case 1:
-                startActivity(new Intent(getContext(),StudentActivity.class));
+                startActivity(new Intent(getContext(), StudentActivity.class));
                 break;
             case 2:
                 break;

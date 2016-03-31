@@ -1,6 +1,11 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-25
+ */
+
 package com.softtek.lai.module.grade.eventModel;
 
-import com.softtek.lai.module.grade.model.Student;
+import com.softtek.lai.module.grade.model.StudentModel;
 
 import java.util.List;
 
@@ -9,17 +14,17 @@ import java.util.List;
  */
 public class LossWeightEvent {
 
-    private List<Student> students;
+    private List<StudentModel> students;
 
-    public LossWeightEvent(List<Student> students) {
-        this.students = students;
+    public LossWeightEvent(List<StudentModel> studentModels) {
+        this.students = studentModels;
     }
 
-    public List<Student> getStudents() {
+    public List<StudentModel> getStudents() {
         return students;
     }
 
-    public void setStudents(List<Student> students) {
-        this.students = students;
+    public void setStudents(List<StudentModel> studentModels) {
+        this.students = studentModels;
     }
 }

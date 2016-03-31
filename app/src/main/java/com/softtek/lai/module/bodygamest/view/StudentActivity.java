@@ -1,32 +1,32 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.bodygamest.view;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
+import butterknife.InjectView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.module.bodygame.model.FuceNum;
-import com.softtek.lai.module.bodygame.model.TiGuanSai;
+import com.softtek.lai.module.bodygame.model.FuceNumModel;
+import com.softtek.lai.module.bodygame.model.TiGuanSaiModel;
 import com.softtek.lai.module.bodygame.presenter.ITiGuanSai;
 import com.softtek.lai.module.bodygame.presenter.TiGuanSaiImpl;
 import com.squareup.picasso.Picasso;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-
-import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_student)
-public class StudentActivity extends BaseActivity implements View.OnClickListener{
+public class StudentActivity extends BaseActivity implements View.OnClickListener {
     private ITiGuanSai tiGuanSai;
-    private FuceNum fuceNum;
+    private FuceNumModel fuceNum;
     @InjectView(R.id.tv_st_num)
     TextView tv_st_num;
     @InjectView(R.id.iv_st_adv)
@@ -72,11 +72,13 @@ public class StudentActivity extends BaseActivity implements View.OnClickListene
         ll_st_tips.setOnClickListener(this);
 
     }
+
     @Override
     protected void onDestroy() {
         EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
+
     @Override
     protected void initViews() {
 
@@ -84,25 +86,25 @@ public class StudentActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initDatas() {
-        tiGuanSai=new TiGuanSaiImpl();
+        tiGuanSai = new TiGuanSaiImpl();
         tiGuanSai.getTiGuanSai();
         tiGuanSai.doGetFuceNum(36);
     }
+
     @Subscribe
-    public void onEvent(TiGuanSai tiGuanSai){
+    public void onEvent(TiGuanSaiModel tiGuanSai) {
 
         Picasso.with(this).load(tiGuanSai.getImg_Addr()).placeholder(R.drawable.froyo).error(R.drawable.gingerbread).into(iv_st_adv);
 
 
     }
-    @Subscribe
-    public void onEvent1(FuceNum fuceNum){
 
-        if (Integer.parseInt(fuceNum.getCount())>10)
-        {
+    @Subscribe
+    public void onEvent1(FuceNumModel fuceNum) {
+
+        if (Integer.parseInt(fuceNum.getCount()) > 10) {
             tv_st_num.setText("10+");
-        }
-        else {
+        } else {
             tv_st_num.setText(fuceNum.getCount());
         }
 
@@ -110,8 +112,7 @@ public class StudentActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-        switch (v.getId())
-        {
+        switch (v.getId()) {
 
             //点击跳转事件
             case R.id.ll_st_jibenshuju:
@@ -123,7 +124,7 @@ public class StudentActivity extends BaseActivity implements View.OnClickListene
                 break;
             //复测
             case R.id.ll_st_fuce:
-                Intent intent=new Intent(this,FuceStActivity.class);
+                Intent intent = new Intent(this, FuceStActivity.class);
                 startActivity(intent);
                 break;
             //减重故事

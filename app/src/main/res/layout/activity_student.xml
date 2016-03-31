@@ -1,309 +1,315 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+  ~ Date:2016-03-31
+  -->
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.softtek.lai.module.bodygame.Counselor">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".module.bodygame.CounselorActivity">
 
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <include layout="@layout/toolbar"></include>
-
-        <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <LinearLayout
+        <include layout="@layout/toolbar"></include>
+
+        <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="160dp">
+                android:layout_height="match_parent">
+
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp">
 
                 <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/iv_st_adv"
-                    android:background="@drawable/guide_bac"
-                    android:scaleType="centerCrop"
-                    />
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/iv_st_adv"
+                        android:background="@drawable/guide_bac"
+                        android:scaleType="centerCrop"
+                />
 
             </LinearLayout>
 
             <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/scrollView3" >
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/scrollView3">
 
                 <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    >
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                >
 
                     <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="5dp"
-                        >
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                    >
 
                         <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_margin="2dp"
+                                android:layout_weight="1"
 
-                            >
+                        >
                             <FrameLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="100dp"
-                                >
+                                    android:layout_width="match_parent"
+                                    android:layout_height="100dp"
+                            >
 
                                 <LinearLayout
-                                    android:id="@+id/ll_st_jibenshuju"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:orientation="vertical"
-                                    android:gravity="center|bottom"
-                                    android:background="#F4F4F4"
-                                    >
+                                        android:id="@+id/ll_st_jibenshuju"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"
+                                        android:gravity="center|bottom"
+                                        android:background="#F4F4F4"
+                                >
                                     <ImageView
-                                        android:layout_width="30dp"
-                                        android:layout_height="30dp"
-                                        android:background="@drawable/bt_tiguansai"/>
+                                            android:layout_width="30dp"
+                                            android:layout_height="30dp"
+                                            android:background="@drawable/bt_tiguansai"/>
                                     <Button
-                                        android:id="@+id/bt_tiguansai"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="@string/gamestA"
-                                        android:background="@null"
-                                        />
+                                            android:id="@+id/bt_tiguansai"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="@string/gamestA"
+                                            android:background="@null"
+                                    />
                                 </LinearLayout>
                             </FrameLayout>
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/ll_st_shangchuan"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:gravity="center|bottom"
-                            android:background="#F4F4F4"
-                            android:layout_margin="2dp"
-                            android:layout_height="match_parent">
+                                android:id="@+id/ll_st_shangchuan"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:gravity="center|bottom"
+                                android:background="#F4F4F4"
+                                android:layout_margin="2dp"
+                                android:layout_height="match_parent">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:src="@drawable/bt_review"/>
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/bt_review"/>
                             <Button
-                                android:id="@+id/bt_review"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/gamestB"
-                                android:background="@null"/>
+                                    android:id="@+id/bt_review"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/gamestB"
+                                    android:background="@null"/>
                         </LinearLayout>
                     </LinearLayout>
 
                     <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="5dp" >
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp">
 
                         <LinearLayout
-                            android:id="@+id/ll_st_fuce"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:layout_weight="1"
-                            >
+                                android:id="@+id/ll_st_fuce"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_margin="2dp"
+                                android:layout_weight="1"
+                        >
 
                             <FrameLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="100dp" >
+                                    android:layout_width="match_parent"
+                                    android:layout_height="100dp">
 
                                 <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:orientation="vertical"
-                                    android:background="#F4F4F4"
-                                    android:gravity="center|bottom" >
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"
+                                        android:background="#F4F4F4"
+                                        android:gravity="center|bottom">
                                     <ImageView
-                                        android:layout_width="30dp"
-                                        android:layout_height="30dp"
-                                        android:src="@drawable/bt_counselor_fuce"/>
+                                            android:layout_width="30dp"
+                                            android:layout_height="30dp"
+                                            android:src="@drawable/bt_counselor_fuce"/>
 
                                     <Button
-                                        android:id="@+id/bt_counselor_fuce"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="@string/gamestC"
-                                        android:background="@null" />
+                                            android:id="@+id/bt_counselor_fuce"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="@string/gamestC"
+                                            android:background="@null"/>
                                 </LinearLayout>
 
                                 <TextView
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
+                                        android:text=""
+                                        android:textSize="12sp"
+                                        android:id="@+id/tv_st_num"
+                                        android:layout_gravity="right"
+                                        android:gravity="center"
+                                        android:textColor="#ffffff"
+                                        android:background="@drawable/circlebac"/>
+                            </FrameLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                                android:id="@+id/ll_st_jianzhong"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:gravity="center|bottom"
+                                android:layout_margin="2dp"
+                                android:background="#F4F4F4"
+                                android:layout_height="match_parent">
+                            <ImageView
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
-                                    android:text=""
-                                    android:textSize="12sp"
-                                    android:id="@+id/tv_st_num"
-                                    android:layout_gravity="right"
-                                    android:gravity="center"
-                                    android:textColor="#ffffff"
-                                    android:background="@drawable/circlebac" />
-                            </FrameLayout>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/ll_st_jianzhong"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:gravity="center|bottom"
-                            android:layout_margin="2dp"
-                            android:background="#F4F4F4"
-                            android:layout_height="match_parent" >
-                            <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:src="@drawable/bt_process"/>
+                                    android:src="@drawable/bt_process"/>
 
                             <Button
-                                android:id="@+id/bt_process"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/gamestD"
-                                android:background="@null" />
+                                    android:id="@+id/bt_process"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/gamestD"
+                                    android:background="@null"/>
                         </LinearLayout>
 
                     </LinearLayout>
 
                     <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="5dp" >
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp">
 
                         <LinearLayout
-                            android:id="@+id/ll_st_chengjidan"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:layout_weight="1"
-                            >
+                                android:id="@+id/ll_st_chengjidan"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_margin="2dp"
+                                android:layout_weight="1"
+                        >
 
                             <FrameLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="100dp" >
+                                    android:layout_width="match_parent"
+                                    android:layout_height="100dp">
 
                                 <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:orientation="vertical"
-                                    android:background="#F4F4F4"
-                                    android:gravity="center|bottom" >
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"
+                                        android:background="#F4F4F4"
+                                        android:gravity="center|bottom">
                                     <ImageView
-                                        android:layout_width="30dp"
-                                        android:layout_height="30dp"
-                                        android:src="@drawable/bt_match"/>
+                                            android:layout_width="30dp"
+                                            android:layout_height="30dp"
+                                            android:src="@drawable/bt_match"/>
 
                                     <Button
-                                        android:id="@+id/bt_match"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="@string/gamestE"
-                                        android:background="@null" />
+                                            android:id="@+id/bt_match"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="@string/gamestE"
+                                            android:background="@null"/>
                                 </LinearLayout>
 
                             </FrameLayout>
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/ll_st_rongyu"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:background="#F4F4F4"
-                            android:gravity="center|bottom"
-                            android:layout_margin="2dp"
-                            android:layout_height="match_parent" >
+                                android:id="@+id/ll_st_rongyu"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:background="#F4F4F4"
+                                android:gravity="center|bottom"
+                                android:layout_margin="2dp"
+                                android:layout_height="match_parent">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:src="@drawable/btn_tip"/>
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/btn_tip"/>
 
                             <Button
-                                android:id="@+id/btn_tip"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/gamestF"
-                                android:background="@null" />
+                                    android:id="@+id/btn_tip"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/gamestF"
+                                    android:background="@null"/>
                         </LinearLayout>
 
                     </LinearLayout>
                     <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="5dp" >
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp">
 
                         <LinearLayout
-                            android:id="@+id/ll_st_saikuang"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:layout_weight="1"
-                            >
+                                android:id="@+id/ll_st_saikuang"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_margin="2dp"
+                                android:layout_weight="1"
+                        >
 
                             <FrameLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="100dp" >
+                                    android:layout_width="match_parent"
+                                    android:layout_height="100dp">
 
                                 <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:orientation="vertical"
-                                    android:background="#F4F4F4"
-                                    android:gravity="center|bottom" >
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"
+                                        android:background="#F4F4F4"
+                                        android:gravity="center|bottom">
                                     <ImageView
-                                        android:layout_width="30dp"
-                                        android:layout_height="30dp"
-                                        android:src="@drawable/bt_match"/>
+                                            android:layout_width="30dp"
+                                            android:layout_height="30dp"
+                                            android:src="@drawable/bt_match"/>
 
                                     <Button
 
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="@string/gamestG"
-                                        android:background="@null" />
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="@string/gamestG"
+                                            android:background="@null"/>
                                 </LinearLayout>
+
 
                             </FrameLayout>
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/ll_st_tips"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:background="#F4F4F4"
-                            android:gravity="center|bottom"
-                            android:layout_margin="2dp"
-                            android:layout_height="match_parent" >
+                                android:id="@+id/ll_st_tips"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:background="#F4F4F4"
+                                android:gravity="center|bottom"
+                                android:layout_margin="2dp"
+                                android:layout_height="match_parent">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:src="@drawable/btn_tip"/>
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/btn_tip"/>
 
                             <Button
 
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/tipsgamestI"
-                                android:background="@null" />
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/tipsgamestI"
+                                    android:background="@null"/>
                         </LinearLayout>
 
                     </LinearLayout>

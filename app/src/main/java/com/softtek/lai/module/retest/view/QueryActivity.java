@@ -1,34 +1,34 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.retest.view;
 
-import android.content.DialogInterface;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-
+import butterknife.InjectView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.retest.Adapter.QueryAdapter;
 import com.softtek.lai.module.retest.eventModel.StudentEvent;
-import com.softtek.lai.module.retest.model.Student;
+import com.softtek.lai.module.retest.model.StudentModel;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.module.retest.present.RetestclassImp;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.InjectView;
-import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
-
 @InjectLayout(R.layout.activity_query)
-public class QueryActivity extends BaseActivity implements View.OnClickListener{
+public class QueryActivity extends BaseActivity implements View.OnClickListener {
 
     @InjectView(R.id.tv_retest_query_cancel)
     TextView tv_retest_query_cancel;
@@ -41,7 +41,7 @@ public class QueryActivity extends BaseActivity implements View.OnClickListener{
     @InjectView(R.id.ll_query_noresult)
     LinearLayout ll_query_noresult;
     private RetestPre retestPre;
-    private List<Student> studentList=new ArrayList<Student>();
+    private List<StudentModel> studentModelList = new ArrayList<StudentModel>();
     private QueryAdapter queryAdapter;
 
 
@@ -51,11 +51,12 @@ public class QueryActivity extends BaseActivity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
         iv_query.setOnClickListener(this);
-        queryAdapter=new QueryAdapter(this,studentList);
+        queryAdapter = new QueryAdapter(this, studentModelList);
         List_querystudent.setAdapter(queryAdapter);
         ll_query_noresult.setOnClickListener(this);
         tv_retest_query_cancel.setOnClickListener(this);
     }
+
     @Override
     protected void onDestroy() {
         EventBus.getDefault().unregister(this);
@@ -69,21 +70,18 @@ public class QueryActivity extends BaseActivity implements View.OnClickListener{
 
     @Override
     protected void initDatas() {
-        retestPre=new RetestclassImp();
+        retestPre = new RetestclassImp();
 
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId())
-        {
+        switch (v.getId()) {
             case R.id.iv_query:
-                if (et_query.getText().toString().isEmpty())
-                {
+                if (et_query.getText().toString().isEmpty()) {
                     Util.toastMsg("请给查询提示信号");
 
-                }
-                else {
+                } else {
                     retestPre.doGetqueryResult(et_query.getText().toString());
                 }
                 break;
@@ -92,11 +90,12 @@ public class QueryActivity extends BaseActivity implements View.OnClickListener{
                 break;
         }
     }
+
     @Subscribe
-    public void onEvent1(StudentEvent student){
-        System.out.println(">>》》》》》》》》》》》》》》"+student.getStudents());
-        studentList=student.getStudents();
-        queryAdapter.updateData(studentList);
+    public void onEvent1(StudentEvent student) {
+        System.out.println(">>》》》》》》》》》》》》》》" + student.getStudentModels());
+        studentModelList = student.getStudentModels();
+        queryAdapter.updateData(studentModelList);
 
 
     }

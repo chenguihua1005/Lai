@@ -1,33 +1,38 @@
+<!--
+  ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+  ~ Date:2016-03-31
+  -->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent">
     <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <NumberPicker
-            android:id="@+id/numberPicker1"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp" />
+            android:layout_height="wrap_content">
+        <NumberPicker
+                android:id="@+id/numberPicker1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"/>
     </LinearLayout>
     <!--<LinearLayout-->
-        <!--android:orientation="horizontal"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content">-->
-        <!--<Button-->
-            <!--android:id="@+id/button2"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:text="取消" />-->
+    <!--android:orientation="horizontal"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content">-->
+    <!--<Button-->
+    <!--android:id="@+id/button2"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="1"-->
+    <!--android:text="取消" />-->
 
-        <Button
+    <Button
             android:id="@+id/button1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="完成" />
+            android:text="完成"/>
     <!--</LinearLayout>-->
 </LinearLayout>

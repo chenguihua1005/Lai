@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.counselor.adapter;
 
 import android.content.Context;
@@ -7,34 +12,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.softtek.lai.R;
-import com.softtek.lai.module.counselor.model.Assistant;
-import com.softtek.lai.module.counselor.model.ClassInfo;
+import com.softtek.lai.module.counselor.model.AssistantModel;
 import com.softtek.lai.module.counselor.presenter.AssistantImpl;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 import com.squareup.picasso.Picasso;
+import zilla.libcore.file.SharedPreferenceService;
 
 import java.util.List;
-
-import zilla.libcore.file.SharedPreferenceService;
 
 /**
  * Created by jarvis.liu on 3/22/2016.
  */
 public class AssistantAdapter extends BaseAdapter {
     private LayoutInflater mInflater;//得到一个LayoutInfalter对象用来导入布局
-    private List<Assistant> list;
+    private List<AssistantModel> list;
     private Context context;
     private IAssistantPresenter assistantPresenter;
 
     /**
      * 构造函数
      */
-    public AssistantAdapter(Context context, List<Assistant> list) {
+    public AssistantAdapter(Context context, List<AssistantModel> list) {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
         this.list = list;
@@ -77,7 +77,7 @@ public class AssistantAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();//取出ViewHolder对象
         }
         /**设置TextView显示的内容，即我们存放在动态数组中的数据*/
-        final Assistant assistant = list.get(position);
+        final AssistantModel assistant = list.get(position);
         if ("".equals(assistant.getPhoto())) {
             Picasso.with(context).load("111").error(R.drawable.img_default).into(holder.img);
         } else {
@@ -94,9 +94,9 @@ public class AssistantAdapter extends BaseAdapter {
                 public void onClick(View v) {
                     System.out.println("img_invite---------------");
                     assistantPresenter = new AssistantImpl(context);
-                    String classId= SharedPreferenceService.getInstance().get("classId","");
+                    String classId = SharedPreferenceService.getInstance().get("classId", "");
                     System.out.println("classId:" + classId + "    accountId:" + assistant.getAccountId());
-                    assistantPresenter.sendInviterSR(classId,assistant.getAccountId(),holder.img_invite);
+                    assistantPresenter.sendInviterSR(classId, assistant.getAccountId(), holder.img_invite);
                 }
             });
         } else {

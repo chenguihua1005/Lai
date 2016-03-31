@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.counselor.adapter;
 
 import android.content.Context;
@@ -8,31 +13,26 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.softtek.lai.R;
-import com.softtek.lai.module.counselor.model.Assistant;
-import com.softtek.lai.module.counselor.model.HonorTable1;
-import com.softtek.lai.module.counselor.presenter.AssistantImpl;
+import com.softtek.lai.module.counselor.model.HonorTable1Model;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
-
-import zilla.libcore.file.SharedPreferenceService;
 
 /**
  * Created by jarvis.liu on 3/22/2016.
  */
 public class HonorStudentAdapter extends BaseAdapter {
     private LayoutInflater mInflater;//得到一个LayoutInfalter对象用来导入布局
-    private List<HonorTable1> list;
+    private List<HonorTable1Model> list;
     private Context context;
     private IAssistantPresenter assistantPresenter;
 
     /**
      * 构造函数
      */
-    public HonorStudentAdapter(Context context, List<HonorTable1> list) {
+    public HonorStudentAdapter(Context context, List<HonorTable1Model> list) {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
         this.list = list;
@@ -73,7 +73,7 @@ public class HonorStudentAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();//取出ViewHolder对象
         }
         /**设置TextView显示的内容，即我们存放在动态数组中的数据*/
-        final HonorTable1 honorTable1 = list.get(position);
+        final HonorTable1Model honorTable1 = list.get(position);
         if ("".equals(honorTable1.getPhoto())) {
             Picasso.with(context).load("111").error(R.drawable.img_default).into(holder.img);
         } else {

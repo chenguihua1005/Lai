@@ -1,15 +1,18 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.File.presenter;
 
 import android.content.Context;
 import android.content.Intent;
-
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.File.model.File;
+import com.softtek.lai.module.File.model.FileModel;
 import com.softtek.lai.module.File.net.FileService;
 import com.softtek.lai.module.File.view.CreatFlleActivity;
 import com.softtek.lai.module.home.view.HomeActviity;
-
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -24,23 +27,23 @@ public class CreateFileImpl implements ICreateFilepresenter {
     private FileService service;
     private Context context;
 
-    public CreateFileImpl(CreatFlleActivity creatFlleActivity){
-        service=ZillaApi.NormalRestAdapter.create(FileService.class);
-        context=creatFlleActivity;
+    public CreateFileImpl(CreatFlleActivity creatFlleActivity) {
+        service = ZillaApi.NormalRestAdapter.create(FileService.class);
+        context = creatFlleActivity;
     }
 
 
     @Override
-    public void createFile(String token, File file) {
+    public void createFile(String token, FileModel file) {
         Log.i(file.toString());
-        service.doFile(token, file, new Callback<ResponseData<File>>() {
+        service.doFile(token, file, new Callback<ResponseData<FileModel>>() {
             @Override
-            public void success(ResponseData<File> fileResponseData, Response response) {
-                int status=fileResponseData.getStatus();
-                switch (status){
+            public void success(ResponseData<FileModel> fileResponseData, Response response) {
+                int status = fileResponseData.getStatus();
+                switch (status) {
                     case 200: {
                         Util.toastMsg("创建档案成功");
-                        Intent intent=new Intent(context,HomeActviity.class);
+                        Intent intent = new Intent(context, HomeActviity.class);
                         context.startActivity(intent);
                         break;
                     }

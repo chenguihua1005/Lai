@@ -1,9 +1,13 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.home.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-
 import com.softtek.lai.module.home.view.ActivityRecordFragment;
 import com.softtek.lai.module.home.view.ProductInfoFragment;
 import com.softtek.lai.module.home.view.SaleInfoFragment;
@@ -11,10 +15,10 @@ import com.softtek.lai.module.home.view.SaleInfoFragment;
 /**
  * Created by jerry.guan on 3/23/2016.
  */
-public class FragementAdapter extends FragmentPagerAdapter{
+public class FragementAdapter extends FragmentPagerAdapter {
 
-    private String[] titles={"活动推荐","产品信息","促销信息"};
-    private Fragment[] frament={new ActivityRecordFragment(),new ProductInfoFragment(),new SaleInfoFragment()};
+    private String[] titles = {"活动推荐", "产品信息", "促销信息"};
+    private Fragment[] frament = {new ActivityRecordFragment(), new ProductInfoFragment(), new SaleInfoFragment()};
 
     public FragementAdapter(FragmentManager fm) {
         super(fm);

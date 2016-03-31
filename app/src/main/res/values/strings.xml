@@ -1,3 +1,8 @@
+<!--
+  ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+  ~ Date:2016-03-31
+  -->
+
 <resources>
     <!-- 顾问版-->
     <string name="crateClassVlaue">我要开班</string>
@@ -28,7 +33,9 @@
     <string name="password">密码</string>
     <string name="passwordReg">密码(字母+数字,6~16位)</string>
     <string name="psdReg">(?![^a-zA-Z]+$)(?!\\D+$).{6,16}</string>
-    <string name="forgetPsd"><u>忘记密码?</u></string>
+    <string name="forgetPsd">
+        <u>忘记密码?</u>
+    </string>
 
     <string name="neterror">服务器异常</string>
     <string name="newPasswordNull">请输入新密码</string>
@@ -37,9 +44,10 @@
     <string name="passwordValidateNull">请输入密码</string>
     <string name="phoneValidate">请输入正确的手机号码</string>
     <string name="passwordValidate">密码不符合规则</string>
+    <string name="npasswordValidate">新密码不符合规则</string>
     <string name="termValidate">必须遵循该条款</string>
     <string name="identiftValidtae">请输入验证码</string>
-    <string name="phonePattern">[0-9]{11}</string>
+    <string name="phonePattern">^((13[0-9])|(147)|(15[^4,\\D])|(18[0-9]))\\d{8}$</string>
     <string name="identifyValidateMsg">验证码错误</string>
     <string name="identifyAsNull">请获取验证码</string>
     <string name="confirmPassword">两次密码不一致</string>
@@ -56,7 +64,9 @@
     <string name="login">登录</string>
     <string name="regist">注册</string>
     <string name="repassword">重复密码</string>
-    <string name="protocol"><u>莱APP用户协议和隐私保护条款</u></string>
+    <string name="protocol">
+        <u>莱APP用户协议和隐私保护条款</u>
+    </string>
     <string name="next">下一步</string>
     <string name="sendIdentify">发送验证码</string>
     <string name="readeAndAgress">我已阅读并同意遵守</string>

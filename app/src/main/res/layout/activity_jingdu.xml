@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+  ~ Date:2016-03-31
+  -->
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<<<<<<< HEAD
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -111,4 +117,82 @@
                 android:background="#eeeeee" />
         </LinearLayout>
     </LinearLayout>
+=======
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="com.softtek.lai.module.jingdu.view.JingduActivity">
+    <include layout="@layout/toolbar"/>
+    <LinearLayout
+            android:layout_marginTop="70dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+                android:id="@+id/tv_wz"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="我本月已新开班"/>
+
+        <TextView
+                android:id="@+id/tv_wz2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="我本月已新开班"/>
+    </LinearLayout>
+    <LinearLayout
+            android:layout_marginTop="150dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="排名"/>
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="姓名"/>
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="减重前"/>
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="减重后"/>
+
+        <TextView
+                android:layout_marginRight="40dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="共减重"/>
+    </LinearLayout>
+    <LinearLayout
+            android:layout_marginTop="180dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <ListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/list_rank"
+                android:background="#eeeeee"/>
+    </LinearLayout>
+    <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitCenter"
+            android:src="@drawable/buttom"
+            android:layout_alignParentBottom="true"
+    />
+>>>>>>> 43349e664360282fabcb88aadd0cbb1e19867c2d
 </RelativeLayout>

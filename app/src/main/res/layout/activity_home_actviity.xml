@@ -1,77 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+  ~ Date:2016-03-31
+  -->
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".module.home.view.HomeActviity">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".module.home.view.HomeActviity">
 
     <android.support.v4.view.ViewPager
-        android:id="@+id/content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="53dp">
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="53dp">
 
     </android.support.v4.view.ViewPager>
 
 
     <LinearLayout
-        android:id="@+id/ll"
-        android:layout_width="match_parent"
-        android:layout_height="53dp"
-        android:orientation="horizontal"
-        android:layout_alignParentBottom="true"
-        android:gravity="center_horizontal"
-        >
+            android:id="@+id/ll"
+            android:layout_width="match_parent"
+            android:layout_height="53dp"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true"
+            android:gravity="center_horizontal"
+    >
 
         <com.ggx.jerryguan.widget_lib.SimpleButton
-            android:id="@+id/btn_home"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            app:normalBitmap="@drawable/rehome"
-            app:pitchBitmap="@drawable/home"
-            app:alpha="true"
-            app:text="@string/home"
-            android:background="#75BA2B"/>
+                android:id="@+id/btn_home"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                app:normalBitmap="@drawable/rehome"
+                app:pitchBitmap="@drawable/home"
+                app:alpha="true"
+                app:text="@string/home"
+                android:background="#75BA2B"/>
 
         <com.ggx.jerryguan.widget_lib.SimpleButton
-            android:id="@+id/btn_healthy"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            app:normalBitmap="@drawable/rehealthy"
-            app:pitchBitmap="@drawable/healthy"
-            app:alpha="true"
-            app:text="@string/healthy"/>
+                android:id="@+id/btn_healthy"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                app:normalBitmap="@drawable/rehealthy"
+                app:pitchBitmap="@drawable/healthy"
+                app:alpha="true"
+                app:text="@string/healthy"/>
 
 
         <com.ggx.jerryguan.widget_lib.SimpleButton
-            android:id="@+id/btn_healthy_record"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            app:normalBitmap="@drawable/rehrecord"
-            app:pitchBitmap="@drawable/hrecord"
-            app:alpha="true"
-            app:text="@string/healthyRecord"/>
+                android:id="@+id/btn_healthy_record"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                app:normalBitmap="@drawable/rehrecord"
+                app:pitchBitmap="@drawable/hrecord"
+                app:alpha="true"
+                app:text="@string/healthyRecord"/>
 
         <com.ggx.jerryguan.widget_lib.SimpleButton
-            android:id="@+id/btn_mine"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            app:normalBitmap="@drawable/remine"
-            app:pitchBitmap="@drawable/mine"
-            app:alpha="true"
-            app:text="@string/mine"/>
+                android:id="@+id/btn_mine"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                app:normalBitmap="@drawable/remine"
+                app:pitchBitmap="@drawable/mine"
+                app:alpha="true"
+                app:text="@string/mine"/>
 
     </LinearLayout>
 
     <View
-        android:layout_width="match_parent"
-        android:layout_height=".5dp"
-        android:background="#c0c0c0"
-        android:layout_alignTop="@id/ll"/>
+            android:layout_width="match_parent"
+            android:layout_height=".5dp"
+            android:background="#c0c0c0"
+            android:layout_alignTop="@id/ll"/>
 
 </RelativeLayout>
