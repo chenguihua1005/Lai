@@ -1,5 +1,6 @@
 package com.softtek.lai.module.home.view;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -7,13 +8,16 @@ import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.View;
-
+import com.softtek.lai.R;
 import com.ggx.jerryguan.widget_lib.SimpleButton;
 import com.github.snowdream.android.util.Log;
-import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.home.adapter.MainPageAdapter;
+import com.softtek.lai.module.login.model.UserModel;
+import com.softtek.lai.module.login.view.LoginActivity;
 
 import butterknife.InjectView;
 import zilla.libcore.lifecircle.exit.AppManager;
@@ -137,8 +141,13 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener,B
                 currentId=2;
                 break;
             case R.id.btn_mine:
-                btn_mine.setProgress(1);
-                currentId=3;
+                String userrole=UserInfoModel.getInstance().getUser().getUserrole();
+                if(String.valueOf(Constants.VR).equals(userrole)){
+                    startActivity(new Intent(this, LoginActivity.class));
+                }else {
+                    btn_mine.setProgress(1);
+                    currentId=3;
+                }
                 break;
         }
         content.setCurrentItem(currentId, false);
