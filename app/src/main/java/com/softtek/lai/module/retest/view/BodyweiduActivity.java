@@ -157,14 +157,14 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
 
                 //创建档案的添加围度
                 retestWrite=new RetestWriteModel();
-                retestWrite.setCircum(tv_retest_circum.getText()+"");
+                retestWrite.setCircum(tv_retest_circum.getText().toString());
                 retestWrite.setWaistline(tv_retest_waistline.getText().toString());
                 retestWrite.setHiplie(tv_retest_hiplie.getText().toString());
                 retestWrite.setUpArmGirth(tv_retest_uparmgirth.getText().toString());
                 retestWrite.setUpLegGirth(tv_retest_upleggirth.getText().toString());
                 retestWrite.setDoLegGirth(tv_retest_doleggirth.getText().toString());
                 Intent intent=new Intent();
-                intent.putExtra("retestWrite",retestWrite+"");
+                intent.putExtra("retestWrite",retestWrite);
                 setResult(RESULT_OK,intent);
                 finish();
 
