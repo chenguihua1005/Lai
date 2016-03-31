@@ -64,6 +64,7 @@ public class UserInfoModel {
 
     }
 
+
     public void visitorLogin(){
         setToken("");
         user=new UserModel();
@@ -77,6 +78,9 @@ public class UserInfoModel {
     }
 
     public UserModel getUser() {
+        if(user==null){
+            user= (UserModel) aCache.getAsObject(Constants.USER_ACACHE_KEY);
+        }
         return user;
     }
 
