@@ -117,8 +117,11 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
     EditText et_gender;
 
     //照片上传
-    @InjectView(R.id.tv_photoupload)
-    TextView tv_photoupload;
+    @InjectView(R.id.img_photoupload)
+    ImageView img_photoupload;
+    //照片删除
+    @InjectView(R.id.img_delete)
+    ImageView img_delete;
 
     @InjectView(R.id.img1)
     ImageView img1;
@@ -131,13 +134,22 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
     String path = "";
     private static final int PHOTO = 1;
 
+<<<<<<< HEAD
+    Newstudents newstudents;//存储用户表单数据
+    Phot imphot;
+=======
     NewstudentsModel newstudentsModel;//存储用户表单数据
     PhotModel imphot;
+>>>>>>> 43349e664360282fabcb88aadd0cbb1e19867c2d
     private static final int GET_BODY = 2;
 
     @InjectView(R.id.list_cansaibanji)
     ListView list_cansaibanji;
+<<<<<<< HEAD
+    private List<Pargrade> pargradeList = new ArrayList<Pargrade>();
+=======
     private List<PargradeModel> pargradeModelList = new ArrayList<PargradeModel>();
+>>>>>>> 43349e664360282fabcb88aadd0cbb1e19867c2d
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,20 +160,31 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
         //确定按钮
         tv_right.setOnClickListener(this);
         //照片上传
-        tv_photoupload.setOnClickListener(this);
+        img_photoupload.setOnClickListener(this);
+        //照片删除
+        img_delete.setOnClickListener(this);
         //添加身体围度
         btn_Add_bodydimension.setOnClickListener(this);
         ll_birthday.setOnClickListener(this);
         ll_gender.setOnClickListener(this);
         ll_classid.setOnClickListener(this);
 
+<<<<<<< HEAD
+        MemberAdapter memberAdapter = new MemberAdapter(EntryActivity.this, R.layout.member_item, pargradeList);
+=======
         MemberAdapter memberAdapter = new MemberAdapter(EntryActivity.this, R.layout.member_item, pargradeModelList);
+>>>>>>> 43349e664360282fabcb88aadd0cbb1e19867c2d
         list_cansaibanji.setAdapter(memberAdapter);
         list_cansaibanji.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+<<<<<<< HEAD
+                Pargrade pargrade = pargradeList.get(position);
+                et_classid.setText(pargrade.getClassId());
+=======
                 PargradeModel pargradeModel = pargradeModelList.get(position);
                 et_classid.setText(pargradeModel.getClassId());
+>>>>>>> 43349e664360282fabcb88aadd0cbb1e19867c2d
                 list_cansaibanji.setVisibility(View.INVISIBLE);
 
             }
@@ -184,7 +207,11 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
         guwenClassPre = new GuwenClassImp();
         guwenClassPre.doGetGuwenClass(36);
         iNewStudentpresenter = new NewStudentInputImpl(this);
+<<<<<<< HEAD
+        newstudents = new Newstudents();
+=======
         newstudentsModel = new NewstudentsModel();
+>>>>>>> 43349e664360282fabcb88aadd0cbb1e19867c2d
         tv_title.setText("新学员录入");
         //tv_left.setBackground(null);
         tv_right.setText("确定");
@@ -202,10 +229,14 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
                 break;
             case R.id.btn_Add_bodydimension:
                 Intent intent1 = new Intent(EntryActivity.this, DimensioninputActivity.class);
+<<<<<<< HEAD
+                intent1.putExtra("newstudents", newstudents);
+=======
                 intent1.putExtra("newstudentsModel", newstudentsModel);
+>>>>>>> 43349e664360282fabcb88aadd0cbb1e19867c2d
                 startActivityForResult(intent1, GET_BODY);
                 break;
-            case R.id.tv_photoupload:
+            case R.id.img_photoupload:
 //                final Dialog dialog=new AlertDialog.Builder(EntryActivity.this)
 //                        .setTitle("照片上传")
 //                        .setPositiveButton("从相机选择图片",
@@ -243,8 +274,13 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
                             }
                         });
                 dialog.setTitle("照片上传");
-                dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
+                //dialog.setCanceledOnTouchOutside(false);
                 dialog.show();
+                break;
+            //删除照片功能
+            case R.id.img_delete:
+                img1.setVisibility(View.GONE);
+                img_delete.setVisibility(View.GONE);
                 break;
             case R.id.ll_birthday:
                 show_birth_dialog();
@@ -264,7 +300,10 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
     }
 
     public void takecamera() {
+<<<<<<< HEAD
+=======
 
+>>>>>>> 43349e664360282fabcb88aadd0cbb1e19867c2d
         path = (Environment.getExternalStorageDirectory().getPath()) + "/123.jpg";
         File file = new File(path.toString());
         Uri uri = Uri.fromFile(file);
@@ -277,6 +316,8 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        img_delete.setVisibility(View.VISIBLE);
+        img1.setVisibility(View.VISIBLE);
         img1.setImageBitmap(bitmap);
         Log.i("path:" + path);
     }
@@ -288,6 +329,15 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
 
     @Subscribe
     public void onEvent(ClassEvent classEvent) {
+<<<<<<< HEAD
+        System.out.println("classEvent.getPargrades()>>》》》》》》》》》》》》》》" + classEvent.getPargrades());
+//        String SexData[] = {"男","女"};//性别数据
+        List<Pargrade> pargrades = classEvent.getPargrades();
+        for (Pargrade cl : pargrades) {
+            System.out.println("dsfsdfsdfsdfsdfsdf?????/?????>>》》》》》》》》》》》》》》" + "ClassId:" + cl.getClassId() + "ClassName:" + cl.getClassName());
+            Pargrade p1 = new Pargrade(cl.getClassId(), cl.getClassName());
+            pargradeList.add(p1);
+=======
         System.out.println("classEvent.getPargradeModels()>>》》》》》》》》》》》》》》" + classEvent.getPargradeModels());
 //        String SexData[] = {"男","女"};//性别数据
         List<PargradeModel> pargradeModels = classEvent.getPargradeModels();
@@ -295,14 +345,21 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
             System.out.println("dsfsdfsdfsdfsdfsdf?????/?????>>》》》》》》》》》》》》》》" + "ClassIdModel:" + cl.getClassId() + "ClassName:" + cl.getClassName());
             PargradeModel p1 = new PargradeModel(cl.getClassId(), cl.getClassName());
             pargradeModelList.add(p1);
+>>>>>>> 43349e664360282fabcb88aadd0cbb1e19867c2d
         }
 
     }
 
     @Subscribe
+<<<<<<< HEAD
+    public void onEvent1(Phot phot) {
+        System.out.println("classEvent.getPargrades()>>》》》》》》》》》》》》》》" + phot.getImg());
+        newstudents.setPhoto(phot.getImg());
+=======
     public void onEvent1(PhotModel photModel) {
         System.out.println("classEvent.getPargradeModels()>>》》》》》》》》》》》》》》" + photModel.getImg());
         newstudentsModel.setPhoto(photModel.getImg());
+>>>>>>> 43349e664360282fabcb88aadd0cbb1e19867c2d
     }
 
     @Override
@@ -320,6 +377,22 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
 
         String b = mobile.substring(mobile.length() - 6, mobile.length());
         Log.i("获取新学员录入手机号码后6位：" + b);
+<<<<<<< HEAD
+        newstudents.setPassword(b);
+        newstudents.setSentaccid(1);
+        newstudents.setNickname(nickname);
+        newstudents.setCertification(certification);
+        newstudents.setMobile(mobile);
+        newstudents.setClassid(Integer.parseInt(classid));
+        newstudents.setWeight(Double.parseDouble(weight.equals("") ? "0" : weight));
+        newstudents.setPysical(Double.parseDouble(pysical.equals("") ? "0" : pysical));
+        newstudents.setFat(Double.parseDouble(fat.equals("") ? "0" : fat));
+        newstudents.setBirthday(birthday);
+        newstudents.setGender(gender.equals("女") ? 0 : 1);
+//        newstudents.setPhoto(img.getPhoto()+"");
+        iNewStudentpresenter.input(newstudents);
+        //newstudents.setPhoto("/storage/emulated/0/123.jpg");
+=======
         newstudentsModel.setPassword(b);
         newstudentsModel.setSentaccid(1);
         newstudentsModel.setNickname(nickname);
@@ -334,6 +407,7 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
 //        newstudentsModel.setPhoto(img.getPhoto()+"");
         iNewStudentpresenter.input(newstudentsModel);
         //newstudentsModel.setPhoto("/storage/emulated/0/123.jpg");
+>>>>>>> 43349e664360282fabcb88aadd0cbb1e19867c2d
     }
 
     @Override
@@ -363,6 +437,8 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
+            img_delete.setVisibility(View.VISIBLE);
+            img1.setVisibility(View.VISIBLE);
             img1.setImageBitmap(bitmap);
             iNewStudentpresenter.upload(picturePath.toString());
             Log.i("picturePath------------------------------------------------:" + picturePath);
@@ -371,8 +447,13 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
 
         //身体围度值传递
         if (requestCode == GET_BODY && resultCode == RESULT_OK) {
+<<<<<<< HEAD
+            newstudents = (Newstudents) data.getSerializableExtra("newstudents");
+            Log.i("新学员录入围度:newstudents" + newstudents);
+=======
             newstudentsModel = (NewstudentsModel) data.getSerializableExtra("newstudentsModel");
             Log.i("新学员录入围度:newstudentsModel" + newstudentsModel);
+>>>>>>> 43349e664360282fabcb88aadd0cbb1e19867c2d
         }
     }
 

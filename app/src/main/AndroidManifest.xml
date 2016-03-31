@@ -60,26 +60,26 @@
         <activity android:name=".module.login.view.TermActivity" />
         <activity android:name=".module.bodygame.CounselorActivity" />
         <activity
-            android:name=".module.grade.view.GradeHomeActivity"
-            android:configChanges="orientation|keyboardHidden" />
-        <activity android:name=".module.File.view.ExplainActivity" />
-        <activity android:name=".module.newmemberentry.view.EntryActivity" />
-        <activity android:name=".module.grade.view.StudentsActivity" />
-        <activity android:name=".module.studetail.view.StudentDetailActivity" />
-        <activity android:name=".module.retest.view.QueryActivity" />
-        <activity android:name=".module.bodygamest.view.StudentActivity" />
+                android:name=".module.grade.view.GradeHomeActivity"
+                android:configChanges="orientation|keyboardHidden"/>
+        <activity android:name=".module.File.view.ExplainActivity"/>
+        <activity android:name=".module.newmemberentry.view.EntryActivity"/>
+        <activity android:name=".module.grade.view.StudentsActivity"/>
+        <activity android:name=".module.studetail.view.StudentDetailActivity"/>
+        <activity android:name=".module.retest.view.QueryActivity"/>
+        <activity android:name=".module.bodygamest.view.StudentActivity"/>
 
         <activity android:name=".module.jingdu.view.JingduActivity"></activity>
         <activity android:name=".module.grade.view.TutorActivity"></activity>
-        <activity android:name=".module.counselor.view.CounselorClassListActivity" />
-        <activity android:name=".module.counselor.view.CreateCounselorClassActivity" />
-        <activity android:name=".module.counselor.view.AssistantListActivity" />
-        <activity android:name=".module.counselor.view.AssistantDetailActivity" />
-        <activity android:name=".module.counselor.view.AssistantActivity" />
-        <activity android:name=".module.counselor.view.SPHonorActivity" />
-        <activity android:name=".module.counselor.view.InviteContantActivity" />
-        <activity android:name=".module.counselor.view.InviteStudentActivity" />
-        <activity android:name=".module.counselor.view.GameActivity" />
+        <activity android:name=".module.counselor.view.CounselorClassListActivity"/>
+        <activity android:name=".module.counselor.view.CreateCounselorClassActivity"/>
+        <activity android:name=".module.counselor.view.AssistantListActivity"/>
+        <activity android:name=".module.counselor.view.AssistantDetailActivity"/>
+        <activity android:name=".module.counselor.view.AssistantActivity"/>
+        <activity android:name=".module.counselor.view.SPHonorActivity"/>
+        <activity android:name=".module.counselor.view.InviteContantActivity"/>
+        <activity android:name=".module.counselor.view.InviteStudentActivity"/>
+        <activity android:name=".module.counselor.view.GameActivity"/>
         <activity android:name=".module.newmemberentry.view.DimensioninputActivity"></activity>
         <activity android:name=".module.bodygamest.view.FuceStActivity"></activity>
     </application>
