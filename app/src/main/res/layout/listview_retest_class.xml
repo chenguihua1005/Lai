@@ -1,58 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+  ~ Date:2016-03-31
+  -->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:gravity="center_vertical"
-        android:padding="15dp"
-        android:layout_height="60dp">
+            android:layout_width="match_parent"
+            android:gravity="center_vertical"
+            android:padding="15dp"
+            android:layout_height="60dp">
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="一月班"
-            android:layout_alignParentLeft="true"
-            android:id="@+id/tv_classname"
-            android:textSize="20dp">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="一月班"
+                android:layout_alignParentLeft="true"
+                android:id="@+id/tv_classname"
+                android:textSize="20dp">
         </TextView>
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@+id/tv_classname"
-            android:id="@+id/tv_title"
-            android:text="复仇者联盟"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/tv_classname"
+                android:id="@+id/tv_title"
+                android:text="复仇者联盟"/>
         <TextView
-            android:id="@+id/kuo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@+id/tv_title"
-            android:textSize="20dp"
-            android:text="（"/>
+                android:id="@+id/kuo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/tv_title"
+                android:textSize="20dp"
+                android:text="（"/>
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="3"
-            android:layout_toRightOf="@+id/kuo"
-            android:id="@+id/tv_personum"
-            android:textSize="20dp"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3"
+                android:layout_toRightOf="@+id/kuo"
+                android:id="@+id/tv_personum"
+                android:textSize="20dp"/>
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="）"
-            android:layout_toRightOf="@+id/tv_personum"
-            android:textSize="20dp"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="）"
+                android:layout_toRightOf="@+id/tv_personum"
+                android:textSize="20dp"/>
         <RadioButton
-            android:id="@+id/rbtn_retest"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/radiocir"
-            android:focusable="false"
-            android:button="@null"
-            />
+                android:id="@+id/rbtn_retest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/radiocir"
+                android:focusable="false"
+                android:button="@null"
+        />
     </RelativeLayout>
 </LinearLayout>

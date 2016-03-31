@@ -1,44 +1,32 @@
 /*
-Copyright 2015 Zilla Chen
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-   http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
  */
 package com.softtek.lai;
 
 import android.app.Application;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.CrashHandler;
+import com.softtek.lai.common.UserInfo;
 import com.softtek.lai.module.File.model.Filter;
 import com.softtek.lai.utils.NetErrorHandler;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import retrofit.RequestInterceptor;
 import zilla.libcore.Zilla;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.db.DBHelper;
 import zilla.libcore.file.PropertiesManager;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by zilla on 9/8/15.
  */
-public class ZillaApplication extends Application implements Zilla.InitCallback, DBHelper.DBUpgradeListener {
+public class LaiApplication extends Application implements Zilla.InitCallback, DBHelper.DBUpgradeListener {
 
-    private List<Filter> filterList=new ArrayList<>();
+    private List<Filter> filterList = new ArrayList<>();
 
 
     public List<Filter> getFilterList() {
@@ -49,23 +37,24 @@ public class ZillaApplication extends Application implements Zilla.InitCallback,
         this.filterList = filterList;
     }
 
-    private static ZillaApplication zillaApplication;
+    private static LaiApplication laiApplication;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        zillaApplication=this;
-        String[] datas=getResources().getStringArray(R.array.SensitiveWord);
-        for(int i=0;i<datas.length;i++){
+        laiApplication = this;
+        String[] datas = getResources().getStringArray(R.array.SensitiveWord);
+        for (int i = 0; i < datas.length; i++) {
             filterList.add(new Filter(datas[i]));
         }
         new Zilla().setCallBack(this).initSystem(this);
+        UserInfo.getInstance(this);
         CrashHandler catchHandler = CrashHandler.getInstance();
         catchHandler.init(getApplicationContext());
     }
 
-    public static ZillaApplication getInstance(){
-        return zillaApplication;
+    public static LaiApplication getInstance() {
+        return laiApplication;
     }
 
     /**
@@ -87,7 +76,7 @@ public class ZillaApplication extends Application implements Zilla.InitCallback,
             @Override
             public void intercept(RequestFacade requestFacade) {
 //                requestFacade.addEncodedPathParam();
-                requestFacade.addHeader("appid",PropertiesManager.get("appid"));
+                requestFacade.addHeader("appid", PropertiesManager.get("appid"));
                 //requestFacade.addHeader("token",PropertiesManager.get("token"));
             }
         });

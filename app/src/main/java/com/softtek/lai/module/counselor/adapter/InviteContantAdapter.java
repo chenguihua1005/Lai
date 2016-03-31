@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.counselor.adapter;
 
 import android.content.Context;
@@ -8,18 +13,14 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.softtek.lai.R;
 import com.softtek.lai.module.counselor.model.ContactListInfo;
-import com.softtek.lai.module.counselor.presenter.AssistantImpl;
-import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 import com.softtek.lai.module.counselor.presenter.IStudentPresenter;
 import com.softtek.lai.module.counselor.presenter.StudentImpl;
 import com.squareup.picasso.Picasso;
+import zilla.libcore.file.SharedPreferenceService;
 
 import java.util.List;
-
-import zilla.libcore.file.SharedPreferenceService;
 
 /**
  * Created by jarvis.liu on 3/22/2016.
@@ -91,7 +92,7 @@ public class InviteContantAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 String classId = SharedPreferenceService.getInstance().get("classId", "");
-                studentPresenter.sendInviterMsg(contactListInfo.getMobile().toString(),classId,holder.img_invite);
+                studentPresenter.sendInviterMsg(contactListInfo.getMobile().toString(), classId, holder.img_invite);
             }
         });
         return convertView;

@@ -1,26 +1,16 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.counselor.net;
 
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.counselor.model.Assistant;
-import com.softtek.lai.module.counselor.model.AssistantApplyInfo;
-import com.softtek.lai.module.counselor.model.AssistantClassInfo;
-import com.softtek.lai.module.counselor.model.AssistantDetailInfo;
-import com.softtek.lai.module.counselor.model.AssistantInfo;
-import com.softtek.lai.module.counselor.model.ClassId;
-import com.softtek.lai.module.counselor.model.ClassInfo;
-import com.softtek.lai.module.counselor.model.HonorInfo;
-import com.softtek.lai.module.counselor.model.InviteStudentInfo;
-import com.softtek.lai.module.counselor.model.MarchInfo;
+import com.softtek.lai.module.counselor.model.*;
+import retrofit.Callback;
+import retrofit.http.*;
 
 import java.util.List;
-
-import retrofit.Callback;
-import retrofit.http.Field;
-import retrofit.http.FormUrlEncoded;
-import retrofit.http.GET;
-import retrofit.http.Header;
-import retrofit.http.POST;
-import retrofit.http.Query;
 
 /**
  * Created by jarvis.liu on 3/22/2016.

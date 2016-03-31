@@ -1,21 +1,19 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.File.view;
 
 import android.app.Activity;
-import android.content.Context;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.PopupWindow;
 import android.widget.TextView;
-
 import com.softtek.lai.R;
 
 
 public class Mydata extends Activity {
-        //implements NumberPicker.OnValueChangeListener,NumberPicker.OnScrollListener,NumberPicker.Formatter {
+    //implements NumberPicker.OnValueChangeListener,NumberPicker.OnScrollListener,NumberPicker.Formatter {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +23,7 @@ public class Mydata extends Activity {
         birth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // showPopwindow();
+                // showPopwindow();
             }
         });
     }
@@ -129,4 +127,4 @@ public class Mydata extends Activity {
         });
 
     }*/
- }
+}

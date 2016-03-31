@@ -1,16 +1,14 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.login.view;
 
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
+import android.widget.*;
+import butterknife.InjectView;
 import com.github.snowdream.android.util.Log;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
@@ -18,34 +16,30 @@ import com.mobsandgeeks.saripaar.annotation.ConfirmPassword;
 import com.mobsandgeeks.saripaar.annotation.Password;
 import com.mobsandgeeks.saripaar.annotation.Regex;
 import com.mobsandgeeks.saripaar.annotation.Required;
-import com.mobsandgeeks.saripaar.annotation.TextRule;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.login.presenter.IPasswordPresenter;
 import com.softtek.lai.module.login.presenter.PasswordPresnter;
-import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.SoftInputUtil;
-
-import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_forget2)
-public class ForgetActivity2 extends BaseActivity implements View.OnClickListener,Validator.ValidationListener{
+public class ForgetActivity2 extends BaseActivity implements View.OnClickListener, Validator.ValidationListener {
 
     @LifeCircleInject
     ValidateLife validateLife;
 
-    @Required(order = 1,messageResId = R.string.newPasswordNull)
+    @Required(order = 1, messageResId = R.string.newPasswordNull)
     @Password(order = 2)
-    @Regex(order = 4,pattern = "(?![^a-zA-Z]+$)(?!\\D+$).{6,16}",messageResId = R.string.npasswordValidate)
+    @Regex(order = 4, pattern = "(?![^a-zA-Z]+$)(?!\\D+$).{6,16}", messageResId = R.string.npasswordValidate)
     //@TextRule(order = 3,minLength = 6,maxLength = 16,messageResId = R.string.passwordValidate)
     @InjectView(R.id.et_password)
     EditText et_password;
 
-    @Required(order = 4,messageResId = R.string.resetpasswordNull)
-    @ConfirmPassword(order = 5,messageResId = R.string.confirmPassword)
+    @Required(order = 4, messageResId = R.string.resetpasswordNull)
+    @ConfirmPassword(order = 5, messageResId = R.string.confirmPassword)
     @InjectView(R.id.et_repassword)
     EditText et_repassword;
 
@@ -62,8 +56,8 @@ public class ForgetActivity2 extends BaseActivity implements View.OnClickListene
     Button btn_submit;
 
     private IPasswordPresenter passwordPresenter;
-    private String phone="";
-    private String identify="";
+    private String phone = "";
+    private String identify = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,16 +74,16 @@ public class ForgetActivity2 extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initDatas() {
-        passwordPresenter=new PasswordPresnter(this);
-        phone=getIntent().getStringExtra("phone");
-        identify=getIntent().getStringExtra("identify");
-        Log.i("phone:"+phone+";identify:"+identify);
+        passwordPresenter = new PasswordPresnter(this);
+        phone = getIntent().getStringExtra("phone");
+        identify = getIntent().getStringExtra("identify");
+        Log.i("phone:" + phone + ";identify:" + identify);
     }
 
     @Override
     public void onClick(View v) {
         SoftInputUtil.hidden(this);
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.ll_left:
                 finish();
                 break;
@@ -100,18 +94,14 @@ public class ForgetActivity2 extends BaseActivity implements View.OnClickListene
     }
 
 
-
-
-
-
     @Override
     public void onValidationSucceeded() {
-        String psd=et_password.getText().toString();
-        passwordPresenter.resetPassword(phone,psd,identify);
+        String psd = et_password.getText().toString();
+        passwordPresenter.resetPassword(phone, psd, identify);
     }
 
     @Override
     public void onValidationFailed(View failedView, Rule<?> failedRule) {
-        validateLife.onValidationFailed(failedView,failedRule);
+        validateLife.onValidationFailed(failedView, failedRule);
     }
 }

@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.home.model;
 
 import java.io.Serializable;
@@ -5,7 +10,7 @@ import java.io.Serializable;
 /**
  * Created by jerry.guan on 3/17/2016.
  */
-public class HomeInfo implements Serializable{
+public class HomeInfo implements Serializable {
 
     private String Img_Type;//放置位置
 

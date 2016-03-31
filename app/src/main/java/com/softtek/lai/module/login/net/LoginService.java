@@ -1,20 +1,18 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.login.net;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.login.model.Identify;
-import com.softtek.lai.module.login.model.Regist;
 import com.softtek.lai.module.login.model.RoleInfo;
 import com.softtek.lai.module.login.model.User;
-
 import retrofit.Callback;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
-import retrofit.http.GET;
-import retrofit.http.HEAD;
-import retrofit.http.Header;
-import retrofit.http.Headers;
 import retrofit.http.POST;
-import retrofit.http.Query;
 
 /**
  * Created by jerry.guan on 3/3/2016.

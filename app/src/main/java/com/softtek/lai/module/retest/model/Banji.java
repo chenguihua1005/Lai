@@ -1,20 +1,21 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.retest.model;
-
-import com.softtek.lai.module.retest.eventModel.BanJiEvent;
-
-import java.util.List;
 
 /**
  * Created by lareina.qiao on 3/18/2016.
  */
 public class Banji {
 
-        private long id;
-        private long ClassId;
-        private String ClassName;
-        private long ManagerId;
-        private String StartDate;
-        private int Total;
+    private long id;
+    private long ClassId;
+    private String ClassName;
+    private long ManagerId;
+    private String StartDate;
+    private int Total;
 
     @Override
     public String toString() {
@@ -76,12 +77,13 @@ public class Banji {
         Total = total;
     }
 
-    public Banji(String startDate,String className,  int total) {
+    public Banji(String startDate, String className, int total) {
 
         ClassName = className;
         StartDate = startDate;
         Total = total;
     }
+
     public Banji(long id, long classId, String className, long managerId, String startDate, int total) {
         this.id = id;
         ClassId = classId;
@@ -90,12 +92,6 @@ public class Banji {
         StartDate = startDate;
         Total = total;
     }
-
-
-
-
-
-
 
 
 }

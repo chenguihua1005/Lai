@@ -1,70 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+  ~ Date:2016-03-31
+  -->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:background="@color/grey"
-    tools:context="com.softtek.lai.module.retest.Write">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="horizontal"
+              android:background="@color/grey"
+              tools:context="com.softtek.lai.module.retest.Write">
 
     <RelativeLayout
-        android:id="@+id/rel_item"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/counselorClassTextMargin">
+            android:id="@+id/rel_item"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/counselorClassTextMargin">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_margin="@dimen/counselorClassTextMargin"
-            android:orientation="vertical">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_margin="@dimen/counselorClassTextMargin"
+                android:orientation="vertical">
 
             <TextView
-                android:id="@+id/text_class_name"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="left"
-                android:text="default"
-                android:textColor="@color/black"
-                android:textSize="@dimen/counselorClassTextSize" />
+                    android:id="@+id/text_class_name"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="left"
+                    android:text="default"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/counselorClassTextSize"/>
 
             <TextView
-                android:id="@+id/text_people_count"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="left"
-                android:text="default"
-                android:textColor="@color/black"
-                android:textSize="@dimen/counselorClassTextSize" />
+                    android:id="@+id/text_people_count"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="left"
+                    android:text="default"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/counselorClassTextSize"/>
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/lin_state"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:orientation="horizontal"
-            android:layout_margin="@dimen/counselorClassTextMargin">
-
-            <TextView
-                android:id="@+id/text_state"
+                android:id="@+id/lin_state"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="即将开始"
-                android:textColor="@color/mytoolbar_green"
-                android:textSize="@dimen/counselorClassTextSize" />
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal"
+                android:layout_margin="@dimen/counselorClassTextMargin">
+
+            <TextView
+                    android:id="@+id/text_state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="即将开始"
+                    android:textColor="@color/mytoolbar_green"
+                    android:textSize="@dimen/counselorClassTextSize"/>
             <ImageView
-                android:id="@+id/img_more"
-                android:layout_width="20dip"
-                android:layout_height="20dip"
-                android:layout_margin="@dimen/counselorClassTextMarginLeft"
-                android:src="@drawable/more"/>
+                    android:id="@+id/img_more"
+                    android:layout_width="20dip"
+                    android:layout_height="20dip"
+                    android:layout_margin="@dimen/counselorClassTextMarginLeft"
+                    android:src="@drawable/more"/>
         </LinearLayout>
 
 

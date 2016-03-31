@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.newmemberentry.view.presenter;
 
 import com.softtek.lai.module.newmemberentry.view.model.Newstudents;

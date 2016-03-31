@@ -1,27 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+  ~ Date:2016-03-31
+  -->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
     <TextView
-        android:id="@+id/tv__dialog_title"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:text="请输入100字以内的文字(100)"
-        android:textSize="20sp"
-        android:gravity="center"
-        android:textColor="@android:color/black"
-        android:textStyle="bold"/>
+            android:id="@+id/tv__dialog_title"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="请输入100字以内的文字(100)"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"/>
     <EditText
-        android:id="@+id/et_content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@null"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"
-        android:gravity="top"
-        />
+            android:id="@+id/et_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:gravity="top"
+    />
 
 </LinearLayout>

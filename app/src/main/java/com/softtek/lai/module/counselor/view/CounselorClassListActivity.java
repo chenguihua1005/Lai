@@ -1,14 +1,15 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.counselor.view;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
-
+import android.widget.*;
+import butterknife.InjectView;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
@@ -19,15 +20,14 @@ import com.softtek.lai.module.counselor.presenter.CounselorClassImpl;
 import com.softtek.lai.module.counselor.presenter.ICounselorClassPresenter;
 import com.softtek.lai.module.grade.view.GradeHomeActivity;
 import com.softtek.lai.utils.SoftInputUtil;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import butterknife.InjectView;
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by jarvis.liu on 3/22/2016.
  * 体管赛，班级列表
@@ -58,7 +58,7 @@ public class CounselorClassListActivity extends BaseActivity implements View.OnC
     private ICounselorClassPresenter counselorClassPresenter;
     private CounselorClassAdapter adapter;
     List<ClassInfo> list;
-    List<String> time_month_list=new ArrayList<String>();
+    List<String> time_month_list = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,10 +68,10 @@ public class CounselorClassListActivity extends BaseActivity implements View.OnC
         expand_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(CounselorClassListActivity.this,GradeHomeActivity.class);
+                Intent intent = new Intent(CounselorClassListActivity.this, GradeHomeActivity.class);
                 ClassInfo classInfo = (ClassInfo) expand_list.getAdapter().getItem(position);
                 SharedPreferenceService.getInstance().put("classId", classInfo.getClassId());
-                intent.putExtra("classId",classInfo.getClassId());
+                intent.putExtra("classId", classInfo.getClassId());
                 startActivity(intent);
             }
         });
@@ -88,7 +88,7 @@ public class CounselorClassListActivity extends BaseActivity implements View.OnC
     @Override
     protected void initDatas() {
         counselorClassPresenter = new CounselorClassImpl(this);
-        counselorClassPresenter.getClassList(expand_list,lin_create_class,img_mo_message);
+        counselorClassPresenter.getClassList(expand_list, lin_create_class, img_mo_message);
 
     }
 

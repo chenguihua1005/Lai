@@ -1,8 +1,12 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.File.net;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.File.model.File;
-
 import retrofit.Callback;
 import retrofit.http.Body;
 import retrofit.http.Header;
@@ -11,7 +15,7 @@ import retrofit.http.POST;
 /**
  * Created by julie.zhu on 3/7/2016.
  */
-public interface  FileService {
+public interface FileService {
 
 //    @FormUrlEncoded
 //    @POST("/HerbUser/CreatFile")
@@ -33,8 +37,8 @@ public interface  FileService {
 
     @POST("/HerbUser/CreatFile")
     void doFile(@Header("token") String token,
-                 @Body File file,
-                 Callback<ResponseData<File>> callback);
+                @Body File file,
+                Callback<ResponseData<File>> callback);
 
 
 }

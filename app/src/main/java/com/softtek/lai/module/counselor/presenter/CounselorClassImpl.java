@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.counselor.presenter;
 
 import android.content.Context;
@@ -7,23 +12,21 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.counselor.adapter.CounselorClassAdapter;
 import com.softtek.lai.module.counselor.model.ClassId;
 import com.softtek.lai.module.counselor.model.ClassInfo;
 import com.softtek.lai.module.counselor.net.CounselorService;
 import com.softtek.lai.module.counselor.view.AssistantListActivity;
-
-import java.util.Calendar;
-import java.util.List;
-
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.util.Util;
+
+import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by jarvis.liu on 3/22/2016.
@@ -53,10 +56,10 @@ public class CounselorClassImpl implements ICounselorClassPresenter {
                     case 200:
                         CounselorClassAdapter adapter = new CounselorClassAdapter(context, list);
                         expand_lis.setAdapter(adapter);
-                        if(list.size()>0){
+                        if (list.size() > 0) {
                             expand_lis.setVisibility(View.VISIBLE);
                             img_mo_message.setVisibility(View.GONE);
-                        }else {
+                        } else {
                             expand_lis.setVisibility(View.GONE);
                             img_mo_message.setVisibility(View.VISIBLE);
                         }

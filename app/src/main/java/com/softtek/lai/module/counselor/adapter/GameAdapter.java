@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.counselor.adapter;
 
 import android.content.Context;
@@ -9,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.softtek.lai.R;
 import com.softtek.lai.module.counselor.model.MarchInfo;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
@@ -82,14 +86,14 @@ public class GameAdapter extends BaseAdapter {
 //        } else {
 //            Picasso.with(context).load(marchInfo.getPhoto()).error(R.drawable.img_default).into(holder.img);
 //        }
-        if((position+1)<4){
+        if ((position + 1) < 4) {
             holder.text_rnum.setTextColor(Color.parseColor("#FDB02B"));
         }
 
         holder.text_rnum.setText(marchInfo.getRnum().toString());
         holder.text_user_name.setText(marchInfo.getUserName().toString());
-        holder.text_before_weight.setText("前 "+marchInfo.getBeforeWight().toString()+"kg");
-        holder.text_after_weight.setText("后 "+marchInfo.getAfterWeight().toString()+"kg");
+        holder.text_before_weight.setText("前 " + marchInfo.getBeforeWight().toString() + "kg");
+        holder.text_after_weight.setText("后 " + marchInfo.getAfterWeight().toString() + "kg");
         holder.text_lose_weight.setText(marchInfo.getLoseWeight().toString());
         return convertView;
     }

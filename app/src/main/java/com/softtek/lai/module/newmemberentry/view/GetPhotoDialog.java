@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.newmemberentry.view;
 
 import android.app.Dialog;
@@ -5,26 +10,25 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
-
 import com.softtek.lai.R;
 
 /**
  * Created by julie.zhu on 3/26/2016.
  */
-public class GetPhotoDialog extends Dialog  implements View.OnClickListener {
-    private ImageButton camera,pic;
+public class GetPhotoDialog extends Dialog implements View.OnClickListener {
+    private ImageButton camera, pic;
 
 
     private GetPhotoDialogListener listener;
 
-    public interface GetPhotoDialogListener{
+    public interface GetPhotoDialogListener {
         public void onClick(View view);
     }
 
 
-    public GetPhotoDialog(Context context,GetPhotoDialogListener listener) {
+    public GetPhotoDialog(Context context, GetPhotoDialogListener listener) {
         super(context);
-        this.listener=listener;
+        this.listener = listener;
     }
 
     @Override
@@ -34,9 +38,9 @@ public class GetPhotoDialog extends Dialog  implements View.OnClickListener {
         initViews();
     }
 
-    private void initViews(){
-        camera = (ImageButton)findViewById(R.id.imgbtn_camera);
-        pic = (ImageButton)findViewById(R.id.imgbtn_pic);
+    private void initViews() {
+        camera = (ImageButton) findViewById(R.id.imgbtn_camera);
+        pic = (ImageButton) findViewById(R.id.imgbtn_pic);
         camera.setOnClickListener(this);
         pic.setOnClickListener(this);
     }

@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.grade.model;
 
 /**
@@ -10,17 +15,17 @@ public class Student {
     private long ClassId;
     private int OrderNum;
     //按照学员减重
-    private String UserName="";
-    private String LossAfter="0";
-    private String LossBefor="0";
-    private String LossWeght="0";
+    private String UserName = "";
+    private String LossAfter = "0";
+    private String LossBefor = "0";
+    private String LossWeght = "0";
     //按照学员减重百分比
-    private String LossPercent="0";
+    private String LossPercent = "0";
     //按照体质排序
-    private String Pysical="0";
+    private String Pysical = "0";
     //按照学员腰围排序
-    private String WaistlineAfter="0";
-    private String Waistlinebefor="0";
+    private String WaistlineAfter = "0";
+    private String Waistlinebefor = "0";
 
     public long getAccountId() {
         return AccountId;

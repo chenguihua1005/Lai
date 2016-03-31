@@ -1,29 +1,20 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.grade.presenter;
 
 import android.app.ProgressDialog;
-import android.os.SystemClock;
-
 import com.github.snowdream.android.util.Log;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.grade.eventModel.LossWeightEvent;
 import com.softtek.lai.module.grade.eventModel.SRInfoEvent;
-import com.softtek.lai.module.grade.model.Banner;
-import com.softtek.lai.module.grade.model.BannerUpdateCallBack;
-import com.softtek.lai.module.grade.model.DynamicInfo;
-import com.softtek.lai.module.grade.model.Grade;
-import com.softtek.lai.module.grade.model.SRInfo;
-import com.softtek.lai.module.grade.model.Student;
+import com.softtek.lai.module.grade.model.*;
 import com.softtek.lai.module.grade.net.GradeService;
-
 import org.greenrobot.eventbus.EventBus;
-
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -31,13 +22,16 @@ import retrofit.mime.TypedFile;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.util.Util;
-import zilla.libzilla.dialog.LoadingDialog;
+
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by jerry.guan on 3/21/2016.
- *
  */
-public class GradeImpl implements IGrade{
+public class GradeImpl implements IGrade {
 
     private GradeService service;
     private BannerUpdateCallBack callBack;
@@ -46,21 +40,21 @@ public class GradeImpl implements IGrade{
         this(null);
     }
 
-    public GradeImpl(BannerUpdateCallBack callBack){
-        this.callBack=callBack;
-        service= ZillaApi.NormalRestAdapter.create(GradeService.class);
+    public GradeImpl(BannerUpdateCallBack callBack) {
+        this.callBack = callBack;
+        service = ZillaApi.NormalRestAdapter.create(GradeService.class);
     }
 
     @Override
     public void getGradeInfos(final long classId, final ProgressDialog loadingDialog) {
-        String token= SharedPreferenceService.getInstance().get("token","");
-        System.out.println("班级主页信息请求 token?"+token+"------");
+        String token = SharedPreferenceService.getInstance().get("token", "");
+        System.out.println("班级主页信息请求 token?" + token + "------");
         service.getGradeInfo(token, String.valueOf(classId), new Callback<ResponseData<Grade>>() {
             @Override
             public void success(ResponseData<Grade> gradeResponseData, Response response) {
                 loadingDialog.dismiss();
-                int status=gradeResponseData.getStatus();
-                switch(status){
+                int status = gradeResponseData.getStatus();
+                switch (status) {
                     case 200:
                         EventBus.getDefault().post(gradeResponseData.getData());
                         break;
@@ -82,11 +76,11 @@ public class GradeImpl implements IGrade{
 
     @Override
     public void sendDynamic(long classId, String dynamicTitle, final String dyContent, int dyType, long accountId) {
-        String token= SharedPreferenceService.getInstance().get("token","");
+        String token = SharedPreferenceService.getInstance().get("token", "");
         service.senDynamic(token, classId, dynamicTitle, dyContent, dyType, accountId, new Callback<ResponseData>() {
             @Override
             public void success(ResponseData responseData, Response response) {
-                DynamicInfo info=new DynamicInfo();
+                DynamicInfo info = new DynamicInfo();
                 info.setCreateDate(SimpleDateFormat.getDateTimeInstance().format(new Date()));
                 info.setDyContent(dyContent);
                 EventBus.getDefault().post(info);
@@ -104,12 +98,12 @@ public class GradeImpl implements IGrade{
 
     @Override
     public void getStudentList(String orderType, String classId, final PullToRefreshListView lv) {
-        String token= SharedPreferenceService.getInstance().get("token","");
+        String token = SharedPreferenceService.getInstance().get("token", "");
         service.getStudentsList(token, classId, orderType, new Callback<ResponseData<List<Student>>>() {
             @Override
             public void success(ResponseData<List<Student>> studentResponseData, Response response) {
                 lv.onRefreshComplete();
-                switch (studentResponseData.getStatus()){
+                switch (studentResponseData.getStatus()) {
                     case 200:
                         Log.i(studentResponseData.toString());
                         EventBus.getDefault().post(new LossWeightEvent(studentResponseData.getData()));
@@ -130,13 +124,13 @@ public class GradeImpl implements IGrade{
     }
 
     @Override
-    public void getTutorList(long classId,final PullToRefreshListView lv) {
-        String token= SharedPreferenceService.getInstance().get("token","");
+    public void getTutorList(long classId, final PullToRefreshListView lv) {
+        String token = SharedPreferenceService.getInstance().get("token", "");
         service.getTutorList(token, classId, new Callback<ResponseData<List<SRInfo>>>() {
             @Override
             public void success(ResponseData<List<SRInfo>> responseData, Response response) {
                 lv.onRefreshComplete();
-                switch (responseData.getStatus()){
+                switch (responseData.getStatus()) {
                     case 200:
                         Log.i(responseData.toString());
                         EventBus.getDefault().post(new SRInfoEvent(responseData.getData()));
@@ -157,8 +151,8 @@ public class GradeImpl implements IGrade{
     }
 
     @Override
-    public void updateClassBanner(long classId, String type,final File image) {
-        String token= SharedPreferenceService.getInstance().get("token","");
+    public void updateClassBanner(long classId, String type, final File image) {
+        String token = SharedPreferenceService.getInstance().get("token", "");
         service.updateClassBanner(token,
                 classId,
                 type,
@@ -167,8 +161,8 @@ public class GradeImpl implements IGrade{
                     @Override
                     public void success(ResponseData<Banner> responseData, Response response) {
                         Util.toastMsg("上传成功");
-                        if(callBack!=null){
-                            callBack.onSuccess(responseData.getData().getPath(),image);
+                        if (callBack != null) {
+                            callBack.onSuccess(responseData.getData().getPath(), image);
                         }
                         System.out.println(responseData.toString());
 
@@ -176,7 +170,7 @@ public class GradeImpl implements IGrade{
 
                     @Override
                     public void failure(RetrofitError error) {
-                        if(callBack!=null){
+                        if (callBack != null) {
                             callBack.onFailed();
                         }
                         Util.toastMsg(R.string.neterror);
