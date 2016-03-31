@@ -33,15 +33,9 @@ public class GuwenClassImp implements GuwenClassPre {
     public void doGetGuwenClass(long managerId) {
         Log.i("service>>>>>>>>>>>>>>>>>>>>>>>>>>" + service);
         String token = SharedPreferenceService.getInstance().get("token", "");
-<<<<<<< HEAD
-        service.doGetGuwenClass(token, managerId, new Callback<ResponseData<List<Pargrade>>>() {
-            @Override
-            public void success(ResponseData<List<Pargrade>> listResponseData, retrofit.client.Response response) {
-=======
         service.doGetGuwenClass(token, managerId, new Callback<ResponseData<List<PargradeModel>>>() {
             @Override
             public void success(ResponseData<List<PargradeModel>> listResponseData, retrofit.client.Response response) {
->>>>>>> 43349e664360282fabcb88aadd0cbb1e19867c2d
                 int status = listResponseData.getStatus();
                 switch (status) {
                     case 200:
