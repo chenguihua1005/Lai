@@ -10,24 +10,28 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
 import com.softtek.lai.R;
+import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.login.view.LoginActivity;
 
-public class GuideActivity extends AppCompatActivity implements Runnable{
+import zilla.libcore.ui.InjectLayout;
+
+@InjectLayout(R.layout.activity_guide)
+public class GuideActivity extends BaseActivity implements Runnable{
 
     private  String token=null;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void initViews() {
+        tintManager.setStatusBarTintResource(android.R.color.transparent);
+    }
 
-
-        super.onCreate(savedInstanceState);
-        setContentView(getLayoutInflater().inflate(R.layout.activity_guide, null, false));
+    @Override
+    protected void initDatas() {
         //检查是否存在token
         token= UserInfoModel.getInstance().getToken();
         new Handler().postDelayed(this,1500);
-
-
     }
 
     @Override

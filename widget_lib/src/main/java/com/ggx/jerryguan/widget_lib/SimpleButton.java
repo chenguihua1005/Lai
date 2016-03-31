@@ -86,15 +86,18 @@ public class SimpleButton extends View {
 			dstRect = new RectF();
 			
 			//double ratio = 0.1;
-			dstRect.top = (float) (height / 6f);
+			//高度
+			dstRect.top = (float) (height / 4f);
 			dstRect.bottom = (float) (height * 9 / 13);
 
 			int bitmapWidth = (int) (normalBitmap.getWidth()
 					* (dstRect.bottom - dstRect.top) / normalBitmap.getHeight());
+			//目标区域居中
 			dstRect.left = (width - bitmapWidth) / 2;
 			dstRect.right = dstRect.left + bitmapWidth;
 			
 			//System.out.println("top:"+dstRect.top+" bottom:"+dstRect.bottom+" left:"+dstRect.left+" right:"+dstRect.right);
+			System.out.println("高:"+(dstRect.bottom-dstRect.top)+" 宽:"+(dstRect.left-dstRect.right));
 		}
 	}
 	

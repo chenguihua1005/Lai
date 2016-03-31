@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
+    android:fitsSystemWindows="true"
     tools:context=".module.login.view.LoginActivity">
 
     <LinearLayout
@@ -125,7 +126,7 @@
                     android:textColor="@color/textview_green"/>
                 <ImageView
                     android:layout_width="30dp"
-                    android:layout_height="20dp"
+                    android:layout_height="15dp"
                     android:scaleType="fitCenter"
                     android:layout_gravity="center|right"
                     android:src="@drawable/arrow_copy"/>

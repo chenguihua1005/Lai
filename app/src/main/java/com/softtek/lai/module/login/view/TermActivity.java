@@ -5,7 +5,11 @@
 
 package com.softtek.lai.module.login.view;
 
+import android.view.View;
 import android.webkit.WebView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import butterknife.InjectView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
@@ -20,9 +24,21 @@ public class TermActivity extends BaseActivity {
     @InjectView(R.id.web_view)
     WebView webView;
 
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
+
+    @InjectView(R.id.tv_title)
+    TextView tv_title;
+
     @Override
     protected void initViews() {
-
+        ll_left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        tv_title.setText("隐私与条款");
     }
 
     @Override
