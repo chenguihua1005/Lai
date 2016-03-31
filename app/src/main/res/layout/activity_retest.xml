@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.softtek.lai.module.retest.view.Retest">
+    tools:context=".module.retest.view.RetestActivity">
   <include layout="@layout/toolbar"></include>
 
         <FrameLayout

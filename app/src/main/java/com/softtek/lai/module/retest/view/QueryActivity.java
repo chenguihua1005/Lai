@@ -1,7 +1,5 @@
 package com.softtek.lai.module.retest.view;
 
-import android.content.DialogInterface;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,7 +9,7 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.module.retest.Adapter.QueryAdapter;
+import com.softtek.lai.module.retest.adapter.QueryAdapter;
 import com.softtek.lai.module.retest.eventModel.StudentEvent;
 import com.softtek.lai.module.retest.model.Student;
 import com.softtek.lai.module.retest.present.RetestPre;

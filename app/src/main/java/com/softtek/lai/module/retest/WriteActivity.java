@@ -1,21 +1,15 @@
 package com.softtek.lai.module.retest;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -26,15 +20,12 @@ import android.widget.TextView;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.module.File.view.DimensionRecordActivity;
-import com.softtek.lai.module.bodygame.Counselor;
-import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.newmemberentry.view.GetPhotoDialog;
-import com.softtek.lai.module.newmemberentry.view.model.Newstudents;
 import com.softtek.lai.module.retest.model.RetestWrite;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.module.retest.present.RetestclassImp;
-import com.softtek.lai.utils.DisplayUtil;
+import com.softtek.lai.module.retest.view.BodyweiduActivity;
+
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -43,7 +34,7 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_write)
-public class Write extends BaseActivity implements View.OnClickListener{
+public class WriteActivity extends BaseActivity implements View.OnClickListener{
     //标题栏
     @InjectView(R.id.tv_title)
     TextView title;
@@ -129,7 +120,7 @@ public class Write extends BaseActivity implements View.OnClickListener{
         Log.i("chuanzhizhizhizhizhi",accountId+loginId+classId);
         retestPre=new RetestclassImp();
         retestWrite=new RetestWrite();
-        retestWrite.setAccountId(accountId);
+//        retestWrite.setAccountId(accountId);
 
 
 
@@ -156,6 +147,9 @@ public class Write extends BaseActivity implements View.OnClickListener{
                 retestWrite.setWeight(tv_retestWrite_nowweight.getText()+"");
                 retestWrite.setPysical(tv_retestWrite_tizhi.getText()+"");
                 retestWrite.setFat(tv_retestWrite_neizhi.getText()+"");
+                retestWrite.setClassId("4");
+                retestWrite.setImage("");
+                retestWrite.setAccountId("3");
                 retestPre.doPostWrite(3,36,retestWrite);
                 break;
             //拍照事件
@@ -179,7 +173,7 @@ public class Write extends BaseActivity implements View.OnClickListener{
                 dialog.show();
                 break;
             case R.id.btn_retest_write_addbody:
-                Intent intent=new Intent(Write.this, DimensionRecordActivity.class);
+                Intent intent=new Intent(WriteActivity.this, BodyweiduActivity.class);
                 intent.putExtra("retestWrite",retestWrite);
                 startActivityForResult(intent,GET_BODY);
                 break;

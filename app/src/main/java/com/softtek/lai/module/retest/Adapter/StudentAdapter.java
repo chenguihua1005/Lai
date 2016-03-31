@@ -1,4 +1,4 @@
-package com.softtek.lai.module.retest.Adapter;
+package com.softtek.lai.module.retest.adapter;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -10,9 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
-import com.softtek.lai.module.retest.model.Banji;
 import com.softtek.lai.module.retest.model.BanjiStudent;
-import com.softtek.lai.module.retest.model.Student;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 

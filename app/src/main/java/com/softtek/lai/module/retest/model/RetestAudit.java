@@ -19,7 +19,7 @@ public class RetestAudit {
 
     @Override
     public String toString() {
-        return "Write{" +
+        return "WriteActivity{" +
                 "accountId='" + accountId + '\'' +
                 ", weight='" + weight + '\'' +
                 ", pysical='" + pysical + '\'' +

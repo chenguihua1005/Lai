@@ -1,19 +1,15 @@
-package com.softtek.lai.module.retest.Adapter;
+package com.softtek.lai.module.retest.adapter;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
-import com.softtek.lai.module.bodygame.Counselor;
-import com.softtek.lai.module.retest.model.BanjiStudent;
 import com.softtek.lai.module.retest.model.Student;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;

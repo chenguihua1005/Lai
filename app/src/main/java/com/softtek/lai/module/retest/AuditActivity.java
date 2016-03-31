@@ -24,7 +24,7 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_audit)
-public class Audit extends BaseActivity implements View.OnClickListener{
+public class AuditActivity extends BaseActivity implements View.OnClickListener{
     //标题栏
     @InjectView(R.id.tv_title)
     TextView title;
@@ -131,7 +131,7 @@ public class Audit extends BaseActivity implements View.OnClickListener{
         title.setText(R.string.AuditBarT);
         tv_right.setText(R.string.AuditBarR);
         retestPre=new RetestclassImp();
-        retestAudit=new RetestAudit("3","55","36","63","36","36","36","36","36","36","36","36");
+        retestAudit=new RetestAudit("3","55","3","63","3","3","3","3","3","3","3","3");
         retestPre.doGetAudit(36,3,"2016-03-28");
 
     }

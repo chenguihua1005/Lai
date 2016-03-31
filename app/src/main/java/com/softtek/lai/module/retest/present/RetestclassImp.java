@@ -13,7 +13,6 @@ import com.softtek.lai.module.retest.model.RetestAudit;
 import com.softtek.lai.module.retest.model.RetestWrite;
 import com.softtek.lai.module.retest.model.Student;
 import com.softtek.lai.module.retest.net.RestService;
-import com.softtek.lai.module.retest.view.Retest;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -157,7 +156,8 @@ public class RetestclassImp implements RetestPre{
         service.doPostWrite(token, accountId, loginId, retestWrite, new Callback<ResponseData<RetestWrite>>() {
 
             @Override
-            public void success(ResponseData<RetestWrite> retestWriteResponseData, Response response) {
+            public void success(ResponseData retestWriteResponseData, Response response) {
+                System.out.println("retestWriteResponseData==null?"+retestWriteResponseData);
                 int status=retestWriteResponseData.getStatus();
                 switch (status)
                 {
@@ -167,6 +167,8 @@ public class RetestclassImp implements RetestPre{
                     case 201:
                         Util.toastMsg("复测记录保存失败");
                         break;
+                    case 302:
+                        Util.toastMsg("本周复测记录已存在");
                 }
             }
 

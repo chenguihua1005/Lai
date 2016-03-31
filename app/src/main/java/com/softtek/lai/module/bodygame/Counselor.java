@@ -19,8 +19,9 @@ import com.softtek.lai.module.counselor.view.GameActivity;
 import com.softtek.lai.module.counselor.view.SPHonorActivity;
 import com.softtek.lai.module.jingdu.view.JingduActivity;
 import com.softtek.lai.module.newmemberentry.view.EntryActivity;
-import com.softtek.lai.module.retest.Write;
-import com.softtek.lai.module.retest.view.Retest;
+import com.softtek.lai.module.retest.AuditActivity;
+import com.softtek.lai.module.retest.WriteActivity;
+import com.softtek.lai.module.retest.view.RetestActivity;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
@@ -150,7 +151,7 @@ public class Counselor extends BaseActivity implements View.OnClickListener{
             //复测按钮点击跳转事件
             case R.id.ll_counselor_fuce:
             {
-                Intent intent=new Intent(Counselor.this, Retest.class);
+                Intent intent=new Intent(Counselor.this, RetestActivity.class);
                 startActivity(intent);
 
 
@@ -193,6 +194,8 @@ public class Counselor extends BaseActivity implements View.OnClickListener{
             break;
             case R.id.ll_review:
             {
+                Intent intent = new Intent(this, AuditActivity.class);
+                startActivity(intent);
                 Util.toastMsg("往期回顾");
             }
             break;
@@ -207,7 +210,7 @@ public class Counselor extends BaseActivity implements View.OnClickListener{
             //提示事件跳转
             case R.id.ll_tip:
             {
-                Intent intent=new Intent(Counselor.this,Write.class);
+                Intent intent=new Intent(Counselor.this,WriteActivity.class);
                 startActivity(intent);
                 Util.toastMsg("提示页面");
             }

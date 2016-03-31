@@ -14,17 +14,14 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.module.retest.Adapter.QueryAdapter;
-import com.softtek.lai.module.retest.Adapter.StudentAdapter;
-import com.softtek.lai.module.retest.Audit;
-import com.softtek.lai.module.retest.Write;
+import com.softtek.lai.module.retest.AuditActivity;
+import com.softtek.lai.module.retest.adapter.StudentAdapter;
+import com.softtek.lai.module.retest.WriteActivity;
 import com.softtek.lai.module.retest.eventModel.BanJiEvent;
-import com.softtek.lai.module.retest.Adapter.ClassAdapter;
+import com.softtek.lai.module.retest.adapter.ClassAdapter;
 import com.softtek.lai.module.retest.eventModel.BanjiStudentEvent;
 import com.softtek.lai.module.retest.model.Banji;
 import com.softtek.lai.module.retest.model.BanjiStudent;
-import com.softtek.lai.module.retest.model.RetestWrite;
-import com.softtek.lai.module.retest.model.Student;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.module.retest.present.RetestclassImp;
 
@@ -36,13 +33,12 @@ import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 /**
  * Created by lareina.qiao on 3/18/2016.
  */
 @InjectLayout(R.layout.activity_retest)
-public class Retest extends BaseActivity implements View.OnClickListener{
+public class RetestActivity extends BaseActivity implements View.OnClickListener{
     private RetestPre retestPre;
     //标题栏
     @InjectView(R.id.tv_right)
@@ -107,7 +103,7 @@ public class Retest extends BaseActivity implements View.OnClickListener{
                 BanjiStudent banjiStudent=banjiStudentList.get(position);
                 if (banjiStudent.getAMStatus()=="")
                 {
-                    Intent intent=new Intent(Retest.this,Write.class);
+                    Intent intent=new Intent(RetestActivity.this,WriteActivity.class);
                     intent.putExtra("accountId",banjiStudent.getAccountId());
                     intent.putExtra("classId",banjiStudent.getClassId());
                     intent.putExtra("typeDate",banjiStudent.getTypeDate());
@@ -118,7 +114,7 @@ public class Retest extends BaseActivity implements View.OnClickListener{
                 }
                 else {
 
-                    Intent intent=new Intent(Retest.this, Audit.class);
+                    Intent intent=new Intent(RetestActivity.this, AuditActivity.class);
                     intent.putExtra("accountId",banjiStudent.getAccountId());
                     intent.putExtra("classId",banjiStudent.getClassId());
                     intent.putExtra("typeDate",banjiStudent.getTypeDate());
@@ -260,7 +256,7 @@ public class Retest extends BaseActivity implements View.OnClickListener{
         switch (v.getId()){
             case R.id.iv_email:
             {
-                Intent intent=new Intent(Retest.this,QueryActivity.class);
+                Intent intent=new Intent(RetestActivity.this,QueryActivity.class);
                 startActivity(intent);
 
             }
