@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.widgets;
 
 import android.animation.Animator;
@@ -22,12 +27,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewConfiguration;
-import android.view.ViewGroup;
-import android.view.WindowManager;
+import android.view.*;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.DecelerateInterpolator;
@@ -35,7 +35,6 @@ import android.view.animation.Transformation;
 import android.widget.AbsListView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
-
 import com.softtek.lai.utils.ArrayUtils;
 
 /**
@@ -137,7 +136,7 @@ public class SuperSwipeRefreshLayout extends ViewGroup {
 
     int lastVisibleItem = 0;
 
-    int temp ;
+    int temp;
 
     /**
      * 下拉时，超过距离之后，弹回来的动画监听器
@@ -439,11 +438,11 @@ public class SuperSwipeRefreshLayout extends ViewGroup {
      * mTarget一般是可滑动的ScrollView,ListView,RecyclerView等
      */
     private void ensureTarget() {
-        if (mTarget == null&&getChildCount()!=0) {
+        if (mTarget == null && getChildCount() != 0) {
             for (int i = 0; i < getChildCount(); i++) {
                 View child = getChildAt(i);
                 if (!child.equals(mHeadViewContainer)
-                        && !child.equals(mFooterViewContainer)&&child!=null) {
+                        && !child.equals(mFooterViewContainer) && child != null) {
                     mTarget = child;
                     break;
                 }

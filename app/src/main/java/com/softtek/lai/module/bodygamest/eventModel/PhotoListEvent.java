@@ -1,7 +1,7 @@
 package com.softtek.lai.module.bodygamest.eventModel;
 
 import com.softtek.lai.module.bodygamest.model.DownPhoto;
-import com.softtek.lai.module.retest.model.Banji;
+
 
 import java.util.List;
 

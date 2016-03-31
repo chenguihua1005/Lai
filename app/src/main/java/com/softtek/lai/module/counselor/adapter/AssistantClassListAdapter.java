@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.counselor.adapter;
 
 import android.content.Context;
@@ -8,9 +13,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.softtek.lai.R;
-import com.softtek.lai.module.counselor.model.AssistantInfo;
+import com.softtek.lai.module.counselor.model.AssistantInfoModel;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 import com.squareup.picasso.Picasso;
 
@@ -21,14 +25,14 @@ import java.util.List;
  */
 public class AssistantClassListAdapter extends BaseAdapter {
     private LayoutInflater mInflater;//得到一个LayoutInfalter对象用来导入布局
-    private List<AssistantInfo> list;
+    private List<AssistantInfoModel> list;
     private Context context;
     private IAssistantPresenter assistantPresenter;
 
     /**
      * 构造函数
      */
-    public AssistantClassListAdapter(Context context, List<AssistantInfo> list) {
+    public AssistantClassListAdapter(Context context, List<AssistantInfoModel> list) {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
         this.list = list;
@@ -72,38 +76,38 @@ public class AssistantClassListAdapter extends BaseAdapter {
 
 
         /**设置TextView显示的内容，即我们存放在动态数组中的数据*/
-        AssistantInfo assistantClassInfo=list.get(position);
+        AssistantInfoModel assistantClassInfo = list.get(position);
         if ("".equals(assistantClassInfo.getPhoto())) {
             Picasso.with(context).load("111").error(R.drawable.img_default).into(holder.img);
         } else {
             Picasso.with(context).load(assistantClassInfo.getPhoto()).error(R.drawable.img_default).into(holder.img);
         }
-        holder.text_name.setText(assistantClassInfo.getUserName()+"("+assistantClassInfo.getMobile()+")");
-        String startTimeStr=assistantClassInfo.getStartDate().toString();
-        String str[]=startTimeStr.split("-");
-        if("01".equals(str[1])||"1".equals(str[1])){
+        holder.text_name.setText(assistantClassInfo.getUserName() + "(" + assistantClassInfo.getMobile() + ")");
+        String startTimeStr = assistantClassInfo.getStartDate().toString();
+        String str[] = startTimeStr.split("-");
+        if ("01".equals(str[1]) || "1".equals(str[1])) {
             holder.text_class_name.setText("一月班");
-        }else if("02".equals(str[1])||"2".equals(str[1])){
+        } else if ("02".equals(str[1]) || "2".equals(str[1])) {
             holder.text_class_name.setText("二月班");
-        }else if("03".equals(str[1])||"3".equals(str[1])){
+        } else if ("03".equals(str[1]) || "3".equals(str[1])) {
             holder.text_class_name.setText("三月班");
-        }else if("04".equals(str[1])||"4".equals(str[1])){
+        } else if ("04".equals(str[1]) || "4".equals(str[1])) {
             holder.text_class_name.setText("四月班");
-        }else if("05".equals(str[1])||"5".equals(str[1])){
+        } else if ("05".equals(str[1]) || "5".equals(str[1])) {
             holder.text_class_name.setText("五月班");
-        }else if("06".equals(str[1])||"6".equals(str[1])){
+        } else if ("06".equals(str[1]) || "6".equals(str[1])) {
             holder.text_class_name.setText("六月");
-        }else if("07".equals(str[1])||"7".equals(str[1])){
+        } else if ("07".equals(str[1]) || "7".equals(str[1])) {
             holder.text_class_name.setText("七月班");
-        }else if("08".equals(str[1])||"8".equals(str[1])){
+        } else if ("08".equals(str[1]) || "8".equals(str[1])) {
             holder.text_class_name.setText("八月班");
-        }else if("09".equals(str[1])||"9".equals(str[1])){
+        } else if ("09".equals(str[1]) || "9".equals(str[1])) {
             holder.text_class_name.setText("九月班");
-        }else if("10".equals(str[1])){
+        } else if ("10".equals(str[1])) {
             holder.text_class_name.setText("十月班");
-        }else if("11".equals(str[1])){
+        } else if ("11".equals(str[1])) {
             holder.text_class_name.setText("十一月班");
-        }else if("12".equals(str[1])){
+        } else if ("12".equals(str[1])) {
             holder.text_class_name.setText("十二月班");
         }
 

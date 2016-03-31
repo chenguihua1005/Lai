@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.counselor.view;
 
 
@@ -14,7 +19,7 @@ import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
-
+import butterknife.InjectView;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
@@ -22,20 +27,19 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.counselor.adapter.InviteContantAdapter;
-import com.softtek.lai.module.counselor.model.ContactListInfo;
+import com.softtek.lai.module.counselor.model.ContactListInfoModel;
 import com.softtek.lai.module.counselor.presenter.IStudentPresenter;
 import com.softtek.lai.module.counselor.presenter.StudentImpl;
-import com.softtek.lai.module.login.model.User;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.SoftInputUtil;
+import zilla.libcore.lifecircle.LifeCircleInject;
+import zilla.libcore.lifecircle.validate.ValidateLife;
+import zilla.libcore.ui.InjectLayout;
 
 import java.io.InputStream;
 import java.util.ArrayList;
 
-import butterknife.InjectView;
-import zilla.libcore.lifecircle.LifeCircleInject;
-import zilla.libcore.lifecircle.validate.ValidateLife;
-import zilla.libcore.ui.InjectLayout;
 /**
  * Created by jarvis.liu on 3/22/2016.
  * 邀请通讯录学员
@@ -59,7 +63,7 @@ public class InviteContantActivity extends BaseActivity implements View.OnClickL
 
     private IStudentPresenter studentPresenter;
     private ACache aCache;
-    private User user;
+    private UserModel userModel;
     private AsyncQueryHandler asyncQueryHandler; // 异步查询数据库类对象
 
     private static final String[] PHONES_PROJECTION = new String[]{
@@ -72,7 +76,7 @@ public class InviteContantActivity extends BaseActivity implements View.OnClickL
             ContactsContract.CommonDataKinds.Phone.LOOKUP_KEY};
 
 
-    private ArrayList<ContactListInfo> contactListValue = new ArrayList<ContactListInfo>();
+    private ArrayList<ContactListInfoModel> contactListValue = new ArrayList<ContactListInfoModel>();
     private ProgressDialog progressDialog;
 
 
@@ -189,14 +193,14 @@ public class InviteContantActivity extends BaseActivity implements View.OnClickL
 
                     }
 
-                    ContactListInfo contactListInfo = new ContactListInfo(contactPhoto, name, number);
+                    ContactListInfoModel contactListInfo = new ContactListInfoModel(contactPhoto, name, number);
                     contactListValue.add(contactListInfo);
 
                 }
                 System.out.println("contactListValue:" + contactListValue);
                 progressDialog.dismiss();
                 super.onQueryComplete(token, cookie, cursor);
-            }else {
+            } else {
                 progressDialog.dismiss();
             }
         }

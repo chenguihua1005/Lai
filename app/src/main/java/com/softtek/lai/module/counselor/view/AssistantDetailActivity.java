@@ -1,29 +1,32 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.counselor.view;
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import butterknife.InjectView;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.counselor.model.AssistantDetailInfo;
+import com.softtek.lai.module.counselor.model.AssistantDetailInfoModel;
 import com.softtek.lai.module.counselor.presenter.AssistantImpl;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.SoftInputUtil;
 import com.squareup.picasso.Picasso;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-
-import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
+
 /**
  * Created by jarvis.liu on 3/22/2016.
  * 助教详细页面
@@ -71,7 +74,7 @@ public class AssistantDetailActivity extends BaseActivity implements View.OnClic
     }
 
     @Subscribe
-    public void onEvent(AssistantDetailInfo assistantDetailInfo) {
+    public void onEvent(AssistantDetailInfoModel assistantDetailInfo) {
         System.out.println("assistantDetailInfo:" + assistantDetailInfo);
         text_name.setText(assistantDetailInfo.getUserName().toString());
         text_phone.setText(assistantDetailInfo.getMobile().toString());

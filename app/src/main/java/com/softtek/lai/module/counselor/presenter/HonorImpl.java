@@ -1,14 +1,16 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.counselor.presenter;
 
 import android.content.Context;
 import android.util.Log;
-
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.counselor.model.HonorInfo;
+import com.softtek.lai.module.counselor.model.HonorInfoModel;
 import com.softtek.lai.module.counselor.net.CounselorService;
-
 import org.greenrobot.eventbus.EventBus;
-
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -33,13 +35,13 @@ public class HonorImpl implements IHonorPresenter {
     @Override
     public void getSPHonor() {
         String token = SharedPreferenceService.getInstance().get("token", "");
-        counselorService.getSPHonor(token, new Callback<ResponseData<HonorInfo>>() {
+        counselorService.getSPHonor(token, new Callback<ResponseData<HonorInfoModel>>() {
 
             @Override
-            public void success(ResponseData<HonorInfo> listResponseData, Response response) {
+            public void success(ResponseData<HonorInfoModel> listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
-                HonorInfo honorInfo = listResponseData.getData();
+                HonorInfoModel honorInfo = listResponseData.getData();
                 switch (status) {
                     case 200:
                         EventBus.getDefault().post(listResponseData.getData());

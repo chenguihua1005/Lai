@@ -1,306 +1,311 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+  ~ Date:2016-03-31
+  -->
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.softtek.lai.module.bodygame.Counselor">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".module.bodygame.CounselorActivity">
 
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <include layout="@layout/toolbar"></include>
-
-        <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <LinearLayout
+        <include layout="@layout/toolbar"></include>
+
+        <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="160dp">
+                android:layout_height="match_parent">
+
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp">
 
                 <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/iv_adv"
-                    android:scaleType="centerCrop"
-                    />
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/iv_adv"
+                        android:scaleType="centerCrop"
+                />
 
             </LinearLayout>
 
             <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/scrollView3" >
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/scrollView3">
 
                 <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    >
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                >
 
                     <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="5dp"
-                        >
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                    >
 
                         <LinearLayout
-                            android:id="@+id/ll_tiguansai"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:layout_weight="1"
+                                android:id="@+id/ll_tiguansai"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_margin="2dp"
+                                android:layout_weight="1"
 
-                            >
+                        >
                             <FrameLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="100dp"
-                                >
+                                    android:layout_width="match_parent"
+                                    android:layout_height="100dp"
+                            >
 
                                 <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:orientation="vertical"
-                                    android:gravity="center|bottom"
-                                    android:background="#F4F4F4"
-                                    >
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"
+                                        android:gravity="center|bottom"
+                                        android:background="#F4F4F4"
+                                >
                                     <ImageView
-                                        android:layout_width="30dp"
-                                        android:layout_height="30dp"
-                                        android:background="@drawable/bt_tiguansai"/>
+                                            android:layout_width="30dp"
+                                            android:layout_height="30dp"
+                                            android:background="@drawable/bt_tiguansai"/>
                                     <Button
-                                        android:id="@+id/bt_tiguansai"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="@string/CounselorA"
-                                        android:background="@null"
-                                        />
+                                            android:id="@+id/bt_tiguansai"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="@string/CounselorA"
+                                            android:background="@null"
+                                    />
                                 </LinearLayout>
                             </FrameLayout>
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/ll_review"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:gravity="center|bottom"
-                            android:background="#F4F4F4"
-                            android:layout_margin="2dp"
-                            android:layout_height="match_parent">
+                                android:id="@+id/ll_review"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:gravity="center|bottom"
+                                android:background="#F4F4F4"
+                                android:layout_margin="2dp"
+                                android:layout_height="match_parent">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:src="@drawable/bt_review"/>
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/bt_review"/>
                             <Button
-                                android:id="@+id/bt_review"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/CounselorB"
-                                android:background="@null"/>
+                                    android:id="@+id/bt_review"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/CounselorB"
+                                    android:background="@null"/>
                         </LinearLayout>
                         <LinearLayout
-                            android:id="@+id/ll_new_student"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:gravity="center|bottom"
-                            android:layout_margin="2dp"
-                            android:background="#F4F4F4"
-                            android:layout_height="match_parent">
+                                android:id="@+id/ll_new_student"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:gravity="center|bottom"
+                                android:layout_margin="2dp"
+                                android:background="#F4F4F4"
+                                android:layout_height="match_parent">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:src="@drawable/bt_new_student"/>
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/bt_new_student"/>
                             <Button
-                                android:id="@+id/bt_new_student"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/CounselorC"
-                                android:background="@null"/>
+                                    android:id="@+id/bt_new_student"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/CounselorC"
+                                    android:background="@null"/>
                         </LinearLayout>
                     </LinearLayout>
 
                     <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="5dp" >
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp">
 
                         <LinearLayout
-                            android:id="@+id/ll_counselor_fuce"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:layout_weight="1"
-                             >
+                                android:id="@+id/ll_counselor_fuce"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_margin="2dp"
+                                android:layout_weight="1"
+                        >
 
                             <FrameLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="100dp" >
+                                    android:layout_width="match_parent"
+                                    android:layout_height="100dp">
 
                                 <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:orientation="vertical"
-                                    android:background="#F4F4F4"
-                                    android:gravity="center|bottom" >
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"
+                                        android:background="#F4F4F4"
+                                        android:gravity="center|bottom">
                                     <ImageView
-                                        android:layout_width="30dp"
-                                        android:layout_height="30dp"
-                                        android:src="@drawable/bt_counselor_fuce"/>
+                                            android:layout_width="30dp"
+                                            android:layout_height="30dp"
+                                            android:src="@drawable/bt_counselor_fuce"/>
 
                                     <Button
-                                        android:id="@+id/bt_counselor_fuce"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="@string/CounselorD"
-                                        android:background="@null" />
+                                            android:id="@+id/bt_counselor_fuce"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="@string/CounselorD"
+                                            android:background="@null"/>
                                 </LinearLayout>
 
                                 <TextView
-                                    android:layout_width="30dp"
-                                    android:layout_height="30dp"
-                                    android:text="10+"
-                                    android:textSize="12sp"
-                                    android:layout_gravity="right"
-                                    android:gravity="center"
-                                    android:id="@+id/tv_fucenum"
-                                    android:textColor="#ffffff"
-                                    android:background="@drawable/circlebac" />
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
+                                        android:text="10+"
+                                        android:textSize="12sp"
+                                        android:layout_gravity="right"
+                                        android:gravity="center"
+                                        android:id="@+id/tv_fucenum"
+                                        android:textColor="#ffffff"
+                                        android:background="@drawable/circlebac"/>
                             </FrameLayout>
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/ll_process"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:gravity="center|bottom"
-                            android:layout_margin="2dp"
-                            android:background="#F4F4F4"
-                            android:layout_height="match_parent" >
+                                android:id="@+id/ll_process"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:gravity="center|bottom"
+                                android:layout_margin="2dp"
+                                android:background="#F4F4F4"
+                                android:layout_height="match_parent">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:src="@drawable/bt_process"/>
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/bt_process"/>
 
                             <Button
-                                android:id="@+id/bt_process"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/CounselorE"
-                                android:background="@null" />
+                                    android:id="@+id/bt_process"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/CounselorE"
+                                    android:background="@null"/>
                         </LinearLayout>
                         <LinearLayout
-                            android:id="@+id/ll_honor"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:background="#F4F4F4"
-                            android:layout_margin="2dp"
-                            android:gravity="center|bottom"
-                            android:layout_height="match_parent" >
+                                android:id="@+id/ll_honor"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:background="#F4F4F4"
+                                android:layout_margin="2dp"
+                                android:gravity="center|bottom"
+                                android:layout_height="match_parent">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:src="@drawable/bt_honor"/>
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/bt_honor"/>
 
                             <Button
-                                android:id="@+id/bt_honor"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/CounselorF"
-                                android:background="@null" />
+                                    android:id="@+id/bt_honor"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/CounselorF"
+                                    android:background="@null"/>
                         </LinearLayout>
                     </LinearLayout>
 
                     <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="5dp" >
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp">
 
                         <LinearLayout
-                            android:id="@+id/ll_match"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:layout_weight="1"
-                             >
+                                android:id="@+id/ll_match"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_margin="2dp"
+                                android:layout_weight="1"
+                        >
 
                             <FrameLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="100dp" >
+                                    android:layout_width="match_parent"
+                                    android:layout_height="100dp">
 
                                 <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:orientation="vertical"
-                                    android:background="#F4F4F4"
-                                    android:gravity="center|bottom" >
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"
+                                        android:background="#F4F4F4"
+                                        android:gravity="center|bottom">
                                     <ImageView
-                                        android:layout_width="30dp"
-                                        android:layout_height="30dp"
-                                        android:src="@drawable/bt_match"/>
+                                            android:layout_width="30dp"
+                                            android:layout_height="30dp"
+                                            android:src="@drawable/bt_match"/>
 
                                     <Button
-                                        android:id="@+id/bt_match"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="@string/CounselorG"
-                                        android:background="@null" />
+                                            android:id="@+id/bt_match"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="@string/CounselorG"
+                                            android:background="@null"/>
                                 </LinearLayout>
 
                             </FrameLayout>
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/ll_tip"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:background="#F4F4F4"
-                            android:gravity="center|bottom"
-                            android:layout_margin="2dp"
-                            android:layout_height="match_parent" >
+                                android:id="@+id/ll_tip"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:background="#F4F4F4"
+                                android:gravity="center|bottom"
+                                android:layout_margin="2dp"
+                                android:layout_height="match_parent">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:src="@drawable/btn_tip"/>
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/btn_tip"/>
 
                             <Button
-                                android:id="@+id/btn_tip"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/CounselorH"
-                                android:background="@null" />
+                                    android:id="@+id/btn_tip"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/CounselorH"
+                                    android:background="@null"/>
                         </LinearLayout>
                         <LinearLayout
-                            android:id="@+id/ll_assistant"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:gravity="center|bottom"
-                            android:layout_margin="2dp"
-                            android:background="#F4F4F4"
-                            android:layout_height="match_parent" >
+                                android:id="@+id/ll_assistant"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:gravity="center|bottom"
+                                android:layout_margin="2dp"
+                                android:background="#F4F4F4"
+                                android:layout_height="match_parent">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:src="@drawable/btn_assistant"/>
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/btn_assistant"/>
 
                             <Button
-                                android:id="@+id/btn_assistant"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/CounselorI"
-                                android:background="@null" />
+                                    android:id="@+id/btn_assistant"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/CounselorI"
+                                    android:background="@null"/>
                         </LinearLayout>
                     </LinearLayout>
 

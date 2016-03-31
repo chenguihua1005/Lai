@@ -20,8 +20,8 @@ import com.softtek.lai.module.retest.WriteActivity;
 import com.softtek.lai.module.retest.eventModel.BanJiEvent;
 import com.softtek.lai.module.retest.adapter.ClassAdapter;
 import com.softtek.lai.module.retest.eventModel.BanjiStudentEvent;
-import com.softtek.lai.module.retest.model.Banji;
-import com.softtek.lai.module.retest.model.BanjiStudent;
+import com.softtek.lai.module.retest.model.BanjiModel;
+import com.softtek.lai.module.retest.model.BanjiStudentModel;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.module.retest.present.RetestclassImp;
 
@@ -61,8 +61,8 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
     @InjectView(R.id.ll_classlist)
     RelativeLayout ll_classlist;
 
-    private List<Banji> banjiList=new ArrayList<Banji>();
-    private List<BanjiStudent>banjiStudentList=new ArrayList<BanjiStudent>();
+    private List<BanjiModel> banjiModelList=new ArrayList<BanjiModel>();
+    private List<BanjiStudentModel>banjiStudentModelList=new ArrayList<BanjiStudentModel>();
     private ClassAdapter classAdapter;
     private StudentAdapter studentAdapter;
     boolean h=false;
@@ -73,8 +73,8 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
         EventBus.getDefault().register(this);
         super.onCreate(savedInstanceState);
         System.out.println("dsadasdsadasda>>》》》》》》》》》》》》》》-----------");
-        classAdapter=new ClassAdapter(this,banjiList);
-        studentAdapter=new StudentAdapter(this,banjiStudentList);
+        classAdapter=new ClassAdapter(this,banjiModelList);
+        studentAdapter=new StudentAdapter(this,banjiStudentModelList);
         list_class.setAdapter(classAdapter);
 //        queryAdapter=new QueryAdapter(this,banjiStudentList);
 
@@ -89,8 +89,8 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
         list_class.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Banji banji=banjiList.get(position);
-                retestPre.doGetBanjiStudent(banji.getClassId());
+                BanjiModel banjiModel=banjiModelList.get(position);
+                retestPre.doGetBanjiStudent(banjiModel.getClassId());
                 list_class.setVisibility(View.INVISIBLE);
                 Iv_fold.setImageResource(R.drawable.unfold);
                 h=false;
@@ -100,13 +100,13 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
         list_query.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                BanjiStudent banjiStudent=banjiStudentList.get(position);
-                if (banjiStudent.getAMStatus()=="")
+                BanjiStudentModel banjiStudentModel=banjiStudentModelList.get(position);
+                if (banjiStudentModel.getAMStatus()=="")
                 {
                     Intent intent=new Intent(RetestActivity.this,WriteActivity.class);
-                    intent.putExtra("accountId",banjiStudent.getAccountId());
-                    intent.putExtra("classId",banjiStudent.getClassId());
-                    intent.putExtra("typeDate",banjiStudent.getTypeDate());
+                    intent.putExtra("accountId",banjiStudentModel.getAccountId());
+                    intent.putExtra("classId",banjiStudentModel.getClassId());
+                    intent.putExtra("typeDate",banjiStudentModel.getTypeDate());
                     intent.putExtra("loginid","36");
 
                     startActivity(intent);
@@ -115,9 +115,9 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
                 else {
 
                     Intent intent=new Intent(RetestActivity.this, AuditActivity.class);
-                    intent.putExtra("accountId",banjiStudent.getAccountId());
-                    intent.putExtra("classId",banjiStudent.getClassId());
-                    intent.putExtra("typeDate",banjiStudent.getTypeDate());
+                    intent.putExtra("accountId",banjiStudentModel.getAccountId());
+                    intent.putExtra("classId",banjiStudentModel.getClassId());
+                    intent.putExtra("typeDate",banjiStudentModel.getTypeDate());
                     intent.putExtra("loginid","36");
                     startActivity(intent);
                 }
@@ -173,6 +173,7 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
 
         bar_title.setText("复测");
 //        tv_right.setText("搜索");
+        iv_email.setVisibility(View.VISIBLE);
         iv_email.setImageResource(R.drawable.retestsearch);
 //        tv_right.setBackgroundResource(R.drawable.search);
         retestPre =new RetestclassImp();
@@ -187,17 +188,17 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
 
     @Subscribe
     public void onEvent(BanJiEvent banji){
-        System.out.println("dsadasdsadasda>>》》》》》》》》》》》》》》"+banji.getBanjis());
-        banjiList=banji.getBanjis();
-        Log.i("sdfsdfsdfsdfsd",""+banjiList);
-        classAdapter.updateData(banjiList);
+        System.out.println("dsadasdsadasda>>》》》》》》》》》》》》》》"+banji.getBanjiModels());
+        banjiModelList=banji.getBanjiModels();
+        Log.i("sdfsdfsdfsdfsd",""+banjiModelList);
+        classAdapter.updateData(banjiModelList);
 
     }
     @Subscribe
     public void onEvent1(BanjiStudentEvent banjiStudent){
-        banjiStudentList=banjiStudent.getBanjiStudents();
-        Log.i("sdfsdfsdfsdfsd",""+banjiStudentList);
-        studentAdapter.updateData(banjiStudentList);
+        banjiStudentModelList=banjiStudent.getBanjiStudentModels();
+        Log.i("sdfsdfsdfsdfsd",""+banjiStudentModelList);
+        studentAdapter.updateData(banjiStudentModelList);
 //        List<Student> students=student.getStudents();
 //        for (Student st:students){
 //            String month=st.getStartDate().substring(5,7);

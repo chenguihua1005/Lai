@@ -1,47 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+  ~ Date:2016-03-31
+  -->
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/sc_transparent_background"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical"
-    tools:context="com.softtek.lai.module.login.view.ForgetActivity">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/sc_transparent_background"
+                android:fitsSystemWindows="true"
+                android:orientation="vertical"
+                tools:context="com.softtek.lai.module.login.view.ForgetActivity">
 
     <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar" />
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"/>
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/lin_create_class"
-        android:layout_below="@+id/toolbar">
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/lin_create_class"
+            android:layout_below="@+id/toolbar">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/no_message" />
+                android:id="@+id/img_mo_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/no_message"
+                android:layout_centerInParent="true"
+                android:visibility="gone"/>
 
         <ListView
-            android:id="@+id/expand_list"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:divider="@color/sc_transparent_background"
-            android:dividerHeight="10dip" />
+                android:id="@+id/expand_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:divider="@color/sc_transparent_background"
+                android:dividerHeight="10dip"/>
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/lin_create_class"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
-
-        <ImageView
+            android:id="@+id/lin_create_class"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/counselorClassTextMargin"
-            android:src="@drawable/createclass" />
+            android:layout_alignParentBottom="true"
+            android:visibility="gone">
+
+        <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/counselorClassTextMargin"
+                android:src="@drawable/createclass"/>
     </LinearLayout>
 </RelativeLayout>

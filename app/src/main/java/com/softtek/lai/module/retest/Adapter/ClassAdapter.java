@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
-import com.softtek.lai.module.retest.model.Banji;
+import com.softtek.lai.module.retest.model.BanjiModel;
 
 import java.util.List;
 
@@ -18,30 +18,30 @@ import java.util.List;
 public class ClassAdapter extends BaseAdapter {
 
     private Context context;
-    private List<Banji> banjiList;
+    private List<BanjiModel> banjiModelList;
     private LayoutInflater inflater;
 
-    public ClassAdapter(Context context,List<Banji> banjiList) {
+    public ClassAdapter(Context context,List<BanjiModel> banjiModelList) {
         this.context=context;
         inflater=LayoutInflater.from(context);
-        this.banjiList=banjiList;
+        this.banjiModelList=banjiModelList;
     }
 
 
-    public void updateData(List<Banji> banjiList){
-        this.banjiList=banjiList;
+    public void updateData(List<BanjiModel> banjiModelList){
+        this.banjiModelList=banjiModelList;
         notifyDataSetChanged();;
     }
 
 
     @Override
     public int getCount() {
-        return banjiList.size();
+        return banjiModelList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return banjiList.get(position);
+        return banjiModelList.get(position);
     }
 
     @Override
@@ -62,10 +62,10 @@ public class ClassAdapter extends BaseAdapter {
         else {
             viewHolder=(ViewHolder)convertView.getTag();
         }
-        Banji banji=banjiList.get(position);
-        viewHolder.StartDate.setText(tomonth((banji.getStartDate().substring(5,7))));
-        viewHolder.ClassName.setText(banji.getClassName());
-        viewHolder.Total.setText(banji.getTotal()+"");
+        BanjiModel banjiModel=banjiModelList.get(position);
+        viewHolder.StartDate.setText(tomonth((banjiModel.getStartDate().substring(5,7))));
+        viewHolder.ClassName.setText(banjiModel.getClassName());
+        viewHolder.Total.setText(banjiModel.getTotal()+"");
         return convertView;
     }
 

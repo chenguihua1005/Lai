@@ -14,10 +14,8 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.module.File.model.File;
-import com.softtek.lai.module.File.view.explain;
-import com.softtek.lai.module.newmemberentry.view.model.Newstudents;
-import com.softtek.lai.module.retest.model.RetestWrite;
+import com.softtek.lai.module.File.view.ExplainActivity;
+import com.softtek.lai.module.retest.model.RetestWriteModel;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -79,7 +77,7 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
     @InjectView(R.id.ll_retest_doleggirth)
     RelativeLayout ll_retest_doleggirth;
 
-    private RetestWrite retestWrite;
+    private RetestWriteModel retestWrite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +101,7 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void initDatas() {
-        retestWrite= (RetestWrite) getIntent().getSerializableExtra("retestWrite");
+        retestWrite= (RetestWriteModel) getIntent().getSerializableExtra("retestWrite");
         tv_title.setText("添加记录");
         tv_retest_circum.setText("null".equals(retestWrite.getCircum()+"")?"":retestWrite.getCircum()+"");
         tv_retest_waistline.setText("null".equals(retestWrite.getWaistline()+"")?"":retestWrite.getWaistline()+"");
@@ -139,7 +137,7 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
                 break;
             //填写说明
             case R.id.ll_explain:
-                startActivity(new Intent(this,explain.class));
+                startActivity(new Intent(this,ExplainActivity.class));
 
                 break;
             //返回按钮
@@ -158,7 +156,7 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
 //                String doleggirth=Double.parseDouble(tv_retest_doleggirth.getText().toString().equals("")?"0":tv_retest_doleggirth.getText().toString());
 
                 //创建档案的添加围度
-                retestWrite=new RetestWrite();
+                retestWrite=new RetestWriteModel();
                 retestWrite.setCircum(tv_retest_circum.getText()+"");
                 retestWrite.setWaistline(tv_retest_waistline.getText().toString());
                 retestWrite.setHiplie(tv_retest_hiplie.getText().toString());
@@ -166,7 +164,7 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
                 retestWrite.setUpLegGirth(tv_retest_upleggirth.getText().toString());
                 retestWrite.setDoLegGirth(tv_retest_doleggirth.getText().toString());
                 Intent intent=new Intent();
-                intent.putExtra("retestWrite",retestWrite);
+                intent.putExtra("retestWrite",retestWrite+"");
                 setResult(RESULT_OK,intent);
                 finish();
 

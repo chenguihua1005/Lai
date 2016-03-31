@@ -3,15 +3,15 @@ package com.softtek.lai.module.retest.present;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.newmemberentry.view.model.Phot;
+import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
 import com.softtek.lai.module.retest.eventModel.BanJiEvent;
 import com.softtek.lai.module.retest.eventModel.BanjiStudentEvent;
 import com.softtek.lai.module.retest.eventModel.StudentEvent;
-import com.softtek.lai.module.retest.model.Banji;
-import com.softtek.lai.module.retest.model.BanjiStudent;
-import com.softtek.lai.module.retest.model.RetestAudit;
-import com.softtek.lai.module.retest.model.RetestWrite;
-import com.softtek.lai.module.retest.model.Student;
+import com.softtek.lai.module.retest.model.BanjiModel;
+import com.softtek.lai.module.retest.model.BanjiStudentModel;
+import com.softtek.lai.module.retest.model.RetestAuditModel;
+import com.softtek.lai.module.retest.model.RetestWriteModel;
+import com.softtek.lai.module.retest.model.StudentModel;
 import com.softtek.lai.module.retest.net.RestService;
 
 import org.greenrobot.eventbus.EventBus;
@@ -41,9 +41,9 @@ public class RetestclassImp implements RetestPre{
     public void doGetRetestclass(long id) {
         Log.i("service>>>>>>>>>>>>>>>>>>>>>>>>>>"+service);
         String token=SharedPreferenceService.getInstance().get("token","0");
-       service.doGetRetestclass(token,id, new Callback<ResponseData<List<Banji>>>() {
+       service.doGetRetestclass(token,id, new Callback<ResponseData<List<BanjiModel>>>() {
            @Override
-           public void success(ResponseData<List<Banji>> banjiResponseData, retrofit.client.Response response) {
+           public void success(ResponseData<List<BanjiModel>> banjiResponseData, retrofit.client.Response response) {
                int status=banjiResponseData.getStatus();
                switch (status){
                    case 200:{
@@ -71,10 +71,10 @@ public class RetestclassImp implements RetestPre{
     @Override
     public void doGetqueryResult(String str) {
         String token=SharedPreferenceService.getInstance().get("token","");
-        service.doGetqueryResult(token, str, new Callback<ResponseData<List<Student>>>() {
+        service.doGetqueryResult(token, str, new Callback<ResponseData<List<StudentModel>>>() {
 
             @Override
-            public void success(ResponseData<List<Student>> listResponseData, Response response) {
+            public void success(ResponseData<List<StudentModel>> listResponseData, Response response) {
                 int status=listResponseData.getStatus();
                 switch (status){
                     case 200:
@@ -98,9 +98,9 @@ public class RetestclassImp implements RetestPre{
     public void doGetBanjiStudent(long classId) {
 
         String token=SharedPreferenceService.getInstance().get("token","");
-        service.doGetBanjiStudent(token, classId, new Callback<ResponseData<List<BanjiStudent>>>() {
+        service.doGetBanjiStudent(token, classId, new Callback<ResponseData<List<BanjiStudentModel>>>() {
             @Override
-            public void success(ResponseData<List<BanjiStudent>> listResponseData, Response response) {
+            public void success(ResponseData<List<BanjiStudentModel>> listResponseData, Response response) {
                 int status=listResponseData.getStatus();
                 switch (status){
                     case 200:
@@ -126,9 +126,9 @@ public class RetestclassImp implements RetestPre{
     @Override
     public void doGetAudit(long accountId, long classId, String typeDate) {
         String token=SharedPreferenceService.getInstance().get("token","");
-        service.doGetAudit(token, accountId, classId, typeDate, new Callback<ResponseData<List<RetestAudit>>>() {
+        service.doGetAudit(token, accountId, classId, typeDate, new Callback<ResponseData<List<RetestAuditModel>>>() {
             @Override
-            public void success(ResponseData<List<RetestAudit>> listResponseData, Response response) {
+            public void success(ResponseData<List<RetestAuditModel>> listResponseData, Response response) {
                 int status=listResponseData.getStatus();
                 switch (status)
                 {
@@ -151,9 +151,9 @@ public class RetestclassImp implements RetestPre{
 
 //复测写入提交
     @Override
-    public void doPostWrite(long accountId, long loginId, RetestWrite retestWrite) {
+    public void doPostWrite(long accountId, long loginId, RetestWriteModel retestWrite) {
         String token=SharedPreferenceService.getInstance().get("token","");
-        service.doPostWrite(token, accountId, loginId, retestWrite, new Callback<ResponseData<RetestWrite>>() {
+        service.doPostWrite(token, accountId, loginId, retestWrite, new Callback<ResponseData<RetestWriteModel>>() {
 
             @Override
             public void success(ResponseData retestWriteResponseData, Response response) {
@@ -181,11 +181,11 @@ public class RetestclassImp implements RetestPre{
     }
 //复测审核提交
     @Override
-    public void doPostAudit(String loginId, String accountId, String typeDate, RetestAudit retestAudit) {
+    public void doPostAudit(String loginId, String accountId, String typeDate, RetestAuditModel retestAudit) {
         String token=SharedPreferenceService.getInstance().get("token","");
-        service.doPostAudit(token, loginId, accountId, typeDate, retestAudit, new Callback<ResponseData<List<RetestAudit>>>() {
+        service.doPostAudit(token, loginId, accountId, typeDate, retestAudit, new Callback<ResponseData<List<RetestAuditModel>>>() {
             @Override
-            public void success(ResponseData<List<RetestAudit>> listResponseData, Response response) {
+            public void success(ResponseData<List<RetestAuditModel>> listResponseData, Response response) {
                 int status=listResponseData.getStatus();
                 switch (status)
                 {
@@ -210,14 +210,14 @@ public class RetestclassImp implements RetestPre{
     public void goGetPicture(String filePath) {
         System.out.println("上传图片路径>>>>>>>"+filePath);
         String token=SharedPreferenceService.getInstance().get("token","");
-        service.goGetPicture(token, new TypedFile("image/png", new File(filePath)), new Callback<ResponseData<Phot>>() {
+        service.goGetPicture(token, new TypedFile("image/png", new File(filePath)), new Callback<ResponseData<PhotModel>>() {
             @Override
-            public void success(ResponseData<Phot> photResponseData, Response response) {
+            public void success(ResponseData<PhotModel> photResponseData, Response response) {
 
                 int status=photResponseData.getStatus();
                 switch (status) {
                     case 200:
-                        Phot phot= (Phot) photResponseData.getData();
+                        PhotModel phot= (PhotModel) photResponseData.getData();
                         EventBus.getDefault().post(phot);
                         Util.toastMsg("获取成功");
                         break;

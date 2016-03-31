@@ -14,8 +14,7 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.module.retest.model.RetestAudit;
-import com.softtek.lai.module.retest.model.RetestWrite;
+import com.softtek.lai.module.retest.model.RetestAuditModel;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.module.retest.present.RetestclassImp;
 import com.softtek.lai.utils.DisplayUtil;
@@ -99,7 +98,7 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener{
 
 
     private RetestPre retestPre;
-    private RetestAudit retestAudit;
+    private RetestAuditModel retestAudit;
 
 
     @Override
@@ -131,7 +130,7 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener{
         title.setText(R.string.AuditBarT);
         tv_right.setText(R.string.AuditBarR);
         retestPre=new RetestclassImp();
-        retestAudit=new RetestAudit("3","55","3","63","3","3","3","3","3","3","3","3");
+        retestAudit=new RetestAuditModel("3","55","3","63","3","3","3","3","3","3","3","3");
         retestPre.doGetAudit(36,3,"2016-03-28");
 
     }

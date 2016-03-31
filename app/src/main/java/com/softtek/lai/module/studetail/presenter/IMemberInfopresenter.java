@@ -1,8 +1,11 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.studetail.presenter;
 
 import android.app.ProgressDialog;
-
-import com.softtek.lai.module.studetail.model.Member;
 
 /**
  * Created by julie.zhu on 3/22/2016.

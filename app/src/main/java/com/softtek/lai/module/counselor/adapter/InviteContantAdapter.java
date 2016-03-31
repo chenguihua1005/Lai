@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.counselor.adapter;
 
 import android.content.Context;
@@ -8,32 +13,28 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.softtek.lai.R;
-import com.softtek.lai.module.counselor.model.ContactListInfo;
-import com.softtek.lai.module.counselor.presenter.AssistantImpl;
-import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
+import com.softtek.lai.module.counselor.model.ContactListInfoModel;
 import com.softtek.lai.module.counselor.presenter.IStudentPresenter;
 import com.softtek.lai.module.counselor.presenter.StudentImpl;
 import com.squareup.picasso.Picasso;
+import zilla.libcore.file.SharedPreferenceService;
 
 import java.util.List;
-
-import zilla.libcore.file.SharedPreferenceService;
 
 /**
  * Created by jarvis.liu on 3/22/2016.
  */
 public class InviteContantAdapter extends BaseAdapter {
     private LayoutInflater mInflater;//得到一个LayoutInfalter对象用来导入布局
-    private List<ContactListInfo> list;
+    private List<ContactListInfoModel> list;
     private Context context;
     private IStudentPresenter studentPresenter;
 
     /**
      * 构造函数
      */
-    public InviteContantAdapter(Context context, List<ContactListInfo> list) {
+    public InviteContantAdapter(Context context, List<ContactListInfoModel> list) {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
         this.list = list;
@@ -77,7 +78,7 @@ public class InviteContantAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();//取出ViewHolder对象
         }
         /**设置TextView显示的内容，即我们存放在动态数组中的数据*/
-        final ContactListInfo contactListInfo = list.get(position);
+        final ContactListInfoModel contactListInfo = list.get(position);
         if ("".equals(contactListInfo.getPhoto())) {
             Picasso.with(context).load("111").error(R.drawable.img_default).into(holder.img);
         } else {
@@ -91,7 +92,7 @@ public class InviteContantAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 String classId = SharedPreferenceService.getInstance().get("classId", "");
-                studentPresenter.sendInviterMsg(contactListInfo.getMobile().toString(),classId,holder.img_invite);
+                studentPresenter.sendInviterMsg(contactListInfo.getMobile().toString(), classId, holder.img_invite);
             }
         });
         return convertView;

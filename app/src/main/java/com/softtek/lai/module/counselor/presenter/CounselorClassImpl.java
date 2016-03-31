@@ -1,28 +1,32 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.counselor.presenter;
 
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.counselor.adapter.CounselorClassAdapter;
-import com.softtek.lai.module.counselor.model.ClassId;
-import com.softtek.lai.module.counselor.model.ClassInfo;
+import com.softtek.lai.module.counselor.model.ClassIdModel;
+import com.softtek.lai.module.counselor.model.ClassInfoModel;
 import com.softtek.lai.module.counselor.net.CounselorService;
 import com.softtek.lai.module.counselor.view.AssistantListActivity;
-
-import java.util.Calendar;
-import java.util.List;
-
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.util.Util;
+
+import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by jarvis.liu on 3/22/2016.
@@ -39,24 +43,26 @@ public class CounselorClassImpl implements ICounselorClassPresenter {
 
 
     @Override
-    public void getClassList(final ListView expand_lis, final LinearLayout lin_create_class) {
+    public void getClassList(final ListView expand_lis, final LinearLayout lin_create_class, final ImageView img_mo_message) {
         String token = SharedPreferenceService.getInstance().get("token", "");
-        counselorService.getClassList(token, new Callback<ResponseData<List<ClassInfo>>>() {
+        counselorService.getClassList(token, new Callback<ResponseData<List<ClassInfoModel>>>() {
 
             @Override
-            public void success(ResponseData<List<ClassInfo>> listResponseData, Response response) {
+            public void success(ResponseData<List<ClassInfoModel>> listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
-                List<ClassInfo> list = listResponseData.getData();
+                List<ClassInfoModel> list = listResponseData.getData();
                 switch (status) {
                     case 200:
                         CounselorClassAdapter adapter = new CounselorClassAdapter(context, list);
                         expand_lis.setAdapter(adapter);
-//                        if(list.size()>0){
-//                            expand_lis.setVisibility(View.VISIBLE);
-//                        }else {
-//                            expand_lis.setVisibility(View.GONE);
-//                        }
+                        if (list.size() > 0) {
+                            expand_lis.setVisibility(View.VISIBLE);
+                            img_mo_message.setVisibility(View.GONE);
+                        } else {
+                            expand_lis.setVisibility(View.GONE);
+                            img_mo_message.setVisibility(View.VISIBLE);
+                        }
                         Calendar calendar = Calendar.getInstance();
                         int year = calendar.get(Calendar.YEAR);
                         int monthOfYear = calendar.get(Calendar.MONTH) + 1;
@@ -70,7 +76,7 @@ public class CounselorClassImpl implements ICounselorClassPresenter {
                         System.out.println("list--------------" + list);
                         int count = 0;
                         for (int i = 0; i < list.size(); i++) {
-                            ClassInfo classInfo = list.get(i);
+                            ClassInfoModel classInfo = list.get(i);
                             String str[] = classInfo.getStartDate().toString().split("-");
                             if (str[1].equals(monthOfYear + "") || str[1].equals("0" + monthOfYear)) {
                                 System.out.println("当前月已开班" + str[1]);
@@ -111,9 +117,9 @@ public class CounselorClassImpl implements ICounselorClassPresenter {
     @Override
     public void createClass(String className, String startDate, String endDate, String managerId) {
         String token = SharedPreferenceService.getInstance().get("token", "");
-        counselorService.createClass(token, className, startDate, endDate, managerId, new Callback<ResponseData<ClassId>>() {
+        counselorService.createClass(token, className, startDate, endDate, managerId, new Callback<ResponseData<ClassIdModel>>() {
             @Override
-            public void success(ResponseData<ClassId> classIdResponseData, Response response) {
+            public void success(ResponseData<ClassIdModel> classIdResponseData, Response response) {
                 Log.e("jarvis", classIdResponseData.toString());
                 int status = classIdResponseData.getStatus();
                 switch (status) {

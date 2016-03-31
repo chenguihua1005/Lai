@@ -1,7 +1,11 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.retest.eventModel;
 
-import com.softtek.lai.module.retest.model.Banji;
-import com.softtek.lai.module.retest.model.Student;
+import com.softtek.lai.module.retest.model.StudentModel;
 
 import java.util.List;
 
@@ -10,17 +14,17 @@ import java.util.List;
  */
 public class StudentEvent {
 
-    private List<Student> students;
+    private List<StudentModel> studentModels;
 
-    public List<Student> getStudents() {
-        return students;
+    public List<StudentModel> getStudentModels() {
+        return studentModels;
     }
 
-    public void setStudents(List<Student> students) {
-        this.students = students;
+    public void setStudentModels(List<StudentModel> studentModels) {
+        this.studentModels = studentModels;
     }
 
-    public StudentEvent(List<Student> students) {
-        this.students = students;
+    public StudentEvent(List<StudentModel> studentModels) {
+        this.studentModels = studentModels;
     }
 }

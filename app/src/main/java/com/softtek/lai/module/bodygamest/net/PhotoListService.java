@@ -2,7 +2,7 @@ package com.softtek.lai.module.bodygamest.net;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.bodygamest.model.DownPhoto;
-import com.softtek.lai.module.retest.model.RetestAudit;
+
 
 import java.util.List;
 

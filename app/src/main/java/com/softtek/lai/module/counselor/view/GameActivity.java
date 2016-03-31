@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.counselor.view;
 
 
@@ -10,7 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-
+import butterknife.InjectView;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
@@ -19,19 +24,18 @@ import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.counselor.presenter.GameImpl;
 import com.softtek.lai.module.counselor.presenter.IGamePresenter;
-import com.softtek.lai.module.login.model.User;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.widgets.WheelView;
+import zilla.libcore.lifecircle.LifeCircleInject;
+import zilla.libcore.lifecircle.validate.ValidateLife;
+import zilla.libcore.ui.InjectLayout;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import butterknife.InjectView;
-import zilla.libcore.lifecircle.LifeCircleInject;
-import zilla.libcore.lifecircle.validate.ValidateLife;
-import zilla.libcore.ui.InjectLayout;
 /**
  * Created by jarvis.liu on 3/22/2016.
  * 大赛赛况
@@ -66,17 +70,17 @@ public class GameActivity extends BaseActivity implements View.OnClickListener, 
 
     private IGamePresenter gamePresenter;
     private ACache aCache;
-    private User user;
+    private UserModel userModel;
     private List<String> monthList = new ArrayList<String>();
     private List<String> monthsList = new ArrayList<String>();
     private List<String> gradeList = new ArrayList<String>();
     private List<String> gradeIDList = new ArrayList<String>();
 
-    private String select_month="";
-    private String select_grade="";
-    private String grade_id="";
-    private String date="";
-    private String dateInfo="";
+    private String select_month = "";
+    private String select_grade = "";
+    private String grade_id = "";
+    private String date = "";
+    private String dateInfo = "";
 
     int year;
     int monthOfYear;
@@ -207,8 +211,8 @@ public class GameActivity extends BaseActivity implements View.OnClickListener, 
         wheel_month.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
             @Override
             public void onSelected(int selectedIndex, String item) {
-                select_month=item;
-                dateInfo=monthsList.get(selectedIndex-1);
+                select_month = item;
+                dateInfo = monthsList.get(selectedIndex - 1);
             }
         });
 
@@ -220,24 +224,26 @@ public class GameActivity extends BaseActivity implements View.OnClickListener, 
                     public void onClick(DialogInterface dialog, int which) {
                         if ("".equals(select_month)) {
                             select_month = monthList.get(0);
-                            dateInfo=monthsList.get(0);
+                            dateInfo = monthsList.get(0);
                             System.out.println("select_month:" + select_month);
                         }
                         text_month.setText(select_month);
                         if (!"".equals(text_grade.getText().toString())) {
                             showList();
                         }
-                        select_month="";
+                        select_month = "";
 
                     }
                 })
                 .show();
     }
-    private void showList(){
-        date=year+"-"+dateInfo+"-"+dayOfMonth;
-        System.out.println("date:"+date+"      SelectGrade"+select_grade);
-        gamePresenter.getMatchInfo(date,grade_id,list_game);
+
+    private void showList() {
+        date = year + "-" + dateInfo + "-" + dayOfMonth;
+        System.out.println("date:" + date + "      SelectGrade" + select_grade);
+        gamePresenter.getMatchInfo(date, grade_id, list_game);
     }
+
     private void showGradeDialog() {
         View outerView = LayoutInflater.from(this).inflate(R.layout.dialog_select_grade, null);
 
@@ -249,8 +255,8 @@ public class GameActivity extends BaseActivity implements View.OnClickListener, 
         wheel_grade.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
             @Override
             public void onSelected(int selectedIndex, String item) {
-                select_grade=item;
-                grade_id=gradeIDList.get(selectedIndex-1);
+                select_grade = item;
+                grade_id = gradeIDList.get(selectedIndex - 1);
             }
         });
 
@@ -261,14 +267,14 @@ public class GameActivity extends BaseActivity implements View.OnClickListener, 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if ("".equals(select_grade)) {
-                            select_grade=gradeList.get(0);
-                            grade_id=gradeIDList.get(0);
+                            select_grade = gradeList.get(0);
+                            grade_id = gradeIDList.get(0);
                         }
                         text_grade.setText(select_grade);
-                        if(!"".equals(text_month.getText().toString())){
+                        if (!"".equals(text_month.getText().toString())) {
                             showList();
                         }
-                        select_grade="";
+                        select_grade = "";
                     }
                 })
                 .show();

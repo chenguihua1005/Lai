@@ -53,7 +53,6 @@
                     android:inputType="phone"
                     android:singleLine="true"
                     android:textColor="#333333"
-                    android:text="18961765466"
                     android:hint="@string/phoneNum"/>
             </FrameLayout>
 
@@ -73,17 +72,10 @@
                     android:paddingLeft="40dp"
                     android:singleLine="true"
                     android:hint="@string/password"
-                    android:text="willian"
                     android:textColor="#333333"
                     android:inputType="textPassword"/>
             </FrameLayout>
-            <CheckBox
-                android:id="@+id/cb_remember"
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:layout_gravity="left"
-                android:text="记住此账号密码？"
-                android:checked="true"/>
+
             <TextView
                 android:id="@+id/tv_login"
                 android:layout_marginTop="20dp"

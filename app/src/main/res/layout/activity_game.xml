@@ -1,97 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+  ~ Date:2016-03-31
+  -->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical"
-    tools:context="com.softtek.lai.module.login.view.ForgetActivity">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:fitsSystemWindows="true"
+              android:orientation="vertical"
+              tools:context="com.softtek.lai.module.login.view.ForgetActivity">
 
     <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar" />
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"/>
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/gametMargin">
-
-        <TextView
-            android:id="@+id/text_month_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="@string/selectMonthValue"
-            android:textSize="@dimen/gametTextSize" />
+            android:layout_margin="@dimen/gametMargin">
 
         <TextView
-            android:id="@+id/text_month"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/gametMarginLeft"
-            android:layout_toRightOf="@+id/text_month_value"
-            android:textColor="@color/mytoolbar_green"
-            android:textSize="@dimen/gametValueTextSize" />
+                android:id="@+id/text_month_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/selectMonthValue"
+                android:textSize="@dimen/gametTextSize"/>
+
+        <TextView
+                android:id="@+id/text_month"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/gametMarginLeft"
+                android:layout_toRightOf="@+id/text_month_value"
+                android:textColor="@color/mytoolbar_green"
+                android:textSize="@dimen/gametValueTextSize"/>
 
         <Button
-            android:id="@+id/but_select_month"
-            android:layout_width="@dimen/gametButtonWidth"
-            android:layout_height="@dimen/gametButtonHeight"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/bg_login_btn"
-            android:textColor="@color/sc_transparent_background"
-            android:text="选择"
-            android:textSize="@dimen/gametTextSize" />
+                android:id="@+id/but_select_month"
+                android:layout_width="@dimen/gametButtonWidth"
+                android:layout_height="@dimen/gametButtonHeight"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/bg_login_btn"
+                android:textColor="@color/sc_transparent_background"
+                android:text="选择"
+                android:textSize="@dimen/gametTextSize"/>
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/gametMargin"
-        android:layout_marginRight="@dimen/gametMargin">
-
-        <TextView
-            android:id="@+id/text_grade_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="@string/selectGradeValue"
-            android:textSize="@dimen/gametTextSize" />
+            android:layout_marginLeft="@dimen/gametMargin"
+            android:layout_marginRight="@dimen/gametMargin">
 
         <TextView
-            android:id="@+id/text_grade"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/gametMarginLeft"
-            android:layout_toRightOf="@+id/text_grade_value"
-            android:textColor="@color/mytoolbar_green"
-            android:textSize="@dimen/gametValueTextSize" />
+                android:id="@+id/text_grade_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/selectGradeValue"
+                android:textSize="@dimen/gametTextSize"/>
+
+        <TextView
+                android:id="@+id/text_grade"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/gametMarginLeft"
+                android:layout_toRightOf="@+id/text_grade_value"
+                android:textColor="@color/mytoolbar_green"
+                android:textSize="@dimen/gametValueTextSize"/>
 
         <Button
-            android:id="@+id/but_select_grade"
-            android:layout_width="@dimen/gametButtonWidth"
-            android:layout_height="@dimen/gametButtonHeight"
-            android:layout_alignParentRight="true"
-            android:textColor="@color/sc_transparent_background"
-            android:background="@drawable/bg_login_btn"
-            android:text="选择"
-            android:textSize="@dimen/gametTextSize" />
+                android:id="@+id/but_select_grade"
+                android:layout_width="@dimen/gametButtonWidth"
+                android:layout_height="@dimen/gametButtonHeight"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/sc_transparent_background"
+                android:background="@drawable/bg_login_btn"
+                android:text="选择"
+                android:textSize="@dimen/gametTextSize"/>
     </RelativeLayout>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/gametMargin"
-        android:layout_marginTop="@dimen/gametMargin"
-        android:text="@string/gameValue"
-        android:textSize="@dimen/gametValueTextSizes" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/gametMargin"
+            android:layout_marginTop="@dimen/gametMargin"
+            android:text="@string/gameValue"
+            android:textSize="@dimen/gametValueTextSizes"/>
 
     <ListView
-        android:id="@+id/list_game"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:dividerHeight="3dp"
-        android:layout_margin="@dimen/gametMargin"></ListView>
+            android:id="@+id/list_game"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:dividerHeight="3dp"
+            android:layout_margin="@dimen/gametMargin"></ListView>
 </LinearLayout>

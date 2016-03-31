@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.counselor.view;
 
 
@@ -10,7 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-
+import butterknife.InjectView;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
@@ -19,15 +24,14 @@ import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.counselor.presenter.IStudentPresenter;
 import com.softtek.lai.module.counselor.presenter.StudentImpl;
-import com.softtek.lai.module.login.model.User;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.SoftInputUtil;
-
-import butterknife.InjectView;
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
+
 /**
  * Created by jarvis.liu on 3/22/2016.
  * 邀请学员列表
@@ -54,7 +58,7 @@ public class InviteStudentActivity extends BaseActivity implements View.OnClickL
 
     private IStudentPresenter studentPresenter;
     private ACache aCache;
-    private User user;
+    private UserModel userModel;
     TelephonyManager tManager;
 
 
@@ -63,7 +67,7 @@ public class InviteStudentActivity extends BaseActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         tv_left.setOnClickListener(this);
         but_contant.setOnClickListener(this);
-        tManager=(TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+        tManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         System.out.println("number:" + tManager.getLine1Number());
 
     }
@@ -80,9 +84,9 @@ public class InviteStudentActivity extends BaseActivity implements View.OnClickL
     protected void initDatas() {
         studentPresenter = new StudentImpl(this);
         aCache = ACache.get(this, Constants.USER_ACACHE_DATA_DIR);
-        user = (User) aCache.getAsObject(Constants.USER_ACACHE_KEY);
-        String id = user.getUserid();
-        String classId = SharedPreferenceService.getInstance().get("classId","");
+        userModel = (UserModel) aCache.getAsObject(Constants.USER_ACACHE_KEY);
+        String id = userModel.getUserid();
+        String classId = SharedPreferenceService.getInstance().get("classId", "");
         studentPresenter.getNotInvitePC(classId, id, list_student);
 
     }

@@ -1,3 +1,8 @@
+<!--
+  ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+  ~ Date:2016-03-31
+  -->
+
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="nav_header_vertical_spacing">16dp</dimen>
@@ -64,4 +69,13 @@
     <dimen name="spHonorTextSizes">20sp</dimen>
     <dimen name="spHonorMargin">20dip</dimen>
     <dimen name="spHonorMarginLeft">5dip</dimen>
+
+    <dimen name="fragmentMineMargin">20dip</dimen>
+    <dimen name="fragmentMineMarginTop">10dip</dimen>
+    <dimen name="fragmentMineTextSize">16sp</dimen>
+    <dimen name="fragmentMineTextSizes">14sp</dimen>
+
+    <dimen name="validateCertificationMargin">20dip</dimen>
+    <dimen name="validateCertificationTextSize">16sp</dimen>
+    <dimen name="validateCertificationTextSizes">14sp</dimen>
 </resources>

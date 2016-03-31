@@ -21,7 +21,7 @@ import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.newmemberentry.view.GetPhotoDialog;
-import com.softtek.lai.module.retest.model.RetestWrite;
+import com.softtek.lai.module.retest.model.RetestWriteModel;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.module.retest.present.RetestclassImp;
 import com.softtek.lai.module.retest.view.BodyweiduActivity;
@@ -82,7 +82,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener{
     TextView tv_retestWrite_neizhi;
 
     private RetestPre retestPre;
-    RetestWrite retestWrite;
+    RetestWriteModel retestWrite;
     String path="";
     private static final int PHOTO=1;
     private static final int GET_BODY=2;
@@ -119,7 +119,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener{
         String classId=intent.getStringExtra("classId");
         Log.i("chuanzhizhizhizhizhi",accountId+loginId+classId);
         retestPre=new RetestclassImp();
-        retestWrite=new RetestWrite();
+        retestWrite=new RetestWriteModel();
 //        retestWrite.setAccountId(accountId);
 
 
@@ -251,7 +251,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener{
         //身体围度值传递
         if (requestCode==GET_BODY&&resultCode==RESULT_OK){
             Log.i("》》》》》requestCode："+requestCode+"resultCode："+resultCode);
-            retestWrite=(RetestWrite) data.getSerializableExtra("retestWrite");
+            retestWrite=(RetestWriteModel) data.getSerializableExtra("retestWrite");
             Log.i("新学员录入围度:retestWrite"+retestWrite);
         }
     }

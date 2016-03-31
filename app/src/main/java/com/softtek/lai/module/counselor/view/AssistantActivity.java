@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.module.counselor.view;
 
 
@@ -8,7 +13,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.TextView;
-
+import butterknife.InjectView;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
@@ -20,20 +25,19 @@ import com.softtek.lai.module.counselor.presenter.AssistantImpl;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.SoftInputUtil;
+import zilla.libcore.lifecircle.LifeCircleInject;
+import zilla.libcore.lifecircle.validate.ValidateLife;
+import zilla.libcore.ui.InjectLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.InjectView;
-import zilla.libcore.lifecircle.LifeCircleInject;
-import zilla.libcore.lifecircle.validate.ValidateLife;
-import zilla.libcore.ui.InjectLayout;
 /**
  * Created by jarvis.liu on 3/22/2016.
  * 助教管理页面
  */
 @InjectLayout(R.layout.activity_assistant)
-public class AssistantActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener,BaseFragment.OnFragmentInteractionListener {
+public class AssistantActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener {
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -53,13 +57,12 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
     TabLayout sliding_tabs;
 
 
-
     private IAssistantPresenter assistantPresenter;
     private ACache aCache;
 
     private SimpleFragmentPagerAdapter pagerAdapter;
 
-    List<Fragment> list=new ArrayList<Fragment>();
+    List<Fragment> list = new ArrayList<Fragment>();
     Fragment assistantListFragment;
     Fragment assistantApplyFragment;
 
@@ -77,18 +80,18 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
         //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
         tv_title.setText("创建班级");
 
-        assistantListFragment=new AssistantListFragment();
-        assistantApplyFragment=new AssistantApplyFragment();
+        assistantListFragment = new AssistantListFragment();
+        assistantApplyFragment = new AssistantApplyFragment();
         list.add(assistantApplyFragment);
         list.add(assistantListFragment);
-        pagerAdapter = new SimpleFragmentPagerAdapter(getSupportFragmentManager(),this,list);
+        pagerAdapter = new SimpleFragmentPagerAdapter(getSupportFragmentManager(), this, list);
 
     }
 
     @Override
     protected void initDatas() {
         assistantPresenter = new AssistantImpl(this);
-        aCache= ACache.get(this, Constants.USER_ACACHE_DATA_DIR);
+        aCache = ACache.get(this, Constants.USER_ACACHE_DATA_DIR);
 
         viewpager.setAdapter(pagerAdapter);
         sliding_tabs.setupWithViewPager(viewpager);

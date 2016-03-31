@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+ * Date:2016-03-31
+ */
+
 package com.softtek.lai.utils;
 
 import android.content.Context;
@@ -10,19 +15,21 @@ public class SoftInputUtil {
 
     /**
      * 软键盘显示
+     *
      * @param context
      */
-    public static void show(Context context){
-        InputMethodManager im= (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-        im.toggleSoftInput(0,InputMethodManager.RESULT_SHOWN);
+    public static void show(Context context) {
+        InputMethodManager im = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        im.toggleSoftInput(0, InputMethodManager.RESULT_SHOWN);
     }
 
     /**
      * 软键盘隐藏
+     *
      * @param context
      */
-    public static void hidden(Context context){
-        InputMethodManager im= (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-        im.toggleSoftInput(0,InputMethodManager.HIDE_NOT_ALWAYS);
+    public static void hidden(Context context) {
+        InputMethodManager im = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        im.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
     }
 }

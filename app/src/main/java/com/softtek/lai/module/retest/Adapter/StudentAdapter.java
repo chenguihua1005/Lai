@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
-import com.softtek.lai.module.retest.model.BanjiStudent;
+import com.softtek.lai.module.retest.model.BanjiStudentModel;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
@@ -20,25 +20,25 @@ import java.util.List;
  * Created by lareina.qiao on 3/24/2016.
  */
 public class StudentAdapter extends BaseAdapter {
-    private List<BanjiStudent> banjiStudentList;
+    private List<BanjiStudentModel> banjiStudentModelList;
     private Context context;
-    public StudentAdapter(Context context, List<BanjiStudent>banjiStudentList){
-        this.banjiStudentList=banjiStudentList;
+    public StudentAdapter(Context context, List<BanjiStudentModel>banjiStudentModelList){
+        this.banjiStudentModelList=banjiStudentModelList;
         this.context=context;
     }
-    public void updateData(List<BanjiStudent> banjiStudentList){
-        this.banjiStudentList=banjiStudentList;
+    public void updateData(List<BanjiStudentModel> banjiStudentModelList){
+        this.banjiStudentModelList=banjiStudentModelList;
         notifyDataSetChanged();
     }
 
     @Override
     public int getCount() {
-        return banjiStudentList.size();
+        return banjiStudentModelList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return banjiStudentList.get(position);
+        return banjiStudentModelList.get(position);
     }
 
     @Override
@@ -68,20 +68,20 @@ public class StudentAdapter extends BaseAdapter {
         else {
             holder= (Holder) convertView.getTag();
         }
-        BanjiStudent banjiStudent=banjiStudentList.get(position);
-        if(!TextUtils.isEmpty(banjiStudent.getPhoto())){
-            Picasso.with(context).load(banjiStudent.getPhoto()).placeholder(R.drawable.lufei).error(R.drawable.lufei).into(holder.iv_head);
+        BanjiStudentModel banjiStudentModel=banjiStudentModelList.get(position);
+        if(!TextUtils.isEmpty(banjiStudentModel.getPhoto())){
+            Picasso.with(context).load(banjiStudentModel.getPhoto()).placeholder(R.drawable.lufei).error(R.drawable.lufei).into(holder.iv_head);
         }else{
             Picasso.with(context).load("www").placeholder(R.drawable.lufei).error(R.drawable.lufei).into(holder.iv_head);
         }
 
-        holder.tv_retest_nick.setText(banjiStudent.getUserName());
-        holder.tv_retest_phone.setText(banjiStudent.getMobile());
-        String[] startClass=banjiStudent.getStartDate().split("-");
+        holder.tv_retest_nick.setText(banjiStudentModel.getUserName());
+        holder.tv_retest_phone.setText(banjiStudentModel.getMobile());
+        String[] startClass=banjiStudentModel.getStartDate().split("-");
         holder.tv_retest_classdate.setText(tomonth(startClass[1]));
-        holder.tv_retest_classweek.setText(banjiStudent.getWeekth()+"");
+        holder.tv_retest_classweek.setText(banjiStudentModel.getWeekth()+"");
 
-        String status= "".equals(banjiStudent.getAMStatus())?"录入":"审核";
+        String status= "".equals(banjiStudentModel.getAMStatus())?"录入":"审核";
         if (status=="录入")
         {
             holder.tv_retest_type.setText("录入");
@@ -98,8 +98,8 @@ public class StudentAdapter extends BaseAdapter {
         }
 //        holder.tv_retest_type.setText();
 
-        String[] currStart=banjiStudent.getCurrStart().split("-");
-        String[] currEnd=banjiStudent.getCurrEnd().split("-");
+        String[] currStart=banjiStudentModel.getCurrStart().split("-");
+        String[] currEnd=banjiStudentModel.getCurrEnd().split("-");
         holder.tv_month.setText(currStart[1]);
         holder.tv_month1.setText(currEnd[1]);
         holder.tv_date.setText(currStart[2]);
