@@ -20,7 +20,7 @@ import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
-import com.softtek.lai.ZillaApplication;
+import com.softtek.lai.LaiApplication;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.File.model.File;
 import com.softtek.lai.module.File.model.Filter;
@@ -159,7 +159,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.btn_finish:
                 String nick = et_nickname.getText().toString();
-                if (ZillaApplication.getInstance().getFilterList().contains(new Filter(nick))) {
+                if (LaiApplication.getInstance().getFilterList().contains(new Filter(nick))) {
                     Util.toastMsg("该昵称不合法");
                 } else {
                     validateLife.validate();

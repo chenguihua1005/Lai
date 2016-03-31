@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * Created by zilla on 9/8/15.
  */
-public class ZillaApplication extends Application implements Zilla.InitCallback, DBHelper.DBUpgradeListener {
+public class LaiApplication extends Application implements Zilla.InitCallback, DBHelper.DBUpgradeListener {
 
     private List<Filter> filterList = new ArrayList<>();
 
@@ -36,12 +36,12 @@ public class ZillaApplication extends Application implements Zilla.InitCallback,
         this.filterList = filterList;
     }
 
-    private static ZillaApplication zillaApplication;
+    private static LaiApplication laiApplication;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        zillaApplication = this;
+        laiApplication = this;
         String[] datas = getResources().getStringArray(R.array.SensitiveWord);
         for (int i = 0; i < datas.length; i++) {
             filterList.add(new Filter(datas[i]));
@@ -51,8 +51,8 @@ public class ZillaApplication extends Application implements Zilla.InitCallback,
         catchHandler.init(getApplicationContext());
     }
 
-    public static ZillaApplication getInstance() {
-        return zillaApplication;
+    public static LaiApplication getInstance() {
+        return laiApplication;
     }
 
     /**
