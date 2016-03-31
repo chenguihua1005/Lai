@@ -14,7 +14,7 @@ import android.widget.TextView;
 import butterknife.InjectView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.module.retest.Adapter.QueryAdapter;
+import com.softtek.lai.module.retest.adapter.QueryAdapter;
 import com.softtek.lai.module.retest.eventModel.StudentEvent;
 import com.softtek.lai.module.retest.model.StudentModel;
 import com.softtek.lai.module.retest.present.RetestPre;

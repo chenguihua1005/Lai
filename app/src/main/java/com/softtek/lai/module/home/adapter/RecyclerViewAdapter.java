@@ -42,8 +42,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(final RecyclerViewAdapter.ViewHolder holder, int position) {
         //绑定数据
         HomeInfoModel info = infos.get(position);
-        Picasso.with(mContext).load(info.getImg_Addr()).error(R.drawable.froyo).into(holder.iv_image);
-        holder.tv_title.setText("item" + position);
+        Picasso.with(mContext).load(info.getImg_Addr()).error(R.drawable.default_pic).into(holder.iv_image);
+        holder.tv_title.setText(info.getImg_Title());
 
     }
 
