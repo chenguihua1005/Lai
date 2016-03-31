@@ -23,6 +23,7 @@ public class UserInfoModel {
     private UserInfoModel(Context context){
         aCache=ACache.get(context,Constants.USER_ACACHE_DATA_DIR);
         token=SharedPreferenceService.getInstance().get(Constants.TOKEN,"");
+
     }
 
     public static UserInfoModel getInstance(Context context){

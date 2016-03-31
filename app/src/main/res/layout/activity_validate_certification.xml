@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <RelativeLayout
+        android:id="@+id/rel_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:layout_marginLeft="@dimen/validateCertificationMargin"
+        android:layout_marginRight="@dimen/validateCertificationMargin"
+        android:layout_marginTop="100dip">
+
+        <EditText
+            android:id="@+id/edit_account"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/zigezhenghao"
+            android:textSize="@dimen/validateCertificationTextSize" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rel_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rel_account"
+        android:layout_margin="@dimen/validateCertificationMargin">
+
+        <EditText
+            android:id="@+id/edit_password"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/password"
+            android:textSize="@dimen/validateCertificationTextSize" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/but_validate"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rel_password"
+        android:layout_margin="@dimen/fragmentMineMargin"
+        android:background="@drawable/bg_login_btn"
+        android:text="提交" />
+</RelativeLayout>

@@ -13,12 +13,14 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.home.view.HomeActviity;
+import com.softtek.lai.module.login.model.RoleInfo;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.net.LoginService;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
+import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.util.Util;
 
 /**
@@ -35,7 +37,33 @@ public class LoginPresenterImpl implements ILoginPresenter {
     }
 
     @Override
-    public void doLogin(String userName, String password, final ProgressDialog dialog) {
+    public void alidateCertification(String memberId, String password, String accountId) {
+        String token = SharedPreferenceService.getInstance().get("token", "");
+        service.alidateCertification(token, memberId, password, accountId, new Callback<ResponseData<RoleInfo>>() {
+            @Override
+            public void success(ResponseData<RoleInfo> userResponseData, Response response) {
+
+                int status = userResponseData.getStatus();
+                switch (status) {
+                    case 200:
+
+                        break;
+                    default:
+                        Util.toastMsg(userResponseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                error.printStackTrace();
+                Util.toastMsg("????");
+            }
+        });
+    }
+
+    @Override
+    public void doLogin(String userName, String password,final ProgressDialog dialog) {
 
         service.doLogin(userName, password, new Callback<ResponseData<UserModel>>() {
             @Override

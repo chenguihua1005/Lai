@@ -7,10 +7,12 @@ package com.softtek.lai.module.login.net;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.login.model.IdentifyModel;
+import com.softtek.lai.module.login.model.RoleInfo;
 import com.softtek.lai.module.login.model.UserModel;
 import retrofit.Callback;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
+import retrofit.http.Header;
 import retrofit.http.POST;
 
 /**
@@ -54,4 +56,13 @@ public interface LoginService {
     void checkIdentify(@Field("phone") String phone,
                        @Field("identify") String identify,
                        Callback<ResponseData> callback);
+
+    @FormUrlEncoded
+    @POST("/HerbUser/ValidateCertification")
+    void alidateCertification(
+            @Header("token") String token, @Field("memberId") String memberId,
+            @Field("password") String password,
+            @Field("accountId") String accountId,
+            Callback<ResponseData<RoleInfo>> callback);
+
 }

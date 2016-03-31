@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 import butterknife.InjectView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame.CounselorActivity;
 import com.softtek.lai.module.bodygamest.view.StudentActivity;
@@ -190,10 +192,10 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
      */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        aCache = ACache.get(getContext(), Constants.USER_ACACHE_DATA_DIR);
-        UserModel userModel = (UserModel) aCache.getAsObject(Constants.USER_ACACHE_KEY);
-        if (Integer.parseInt(userModel.getUserrole()) == Constants.VR) {
-            Util.toastMsg("游客");
+        UserModel user=UserInfoModel.getInstance().getUser();
+        if (String.valueOf(Constants.VR).equals(user.getUserrole())) {
+            //Util.toastMsg("游客");
+            Snackbar.make(view,"您当前是游客模式，请登录后再试",Snackbar.LENGTH_SHORT).show();
             return;
         }
         switch (position) {
