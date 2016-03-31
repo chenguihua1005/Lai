@@ -3,32 +3,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     android:background="@color/sc_transparent_background"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
     tools:context="com.softtek.lai.module.login.view.ForgetActivity">
 
-    <include layout="@layout/toolbar"
+    <include
         android:id="@+id/toolbar"
-        />
-    <ListView
-        android:id="@+id/expand_list"
-        android:layout_below="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:dividerHeight="10dip"
-        android:divider="@color/sc_transparent_background"
-        android:layout_above="@+id/lin_create_class"/>
+        android:layout_above="@+id/lin_create_class"
+        android:layout_below="@+id/toolbar">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/no_message" />
+
+        <ListView
+            android:id="@+id/expand_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:divider="@color/sc_transparent_background"
+            android:dividerHeight="10dip" />
+    </RelativeLayout>
+
     <LinearLayout
         android:id="@+id/lin_create_class"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true">
+
         <ImageView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@drawable/createclass"
             android:layout_margin="@dimen/counselorClassTextMargin"
-            />
+            android:src="@drawable/createclass" />
     </LinearLayout>
 </RelativeLayout>

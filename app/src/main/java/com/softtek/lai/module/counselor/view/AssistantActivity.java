@@ -1,56 +1,39 @@
 package com.softtek.lai.module.counselor.view;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
+
+import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
-import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.counselor.adapter.CounselorClassAdapter;
+import com.softtek.lai.module.counselor.adapter.SimpleFragmentPagerAdapter;
 import com.softtek.lai.module.counselor.presenter.AssistantImpl;
-import com.softtek.lai.module.counselor.presenter.CounselorClassImpl;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
-import com.softtek.lai.module.counselor.presenter.ICounselorClassPresenter;
-import com.softtek.lai.module.grade.view.GradeHomeActivity;
-import com.softtek.lai.module.login.model.User;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.SoftInputUtil;
-import com.softtek.lai.widgets.WheelView;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.InjectView;
-import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 /**
  * Created by jarvis.liu on 3/22/2016.
- * 邀请助教页面
+ * 助教管理页面
  */
-@InjectLayout(R.layout.activity_assistant_list)
-public class AssistantListActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener {
+@InjectLayout(R.layout.activity_assistant)
+public class AssistantActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener,BaseFragment.OnFragmentInteractionListener {
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -62,21 +45,29 @@ public class AssistantListActivity extends BaseActivity implements View.OnClickL
     @InjectView(R.id.tv_title)
     TextView tv_title;
 
-    @InjectView(R.id.tv_right)
-    TextView tv_right;
 
-    @InjectView(R.id.list_assistant)
-    ListView list_assistant;
+    @InjectView(R.id.viewpager)
+    ViewPager viewpager;
+
+    @InjectView(R.id.sliding_tabs)
+    TabLayout sliding_tabs;
+
+
 
     private IAssistantPresenter assistantPresenter;
     private ACache aCache;
-    String classId;
+
+    private SimpleFragmentPagerAdapter pagerAdapter;
+
+    List<Fragment> list=new ArrayList<Fragment>();
+    Fragment assistantListFragment;
+    Fragment assistantApplyFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         tv_left.setOnClickListener(this);
-        tv_right.setOnClickListener(this);
+
 
     }
 
@@ -84,9 +75,13 @@ public class AssistantListActivity extends BaseActivity implements View.OnClickL
     protected void initViews() {
         tv_left.setBackgroundResource(R.drawable.back);
         //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
-        tv_title.setText("邀请助教");
+        tv_title.setText("创建班级");
 
-        tv_right.setText("完成");
+        assistantListFragment=new AssistantListFragment();
+        assistantApplyFragment=new AssistantApplyFragment();
+        list.add(assistantApplyFragment);
+        list.add(assistantListFragment);
+        pagerAdapter = new SimpleFragmentPagerAdapter(getSupportFragmentManager(),this,list);
 
     }
 
@@ -94,21 +89,17 @@ public class AssistantListActivity extends BaseActivity implements View.OnClickL
     protected void initDatas() {
         assistantPresenter = new AssistantImpl(this);
         aCache= ACache.get(this, Constants.USER_ACACHE_DATA_DIR);
-        classId=SharedPreferenceService.getInstance().get("classId","");
-        System.out.println("classId:"+classId);
-        assistantPresenter.getAssistantList(classId,list_assistant);
+
+        viewpager.setAdapter(pagerAdapter);
+        sliding_tabs.setupWithViewPager(viewpager);
+        sliding_tabs.setTabMode(TabLayout.MODE_FIXED);
+
     }
 
     @Override
     public void onClick(View v) {
         SoftInputUtil.hidden(this);
         switch (v.getId()) {
-            case R.id.tv_right:
-                Intent intent = new Intent(this, GradeHomeActivity.class);
-                intent.putExtra("classId",classId);
-                startActivity(intent);
-                break;
-
             case R.id.tv_left:
                 finish();
                 break;
@@ -131,5 +122,10 @@ public class AssistantListActivity extends BaseActivity implements View.OnClickL
         validateLife.onValidationFailed(failedView, failedRule);
     }
 
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 
 }

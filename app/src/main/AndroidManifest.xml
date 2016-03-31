@@ -70,12 +70,12 @@
         <activity android:name=".module.counselor.view.CounselorClassListActivity"/>
         <activity android:name=".module.counselor.view.CreateCounselorClassActivity"/>
         <activity android:name=".module.counselor.view.AssistantListActivity"/>
+        <activity android:name=".module.counselor.view.AssistantDetailActivity"/>
+        <activity android:name=".module.counselor.view.AssistantActivity"/>
         <activity android:name=".module.counselor.view.SPHonorActivity"/>
-        <activity android:name=".module.assistant.view.AssistantActivity"/>
-        <activity android:name=".module.assistant.view.AssistantDetailActivity"/>
-        <activity android:name=".module.assistant.view.InviteStudentActivity"/>
-        <activity android:name=".module.assistant.view.InviteContantActivity"/>
-        <activity android:name=".module.assistant.view.GameActivity"/>
+        <activity android:name=".module.counselor.view.InviteContantActivity"/>
+        <activity android:name=".module.counselor.view.InviteStudentActivity"/>
+        <activity android:name=".module.counselor.view.GameActivity"/>
 
 
     </application>

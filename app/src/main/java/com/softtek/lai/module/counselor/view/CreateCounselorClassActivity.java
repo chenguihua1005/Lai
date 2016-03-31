@@ -41,7 +41,10 @@ import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
-
+/**
+ * Created by jarvis.liu on 3/22/2016.
+ * 体管赛 创建班级
+ */
 @InjectLayout(R.layout.activity_create_counselor_class)
 public class CreateCounselorClassActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener {
 

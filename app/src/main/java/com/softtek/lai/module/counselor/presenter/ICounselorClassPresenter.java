@@ -7,7 +7,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshExpandableListView;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 /**
- * Created by jerry.guan on 3/3/2016.
+ * Created by jarvis on 3/3/2016.
  */
 public interface ICounselorClassPresenter {
 
@@ -15,6 +15,5 @@ public interface ICounselorClassPresenter {
     void getClassList(ListView expand_lis,LinearLayout lin_create_class);
     //创建班级
     void createClass(String className,String startDate,String endDate,String managerId);
-    //获取荣誉榜
-    void getSPHonor();
+
 }

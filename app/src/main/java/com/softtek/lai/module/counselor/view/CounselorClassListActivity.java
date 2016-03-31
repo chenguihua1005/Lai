@@ -2,47 +2,24 @@ package com.softtek.lai.module.counselor.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.support.v7.widget.Toolbar;
-import android.text.Html;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshExpandableListView;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
-import com.mobsandgeeks.saripaar.annotation.Regex;
-import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.module.File.view.CreatFlleActivity;
-import com.softtek.lai.module.assistant.model.AssistantClassInfo;
 import com.softtek.lai.module.counselor.adapter.CounselorClassAdapter;
 import com.softtek.lai.module.counselor.model.ClassInfo;
 import com.softtek.lai.module.counselor.presenter.CounselorClassImpl;
 import com.softtek.lai.module.counselor.presenter.ICounselorClassPresenter;
 import com.softtek.lai.module.grade.view.GradeHomeActivity;
-import com.softtek.lai.module.login.presenter.IPasswordPresenter;
-import com.softtek.lai.module.login.presenter.IRegistPresenter;
-import com.softtek.lai.module.login.presenter.PasswordPresnter;
-import com.softtek.lai.module.login.presenter.RegistPresenterImpl;
-import com.softtek.lai.utils.DisplayUtil;
-import com.softtek.lai.utils.RegexUtil;
 import com.softtek.lai.utils.SoftInputUtil;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -50,8 +27,10 @@ import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
-
+/**
+ * Created by jarvis.liu on 3/22/2016.
+ * 体管赛，班级列表
+ */
 @InjectLayout(R.layout.activity_counselor_classlist)
 public class CounselorClassListActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener {
 
