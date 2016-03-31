@@ -13,20 +13,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.NumberPicker;
-import android.widget.TextView;
-
+import android.widget.*;
 import butterknife.InjectView;
 import com.github.snowdream.android.util.Log;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
-import com.softtek.lai.R;
 import com.softtek.lai.LaiApplication;
+import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.File.model.FileModel;
 import com.softtek.lai.module.File.model.FilterModel;
@@ -37,7 +31,6 @@ import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_creatfile)
 public class CreatFlleActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener {
@@ -58,15 +51,15 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
 
     @Required(order = 3, message = "请选择性别")
     @InjectView(R.id.tv_sex)
-    TextView tv_sex;
+    EditText tv_sex;
 
     @Required(order = 4, message = "请选择身高")
     @InjectView(R.id.tv_height)
-    TextView tv_height;
+    EditText tv_height;
 
     @Required(order = 5, message = "请选择体重")
     @InjectView(R.id.tv_weight)
-    TextView tv_weight;
+    EditText tv_weight;
 
     //添加身体围度按钮
     @InjectView(R.id.btn_Add_bodydimension)
@@ -122,6 +115,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                                 tv_birth.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
+                                tv_birth.setError(null);
                             }
                         }, 2016, 8, 17);
                         dialog.setTitle("");
@@ -166,7 +160,8 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
             case R.id.btn_finish:
                 String nick = et_nickname.getText().toString();
                 if (LaiApplication.getInstance().getFilterList().contains(new FilterModel(nick))) {
-                    Util.toastMsg("该昵称不合法");
+                    et_nickname.setError("该昵称不合法");
+//                    Util.toastMsg("该昵称不合法");
                 } else {
                     validateLife.validate();
                 }
@@ -178,11 +173,13 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                 w = false;
                 break;
             case R.id.ll_birth:
+            case R.id.tv_birth:
                 DatePickerDialog dialog = new DatePickerDialog(
                         CreatFlleActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         tv_birth.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
+                        tv_birth.setError(null);
                     }
                 }, 2016, 8, 17);
                 dialog.setTitle("");
@@ -190,12 +187,15 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                 dialog.show();
                 break;
             case R.id.ll_sex:
+            case R.id.tv_sex:
                 show_sex_dialog();
                 break;
             case R.id.ll_height:
+            case R.id.tv_height:
                 show_height_dialog();
                 break;
             case R.id.ll_weight:
+            case R.id.tv_weight:
                 show_weight_dialog();
                 break;
             case R.id.tv_right:
@@ -215,7 +215,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         String weight = tv_weight.getText().toString();
         Log.i("创建档案：" + "nick:" + nick + ";birthday:" + birthday + ";gender:" + gender + ";height:" + height + ";weight:" + weight);
         if (w == true) {
-         file = new FileModel();
+            file = new FileModel();
         }
         Log.i("file:--------------" + file);
         file.setNickname(nick);
@@ -252,6 +252,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 tv_sex.setText(SexData[which]);
+                                tv_sex.setError(null);
                             }
                         })
 //                .setNegativeButton("取消",null)
@@ -277,6 +278,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
             @Override
             public void onClick(View v) {
                 tv_height.setText(String.valueOf(np.getValue())); //set the value to textview
+                tv_height.setError(null);
                 height_dialog.dismiss();
             }
         });
@@ -314,6 +316,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int which) {
                                             tv_weight.setText(String.valueOf(np.getValue())); //set the value to textview
+                                            tv_weight.setError(null);
                                         }
                                     })
 
@@ -328,6 +331,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                     dialog.setCanceledOnTouchOutside(false);
                 } else {
                     tv_weight.setText(String.valueOf(np.getValue())); //set the value to textview
+                    tv_weight.setError(null);
                 }
                 weight_dialog.dismiss();
             }
