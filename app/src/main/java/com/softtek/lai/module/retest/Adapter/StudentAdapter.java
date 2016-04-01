@@ -121,31 +121,31 @@ public class StudentAdapter extends BaseAdapter {
     }
     public String tomonth(String month){
 
-        if (month.equals("01")){
+        if (month.equals("01")||month.equals("1")){
             month="一月班";
         }
-        else if (month.equals("02")){
+        else if (month.equals("02")||month.equals("2")){
             month="二月班";
-        }else if (month.equals("03"))
+        }else if (month.equals("03")||month.equals("3"))
         {
             month="三月班";
-        }else if (month.equals("04"))
+        }else if (month.equals("04")||month.equals("4"))
         {
             month="四月班";
 
-        }else if (month.equals("05"))
+        }else if (month.equals("05")||month.equals("5"))
         {
             month="五月班";
-        }else if (month.equals("06"))
+        }else if (month.equals("06")||month.equals("6"))
         {
             month="六月班";
-        }else if (month.equals("07"))
+        }else if (month.equals("07")||month.equals("7"))
         {
             month="七月班";
-        } else if (month.equals("08"))
+        } else if (month.equals("08")||month.equals("8"))
         {
             month="八月班";
-        }else if (month.equals("09"))
+        }else if (month.equals("09")||month.equals("9"))
         {
             month="九月班";
         }else if (month.equals("10"))
