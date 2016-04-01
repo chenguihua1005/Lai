@@ -156,6 +156,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         tv_title.setText("我的档案");
         tv_left.setBackground(null);
         tv_right.setText("跳过");
+        tv_right.setTextSize(18);
         file = new FileModel();
     }
 
@@ -260,7 +261,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
             }
         },myear,mmonth,mday);
         dialog.setTitle("");
-        dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
+        //dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
         dialog.show();
     }
 
@@ -300,7 +301,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
 //                .setNegativeButton("取消",null)
                 .setPositiveButton("完成", null)
                 .create();
-        genderdialog.setCanceledOnTouchOutside(false);  // 设置点击屏幕Dialog不消失
+        //genderdialog.setCanceledOnTouchOutside(false);  // 设置点击屏幕Dialog不消失
         genderdialog.show();
     }
 
@@ -331,7 +332,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
 //                height_dialog.dismiss(); // dismiss the dialog
 //            }
 //        });
-        height_dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
+        //height_dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
         height_dialog.show();
     }
 
@@ -385,7 +386,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
 //                weight_dialog.dismiss(); // dismiss the dialog
 //            }
 //        });
-        weight_dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
+        //weight_dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
         weight_dialog.show();
     }
 }
