@@ -11,6 +11,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.format.Time;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -20,19 +21,22 @@ import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
-import butterknife.InjectView;
 import com.github.snowdream.android.util.Log;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
-import com.softtek.lai.R;
 import com.softtek.lai.LaiApplication;
+import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.File.model.FileModel;
 import com.softtek.lai.module.File.model.FilterModel;
 import com.softtek.lai.module.File.presenter.CreateFileImpl;
 import com.softtek.lai.module.File.presenter.ICreateFilepresenter;
 import com.softtek.lai.module.home.view.HomeActviity;
+
+import java.util.Calendar;
+
+import butterknife.InjectView;
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
@@ -107,6 +111,11 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
 
     private boolean w = true;
 
+    Calendar ca = Calendar.getInstance();
+    int myear = ca.get(Calendar.YEAR);//获取年份
+    int mmonth=ca.get(Calendar.MONTH);//获取月份
+    int mday=ca.get(Calendar.DATE);//获取日
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,16 +126,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                 switch (action) {
                     case MotionEvent.ACTION_DOWN:
                         tv_birth.setFocusable(false);
-                        DatePickerDialog dialog = new DatePickerDialog(
-                                CreatFlleActivity.this, new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                tv_birth.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
-                            }
-                        }, 2016, 8, 17);
-                        dialog.setTitle("");
-                        dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
-                        dialog.show();
+                        show_birth_dialog();
                         break;
                     case MotionEvent.ACTION_MOVE:
                         break;
@@ -176,18 +176,6 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                 intent.putExtra("file", file);
                 startActivityForResult(intent, GET_BODY_DIMENSION);
                 w = false;
-                break;
-            case R.id.ll_birth:
-                DatePickerDialog dialog = new DatePickerDialog(
-                        CreatFlleActivity.this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        tv_birth.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
-                    }
-                }, 2016, 8, 17);
-                dialog.setTitle("");
-                dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
-                dialog.show();
                 break;
             case R.id.ll_sex:
                 show_sex_dialog();
@@ -241,6 +229,45 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
             file = (FileModel) data.getSerializableExtra("file");
             Log.i("创建档案围度file:" + file);
         }
+    }
+    //生日对话框
+    public void show_birth_dialog() {
+        final DatePickerDialog dialog = new DatePickerDialog(
+                CreatFlleActivity.this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int day) {
+                if (year>myear){
+                    show_warn_dialog();
+                }
+                if (year==myear&&month>mmonth){
+                    show_warn_dialog();
+                }
+                if (year==myear&&month==mmonth&&day>mday){
+                    show_warn_dialog();
+                }
+                else {
+                    tv_birth.setText(year + "-" +(month+1)+ "-" + day);
+                }
+            }
+        },myear,mmonth,mday);
+        dialog.setTitle("");
+        dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
+        dialog.show();
+    }
+
+    //生日警告对话框
+    public void show_warn_dialog(){
+        Dialog dialog = new AlertDialog.Builder(CreatFlleActivity.this)
+                .setMessage("生日不能大于当前日期,请重新选择")
+                .setPositiveButton("确定",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int which) {
+                                show_birth_dialog();
+                            }
+                        }).create();
+        dialog.show();
+        dialog.setCanceledOnTouchOutside(false);
     }
 
     //性别对话框

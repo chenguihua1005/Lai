@@ -33,11 +33,7 @@
             android:name=".module.login.view.LoginActivity"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity android:name=".module.guide.GuideActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".module.login.view.RegistActivity"
@@ -48,7 +44,13 @@
         <activity
             android:name=".module.login.view.ForgetActivity2"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-        <activity android:name=".module.File.view.CreatFlleActivity"></activity>
+        <activity android:name=".module.File.view.CreatFlleActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".module.home.view.HomeActviity"
             android:launchMode="singleTask" />
