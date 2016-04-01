@@ -65,9 +65,9 @@
     <string name="visitor">游客模式</string>
     <string name="login">登录</string>
     <string name="regist">注册</string>
-    <string name="repassword">重复密码</string>
+    <string name="repassword">确认密码</string>
     <string name="protocol">
-        <u>莱APP用户协议和隐私保护条款</u>
+        <u>&lt;莱APP用户协议和隐私保护条款&gt;</u>
     </string>
     <string name="next">下一步</string>
     <string name="sendIdentify">发送验证码</string>
@@ -94,6 +94,10 @@
     <string name="fragmentResetPassword">重置密码</string>
     <string name="zigezhenghao">资格证号</string>
     <string name="accountValidateNull">请输入资格证号</string>
+    <string name="studentHonorJZ">减重奖章</string>
+    <string name="studentHonorFC">复测奖章</string>
+    <string name="studentHonorYGJ">月冠军</string>
+    <string name="studentHonorsTAR">全国减重明星奖章</string>
 
 
     <string-array name="SensitiveWord">

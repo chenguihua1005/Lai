@@ -15,7 +15,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import butterknife.InjectView;
+
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
@@ -28,6 +30,7 @@ import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.widgets.WheelView;
+
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
@@ -118,6 +121,45 @@ public class GameActivity extends BaseActivity implements View.OnClickListener, 
         monthOfYear = calendar.get(Calendar.MONTH) + 1;
         dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
+        if (monthOfYear == 1) {
+            select_month = monthList.get(0);
+            dateInfo = monthsList.get(0);
+        } else if (monthOfYear == 2) {
+            select_month = monthList.get(1);
+            dateInfo = monthsList.get(1);
+        } else if (monthOfYear == 3) {
+            select_month = monthList.get(2);
+            dateInfo = monthsList.get(2);
+        } else if (monthOfYear == 4) {
+            select_month = monthList.get(3);
+            dateInfo = monthsList.get(3);
+        } else if (monthOfYear == 5) {
+            select_month = monthList.get(4);
+            dateInfo = monthsList.get(4);
+        } else if (monthOfYear == 6) {
+            select_month = monthList.get(5);
+            dateInfo = monthsList.get(5);
+        } else if (monthOfYear == 7) {
+            select_month = monthList.get(6);
+            dateInfo = monthsList.get(6);
+        } else if (monthOfYear == 8) {
+            select_month = monthList.get(7);
+            dateInfo = monthsList.get(7);
+        } else if (monthOfYear == 9) {
+            select_month = monthList.get(8);
+            dateInfo = monthsList.get(8);
+        } else if (monthOfYear == 10) {
+            select_month = monthList.get(9);
+            dateInfo = monthsList.get(9);
+        } else if (monthOfYear == 11) {
+            select_month = monthList.get(10);
+            dateInfo = monthsList.get(10);
+        } else if (monthOfYear == 12) {
+            select_month = monthList.get(11);
+            dateInfo = monthsList.get(11);
+        }
+
+        text_month.setText(select_month);
 
     }
 
@@ -208,11 +250,13 @@ public class GameActivity extends BaseActivity implements View.OnClickListener, 
         wheel_month.setOffset(1);
         wheel_month.setItems(monthList);
         wheel_month.setSeletion(0);
+        select_month = "";
         wheel_month.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
             @Override
             public void onSelected(int selectedIndex, String item) {
                 select_month = item;
                 dateInfo = monthsList.get(selectedIndex - 1);
+
             }
         });
 
@@ -252,6 +296,7 @@ public class GameActivity extends BaseActivity implements View.OnClickListener, 
         wheel_grade.setOffset(1);
         wheel_grade.setItems(gradeList);
         wheel_grade.setSeletion(0);
+        select_grade = "";
         wheel_grade.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
             @Override
             public void onSelected(int selectedIndex, String item) {

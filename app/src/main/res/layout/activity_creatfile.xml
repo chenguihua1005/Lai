@@ -18,10 +18,11 @@
         <LinearLayout
                 android:id="@+id/ll_nickname"
                 android:gravity="center_vertical"
+                android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
             <ImageView
-                    android:layout_width="30dp"
+                    android:layout_width="20dp"
                     android:layout_height="wrap_content"
                     android:src="@drawable/nick"
                     android:layout_marginRight="15dp"/>
@@ -29,7 +30,7 @@
                     android:gravity="center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
-                    android:textSize="20dp"
+                    android:textSize="18sp"
                     android:textColor="#000"
                     android:text="昵称"/>
             <EditText
@@ -55,7 +56,7 @@
                 android:layout_height="50dp"
                 android:gravity="center_vertical">
             <ImageView
-                    android:layout_width="30dp"
+                    android:layout_width="20dp"
                     android:layout_height="wrap_content"
                     android:src="@drawable/birthday_h"
                     android:layout_marginRight="15dp"/>
@@ -63,13 +64,13 @@
                     android:gravity="center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
-                    android:textSize="20dp"
+                    android:textSize="18sp"
                     android:textColor="#000"
                     android:text="生日"/>
             <EditText
                     android:id="@+id/tv_birth"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:textSize="18dp"
                     android:singleLine="true"
                     android:textColor="#808080"
@@ -88,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical">
             <ImageView
-                    android:layout_width="30dp"
+                    android:layout_width="20dp"
                     android:layout_height="wrap_content"
                     android:src="@drawable/male_back"
                     android:layout_marginRight="15dp"/>
@@ -96,13 +97,13 @@
                     android:gravity="center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
-                    android:textSize="20dp"
+                    android:textSize="18sp"
                     android:textColor="#000"
                     android:text="性别"/>
             <EditText
                     android:id="@+id/tv_sex"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:textSize="18dp"
                     android:singleLine="true"
                     android:textColor="#808080"
@@ -122,7 +123,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical">
             <ImageView
-                    android:layout_width="30dp"
+                    android:layout_width="20dp"
                     android:layout_height="wrap_content"
                     android:src="@drawable/height_h"
                     android:layout_marginRight="15dp"/>
@@ -130,13 +131,13 @@
                     android:gravity="center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
-                    android:textSize="20dp"
+                    android:textSize="18sp"
                     android:textColor="#000"
                     android:text="身高"/>
             <EditText
                     android:id="@+id/tv_height"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:textSize="18dp"
                     android:textColor="#808080"
                     android:singleLine="true"
@@ -155,7 +156,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical">
             <ImageView
-                    android:layout_width="30dp"
+                    android:layout_width="20dp"
                     android:layout_height="wrap_content"
                     android:src="@drawable/weight_h"
                     android:layout_marginRight="15dp"/>
@@ -163,13 +164,13 @@
                     android:gravity="center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
-                    android:textSize="20dp"
+                    android:textSize="18sp"
                     android:textColor="#000"
                     android:text="体重"/>
             <EditText
                     android:id="@+id/tv_weight"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:textSize="18dp"
                     android:textColor="#808080"
                     android:singleLine="true"
@@ -189,7 +190,7 @@
                 android:layout_height="50dp"
                 android:text="添加身体围度"
                 android:background="@drawable/bg_addbody_btn"
-                android:textColor="#FFA302"
+                android:textColor="#ffffff"
                 android:textSize="22sp"
                 android:layout_marginBottom="60dp"/>
 
@@ -206,8 +207,7 @@
     <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scaleType="fitCenter"
+            android:scaleType="fitXY"
             android:src="@drawable/buttom"
-            android:layout_alignParentBottom="true"
-    />
+            android:layout_alignParentBottom="true" />
 </RelativeLayout>

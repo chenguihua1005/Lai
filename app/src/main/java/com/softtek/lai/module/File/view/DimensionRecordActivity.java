@@ -111,13 +111,12 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
         newstudentsModel = (NewstudentsModel) getIntent().getSerializableExtra("newstudentsModel");
         retestWriteModel = (RetestWriteModel) getIntent().getSerializableExtra("retestWriteModel");
         tv_title.setText("添加记录");
-        tv_circum.setText("0.0".equals(file.getCircum() + "") ? "" : file.getCircum() + "");
-        tv_waistline.setText("0.0".equals(file.getWaistline() + "") ? "" : file.getWaistline() + "");
-        tv_hiplie.setText("0.0".equals(file.getHiplie() + "") ? "" : file.getHiplie() + "");
-        tv_uparmgirth.setText("0.0".equals(file.getUparmgirth() + "") ? "" : file.getUparmgirth() + "");
-        tv_upleggirth.setText("0.0".equals(file.getUpleggirth() + "") ? "" : file.getUpleggirth() + "");
-        tv_doleggirth.setText("0.0".equals(file.getDoleggirth() + "") ? "" : file.getDoleggirth() + "");
-
+        tv_circum.setText("90".equals(file.getCircum() + "") ? "" : file.getCircum() + "");
+        tv_waistline.setText("90".equals(file.getWaistline() + "") ? "" : file.getWaistline() + "");
+        tv_hiplie.setText("90".equals(file.getHiplie() + "") ? "" : file.getHiplie() + "");
+        tv_uparmgirth.setText("90".equals(file.getUparmgirth() + "") ? "" : file.getUparmgirth() + "");
+        tv_upleggirth.setText("90".equals(file.getUpleggirth() + "") ? "" : file.getUpleggirth() + "");
+        tv_doleggirth.setText("90".equals(file.getDoleggirth() + "") ? "" : file.getDoleggirth() + "");
 
     }
 

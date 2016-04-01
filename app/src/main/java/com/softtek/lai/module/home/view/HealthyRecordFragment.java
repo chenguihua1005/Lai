@@ -10,7 +10,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import zilla.libcore.ui.InjectLayout;
 
-@InjectLayout(R.layout.base_fragment)
+@InjectLayout(R.layout.fragment_healthy)
 public class HealthyRecordFragment extends BaseFragment {
 
 

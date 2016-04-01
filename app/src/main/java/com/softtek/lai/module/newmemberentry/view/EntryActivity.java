@@ -11,6 +11,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -42,10 +43,12 @@ import org.greenrobot.eventbus.Subscribe;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 @InjectLayout(R.layout.activity_member_entry)
@@ -143,6 +146,13 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
 
     private List<PargradeModel> pargradeModelList = new ArrayList<PargradeModel>();
 
+    //获取当前日期
+    Calendar ca = Calendar.getInstance();
+    int myear = ca.get(Calendar.YEAR);//获取年份
+    int mmonth=ca.get(Calendar.MONTH);//获取月份
+    int mday=ca.get(Calendar.DATE);//获取日
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
@@ -171,6 +181,7 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
 
                 PargradeModel pargradeModel = pargradeModelList.get(position);
                 et_classid.setText(pargradeModel.getClassId());
+                et_classid.setError(null);
                 list_cansaibanji.setVisibility(View.INVISIBLE);
 
             }
@@ -342,6 +353,7 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
         newstudentsModel.setCertification(certification);
         newstudentsModel.setMobile(mobile);
         newstudentsModel.setClassid(Integer.parseInt(classid));
+       // newstudentsModel.setClassid(classid);
         newstudentsModel.setWeight(Double.parseDouble(weight.equals("") ? "0" : weight));
         newstudentsModel.setPysical(Double.parseDouble(pysical.equals("") ? "0" : pysical));
         newstudentsModel.setFat(Double.parseDouble(fat.equals("") ? "0" : fat));
@@ -357,12 +369,52 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
         validateLife.onValidationFailed(failedView, failedRule);
     }
 
+    public Bitmap compressBitmap(Resources res, int resId, int targetWidth, int targetHeight) {
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;//设为true，节约内存
+        BitmapFactory.decodeResource(res, resId, options);//返回null
+        int height = options.outHeight;//得到源图片height，单位px
+        int width = options.outWidth;//得到源图片的width，单位px
+        //计算inSampleSize
+        options.inSampleSize = calculateInSampleSize(width, height, targetWidth, targetHeight);
+        options.inJustDecodeBounds = false;//设为false，可以返回Bitmap
+        return BitmapFactory.decodeResource(res, resId, options);
+    }
+
+    /**
+     * 计算压缩比例
+     * @param width        源图片的宽
+     * @param height       源图片的高
+     * @param targetWidth  目标图片的宽
+     * @param targetHeight 目标图片的高
+     * @return inSampleSize 压缩比例
+     */
+    public int calculateInSampleSize(int width, int height, int targetWidth, int targetHeight) {
+        int inSampleSize = 1;
+        if (height > targetHeight || width > targetWidth) {
+            //计算图片实际的宽高和目标图片宽高的比率
+            final int heightRate = Math.round((float) height / (float) targetHeight);
+            final int widthRate = Math.round((float) width / (float) targetWidth);
+            //选取最小的比率作为inSampleSize
+            inSampleSize = heightRate < widthRate ? heightRate : widthRate;
+        }
+        return inSampleSize;
+    }
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK && requestCode == PHOTO) {
             Bitmap bm = BitmapFactory.decodeFile(path.toString());
+            Util.toastMsg(bm+"");
+            //  bitmap = compressBitmap(getResources(), R.drawable.img3, 100, 100);
+//                Log.v("zxy", "compressBitmap,width=" + bitmap.getWidth() + ",height=" + bitmap.getHeight());
+//                mResizeImageView.setImageBitmap(bitmap);
+
+
+
             img1.setImageBitmap(bm);
             iNewStudentpresenter.upload(path.toString());
         }
@@ -399,13 +451,40 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
         DatePickerDialog dialog = new DatePickerDialog(
                 EntryActivity.this, new DatePickerDialog.OnDateSetListener() {
             @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                et_birthday.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
+            public void onDateSet(DatePicker view, int year, int month, int day) {
+                if (year>myear){
+                    show_warn_dialog();
+                }
+                if (year==myear&&month>mmonth){
+                    show_warn_dialog();
+                }
+                if (year==myear&&month==mmonth&&day>mday){
+                    show_warn_dialog();
+                }
+                else {
+                    et_birthday.setText(year + "-" +(month+1)+ "-" + day);
+                    et_birthday.setError(null);
+                }
             }
-        }, 2016, 8, 17);
+        },myear,mmonth,mday);
         dialog.setTitle("");
         dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
         dialog.show();
+    }
+
+    //生日警告对话框
+    public void show_warn_dialog(){
+        Dialog dialog = new AlertDialog.Builder(EntryActivity.this)
+                .setMessage("生日不能大于当前日期,请重新选择")
+                .setPositiveButton("确定",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int which) {
+                                show_birth_dialog();
+                            }
+                        }).create();
+        dialog.show();
+        dialog.setCanceledOnTouchOutside(false);
     }
 
     //性别对话框
@@ -417,6 +496,7 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 et_gender.setText(SexData[which]);
+                                et_gender.setError(null);
                             }
                         })
                 .setNegativeButton("取消", null)

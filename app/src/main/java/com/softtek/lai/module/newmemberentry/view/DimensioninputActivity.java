@@ -332,6 +332,9 @@ public class DimensioninputActivity extends BaseActivity implements OnClickListe
     public void show_doleggirth_dialog() {
         final Dialog doleggirth_dialog = new Dialog(this);
         doleggirth_dialog.setTitle("选择小腿围");
+//        doleggirth_dialog.setNegativeButton("取消",null);
+//        doleggirth_dialog.setPositiveButton("确定",null);
+
         doleggirth_dialog.setContentView(R.layout.dimension_dialog);
         Button b1 = (Button) doleggirth_dialog.findViewById(R.id.button1);
         Button b2 = (Button) doleggirth_dialog.findViewById(R.id.button2);
@@ -358,6 +361,7 @@ public class DimensioninputActivity extends BaseActivity implements OnClickListe
                 doleggirth_dialog.dismiss();
             }
         });
+
         doleggirth_dialog.show();
         doleggirth_dialog.setCanceledOnTouchOutside(false);
     }
