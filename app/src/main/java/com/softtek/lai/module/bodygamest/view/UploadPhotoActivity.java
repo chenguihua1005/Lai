@@ -26,6 +26,7 @@ import com.softtek.lai.module.bodygamest.present.PhotoListIml;
 import com.softtek.lai.module.bodygamest.present.PhotoListPre;
 import com.softtek.lai.module.newmemberentry.view.GetPhotoDialog;
 import com.softtek.lai.module.retest.eventModel.BanJiEvent;
+import com.squareup.picasso.Picasso;
 
 
 import org.greenrobot.eventbus.EventBus;
@@ -105,9 +106,10 @@ public class UploadPhotoActivity extends BaseActivity implements View.OnClickLis
             String[] year = date[2].split(" ");
             if ((years + "") == year[0] && (month + "") == date[0] && (day + "") == date[1]) {
 
+//                Picasso.with(this).load(dp.getImgUrl()).placeholder(R.drawable.lufei).error(R.drawable.lufei).into(imtest);
             } else {
-//                DownPhotoModel downPhotoModel1 = new DownPhotoModel("", month + "/" + day + "/" + years);
-//                downPhotoModelList.add(downPhotoModel1);
+                DownPhotoModel downPhotoModel1 = new DownPhotoModel(dp.getImgUrl(),dp.getCreateDate());
+                downPhotoModelList.add(downPhotoModel1);
             }
             System.out.print("hihihihihihihihihihihihi" + date + year);
         }
