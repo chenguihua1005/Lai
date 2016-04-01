@@ -78,4 +78,15 @@
     <dimen name="validateCertificationMargin">20dip</dimen>
     <dimen name="validateCertificationTextSize">16sp</dimen>
     <dimen name="validateCertificationTextSizes">14sp</dimen>
+
+    <dimen name="studentScoreTextSize">16sp</dimen>
+    <dimen name="studentScoreTextSizes">14sp</dimen>
+    <dimen name="studentScoreMargin">20dip</dimen>
+
+    <dimen name="studentHonorMargin">20dip</dimen>
+    <dimen name="studentHonorMarginTop">10dip</dimen>
+    <dimen name="studentHonorTextSize">16sp</dimen>
+    <dimen name="studentHonorTextSizes">14sp</dimen>
+    <dimen name="studentHonorHeight">100dip</dimen>
+
 </resources>
