@@ -224,6 +224,9 @@ public class RetestclassImp implements RetestPre{
                     case 500:
                         Util.toastMsg("上传图片异常");
                         break;
+                    default:
+                        Util.toastMsg(""+status);
+                        break;
                 }
             }
 

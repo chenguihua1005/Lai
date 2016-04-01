@@ -5,4 +5,5 @@ package com.softtek.lai.module.bodygamest.present;
  */
 public interface PhotoListPre {
     void doGetDownPhoto(String AccountId);
+    void doUploadPhoto(String AccountId,String filePath);
 }
