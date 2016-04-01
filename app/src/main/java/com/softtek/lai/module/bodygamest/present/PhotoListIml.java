@@ -69,8 +69,10 @@ public class PhotoListIml implements PhotoListPre{
                 {
                     case 200:
                         Util.toastMsg("上传成功");
+                        break;
                     case 500:
                         Util.toastMsg("上传失败");
+                        break;
                 }
             }
 
