@@ -78,7 +78,7 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
     protected void initViews() {
         tv_left.setBackgroundResource(R.drawable.back);
         //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
-        tv_title.setText("创建班级");
+        tv_title.setText("助教管理");
 
         assistantListFragment = new AssistantListFragment();
         assistantApplyFragment = new AssistantApplyFragment();
