@@ -29,9 +29,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp">
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:scaleType="center"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:scaleType="fitCenter"
                     android:layout_gravity="left|center"
                     android:src="@drawable/phone"/>
                 <EditText
@@ -41,6 +41,7 @@
                     android:paddingLeft="40dp"
                     android:inputType="phone"
                     android:singleLine="true"
+                    android:textSize="16sp"
                     android:textColor="#343434"
                     android:hint="@string/phoneNum"/>
             </FrameLayout>
@@ -57,9 +58,9 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1.5">
                     <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:scaleType="center"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:scaleType="fitCenter"
                         android:layout_gravity="left|center"
                         android:src="@drawable/identify"/>
                     <EditText
@@ -69,6 +70,7 @@
                         android:paddingLeft="40dp"
                         android:singleLine="true"
                         android:inputType="number"
+                        android:textSize="16sp"
                         android:textColor="#343434"
                         android:hint="验证码"/>
                 </FrameLayout>

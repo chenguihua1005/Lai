@@ -18,13 +18,13 @@ import java.util.List;
 public interface CounselorService {
     @GET("/HerbrClass/GetSR")
     void getAssistantList(@Header("token") String token,
-                          @Query("ClassIdModel") String classId,
+                          @Query("ClassId") String classId,
                           Callback<ResponseData<List<AssistantModel>>> callback);
 
     @FormUrlEncoded
     @POST("/HerbrClass/SendInviterSR")
     void sendInviterSR(@Header("token") String token,
-                       @Field("ClassIdModel") String classId,
+                       @Field("ClassId") String classId,
                        @Field("Inviters") String Inviters,
                        Callback<ResponseData> callback);
 
@@ -77,7 +77,7 @@ public interface CounselorService {
     @POST("/HerbrClass/SendInviterMsg")
     void sendInviterMsg(@Header("token") String token,
                         @Field("Inviters") String inviters,
-                        @Field("ClassIdModel") String classId,
+                        @Field("ClassId") String classId,
                         Callback<ResponseData> callback);
 
     @GET("/HerbrClass/GetNotInvitePC")

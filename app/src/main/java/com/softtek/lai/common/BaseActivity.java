@@ -4,13 +4,18 @@
  */
 package com.softtek.lai.common;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import butterknife.ButterKnife;
+import android.view.WindowManager;
+
 import com.softtek.lai.R;
+import com.softtek.lai.utils.SystemBarTintManager;
+
+import butterknife.ButterKnife;
 import zilla.libcore.Zilla;
 import zilla.libcore.lifecircle.LifeCircle;
 import zilla.libcore.lifecircle.LifeCircleInject;
@@ -31,7 +36,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      * Toobar
      */
     protected Toolbar mToolbar;
-
+    protected SystemBarTintManager tintManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +45,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         Zilla.ACTIVITY = this;
         LifeCircle.onCreate(this);
         initToolbars();
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT){
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+        tintManager=new SystemBarTintManager(this);
+        tintManager.setStatusBarTintEnabled(true);
+        tintManager.setStatusBarTintResource(R.color.colorPrimaryDark);
+
         ButterKnife.inject(this);
         initViews();
         initDatas();

@@ -91,9 +91,9 @@ public class RegistPresenterImpl implements IRegistPresenter {
             @Override
             public void success(ResponseData<IdentifyModel> stringResponseData, Response response) {
                 SharedPreferenceService.getInstance().put("identify", stringResponseData.getData().getIdentify());
-                Util.toastMsg(stringResponseData.getMsg());
                 if (stringResponseData.getStatus() != 200) {
                     callBack.getIdentifyCallback(false);
+                    Util.toastMsg(stringResponseData.getMsg());
                 } else {
                     callBack.getIdentifyCallback(true);
                 }

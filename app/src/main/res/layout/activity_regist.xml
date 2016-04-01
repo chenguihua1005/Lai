@@ -1,176 +1,191 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
-  ~ Date:2016-03-31
-  -->
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                tools:context="com.softtek.lai.module.login.view.RegistActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context="com.softtek.lai.module.login.view.RegistActivity">
 
-    <include layout="@layout/toolbar"
-             android:id="@+id/toolbar"/>
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
     <ScrollView
-            android:layout_below="@id/toolbar"
-            android:layout_alignLeft="@id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#ffffff">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignLeft="@id/toolbar"
+        android:layout_below="@id/toolbar"
+        android:background="#ffffff">
+
         <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="50dp">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp">
 
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:gravity="center_vertical|center"
+                android:orientation="vertical">
+
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_centerInParent="true"
-                    android:gravity="center_vertical|center"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginRight="50dp"
-                    android:orientation="vertical">
+                    android:layout_height="60dp">
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="left|center"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/phone" />
+
+                    <EditText
+                        android:id="@+id/et_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="@string/phoneNum"
+                        android:inputType="phone"
+                        android:paddingLeft="40dp"
+                        android:singleLine="true"
+                        android:textSize="16sp" />
+                </FrameLayout>
 
                 <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="60dp">
-                    <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:scaleType="fitCenter"
-                            android:layout_gravity="left|center"
-                            android:src="@drawable/phone"/>
-                    <EditText
-                            android:id="@+id/et_phone"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:paddingLeft="40dp"
-                            android:singleLine="true"
-                            android:inputType="phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp">
 
-                            android:hint="@string/phoneNum"/>
-                </FrameLayout>
-                <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="60dp">
                     <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:scaleType="fitCenter"
-                            android:layout_gravity="left|center"
-                            android:src="@drawable/password"/>
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="left|center"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/password" />
+
                     <EditText
-                            android:id="@+id/et_password"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:paddingLeft="40dp"
-                            android:singleLine="true"
-                            android:inputType="textPassword"
-                            android:hint="@string/passwordReg"/>
-                </FrameLayout>
-                <FrameLayout
+                        android:id="@+id/et_password"
                         android:layout_width="match_parent"
-                        android:layout_height="60dp">
+                        android:layout_height="match_parent"
+                        android:hint="@string/passwordReg"
+                        android:inputType="textPassword"
+                        android:paddingLeft="40dp"
+                        android:singleLine="true"
+                        android:textSize="16sp" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp">
+
                     <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:scaleType="fitCenter"
-                            android:layout_gravity="left|center"
-                            android:src="@drawable/password"/>
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="left|center"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/password" />
+
                     <EditText
-                            android:id="@+id/et_repassword"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:paddingLeft="40dp"
-                            android:singleLine="true"
-                            android:inputType="textPassword"
-                            android:hint="@string/repassword"/>
+                        android:id="@+id/et_repassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="@string/repassword"
+                        android:inputType="textPassword"
+                        android:paddingLeft="40dp"
+                        android:singleLine="true"
+                        android:textSize="16sp" />
                 </FrameLayout>
 
                 <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_marginTop="10dp"
-                        android:orientation="horizontal">
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
                     <FrameLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1.5">
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5">
+
                         <ImageView
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                android:scaleType="fitCenter"
-                                android:layout_gravity="left|center"
-                                android:src="@drawable/identify"/>
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_gravity="left|center"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/identify" />
+
                         <EditText
-                                android:id="@+id/et_identify"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:paddingLeft="40dp"
-                                android:inputType="number"
-                                android:singleLine="true"
-                                android:hint="验证码"/>
+                            android:id="@+id/et_identify"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:hint="验证码"
+                            android:inputType="number"
+                            android:paddingLeft="40dp"
+                            android:singleLine="true"
+                            android:textSize="16sp" />
                     </FrameLayout>
 
                     <TextView
-                            android:id="@+id/tv_get_identify"
-                            android:layout_width="0dp"
-                            android:layout_weight="1.2"
-                            android:layout_height="40dp"
-                            android:layout_gravity="fill"
-                            android:gravity="center"
-                            android:layout_marginLeft="10dp"
-                            android:background="@drawable/identify_bg"
-                            android:text="@string/sendIdentify"/>
-                </LinearLayout>
-                <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:id="@+id/tv_get_identify"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="fill"
                         android:layout_marginLeft="10dp"
-                        android:layout_marginTop="10dp"
-                        android:orientation="vertical"
-                        android:gravity="center_vertical">
+                        android:layout_weight="1.2"
+                        android:background="@drawable/identify_bg"
+                        android:gravity="center"
+                        android:text="@string/sendIdentify" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
 
                     <CheckBox
-                            android:id="@+id/cb_term"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/readeAndAgress"
-                            android:checked="true"
-                            style="@style/customCheckBoxTheme"
-                            android:paddingLeft="10dp"
-                    />
+                        android:id="@+id/cb_term"
+                        style="@style/customCheckBoxTheme"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:paddingLeft="10dp"
+                        android:text="@string/readeAndAgress" />
 
-                </LinearLayout>
-                <TextView
+                    <TextView
                         android:id="@+id/tv_protocol"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="fill"
-                        android:textSize="14sp"
+                        android:layout_marginTop="10dp"
                         android:gravity="center"
-                        android:layout_marginTop="20dp"
+                        android:paddingLeft="22dp"
+                        android:text="@string/protocol"
                         android:textColor="@color/textview"
-                        android:text="@string/protocol"/>
+                        android:textSize="14sp" />
+                </LinearLayout>
+
                 <Button
-                        android:id="@+id/btn_regist"
-                        android:layout_marginTop="50dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/bg_next_btn"
-                        android:text="@string/next"
-                        android:textSize="20sp"
-                        android:textColor="#ffffff"/>
+                    android:id="@+id/btn_regist"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="50dp"
+                    android:background="@drawable/bg_next_btn"
+                    android:text="@string/next"
+                    android:textColor="#ffffff"
+                    android:textSize="20sp" />
             </LinearLayout>
         </RelativeLayout>
     </ScrollView>
+
     <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="fitCenter"
-            android:src="@drawable/buttom"
-            android:layout_alignParentBottom="true"
-    />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:scaleType="fitCenter"
+        android:src="@drawable/buttom" />
 </RelativeLayout>

@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
+    android:fitsSystemWindows="true"
     tools:context=".module.login.view.LoginActivity">
 
     <LinearLayout
@@ -40,8 +41,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp">
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:scaleType="fitCenter"
                     android:layout_gravity="left|center"
                     android:src="@drawable/phone"/>
@@ -53,6 +54,7 @@
                     android:inputType="phone"
                     android:singleLine="true"
                     android:textColor="#333333"
+                    android:textSize="16sp"
                     android:hint="@string/phoneNum"/>
             </FrameLayout>
 
@@ -60,8 +62,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp">
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:scaleType="fitCenter"
                     android:layout_gravity="left|center"
                     android:src="@drawable/password"/>
@@ -73,6 +75,7 @@
                     android:singleLine="true"
                     android:hint="@string/password"
                     android:textColor="#333333"
+                    android:textSize="16sp"
                     android:inputType="textPassword"/>
             </FrameLayout>
 
@@ -123,7 +126,7 @@
                     android:textColor="@color/textview_green"/>
                 <ImageView
                     android:layout_width="30dp"
-                    android:layout_height="20dp"
+                    android:layout_height="15dp"
                     android:scaleType="fitCenter"
                     android:layout_gravity="center|right"
                     android:src="@drawable/arrow_copy"/>

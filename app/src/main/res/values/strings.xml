@@ -65,9 +65,9 @@
     <string name="visitor">游客模式</string>
     <string name="login">登录</string>
     <string name="regist">注册</string>
-    <string name="repassword">重复密码</string>
+    <string name="repassword">确认密码</string>
     <string name="protocol">
-        <u>莱APP用户协议和隐私保护条款</u>
+        <u>&lt;莱APP用户协议和隐私保护条款&gt;</u>
     </string>
     <string name="next">下一步</string>
     <string name="sendIdentify">发送验证码</string>
