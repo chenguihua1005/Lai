@@ -253,29 +253,32 @@
                         android:layout_width="match_parent"
                         android:paddingTop="20dp"
                         android:layout_height="match_parent">
-
                     <LinearLayout
-                            android:id="@+id/ll_explain"
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:gravity="right"
-                            android:layout_height="match_parent"
-                            android:layout_marginBottom="60dp">
-
-                        <TextView
+                        android:id="@+id/ll_explain"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:gravity="right"
+                        android:layout_height="40dp"
+                        android:layout_marginBottom="60dp">
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical">
+                            <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="填写说明"
                                 android:textSize="24dp"
                                 android:textColor="#75BA2B"
                                 android:id="@+id/textView5"/>
-
-                        <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                            <ImageView
+                                android:layout_width="10dp"
+                                android:layout_height="20dp"
                                 android:background="@drawable/arrow"
-                                android:layout_marginLeft="10dp"
+                                android:layout_marginLeft="5dp"
                                 android:id="@+id/imageView2"/>
+                        </LinearLayout>
+
                     </LinearLayout>
 
                     <LinearLayout
