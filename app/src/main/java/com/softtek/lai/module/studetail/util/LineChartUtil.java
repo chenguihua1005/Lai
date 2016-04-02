@@ -52,7 +52,7 @@ public class LineChartUtil {
                 max=val;
             }
         }
-        chart.getAxisLeft().setAxisMaxValue(max);
+        chart.getAxisLeft().setAxisMaxValue(max+10);
         // create a dataset and give it a type
         LineDataSet set1 = new LineDataSet(yVals,null);
         // set the line to be drawn like this "- - - - - -"

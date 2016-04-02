@@ -8,63 +8,66 @@
         android:id="@+id/radio_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal">
+
         <RadioButton
             android:id="@+id/radio_loss_weight"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="40dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:text="减重曲线图"
-            android:textSize="12sp"
-            android:button="@null"
+            android:layout_weight="1"
             android:background="@drawable/radio_button_selector"
+            android:button="@null"
+            android:checked="true"
+            android:paddingBottom="10dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:paddingTop="10dp"
-            android:paddingBottom="10dp"
+            android:text="减重曲线图"
             android:textColor="@color/white"
-            android:checked="true"/>
+            android:textSize="12sp" />
+
         <RadioButton
             android:id="@+id/radio_body_fat"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="40dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:text="体脂曲线图"
-            android:textSize="12sp"
-            android:button="@null"
+            android:layout_weight="1"
             android:background="@drawable/radio_button_selector"
+            android:button="@null"
+            android:paddingBottom="10dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:paddingTop="10dp"
-            android:paddingBottom="10dp"
+            android:text="体脂曲线图"
             android:textColor="#74BB2A"
-            />
+            android:textSize="12sp" />
+
         <RadioButton
             android:id="@+id/radio_fat"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="40dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:text="内脂曲线图"
-            android:textSize="12sp"
-            android:button="@null"
+            android:layout_weight="1"
             android:background="@drawable/radio_button_selector"
+            android:button="@null"
+            android:paddingBottom="10dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:paddingTop="10dp"
-            android:paddingBottom="10dp"
+            android:text="内脂曲线图"
             android:textColor="#74BB2A"
-            />
+            android:textSize="12sp" />
     </RadioGroup>
+
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/chart"
         android:layout_width="match_parent"
-        android:layout_height="300dp"></com.github.mikephil.charting.charts.LineChart>
+        android:layout_height="300dp">
+    </com.github.mikephil.charting.charts.LineChart>
 </LinearLayout>

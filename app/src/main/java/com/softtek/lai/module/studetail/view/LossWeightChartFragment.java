@@ -85,6 +85,7 @@ public class LossWeightChartFragment extends BaseFragment implements RadioGroup.
                 radio_loss_weight.setTextColor(0xFF74BB2A);
                 radio_body_fat.setTextColor(0xFF74BB2A);
                 radio_fat.setTextColor(Color.WHITE);
+                chartUtil.addDataSet(null);
                 break;
         }
     }
