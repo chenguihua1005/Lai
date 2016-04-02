@@ -6,7 +6,9 @@
 package com.softtek.lai.module.studetail.view;
 
 import android.app.ProgressDialog;
+import android.net.Uri;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,6 +17,8 @@ import android.widget.TextView;
 import butterknife.InjectView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.module.studetail.adapter.StudentDetailFragmentAdapter;
 import com.softtek.lai.module.studetail.model.MemberModel;
 import com.softtek.lai.module.studetail.presenter.IMemberInfopresenter;
 import com.softtek.lai.module.studetail.presenter.MemberInfoImpl;
@@ -23,10 +27,14 @@ import com.squareup.picasso.Picasso;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_student_detail)
-public class StudentDetailActivity extends BaseActivity implements View.OnClickListener {
+public class StudentDetailActivity extends BaseActivity implements View.OnClickListener,BaseFragment.OnFragmentInteractionListener {
 
     @InjectView(R.id.tv_title)
     TextView tv_title;
@@ -58,6 +66,7 @@ public class StudentDetailActivity extends BaseActivity implements View.OnClickL
 
     private ProgressDialog progressDialog;
     private IMemberInfopresenter memberInfopresenter;
+    private List<Fragment> fragmentList=new ArrayList<>();
 
     @Override
     protected void initViews() {
@@ -65,6 +74,14 @@ public class StudentDetailActivity extends BaseActivity implements View.OnClickL
         progressDialog = new ProgressDialog(this);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setMessage("正在加载内容...");
+        LossWeightChartFragment lwcf=new LossWeightChartFragment();
+        DimensionChartFragment dcf=new DimensionChartFragment();
+        fragmentList.add(lwcf);
+        fragmentList.add(dcf);
+        tabContent.setAdapter(new StudentDetailFragmentAdapter(getSupportFragmentManager(), fragmentList));
+        tabLayout.setupWithViewPager(tabContent);
+        tabLayout.setTabMode(TabLayout.MODE_FIXED);
+
     }
 
     @Override
@@ -105,5 +122,10 @@ public class StudentDetailActivity extends BaseActivity implements View.OnClickL
     protected void onDestroy() {
         EventBus.getDefault().unregister(this);
         super.onDestroy();
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }

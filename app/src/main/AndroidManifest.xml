@@ -31,7 +31,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".module.login.view.LoginActivity"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity android:name=".module.guide.GuideActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

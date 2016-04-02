@@ -6,10 +6,10 @@
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:state_pressed="true" android:drawable="@drawable/tab_selector">
+    <item android:state_pressed="true" android:drawable="@drawable/tab_selornor">
     </item>
-    <item android:state_selected="true" android:drawable="@drawable/tab_selector"/>
-    <item android:state_focused="true" android:drawable="@drawable/tab_selector"></item>
+    <item android:state_selected="true" android:drawable="@drawable/tab_selornor"/>
+    <item android:state_focused="true" android:drawable="@drawable/tab_selornor"></item>
     <item android:state_focused="false" android:drawable="@drawable/tab_normal"></item>
     <item android:drawable="@drawable/tab_normal">
     </item>

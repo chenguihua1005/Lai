@@ -24,6 +24,7 @@ import zilla.libcore.util.Util;
  * Created by julie.zhu on 3/22/2016.
  */
 public class MemberInfoImpl implements IMemberInfopresenter {
+
     private MemberInfoService service;
     private Context context;
 

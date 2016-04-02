@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.MediaStore;
 import com.github.snowdream.android.util.Log;
 
@@ -117,5 +118,13 @@ public class SystemUtils {
         intent.putExtra(MediaStore.Images.Media.ORIENTATION, 0);
         if (uri == null) intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
         return intent;
+    }
+
+    /**
+     * 获取当前系统的sdk版本
+     * @return
+     */
+    public static int getSDKInt(){
+        return Build.VERSION.SDK_INT;
     }
 }

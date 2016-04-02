@@ -38,7 +38,7 @@ public class TermActivity extends BaseActivity {
                 finish();
             }
         });
-        tv_title.setText("隐私与条款");
+        tv_title.setText("莱聚+用户协议");
     }
 
     @Override
