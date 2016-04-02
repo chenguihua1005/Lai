@@ -3,7 +3,7 @@
  * Date:2016-03-31
  */
 
-package com.softtek.lai.module.counselor.view;
+package com.softtek.lai.module.bodygamest.view;
 
 
 import android.net.Uri;
@@ -12,8 +12,9 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
-import butterknife.InjectView;
+
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
@@ -23,21 +24,25 @@ import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.counselor.adapter.SimpleFragmentPagerAdapter;
 import com.softtek.lai.module.counselor.presenter.AssistantImpl;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
+import com.softtek.lai.module.counselor.view.AssistantApplyFragment;
+import com.softtek.lai.module.counselor.view.AssistantListFragment;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.SoftInputUtil;
-import zilla.libcore.lifecircle.LifeCircleInject;
-import zilla.libcore.lifecircle.validate.ValidateLife;
-import zilla.libcore.ui.InjectLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.InjectView;
+import zilla.libcore.lifecircle.LifeCircleInject;
+import zilla.libcore.lifecircle.validate.ValidateLife;
+import zilla.libcore.ui.InjectLayout;
 
 /**
  * Created by jarvis.liu on 3/22/2016.
  * 助教管理页面
  */
 @InjectLayout(R.layout.activity_assistant)
-public class AssistantActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener {
+public class StudentScoreActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener {
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -46,45 +51,33 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
     @InjectView(R.id.tv_left)
     TextView tv_left;
 
+    @InjectView(R.id.tv_right)
+    TextView tv_right;
+
     @InjectView(R.id.tv_title)
     TextView tv_title;
 
+    @InjectView(R.id.list_student_core)
+    ListView list_student_core;
 
-    @InjectView(R.id.viewpager)
-    ViewPager viewpager;
-
-    @InjectView(R.id.sliding_tabs)
-    TabLayout sliding_tabs;
 
 
     private IAssistantPresenter assistantPresenter;
     private ACache aCache;
 
-    private SimpleFragmentPagerAdapter pagerAdapter;
-
-    List<Fragment> list = new ArrayList<Fragment>();
-    Fragment assistantListFragment;
-    Fragment assistantApplyFragment;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         tv_left.setOnClickListener(this);
-
-
+        tv_right.setOnClickListener(this);
     }
 
     @Override
     protected void initViews() {
         tv_left.setBackgroundResource(R.drawable.back);
         //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
-        tv_title.setText("助教管理");
-
-        assistantListFragment = new AssistantListFragment();
-        assistantApplyFragment = new AssistantApplyFragment();
-        list.add(assistantApplyFragment);
-        list.add(assistantListFragment);
-        pagerAdapter = new SimpleFragmentPagerAdapter(getSupportFragmentManager(), this, list);
+        tv_title.setText("成绩单");
+        tv_right.setText("分享");
 
     }
 
@@ -92,10 +85,6 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
     protected void initDatas() {
         assistantPresenter = new AssistantImpl(this);
         aCache = ACache.get(this, Constants.USER_ACACHE_DATA_DIR);
-
-        viewpager.setAdapter(pagerAdapter);
-        sliding_tabs.setupWithViewPager(viewpager);
-        sliding_tabs.setTabMode(TabLayout.MODE_FIXED);
 
     }
 
@@ -105,6 +94,9 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.tv_left:
                 finish();
+                break;
+
+            case R.id.tv_right:
                 break;
         }
     }

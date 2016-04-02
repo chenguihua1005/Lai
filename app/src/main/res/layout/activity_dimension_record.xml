@@ -18,15 +18,17 @@
         <include layout="@layout/toolbar"/>
 
         <LinearLayout
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
             <LinearLayout
                     android:orientation="vertical"
+                android:layout_marginTop="20dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp">
+                    android:layout_height="wrap_content">
 
                 <RelativeLayout
                         android:id="@+id/ll_circum"
@@ -259,7 +261,7 @@
                         android:layout_width="match_parent"
                         android:gravity="right"
                         android:layout_height="40dp"
-                        android:layout_marginBottom="60dp">
+                        android:layout_marginBottom="40dp">
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -299,8 +301,7 @@
     <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scaleType="fitCenter"
+            android:scaleType="fitXY"
             android:src="@drawable/buttom"
-            android:layout_alignParentBottom="true"
-    />
+            android:layout_alignParentBottom="true" />
 </RelativeLayout>

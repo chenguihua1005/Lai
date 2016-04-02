@@ -49,20 +49,24 @@ public class ExplainActivity extends BaseActivity implements OnPageChangeListene
 
     private ViewPagerAdapter vpAdapter;
     private List<View> views = new ArrayList<View>();
-    ;
+
+    // 底部小点图片
     private ImageView[] dots;
+    // 记录当前选中位置
     private int currentIndex;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //initDots();
+        initDots();
     }
 
     @Override
     protected void initViews() {
         LayoutInflater inflater = LayoutInflater.from(this);
+        //views = new ArrayList<View>();
+        // 初始化引导图片列表
         views.add(inflater.inflate(R.layout.guideone, null));
         views.add(inflater.inflate(R.layout.guidetwo, null));
         views.add(inflater.inflate(R.layout.guidethree, null));
@@ -72,7 +76,8 @@ public class ExplainActivity extends BaseActivity implements OnPageChangeListene
         vpAdapter = new ViewPagerAdapter(views, this);
         vp.setAdapter(vpAdapter);
         vp.setOnPageChangeListener(this);
-        iv_one.setBackgroundResource(R.drawable.white_dot);
+
+       // iv_one.setBackgroundResource(R.drawable.white_dot);
     }
 
     @Override
@@ -93,6 +98,19 @@ public class ExplainActivity extends BaseActivity implements OnPageChangeListene
         dots[currentIndex].setEnabled(false);
     }
 
+    //---------------------------------------
+    private void setCurrentDot(int position) {
+        if (position < 0 || position > views.size() - 1
+                || currentIndex == position) {
+            return;
+        }
+
+        dots[position].setEnabled(false);
+        dots[currentIndex].setEnabled(true);
+
+        currentIndex = position;
+    }
+    //------------------------------------------
 
     @Override
     public void onPageScrollStateChanged(int arg0) {
@@ -102,60 +120,68 @@ public class ExplainActivity extends BaseActivity implements OnPageChangeListene
     public void onPageScrolled(int arg0, float arg1, int arg2) {
     }
 
+    // 当新的页面被选中时调用
     @Override
     public void onPageSelected(int arg0) {
-        Log.i("当前第几？》》》》" + arg0);
-        switch (arg0) {
-            case 0:
-                iv_one.setBackgroundResource(R.drawable.white_dot);
-                iv_two.setBackgroundResource(R.drawable.dark_dot);
-                iv_three.setBackgroundResource(R.drawable.dark_dot);
-                iv_four.setBackgroundResource(R.drawable.dark_dot);
-                iv_five.setBackgroundResource(R.drawable.dark_dot);
-                iv_six.setBackgroundResource(R.drawable.dark_dot);
-                break;
-            case 1:
-                iv_one.setBackgroundResource(R.drawable.dark_dot);
-                iv_two.setBackgroundResource(R.drawable.white_dot);
-                iv_three.setBackgroundResource(R.drawable.dark_dot);
-                iv_four.setBackgroundResource(R.drawable.dark_dot);
-                iv_five.setBackgroundResource(R.drawable.dark_dot);
-                iv_six.setBackgroundResource(R.drawable.dark_dot);
-                break;
-            case 2:
-                iv_one.setBackgroundResource(R.drawable.dark_dot);
-                iv_two.setBackgroundResource(R.drawable.dark_dot);
-                iv_three.setBackgroundResource(R.drawable.white_dot);
-                iv_four.setBackgroundResource(R.drawable.dark_dot);
-                iv_five.setBackgroundResource(R.drawable.dark_dot);
-                iv_six.setBackgroundResource(R.drawable.dark_dot);
-                break;
-            case 3:
-                iv_one.setBackgroundResource(R.drawable.dark_dot);
-                iv_two.setBackgroundResource(R.drawable.dark_dot);
-                iv_three.setBackgroundResource(R.drawable.dark_dot);
-                iv_four.setBackgroundResource(R.drawable.white_dot);
-                iv_five.setBackgroundResource(R.drawable.dark_dot);
-                iv_six.setBackgroundResource(R.drawable.dark_dot);
-                break;
-            case 4:
-                iv_one.setBackgroundResource(R.drawable.dark_dot);
-                iv_two.setBackgroundResource(R.drawable.dark_dot);
-                iv_three.setBackgroundResource(R.drawable.dark_dot);
-                iv_four.setBackgroundResource(R.drawable.dark_dot);
-                iv_five.setBackgroundResource(R.drawable.white_dot);
-                iv_six.setBackgroundResource(R.drawable.dark_dot);
-                break;
-            case 5:
-                iv_one.setBackgroundResource(R.drawable.dark_dot);
-                iv_two.setBackgroundResource(R.drawable.dark_dot);
-                iv_three.setBackgroundResource(R.drawable.dark_dot);
-                iv_four.setBackgroundResource(R.drawable.dark_dot);
-                iv_five.setBackgroundResource(R.drawable.dark_dot);
-                iv_six.setBackgroundResource(R.drawable.white_dot);
-                break;
-
-        }
+        // 设置底部小点选中状态
+        setCurrentDot(arg0);
     }
+
+
+//    @Override
+//    public void onPageSelected(int arg0) {
+//        Log.i("当前第几？》》》》" + arg0);
+//        switch (arg0) {
+//            case 0:
+//                iv_one.setBackgroundResource(R.drawable.white_dot);
+//                iv_two.setBackgroundResource(R.drawable.dark_dot);
+//                iv_three.setBackgroundResource(R.drawable.dark_dot);
+//                iv_four.setBackgroundResource(R.drawable.dark_dot);
+//                iv_five.setBackgroundResource(R.drawable.dark_dot);
+//                iv_six.setBackgroundResource(R.drawable.dark_dot);
+//                break;
+//            case 1:
+//                iv_one.setBackgroundResource(R.drawable.dark_dot);
+//                iv_two.setBackgroundResource(R.drawable.white_dot);
+//                iv_three.setBackgroundResource(R.drawable.dark_dot);
+//                iv_four.setBackgroundResource(R.drawable.dark_dot);
+//                iv_five.setBackgroundResource(R.drawable.dark_dot);
+//                iv_six.setBackgroundResource(R.drawable.dark_dot);
+//                break;
+//            case 2:
+//                iv_one.setBackgroundResource(R.drawable.dark_dot);
+//                iv_two.setBackgroundResource(R.drawable.dark_dot);
+//                iv_three.setBackgroundResource(R.drawable.white_dot);
+//                iv_four.setBackgroundResource(R.drawable.dark_dot);
+//                iv_five.setBackgroundResource(R.drawable.dark_dot);
+//                iv_six.setBackgroundResource(R.drawable.dark_dot);
+//                break;
+//            case 3:
+//                iv_one.setBackgroundResource(R.drawable.dark_dot);
+//                iv_two.setBackgroundResource(R.drawable.dark_dot);
+//                iv_three.setBackgroundResource(R.drawable.dark_dot);
+//                iv_four.setBackgroundResource(R.drawable.white_dot);
+//                iv_five.setBackgroundResource(R.drawable.dark_dot);
+//                iv_six.setBackgroundResource(R.drawable.dark_dot);
+//                break;
+//            case 4:
+//                iv_one.setBackgroundResource(R.drawable.dark_dot);
+//                iv_two.setBackgroundResource(R.drawable.dark_dot);
+//                iv_three.setBackgroundResource(R.drawable.dark_dot);
+//                iv_four.setBackgroundResource(R.drawable.dark_dot);
+//                iv_five.setBackgroundResource(R.drawable.white_dot);
+//                iv_six.setBackgroundResource(R.drawable.dark_dot);
+//                break;
+//            case 5:
+//                iv_one.setBackgroundResource(R.drawable.dark_dot);
+//                iv_two.setBackgroundResource(R.drawable.dark_dot);
+//                iv_three.setBackgroundResource(R.drawable.dark_dot);
+//                iv_four.setBackgroundResource(R.drawable.dark_dot);
+//                iv_five.setBackgroundResource(R.drawable.dark_dot);
+//                iv_six.setBackgroundResource(R.drawable.white_dot);
+//                break;
+//
+//        }
+//    }
 
 }

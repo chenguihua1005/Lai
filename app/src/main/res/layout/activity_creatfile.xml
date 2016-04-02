@@ -18,10 +18,11 @@
         <LinearLayout
                 android:id="@+id/ll_nickname"
                 android:gravity="center_vertical"
+                android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
             <ImageView
-                    android:layout_width="30dp"
+                    android:layout_width="20dp"
                     android:layout_height="wrap_content"
                     android:src="@drawable/nick"
                     android:layout_marginRight="15dp"/>
@@ -29,13 +30,13 @@
                     android:gravity="center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
-                    android:textSize="20dp"
+                    android:textSize="18sp"
                     android:textColor="#000"
                     android:text="昵称"/>
             <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
+                    android:gravity="right"
                     android:singleLine="true"
                     android:hint="必填项"
                     android:textSize="18dp"
@@ -53,9 +54,9 @@
                 android:id="@+id/ll_birth"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:gravity="center_vertical">
+                android:gravity="center_horizontal">
             <ImageView
-                    android:layout_width="30dp"
+                    android:layout_width="20dp"
                     android:layout_height="wrap_content"
                     android:src="@drawable/birthday_h"
                     android:layout_marginRight="15dp"/>
@@ -63,7 +64,7 @@
                     android:gravity="center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
-                    android:textSize="20dp"
+                    android:textSize="18sp"
                     android:textColor="#000"
                     android:text="生日"/>
             <EditText
@@ -71,10 +72,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:textSize="18dp"
+                    android:gravity="right"
                     android:singleLine="true"
                     android:textColor="#808080"
                     android:background="@null"
-                    android:layout_marginLeft="40dp"
                     android:editable="false"
                     android:hint="必填项"/>
         </LinearLayout>
@@ -86,9 +87,9 @@
                 android:id="@+id/ll_sex"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical">
+                android:gravity="center_horizontal">
             <ImageView
-                    android:layout_width="30dp"
+                    android:layout_width="20dp"
                     android:layout_height="wrap_content"
                     android:src="@drawable/male_back"
                     android:layout_marginRight="15dp"/>
@@ -96,7 +97,7 @@
                     android:gravity="center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
-                    android:textSize="20dp"
+                    android:textSize="18sp"
                     android:textColor="#000"
                     android:text="性别"/>
             <EditText
@@ -106,7 +107,7 @@
                     android:textSize="18dp"
                     android:singleLine="true"
                     android:textColor="#808080"
-                    android:layout_marginLeft="40dp"
+                    android:gravity="right"
                     android:hint="必填项"
                     android:editable="false"
                     android:background="@null"
@@ -120,9 +121,9 @@
                 android:id="@+id/ll_height"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical">
+                android:gravity="center_horizontal">
             <ImageView
-                    android:layout_width="30dp"
+                    android:layout_width="20dp"
                     android:layout_height="wrap_content"
                     android:src="@drawable/height_h"
                     android:layout_marginRight="15dp"/>
@@ -130,7 +131,7 @@
                     android:gravity="center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
-                    android:textSize="20dp"
+                    android:textSize="18sp"
                     android:textColor="#000"
                     android:text="身高"/>
             <EditText
@@ -140,7 +141,7 @@
                     android:textSize="18dp"
                     android:textColor="#808080"
                     android:singleLine="true"
-                    android:layout_marginLeft="40dp"
+                    android:gravity="right"
                     android:background="@null"
                     android:editable="false"
                     android:hint="必填项"/>
@@ -153,9 +154,9 @@
                 android:id="@+id/ll_weight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical">
+                android:gravity="center_horizontal">
             <ImageView
-                    android:layout_width="30dp"
+                    android:layout_width="20dp"
                     android:layout_height="wrap_content"
                     android:src="@drawable/weight_h"
                     android:layout_marginRight="15dp"/>
@@ -163,7 +164,7 @@
                     android:gravity="center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
-                    android:textSize="20dp"
+                    android:textSize="18sp"
                     android:textColor="#000"
                     android:text="体重"/>
             <EditText
@@ -173,7 +174,7 @@
                     android:textSize="18dp"
                     android:textColor="#808080"
                     android:singleLine="true"
-                    android:layout_marginLeft="40dp"
+                    android:gravity="right"
                     android:background="@null"
                     android:editable="false"
                     android:hint="必填项"/>
@@ -206,8 +207,7 @@
     <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scaleType="fitCenter"
+            android:scaleType="fitXY"
             android:src="@drawable/buttom"
-            android:layout_alignParentBottom="true"
-    />
+            android:layout_alignParentBottom="true" />
 </RelativeLayout>

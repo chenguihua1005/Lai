@@ -28,7 +28,7 @@
                 android:layout_width="10dp"
                 android:clickable="true"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/dark_dot"/>
+                android:src="@drawable/dot"/>
 
         <ImageView
                 android:id="@+id/iv_two"
@@ -37,7 +37,7 @@
                 android:layout_marginLeft="20dp"
                 android:clickable="true"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/dark_dot"/>
+                android:src="@drawable/dot"/>
 
         <ImageView
                 android:id="@+id/iv_three"
@@ -46,7 +46,7 @@
                 android:clickable="true"
                 android:layout_marginLeft="20dp"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/dark_dot"/>
+                android:src="@drawable/dot"/>
 
         <ImageView
                 android:id="@+id/iv_four"
@@ -55,7 +55,7 @@
                 android:clickable="true"
                 android:layout_marginLeft="20dp"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/dark_dot"/>
+                android:src="@drawable/dot"/>
 
         <ImageView
                 android:id="@+id/iv_five"
@@ -64,7 +64,7 @@
                 android:clickable="true"
                 android:layout_marginLeft="20dp"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/dark_dot"/>
+                android:src="@drawable/dot"/>
 
         <ImageView
                 android:id="@+id/iv_six"
@@ -73,6 +73,6 @@
                 android:clickable="true"
                 android:layout_marginLeft="20dp"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/dark_dot"/>
+                android:src="@drawable/dot"/>
     </LinearLayout>
 </RelativeLayout>

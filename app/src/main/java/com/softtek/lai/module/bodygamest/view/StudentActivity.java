@@ -120,12 +120,13 @@ public class StudentActivity extends BaseActivity implements View.OnClickListene
                 break;
             //上传照片
             case R.id.ll_st_shangchuan:
-
+                Intent intent = new Intent(this, UploadPhotoActivity.class);
+                startActivity(intent);
                 break;
             //复测
             case R.id.ll_st_fuce:
-                Intent intent = new Intent(this, FuceStActivity.class);
-                startActivity(intent);
+                Intent intent1 = new Intent(this, FuceStActivity.class);
+                startActivity(intent1);
                 break;
             //减重故事
             case R.id.ll_st_jianzhong:

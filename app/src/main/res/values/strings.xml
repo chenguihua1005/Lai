@@ -94,6 +94,10 @@
     <string name="fragmentResetPassword">重置密码</string>
     <string name="zigezhenghao">资格证号</string>
     <string name="accountValidateNull">请输入资格证号</string>
+    <string name="studentHonorJZ">减重奖章</string>
+    <string name="studentHonorFC">复测奖章</string>
+    <string name="studentHonorYGJ">月冠军</string>
+    <string name="studentHonorsTAR">全国减重明星奖章</string>
 
 
     <string-array name="SensitiveWord">

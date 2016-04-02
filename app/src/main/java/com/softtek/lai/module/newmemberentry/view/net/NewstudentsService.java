@@ -22,7 +22,7 @@ public interface NewstudentsService {
     @POST("/HerbNewUser/CreatNewUser")
     void memberentry(@Header("token") String token,
                      @Body NewstudentsModel newstudentsModel,
-                     Callback<ResponseData<List<NewstudentsModel>>> callback);
+                     Callback<ResponseData<NewstudentsModel>> callback);
 
 
     //上传图片
@@ -32,5 +32,4 @@ public interface NewstudentsService {
             @Header("token") String token,
             @Part("photo") TypedFile photo,
             Callback<ResponseData<PhotModel>> callback);
-
 }

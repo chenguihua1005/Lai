@@ -44,11 +44,11 @@ public class NewStudentInputImpl implements INewStudentpresenter {
     public void input(NewstudentsModel newstudentsModel) {
         Log.i("NewstudentsService>>>>>>>>>>>>>>" + newstudentsService);
         String token = SharedPreferenceService.getInstance().get("token", "");
-        newstudentsService.memberentry(token, newstudentsModel, new Callback<ResponseData<List<NewstudentsModel>>>() {
+        newstudentsService.memberentry(token, newstudentsModel, new Callback<ResponseData<NewstudentsModel>>() {
 
 
             @Override
-            public void success(ResponseData<List<NewstudentsModel>> listResponseData, Response response) {
+            public void success(ResponseData<NewstudentsModel> listResponseData, Response response) {
                 int status = listResponseData.getStatus();
                 switch (status) {
                     case 200:

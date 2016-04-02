@@ -1,7 +1,9 @@
 package com.softtek.lai.module.bodygamest.net;
 
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.bodygamest.model.DownPhoto;
+import com.softtek.lai.module.bodygamest.model.DownPhotoModel;
+import com.softtek.lai.module.bodygamest.model.UploadPhotModel;
+import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
 
 
 import java.util.List;
@@ -9,7 +11,11 @@ import java.util.List;
 import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Header;
+import retrofit.http.Multipart;
+import retrofit.http.POST;
+import retrofit.http.Part;
 import retrofit.http.Query;
+import retrofit.mime.TypedFile;
 
 /**
  * Created by lareina.qiao on 3/31/2016.
@@ -20,6 +26,15 @@ public interface PhotoListService {
     void doGetDownPhoto(
             @Header("token")String token,
             @Query("AccountId")String AccountId,
-            Callback<ResponseData<List<DownPhoto>>>callback
+            Callback<ResponseData<List<DownPhotoModel>>>callback
+    );
+    //上传图片
+    @POST("/UploadPhotos/PostUploadPhotos")
+    @Multipart
+    void doUploadPhoto(
+            @Header("token") String token,
+            @Query("AccountId")String AccountId,
+            @Part("photo") TypedFile photo,
+            Callback<ResponseData<UploadPhotModel>> callback
     );
 }
