@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
   ~ Date:2016-03-31
-  -->
-
+-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.softtek.lai">
 
@@ -62,7 +61,6 @@
         <activity
             android:name=".module.grade.view.GradeHomeActivity"
             android:configChanges="orientation|keyboardHidden" />
-
         <activity android:name=".module.newmemberentry.view.EntryActivity" />
         <activity android:name=".module.grade.view.StudentsActivity" />
         <activity android:name=".module.studetail.view.StudentDetailActivity" />
@@ -83,11 +81,12 @@
         <activity android:name=".module.newmemberentry.view.DimensioninputActivity" />
         <activity android:name=".module.bodygamest.view.FuceStActivity" />
         <activity android:name=".module.bodygamest.view.UploadPhotoActivity" />
-        <activity android:name=".module.File.view.ExplainActivity"/>
-
-        <activity android:name=".module.retest.view.BodyweiduActivity"></activity>
-        <activity android:name=".module.login.view.LoginActivity1"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
+        <activity android:name=".module.File.view.ExplainActivity" />
+        <activity android:name=".module.retest.view.BodyweiduActivity" />
+        <activity
+            android:name=".module.login.view.LoginActivity1"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
+        <activity android:name=".module.studetail.view.LossWeightLogActivity"></activity>
     </application>
 
 </manifest>

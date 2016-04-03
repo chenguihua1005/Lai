@@ -6,6 +6,7 @@
 package com.softtek.lai.module.studetail.view;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -63,6 +64,8 @@ public class StudentDetailActivity extends BaseActivity implements View.OnClickL
     TabLayout tabLayout;
     @InjectView(R.id.tabcontent)
     ViewPager tabContent;
+    @InjectView(R.id.ll)
+    LinearLayout ll_log;
 
     private ProgressDialog progressDialog;
     private IMemberInfopresenter memberInfopresenter;
@@ -71,6 +74,7 @@ public class StudentDetailActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void initViews() {
         ll_left.setOnClickListener(this);
+        ll_log.setOnClickListener(this);
         progressDialog = new ProgressDialog(this);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setMessage("正在加载内容...");
@@ -99,6 +103,9 @@ public class StudentDetailActivity extends BaseActivity implements View.OnClickL
         switch (v.getId()) {
             case R.id.ll_left:
                 finish();
+                break;
+            case R.id.ll:
+                startActivity(new Intent(this,LossWeightLogActivity.class));
                 break;
         }
     }
