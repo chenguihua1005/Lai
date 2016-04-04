@@ -3,6 +3,7 @@ package com.softtek.lai.module.studetail.view;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,7 +20,7 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_loss_weight_log)
-public class LossWeightLogActivity extends BaseActivity implements View.OnClickListener{
+public class LossWeightLogActivity extends BaseActivity implements View.OnClickListener,AdapterView.OnItemClickListener{
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -41,7 +42,9 @@ public class LossWeightLogActivity extends BaseActivity implements View.OnClickL
         for (int i=0;i<10;i++){
             logs.add(i);
         }
+        ptrlv.setOnItemClickListener(this);
         ptrlv.setAdapter(new LossWeightLogAdapter(this,logs));
+
     }
 
     @Override
@@ -56,5 +59,13 @@ public class LossWeightLogActivity extends BaseActivity implements View.OnClickL
                 finish();
                 break;
         }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if(position==0){
+            return;
+        }
+        
     }
 }

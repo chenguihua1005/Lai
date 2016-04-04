@@ -86,7 +86,8 @@
         <activity
             android:name=".module.login.view.LoginActivity1"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
-        <activity android:name=".module.studetail.view.LossWeightLogActivity"></activity>
+        <activity android:name=".module.studetail.view.LossWeightLogActivity" />
+        <activity android:name=".module.studetail.view.LogDetailActivity"></activity>
     </application>
 
 </manifest>
