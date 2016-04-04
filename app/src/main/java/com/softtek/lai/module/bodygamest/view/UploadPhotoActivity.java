@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -46,9 +47,6 @@ public class UploadPhotoActivity extends BaseActivity implements View.OnClickLis
     //toolbar标题栏
     @InjectView(R.id.tv_left)
     TextView tv_left;
-    //日期
-//  @InjectView(R.id.tv_uploadphoto_date)
-//  TextVi  ew tv_uploadphoto_date;
     @InjectView(R.id.imtest)
     ImageView imtest;
     //照片列表listview
@@ -96,20 +94,27 @@ public class UploadPhotoActivity extends BaseActivity implements View.OnClickLis
     @Subscribe
     public void onEvent(PhotoListEvent photoListEvent) {
         System.out.println("dsadasdsadasda>>》》》》》》》》》》》》》》" + photoListEvent.getDownPhotoModels());
-        downPhotoModelList = photoListEvent.getDownPhotoModels();
+//        downPhotoModelList = photoListEvent.getDownPhotoModels();
         Log.i("sdfsdfsdfsdfsd", "" + downPhotoModelList);
-        downPhotoAdapter.updateData(downPhotoModelList);
+
         List<DownPhotoModel> downPhotoModels = photoListEvent.getDownPhotoModels();
         for (DownPhotoModel dp : downPhotoModels) {
 
             String[] date = dp.getCreateDate().split("/");
             String[] year = date[2].split(" ");
-            if ((years + "") == year[0] && (month + "") == date[0] && (day + "") == date[1]) {
+            if (years == Integer.parseInt(year[0]) && month==Integer.parseInt(date[0]) && day == Integer.parseInt(date[1])) {
 
-//                Picasso.with(this).load(dp.getImgUrl()).placeholder(R.drawable.lufei).error(R.drawable.lufei).into(imtest);
-            } else {
+                if(!TextUtils.isEmpty(dp.getImgUrl())){
+                    Picasso.with(this).load(dp.getImgUrl()).placeholder(R.drawable.lufei).error(R.drawable.lufei).into(imtest);
+                }else{
+                    Picasso.with(this).load("www").placeholder(R.drawable.lufei).error(R.drawable.lufei).into(imtest);
+                }
+            }
+            else {
+
                 DownPhotoModel downPhotoModel1 = new DownPhotoModel(dp.getImgUrl(),dp.getCreateDate());
                 downPhotoModelList.add(downPhotoModel1);
+//                downPhotoAdapter.updateData(downPhotoModelList);
             }
             System.out.print("hihihihihihihihihihihihi" + date + year);
         }
@@ -119,8 +124,8 @@ public class UploadPhotoActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void initViews() {
-        DownPhotoModel downPhotoModel1 = new DownPhotoModel("", month + "/" + day + "/" + years);
-        downPhotoModelList.add(downPhotoModel1);
+//        DownPhotoModel downPhotoModel1 = new DownPhotoModel("", month + "/" + day + "/" + years);
+//        downPhotoModelList.add(downPhotoModel1);
         photoListPre = new PhotoListIml();
         photoListPre.doGetDownPhoto("3");
 

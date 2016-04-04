@@ -13,6 +13,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.module.bodygamest.model.DownPhotoModel;
 import com.squareup.picasso.Picasso;
 
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -22,6 +23,16 @@ public class DownPhotoAdapter extends BaseAdapter {
     private Context context;
     private List<DownPhotoModel> downPhotoModelList;
     private LayoutInflater inflater;
+    //时间
+    Calendar c = Calendar.getInstance();
+    //            取得系统日期:
+    int years = c.get(Calendar.YEAR);
+    int month = c.get(Calendar.MONTH) + 1;
+    int day = c.get(Calendar.DAY_OF_MONTH);
+    //取得系统时间：
+    int hour = c.get(Calendar.HOUR_OF_DAY);
+    int minute = c.get(Calendar.MINUTE);
+
     public DownPhotoAdapter(Context context,List<DownPhotoModel> downPhotoModelList)
     {
         this.context=context;
