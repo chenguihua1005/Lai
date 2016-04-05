@@ -59,7 +59,7 @@ public class ExplainActivity extends BaseActivity implements OnPageChangeListene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //initDots();
+        initDots();
     }
 
     @Override
@@ -119,69 +119,69 @@ public class ExplainActivity extends BaseActivity implements OnPageChangeListene
     @Override
     public void onPageScrolled(int arg0, float arg1, int arg2) {
     }
-//
-//    // 当新的页面被选中时调用
-//    @Override
-//    public void onPageSelected(int arg0) {
-//        // 设置底部小点选中状态
-//        setCurrentDot(arg0);
-//    }
-//
 
+    // 当新的页面被选中时调用
     @Override
     public void onPageSelected(int arg0) {
-        Log.i("当前第几？》》》》" + arg0);
-        switch (arg0) {
-            case 0:
-                iv_one.setBackgroundResource(R.drawable.white_dot);
-                iv_two.setBackgroundResource(R.drawable.dark_dot);
-                iv_three.setBackgroundResource(R.drawable.dark_dot);
-                iv_four.setBackgroundResource(R.drawable.dark_dot);
-                iv_five.setBackgroundResource(R.drawable.dark_dot);
-                iv_six.setBackgroundResource(R.drawable.dark_dot);
-                break;
-            case 1:
-                iv_one.setBackgroundResource(R.drawable.dark_dot);
-                iv_two.setBackgroundResource(R.drawable.white_dot);
-                iv_three.setBackgroundResource(R.drawable.dark_dot);
-                iv_four.setBackgroundResource(R.drawable.dark_dot);
-                iv_five.setBackgroundResource(R.drawable.dark_dot);
-                iv_six.setBackgroundResource(R.drawable.dark_dot);
-                break;
-            case 2:
-                iv_one.setBackgroundResource(R.drawable.dark_dot);
-                iv_two.setBackgroundResource(R.drawable.dark_dot);
-                iv_three.setBackgroundResource(R.drawable.white_dot);
-                iv_four.setBackgroundResource(R.drawable.dark_dot);
-                iv_five.setBackgroundResource(R.drawable.dark_dot);
-                iv_six.setBackgroundResource(R.drawable.dark_dot);
-                break;
-            case 3:
-                iv_one.setBackgroundResource(R.drawable.dark_dot);
-                iv_two.setBackgroundResource(R.drawable.dark_dot);
-                iv_three.setBackgroundResource(R.drawable.dark_dot);
-                iv_four.setBackgroundResource(R.drawable.white_dot);
-                iv_five.setBackgroundResource(R.drawable.dark_dot);
-                iv_six.setBackgroundResource(R.drawable.dark_dot);
-                break;
-            case 4:
-                iv_one.setBackgroundResource(R.drawable.dark_dot);
-                iv_two.setBackgroundResource(R.drawable.dark_dot);
-                iv_three.setBackgroundResource(R.drawable.dark_dot);
-                iv_four.setBackgroundResource(R.drawable.dark_dot);
-                iv_five.setBackgroundResource(R.drawable.white_dot);
-                iv_six.setBackgroundResource(R.drawable.dark_dot);
-                break;
-            case 5:
-                iv_one.setBackgroundResource(R.drawable.dark_dot);
-                iv_two.setBackgroundResource(R.drawable.dark_dot);
-                iv_three.setBackgroundResource(R.drawable.dark_dot);
-                iv_four.setBackgroundResource(R.drawable.dark_dot);
-                iv_five.setBackgroundResource(R.drawable.dark_dot);
-                iv_six.setBackgroundResource(R.drawable.white_dot);
-                break;
-
-        }
+        // 设置底部小点选中状态
+        setCurrentDot(arg0);
     }
+
+
+//    @Override
+//    public void onPageSelected(int arg0) {
+//        Log.i("当前第几？》》》》" + arg0);
+//        switch (arg0) {
+//            case 0:
+//                iv_one.setBackgroundResource(R.drawable.white_dot);
+//                iv_two.setBackgroundResource(R.drawable.dark_dot);
+//                iv_three.setBackgroundResource(R.drawable.dark_dot);
+//                iv_four.setBackgroundResource(R.drawable.dark_dot);
+//                iv_five.setBackgroundResource(R.drawable.dark_dot);
+//                iv_six.setBackgroundResource(R.drawable.dark_dot);
+//                break;
+//            case 1:
+//                iv_one.setBackgroundResource(R.drawable.dark_dot);
+//                iv_two.setBackgroundResource(R.drawable.white_dot);
+//                iv_three.setBackgroundResource(R.drawable.dark_dot);
+//                iv_four.setBackgroundResource(R.drawable.dark_dot);
+//                iv_five.setBackgroundResource(R.drawable.dark_dot);
+//                iv_six.setBackgroundResource(R.drawable.dark_dot);
+//                break;
+//            case 2:
+//                iv_one.setBackgroundResource(R.drawable.dark_dot);
+//                iv_two.setBackgroundResource(R.drawable.dark_dot);
+//                iv_three.setBackgroundResource(R.drawable.white_dot);
+//                iv_four.setBackgroundResource(R.drawable.dark_dot);
+//                iv_five.setBackgroundResource(R.drawable.dark_dot);
+//                iv_six.setBackgroundResource(R.drawable.dark_dot);
+//                break;
+//            case 3:
+//                iv_one.setBackgroundResource(R.drawable.dark_dot);
+//                iv_two.setBackgroundResource(R.drawable.dark_dot);
+//                iv_three.setBackgroundResource(R.drawable.dark_dot);
+//                iv_four.setBackgroundResource(R.drawable.white_dot);
+//                iv_five.setBackgroundResource(R.drawable.dark_dot);
+//                iv_six.setBackgroundResource(R.drawable.dark_dot);
+//                break;
+//            case 4:
+//                iv_one.setBackgroundResource(R.drawable.dark_dot);
+//                iv_two.setBackgroundResource(R.drawable.dark_dot);
+//                iv_three.setBackgroundResource(R.drawable.dark_dot);
+//                iv_four.setBackgroundResource(R.drawable.dark_dot);
+//                iv_five.setBackgroundResource(R.drawable.white_dot);
+//                iv_six.setBackgroundResource(R.drawable.dark_dot);
+//                break;
+//            case 5:
+//                iv_one.setBackgroundResource(R.drawable.dark_dot);
+//                iv_two.setBackgroundResource(R.drawable.dark_dot);
+//                iv_three.setBackgroundResource(R.drawable.dark_dot);
+//                iv_four.setBackgroundResource(R.drawable.dark_dot);
+//                iv_five.setBackgroundResource(R.drawable.dark_dot);
+//                iv_six.setBackgroundResource(R.drawable.white_dot);
+//                break;
+//
+//        }
+//    }
 
 }

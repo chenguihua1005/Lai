@@ -33,6 +33,10 @@
             android:layout_marginLeft="20dp"
             android:src="@drawable/lufei"/>
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#BBBBBB"/>
 
 
     <ListView

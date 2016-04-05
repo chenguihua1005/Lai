@@ -23,6 +23,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.login.presenter.ILoginPresenter;
 import com.softtek.lai.module.login.presenter.LoginPresenterImpl;
+import com.softtek.lai.module.studetail.view.StudentDetailActivity;
 
 import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
@@ -73,6 +74,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @Override
     protected void initViews() {
         tintManager.setStatusBarTintResource(R.color.white);
+
         progressDialog=new ProgressDialog(this);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setMessage("登录中，请稍候...");
@@ -89,6 +91,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         switch (v.getId()){
             case R.id.tv_login:
                 validateLife.validate();
+                //startActivity(new Intent(this, StudentDetailActivity.class));
                 break;
             case R.id.tv_forgetpsd:
                 startActivity(new Intent(this,ForgetActivity.class));
