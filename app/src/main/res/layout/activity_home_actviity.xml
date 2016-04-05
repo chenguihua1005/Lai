@@ -27,8 +27,7 @@
             android:layout_height="53dp"
             android:orientation="horizontal"
             android:layout_alignParentBottom="true"
-            android:gravity="center_horizontal"
-    >
+            android:gravity="center_horizontal">
 
         <com.ggx.jerryguan.widget_lib.SimpleButton
                 android:id="@+id/btn_home"
@@ -39,7 +38,7 @@
                 app:pitchBitmap="@drawable/home"
                 app:alpha="true"
                 app:text="@string/home"
-                android:background="#75BA2B"/>
+                />
 
         <com.ggx.jerryguan.widget_lib.SimpleButton
                 android:id="@+id/btn_healthy"
@@ -76,7 +75,7 @@
 
     <View
             android:layout_width="match_parent"
-            android:layout_height=".5dp"
+            android:layout_height="0.5dp"
             android:background="#c0c0c0"
             android:layout_alignTop="@id/ll"/>
 
