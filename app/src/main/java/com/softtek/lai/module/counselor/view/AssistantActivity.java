@@ -7,6 +7,7 @@ package com.softtek.lai.module.counselor.view;
 
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -70,6 +71,9 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
     @InjectView(R.id.text_list)
     TextView text_list;
 
+    @InjectView(R.id.img_more)
+    ImageView img_more;
+
     //
 //    @InjectView(R.id.viewpager)
 //    ViewPager viewpager;
@@ -109,6 +113,7 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
     List<Fragment> lists = new ArrayList<Fragment>();
     Fragment assistantListFragment;
     Fragment assistantApplyFragment;
+    AssistantClassInfoModel assistantClassInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,7 +146,7 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
                 System.out.println("position:" + position);
                 ImageView imageView = (ImageView) view.findViewById(R.id.img);
                 imageView.setImageDrawable(getResources().getDrawable(R.drawable.img_selceted));
-                AssistantClassInfoModel assistantClassInfo = (AssistantClassInfoModel) list_class.getAdapter().getItem(position);
+                assistantClassInfo = (AssistantClassInfoModel) list_class.getAdapter().getItem(position);
                 assistantPresenter.showAssistantByClass(userModel.getUserid(), assistantClassInfo.getClassId(), list_assistant);
             }
         });
@@ -188,6 +193,15 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        if (assistantClassInfo != null) {
+            assistantPresenter.showAssistantByClass(userModel.getUserid(), assistantClassInfo.getClassId(), list_assistant);
+        }
+
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_left:
@@ -197,20 +211,33 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
                 if (isShow) {
                     isShow = false;
                     lin_class.setVisibility(View.GONE);
+                    img_more.setImageResource(R.drawable.more_down);
+
                 } else {
                     isShow = true;
                     lin_class.setVisibility(View.VISIBLE);
+                    img_more.setImageResource(R.drawable.img_up);
                 }
                 break;
 
             case R.id.text_list:
+
                 list_apply.setVisibility(View.GONE);
                 lin_assistant.setVisibility(View.VISIBLE);
+                text_apply.setBackground(getResources().getDrawable(R.drawable.img_select_grey));
+                text_list.setBackground(getResources().getDrawable(R.drawable.img_select_white));
+                text_apply.setTextColor(getResources().getColor(R.color.white));
+                text_list.setTextColor(getResources().getColor(R.color.black));
+
                 break;
 
             case R.id.text_apply:
                 list_apply.setVisibility(View.VISIBLE);
                 lin_assistant.setVisibility(View.GONE);
+                text_apply.setBackground(getResources().getDrawable(R.drawable.img_select_white));
+                text_list.setBackground(getResources().getDrawable(R.drawable.img_select_grey));
+                text_apply.setTextColor(getResources().getColor(R.color.black));
+                text_list.setTextColor(getResources().getColor(R.color.white));
                 break;
         }
     }

@@ -21,11 +21,14 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.bodygamest.present.IStudentPresenter;
+import com.softtek.lai.module.bodygamest.present.StudentImpl;
 import com.softtek.lai.module.counselor.adapter.SimpleFragmentPagerAdapter;
 import com.softtek.lai.module.counselor.presenter.AssistantImpl;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 import com.softtek.lai.module.counselor.view.AssistantApplyFragment;
 import com.softtek.lai.module.counselor.view.AssistantListFragment;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.SoftInputUtil;
 
@@ -41,7 +44,7 @@ import zilla.libcore.ui.InjectLayout;
  * Created by jarvis.liu on 3/22/2016.
  * 助教管理页面
  */
-@InjectLayout(R.layout.activity_assistant)
+@InjectLayout(R.layout.activity_student_score)
 public class StudentScoreActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener {
 
     @LifeCircleInject
@@ -57,13 +60,13 @@ public class StudentScoreActivity extends BaseActivity implements View.OnClickLi
     @InjectView(R.id.tv_title)
     TextView tv_title;
 
-    @InjectView(R.id.list_student_core)
-    ListView list_student_core;
+    @InjectView(R.id.list_student_score)
+    ListView list_student_score;
 
 
-
-    private IAssistantPresenter assistantPresenter;
+    private IStudentPresenter studentPresenter;
     private ACache aCache;
+    private UserModel userModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,9 +86,11 @@ public class StudentScoreActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     protected void initDatas() {
-        assistantPresenter = new AssistantImpl(this);
+        studentPresenter = new StudentImpl(this);
         aCache = ACache.get(this, Constants.USER_ACACHE_DATA_DIR);
-
+        userModel = (UserModel) aCache.getAsObject(Constants.USER_ACACHE_KEY);
+        String id = userModel.getUserid();
+        studentPresenter.getTranscrip(id,list_student_score);
     }
 
     @Override

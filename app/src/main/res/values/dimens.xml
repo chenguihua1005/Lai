@@ -13,7 +13,7 @@
     <dimen name="fab_margin">16dp</dimen>
 
     <!-- 顾问版-->
-    <dimen name="circleImage">50dip</dimen>
+    <dimen name="circleImage">55dip</dimen>
 
     <dimen name="counselorClassTextSize">16sp</dimen>
     <dimen name="counselorClassTextMargin">10dip</dimen>
@@ -26,13 +26,15 @@
 
     <dimen name="assistantMargin">10dip</dimen>
     <dimen name="assistantMarginLeft">5dip</dimen>
+    <dimen name="assistantMarginTop">5dip</dimen>
     <dimen name="assistantNameTextSize">16sp</dimen>
     <dimen name="assistantPhoneTextSize">14sp</dimen>
-    <dimen name="assistantButtonWidth">60dip</dimen>
-    <dimen name="assistantButtonHeight">40dip</dimen>
+    <dimen name="assistantButtonWidth">70dip</dimen>
+    <dimen name="assistantButtonHeight">50dip</dimen>
 
     <dimen name="fragmentAssistantApplyMargin">10dip</dimen>
     <dimen name="fragmentAssistantApplyNameTextSize">16sp</dimen>
+    <dimen name="fragmentAssistantApplyNameTextSize2">15sp</dimen>
     <dimen name="fragmentAssistantApplyValueTextSize">14sp</dimen>
     <dimen name="fragmentAssistantApplyButtonWidth">60dip</dimen>
     <dimen name="fragmentAssistantApplyButtonHeight">35dip</dimen>
@@ -41,7 +43,8 @@
     <dimen name="fragmentAssistantListMarginLeft">5dip</dimen>
     <dimen name="fragmentAssistantListHeights">50dip</dimen>
     <dimen name="fragmentAssistantListNameSize">16sp</dimen>
-    <dimen name="fragmentAssistantListTextSize">14sp</dimen>
+    <dimen name="fragmentAssistantListTextSize">15sp</dimen>
+    <dimen name="fragmentAssistantListTextSize2">14sp</dimen>
     <dimen name="fragmentAssistantListTextSizes">16sp</dimen>
     <dimen name="fragmentAssistantListHeight">200dip</dimen>
 
@@ -51,16 +54,19 @@
 
     <dimen name="assistantDetailMargin">20dip</dimen>
     <dimen name="assistantDetailMarginLeft">20dip</dimen>
-    <dimen name="assistantdetailNameTextSize">20sp</dimen>
-    <dimen name="assistantdetailPhoneTextSize">18sp</dimen>
+    <dimen name="assistantDetailMarginTop">10dip</dimen>
+    <dimen name="assistantDetailMarginLeft1">5dip</dimen>
+    <dimen name="assistantdetailNameTextSize">18sp</dimen>
+    <dimen name="assistantdetailPhoneTextSize">16sp</dimen>
+    <dimen name="assistantdetailPhoneTextSize1">14sp</dimen>
 
     <dimen name="inviteStudentMargin">20dip</dimen>
     <dimen name="inviteStudentMargins">10dip</dimen>
     <dimen name="inviteStudentTextSize">16sp</dimen>
     <dimen name="inviteStudentNameTextSize">14sp</dimen>
     <dimen name="inviteStudentMarginLeft">5dip</dimen>
-    <dimen name="inviteStudentButtonWidth">60dip</dimen>
-    <dimen name="inviteStudentButtonHeight">40dip</dimen>
+    <dimen name="inviteStudentButtonWidth">70dip</dimen>
+    <dimen name="inviteStudentButtonHeight">50dip</dimen>
 
     <dimen name="gametMargin">20dip</dimen>
     <dimen name="gametMarginLeft">10dip</dimen>
@@ -77,11 +83,14 @@
 
     <dimen name="fragmentMineMargin">20dip</dimen>
     <dimen name="fragmentMineMarginTop">10dip</dimen>
+    <dimen name="fragmentMineMarginLeft">15dip</dimen>
     <dimen name="fragmentMineTextSize">16sp</dimen>
     <dimen name="fragmentMineTextSizes">14sp</dimen>
 
     <dimen name="validateCertificationMargin">20dip</dimen>
+    <dimen name="validateCertificationMarginLeft">10dip</dimen>
     <dimen name="validateCertificationTextSize">16sp</dimen>
+    <dimen name="validateCertificationResultTextSize">18sp</dimen>
     <dimen name="validateCertificationTextSizes">14sp</dimen>
 
     <dimen name="studentScoreTextSize">16sp</dimen>

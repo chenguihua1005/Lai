@@ -1,108 +1,193 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
   ~ Date:2016-03-31
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:fitsSystemWindows="true"
-              android:orientation="vertical"
-              tools:context="com.softtek.lai.module.login.view.ForgetActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context="com.softtek.lai.module.login.view.ForgetActivity">
 
     <include
-            android:id="@+id/toolbar"
-            layout="@layout/toolbar"/>
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
 
     <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/grey">
 
         <com.softtek.lai.widgets.CircleImageView
-                android:id="@+id/img"
-                android:layout_width="@dimen/circleImage"
-                android:layout_height="@dimen/circleImage"
-                android:layout_margin="@dimen/assistantDetailMargin"
-                android:src="@drawable/img_default"/>
+            android:id="@+id/img"
+            android:layout_width="@dimen/circleImage"
+            android:layout_height="@dimen/circleImage"
+            android:layout_margin="@dimen/assistantDetailMargin"
+            android:src="@drawable/img_default" />
 
         <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/text_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:layout_gravity="left"
+                android:text="name"
+                android:textColor="@color/word"
+                android:textSize="@dimen/assistantdetailNameTextSize"
+                android:textStyle="bold" />
 
-            <TextView
-                    android:id="@+id/text_name"
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/assistantDetailMarginTop"
+                android:orientation="horizontal">
+
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="name"
-                    android:textSize="@dimen/assistantdetailNameTextSize"/>
+                    android:src="@drawable/img_phone" />
 
-            <TextView
+                <TextView
                     android:id="@+id/text_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/assistantDetailMarginLeft1"
                     android:text="phone"
-                    android:textSize="@dimen/assistantdetailPhoneTextSize"/>
+
+                    android:textColor="@color/word"
+                    android:textSize="@dimen/assistantdetailPhoneTextSize" />
+            </LinearLayout>
+
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/assistantDetailMargin"
+        android:background="@color/grey"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/rel1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/assistantDetailMargin">
+            android:layout_marginLeft="@dimen/assistantDetailMargin"
+            android:layout_marginRight="@dimen/assistantDetailMargin"
+            android:layout_marginTop="@dimen/assistantDetailMargin">
 
-        <TextView
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/customerServiceCount"
-                android:textSize="@dimen/assistantdetailPhoneTextSize"/>
+                android:textColor="@color/word"
+                android:textSize="@dimen/assistantdetailPhoneTextSize" />
 
-        <TextView
+            <TextView
                 android:id="@+id/text_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/assistantDetailMargin"
-                android:textSize="@dimen/assistantdetailPhoneTextSize"/>
-    </LinearLayout>
+                android:layout_marginRight="@dimen/assistantDetailMarginLeft1"
+                android:layout_toLeftOf="@+id/text1"
+                android:textColor="@color/word"
+                android:textSize="@dimen/assistantdetailPhoneTextSize" />
 
-    <LinearLayout
+            <TextView
+                android:id="@+id/text1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="人"
+                android:textSize="@dimen/assistantdetailPhoneTextSize1" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dip"
+            android:layout_marginLeft="@dimen/assistantDetailMargin"
+            android:layout_marginRight="@dimen/assistantDetailMargin"
+            android:layout_marginTop="@dimen/assistantDetailMargin"
+            android:background="#cccccc" />
+
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/assistantDetailMargin">
+            android:layout_marginLeft="@dimen/assistantDetailMargin"
+            android:layout_marginRight="@dimen/assistantDetailMargin"
+            android:layout_marginTop="@dimen/assistantDetailMargin">
 
-        <TextView
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/retestValue"
-                android:textSize="@dimen/assistantdetailPhoneTextSize"/>
+                android:textColor="@color/word"
+                android:textSize="@dimen/assistantdetailPhoneTextSize" />
 
-        <TextView
+            <TextView
                 android:id="@+id/text_retest"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/assistantDetailMargin"
-                android:textSize="@dimen/assistantdetailPhoneTextSize"/>
-    </LinearLayout>
-    <LinearLayout
+                android:layout_toLeftOf="@+id/text2"
+                android:textColor="@color/word"
+                android:textSize="@dimen/assistantdetailPhoneTextSize" />
+
+            <TextView
+                android:id="@+id/text2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="%"
+                android:textSize="@dimen/assistantdetailPhoneTextSize1" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dip"
+            android:layout_marginLeft="@dimen/assistantDetailMargin"
+            android:layout_marginRight="@dimen/assistantDetailMargin"
+            android:layout_marginTop="@dimen/assistantDetailMargin"
+            android:background="#cccccc" />
+
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/assistantDetailMargin">
+            android:layout_margin="@dimen/assistantDetailMargin">
 
-        <TextView
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/totalValue"
-                android:textSize="@dimen/assistantdetailPhoneTextSize"/>
+                android:textColor="@color/word"
+                android:textSize="@dimen/assistantdetailPhoneTextSize" />
 
-        <TextView
+            <TextView
                 android:id="@+id/text_total"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/assistantDetailMargin"
-                android:textSize="@dimen/assistantdetailPhoneTextSize"/>
+                android:layout_toLeftOf="@+id/text3"
+                android:textColor="@color/word"
+                android:textSize="@dimen/assistantdetailPhoneTextSize" />
+
+            <TextView
+                android:id="@+id/text3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="斤"
+                android:textSize="@dimen/assistantdetailPhoneTextSize1" />
+        </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

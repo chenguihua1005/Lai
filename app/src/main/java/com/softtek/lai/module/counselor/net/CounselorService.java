@@ -80,6 +80,13 @@ public interface CounselorService {
                         @Field("ClassId") String classId,
                         Callback<ResponseData> callback);
 
+    @POST("/HerbAssistant/RemoveAssistantRoleByClass")
+    void removeAssistantRoleByClass(@Header("token") String token,
+                        @Query("assistantId") String assistantId,
+                        @Query("classId") String classId,
+                        Callback<ResponseData> callback);
+
+
     @GET("/HerbrClass/GetNotInvitePC")
     void getNotInvitePC(@Header("token") String token,
                         @Query("classid") String classid,

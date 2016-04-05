@@ -46,6 +46,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     @InjectView(R.id.lin_reset_password)
     LinearLayout lin_reset_password;
 
+    @InjectView(R.id.lin_zx)
+    LinearLayout lin_zx;
+
     private ACache aCache;
 
     @Override
@@ -91,6 +94,10 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 break;
 
             case R.id.lin_reset_password:
+
+                break;
+
+            case R.id.lin_zx:
 
                 break;
             case R.id.lin_validate_certification:

@@ -5,11 +5,22 @@
 
 package com.softtek.lai.module.counselor.view;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
+
 import butterknife.InjectView;
+
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
@@ -18,11 +29,14 @@ import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.counselor.model.AssistantDetailInfoModel;
 import com.softtek.lai.module.counselor.presenter.AssistantImpl;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
+import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.SoftInputUtil;
 import com.squareup.picasso.Picasso;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
@@ -47,6 +61,9 @@ public class AssistantDetailActivity extends BaseActivity implements View.OnClic
     @InjectView(R.id.img)
     ImageView img;
 
+    @InjectView(R.id.iv_email)
+    ImageView iv_email;
+
     @InjectView(R.id.text_name)
     TextView text_name;
 
@@ -65,11 +82,19 @@ public class AssistantDetailActivity extends BaseActivity implements View.OnClic
     private IAssistantPresenter ssistantPresenter;
     private ACache aCache;
 
+    private LinearLayout layout;
+    private PopupWindow popupWindow;
+
+    private String assistantId;
+    private String classId;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
         tv_left.setOnClickListener(this);
+        iv_email.setOnClickListener(this);
 
     }
 
@@ -99,6 +124,8 @@ public class AssistantDetailActivity extends BaseActivity implements View.OnClic
         tv_left.setBackgroundResource(R.drawable.back);
         //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
         tv_title.setText("助教详情");
+        iv_email.setImageResource(R.drawable.more_title);
+        iv_email.setVisibility(View.VISIBLE);
 
     }
 
@@ -106,18 +133,42 @@ public class AssistantDetailActivity extends BaseActivity implements View.OnClic
     protected void initDatas() {
         ssistantPresenter = new AssistantImpl(this);
         aCache = ACache.get(this, Constants.USER_ACACHE_DATA_DIR);
-        String assistantId = getIntent().getStringExtra("assistantId");
-        String classId = getIntent().getStringExtra("classId");
+        assistantId = getIntent().getStringExtra("assistantId");
+        classId = getIntent().getStringExtra("classId");
         ssistantPresenter.showAssistantDetails(assistantId, classId);
+    }
+
+    public void showPopupWindow(View parent) {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.warning))
+                .setMessage(getString(R.string.warning_value))
+                .setPositiveButton(getString(R.string.app_sure), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ssistantPresenter.removeAssistantRoleByClass(assistantId, classId);
+                    }
+                })
+                .setNegativeButton(getString(R.string.app_cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+        dialogBuilder.create().show();
     }
 
     @Override
     public void onClick(View v) {
-        SoftInputUtil.hidden(this);
         switch (v.getId()) {
 
             case R.id.tv_left:
                 finish();
+                break;
+
+            case R.id.iv_email:
+                System.out.println("iv_email------");
+                showPopupWindow(iv_email);
                 break;
         }
     }

@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
-  ~ Date:2016-03-31
-  -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
                 tools:context=".module.bodygame.CounselorActivity">
 
     <LinearLayout
@@ -38,13 +35,15 @@
 
             <ScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:id="@+id/scrollView3">
 
                 <LinearLayout
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_marginBottom="20dp"
+                        android:layout_gravity="bottom"
                 >
 
                     <LinearLayout
@@ -64,7 +63,7 @@
                         >
                             <FrameLayout
                                     android:layout_width="match_parent"
-                                    android:layout_height="100dp"
+                                    android:layout_height="80dp"
                             >
 
                                 <LinearLayout
@@ -78,11 +77,13 @@
                                             android:layout_width="30dp"
                                             android:layout_height="30dp"
                                             android:background="@drawable/bt_tiguansai"/>
-                                    <Button
+                                    <TextView
                                             android:id="@+id/bt_tiguansai"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:text="@string/CounselorA"
+                                            android:textSize="16sp"
+                                            android:padding="2dp"
                                             android:background="@null"
                                     />
                                 </LinearLayout>
@@ -102,11 +103,13 @@
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     android:src="@drawable/bt_review"/>
-                            <Button
+                            <TextView
                                     android:id="@+id/bt_review"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@string/CounselorB"
+                                    android:textSize="16sp"
+                                    android:padding="2dp"
                                     android:background="@null"/>
                         </LinearLayout>
                         <LinearLayout
@@ -122,11 +125,13 @@
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     android:src="@drawable/bt_new_student"/>
-                            <Button
+                            <TextView
                                     android:id="@+id/bt_new_student"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@string/CounselorC"
+                                    android:textSize="16sp"
+                                    android:padding="2dp"
                                     android:background="@null"/>
                         </LinearLayout>
                     </LinearLayout>
@@ -147,7 +152,7 @@
 
                             <FrameLayout
                                     android:layout_width="match_parent"
-                                    android:layout_height="100dp">
+                                    android:layout_height="80dp">
 
                                 <LinearLayout
                                         android:layout_width="match_parent"
@@ -160,11 +165,13 @@
                                             android:layout_height="30dp"
                                             android:src="@drawable/bt_counselor_fuce"/>
 
-                                    <Button
+                                    <TextView
                                             android:id="@+id/bt_counselor_fuce"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:text="@string/CounselorD"
+                                            android:textSize="16sp"
+                                            android:padding="2dp"
                                             android:background="@null"/>
                                 </LinearLayout>
 
@@ -176,6 +183,7 @@
                                         android:layout_gravity="right"
                                         android:gravity="center"
                                         android:id="@+id/tv_fucenum"
+                                        android:visibility="gone"
                                         android:textColor="#ffffff"
                                         android:background="@drawable/circlebac"/>
                             </FrameLayout>
@@ -195,11 +203,13 @@
                                     android:layout_height="30dp"
                                     android:src="@drawable/bt_process"/>
 
-                            <Button
+                            <TextView
                                     android:id="@+id/bt_process"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@string/CounselorE"
+                                    android:textSize="16sp"
+                                    android:padding="2dp"
                                     android:background="@null"/>
                         </LinearLayout>
                         <LinearLayout
@@ -216,11 +226,13 @@
                                     android:layout_height="30dp"
                                     android:src="@drawable/bt_honor"/>
 
-                            <Button
+                            <TextView
                                     android:id="@+id/bt_honor"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@string/CounselorF"
+                                    android:textSize="16sp"
+                                    android:padding="2dp"
                                     android:background="@null"/>
                         </LinearLayout>
                     </LinearLayout>
@@ -241,7 +253,7 @@
 
                             <FrameLayout
                                     android:layout_width="match_parent"
-                                    android:layout_height="100dp">
+                                    android:layout_height="80dp">
 
                                 <LinearLayout
                                         android:layout_width="match_parent"
@@ -254,11 +266,13 @@
                                             android:layout_height="30dp"
                                             android:src="@drawable/bt_match"/>
 
-                                    <Button
+                                    <TextView
                                             android:id="@+id/bt_match"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:text="@string/CounselorG"
+                                            android:textSize="16sp"
+                                            android:padding="2dp"
                                             android:background="@null"/>
                                 </LinearLayout>
 
@@ -279,11 +293,13 @@
                                     android:layout_height="30dp"
                                     android:src="@drawable/btn_tip"/>
 
-                            <Button
+                            <TextView
                                     android:id="@+id/btn_tip"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@string/CounselorH"
+                                    android:textSize="16sp"
+                                    android:padding="2dp"
                                     android:background="@null"/>
                         </LinearLayout>
                         <LinearLayout
@@ -300,11 +316,13 @@
                                     android:layout_height="30dp"
                                     android:src="@drawable/btn_assistant"/>
 
-                            <Button
+                            <TextView
                                     android:id="@+id/btn_assistant"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@string/CounselorI"
+                                    android:textSize="16sp"
+                                    android:padding="2dp"
                                     android:background="@null"/>
                         </LinearLayout>
                     </LinearLayout>

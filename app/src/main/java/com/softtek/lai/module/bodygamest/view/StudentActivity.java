@@ -103,8 +103,10 @@ public class StudentActivity extends BaseActivity implements View.OnClickListene
     public void onEvent1(FuceNumModel fuceNum) {
 
         if (Integer.parseInt(fuceNum.getCount()) > 10) {
+            tv_st_num.setVisibility(View.VISIBLE);
             tv_st_num.setText("10+");
-        } else {
+        } else if (Integer.parseInt(fuceNum.getCount()) != 0&&fuceNum.getCount()!=""){
+            tv_st_num.setVisibility(View.VISIBLE);
             tv_st_num.setText(fuceNum.getCount());
         }
 

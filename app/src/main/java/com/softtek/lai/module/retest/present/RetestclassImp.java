@@ -6,6 +6,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
 import com.softtek.lai.module.retest.eventModel.BanJiEvent;
 import com.softtek.lai.module.retest.eventModel.BanjiStudentEvent;
+import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
 import com.softtek.lai.module.retest.eventModel.StudentEvent;
 import com.softtek.lai.module.retest.model.BanjiModel;
 import com.softtek.lai.module.retest.model.BanjiStudentModel;
@@ -40,7 +41,7 @@ public class RetestclassImp implements RetestPre{
     @Override
     public void doGetRetestclass(long id) {
         Log.i("service>>>>>>>>>>>>>>>>>>>>>>>>>>"+service);
-        String token=SharedPreferenceService.getInstance().get("token","0");
+        String token=SharedPreferenceService.getInstance().get("token","");
        service.doGetRetestclass(token,id, new Callback<ResponseData<List<BanjiModel>>>() {
            @Override
            public void success(ResponseData<List<BanjiModel>> banjiResponseData, retrofit.client.Response response) {
@@ -53,7 +54,7 @@ public class RetestclassImp implements RetestPre{
                    }
                    break;
                    case 201:{
-                       Log.i("未分配班级");
+                       Util.toastMsg("未分配班级");
                    }
                    break;
                }
@@ -61,8 +62,9 @@ public class RetestclassImp implements RetestPre{
 
            @Override
            public void failure(RetrofitError error) {
+               ZillaApi.dealNetError(error);
                error.printStackTrace();
-               Util.toastMsg(R.string.neterror);
+
            }
        });
 
@@ -88,8 +90,9 @@ public class RetestclassImp implements RetestPre{
 
             @Override
             public void failure(RetrofitError error) {
+                ZillaApi.dealNetError(error);
                 error.printStackTrace();
-                Util.toastMsg(R.string.neterror);
+
             }
         });
     }
@@ -116,8 +119,9 @@ public class RetestclassImp implements RetestPre{
 
             @Override
             public void failure(RetrofitError error) {
+                ZillaApi.dealNetError(error);
                 error.printStackTrace();
-                Util.toastMsg(R.string.neterror);
+
 
             }
         });
@@ -133,7 +137,8 @@ public class RetestclassImp implements RetestPre{
                 switch (status)
                 {
                     case 200:
-                        Util.toastMsg("保存成功");
+                        EventBus.getDefault().post(new RetestAuditModelEvent(listResponseData.getData()));
+                        Util.toastMsg("复测记录获取成功");
                         break;
                     case 500:
                         Util.toastMsg("复测记录获取失败");
@@ -143,8 +148,9 @@ public class RetestclassImp implements RetestPre{
 
             @Override
             public void failure(RetrofitError error) {
+                ZillaApi.dealNetError(error);
                 error.printStackTrace();
-                Util.toastMsg("服务器异常");
+
             }
         });
     }

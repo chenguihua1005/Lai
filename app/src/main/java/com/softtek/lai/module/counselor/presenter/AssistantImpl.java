@@ -6,6 +6,7 @@
 package com.softtek.lai.module.counselor.presenter;
 
 import android.content.Context;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,6 +21,8 @@ import com.softtek.lai.module.counselor.adapter.AssistantClassAdapter;
 import com.softtek.lai.module.counselor.adapter.AssistantClassListAdapter;
 import com.softtek.lai.module.counselor.model.*;
 import com.softtek.lai.module.counselor.net.CounselorService;
+import com.softtek.lai.module.counselor.view.AssistantDetailActivity;
+
 import org.greenrobot.eventbus.EventBus;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -93,6 +96,34 @@ public class AssistantImpl implements IAssistantPresenter {
             public void failure(RetrofitError error) {
                 System.out.println("error:" + error);
                 Util.toastMsg("获取助教详情失败");
+            }
+        });
+    }
+
+    @Override
+    public void removeAssistantRoleByClass(String assistantId, String classId) {
+        String token = SharedPreferenceService.getInstance().get("token", "");
+        counselorService.removeAssistantRoleByClass(token, assistantId, classId, new Callback<ResponseData>() {
+            @Override
+            public void success(ResponseData listResponseData, Response response) {
+                Log.e("jarvis", listResponseData.toString());
+                int status = listResponseData.getStatus();
+
+                switch (status) {
+                    case 200:
+                        Util.toastMsg("移除成功");
+                        ((AssistantDetailActivity) context).finish();
+                        break;
+                    default:
+                        Util.toastMsg(listResponseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                System.out.println("error:" + error);
+                Util.toastMsg("移除失败");
             }
         });
     }

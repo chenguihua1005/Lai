@@ -6,6 +6,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <include layout="@layout/toolbar" />
@@ -81,7 +82,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:src="@drawable/ale" />
+                        android:src="@drawable/ale"
+                        android:visibility="invisible"/>
 
                     <ImageView
                         android:id="@+id/img_fc_2"
@@ -89,7 +91,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:src="@drawable/ale" />
+                        android:src="@drawable/ale"
+                        android:visibility="invisible"/>
 
                     <ImageView
                         android:id="@+id/img_fc_3"
@@ -97,7 +100,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:src="@drawable/ale" />
+                        android:src="@drawable/ale"
+                        android:visibility="invisible"/>
                 </LinearLayout>
             </LinearLayout>
 

@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
-  ~ Date:2016-03-31
-  -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
                 tools:context=".module.bodygame.CounselorActivity">
 
     <LinearLayout
@@ -31,7 +28,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:id="@+id/iv_st_adv"
-                        android:background="@drawable/guide_bac"
                         android:scaleType="centerCrop"
                 />
 
@@ -52,6 +48,8 @@
                             android:orientation="horizontal"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="30dp"
+                            android:layout_marginRight="30dp"
                             android:padding="5dp"
                     >
 
@@ -79,11 +77,13 @@
                                             android:layout_width="30dp"
                                             android:layout_height="30dp"
                                             android:background="@drawable/bt_tiguansai"/>
-                                    <Button
+                                    <TextView
                                             android:id="@+id/bt_tiguansai"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:text="@string/gamestA"
+                                            android:textSize="16sp"
+                                            android:padding="2dp"
                                             android:background="@null"
                                     />
                                 </LinearLayout>
@@ -103,11 +103,13 @@
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     android:src="@drawable/bt_review"/>
-                            <Button
+                            <TextView
                                     android:id="@+id/bt_review"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@string/gamestB"
+                                android:textSize="16sp"
+                                android:padding="2dp"
                                     android:background="@null"/>
                         </LinearLayout>
                     </LinearLayout>
@@ -116,6 +118,8 @@
                             android:orientation="horizontal"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="30dp"
+                            android:layout_marginRight="30dp"
                             android:padding="5dp">
 
                         <LinearLayout
@@ -141,11 +145,13 @@
                                             android:layout_height="30dp"
                                             android:src="@drawable/bt_counselor_fuce"/>
 
-                                    <Button
+                                    <TextView
                                             android:id="@+id/bt_counselor_fuce"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:text="@string/gamestC"
+                                        android:textSize="16sp"
+                                        android:padding="2dp"
                                             android:background="@null"/>
                                 </LinearLayout>
 
@@ -158,6 +164,7 @@
                                         android:layout_gravity="right"
                                         android:gravity="center"
                                         android:textColor="#ffffff"
+                                        android:visibility="gone"
                                         android:background="@drawable/circlebac"/>
                             </FrameLayout>
                         </LinearLayout>
@@ -176,11 +183,13 @@
                                     android:layout_height="30dp"
                                     android:src="@drawable/bt_process"/>
 
-                            <Button
+                            <TextView
                                     android:id="@+id/bt_process"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@string/gamestD"
+                                    android:textSize="16sp"
+                                    android:padding="2dp"
                                     android:background="@null"/>
                         </LinearLayout>
 
@@ -190,6 +199,8 @@
                             android:orientation="horizontal"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="30dp"
+                            android:layout_marginRight="30dp"
                             android:padding="5dp">
 
                         <LinearLayout
@@ -215,11 +226,13 @@
                                             android:layout_height="30dp"
                                             android:src="@drawable/bt_match"/>
 
-                                    <Button
+                                    <TextView
                                             android:id="@+id/bt_match"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:text="@string/gamestE"
+                                            android:textSize="16sp"
+                                            android:padding="2dp"
                                             android:background="@null"/>
                                 </LinearLayout>
 
@@ -240,11 +253,13 @@
                                     android:layout_height="30dp"
                                     android:src="@drawable/btn_tip"/>
 
-                            <Button
+                            <TextView
                                     android:id="@+id/btn_tip"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@string/gamestF"
+                                    android:textSize="16sp"
+                                    android:padding="2dp"
                                     android:background="@null"/>
                         </LinearLayout>
 
@@ -253,6 +268,8 @@
                             android:orientation="horizontal"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="30dp"
+                            android:layout_marginRight="30dp"
                             android:padding="5dp">
 
                         <LinearLayout
@@ -278,11 +295,13 @@
                                             android:layout_height="30dp"
                                             android:src="@drawable/bt_match"/>
 
-                                    <Button
+                                    <TextView
 
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:text="@string/gamestG"
+                                            android:textSize="16sp"
+                                            android:padding="2dp"
                                             android:background="@null"/>
                                 </LinearLayout>
 
@@ -304,11 +323,13 @@
                                     android:layout_height="30dp"
                                     android:src="@drawable/btn_tip"/>
 
-                            <Button
+                            <TextView
 
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@string/tipsgamestI"
+                                    android:textSize="16sp"
+                                    android:padding="2dp"
                                     android:background="@null"/>
                         </LinearLayout>
 

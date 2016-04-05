@@ -13,6 +13,8 @@ import com.softtek.lai.module.bodygame.model.FuceNumModel;
 import com.softtek.lai.module.bodygame.model.TiGuanSaiModel;
 import com.softtek.lai.module.bodygame.presenter.ITiGuanSai;
 import com.softtek.lai.module.bodygame.presenter.TiGuanSaiImpl;
+import com.softtek.lai.module.bodygamest.view.StudentHonorActivity;
+import com.softtek.lai.module.bodygame.view.TipsActivity;
 import com.softtek.lai.module.counselor.view.AssistantActivity;
 import com.softtek.lai.module.counselor.view.CounselorClassListActivity;
 import com.softtek.lai.module.counselor.view.GameActivity;
@@ -122,9 +124,11 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
         System.out.println("dsadasdsadasda>>》》》》》》》》》》》》》》"+fuceNum.getCount());
         if (Integer.parseInt(fuceNum.getCount())>10)
         {
+            tv_fucenum.setVisibility(View.VISIBLE);
             tv_fucenum.setText("10+");
         }
-        else {
+        else if (Integer.parseInt(fuceNum.getCount())!=10&&fuceNum.getCount()!=""){
+            tv_fucenum.setVisibility(View.VISIBLE);
             tv_fucenum.setText(fuceNum.getCount());
         }
 
@@ -181,7 +185,8 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
             break;
             case R.id.ll_honor:
             {
-                Intent intent = new Intent(this, SPHonorActivity.class);
+                Intent intent = new Intent(this, StudentHonorActivity.class);
+//                Intent intent = new Intent(this, SPHonorActivity.class);
                 startActivity(intent);
                 Util.toastMsg("荣誉榜页面");
             }
@@ -211,7 +216,7 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
             //提示事件跳转
             case R.id.ll_tip:
             {
-                Intent intent=new Intent(CounselorActivity.this,WriteActivity.class);
+                Intent intent=new Intent(CounselorActivity.this,TipsActivity.class);
                 startActivity(intent);
                 Util.toastMsg("提示页面");
             }

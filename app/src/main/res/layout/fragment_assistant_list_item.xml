@@ -8,6 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
+    android:background="@color/white"
     tools:context=".module.retest.WriteActivity">
 
     <RelativeLayout
@@ -42,12 +43,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Default"
+                android:textColor="@color/word"
+                android:textStyle="bold"
                 android:textSize="@dimen/fragmentAssistantListNameSize" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/assistantMargin"
+                android:layout_marginTop="@dimen/assistantMarginTop"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -61,6 +64,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/fragmentAssistantListMarginLeft"
                     android:text="18261576084"
+                    android:textColor="@color/word"
                     android:textSize="@dimen/fragmentAssistantListTextSize" />
             </LinearLayout>
 
@@ -68,9 +72,10 @@
                 android:id="@+id/text_class"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/assistantMargin"
+                android:layout_marginTop="@dimen/assistantMarginTop"
                 android:text="Default"
-                android:textSize="@dimen/fragmentAssistantListNameSize" />
+                android:textColor="@color/word"
+                android:textSize="@dimen/fragmentAssistantListTextSize2" />
 
         </LinearLayout>
     </RelativeLayout>
