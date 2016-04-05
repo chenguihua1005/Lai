@@ -7,6 +7,10 @@ package com.softtek.lai.module.studetail.net;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.studetail.model.MemberModel;
+import com.softtek.lai.module.studetail.model.StudentLinChartInfoModel;
+
+import java.util.List;
+
 import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Header;
@@ -22,5 +26,12 @@ public interface MemberInfoService {
                        @Query("userId") String userId,
                        @Query("classId") String classId,
                        Callback<ResponseData<MemberModel>> callback);
+
+    //获取学员详情页面曲线图信息
+    @GET("/HerbrClass/GetClassMemberInfoCurve")
+    void getLineChartData(@Header("token")String token,
+                          @Query("userId")String userId,
+                          @Query("classId")String classId,
+                          Callback<ResponseData<List<StudentLinChartInfoModel>>> callback);
 
 }

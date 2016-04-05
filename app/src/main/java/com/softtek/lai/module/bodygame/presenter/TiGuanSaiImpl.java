@@ -9,8 +9,12 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.bodygame.model.FuceNumModel;
 import com.softtek.lai.module.bodygame.model.TiGuanSaiModel;
+import com.softtek.lai.module.bodygame.model.TipsModel;
 import com.softtek.lai.module.bodygame.net.BodyGameService;
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.List;
+
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -80,5 +84,34 @@ public class TiGuanSaiImpl implements ITiGuanSai {
             }
         });
 
+    }
+
+    @Override
+    public void doGetTips() {
+        String token = SharedPreferenceService.getInstance().get("token", "");
+        service.doGetTips(token, new Callback<ResponseData<List<TipsModel>>>() {
+
+
+            @Override
+            public void success(ResponseData<List<TipsModel>> listResponseData, Response response) {
+                int status=listResponseData.getStatus();
+                switch (status)
+                {
+                    case 200:
+                        Util.toastMsg("获取成功");
+                        break;
+                    default:
+                        Util.toastMsg("获取失败");
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
+
+            }
+        });
     }
 }

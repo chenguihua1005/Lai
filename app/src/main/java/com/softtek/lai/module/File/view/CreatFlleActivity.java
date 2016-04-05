@@ -11,10 +11,16 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.*;
-import butterknife.InjectView;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.NumberPicker;
+import android.widget.TextView;
+
 import com.github.snowdream.android.util.Log;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
@@ -30,13 +36,15 @@ import com.softtek.lai.module.home.view.HomeActviity;
 
 import java.util.Calendar;
 
+import butterknife.InjectView;
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 
+
 @InjectLayout(R.layout.activity_creatfile)
-public class CreatFlleActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener {
+public class CreatFlleActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, View.OnTouchListener {
     private String SexData[] = {"男", "女"};//性别数据
     private int gender = 0;
     private ICreateFilepresenter ICreateFilepresenter;
@@ -73,19 +81,19 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
 
 
     @InjectView(R.id.ll_nickname)
-    LinearLayout ll_nickname;
+    ViewGroup ll_nickname;
 
     @InjectView(R.id.ll_birth)
-    LinearLayout ll_birth;
+    ViewGroup ll_birth;
 
     @InjectView(R.id.ll_sex)
-    LinearLayout ll_sex;
+    ViewGroup ll_sex;
 
     @InjectView(R.id.ll_height)
-    LinearLayout ll_height;
+    ViewGroup ll_height;
 
     @InjectView(R.id.ll_weight)
-    LinearLayout ll_weight;
+    ViewGroup ll_weight;
 
     //toolbar
     //标题
@@ -106,39 +114,41 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
     //获取当前日期
     Calendar ca = Calendar.getInstance();
     int myear = ca.get(Calendar.YEAR);//获取年份
-    int mmonth=ca.get(Calendar.MONTH);//获取月份
-    int mday=ca.get(Calendar.DATE);//获取日
+    int mmonth = ca.get(Calendar.MONTH);//获取月份
+    int mday = ca.get(Calendar.DATE);//获取日
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        tv_birth.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                int action = event.getAction();
-                switch (action) {
-                    case MotionEvent.ACTION_DOWN:
-                        tv_birth.setFocusable(false);
-                        show_birth_dialog();
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        break;
-                    case MotionEvent.ACTION_UP:
+//        tv_birth.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                int action = event.getAction();
+//                switch (action) {
+//                    case MotionEvent.ACTION_DOWN:
+//                        tv_birth.setFocusable(false);
+//                        show_birth_dialog();
+//                        break;
+//                    case MotionEvent.ACTION_MOVE:
+//                        break;
+//                    case MotionEvent.ACTION_UP:
+//
+//                        tv_birth.setFocusable(true);
+//                        break;
+//                }
+//                return false;
+//            }
+//        });
 
-                        tv_birth.setFocusable(true);
-                        break;
-                }
-                return false;
-            }
-        });
-        tv_sex.setOnClickListener(this);
-        ll_sex.setOnClickListener(this);
+        ll_birth.setOnTouchListener(this);
+//        tv_sex.setOnClickListener(this);
+        ll_sex.setOnTouchListener(this);
 
-        tv_height.setOnClickListener(this);
-        ll_height.setOnClickListener(this);
+//        tv_height.setOnClickListener(this);
+        ll_height.setOnTouchListener(this);
 
-        tv_weight.setOnClickListener(this);
-        ll_weight.setOnClickListener(this);
+//        tv_weight.setOnClickListener(this);
+        ll_weight.setOnTouchListener(this);
 
         btn_finish.setOnClickListener(this);
         btn_Add_bodydimension.setOnClickListener(this);
@@ -156,7 +166,9 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         tv_title.setText("我的档案");
         tv_left.setBackground(null);
         tv_right.setText("跳过");
-        tv_right.setTextSize(18);
+        tv_right.setTextSize(16);
+        tv_right.setPadding(0,0,25,0);
+        tv_right.setGravity(Gravity.CENTER);
         file = new FileModel();
     }
 
@@ -178,27 +190,75 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                 startActivityForResult(intent, GET_BODY_DIMENSION);
                 w = false;
                 break;
-            case R.id.ll_sex:
-
-            case R.id.tv_sex:
-                show_sex_dialog();
-                break;
-            case R.id.ll_height:
-
-            case R.id.tv_height:
-                show_height_dialog();
-                break;
-            case R.id.ll_weight:
-
-            case R.id.tv_weight:
-                show_weight_dialog();
-                break;
+//            case R.id.ll_sex:
+//
+//            case R.id.tv_sex:
+//                show_sex_dialog();
+//                break;
+//            case R.id.ll_height:
+//
+//            case R.id.tv_height:
+//                show_height_dialog();
+//                break;
+//            case R.id.ll_weight:
+//
+//            case R.id.tv_weight:
+//                show_weight_dialog();
+//                break;
             case R.id.tv_right:
                 Intent intent1 = new Intent(CreatFlleActivity.this, HomeActviity.class);
                 startActivity(intent1);
                 finish();
                 break;
         }
+    }
+
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            switch (v.getId()) {
+                case R.id.btn_finish:
+                    String nick = et_nickname.getText().toString();
+                    if (LaiApplication.getInstance().getFilterList().contains(new FilterModel(nick))) {
+                        et_nickname.setError("该昵称不合法");
+//                    Util.toastMsg("该昵称不合法");
+                    } else {
+                        validateLife.validate();
+                    }
+                    break;
+                case R.id.btn_Add_bodydimension:
+                    Intent intent = new Intent(CreatFlleActivity.this, DimensionRecordActivity.class);
+                    intent.putExtra("file", file);
+                    startActivityForResult(intent, GET_BODY_DIMENSION);
+                    w = false;
+                    break;
+                case R.id.ll_birth:
+                    show_birth_dialog();
+                    break;
+                case R.id.ll_sex:
+
+                case R.id.tv_sex:
+                    show_sex_dialog();
+                    break;
+                case R.id.ll_height:
+
+                case R.id.tv_height:
+                    show_height_dialog();
+                    break;
+                case R.id.ll_weight:
+
+                case R.id.tv_weight:
+                    show_weight_dialog();
+                    break;
+                case R.id.tv_right:
+                    Intent intent1 = new Intent(CreatFlleActivity.this, HomeActviity.class);
+                    startActivity(intent1);
+                    finish();
+                    break;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -241,25 +301,24 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
 
     //生日对话框
     public void show_birth_dialog() {
-         DatePickerDialog dialog = new DatePickerDialog(
+        DatePickerDialog dialog = new DatePickerDialog(
                 CreatFlleActivity.this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
-                if (year>myear){
+                if (year > myear) {
                     show_warn_dialog();
                 }
-                if (year==myear&&month>mmonth){
+                if (year == myear && month > mmonth) {
                     show_warn_dialog();
                 }
-                if (year==myear&&month==mmonth&&day>mday){
+                if (year == myear && month == mmonth && day > mday) {
                     show_warn_dialog();
-                }
-                else {
-                    tv_birth.setText(year + "-" +(month+1)+ "-" + day);
+                } else {
+                    tv_birth.setText(year + "-" + (month + 1) + "-" + day);
                     tv_birth.setError(null);
                 }
             }
-        },myear,mmonth,mday);
+        }, myear, mmonth, mday);
         dialog.setTitle("");
         //dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
         dialog.show();
@@ -267,7 +326,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
 
 
     //生日警告对话框
-    public void show_warn_dialog(){
+    public void show_warn_dialog() {
         Dialog dialog = new AlertDialog.Builder(CreatFlleActivity.this)
                 .setMessage("生日不能大于当前日期,请重新选择")
                 .setPositiveButton("确定",
@@ -280,10 +339,6 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         dialog.show();
         dialog.setCanceledOnTouchOutside(false);
     }
-
-
-
-
 
 
     //性别对话框
@@ -389,4 +444,5 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         //weight_dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
         weight_dialog.show();
     }
+
 }

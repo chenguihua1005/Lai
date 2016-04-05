@@ -13,4 +13,6 @@ import android.app.ProgressDialog;
 public interface IMemberInfopresenter {
 
     void getMemberinfo(String classId, String userId, ProgressDialog progressDialog);
+
+    void getLossWeightChatData(String userId,String classId);
 }
