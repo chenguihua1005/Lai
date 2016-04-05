@@ -3,15 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".module.retest.WriteActivity">
-
+    <include layout="@layout/toolbar"
+        android:id="@+id/toolbar"/>
 
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/scrollView"
-        android:layout_marginTop="60dp"
-        >
+        android:layout_below="@id/toolbar"
+        android:id="@+id/scrollView">
 
         <LinearLayout
             android:orientation="vertical"
@@ -51,8 +52,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Tom"
-                            android:textSize="26dp"
+                            android:text=""
+                            android:textSize="20sp"
+                            android:textStyle="bold"
                             android:textColor="#333333"
                             android:id="@+id/tv_write_nick" />
 
@@ -64,8 +66,10 @@
                         android:layout_height="wrap_content">
 
                         <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:scaleType="fitCenter"
+                            android:layout_gravity="center"
                             android:src="@drawable/retestphone"
                              />
 
@@ -73,8 +77,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
-                            android:text="13800001119"
-                            android:textSize="24dp"
+                            android:text=""
+                            android:textSize="18sp"
+                            android:textStyle="bold"
                             android:textColor="#333333"
                             android:id="@+id/tv_write_phone" />
                     </LinearLayout>
@@ -88,35 +93,35 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="20dp"
+                            android:textSize="18sp"
                             android:text="一月班"
                             android:textColor="#333333"
                             android:id="@+id/tv_write_class" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="20dp"
+                            android:textSize="18sp"
                             android:text="第"
                             android:textColor="#333333"
                             />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="20dp"
+                            android:textSize="18sp"
                             android:text="2"
                             android:textColor="#333333"
                             />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="20dp"
+                            android:textSize="18sp"
                             android:text="周"
                             android:textColor="#333333"
                             />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="20dp"
+                            android:textSize="18sp"
                             android:text="("
                             android:textColor="#333333"
                             />
@@ -130,49 +135,49 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="20dp"
+                            android:textSize="18sp"
                             android:text="月"
                             android:textColor="#333333"
                             />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="20dp"
+                            android:textSize="18sp"
                             android:text="9"
                             android:textColor="#333333"
                             />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="20dp"
+                            android:textSize="18sp"
                             android:text="-"
                             android:textColor="#333333"
                             />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="20dp"
+                            android:textSize="18sp"
                             android:text="1"
                             android:textColor="#333333"
                             />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="20dp"
+                            android:textSize="18sp"
                             android:text="月"
                             android:textColor="#333333"
                             />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="20dp"
+                            android:textSize="18sp"
                             android:text="15"
                             android:textColor="#333333"
                             />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="20dp"
+                            android:textSize="18sp"
                             android:text=")"
                             android:textColor="#333333"
                             />
@@ -203,7 +208,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="自动同步莱秤信息"
-                        android:textSize="20dp"
+                        android:textSize="18sp"
                         android:textColor="#333333"
                         android:layout_centerVertical="true"
                         android:layout_alignParentLeft="true"
@@ -239,7 +244,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="初始体重"
-                        android:textSize="22dp"
+                        android:textSize="18sp"
                         android:textColor="#333333"
                         android:layout_alignParentLeft="true"
                         android:id="@+id/tv_write" />
@@ -249,7 +254,7 @@
                         android:layout_height="wrap_content"
                         android:text=""
                         android:layout_marginRight="5dp"
-                        android:textSize="22dp"
+                        android:textSize="22sp"
                         android:textColor="#fea300"
                         android:layout_toLeftOf="@+id/textView15"
                         android:id="@+id/tv_write_chu_weight" />
@@ -288,7 +293,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="现在体重"
-                        android:textSize="22dp"
+                        android:textSize="18dp"
                         android:textColor="#333333"
                         android:layout_alignParentLeft="true"
                         android:id="@+id/textView16" />
@@ -336,7 +341,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="体脂（选填）："
-                        android:textSize="22dp"
+                        android:textSize="18sp"
                         android:textColor="#333333"
                         android:layout_alignParentLeft="true"
                         android:id="@+id/textView13" />
@@ -383,7 +388,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="内脂（选填）："
-                        android:textSize="22dp"
+                        android:textSize="18sp"
                         android:textColor="#333333"
                         android:layout_alignParentLeft="true"
                         android:id="@+id/textView19" />
@@ -431,7 +436,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="照片上传"
-                        android:textSize="22dp"
+                        android:textSize="18sp"
                         android:textColor="#333333"
                         android:layout_alignParentLeft="true"
                         android:id="@+id/textView25" />
@@ -511,5 +516,5 @@
         </LinearLayout>
 
     </ScrollView>
-    <include layout="@layout/toolbar"/>
+
 </RelativeLayout>

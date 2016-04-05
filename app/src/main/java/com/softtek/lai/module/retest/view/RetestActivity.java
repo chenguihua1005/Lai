@@ -2,7 +2,6 @@ package com.softtek.lai.module.retest.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,13 +11,15 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.retest.AuditActivity;
-import com.softtek.lai.module.retest.adapter.StudentAdapter;
 import com.softtek.lai.module.retest.WriteActivity;
-import com.softtek.lai.module.retest.eventModel.BanJiEvent;
 import com.softtek.lai.module.retest.adapter.ClassAdapter;
+import com.softtek.lai.module.retest.adapter.StudentAdapter;
+import com.softtek.lai.module.retest.eventModel.BanJiEvent;
 import com.softtek.lai.module.retest.eventModel.BanjiStudentEvent;
 import com.softtek.lai.module.retest.model.BanjiModel;
 import com.softtek.lai.module.retest.model.BanjiStudentModel;
@@ -60,6 +61,9 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
     //展开班级列表
     @InjectView(R.id.ll_classlist)
     RelativeLayout ll_classlist;
+    //选择班级
+    @InjectView(R.id.selectclass)
+    TextView selectclass;
 
     private List<BanjiModel> banjiModelList=new ArrayList<BanjiModel>();
     private List<BanjiStudentModel>banjiStudentModelList=new ArrayList<BanjiStudentModel>();
@@ -93,6 +97,7 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
                 retestPre.doGetBanjiStudent(banjiModel.getClassId());
                 list_class.setVisibility(View.INVISIBLE);
                 Iv_fold.setImageResource(R.drawable.unfold);
+                selectclass.setText(banjiModel.getClassName());
                 h=false;
 
             }
@@ -175,9 +180,12 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
 //        tv_right.setText("搜索");
         iv_email.setVisibility(View.VISIBLE);
         iv_email.setImageResource(R.drawable.retestsearch);
-//        tv_right.setBackgroundResource(R.drawable.search);
         retestPre =new RetestclassImp();
+        //获取班级列表，参数助教顾问id
+        String id=UserInfoModel.getInstance().getUser().getUserid();
         retestPre.doGetRetestclass(36);
+        Log.i("id="+id);
+//        retestPre.doGetRetestclass(Integer.parseInt(id));
 
 
 
@@ -188,16 +196,13 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
 
     @Subscribe
     public void onEvent(BanJiEvent banji){
-        System.out.println("dsadasdsadasda>>》》》》》》》》》》》》》》"+banji.getBanjiModels());
         banjiModelList=banji.getBanjiModels();
-        Log.i("sdfsdfsdfsdfsd",""+banjiModelList);
         classAdapter.updateData(banjiModelList);
 
     }
     @Subscribe
     public void onEvent1(BanjiStudentEvent banjiStudent){
         banjiStudentModelList=banjiStudent.getBanjiStudentModels();
-        Log.i("sdfsdfsdfsdfsd",""+banjiStudentModelList);
         studentAdapter.updateData(banjiStudentModelList);
 //        List<Student> students=student.getStudents();
 //        for (Student st:students){

@@ -1,6 +1,7 @@
 package com.softtek.lai.module.bodygamest.view;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -66,6 +67,7 @@ public class UploadPhotoActivity extends BaseActivity implements View.OnClickLis
     //取得系统时间：
     int hour = c.get(Calendar.HOUR_OF_DAY);
     int minute = c.get(Calendar.MINUTE);
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +107,7 @@ public class UploadPhotoActivity extends BaseActivity implements View.OnClickLis
             if (years == Integer.parseInt(year[0]) && month==Integer.parseInt(date[0]) && day == Integer.parseInt(date[1])) {
 
                 if(!TextUtils.isEmpty(dp.getImgUrl())){
+
                     Picasso.with(this).load(dp.getImgUrl()).placeholder(R.drawable.lufei).error(R.drawable.lufei).into(imtest);
                 }else{
                     Picasso.with(this).load("www").placeholder(R.drawable.lufei).error(R.drawable.lufei).into(imtest);
@@ -126,14 +129,18 @@ public class UploadPhotoActivity extends BaseActivity implements View.OnClickLis
     protected void initViews() {
 //        DownPhotoModel downPhotoModel1 = new DownPhotoModel("", month + "/" + day + "/" + years);
 //        downPhotoModelList.add(downPhotoModel1);
-        photoListPre = new PhotoListIml();
-        photoListPre.doGetDownPhoto("3");
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setMessage("正在加载内容...");
+
 
     }
 
     @Override
     protected void initDatas() {
-
+        progressDialog.show();
+        photoListPre = new PhotoListIml();
+        photoListPre.doGetDownPhoto("3",progressDialog);
     }
 
     @Override
@@ -200,7 +207,9 @@ public class UploadPhotoActivity extends BaseActivity implements View.OnClickLis
         if (resultCode == RESULT_OK && requestCode == PHOTO) {
             Bitmap bm = BitmapFactory.decodeFile(path.toString());
             imtest.setImageBitmap(bm);
-            photoListPre.doUploadPhoto("3",path.toString());
+            progressDialog.setMessage("图片正在上传...");
+            progressDialog.show();
+            photoListPre.doUploadPhoto("3",path.toString(),progressDialog);
         }
         if (requestCode == 101 && resultCode == Activity.RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
@@ -217,7 +226,9 @@ public class UploadPhotoActivity extends BaseActivity implements View.OnClickLis
             }
 
             imtest.setImageBitmap(bitmap);
-            photoListPre.doUploadPhoto("3",picturePath.toString());
+            progressDialog.setMessage("图片正在上传...");
+            progressDialog.show();
+            photoListPre.doUploadPhoto("3",picturePath.toString(),progressDialog);
             com.github.snowdream.android.util.Log.i("picturePath------------------------------------------------:" + picturePath);
             c.close();
         }

@@ -8,6 +8,10 @@ package com.softtek.lai.module.bodygame.net;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.bodygame.model.FuceNumModel;
 import com.softtek.lai.module.bodygame.model.TiGuanSaiModel;
+import com.softtek.lai.module.bodygame.model.TipsModel;
+
+import java.util.List;
+
 import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Header;
@@ -28,5 +32,11 @@ public interface BodyGameService {
             @Header("token") String token,
             @Query("id") long id,
             Callback<ResponseData<FuceNumModel>> callback
+    );
+    //tip
+    @GET("/HerbTips/GetTipsList")
+    void doGetTips(
+            @Header("token")String token,
+            Callback<ResponseData<List<TipsModel>>>callback
     );
 }

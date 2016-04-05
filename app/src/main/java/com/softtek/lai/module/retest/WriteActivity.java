@@ -21,11 +21,18 @@ import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.newmemberentry.view.GetPhotoDialog;
+import com.softtek.lai.module.retest.eventModel.BanJiEvent;
+import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
+import com.softtek.lai.module.retest.model.RetestAuditModel;
 import com.softtek.lai.module.retest.model.RetestWriteModel;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.module.retest.present.RetestclassImp;
 import com.softtek.lai.module.retest.view.BodyweiduActivity;
 
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -81,6 +88,13 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener{
     @InjectView(R.id.tv_retestWrite_neizhi)
     TextView tv_retestWrite_neizhi;
 
+    //昵称
+    @InjectView(R.id.tv_write_nick)
+    TextView tv_write_nick;
+    //手机号
+    @InjectView(R.id.tv_write_phone)
+    TextView tv_write_phone;
+
     private RetestPre retestPre;
     RetestWriteModel retestWrite;
     String path="";
@@ -90,6 +104,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        EventBus.getDefault().register(this);
         super.onCreate(savedInstanceState);
         ll_left.setOnClickListener(this);
         tv_right.setOnClickListener(this);
@@ -101,6 +116,11 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener{
         ll_retestWrite_tizhi.setOnClickListener(this);
         ll_retestWrite_neizhi.setOnClickListener(this);
         im_delete.setOnClickListener(this);
+    }
+    @Override
+    protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 
     @Override
@@ -117,17 +137,36 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener{
         String accountId=intent.getStringExtra("accountId");
         String loginId=intent.getStringExtra("loginId");
         String classId=intent.getStringExtra("classId");
+        String typedate=intent.getStringExtra("typeDate");
         Log.i("chuanzhizhizhizhizhi",accountId+loginId+classId);
         retestPre=new RetestclassImp();
         retestWrite=new RetestWriteModel();
 //        retestWrite.setAccountId(accountId);
+        retestPre.doGetAudit(Integer.parseInt(accountId),Integer.parseInt(classId),typedate);
 
 
 
 
     }
 
+    @Subscribe
+    public void onEvent(RetestAuditModel retestAuditModel){
+        retestAuditModel.getAccountId();
+        Log.i("username"+retestAuditModel.getUserName());
+        tv_write_nick.setText(retestAuditModel.getUserName());
+        tv_write_phone.setText(retestAuditModel.getMobile());
 
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(RetestAuditModelEvent event){
+        //......
+//        RetestAuditModel model=event.getRetestAuditModels().get(0);
+        tv_write_nick.setText(event.getRetestAuditModels().get(0).getUserName());
+        tv_write_phone.setText(event.getRetestAuditModels().get(0).getMobile());
+
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId())

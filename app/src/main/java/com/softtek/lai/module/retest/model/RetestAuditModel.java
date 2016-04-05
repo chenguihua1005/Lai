@@ -9,6 +9,12 @@ package com.softtek.lai.module.retest.model;
  * Created by lareina.qiao on 3/26/2016.
  */
 public class RetestAuditModel {
+    private String UserName;
+    private String Mobile;
+    private String Photo;
+    private String ClassName;
+    private String StartDate;
+    private String InitWeight;
     private String accountId;
     private String weight;
     private String pysical;
@@ -24,8 +30,14 @@ public class RetestAuditModel {
 
     @Override
     public String toString() {
-        return "WriteActivity{" +
-                "accountId='" + accountId + '\'' +
+        return "RetestAuditModel{" +
+                "UserName='" + UserName + '\'' +
+                ", Mobile='" + Mobile + '\'' +
+                ", Photo='" + Photo + '\'' +
+                ", ClassName='" + ClassName + '\'' +
+                ", StartDate='" + StartDate + '\'' +
+                ", InitWeight='" + InitWeight + '\'' +
+                ", accountId='" + accountId + '\'' +
                 ", weight='" + weight + '\'' +
                 ", pysical='" + pysical + '\'' +
                 ", fat='" + fat + '\'' +
@@ -38,6 +50,54 @@ public class RetestAuditModel {
                 ", image='" + image + '\'' +
                 ", classId='" + classId + '\'' +
                 '}';
+    }
+
+    public String getUserName() {
+        return UserName;
+    }
+
+    public void setUserName(String userName) {
+        UserName = userName;
+    }
+
+    public String getMobile() {
+        return Mobile;
+    }
+
+    public void setMobile(String mobile) {
+        Mobile = mobile;
+    }
+
+    public String getPhoto() {
+        return Photo;
+    }
+
+    public void setPhoto(String photo) {
+        Photo = photo;
+    }
+
+    public String getClassName() {
+        return ClassName;
+    }
+
+    public void setClassName(String className) {
+        ClassName = className;
+    }
+
+    public String getStartDate() {
+        return StartDate;
+    }
+
+    public void setStartDate(String startDate) {
+        StartDate = startDate;
+    }
+
+    public String getInitWeight() {
+        return InitWeight;
+    }
+
+    public void setInitWeight(String initWeight) {
+        InitWeight = initWeight;
     }
 
     public String getAccountId() {
