@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
     android:fitsSystemWindows="true"
+    android:background="#ffffff"
     tools:context=".module.login.view.LoginActivity">
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,8 +24,8 @@
 
             <ImageView
                 android:id="@+id/iv_logo"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
                 android:layout_centerInParent="true"
                 android:scaleType="fitCenter"
                 android:src="@drawable/logo"/>
@@ -45,6 +49,7 @@
                     android:layout_height="25dp"
                     android:scaleType="fitCenter"
                     android:layout_gravity="left|center"
+                    android:layout_marginBottom="-6dp"
                     android:src="@drawable/phone"/>
                 <EditText
                     android:id="@+id/et_phone"
@@ -54,6 +59,7 @@
                     android:inputType="phone"
                     android:singleLine="true"
                     android:textColor="#333333"
+                    android:gravity="bottom"
                     android:textSize="16sp"
                     android:hint="@string/phoneNum"/>
             </FrameLayout>
@@ -66,6 +72,7 @@
                     android:layout_height="25dp"
                     android:scaleType="fitCenter"
                     android:layout_gravity="left|center"
+                    android:layout_marginBottom="-6dp"
                     android:src="@drawable/password"/>
                 <EditText
                     android:id="@+id/et_password"
@@ -74,6 +81,7 @@
                     android:paddingLeft="40dp"
                     android:singleLine="true"
                     android:hint="@string/password"
+                    android:gravity="bottom"
                     android:textColor="#333333"
                     android:textSize="16sp"
                     android:inputType="textPassword"/>
@@ -122,7 +130,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/visitor"
                     android:layout_gravity="center|right"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:textColor="@color/textview_green"/>
                 <ImageView
                     android:layout_width="30dp"
@@ -131,12 +139,14 @@
                     android:layout_gravity="center|right"
                     android:src="@drawable/arrow_copy"/>
             </LinearLayout>
-
-
         </LinearLayout>
-
-
     </LinearLayout>
-
-
 </ScrollView>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitCenter"
+        android:src="@drawable/buttom"
+        android:layout_alignParentBottom="true"
+        />
+</RelativeLayout>

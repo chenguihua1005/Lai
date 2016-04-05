@@ -17,13 +17,14 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
-            android:background="@drawable/radio_button_selector_girth"
+            android:background="@drawable/radio_button_selector"
             android:button="@null"
             android:checked="true"
             android:paddingBottom="10dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:paddingTop="10dp"
+            android:gravity="center"
             android:text="胸围曲线"
             android:textColor="@color/white"
             android:textSize="12sp" />
@@ -35,14 +36,15 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
-            android:background="@drawable/radio_button_selector_girth"
+            android:background="@drawable/radio_button_selector"
             android:button="@null"
             android:paddingBottom="10dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:paddingTop="10dp"
+            android:gravity="center"
             android:text="腰围曲线"
-            android:textColor="#FCBC5A"
+            android:textColor="#74BB2A"
             android:textSize="12sp" />
         <CheckBox
             android:id="@+id/radio_arm"
@@ -51,14 +53,15 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
-            android:background="@drawable/radio_button_selector_girth"
+            android:background="@drawable/radio_button_selector"
             android:button="@null"
             android:paddingBottom="10dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:paddingTop="10dp"
+            android:gravity="center"
             android:text="臂围曲线"
-            android:textColor="#FCBC5A"
+            android:textColor="#74BB2A"
             android:textSize="12sp" />
 
     </LinearLayout>
@@ -74,14 +77,15 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
-            android:background="@drawable/radio_button_selector_girth"
+            android:background="@drawable/radio_button_selector"
             android:button="@null"
             android:paddingBottom="10dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:paddingTop="10dp"
+            android:gravity="center"
             android:text="上臂围曲线"
-            android:textColor="#FCBC5A"
+            android:textColor="#74BB2A"
             android:textSize="12sp" />
 
         <CheckBox
@@ -91,14 +95,15 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
-            android:background="@drawable/radio_button_selector_girth"
+            android:background="@drawable/radio_button_selector"
             android:button="@null"
             android:paddingBottom="10dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:paddingTop="10dp"
+            android:gravity="center"
             android:text="大腿围曲线"
-            android:textColor="#FCBC5A"
+            android:textColor="#74BB2A"
             android:textSize="12sp" />
 
         <CheckBox
@@ -108,14 +113,15 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
-            android:background="@drawable/radio_button_selector_girth"
+            android:background="@drawable/radio_button_selector"
             android:button="@null"
             android:paddingBottom="10dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:paddingTop="10dp"
             android:text="小腿围曲线"
-            android:textColor="#FCBC5A"
+            android:gravity="center"
+            android:textColor="#74BB2A"
             android:textSize="12sp" />
     </LinearLayout>
 

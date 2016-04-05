@@ -8,6 +8,8 @@ package com.softtek.lai.module.login.view;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewCompat;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -73,7 +75,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     protected void initViews() {
-        tintManager.setStatusBarTintResource(R.color.white);
+        tintManager.setStatusBarTintResource(R.drawable.grey_white);
 
         progressDialog=new ProgressDialog(this);
         progressDialog.setCanceledOnTouchOutside(false);

@@ -10,9 +10,15 @@ import android.content.Context;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.studetail.eventModel.LineChartEvent;
 import com.softtek.lai.module.studetail.model.MemberModel;
+import com.softtek.lai.module.studetail.model.StudentLinChartInfoModel;
 import com.softtek.lai.module.studetail.net.MemberInfoService;
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.List;
+
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -26,11 +32,13 @@ import zilla.libcore.util.Util;
 public class MemberInfoImpl implements IMemberInfopresenter {
 
     private MemberInfoService service;
+    private UserInfoModel infoModel;
     private Context context;
 
     public MemberInfoImpl(Context context) {
         service = ZillaApi.NormalRestAdapter.create(MemberInfoService.class);
         this.context = context;
+        infoModel=UserInfoModel.getInstance();
     }
 
     @Override
@@ -57,5 +65,28 @@ public class MemberInfoImpl implements IMemberInfopresenter {
                 error.printStackTrace();
             }
         });
+    }
+
+    @Override
+    public void getLossWeightChatData(String userId,String classId) {
+        String token=infoModel.getToken();
+        System.out.println("token值是==="+token);
+        service.getLineChartData(token, userId, classId, new Callback<ResponseData<List<StudentLinChartInfoModel>>>() {
+            @Override
+            public void success(ResponseData<List<StudentLinChartInfoModel>> listResponseData, Response response) {
+                if(listResponseData.getStatus()==200){
+                    EventBus.getDefault().post(new LineChartEvent(listResponseData.getData()));
+                }else{
+                    Util.toastMsg(listResponseData.getMsg());
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                error.printStackTrace();
+                ZillaApi.dealNetError(error);
+            }
+        });
+
     }
 }

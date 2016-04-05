@@ -29,24 +29,26 @@ public class LineChartUtil {
     }
 
 
-    public  void addDataSet(List<String> datas){
+    public  void addDataSet(List<Float> datas){
         LineData data= chart.getData();
-        if(data==null){
+        if(data==null||datas==null||datas.size()==0){
             return;
         }
 
         if(data.getXValCount()==0){
             //添加x 轴数值
-            for (int i = 0; i < 12; i++) {
+            for (int i = 1; i <=12; i++) {
                 data.getXVals().add(i + "");
             }
         }
         ArrayList<Entry> yVals = new ArrayList<>();
         //添加具体数据
         float max=0;
-        for (int i = 0; i < data.getXValCount(); i++) {
-            float mult = (50 + 1);
-            float val = (float) (Math.random() * mult) + 3;
+        for (int i = 0; i <data.getXValCount()&&i<datas.size(); i++) {
+//            float mult = (50 + 1);
+//            float val = (float) (Math.random() * mult) + 3;
+            float val=datas.get(i);
+            //获取数值
             yVals.add(new Entry(val, i));
             if(val>max){
                 max=val;
