@@ -49,8 +49,8 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
         }
         new Zilla().setCallBack(this).initSystem(this);
         UserInfoModel.getInstance(this);
-        CrashHandler catchHandler = CrashHandler.getInstance();
-        catchHandler.init(getApplicationContext());
+//        CrashHandler catchHandler = CrashHandler.getInstance();
+//        catchHandler.init(getApplicationContext());
     }
 
     public static LaiApplication getInstance() {
