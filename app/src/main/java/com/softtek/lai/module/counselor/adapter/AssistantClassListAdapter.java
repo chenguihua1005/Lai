@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.softtek.lai.R;
 import com.softtek.lai.module.counselor.model.AssistantInfoModel;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
@@ -66,7 +67,8 @@ public class AssistantClassListAdapter extends BaseAdapter {
             holder = new ViewHolder();
             /**得到各个控件的对象*/
             holder.text_name = (TextView) convertView.findViewById(R.id.text_name);
-            holder.text_class_name = (TextView) convertView.findViewById(R.id.text_class_name);
+            holder.text_phone = (TextView) convertView.findViewById(R.id.text_phone);
+            holder.text_class = (TextView) convertView.findViewById(R.id.text_class);
             holder.img = (ImageView) convertView.findViewById(R.id.img);
 
             convertView.setTag(holder);//绑定ViewHolder对象
@@ -82,33 +84,34 @@ public class AssistantClassListAdapter extends BaseAdapter {
         } else {
             Picasso.with(context).load(assistantClassInfo.getPhoto()).error(R.drawable.img_default).into(holder.img);
         }
-        holder.text_name.setText(assistantClassInfo.getUserName() + "(" + assistantClassInfo.getMobile() + ")");
+        holder.text_phone.setText(assistantClassInfo.getMobile());
+        holder.text_name.setText(assistantClassInfo.getUserName());
         String startTimeStr = assistantClassInfo.getStartDate().toString();
         String str[] = startTimeStr.split("-");
         if ("01".equals(str[1]) || "1".equals(str[1])) {
-            holder.text_class_name.setText("一月班");
+            holder.text_class.setText("一月班");
         } else if ("02".equals(str[1]) || "2".equals(str[1])) {
-            holder.text_class_name.setText("二月班");
+            holder.text_class.setText("二月班");
         } else if ("03".equals(str[1]) || "3".equals(str[1])) {
-            holder.text_class_name.setText("三月班");
+            holder.text_class.setText("三月班");
         } else if ("04".equals(str[1]) || "4".equals(str[1])) {
-            holder.text_class_name.setText("四月班");
+            holder.text_class.setText("四月班");
         } else if ("05".equals(str[1]) || "5".equals(str[1])) {
-            holder.text_class_name.setText("五月班");
+            holder.text_class.setText("五月班");
         } else if ("06".equals(str[1]) || "6".equals(str[1])) {
-            holder.text_class_name.setText("六月");
+            holder.text_class.setText("六月");
         } else if ("07".equals(str[1]) || "7".equals(str[1])) {
-            holder.text_class_name.setText("七月班");
+            holder.text_class.setText("七月班");
         } else if ("08".equals(str[1]) || "8".equals(str[1])) {
-            holder.text_class_name.setText("八月班");
+            holder.text_class.setText("八月班");
         } else if ("09".equals(str[1]) || "9".equals(str[1])) {
-            holder.text_class_name.setText("九月班");
+            holder.text_class.setText("九月班");
         } else if ("10".equals(str[1])) {
-            holder.text_class_name.setText("十月班");
+            holder.text_class.setText("十月班");
         } else if ("11".equals(str[1])) {
-            holder.text_class_name.setText("十一月班");
+            holder.text_class.setText("十一月班");
         } else if ("12".equals(str[1])) {
-            holder.text_class_name.setText("十二月班");
+            holder.text_class.setText("十二月班");
         }
 
         return convertView;
@@ -119,7 +122,8 @@ public class AssistantClassListAdapter extends BaseAdapter {
      */
     public class ViewHolder {
         public TextView text_name;
-        public TextView text_class_name;
+        public TextView text_phone;
+        public TextView text_class;
         public ImageView img;
     }
 }

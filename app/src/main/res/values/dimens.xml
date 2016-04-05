@@ -37,11 +37,16 @@
     <dimen name="fragmentAssistantApplyButtonWidth">60dip</dimen>
     <dimen name="fragmentAssistantApplyButtonHeight">35dip</dimen>
 
-    <dimen name="fragmentAssistantListMargin">10dip</dimen>
+    <dimen name="fragmentAssistantListMargin">20dip</dimen>
+    <dimen name="fragmentAssistantListMarginLeft">5dip</dimen>
+    <dimen name="fragmentAssistantListHeights">50dip</dimen>
     <dimen name="fragmentAssistantListNameSize">16sp</dimen>
     <dimen name="fragmentAssistantListTextSize">14sp</dimen>
     <dimen name="fragmentAssistantListTextSizes">16sp</dimen>
     <dimen name="fragmentAssistantListHeight">200dip</dimen>
+
+    <dimen name="assistantManageTextSize">16sp</dimen>
+    <dimen name="assistantManageMargin">10dip</dimen>
 
 
     <dimen name="assistantDetailMargin">20dip</dimen>
