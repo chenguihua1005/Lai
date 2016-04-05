@@ -6,6 +6,7 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
+                android:fitsSystemWindows="true"
                 android:layout_height="match_parent">
     <include layout="@layout/toolbar"/>
     <LinearLayout
@@ -22,8 +23,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
             <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="15dp"
+                    android:layout_height="50dp"
                     android:src="@drawable/nick"
                     android:layout_marginRight="15dp"/>
             <TextView
@@ -56,8 +57,8 @@
                 android:layout_height="50dp"
                 android:gravity="center_horizontal">
             <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="15dp"
+                    android:layout_height="50dp"
                     android:src="@drawable/birthday_h"
                     android:layout_marginRight="15dp"/>
             <TextView
@@ -89,8 +90,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal">
             <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="15dp"
+                    android:layout_height="50dp"
                     android:src="@drawable/male_back"
                     android:layout_marginRight="15dp"/>
             <TextView
@@ -123,8 +124,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal">
             <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="15dp"
+                    android:layout_height="50dp"
                     android:src="@drawable/height_h"
                     android:layout_marginRight="15dp"/>
             <TextView
@@ -156,8 +157,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal">
             <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="15dp"
+                    android:layout_height="50dp"
                     android:src="@drawable/weight_h"
                     android:layout_marginRight="15dp"/>
             <TextView
@@ -189,6 +190,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:text="添加身体围度"
+                android:gravity="center"
                 android:background="@drawable/bg_addbody_btn"
                 android:textColor="#FFA302"
                 android:textSize="22sp"
@@ -199,6 +201,7 @@
                 android:layout_height="50dp"
                 android:background="@drawable/bg_login_btn"
                 android:text="完成"
+                android:gravity="center"
                 android:textColor="#FFFFFD"
                 android:textSize="22sp"
                 android:id="@+id/btn_finish"/>

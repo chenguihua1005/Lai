@@ -11,6 +11,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.*;
@@ -156,7 +157,9 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         tv_title.setText("我的档案");
         tv_left.setBackground(null);
         tv_right.setText("跳过");
-        tv_right.setTextSize(18);
+        tv_right.setTextSize(16);
+        tv_right.setPadding(0,0,25,0);
+        tv_right.setGravity(Gravity.CENTER);
         file = new FileModel();
     }
 
