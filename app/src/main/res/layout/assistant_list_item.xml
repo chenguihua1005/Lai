@@ -1,68 +1,68 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
   ~ Date:2016-03-31
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                tools:context=".module.retest.WriteActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    tools:context=".module.retest.WriteActivity">
 
     <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
         <com.softtek.lai.widgets.CircleImageView
-                android:id="@+id/img"
-                android:layout_width="@dimen/circleImage"
-                android:layout_height="@dimen/circleImage"
-                android:layout_margin="@dimen/assistantMargin"
-                android:src="@drawable/img_default"/>
+            android:id="@+id/img"
+            android:layout_width="@dimen/circleImage"
+            android:layout_height="@dimen/circleImage"
+            android:layout_margin="@dimen/assistantMargin"
+            android:src="@drawable/img_default" />
 
         <ImageView
-                android:id="@+id/img_invite"
-                android:layout_width="@dimen/assistantButtonWidth"
-                android:layout_height="@dimen/assistantButtonHeight"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_margin="@dimen/assistantMargin"
-                android:src="@drawable/img_invite"/>
+            android:id="@+id/img_invite"
+            android:layout_width="@dimen/assistantButtonWidth"
+            android:layout_height="@dimen/assistantButtonHeight"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="@dimen/assistantMargin"
+            android:src="@drawable/img_invite" />
 
         <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/img"
-                android:orientation="vertical">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/img"
+            android:orientation="vertical">
 
             <TextView
-                    android:id="@+id/text_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Default"
-                    android:textSize="@dimen/assistantNameTextSize"/>
+                android:id="@+id/text_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Default"
+                android:textSize="@dimen/assistantNameTextSize"
+                android:textStyle="bold" />
 
             <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/assistantMargin"
-                    android:orientation="horizontal">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/assistantMargin"
+                android:orientation="horizontal">
 
                 <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/img_phone"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/img_phone" />
 
                 <TextView
-                        android:id="@+id/text_phone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/assistantMarginLeft"
-                        android:text="18261576084"
-                        android:textSize="@dimen/assistantPhoneTextSize"/>
+                    android:id="@+id/text_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/assistantMarginLeft"
+                    android:text="18261576084"
+                    android:textSize="@dimen/assistantPhoneTextSize" />
             </LinearLayout>
 
         </LinearLayout>

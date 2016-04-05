@@ -35,4 +35,7 @@ public interface IAssistantPresenter {
 
     //助教详情
     void showAssistantDetails(String assistantId, String classId);
+
+    //移除助教
+    void removeAssistantRoleByClass(String assistantId, String classId);
 }

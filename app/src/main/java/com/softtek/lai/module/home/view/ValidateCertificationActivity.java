@@ -50,19 +50,25 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
     @InjectView(R.id.tv_left)
     TextView tv_left;
 
-    @Required(order = 1,messageResId = R.string.accountValidateNull)
+    @Required(order = 1, messageResId = R.string.accountValidateNull)
     @InjectView(R.id.edit_account)
     EditText edit_account;
 
-    @Required(order = 2,messageResId = R.string.passwordValidateNull)
+    @Required(order = 2, messageResId = R.string.passwordValidateNull)
     @InjectView(R.id.edit_password)
     EditText edit_password;
 
     @InjectView(R.id.but_validate)
     Button but_validate;
 
+    @InjectView(R.id.text_time)
+    TextView text_time;
+
     @InjectView(R.id.tv_title)
     TextView tv_title;
+
+    @InjectView(R.id.text_value)
+    TextView text_value;
 
     private ILoginPresenter loginPresenter;
     private ACache aCache;
@@ -119,10 +125,10 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
 
     @Override
     public void onValidationSucceeded() {
-        String account=edit_account.getText().toString();
-        String password=edit_password.getText().toString();
-        String memberId="CN1357499";
-        loginPresenter.alidateCertification(memberId,password,account);
+        String account = edit_account.getText().toString();
+        String password = edit_password.getText().toString();
+        String memberId = "CN1357499";
+        loginPresenter.alidateCertification(memberId, password, account);
     }
 
     @Override

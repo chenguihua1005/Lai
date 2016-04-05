@@ -6,6 +6,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <include
@@ -24,9 +25,10 @@
             android:layout_height="45dip"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:background="@drawable/img_select_grey"
+            android:background="@drawable/img_select_white"
             android:gravity="center"
             android:text="助教申请"
+            android:textColor="@color/black"
             android:textSize="@dimen/assistantManageTextSize" />
 
         <TextView
@@ -34,9 +36,10 @@
             android:layout_width="fill_parent"
             android:layout_height="47dip"
             android:layout_weight="1"
-            android:background="@drawable/img_select_white"
+            android:background="@drawable/img_select_grey"
             android:gravity="center"
             android:text="助教列表"
+            android:textColor="@color/white"
             android:textSize="@dimen/assistantManageTextSize" />
 
     </LinearLayout>
@@ -57,7 +60,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/grey"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <RelativeLayout
                 android:id="@+id/rel_all_class_more"
@@ -71,7 +75,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
                     android:text="@string/allClass"
-
+                    android:textColor="@color/word"
                     android:textSize="@dimen/fragmentAssistantListNameSize" />
 
                 <ImageView
@@ -116,7 +120,7 @@
                             android:layout_centerVertical="true"
                             android:layout_margin="@dimen/fragmentAssistantListMargin"
                             android:text="@string/allClass"
-                            android:textSize="@dimen/fragmentAssistantListTextSizes" />
+                            android:textSize="@dimen/fragmentAssistantListTextSize" />
 
                         <ImageView
                             android:id="@+id/img_all_class"

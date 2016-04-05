@@ -26,8 +26,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-
-                android:textSize="@dimen/fragmentAssistantListTextSizes"
+            android:textColor="@color/word"
+                android:textSize="@dimen/fragmentAssistantListTextSize2"
                 android:text="@string/allClass"/>
 
         <ImageView

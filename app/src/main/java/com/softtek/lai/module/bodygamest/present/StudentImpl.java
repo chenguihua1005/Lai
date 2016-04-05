@@ -10,12 +10,10 @@ import android.util.Log;
 import android.widget.ListView;
 
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.module.bodygamest.Adapter.StudentScoreAdapter;
 import com.softtek.lai.module.bodygamest.model.StudentHonorInfo;
+import com.softtek.lai.module.bodygamest.model.StudentScripInfo;
 import com.softtek.lai.module.bodygamest.net.StudentService;
-import com.softtek.lai.module.counselor.adapter.GameAdapter;
-import com.softtek.lai.module.counselor.model.MarchInfoModel;
-import com.softtek.lai.module.counselor.net.CounselorService;
-import com.softtek.lai.module.counselor.presenter.IGamePresenter;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -31,16 +29,43 @@ import zilla.libcore.util.Util;
 /**
  * Created by jarvis.liu on 3/22/2016.
  */
-public class StudentHonorImpl implements IStudentHonorPresenter {
+public class StudentImpl implements IStudentPresenter {
 
     private StudentService studentService;
     private Context context;
 
-    public StudentHonorImpl(Context context) {
+    public StudentImpl(Context context) {
         this.context = context;
         studentService = ZillaApi.NormalRestAdapter.create(StudentService.class);
     }
 
+
+    @Override
+    public void getTranscrip(String classid, final ListView list_student_score) {
+        String token = SharedPreferenceService.getInstance().get("token", "");
+        studentService.getTranscrip(token, classid, new Callback<ResponseData<List<StudentScripInfo>>>() {
+            @Override
+            public void success(ResponseData<List<StudentScripInfo>> listResponseData, Response response) {
+                Log.e("jarvis", listResponseData.toString());
+                int status = listResponseData.getStatus();
+                List<StudentScripInfo> list=listResponseData.getData();
+                switch (status) {
+                    case 200:
+                        StudentScoreAdapter adapter=new StudentScoreAdapter(context,list);
+                        list_student_score.setAdapter(adapter);
+                        break;
+                    default:
+                        Util.toastMsg(listResponseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Util.toastMsg("获取龙虎榜列表失败");
+            }
+        });
+    }
 
     @Override
     public void getStudentHonor() {

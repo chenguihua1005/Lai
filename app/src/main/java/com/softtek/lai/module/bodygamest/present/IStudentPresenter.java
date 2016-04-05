@@ -10,9 +10,12 @@ import android.widget.ListView;
 /**
  * Created by jarvis on 3/3/2016.
  */
-public interface IStudentHonorPresenter {
+public interface IStudentPresenter {
 
     //荣誉榜
     void getStudentHonor();
+
+    //成绩单
+    void getTranscrip(String userid,ListView list_student_score);
 
 }

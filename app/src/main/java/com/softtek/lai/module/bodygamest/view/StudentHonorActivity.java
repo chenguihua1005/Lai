@@ -8,13 +8,10 @@ package com.softtek.lai.module.bodygamest.view;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.mobsandgeeks.saripaar.Rule;
@@ -25,14 +22,8 @@ import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygamest.Adapter.StudentHonorJZAdapter;
 import com.softtek.lai.module.bodygamest.model.StudentHonorInfo;
-import com.softtek.lai.module.bodygamest.present.IStudentHonorPresenter;
-import com.softtek.lai.module.bodygamest.present.StudentHonorImpl;
-import com.softtek.lai.module.counselor.adapter.HonorStudentAdapter;
-import com.softtek.lai.module.counselor.model.HonorInfoModel;
-import com.softtek.lai.module.counselor.model.HonorTable1Model;
-import com.softtek.lai.module.counselor.model.HonorTableModel;
-import com.softtek.lai.module.counselor.presenter.AssistantImpl;
-import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
+import com.softtek.lai.module.bodygamest.present.IStudentPresenter;
+import com.softtek.lai.module.bodygamest.present.StudentImpl;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.widgets.HorizontalListView;
@@ -42,7 +33,6 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Handler;
 
 import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
@@ -88,7 +78,7 @@ public class StudentHonorActivity extends BaseActivity implements View.OnClickLi
     HorizontalListView list_jz;
 
 
-    private IStudentHonorPresenter studentHonorPresenter;
+    private IStudentPresenter studentHonorPresenter;
     private ACache aCache;
     int width;
 
@@ -126,12 +116,29 @@ public class StudentHonorActivity extends BaseActivity implements View.OnClickLi
                 star_list.add(studentHonorInfo);
             }
         }
-        if (jz_list.size() < 3) {
-            addData();
-        }
+//        if (jz_list.size() < 3) {
+//            addData();
+//        }
         StudentHonorJZAdapter adapter = new StudentHonorJZAdapter(this, jz_list, width);
         list_jz.setAdapter(adapter);
-        list_star.setAdapter(adapter);
+
+        if(fc_list.size()==0){
+
+        }else if(fc_list.size()==1){
+            img_fc_1.setVisibility(View.VISIBLE);
+        }else if(fc_list.size()==2){
+            img_fc_1.setVisibility(View.VISIBLE);
+            img_fc_2.setVisibility(View.VISIBLE);
+        }else if(fc_list.size()==3){
+            img_fc_1.setVisibility(View.VISIBLE);
+            img_fc_2.setVisibility(View.VISIBLE);
+            img_fc_3.setVisibility(View.VISIBLE);
+        }
+        StudentHonorJZAdapter ygj_adapter = new StudentHonorJZAdapter(this, ygj_list, width);
+        list_ygj.setAdapter(ygj_adapter);
+
+        StudentHonorJZAdapter star_adapter = new StudentHonorJZAdapter(this, star_list, width);
+        list_star.setAdapter(star_adapter);
     }
 
     //增加未点亮的减重奖章
@@ -179,7 +186,7 @@ public class StudentHonorActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     protected void initDatas() {
-        studentHonorPresenter = new StudentHonorImpl(this);
+        studentHonorPresenter = new StudentImpl(this);
         aCache = ACache.get(this, Constants.USER_ACACHE_DATA_DIR);
         studentHonorPresenter.getStudentHonor();
     }
