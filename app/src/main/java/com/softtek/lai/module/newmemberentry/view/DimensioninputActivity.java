@@ -100,12 +100,12 @@ public class DimensioninputActivity extends BaseActivity implements OnClickListe
     protected void initDatas() {
         newstudentsModel = (NewstudentsModel) getIntent().getSerializableExtra("newstudentsModel");
         tv_title.setText("添加记录");
-        tv_circum.setText("0.0".equals(newstudentsModel.getCircum() + "") ? "" : newstudentsModel.getCircum() + "");
-        tv_waistline.setText("0.0".equals(newstudentsModel.getWaistline() + "") ? "" : newstudentsModel.getWaistline() + "");
-        tv_hiplie.setText("0.0".equals(newstudentsModel.getHiplie() + "") ? "" : newstudentsModel.getHiplie() + "");
-        tv_uparmgirth.setText("0.0".equals(newstudentsModel.getUparmgirth() + "") ? "" : newstudentsModel.getUparmgirth() + "");
-        tv_upleggirth.setText("0.0".equals(newstudentsModel.getUpleggirth() + "") ? "" : newstudentsModel.getUpleggirth() + "");
-        tv_doleggirth.setText("0.0".equals(newstudentsModel.getDoleggirth() + "") ? "" : newstudentsModel.getDoleggirth() + "");
+        tv_circum.setText("0.0".equals(newstudentsModel.getCircum() + "") ? "90" : newstudentsModel.getCircum() + "");
+        tv_waistline.setText("0.0".equals(newstudentsModel.getWaistline() + "") ? "90" : newstudentsModel.getWaistline() + "");
+        tv_hiplie.setText("0.0".equals(newstudentsModel.getHiplie() + "") ? "90" : newstudentsModel.getHiplie() + "");
+        tv_uparmgirth.setText("0.0".equals(newstudentsModel.getUparmgirth() + "") ? "90" : newstudentsModel.getUparmgirth() + "");
+        tv_upleggirth.setText("0.0".equals(newstudentsModel.getUpleggirth() + "") ? "90" : newstudentsModel.getUpleggirth() + "");
+        tv_doleggirth.setText("0.0".equals(newstudentsModel.getDoleggirth() + "") ? "90" : newstudentsModel.getDoleggirth() + "");
     }
 
     @Override
