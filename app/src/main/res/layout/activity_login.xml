@@ -43,7 +43,7 @@
         
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp">
+                android:layout_height="50dp">
                 <ImageView
                     android:layout_width="25dp"
                     android:layout_height="25dp"
@@ -56,17 +56,23 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingLeft="40dp"
+                    android:paddingTop="6dp"
                     android:inputType="phone"
                     android:singleLine="true"
                     android:textColor="#333333"
-                    android:gravity="bottom"
+                    android:background="@drawable/border_none"
                     android:textSize="16sp"
-                    android:hint="@string/phoneNum"/>
+                    android:hint="@string/phoneOr"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#75BA2B"
+                    android:layout_gravity="bottom" />
             </FrameLayout>
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp">
+                android:layout_height="50dp">
                 <ImageView
                     android:layout_width="25dp"
                     android:layout_height="25dp"
@@ -81,20 +87,26 @@
                     android:paddingLeft="40dp"
                     android:singleLine="true"
                     android:hint="@string/password"
-                    android:gravity="bottom"
+                    android:background="@drawable/border_none"
+                    android:paddingTop="9dp"
                     android:textColor="#333333"
                     android:textSize="16sp"
                     android:inputType="textPassword"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#75BA2B"
+                    android:layout_gravity="bottom" />
             </FrameLayout>
 
             <TextView
                 android:id="@+id/tv_login"
                 android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:text="@string/login"
                 android:gravity="center"
-                android:textSize="22sp"
+                android:textSize="20sp"
                 android:background="@drawable/bg_login_btn"
                 android:textColor="#FFFFFD"/>
 
@@ -102,10 +114,10 @@
                 android:id="@+id/tv_regist"
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:text="@string/regist"
                 android:gravity="center"
-                android:textSize="22sp"
+                android:textSize="20sp"
                 android:background="@drawable/bg_next_btn"
                 android:textColor="#FFFFFd"/>
             
@@ -116,7 +128,7 @@
                 android:text="@string/forgetPsd"
                 android:textColor="@color/textview"
                 android:layout_marginTop="20dp"
-                android:textSize="18sp"/>
+                android:textSize="16sp"/>
             <LinearLayout
                 android:id="@+id/ll_visitor"
                 android:layout_width="wrap_content"
@@ -130,10 +142,10 @@
                     android:layout_height="wrap_content"
                     android:text="@string/visitor"
                     android:layout_gravity="center|right"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textColor="@color/textview_green"/>
                 <ImageView
-                    android:layout_width="30dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="15dp"
                     android:scaleType="fitCenter"
                     android:layout_gravity="center|right"
@@ -142,11 +154,10 @@
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
-    <ImageView
+
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scaleType="fitCenter"
-        android:src="@drawable/buttom"
-        android:layout_alignParentBottom="true"
-        />
+        android:layout_height="4dp"
+        android:background="@drawable/buttom"
+        android:layout_alignParentBottom="true"/>
 </RelativeLayout>

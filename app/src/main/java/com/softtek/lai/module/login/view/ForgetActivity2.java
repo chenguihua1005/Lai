@@ -20,6 +20,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.login.presenter.IPasswordPresenter;
 import com.softtek.lai.module.login.presenter.PasswordPresnter;
+import com.softtek.lai.utils.MD5;
 import com.softtek.lai.utils.SoftInputUtil;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
@@ -97,7 +98,7 @@ public class ForgetActivity2 extends BaseActivity implements View.OnClickListene
     @Override
     public void onValidationSucceeded() {
         String psd = et_password.getText().toString();
-        passwordPresenter.resetPassword(phone, psd, identify);
+        passwordPresenter.resetPassword(phone, MD5.md5WithEncoder(psd), identify);
     }
 
     @Override

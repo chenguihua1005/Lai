@@ -19,8 +19,8 @@
             <TextView
                 android:id="@+id/tv_left"
                 android:layout_width="15dp"
-                android:layout_height="20dp"
-                android:layout_marginLeft="-15dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="-18dp"
                 android:background="@drawable/back"
                 android:textColor="#ffffff"
                 />
@@ -33,7 +33,7 @@
             android:gravity="center"
             android:layout_gravity="center"
             android:textSize="20sp"
-            android:text="来家"
+            android:text=""
             android:paddingRight="10dp"
             android:textColor="#FFFFFF"/>
 

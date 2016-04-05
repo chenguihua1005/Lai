@@ -22,6 +22,8 @@ import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.login.presenter.IRegistPresenter;
 import com.softtek.lai.module.login.presenter.RegistPresenterImpl;
 import com.softtek.lai.utils.JCountDownTimer;
+import com.softtek.lai.utils.MD5;
+
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
@@ -152,7 +154,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
         }
         String phoneNum = et_phone.getText().toString();
         String password = et_password.getText().toString();
-        registPresenter.doRegist(phoneNum, password, et_identify);
+        registPresenter.doRegist(phoneNum, MD5.md5WithEncoder(password), et_identify);
 
     }
 

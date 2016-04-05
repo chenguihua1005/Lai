@@ -26,6 +26,7 @@ import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.login.presenter.ILoginPresenter;
 import com.softtek.lai.module.login.presenter.LoginPresenterImpl;
 import com.softtek.lai.module.studetail.view.StudentDetailActivity;
+import com.softtek.lai.utils.MD5;
 
 import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
@@ -117,7 +118,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         String phone=et_phone.getText().toString();
         String password=et_password.getText().toString();
         progressDialog.show();
-        loginPresenter.doLogin(phone,password,progressDialog);
+        loginPresenter.doLogin(phone, MD5.md5WithEncoder(password),progressDialog);
     }
 
     @Override
