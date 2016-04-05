@@ -5,262 +5,265 @@
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:context=".module.File.view.DimensionRecordActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:fitsSystemWindows="true"
+    android:layout_height="match_parent"
+    tools:context=".module.File.view.DimensionRecordActivity">
 
     <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <include layout="@layout/toolbar"/>
 
         <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <LinearLayout
-                    android:orientation="vertical"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:id="@+id/ll_circum"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp">
-
-                <RelativeLayout
-                        android:id="@+id/ll_circum"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:gravity="center_vertical">
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical">
 
                     <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:textSize="18dp"
-                            android:text="胸围"/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:textSize="18dp"
+                        android:text="胸围"/>
                     <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=""
-                            android:textSize="18dp"
-                            android:layout_toLeftOf="@+id/tv_unit"
-                            android:layout_marginRight="5dp"
-                            android:textColor="#ffbb00"
-                            android:id="@+id/tv_circum"/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textSize="18dp"
+                        android:layout_toLeftOf="@+id/tv_unit"
+                        android:layout_marginRight="5dp"
+                        android:textColor="#ffbb00"
+                        android:id="@+id/tv_circum"/>
                     <TextView
-                            android:gravity="right"
-                            android:id="@+id/tv_unit"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="18dp"
-                            android:layout_alignParentRight="true"
-                            android:text="cm"/>
+                        android:gravity="right"
+                        android:id="@+id/tv_unit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18dp"
+                        android:layout_alignParentRight="true"
+                        android:text="cm"/>
                 </RelativeLayout>
                 <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="#75BA2B">
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#75BA2B">
                 </View>
                 <RelativeLayout
-                        android:id="@+id/ll_waistline"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:gravity="center_vertical"
-                >
+                    android:id="@+id/ll_waistline"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    >
 
                     <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:textSize="18dp"
-                            android:text="腰围"/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:textSize="18dp"
+                        android:text="腰围"/>
 
                     <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=""
-                            android:textSize="18dp"
-                            android:textColor="#ffbb00"
-                            android:layout_marginRight="5dp"
-                            android:layout_toLeftOf="@+id/tv_unit2"
-                            android:id="@+id/tv_waistline"/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textSize="18dp"
+                        android:textColor="#ffbb00"
+                        android:layout_marginRight="5dp"
+                        android:layout_toLeftOf="@+id/tv_unit2"
+                        android:id="@+id/tv_waistline"/>
                     <TextView
-                            android:gravity="right"
-                            android:id="@+id/tv_unit2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="18dp"
-                            android:layout_alignParentRight="true"
-                            android:text="cm"/>
+                        android:gravity="right"
+                        android:id="@+id/tv_unit2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18dp"
+                        android:layout_alignParentRight="true"
+                        android:text="cm"/>
                 </RelativeLayout>
                 <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="#75BA2B">
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#75BA2B">
                 </View>
                 <RelativeLayout
-                        android:id="@+id/ll_hiplie"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:gravity="center_vertical"
-                >
+                    android:id="@+id/ll_hiplie"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    >
 
                     <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:textSize="18dp"
-                            android:text="臀围"/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:textSize="18dp"
+                        android:text="臀围"/>
 
                     <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=""
-                            android:textSize="18dp"
-                            android:textColor="#ffbb00"
-                            android:layout_marginRight="5dp"
-                            android:layout_toLeftOf="@+id/tv_unit3"
-                            android:id="@+id/tv_hiplie"/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textSize="18dp"
+                        android:textColor="#ffbb00"
+                        android:layout_marginRight="5dp"
+                        android:layout_toLeftOf="@+id/tv_unit3"
+                        android:id="@+id/tv_hiplie"/>
                     <TextView
-                            android:gravity="right"
-                            android:id="@+id/tv_unit3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="18dp"
-                            android:layout_alignParentRight="true"
-                            android:text="cm"/>
+                        android:gravity="right"
+                        android:id="@+id/tv_unit3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18dp"
+                        android:layout_alignParentRight="true"
+                        android:text="cm"/>
                 </RelativeLayout>
                 <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="#75BA2B">
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#75BA2B">
                 </View>
                 <RelativeLayout
-                        android:id="@+id/ll_uparmgirth"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:gravity="center_vertical"
-                >
+                    android:id="@+id/ll_uparmgirth"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    >
 
                     <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:textSize="18dp"
-                            android:text="上臂围"/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:textSize="18dp"
+                        android:text="上臂围"/>
 
                     <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="#ffbb00"
-                            android:text=""
-                            android:textSize="18dp"
-                            android:layout_marginRight="5dp"
-                            android:layout_toLeftOf="@+id/tv_unit4"
-                            android:id="@+id/tv_uparmgirth"/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#ffbb00"
+                        android:text=""
+                        android:textSize="18dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_toLeftOf="@+id/tv_unit4"
+                        android:id="@+id/tv_uparmgirth"/>
                     <TextView
-                            android:gravity="right"
-                            android:id="@+id/tv_unit4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="18dp"
-                            android:layout_alignParentRight="true"
-                            android:text="cm"/>
+                        android:gravity="right"
+                        android:id="@+id/tv_unit4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18dp"
+                        android:layout_alignParentRight="true"
+                        android:text="cm"/>
                 </RelativeLayout>
                 <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="#75BA2B">
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#75BA2B">
                 </View>
                 <RelativeLayout
-                        android:id="@+id/ll_upleggirth"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:gravity="center_vertical"
-                >
+                    android:id="@+id/ll_upleggirth"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    >
 
                     <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:textSize="18dp"
-                            android:text="大腿围"/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:textSize="18dp"
+                        android:text="大腿围"/>
                     <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=""
-                            android:textSize="18dp"
-                            android:textColor="#ffbb00"
-                            android:layout_marginRight="5dp"
-                            android:layout_toLeftOf="@+id/tv_unit5"
-                            android:id="@+id/tv_upleggirth"/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textSize="18dp"
+                        android:textColor="#ffbb00"
+                        android:layout_marginRight="5dp"
+                        android:layout_toLeftOf="@+id/tv_unit5"
+                        android:id="@+id/tv_upleggirth"/>
                     <TextView
-                            android:gravity="right"
-                            android:id="@+id/tv_unit5"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="18dp"
-                            android:layout_alignParentRight="true"
-                            android:text="cm"/>
+                        android:gravity="right"
+                        android:id="@+id/tv_unit5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18dp"
+                        android:layout_alignParentRight="true"
+                        android:text="cm"/>
                 </RelativeLayout>
                 <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="#75BA2B">
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#75BA2B">
                 </View>
 
                 <RelativeLayout
-                        android:id="@+id/ll_doleggirth"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:gravity="center_vertical">
+                    android:id="@+id/ll_doleggirth"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical">
 
 
                     <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:textSize="18dp"
-                            android:text="小腿围"/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:textSize="18dp"
+                        android:text="小腿围"/>
 
                     <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=""
-                            android:textSize="18dp"
-                            android:textColor="#ffbb00"
-                            android:layout_toLeftOf="@+id/tv_unit6"
-                            android:id="@+id/tv_doleggirth"/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textSize="18dp"
+                        android:textColor="#ffbb00"
+                        android:layout_marginRight="5dp"
+                        android:layout_toLeftOf="@+id/tv_unit6"
+                        android:id="@+id/tv_doleggirth"/>
                     <TextView
-                            android:gravity="right"
-                            android:id="@+id/tv_unit6"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="18dp"
-                            android:layout_alignParentRight="true"
-                            android:text="cm"/>
+                        android:gravity="right"
+                        android:id="@+id/tv_unit6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18dp"
+                        android:layout_alignParentRight="true"
+                        android:text="cm"/>
                 </RelativeLayout>
                 <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="#75BA2B">
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#75BA2B">
                 </View>
 
                 <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:paddingTop="20dp"
-                        android:layout_height="match_parent">
-
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:paddingTop="20dp"
+                    android:layout_height="match_parent">
                     <LinearLayout
-                            android:id="@+id/ll_explain"
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:gravity="right"
-                            android:layout_height="40dp"
-                            android:layout_marginBottom="60dp">
+                        android:id="@+id/ll_explain"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:gravity="right"
+                        android:layout_height="40dp"
+                        android:layout_marginBottom="30dp">
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -283,25 +286,24 @@
                     </LinearLayout>
 
                     <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
                         <Button
-                                android:id="@+id/btn_save"
-                                android:layout_width="match_parent"
-                                android:layout_height="50dp"
-                                android:textColor="#ffffff"
-                                android:background="@drawable/btn_save_background"/>
+                            android:id="@+id/btn_save"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:textColor="#ffffff"
+                            android:background="@drawable/btn_save_background"/>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
     <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="fitCenter"
-            android:src="@drawable/buttom"
-            android:layout_alignParentBottom="true"
-    />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitXY"
+        android:src="@drawable/buttom"
+        android:layout_alignParentBottom="true" />
 </RelativeLayout>

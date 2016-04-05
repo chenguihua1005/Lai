@@ -62,10 +62,12 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
         String a = "";
         String b = "";
         String c = "";
-        String text = "我本月已新开班" + a + "个,新增学员" + b + "名,累计减重" + c + "斤！";
-        String text2 = "我本月已新开班,我的一月班本月累计减重××斤，2月班本月累计减重××斤，2月班本月累计减重××斤！相当于××头大象！";
+        String d = "";
+        String e = "";
+        String f = "";
+        String g = "";
+        String text = ": 本月新开班级"+a+"个,新增学员"+b+"名,累计减重"+c+"斤 , 其中1月班累计减重"+d+"斤,2月版本月累计减重"+e+"斤,3月版本月累计减重"+f+"斤, 相当于"+g+"头大象.";
         tv_wz.setText(text);
-        tv_wz2.setText(text2);
     }
 
     @Override

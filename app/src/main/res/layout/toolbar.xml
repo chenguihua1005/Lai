@@ -1,9 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
-  ~ Date:2016-03-31
-  -->
-
 <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
                                    xmlns:app="http://schemas.android.com/apk/res-auto"
                                    android:id="@+id/toolbar"
@@ -13,49 +8,57 @@
                                    android:minHeight="?attr/actionBarSize"
                                    app:layout_scrollFlags="scroll|enterAlways"
                                    android:fitsSystemWindows="true">
-    <LinearLayout
+
+        <LinearLayout
             android:id="@+id/ll_left"
-            android:layout_width="60dp"
+            android:layout_width="50dp"
             android:layout_height="match_parent"
             android:layout_gravity="left"
-            android:gravity="center"
-    >
+            android:gravity="center">
 
-        <TextView
+            <TextView
                 android:id="@+id/tv_left"
                 android:layout_width="15dp"
                 android:layout_height="20dp"
                 android:layout_marginLeft="-15dp"
                 android:background="@drawable/back"
                 android:textColor="#ffffff"
-        />
-    </LinearLayout>
-
-    <TextView
+                />
+        </LinearLayout>
+        <TextView
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
+            android:layout_centerInParent="true"
             android:gravity="center"
+            android:layout_gravity="center"
             android:textSize="20sp"
+            android:text="来家"
+            android:paddingRight="10dp"
             android:textColor="#FFFFFF"/>
 
-    <TextView
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="right"
+        android:layout_marginRight="10dp">
+        <TextView
             android:id="@+id/tv_right"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_gravity="right"
+            android:textSize="16sp"
             android:gravity="center"
-            android:textSize="20sp"
-            android:layout_marginRight="10dp"
             android:textColor="#ffffff"
-    />
-    <ImageView
+            />
+        <ImageView
             android:id="@+id/iv_email"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:src="@drawable/email"
-            android:layout_gravity="right"
+            android:scaleType="fitCenter"
+            android:layout_gravity="center"
             android:visibility="gone"/>
+    </FrameLayout>
+
 
 </android.support.v7.widget.Toolbar>

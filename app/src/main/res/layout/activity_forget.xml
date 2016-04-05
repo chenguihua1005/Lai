@@ -33,6 +33,7 @@
                     android:layout_height="25dp"
                     android:scaleType="fitCenter"
                     android:layout_gravity="left|center"
+                    android:layout_marginBottom="-6dp"
                     android:src="@drawable/phone"/>
                 <EditText
                     android:id="@+id/et_phone"
@@ -40,6 +41,7 @@
                     android:layout_height="match_parent"
                     android:paddingLeft="40dp"
                     android:inputType="phone"
+                    android:gravity="bottom"
                     android:singleLine="true"
                     android:textSize="16sp"
                     android:textColor="#343434"
@@ -70,6 +72,7 @@
                         android:paddingLeft="40dp"
                         android:singleLine="true"
                         android:inputType="number"
+                        android:gravity="bottom"
                         android:textSize="16sp"
                         android:textColor="#343434"
                         android:hint="验证码"/>
@@ -79,7 +82,8 @@
                     android:layout_width="0dp"
                     android:layout_weight="1.2"
                     android:layout_height="40dp"
-                    android:layout_gravity="fill"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="3dp"
                     android:gravity="center"
                     android:layout_marginLeft="10dp"
                     android:textColor="#6a6a6a"
