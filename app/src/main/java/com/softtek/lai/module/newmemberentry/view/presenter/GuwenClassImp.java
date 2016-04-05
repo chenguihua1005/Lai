@@ -52,8 +52,8 @@ public class GuwenClassImp implements GuwenClassPre {
 
             @Override
             public void failure(RetrofitError error) {
+                ZillaApi.dealNetError(error);
                 error.printStackTrace();
-                Util.toastMsg("服务器异常");
             }
         });
 

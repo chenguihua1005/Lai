@@ -9,7 +9,7 @@
         android:layout_centerInParent="true"
         android:textColor="#333333"
         android:text="功能开发中，敬请期待"
-        android:textSize="30sp"/>
+        android:textSize="20sp"/>
 
 
 </RelativeLayout>

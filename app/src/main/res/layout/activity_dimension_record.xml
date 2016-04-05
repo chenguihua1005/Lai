@@ -7,6 +7,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
+                android:fitsSystemWindows="true"
                 android:layout_height="match_parent"
                 tools:context=".module.File.view.DimensionRecordActivity">
 
@@ -18,23 +19,23 @@
         <include layout="@layout/toolbar"/>
 
         <LinearLayout
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <LinearLayout
-                    android:orientation="vertical"
-                android:layout_marginTop="20dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
                 <RelativeLayout
-                        android:id="@+id/ll_circum"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:gravity="center_vertical">
+                    android:id="@+id/ll_circum"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical">
 
                     <TextView
                             android:layout_width="wrap_content"
@@ -233,6 +234,7 @@
                             android:text=""
                             android:textSize="18dp"
                             android:textColor="#ffbb00"
+                            android:layout_marginRight="5dp"
                             android:layout_toLeftOf="@+id/tv_unit6"
                             android:id="@+id/tv_doleggirth"/>
                     <TextView
@@ -261,7 +263,7 @@
                         android:layout_width="match_parent"
                         android:gravity="right"
                         android:layout_height="40dp"
-                        android:layout_marginBottom="40dp">
+                        android:layout_marginBottom="30dp">
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

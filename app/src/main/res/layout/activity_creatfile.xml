@@ -1,213 +1,285 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
   ~ Date:2016-03-31
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-    <include layout="@layout/toolbar"/>
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/toolbar" />
+
     <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:gravity="center">
-        <LinearLayout
-                android:id="@+id/ll_nickname"
-                android:gravity="center_vertical"
-                android:layout_marginTop="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/nick"
-                    android:layout_marginRight="15dp"/>
-            <TextView
-                    android:gravity="center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:textSize="18sp"
-                    android:textColor="#000"
-                    android:text="昵称"/>
-            <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:singleLine="true"
-                    android:hint="必填项"
-                    android:textSize="18dp"
-                    android:textColor="#808080"
-                    android:background="@null"
-                    android:layout_marginLeft="40dp"
-                    android:id="@+id/et_nickname"/>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:gravity="center"
+        android:orientation="vertical">
 
-        </LinearLayout>
-        <View
-                android:layout_height="1dp"
-                android:layout_width="match_parent"
-                android:background="#78BC27"/>
         <LinearLayout
-                android:id="@+id/ll_birth"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center_horizontal">
-            <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/birthday_h"
-                    android:layout_marginRight="15dp"/>
-            <TextView
-                    android:gravity="center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:textSize="18sp"
-                    android:textColor="#000"
-                    android:text="生日"/>
-            <EditText
-                    android:id="@+id/tv_birth"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:textSize="18dp"
-                    android:gravity="right"
-                    android:singleLine="true"
-                    android:textColor="#808080"
-                    android:background="@null"
-                    android:editable="false"
-                    android:hint="必填项"/>
-        </LinearLayout>
-        <View
-                android:layout_height="1dp"
-                android:layout_width="match_parent"
-                android:background="#78BC27"/>
-        <LinearLayout
-                android:id="@+id/ll_sex"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal">
-            <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/male_back"
-                    android:layout_marginRight="15dp"/>
-            <TextView
-                    android:gravity="center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:textSize="18sp"
-                    android:textColor="#000"
-                    android:text="性别"/>
-            <EditText
-                    android:id="@+id/tv_sex"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:textSize="18dp"
-                    android:singleLine="true"
-                    android:textColor="#808080"
-                    android:gravity="right"
-                    android:hint="必填项"
-                    android:editable="false"
-                    android:background="@null"
-            />
-        </LinearLayout>
-        <View
-                android:layout_height="1dp"
-                android:layout_width="match_parent"
-                android:background="#78BC27"/>
-        <LinearLayout
-                android:id="@+id/ll_height"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal">
-            <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/height_h"
-                    android:layout_marginRight="15dp"/>
-            <TextView
-                    android:gravity="center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:textSize="18sp"
-                    android:textColor="#000"
-                    android:text="身高"/>
-            <EditText
-                    android:id="@+id/tv_height"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:textSize="18dp"
-                    android:textColor="#808080"
-                    android:singleLine="true"
-                    android:gravity="right"
-                    android:background="@null"
-                    android:editable="false"
-                    android:hint="必填项"/>
-        </LinearLayout>
-        <View
-                android:layout_height="1dp"
-                android:layout_width="match_parent"
-                android:background="#78BC27"/>
-        <LinearLayout
-                android:id="@+id/ll_weight"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal">
-            <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/weight_h"
-                    android:layout_marginRight="15dp"/>
-            <TextView
-                    android:gravity="center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:textSize="18sp"
-                    android:textColor="#000"
-                    android:text="体重"/>
-            <EditText
-                    android:id="@+id/tv_weight"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:textSize="18dp"
-                    android:textColor="#808080"
-                    android:singleLine="true"
-                    android:gravity="right"
-                    android:background="@null"
-                    android:editable="false"
-                    android:hint="必填项"/>
-        </LinearLayout>
-        <View
-                android:layout_height="1dp"
-                android:layout_width="match_parent"
-                android:background="#78BC27"
-                android:layout_marginBottom="30dp"/>
-        <Button
-                android:id="@+id/btn_Add_bodydimension"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:text="添加身体围度"
-                android:background="@drawable/bg_addbody_btn"
-                android:textColor="#FFA302"
-                android:textSize="22sp"
-                android:layout_marginBottom="60dp"/>
-
-        <Button
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@drawable/bg_login_btn"
-                android:text="完成"
-                android:textColor="#FFFFFD"
-                android:textSize="22sp"
-                android:id="@+id/btn_finish"/>
-
-    </LinearLayout>
-    <ImageView
+            android:id="@+id/ll_nickname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scaleType="fitXY"
-            android:src="@drawable/buttom"
-            android:layout_alignParentBottom="true" />
+            android:layout_marginTop="20dp"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:src="@drawable/nick" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                android:text="昵称"
+                android:textColor="#000"
+                android:textSize="18sp" />
+
+
+            <EditText
+                android:id="@+id/et_nickname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:background="@null"
+                android:gravity="right"
+                android:hint="必填项"
+                android:singleLine="true"
+                android:textColor="#808080"
+                android:textSize="18dp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#78BC27" />
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:src="@drawable/birthday_h" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                android:text="生日"
+                android:textColor="#000"
+                android:textSize="18sp" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <EditText
+                    android:id="@+id/tv_birth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:editable="false"
+                    android:gravity="right"
+                    android:layout_gravity="center"
+                    android:hint="必填项"
+                    android:singleLine="true"
+                    android:textColor="#808080"
+                    android:textSize="18dp" />
+
+                <FrameLayout
+                    android:id="@+id/ll_birth"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"></FrameLayout>
+            </FrameLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#78BC27" />
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:src="@drawable/male_back" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                android:text="性别"
+                android:textColor="#000"
+                android:textSize="18sp" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <EditText
+                    android:id="@+id/tv_sex"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@null"
+                    android:editable="false"
+                    android:gravity="right"
+                    android:hint="必填项"
+                    android:singleLine="true"
+                    android:textColor="#808080"
+                    android:textSize="18dp" />
+
+                <FrameLayout
+                    android:id="@+id/ll_sex"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"></FrameLayout>
+            </FrameLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#78BC27" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:src="@drawable/height_h" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                android:text="身高"
+                android:textColor="#000"
+                android:textSize="18sp" />
+
+            <FrameLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <EditText
+                    android:id="@+id/tv_height"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@null"
+                    android:editable="false"
+                    android:gravity="right"
+                    android:hint="必填项"
+                    android:singleLine="true"
+                    android:textColor="#808080"
+                    android:textSize="18dp" />
+
+                <FrameLayout
+                    android:id="@+id/ll_height"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"></FrameLayout>
+            </FrameLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#78BC27" />
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:src="@drawable/weight_h" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                android:text="体重"
+                android:textColor="#000"
+                android:textSize="18sp" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <EditText
+                    android:id="@+id/tv_weight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@null"
+                    android:editable="false"
+                    android:gravity="right"
+                    android:hint="必填项"
+                    android:singleLine="true"
+                    android:textColor="#808080"
+                    android:textSize="18dp" />
+
+                <FrameLayout
+                    android:id="@+id/ll_weight"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"></FrameLayout>
+            </FrameLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="30dp"
+            android:background="#78BC27" />
+
+        <Button
+            android:id="@+id/btn_Add_bodydimension"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="60dp"
+            android:background="@drawable/bg_addbody_btn"
+            android:text="添加身体围度"
+            android:textColor="#FFA302"
+            android:textSize="22sp" />
+
+        <Button
+            android:id="@+id/btn_finish"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/bg_login_btn"
+            android:text="完成"
+            android:textColor="#FFFFFD"
+            android:textSize="22sp" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/buttom" />
 </RelativeLayout>

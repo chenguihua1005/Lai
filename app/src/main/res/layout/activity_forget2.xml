@@ -22,10 +22,11 @@
             android:layout_height="60dp">
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_gravity="left|center"
                 android:scaleType="fitCenter"
+                android:layout_marginBottom="-6dp"
                 android:src="@drawable/password" />
 
             <EditText
@@ -34,6 +35,7 @@
                 android:layout_height="match_parent"
                 android:hint="@string/passwordReg"
                 android:inputType="textPassword"
+                android:gravity="bottom"
                 android:paddingLeft="40dp"
                 android:singleLine="true"
                 android:textSize="16sp" />
@@ -44,16 +46,18 @@
             android:layout_height="60dp">
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_gravity="left|center"
                 android:scaleType="fitCenter"
+                android:layout_marginBottom="-6dp"
                 android:src="@drawable/password" />
 
             <EditText
                 android:id="@+id/et_repassword"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:gravity="bottom"
                 android:hint="@string/reNewPassword"
                 android:inputType="textPassword"
                 android:textSize="16sp"
