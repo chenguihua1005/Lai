@@ -39,6 +39,7 @@ public class TipsActivity extends BaseActivity implements View.OnClickListener{
         tv_title.setText("TIPS");
         iTiGuanSai=new TiGuanSaiImpl();
         iTiGuanSai.doGetTips();
+        iTiGuanSai.doGetTipsDetail(13);
     }
 
     @Override
