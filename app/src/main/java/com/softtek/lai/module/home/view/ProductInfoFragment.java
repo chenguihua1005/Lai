@@ -72,7 +72,7 @@ public class ProductInfoFragment extends BaseFragment implements PullToRefreshRe
         //获取缓存数据
         List<HomeInfoModel> caches = homeInfoPresenter.loadActivityCacheDate(Constants.HOEM_PRODUCT_KEY);
         infos.clear();
-        if (caches == null) {
+       /* if (caches == null) {
             index = 0;//下次加载从第0条插入
             for (int i = 0; i < 10; i++) {
                 infos.add(new HomeInfoModel());
@@ -83,7 +83,7 @@ public class ProductInfoFragment extends BaseFragment implements PullToRefreshRe
                 caches.add(new HomeInfoModel());
             }
             infos.addAll(caches);
-        }
+        }*/
         adapter = new RecyclerViewAdapter(getContext(), infos);
         ptrrv.setAdapter(adapter);
         ptrrv.onFinishLoading(true, true);
@@ -115,7 +115,7 @@ public class ProductInfoFragment extends BaseFragment implements PullToRefreshRe
             System.out.println("这次是添加插入，目前数据有" + infos.size() + "条");
         }
         index = index + productEvent.products.size();
-        if (infos.size() < 10) {
+        /*if (infos.size() < 10) {
             int size = 10 - infos.size();
             System.out.println("数据小于10条需要添加" + size + "条");
             HomeInfoModel info = new HomeInfoModel();
@@ -123,7 +123,7 @@ public class ProductInfoFragment extends BaseFragment implements PullToRefreshRe
                 infos.add(info);
                 System.out.println("添加了第" + (i + 1) + "条");
             }
-        }
+        }*/
         System.out.println("当前数据大小....." + infos.size());
         adapter.notifyDataSetChanged();
         aCache.put(Constants.HOEM_PRODUCT_KEY, new Gson().toJson(new HomeInfoCache(infos)));

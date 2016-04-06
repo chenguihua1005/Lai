@@ -102,13 +102,13 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
             lin_is_vr.setVisibility(View.GONE);
         }
 
-        if ("".equals(model.getNickname())) {
-            text_name.setText(model.getMobile().toString());
+        if (model.getNickname()==null||"".equals(model.getNickname())) {
+            text_name.setText(model.getMobile());
         } else {
-            text_name.setText(model.getNickname().toString());
+            text_name.setText(model.getNickname());
         }
 
-        String certification = model.getCertification().toString();
+        String certification = model.getCertification();
         if (String.valueOf(Constants.SR).equals(userrole) || String.valueOf(Constants.PC).equals(userrole) || String.valueOf(Constants.SP).equals(userrole)) {
             text_state.setText("已认证");
             text_state.setTextColor(getResources().getColor(R.color.green));
