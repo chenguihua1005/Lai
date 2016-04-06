@@ -9,46 +9,50 @@ package com.softtek.lai.module.jingdu.model;
  * Created by julie.zhu on 3/25/2016.
  */
 public class RankModel {
-    private long AccountId;
-    private long ClassId;
-    private int OrderNum;
+    private String AccountId;
+    private String BeforeWight;
+    private String AfterWeight;
+    private String LoseWeight;
     private String UserName;
-    private String LossAfter;
-    private String LossBefor;
-    private String LossWeght;
 
-    public RankModel(String lossWeght, long accountId, long classId, int orderNum, String userName, String lossAfter, String lossBefor) {
-        LossWeght = lossWeght;
+    public RankModel(String accountId, String beforeWight, String afterWeight, String loseWeight, String userName) {
         AccountId = accountId;
-        ClassId = classId;
-        OrderNum = orderNum;
+        BeforeWight = beforeWight;
+        AfterWeight = afterWeight;
+        LoseWeight = loseWeight;
         UserName = userName;
-        LossAfter = lossAfter;
-        LossBefor = lossBefor;
     }
 
-    public long getAccountId() {
+    public String getAccountId() {
         return AccountId;
     }
 
-    public void setAccountId(long accountId) {
+    public void setAccountId(String accountId) {
         AccountId = accountId;
     }
 
-    public long getClassId() {
-        return ClassId;
+    public String getBeforeWight() {
+        return BeforeWight;
     }
 
-    public void setClassId(long classId) {
-        ClassId = classId;
+    public void setBeforeWight(String beforeWight) {
+        BeforeWight = beforeWight;
     }
 
-    public int getOrderNum() {
-        return OrderNum;
+    public String getAfterWeight() {
+        return AfterWeight;
     }
 
-    public void setOrderNum(int orderNum) {
-        OrderNum = orderNum;
+    public void setAfterWeight(String afterWeight) {
+        AfterWeight = afterWeight;
+    }
+
+    public String getLoseWeight() {
+        return LoseWeight;
+    }
+
+    public void setLoseWeight(String loseWeight) {
+        LoseWeight = loseWeight;
     }
 
     public String getUserName() {
@@ -59,40 +63,14 @@ public class RankModel {
         UserName = userName;
     }
 
-    public String getLossAfter() {
-        return LossAfter;
-    }
-
-    public void setLossAfter(String lossAfter) {
-        LossAfter = lossAfter;
-    }
-
-    public String getLossBefor() {
-        return LossBefor;
-    }
-
-    public void setLossBefor(String lossBefor) {
-        LossBefor = lossBefor;
-    }
-
-    public String getLossWeght() {
-        return LossWeght;
-    }
-
-    public void setLossWeght(String lossWeght) {
-        LossWeght = lossWeght;
-    }
-
     @Override
     public String toString() {
         return "RankModel{" +
-                "AccountId=" + AccountId +
-                ", ClassIdModel=" + ClassId +
-                ", OrderNum=" + OrderNum +
+                "AccountId='" + AccountId + '\'' +
+                ", BeforeWight='" + BeforeWight + '\'' +
+                ", AfterWeight='" + AfterWeight + '\'' +
+                ", LoseWeight='" + LoseWeight + '\'' +
                 ", UserName='" + UserName + '\'' +
-                ", LossAfter='" + LossAfter + '\'' +
-                ", LossBefor='" + LossBefor + '\'' +
-                ", LossWeght='" + LossWeght + '\'' +
                 '}';
     }
 }
