@@ -10,6 +10,7 @@ import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
 import com.softtek.lai.module.retest.eventModel.StudentEvent;
 import com.softtek.lai.module.retest.model.BanjiModel;
 import com.softtek.lai.module.retest.model.BanjiStudentModel;
+import com.softtek.lai.module.retest.model.ClientModel;
 import com.softtek.lai.module.retest.model.RetestAuditModel;
 import com.softtek.lai.module.retest.model.RetestWriteModel;
 import com.softtek.lai.module.retest.model.StudentModel;
@@ -249,7 +250,31 @@ public class RetestclassImp implements RetestPre{
 
     }
 
+    @Override
+    public void doPostClient(String grant_type, String client_id, String client_secret) {
+        service.doPostClient(grant_type, client_id, client_secret, new Callback<ResponseData<ClientModel>>() {
+            @Override
+            public void success(ResponseData<ClientModel> clientModelResponseData, Response response) {
+                int status=clientModelResponseData.getStatus();
+                switch (status)
+                {
+                    case 200:
+                        Util.toastMsg("成功");
+                        break;
+                    default:
+                        Util.toastMsg("失败");
+                        break;
+                }
+            }
 
+            @Override
+            public void failure(RetrofitError error) {
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
+
+            }
+        });
+    }
 
 
 }
