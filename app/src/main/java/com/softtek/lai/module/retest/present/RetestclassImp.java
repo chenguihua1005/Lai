@@ -258,18 +258,10 @@ public class RetestclassImp implements RetestPre{
     @Override
     public void doGetMeasure(String accesstoken, String phone) {
 
-        laiChenService.doGetMeasure(accesstoken, phone, new Callback<ResponseData<MeasureModel>>() {
+        laiChenService.doGetMeasure(accesstoken, phone, new Callback<MeasureModel>() {
             @Override
-            public void success(ResponseData<MeasureModel> measureModelResponseData, Response response) {
-                int status=measureModelResponseData.getStatus();
-                switch (status)
-                {
-                    case 200:
-                        Util.toastMsg("成功");
-                        break;
-                    default:Util.toastMsg("失败");
-                        break;
-                }
+            public void success(MeasureModel measureModel, Response response) {
+                Util.toastMsg("获取信息成功");
             }
 
             @Override
@@ -284,19 +276,10 @@ public class RetestclassImp implements RetestPre{
 
     @Override
     public void doPostClient(String grant_type, String client_id, String client_secret) {
-        laiChenService.doPostClient(grant_type, client_id, client_secret, new Callback<ResponseData<ClientModel>>() {
+        laiChenService.doPostClient(grant_type, client_id, client_secret, new Callback<ClientModel>() {
             @Override
-            public void success(ResponseData<ClientModel> clientModelResponseData, Response response) {
-                int status=clientModelResponseData.getStatus();
-                switch (status)
-                {
-                    case 200:
-                        Util.toastMsg("成功");
-                        break;
-                    default:
-                        Util.toastMsg("失败");
-                        break;
-                }
+            public void success(ClientModel clientModel, Response response) {
+               Util.toastMsg("获取授权成功");
             }
 
             @Override

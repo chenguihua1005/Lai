@@ -2,6 +2,7 @@ package com.softtek.lai.module.retest;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -10,6 +11,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -235,7 +237,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener{
                 break;
             case R.id.selectlaichen:
                 selectlaichen.setImageResource(R.drawable.retest_turnon);
-                retestPre.doGetMeasure("0Pmg0UmrnZBYbcPABC5YB0pSqNXOFnB885ZYInLptG8YvAZsT87oGUPZtU5wbAad-26xsvP8Ov_eoq6Mj9rISg-XZiz2xesbiiqYPWK0AeYquQ8fXwXNpmvL0XwbUkse","13900000000");
+//                retestPre.doGetMeasure("0Pmg0UmrnZBYbcPABC5YB0pSqNXOFnB885ZYInLptG8YvAZsT87oGUPZtU5wbAad-26xsvP8Ov_eoq6Mj9rISg-XZiz2xesbiiqYPWK0AeYquQ8fXwXNpmvL0XwbUkse","18502132549");
                 break;
 
         }
@@ -302,13 +304,10 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener{
         }
     }
     public void show_information(String title, int np1maxvalur, int np1value, int np1minvalue, int np2maxvalue, int np2value, int np2minvalue, final int num) {
-        final Dialog information_dialog = new Dialog(this);
-        information_dialog.setTitle(title);
-        information_dialog.setContentView(R.layout.dimension_dialog);
-        Button b1 = (Button) information_dialog.findViewById(R.id.button1);
-        Button b2 = (Button) information_dialog.findViewById(R.id.button2);
-        final NumberPicker np1 = (NumberPicker) information_dialog.findViewById(R.id.numberPicker1);
-        final NumberPicker np2 = (NumberPicker) information_dialog.findViewById(R.id.numberPicker2);
+        final AlertDialog.Builder information_dialog = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
+        final NumberPicker np1 = (NumberPicker)view.findViewById(R.id.numberPicker1);
+        final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
         np1.setMaxValue(np1maxvalur);
         np1.setValue(np1value);
         np1.setMinValue(np1minvalue);
@@ -317,38 +316,36 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener{
         np2.setValue(np2value);
         np2.setMinValue(np2minvalue);
         np2.setWrapSelectorWheel(false);
-        b1.setOnClickListener(new View.OnClickListener() {
+        information_dialog.setTitle(title).setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(DialogInterface dialog, int which) {
                 if (num==0) {
                     tv_write_chu_weight.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())); //set the value to textview
-                    information_dialog.dismiss();
+
                 }
                 else if (num==1)
                 {
                     tv_retestWrite_nowweight.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
-                    information_dialog.dismiss();
+
                 }
                 else if (num==2)
                 {
                     tv_retestWrite_tizhi.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
-                    information_dialog.dismiss();
+
                 }
                 else if(num==3)
                 {
                     tv_retestWrite_neizhi.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
-                    information_dialog.dismiss();
+
                 }
+            }
+        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
 
             }
-        });
-        b2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                information_dialog.dismiss();
-            }
-        });
-        information_dialog.show();
-        information_dialog.setCanceledOnTouchOutside(false);
+        }).create().show();
+
+//        information_dialog.setCanceledOnTouchOutside(false);
     }
 }

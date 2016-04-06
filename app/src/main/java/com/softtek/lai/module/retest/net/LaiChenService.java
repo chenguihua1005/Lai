@@ -19,14 +19,14 @@ public interface LaiChenService {
             @Query("grant_type")String grant_type,
             @Query("client_id")String client_id,
             @Query("client_secret")String client_secret,
-            Callback<ResponseData<ClientModel>> callback
+            Callback<ClientModel> callback
     );
 
     @GET("/DataSync/GetMeasuredData")
     void doGetMeasure(
             @Query("accesstoken")String accesstoken,
             @Query("phone")String phone,
-            Callback<ResponseData<MeasureModel>>callback
+            Callback<MeasureModel> callback
 
     );
 

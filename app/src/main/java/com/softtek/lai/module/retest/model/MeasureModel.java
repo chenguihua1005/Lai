@@ -17,15 +17,7 @@ public class MeasureModel {
     private String upperarmgirth;
     private String thighgirth;
     private String calfgirth;
-    private String measureddata;
-    private String totalcount;
-    private String pageindex;
-    private String pagesize;
-    private String totalpage;
-
-    public MeasureModel() {
-
-    }
+    private MeauredDataModel measureddata;
 
     @Override
     public String toString() {
@@ -38,11 +30,7 @@ public class MeasureModel {
                 ", upperarmgirth='" + upperarmgirth + '\'' +
                 ", thighgirth='" + thighgirth + '\'' +
                 ", calfgirth='" + calfgirth + '\'' +
-                ", measureddata='" + measureddata + '\'' +
-                ", totalcount='" + totalcount + '\'' +
-                ", pageindex='" + pageindex + '\'' +
-                ", pagesize='" + pagesize + '\'' +
-                ", totalpage='" + totalpage + '\'' +
+                ", measureddata=" + measureddata +
                 '}';
     }
 
@@ -110,59 +98,16 @@ public class MeasureModel {
         this.calfgirth = calfgirth;
     }
 
-    public String getMeasureddata() {
+    public MeauredDataModel getMeasureddata() {
         return measureddata;
     }
 
-    public void setMeasureddata(String measureddata) {
+    public void setMeasureddata(MeauredDataModel measureddata) {
         this.measureddata = measureddata;
     }
 
-    public String getTotalcount() {
-        return totalcount;
+    public MeasureModel() {
+
     }
 
-    public void setTotalcount(String totalcount) {
-        this.totalcount = totalcount;
-    }
-
-    public String getPageindex() {
-        return pageindex;
-    }
-
-    public void setPageindex(String pageindex) {
-        this.pageindex = pageindex;
-    }
-
-    public String getPagesize() {
-        return pagesize;
-    }
-
-    public void setPagesize(String pagesize) {
-        this.pagesize = pagesize;
-    }
-
-    public String getTotalpage() {
-        return totalpage;
-    }
-
-    public void setTotalpage(String totalpage) {
-        this.totalpage = totalpage;
-    }
-
-    public MeasureModel(String phone, String username, String chestgirth, String waistgirth, String hipgirth, String upperarmgirth, String thighgirth, String calfgirth, String measureddata, String totalcount, String pageindex, String pagesize, String totalpage) {
-        this.phone = phone;
-        this.username = username;
-        this.chestgirth = chestgirth;
-        this.waistgirth = waistgirth;
-        this.hipgirth = hipgirth;
-        this.upperarmgirth = upperarmgirth;
-        this.thighgirth = thighgirth;
-        this.calfgirth = calfgirth;
-        this.measureddata = measureddata;
-        this.totalcount = totalcount;
-        this.pageindex = pageindex;
-        this.pagesize = pagesize;
-        this.totalpage = totalpage;
-    }
 }
