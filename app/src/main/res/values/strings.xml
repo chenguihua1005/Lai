@@ -27,7 +27,7 @@
     <string name="app_sure">确定</string>
     <string name="app_exit">退出</string>
     <string name="app_cancel">取消</string>
-    <string name="login_out_title">警告</string>
+    <string name="login_out_title">温馨提示</string>
     <string name="warning">警告</string>
     <string name="warning_value">你确定要移除该班级列表吗？</string>
     <string name="login_out_message">确定退出该账号吗？</string>
