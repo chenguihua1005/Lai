@@ -27,7 +27,7 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp">
+                android:layout_height="50dp">
                 <ImageView
                     android:layout_width="25dp"
                     android:layout_height="25dp"
@@ -39,19 +39,24 @@
                     android:id="@+id/et_phone"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@drawable/border_none"
                     android:paddingLeft="40dp"
                     android:inputType="phone"
-                    android:gravity="bottom"
+                    android:paddingTop="6dp"
                     android:singleLine="true"
                     android:textSize="16sp"
                     android:textColor="#343434"
                     android:hint="@string/phoneNum"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#75BA2B"
+                    android:layout_gravity="bottom" />
             </FrameLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginTop="10dp"
                 android:background="@color/white"
                 android:orientation="horizontal">
 
@@ -64,6 +69,7 @@
                         android:layout_height="25dp"
                         android:scaleType="fitCenter"
                         android:layout_gravity="left|center"
+                        android:layout_marginBottom="-6dp"
                         android:src="@drawable/identify"/>
                     <EditText
                         android:id="@+id/et_identify"
@@ -72,10 +78,16 @@
                         android:paddingLeft="40dp"
                         android:singleLine="true"
                         android:inputType="number"
-                        android:gravity="bottom"
+                        android:paddingTop="6dp"
+                        android:background="@drawable/border_none"
                         android:textSize="16sp"
                         android:textColor="#343434"
                         android:hint="验证码"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#75BA2B"
+                        android:layout_gravity="bottom" />
                 </FrameLayout>
                 <TextView
                     android:id="@+id/tv_get_identify"
@@ -83,7 +95,6 @@
                     android:layout_weight="1.2"
                     android:layout_height="40dp"
                     android:layout_gravity="bottom"
-                    android:layout_marginBottom="3dp"
                     android:gravity="center"
                     android:layout_marginLeft="10dp"
                     android:textColor="#6a6a6a"
@@ -94,11 +105,16 @@
                 android:id="@+id/btn_next"
                 android:layout_marginTop="50dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="40dp"
                 android:background="@drawable/bg_next_btn"
                 android:text="@string/next"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textColor="#ffffff"/>
         </LinearLayout>
     <!--</ScrollView>-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@drawable/buttom"
+        android:layout_alignParentBottom="true"/>
 </RelativeLayout>

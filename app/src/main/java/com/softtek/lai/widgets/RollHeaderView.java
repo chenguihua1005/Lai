@@ -243,8 +243,8 @@ public class RollHeaderView extends FrameLayout implements OnPageChangeListener 
 
             //加载图片
             if (mUrlList.size() > 0) {
-                Picasso.with(mContext).load(mUrlList.get(position % mUrlList.size()))
-                        .error(R.mipmap.ic_launcher).into(iv);
+                Picasso.with(mContext).load(mUrlList.get(position % mUrlList.size())).placeholder(R.drawable.default_pic)
+                        .error(R.drawable.default_pic).into(iv);
             }
             ((ViewPager) container).addView(iv);
 

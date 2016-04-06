@@ -177,4 +177,5 @@
     <string name="gamestC">复测</string>
     <string name="gamestF">荣誉榜</string>
     <string name="gamestG">大赛赛况</string>
+    <string name="phoneOr">手机号/资格证号</string>
 </resources>

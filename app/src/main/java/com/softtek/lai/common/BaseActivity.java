@@ -4,6 +4,7 @@
  */
 package com.softtek.lai.common;
 
+import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -42,6 +43,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(LayoutInjectUtil.getInjectLayoutId(this));
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         Zilla.ACTIVITY = this;
         LifeCircle.onCreate(this);
         initToolbars();

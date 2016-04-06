@@ -58,7 +58,6 @@ public class HomeInfoImpl implements IHomeInfoPresenter {
             EventBus.getDefault().post(infos);
             System.out.println("没有缓存数据");
         }
-        EventBus.getDefault().post(new ModelAdapter(context));
 
     }
 
@@ -85,8 +84,8 @@ public class HomeInfoImpl implements IHomeInfoPresenter {
             @Override
             public void failure(RetrofitError error) {
                 pull.setRefreshing(false);
+                ZillaApi.dealNetError(error);
                 error.printStackTrace();
-                Util.toastMsg(R.string.neterror);
             }
         });
     }

@@ -82,7 +82,7 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener,B
                 Log.i("onPageSelected>>>>>"+position);
                 //页面切换了
                 isClick=false;
-                switch (position){
+                /*switch (position){
                     case 0:
                         btn_home.setBackground(green);
                         btn_healthy.setBackground(white);
@@ -107,7 +107,7 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener,B
                         btn_healthy_record.setBackground(white);
                         btn_mine.setBackground(green);
                         break;
-                }
+                }*/
             }
 
             @Override

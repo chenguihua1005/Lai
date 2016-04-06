@@ -111,7 +111,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
 
         //载入缓存数据
         homeInfoPresenter.loadCacheData();
-
+        gv_model.setAdapter(new ModelAdapter(getContext()));
         gv_model.setOnItemClickListener(this);
         //第一次加载自动刷新
         pull.post(new Runnable() {
@@ -123,11 +123,6 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         onRefresh();
     }
 
-
-    @Subscribe
-    public void onLoadModelFunction(ModelAdapter adapter) {
-        gv_model.setAdapter(adapter);
-    }
 
     @Subscribe
     public void onEventRefresh(List<HomeInfoModel> infos) {

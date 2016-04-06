@@ -130,11 +130,11 @@ public class SimpleButton extends View {
 
 	private void drawTargetText(Canvas canvas, int alpha)
 	{
-		mTextPaint.setColor(0xFFFFFFFF);
+		mTextPaint.setColor(0xFF000000);
 		mTextPaint.setAlpha(alpha);
 		canvas.drawText(mText, dstRect.left + dstRect.width() / 2
 						- mTextBound.width() / 2,
-				dstRect.bottom + mTextBound.height(), mTextPaint);
+				dstRect.bottom + mTextBound.height()+5, mTextPaint);
 
 	}
 

@@ -1,20 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
-  ~ Date:2016-03-25
-  -->
-
 <resources>
     <string-array name="models">
         <item>体管赛</item>
         <item>莱运动</item>
-        <item>日程表</item>
-        <item>莱表格</item>
-        <item>莱秤</item>
         <item>办公室</item>
-        <item>积分商城</item>
+        <item>莱表格</item>
         <item>莱购</item>
-        <item>莱课堂</item>
-        <item>拍照查热量</item>
     </string-array>
 </resources>
