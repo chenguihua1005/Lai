@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mobsandgeeks.saripaar.Rule;
@@ -55,8 +56,8 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
     ValidateLife validateLife;
 
 
-    @InjectView(R.id.tv_left)
-    TextView tv_left;
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
 
     @Required(order = 1, messageResId = R.string.accountValidateNull)
     @InjectView(R.id.edit_account)
@@ -88,7 +89,7 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        tv_left.setOnClickListener(this);
+        ll_left.setOnClickListener(this);
         but_validate.setOnClickListener(this);
         EventBus.getDefault().register(this);
 
@@ -107,8 +108,6 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
     }
     @Override
     protected void initViews() {
-        tv_left.setBackgroundResource(R.drawable.back);
-        //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
         tv_title.setText("身份认证");
 
     }
@@ -151,7 +150,7 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
             case R.id.but_validate:
                 validateLife.validate();
                 break;
-            case R.id.tv_left:
+            case R.id.ll_left:
                 finish();
                 break;
         }
