@@ -222,7 +222,6 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                     String nick = et_nickname.getText().toString();
                     if (LaiApplication.getInstance().getFilterList().contains(new FilterModel(nick))) {
                         et_nickname.setError("该昵称不合法");
-//                    Util.toastMsg("该昵称不合法");
                     } else {
                         validateLife.validate();
                     }
@@ -300,29 +299,106 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
 
 
     //生日对话框
+//    public void show_birth_dialog() {
+//        DatePickerDialog dialog = new DatePickerDialog(
+//                CreatFlleActivity.this, new DatePickerDialog.OnDateSetListener() {
+//            @Override
+//            public void onDateSet(DatePicker view, int year, int month, int day) {
+//                if (year > myear) {
+//                    show_warn_dialog();
+//                }
+//                if (year == myear && month > mmonth) {
+//                    show_warn_dialog();
+//                }
+//                if (year == myear && month == mmonth && day > mday) {
+//                    show_warn_dialog();
+//                } else {
+//                    tv_birth.setText(year + "-" + (month + 1) + "-" + day);
+//                    tv_birth.setError(null);
+//                }
+//            }
+//        }, myear, mmonth, mday);
+//        dialog.setTitle("");
+//        //dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
+//        dialog.show();
+//    }
+
     public void show_birth_dialog() {
-        DatePickerDialog dialog = new DatePickerDialog(
-                CreatFlleActivity.this, new DatePickerDialog.OnDateSetListener() {
+        final Dialog birth_dialog = new Dialog(CreatFlleActivity.this);
+        birth_dialog.setTitle("选择生日(年-月-日)");
+        birth_dialog.setContentView(R.layout.birth_dialog);
+        Button b1 = (Button) birth_dialog.findViewById(R.id.button1);
+//      Button b2 = (Button) height_dialog.findViewById(R.id.button2);
+        final NumberPicker np1 = (NumberPicker) birth_dialog.findViewById(R.id.numberPicker1);
+        np1.setMaxValue(myear);
+        np1.setValue(1960);//
+        np1.setMinValue(1900);
+        np1.setWrapSelectorWheel(false);
+
+        final NumberPicker np2 = (NumberPicker) birth_dialog.findViewById(R.id.numberPicker2);
+        np2.setMaxValue(12);
+        np2.setValue(6);
+        np2.setMinValue(1);
+        np2.setWrapSelectorWheel(false);
+
+        final NumberPicker np3 = (NumberPicker) birth_dialog.findViewById(R.id.numberPicker3);
+        np3.setMaxValue(31);
+        np3.setValue(15);
+        np3.setMinValue(1);
+        np3.setWrapSelectorWheel(false);
+
+        b1.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onDateSet(DatePicker view, int year, int month, int day) {
-                if (year > myear) {
+            public void onClick(View v) {
+                if (np1.getValue()==myear&&np2.getValue()>(mmonth+1)) {
+                    birth_dialog.dismiss();
                     show_warn_dialog();
                 }
-                if (year == myear && month > mmonth) {
-                    show_warn_dialog();
-                }
-                if (year == myear && month == mmonth && day > mday) {
+                if (np1.getValue() == myear && np2.getValue() == (mmonth+1) && np3.getValue() > mday) {
+                    birth_dialog.dismiss();
                     show_warn_dialog();
                 } else {
-                    tv_birth.setText(year + "-" + (month + 1) + "-" + day);
+                    tv_birth.setText(String.valueOf(np1.getValue()) + "-" + String.valueOf(np2.getValue()) + "-" + String.valueOf(np3.getValue()));
                     tv_birth.setError(null);
+                    birth_dialog.dismiss();
                 }
             }
-        }, myear, mmonth, mday);
-        dialog.setTitle("");
-        //dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
-        dialog.show();
-    }
+        });
+//        b2.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View v) {
+//                height_dialog.dismiss(); // dismiss the dialog
+//            }
+//        });
+//        birth_dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
+        birth_dialog.show();
+
+
+
+//        DatePickerDialog dialog = new DatePickerDialog(
+//                CreatFlleActivity.this, new DatePickerDialog.OnDateSetListener() {
+//            @Override
+//            public void onDateSet(DatePicker view, int year, int month, int day) {
+//                if (year > myear) {
+//                    show_warn_dialog();
+//                }
+//                if (year == myear && month > mmonth) {
+//                    show_warn_dialog();
+//                }
+//                if (year == myear && month == mmonth && day > mday) {
+//                    show_warn_dialog();
+//                } else {
+//                    tv_birth.setText(year + "-" + (month + 1) + "-" + day);
+//                    tv_birth.setError(null);
+//                }
+//            }
+//        }, myear, mmonth, mday);
+//        dialog.setTitle("");
+//        //dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
+//        dialog.show();
+   }
+
 
 
     //生日警告对话框

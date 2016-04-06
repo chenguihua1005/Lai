@@ -106,7 +106,7 @@
                 android:layout_height="40dp"
                 android:text="@string/login"
                 android:gravity="center"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:background="@drawable/bg_login_btn"
                 android:textColor="#FFFFFD"/>
 
@@ -117,7 +117,7 @@
                 android:layout_height="40dp"
                 android:text="@string/regist"
                 android:gravity="center"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:background="@drawable/bg_next_btn"
                 android:textColor="#FFFFFd"/>
             
