@@ -165,7 +165,13 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener,B
                 btn_healthy_record.setProgress(progress);
                 break;
             case 3:
-                btn_mine.setProgress(progress);
+                System.out.println("-btn_mine---------");
+                String userrole=UserInfoModel.getInstance().getUser().getUserrole();
+                if(String.valueOf(Constants.VR).equals(userrole)){
+                    startActivity(new Intent(this, LoginActivity.class));
+                }else {
+                    btn_mine.setProgress(progress);
+                }
                 break;
         }
     }
