@@ -32,13 +32,13 @@ public class GetProinfoImpl implements IGetProinfopresenter {
     @Override
     public void getproinfo() {
         String token = SharedPreferenceService.getInstance().get("token", "");
-        service.getproinfo(token,new Callback<ResponseData<List<RankModel>>>() {
+        service.getproinfo(token, new Callback<ResponseData<RankModel>>() {
             @Override
-            public void success(ResponseData<List<RankModel>> rankResponseData, Response response) {
-                int status = rankResponseData.getStatus();
-                switch (status) {
+            public void success(ResponseData<RankModel> rankModelResponseData, Response response) {
+                int status=rankModelResponseData.getStatus();
+                switch (status)
+                {
                     case 200:
-                        EventBus.getDefault().post(new RankEvent(rankResponseData.getData()));
                         Util.toastMsg("获取成功");
                         break;
                     case 502:
@@ -49,8 +49,9 @@ public class GetProinfoImpl implements IGetProinfopresenter {
 
             @Override
             public void failure(RetrofitError error) {
+                ZillaApi.dealNetError(error);
                 error.printStackTrace();
-                Util.toastMsg("服务器异常");
+
             }
         });
     }

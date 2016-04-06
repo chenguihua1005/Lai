@@ -46,11 +46,11 @@ public class RankAdapter extends ArrayAdapter<RankModel> {
         TextView BeforeWeight = (TextView) view.findViewById(R.id.tv_LossBefore);
         TextView LossWeight = (TextView) view.findViewById(R.id.tv_LossWeight);
 
-        ranid.setText(rank.getAccountId() + "");
-        Username.setText(rank.getUserName());
-        AfterWeight.setText(rank.getAfterWeight() + "");
-        BeforeWeight.setText(rank.getBeforeWight() + "");
-        LossWeight.setText(rank.getLoseWeight()+ "");
+//        ranid.setText(RankModel.getAccountId() + "");
+//        Username.setText(rank.getUserName());
+//        AfterWeight.setText(rank.getAfterWeight() + "");
+//        BeforeWeight.setText(rank.getBeforeWight() + "");
+//        LossWeight.setText(rank.getLoseWeight()+ "");
         return view;
     }
 }
