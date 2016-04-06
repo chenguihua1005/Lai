@@ -112,7 +112,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
 
         if ("".equals(certification)) {
             text_state.setText("未认证");
-            text_state.setTextColor(getResources().getColor(R.color.grey));
+            text_state.setTextColor(getResources().getColor(R.color.grey_font));
         } else {
             text_state.setText("已认证");
             text_state.setTextColor(getResources().getColor(R.color.green));
