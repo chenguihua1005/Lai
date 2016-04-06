@@ -51,6 +51,8 @@ public class CreateFileImpl implements ICreateFilepresenter {
                     case 100:
                         Util.toastMsg("创建档案失败");
                         break;
+                    case 101:
+                        Util.toastMsg("该昵称不合法");
                 }
 
             }
