@@ -11,7 +11,7 @@ import java.io.Serializable;
  * Created by jerry.guan on 3/3/2016.
  */
 public class UserModel implements Serializable {
-
+    public static final long serialVersionUID =-4337235045541814883L;
     private String token;
 
     private String userid;

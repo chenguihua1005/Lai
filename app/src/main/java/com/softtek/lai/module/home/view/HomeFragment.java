@@ -31,6 +31,7 @@ import com.softtek.lai.module.home.model.HomeInfoModel;
 import com.softtek.lai.module.home.presenter.HomeInfoImpl;
 import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
 import com.softtek.lai.module.login.model.UserModel;
+import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.login.view.LoginActivity1;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.module.retest.present.RetestclassImp;
@@ -198,7 +199,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                     .setAction("确定", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            startActivity(new Intent(getContext(), LoginActivity1.class));
+                            startActivity(new Intent(getContext(), LoginActivity.class));
                         }
                     }).show();
             return;

@@ -49,6 +49,7 @@
                         android:layout_height="match_parent"
                         android:hint="@string/phoneNum"
                         android:inputType="phone"
+                        android:textCursorDrawable="@drawable/color_cursor"
                         android:paddingLeft="40dp"
                         android:background="@drawable/border_none"
                         android:paddingTop="6dp"
@@ -77,6 +78,7 @@
                         android:id="@+id/et_password"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:textCursorDrawable="@drawable/color_cursor"
                         android:hint="@string/passwordReg"
                         android:paddingTop="6dp"
                         android:inputType="textPassword"
@@ -109,6 +111,7 @@
                         android:layout_height="match_parent"
                         android:hint="@string/repassword"
                         android:background="@drawable/border_none"
+                        android:textCursorDrawable="@drawable/color_cursor"
                         android:inputType="textPassword"
                         android:paddingTop="6dp"
                         android:paddingLeft="40dp"
@@ -149,6 +152,7 @@
                             android:paddingLeft="40dp"
                             android:singleLine="true"
                             android:paddingTop="6dp"
+                            android:textCursorDrawable="@drawable/color_cursor"
                             android:background="@drawable/border_none"
                             android:textSize="16sp" />
                         <View
