@@ -50,7 +50,8 @@ public class LoginPresenterImpl implements ILoginPresenter {
                 switch (status) {
                     case 200:
                         UserModel model = UserInfoModel.getInstance().getUser();
-                        model.setCertTime(userResponseData.getData().getCertTime());
+                        String time=userResponseData.getData().getCertTime().split(" ")[0];
+                        model.setCertTime(time);
                         String role=userResponseData.getData().getRole();
                         if("NC".equals(role)){
                             model.setUserrole("0");
@@ -65,7 +66,7 @@ public class LoginPresenterImpl implements ILoginPresenter {
                         }else if("VR".equals(role)){
                             model.setUserrole("5");
                         }
-                        EventBus.getDefault().post(userResponseData.getData());
+                        //EventBus.getDefault().post(userResponseData.getData());
                         ((AppCompatActivity) context).finish();
                         break;
                     default:

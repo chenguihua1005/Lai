@@ -8,14 +8,14 @@ import java.io.Serializable;
 public class RoleInfo implements Serializable{
 
     private String Role;
-    private String certTime;
+    private String CertTime;
 
     public String getCertTime() {
-        return certTime;
+        return CertTime;
     }
 
-    public void setCertTime(String certTime) {
-        this.certTime = certTime;
+    public void setCertTime(String CertTime) {
+        this.CertTime = CertTime;
     }
 
     public String getRole() {
@@ -30,7 +30,7 @@ public class RoleInfo implements Serializable{
     public String toString() {
         return "RoleInfo{" +
                 "Role='" + Role + '\'' +
-                ", certTime='" + certTime + '\'' +
+                ", CertTime='" + CertTime + '\'' +
                 '}';
     }
 }

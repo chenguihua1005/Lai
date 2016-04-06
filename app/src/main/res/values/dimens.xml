@@ -88,12 +88,13 @@
     <dimen name="fragmentMineTextSizes">14sp</dimen>
 
     <dimen name="validateCertificationMargin">20dip</dimen>
+    <dimen name="validateCertificationMargins">10dip</dimen>
     <dimen name="validateCertificationMarginTop">80dip</dimen>
     <dimen name="validateCertificationMargin1">30dip</dimen>
     <dimen name="validateCertificationMarginLeft1">40dip</dimen>
-    <dimen name="validateCertificationMarginLeft">10dip</dimen>
+    <dimen name="validateCertificationMarginLeft">5dip</dimen>
     <dimen name="validateCertificationTextSize">16sp</dimen>
-    <dimen name="validateCertificationResultTextSize">18sp</dimen>
+    <dimen name="validateCertificationResultTextSize">16sp</dimen>
     <dimen name="validateCertificationTextSizes">14sp</dimen>
 
     <dimen name="studentScoreTextSize">16sp</dimen>

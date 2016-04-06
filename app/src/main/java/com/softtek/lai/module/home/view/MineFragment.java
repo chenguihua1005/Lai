@@ -85,8 +85,15 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         lin_not_vr.setOnClickListener(this);
         lin_is_vr.setOnClickListener(this);
         but_login.setOnClickListener(this);
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
         model = UserInfoModel.getInstance().getUser();
-        String userrole=model.getUserrole();
+        String userrole = model.getUserrole();
         if (String.valueOf(Constants.VR).equals(userrole)) {
             lin_not_vr.setVisibility(View.GONE);
             lin_is_vr.setVisibility(View.VISIBLE);
@@ -95,13 +102,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
             lin_is_vr.setVisibility(View.GONE);
         }
 
-    }
-
-    @Override
-    protected void initDatas() {
-        aCache = ACache.get(getContext(), Constants.USER_ACACHE_DATA_DIR);
-        title.setText("我的");
-
         if ("".equals(model.getNickname())) {
             text_name.setText(model.getMobile().toString());
         } else {
@@ -109,16 +109,21 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         }
 
         String certification = model.getCertification().toString();
-
-        if ("".equals(certification)) {
-            text_state.setText("未认证");
-            text_state.setTextColor(getResources().getColor(R.color.grey_font));
-        } else {
+        if (String.valueOf(Constants.SR).equals(userrole) || String.valueOf(Constants.PC).equals(userrole) || String.valueOf(Constants.SP).equals(userrole)) {
             text_state.setText("已认证");
             text_state.setTextColor(getResources().getColor(R.color.green));
+        } else {
+            text_state.setText("未认证");
+            text_state.setTextColor(getResources().getColor(R.color.grey_font));
         }
 
         text_zgzh.setText(certification);
+    }
+
+    @Override
+    protected void initDatas() {
+        aCache = ACache.get(getContext(), Constants.USER_ACACHE_DATA_DIR);
+        title.setText("我的");
 
     }
 
@@ -152,7 +157,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
 
                 break;
             case R.id.but_login:
-                startActivity(new Intent(getContext(),LoginActivity.class));
+                startActivity(new Intent(getContext(), LoginActivity.class));
                 break;
 
             case R.id.lin_not_vr:

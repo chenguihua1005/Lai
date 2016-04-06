@@ -20,7 +20,10 @@
             android:id="@+id/lin_result"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/validateCertificationMargin">
+            android:layout_marginLeft="@dimen/validateCertificationMargins"
+            android:layout_marginRight="@dimen/validateCertificationMargins"
+            android:layout_marginTop="@dimen/validateCertificationMargin"
+            android:layout_marginBottom="@dimen/validateCertificationMargin">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -70,6 +73,7 @@
             android:background="@drawable/border_none"
             android:textColor="@color/word"
             android:layout_marginLeft="@dimen/validateCertificationMarginLeft"
+            android:singleLine="true"
             android:textCursorDrawable="@null"
             android:textSize="@dimen/validateCertificationTextSize" />
     </LinearLayout>
@@ -107,6 +111,7 @@
             android:password="true"
             android:layout_marginLeft="@dimen/validateCertificationMarginLeft"
             android:textColor="@color/word"
+            android:singleLine="true"
             android:textCursorDrawable="@null"
             android:textSize="@dimen/validateCertificationTextSize" />
     </LinearLayout>

@@ -119,6 +119,8 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
         aCache = ACache.get(this, Constants.USER_ACACHE_DATA_DIR);
 
         setData();
+        edit_password.setText("");
+        edit_account.setText("");
     }
     private void setData(){
         model = UserInfoModel.getInstance().getUser();
@@ -163,9 +165,9 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
 
     @Override
     public void onValidationSucceeded() {
-        String account = edit_account.getText().toString();
+        String account = model.getUserid().toString();
         String password = edit_password.getText().toString();
-        String memberId = "CN1357499";
+        String memberId = edit_account.getText().toString();
         loginPresenter.alidateCertification(memberId, password, account);
     }
 
