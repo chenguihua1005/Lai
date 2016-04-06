@@ -14,4 +14,5 @@ public interface ITiGuanSai {
 
     void doGetFuceNum(long id);
     void doGetTips();
+    void doGetTipsDetail(long id);
 }
