@@ -41,12 +41,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @LifeCircleInject
     ValidateLife validateLife;
 
-    @Required(order = 1,messageResId = R.string.phoneValidateNull)
-    @Regex(order = 2,patternResId = R.string.phonePattern,messageResId = R.string.phoneValidate)
+    @Required(order = 1,messageResId = R.string.phoneValidateNullLogin)
+    //@Regex(order = 2,patternResId = R.string.phonePattern,messageResId = R.string.phoneValidate)
     @InjectView(R.id.et_phone)
     EditText et_phone;
 
-    @Required(order = 3,messageResId = R.string.passwordValidateNull)
+    @Required(order = 2,messageResId = R.string.passwordValidateNull)
     @InjectView(R.id.et_password)
     EditText et_password;
 

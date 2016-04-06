@@ -41,25 +41,25 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#78BC27" />
-                <LinearLayout
-                    android:id="@+id/ll_certification"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-                    <EditText
-                        android:id="@+id/et_certification"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
-                        android:background="@null"
-                        android:hint="资格证号（选填）"
-                        android:singleLine="true" />
-                    </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#78BC27" />
+                <!--<LinearLayout-->
+                    <!--android:id="@+id/ll_certification"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="50dp"-->
+                    <!--android:gravity="center_vertical"-->
+                    <!--android:orientation="horizontal">-->
+                    <!--<EditText-->
+                        <!--android:id="@+id/et_certification"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginLeft="30dp"-->
+                        <!--android:background="@null"-->
+                        <!--android:hint="资格证号（选填）"-->
+                        <!--android:singleLine="true" />-->
+                    <!--</LinearLayout>-->
+                <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="1dp"-->
+                    <!--android:background="#78BC27" />-->
                 <LinearLayout
                         android:id="@+id/ll_mobile"
                         android:layout_width="match_parent"

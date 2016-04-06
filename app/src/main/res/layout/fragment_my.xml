@@ -10,229 +10,268 @@
         layout="@layout/toolbar" />
 
     <LinearLayout
+        android:id="@+id/lin_not_vr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/fragmentMineMargin">
+        android:orientation="vertical"
+        android:visibility="gone">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/white">
+            android:layout_marginTop="@dimen/fragmentMineMargin">
 
-            <com.softtek.lai.widgets.CircleImageView
-                android:id="@+id/img"
-                android:layout_width="@dimen/circleImage"
-                android:layout_height="@dimen/circleImage"
-                android:layout_margin="@dimen/fragmentMineMargin"
-                android:src="@drawable/img_default" />
-
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/img"
-                android:orientation="vertical">
+                android:background="@color/white">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Name"
-                    android:textSize="@dimen/fragmentMineTextSize" />
+                <com.softtek.lai.widgets.CircleImageView
+                    android:id="@+id/img"
+                    android:layout_width="@dimen/circleImage"
+                    android:layout_height="@dimen/circleImage"
+                    android:layout_margin="@dimen/fragmentMineMargin"
+                    android:src="@drawable/img_default" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/fragmentMineMarginTop">
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/img"
+                    android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/text_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="资格证号："
+                        android:text="Name"
                         android:textSize="@dimen/fragmentMineTextSize" />
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="123456"
-                        android:textSize="@dimen/fragmentMineTextSize" />
+                        android:layout_marginTop="@dimen/fragmentMineMarginTop">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="资格证号："
+                            android:textSize="@dimen/fragmentMineTextSize" />
+
+                        <TextView
+                            android:id="@+id/text_zgzh"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="123456"
+                            android:textSize="@dimen/fragmentMineTextSize" />
+                    </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_margin="@dimen/fragmentMineMargin" />
-        </RelativeLayout>
-    </LinearLayout>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="@dimen/fragmentMineMargin" />
+            </RelativeLayout>
+        </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/lin_validate_certification"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rel_info"
-        android:layout_marginTop="@dimen/fragmentMineMargin"
-        android:background="@color/white">
-
-        <RelativeLayout
+        <LinearLayout
+            android:id="@+id/lin_validate_certification"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/fragmentMineMargin">
+            android:layout_below="@+id/rel_info"
+            android:layout_marginTop="@dimen/fragmentMineMargin"
+            android:background="@color/white">
 
-            <ImageView
-                android:id="@+id/img1"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:src="@drawable/img_sfrz" />
+                android:layout_margin="@dimen/fragmentMineMargin">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/fragmentMineMarginLeft"
-                android:layout_toRightOf="@+id/img1"
-                android:text="@string/fragmentRenzheng"
-                android:textColor="@color/word"
-                android:textSize="@dimen/fragmentMineTextSize" />
+                <ImageView
+                    android:id="@+id/img1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/img_sfrz" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/mine_more" />
-        </RelativeLayout>
-    </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/fragmentMineMarginLeft"
+                    android:layout_toRightOf="@+id/img1"
+                    android:text="@string/fragmentRenzheng"
+                    android:textColor="@color/word"
+                    android:textSize="@dimen/fragmentMineTextSize" />
 
-    <LinearLayout
-        android:id="@+id/lin_setting"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/lin_validate_certification"
-        android:layout_marginTop="1dip"
-        android:background="@color/white">
+                <TextView
+                    android:id="@+id/text_state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/fragmentMineMarginTop"
+                    android:layout_toLeftOf="@+id/img_1"
+                    android:text="已认证"
+                    android:textSize="@dimen/fragmentMineTextSize" />
 
-        <RelativeLayout
+                <ImageView
+                    android:id="@+id/img_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/mine_more" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lin_setting"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/fragmentMineMargin">
+            android:layout_below="@+id/lin_validate_certification"
+            android:layout_marginTop="1dip"
+            android:background="@color/white">
 
-            <ImageView
-                android:id="@+id/img2"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:src="@drawable/img_settings" />
+                android:layout_margin="@dimen/fragmentMineMargin">
 
-            <TextView
-                android:layout_width="wrap_content"
+                <ImageView
+                    android:id="@+id/img2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/img_settings" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/fragmentMineMarginLeft"
+                    android:layout_toRightOf="@+id/img2"
+                    android:text="@string/fragmentSetting"
+                    android:textColor="@color/word"
+                    android:textSize="@dimen/fragmentMineTextSize" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/mine_more" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lin_reset_password"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lin_setting"
+            android:layout_marginTop="1dip"
+            android:background="@color/white">
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/fragmentMineMarginLeft"
-                android:layout_toRightOf="@+id/img2"
-                android:text="@string/fragmentSetting"
-                android:textColor="@color/word"
-                android:textSize="@dimen/fragmentMineTextSize" />
+                android:layout_margin="@dimen/fragmentMineMargin">
 
-            <ImageView
-                android:layout_width="wrap_content"
+                <ImageView
+                    android:id="@+id/img3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/img_reset" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/fragmentMineMarginLeft"
+                    android:layout_toRightOf="@+id/img3"
+                    android:text="@string/fragmentResetPassword"
+                    android:textColor="@color/word"
+                    android:textSize="@dimen/fragmentMineTextSize" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/mine_more" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lin_zx"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lin_setting"
+            android:layout_marginTop="1dip"
+            android:background="@color/white"
+
+            android:visibility="invisible">
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/mine_more" />
-        </RelativeLayout>
-    </LinearLayout>
+                android:layout_margin="@dimen/fragmentMineMargin">
 
-    <LinearLayout
-        android:id="@+id/lin_reset_password"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/lin_setting"
-        android:background="@color/white"
-        android:layout_marginTop="1dip">
+                <ImageView
+                    android:id="@+id/img4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/img_zx" />
 
-        <RelativeLayout
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/fragmentMineMarginLeft"
+                    android:layout_toRightOf="@+id/img4"
+                    android:text="@string/fragmentzx"
+                    android:textColor="@color/word"
+                    android:textSize="@dimen/fragmentMineTextSize" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/mine_more" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/but_login_out"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/fragmentMineMargin"
-           >
-
-            <ImageView
-                android:id="@+id/img3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:src="@drawable/img_reset" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/fragmentMineMarginLeft"
-                android:layout_toRightOf="@+id/img3"
-                android:text="@string/fragmentResetPassword"
-                android:textColor="@color/word"
-                android:textSize="@dimen/fragmentMineTextSize" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/mine_more" />
-        </RelativeLayout>
+            android:background="@drawable/bg_loginout_btn"
+            android:text="退出当前账号"
+            android:textColor="@color/white" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/lin_zx"
-        android:layout_width="fill_parent"
+        android:id="@+id/lin_is_vr"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/lin_setting"
-        android:background="@color/white"
-        android:layout_marginTop="1dip">
+        android:orientation="vertical">
 
-        <RelativeLayout
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/default_pic" />
+
+        <Button
+            android:id="@+id/but_login"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/fragmentMineMargin"
-            >
-
-            <ImageView
-                android:id="@+id/img4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:src="@drawable/img_zx" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/fragmentMineMarginLeft"
-                android:layout_toRightOf="@+id/img4"
-                android:text="@string/fragmentzx"
-                android:textColor="@color/word"
-                android:textSize="@dimen/fragmentMineTextSize" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/mine_more" />
-        </RelativeLayout>
+            android:background="@drawable/bg_login_btn"
+            android:text="立即登录" />
     </LinearLayout>
-
-
-    <Button
-        android:id="@+id/but_login_out"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:layout_margin="@dimen/fragmentMineMargin"
-        android:background="@drawable/bg_loginout_btn"
-        android:text="退出当前账号" />
 </LinearLayout>
 

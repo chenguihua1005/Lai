@@ -89,8 +89,8 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
     EditText et_nickname;
 
     //资格证号
-    @InjectView(R.id.et_certification)
-    EditText et_certification;
+//    @InjectView(R.id.et_certification)
+//    EditText et_certification;
 
     @Required(order = 2, message = "手机号码必填项")
     @Regex(order = 3, patternResId = R.string.phonePattern, messageResId = R.string.phoneValidate)
@@ -335,7 +335,7 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void onValidationSucceeded() {
         String nickname = et_nickname.getText().toString();
-        String certification = et_certification.getText().toString();
+       // String certification = et_certification.getText().toString();
         String mobile = et_mobile.getText().toString();
         String classid = et_classid.getText().toString();
         String weight = et_weight.getText().toString();
@@ -343,7 +343,7 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
         String fat = et_fat.getText().toString();
         String birthday = et_birthday.getText().toString();
         String gender = et_gender.getText().toString();
-        Log.i("新学员录入：" + "nickname:" + nickname + ";certification:" + certification + ";mobile:" + mobile + ";classid:" + classid + ";weight:" + weight + "pysical:" + pysical + "fat:" + fat + "birthday:" + birthday + "gender:" + gender);
+        Log.i("新学员录入：" + "nickname:" + nickname + ";mobile:" + mobile + ";classid:" + classid + ";weight:" + weight + "pysical:" + pysical + "fat:" + fat + "birthday:" + birthday + "gender:" + gender);
 
         String b = mobile.substring(mobile.length() - 6, mobile.length());
         Log.i("获取新学员录入手机号码后6位：" + b);
@@ -351,7 +351,7 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
         newstudentsModel.setPassword(b);
         newstudentsModel.setSentaccid(1);
         newstudentsModel.setNickname(nickname);
-        newstudentsModel.setCertification(certification);
+        //newstudentsModel.setCertification(certification);
         newstudentsModel.setMobile(mobile);
         newstudentsModel.setClassid(Integer.parseInt(classid));
        // newstudentsModel.setClassid(classid);

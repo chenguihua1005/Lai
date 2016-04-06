@@ -71,6 +71,9 @@ public class UserInfoModel {
         user.setUserrole(String.valueOf(Constants.VR));
         user.setToken(token);
         user.setNickname("游客");
+        user.setCertification("");
+        user.setCertTime("");
+        user.setMobile("");
         setUser(user);
         //存储本地
         aCache.put(Constants.USER_ACACHE_KEY,user);
