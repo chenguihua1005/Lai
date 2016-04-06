@@ -91,18 +91,18 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
         tv_right.setText("分享");
     }
 
-    @Subscribe
-    public void onEvent(RankEvent rankEvent) {
-        System.out.println("rankEvent.getRanks()》》》》》》》》》》》》》》" + rankEvent.getRanks());
-        List<RankModel> ranks = rankEvent.getRanks();
-        for (RankModel rk : ranks) {
-            //System.out.println("》》》》》》》" + "AccountId:" + rk.getAccountId() + "ClassIdModel:" + rk.getClassId() + "OrderNum:" + rk.getOrderNum() + "UserName:" + rk.getUserName() + "LossAfter:" + rk.getLossAfter() + "LossBefor:" + rk.getLossBefor() + "LossWeght:" + rk.getLossWeght());
-            RankModel r1 = new RankModel(rk.getAccountId(),rk.getBeforeWight(),rk.getAfterWeight(),rk.getLoseWeight(),rk.getUserName());
-            rankList.add(r1);
-        }
-        rankAdapter.updateData(rankList);
-        Log.i("rankList>>>>>>>>>>>>>>", "" + rankList);
-    }
+//    @Subscribe
+//    public void onEvent(RankEvent rankEvent) {
+//        System.out.println("rankEvent.getRanks()》》》》》》》》》》》》》》" + rankEvent.getRanks());
+//        List<RankModel> ranks = rankEvent.getRanks();
+//        for (RankModel rk : ranks) {
+//            //System.out.println("》》》》》》》" + "AccountId:" + rk.getAccountId() + "ClassIdModel:" + rk.getClassId() + "OrderNum:" + rk.getOrderNum() + "UserName:" + rk.getUserName() + "LossAfter:" + rk.getLossAfter() + "LossBefor:" + rk.getLossBefor() + "LossWeght:" + rk.getLossWeght());
+//            RankModel r1 = new RankModel(rk.getAccountId(),rk.getBeforeWight(),rk.getAfterWeight(),rk.getLoseWeight(),rk.getUserName());
+//            rankList.add(r1);
+//        }
+//        rankAdapter.updateData(rankList);
+//        Log.i("rankList>>>>>>>>>>>>>>", "" + rankList);
+//    }
 
     @Override
     public void onClick(View v) {

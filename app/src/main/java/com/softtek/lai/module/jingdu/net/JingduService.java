@@ -20,5 +20,5 @@ import java.util.List;
 public interface JingduService {
     @GET("/Index/GetCurrentProgress")
     void getproinfo(@Header("token") String token,
-                    Callback<ResponseData<List<RankModel>>> callback);
+                    Callback<ResponseData<RankModel>> callback);
 }
