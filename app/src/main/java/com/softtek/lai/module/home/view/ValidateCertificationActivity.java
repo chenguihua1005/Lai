@@ -127,7 +127,7 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
         if("".equals(model.getCertTime().toString())){
             text_time.setText("");
         }else {
-            text_time.setText("(上次认证时间："+model.getCertTime().toString()+")");
+            text_time.setText("(上次认证时间："+model.getCertTime().toString().split(" ")[0]+")");
         }
         String userrole=model.getUserrole();
         if (String.valueOf(Constants.VR).equals(userrole)) {
