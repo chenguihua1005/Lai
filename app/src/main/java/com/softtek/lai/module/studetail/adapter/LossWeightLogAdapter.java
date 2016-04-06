@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
+import com.softtek.lai.module.studetail.model.LossWeightLogModel;
 
 import java.util.List;
 
@@ -19,9 +20,9 @@ import java.util.List;
 public class LossWeightLogAdapter extends BaseAdapter{
 
     private LayoutInflater inflater;
-    private List logs;
+    private List<LossWeightLogModel> logs;
 
-    public  LossWeightLogAdapter(Context context,List logs){
+    public  LossWeightLogAdapter(Context context,List<LossWeightLogModel> logs){
         inflater=LayoutInflater.from(context);
         this.logs=logs;
     }
@@ -51,7 +52,7 @@ public class LossWeightLogAdapter extends BaseAdapter{
         }else {
             holder= (LogHolder) convertView.getTag();
         }
-
+        LossWeightLogModel log=logs.get(position-2);
         return convertView;
     }
 

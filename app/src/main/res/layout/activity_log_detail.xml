@@ -34,6 +34,7 @@
                 android:src="@drawable/testheader"/>
 
             <TextView
+                android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
@@ -60,6 +61,7 @@
                         android:layout_marginLeft="10dp"
                         android:textColor="@color/white"/>
                     <TextView
+                        android:id="@+id/tv_totle_lw"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
@@ -76,6 +78,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"/>
         <TextView
+            android:id="@+id/tv_log_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
@@ -98,6 +101,7 @@
             android:stretchMode="columnWidth"
             />
         <TextView
+            android:id="@+id/tv_content"
             android:padding="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -111,6 +115,7 @@
              android:layout_marginRight="20dp"
              android:layout_marginLeft="20dp">
              <TextView
+                 android:id="@+id/tv_date"
                  android:layout_width="wrap_content"
                  android:layout_height="match_parent"
                  android:textSize="16sp"

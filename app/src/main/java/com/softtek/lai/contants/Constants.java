@@ -88,4 +88,12 @@ public class Constants {
     public static final int ACTIVITY_RECORD=1;
     public static final int PRODUCT_INFO=2;
     public static final int SALE_INFO=6;
+
+    /**
+     * 刷新和加载标识
+     * 0：刷新
+     * 1：加载
+     */
+    public static final int REFRESH=0;
+    public static final int LOADING=1;
 }

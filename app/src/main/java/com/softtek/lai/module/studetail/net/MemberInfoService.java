@@ -6,6 +6,7 @@
 package com.softtek.lai.module.studetail.net;
 
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.module.studetail.model.LossWeightLogModel;
 import com.softtek.lai.module.studetail.model.MemberModel;
 import com.softtek.lai.module.studetail.model.StudentLinChartInfoModel;
 
@@ -37,6 +38,7 @@ public interface MemberInfoService {
     //获取学员减重日志
     @GET("/CompetitionLog/GetCompetitionLog")
     void getCompetitionLog(@Header("token")String token,
-                           @Query("accountId")String accountId);
+                           @Query("accountId")long accountId,
+                           Callback<ResponseData<List<LossWeightLogModel>>> callback);
 
 }

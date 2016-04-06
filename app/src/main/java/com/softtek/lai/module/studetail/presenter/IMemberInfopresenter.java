@@ -7,6 +7,8 @@ package com.softtek.lai.module.studetail.presenter;
 
 import android.app.ProgressDialog;
 
+import com.softtek.lai.module.studetail.eventModel.LogEvent;
+
 /**
  * Created by julie.zhu on 3/22/2016.
  */
@@ -15,4 +17,8 @@ public interface IMemberInfopresenter {
     void getMemberinfo(String classId, String userId, ProgressDialog progressDialog);
 
     void getLossWeightChatData(String userId,String classId);
+
+    void getLossWeigthLogList(int flag,long accountId);
+
+    LogEvent loadLogListCache();
 }
