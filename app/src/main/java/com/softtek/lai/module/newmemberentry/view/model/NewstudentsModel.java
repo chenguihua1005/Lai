@@ -14,7 +14,7 @@ public class NewstudentsModel implements Serializable {
 
     private long sentaccid; //Sp id
     private String nickname;    //昵称:必填
-    private String certification;//资格证号: 选填
+   // private String certification;//资格证号: 选填
     private String password;    //密码：手机号码后6位
     private String mobile;  //手机号码: 必填
     private int classid; //参赛班级:必填
@@ -36,7 +36,6 @@ public class NewstudentsModel implements Serializable {
         return "NewstudentsModel{" +
                 "sentaccid=" + sentaccid +
                 ", nickname='" + nickname + '\'' +
-                ", certification='" + certification + '\'' +
                 ", password=" + password +
                 ", mobile='" + mobile + '\'' +
                 ", classid='" + classid + '\'' +
@@ -69,14 +68,6 @@ public class NewstudentsModel implements Serializable {
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
-    }
-
-    public String getCertification() {
-        return certification;
-    }
-
-    public void setCertification(String certification) {
-        this.certification = certification;
     }
 
     public String getPassword() {
@@ -199,10 +190,9 @@ public class NewstudentsModel implements Serializable {
         this.doleggirth = doleggirth;
     }
 
-    public NewstudentsModel(long sentaccid, String nickname, String certification, String password, String mobile, int classid, double weight, double pysical, double fat, String birthday, int gender, String photo, double circum, double waistline, double hiplie, double uparmgirth, double upleggirth, double doleggirth) {
+    public NewstudentsModel(long sentaccid, String nickname, String password, String mobile, int classid, double weight, double pysical, double fat, String birthday, int gender, String photo, double circum, double waistline, double hiplie, double uparmgirth, double upleggirth, double doleggirth) {
         this.sentaccid = sentaccid;
         this.nickname = nickname;
-        this.certification = certification;
         this.password = password;
         this.mobile = mobile;
         this.classid = classid;

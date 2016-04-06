@@ -34,23 +34,23 @@ public class RankAdapter extends ArrayAdapter<RankModel> {
     public void updateData(List<RankModel> rankList) {
         this.rankList = rankList;
         notifyDataSetChanged();
-        ;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         RankModel rank = getItem(position);
         View view = LayoutInflater.from(getContext()).inflate(resourceId, null);
-        TextView ran = (TextView) view.findViewById(R.id.tv_rank);
-        TextView name = (TextView) view.findViewById(R.id.tv_name);
-        TextView LossAfter = (TextView) view.findViewById(R.id.tv_LossAfter);
-        TextView LossBefore = (TextView) view.findViewById(R.id.tv_LossBefore);
+        TextView ranid = (TextView) view.findViewById(R.id.tv_rank);
+        TextView Username = (TextView) view.findViewById(R.id.tv_name);
+        TextView AfterWeight = (TextView) view.findViewById(R.id.tv_LossAfter);
+        TextView BeforeWeight = (TextView) view.findViewById(R.id.tv_LossBefore);
         TextView LossWeight = (TextView) view.findViewById(R.id.tv_LossWeight);
-        ran.setText(rank.getOrderNum() + "");
-        name.setText(rank.getUserName());
-        LossAfter.setText(rank.getLossAfter() + "");
-        LossBefore.setText(rank.getLossBefor() + "");
-        LossWeight.setText(rank.getLossAfter() + "");
+
+        ranid.setText(rank.getAccountId() + "");
+        Username.setText(rank.getUserName());
+        AfterWeight.setText(rank.getAfterWeight() + "");
+        BeforeWeight.setText(rank.getBeforeWight() + "");
+        LossWeight.setText(rank.getLoseWeight()+ "");
         return view;
     }
 }
