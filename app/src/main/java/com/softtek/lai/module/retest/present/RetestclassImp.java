@@ -11,9 +11,11 @@ import com.softtek.lai.module.retest.eventModel.StudentEvent;
 import com.softtek.lai.module.retest.model.BanjiModel;
 import com.softtek.lai.module.retest.model.BanjiStudentModel;
 import com.softtek.lai.module.retest.model.ClientModel;
+import com.softtek.lai.module.retest.model.MeasureModel;
 import com.softtek.lai.module.retest.model.RetestAuditModel;
 import com.softtek.lai.module.retest.model.RetestWriteModel;
 import com.softtek.lai.module.retest.model.StudentModel;
+import com.softtek.lai.module.retest.net.LaiChenService;
 import com.softtek.lai.module.retest.net.RestService;
 
 import org.greenrobot.eventbus.EventBus;
@@ -22,6 +24,7 @@ import java.io.File;
 import java.util.List;
 
 import retrofit.Callback;
+import retrofit.RequestInterceptor;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import retrofit.mime.TypedFile;
@@ -34,9 +37,16 @@ import zilla.libcore.util.Util;
  */
 public class RetestclassImp implements RetestPre{
     private RestService service;
+    private LaiChenService laiChenService;
 
     public  RetestclassImp(){
         service= ZillaApi.NormalRestAdapter.create(RestService.class);
+        laiChenService=ZillaApi.getCustomRESTAdapter("http://qa-api.yunyingyang.com", new RequestInterceptor() {
+            @Override
+            public void intercept(RequestFacade request) {
+
+            }
+        }).create(LaiChenService.class);
     }
 
     @Override
@@ -244,15 +254,37 @@ public class RetestclassImp implements RetestPre{
             }
         });
     }
-
+//laichen
     @Override
     public void doGetMeasure(String accesstoken, String phone) {
+
+        laiChenService.doGetMeasure(accesstoken, phone, new Callback<ResponseData<MeasureModel>>() {
+            @Override
+            public void success(ResponseData<MeasureModel> measureModelResponseData, Response response) {
+                int status=measureModelResponseData.getStatus();
+                switch (status)
+                {
+                    case 200:
+                        Util.toastMsg("成功");
+                        break;
+                    default:Util.toastMsg("失败");
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
+            }
+        });
 
     }
 
     @Override
     public void doPostClient(String grant_type, String client_id, String client_secret) {
-        service.doPostClient(grant_type, client_id, client_secret, new Callback<ResponseData<ClientModel>>() {
+        laiChenService.doPostClient(grant_type, client_id, client_secret, new Callback<ResponseData<ClientModel>>() {
             @Override
             public void success(ResponseData<ClientModel> clientModelResponseData, Response response) {
                 int status=clientModelResponseData.getStatus();

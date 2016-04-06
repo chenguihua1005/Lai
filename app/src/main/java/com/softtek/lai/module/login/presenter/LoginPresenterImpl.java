@@ -16,6 +16,9 @@ import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.login.model.RoleInfo;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.net.LoginService;
+
+import org.greenrobot.eventbus.EventBus;
+
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -46,6 +49,24 @@ public class LoginPresenterImpl implements ILoginPresenter {
                 int status = userResponseData.getStatus();
                 switch (status) {
                     case 200:
+                        UserModel model = UserInfoModel.getInstance().getUser();
+                        String time=userResponseData.getData().getCertTime().split(" ")[0];
+                        model.setCertTime(time);
+                        String role=userResponseData.getData().getRole();
+                        if("NC".equals(role)){
+                            model.setUserrole("0");
+                        }else if("PC".equals(role)){
+                            model.setUserrole("1");
+                        }else if("SR".equals(role)){
+                            model.setUserrole("2");
+                        }else if("SP".equals(role)){
+                            model.setUserrole("3");
+                        }else if("INC".equals(role)){
+                            model.setUserrole("4");
+                        }else if("VR".equals(role)){
+                            model.setUserrole("5");
+                        }
+                        //EventBus.getDefault().post(userResponseData.getData());
                         ((AppCompatActivity) context).finish();
                         break;
                     default:

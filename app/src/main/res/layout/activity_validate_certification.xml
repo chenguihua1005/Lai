@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <include
@@ -19,13 +20,17 @@
             android:id="@+id/lin_result"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/validateCertificationMargin">
+            android:layout_marginLeft="@dimen/validateCertificationMargins"
+            android:layout_marginRight="@dimen/validateCertificationMargins"
+            android:layout_marginTop="@dimen/validateCertificationMargin"
+            android:layout_marginBottom="@dimen/validateCertificationMargin">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="认证结果:"
-                android:textSize="@dimen/validateCertificationTextSizes"/>
+                android:textColor="@color/word"
+                android:textSize="@dimen/validateCertificationTextSizes" />
 
             <TextView
                 android:id="@+id/text_value"
@@ -33,58 +38,102 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/validateCertificationMarginLeft"
                 android:textColor="@color/orange"
-                android:textSize="@dimen/validateCertificationResultTextSize"/>
+                android:textSize="@dimen/validateCertificationResultTextSize" />
 
             <TextView
                 android:id="@+id/text_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/validateCertificationMarginLeft"
-                android:textSize="@dimen/validateCertificationTextSizes"/>
+                android:textSize="@dimen/validateCertificationTextSizes" />
         </LinearLayout>
     </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/rel_account"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar"
-        android:layout_marginLeft="@dimen/validateCertificationMargin"
-        android:layout_marginRight="@dimen/validateCertificationMargin"
-        android:layout_marginTop="100dip">
+        android:layout_marginLeft="@dimen/validateCertificationMarginLeft1"
+        android:layout_marginRight="@dimen/validateCertificationMarginLeft1"
+        android:layout_marginTop="100dip"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="资格证号："
+            android:textColor="@color/word"
+            android:textSize="@dimen/validateCertificationTextSize" />
 
         <EditText
             android:id="@+id/edit_account"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/zigezhenghao"
+            android:background="@drawable/border_none"
+            android:textColor="@color/word"
+            android:layout_marginLeft="@dimen/validateCertificationMarginLeft"
+            android:singleLine="true"
+            android:textCursorDrawable="@null"
             android:textSize="@dimen/validateCertificationTextSize" />
-    </RelativeLayout>
+    </LinearLayout>
 
-    <RelativeLayout
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:layout_marginLeft="@dimen/validateCertificationMargin1"
+        android:layout_marginRight="@dimen/validateCertificationMargin1"
+        android:layout_marginTop="@dimen/validateCertificationMarginLeft"
+        android:background="@color/mytoolbar_green" />
+
+    <LinearLayout
         android:id="@+id/rel_password"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rel_account"
-        android:layout_margin="@dimen/validateCertificationMargin">
+        android:layout_marginLeft="@dimen/validateCertificationMarginLeft1"
+        android:layout_marginRight="@dimen/validateCertificationMarginLeft1"
+        android:layout_marginTop="@dimen/validateCertificationMargin"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="密码："
+            android:textColor="@color/word"
+            android:textSize="@dimen/validateCertificationTextSize" />
 
         <EditText
             android:id="@+id/edit_password"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/password"
+            android:background="@drawable/border_none"
             android:password="true"
+            android:layout_marginLeft="@dimen/validateCertificationMarginLeft"
+            android:textColor="@color/word"
+            android:singleLine="true"
+            android:textCursorDrawable="@null"
             android:textSize="@dimen/validateCertificationTextSize" />
-    </RelativeLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:layout_marginLeft="@dimen/validateCertificationMargin1"
+        android:layout_marginRight="@dimen/validateCertificationMargin1"
+        android:layout_marginTop="@dimen/validateCertificationMarginLeft"
+        android:background="@color/mytoolbar_green" />
 
     <Button
         android:id="@+id/but_validate"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rel_password"
-        android:textColor="@color/white"
-        android:textSize="@dimen/validateCertificationTextSize"
-        android:layout_margin="@dimen/fragmentMineMargin"
+        android:layout_marginTop="@dimen/validateCertificationMarginTop"
+        android:layout_marginLeft="@dimen/fragmentMineMargin"
+        android:layout_marginRight="@dimen/fragmentMineMargin"
         android:background="@drawable/bg_login_btn"
-        android:text="提交" />
+        android:text="提交"
+        android:textColor="@color/white"
+        android:textSize="@dimen/validateCertificationTextSize" />
 </LinearLayout>

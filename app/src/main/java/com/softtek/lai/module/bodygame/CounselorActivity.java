@@ -115,7 +115,7 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
         System.out.println("dsadasdsadasda>>》》》》》》》》》》》》》》"+tiGuanSai.getImg_Addr());
         //Picasso.with(this).load().into(iv_adv);
 //        Picasso.with(getBaseContext()).load(tiGuanSai.getImg_Addr()).into(iv_adv);
-        Picasso.with(this).load(tiGuanSai.getImg_Addr()).placeholder(R.drawable.froyo).error(R.drawable.gingerbread).into(iv_adv);
+        Picasso.with(this).load(tiGuanSai.getImg_Addr()).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_adv);
 
 
     }

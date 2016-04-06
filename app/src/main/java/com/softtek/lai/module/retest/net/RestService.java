@@ -81,21 +81,5 @@ public interface RestService {
             @Part("photo") TypedFile photo,
             Callback<ResponseData<PhotModel>> callback
     );
-    //莱秤接口
-    @POST("")
-    void doPostClient(
-            @Query("grant_type")String grant_type,
-            @Query("client_id")String client_id,
-            @Query("client_secret")String client_secret,
-            Callback<ResponseData<ClientModel>>callback
-    );
-
-    @GET("http://qa-api.yunyingyang.com/DataSync/GetMeasuredData")
-    void doGetMeasure(
-            @Query("accesstoken")String accesstoken,
-            @Query("phone")String phone,
-            Callback<ResponseData<MeasureModel>>callback
-
-    );
 
 }

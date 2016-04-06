@@ -17,16 +17,24 @@ import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.counselor.adapter.SimpleFragmentPagerAdapter;
+import com.softtek.lai.module.counselor.model.HonorInfoModel;
 import com.softtek.lai.module.counselor.presenter.AssistantImpl;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 import com.softtek.lai.module.counselor.view.AssistantApplyFragment;
 import com.softtek.lai.module.counselor.view.AssistantListFragment;
+import com.softtek.lai.module.login.model.RoleInfo;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.presenter.ILoginPresenter;
 import com.softtek.lai.module.login.presenter.LoginPresenterImpl;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.SoftInputUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,24 +78,33 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
     @InjectView(R.id.text_value)
     TextView text_value;
 
+
     private ILoginPresenter loginPresenter;
     private ACache aCache;
 
-    private SimpleFragmentPagerAdapter pagerAdapter;
 
-    List<Fragment> list = new ArrayList<Fragment>();
-    Fragment assistantListFragment;
-    Fragment assistantApplyFragment;
+    private UserModel model;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         tv_left.setOnClickListener(this);
         but_validate.setOnClickListener(this);
-
+        EventBus.getDefault().register(this);
 
     }
+    @Override
+    protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
+    }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(RoleInfo roleInfo) {
+        System.out.println("roleInfo:" + roleInfo);
+        setData();
+
+    }
     @Override
     protected void initViews() {
         tv_left.setBackgroundResource(R.drawable.back);
@@ -101,9 +118,32 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
         loginPresenter = new LoginPresenterImpl(this);
         aCache = ACache.get(this, Constants.USER_ACACHE_DATA_DIR);
 
-
+        setData();
+        edit_password.setText("");
+        edit_account.setText("");
     }
-
+    private void setData(){
+        model = UserInfoModel.getInstance().getUser();
+        if("".equals(model.getCertTime().toString())){
+            text_time.setText("");
+        }else {
+            text_time.setText("(上次认证时间："+model.getCertTime().toString()+")");
+        }
+        String userrole=model.getUserrole();
+        if (String.valueOf(Constants.VR).equals(userrole)) {
+            text_value.setText("游客");
+        }else if (String.valueOf(Constants.INC).equals(userrole)) {
+            text_value.setText("受邀用户");
+        }else if (String.valueOf(Constants.SP).equals(userrole)) {
+            text_value.setText("顾问");
+        }else if (String.valueOf(Constants.SR).equals(userrole)) {
+            text_value.setText("助教");
+        }else if (String.valueOf(Constants.PC).equals(userrole)) {
+            text_value.setText("贵宾顾客");
+        }else if (String.valueOf(Constants.NC).equals(userrole)) {
+            text_value.setText("未认证用户");
+        }
+    }
     @Override
     public void onClick(View v) {
         SoftInputUtil.hidden(this);
@@ -125,9 +165,9 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
 
     @Override
     public void onValidationSucceeded() {
-        String account = edit_account.getText().toString();
+        String account = model.getUserid().toString();
         String password = edit_password.getText().toString();
-        String memberId = "CN1357499";
+        String memberId = edit_account.getText().toString();
         loginPresenter.alidateCertification(memberId, password, account);
     }
 

@@ -94,6 +94,9 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener{
     //手机号
     @InjectView(R.id.tv_write_phone)
     TextView tv_write_phone;
+    //莱秤开关
+    @InjectView(R.id.selectlaichen)
+    ImageView selectlaichen;
 
     private RetestPre retestPre;
     RetestWriteModel retestWrite;
@@ -116,6 +119,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener{
         ll_retestWrite_tizhi.setOnClickListener(this);
         ll_retestWrite_neizhi.setOnClickListener(this);
         im_delete.setOnClickListener(this);
+        selectlaichen.setOnClickListener(this);
     }
     @Override
     protected void onDestroy() {
@@ -229,7 +233,10 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener{
             case R.id.ll_retestWrite_neizhi:
                 show_information("内脂（%）",100,50,0,9,5,0,3);
                 break;
-
+            case R.id.selectlaichen:
+                selectlaichen.setImageResource(R.drawable.retest_turnon);
+                retestPre.doGetMeasure("0Pmg0UmrnZBYbcPABC5YB0pSqNXOFnB885ZYInLptG8YvAZsT87oGUPZtU5wbAad-26xsvP8Ov_eoq6Mj9rISg-XZiz2xesbiiqYPWK0AeYquQ8fXwXNpmvL0XwbUkse","13900000000");
+                break;
 
         }
 
