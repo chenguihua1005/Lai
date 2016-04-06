@@ -10,6 +10,15 @@ public class StudentScripInfo {
     private String AfterWeight;
     private String loss;
     private String Change;
+    private String Photo;
+
+    public String getPhoto() {
+        return Photo;
+    }
+
+    public void setPhoto(String photo) {
+        Photo = photo;
+    }
 
     public String getRanking() {
         return Ranking;

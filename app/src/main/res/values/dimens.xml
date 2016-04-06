@@ -81,9 +81,9 @@
     <dimen name="spHonorMargin">20dip</dimen>
     <dimen name="spHonorMarginLeft">5dip</dimen>
 
-    <dimen name="fragmentMineMargin">20dip</dimen>
-    <dimen name="fragmentMineMarginTop">10dip</dimen>
-    <dimen name="fragmentMineMarginLeft">15dip</dimen>
+    <dimen name="fragmentMineMargin">20dp</dimen>
+    <dimen name="fragmentMineMarginTop">10dp</dimen>
+    <dimen name="fragmentMineMarginLeft">15dp</dimen>
     <dimen name="fragmentMineTextSize">16sp</dimen>
     <dimen name="fragmentMineTextSizes">14sp</dimen>
 

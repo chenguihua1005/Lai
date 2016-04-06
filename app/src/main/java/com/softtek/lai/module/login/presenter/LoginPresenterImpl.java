@@ -45,13 +45,12 @@ public class LoginPresenterImpl implements ILoginPresenter {
         service.alidateCertification(token, memberId, password, accountId, new Callback<ResponseData<RoleInfo>>() {
             @Override
             public void success(ResponseData<RoleInfo> userResponseData, Response response) {
-
+                System.out.println("userResponseData:"+userResponseData);
                 int status = userResponseData.getStatus();
                 switch (status) {
                     case 200:
                         UserModel model = UserInfoModel.getInstance().getUser();
-                        String time=userResponseData.getData().getCertTime().split(" ")[0];
-                        model.setCertTime(time);
+                        model.setCertTime(userResponseData.getData().getCertTime());
                         String role=userResponseData.getData().getRole();
                         if("NC".equals(role)){
                             model.setUserrole("0");
@@ -66,6 +65,7 @@ public class LoginPresenterImpl implements ILoginPresenter {
                         }else if("VR".equals(role)){
                             model.setUserrole("5");
                         }
+                        UserInfoModel.getInstance().saveUserCache(model);
                         //EventBus.getDefault().post(userResponseData.getData());
                         ((AppCompatActivity) context).finish();
                         break;
@@ -78,7 +78,7 @@ public class LoginPresenterImpl implements ILoginPresenter {
             @Override
             public void failure(RetrofitError error) {
                 error.printStackTrace();
-                Util.toastMsg("????");
+                Util.toastMsg("认证失败");
             }
         });
     }
