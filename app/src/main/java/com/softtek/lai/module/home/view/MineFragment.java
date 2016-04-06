@@ -91,7 +91,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     public void onResume() {
         super.onResume();
-
+        System.out.println("onResume------");
         model = UserInfoModel.getInstance().getUser();
         String userrole = model.getUserrole();
         if (String.valueOf(Constants.VR).equals(userrole)) {
