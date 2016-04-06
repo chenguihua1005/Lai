@@ -30,19 +30,19 @@ public class GetProinfoImpl implements IGetProinfopresenter {
     }
 
     @Override
-    public void getproinfo(String classId, String ordertype) {
+    public void getproinfo() {
         String token = SharedPreferenceService.getInstance().get("token", "");
-        service.getproinfo(token, classId, ordertype, new Callback<ResponseData<List<RankModel>>>() {
+        service.getproinfo(token,new Callback<ResponseData<List<RankModel>>>() {
             @Override
             public void success(ResponseData<List<RankModel>> rankResponseData, Response response) {
                 int status = rankResponseData.getStatus();
                 switch (status) {
                     case 200:
                         EventBus.getDefault().post(new RankEvent(rankResponseData.getData()));
-                        Util.toastMsg("保存成功");
+                        Util.toastMsg("获取成功");
                         break;
-                    case 100:
-                        Util.toastMsg("保存失败");
+                    case 502:
+                        Util.toastMsg("数据异常");
                         break;
                 }
             }

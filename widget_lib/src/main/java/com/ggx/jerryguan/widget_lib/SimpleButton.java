@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.PaintFlagsDrawFilter;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
@@ -106,6 +107,7 @@ public class SimpleButton extends View {
 		super.onDraw(canvas);
 		canvas.save();		
 		bitmapPaint.setAlpha(255-currentAlpha);
+		canvas.setDrawFilter(new PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG));
 		canvas.drawBitmap(normalBitmap, srcRect,dstRect, bitmapPaint);
 		
 		bitmapPaint.setAlpha(currentAlpha);

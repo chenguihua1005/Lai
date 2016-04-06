@@ -43,10 +43,10 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
     public void onCreate() {
         super.onCreate();
         laiApplication = this;
-        String[] datas = getResources().getStringArray(R.array.SensitiveWord);
-        for (int i = 0; i < datas.length; i++) {
-            filterList.add(new FilterModel(datas[i]));
-        }
+//        String[] datas = getResources().getStringArray(R.array.SensitiveWord);
+//        for (int i = 0; i < datas.length; i++) {
+//            filterList.add(new FilterModel(datas[i]));
+//        }
         new Zilla().setCallBack(this).initSystem(this);
         UserInfoModel.getInstance(this);
 //        CrashHandler catchHandler = CrashHandler.getInstance();

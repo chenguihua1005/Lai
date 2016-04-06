@@ -18,9 +18,7 @@ import java.util.List;
  * Created by julie.zhu on 3/28/2016.
  */
 public interface JingduService {
-    @GET("/HerbrClass/SearchClassMember")
+    @GET("/Index/GetCurrentProgress")
     void getproinfo(@Header("token") String token,
-                    @Query("classId") String classId,
-                    @Query("ordertype") String ordertype,
                     Callback<ResponseData<List<RankModel>>> callback);
 }

@@ -10,5 +10,5 @@ package com.softtek.lai.module.jingdu.presenter;
  */
 public interface IGetProinfopresenter {
     //获取学员进度
-    void getproinfo(String classId, String ordertype);
+    void getproinfo();
 }

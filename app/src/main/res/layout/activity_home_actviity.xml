@@ -56,8 +56,8 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
-                app:normalBitmap="@drawable/rehrecord"
-                app:pitchBitmap="@drawable/hrecord"
+                app:normalBitmap="@drawable/hrecord"
+                app:pitchBitmap="@drawable/rehrecord"
                 app:alpha="true"
                 app:text="@string/healthyRecord"/>
 

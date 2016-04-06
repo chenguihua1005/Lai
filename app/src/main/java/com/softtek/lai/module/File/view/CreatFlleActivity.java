@@ -176,13 +176,14 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_finish:
-                String nick = et_nickname.getText().toString();
-                if (LaiApplication.getInstance().getFilterList().contains(new FilterModel(nick))) {
-                    et_nickname.setError("该昵称不合法");
-//                    Util.toastMsg("该昵称不合法");
-                } else {
-                    validateLife.validate();
-                }
+//                String nick = et_nickname.getText().toString();
+//                if (LaiApplication.getInstance().getFilterList().contains(new FilterModel(nick))) {
+//                    et_nickname.setError("该昵称不合法");
+////                    Util.toastMsg("该昵称不合法");
+//                } else {
+//                    validateLife.validate();
+//                }
+                validateLife.validate();
                 break;
             case R.id.btn_Add_bodydimension:
                 Intent intent = new Intent(CreatFlleActivity.this, DimensionRecordActivity.class);
@@ -219,12 +220,13 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             switch (v.getId()) {
                 case R.id.btn_finish:
-                    String nick = et_nickname.getText().toString();
-                    if (LaiApplication.getInstance().getFilterList().contains(new FilterModel(nick))) {
-                        et_nickname.setError("该昵称不合法");
-                    } else {
-                        validateLife.validate();
-                    }
+//                    String nick = et_nickname.getText().toString();
+//                    if (LaiApplication.getInstance().getFilterList().contains(new FilterModel(nick))) {
+//                        et_nickname.setError("该昵称不合法");
+//                    } else {
+//                        validateLife.validate();
+//                    }
+                    validateLife.validate();
                     break;
                 case R.id.btn_Add_bodydimension:
                     Intent intent = new Intent(CreatFlleActivity.this, DimensionRecordActivity.class);

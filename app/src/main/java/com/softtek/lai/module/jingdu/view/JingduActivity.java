@@ -58,6 +58,9 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
         list_rank.setAdapter(rankAdapter);
         ll_left.setOnClickListener(this);
         tv_right.setOnClickListener(this);
+//        "TotalWeight": "20.3",
+//                "TotalMember": "8",
+//                "TotalClass": "5"
 
         String a = "";
         String b = "";
@@ -66,7 +69,7 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
         String e = "";
         String f = "";
         String g = "";
-        String text = ": 本月新开班级"+a+"个,新增学员"+b+"名,累计减重"+c+"斤 , 其中1月班累计减重"+d+"斤,2月版本月累计减重"+e+"斤,3月版本月累计减重"+f+"斤, 相当于"+g+"头大象.";
+        String text = "本月新开班级"+a+"个,新增学员"+b+"名,累计减重"+c+"斤 , 其中1月班累计减重"+d+"斤,2月版本月累计减重"+e+"斤,3月版本月累计减重"+f+"斤, 相当于"+g+"头大象.";
         tv_wz.setText(text);
     }
 
@@ -80,7 +83,7 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void initViews() {
         iGetProinfopresenter = new GetProinfoImpl();
-        iGetProinfopresenter.getproinfo("7", "1");
+        iGetProinfopresenter.getproinfo();
     }
 
     @Override
@@ -93,10 +96,9 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
         System.out.println("rankEvent.getRanks()》》》》》》》》》》》》》》" + rankEvent.getRanks());
         List<RankModel> ranks = rankEvent.getRanks();
         for (RankModel rk : ranks) {
-            System.out.println("》》》》》》》" + "AccountId:" + rk.getAccountId() + "ClassIdModel:" + rk.getClassId() + "OrderNum:" + rk.getOrderNum() + "UserName:" + rk.getUserName() + "LossAfter:" + rk.getLossAfter() + "LossBefor:" + rk.getLossBefor() + "LossWeght:" + rk.getLossWeght());
-            RankModel r1 = new RankModel(rk.getLossWeght(), rk.getAccountId(), rk.getClassId(), rk.getOrderNum(), rk.getUserName(), rk.getLossAfter(), rk.getLossBefor());
+            //System.out.println("》》》》》》》" + "AccountId:" + rk.getAccountId() + "ClassIdModel:" + rk.getClassId() + "OrderNum:" + rk.getOrderNum() + "UserName:" + rk.getUserName() + "LossAfter:" + rk.getLossAfter() + "LossBefor:" + rk.getLossBefor() + "LossWeght:" + rk.getLossWeght());
+            RankModel r1 = new RankModel(rk.getAccountId(),rk.getBeforeWight(),rk.getAfterWeight(),rk.getLoseWeight(),rk.getUserName());
             rankList.add(r1);
-
         }
         rankAdapter.updateData(rankList);
         Log.i("rankList>>>>>>>>>>>>>>", "" + rankList);
