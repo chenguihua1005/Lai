@@ -208,7 +208,7 @@
                     android:background="@drawable/bg_next_btn"
                     android:text="@string/next"
                     android:textColor="#ffffff"
-                    android:textSize="20sp" />
+                    android:textSize="18sp" />
             </LinearLayout>
         </RelativeLayout>
     </ScrollView>
