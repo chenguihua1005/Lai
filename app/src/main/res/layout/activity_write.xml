@@ -128,7 +128,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="20dp"
+                            android:textSize="18sp"
                             android:text="1"
                             android:textColor="#333333"
                             />
@@ -215,6 +215,7 @@
                          />
 
                     <ImageView
+                        android:id="@+id/selectlaichen"
                         android:layout_width="60dp"
                         android:layout_height="50dp"
                         android:layout_alignParentRight="true"
@@ -264,7 +265,7 @@
                         android:layout_height="wrap_content"
                         android:text="kg"
                         android:layout_alignParentRight="true"
-                        android:textSize="22dp"
+                        android:textSize="18sp"
                         android:textColor="#333333"
                         android:id="@+id/textView15" />
                 </RelativeLayout>
@@ -293,7 +294,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="现在体重"
-                        android:textSize="18dp"
+                        android:textSize="18sp"
                         android:textColor="#333333"
                         android:layout_alignParentLeft="true"
                         android:id="@+id/textView16" />
@@ -311,7 +312,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="kg"
-                        android:textSize="22dp"
+                        android:textSize="18sp"
                         android:textColor="#333333"
                         android:layout_alignParentRight="true"
                         android:id="@+id/textView18" />

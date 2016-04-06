@@ -32,6 +32,8 @@ import com.softtek.lai.module.home.presenter.HomeInfoImpl;
 import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity1;
+import com.softtek.lai.module.retest.present.RetestPre;
+import com.softtek.lai.module.retest.present.RetestclassImp;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.CustomGridView;
@@ -87,6 +89,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     private IHomeInfoPresenter homeInfoPresenter;
 
     private List<String> advList = new ArrayList<>();
+    private RetestPre retestPre;
 
     @Override
     protected void initViews() {
@@ -208,6 +211,8 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                 startActivity(new Intent(getContext(), StudentActivity.class));
                 break;
             case 2:
+                retestPre=new RetestclassImp();
+                retestPre.doPostClient("client_credentials","shhcieurjfn734js","qieow8572jkcv");
                 break;
             case 3:
                 break;
