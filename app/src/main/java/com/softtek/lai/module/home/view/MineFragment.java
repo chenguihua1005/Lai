@@ -13,16 +13,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import butterknife.InjectView;
+
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.SoftInputUtil;
+
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 
@@ -49,7 +53,27 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     @InjectView(R.id.lin_zx)
     LinearLayout lin_zx;
 
+    @InjectView(R.id.lin_not_vr)
+    LinearLayout lin_not_vr;
+
+    @InjectView(R.id.lin_is_vr)
+    LinearLayout lin_is_vr;
+
+    @InjectView(R.id.but_login)
+    Button but_login;
+
+    @InjectView(R.id.text_name)
+    TextView text_name;
+
+    @InjectView(R.id.text_zgzh)
+    TextView text_zgzh;
+
+    @InjectView(R.id.text_state)
+    TextView text_state;
+
     private ACache aCache;
+
+    private UserModel model;
 
     @Override
     protected void initViews() {
@@ -58,12 +82,43 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         lin_validate_certification.setOnClickListener(this);
         lin_setting.setOnClickListener(this);
         lin_reset_password.setOnClickListener(this);
+        lin_not_vr.setOnClickListener(this);
+        lin_is_vr.setOnClickListener(this);
+        but_login.setOnClickListener(this);
+        model = UserInfoModel.getInstance().getUser();
+        String userrole=model.getUserrole();
+        if (String.valueOf(Constants.VR).equals(userrole)) {
+            lin_not_vr.setVisibility(View.GONE);
+            lin_is_vr.setVisibility(View.VISIBLE);
+        } else {
+            lin_not_vr.setVisibility(View.VISIBLE);
+            lin_is_vr.setVisibility(View.GONE);
+        }
+
     }
 
     @Override
     protected void initDatas() {
         aCache = ACache.get(getContext(), Constants.USER_ACACHE_DATA_DIR);
         title.setText("我的");
+
+        if ("".equals(model.getNickname())) {
+            text_name.setText(model.getMobile().toString());
+        } else {
+            text_name.setText(model.getNickname().toString());
+        }
+
+        String certification = model.getCertification().toString();
+
+        if ("".equals(certification)) {
+            text_state.setText("未认证");
+            text_state.setTextColor(getResources().getColor(R.color.grey));
+        } else {
+            text_state.setText("已认证");
+            text_state.setTextColor(getResources().getColor(R.color.green));
+        }
+
+        text_zgzh.setText(certification);
 
     }
 
@@ -96,12 +151,22 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
             case R.id.lin_reset_password:
 
                 break;
+            case R.id.but_login:
+                startActivity(new Intent(getContext(),LoginActivity.class));
+                break;
+
+            case R.id.lin_not_vr:
+
+                break;
+            case R.id.lin_is_vr:
+
+                break;
 
             case R.id.lin_zx:
 
                 break;
             case R.id.lin_validate_certification:
-                startActivity(new Intent(getContext(),ValidateCertificationActivity.class));
+                startActivity(new Intent(getContext(), ValidateCertificationActivity.class));
                 break;
             case R.id.lin_setting:
 

@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.View;
+
 import com.softtek.lai.R;
 import com.ggx.jerryguan.widget_lib.SimpleButton;
 import com.github.snowdream.android.util.Log;
@@ -25,7 +26,7 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_home_actviity)
-public class HomeActviity extends BaseActivity implements View.OnClickListener,BaseFragment.OnFragmentInteractionListener{
+public class HomeActviity extends BaseActivity implements View.OnClickListener, BaseFragment.OnFragmentInteractionListener {
 
     @InjectView(R.id.content)
     ViewPager content;
@@ -42,11 +43,13 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener,B
     @InjectView(R.id.btn_mine)
     SimpleButton btn_mine;
 
-    private int currentId=0;
-    private boolean isClick=false;
+    private int currentId = 0;
+    private boolean isClick = false;
 
     Drawable white;
     Drawable green;
+
+    private int select_page = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +58,8 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener,B
         btn_healthy.setOnClickListener(this);
         btn_healthy_record.setOnClickListener(this);
         btn_mine.setOnClickListener(this);
-        white=getResources().getDrawable(R.drawable.bg_white);
-        green=getResources().getDrawable(R.drawable.bg_green);
+        white = getResources().getDrawable(R.drawable.bg_white);
+        green = getResources().getDrawable(R.drawable.bg_green);
     }
 
     @Override
@@ -71,17 +74,20 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener,B
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 //Log.i("onPageScrolled");
-                if(!isClick){
-                    setChildProgress(position,1-positionOffset);
-                    setChildProgress(position+1,positionOffset);
+                if (!isClick) {
+                    setChildProgress(position, 1 - positionOffset);
+                    setChildProgress(position + 1, positionOffset);
                 }
+
             }
 
             @Override
             public void onPageSelected(int position) {
-                Log.i("onPageSelected>>>>>"+position);
+                Log.i("onPageSelected>>>>>" + position);
+                select_page = position;
                 //页面切换了
-                isClick=false;
+                isClick = false;
+
                 /*switch (position){
                     case 0:
                         btn_home.setBackground(green);
@@ -108,75 +114,65 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener,B
                         btn_mine.setBackground(green);
                         break;
                 }*/
+
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
                 //Log.i("onPageScrollStateChanged>>>>>>"+state);
-                currentId=state;
+                currentId = state;
             }
         });
 
         restoreState();
         btn_home.setProgress(1);
-        currentId = 0 ;
+        currentId = 0;
         content.setCurrentItem(0);
     }
 
     @Override
     public void onClick(View v) {
-        isClick=true;
+        isClick = true;
         restoreState();
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btn_home:
                 btn_home.setProgress(1);
-                currentId=0;
+                currentId = 0;
                 break;
             case R.id.btn_healthy:
                 btn_healthy.setProgress(1);
-                currentId=1;
+                currentId = 1;
                 break;
             case R.id.btn_healthy_record:
                 btn_healthy_record.setProgress(1);
-                currentId=2;
+                currentId = 2;
                 break;
             case R.id.btn_mine:
-                String userrole=UserInfoModel.getInstance().getUser().getUserrole();
-                if(String.valueOf(Constants.VR).equals(userrole)){
-                    startActivity(new Intent(this, LoginActivity.class));
-                }else {
-                    btn_mine.setProgress(1);
-                    currentId=3;
-                }
+                btn_mine.setProgress(1);
+                currentId = 3;
                 break;
         }
         content.setCurrentItem(currentId, false);
     }
 
-    private  void setChildProgress(int position , float progress){
+    private void setChildProgress(int position, float progress) {
         switch (position) {
-            case 0 :
+            case 0:
                 btn_home.setProgress(progress);
                 break;
             case 1:
                 btn_healthy.setProgress(progress);
                 break;
-            case 2 :
+            case 2:
                 btn_healthy_record.setProgress(progress);
                 break;
             case 3:
-                System.out.println("-btn_mine---------");
-                String userrole=UserInfoModel.getInstance().getUser().getUserrole();
-                if(String.valueOf(Constants.VR).equals(userrole)){
-                    startActivity(new Intent(this, LoginActivity.class));
-                }else {
-                    btn_mine.setProgress(progress);
-                }
+                btn_mine.setProgress(progress);
                 break;
         }
     }
 
-    private void restoreState(){
+    private void restoreState() {
         btn_home.setProgress(0);
         btn_healthy.setProgress(0);
         btn_healthy_record.setProgress(0);
@@ -184,23 +180,23 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener,B
 
     }
 
-    int count=2;
+    int count = 2;
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            if(count==2){
+            if (count == 2) {
                 Util.toastMsg("再按一次,退出应用");
                 //5秒中后恢复
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        count=2;
+                        count = 2;
                     }
-                },5000);
+                }, 5000);
             }
             count--;
-            if(count<=0){
+            if (count <= 0) {
                 AppManager.getAppManager().AppExit(this);
             }
             return true;
