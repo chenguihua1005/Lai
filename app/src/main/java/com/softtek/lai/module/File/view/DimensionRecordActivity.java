@@ -6,8 +6,10 @@
 package com.softtek.lai.module.File.view;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.*;
@@ -111,12 +113,12 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
         newstudentsModel = (NewstudentsModel) getIntent().getSerializableExtra("newstudentsModel");
         retestWriteModel = (RetestWriteModel) getIntent().getSerializableExtra("retestWriteModel");
         tv_title.setText("添加记录");
-        tv_circum.setText("0.0".equals(file.getCircum() + "") ? "90" : file.getCircum() + "");
-        tv_waistline.setText("0.0".equals(file.getWaistline() + "") ? "90" : file.getWaistline() + "");
-        tv_hiplie.setText("0.0".equals(file.getHiplie() + "") ? "90" : file.getHiplie() + "");
-        tv_uparmgirth.setText("0.0".equals(file.getUparmgirth() + "") ? "90" : file.getUparmgirth() + "");
-        tv_upleggirth.setText("0.0".equals(file.getUpleggirth() + "") ? "90" : file.getUpleggirth() + "");
-        tv_doleggirth.setText("0.0".equals(file.getDoleggirth() + "") ? "90" : file.getDoleggirth() + "");
+        tv_circum.setText("0.0".equals(file.getCircum() + "") ? "" : file.getCircum() + "");
+        tv_waistline.setText("0.0".equals(file.getWaistline() + "") ? "" : file.getWaistline() + "");
+        tv_hiplie.setText("0.0".equals(file.getHiplie() + "") ? "" : file.getHiplie() + "");
+        tv_uparmgirth.setText("0.0".equals(file.getUparmgirth() + "") ? "" : file.getUparmgirth() + "");
+        tv_upleggirth.setText("0.0".equals(file.getUpleggirth() + "") ? "" : file.getUpleggirth() + "");
+        tv_doleggirth.setText("0.0".equals(file.getDoleggirth() + "") ? "" : file.getDoleggirth() + "");
 
     }
 
@@ -243,201 +245,172 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
 //    }
     //围度dialog
     public void show_circum_dialog() {
-        final Dialog circum_dialog = new Dialog(this);
-        circum_dialog.setTitle("选择胸围");
-        circum_dialog.setContentView(R.layout.dimension_dialog);
-        Button b1 = (Button) circum_dialog.findViewById(R.id.button1);
-        Button b2 = (Button) circum_dialog.findViewById(R.id.button2);
-        final NumberPicker np1 = (NumberPicker) circum_dialog.findViewById(R.id.numberPicker1);
-        final NumberPicker np2 = (NumberPicker) circum_dialog.findViewById(R.id.numberPicker2);
+        final AlertDialog.Builder birdialog = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
+        final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
+        final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
         np1.setMaxValue(220);
-        np1.setValue(100);
+        np1.setValue(90);
         np1.setMinValue(50);
         np1.setWrapSelectorWheel(false);
         np2.setMaxValue(9);
-        np2.setValue(5);
+        np2.setValue(0);
         np2.setMinValue(0);
         np2.setWrapSelectorWheel(false);
-        b1.setOnClickListener(new View.OnClickListener() {
+
+        birdialog.setTitle("选择胸围").setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                tv_circum.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())); //set the value to textview
-                circum_dialog.dismiss();
+            public void onClick(DialogInterface dialog, int which) {
+                tv_circum.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+                dialog.dismiss();
             }
-        });
-        b2.setOnClickListener(new OnClickListener() {
+        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                circum_dialog.dismiss();
+            public void onClick(DialogInterface dialog, int which) {
+
             }
-        });
-        circum_dialog.show();
-        circum_dialog.setCanceledOnTouchOutside(false);
+        }).create().show();
     }
 
     public void show_waistline_dialog() {
-        final Dialog waistline_dialog = new Dialog(this);
-        waistline_dialog.setTitle("选择腰围");
-        waistline_dialog.setContentView(R.layout.dimension_dialog);
-        Button b1 = (Button) waistline_dialog.findViewById(R.id.button1);
-        Button b2 = (Button) waistline_dialog.findViewById(R.id.button2);
-        final NumberPicker np1 = (NumberPicker) waistline_dialog.findViewById(R.id.numberPicker1);
-        final NumberPicker np2 = (NumberPicker) waistline_dialog.findViewById(R.id.numberPicker2);
+        final AlertDialog.Builder birdialog = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
+        final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
+        final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
         np1.setMaxValue(220);
-        np1.setValue(100);
+        np1.setValue(90);
         np1.setMinValue(50);
         np1.setWrapSelectorWheel(false);
         np2.setMaxValue(9);
-        np2.setValue(5);
+        np2.setValue(0);
         np2.setMinValue(0);
         np2.setWrapSelectorWheel(false);
-        b1.setOnClickListener(new View.OnClickListener() {
+
+        birdialog.setTitle("选择腰围").setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                tv_waistline.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())); //set the value to textview
-                waistline_dialog.dismiss();
+            public void onClick(DialogInterface dialog, int which) {
+                tv_waistline.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+                dialog.dismiss();
             }
-        });
-        b2.setOnClickListener(new OnClickListener() {
+        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                waistline_dialog.dismiss();
+            public void onClick(DialogInterface dialog, int which) {
+
             }
-        });
-        waistline_dialog.show();
-        waistline_dialog.setCanceledOnTouchOutside(false);
+        }).create().show();
     }
 
     public void show_hiplie_dialog() {
-        final Dialog hiplie_dialog = new Dialog(this);
-        hiplie_dialog.setTitle("选择臀围");
-        hiplie_dialog.setContentView(R.layout.dimension_dialog);
-        Button b1 = (Button) hiplie_dialog.findViewById(R.id.button1);
-        Button b2 = (Button) hiplie_dialog.findViewById(R.id.button2);
-        final NumberPicker np1 = (NumberPicker) hiplie_dialog.findViewById(R.id.numberPicker1);
-        final NumberPicker np2 = (NumberPicker) hiplie_dialog.findViewById(R.id.numberPicker2);
+        final AlertDialog.Builder birdialog = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
+        final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
+        final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
         np1.setMaxValue(220);
-        np1.setValue(100);
+        np1.setValue(90);
         np1.setMinValue(50);
         np1.setWrapSelectorWheel(false);
         np2.setMaxValue(9);
-        np2.setValue(5);
+        np2.setValue(0);
         np2.setMinValue(0);
         np2.setWrapSelectorWheel(false);
-        b1.setOnClickListener(new View.OnClickListener() {
+
+        birdialog.setTitle("选择臀围").setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                tv_hiplie.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())); //set the value to textview
-                hiplie_dialog.dismiss();
+            public void onClick(DialogInterface dialog, int which) {
+                tv_hiplie.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+                dialog.dismiss();
             }
-        });
-        b2.setOnClickListener(new OnClickListener() {
+        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                hiplie_dialog.dismiss();
+            public void onClick(DialogInterface dialog, int which) {
+
             }
-        });
-        hiplie_dialog.show();
-        hiplie_dialog.setCanceledOnTouchOutside(false);
+        }).create().show();
     }
 
     public void show_uparmgirth_dialog() {
-        final Dialog uparmgirth_dialog = new Dialog(this);
-        uparmgirth_dialog.setTitle("选择上臂围");
-        uparmgirth_dialog.setContentView(R.layout.dimension_dialog);
-        Button b1 = (Button) uparmgirth_dialog.findViewById(R.id.button1);
-        Button b2 = (Button) uparmgirth_dialog.findViewById(R.id.button2);
-        final NumberPicker np1 = (NumberPicker) uparmgirth_dialog.findViewById(R.id.numberPicker1);
-        final NumberPicker np2 = (NumberPicker) uparmgirth_dialog.findViewById(R.id.numberPicker2);
+        final AlertDialog.Builder birdialog = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
+        final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
+        final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
         np1.setMaxValue(220);
-        np1.setValue(100);
+        np1.setValue(90);
         np1.setMinValue(50);
         np1.setWrapSelectorWheel(false);
         np2.setMaxValue(9);
-        np2.setValue(5);
+        np2.setValue(0);
         np2.setMinValue(0);
         np2.setWrapSelectorWheel(false);
-        b1.setOnClickListener(new View.OnClickListener() {
+
+        birdialog.setTitle("选择上臂围").setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                tv_uparmgirth.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())); //set the value to textview
-                uparmgirth_dialog.dismiss();
+            public void onClick(DialogInterface dialog, int which) {
+                tv_uparmgirth.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+                dialog.dismiss();
             }
-        });
-        b2.setOnClickListener(new OnClickListener() {
+        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                uparmgirth_dialog.dismiss();
+            public void onClick(DialogInterface dialog, int which) {
+
             }
-        });
-        uparmgirth_dialog.show();
-        uparmgirth_dialog.setCanceledOnTouchOutside(false);
+        }).create().show();
+
     }
 
     public void show_upleggirth_dialog() {
-        final Dialog upleggirth_dialog = new Dialog(this);
-        upleggirth_dialog.setTitle("选择大腿围");
-        upleggirth_dialog.setContentView(R.layout.dimension_dialog);
-        Button b1 = (Button) upleggirth_dialog.findViewById(R.id.button1);
-        Button b2 = (Button) upleggirth_dialog.findViewById(R.id.button2);
-        final NumberPicker np1 = (NumberPicker) upleggirth_dialog.findViewById(R.id.numberPicker1);
-        final NumberPicker np2 = (NumberPicker) upleggirth_dialog.findViewById(R.id.numberPicker2);
+        final AlertDialog.Builder birdialog = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
+        final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
+        final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
         np1.setMaxValue(220);
-        np1.setValue(100);
+        np1.setValue(90);
         np1.setMinValue(50);
         np1.setWrapSelectorWheel(false);
         np2.setMaxValue(9);
-        np2.setValue(5);
+        np2.setValue(0);
         np2.setMinValue(0);
         np2.setWrapSelectorWheel(false);
-        b1.setOnClickListener(new View.OnClickListener() {
+
+        birdialog.setTitle("选择大腿围").setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                tv_upleggirth.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())); //set the value to textview
-                upleggirth_dialog.dismiss();
+            public void onClick(DialogInterface dialog, int which) {
+                tv_upleggirth.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+                dialog.dismiss();
             }
-        });
-        b2.setOnClickListener(new OnClickListener() {
+        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                upleggirth_dialog.dismiss();
+            public void onClick(DialogInterface dialog, int which) {
+
             }
-        });
-        upleggirth_dialog.show();
-        upleggirth_dialog.setCanceledOnTouchOutside(false);
+        }).create().show();
     }
 
     public void show_doleggirth_dialog() {
-        final Dialog doleggirth_dialog = new Dialog(this);
-        doleggirth_dialog.setTitle("选择小腿围");
-        doleggirth_dialog.setContentView(R.layout.dimension_dialog);
-        Button b1 = (Button) doleggirth_dialog.findViewById(R.id.button1);
-        Button b2 = (Button) doleggirth_dialog.findViewById(R.id.button2);
-        final NumberPicker np1 = (NumberPicker) doleggirth_dialog.findViewById(R.id.numberPicker1);
-        final NumberPicker np2 = (NumberPicker) doleggirth_dialog.findViewById(R.id.numberPicker2);
+        final AlertDialog.Builder birdialog = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
+        final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
+        final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
         np1.setMaxValue(220);
-        np1.setValue(100);
+        np1.setValue(90);
         np1.setMinValue(50);
         np1.setWrapSelectorWheel(false);
         np2.setMaxValue(9);
-        np2.setValue(5);
+        np2.setValue(0);
         np2.setMinValue(0);
         np2.setWrapSelectorWheel(false);
-        b1.setOnClickListener(new View.OnClickListener() {
+
+        birdialog.setTitle("选择小腿围").setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                tv_doleggirth.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())); //set the value to textview
-                doleggirth_dialog.dismiss();
+            public void onClick(DialogInterface dialog, int which) {
+                tv_doleggirth.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+                dialog.dismiss();
             }
-        });
-        b2.setOnClickListener(new OnClickListener() {
+        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                doleggirth_dialog.dismiss();
+            public void onClick(DialogInterface dialog, int which) {
+
             }
-        });
-        doleggirth_dialog.show();
-        doleggirth_dialog.setCanceledOnTouchOutside(false);
+        }).create().show();
     }
 
 }

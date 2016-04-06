@@ -119,13 +119,15 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
         aCache = ACache.get(this, Constants.USER_ACACHE_DATA_DIR);
 
         setData();
+        edit_password.setText("");
+        edit_account.setText("");
     }
     private void setData(){
         model = UserInfoModel.getInstance().getUser();
         if("".equals(model.getCertTime().toString())){
             text_time.setText("");
         }else {
-            text_time.setText("(上次认证时间："+model.getCertTime().toString()+")");
+            text_time.setText("(上次认证时间："+model.getCertTime().toString().split(" ")[0]+")");
         }
         String userrole=model.getUserrole();
         if (String.valueOf(Constants.VR).equals(userrole)) {
@@ -163,9 +165,9 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
 
     @Override
     public void onValidationSucceeded() {
-        String account = edit_account.getText().toString();
+        String account = model.getUserid().toString();
         String password = edit_password.getText().toString();
-        String memberId = "CN1357499";
+        String memberId = edit_account.getText().toString();
         loginPresenter.alidateCertification(memberId, password, account);
     }
 

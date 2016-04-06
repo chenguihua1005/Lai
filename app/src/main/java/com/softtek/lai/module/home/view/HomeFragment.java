@@ -31,6 +31,7 @@ import com.softtek.lai.module.home.model.HomeInfoModel;
 import com.softtek.lai.module.home.presenter.HomeInfoImpl;
 import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
 import com.softtek.lai.module.login.model.UserModel;
+import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.login.view.LoginActivity1;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.module.retest.present.RetestclassImp;
@@ -198,21 +199,21 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                     .setAction("确定", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            startActivity(new Intent(getContext(), LoginActivity1.class));
+                            startActivity(new Intent(getContext(), LoginActivity.class));
                         }
                     }).show();
             return;
         }
         switch (position) {
             case 0:
-                startActivity(new Intent(getContext(), CounselorActivity.class));
+                //startActivity(new Intent(getContext(), CounselorActivity.class));
                 break;
             case 1:
-                startActivity(new Intent(getContext(), StudentActivity.class));
+               // startActivity(new Intent(getContext(), StudentActivity.class));
                 break;
             case 2:
-                retestPre=new RetestclassImp();
-                retestPre.doPostClient("client_credentials","shhcieurjfn734js","qieow8572jkcv");
+                //retestPre=new RetestclassImp();
+                //retestPre.doPostClient("client_credentials","shhcieurjfn734js","qieow8572jkcv");
                 break;
             case 3:
                 break;
