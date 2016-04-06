@@ -1,11 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
-  ~ Date:2016-03-31
-  -->
-
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
     <include layout="@layout/toolbar" />
 
@@ -20,13 +17,14 @@
         <LinearLayout
             android:id="@+id/ll_nickname"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_marginTop="20dp"
             android:gravity="center_vertical">
 
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="wrap_content"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:scaleType="fitCenter"
                 android:layout_marginRight="15dp"
                 android:src="@drawable/nick" />
 
@@ -36,7 +34,7 @@
                 android:gravity="center_vertical"
                 android:text="昵称"
                 android:textColor="#000"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
 
 
             <EditText
@@ -50,7 +48,7 @@
                 android:singleLine="true"
                 android:textCursorDrawable="@drawable/color_cursor"
                 android:textColor="#808080"
-                android:textSize="18dp" />
+                android:textSize="14dp" />
 
         </LinearLayout>
 
@@ -66,9 +64,10 @@
             android:gravity="center">
 
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="wrap_content"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_marginRight="15dp"
+                android:scaleType="fitCenter"
                 android:src="@drawable/birthday_h" />
 
             <TextView
@@ -77,7 +76,7 @@
                 android:gravity="center_vertical"
                 android:text="生日"
                 android:textColor="#000"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -94,7 +93,7 @@
                     android:hint="必填项"
                     android:singleLine="true"
                     android:textColor="#808080"
-                    android:textSize="18dp" />
+                    android:textSize="14dp" />
 
                 <FrameLayout
                     android:id="@+id/ll_birth"
@@ -115,8 +114,9 @@
             android:gravity="center">
 
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="wrap_content"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:scaleType="fitCenter"
                 android:layout_marginRight="15dp"
                 android:src="@drawable/male_back" />
 
@@ -126,7 +126,7 @@
                 android:gravity="center_vertical"
                 android:text="性别"
                 android:textColor="#000"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -143,7 +143,7 @@
                     android:hint="必填项"
                     android:singleLine="true"
                     android:textColor="#808080"
-                    android:textSize="18dp" />
+                    android:textSize="14dp" />
 
                 <FrameLayout
                     android:id="@+id/ll_sex"
@@ -163,9 +163,10 @@
             android:gravity="center">
 
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="wrap_content"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_marginRight="15dp"
+                android:scaleType="fitCenter"
                 android:src="@drawable/height_h" />
 
             <TextView
@@ -174,7 +175,7 @@
                 android:gravity="center_vertical"
                 android:text="身高"
                 android:textColor="#000"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
 
             <FrameLayout
 
@@ -192,7 +193,7 @@
                     android:hint="必填项"
                     android:singleLine="true"
                     android:textColor="#808080"
-                    android:textSize="18dp" />
+                    android:textSize="14dp" />
 
                 <FrameLayout
                     android:id="@+id/ll_height"
@@ -213,8 +214,9 @@
             android:gravity="center">
 
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="wrap_content"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:scaleType="fitCenter"
                 android:layout_marginRight="15dp"
                 android:src="@drawable/weight_h" />
 
@@ -224,7 +226,7 @@
                 android:gravity="center_vertical"
                 android:text="体重"
                 android:textColor="#000"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -241,7 +243,7 @@
                     android:hint="必填项"
                     android:singleLine="true"
                     android:textColor="#808080"
-                    android:textSize="18dp" />
+                    android:textSize="14dp" />
 
                 <FrameLayout
                     android:id="@+id/ll_weight"
@@ -259,7 +261,7 @@
         <Button
             android:id="@+id/btn_Add_bodydimension"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="45dp"
             android:layout_marginBottom="60dp"
             android:background="@drawable/bg_addbody_btn"
             android:text="添加身体围度"
@@ -269,18 +271,16 @@
         <Button
             android:id="@+id/btn_finish"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:background="@drawable/bg_login_btn"
             android:text="完成"
             android:textColor="#FFFFFD"
             android:textSize="18sp" />
 
     </LinearLayout>
-
-    <ImageView
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:scaleType="fitXY"
-        android:src="@drawable/buttom" />
+        android:layout_height="4dp"
+        android:background="@drawable/buttom"
+        android:layout_alignParentBottom="true"/>
 </RelativeLayout>
