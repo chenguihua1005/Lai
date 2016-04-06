@@ -40,15 +40,16 @@
             <EditText
                 android:id="@+id/et_nickname"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="40dp"
                 android:background="@null"
-                android:gravity="right"
+                android:gravity="right|center"
                 android:hint="必填项"
+
                 android:singleLine="true"
                 android:textCursorDrawable="@drawable/color_cursor"
                 android:textColor="#808080"
-                android:textSize="14dp" />
+                android:textSize="15dp" />
 
         </LinearLayout>
 
@@ -93,7 +94,7 @@
                     android:hint="必填项"
                     android:singleLine="true"
                     android:textColor="#808080"
-                    android:textSize="14dp" />
+                    android:textSize="15sp" />
 
                 <FrameLayout
                     android:id="@+id/ll_birth"
@@ -143,7 +144,7 @@
                     android:hint="必填项"
                     android:singleLine="true"
                     android:textColor="#808080"
-                    android:textSize="14dp" />
+                    android:textSize="15sp" />
 
                 <FrameLayout
                     android:id="@+id/ll_sex"
@@ -193,7 +194,7 @@
                     android:hint="必填项"
                     android:singleLine="true"
                     android:textColor="#808080"
-                    android:textSize="14dp" />
+                    android:textSize="15sp" />
 
                 <FrameLayout
                     android:id="@+id/ll_height"
@@ -243,7 +244,7 @@
                     android:hint="必填项"
                     android:singleLine="true"
                     android:textColor="#808080"
-                    android:textSize="14dp" />
+                    android:textSize="15sp" />
 
                 <FrameLayout
                     android:id="@+id/ll_weight"
