@@ -20,7 +20,42 @@ public class UserModel implements Serializable {
     private String gender;
     private String weight;
     private String height;
+    private String Photo;
+    private String Certification;
+    private String CertTime;
+    private String Mobile;
 
+    public String getMobile() {
+        return Mobile;
+    }
+
+    public void setMobile(String mobile) {
+        Mobile = mobile;
+    }
+
+    public String getPhoto() {
+        return Photo;
+    }
+
+    public void setPhoto(String photo) {
+        Photo = photo;
+    }
+
+    public String getCertification() {
+        return Certification;
+    }
+
+    public void setCertification(String certification) {
+        Certification = certification;
+    }
+
+    public String getCertTime() {
+        return CertTime;
+    }
+
+    public void setCertTime(String certTime) {
+        CertTime = certTime;
+    }
 
     public String getToken() {
         return token;
@@ -88,6 +123,10 @@ public class UserModel implements Serializable {
                 ", gender='" + gender + '\'' +
                 ", weight='" + weight + '\'' +
                 ", height='" + height + '\'' +
+                ", Photo='" + Photo + '\'' +
+                ", Certification='" + Certification + '\'' +
+                ", CertTime='" + CertTime + '\'' +
+                ", Mobile='" + Mobile + '\'' +
                 '}';
     }
 }

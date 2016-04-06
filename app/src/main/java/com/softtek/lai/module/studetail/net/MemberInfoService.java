@@ -34,4 +34,9 @@ public interface MemberInfoService {
                           @Query("classId")String classId,
                           Callback<ResponseData<List<StudentLinChartInfoModel>>> callback);
 
+    //获取学员减重日志
+    @GET("/CompetitionLog/GetCompetitionLog")
+    void getCompetitionLog(@Header("token")String token,
+                           @Query("accountId")String accountId);
+
 }
