@@ -1,39 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
-  ~ Date:2016-03-31
-  -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:paddingTop="80dp"
-              android:gravity="center_horizontal"
-              android:background="#333333">
+              android:gravity="center_vertical">
 
     <ImageView
             android:layout_width="300dp"
             android:layout_height="300dp"
+            android:layout_gravity="center"
             android:id="@+id/imageView3"
             android:src="@drawable/doleggirth"/>
 
     <TextView
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:textColor="#fff"
-            android:layout_marginTop="40dp"
+            android:textColor="#ffffff"
+        android:layout_gravity="center"
+            android:layout_marginTop="30dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginBottom="80dp"
             android:textSize="18sp"
             android:gravity="center"
             android:text="穿单薄衣物，软尺水平围绕小腿最饱满处一周测量。"/>
 
     <Button
-            android:layout_marginTop="20dp"
             android:gravity="center"
+            android:layout_marginTop="20dp"
             android:layout_width="300dp"
+            android:layout_gravity="center"
             android:layout_height="45dp"
             android:text="添加围度"
             android:textSize="18sp"
