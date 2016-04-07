@@ -54,8 +54,9 @@ public class TiGuanSaiImpl implements ITiGuanSai {
 
             @Override
             public void failure(RetrofitError error) {
+                ZillaApi.dealNetError(error);
                 error.printStackTrace();
-                Util.toastMsg(R.string.neterror);
+
             }
         });
     }
@@ -80,8 +81,8 @@ public class TiGuanSaiImpl implements ITiGuanSai {
 
             @Override
             public void failure(RetrofitError error) {
+                ZillaApi.dealNetError(error);
                 error.printStackTrace();
-                Util.toastMsg(R.string.neterror);
             }
         });
 
