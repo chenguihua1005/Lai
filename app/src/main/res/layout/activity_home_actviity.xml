@@ -27,6 +27,7 @@
             android:layout_height="53dp"
             android:orientation="horizontal"
             android:layout_alignParentBottom="true"
+        android:background="@color/white"
             android:gravity="center_horizontal">
 
         <com.ggx.jerryguan.widget_lib.SimpleButton
