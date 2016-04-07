@@ -247,6 +247,7 @@
                         android:text="初始体重"
                         android:textSize="18sp"
                         android:textColor="#333333"
+                        android:layout_alignParentBottom="true"
                         android:layout_alignParentLeft="true"
                         android:id="@+id/tv_write" />
 
@@ -256,6 +257,7 @@
                         android:text=""
                         android:layout_marginRight="5dp"
                         android:textSize="22sp"
+                        android:layout_alignParentBottom="true"
                         android:textColor="#fea300"
                         android:layout_toLeftOf="@+id/textView15"
                         android:id="@+id/tv_write_chu_weight" />
@@ -264,6 +266,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="kg"
+                        android:layout_alignParentBottom="true"
                         android:layout_alignParentRight="true"
                         android:textSize="18sp"
                         android:textColor="#333333"
@@ -296,6 +299,7 @@
                         android:text="现在体重"
                         android:textSize="18sp"
                         android:textColor="#333333"
+                        android:layout_alignParentBottom="true"
                         android:layout_alignParentLeft="true"
                         android:id="@+id/textView16" />
 
@@ -305,6 +309,7 @@
                         android:text=""
                         android:textColor="#fea300"
                         android:textSize="22dp"
+                        android:layout_alignParentBottom="true"
                         android:layout_toLeftOf="@+id/textView18"
                         android:id="@+id/tv_retestWrite_nowweight" />
 
@@ -314,6 +319,7 @@
                         android:text="kg"
                         android:textSize="18sp"
                         android:textColor="#333333"
+                        android:layout_alignParentBottom="true"
                         android:layout_alignParentRight="true"
                         android:id="@+id/textView18" />
                 </RelativeLayout>
@@ -344,6 +350,7 @@
                         android:text="体脂（选填）："
                         android:textSize="18sp"
                         android:textColor="#333333"
+                        android:layout_alignParentBottom="true"
                         android:layout_alignParentLeft="true"
                         android:id="@+id/textView13" />
 
@@ -353,6 +360,7 @@
                         android:text=""
                         android:textSize="22dp"
                         android:textColor="#fea300"
+                        android:layout_alignParentBottom="true"
                         android:layout_toLeftOf="@+id/textView17"
                         android:id="@+id/tv_retestWrite_tizhi" />
 
@@ -361,6 +369,7 @@
                         android:layout_height="wrap_content"
                         android:text=""
                         android:textSize="22dp"
+                        android:layout_alignParentBottom="true"
                         android:layout_alignParentRight="true"
                         android:id="@+id/textView17" />
                 </RelativeLayout>
@@ -391,6 +400,7 @@
                         android:text="内脂（选填）："
                         android:textSize="18sp"
                         android:textColor="#333333"
+                        android:layout_alignParentBottom="true"
                         android:layout_alignParentLeft="true"
                         android:id="@+id/textView19" />
 
@@ -400,6 +410,7 @@
                         android:text=""
                         android:textSize="22dp"
                         android:textColor="#fea300"
+                        android:layout_alignParentBottom="true"
                         android:layout_toLeftOf="@+id/textView21"
                         android:id="@+id/tv_retestWrite_neizhi" />
 
@@ -408,6 +419,7 @@
                         android:layout_height="wrap_content"
                         android:text=""
                         android:textSize="22dp"
+                        android:layout_alignParentBottom="true"
                         android:layout_alignParentRight="true"
                         android:id="@+id/textView21" />
                 </RelativeLayout>
@@ -439,6 +451,7 @@
                         android:text="照片上传"
                         android:textSize="18sp"
                         android:textColor="#333333"
+                        android:layout_alignParentBottom="true"
                         android:layout_alignParentLeft="true"
                         android:id="@+id/textView25" />
 
@@ -447,6 +460,7 @@
                         android:layout_height="wrap_content"
                         android:text=""
                         android:textSize="22dp"
+                        android:layout_alignParentBottom="true"
                         android:layout_toLeftOf="@+id/im_retestwrite_takephoto"
                         android:id="@+id/textView26" />
 
@@ -455,6 +469,7 @@
                         android:layout_height="30dp"
                         android:src="@drawable/retest_write_takephoto"
                         android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
                         android:id="@+id/im_retestwrite_takephoto" />
                 </RelativeLayout>
 

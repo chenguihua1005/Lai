@@ -212,8 +212,8 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                // startActivity(new Intent(getContext(), StudentActivity.class));
                 break;
             case 2:
-                //retestPre=new RetestclassImp();
-                //retestPre.doPostClient("client_credentials","shhcieurjfn734js","qieow8572jkcv");
+                retestPre=new RetestclassImp();
+                retestPre.doPostClient("client_credentials","shhcieurjfn734js","qieow8572jkcv");
                 break;
             case 3:
                 break;
