@@ -137,7 +137,7 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
                 show_doleggirth_dialog();
                 break;
             //填写说明
-            case R.id.ll_explain:
+            case R.id.ll_retest_explain:
                 startActivity(new Intent(this,ExplainActivity.class));
 
                 break;

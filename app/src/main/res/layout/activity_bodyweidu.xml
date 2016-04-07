@@ -10,12 +10,15 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <include layout="@layout/toolbar" />
 
         <LinearLayout
             android:orientation="vertical"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -23,7 +26,7 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp">
+                >
 
                 <RelativeLayout
                     android:id="@+id/ll_retest_circum"
@@ -35,15 +38,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
-                        android:textSize="18dp"
+                        android:textColor="#000"
+                        android:textSize="16sp"
                         android:text="胸围" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
-                        android:textSize="18dp"
+                        android:textSize="18sp"
                         android:layout_toLeftOf="@+id/tv_unit"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="15dp"
                         android:textColor="#ffbb00"
                         android:id="@+id/tv_retest_circum" />
                     <TextView
@@ -51,7 +55,8 @@
                         android:id="@+id/tv_unit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="18dp"
+                        android:textColor="#000"
+                        android:textSize="16sp"
                         android:layout_alignParentRight="true"
                         android:text="cm"/>
                 </RelativeLayout>
@@ -71,14 +76,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
-                        android:textSize="18dp"
+                        android:textColor="#000"
+                        android:textSize="16sp"
                         android:text="腰围" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
-                        android:textSize="18dp"
+                        android:textSize="18sp"
                         android:textColor="#ffbb00"
                         android:layout_marginRight="5dp"
                         android:layout_toLeftOf="@+id/tv_unit2"
@@ -88,7 +94,8 @@
                         android:id="@+id/tv_unit2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="18dp"
+                        android:textColor="#000"
+                        android:textSize="16sp"
                         android:layout_alignParentRight="true"
                         android:text="cm"/>
                 </RelativeLayout>
@@ -108,14 +115,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
-                        android:textSize="18dp"
+                        android:textColor="#000"
+                        android:textSize="16sp"
                         android:text="臀围" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
-                        android:textSize="18dp"
+                        android:textSize="18sp"
                         android:textColor="#ffbb00"
                         android:layout_marginRight="5dp"
                         android:layout_toLeftOf="@+id/tv_unit3"
@@ -125,7 +133,8 @@
                         android:id="@+id/tv_unit3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="18dp"
+                        android:textColor="#000"
+                        android:textSize="16sp"
                         android:layout_alignParentRight="true"
                         android:text="cm"/>
                 </RelativeLayout>
@@ -145,7 +154,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
-                        android:textSize="18dp"
+                        android:textColor="#000"
+                        android:textSize="16sp"
                         android:text="上臂围" />
 
                     <TextView
@@ -153,7 +163,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="#ffbb00"
                         android:text=""
-                        android:textSize="18dp"
+                        android:textSize="18sp"
                         android:layout_marginRight="5dp"
                         android:layout_toLeftOf="@+id/tv_unit4"
                         android:id="@+id/tv_retest_uparmgirth" />
@@ -162,7 +172,8 @@
                         android:id="@+id/tv_unit4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="18dp"
+                        android:textColor="#000"
+                        android:textSize="16sp"
                         android:layout_alignParentRight="true"
                         android:text="cm"/>
                 </RelativeLayout>
@@ -182,13 +193,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
-                        android:textSize="18dp"
+                        android:textColor="#000"
+                        android:textSize="16sp"
                         android:text="大腿围" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
-                        android:textSize="18dp"
+                        android:textSize="18sp"
                         android:textColor="#ffbb00"
                         android:layout_marginRight="5dp"
                         android:layout_toLeftOf="@+id/tv_unit5"
@@ -198,7 +210,8 @@
                         android:id="@+id/tv_unit5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="18dp"
+                        android:textColor="#000"
+                        android:textSize="16sp"
                         android:layout_alignParentRight="true"
                         android:text="cm"/>
                 </RelativeLayout>
@@ -219,14 +232,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
-                        android:textSize="18dp"
+                        android:textColor="#000"
+                        android:textSize="16sp"
                         android:text="小腿围" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
-                        android:textSize="18dp"
+                        android:textSize="18sp"
                         android:textColor="#ffbb00"
                         android:layout_toLeftOf="@+id/tv_unit6"
                         android:id="@+id/tv_retest_doleggirth" />
@@ -235,7 +249,8 @@
                         android:id="@+id/tv_unit6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="18dp"
+                        android:textColor="#000"
+                        android:textSize="16sp"
                         android:layout_alignParentRight="true"
                         android:text="cm"/>
                 </RelativeLayout>
@@ -263,13 +278,13 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="填写说明"
-                            android:textSize="24dp"
+                            android:textSize="16sp"
                             android:textColor="#75BA2B"
                             android:id="@+id/textView5" />
 
                         <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="10dp"
+                            android:layout_height="15dp"
                             android:background="@drawable/arrow"
                             android:layout_marginLeft="10dp"
                             android:id="@+id/imageView2" />
@@ -282,7 +297,7 @@
                         <Button
                             android:id="@+id/btn_retest_save"
                             android:layout_width="match_parent"
-                            android:layout_height="50dp"
+                            android:layout_height="40dp"
                             android:textColor="#ffffff"
                             android:background="@drawable/btn_save_background"/>
                     </LinearLayout>
@@ -290,11 +305,9 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-    <ImageView
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scaleType="fitCenter"
-        android:src="@drawable/buttom"
-        android:layout_alignParentBottom="true"
-        />
+        android:layout_height="4dp"
+        android:background="@drawable/buttom"
+        android:layout_alignParentBottom="true"/>
 </RelativeLayout>

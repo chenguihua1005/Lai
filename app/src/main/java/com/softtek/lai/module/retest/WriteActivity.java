@@ -217,6 +217,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener{
                 dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
                 dialog.show();
                 break;
+            //添加身体围度
             case R.id.btn_retest_write_addbody:
                 Intent intent=new Intent(WriteActivity.this, BodyweiduActivity.class);
                 intent.putExtra("retestWrite",retestWrite);
@@ -235,6 +236,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener{
             case R.id.ll_retestWrite_neizhi:
                 show_information("内脂（%）",100,50,0,9,5,0,3);
                 break;
+            //莱秤
             case R.id.selectlaichen:
                 selectlaichen.setImageResource(R.drawable.retest_turnon);
                 retestPre.doGetMeasure("0Pmg0UmrnZBYbcPABC5YB0pSqNXOFnB885ZYInLptG8YvAZsT87oGUPZtU5wbAad-26xsvP8Ov_eoq6Mj9rISg-XZiz2xesbiiqYPWK0AeYquQ8fXwXNpmvL0XwbUkse","18206182086");

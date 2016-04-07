@@ -269,7 +269,6 @@ public class RetestclassImp implements RetestPre{
 
             @Override
             public void failure(RetrofitError error) {
-
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }
