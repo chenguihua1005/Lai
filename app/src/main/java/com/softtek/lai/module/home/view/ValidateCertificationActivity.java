@@ -1,6 +1,7 @@
 package com.softtek.lai.module.home.view;
 
 
+import android.app.ProgressDialog;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -87,6 +88,8 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
 
     private UserModel model;
 
+    private ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,6 +98,7 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
         EventBus.getDefault().register(this);
 
     }
+
     @Override
     protected void onDestroy() {
         EventBus.getDefault().unregister(this);
@@ -104,9 +108,12 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(RoleInfo roleInfo) {
         System.out.println("roleInfo:" + roleInfo);
-        setData();
+
+        //progressDialog.dismiss();
+        //setData();
 
     }
+
     @Override
     protected void initViews() {
         tv_title.setText("身份认证");
@@ -122,31 +129,32 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
         edit_password.setText("");
         edit_account.setText("");
     }
-    private void setData(){
+
+    private void setData() {
         model = UserInfoModel.getInstance().getUser();
-        if(model.getCertTime()==null||"".equals(model.getCertTime())){
+        if (model.getCertTime() == null || "".equals(model.getCertTime())) {
             text_time.setText("");
-        }else {
-            text_time.setText("(上次认证时间："+model.getCertTime().split(" ")[0]+")");
+        } else {
+            text_time.setText("(上次认证时间：" + model.getCertTime().split(" ")[0] + ")");
         }
-        String userrole=model.getUserrole();
+        String userrole = model.getUserrole();
         if (String.valueOf(Constants.VR).equals(userrole)) {
             text_value.setText("游客");
-        }else if (String.valueOf(Constants.INC).equals(userrole)) {
-            text_value.setText("受邀用户");
-        }else if (String.valueOf(Constants.SP).equals(userrole)) {
+        } else if (String.valueOf(Constants.INC).equals(userrole)) {
+            text_value.setText("受邀普通顾客");
+        } else if (String.valueOf(Constants.SP).equals(userrole)) {
             text_value.setText("顾问");
-        }else if (String.valueOf(Constants.SR).equals(userrole)) {
+        } else if (String.valueOf(Constants.SR).equals(userrole)) {
             text_value.setText("助教");
-        }else if (String.valueOf(Constants.PC).equals(userrole)) {
-            text_value.setText("贵宾顾客");
-        }else if (String.valueOf(Constants.NC).equals(userrole)) {
-            text_value.setText("未认证用户");
+        } else if (String.valueOf(Constants.PC).equals(userrole)) {
+            text_value.setText("高级顾客");
+        } else if (String.valueOf(Constants.NC).equals(userrole)) {
+            text_value.setText("普通顾客");
         }
     }
+
     @Override
     public void onClick(View v) {
-        SoftInputUtil.hidden(this);
         switch (v.getId()) {
             case R.id.but_validate:
                 validateLife.validate();
@@ -168,9 +176,17 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
         String account = model.getUserid().toString();
         String password = edit_password.getText().toString();
         String memberId = edit_account.getText().toString();
-        loginPresenter.alidateCertification(memberId, password, account);
+        System.out.println("account:" + account + "   password:" + password + " memberId:" + memberId);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setMessage("认证中");
+        progressDialog.show();
+        loginPresenter.alidateCertification(memberId, password, account, progressDialog);
     }
-    /** 点击屏幕隐藏软键盘**/
+
+    /**
+     * 点击屏幕隐藏软键盘
+     **/
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
@@ -182,6 +198,7 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
         }
         return super.dispatchTouchEvent(ev);
     }
+
     @Override
     public void onValidationFailed(View failedView, Rule<?> failedRule) {
         validateLife.onValidationFailed(failedView, failedRule);

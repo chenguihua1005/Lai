@@ -9,6 +9,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
+
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
@@ -40,33 +41,37 @@ public class LoginPresenterImpl implements ILoginPresenter {
     }
 
     @Override
-    public void alidateCertification(String memberId, String password, String accountId) {
+    public void alidateCertification(String memberId, String password, String accountId, final ProgressDialog progressDialog) {
         String token = SharedPreferenceService.getInstance().get("token", "");
         service.alidateCertification(token, memberId, password, accountId, new Callback<ResponseData<RoleInfo>>() {
             @Override
             public void success(ResponseData<RoleInfo> userResponseData, Response response) {
-                System.out.println("userResponseData:"+userResponseData);
+                System.out.println("userResponseData:" + userResponseData);
                 int status = userResponseData.getStatus();
+                if (progressDialog != null) {
+                    progressDialog.dismiss();
+                }
                 switch (status) {
                     case 200:
                         UserModel model = UserInfoModel.getInstance().getUser();
                         model.setCertTime(userResponseData.getData().getCertTime());
-                        String role=userResponseData.getData().getRole();
-                        if("NC".equals(role)){
+                        model.setCertification(userResponseData.getData().getCertification());
+                        String role = userResponseData.getData().getRole();
+                        if ("NC".equals(role)) {
                             model.setUserrole("0");
-                        }else if("PC".equals(role)){
+                        } else if ("PC".equals(role)) {
                             model.setUserrole("1");
-                        }else if("SR".equals(role)){
+                        } else if ("SR".equals(role)) {
                             model.setUserrole("2");
-                        }else if("SP".equals(role)){
+                        } else if ("SP".equals(role)) {
                             model.setUserrole("3");
-                        }else if("INC".equals(role)){
+                        } else if ("INC".equals(role)) {
                             model.setUserrole("4");
-                        }else if("VR".equals(role)){
+                        } else if ("VR".equals(role)) {
                             model.setUserrole("5");
                         }
                         UserInfoModel.getInstance().saveUserCache(model);
-                        //EventBus.getDefault().post(userResponseData.getData());
+                        EventBus.getDefault().post(userResponseData.getData());
                         ((AppCompatActivity) context).finish();
                         break;
                     default:
@@ -77,14 +82,18 @@ public class LoginPresenterImpl implements ILoginPresenter {
 
             @Override
             public void failure(RetrofitError error) {
+                //ZillaApi.dealNetError(error);
                 error.printStackTrace();
+                if (progressDialog != null) {
+                    progressDialog.dismiss();
+                }
                 Util.toastMsg("认证失败");
             }
         });
     }
 
     @Override
-    public void doLogin(String userName, String password,final ProgressDialog dialog) {
+    public void doLogin(String userName, String password, final ProgressDialog dialog) {
 
         service.doLogin(userName, password, new Callback<ResponseData<UserModel>>() {
             @Override

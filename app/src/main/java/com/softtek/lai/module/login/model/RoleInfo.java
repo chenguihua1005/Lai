@@ -9,6 +9,15 @@ public class RoleInfo implements Serializable{
 
     private String Role;
     private String CertTime;
+    private String Certification;
+
+    public String getCertification() {
+        return Certification;
+    }
+
+    public void setCertification(String certification) {
+        Certification = certification;
+    }
 
     public String getCertTime() {
         return CertTime;
@@ -31,6 +40,7 @@ public class RoleInfo implements Serializable{
         return "RoleInfo{" +
                 "Role='" + Role + '\'' +
                 ", CertTime='" + CertTime + '\'' +
+                ", Certification='" + Certification + '\'' +
                 '}';
     }
 }

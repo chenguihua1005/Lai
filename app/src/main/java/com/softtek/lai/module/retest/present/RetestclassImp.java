@@ -191,8 +191,9 @@ public class RetestclassImp implements RetestPre{
 
             @Override
             public void failure(RetrofitError error) {
+                ZillaApi.dealNetError(error);
                 error.printStackTrace();
-                Util.toastMsg("服务器异常");
+
             }
         });
     }
@@ -217,8 +218,9 @@ public class RetestclassImp implements RetestPre{
 
             @Override
             public void failure(RetrofitError error) {
+                ZillaApi.dealNetError(error);
                 error.printStackTrace();
-                Util.toastMsg("服务器异常");
+
             }
         });
     }
@@ -249,8 +251,9 @@ public class RetestclassImp implements RetestPre{
 
             @Override
             public void failure(RetrofitError error) {
+                ZillaApi.dealNetError(error);
                 error.printStackTrace();
-                Util.toastMsg("服务器异常");
+
             }
         });
     }
