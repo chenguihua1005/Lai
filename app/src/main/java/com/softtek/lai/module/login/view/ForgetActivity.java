@@ -6,6 +6,7 @@
 package com.softtek.lai.module.login.view;
 
 import android.text.Html;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -79,7 +80,18 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
         registPresenter = new RegistPresenterImpl(this, this);
         passwordPresenter = new PasswordPresnter(this);
     }
+    /** 点击屏幕隐藏软键盘**/
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (SoftInputUtil.isShouldHideKeyboard(v, ev)) {
 
+                SoftInputUtil.hideKeyboard(v.getWindowToken(), this);
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
     @Override
     public void onClick(View v) {
         SoftInputUtil.hidden(this);

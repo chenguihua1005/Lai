@@ -64,6 +64,7 @@ public class ExplainActivity extends BaseActivity implements OnPageChangeListene
 
     @Override
     protected void initViews() {
+        tintManager.setStatusBarTintResource(R.drawable.black_draw);
         LayoutInflater inflater = LayoutInflater.from(this);
         //views = new ArrayList<View>();
         // 初始化引导图片列表

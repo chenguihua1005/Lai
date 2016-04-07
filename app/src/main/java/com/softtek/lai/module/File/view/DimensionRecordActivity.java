@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.*;
@@ -19,6 +20,8 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.File.model.FileModel;
 import com.softtek.lai.module.newmemberentry.view.model.NewstudentsModel;
 import com.softtek.lai.module.retest.model.RetestWriteModel;
+import com.softtek.lai.utils.SoftInputUtil;
+
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_dimension_record)
@@ -106,7 +109,18 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
     protected void initViews() {
 
     }
+    /** 点击屏幕隐藏软键盘**/
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (SoftInputUtil.isShouldHideKeyboard(v, ev)) {
 
+                SoftInputUtil.hideKeyboard(v.getWindowToken(), this);
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
     @Override
     protected void initDatas() {
         file = (FileModel) getIntent().getSerializableExtra("file");
