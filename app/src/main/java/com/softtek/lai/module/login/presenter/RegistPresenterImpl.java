@@ -105,6 +105,7 @@ public class RegistPresenterImpl implements IRegistPresenter {
 
             @Override
             public void failure(RetrofitError error) {
+                error.printStackTrace();
                 Util.toastMsg(R.string.neterror);
                 callBack.getIdentifyCallback(false);
                 Log.i("验证码获取失败");
@@ -121,7 +122,7 @@ public class RegistPresenterImpl implements IRegistPresenter {
             et_phone.setError(Html.fromHtml("<font color=#FFFFFF>" + context.getString(R.string.phoneValidateNull) + "</font>"));
             return false;
         }
-        if (!RegexUtil.match("[0-9]{11}", phone)) {
+        if (!RegexUtil.match(context.getString(R.string.phonePattern), phone)) {
             et_phone.requestFocus();
             et_phone.setError(Html.fromHtml("<font color=#FFFFFF>" + context.getString(R.string.phoneValidate) + "</font>"));
             return false;
