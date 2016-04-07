@@ -40,6 +40,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected Toolbar mToolbar;
     protected SystemBarTintManager tintManager;
 
+    private ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,10 +50,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         Zilla.ACTIVITY = this;
         LifeCircle.onCreate(this);
         initToolbars();
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
-        tintManager=new SystemBarTintManager(this);
+        tintManager = new SystemBarTintManager(this);
         tintManager.setStatusBarTintEnabled(true);
         tintManager.setStatusBarTintResource(R.color.colorPrimaryDark);
 
@@ -72,6 +74,19 @@ public abstract class BaseActivity extends AppCompatActivity {
         LifeCircle.onPause(this);
     }
 
+    protected void dialogShow(String value) {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setMessage(value);
+        progressDialog.show();
+    }
+
+    protected void dialogDissmiss() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -90,6 +105,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
     protected void initToolbars() {
         View view = findViewById(R.id.toolbar);
         if (view != null) {

@@ -179,7 +179,7 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
         System.out.println("account:" + account + "   password:" + password + " memberId:" + memberId);
         progressDialog = new ProgressDialog(this);
         progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.setMessage("加载中");
+        progressDialog.setMessage("认证中");
         progressDialog.show();
         loginPresenter.alidateCertification(memberId, password, account, progressDialog);
     }
