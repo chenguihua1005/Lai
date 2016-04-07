@@ -78,7 +78,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @Override
     protected void initViews() {
         tintManager.setStatusBarTintResource(R.drawable.grey_white);
-
         progressDialog=new ProgressDialog(this);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setMessage("登录中，请稍候...");
@@ -94,8 +93,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.tv_login:
-                validateLife.validate();
-                //startActivity(new Intent(this, CreatFlleActivity.class));
+               // validateLife.validate();
+                startActivity(new Intent(this, CreatFlleActivity.class));
                 break;
             case R.id.tv_forgetpsd:
                 startActivity(new Intent(this,ForgetActivity.class));
