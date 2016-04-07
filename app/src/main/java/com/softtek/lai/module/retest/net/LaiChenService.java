@@ -24,7 +24,7 @@ public interface LaiChenService {
 
     @GET("/DataSync/GetMeasuredData")
     void doGetMeasure(
-            @Query("accesstoken")String accesstoken,
+            @Query("access_token")String accesstoken,
             @Query("phone")String phone,
             Callback<MeasureModel> callback
 

@@ -221,6 +221,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                 //startActivity(new Intent(getContext(), CreatFlleActivity.class));
                 break;
             case 4:
+                startActivity(new Intent(getContext(), CreatFlleActivity.class));
                 break;
             case 5:
                 break;

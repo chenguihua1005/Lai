@@ -14,6 +14,9 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.Checkable;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
@@ -40,10 +43,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 import butterknife.InjectView;
+import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_write)
-public class WriteActivity extends BaseActivity implements View.OnClickListener{
+public class WriteActivity extends BaseActivity implements View.OnClickListener,CompoundButton.OnCheckedChangeListener{
     //标题栏
     @InjectView(R.id.tv_title)
     TextView title;
@@ -98,14 +102,14 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener{
     TextView tv_write_phone;
     //莱秤开关
     @InjectView(R.id.selectlaichen)
-    ImageView selectlaichen;
+    CheckBox selectlaichen;
 
     private RetestPre retestPre;
     RetestWriteModel retestWrite;
     String path="";
     private static final int PHOTO=1;
     private static final int GET_BODY=2;
-
+    private static final String LAI_CHEN_SWITCH_KEY="laichenSwitch";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,7 +125,8 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener{
         ll_retestWrite_tizhi.setOnClickListener(this);
         ll_retestWrite_neizhi.setOnClickListener(this);
         im_delete.setOnClickListener(this);
-        selectlaichen.setOnClickListener(this);
+        //selectlaichen.setOnClickListener(this);
+        selectlaichen.setOnCheckedChangeListener(this);
     }
     @Override
     protected void onDestroy() {
@@ -149,7 +154,13 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener{
         retestWrite=new RetestWriteModel();
 //        retestWrite.setAccountId(accountId);
         retestPre.doGetAudit(Integer.parseInt(accountId),Integer.parseInt(classId),typedate);
-
+        boolean laichenSwitch= SharedPreferenceService.getInstance().get(LAI_CHEN_SWITCH_KEY,false);
+        if(laichenSwitch){
+            selectlaichen.setBackgroundResource(R.drawable.retest_turnon);
+            retestPre.doGetMeasure("0Pmg0UmrnZBYbcPABC5YB0pSqNXOFnB885ZYInLptG8YvAZsT87oGUPZtU5wbAad-26xsvP8Ov_eoq6Mj9rISg-XZiz2xesbiiqYPWK0AeYquQ8fXwXNpmvL0XwbUkse","18206182086");
+        }else{
+            selectlaichen.setBackgroundResource(R.drawable.retest_turnoff);
+        }
 
 
 
@@ -217,6 +228,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener{
                 dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
                 dialog.show();
                 break;
+            //添加身体围度
             case R.id.btn_retest_write_addbody:
                 Intent intent=new Intent(WriteActivity.this, BodyweiduActivity.class);
                 intent.putExtra("retestWrite",retestWrite);
@@ -235,10 +247,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener{
             case R.id.ll_retestWrite_neizhi:
                 show_information("内脂（%）",100,50,0,9,5,0,3);
                 break;
-            case R.id.selectlaichen:
-                selectlaichen.setImageResource(R.drawable.retest_turnon);
-                retestPre.doGetMeasure("0Pmg0UmrnZBYbcPABC5YB0pSqNXOFnB885ZYInLptG8YvAZsT87oGUPZtU5wbAad-26xsvP8Ov_eoq6Mj9rISg-XZiz2xesbiiqYPWK0AeYquQ8fXwXNpmvL0XwbUkse","18206182086");
-                break;
+
 
         }
 
@@ -347,5 +356,18 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener{
         }).create().show();
 
 //        information_dialog.setCanceledOnTouchOutside(false);
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        //莱秤
+        SharedPreferenceService.getInstance().put(LAI_CHEN_SWITCH_KEY,isChecked);
+        if(isChecked){
+            selectlaichen.setBackgroundResource(R.drawable.retest_turnon);
+            retestPre.doGetMeasure("0Pmg0UmrnZBYbcPABC5YB0pSqNXOFnB885ZYInLptG8YvAZsT87oGUPZtU5wbAad-26xsvP8Ov_eoq6Mj9rISg-XZiz2xesbiiqYPWK0AeYquQ8fXwXNpmvL0XwbUkse","18206182086");
+        }else{
+            selectlaichen.setBackgroundResource(R.drawable.retest_turnoff);
+        }
+
     }
 }
