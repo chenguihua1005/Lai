@@ -15,9 +15,11 @@ import com.softtek.lai.module.bodygame.presenter.ITiGuanSai;
 import com.softtek.lai.module.bodygame.presenter.TiGuanSaiImpl;
 import com.softtek.lai.module.bodygamest.view.StudentHonorActivity;
 import com.softtek.lai.module.bodygame.view.TipsActivity;
+import com.softtek.lai.module.bodygamest.view.StudentScoreActivity;
 import com.softtek.lai.module.counselor.view.AssistantActivity;
 import com.softtek.lai.module.counselor.view.CounselorClassListActivity;
 import com.softtek.lai.module.counselor.view.GameActivity;
+import com.softtek.lai.module.counselor.view.InviteStudentActivity;
 import com.softtek.lai.module.counselor.view.SPHonorActivity;
 import com.softtek.lai.module.jingdu.view.JingduActivity;
 import com.softtek.lai.module.newmemberentry.view.EntryActivity;
@@ -185,8 +187,9 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
             break;
             case R.id.ll_honor:
             {
-                Intent intent = new Intent(this, StudentHonorActivity.class);
-//                Intent intent = new Intent(this, SPHonorActivity.class);
+ //               Intent intent = new Intent(this, StudentHonorActivity.class);
+//               Intent intent = new Intent(this, SPHonorActivity.class);
+               Intent intent = new Intent(this, StudentScoreActivity.class);
                 startActivity(intent);
                 Util.toastMsg("荣誉榜页面");
             }

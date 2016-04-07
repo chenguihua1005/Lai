@@ -12,6 +12,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -51,8 +52,8 @@ public class StudentScoreActivity extends BaseActivity implements View.OnClickLi
     ValidateLife validateLife;
 
 
-    @InjectView(R.id.tv_left)
-    TextView tv_left;
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
 
     @InjectView(R.id.tv_right)
     TextView tv_right;
@@ -71,16 +72,15 @@ public class StudentScoreActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        tv_left.setOnClickListener(this);
+        ll_left.setOnClickListener(this);
         tv_right.setOnClickListener(this);
     }
 
     @Override
     protected void initViews() {
-        tv_left.setBackgroundResource(R.drawable.back);
         //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
-        tv_title.setText("成绩单");
-        tv_right.setText("分享");
+        tv_title.setText(R.string.gamestE);
+        tv_right.setText(R.string.share);
 
     }
 
@@ -97,7 +97,7 @@ public class StudentScoreActivity extends BaseActivity implements View.OnClickLi
     public void onClick(View v) {
         SoftInputUtil.hidden(this);
         switch (v.getId()) {
-            case R.id.tv_left:
+            case R.id.ll_left:
                 finish();
                 break;
 

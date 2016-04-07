@@ -11,9 +11,11 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 
 import com.softtek.lai.R;
+import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.home.view.HomeActviity;
+import com.softtek.lai.module.home.view.ValidateCertificationActivity;
 import com.softtek.lai.module.login.model.RoleInfo;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.net.LoginService;
@@ -82,12 +84,11 @@ public class LoginPresenterImpl implements ILoginPresenter {
 
             @Override
             public void failure(RetrofitError error) {
-                //ZillaApi.dealNetError(error);
+                ZillaApi.dealNetError(error);
                 error.printStackTrace();
                 if (progressDialog != null) {
                     progressDialog.dismiss();
                 }
-                Util.toastMsg("认证失败");
             }
         });
     }

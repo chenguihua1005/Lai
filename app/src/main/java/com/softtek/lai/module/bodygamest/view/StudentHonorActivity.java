@@ -50,8 +50,8 @@ public class StudentHonorActivity extends BaseActivity implements View.OnClickLi
     ValidateLife validateLife;
 
 
-    @InjectView(R.id.tv_left)
-    TextView tv_left;
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
 
     @InjectView(R.id.tv_title)
     TextView tv_title;
@@ -90,7 +90,7 @@ public class StudentHonorActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        tv_left.setOnClickListener(this);
+        ll_left.setOnClickListener(this);
         EventBus.getDefault().register(this);
     }
 
@@ -161,9 +161,8 @@ public class StudentHonorActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     protected void initViews() {
-        tv_left.setBackgroundResource(R.drawable.back);
         //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
-        tv_title.setText("荣誉榜");
+        tv_title.setText(R.string.CounselorF);
 
 
         img_fc_1.post(new Runnable() {
@@ -195,7 +194,7 @@ public class StudentHonorActivity extends BaseActivity implements View.OnClickLi
     public void onClick(View v) {
         SoftInputUtil.hidden(this);
         switch (v.getId()) {
-            case R.id.tv_left:
+            case R.id.ll_left:
                 finish();
                 break;
 

@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import butterknife.InjectView;
@@ -43,8 +44,8 @@ public class InviteStudentActivity extends BaseActivity implements View.OnClickL
     ValidateLife validateLife;
 
 
-    @InjectView(R.id.tv_left)
-    TextView tv_left;
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
 
     @InjectView(R.id.tv_title)
     TextView tv_title;
@@ -65,7 +66,7 @@ public class InviteStudentActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        tv_left.setOnClickListener(this);
+        ll_left.setOnClickListener(this);
         but_contant.setOnClickListener(this);
         tManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         System.out.println("number:" + tManager.getLine1Number());
@@ -74,9 +75,8 @@ public class InviteStudentActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void initViews() {
-        tv_left.setBackgroundResource(R.drawable.back);
         //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
-        tv_title.setText("参赛邀请");
+        tv_title.setText(R.string.joinGame);
 
     }
 
@@ -95,7 +95,7 @@ public class InviteStudentActivity extends BaseActivity implements View.OnClickL
     public void onClick(View v) {
         SoftInputUtil.hidden(this);
         switch (v.getId()) {
-            case R.id.tv_left:
+            case R.id.ll_left:
                 finish();
                 break;
 
