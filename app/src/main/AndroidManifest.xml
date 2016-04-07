@@ -40,10 +40,10 @@
         </activity>
         <activity
             android:name=".module.login.view.RegistActivity"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
             android:name=".module.login.view.ForgetActivity"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
             android:name=".module.login.view.ForgetActivity2"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
