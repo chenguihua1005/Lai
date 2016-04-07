@@ -1,9 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
-  ~ Date:2016-03-31
-  -->
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -14,15 +9,15 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <include layout="@layout/toolbar"/>
 
         <LinearLayout
-            android:layout_marginTop="50dp"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
             android:orientation="vertical"
+            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -41,7 +36,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
-                        android:textSize="18dp"
+                        android:textColor="#000"
+                        android:textSize="16sp"
                         android:text="胸围"/>
                     <TextView
                         android:layout_width="wrap_content"
@@ -49,7 +45,7 @@
                         android:text=""
                         android:textSize="18dp"
                         android:layout_toLeftOf="@+id/tv_unit"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="15dp"
                         android:textColor="#ffbb00"
                         android:id="@+id/tv_circum"/>
                     <TextView
@@ -57,7 +53,8 @@
                         android:id="@+id/tv_unit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="18dp"
+                        android:textColor="#000"
+                        android:textSize="16sp"
                         android:layout_alignParentRight="true"
                         android:text="cm"/>
                 </RelativeLayout>
@@ -77,7 +74,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
-                        android:textSize="18dp"
+                        android:textColor="#000"
+                        android:textSize="16sp"
                         android:text="腰围"/>
 
                     <TextView
@@ -86,7 +84,7 @@
                         android:text=""
                         android:textSize="18dp"
                         android:textColor="#ffbb00"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="15dp"
                         android:layout_toLeftOf="@+id/tv_unit2"
                         android:id="@+id/tv_waistline"/>
                     <TextView
@@ -94,7 +92,8 @@
                         android:id="@+id/tv_unit2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="18dp"
+                        android:textColor="#000"
+                        android:textSize="16sp"
                         android:layout_alignParentRight="true"
                         android:text="cm"/>
                 </RelativeLayout>
@@ -114,7 +113,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
-                        android:textSize="18dp"
+                        android:textColor="#000"
+                        android:textSize="16sp"
                         android:text="臀围"/>
 
                     <TextView
@@ -123,7 +123,7 @@
                         android:text=""
                         android:textSize="18dp"
                         android:textColor="#ffbb00"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="15dp"
                         android:layout_toLeftOf="@+id/tv_unit3"
                         android:id="@+id/tv_hiplie"/>
                     <TextView
@@ -131,7 +131,8 @@
                         android:id="@+id/tv_unit3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="18dp"
+                        android:textColor="#000"
+                        android:textSize="16sp"
                         android:layout_alignParentRight="true"
                         android:text="cm"/>
                 </RelativeLayout>
@@ -151,7 +152,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
-                        android:textSize="18dp"
+                        android:textColor="#000"
+                        android:textSize="16sp"
                         android:text="上臂围"/>
 
                     <TextView
@@ -160,7 +162,7 @@
                         android:textColor="#ffbb00"
                         android:text=""
                         android:textSize="18dp"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="15dp"
                         android:layout_toLeftOf="@+id/tv_unit4"
                         android:id="@+id/tv_uparmgirth"/>
                     <TextView
@@ -168,7 +170,8 @@
                         android:id="@+id/tv_unit4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="18dp"
+                        android:textColor="#000"
+                        android:textSize="16sp"
                         android:layout_alignParentRight="true"
                         android:text="cm"/>
                 </RelativeLayout>
@@ -188,7 +191,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
-                        android:textSize="18dp"
+                        android:textColor="#000"
+                        android:textSize="16sp"
                         android:text="大腿围"/>
                     <TextView
                         android:layout_width="wrap_content"
@@ -196,7 +200,7 @@
                         android:text=""
                         android:textSize="18dp"
                         android:textColor="#ffbb00"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="15dp"
                         android:layout_toLeftOf="@+id/tv_unit5"
                         android:id="@+id/tv_upleggirth"/>
                     <TextView
@@ -204,7 +208,8 @@
                         android:id="@+id/tv_unit5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="18dp"
+                        android:textColor="#000"
+                        android:textSize="16sp"
                         android:layout_alignParentRight="true"
                         android:text="cm"/>
                 </RelativeLayout>
@@ -225,7 +230,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
-                        android:textSize="18dp"
+                        android:textColor="#000"
+                        android:textSize="16sp"
                         android:text="小腿围"/>
 
                     <TextView
@@ -234,7 +240,7 @@
                         android:text=""
                         android:textSize="18dp"
                         android:textColor="#ffbb00"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="15dp"
                         android:layout_toLeftOf="@+id/tv_unit6"
                         android:id="@+id/tv_doleggirth"/>
                     <TextView
@@ -242,7 +248,8 @@
                         android:id="@+id/tv_unit6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="18dp"
+                        android:textColor="#000"
+                        android:textSize="16sp"
                         android:layout_alignParentRight="true"
                         android:text="cm"/>
                 </RelativeLayout>
@@ -272,14 +279,15 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="填写说明"
-                                android:textSize="24dp"
+                                android:textSize="16sp"
                                 android:textColor="#75BA2B"
                                 android:id="@+id/textView5"/>
                             <ImageView
                                 android:layout_width="10dp"
-                                android:layout_height="20dp"
+                                android:layout_height="15dp"
                                 android:background="@drawable/arrow"
                                 android:layout_marginLeft="5dp"
+                                android:layout_gravity="center|right"
                                 android:id="@+id/imageView2"/>
                         </LinearLayout>
 
@@ -292,7 +300,7 @@
                         <Button
                             android:id="@+id/btn_save"
                             android:layout_width="match_parent"
-                            android:layout_height="50dp"
+                            android:layout_height="40dp"
                             android:textColor="#ffffff"
                             android:background="@drawable/btn_save_background"/>
                     </LinearLayout>
@@ -300,10 +308,9 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-    <ImageView
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scaleType="fitXY"
-        android:src="@drawable/buttom"
-        android:layout_alignParentBottom="true" />
+        android:layout_height="4dp"
+        android:background="@drawable/buttom"
+        android:layout_alignParentBottom="true"/>
 </RelativeLayout>

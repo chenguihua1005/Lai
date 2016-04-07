@@ -23,6 +23,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.File.view.CreatFlleActivity;
 import com.softtek.lai.module.bodygame.CounselorActivity;
 import com.softtek.lai.module.bodygamest.view.StudentActivity;
 import com.softtek.lai.module.home.adapter.FragementAdapter;
@@ -217,6 +218,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                // retestPre.doPostClient("client_credentials","shhcieurjfn734js","qieow8572jkcv");
                 break;
             case 3:
+                startActivity(new Intent(getContext(), CreatFlleActivity.class));
                 break;
             case 4:
                 break;

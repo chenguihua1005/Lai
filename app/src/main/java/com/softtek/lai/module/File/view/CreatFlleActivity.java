@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,8 +31,11 @@ import com.softtek.lai.module.File.presenter.CreateFileImpl;
 import com.softtek.lai.module.File.presenter.ICreateFilepresenter;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.utils.SoftInputUtil;
+import com.softtek.lai.widgets.WheelView;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.file.SharedPreferenceService;
@@ -44,6 +48,10 @@ import zilla.libcore.ui.InjectLayout;
 public class CreatFlleActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, View.OnTouchListener {
     private String SexData[] = {"男", "女"};//性别数据
     //private int gender = 0;
+    private List<String> gradeList = new ArrayList<String>();
+    private List<String> gradeIDList = new ArrayList<String>();
+    private String select_grade = "";
+    private String grade_id = "";
     private ICreateFilepresenter ICreateFilepresenter;
 
     @LifeCircleInject
@@ -152,6 +160,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         tv_right.setPadding(0,0,25,0);
         tv_right.setGravity(Gravity.CENTER);
         file = new FileModel();
+        addGrade();
     }
 
     @Override
@@ -194,7 +203,8 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                 case R.id.ll_sex:
 
                 case R.id.tv_sex:
-                    show_sex_dialog();
+                    showGradeDialog();
+//                    show_sex_dialog();
                     break;
                 case R.id.ll_height:
 
@@ -403,6 +413,51 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
             }
         }).create().show();
 
+    }
+    private void addGrade() {
+        gradeList.add("男");
+        gradeList.add("女");
+        gradeIDList.add("0");
+        gradeIDList.add("1");
+    }
+
+
+    public void showGradeDialog() {
+        final AlertDialog.Builder birdialog=new AlertDialog.Builder(this);
+        View view=getLayoutInflater().inflate(R.layout.dialog_select_grade,null);
+        final WheelView wheel_grade = (WheelView) view.findViewById(R.id.wheel_grade);
+        wheel_grade.setOffset(1);
+        wheel_grade.setItems(gradeList);
+        wheel_grade.setSeletion(0);
+        select_grade = "";
+        wheel_grade.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
+            @Override
+            public void onSelected(int selectedIndex, String item) {
+                select_grade = item;
+                grade_id = gradeIDList.get(selectedIndex - 1);
+            }
+        });
+        birdialog.setTitle("选择性别").setView(view)
+                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if ("".equals(select_grade)) {
+                            select_grade = gradeList.get(0);
+                            grade_id = gradeIDList.get(0);
+                        }
+                        tv_sex.setText(select_grade);
+//                        if (!"".equals(text_month.getText().toString())) {
+//                            showList();
+//                        }
+                        select_grade = "";
+                    }
+                })
+                .setNegativeButton("取消",new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                }).create()
+                .show();
     }
 
 }
