@@ -29,6 +29,7 @@ import com.softtek.lai.module.File.model.FileModel;
 import com.softtek.lai.module.File.presenter.CreateFileImpl;
 import com.softtek.lai.module.File.presenter.ICreateFilepresenter;
 import com.softtek.lai.module.home.view.HomeActviity;
+import com.softtek.lai.utils.SoftInputUtil;
 
 import java.util.Calendar;
 
@@ -129,7 +130,18 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
     protected void initViews() {
 
     }
+    /** 点击屏幕隐藏软键盘**/
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (SoftInputUtil.isShouldHideKeyboard(v, ev)) {
 
+                SoftInputUtil.hideKeyboard(v.getWindowToken(), this);
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
     @Override
     protected void initDatas() {
         ICreateFilepresenter = new CreateFileImpl(this);
