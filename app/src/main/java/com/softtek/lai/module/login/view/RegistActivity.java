@@ -6,6 +6,7 @@
 package com.softtek.lai.module.login.view;
 
 import android.content.Intent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.*;
 import butterknife.InjectView;
@@ -23,6 +24,7 @@ import com.softtek.lai.module.login.presenter.IRegistPresenter;
 import com.softtek.lai.module.login.presenter.RegistPresenterImpl;
 import com.softtek.lai.utils.JCountDownTimer;
 import com.softtek.lai.utils.MD5;
+import com.softtek.lai.utils.SoftInputUtil;
 
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
@@ -92,7 +94,18 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
         countDown = new MyCountDown(60000, 1000);
         registPresenter = new RegistPresenterImpl(this, this);
     }
+    /** 点击屏幕隐藏软键盘**/
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (SoftInputUtil.isShouldHideKeyboard(v, ev)) {
 
+                SoftInputUtil.hideKeyboard(v.getWindowToken(), this);
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
