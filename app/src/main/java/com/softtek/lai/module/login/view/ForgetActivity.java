@@ -94,15 +94,15 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
     }
     @Override
     public void onClick(View v) {
-        SoftInputUtil.hidden(this);
         switch (v.getId()) {
             case R.id.tv_get_identify:
                 String phone = et_phone.getText().toString();
                 //验证手机号
-                if ("".equals(phone) || !RegexUtil.match("[0-9]{11}", phone)) {
+                if ("".equals(phone) || !RegexUtil.match(getString(R.string.phonePattern), phone)) {
                     et_phone.setError(Html.fromHtml("<font color=#FFFFFF>" + getString(R.string.phoneValidate) + "</font>"));
                     return;
                 }
+
                 countDown.start();
                 tv_get_identify.setEnabled(false);
                 registPresenter.getIdentify(phone, Constants.RESET_PASSWORD_IDENTIFY);
