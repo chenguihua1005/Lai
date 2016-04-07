@@ -21,6 +21,7 @@ import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygamest.present.IStudentPresenter;
 import com.softtek.lai.module.bodygamest.present.StudentImpl;
@@ -88,7 +89,7 @@ public class StudentScoreActivity extends BaseActivity implements View.OnClickLi
     protected void initDatas() {
         studentPresenter = new StudentImpl(this);
         aCache = ACache.get(this, Constants.USER_ACACHE_DATA_DIR);
-        userModel = (UserModel) aCache.getAsObject(Constants.USER_ACACHE_KEY);
+        userModel = UserInfoModel.getInstance().getUser();
         String id = userModel.getUserid();
         studentPresenter.getTranscrip(id,list_student_score);
     }
