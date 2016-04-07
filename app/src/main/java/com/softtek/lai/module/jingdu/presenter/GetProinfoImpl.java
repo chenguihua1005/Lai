@@ -5,6 +5,7 @@
 
 package com.softtek.lai.module.jingdu.presenter;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.jingdu.EventModel.RankEvent;
 import com.softtek.lai.module.jingdu.model.RankModel;
@@ -35,6 +36,8 @@ public class GetProinfoImpl implements IGetProinfopresenter {
         service.getproinfo(token, new Callback<ResponseData<RankModel>>() {
             @Override
             public void success(ResponseData<RankModel> rankModelResponseData, Response response) {
+                EventBus.getDefault().post(rankModelResponseData.getData());
+                Log.i("rankModelResponseData"+rankModelResponseData);
                 int status=rankModelResponseData.getStatus();
                 switch (status)
                 {
