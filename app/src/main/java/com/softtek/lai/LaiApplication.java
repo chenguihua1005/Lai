@@ -77,7 +77,11 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
             public void intercept(RequestFacade requestFacade) {
 //                requestFacade.addEncodedPathParam();
                 requestFacade.addHeader("appid", PropertiesManager.get("appid"));
-                //requestFacade.addHeader("token",PropertiesManager.get("token"));
+                /*Log.i("LaiApplication token="+UserInfoModel.getInstance().getToken());
+                if(UserInfoModel.getInstance().getToken()!=null&&
+                        !UserInfoModel.getInstance().getToken().equals("")){
+                    requestFacade.addHeader("token",UserInfoModel.getInstance().getToken());
+                }*/
             }
         });
 
