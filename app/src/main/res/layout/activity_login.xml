@@ -125,9 +125,12 @@
             
             <TextView
                 android:id="@+id/tv_forgetpsd"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="@string/forgetPsd"
+                android:layout_marginLeft="70dp"
+                android:layout_marginRight="70dp"
                 android:textColor="@color/textview"
                 android:layout_marginTop="20dp"
                 android:textSize="16sp"/>
