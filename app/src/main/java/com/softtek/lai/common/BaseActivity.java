@@ -4,6 +4,7 @@
  */
 package com.softtek.lai.common;
 
+import android.app.ProgressDialog;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
@@ -89,7 +90,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
     protected void initToolbars() {
         View view = findViewById(R.id.toolbar);
         if (view != null) {
@@ -106,7 +106,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected abstract void initViews();
 
     protected abstract void initDatas();
-
 
    /* @Override
     public boolean onCreateOptionsMenu(Menu menu) {

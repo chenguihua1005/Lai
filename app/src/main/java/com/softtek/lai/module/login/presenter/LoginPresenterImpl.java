@@ -40,17 +40,19 @@ public class LoginPresenterImpl implements ILoginPresenter {
     }
 
     @Override
-    public void alidateCertification(String memberId, String password, String accountId) {
+    public void alidateCertification(String memberId, String password, String accountId, final ProgressDialog progressDialog) {
         String token = SharedPreferenceService.getInstance().get("token", "");
         service.alidateCertification(token, memberId, password, accountId, new Callback<ResponseData<RoleInfo>>() {
             @Override
             public void success(ResponseData<RoleInfo> userResponseData, Response response) {
                 System.out.println("userResponseData:"+userResponseData);
                 int status = userResponseData.getStatus();
+                progressDialog.dismiss();
                 switch (status) {
                     case 200:
                         UserModel model = UserInfoModel.getInstance().getUser();
                         model.setCertTime(userResponseData.getData().getCertTime());
+                        model.setCertification(userResponseData.getData().getCertification());
                         String role=userResponseData.getData().getRole();
                         if("NC".equals(role)){
                             model.setUserrole("0");
@@ -66,7 +68,7 @@ public class LoginPresenterImpl implements ILoginPresenter {
                             model.setUserrole("5");
                         }
                         UserInfoModel.getInstance().saveUserCache(model);
-                        //EventBus.getDefault().post(userResponseData.getData());
+                        EventBus.getDefault().post(userResponseData.getData());
                         ((AppCompatActivity) context).finish();
                         break;
                     default:
@@ -78,6 +80,7 @@ public class LoginPresenterImpl implements ILoginPresenter {
             @Override
             public void failure(RetrofitError error) {
                 error.printStackTrace();
+                progressDialog.dismiss();
                 Util.toastMsg("认证失败");
             }
         });
