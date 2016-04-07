@@ -9,4 +9,19 @@ import java.util.List;
  */
 public class MeasureEvent {
     private List<MeasureModel> measureModels;
+
+    @Override
+    public String toString() {
+        return "MeasureEvent{" +
+                "measureModels=" + measureModels +
+                '}';
+    }
+
+    public List<MeasureModel> getMeasureModels() {
+        return measureModels;
+    }
+
+    public void setMeasureModels(List<MeasureModel> measureModels) {
+        this.measureModels = measureModels;
+    }
 }

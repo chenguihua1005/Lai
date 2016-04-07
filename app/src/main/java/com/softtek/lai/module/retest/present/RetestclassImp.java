@@ -264,7 +264,7 @@ public class RetestclassImp implements RetestPre{
         laiChenService.doGetMeasure(accesstoken, phone, new Callback<MeasureModel>() {
             @Override
             public void success(MeasureModel measureModel, Response response) {
-                Util.toastMsg("获取信息成功");
+                Util.toastMsg("获取信息成功"+measureModel.toString());
             }
 
             @Override
