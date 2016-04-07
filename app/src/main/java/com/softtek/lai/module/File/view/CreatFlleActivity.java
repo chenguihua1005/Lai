@@ -430,6 +430,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         wheel_grade.setItems(gradeList);
         wheel_grade.setSeletion(0);
         select_grade = "";
+//        wheel_grade.setBackgroundDrawable(1,"#000",);
         wheel_grade.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
             @Override
             public void onSelected(int selectedIndex, String item) {
