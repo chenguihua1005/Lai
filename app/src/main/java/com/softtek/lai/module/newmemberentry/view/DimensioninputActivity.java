@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.*;
@@ -19,6 +20,8 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.File.view.ExplainActivity;
 import com.softtek.lai.module.newmemberentry.view.model.NewstudentsModel;
+import com.softtek.lai.utils.SoftInputUtil;
+
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_dimensioninput)
@@ -109,7 +112,18 @@ public class DimensioninputActivity extends BaseActivity implements OnClickListe
         tv_upleggirth.setText("0.0".equals(newstudentsModel.getUpleggirth() + "") ? "90" : newstudentsModel.getUpleggirth() + "");
         tv_doleggirth.setText("0.0".equals(newstudentsModel.getDoleggirth() + "") ? "90" : newstudentsModel.getDoleggirth() + "");
     }
+    /** 点击屏幕隐藏软键盘**/
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (SoftInputUtil.isShouldHideKeyboard(v, ev)) {
 
+                SoftInputUtil.hideKeyboard(v.getWindowToken(), this);
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
