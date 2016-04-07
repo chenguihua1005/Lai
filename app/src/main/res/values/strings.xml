@@ -36,6 +36,7 @@
     <string name="phoneNum">手机号</string>
     <string name="password">密码</string>
     <string name="passwordReg">密码(字母+数字,6~16位)</string>
+    <string name="newpasswordReg">新密码(字母+数字,6~16位)</string>
     <string name="psdReg">(?![^a-zA-Z]+$)(?!\\D+$).{6,16}</string>
     <string name="forgetPsd">
         <u>忘记密码?</u>
@@ -76,7 +77,7 @@
     <string name="sendIdentify">发送验证码</string>
     <string name="readeAndAgress">我已阅读并同意遵守</string>
     <string name="inputNewPassword">输入新密码</string>
-    <string name="reNewPassword">重新输入新密码</string>
+    <string name="reNewPassword">确认新密码</string>
     <string name="className">请输入班级名称</string>
     <string name="classTime">请输入时间段</string>
     <string name="allClass">选择班级</string>

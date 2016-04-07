@@ -25,14 +25,16 @@
             android:layout_marginTop="40dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="80dp"
             android:textSize="18sp"
             android:gravity="center"
             android:text="穿单薄衣物，软尺水平围绕小腿最饱满处一周测量。"/>
 
     <Button
+            android:layout_marginTop="20dp"
+            android:gravity="center"
             android:layout_width="300dp"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             android:text="添加围度"
             android:textSize="18sp"
             android:textColor="#ffffff"
