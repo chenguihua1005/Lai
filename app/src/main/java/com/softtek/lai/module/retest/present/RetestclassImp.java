@@ -6,6 +6,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
 import com.softtek.lai.module.retest.eventModel.BanJiEvent;
 import com.softtek.lai.module.retest.eventModel.BanjiStudentEvent;
+import com.softtek.lai.module.retest.eventModel.MeasureEvent;
 import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
 import com.softtek.lai.module.retest.eventModel.StudentEvent;
 import com.softtek.lai.module.retest.model.BanjiModel;
@@ -264,6 +265,7 @@ public class RetestclassImp implements RetestPre{
         laiChenService.doGetMeasure(accesstoken, phone, new Callback<MeasureModel>() {
             @Override
             public void success(MeasureModel measureModel, Response response) {
+                EventBus.getDefault().post(measureModel);
                 Util.toastMsg("获取信息成功"+measureModel.toString());
             }
 

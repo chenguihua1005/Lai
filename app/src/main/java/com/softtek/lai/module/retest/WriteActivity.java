@@ -28,6 +28,7 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.newmemberentry.view.GetPhotoDialog;
 import com.softtek.lai.module.retest.eventModel.BanJiEvent;
 import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
+import com.softtek.lai.module.retest.model.MeasureModel;
 import com.softtek.lai.module.retest.model.RetestAuditModel;
 import com.softtek.lai.module.retest.model.RetestWriteModel;
 import com.softtek.lai.module.retest.present.RetestPre;
@@ -156,23 +157,26 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         retestPre.doGetAudit(Integer.parseInt(accountId),Integer.parseInt(classId),typedate);
         boolean laichenSwitch= SharedPreferenceService.getInstance().get(LAI_CHEN_SWITCH_KEY,false);
         if(laichenSwitch){
+            selectlaichen.setBackgroundResource(R.drawable.retest_turnoff);
+        }else{
             selectlaichen.setBackgroundResource(R.drawable.retest_turnon);
             retestPre.doGetMeasure("0Pmg0UmrnZBYbcPABC5YB0pSqNXOFnB885ZYInLptG8YvAZsT87oGUPZtU5wbAad-26xsvP8Ov_eoq6Mj9rISg-XZiz2xesbiiqYPWK0AeYquQ8fXwXNpmvL0XwbUkse","18206182086");
-        }else{
-            selectlaichen.setBackgroundResource(R.drawable.retest_turnoff);
+
         }
 
 
 
     }
 
-    @Subscribe
-    public void onEvent(RetestAuditModel retestAuditModel){
-        retestAuditModel.getAccountId();
-        Log.i("username"+retestAuditModel.getUserName());
-        tv_write_nick.setText(retestAuditModel.getUserName());
-        tv_write_phone.setText(retestAuditModel.getMobile());
 
+    @Subscribe
+    public void event(MeasureModel measureModel){
+
+        Log.i("username"+measureModel.getUsername());
+        tv_write_nick.setText(measureModel.getUsername());
+        tv_write_phone.setText(measureModel.getPhone());
+//        tv_retestWrite_nowweight.setText(measureModel.);
+//        tv_retestWrite_tizhi.setText(measureModel.getMeasureddata());
 
     }
 
@@ -182,6 +186,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
 //        RetestAuditModel model=event.getRetestAuditModels().get(0);
         tv_write_nick.setText(event.getRetestAuditModels().get(0).getUserName());
         tv_write_phone.setText(event.getRetestAuditModels().get(0).getMobile());
+
 
     }
     @Override
@@ -363,10 +368,12 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         //莱秤
         SharedPreferenceService.getInstance().put(LAI_CHEN_SWITCH_KEY,isChecked);
         if(isChecked){
+            selectlaichen.setBackgroundResource(R.drawable.retest_turnoff);
+
+        }else{
             selectlaichen.setBackgroundResource(R.drawable.retest_turnon);
             retestPre.doGetMeasure("0Pmg0UmrnZBYbcPABC5YB0pSqNXOFnB885ZYInLptG8YvAZsT87oGUPZtU5wbAad-26xsvP8Ov_eoq6Mj9rISg-XZiz2xesbiiqYPWK0AeYquQ8fXwXNpmvL0XwbUkse","18206182086");
-        }else{
-            selectlaichen.setBackgroundResource(R.drawable.retest_turnoff);
+
         }
 
     }
