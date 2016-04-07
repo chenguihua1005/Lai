@@ -12,6 +12,7 @@ import android.widget.EditText;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.File.view.CreatFlleActivity;
 import com.softtek.lai.module.login.model.IdentifyModel;
@@ -58,8 +59,9 @@ public class RegistPresenterImpl implements IRegistPresenter {
                     Util.toastMsg(userResponseData.getMsg());
                     switch (status) {
                         case 200:
-                            SharedPreferenceService.getInstance().put("token", userResponseData.getData().getToken());
-                            acache.put(Constants.USER_ACACHE_KEY, userResponseData.getData());
+                            //SharedPreferenceService.getInstance().put("token", userResponseData.getData().getToken());
+                            UserInfoModel.getInstance().saveUserCache(userResponseData.getData());
+                            //acache.put(Constants.USER_ACACHE_KEY, userResponseData.getData());
                             context.startActivity(new Intent(context, CreatFlleActivity.class));
                             break;
                         default:

@@ -4,28 +4,20 @@ package com.softtek.lai.module.bodygamest.model;
  * Created by jarvis.liu on 3/31/2016.
  */
 public class StudentScripInfo {
-    private String Ranking;
+    private String RowNumber;
     private String UserName;
     private String BeforeWeight;
     private String AfterWeight;
-    private String loss;
+    private String Loss;
     private String Change;
     private String Photo;
 
-    public String getPhoto() {
-        return Photo;
+    public String getRowNumber() {
+        return RowNumber;
     }
 
-    public void setPhoto(String photo) {
-        Photo = photo;
-    }
-
-    public String getRanking() {
-        return Ranking;
-    }
-
-    public void setRanking(String ranking) {
-        Ranking = ranking;
+    public void setRowNumber(String rowNumber) {
+        RowNumber = rowNumber;
     }
 
     public String getUserName() {
@@ -53,11 +45,11 @@ public class StudentScripInfo {
     }
 
     public String getLoss() {
-        return loss;
+        return Loss;
     }
 
     public void setLoss(String loss) {
-        this.loss = loss;
+        Loss = loss;
     }
 
     public String getChange() {
@@ -68,15 +60,24 @@ public class StudentScripInfo {
         Change = change;
     }
 
+    public String getPhoto() {
+        return Photo;
+    }
+
+    public void setPhoto(String photo) {
+        Photo = photo;
+    }
+
     @Override
     public String toString() {
         return "StudentScripInfo{" +
-                "Ranking='" + Ranking + '\'' +
+                "RowNumber='" + RowNumber + '\'' +
                 ", UserName='" + UserName + '\'' +
                 ", BeforeWeight='" + BeforeWeight + '\'' +
                 ", AfterWeight='" + AfterWeight + '\'' +
-                ", loss='" + loss + '\'' +
+                ", Loss='" + Loss + '\'' +
                 ", Change='" + Change + '\'' +
+                ", Photo='" + Photo + '\'' +
                 '}';
     }
 }

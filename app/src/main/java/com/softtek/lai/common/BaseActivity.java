@@ -74,14 +74,14 @@ public abstract class BaseActivity extends AppCompatActivity {
         LifeCircle.onPause(this);
     }
 
-    protected void dialogShow(String value) {
+    public void dialogShow(String value) {
         progressDialog = new ProgressDialog(this);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setMessage(value);
         progressDialog.show();
     }
 
-    protected void dialogDissmiss() {
+    public void dialogDissmiss() {
         if (progressDialog != null) {
             progressDialog.dismiss();
         }

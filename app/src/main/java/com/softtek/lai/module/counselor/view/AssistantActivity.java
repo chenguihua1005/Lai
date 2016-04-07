@@ -59,8 +59,8 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
     ValidateLife validateLife;
 
 
-    @InjectView(R.id.tv_left)
-    TextView tv_left;
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
 
     @InjectView(R.id.tv_title)
     TextView tv_title;
@@ -118,7 +118,7 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        tv_left.setOnClickListener(this);
+        ll_left.setOnClickListener(this);
         rel_all_class_more.setOnClickListener(this);
 
         lin_class.setOnClickListener(this);
@@ -131,8 +131,7 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void initViews() {
-        tv_left.setBackgroundResource(R.drawable.back);
-        tv_title.setText("助教管理");
+        tv_title.setText(R.string.assistantManage);
 
 //        assistantListFragment = new AssistantListFragment();
 //        assistantApplyFragment = new AssistantApplyFragment();
@@ -204,7 +203,7 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tv_left:
+            case R.id.ll_left:
                 finish();
                 break;
             case R.id.rel_all_class_more:
