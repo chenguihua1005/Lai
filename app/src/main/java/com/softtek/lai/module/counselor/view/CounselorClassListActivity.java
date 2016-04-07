@@ -39,8 +39,8 @@ public class CounselorClassListActivity extends BaseActivity implements View.OnC
     ValidateLife validateLife;
 
 
-    @InjectView(R.id.tv_left)
-    TextView tv_left;
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
 
     @InjectView(R.id.tv_title)
     TextView tv_title;
@@ -63,7 +63,7 @@ public class CounselorClassListActivity extends BaseActivity implements View.OnC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        tv_left.setOnClickListener(this);
+        ll_left.setOnClickListener(this);
         lin_create_class.setOnClickListener(this);
         expand_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -79,9 +79,8 @@ public class CounselorClassListActivity extends BaseActivity implements View.OnC
 
     @Override
     protected void initViews() {
-        tv_left.setBackgroundResource(R.drawable.back);
         //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
-        tv_title.setText("体管赛");
+        tv_title.setText(R.string.CounselorA);
 
     }
 
@@ -99,7 +98,7 @@ public class CounselorClassListActivity extends BaseActivity implements View.OnC
             case R.id.lin_create_class:        //我要开班
                 startActivity(new Intent(this, CreateCounselorClassActivity.class));
                 break;
-            case R.id.tv_left:
+            case R.id.ll_left:
                 finish();
                 break;
         }

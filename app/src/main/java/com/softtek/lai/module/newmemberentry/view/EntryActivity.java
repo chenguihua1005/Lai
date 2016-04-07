@@ -447,35 +447,56 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
         }
     }
 
-    //生日对话框
     public void show_birth_dialog() {
-        DatePickerDialog dialog = new DatePickerDialog(
-                EntryActivity.this, new DatePickerDialog.OnDateSetListener() {
+        final android.support.v7.app.AlertDialog.Builder birdialog=new android.support.v7.app.AlertDialog.Builder(this);
+        View view=getLayoutInflater().inflate(R.layout.birth_dialog,null);
+        final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
+        np1.setMaxValue(myear);
+        np1.setValue(1960);
+        np1.setMinValue(1900);
+        np1.setWrapSelectorWheel(false);
+
+        final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
+        np2.setMaxValue(12);
+        np2.setValue(6);
+        np2.setMinValue(1);
+        np2.setWrapSelectorWheel(false);
+
+        final NumberPicker np3 = (NumberPicker) view.findViewById(R.id.numberPicker3);
+        np3.setMaxValue(31);
+        np3.setValue(15);
+        np3.setMinValue(1);
+        np3.setWrapSelectorWheel(false);
+
+        birdialog.setTitle("选择生日(年-月-日)").setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
-            public void onDateSet(DatePicker view, int year, int month, int day) {
-                if (year>myear){
+            public void onClick(DialogInterface dialog, int which) {
+
+                if (np1.getValue()==myear&&np2.getValue()>(mmonth+1)) {
                     show_warn_dialog();
                 }
-                if (year==myear&&month>mmonth){
+                if (np1.getValue() == myear && np2.getValue() == (mmonth+1) && np3.getValue() > mday) {
                     show_warn_dialog();
-                }
-                if (year==myear&&month==mmonth&&day>mday){
-                    show_warn_dialog();
-                }
-                else {
-                    et_birthday.setText(year + "-" +(month+1)+ "-" + day);
+                } else {
+                    et_birthday.setText(String.valueOf(np1.getValue()) + "-" + String.valueOf(np2.getValue()) + "-" + String.valueOf(np3.getValue()));
                     et_birthday.setError(null);
                 }
+                dialog.dismiss();
             }
-        },myear,mmonth,mday);
-        dialog.setTitle("");
-        dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
-        dialog.show();
+        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        }).create().show();
+
     }
 
+
+
     //生日警告对话框
-    public void show_warn_dialog(){
-        Dialog dialog = new AlertDialog.Builder(EntryActivity.this)
+    public void show_warn_dialog() {
+        Dialog dialog = new android.support.v7.app.AlertDialog.Builder(this)
                 .setMessage("生日不能大于当前日期,请重新选择")
                 .setPositiveButton("确定",
                         new DialogInterface.OnClickListener() {
@@ -487,10 +508,9 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
         dialog.show();
         dialog.setCanceledOnTouchOutside(false);
     }
-
     //性别对话框
     public void show_sex_dialog() {
-        Dialog genderdialog = new AlertDialog.Builder(EntryActivity.this)
+        Dialog genderdialog = new android.support.v7.app.AlertDialog.Builder(this)
                 .setTitle("请选择您的性别")
                 .setSingleChoiceItems(SexData, 2,
                         new DialogInterface.OnClickListener() {
@@ -500,10 +520,9 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
                                 et_gender.setError(null);
                             }
                         })
-                .setNegativeButton("取消", null)
-                .setPositiveButton("确认", null)
+//                .setNegativeButton("取消",null)
+                .setPositiveButton("完成", null)
                 .create();
-        genderdialog.setCanceledOnTouchOutside(false);  // 设置点击屏幕Dialog不消失
         genderdialog.show();
     }
 }

@@ -13,7 +13,9 @@
 
     <com.softtek.lai.widgets.WheelView
             android:id="@+id/wheel_grade"
-            android:layout_width="wrap_content"
+        android:overScrollMode="never"
+        android:fadingEdge="none"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
 

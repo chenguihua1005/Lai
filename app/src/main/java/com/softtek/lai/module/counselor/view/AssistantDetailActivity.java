@@ -52,8 +52,8 @@ public class AssistantDetailActivity extends BaseActivity implements View.OnClic
     ValidateLife validateLife;
 
 
-    @InjectView(R.id.tv_left)
-    TextView tv_left;
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
 
     @InjectView(R.id.tv_title)
     TextView tv_title;
@@ -93,7 +93,7 @@ public class AssistantDetailActivity extends BaseActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
-        tv_left.setOnClickListener(this);
+        ll_left.setOnClickListener(this);
         iv_email.setOnClickListener(this);
 
     }
@@ -121,9 +121,8 @@ public class AssistantDetailActivity extends BaseActivity implements View.OnClic
 
     @Override
     protected void initViews() {
-        tv_left.setBackgroundResource(R.drawable.back);
         //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
-        tv_title.setText("助教详情");
+        tv_title.setText(R.string.assistantDetail);
         iv_email.setImageResource(R.drawable.more_title);
         iv_email.setVisibility(View.VISIBLE);
 
@@ -162,7 +161,7 @@ public class AssistantDetailActivity extends BaseActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
 
-            case R.id.tv_left:
+            case R.id.ll_left:
                 finish();
                 break;
 

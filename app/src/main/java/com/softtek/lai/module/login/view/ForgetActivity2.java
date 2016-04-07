@@ -6,9 +6,12 @@
 package com.softtek.lai.module.login.view;
 
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.*;
+
 import butterknife.InjectView;
+
 import com.github.snowdream.android.util.Log;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
@@ -22,6 +25,7 @@ import com.softtek.lai.module.login.presenter.IPasswordPresenter;
 import com.softtek.lai.module.login.presenter.PasswordPresnter;
 import com.softtek.lai.utils.MD5;
 import com.softtek.lai.utils.SoftInputUtil;
+
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
@@ -83,7 +87,7 @@ public class ForgetActivity2 extends BaseActivity implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-        SoftInputUtil.hidden(this);
+
         switch (v.getId()) {
             case R.id.ll_left:
                 finish();
@@ -94,6 +98,20 @@ public class ForgetActivity2 extends BaseActivity implements View.OnClickListene
         }
     }
 
+    /**
+     * 点击屏幕隐藏软键盘
+     **/
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (SoftInputUtil.isShouldHideKeyboard(v, ev)) {
+
+                SoftInputUtil.hideKeyboard(v.getWindowToken(), this);
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
 
     @Override
     public void onValidationSucceeded() {

@@ -52,8 +52,8 @@ public class CreateCounselorClassActivity extends BaseActivity implements View.O
     ValidateLife validateLife;
 
 
-    @InjectView(R.id.tv_left)
-    TextView tv_left;
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
 
     @InjectView(R.id.tv_title)
     TextView tv_title;
@@ -94,7 +94,7 @@ public class CreateCounselorClassActivity extends BaseActivity implements View.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        tv_left.setOnClickListener(this);
+        ll_left.setOnClickListener(this);
 
 
         img_choose.setOnClickListener(this);
@@ -104,9 +104,8 @@ public class CreateCounselorClassActivity extends BaseActivity implements View.O
 
     @Override
     protected void initViews() {
-        tv_left.setBackgroundResource(R.drawable.back);
         //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
-        tv_title.setText("创建班级");
+        tv_title.setText(R.string.createClass);
 
     }
 
@@ -140,7 +139,7 @@ public class CreateCounselorClassActivity extends BaseActivity implements View.O
                 validateLife.validate();
                 break;
 
-            case R.id.tv_left:
+            case R.id.ll_left:
                 finish();
                 break;
 

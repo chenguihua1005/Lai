@@ -9,10 +9,13 @@ import android.content.Context;
 import android.content.Intent;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.File.model.FileModel;
 import com.softtek.lai.module.File.net.FileService;
 import com.softtek.lai.module.File.view.CreatFlleActivity;
 import com.softtek.lai.module.home.view.HomeActviity;
+import com.softtek.lai.module.login.model.UserModel;
+
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -34,7 +37,7 @@ public class CreateFileImpl implements ICreateFilepresenter {
 
 
     @Override
-    public void createFile(String token, FileModel file) {
+    public void createFile(String token, final FileModel file) {
         Log.i(file.toString());
         service.doFile(token, file, new Callback<ResponseData<FileModel>>() {
             @Override
@@ -42,6 +45,9 @@ public class CreateFileImpl implements ICreateFilepresenter {
                 int status = fileResponseData.getStatus();
                 switch (status) {
                     case 200: {
+                        UserModel model = UserInfoModel.getInstance().getUser();
+                        model.setNickname(file.getNickname());
+                        UserInfoModel.getInstance().saveUserCache(model);
                         Util.toastMsg("创建档案成功");
                         Intent intent = new Intent(context, HomeActviity.class);
                         context.startActivity(intent);

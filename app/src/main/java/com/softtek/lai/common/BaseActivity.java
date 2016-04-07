@@ -4,6 +4,7 @@
  */
 package com.softtek.lai.common;
 
+import android.app.ProgressDialog;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
@@ -39,6 +40,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected Toolbar mToolbar;
     protected SystemBarTintManager tintManager;
 
+    private ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,10 +50,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         Zilla.ACTIVITY = this;
         LifeCircle.onCreate(this);
         initToolbars();
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
-        tintManager=new SystemBarTintManager(this);
+        tintManager = new SystemBarTintManager(this);
         tintManager.setStatusBarTintEnabled(true);
         tintManager.setStatusBarTintResource(R.color.colorPrimaryDark);
 
@@ -69,6 +72,19 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void onPause() {
         super.onPause();
         LifeCircle.onPause(this);
+    }
+
+    public void dialogShow(String value) {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setMessage(value);
+        progressDialog.show();
+    }
+
+    public void dialogDissmiss() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
     }
 
     @Override
@@ -106,7 +122,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected abstract void initViews();
 
     protected abstract void initDatas();
-
 
    /* @Override
     public boolean onCreateOptionsMenu(Menu menu) {

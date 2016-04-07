@@ -92,7 +92,7 @@ public class StudentScoreAdapter extends BaseAdapter {
             holder.text_rnum.setTextColor(Color.parseColor("#FDB02B"));
         }
 
-        holder.text_rnum.setText(marchInfo.getRanking().toString());
+        holder.text_rnum.setText(marchInfo.getRowNumber().toString());
         holder.text_user_name.setText(marchInfo.getUserName().toString());
         holder.text_before_weight.setText("前 " + marchInfo.getBeforeWeight().toString() + "kg");
         holder.text_after_weight.setText("后 " + marchInfo.getAfterWeight().toString() + "kg");

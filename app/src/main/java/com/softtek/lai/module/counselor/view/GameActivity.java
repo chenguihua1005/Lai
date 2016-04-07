@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -49,8 +50,8 @@ public class GameActivity extends BaseActivity implements View.OnClickListener, 
     @LifeCircleInject
     ValidateLife validateLife;
 
-    @InjectView(R.id.tv_left)
-    TextView tv_left;
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
 
     @InjectView(R.id.tv_title)
     TextView tv_title;
@@ -93,7 +94,7 @@ public class GameActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        tv_left.setOnClickListener(this);
+        ll_left.setOnClickListener(this);
         but_select_month.setOnClickListener(this);
         but_select_grade.setOnClickListener(this);
 //        View view = LayoutInflater.from(this).inflate(R.layout.game_item, null);
@@ -103,9 +104,8 @@ public class GameActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     protected void initViews() {
-        tv_left.setBackgroundResource(R.drawable.back);
         //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
-        tv_title.setText("大赛赛况");
+        tv_title.setText(R.string.CounselorG);
 
     }
 
@@ -206,7 +206,7 @@ public class GameActivity extends BaseActivity implements View.OnClickListener, 
     public void onClick(View v) {
         SoftInputUtil.hidden(this);
         switch (v.getId()) {
-            case R.id.tv_left:
+            case R.id.ll_left:
                 finish();
                 break;
 
