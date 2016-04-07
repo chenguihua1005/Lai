@@ -194,7 +194,8 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                 case R.id.ll_sex:
 
                 case R.id.tv_sex:
-                    show_sex_dialog();
+
+//                    show_sex_dialog();
                     break;
                 case R.id.ll_height:
 
