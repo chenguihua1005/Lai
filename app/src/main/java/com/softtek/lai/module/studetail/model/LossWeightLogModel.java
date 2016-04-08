@@ -17,6 +17,24 @@ public class LossWeightLogModel implements Serializable{
     private String LogContent;
     private String imgCollectionFirst;
     private String imgCollection;
+    private String Priase;
+    private String isClicked;
+
+    public String getIsClicked() {
+        return isClicked;
+    }
+
+    public void setIsClicked(String isClicked) {
+        this.isClicked = isClicked;
+    }
+
+    public String getPriase() {
+        return Priase;
+    }
+
+    public void setPriase(String priase) {
+        Priase = priase;
+    }
 
     public String getUserName() {
         return UserName;

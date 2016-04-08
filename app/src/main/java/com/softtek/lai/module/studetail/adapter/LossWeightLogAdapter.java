@@ -19,6 +19,9 @@ import java.util.List;
  */
 public class LossWeightLogAdapter extends BaseAdapter{
 
+    public static final String ZAN_OFF="0";
+    public static final String ZAN_NO="1";
+
     private LayoutInflater inflater;
     private List<LossWeightLogModel> logs;
 
@@ -53,6 +56,11 @@ public class LossWeightLogAdapter extends BaseAdapter{
             holder= (LogHolder) convertView.getTag();
         }
         LossWeightLogModel log=logs.get(position-2);
+        if(log.getIsClicked().equals(ZAN_OFF)){//未点赞
+
+        }else if(log.getIsClicked().equals(ZAN_NO)){
+
+        }
         return convertView;
     }
 

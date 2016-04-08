@@ -110,11 +110,11 @@ public class LossWeightLogActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-        memberInfopresenter.getLossWeigthLogList(Constants.REFRESH,1);
+        memberInfopresenter.getLossWeigthLogList(Constants.REFRESH,13);
     }
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-        memberInfopresenter.getLossWeigthLogList(Constants.LOADING, 1);
+        memberInfopresenter.getLossWeigthLogList(Constants.LOADING, 13);
     }
 }

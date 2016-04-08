@@ -18,6 +18,7 @@ import com.softtek.lai.module.bodygame.model.FuceNumModel;
 import com.softtek.lai.module.bodygame.model.TiGuanSaiModel;
 import com.softtek.lai.module.bodygame.presenter.ITiGuanSai;
 import com.softtek.lai.module.bodygame.presenter.TiGuanSaiImpl;
+import com.softtek.lai.module.studentbasedate.view.StudentBaseDateActivity;
 import com.squareup.picasso.Picasso;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -118,7 +119,7 @@ public class StudentActivity extends BaseActivity implements View.OnClickListene
 
             //点击跳转事件
             case R.id.ll_st_jibenshuju:
-
+                startActivity(new Intent(this, StudentBaseDateActivity.class));
                 break;
             //上传照片
             case R.id.ll_st_shangchuan:

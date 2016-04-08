@@ -210,8 +210,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                 startActivity(new Intent(getContext(), CounselorActivity.class));
                 break;
             case 1:
-               // startActivity(new Intent(getContext(), StudentActivity.class));
-                //0Pmg0UmrnZBYbcPABC5YB0pSqNXOFnB885ZYInLptG8YvAZsT87oGUPZtU5wbAad-26xsvP8Ov_eoq6Mj9rISg-XZiz2xesbiiqYPWK0AeYquQ8fXwXNpmvL0XwbUkse
+                startActivity(new Intent(getContext(), StudentActivity.class));
                 break;
             case 2:
                 //retestPre=new RetestclassImp();
