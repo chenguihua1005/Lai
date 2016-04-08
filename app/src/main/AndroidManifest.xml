@@ -89,7 +89,10 @@
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity android:name=".module.studetail.view.LossWeightLogActivity" />
         <activity android:name=".module.studetail.view.LogDetailActivity" />
-        <activity android:name=".module.bodygame.view.TipsActivity"></activity>
+        <activity android:name=".module.bodygame.view.TipsActivity" />
+        <activity android:name=".module.bodygamezj.view.BodygameActivity" />
+        <activity android:name=".module.bodygamecc.view.BodyGameCcActivity" />
+        <activity android:name=".module.bodygameyk.view.BodygameYkActivity"></activity>
     </application>
 
 </manifest>

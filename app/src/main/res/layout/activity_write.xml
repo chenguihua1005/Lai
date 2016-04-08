@@ -109,6 +109,7 @@
                             android:layout_height="wrap_content"
                             android:textSize="18sp"
                             android:text="2"
+                            android:id="@+id/tv_retest_write_weekth"
                             android:textColor="#333333"
                             />
                         <TextView
@@ -130,6 +131,7 @@
                             android:layout_height="wrap_content"
                             android:textSize="18sp"
                             android:text="1"
+                            android:id="@+id/tv_write_starm"
                             android:textColor="#333333"
                             />
                         <TextView
@@ -144,6 +146,7 @@
                             android:layout_height="wrap_content"
                             android:textSize="18sp"
                             android:text="9"
+                            android:id="@+id/tv_write_stard"
                             android:textColor="#333333"
                             />
                         <TextView
@@ -158,6 +161,7 @@
                             android:layout_height="wrap_content"
                             android:textSize="18sp"
                             android:text="1"
+                            android:id="@+id/tv_write_endm"
                             android:textColor="#333333"
                             />
                         <TextView
@@ -172,6 +176,7 @@
                             android:layout_height="wrap_content"
                             android:textSize="18sp"
                             android:text="15"
+                            android:id="@+id/tv_write_endd"
                             android:textColor="#333333"
                             />
                         <TextView
@@ -221,7 +226,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:button="@null"
-                        android:background="@drawable/retest_turnoff"
+                        android:background="@drawable/laichen_selector"
                         />
                 </RelativeLayout>
             </LinearLayout>

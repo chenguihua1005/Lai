@@ -34,6 +34,7 @@ import com.softtek.lai.module.retest.model.RetestWriteModel;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.module.retest.present.RetestclassImp;
 import com.softtek.lai.module.retest.view.BodyweiduActivity;
+import com.squareup.picasso.Picasso;
 
 
 import org.greenrobot.eventbus.EventBus;
@@ -101,12 +102,34 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
     //手机号
     @InjectView(R.id.tv_write_phone)
     TextView tv_write_phone;
+    //头像
+    @InjectView(R.id.iv_write_head)
+    ImageView iv_write_head;
+    //班级名称
+    @InjectView(R.id.tv_write_class)
+    TextView tv_write_class;
+    //第几周期
+    @InjectView(R.id.tv_retest_write_weekth)
+    TextView tv_retest_write_weekth;
+    //开始月份
+    @InjectView(R.id.tv_write_starm)
+    TextView tv_write_starm;
+    //开始日期
+    @InjectView(R.id.tv_write_stard)
+    TextView tv_write_stard;
+    //结束月份
+    @InjectView(R.id.tv_write_endm)
+    TextView tv_write_endm;
+    //结束日期
+    @InjectView(R.id.tv_write_endd)
+    TextView tv_write_endd;
     //莱秤开关
     @InjectView(R.id.selectlaichen)
     CheckBox selectlaichen;
 
     private RetestPre retestPre;
     RetestWriteModel retestWrite;
+    MeasureModel measureModel;
     String path="";
     private static final int PHOTO=1;
     private static final int GET_BODY=2;
@@ -150,18 +173,44 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         String loginId=intent.getStringExtra("loginId");
         String classId=intent.getStringExtra("classId");
         String typedate=intent.getStringExtra("typeDate");
+        //开班时间，判断班级名称（几月班）
+        String StartDate=intent.getStringExtra("StartDate");
+        //开始周期
+        String CurrStart=intent.getStringExtra("CurrStart");
+        //结束周期
+        String CurrEnd=intent.getStringExtra("CurrEnd");
+        //昵称
+        String UserName=intent.getStringExtra("UserName");
+        //手机号
+        String Mobile=intent.getStringExtra("Mobile");
+        //头像
+        String Photo=intent.getStringExtra("Photo");
+        //第几周期
+        String Weekth=intent.getStringExtra("Weekth");
+        Log.i("dijizhouqi"+Weekth);
+        //头部基本信息
+        tv_write_nick.setText(UserName);
+        tv_write_phone.setText(Mobile);
+        tv_retest_write_weekth.setText(Weekth);
+        String[] mon=StartDate.split("-");
+        String[] currStart=CurrStart.split("-");
+        String[] currEnd=CurrEnd.split("-");
+        tv_write_class.setText(tomonth(mon[1]));
+        tv_write_starm.setText(currStart[1]);
+        tv_write_stard.setText(currStart[2]);
+        tv_write_endm.setText(currEnd[1]);
+        tv_write_endd.setText(currEnd[2]);
+       // Picasso.with(this).load(Photo).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_write_head);
         Log.i("chuanzhizhizhizhizhi",accountId+loginId+classId);
         retestPre=new RetestclassImp();
         retestWrite=new RetestWriteModel();
 //        retestWrite.setAccountId(accountId);
         retestPre.doGetAudit(Integer.parseInt(accountId),Integer.parseInt(classId),typedate);
         boolean laichenSwitch= SharedPreferenceService.getInstance().get(LAI_CHEN_SWITCH_KEY,false);
-        if(laichenSwitch){
-            selectlaichen.setBackgroundResource(R.drawable.retest_turnoff);
-        }else{
-            selectlaichen.setBackgroundResource(R.drawable.retest_turnon);
+        selectlaichen.setChecked(laichenSwitch);
+        if(selectlaichen.isChecked()){
+            Log.i("上一次莱秤被打开");
             retestPre.doGetMeasure("0Pmg0UmrnZBYbcPABC5YB0pSqNXOFnB885ZYInLptG8YvAZsT87oGUPZtU5wbAad-26xsvP8Ov_eoq6Mj9rISg-XZiz2xesbiiqYPWK0AeYquQ8fXwXNpmvL0XwbUkse","18206182086");
-
         }
 
 
@@ -170,25 +219,25 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
 
 
     @Subscribe
-    public void event(MeasureModel measureModel){
-
+    public void event(MeasureModel measureModel1){
+        measureModel=measureModel1;
         Log.i("username"+measureModel.getUsername());
         tv_write_nick.setText(measureModel.getUsername());
         tv_write_phone.setText(measureModel.getPhone());
-//        tv_retestWrite_nowweight.setText(measureModel.);
-//        tv_retestWrite_tizhi.setText(measureModel.getMeasureddata());
-
+        tv_retestWrite_nowweight.setText(measureModel.getMeasureddata().getItems().get(0).getWeight());
+        tv_retestWrite_tizhi.setText(measureModel.getMeasureddata().getItems().get(0).getBodyfat());
+        tv_retestWrite_neizhi.setText(measureModel.getMeasureddata().getItems().get(0).getVisceralfatindex());
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(RetestAuditModelEvent event){
-        //......
-//        RetestAuditModel model=event.getRetestAuditModels().get(0);
-        tv_write_nick.setText(event.getRetestAuditModels().get(0).getUserName());
-        tv_write_phone.setText(event.getRetestAuditModels().get(0).getMobile());
-
-
-    }
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void onEvent(RetestAuditModelEvent event){
+//        //......
+////        RetestAuditModel model=event.getRetestAuditModels().get(0);
+//        tv_write_nick.setText(event.getRetestAuditModels().get(0).getUserName());
+//        tv_write_phone.setText(event.getRetestAuditModels().get(0).getMobile());
+//
+//
+//    }
     @Override
     public void onClick(View v) {
         switch (v.getId())
@@ -236,7 +285,9 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
             //添加身体围度
             case R.id.btn_retest_write_addbody:
                 Intent intent=new Intent(WriteActivity.this, BodyweiduActivity.class);
-                intent.putExtra("retestWrite",retestWrite);
+//                intent.putExtra("retestWrite",retestWrite);
+                Log.i("measureModel="+measureModel.toString());
+                intent.putExtra("measureModel",measureModel);
                 startActivityForResult(intent,GET_BODY);
                 break;
             //点击弹框事件
@@ -366,15 +417,52 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         //莱秤
+        Log.i("莱秤被点击了。。。。。。。。。。。。。。。。。。。。。。");
         SharedPreferenceService.getInstance().put(LAI_CHEN_SWITCH_KEY,isChecked);
         if(isChecked){
-            selectlaichen.setBackgroundResource(R.drawable.retest_turnoff);
-
-        }else{
-            selectlaichen.setBackgroundResource(R.drawable.retest_turnon);
             retestPre.doGetMeasure("0Pmg0UmrnZBYbcPABC5YB0pSqNXOFnB885ZYInLptG8YvAZsT87oGUPZtU5wbAad-26xsvP8Ov_eoq6Mj9rISg-XZiz2xesbiiqYPWK0AeYquQ8fXwXNpmvL0XwbUkse","18206182086");
-
         }
 
+
+    }
+    public String tomonth(String month){
+        if (month.equals("01")){
+            month="一月班";
+        }
+        else if (month.equals("02")){
+            month="二月班";
+        }else if (month.equals("03"))
+        {
+            month="三月班";
+        }else if (month.equals("04"))
+        {
+            month="四月班";
+
+        }else if (month.equals("05"))
+        {
+            month="五月班";
+        }else if (month.equals("06"))
+        {
+            month="六月班";
+        }else if (month.equals("07"))
+        {
+            month="七月班";
+        } else if (month.equals("08"))
+        {
+            month="八月班";
+        }else if (month.equals("09"))
+        {
+            month="九月班";
+        }else if (month.equals("10"))
+        {
+            month="十月班";
+        }else if (month.equals("11"))
+        {
+            month="十一月班";
+        }else
+        {
+            month="十二月班";
+        }
+        return month;
     }
 }
