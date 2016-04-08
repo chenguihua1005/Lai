@@ -102,6 +102,7 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
 
             }
         });
+        //学员列表
         list_query.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -112,6 +113,20 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
                     intent.putExtra("accountId",banjiStudentModel.getAccountId());
                     intent.putExtra("classId",banjiStudentModel.getClassId());
                     intent.putExtra("typeDate",banjiStudentModel.getTypeDate());
+                    //开班时间，判断班级名称（几月班）
+                    intent.putExtra("StartDate",banjiStudentModel.getStartDate());
+                    //开始周期
+                    intent.putExtra("CurrStart",banjiStudentModel.getCurrStart());
+                    //结束周期
+                    intent.putExtra("CurrEnd",banjiStudentModel.getCurrEnd());
+                    //昵称
+                    intent.putExtra("UserName",banjiStudentModel.getUserName());
+                    //手机号
+                    intent.putExtra("Mobile",banjiStudentModel.getMobile());
+                    //头像
+                    intent.putExtra("Photo",banjiStudentModel.getPhoto());
+                    //第几周期
+                    intent.putExtra("Weekth",banjiStudentModel.getWeekth());
                     intent.putExtra("loginid","36");
 
                     startActivity(intent);
@@ -124,6 +139,21 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
                     intent.putExtra("classId",banjiStudentModel.getClassId());
                     intent.putExtra("typeDate",banjiStudentModel.getTypeDate());
                     intent.putExtra("loginid","36");
+                    //开班时间，判断班级名称（几月班）
+                    intent.putExtra("StartDate",banjiStudentModel.getStartDate());
+                    //开始周期
+                    intent.putExtra("CurrStart",banjiStudentModel.getCurrStart());
+                    //结束周期
+                    intent.putExtra("CurrEnd",banjiStudentModel.getCurrEnd());
+                    //昵称
+                    intent.putExtra("UserName",banjiStudentModel.getUserName());
+                    //手机号
+                    intent.putExtra("Mobile",banjiStudentModel.getMobile());
+                    //头像
+                    intent.putExtra("Photo",banjiStudentModel.getPhoto());
+                    //第几周期
+                    intent.putExtra("Weekth",banjiStudentModel.getWeekth());
+                    Log.i("zhouqizhouqi"+banjiStudentModel.getWeekth());
                     startActivity(intent);
                 }
             }
