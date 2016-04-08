@@ -1,11 +1,12 @@
 package com.softtek.lai.module.retest.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by lareina.qiao on 4/6/2016.
  */
-public class MeauredDataModel {
+public class MeauredDataModel implements Serializable{
 
     private List<ItemsModel> items;
     private String totalcount;

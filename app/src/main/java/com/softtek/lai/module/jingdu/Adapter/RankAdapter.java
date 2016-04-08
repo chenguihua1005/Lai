@@ -26,7 +26,7 @@ public class RankAdapter extends BaseAdapter {
 
     private Context context;
     private List<Table1Model> table1ModelList;
-public RankAdapter(Context context,List<Table1Model>table1ModelList){
+    public RankAdapter(Context context,List<Table1Model>table1ModelList){
     this.context=context;
     this.table1ModelList=table1ModelList;
 

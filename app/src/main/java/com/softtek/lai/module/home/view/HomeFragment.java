@@ -5,6 +5,7 @@
 
 package com.softtek.lai.module.home.view;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,6 +14,7 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
@@ -26,6 +28,8 @@ import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.File.view.CreatFlleActivity;
 import com.softtek.lai.module.bodygame.CounselorActivity;
 import com.softtek.lai.module.bodygamest.view.StudentActivity;
+import com.softtek.lai.module.bodygameyk.view.BodygameYkActivity;
+import com.softtek.lai.module.bodygamezj.view.BodygameActivity;
 import com.softtek.lai.module.home.adapter.FragementAdapter;
 import com.softtek.lai.module.home.adapter.ModelAdapter;
 import com.softtek.lai.module.home.model.HomeInfoModel;
@@ -34,6 +38,7 @@ import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.login.view.LoginActivity1;
+import com.softtek.lai.module.login.view.RegistActivity;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.module.retest.present.RetestclassImp;
 import com.softtek.lai.utils.ACache;
@@ -194,20 +199,21 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         UserModel user=UserInfoModel.getInstance().getUser();
-        if (String.valueOf(Constants.VR).equals(user.getUserrole())) {
-            //Util.toastMsg("游客");
-            Snackbar.make(getView().getRootView(),"您当前是游客模式，请登录后再试",Snackbar.LENGTH_SHORT)
-                    .setAction("确定", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            startActivity(new Intent(getContext(), LoginActivity.class));
-                        }
-                    }).show();
-            return;
-        }
+//        if (String.valueOf(Constants.VR).equals(user.getUserrole())) {
+//            //Util.toastMsg("游客");
+//            Snackbar.make(getView().getRootView(),"您当前是游客模式，请登录后再试",Snackbar.LENGTH_SHORT)
+//                    .setAction("确定", new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            startActivity(new Intent(getContext(), LoginActivity.class));
+//                        }
+//                    }).show();
+//            return;
+//        }
         switch (position) {
             case 0:
-                startActivity(new Intent(getContext(), CounselorActivity.class));
+                getIntentByRole(position,Integer.parseInt(user.getUserrole()));
+//                startActivity(new Intent(getContext(), CounselorActivity.class));
                 break;
             case 1:
                 startActivity(new Intent(getContext(), StudentActivity.class));
@@ -235,5 +241,60 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
 
 
         }
+    }
+
+    /**
+     * 根据角色获取意图
+     * @param position
+     * @param role
+     * @return
+     */
+    private Intent getIntentByRole(int position,int role)
+    {   Intent intent=null;
+        //判断该角色是否拥有此按钮权限
+        //....
+        //如果有该按钮权限就创建相应的INtent
+        if (position==0)
+        {
+            if (role==5)
+            {
+                final AlertDialog.Builder information_dialog = new AlertDialog.Builder(getContext());
+                information_dialog.setTitle("您当前处于游客模式，需要注册认证").setPositiveButton("现在注册", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(new Intent(getContext(), RegistActivity.class));
+                    }
+                }).setNegativeButton("稍候", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(new Intent(getContext(), BodygameYkActivity.class));
+
+                    }
+                }).create().show();
+            }
+            else if (role==4)
+            {
+                Util.toastMsg("受邀普通顾客");
+            }
+            else if (role==3)
+            {
+                startActivity(new Intent(getContext(), CounselorActivity.class));
+            }
+            else if (role==2)
+            {
+                intent=new Intent(getContext(),BodygameActivity.class);
+            }
+            else if (role==1)
+            {
+                Util.toastMsg("高级顾客");
+            }
+            else if (role==0)
+            {
+                Util.toastMsg("未认证用户");
+            }
+        }
+
+
+        return intent;
     }
 }

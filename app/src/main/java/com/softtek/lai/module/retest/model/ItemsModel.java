@@ -1,9 +1,11 @@
 package com.softtek.lai.module.retest.model;
 
+import java.io.Serializable;
+
 /**
  * Created by lareina.qiao on 4/6/2016.
  */
-public class ItemsModel {
+public class ItemsModel implements Serializable{
     private String uid;
     private String weight;
     private String bmi;
