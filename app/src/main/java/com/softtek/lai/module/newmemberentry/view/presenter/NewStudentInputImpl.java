@@ -92,8 +92,9 @@ public class NewStudentInputImpl implements INewStudentpresenter {
 
             @Override
             public void failure(RetrofitError error) {
+
+                ZillaApi.dealNetError(error);
                 error.printStackTrace();
-                Util.toastMsg("服务器异常");
             }
         });
     }
