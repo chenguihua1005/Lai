@@ -53,12 +53,11 @@ public class MemberInfoImpl implements IMemberInfopresenter {
 
     @Override
     public void getMemberinfo(String classId, String userId, final ProgressDialog progressDialog) {
-        String token = SharedPreferenceService.getInstance().get("token", "");
+        String token = infoModel.getToken();
         service.getmemberInfo(token, userId, classId, new Callback<ResponseData<MemberModel>>() {
             @Override
             public void success(ResponseData<MemberModel> memberResponseData, Response response) {
                 Log.i("返回值>>>" + memberResponseData.toString());
-                Log.i("请求url>>>" + response.getUrl());
                 progressDialog.dismiss();
                 int status = memberResponseData.getStatus();
                 if (status == 200) {
@@ -71,7 +70,7 @@ public class MemberInfoImpl implements IMemberInfopresenter {
             @Override
             public void failure(RetrofitError error) {
                 progressDialog.dismiss();
-                Util.toastMsg(R.string.neterror);
+                ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }
         });
@@ -80,7 +79,6 @@ public class MemberInfoImpl implements IMemberInfopresenter {
     @Override
     public void getLossWeightChatData(String userId,String classId) {
         String token=infoModel.getToken();
-        System.out.println("token值是==="+token);
         service.getLineChartData(token, userId, classId, new Callback<ResponseData<List<StudentLinChartInfoModel>>>() {
             @Override
             public void success(ResponseData<List<StudentLinChartInfoModel>> listResponseData, Response response) {
@@ -116,6 +114,8 @@ public class MemberInfoImpl implements IMemberInfopresenter {
                                 aCache.put(LOG_CACHE_KEY,logEvent);
                             }
                             EventBus.getDefault().post(logEvent);
+                        }else{
+                            EventBus.getDefault().post(new LogEvent());
                         }
                     }
 

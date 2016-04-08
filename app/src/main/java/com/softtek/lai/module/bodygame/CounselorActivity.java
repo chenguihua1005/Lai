@@ -87,9 +87,9 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        EventBus.getDefault().register(this);
         super.onCreate(savedInstanceState);
         //初始化事件总线，并注册当前类
-        EventBus.getDefault().register(this);
 //        User user= (User) aCache.getAsObject(Constants.USER_ACACHE_KEY);
 //        user.getUserrole();
         //按钮监听

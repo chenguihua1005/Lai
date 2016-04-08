@@ -15,10 +15,12 @@ import butterknife.InjectView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.jingdu.Adapter.RankAdapter;
-import com.softtek.lai.module.jingdu.EventModel.RankEvent;
 import com.softtek.lai.module.jingdu.model.RankModel;
+import com.softtek.lai.module.jingdu.model.Table1Model;
 import com.softtek.lai.module.jingdu.presenter.GetProinfoImpl;
 import com.softtek.lai.module.jingdu.presenter.IGetProinfopresenter;
+
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import zilla.libcore.ui.InjectLayout;
@@ -44,17 +46,24 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
     @InjectView(R.id.tv_wz2)
     TextView tv_wz2;
 
-    private List<RankModel> rankList = new ArrayList<RankModel>();
+    private List<Table1Model> table1ModelList = new ArrayList<Table1Model>();
     private IGetProinfopresenter iGetProinfopresenter;
 
     private RankModel rank;
-    private RankAdapter rankAdapter;
-
+    public RankAdapter rankAdapter;
+    String a = "";
+    String b = "";
+    String c = "";
+    String d = "";
+    String e = "";
+    String f = "";
+    String g = "";
+    String text;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
-        rankAdapter = new RankAdapter(JingduActivity.this, R.layout.rank_item, rankList);
+        rankAdapter=new RankAdapter(this,table1ModelList);
         list_rank.setAdapter(rankAdapter);
         ll_left.setOnClickListener(this);
         tv_right.setOnClickListener(this);
@@ -62,15 +71,9 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
 //                "TotalMember": "8",
 //                "TotalClass": "5"
 
-        String a = "";
-        String b = "";
-        String c = "";
-        String d = "";
-        String e = "";
-        String f = "";
-        String g = "";
-        String text = "本月新开班级"+a+"个,新增学员"+b+"名,累计减重"+c+"斤 , 其中1月班累计减重"+d+"斤,2月版本月累计减重"+e+"斤,3月版本月累计减重"+f+"斤, 相当于"+g+"头大象.";
-        tv_wz.setText(text);
+
+
+//        tv_wz.setText(text);
     }
 
     @Override
@@ -91,18 +94,26 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
         tv_right.setText("分享");
     }
 
-//    @Subscribe
-//    public void onEvent(RankEvent rankEvent) {
-//        System.out.println("rankEvent.getRanks()》》》》》》》》》》》》》》" + rankEvent.getRanks());
-//        List<RankModel> ranks = rankEvent.getRanks();
-//        for (RankModel rk : ranks) {
+    @Subscribe
+    public void onEvent(RankModel rank) {
+        System.out.println("rankEvent.getRanks()》》》》》》》》》》》》》》" + rank.getTable());
+        a=rank.getTable().get(0).getTotalClass();
+        b=rank.getTable().get(0).getTotalMember();
+        c=rank.getTable().get(0).getTotalWeight();
+        tv_wz.setText( "本月新开班级"+a+"个,新增学员"+b+"名,累计减重"+c+"斤 , 其中1月班累计减重"+d+"斤,2月版本月累计减重"+e+"斤,3月版本月累计减重"+f+"斤, 相当于"+g+"头大象.");
+
+
+//        List<Table1Model> table1 = rank.getTable1();
+        table1ModelList=rank.getTable1();
+        rankAdapter.updateData(table1ModelList);
+//        for (Table1Model table1Model :) {
 //            //System.out.println("》》》》》》》" + "AccountId:" + rk.getAccountId() + "ClassIdModel:" + rk.getClassId() + "OrderNum:" + rk.getOrderNum() + "UserName:" + rk.getUserName() + "LossAfter:" + rk.getLossAfter() + "LossBefor:" + rk.getLossBefor() + "LossWeght:" + rk.getLossWeght());
 //            RankModel r1 = new RankModel(rk.getAccountId(),rk.getBeforeWight(),rk.getAfterWeight(),rk.getLoseWeight(),rk.getUserName());
 //            rankList.add(r1);
 //        }
 //        rankAdapter.updateData(rankList);
 //        Log.i("rankList>>>>>>>>>>>>>>", "" + rankList);
-//    }
+    }
 
     @Override
     public void onClick(View v) {

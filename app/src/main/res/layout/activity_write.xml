@@ -214,15 +214,14 @@
                         android:layout_alignParentLeft="true"
                          />
 
-                    <ImageView
+                    <CheckBox
                         android:id="@+id/selectlaichen"
-                        android:layout_width="60dp"
+                        android:layout_width="70dp"
                         android:layout_height="50dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:src="@drawable/retest_turnoff"
-
-
+                        android:button="@null"
+                        android:background="@drawable/retest_turnoff"
                         />
                 </RelativeLayout>
             </LinearLayout>

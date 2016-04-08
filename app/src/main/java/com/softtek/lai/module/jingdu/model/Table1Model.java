@@ -10,6 +10,14 @@ public class Table1Model {
     private String LoseWeight;
     private String UserName;
 
+    public Table1Model(String accountId, String beforeWight, String afterWeight, String loseWeight, String userName) {
+        AccountId = accountId;
+        BeforeWight = beforeWight;
+        AfterWeight = afterWeight;
+        LoseWeight = loseWeight;
+        UserName = userName;
+    }
+
     @Override
     public String toString() {
         return "Table1Model{" +
