@@ -10,6 +10,8 @@ import java.util.List;
  */
 public class LogEvent implements Serializable{
 
+   public static final long serialVersionUID =6615613898089541797L;
+
     public int flag=0;
     private List<LossWeightLogModel> lossWeightLogModels;
 
@@ -27,5 +29,13 @@ public class LogEvent implements Serializable{
 
     public void setLossWeightLogModels(List<LossWeightLogModel> lossWeightLogModels) {
         this.lossWeightLogModels = lossWeightLogModels;
+    }
+
+    @Override
+    public String toString() {
+        return "LogEvent{" +
+                "flag=" + flag +
+                ", lossWeightLogModels=" + lossWeightLogModels +
+                '}';
     }
 }

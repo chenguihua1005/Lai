@@ -120,6 +120,8 @@ public class LossWeightLogModel implements Serializable{
                 ", LogContent='" + LogContent + '\'' +
                 ", imgCollectionFirst='" + imgCollectionFirst + '\'' +
                 ", imgCollection='" + imgCollection + '\'' +
+                ", Priase='" + Priase + '\'' +
+                ", isClicked='" + isClicked + '\'' +
                 '}';
     }
 }

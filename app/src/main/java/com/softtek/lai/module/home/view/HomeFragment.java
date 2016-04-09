@@ -212,8 +212,8 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
 //        }
         switch (position) {
             case 0:
-                getIntentByRole(position,Integer.parseInt(user.getUserrole()));
-//                startActivity(new Intent(getContext(), CounselorActivity.class));
+                //getIntentByRole(position,Integer.parseInt(user.getUserrole()));
+              startActivity(new Intent(getContext(), CounselorActivity.class));
                 break;
             case 1:
                 startActivity(new Intent(getContext(), StudentActivity.class));

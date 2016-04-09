@@ -68,8 +68,8 @@ public class NetErrorHandler implements IApiErrorHandler {
                 int statusCode = error.getResponse().getStatus();
                 switch (statusCode) {
                     case 401:
-                        Intent intent=new Intent(LaiApplication.getInstance(), LoginActivity.class);
-                        LaiApplication.getInstance().startActivity(intent);
+                        //Intent intent=new Intent(LaiApplication.getInstance(), LoginActivity.class);
+                        //LaiApplication.getInstance().startActivity(intent);
                         Util.toastMsg(zilla.libcore.R.string.net_http_401);
                         break;
                     case 403:

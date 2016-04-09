@@ -13,16 +13,17 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import butterknife.InjectView;
+
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
-import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.grade.adapter.TabContentAdapter;
-import zilla.libcore.ui.InjectLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.InjectView;
+import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_students)
 public class StudentsActivity extends BaseActivity implements BaseFragment.OnFragmentInteractionListener, View.OnClickListener {
@@ -46,18 +47,14 @@ public class StudentsActivity extends BaseActivity implements BaseFragment.OnFra
     protected void initViews() {
 
 
-        LossWeightFragment lwf1 = new LossWeightFragment();
-        lwf1.setFlagType(Integer.parseInt(Constants.LOSS_WEIGHT));
-        LossWeightFragment lwf2 = new LossWeightFragment();
-        lwf2.setFlagType(Integer.parseInt(Constants.WAISTLINE));
-        LossWeightFragment lwf3 = new LossWeightFragment();
-        lwf3.setFlagType(Integer.parseInt(Constants.PHYSIQUE));
-        LossWeightFragment lwf4 = new LossWeightFragment();
-        lwf4.setFlagType(Integer.parseInt(Constants.LOSS_WEIGHT_PER));
-        fragments.add(lwf1);
-        fragments.add(lwf2);
-        fragments.add(lwf3);
-        fragments.add(lwf4);
+        LossWeightFragment lossWeightFragment = new LossWeightFragment();
+        WaistFragment waist=new WaistFragment();
+        FatFragment fat=new FatFragment();
+        LossWeightPerFragment per=new LossWeightPerFragment();
+        fragments.add(lossWeightFragment);
+        fragments.add(waist);
+        fragments.add(fat);
+        fragments.add(per);
         tabcontent.setOffscreenPageLimit(4);
         tabcontent.setAdapter(new TabContentAdapter(getSupportFragmentManager(), fragments));
         tabLayout.setupWithViewPager(tabcontent);
