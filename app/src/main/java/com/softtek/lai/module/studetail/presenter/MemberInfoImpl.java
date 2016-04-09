@@ -58,7 +58,6 @@ public class MemberInfoImpl implements IMemberInfopresenter {
         service.getmemberInfo(token, userId, classId, new Callback<ResponseData<MemberModel>>() {
             @Override
             public void success(ResponseData<MemberModel> memberResponseData, Response response) {
-                Log.i("返回值>>>" + memberResponseData.toString());
                 progressDialog.dismiss();
                 int status = memberResponseData.getStatus();
                 if (status == 200) {

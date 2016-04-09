@@ -7,8 +7,11 @@ package com.softtek.lai.module.grade.presenter;
 
 import android.app.ProgressDialog;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.softtek.lai.common.ResponseData;
 
 import java.io.File;
+
+import retrofit.Callback;
 
 /**
  * Created by jerry.guan on 3/21/2016.
@@ -39,4 +42,6 @@ public interface IGrade {
     修改班级主页的banner
      */
     void updateClassBanner(long classId, String type, File image);
+
+    void removeTutorRole(long classId,long tutorId, Callback<ResponseData> callback);
 }

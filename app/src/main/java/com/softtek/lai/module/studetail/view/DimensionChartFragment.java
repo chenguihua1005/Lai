@@ -1,12 +1,14 @@
 package com.softtek.lai.module.studetail.view;
 
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.LineData;
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.studetail.eventModel.LineChartEvent;
@@ -15,13 +17,14 @@ import com.softtek.lai.module.studetail.presenter.IMemberInfopresenter;
 import com.softtek.lai.module.studetail.presenter.MemberInfoImpl;
 import com.softtek.lai.module.studetail.util.LineChartUtil;
 
-import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -32,6 +35,8 @@ import zilla.libcore.ui.InjectLayout;
  */
 @InjectLayout(R.layout.fragment_dimension_chart)
 public class DimensionChartFragment extends BaseFragment implements View.OnClickListener{
+
+    private static DimensionChartFragment fragment=null;
 
     @InjectView(R.id.chart)
     LineChart chart;
@@ -57,6 +62,24 @@ public class DimensionChartFragment extends BaseFragment implements View.OnClick
     private List<Float> upArmGirthDatas=new ArrayList<>();
     private List<Float> upLegGirthDatas=new ArrayList<>();
     private List<Float> doLegGirthDatas=new ArrayList<>();
+
+    /**
+     * 设置一些参数
+     * @param params
+     * @return
+     */
+    public static DimensionChartFragment newInstance( Map<String,String> params) {
+        if(fragment==null){
+            fragment=new DimensionChartFragment();
+        }
+        Bundle args = new Bundle();
+        Set<String> keys=params.keySet();
+        for(String key:keys){
+            args.putString(key,params.get(key));
+        }
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     protected void initViews() {
@@ -99,7 +122,10 @@ public class DimensionChartFragment extends BaseFragment implements View.OnClick
     protected void initDatas() {
         chartUtil=new LineChartUtil(getContext(),chart);
         memberInfopresenter=new MemberInfoImpl(getContext());
-        memberInfopresenter.getLossWeightChatData("1","1");
+        Bundle args=getArguments();
+        String userId=args.getString("userId");
+        String classId=args.getString("classId");
+        memberInfopresenter.getLossWeightChatData(userId,classId);
     }
 
 

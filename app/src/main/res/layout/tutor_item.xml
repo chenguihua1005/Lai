@@ -1,9 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
-  ~ Date:2016-03-31
-  -->
-
 <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
                       android:layout_width="match_parent"
                       android:layout_height="80dp"
@@ -27,7 +22,7 @@
                     android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/testheader"
+                    android:src="@drawable/img_default"
                     android:layout_marginLeft="5dp"/>
             <LinearLayout
                     android:layout_width="match_parent"

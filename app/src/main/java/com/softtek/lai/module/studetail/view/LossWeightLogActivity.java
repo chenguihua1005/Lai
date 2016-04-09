@@ -1,6 +1,7 @@
 package com.softtek.lai.module.studetail.view;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -51,6 +52,7 @@ public class LossWeightLogActivity extends BaseActivity implements View.OnClickL
     private IMemberInfopresenter memberInfopresenter;
     private List<LossWeightLogModel> logs=new ArrayList<>();
     private LossWeightLogAdapter adapter;
+    private long accountId=0;
 
     @Override
     protected void initViews() {
@@ -70,6 +72,7 @@ public class LossWeightLogActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void initDatas() {
+        accountId=getIntent().getLongExtra("accountId",0);
         memberInfopresenter=new MemberInfoImpl(this);
         LogEvent logEvent=memberInfopresenter.loadLogListCache();
         if(logEvent!=null){
@@ -77,12 +80,19 @@ public class LossWeightLogActivity extends BaseActivity implements View.OnClickL
                 LossWeightLogModel model=logEvent.getLossWeightLogModels().get(0);
                 Picasso.with(this).load(model.getAcBanner()).placeholder(R.drawable.default_pic)
                         .error(R.drawable.default_pic).into(log_banner);
-                
+
             }
             logs.addAll(logEvent.getLossWeightLogModels());
         }
         adapter=new LossWeightLogAdapter(this, logs);
         ptrlv.setAdapter(adapter);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ptrlv.setRefreshing();
+            }
+        },200);
     }
 
     @Override
@@ -127,11 +137,11 @@ public class LossWeightLogActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-        memberInfopresenter.getLossWeigthLogList(Constants.REFRESH,3);
+        memberInfopresenter.getLossWeigthLogList(Constants.REFRESH,accountId);
     }
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-        memberInfopresenter.getLossWeigthLogList(Constants.LOADING, 3);
+        memberInfopresenter.getLossWeigthLogList(Constants.LOADING, accountId);
     }
 }

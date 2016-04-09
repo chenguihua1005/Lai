@@ -12,12 +12,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.softtek.lai.R;
+import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.grade.model.SRInfoModel;
+import com.softtek.lai.module.grade.presenter.GradeImpl;
+import com.softtek.lai.module.grade.presenter.IGrade;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.CircleImageView;
 
 import java.util.List;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import zilla.libcore.api.ZillaApi;
+import zilla.libcore.util.Util;
 
 /**
  * Created by jerry.guan on 3/23/2016.
@@ -27,11 +36,13 @@ public class TutorAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private List<SRInfoModel> infos;
     private int screenWidth;
+    private IGrade grade;
 
     public TutorAdapter(Context context, List<SRInfoModel> infos) {
         inflater = LayoutInflater.from(context);
         this.infos = infos;
         screenWidth = DisplayUtil.getMobileWidth(context);
+        grade=new GradeImpl();
     }
 
     @Override
@@ -50,7 +61,7 @@ public class TutorAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         final ViewHolder holder;
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.tutor_item, parent, false);
@@ -59,7 +70,7 @@ public class TutorAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        SRInfoModel info = infos.get(position);
+        final SRInfoModel info = infos.get(position);
         holder.tv_name.setText(info.getUserName());
         holder.tv_phone.setText(info.getMobile());
         if (Integer.parseInt(info.getIsInvited()) == Constants.NOT_INVITED) {
@@ -91,6 +102,28 @@ public class TutorAdapter extends BaseAdapter {
                         return true;
                 }
                 return false;
+            }
+        });
+        holder.btn_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.horizontalScrollView.smoothScrollTo(0,0);
+                grade.removeTutorRole(1, 1, new Callback<ResponseData>() {
+
+                    @Override
+                    public void success(ResponseData responseData, Response response) {
+                        if (responseData.getStatus() == 200) {
+                            infos.remove(position);
+                            notifyDataSetChanged();
+                        }
+                        Util.toastMsg(responseData.getMsg());
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        ZillaApi.dealNetError(error);
+                    }
+                });
             }
         });
         return convertView;

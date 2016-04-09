@@ -1,12 +1,14 @@
 package com.softtek.lai.module.studetail.view;
 
 import android.graphics.Color;
+import android.os.Bundle;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.LineData;
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.studetail.eventModel.LineChartEvent;
@@ -21,6 +23,8 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -31,6 +35,8 @@ import zilla.libcore.ui.InjectLayout;
  */
 @InjectLayout(R.layout.fragment_loss_weight_chart)
 public class LossWeightChartFragment extends BaseFragment implements RadioGroup.OnCheckedChangeListener{
+
+    private static LossWeightChartFragment fragment=null;
 
     @InjectView(R.id.chart)
     LineChart chart;
@@ -50,6 +56,24 @@ public class LossWeightChartFragment extends BaseFragment implements RadioGroup.
     private List<Float> fatDatas=new ArrayList<>();
 
     private IMemberInfopresenter memberInfopresenter;
+
+    /**
+     * 设置一些参数
+     * @param params
+     * @return
+     */
+    public static LossWeightChartFragment newInstance( Map<String,String> params) {
+        if(fragment==null){
+            fragment=new LossWeightChartFragment();
+        }
+        Bundle args = new Bundle();
+        Set<String> keys=params.keySet();
+        for(String key:keys){
+            args.putString(key,params.get(key));
+        }
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     protected void initViews() {
@@ -83,7 +107,10 @@ public class LossWeightChartFragment extends BaseFragment implements RadioGroup.
         //chartUtil.addDataSet(null);
         memberInfopresenter=new MemberInfoImpl(getContext());
         //请求网络数据
-        memberInfopresenter.getLossWeightChatData("1","1");
+        Bundle args=getArguments();
+        String userId=args.getString("userId");
+        String classId=args.getString("classId");
+        memberInfopresenter.getLossWeightChatData(userId,classId);
     }
 
     @Override

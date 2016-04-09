@@ -16,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import butterknife.InjectView;
+
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
@@ -30,7 +32,9 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import zilla.libcore.ui.InjectLayout;
 
@@ -70,6 +74,8 @@ public class StudentDetailActivity extends BaseActivity implements View.OnClickL
     private ProgressDialog progressDialog;
     private IMemberInfopresenter memberInfopresenter;
     private List<Fragment> fragmentList=new ArrayList<>();
+    private long accountId=0;
+    private long classId=0;
 
     @Override
     protected void initViews() {
@@ -78,8 +84,13 @@ public class StudentDetailActivity extends BaseActivity implements View.OnClickL
         progressDialog = new ProgressDialog(this);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setMessage("正在加载内容...");
-        LossWeightChartFragment lwcf=new LossWeightChartFragment();
-        DimensionChartFragment dcf=new DimensionChartFragment();
+        accountId=getIntent().getLongExtra("userId",0);
+        classId=getIntent().getLongExtra("classId",0);
+        Map<String,String> params=new HashMap<>();
+        params.put("userId",accountId+"");
+        params.put("classId",classId+"");
+        LossWeightChartFragment lwcf= LossWeightChartFragment.newInstance(params);
+        DimensionChartFragment dcf=DimensionChartFragment.newInstance(params);
         fragmentList.add(lwcf);
         fragmentList.add(dcf);
         tabContent.setAdapter(new StudentDetailFragmentAdapter(getSupportFragmentManager(), fragmentList));
@@ -93,8 +104,9 @@ public class StudentDetailActivity extends BaseActivity implements View.OnClickL
         EventBus.getDefault().register(this);
         memberInfopresenter = new MemberInfoImpl(this);
         tv_title.setText("学员详情");
+
         progressDialog.show();
-        memberInfopresenter.getMemberinfo("1", "4", progressDialog);
+        memberInfopresenter.getMemberinfo(String.valueOf(classId),String.valueOf(accountId) , progressDialog);
 
     }
 
@@ -105,16 +117,16 @@ public class StudentDetailActivity extends BaseActivity implements View.OnClickL
                 finish();
                 break;
             case R.id.ll:
-                startActivity(new Intent(this,LossWeightLogActivity.class));
+                Intent intent=new Intent(this,LossWeightLogActivity.class);
+                intent.putExtra("accountId",accountId);
+                startActivity(intent);
                 break;
         }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onGetData(MemberModel memberModel) {
-        Picasso.with(this).load(memberModel.getPhoto()).error(R.drawable.default_pic).into(civ_header_image);
-        Picasso.with(this).load(memberModel.getBeforImg()).error(R.drawable.default_pic).into(iv_loss_before);
-        Picasso.with(this).load(memberModel.getAfterImg()).error(R.drawable.default_pic).into(iv_loss_after);
+
         tv_name.setText(memberModel.getUserName());
         tv_phone.setText(memberModel.getMobile());
         tv_totle_log.setText(memberModel.getLogCount() + "篇");
@@ -122,6 +134,9 @@ public class StudentDetailActivity extends BaseActivity implements View.OnClickL
         tv_loss_before.setText(memberModel.getLossBefor() + "kg");
         tv_loss_after.setText(memberModel.getLossAfter() + "kg");
 
+        Picasso.with(this).load(memberModel.getPhoto()).placeholder(R.drawable.img_default).error(R.drawable.img_default).into(civ_header_image);
+        Picasso.with(this).load(memberModel.getBeforImg()).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_loss_before);
+        Picasso.with(this).load(memberModel.getAfterImg()).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_loss_after);
     }
 
 

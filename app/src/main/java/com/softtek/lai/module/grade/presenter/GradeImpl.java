@@ -6,27 +6,34 @@
 package com.softtek.lai.module.grade.presenter;
 
 import android.app.ProgressDialog;
+
 import com.github.snowdream.android.util.Log;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.grade.eventModel.LossWeightEvent;
 import com.softtek.lai.module.grade.eventModel.SRInfoEvent;
-import com.softtek.lai.module.grade.model.*;
+import com.softtek.lai.module.grade.model.BannerModel;
+import com.softtek.lai.module.grade.model.BannerUpdateCallBack;
+import com.softtek.lai.module.grade.model.DynamicInfoModel;
+import com.softtek.lai.module.grade.model.GradeModel;
+import com.softtek.lai.module.grade.model.SRInfoModel;
+import com.softtek.lai.module.grade.model.StudentModel;
 import com.softtek.lai.module.grade.net.GradeService;
+
 import org.greenrobot.eventbus.EventBus;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
-import retrofit.mime.TypedFile;
-import zilla.libcore.api.ZillaApi;
-import zilla.libcore.file.SharedPreferenceService;
-import zilla.libcore.util.Util;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import retrofit.mime.TypedFile;
+import zilla.libcore.api.ZillaApi;
+import zilla.libcore.util.Util;
 
 /**
  * Created by jerry.guan on 3/21/2016.
@@ -35,6 +42,7 @@ public class GradeImpl implements IGrade {
 
     private GradeService service;
     private BannerUpdateCallBack callBack;
+    private String token="";
 
     public GradeImpl() {
         this(null);
@@ -43,12 +51,11 @@ public class GradeImpl implements IGrade {
     public GradeImpl(BannerUpdateCallBack callBack) {
         this.callBack = callBack;
         service = ZillaApi.NormalRestAdapter.create(GradeService.class);
+        token= UserInfoModel.getInstance().getToken();
     }
 
     @Override
     public void getGradeInfos(final long classId, final ProgressDialog loadingDialog) {
-        String token = SharedPreferenceService.getInstance().get("token", "");
-        System.out.println("班级主页信息请求 token?" + token + "------");
         service.getGradeInfo(token, String.valueOf(classId), new Callback<ResponseData<GradeModel>>() {
             @Override
             public void success(ResponseData<GradeModel> gradeResponseData, Response response) {
@@ -59,7 +66,7 @@ public class GradeImpl implements IGrade {
                         EventBus.getDefault().post(gradeResponseData.getData());
                         break;
                     default:
-                        Util.toastMsg(R.string.neterror);
+                        Util.toastMsg(gradeResponseData.getMsg());
                         break;
                 }
                 Log.i(gradeResponseData.toString());
@@ -68,15 +75,13 @@ public class GradeImpl implements IGrade {
             @Override
             public void failure(RetrofitError error) {
                 loadingDialog.dismiss();
-                error.printStackTrace();
-                Util.toastMsg(R.string.neterror);
+                ZillaApi.dealNetError(error);
             }
         });
     }
 
     @Override
     public void sendDynamic(long classId, String dynamicTitle, final String dyContent, int dyType, long accountId) {
-        String token = SharedPreferenceService.getInstance().get("token", "");
         service.senDynamic(token, classId, dynamicTitle, dyContent, dyType, accountId, new Callback<ResponseData>() {
             @Override
             public void success(ResponseData responseData, Response response) {
@@ -90,15 +95,13 @@ public class GradeImpl implements IGrade {
 
             @Override
             public void failure(RetrofitError error) {
-                error.printStackTrace();
-                Util.toastMsg(R.string.neterror);
+                ZillaApi.dealNetError(error);
             }
         });
     }
 
     @Override
     public void getStudentList(String orderType, String classId, final PullToRefreshListView lv) {
-        String token = SharedPreferenceService.getInstance().get("token", "");
         service.getStudentsList(token, classId, orderType, new Callback<ResponseData<List<StudentModel>>>() {
             @Override
             public void success(ResponseData<List<StudentModel>> studentResponseData, Response response) {
@@ -117,15 +120,13 @@ public class GradeImpl implements IGrade {
             @Override
             public void failure(RetrofitError error) {
                 lv.onRefreshComplete();
-                error.printStackTrace();
-                Util.toastMsg(R.string.neterror);
+                ZillaApi.dealNetError(error);
             }
         });
     }
 
     @Override
     public void getTutorList(long classId, final PullToRefreshListView lv) {
-        String token = SharedPreferenceService.getInstance().get("token", "");
         service.getTutorList(token, classId, new Callback<ResponseData<List<SRInfoModel>>>() {
             @Override
             public void success(ResponseData<List<SRInfoModel>> responseData, Response response) {
@@ -144,15 +145,13 @@ public class GradeImpl implements IGrade {
             @Override
             public void failure(RetrofitError error) {
                 lv.onRefreshComplete();
-                error.printStackTrace();
-                Util.toastMsg(R.string.neterror);
+                ZillaApi.dealNetError(error);
             }
         });
     }
 
     @Override
     public void updateClassBanner(long classId, String type, final File image) {
-        String token = SharedPreferenceService.getInstance().get("token", "");
         service.updateClassBanner(token,
                 classId,
                 type,
@@ -160,12 +159,11 @@ public class GradeImpl implements IGrade {
                 new Callback<ResponseData<BannerModel>>() {
                     @Override
                     public void success(ResponseData<BannerModel> responseData, Response response) {
-                        Util.toastMsg("上传成功");
+                        Util.toastMsg(responseData.getMsg());
                         if (callBack != null) {
                             callBack.onSuccess(responseData.getData().getPath(), image);
                         }
-                        System.out.println(responseData.toString());
-
+                        Log.i(responseData.toString());
                     }
 
                     @Override
@@ -173,12 +171,14 @@ public class GradeImpl implements IGrade {
                         if (callBack != null) {
                             callBack.onFailed();
                         }
-                        Util.toastMsg(R.string.neterror);
-                        error.printStackTrace();
+                        ZillaApi.dealNetError(error);
 
                     }
                 });
     }
 
-
+    @Override
+    public void removeTutorRole(long classId, long tutorId,Callback<ResponseData> callback) {
+        service.removeTutorRole(token, tutorId, classId, callback);
+    }
 }

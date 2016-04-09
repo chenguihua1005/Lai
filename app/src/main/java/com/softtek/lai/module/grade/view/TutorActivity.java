@@ -14,6 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import butterknife.InjectView;
+
+import com.github.snowdream.android.util.Log;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
@@ -55,10 +57,12 @@ public class TutorActivity extends BaseActivity implements PullToRefreshBase.OnR
         tv_right.setOnClickListener(this);
     }
 
+    private long classId=0;
     @Override
     protected void initDatas() {
         tv_title.setText("助教列表");
         tv_right.setText("邀请助教");
+        classId=getIntent().getLongExtra("classId",0);
         tv_right.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f);
         grade = new GradeImpl();
         adapter = new TutorAdapter(this, infos);
@@ -76,6 +80,8 @@ public class TutorActivity extends BaseActivity implements PullToRefreshBase.OnR
     @Override
     public void onRefresh(PullToRefreshBase<ListView> refreshView) {
         grade.getTutorList(1, prlv);
+        grade.getTutorList(2, prlv);
+        grade.getTutorList(3, prlv);
 
     }
 

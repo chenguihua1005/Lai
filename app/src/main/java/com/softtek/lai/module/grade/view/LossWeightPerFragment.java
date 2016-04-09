@@ -31,6 +31,8 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -52,13 +54,34 @@ public class LossWeightPerFragment extends BaseFragment implements PullToRefresh
     private List<StudentModel> studentModels = new ArrayList<>();
     private LossWeightAdapter adapter;
 
+    private static LossWeightPerFragment fragment=null;
+    /**
+     * 设置一些参数
+     * @param params
+     * @return
+     */
+    public static LossWeightPerFragment newInstance( Map<String,String> params) {
+        if(fragment==null){
+            fragment=new LossWeightPerFragment();
+        }
+        Bundle args = new Bundle();
+        Set<String> keys=params.keySet();
+        for(String key:keys){
+            args.putString(key,params.get(key));
+        }
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     protected void initViews() {
         ptrlv.setOnItemClickListener(this);
     }
 
+    private String classId;
     @Override
     protected void initDatas() {
+        classId=getArguments().getString("classId");
         grade = new GradeImpl();
         adapter = new LossWeightAdapter(getContext(), studentModels, Integer.parseInt(Constants.LOSS_WEIGHT_PER));
         ptrlv.setAdapter(adapter);
@@ -94,13 +117,15 @@ public class LossWeightPerFragment extends BaseFragment implements PullToRefresh
 
     @Override
     public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-        grade.getStudentList(Constants.LOSS_WEIGHT_PER, "4", ptrlv);
+        grade.getStudentList(Constants.LOSS_WEIGHT_PER, classId, ptrlv);
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         StudentModel studentModel = studentModels.get(position - 1);
         Intent intent = new Intent(getContext(), StudentDetailActivity.class);
+        intent.putExtra("userId",studentModel.getAccountId());
+        intent.putExtra("classId",studentModel.getClassId());
         startActivity(intent);
     }
 }

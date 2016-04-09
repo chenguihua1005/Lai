@@ -59,4 +59,12 @@ public interface GradeService {
                            @Query("type") String type,
                            @Part("photo") TypedFile photo,
                            Callback<ResponseData<BannerModel>> callback);
+
+    //移除助教权限
+    @FormUrlEncoded
+    @POST("/HerbAssistant/RemoveAssistantRoleByClass")
+    void removeTutorRole(@Header("token")String token,
+                         @Field("assistantId")long tutorId,
+                         @Field("classId")long classId,
+                         Callback<ResponseData> callback);
 }

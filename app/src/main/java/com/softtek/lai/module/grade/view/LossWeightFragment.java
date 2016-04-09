@@ -31,6 +31,8 @@ import zilla.libcore.ui.InjectLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by jerry.guan on 3/21/2016.
@@ -48,14 +50,33 @@ public class LossWeightFragment extends BaseFragment implements PullToRefreshBas
     private List<StudentModel> studentModels = new ArrayList<>();
     private LossWeightAdapter adapter;
 
-
+    private static LossWeightFragment fragment=null;
+    /**
+     * 设置一些参数
+     * @param params
+     * @return
+     */
+    public static LossWeightFragment newInstance( Map<String,String> params) {
+        if(fragment==null){
+            fragment=new LossWeightFragment();
+        }
+        Bundle args = new Bundle();
+        Set<String> keys=params.keySet();
+        for(String key:keys){
+            args.putString(key,params.get(key));
+        }
+        fragment.setArguments(args);
+        return fragment;
+    }
     @Override
     protected void initViews() {
         ptrlv.setOnItemClickListener(this);
     }
 
+    private String classId;
     @Override
     protected void initDatas() {
+        classId=getArguments().getString("classId");
         grade = new GradeImpl();
         adapter = new LossWeightAdapter(getContext(), studentModels, Integer.parseInt(Constants.LOSS_WEIGHT));
         ptrlv.setAdapter(adapter);
@@ -91,13 +112,15 @@ public class LossWeightFragment extends BaseFragment implements PullToRefreshBas
 
     @Override
     public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-        grade.getStudentList(Constants.LOSS_WEIGHT, "4", ptrlv);
+        grade.getStudentList(Constants.LOSS_WEIGHT, classId, ptrlv);
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         StudentModel studentModel = studentModels.get(position - 1);
         Intent intent = new Intent(getContext(), StudentDetailActivity.class);
+        intent.putExtra("userId",studentModel.getAccountId());
+        intent.putExtra("classId",studentModel.getClassId());
         startActivity(intent);
     }
 }

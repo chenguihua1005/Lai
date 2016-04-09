@@ -5,11 +5,13 @@
 
 package com.softtek.lai.module.grade.model;
 
+import java.io.Serializable;
+
 /**
  * Created by jerry.guan on 3/22/2016.
  * 学员列表model
  */
-public class StudentModel {
+public class StudentModel{
 
     private long AccountId;
     private long ClassId;

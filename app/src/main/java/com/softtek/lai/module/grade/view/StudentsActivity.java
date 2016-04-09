@@ -20,7 +20,9 @@ import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.grade.adapter.TabContentAdapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -42,15 +44,17 @@ public class StudentsActivity extends BaseActivity implements BaseFragment.OnFra
     TextView tv_right;
 
     private List<Fragment> fragments = new ArrayList<>();
+    private long classId=0;
 
     @Override
     protected void initViews() {
-
-
-        LossWeightFragment lossWeightFragment = new LossWeightFragment();
-        WaistFragment waist=new WaistFragment();
-        FatFragment fat=new FatFragment();
-        LossWeightPerFragment per=new LossWeightPerFragment();
+        classId=getIntent().getLongExtra("classId",0);
+        Map<String,String> params=new HashMap<>();
+        params.put("classId",classId+"");
+        LossWeightFragment lossWeightFragment = LossWeightFragment.newInstance(params);
+        WaistFragment waist=WaistFragment.newInstance(params);
+        FatFragment fat=FatFragment.newInstance(params);
+        LossWeightPerFragment per=LossWeightPerFragment.newInstance(params);
         fragments.add(lossWeightFragment);
         fragments.add(waist);
         fragments.add(fat);
