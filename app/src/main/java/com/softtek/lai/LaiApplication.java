@@ -26,31 +26,16 @@ import java.util.List;
  */
 public class LaiApplication extends Application implements Zilla.InitCallback, DBHelper.DBUpgradeListener {
 
-    private List<FilterModel> filterList = new ArrayList<>();
-
-
-    public List<FilterModel> getFilterList() {
-        return filterList;
-    }
-
-    public void setFilterList(List<FilterModel> filterList) {
-        this.filterList = filterList;
-    }
-
     private static LaiApplication laiApplication;
 
     @Override
     public void onCreate() {
         super.onCreate();
         laiApplication = this;
-//        String[] datas = getResources().getStringArray(R.array.SensitiveWord);
-//        for (int i = 0; i < datas.length; i++) {
-//            filterList.add(new FilterModel(datas[i]));
-//        }
         new Zilla().setCallBack(this).initSystem(this);
         UserInfoModel.getInstance(this);
-//        CrashHandler catchHandler = CrashHandler.getInstance();
-//        catchHandler.init(getApplicationContext());
+        CrashHandler catchHandler = CrashHandler.getInstance();
+        catchHandler.init(getApplicationContext());
     }
 
     public static LaiApplication getInstance() {
