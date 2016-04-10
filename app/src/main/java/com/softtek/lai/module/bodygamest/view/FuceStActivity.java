@@ -34,12 +34,14 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.newmemberentry.view.GetPhotoDialog;
 import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
+import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
 import com.softtek.lai.module.retest.model.MeasureModel;
 import com.softtek.lai.module.retest.model.RetestAuditModel;
 import com.softtek.lai.module.retest.model.RetestWriteModel;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.module.retest.present.RetestclassImp;
 import com.softtek.lai.module.retest.view.BodyweiduActivity;
+import com.softtek.lai.widgets.CircleImageView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -58,6 +60,24 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     TextView tv_title;
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
+    @InjectView(R.id.iv_writest_head)
+    CircleImageView iv_writest_head;
+    @InjectView(R.id.tv_writest_nick)
+    TextView tv_writest_nick;
+    @InjectView(R.id.tv_writest_phone)
+    TextView tv_writest_phone;
+    @InjectView(R.id.tv_writest_class)
+    TextView tv_writest_class;
+    @InjectView(R.id.tv_writest_classweek)
+    TextView tv_writest_classweek;
+    @InjectView(R.id.tv_writest_monst)
+    TextView tv_writest_monst;
+    @InjectView(R.id.tv_writest_dayst)
+    TextView tv_writest_dayst;
+    @InjectView(R.id.tv_writest_monen)
+    TextView tv_writest_monen;
+    @InjectView(R.id.tv_writest_dayen)
+    TextView tv_writest_dayen;
 
     //保存数据点击
     //初始体重
@@ -213,17 +233,21 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         }
     }
     @Subscribe
-    public void doGetDates(RetestAuditModel retestAuditModel){
-        Log.i("retestAuditModel"+retestAuditModel.getAccountId());
-        tv_retestWrites_nowweight.setText(measureModel.getMeasureddata().getItems().get(0).getWeight());
-        tv_retestWritest_tizhi.setText(measureModel.getMeasureddata().getItems().get(0).getBodyfat());
-        tv_retestWritest_neizhi.setText(measureModel.getMeasureddata().getItems().get(0).getVisceralfatindex());
-        retestWrite.setCircum(measureModel.getChestgirth());
-        retestWrite.setWaistline(measureModel.getWaistgirth());
-        retestWrite.setHiplie(measureModel.getHipgirth());
-        retestWrite.setUpArmGirth(measureModel.getUpperarmgirth());
-        retestWrite.setUpLegGirth(measureModel.getThighgirth());
-        retestWrite.setDoLegGirth(measureModel.getCalfgirth());
+    public void doGetDates(RetestAuditModelEvent retestAuditModelEvent){
+        Log.i("retestAuditModel"+retestAuditModelEvent.getRetestAuditModels());
+        tv_writes_chu_weight.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getInitWeight());
+        tv_writest_nick.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getUserName());
+        tv_writest_phone.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getMobile());
+        String StartDate=retestAuditModelEvent.getRetestAuditModels().get(0).getStartDate();
+//        String CurrStart=retestAuditModelEvent.getRetestAuditModels().get(0).get
+        String[] mon=StartDate.split("-");
+//        String[] currStart=CurrStart.split("-");
+//        String[] currEnd=CurrEnd.split("-");
+        tv_writest_class.setText(tomonth(mon[1]));
+//        tv_write_starm.setText(currStart[1]);
+//        tv_write_stard.setText(currStart[2]);
+//        tv_write_endm.setText(currEnd[1]);
+//        tv_write_endd.setText(currEnd[2]);
     }
     @Subscribe
     public void eventst(MeasureModel measureModel1){
@@ -356,6 +380,47 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
             }
         }).create().show();
 
+
         
+    }
+    public String tomonth(String month){
+        if (month.equals("01")){
+            month="一月班";
+        }
+        else if (month.equals("02")){
+            month="二月班";
+        }else if (month.equals("03"))
+        {
+            month="三月班";
+        }else if (month.equals("04"))
+        {
+            month="四月班";
+
+        }else if (month.equals("05"))
+        {
+            month="五月班";
+        }else if (month.equals("06"))
+        {
+            month="六月班";
+        }else if (month.equals("07"))
+        {
+            month="七月班";
+        } else if (month.equals("08"))
+        {
+            month="八月班";
+        }else if (month.equals("09"))
+        {
+            month="九月班";
+        }else if (month.equals("10"))
+        {
+            month="十月班";
+        }else if (month.equals("11"))
+        {
+            month="十一月班";
+        }else
+        {
+            month="十二月班";
+        }
+        return month;
     }
 }

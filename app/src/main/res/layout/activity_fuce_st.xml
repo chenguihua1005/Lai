@@ -38,7 +38,7 @@
                         android:layout_width="80dp"
                         android:layout_height="80dp"
                         android:background="@drawable/audit_head"
-                        android:id="@+id/iv_write_head" />
+                        android:id="@+id/iv_writest_head" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -59,7 +59,7 @@
                             android:textSize="20sp"
                             android:textStyle="bold"
                             android:textColor="#333333"
-                            android:id="@+id/tv_write_nick" />
+                            android:id="@+id/tv_writest_nick" />
 
 
                     </LinearLayout>
@@ -82,7 +82,7 @@
                             android:textSize="18sp"
                             android:textStyle="bold"
                             android:textColor="#333333"
-                            android:id="@+id/tv_write_phone" />
+                            android:id="@+id/tv_writest_phone" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -97,7 +97,7 @@
                             android:textSize="18sp"
                             android:text="一月班"
                             android:textColor="#333333"
-                            android:id="@+id/tv_write_class" />
+                            android:id="@+id/tv_writest_class" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -111,6 +111,7 @@
                             android:textSize="18sp"
                             android:text="2"
                             android:textColor="#333333"
+                            android:id="@+id/tv_writest_classweek"
                             />
                         <TextView
                             android:layout_width="wrap_content"
@@ -132,6 +133,7 @@
                             android:textSize="18sp"
                             android:text="1"
                             android:textColor="#333333"
+                            android:id="@+id/tv_writest_monst"
                             />
                         <TextView
                             android:layout_width="wrap_content"
@@ -146,6 +148,7 @@
                             android:textSize="18sp"
                             android:text="9"
                             android:textColor="#333333"
+                            android:id="@+id/tv_writest_dayst"
                             />
                         <TextView
                             android:layout_width="wrap_content"
@@ -160,6 +163,7 @@
                             android:textSize="18sp"
                             android:text="1"
                             android:textColor="#333333"
+                            android:id="@+id/tv_writest_monen"
                             />
                         <TextView
                             android:layout_width="wrap_content"
@@ -174,6 +178,7 @@
                             android:textSize="18sp"
                             android:text="15"
                             android:textColor="#333333"
+                            android:id="@+id/tv_writest_dayen"
                             />
                         <TextView
                             android:layout_width="wrap_content"
