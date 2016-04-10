@@ -394,7 +394,7 @@
                         </LinearLayout>
 
                         <LinearLayout
-                                android:id="@+id/ll_st_tips"
+                                android:id="@+id/ll_st_tipst"
                                 android:layout_width="0dp"
                                 android:layout_weight="1"
                                 android:orientation="vertical"

@@ -1,6 +1,7 @@
 package com.softtek.lai.module.bodygamecc.view;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.module.bodygame.view.TipsActivity;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -20,9 +22,13 @@ public class BodyGameCcActivity extends BaseActivity implements View.OnClickList
     LinearLayout ll_left;
     @InjectView(R.id.tv_title)
     TextView tv_title;
+
+    @InjectView(R.id.ll_tipcc)
+    LinearLayout ll_tipcc;
     @Override
     protected void initViews() {
         ll_left.setOnClickListener(this);
+        ll_tipcc.setOnClickListener(this);
 
     }
 
@@ -38,6 +44,10 @@ public class BodyGameCcActivity extends BaseActivity implements View.OnClickList
         {
             case R.id.ll_left:
                 finish();
+                break;
+            case R.id.ll_tipcc:
+                Intent intent=new Intent(this,TipsActivity.class);
+                startActivity(intent);
                 break;
         }
 

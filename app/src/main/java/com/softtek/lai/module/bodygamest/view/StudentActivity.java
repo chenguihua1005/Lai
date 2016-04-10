@@ -18,6 +18,7 @@ import com.softtek.lai.module.bodygame.model.FuceNumModel;
 import com.softtek.lai.module.bodygame.model.TiGuanSaiModel;
 import com.softtek.lai.module.bodygame.presenter.ITiGuanSai;
 import com.softtek.lai.module.bodygame.presenter.TiGuanSaiImpl;
+import com.softtek.lai.module.bodygame.view.TipsActivity;
 import com.softtek.lai.module.studentbasedate.view.StudentBaseDateActivity;
 import com.squareup.picasso.Picasso;
 import org.greenrobot.eventbus.EventBus;
@@ -60,8 +61,8 @@ public class StudentActivity extends BaseActivity implements View.OnClickListene
     @InjectView(R.id.ll_st_saikuang)
     LinearLayout ll_st_saikuang;
     //提示
-    @InjectView(R.id.ll_st_tips)
-    LinearLayout ll_st_tips;
+    @InjectView(R.id.ll_st_tipst)
+    LinearLayout ll_st_tipst;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +76,7 @@ public class StudentActivity extends BaseActivity implements View.OnClickListene
         ll_st_chengjidan.setOnClickListener(this);
         ll_st_rongyu.setOnClickListener(this);
         ll_st_saikuang.setOnClickListener(this);
-        ll_st_tips.setOnClickListener(this);
+        ll_st_tipst.setOnClickListener(this);
         ll_left.setOnClickListener(this);
 
     }
@@ -155,8 +156,9 @@ public class StudentActivity extends BaseActivity implements View.OnClickListene
 
                 break;
             //提示
-            case R.id.ll_st_tips:
-
+            case R.id.ll_st_tipst:
+                Intent intent2=new Intent(this,TipsActivity.class);
+                startActivity(intent2);
                 break;
             case R.id.ll_left:
                 finish();
