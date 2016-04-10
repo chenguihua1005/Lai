@@ -40,6 +40,7 @@ import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.login.view.LoginActivity1;
 import com.softtek.lai.module.login.view.RegistActivity;
+import com.softtek.lai.module.retest.WriteActivity;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.module.retest.present.RetestclassImp;
 import com.softtek.lai.utils.ACache;
@@ -202,8 +203,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         UserModel user=UserInfoModel.getInstance().getUser();
         switch (position) {
             case 0:
-                //getIntentByRole(position,Integer.parseInt(user.getUserrole()));
-              startActivity(new Intent(getContext(), CounselorActivity.class));
+                getIntentByRole(position,Integer.parseInt(user.getUserrole()));
                 break;
             case 1:
                 startActivity(new Intent(getContext(), StudentActivity.class));
@@ -216,7 +216,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                 startActivity(new Intent(getContext(), CounselorActivity.class));
                 break;
             case 4:
-                startActivity(new Intent(getContext(), CreatFlleActivity.class));
+                startActivity(new Intent(getContext(), WriteActivity.class));
                 break;
             case 5:
                 break;

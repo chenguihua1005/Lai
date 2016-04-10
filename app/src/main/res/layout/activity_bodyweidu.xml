@@ -86,7 +86,7 @@
                         android:text=""
                         android:textSize="18sp"
                         android:textColor="#ffbb00"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="15dp"
                         android:layout_toLeftOf="@+id/tv_unit2"
                         android:id="@+id/tv_retest_waistline" />
                     <TextView
@@ -125,7 +125,7 @@
                         android:text=""
                         android:textSize="18sp"
                         android:textColor="#ffbb00"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="15dp"
                         android:layout_toLeftOf="@+id/tv_unit3"
                         android:id="@+id/tv_retest_hiplie" />
                     <TextView
@@ -164,7 +164,7 @@
                         android:textColor="#ffbb00"
                         android:text=""
                         android:textSize="18sp"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="15dp"
                         android:layout_toLeftOf="@+id/tv_unit4"
                         android:id="@+id/tv_retest_uparmgirth" />
                     <TextView
@@ -202,7 +202,7 @@
                         android:text=""
                         android:textSize="18sp"
                         android:textColor="#ffbb00"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="15dp"
                         android:layout_toLeftOf="@+id/tv_unit5"
                         android:id="@+id/tv_retest_upleggirth" />
                     <TextView
@@ -242,6 +242,7 @@
                         android:text=""
                         android:textSize="18sp"
                         android:textColor="#ffbb00"
+                        android:layout_marginRight="15dp"
                         android:layout_toLeftOf="@+id/tv_unit6"
                         android:id="@+id/tv_retest_doleggirth" />
                     <TextView

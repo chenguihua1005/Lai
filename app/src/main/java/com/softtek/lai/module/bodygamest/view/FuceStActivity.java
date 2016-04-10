@@ -35,6 +35,7 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.newmemberentry.view.GetPhotoDialog;
 import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
 import com.softtek.lai.module.retest.model.MeasureModel;
+import com.softtek.lai.module.retest.model.RetestAuditModel;
 import com.softtek.lai.module.retest.model.RetestWriteModel;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.module.retest.present.RetestclassImp;
@@ -55,6 +56,8 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     //toolbar
     @InjectView(R.id.tv_title)
     TextView tv_title;
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
 
     //保存数据点击
     //初始体重
@@ -72,6 +75,10 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     //添加身体维度
     @InjectView(R.id.btn_retest_write_addbodyst)
     Button btn_retest_write_addbodyst;
+    //提交
+    @InjectView(R.id.bt_pingshen)
+    Button bt_pingshen;
+
 
     @InjectView(R.id.tv_writes_chu_weight)
     TextView tv_writes_chu_weight;
@@ -112,6 +119,8 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         im_retestwritest_takephoto.setOnClickListener(this);
         im_deletest.setOnClickListener(this);
         selectlaichenst.setOnCheckedChangeListener(this);
+        bt_pingshen.setOnClickListener(this);
+        ll_left.setOnClickListener(this);
     }
 
     @Override
@@ -129,9 +138,9 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     protected void initDatas() {
         tv_title.setText("复测录入");
         retestPre=new RetestclassImp();
+        retestPre.doGetAudit(36,3,"2016-03-28");
         retestWrite=new RetestWriteModel();
         measureModel=new MeasureModel();
-
         boolean laichenSwitch= SharedPreferenceService.getInstance().get(LAI_CHEN_SWITCH_KEY1,false);
         selectlaichenst.setChecked(laichenSwitch);
         if(selectlaichenst.isChecked()){
@@ -153,8 +162,8 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
             case R.id.btn_retest_write_addbodyst:
                 Intent intent=new Intent(this, BodyweidustActivity.class);
 //                intent.putExtra("retestWrite",retestWrite);
-                Log.i("measureModel="+measureModel.toString());
-                intent.putExtra("measureModel",measureModel);
+                Log.i("retestWrite="+retestWrite.toString());
+                intent.putExtra("retestWrite",retestWrite);
                 startActivityForResult(intent,GET_BODY);
                 break;
             case R.id.ll_fucest_chu_weight:
@@ -189,6 +198,18 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
                 dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
                 dialog.show();
                 break;
+            case R.id.bt_pingshen:
+                retestWrite.setWeight(tv_retestWrites_nowweight.getText()+"");
+                retestWrite.setPysical(tv_retestWritest_tizhi.getText()+"");
+                retestWrite.setFat(tv_retestWritest_neizhi.getText()+"");
+                retestWrite.setClassId("4");
+                retestWrite.setImage("");
+                retestWrite.setAccountId("3");
+                retestPre.doPostWrite(3,36,retestWrite);
+                break;
+            case R.id.ll_left:
+                finish();
+                break;
         }
     }
     @Subscribe
@@ -198,6 +219,12 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         tv_retestWrites_nowweight.setText(measureModel.getMeasureddata().getItems().get(0).getWeight());
         tv_retestWritest_tizhi.setText(measureModel.getMeasureddata().getItems().get(0).getBodyfat());
         tv_retestWritest_neizhi.setText(measureModel.getMeasureddata().getItems().get(0).getVisceralfatindex());
+        retestWrite.setCircum(measureModel.getChestgirth());
+        retestWrite.setWaistline(measureModel.getWaistgirth());
+        retestWrite.setHiplie(measureModel.getHipgirth());
+        retestWrite.setUpArmGirth(measureModel.getUpperarmgirth());
+        retestWrite.setUpLegGirth(measureModel.getThighgirth());
+        retestWrite.setDoLegGirth(measureModel.getCalfgirth());
     }
     @Subscribe
     public void doGetPhotost(PhotModel photModel) {

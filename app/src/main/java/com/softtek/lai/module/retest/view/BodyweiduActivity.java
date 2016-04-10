@@ -111,14 +111,14 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
     protected void initDatas() {
 //        retestWrite= (RetestWriteModel) getIntent().getSerializableExtra("retestWrite");
         tv_title.setText("添加记录");
-        measureModel= (MeasureModel) getIntent().getSerializableExtra("measureModel");
+        retestWrite= (RetestWriteModel) getIntent().getSerializableExtra("retestWrite");
 
-        tv_retest_circum.setText(measureModel.getChestgirth());
-        tv_retest_waistline.setText(measureModel.getWaistgirth());
-        tv_retest_hiplie.setText(measureModel.getHipgirth());
-        tv_retest_uparmgirth.setText(measureModel.getUpperarmgirth());
-        tv_retest_upleggirth.setText(measureModel.getThighgirth());
-        tv_retest_doleggirth.setText(measureModel.getCalfgirth());
+        tv_retest_circum.setText(retestWrite.getCircum());
+        tv_retest_waistline.setText(retestWrite.getWaistline());
+        tv_retest_hiplie.setText(retestWrite.getHiplie());
+        tv_retest_uparmgirth.setText(retestWrite.getUpArmGirth());
+        tv_retest_upleggirth.setText(retestWrite.getUpArmGirth());
+        tv_retest_doleggirth.setText(retestWrite.getDoLegGirth());
 
 //        tv_retest_circum.setText("null".equals(retestWrite.getCircum()+"")?"":retestWrite.getCircum()+"");
 //        tv_retest_waistline.setText("null".equals(retestWrite.getWaistline()+"")?"":retestWrite.getWaistline()+"");

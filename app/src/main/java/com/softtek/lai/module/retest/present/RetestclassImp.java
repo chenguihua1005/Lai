@@ -155,6 +155,9 @@ public class RetestclassImp implements RetestPre{
                     case 500:
                         Util.toastMsg("复测记录获取失败");
                         break;
+                    default:
+                        Util.toastMsg(listResponseData.getMsg());
+                        break;
                 }
             }
 

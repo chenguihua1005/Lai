@@ -229,6 +229,12 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         tv_retestWrite_nowweight.setText(measureModel.getMeasureddata().getItems().get(0).getWeight());
         tv_retestWrite_tizhi.setText(measureModel.getMeasureddata().getItems().get(0).getBodyfat());
         tv_retestWrite_neizhi.setText(measureModel.getMeasureddata().getItems().get(0).getVisceralfatindex());
+        retestWrite.setCircum(measureModel.getChestgirth());
+        retestWrite.setWaistline(measureModel.getWaistgirth());
+        retestWrite.setHiplie(measureModel.getHipgirth());
+        retestWrite.setUpArmGirth(measureModel.getUpperarmgirth());
+        retestWrite.setUpLegGirth(measureModel.getThighgirth());
+        retestWrite.setDoLegGirth(measureModel.getCalfgirth());
     }
     @Subscribe
     public void doGetPhoto(PhotModel photModel) {
@@ -293,8 +299,8 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
             case R.id.btn_retest_write_addbody:
                 Intent intent=new Intent(WriteActivity.this, BodyweiduActivity.class);
 //                intent.putExtra("retestWrite",retestWrite);
-                Log.i("measureModel="+measureModel.toString());
-                intent.putExtra("measureModel",measureModel);
+                Log.i("retestWrite="+retestWrite.toString());
+                intent.putExtra("retestWrite",retestWrite);
                 startActivityForResult(intent,GET_BODY);
                 break;
             //点击弹框事件
