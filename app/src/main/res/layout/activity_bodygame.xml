@@ -111,22 +111,22 @@
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="20dp"
-                    android:layout_gravity="bottom"
+                    android:layout_marginLeft="11dp"
+                    android:layout_marginRight="11dp"
                     >
 
                     <LinearLayout
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="5dp"
+                        android:padding="2dp"
                         >
 
                         <LinearLayout
                             android:id="@+id/ll_tiguansai"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_margin="2dp"
+                            android:layout_marginRight="2.5dp"
                             android:layout_weight="1"
 
                             >
@@ -153,6 +153,7 @@
                                         android:text="@string/CounselorA"
                                         android:textSize="16sp"
                                         android:padding="2dp"
+                                        android:layout_marginBottom="11dp"
                                         android:background="@null"
                                         />
                                 </LinearLayout>
@@ -166,7 +167,8 @@
                             android:orientation="vertical"
                             android:gravity="center|bottom"
                             android:background="#F4F4F4"
-                            android:layout_margin="2dp"
+                            android:layout_marginLeft="2.5dp"
+                            android:layout_marginRight="2.5dp"
                             android:layout_height="match_parent">
                             <ImageView
                                 android:layout_width="30dp"
@@ -179,6 +181,7 @@
                                 android:text="@string/CounselorB"
                                 android:textSize="16sp"
                                 android:padding="2dp"
+                                android:layout_marginBottom="11dp"
                                 android:background="@null"/>
                         </LinearLayout>
                         <LinearLayout
@@ -187,7 +190,7 @@
                             android:layout_weight="1"
                             android:orientation="vertical"
                             android:gravity="center|bottom"
-                            android:layout_margin="2dp"
+                            android:layout_marginLeft="2.5dp"
                             android:background="#F4F4F4"
                             android:layout_height="match_parent">
                             <ImageView
@@ -201,6 +204,7 @@
                                 android:text="@string/CounselorC"
                                 android:textSize="16sp"
                                 android:padding="2dp"
+                                android:layout_marginBottom="11dp"
                                 android:background="@null"/>
                         </LinearLayout>
                     </LinearLayout>
@@ -209,13 +213,13 @@
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="5dp">
+                        android:padding="2dp">
 
                         <LinearLayout
                             android:id="@+id/ll_counselor_fuce"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_margin="2dp"
+                            android:layout_marginLeft="2.5dp"
                             android:layout_weight="1"
                             >
 
@@ -241,6 +245,7 @@
                                         android:text="@string/CounselorD"
                                         android:textSize="16sp"
                                         android:padding="2dp"
+                                        android:layout_marginBottom="11dp"
                                         android:background="@null"/>
                                 </LinearLayout>
 
@@ -264,7 +269,8 @@
                             android:layout_weight="1"
                             android:orientation="vertical"
                             android:gravity="center|bottom"
-                            android:layout_margin="2dp"
+                            android:layout_marginLeft="2.5dp"
+                            android:layout_marginRight="2.5dp"
                             android:background="#F4F4F4"
                             android:layout_height="match_parent">
                             <ImageView
@@ -279,6 +285,7 @@
                                 android:text="@string/CounselorE"
                                 android:textSize="16sp"
                                 android:padding="2dp"
+                                android:layout_marginBottom="11dp"
                                 android:background="@null"/>
                         </LinearLayout>
                         <LinearLayout
@@ -287,7 +294,7 @@
                             android:layout_weight="1"
                             android:orientation="vertical"
                             android:background="#F4F4F4"
-                            android:layout_margin="2dp"
+                            android:layout_marginLeft="2.5dp"
                             android:gravity="center|bottom"
                             android:layout_height="match_parent">
                             <ImageView
@@ -302,6 +309,7 @@
                                 android:text="@string/CounselorF"
                                 android:textSize="16sp"
                                 android:padding="2dp"
+                                android:layout_marginBottom="11dp"
                                 android:background="@null"/>
                         </LinearLayout>
                     </LinearLayout>
@@ -310,13 +318,13 @@
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="5dp">
+                        android:padding="2dp">
 
                         <LinearLayout
                             android:id="@+id/ll_match"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_margin="2dp"
+                            android:layout_marginRight="2.5dp"
                             android:layout_weight="1"
                             >
 
@@ -342,6 +350,7 @@
                                         android:text="@string/CounselorG"
                                         android:textSize="16sp"
                                         android:padding="2dp"
+                                        android:layout_marginBottom="11dp"
                                         android:background="@null"/>
                                 </LinearLayout>
 
@@ -355,7 +364,8 @@
                             android:orientation="vertical"
                             android:background="#F4F4F4"
                             android:gravity="center|bottom"
-                            android:layout_margin="2dp"
+                            android:layout_marginLeft="2.5dp"
+                            android:layout_marginRight="2.5dp"
                             android:layout_height="match_parent">
                             <ImageView
                                 android:layout_width="30dp"
@@ -369,6 +379,7 @@
                                 android:text="@string/CounselorH"
                                 android:textSize="16sp"
                                 android:padding="2dp"
+                                android:layout_marginBottom="11dp"
                                 android:background="@null"/>
                         </LinearLayout>
                         <LinearLayout
@@ -377,7 +388,7 @@
                             android:layout_weight="1"
                             android:orientation="vertical"
                             android:gravity="center|bottom"
-                            android:layout_margin="2dp"
+                            android:layout_marginLeft="2.5dp"
                             android:background="#F4F4F4"
                             android:layout_height="match_parent">
                             <ImageView
@@ -392,6 +403,7 @@
                                 android:text="申请助教"
                                 android:textSize="16sp"
                                 android:padding="2dp"
+                                android:layout_marginBottom="11dp"
                                 android:background="@null"/>
                         </LinearLayout>
                     </LinearLayout>
