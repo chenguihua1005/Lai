@@ -3,6 +3,7 @@ package com.softtek.lai.utils;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 
 import com.github.snowdream.android.util.Log;
@@ -68,9 +69,10 @@ public class NetErrorHandler implements IApiErrorHandler {
                 int statusCode = error.getResponse().getStatus();
                 switch (statusCode) {
                     case 401:
-                        //Intent intent=new Intent(LaiApplication.getInstance(), LoginActivity.class);
-                        //LaiApplication.getInstance().startActivity(intent);
-                        Util.toastMsg(zilla.libcore.R.string.net_http_401);
+                        Intent intent=new Intent(LaiApplication.getInstance(), LoginActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        LaiApplication.getInstance().startActivity(intent);
+                        //Util.toastMsg("token以过时");
                         break;
                     case 403:
                         Util.toastMsg(zilla.libcore.R.string.net_http_403);
