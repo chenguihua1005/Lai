@@ -71,6 +71,7 @@ public class NetErrorHandler implements IApiErrorHandler {
                     case 401:
                         Intent intent=new Intent(LaiApplication.getInstance(), LoginActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         LaiApplication.getInstance().startActivity(intent);
                         //Util.toastMsg("token以过时");
                         break;
