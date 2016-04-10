@@ -200,21 +200,10 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         UserModel user=UserInfoModel.getInstance().getUser();
-//        if (String.valueOf(Constants.VR).equals(user.getUserrole())) {
-//            //Util.toastMsg("游客");
-//            Snackbar.make(getView().getRootView(),"您当前是游客模式，请登录后再试",Snackbar.LENGTH_SHORT)
-//                    .setAction("确定", new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            startActivity(new Intent(getContext(), LoginActivity.class));
-//                        }
-//                    }).show();
-//            return;
-//        }
         switch (position) {
             case 0:
-                getIntentByRole(position,Integer.parseInt(user.getUserrole()));
-//                startActivity(new Intent(getContext(), CounselorActivity.class));
+                //getIntentByRole(position,Integer.parseInt(user.getUserrole()));
+              startActivity(new Intent(getContext(), CounselorActivity.class));
                 break;
             case 1:
                 startActivity(new Intent(getContext(), StudentActivity.class));

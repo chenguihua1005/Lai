@@ -91,12 +91,9 @@ public class SystemUtils {
      * @param file
      */
     public static void saveBitmap(Bitmap bitmap, File file) {
-        if (file.exists()) {
-            file.delete();
-        }
         try {
             FileOutputStream os = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 90, os);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, os);
             os.flush();
             os.close();
             Log.i("文件保存成功...");
@@ -116,7 +113,7 @@ public class SystemUtils {
     public static Intent openCamera(Uri uri) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.Images.Media.ORIENTATION, 0);
-        if (uri == null) intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+        if (uri != null) intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
         return intent;
     }
 
@@ -126,5 +123,11 @@ public class SystemUtils {
      */
     public static int getSDKInt(){
         return Build.VERSION.SDK_INT;
+    }
+
+    public static Intent openPicture(){
+        Intent getAlbum = new Intent(Intent.ACTION_PICK);
+        getAlbum.setType("image/*");
+        return getAlbum;
     }
 }

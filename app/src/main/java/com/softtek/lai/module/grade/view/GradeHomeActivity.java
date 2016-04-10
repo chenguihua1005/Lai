@@ -14,34 +14,49 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.SystemClock;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.*;
-import butterknife.InjectView;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
+
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.counselor.view.AssistantListActivity;
 import com.softtek.lai.module.counselor.view.InviteStudentActivity;
 import com.softtek.lai.module.grade.adapter.DynamicAdapter;
-import com.softtek.lai.module.grade.model.*;
+import com.softtek.lai.module.grade.model.BannerUpdateCallBack;
+import com.softtek.lai.module.grade.model.DynamicInfoModel;
+import com.softtek.lai.module.grade.model.GradeInfoModel;
+import com.softtek.lai.module.grade.model.GradeModel;
+import com.softtek.lai.module.grade.model.PeopleModel;
+import com.softtek.lai.module.grade.model.PhotoInfoModel;
 import com.softtek.lai.module.grade.presenter.GradeImpl;
 import com.softtek.lai.module.grade.presenter.IGrade;
 import com.softtek.lai.utils.SystemUtils;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import butterknife.InjectView;
+import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_grade_home)
 public class GradeHomeActivity extends BaseActivity implements View.OnClickListener, DialogInterface.OnClickListener
@@ -101,6 +116,9 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
     @InjectView(R.id.lv_dynamic)
     ListView lv_dynamic;
 
+    @InjectView(R.id.ll_fooder)
+    LinearLayout ll_footer;
+
     private EditText et_content;
     private TextView tv_dialog_title;
     private ImageView camera, picture;
@@ -112,12 +130,15 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
     private DynamicAdapter adapter;
     private ProgressDialog progressDialog;
     private AlertDialog dialog;
-    private int count = 0;
+    private int count = 0;//计数器
+    private int review_flag=0;
+    private long classId=0;
+    private long accountId=0;
 
     private File dir = new File(uploadloadImageDir);
-
     @Override
     protected void initViews() {
+        review_flag=getIntent().getIntExtra("review",0);
         ll_back.setOnClickListener(this);
         ll_pc.setOnClickListener(this);
         ll_sr.setOnClickListener(this);
@@ -125,6 +146,10 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
         ll_invite_pc.setOnClickListener(this);
         ll_invite_sr.setOnClickListener(this);
         ll_send_dynamic.setOnClickListener(this);
+        if(review_flag==0){
+            ll_footer.setVisibility(View.GONE);
+            tv_editor.setVisibility(View.GONE);
+        }
         progressDialog = new ProgressDialog(this);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setMessage("正在加载内容...");
@@ -134,9 +159,11 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void initDatas() {
         tv_title.setText("班级主页");
+        accountId= Long.parseLong(UserInfoModel.getInstance().getUser().getUserid());
+        classId = Long.parseLong(getIntent().getStringExtra("classId"));
         grade = new GradeImpl(this);
         progressDialog.show();
-        grade.getGradeInfos(1, progressDialog);
+        grade.getGradeInfos(classId, progressDialog);
         adapter = new DynamicAdapter(this, dynamicInfos);
         lv_dynamic.setAdapter(adapter);
 
@@ -161,21 +188,27 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.ll_pc:
                 //点击学员条
-                startActivity(new Intent(this, StudentsActivity.class));
+                Intent studentListIntent=new Intent(this, StudentsActivity.class);
+                studentListIntent.putExtra("classId",classId);
+                studentListIntent.putExtra("review",review_flag);
+                startActivity(studentListIntent);
                 break;
             case R.id.ll_sr:
                 //点击助教条
-                startActivity(new Intent(this, TutorActivity.class));
+                Intent tutorIntent=new Intent(this, TutorActivity.class);
+                tutorIntent.putExtra("classId",classId);
+                tutorIntent.putExtra("review",review_flag);
+                startActivity(tutorIntent);
                 break;
             case R.id.ll_invite_tutor:
                 Intent intent = new Intent(this, AssistantListActivity.class);
-                intent.putExtra("classId", getIntent().getStringExtra("classId"));
+                intent.putExtra("classId", classId);
                 startActivity(intent);
                 //邀请助教按钮
                 break;
             case R.id.ll_invite_student:
                 Intent intents = new Intent(this, InviteStudentActivity.class);
-                intents.putExtra("classId", getIntent().getStringExtra("classId"));
+                intents.putExtra("classId", classId);
                 startActivity(intents);
                 //邀请学员按钮
                 break;
@@ -213,9 +246,7 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.picture:
                 //选择图片
-                Intent getAlbum = new Intent(Intent.ACTION_PICK);
-                getAlbum.setType("image/*");
-                startActivityForResult(getAlbum, GET_IMAGE_VIA_PICTURE);
+                startActivityForResult(SystemUtils.openPicture(), GET_IMAGE_VIA_PICTURE);
                 if (dialog != null) {
                     dialog.dismiss();
                 }
@@ -252,13 +283,19 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
             PeopleModel pc = pcs.get(i);
             switch (i) {
                 case 0:
-                    Picasso.with(this).load(pc.getPhoto()).into(cir_pc_one);
+                    Picasso.with(this).load(pc.getPhoto())
+                            .placeholder(R.drawable.img_default)
+                            .error(R.drawable.img_default).into(cir_pc_one);
                     break;
                 case 1:
-                    Picasso.with(this).load(pc.getPhoto()).into(cir_pc_two);
+                    Picasso.with(this).load(pc.getPhoto())
+                            .placeholder(R.drawable.img_default)
+                            .error(R.drawable.img_default).into(cir_pc_two);
                     break;
                 case 2:
-                    Picasso.with(this).load(pc.getPhoto()).into(cir_pc_three);
+                    Picasso.with(this).load(pc.getPhoto())
+                            .placeholder(R.drawable.img_default)
+                            .error(R.drawable.img_default).into(cir_pc_three);
                     break;
             }
         }
@@ -266,13 +303,19 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
             PeopleModel sr = srs.get(i);
             switch (i) {
                 case 0:
-                    Picasso.with(this).load(sr.getPhoto()).into(cir_sr_one);
+                    Picasso.with(this).load(sr.getPhoto())
+                            .placeholder(R.drawable.img_default)
+                            .error(R.drawable.img_default).into(cir_sr_one);
                     break;
                 case 1:
-                    Picasso.with(this).load(sr.getPhoto()).into(cir_sr_two);
+                    Picasso.with(this).load(sr.getPhoto())
+                            .placeholder(R.drawable.img_default)
+                            .error(R.drawable.img_default).into(cir_sr_two);
                     break;
                 case 2:
-                    Picasso.with(this).load(sr.getPhoto()).into(cir_sr_three);
+                    Picasso.with(this).load(sr.getPhoto())
+                            .placeholder(R.drawable.img_default)
+                            .error(R.drawable.img_default).into(cir_sr_three);
                     break;
             }
         }
@@ -281,7 +324,7 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onListViewUpdate(DynamicInfoModel info) {
-        dynamicInfos.add(info);
+        dynamicInfos.add(0,info);
         adapter.notifyDataSetChanged();
     }
 
@@ -298,6 +341,7 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
         super.onDestroy();
     }
 
+
     @Override
     public void onClick(DialogInterface dialog, int which) {
         dialog.dismiss();
@@ -306,7 +350,7 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
             if ("".equals(content.trim())) {
                 return;
             }
-            grade.sendDynamic(1, "dsadas", content, Constants.SP_SEND, 1);
+            grade.sendDynamic(classId, "dsadas", content, Constants.SP_SEND,accountId );
         }
     }
 
@@ -337,13 +381,12 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
             switch (requestCode) {
                 case GET_IMAGE_VIA_CAMERA:
                     //从指定目录获取图片原图
-                    String imagePath = Environment.getExternalStorageDirectory() + File.separator + localTempImgDir +
-                            File.separator + localTempImgFileName;
-                    File image = new File(imagePath);
+                    File image = new File(uploadloadImageDir,localTempImgFileName);
+                    Log.i("拍完照后图片是否存在？=="+image.exists());
                     startActivityForResult(SystemUtils.crop(Uri.fromFile(image), null, 3, 2, 300, 300), CROP_VIA_IMAGE);
                     break;
                 case GET_IMAGE_VIA_PICTURE:
-                    Intent intent = SystemUtils.crop(data.getData(), null, 3, 2, 0, 0);
+                    Intent intent = SystemUtils.crop(data.getData(), null, 3, 2, 300, 300);
                     startActivityForResult(intent, CROP_VIA_IMAGE);
                     break;
                 case CROP_VIA_IMAGE:
@@ -351,13 +394,12 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
                     if (!dir.exists()) {
                         dir.mkdirs();
                     }
-                    File saveImage = new File(dir, localTempImgFileName);
+                    File saveImage = new File(dir, SystemClock.elapsedRealtime()+".png");
                     SystemUtils.saveBitmap(bitmap, saveImage);
-                    Log.i("文件存在吗？" + saveImage.exists());
                     if (saveImage.exists()) {
                         progressDialog.setMessage("正在上传图片,请稍候...");
                         progressDialog.show();
-                        grade.updateClassBanner(1, "2", saveImage);
+                        grade.updateClassBanner(classId, "2", saveImage);
                     }
                     break;
             }
@@ -367,7 +409,9 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void onSuccess(String bannerUrl, File image) {
         progressDialog.dismiss();
-        Picasso.with(this).load(image).into(iv_grade_banner);
+        Picasso.with(this).load(image).placeholder(R.drawable.default_pic)
+                .error(R.drawable.img_default).into(iv_grade_banner);
+
     }
 
     @Override

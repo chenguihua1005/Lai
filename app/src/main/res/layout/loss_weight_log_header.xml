@@ -38,10 +38,11 @@
 
             <com.softtek.lai.widgets.CircleImageView
                 android:id="@+id/civ_header_image"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginBottom="15dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/testheader" />
+                android:src="@drawable/img_default" />
         </LinearLayout>
     </RelativeLayout>
 

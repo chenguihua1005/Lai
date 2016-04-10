@@ -19,6 +19,8 @@ import zilla.libcore.lifecircle.exit.AppExitLife;
 import zilla.libcore.ui.LayoutInjectUtil;
 
 import java.io.Serializable;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Fragment基类
@@ -57,6 +59,7 @@ public abstract class BaseFragment extends Fragment {
         }
         Bundle args = new Bundle();
         args.putSerializable(ARG_PARAM, mParamObj);
+
         fragment.setArguments(args);
         return fragment;
     }

@@ -18,4 +18,11 @@ public class BannerModel {
     public void setPath(String path) {
         this.path = path;
     }
+
+    @Override
+    public String toString() {
+        return "BannerModel{" +
+                "path='" + path + '\'' +
+                '}';
+    }
 }

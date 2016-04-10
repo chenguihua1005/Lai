@@ -1,8 +1,44 @@
 {
-  "vr": [0,1],
-  "nc": [0,1],
-  "inc":[0,1,2],
-  "pc": [0,1,2],
-  "sr": [0,1,2,3,4,5,6,7,8,9],
-  "sp": [0,1,2,3,4,5,6,7,8,9]
+  "vr": {
+    "bodyGame":true,
+    "laiYunDong":true,
+    "office":false,
+    "laiExcel":false,
+    "laiShop":false
+  },
+  "nc": {
+    "bodyGame":true,
+    "laiYunDong":true,
+    "office":false,
+    "laiExcel":false,
+    "laiShop":false
+  },
+  "inc":{
+    "bodyGame":true,
+    "laiYunDong":true,
+    "office":true,
+    "laiExcel":false,
+    "laiShop":false
+  },
+  "pc": {
+    "bodyGame":true,
+    "laiYunDong":true,
+    "office":true,
+    "laiExcel":false,
+    "laiShop":false
+  },
+  "sr": {
+    "bodyGame":true,
+    "laiYunDong":true,
+    "office":true,
+    "laiExcel":true,
+    "laiShop":true
+  },
+  "sp": {
+    "bodyGame":true,
+    "laiYunDong":true,
+    "office":true,
+    "laiExcel":true,
+    "laiShop":true
+  }
 }

@@ -12,7 +12,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import butterknife.InjectView;
+
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
@@ -24,21 +24,25 @@ import com.softtek.lai.module.grade.model.StudentModel;
 import com.softtek.lai.module.grade.presenter.GradeImpl;
 import com.softtek.lai.module.grade.presenter.IGrade;
 import com.softtek.lai.module.studetail.view.StudentDetailActivity;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import zilla.libcore.ui.InjectLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import butterknife.InjectView;
+import zilla.libcore.ui.InjectLayout;
+
 /**
  * Created by jerry.guan on 3/21/2016.
+ * 减重百分比
  */
 @InjectLayout(R.layout.fragment_loss_weight)
-public class LossWeightFragment extends BaseFragment implements PullToRefreshBase.OnRefreshListener<ListView>,
+public class LossWeightPerFragment extends BaseFragment implements PullToRefreshBase.OnRefreshListener<ListView>,
         AdapterView.OnItemClickListener {
 
 
@@ -50,15 +54,15 @@ public class LossWeightFragment extends BaseFragment implements PullToRefreshBas
     private List<StudentModel> studentModels = new ArrayList<>();
     private LossWeightAdapter adapter;
 
-    private static LossWeightFragment fragment=null;
+    private static LossWeightPerFragment fragment=null;
     /**
      * 设置一些参数
      * @param params
      * @return
      */
-    public static LossWeightFragment newInstance( Map<String,String> params) {
+    public static LossWeightPerFragment newInstance( Map<String,String> params) {
         if(fragment==null){
-            fragment=new LossWeightFragment();
+            fragment=new LossWeightPerFragment();
         }
         Bundle args = new Bundle();
         Set<String> keys=params.keySet();
@@ -68,6 +72,7 @@ public class LossWeightFragment extends BaseFragment implements PullToRefreshBas
         fragment.setArguments(args);
         return fragment;
     }
+
     @Override
     protected void initViews() {
         ptrlv.setOnItemClickListener(this);
@@ -80,7 +85,7 @@ public class LossWeightFragment extends BaseFragment implements PullToRefreshBas
         classId=getArguments().getString("classId");
         review_flag=getArguments().getString("review");
         grade = new GradeImpl();
-        adapter = new LossWeightAdapter(getContext(), studentModels, Integer.parseInt(Constants.LOSS_WEIGHT));
+        adapter = new LossWeightAdapter(getContext(), studentModels, Integer.parseInt(Constants.LOSS_WEIGHT_PER));
         ptrlv.setAdapter(adapter);
         ptrlv.setOnRefreshListener(this);
         //第一次加载自动刷新
@@ -114,7 +119,7 @@ public class LossWeightFragment extends BaseFragment implements PullToRefreshBas
 
     @Override
     public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-        grade.getStudentList(Constants.LOSS_WEIGHT, classId, ptrlv);
+        grade.getStudentList(Constants.LOSS_WEIGHT_PER, classId, ptrlv);
     }
 
     @Override
