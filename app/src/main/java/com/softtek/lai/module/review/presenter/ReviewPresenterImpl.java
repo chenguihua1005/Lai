@@ -7,9 +7,9 @@ import android.widget.ListView;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.counselor.adapter.CounselorClassAdapter;
 import com.softtek.lai.module.counselor.model.ClassInfoModel;
 import com.softtek.lai.module.counselor.net.CounselorService;
+import com.softtek.lai.module.review.adapter.ReviewAdapter;
 
 import java.util.Calendar;
 import java.util.List;
@@ -46,7 +46,7 @@ public class ReviewPresenterImpl implements IReviewPresenter{
                 List<ClassInfoModel> list = listResponseData.getData();
                 switch (status) {
                     case 200:
-                        CounselorClassAdapter adapter = new CounselorClassAdapter(context, list);
+                        ReviewAdapter adapter = new ReviewAdapter(context, list);
                         expand_lis.setAdapter(adapter);
                         if (list.size() > 0) {
                             expand_lis.setVisibility(View.VISIBLE);
@@ -56,7 +56,6 @@ public class ReviewPresenterImpl implements IReviewPresenter{
                             img_mo_message.setVisibility(View.VISIBLE);
                         }
                         Calendar calendar = Calendar.getInstance();
-                        int year = calendar.get(Calendar.YEAR);
                         int monthOfYear = calendar.get(Calendar.MONTH) + 1;
                         int nextMonth = 1;
                         if (monthOfYear == 12) {
@@ -65,7 +64,6 @@ public class ReviewPresenterImpl implements IReviewPresenter{
                             nextMonth = monthOfYear + 1;
                         }
                         int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-                        System.out.println("list--------------" + list);
                         int count = 0;
                         for (int i = 0; i < list.size(); i++) {
                             ClassInfoModel classInfo = list.get(i);

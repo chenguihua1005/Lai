@@ -1,7 +1,6 @@
 package com.softtek.lai.module.review.view;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -37,13 +36,11 @@ public class ReviewActivity extends BaseActivity implements View.OnClickListener
     @InjectView(R.id.img_mo_message)
     ImageView img_mo_message;
 
-
     private IReviewPresenter reviewPresenter=null;
 
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void initViews() {
+        tv_title.setText(R.string.review);
         ll_left.setOnClickListener(this);
         expand_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -51,16 +48,10 @@ public class ReviewActivity extends BaseActivity implements View.OnClickListener
                 Intent intent = new Intent(ReviewActivity.this, GradeHomeActivity.class);
                 ClassInfoModel classInfo = (ClassInfoModel) expand_list.getAdapter().getItem(position);
                 intent.putExtra("classId", classInfo.getClassId());
-                intent.putExtra("review",REVIEW_FLAG);
+                intent.putExtra("review", REVIEW_FLAG);
                 startActivity(intent);
             }
         });
-    }
-
-    @Override
-    protected void initViews() {
-        tv_title.setText(R.string.review);
-
     }
 
     @Override
