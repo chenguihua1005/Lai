@@ -13,6 +13,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.home.view.HomeActviity;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 
 import zilla.libcore.ui.InjectLayout;
@@ -42,9 +43,16 @@ public class GuideActivity extends BaseActivity implements Runnable{
             finish();
         }else{
             //登陆完后直接去主页
-            Intent intent = new Intent(GuideActivity.this, HomeActviity.class);
-            startActivity(intent);
-            finish();
+            UserModel model=UserInfoModel.getInstance().getUser();
+            if(model==null){
+                Intent intent = new Intent(GuideActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }else{
+                Intent intent = new Intent(GuideActivity.this, HomeActviity.class);
+                startActivity(intent);
+                finish();
+            }
         }
     }
 }
