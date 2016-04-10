@@ -5,6 +5,7 @@
 
 package com.softtek.lai.module.grade.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.TypedValue;
@@ -20,6 +21,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.module.counselor.view.AssistantListActivity;
 import com.softtek.lai.module.grade.adapter.TutorAdapter;
 import com.softtek.lai.module.grade.eventModel.SRInfoEvent;
 import com.softtek.lai.module.grade.model.SRInfoModel;
@@ -52,12 +54,18 @@ public class TutorActivity extends BaseActivity implements PullToRefreshBase.OnR
 
     @Override
     protected void initViews() {
+        review_flag=getIntent().getIntExtra("review",0);
         prlv.setOnRefreshListener(this);
         ll_left.setOnClickListener(this);
         tv_right.setOnClickListener(this);
+        if(review_flag==0){
+            tv_right.setVisibility(View.GONE);
+        }
     }
 
     private long classId=0;
+    private int review_flag=0;
+
     @Override
     protected void initDatas() {
         tv_title.setText("助教列表");
@@ -65,7 +73,7 @@ public class TutorActivity extends BaseActivity implements PullToRefreshBase.OnR
         classId=getIntent().getLongExtra("classId",0);
         tv_right.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f);
         grade = new GradeImpl();
-        adapter = new TutorAdapter(this, infos);
+        adapter = new TutorAdapter(this, infos,review_flag);
         prlv.setAdapter(adapter);
         //第一次加载自动刷新
         new Handler().postDelayed(new Runnable() {
@@ -80,7 +88,7 @@ public class TutorActivity extends BaseActivity implements PullToRefreshBase.OnR
     @Override
     public void onRefresh(PullToRefreshBase<ListView> refreshView) {
         grade.getTutorList(classId, prlv);
-
+        //grade.getTutorList(3, prlv);
     }
 
     @Subscribe
@@ -109,6 +117,9 @@ public class TutorActivity extends BaseActivity implements PullToRefreshBase.OnR
                 finish();
                 break;
             case R.id.tv_right:
+                Intent intent = new Intent(this, AssistantListActivity.class);
+                intent.putExtra("classId", classId);
+                startActivity(intent);
                 break;
         }
     }

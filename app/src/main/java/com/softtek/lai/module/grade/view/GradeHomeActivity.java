@@ -116,6 +116,9 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
     @InjectView(R.id.lv_dynamic)
     ListView lv_dynamic;
 
+    @InjectView(R.id.ll_fooder)
+    LinearLayout ll_footer;
+
     private EditText et_content;
     private TextView tv_dialog_title;
     private ImageView camera, picture;
@@ -127,11 +130,15 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
     private DynamicAdapter adapter;
     private ProgressDialog progressDialog;
     private AlertDialog dialog;
-    private int count = 0;
+    private int count = 0;//计数器
+    private int review_flag=0;
+    private long classId=0;
+    private long accountId=0;
 
     private File dir = new File(uploadloadImageDir);
     @Override
     protected void initViews() {
+        review_flag=getIntent().getIntExtra("review",0);
         ll_back.setOnClickListener(this);
         ll_pc.setOnClickListener(this);
         ll_sr.setOnClickListener(this);
@@ -139,6 +146,10 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
         ll_invite_pc.setOnClickListener(this);
         ll_invite_sr.setOnClickListener(this);
         ll_send_dynamic.setOnClickListener(this);
+        if(review_flag==0){
+            ll_footer.setVisibility(View.GONE);
+            tv_editor.setVisibility(View.GONE);
+        }
         progressDialog = new ProgressDialog(this);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setMessage("正在加载内容...");
@@ -149,7 +160,7 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
     protected void initDatas() {
         tv_title.setText("班级主页");
         accountId= Long.parseLong(UserInfoModel.getInstance().getUser().getUserid());
-        classId=Long.parseLong(getIntent().getStringExtra("classId"));
+        classId = Long.parseLong(getIntent().getStringExtra("classId"));
         grade = new GradeImpl(this);
         progressDialog.show();
         grade.getGradeInfos(classId, progressDialog);
@@ -179,12 +190,14 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
                 //点击学员条
                 Intent studentListIntent=new Intent(this, StudentsActivity.class);
                 studentListIntent.putExtra("classId",classId);
+                studentListIntent.putExtra("review",review_flag);
                 startActivity(studentListIntent);
                 break;
             case R.id.ll_sr:
                 //点击助教条
                 Intent tutorIntent=new Intent(this, TutorActivity.class);
                 tutorIntent.putExtra("classId",classId);
+                tutorIntent.putExtra("review",review_flag);
                 startActivity(tutorIntent);
                 break;
             case R.id.ll_invite_tutor:
@@ -328,8 +341,7 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
         super.onDestroy();
     }
 
-    private long classId=0;
-    private long accountId=0;
+
     @Override
     public void onClick(DialogInterface dialog, int which) {
         dialog.dismiss();

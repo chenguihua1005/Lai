@@ -37,12 +37,14 @@ public class TutorAdapter extends BaseAdapter {
     private List<SRInfoModel> infos;
     private int screenWidth;
     private IGrade grade;
+    private int review_flag;
 
-    public TutorAdapter(Context context, List<SRInfoModel> infos) {
+    public TutorAdapter(Context context, List<SRInfoModel> infos,int review_flag) {
         inflater = LayoutInflater.from(context);
         this.infos = infos;
         screenWidth = DisplayUtil.getMobileWidth(context);
         grade=new GradeImpl();
+        this.review_flag=review_flag;
     }
 
     @Override
@@ -82,6 +84,9 @@ public class TutorAdapter extends BaseAdapter {
             holder.tv_num.setText(info.getNum());
             holder.tv_reset.setText(info.getRtest());
             holder.tv_totleweight.setText(info.getTotalWight() + "kg");
+        }
+        if(review_flag==0){
+            holder.btn_delete.setVisibility(View.GONE);
         }
         holder.ll.setLayoutParams(new LinearLayout.LayoutParams(screenWidth, LinearLayout.LayoutParams.MATCH_PARENT));
         if (holder.horizontalScrollView.getScrollX() > 0) {

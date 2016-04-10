@@ -5,6 +5,7 @@
 
 package com.softtek.lai.module.grade.view;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.module.counselor.view.InviteStudentActivity;
 import com.softtek.lai.module.grade.adapter.TabContentAdapter;
 
 import java.util.ArrayList;
@@ -45,12 +47,15 @@ public class StudentsActivity extends BaseActivity implements BaseFragment.OnFra
 
     private List<Fragment> fragments = new ArrayList<>();
     private long classId=0;
+    private int review_flag=0;
 
     @Override
     protected void initViews() {
         classId=getIntent().getLongExtra("classId",0);
+        review_flag=getIntent().getIntExtra("review",0);
         Map<String,String> params=new HashMap<>();
         params.put("classId",classId+"");
+        params.put("review",review_flag+"");
         LossWeightFragment lossWeightFragment = LossWeightFragment.newInstance(params);
         WaistFragment waist=WaistFragment.newInstance(params);
         FatFragment fat=FatFragment.newInstance(params);
@@ -74,6 +79,9 @@ public class StudentsActivity extends BaseActivity implements BaseFragment.OnFra
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
         ll_left.setOnClickListener(this);
         tv_right.setOnClickListener(this);
+        if(review_flag==0){
+            tv_right.setVisibility(View.GONE);
+        }
 
     }
 
@@ -93,6 +101,9 @@ public class StudentsActivity extends BaseActivity implements BaseFragment.OnFra
                 finish();
                 break;
             case R.id.tv_right:
+                Intent intents = new Intent(this, InviteStudentActivity.class);
+                intents.putExtra("classId", classId);
+                startActivity(intents);
                 break;
         }
     }

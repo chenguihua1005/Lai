@@ -78,9 +78,11 @@ public class FatFragment extends BaseFragment implements PullToRefreshBase.OnRef
     }
 
     private String classId;
+    private String review_flag;
     @Override
     protected void initDatas() {
         classId=getArguments().getString("classId");
+        review_flag=getArguments().getString("review");
         grade = new GradeImpl();
         adapter = new LossWeightAdapter(getContext(), studentModels, Integer.parseInt(Constants.PHYSIQUE));
         ptrlv.setAdapter(adapter);
@@ -125,6 +127,7 @@ public class FatFragment extends BaseFragment implements PullToRefreshBase.OnRef
         Intent intent = new Intent(getContext(), StudentDetailActivity.class);
         intent.putExtra("userId",studentModel.getAccountId());
         intent.putExtra("classId",studentModel.getClassId());
+        intent.putExtra("review",review_flag);
         startActivity(intent);
     }
 }

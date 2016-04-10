@@ -76,7 +76,7 @@ public class StudentDetailActivity extends BaseActivity implements View.OnClickL
     private List<Fragment> fragmentList=new ArrayList<>();
     private long accountId=0;
     private long classId=0;
-
+    private String review_flag;
     @Override
     protected void initViews() {
         ll_left.setOnClickListener(this);
@@ -86,6 +86,7 @@ public class StudentDetailActivity extends BaseActivity implements View.OnClickL
         progressDialog.setMessage("正在加载内容...");
         accountId=getIntent().getLongExtra("userId",0);
         classId=getIntent().getLongExtra("classId",0);
+        review_flag=getIntent().getStringExtra("review");
         Map<String,String> params=new HashMap<>();
         params.put("userId",accountId+"");
         params.put("classId",classId+"");
@@ -119,6 +120,7 @@ public class StudentDetailActivity extends BaseActivity implements View.OnClickL
             case R.id.ll:
                 Intent intent=new Intent(this,LossWeightLogActivity.class);
                 intent.putExtra("accountId",accountId);
+                intent.putExtra("review",Integer.parseInt(review_flag));
                 startActivity(intent);
                 break;
         }

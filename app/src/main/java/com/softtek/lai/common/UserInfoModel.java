@@ -110,7 +110,7 @@ public class UserInfoModel {
     /**
      * 判断用户是否拥有此权限
      * @param model 功能模块编号
-     * @return
+     * @return true or false
      */
     public boolean hasPower(int model){
         boolean has=false;

@@ -53,6 +53,7 @@ public class LossWeightLogActivity extends BaseActivity implements View.OnClickL
     private List<LossWeightLogModel> logs=new ArrayList<>();
     private LossWeightLogAdapter adapter;
     private long accountId=0;
+    private int review_flag=0;
 
     @Override
     protected void initViews() {
@@ -73,6 +74,7 @@ public class LossWeightLogActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void initDatas() {
         accountId=getIntent().getLongExtra("accountId",0);
+        review_flag=getIntent().getIntExtra("review",0);
         memberInfopresenter=new MemberInfoImpl(this);
         LogEvent logEvent=memberInfopresenter.loadLogListCache();
         if(logEvent!=null){
@@ -84,7 +86,7 @@ public class LossWeightLogActivity extends BaseActivity implements View.OnClickL
             }
             logs.addAll(logEvent.getLossWeightLogModels());
         }
-        adapter=new LossWeightLogAdapter(this, logs);
+        adapter=new LossWeightLogAdapter(this, logs,review_flag);
         ptrlv.setAdapter(adapter);
 
         new Handler().postDelayed(new Runnable() {
@@ -132,6 +134,7 @@ public class LossWeightLogActivity extends BaseActivity implements View.OnClickL
         Log.i("日志集合》》》"+logs.size());
         Intent intent=new Intent(this,LogDetailActivity.class);
         intent.putExtra("log",logs.get(position-2));
+        intent.putExtra("review",review_flag);
         startActivity(intent);
     }
 

@@ -31,12 +31,14 @@ public class LossWeightLogAdapter extends BaseAdapter{
     private List<LossWeightLogModel> logs;
     private Context context;
     private IMemberInfopresenter memberInfopresenter;
+    private int review_flag=0;
 
-    public  LossWeightLogAdapter(Context context,List<LossWeightLogModel> logs){
+    public  LossWeightLogAdapter(Context context,List<LossWeightLogModel> logs,int review_flag){
         this.context=context;
         inflater=LayoutInflater.from(context);
         this.logs=logs;
         memberInfopresenter=new MemberInfoImpl(context);
+        this.review_flag=review_flag;
     }
 
     @Override
@@ -71,6 +73,9 @@ public class LossWeightLogAdapter extends BaseAdapter{
             holder.cb_zan.setChecked(false);
         }else if(ZAN_NO.equals(log.getIsClicked())){
             holder.cb_zan.setChecked(true);
+            holder.cb_zan.setEnabled(false);
+        }
+        if(review_flag==0){
             holder.cb_zan.setEnabled(false);
         }
         holder.cb_zan.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

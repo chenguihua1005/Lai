@@ -2,6 +2,7 @@ package com.softtek.lai.module.studetail.view;
 
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -11,6 +12,8 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.studetail.adapter.LogDetailGridAdapter;
 import com.softtek.lai.module.studetail.adapter.LossWeightLogAdapter;
 import com.softtek.lai.module.studetail.model.LossWeightLogModel;
+import com.softtek.lai.module.studetail.presenter.IMemberInfopresenter;
+import com.softtek.lai.module.studetail.presenter.MemberInfoImpl;
 import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.widgets.CustomGridView;
 import com.squareup.picasso.Picasso;
@@ -24,7 +27,8 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_log_detail)
-public class LogDetailActivity extends BaseActivity implements View.OnClickListener{
+public class LogDetailActivity extends BaseActivity implements View.OnClickListener,
+        CompoundButton.OnCheckedChangeListener{
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -49,16 +53,20 @@ public class LogDetailActivity extends BaseActivity implements View.OnClickListe
     CustomGridView cgv_list_image;
     List<String> images=new ArrayList();
 
+    private IMemberInfopresenter memberInfopresenter;
+    private LossWeightLogModel log;
+
     @Override
     protected void initViews() {
         ll_left.setOnClickListener(this);
+        cb_zan.setOnCheckedChangeListener(this);
         tv_title.setText("日志详情");
     }
 
     @Override
     protected void initDatas() {
-        LossWeightLogModel log= (LossWeightLogModel) getIntent().getSerializableExtra("log");
-
+        memberInfopresenter=new MemberInfoImpl(this);
+        log= (LossWeightLogModel) getIntent().getSerializableExtra("log");
         Picasso.with(this).load(log.getPhoto()).placeholder(R.drawable.img_default)
                 .error(R.drawable.img_default).into(civ_header_image);
         tv_name.setText(log.getUserName());
@@ -70,6 +78,9 @@ public class LogDetailActivity extends BaseActivity implements View.OnClickListe
             cb_zan.setChecked(true);
         }else{
             cb_zan.setChecked(false);
+        }
+        if(getIntent().getIntExtra("review",0)==0){
+            cb_zan.setEnabled(false);
         }
         //拆分字符串图片列表,并添加到图片集合中
         if(!"".equals(log.getImgCollection())&&!(null==log.getImgCollection())){
@@ -85,6 +96,18 @@ public class LogDetailActivity extends BaseActivity implements View.OnClickListe
             case R.id.ll_left:
                 finish();
                 break;
+        }
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if(isChecked){
+            log.setPriase(Integer.parseInt(log.getPriase())+1+"");
+            ((CheckBox)buttonView).setEnabled(false);
+            //向服务器提交
+            memberInfopresenter.doZan(3,Long.parseLong(log.getLossLogId()));
+        }else{
+            log.setPriase(Integer.parseInt(log.getPriase())-1+"");
         }
     }
 }
