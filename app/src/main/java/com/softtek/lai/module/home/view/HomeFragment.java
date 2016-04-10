@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -20,7 +19,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import butterknife.InjectView;
+
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
@@ -38,25 +37,27 @@ import com.softtek.lai.module.home.presenter.HomeInfoImpl;
 import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
-import com.softtek.lai.module.login.view.LoginActivity1;
 import com.softtek.lai.module.login.view.RegistActivity;
 import com.softtek.lai.module.retest.WriteActivity;
 import com.softtek.lai.module.retest.present.RetestPre;
-import com.softtek.lai.module.retest.present.RetestclassImp;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.CustomGridView;
 import com.softtek.lai.widgets.RollHeaderView;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.InjectView;
+import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
+
 /**
  * Created by jerry.guan on 3/15/2016.
+ *
  */
 @InjectLayout(R.layout.fragment_home)
 public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetChangedListener, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
@@ -190,6 +191,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         homeInfoPresenter.getHomeInfoData(pull);
     }
 
+
     /**
      * 功能模块按钮
      *
@@ -210,7 +212,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                 break;
             case 2:
                 //retestPre=new RetestclassImp();
-               // retestPre.doPostClient("client_credentials","shhcieurjfn734js","qieow8572jkcv");
+                // retestPre.doPostClient("client_credentials","shhcieurjfn734js","qieow8572jkcv");
                 break;
             case 3:
                 startActivity(new Intent(getContext(), CounselorActivity.class));
@@ -249,19 +251,19 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
             if (role==5)
             {
                 final AlertDialog.Builder information_dialog = new AlertDialog.Builder(getContext());
-            information_dialog.setTitle("您当前处于游客模式，需要注册认证").setPositiveButton("现在注册", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    startActivity(new Intent(getContext(), RegistActivity.class));
-                }
-            }).setNegativeButton("稍候", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    startActivity(new Intent(getContext(), BodygameYkActivity.class));
+                information_dialog.setTitle("您当前处于游客模式，需要注册认证").setPositiveButton("现在注册", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(new Intent(getContext(), RegistActivity.class));
+                    }
+                }).setNegativeButton("稍候", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(new Intent(getContext(), BodygameYkActivity.class));
 
-                }
-            }).create().show();
-        }
+                    }
+                }).create().show();
+            }
             else if (role==4)
             {
                 Util.toastMsg("受邀普通顾客");

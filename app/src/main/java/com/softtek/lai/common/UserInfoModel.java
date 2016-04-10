@@ -141,10 +141,14 @@ public class UserInfoModel {
     private Power getUserPower(){
         Power power=null;
         if("".equals(user.getUserrole())||null==user.getUserrole()){
+            Log.i("没有用户角色");
             return power;
         }
         int userRole=Integer.parseInt(user.getUserrole());
         switch (userRole){
+            case Constants.VR:
+                power=role.getVr();
+                break;
             case Constants.NC:
                 power=role.getNc();
                 break;
