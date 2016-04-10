@@ -27,6 +27,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.File.view.CreatFlleActivity;
 import com.softtek.lai.module.bodygame.CounselorActivity;
+import com.softtek.lai.module.bodygamecc.view.BodyGameCcActivity;
 import com.softtek.lai.module.bodygamest.view.StudentActivity;
 import com.softtek.lai.module.bodygameyk.view.BodygameYkActivity;
 import com.softtek.lai.module.bodygamezj.view.BodygameActivity;
@@ -223,7 +224,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                // retestPre.doPostClient("client_credentials","shhcieurjfn734js","qieow8572jkcv");
                 break;
             case 3:
-                //startActivity(new Intent(getContext(), CreatFlleActivity.class));
+                startActivity(new Intent(getContext(), CounselorActivity.class));
                 break;
             case 4:
                 startActivity(new Intent(getContext(), CreatFlleActivity.class));
@@ -259,19 +260,19 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
             if (role==5)
             {
                 final AlertDialog.Builder information_dialog = new AlertDialog.Builder(getContext());
-                information_dialog.setTitle("您当前处于游客模式，需要注册认证").setPositiveButton("现在注册", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        startActivity(new Intent(getContext(), RegistActivity.class));
-                    }
-                }).setNegativeButton("稍候", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        startActivity(new Intent(getContext(), BodygameYkActivity.class));
+            information_dialog.setTitle("您当前处于游客模式，需要注册认证").setPositiveButton("现在注册", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    startActivity(new Intent(getContext(), RegistActivity.class));
+                }
+            }).setNegativeButton("稍候", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    startActivity(new Intent(getContext(), BodygameYkActivity.class));
 
-                    }
-                }).create().show();
-            }
+                }
+            }).create().show();
+        }
             else if (role==4)
             {
                 Util.toastMsg("受邀普通顾客");
@@ -286,11 +287,25 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
             }
             else if (role==1)
             {
-                Util.toastMsg("高级顾客");
+                intent=new Intent(getContext(),StudentActivity.class);
             }
+            //未认证的普通顾客
             else if (role==0)
             {
-                Util.toastMsg("未认证用户");
+                final AlertDialog.Builder information_dialog = new AlertDialog.Builder(getContext());
+                information_dialog.setTitle("参加体管赛需进行身份认证").setPositiveButton("现在认证", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(new Intent(getContext(), ValidateCertificationActivity.class));
+                    }
+                }).setNegativeButton("稍候", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(new Intent(getContext(), BodyGameCcActivity.class));
+
+                    }
+                }).create().show();
+
             }
         }
 

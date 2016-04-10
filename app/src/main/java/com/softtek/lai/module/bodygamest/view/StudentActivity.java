@@ -28,6 +28,11 @@ import zilla.libcore.ui.InjectLayout;
 public class StudentActivity extends BaseActivity implements View.OnClickListener {
     private ITiGuanSai tiGuanSai;
     private FuceNumModel fuceNum;
+    //标题
+    @InjectView(R.id.tv_title)
+    TextView tv_title;
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
     @InjectView(R.id.tv_st_num)
     TextView tv_st_num;
     @InjectView(R.id.iv_st_adv)
@@ -71,6 +76,7 @@ public class StudentActivity extends BaseActivity implements View.OnClickListene
         ll_st_rongyu.setOnClickListener(this);
         ll_st_saikuang.setOnClickListener(this);
         ll_st_tips.setOnClickListener(this);
+        ll_left.setOnClickListener(this);
 
     }
 
@@ -87,6 +93,7 @@ public class StudentActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initDatas() {
+        tv_title.setText("体管赛（学员版）");
         tiGuanSai = new TiGuanSaiImpl();
         tiGuanSai.getTiGuanSai();
         tiGuanSai.doGetFuceNum(36);
@@ -151,7 +158,9 @@ public class StudentActivity extends BaseActivity implements View.OnClickListene
             case R.id.ll_st_tips:
 
                 break;
-
+            case R.id.ll_left:
+                finish();
+                break;
         }
 
     }

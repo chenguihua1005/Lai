@@ -1,11 +1,9 @@
-package com.softtek.lai.module.retest.view;
+package com.softtek.lai.module.bodygamest.view;
 
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -19,15 +17,12 @@ import com.softtek.lai.module.File.view.ExplainActivity;
 import com.softtek.lai.module.retest.model.MeasureModel;
 import com.softtek.lai.module.retest.model.RetestWriteModel;
 import com.softtek.lai.module.retest.present.RetestPre;
-import com.softtek.lai.module.retest.present.RetestclassImp;
-
-import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_bodyweidu)
-public class BodyweiduActivity extends BaseActivity implements View.OnClickListener{
+public class BodyweidustActivity extends BaseActivity implements View.OnClickListener{
     //toolbar布局控件
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;

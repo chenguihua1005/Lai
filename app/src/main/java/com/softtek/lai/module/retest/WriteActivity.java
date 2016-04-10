@@ -26,6 +26,7 @@ import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.newmemberentry.view.GetPhotoDialog;
+import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
 import com.softtek.lai.module.retest.eventModel.BanJiEvent;
 import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
 import com.softtek.lai.module.retest.model.MeasureModel;
@@ -167,6 +168,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
     protected void initDatas() {
         title.setText("复测录入");
         tv_right.setText("保存");
+        measureModel=new MeasureModel();
         iv_email.setVisibility(View.INVISIBLE);
         Intent intent=getIntent();
         String accountId=intent.getStringExtra("accountId");
@@ -222,11 +224,16 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
     public void event(MeasureModel measureModel1){
         measureModel=measureModel1;
         Log.i("username"+measureModel.getUsername());
-        tv_write_nick.setText(measureModel.getUsername());
-        tv_write_phone.setText(measureModel.getPhone());
+//        tv_write_nick.setText(measureModel.getUsername());
+//        tv_write_phone.setText(measureModel.getPhone());
         tv_retestWrite_nowweight.setText(measureModel.getMeasureddata().getItems().get(0).getWeight());
         tv_retestWrite_tizhi.setText(measureModel.getMeasureddata().getItems().get(0).getBodyfat());
         tv_retestWrite_neizhi.setText(measureModel.getMeasureddata().getItems().get(0).getVisceralfatindex());
+    }
+    @Subscribe
+    public void doGetPhoto(PhotModel photModel) {
+        System.out.println("照片名称" + photModel.getImg());
+        retestWrite.setImage(photModel.getImg());
     }
 
 //    @Subscribe(threadMode = ThreadMode.MAIN)
