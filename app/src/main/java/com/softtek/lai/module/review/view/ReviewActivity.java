@@ -17,7 +17,6 @@ import com.softtek.lai.module.review.presenter.IReviewPresenter;
 import com.softtek.lai.module.review.presenter.ReviewPresenterImpl;
 
 import butterknife.InjectView;
-import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_review)
@@ -51,7 +50,6 @@ public class ReviewActivity extends BaseActivity implements View.OnClickListener
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(ReviewActivity.this, GradeHomeActivity.class);
                 ClassInfoModel classInfo = (ClassInfoModel) expand_list.getAdapter().getItem(position);
-                SharedPreferenceService.getInstance().put("classId", classInfo.getClassId());
                 intent.putExtra("classId", classInfo.getClassId());
                 intent.putExtra("review",REVIEW_FLAG);
                 startActivity(intent);
@@ -61,7 +59,7 @@ public class ReviewActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     protected void initViews() {
-        tv_title.setText(R.string.CounselorA);
+        tv_title.setText(R.string.review);
 
     }
 
