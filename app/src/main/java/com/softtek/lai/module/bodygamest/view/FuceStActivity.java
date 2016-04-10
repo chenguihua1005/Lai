@@ -213,6 +213,19 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         }
     }
     @Subscribe
+    public void doGetDates(RetestAuditModel retestAuditModel){
+        Log.i("retestAuditModel"+retestAuditModel.getAccountId());
+        tv_retestWrites_nowweight.setText(measureModel.getMeasureddata().getItems().get(0).getWeight());
+        tv_retestWritest_tizhi.setText(measureModel.getMeasureddata().getItems().get(0).getBodyfat());
+        tv_retestWritest_neizhi.setText(measureModel.getMeasureddata().getItems().get(0).getVisceralfatindex());
+        retestWrite.setCircum(measureModel.getChestgirth());
+        retestWrite.setWaistline(measureModel.getWaistgirth());
+        retestWrite.setHiplie(measureModel.getHipgirth());
+        retestWrite.setUpArmGirth(measureModel.getUpperarmgirth());
+        retestWrite.setUpLegGirth(measureModel.getThighgirth());
+        retestWrite.setDoLegGirth(measureModel.getCalfgirth());
+    }
+    @Subscribe
     public void eventst(MeasureModel measureModel1){
         measureModel=measureModel1;
         Log.i("username"+measureModel.getUsername());
