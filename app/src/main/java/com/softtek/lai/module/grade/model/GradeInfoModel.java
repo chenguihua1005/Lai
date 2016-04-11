@@ -13,6 +13,33 @@ public class GradeInfoModel {
     private String ClassName;
     private String StartDate;
     private String EndDate;
+    private String ClassBanner;
+    private String PCNum;
+    private String SRNum;
+
+    public String getPCNum() {
+        return PCNum;
+    }
+
+    public void setPCNum(String PCNum) {
+        this.PCNum = PCNum;
+    }
+
+    public String getSRNum() {
+        return SRNum;
+    }
+
+    public void setSRNum(String SRNum) {
+        this.SRNum = SRNum;
+    }
+
+    public String getClassBanner() {
+        return ClassBanner;
+    }
+
+    public void setClassBanner(String classBanner) {
+        ClassBanner = classBanner;
+    }
 
     public String getClassName() {
         return ClassName;
@@ -44,6 +71,9 @@ public class GradeInfoModel {
                 "ClassName='" + ClassName + '\'' +
                 ", StartDate='" + StartDate + '\'' +
                 ", EndDate='" + EndDate + '\'' +
+                ", ClassBanner='" + ClassBanner + '\'' +
+                ", PCNum='" + PCNum + '\'' +
+                ", SRNum='" + SRNum + '\'' +
                 '}';
     }
 }

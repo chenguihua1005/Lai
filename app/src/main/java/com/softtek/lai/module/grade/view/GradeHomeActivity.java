@@ -161,6 +161,7 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
         tv_title.setText("班级主页");
         accountId= Long.parseLong(UserInfoModel.getInstance().getUser().getUserid());
         classId = Long.parseLong(getIntent().getStringExtra("classId"));
+        Log.i("classId="+classId);
         grade = new GradeImpl(this);
         progressDialog.show();
         grade.getGradeInfos(classId, progressDialog);
@@ -256,17 +257,14 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUpdate(GradeModel gradeModel) {
-        //加载班级Banner
-        List<PhotoInfoModel> banners = gradeModel.getPhotoInfo();
-        if (banners != null && banners.size() > 0) {
-            Picasso.with(this).load(gradeModel.getPhotoInfo().get(0).getImg_Addr()).into(iv_grade_banner);
-        }
         //更新班级信息
         List<GradeInfoModel> grades = gradeModel.getClassInfo();
         if (grades != null && grades.size() > 0) {
             GradeInfoModel info = grades.get(0);
             tv_title.setText(info.getClassName());
             tv_title_date.setText(info.getStartDate());
+            Picasso.with(this).load(info.getClassBanner()).centerInside().placeholder(R.drawable.default_pic)
+                    .error(R.drawable.default_pic).into(iv_grade_banner);
         }
         //加载学员头像
         List<PeopleModel> pcs = gradeModel.getPCInfo();

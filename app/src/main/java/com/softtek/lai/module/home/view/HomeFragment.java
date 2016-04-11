@@ -35,10 +35,8 @@ import com.softtek.lai.module.home.adapter.ModelAdapter;
 import com.softtek.lai.module.home.model.HomeInfoModel;
 import com.softtek.lai.module.home.presenter.HomeInfoImpl;
 import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
-import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.login.view.RegistActivity;
-import com.softtek.lai.module.retest.WriteActivity;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.DisplayUtil;
@@ -194,113 +192,125 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
 
     /**
      * 功能模块按钮
-     *
-     * @param parent
-     * @param view
-     * @param position
-     * @param id
      */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        UserModel user=UserInfoModel.getInstance().getUser();
-        switch (position) {
-            case 0:
-                getIntentByRole(position,Integer.parseInt(user.getUserrole()));
-                break;
-            case 1:
-                startActivity(new Intent(getContext(), StudentActivity.class));
-                break;
-            case 2:
-                //retestPre=new RetestclassImp();
-                // retestPre.doPostClient("client_credentials","shhcieurjfn734js","qieow8572jkcv");
-                break;
-            case 3:
-                startActivity(new Intent(getContext(), CounselorActivity.class));
-                break;
-            case 4:
-                startActivity(new Intent(getContext(), WriteActivity.class));
-                break;
-            case 5:
-                break;
-            case 6:
-                break;
-            case 7:
-                break;
-            case 8:
-                break;
-            case 9:
-                break;
+        UserInfoModel userInfoModel=UserInfoModel.getInstance();
+        int role=Integer.parseInt(userInfoModel.getUser().getUserrole());
+        ////判断当前用户是否拥有此按钮权限
+        if(userInfoModel.hasPower(position)){
+            //如果有则判断更具具体角色进入相应的页面
+            switch (position) {
+                case Constants.BODY_GAME:
+                    intoBodyGamePage(role);
+                    break;
+                case Constants.LAI_YUNDONG:
+                    startActivity(new Intent(getContext(), StudentActivity.class));
+                    break;
+                case Constants.OFFICE:
+                    //retestPre=new RetestclassImp();
+                    // retestPre.doPostClient("client_credentials","shhcieurjfn734js","qieow8572jkcv");
+                    break;
+                case Constants.LAI_EXCLE:
+                    startActivity(new Intent(getContext(), CounselorActivity.class));
+                    break;
+                case Constants.LAI_SHOP:
+                    startActivity(new Intent(getContext(), CreatFlleActivity.class));
+                    break;
+            }
 
-
+        }else{
+            //如果本身没有该按钮权限则根据不同身份提示用户，进行下一步操作
+            AlertDialog.Builder information_dialog=null;
+            switch (Integer.parseInt(userInfoModel.getUser().getUserrole())){
+                case Constants.VR:
+                    //游客若没有此功能，可能是未登录，提示请先登录
+                    information_dialog = new AlertDialog.Builder(getContext());
+                    information_dialog.setTitle("您当前处于游客模式，请先登录后再试").setPositiveButton("登录", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            startActivity(new Intent(getContext(), LoginActivity.class));
+                        }
+                    }).setNegativeButton("稍候", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {}
+                    }).create().show();
+                    break;
+                case Constants.NC:
+                case Constants.INC:
+                case Constants.PC:
+                    information_dialog = new AlertDialog.Builder(getContext());
+                    information_dialog.setTitle("请先进行身份认证后在试").setPositiveButton("认证", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //跳转到身份认证界面
+                            startActivity(new Intent(getContext(), ValidateCertificationActivity.class));
+                        }
+                    }).setNegativeButton("稍候", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {}
+                    }).create().show();
+                    break;
+                case Constants.SR:
+                    break;
+                case Constants.SP:
+                    break;
+            }
         }
+
     }
 
     /**
-     * 根据角色获取意图
-     * @param position
+     * 根据角色进入相应的体管赛页面
      * @param role
      * @return
      */
-    private Intent getIntentByRole(int position,int role)
-    {   Intent intent=null;
-        //判断该角色是否拥有此按钮权限
-        //....
-        //如果有该按钮权限就创建相应的INtent
-        if (position==0)
-        {
-            if (role==5)
-            {
-                final AlertDialog.Builder information_dialog = new AlertDialog.Builder(getContext());
-                information_dialog.setTitle("您当前处于游客模式，需要注册认证").setPositiveButton("现在注册", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        startActivity(new Intent(getContext(), RegistActivity.class));
-                    }
-                }).setNegativeButton("稍候", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        startActivity(new Intent(getContext(), BodygameYkActivity.class));
+    private void intoBodyGamePage(int role){
+        //受邀未认证成功就是普通用户，认证成功就是高级用户
+        AlertDialog.Builder information_dialog=null;
+        if(role== Constants.VR){
+            //提示用户让他注册或者直接进入2个功能的踢馆赛模块
+            information_dialog = new AlertDialog.Builder(getContext());
+            information_dialog.setTitle("您当前处于游客模式，需要注册认证").setPositiveButton("现在注册", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    startActivity(new Intent(getContext(), RegistActivity.class));
+                }
+            }).setNegativeButton("稍候", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    startActivity(new Intent(getContext(), BodygameYkActivity.class));
+                }
+            }).create().show();
+        }else if(role==Constants.NC){
+            //提示用户让他进行身份认证否则进入2个功能的踢馆赛模块
+            information_dialog = new AlertDialog.Builder(getContext());
+            information_dialog.setTitle("参加体管赛需进行身份认证").setPositiveButton("现在认证", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    startActivity(new Intent(getContext(), ValidateCertificationActivity.class));
+                }
+            }).setNegativeButton("稍候", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    startActivity(new Intent(getContext(), BodyGameCcActivity.class));
 
-                    }
-                }).create().show();
-            }
-            else if (role==4)
-            {
-                Util.toastMsg("受邀普通顾客");
-            }
-            else if (role==3)
-            {
-                startActivity(new Intent(getContext(), CounselorActivity.class));
-            }
-            else if (role==2)
-            {
-                intent=new Intent(getContext(),BodygameActivity.class);
-            }
-            else if (role==1)
-            {
-                intent=new Intent(getContext(),StudentActivity.class);
-            }
-            //未认证的普通顾客
-            else if (role==0)
-            {
-                final AlertDialog.Builder information_dialog = new AlertDialog.Builder(getContext());
-                information_dialog.setTitle("参加体管赛需进行身份认证").setPositiveButton("现在认证", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        startActivity(new Intent(getContext(), ValidateCertificationActivity.class));
-                    }
-                }).setNegativeButton("稍候", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        startActivity(new Intent(getContext(), BodyGameCcActivity.class));
+                }
+            }).create().show();
+        }else if(role==Constants.INC){
+            //提示用户让他进行身份认证否则进入2个功能的踢馆赛模块
+            Util.toastMsg("受邀普通顾客");
+        }else if(role==Constants.PC){
+            //直接进入踢馆赛学员版
+            startActivity(new Intent(getContext(),StudentActivity.class));
+        }else if(role==Constants.SR){
+            //进入踢馆赛助教版
+            startActivity(new Intent(getContext(), BodygameActivity.class));
+        }else if(role==Constants.SP){
+            //进入踢馆赛顾问版
+            startActivity(new Intent(getContext(), CounselorActivity.class));
 
-                    }
-                }).create().show();
-
-            }
         }
-
-
-        return intent;
     }
+
 }
