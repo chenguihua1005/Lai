@@ -210,15 +210,16 @@
                         android:layout_alignParentLeft="true"
                         android:id="@+id/tv_write" />
 
-                    <TextView
+                    <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="60"
+                        android:text=""
                         android:layout_marginRight="5dp"
                         android:textSize="18sp"
                         android:textColor="#fea300"
+                        android:background="@null"
                         android:layout_toLeftOf="@+id/textView15"
-                        android:id="@+id/tv_write_chu_weight" />
+                        android:id="@+id/tv_audit_chu_weight" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -259,12 +260,13 @@
                         android:layout_alignParentLeft="true"
                         android:id="@+id/textView16" />
 
-                    <TextView
+                    <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
                         android:textSize="18sp"
                         android:textColor="#fea300"
+                        android:background="@null"
                         android:layout_toLeftOf="@+id/textView18"
                         android:id="@+id/tv_audit_now_weight" />
 

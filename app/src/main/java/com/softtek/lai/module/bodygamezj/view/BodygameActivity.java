@@ -19,6 +19,7 @@ import com.softtek.lai.module.bodygame.view.TipsActivity;
 import com.softtek.lai.module.retest.view.RetestActivity;
 import com.squareup.picasso.Picasso;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.InjectView;
@@ -42,6 +43,7 @@ public class BodygameActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void initViews() {
+        EventBus.getDefault().register(this);
         ll_left.setOnClickListener(this);
         ll_tipzj.setOnClickListener(this);
         ll_counselor_fucezj.setOnClickListener(this);
@@ -53,6 +55,11 @@ public class BodygameActivity extends BaseActivity implements View.OnClickListen
         iTiGuanSai=new TiGuanSaiImpl();
         iTiGuanSai.getTiGuanSai();
         iTiGuanSai.doGetFuceNum(36);
+    }
+    @Override
+    protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 
     @Override

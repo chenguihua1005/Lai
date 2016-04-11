@@ -8,6 +8,7 @@ package com.softtek.lai.module.home.view;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
@@ -16,10 +17,13 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
@@ -203,6 +207,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         UserModel user=UserInfoModel.getInstance().getUser();
+        Log.i("您点击了功能模块按钮");
         switch (position) {
             case 0:
                 getIntentByRole(position,Integer.parseInt(user.getUserrole()));
@@ -218,7 +223,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                 startActivity(new Intent(getContext(), CounselorActivity.class));
                 break;
             case 4:
-                startActivity(new Intent(getContext(), WriteActivity.class));
+                startActivity(new Intent(getContext(), BodygameActivity.class));
                 break;
             case 5:
                 break;

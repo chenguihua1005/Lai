@@ -36,8 +36,8 @@ public class TiGuanSaiImpl implements ITiGuanSai {
 
     @Override
     public void getTiGuanSai() {
-        String token = SharedPreferenceService.getInstance().get("token", "");
-        service.doGetTiGuanSaiClickw(token, new Callback<ResponseData<TiGuanSaiModel>>() {
+
+        service.doGetTiGuanSaiClickw( new Callback<ResponseData<TiGuanSaiModel>>() {
             @Override
             public void success(ResponseData<TiGuanSaiModel> tiGuanSaiResponseData, Response response) {
                 int status = tiGuanSaiResponseData.getStatus();
@@ -90,8 +90,8 @@ public class TiGuanSaiImpl implements ITiGuanSai {
 
     @Override
     public void doGetTips() {
-        String token = SharedPreferenceService.getInstance().get("token", "");
-        service.doGetTips(token, new Callback<ResponseData<List<TipsModel>>>() {
+
+        service.doGetTips(new Callback<ResponseData<List<TipsModel>>>() {
 
 
             @Override
@@ -119,8 +119,7 @@ public class TiGuanSaiImpl implements ITiGuanSai {
 
     @Override
     public void doGetTipsDetail(long id) {
-        String token=SharedPreferenceService.getInstance().get("token","");
-        service.doGetTipsDetail(token, id, new Callback<ResponseData<List<TipsDetailModel>>>() {
+        service.doGetTipsDetail( id, new Callback<ResponseData<List<TipsDetailModel>>>() {
             @Override
             public void success(ResponseData<List<TipsDetailModel>> listResponseData, Response response) {
                 int status=listResponseData.getStatus();
