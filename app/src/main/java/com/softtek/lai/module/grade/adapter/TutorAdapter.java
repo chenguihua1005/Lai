@@ -19,6 +19,7 @@ import com.softtek.lai.module.grade.presenter.GradeImpl;
 import com.softtek.lai.module.grade.presenter.IGrade;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.CircleImageView;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -26,6 +27,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.util.Util;
 
 /**
@@ -38,8 +40,10 @@ public class TutorAdapter extends BaseAdapter {
     private int screenWidth;
     private IGrade grade;
     private int review_flag;
+    private Context context;
 
     public TutorAdapter(Context context, List<SRInfoModel> infos,int review_flag) {
+        this.context=context;
         inflater = LayoutInflater.from(context);
         this.infos = infos;
         screenWidth = DisplayUtil.getMobileWidth(context);
@@ -75,6 +79,10 @@ public class TutorAdapter extends BaseAdapter {
         final SRInfoModel info = infos.get(position);
         holder.tv_name.setText(info.getUserName());
         holder.tv_phone.setText(info.getMobile());
+        if(!"".equals(info.getPhoto())&&null!=info.getPhoto()){
+            Picasso.with(context).load(AddressManager.get("photoHost")+info.getPhoto()).placeholder(R.drawable.img_default)
+                    .error(R.drawable.img_default).into(holder.circleImageView);
+        }
         if (Integer.parseInt(info.getIsInvited()) == Constants.NOT_INVITED) {
             holder.not_invited.setVisibility(View.VISIBLE);
             holder.ll_context.setVisibility(View.GONE);

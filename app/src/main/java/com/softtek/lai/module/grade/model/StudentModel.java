@@ -28,6 +28,15 @@ public class StudentModel{
     //按照学员腰围排序
     private String WaistlineAfter = "0";
     private String Waistlinebefor = "0";
+    private String Photo;
+
+    public String getPhoto() {
+        return Photo;
+    }
+
+    public void setPhoto(String photo) {
+        Photo = photo;
+    }
 
     public long getAccountId() {
         return AccountId;

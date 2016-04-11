@@ -73,6 +73,7 @@ public class LogDetailActivity extends BaseActivity implements View.OnClickListe
         tv_log_title.setText(log.getLogTitle());
         tv_content.setText(log.getLogContent());
         tv_date.setText(log.getCreateDate());
+        tv_totle_lw.setText(log.getAfterWeight()+"kg");
         cb_zan.setText(log.getPriase());
         if(LossWeightLogAdapter.ZAN_NO.equals(log.getIsClicked())){
             cb_zan.setChecked(true);
