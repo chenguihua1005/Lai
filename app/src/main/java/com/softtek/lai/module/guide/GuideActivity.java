@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
@@ -32,6 +33,7 @@ public class GuideActivity extends BaseActivity implements Runnable{
     protected void initDatas() {
         //检查是否存在token
         token= UserInfoModel.getInstance().getToken();
+        Log.i("token="+token);
         new Handler().postDelayed(this,1500);
     }
 
