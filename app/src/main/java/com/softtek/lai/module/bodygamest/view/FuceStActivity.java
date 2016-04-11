@@ -42,6 +42,7 @@ import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.module.retest.present.RetestclassImp;
 import com.softtek.lai.module.retest.view.BodyweiduActivity;
 import com.softtek.lai.widgets.CircleImageView;
+import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -51,6 +52,7 @@ import java.io.FileNotFoundException;
 
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_fuce_st)
 public class FuceStActivity extends BaseActivity implements View.OnClickListener,CompoundButton.OnCheckedChangeListener{
@@ -127,6 +129,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     private RetestPre retestPre;
     RetestWriteModel retestWrite;
     MeasureModel measureModel;
+    RetestAuditModel retestAuditModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
@@ -153,13 +156,14 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     protected void initViews() {
 
     }
-
+//2016-03-28
     @Override
     protected void initDatas() {
         tv_title.setText("复测录入");
         retestPre=new RetestclassImp();
-        retestPre.doGetAudit(36,3,"2016-03-28");
+        retestPre.doGetAudit(3,4,"");
         retestWrite=new RetestWriteModel();
+        retestAuditModel=new RetestAuditModel();
         measureModel=new MeasureModel();
         boolean laichenSwitch= SharedPreferenceService.getInstance().get(LAI_CHEN_SWITCH_KEY1,false);
         selectlaichenst.setChecked(laichenSwitch);
@@ -178,6 +182,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
             case R.id.im_deletest:
                 im_retestwritest_showphoto.setVisibility(View.GONE);
                 im_deletest.setVisibility(View.GONE);
+                retestWrite.setImage("");
                 break;
             case R.id.btn_retest_write_addbodyst:
                 Intent intent=new Intent(this, BodyweidustActivity.class);
@@ -187,7 +192,12 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
                 startActivityForResult(intent,GET_BODY);
                 break;
             case R.id.ll_fucest_chu_weight:
-                show_information("初始体重（kg）",200,70,20,9,5,0,0);
+                if (retestAuditModel.getIsFirst()=="true") {
+                    show_information("初始体重（kg）", 200, 70, 20, 9, 5, 0, 0);
+                }
+                else {
+                    Util.toastMsg("您不是第一次参加班级，不能修改初始体重");
+                }
                 break;
             case R.id.ll_fucest_nowweight:
                 show_information("现在体重（kg）",200,70,20,9,5,0,1);
@@ -239,15 +249,18 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         tv_writest_nick.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getUserName());
         tv_writest_phone.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getMobile());
         String StartDate=retestAuditModelEvent.getRetestAuditModels().get(0).getStartDate();
-//        String CurrStart=retestAuditModelEvent.getRetestAuditModels().get(0).get
+        String CurrStart=retestAuditModelEvent.getRetestAuditModels().get(0).getCurrStart();
+        String CurrEnd=retestAuditModelEvent.getRetestAuditModels().get(0).getCurrEnd();
         String[] mon=StartDate.split("-");
-//        String[] currStart=CurrStart.split("-");
-//        String[] currEnd=CurrEnd.split("-");
+        String[] currStart=CurrStart.split("-");
+        String[] currEnd=CurrEnd.split("-");
         tv_writest_class.setText(tomonth(mon[1]));
-//        tv_write_starm.setText(currStart[1]);
-//        tv_write_stard.setText(currStart[2]);
-//        tv_write_endm.setText(currEnd[1]);
-//        tv_write_endd.setText(currEnd[2]);
+        tv_writest_monst.setText(currStart[1]);
+        tv_writest_dayst.setText(currStart[2]);
+        tv_writest_monen.setText(currEnd[1]);
+        tv_writest_dayen.setText(currEnd[2]);
+        tv_writest_classweek.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getWeekth());
+        Picasso.with(this).load(retestAuditModelEvent.getRetestAuditModels().get(0).getPhoto()).placeholder(R.drawable.img_default).error(R.drawable.img_default).into(iv_writest_head);
     }
     @Subscribe
     public void eventst(MeasureModel measureModel1){

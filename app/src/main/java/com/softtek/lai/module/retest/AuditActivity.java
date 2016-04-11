@@ -131,7 +131,7 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener{
         title.setText(R.string.AuditBarT);
         tv_right.setText(R.string.AuditBarR);
         retestPre=new RetestclassImp();
-        retestAudit=new RetestAuditModel("3","55","3","63","3","3","3","3","3","3","3","3");
+        retestAudit=new RetestAuditModel();
         retestPre.doGetAudit(36,3,"2016-03-28");
 
     }

@@ -37,7 +37,7 @@
                     <com.softtek.lai.widgets.CircleImageView
                         android:layout_width="80dp"
                         android:layout_height="80dp"
-                        android:background="@drawable/audit_head"
+                        android:background="@drawable/img_default"
                         android:id="@+id/iv_writest_head" />
                 </LinearLayout>
 

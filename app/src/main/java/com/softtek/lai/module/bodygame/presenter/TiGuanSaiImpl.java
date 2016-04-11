@@ -7,11 +7,15 @@ package com.softtek.lai.module.bodygame.presenter;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.module.bodygame.eventmodel.TotalEventModel;
 import com.softtek.lai.module.bodygame.model.FuceNumModel;
 import com.softtek.lai.module.bodygame.model.TiGuanSaiModel;
 import com.softtek.lai.module.bodygame.model.TipsDetailModel;
 import com.softtek.lai.module.bodygame.model.TipsModel;
+import com.softtek.lai.module.bodygame.model.TotolModel;
 import com.softtek.lai.module.bodygame.net.BodyGameService;
+import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
+
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
@@ -140,5 +144,32 @@ public class TiGuanSaiImpl implements ITiGuanSai {
                 error.printStackTrace();
             }
         });
+    }
+//参赛总人数及减重总数
+    @Override
+    public void doGetTotal() {
+        service.doGetTotal(new Callback<ResponseData<List<TotolModel>>>() {
+            @Override
+            public void success(ResponseData<List<TotolModel>> listResponseData, Response response) {
+                int status=listResponseData.getStatus();
+                switch (status)
+                {
+                    case 200:
+                        EventBus.getDefault().post(listResponseData.getData());
+                        Util.toastMsg("数据加载成功");
+                        break;
+                    default:
+                        Util.toastMsg(listResponseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
+            }
+        });
+
     }
 }
