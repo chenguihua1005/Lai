@@ -19,12 +19,12 @@ public class StudentModel {
     private String Photo;
     private String TypeDate;
     private String StartDate;
-    private int AMStatus;
-    private int Weekth;
+    private String AMStatus;
+    private String Weekth;
     private String CurrStart;
     private String CurrEnd;
 
-    public StudentModel(String photo, String userName, String mobile, String startDate, int weekth, int AMStatus) {
+    public StudentModel(String photo, String userName, String mobile, String startDate, String weekth, String AMStatus) {
         Photo = photo;
         UserName = userName;
         Mobile = mobile;
@@ -133,19 +133,19 @@ public class StudentModel {
         StartDate = startDate;
     }
 
-    public int getAMStatus() {
+    public String getAMStatus() {
         return AMStatus;
     }
 
-    public void setAMStatus(int AMStatus) {
+    public void setAMStatus(String AMStatus) {
         this.AMStatus = AMStatus;
     }
 
-    public int getWeekth() {
+    public String getWeekth() {
         return Weekth;
     }
 
-    public void setWeekth(int weekth) {
+    public void setWeekth(String weekth) {
         Weekth = weekth;
     }
 
@@ -166,7 +166,7 @@ public class StudentModel {
     }
 
 
-    public StudentModel(String str, String classId, String className, String managerId, String accountId, String mobile, String userName, String photo, String typeDate, String startDate, int AMStatus, int weekth, String currStart, String currEnd) {
+    public StudentModel(String str, String classId, String className, String managerId, String accountId, String mobile, String userName, String photo, String typeDate, String startDate, String AMStatus, String weekth, String currStart, String currEnd) {
         this.str = str;
         ClassId = classId;
         ClassName = className;

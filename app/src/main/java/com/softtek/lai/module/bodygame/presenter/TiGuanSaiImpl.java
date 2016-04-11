@@ -5,6 +5,8 @@
 
 package com.softtek.lai.module.bodygame.presenter;
 
+import android.view.animation.Animation;
+
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.bodygame.eventmodel.TotalEventModel;
@@ -152,6 +154,9 @@ public class TiGuanSaiImpl implements ITiGuanSai {
             @Override
             public void success(ResponseData<List<TotolModel>> listResponseData, Response response) {
                 int status=listResponseData.getStatus();
+//                if (rotate!=null) {
+//                    rotate.cancel();
+//                }
                 switch (status)
                 {
                     case 200:
@@ -166,6 +171,9 @@ public class TiGuanSaiImpl implements ITiGuanSai {
 
             @Override
             public void failure(RetrofitError error) {
+//                if (rotate!=null) {
+//                    rotate.cancel();
+//                }
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }

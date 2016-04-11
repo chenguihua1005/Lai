@@ -263,17 +263,28 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
             break;
             case R.id.im_refresh:
                 iTiGuanSai.doGetTotal();
-                final Animation rotate= AnimationUtils.loadAnimation(this,R.anim.rotate);
-                rotate.setRepeatCount(-1);
-                rotate.setRepeatMode(Animation.RESTART);
-                im_refresh.setAnimation(rotate);
-                rotate.start();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        rotate.cancel();
-                    }
-                },2000);
+//                final Animation rotate= AnimationUtils.loadAnimation(this,R.anim.rotate);
+//                im_refresh.startAnimation(rotate);
+//                rotate.setAnimationListener(new Animation.AnimationListener() {
+//                    @Override
+//                    public void onAnimationStart(Animation animation) {
+//                        //做请求操作
+//                        iTiGuanSai.doGetTotal();
+//                    }
+//
+//                    @Override
+//                    public void onAnimationEnd(Animation animation) {
+//                        im_refresh.clearAnimation();
+//
+//                    }
+//
+//                    @Override
+//                    public void onAnimationRepeat(Animation animation) {
+//
+//                    }
+//                });
+
+
                 break;
 
         }

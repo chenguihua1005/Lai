@@ -40,6 +40,7 @@ import com.softtek.lai.module.retest.model.RetestWriteModel;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.module.retest.present.RetestclassImp;
 import com.softtek.lai.module.retest.view.BodyweiduActivity;
+import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
 
@@ -120,7 +121,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
     TextView tv_write_phone;
     //头像
     @InjectView(R.id.iv_write_head)
-    ImageView iv_write_head;
+    CircleImageView iv_write_head;
     //班级名称
     @InjectView(R.id.tv_write_class)
     TextView tv_write_class;
@@ -146,6 +147,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
     private RetestPre retestPre;
     RetestWriteModel retestWrite;
     MeasureModel measureModel;
+    RetestAuditModel retestAuditModel;
     String path="";
     private static final int PHOTO=1;
     private static final int GET_BODY=2;
@@ -159,7 +161,6 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         tv_right.setOnClickListener(this);
         im_retestwrite_takephoto.setOnClickListener(this);
         btn_retest_write_addbody.setOnClickListener(this);
-        tv_right.setOnClickListener(this);
         ll_retestWrite_chu_weight.setOnClickListener(this);
         ll_retestWrite_nowweight.setOnClickListener(this);
         ll_retestWrite_tizhi.setOnClickListener(this);
@@ -183,7 +184,9 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
     protected void initDatas() {
         title.setText("复测录入");
         tv_right.setText("保存");
+        retestPre=new RetestclassImp();
         measureModel=new MeasureModel();
+        retestAuditModel=new RetestAuditModel();
         iv_email.setVisibility(View.INVISIBLE);
         Intent intent=getIntent();
         String accountId=intent.getStringExtra("accountId");
@@ -206,20 +209,20 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         String Weekth=intent.getStringExtra("Weekth");
         Log.i("dijizhouqi"+Weekth);
         //头部基本信息
-        tv_write_nick.setText(UserName);
-        tv_write_phone.setText(Mobile);
-        tv_retest_write_weekth.setText(Weekth);
-        String[] mon=StartDate.split("-");
-        String[] currStart=CurrStart.split("-");
-        String[] currEnd=CurrEnd.split("-");
-        tv_write_class.setText(tomonth(mon[1]));
-        tv_write_starm.setText(currStart[1]);
-        tv_write_stard.setText(currStart[2]);
-        tv_write_endm.setText(currEnd[1]);
-        tv_write_endd.setText(currEnd[2]);
+//        tv_write_nick.setText(UserName);
+//        tv_write_phone.setText(Mobile);
+//        tv_retest_write_weekth.setText(Weekth);
+//        String[] mon=StartDate.split("-");
+//        String[] currStart=CurrStart.split("-");
+//        String[] currEnd=CurrEnd.split("-");
+//        tv_write_class.setText(tomonth(mon[1]));
+//        tv_write_starm.setText(currStart[1]);
+//        tv_write_stard.setText(currStart[2]);
+//        tv_write_endm.setText(currEnd[1]);
+//        tv_write_endd.setText(currEnd[2]);
        // Picasso.with(this).load(Photo).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_write_head);
         Log.i("chuanzhizhizhizhizhi",accountId+loginId+classId);
-        retestPre=new RetestclassImp();
+
         retestWrite=new RetestWriteModel();
 //        retestWrite.setAccountId(accountId);
         retestPre.doGetAudit(Integer.parseInt(accountId),Integer.parseInt(classId),typedate);
@@ -256,6 +259,26 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         System.out.println("照片名称" + photModel.getImg());
         retestWrite.setImage(photModel.getImg());
     }
+    @Subscribe
+    public void doGetDates(RetestAuditModelEvent retestAuditModelEvent){
+        Log.i("retestAuditModel"+retestAuditModelEvent.getRetestAuditModels());
+        tv_write_chu_weight.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getInitWeight());
+        tv_write_nick.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getUserName());
+        tv_write_phone.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getMobile());
+        String StartDate=retestAuditModelEvent.getRetestAuditModels().get(0).getStartDate();
+        String CurrStart=retestAuditModelEvent.getRetestAuditModels().get(0).getCurrStart();
+        String CurrEnd=retestAuditModelEvent.getRetestAuditModels().get(0).getCurrEnd();
+        String[] mon=StartDate.split("-");
+        String[] currStart=CurrStart.split("-");
+        String[] currEnd=CurrEnd.split("-");
+        tv_write_class.setText(tomonth(mon[1]));
+        tv_write_starm.setText(currStart[1]);
+        tv_write_stard.setText(currStart[2]);
+        tv_write_endm.setText(currEnd[1]);
+        tv_write_endd.setText(currEnd[2]);
+        tv_retest_write_weekth.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getWeekth());
+        Picasso.with(this).load(retestAuditModelEvent.getRetestAuditModels().get(0).getPhoto()).placeholder(R.drawable.img_default).error(R.drawable.img_default).into(iv_write_head);
+    }
 
 //    @Subscribe(threadMode = ThreadMode.MAIN)
 //    public void onEvent(RetestAuditModelEvent event){
@@ -278,7 +301,6 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
             //标题栏左返回
             case R.id.ll_left:
                 finish();
-
             break;
             //标题栏右提交保存事件
             case R.id.tv_right:

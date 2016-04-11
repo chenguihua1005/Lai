@@ -282,6 +282,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         retestWrite.setImage(photModel.getImg());
     }
 
+
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         //莱秤
         Log.i("莱秤被点击了。。。。。。。。。。。。。。。。。。。。。。");

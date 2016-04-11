@@ -5,17 +5,24 @@
 
 package com.softtek.lai.module.retest.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import butterknife.InjectView;
+
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.module.retest.AuditActivity;
+import com.softtek.lai.module.retest.WriteActivity;
 import com.softtek.lai.module.retest.adapter.QueryAdapter;
 import com.softtek.lai.module.retest.eventModel.StudentEvent;
+import com.softtek.lai.module.retest.model.BanjiStudentModel;
 import com.softtek.lai.module.retest.model.StudentModel;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.module.retest.present.RetestclassImp;
@@ -55,7 +62,64 @@ public class QueryActivity extends BaseActivity implements View.OnClickListener 
         List_querystudent.setAdapter(queryAdapter);
         ll_query_noresult.setOnClickListener(this);
         tv_retest_query_cancel.setOnClickListener(this);
+
+        List_querystudent.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                StudentModel studentModel=studentModelList.get(position);
+                if (studentModel.getAMStatus()=="")
+                {
+                    Intent intent=new Intent(QueryActivity.this,WriteActivity.class);
+                    intent.putExtra("accountId",studentModel.getAccountId());
+                    intent.putExtra("classId",studentModel.getClassId());
+                    intent.putExtra("typeDate",studentModel.getTypeDate());
+                    //开班时间，判断班级名称（几月班）
+                    intent.putExtra("StartDate",studentModel.getStartDate());
+                    //开始周期
+                    intent.putExtra("CurrStart",studentModel.getCurrStart());
+                    //结束周期
+                    intent.putExtra("CurrEnd",studentModel.getCurrEnd());
+                    //昵称
+                    intent.putExtra("UserName",studentModel.getUserName());
+                    //手机号
+                    intent.putExtra("Mobile",studentModel.getMobile());
+                    //头像
+                    intent.putExtra("Photo",studentModel.getPhoto());
+                    //第几周期
+                    intent.putExtra("Weekth",studentModel.getWeekth());
+                    intent.putExtra("loginid","36");
+
+                    startActivity(intent);
+
+                }
+                else {
+
+                    Intent intent=new Intent(QueryActivity.this, AuditActivity.class);
+                    intent.putExtra("accountId",studentModel.getAccountId());
+                    intent.putExtra("classId",studentModel.getClassId());
+                    intent.putExtra("typeDate",studentModel.getTypeDate());
+                    intent.putExtra("loginid","36");
+                    //开班时间，判断班级名称（几月班）
+                    intent.putExtra("StartDate",studentModel.getStartDate());
+                    //开始周期
+                    intent.putExtra("CurrStart",studentModel.getCurrStart());
+                    //结束周期
+                    intent.putExtra("CurrEnd",studentModel.getCurrEnd());
+                    //昵称
+                    intent.putExtra("UserName",studentModel.getUserName());
+                    //手机号
+                    intent.putExtra("Mobile",studentModel.getMobile());
+                    //头像
+                    intent.putExtra("Photo",studentModel.getPhoto());
+                    //第几周期
+                    intent.putExtra("Weekth",studentModel.getWeekth());
+                    Log.i("zhouqizhouqi"+studentModel.getWeekth());
+                    startActivity(intent);
+                }
+            }
+        });
     }
+
 
     @Override
     protected void onDestroy() {
@@ -79,10 +143,10 @@ public class QueryActivity extends BaseActivity implements View.OnClickListener 
         switch (v.getId()) {
             case R.id.iv_query:
                 if (et_query.getText().toString().isEmpty()) {
-                    Util.toastMsg("请给查询提示信号");
+                    Util.toastMsg("未输入关键字查询");
 
                 } else {
-                    retestPre.doGetqueryResult(et_query.getText().toString());
+                    retestPre.doGetqueryResult(et_query.getText().toString(),"13");
                 }
                 break;
             case R.id.tv_retest_query_cancel:
