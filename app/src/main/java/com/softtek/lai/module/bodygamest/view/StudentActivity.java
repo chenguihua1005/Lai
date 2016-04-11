@@ -16,6 +16,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.bodygame.model.FuceNumModel;
 import com.softtek.lai.module.bodygame.model.TiGuanSaiModel;
+import com.softtek.lai.module.bodygame.model.TotolModel;
 import com.softtek.lai.module.bodygame.presenter.ITiGuanSai;
 import com.softtek.lai.module.bodygame.presenter.TiGuanSaiImpl;
 import com.softtek.lai.module.bodygame.view.TipsActivity;
@@ -23,6 +24,9 @@ import com.softtek.lai.module.studentbasedate.view.StudentBaseDateActivity;
 import com.squareup.picasso.Picasso;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import java.util.List;
+
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_student)
@@ -38,6 +42,12 @@ public class StudentActivity extends BaseActivity implements View.OnClickListene
     TextView tv_st_num;
     @InjectView(R.id.iv_st_adv)
     ImageView iv_st_adv;
+    @InjectView(R.id.im_refreshst)
+    ImageView im_refreshst;
+    @InjectView(R.id.tv_totalpersonst)
+    TextView tv_totalpersonst;
+    @InjectView(R.id.tv_total_lossst)
+    TextView tv_total_lossst;
     //点击事件
     //基本数据
     @InjectView(R.id.ll_st_jibenshuju)
@@ -89,6 +99,7 @@ public class StudentActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initViews() {
+        im_refreshst.setOnClickListener(this);
 
     }
 
@@ -98,6 +109,8 @@ public class StudentActivity extends BaseActivity implements View.OnClickListene
         tiGuanSai = new TiGuanSaiImpl();
         tiGuanSai.getTiGuanSai();
         tiGuanSai.doGetFuceNum(36);
+        tiGuanSai.doGetTotal();
+
     }
 
     @Subscribe
@@ -119,6 +132,12 @@ public class StudentActivity extends BaseActivity implements View.OnClickListene
             tv_st_num.setText(fuceNum.getCount());
         }
 
+    }
+    @Subscribe
+    public void doGetTotol(List<TotolModel> totolModels){
+        System.out.println("dsadasdsadasda>>》》》》》》》》》》》》》》"+totolModels.get(0).getTotal_loss());
+        tv_totalpersonst.setText(totolModels.get(0).getTotal_person());
+        tv_total_lossst.setText(totolModels.get(0).getTotal_loss());
     }
 
     @Override

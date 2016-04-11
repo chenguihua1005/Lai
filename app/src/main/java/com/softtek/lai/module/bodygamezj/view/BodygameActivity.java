@@ -13,6 +13,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.bodygame.model.FuceNumModel;
 import com.softtek.lai.module.bodygame.model.TiGuanSaiModel;
+import com.softtek.lai.module.bodygame.model.TotolModel;
 import com.softtek.lai.module.bodygame.presenter.ITiGuanSai;
 import com.softtek.lai.module.bodygame.presenter.TiGuanSaiImpl;
 import com.softtek.lai.module.bodygame.view.TipsActivity;
@@ -21,6 +22,8 @@ import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -39,6 +42,12 @@ public class BodygameActivity extends BaseActivity implements View.OnClickListen
     ImageView iv_advzj;
     @InjectView(R.id.ll_counselor_fucezj)
     LinearLayout ll_counselor_fucezj;
+    @InjectView(R.id.tv_totalzj)
+    ImageView tv_totalzj;
+    @InjectView(R.id.tv_total_losszj)
+    TextView tv_total_losszj;
+    @InjectView(R.id.tv_totalpersonzj)
+    TextView tv_totalpersonzj;
     private ITiGuanSai iTiGuanSai;
 
     @Override
@@ -47,14 +56,16 @@ public class BodygameActivity extends BaseActivity implements View.OnClickListen
         ll_left.setOnClickListener(this);
         ll_tipzj.setOnClickListener(this);
         ll_counselor_fucezj.setOnClickListener(this);
+        tv_totalzj.setOnClickListener(this);
     }
 
     @Override
     protected void initDatas() {
-
+        tv_title.setText("体管赛（助教版）");
         iTiGuanSai=new TiGuanSaiImpl();
         iTiGuanSai.getTiGuanSai();
         iTiGuanSai.doGetFuceNum(36);
+        iTiGuanSai.doGetTotal();
     }
     @Override
     protected void onDestroy() {
@@ -75,6 +86,9 @@ public class BodygameActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.ll_counselor_fucezj:
                 startActivity(new Intent(this, RetestActivity.class));
+                break;
+            case R.id.tv_totalzj:
+                iTiGuanSai.doGetTotal();
                 break;
         }
     }
@@ -100,5 +114,11 @@ public class BodygameActivity extends BaseActivity implements View.OnClickListen
             tv_fucenumzj.setText(fuceNum.getCount());
         }
 
+    }
+    @Subscribe
+    public void doGetTotol(List<TotolModel> totolModels){
+        System.out.println("dsadasdsadasda>>》》》》》》》》》》》》》》"+totolModels.get(0).getTotal_loss());
+        tv_totalpersonzj.setText(totolModels.get(0).getTotal_person());
+        tv_total_losszj.setText(totolModels.get(0).getTotal_loss());
     }
 }
