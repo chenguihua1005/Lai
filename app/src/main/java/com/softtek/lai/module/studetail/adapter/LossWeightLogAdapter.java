@@ -66,7 +66,6 @@ public class LossWeightLogAdapter extends BaseAdapter{
         }else {
             holder= (LogHolder) convertView.getTag();
         }
-        Log.i("下标"+position);
         final LossWeightLogModel log=logs.get(position);
         Log.i(log.toString());
         if(ZAN_OFF.equals(log.getIsClicked())){//未点赞
