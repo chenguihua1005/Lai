@@ -29,8 +29,8 @@ public class MineHealthyFragment extends BaseFragment{
     @Override
     protected void initDatas() {
         community=new CommunityImpl();
-        //获取健康推荐动态
-        community.getRecommendDynamic();
+        //获取健康我的动态
+        community.getHealthyMine();
 
     }
 }

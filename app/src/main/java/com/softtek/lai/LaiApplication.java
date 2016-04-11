@@ -27,6 +27,7 @@ import java.util.List;
 public class LaiApplication extends Application implements Zilla.InitCallback, DBHelper.DBUpgradeListener {
 
     private static LaiApplication laiApplication;
+    private Context context;
 
     @Override
     public void onCreate() {
@@ -40,6 +41,14 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
 
     public static LaiApplication getInstance() {
         return laiApplication;
+    }
+
+    public Context getContext() {
+        return context;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
     }
 
     /**
