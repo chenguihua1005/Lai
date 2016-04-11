@@ -27,7 +27,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/iv_adv"
+                    android:id="@+id/iv_advzj"
                     android:scaleType="centerCrop"
                     />
 
@@ -250,13 +250,13 @@
                                 </LinearLayout>
 
                                 <TextView
-                                    android:layout_width="30dp"
-                                    android:layout_height="30dp"
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
                                     android:text="10+"
                                     android:textSize="12sp"
                                     android:layout_gravity="right"
                                     android:gravity="center"
-                                    android:id="@+id/tv_fucenum"
+                                    android:id="@+id/tv_fucenumzj"
                                     android:visibility="gone"
                                     android:textColor="#ffffff"
                                     android:background="@drawable/circlebac"/>
