@@ -3,8 +3,13 @@ package com.softtek.lai.module.bodygame;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.Interpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -59,7 +64,8 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
     //体管赛点击
     @InjectView(R.id.ll_tiguansai)
     LinearLayout ll_tiguansai;
-
+    @InjectView(R.id.im_refresh)
+    ImageView im_refresh;
     //新学员录入按钮
     @InjectView(R.id.ll_new_student)
     LinearLayout ll_new_student;
@@ -105,6 +111,7 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
         ll_match.setOnClickListener(this);
         ll_assistant.setOnClickListener(this);
         ll_tip.setOnClickListener(this);
+        im_refresh.setOnClickListener(this);
         
     }
 
@@ -119,6 +126,7 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
         System.out.println("dsadasdsadasda>>》》》》》》》》》》》》》》"+tiGuanSai.getImg_Addr());
         //Picasso.with(this).load().into(iv_adv);
 //        Picasso.with(getBaseContext()).load(tiGuanSai.getImg_Addr()).into(iv_adv);
+        iv_adv.setScaleType(ImageView.ScaleType.CENTER_CROP);
         Picasso.with(this).load(tiGuanSai.getImg_Addr()).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_adv);
 
 
@@ -238,6 +246,19 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
                 Util.toastMsg("助教管理页面");
             }
             break;
+            case R.id.im_refresh:
+                final Animation rotate= AnimationUtils.loadAnimation(this,R.anim.rotate);
+                rotate.setRepeatCount(-1);
+                rotate.setRepeatMode(Animation.RESTART);
+                im_refresh.setAnimation(rotate);
+                rotate.start();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        rotate.cancel();
+                    }
+                },2000);
+                break;
 
         }
     }

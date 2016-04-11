@@ -17,14 +17,19 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Checkable;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
+import com.mobsandgeeks.saripaar.Rule;
+import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.module.File.model.FileModel;
 import com.softtek.lai.module.newmemberentry.view.GetPhotoDialog;
 import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
 import com.softtek.lai.module.retest.eventModel.BanJiEvent;
@@ -47,10 +52,13 @@ import java.io.FileNotFoundException;
 
 import butterknife.InjectView;
 import zilla.libcore.file.SharedPreferenceService;
+import zilla.libcore.lifecircle.LifeCircleInject;
+import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_write)
-public class WriteActivity extends BaseActivity implements View.OnClickListener,CompoundButton.OnCheckedChangeListener{
+public class WriteActivity extends BaseActivity implements View.OnClickListener,CompoundButton.OnCheckedChangeListener,
+        Validator.ValidationListener{
     //标题栏
     @InjectView(R.id.tv_title)
     TextView title;
@@ -84,12 +92,19 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
     @InjectView(R.id.ll_retestWrite_neizhi)
     LinearLayout ll_retestWrite_neizhi;
 
+    @LifeCircleInject
+    ValidateLife validateLife;
+
     //信息保存
+    @Required(order = 1,message = "初始体重必填项，请选择")
     @InjectView(R.id.tv_write_chu_weight)
-    TextView tv_write_chu_weight;
+    EditText tv_write_chu_weight;
+
+
     //现在体重
+    @Required(order = 2,message = "现在体重必填项，请选择")
     @InjectView(R.id.tv_retestWrite_nowweight)
-    TextView tv_retestWrite_nowweight;
+    EditText tv_retestWrite_nowweight;
     //体脂
     @InjectView(R.id.tv_retestWrite_tizhi)
     TextView tv_retestWrite_tizhi;
@@ -267,13 +282,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
             break;
             //标题栏右提交保存事件
             case R.id.tv_right:
-                retestWrite.setWeight(tv_retestWrite_nowweight.getText()+"");
-                retestWrite.setPysical(tv_retestWrite_tizhi.getText()+"");
-                retestWrite.setFat(tv_retestWrite_neizhi.getText()+"");
-                retestWrite.setClassId("4");
-                retestWrite.setImage("");
-                retestWrite.setAccountId("3");
-                retestPre.doPostWrite(3,36,retestWrite);
+                validateLife.validate();
                 break;
             //拍照事件
             case R.id.im_retestwrite_takephoto:
@@ -399,12 +408,12 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
             public void onClick(DialogInterface dialog, int which) {
                 if (num==0) {
                     tv_write_chu_weight.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())); //set the value to textview
-
+                    tv_write_chu_weight.setError(null);
                 }
                 else if (num==1)
                 {
                     tv_retestWrite_nowweight.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
-
+                    tv_retestWrite_nowweight.setError(null);
                 }
                 else if (num==2)
                 {
@@ -425,6 +434,23 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         }).create().show();
 
 //        information_dialog.setCanceledOnTouchOutside(false);
+    }
+
+    @Override
+    public void onValidationSucceeded() {
+
+        retestWrite.setWeight(tv_retestWrite_nowweight.getText()+"");
+        retestWrite.setPysical(tv_retestWrite_tizhi.getText()+"");
+        retestWrite.setFat(tv_retestWrite_neizhi.getText()+"");
+        retestWrite.setClassId("4");
+        retestWrite.setImage("");
+        retestWrite.setAccountId("3");
+        retestPre.doPostWrite(3,36,retestWrite);
+    }
+
+    @Override
+    public void onValidationFailed(View failedView, Rule<?> failedRule) {
+        validateLife.onValidationFailed(failedView, failedRule);
     }
 
     @Override

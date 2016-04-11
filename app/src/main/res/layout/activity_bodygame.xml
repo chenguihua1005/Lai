@@ -216,7 +216,7 @@
                         android:padding="2dp">
 
                         <LinearLayout
-                            android:id="@+id/ll_counselor_fuce"
+                            android:id="@+id/ll_counselor_fucezj"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="2.5dp"
