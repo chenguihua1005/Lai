@@ -16,7 +16,16 @@ public class SRInfoModel {
     private String TotalWight;
     private String rtest;
     private String IsInvited;
+    private String Photo;
 
+
+    public String getPhoto() {
+        return Photo;
+    }
+
+    public void setPhoto(String photo) {
+        Photo = photo;
+    }
 
     public String getUserName() {
         return UserName;

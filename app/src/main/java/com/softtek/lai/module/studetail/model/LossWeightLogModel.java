@@ -12,6 +12,7 @@ public class LossWeightLogModel implements Serializable{
     private String Photo;
     private String AcBanner;
     private String LossLogId;
+    private String AfterWeight;
     private String CreateDate;
     private String LogTitle;
     private String LogContent;
@@ -19,6 +20,14 @@ public class LossWeightLogModel implements Serializable{
     private String imgCollection;
     private String Priase;
     private String isClicked;
+
+    public String getAfterWeight() {
+        return AfterWeight;
+    }
+
+    public void setAfterWeight(String afterWeight) {
+        AfterWeight = afterWeight;
+    }
 
     public String getIsClicked() {
         return isClicked;

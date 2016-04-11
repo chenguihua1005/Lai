@@ -15,6 +15,7 @@ import java.util.List;
 
 import retrofit.Callback;
 import retrofit.http.Field;
+import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.Header;
 import retrofit.http.POST;
@@ -47,6 +48,7 @@ public interface MemberInfoService {
                            Callback<ResponseData<List<LossWeightLogModel>>> callback);
 
     //点赞
+    @FormUrlEncoded
     @POST("/CompetitionLog/ClickLike")
     void clickLike(@Header(TOKEN)String token,
                    @Field("accountId")long accountId,
