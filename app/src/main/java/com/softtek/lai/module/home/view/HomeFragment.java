@@ -174,6 +174,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
             toolbar.setVisibility(View.GONE);
         }*/
 
+
         if (verticalOffset >= 0) {
             pull.setEnabled(true);
 

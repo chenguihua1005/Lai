@@ -1,9 +1,10 @@
 package com.softtek.lai.utils;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 
 import com.github.snowdream.android.util.Log;
@@ -69,10 +70,21 @@ public class NetErrorHandler implements IApiErrorHandler {
                 int statusCode = error.getResponse().getStatus();
                 switch (statusCode) {
                     case 401:
-                        Intent intent=new Intent(LaiApplication.getInstance(), LoginActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        LaiApplication.getInstance().startActivity(intent);
+                        new AlertDialog.Builder(LaiApplication.getInstance().getContext())
+                                .setTitle("温馨提示").setMessage("您的账号已在别处登录，请您登录后再进行")
+                                .setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent intent=new Intent(LaiApplication.getInstance(), LoginActivity.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        LaiApplication.getInstance().startActivity(intent);
+                                    }
+                                }).setNegativeButton("稍候", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                    }
+                                }).create().show();
                         //Util.toastMsg("token以过时");
                         break;
                     case 403:

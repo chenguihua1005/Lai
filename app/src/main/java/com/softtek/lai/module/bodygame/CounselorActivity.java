@@ -16,8 +16,10 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.module.bodygame.eventmodel.TotalEventModel;
 import com.softtek.lai.module.bodygame.model.FuceNumModel;
 import com.softtek.lai.module.bodygame.model.TiGuanSaiModel;
+import com.softtek.lai.module.bodygame.model.TotolModel;
 import com.softtek.lai.module.bodygame.presenter.ITiGuanSai;
 import com.softtek.lai.module.bodygame.presenter.TiGuanSaiImpl;
 import com.softtek.lai.module.bodygamest.view.StudentHonorActivity;
@@ -37,6 +39,8 @@ import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -89,6 +93,10 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
     LinearLayout ll_assistant;
     @InjectView(R.id.tv_fucenum)
     TextView tv_fucenum;
+    @InjectView(R.id.tv_totalperson)
+    TextView tv_totalperson;
+    @InjectView(R.id.tv_total_loss)
+    TextView tv_total_loss;
     private ITiGuanSai iTiGuanSai;
     private TiGuanSaiModel tiGuanSai;
     private FuceNumModel fuceNumModel;
@@ -145,6 +153,12 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
         }
 
     }
+    @Subscribe
+    public void doGetTotol(List<TotolModel> totolModels){
+        System.out.println("dsadasdsadasda>>》》》》》》》》》》》》》》"+totolModels.get(0).getTotal_loss());
+        tv_totalperson.setText(totolModels.get(0).getTotal_person());
+        tv_total_loss.setText(totolModels.get(0).getTotal_loss());
+    }
 
 
     @Override
@@ -157,6 +171,7 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
         iTiGuanSai=new TiGuanSaiImpl();
         iTiGuanSai.getTiGuanSai();
         iTiGuanSai.doGetFuceNum(36);
+        iTiGuanSai.doGetTotal();
         int sp=px2sp(this,30);
         Log.i("benbenbenben",sp+"");
         int dp=px2dip(this,22);
@@ -247,17 +262,29 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
             }
             break;
             case R.id.im_refresh:
-                final Animation rotate= AnimationUtils.loadAnimation(this,R.anim.rotate);
-                rotate.setRepeatCount(-1);
-                rotate.setRepeatMode(Animation.RESTART);
-                im_refresh.setAnimation(rotate);
-                rotate.start();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        rotate.cancel();
-                    }
-                },2000);
+                iTiGuanSai.doGetTotal();
+//                final Animation rotate= AnimationUtils.loadAnimation(this,R.anim.rotate);
+//                im_refresh.startAnimation(rotate);
+//                rotate.setAnimationListener(new Animation.AnimationListener() {
+//                    @Override
+//                    public void onAnimationStart(Animation animation) {
+//                        //做请求操作
+//                        iTiGuanSai.doGetTotal();
+//                    }
+//
+//                    @Override
+//                    public void onAnimationEnd(Animation animation) {
+//                        im_refresh.clearAnimation();
+//
+//                    }
+//
+//                    @Override
+//                    public void onAnimationRepeat(Animation animation) {
+//
+//                    }
+//                });
+
+
                 break;
 
         }

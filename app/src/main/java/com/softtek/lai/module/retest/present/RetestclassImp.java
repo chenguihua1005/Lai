@@ -83,10 +83,9 @@ public class RetestclassImp implements RetestPre{
     }
 
     @Override
-    public void doGetqueryResult(String str) {
+    public void doGetqueryResult(String str, String accountId) {
         String token=SharedPreferenceService.getInstance().get("token","");
-        service.doGetqueryResult(token, str, new Callback<ResponseData<List<StudentModel>>>() {
-
+        service.doGetqueryResult(token, str, accountId, new Callback<ResponseData<List<StudentModel>>>() {
             @Override
             public void success(ResponseData<List<StudentModel>> listResponseData, Response response) {
                 int status=listResponseData.getStatus();
@@ -104,10 +103,10 @@ public class RetestclassImp implements RetestPre{
             public void failure(RetrofitError error) {
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
-
             }
         });
     }
+
 
     @Override
     public void doGetBanjiStudent(long classId) {

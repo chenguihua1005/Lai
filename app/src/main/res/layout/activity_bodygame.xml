@@ -43,7 +43,7 @@
                     android:layout_marginLeft="40dp"
                     android:layout_marginRight="40dp"
                     android:layout_marginBottom="13dp"
-                    android:gravity="center_vertical"
+                    android:gravity="center_vertical|center_horizontal"
                     android:orientation="vertical">
                     <TextView
                         android:layout_width="wrap_content"
@@ -53,11 +53,12 @@
                         android:textColor="#c1c1c1"
                         />
                     <TextView
+                        android:id="@+id/tv_totalpersonzj"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:textSize="24sp"
-                        android:text="20,167"/>
+                        android:text=""/>
 
                 </LinearLayout>
                 <View
@@ -70,7 +71,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="21dp"
                     android:layout_marginLeft="40dp"
-                    android:layout_marginRight="45dp"
+                    android:layout_marginRight="30dp"
                     android:layout_marginBottom="13dp"
                     android:gravity="center_vertical"
                     android:orientation="vertical">
@@ -82,21 +83,23 @@
                         android:textColor="#c1c1c1"
                         />
                     <TextView
+                        android:id="@+id/tv_total_losszj"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:textSize="24sp"
-                        android:text="120,573"/>
+                        android:text=""/>
 
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:layout_marginRight="30dp">
+                    >
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:id="@+id/tv_totalzj"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:src="@drawable/refresh"/>
                 </LinearLayout>
 

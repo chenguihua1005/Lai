@@ -21,6 +21,23 @@
     <!-- 拨打电话权限 -->
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.SET_DEBUG_APP" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+
+
     <application
         android:name=".LaiApplication"
         android:allowBackup="true"
@@ -28,6 +45,10 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="57071d73e0f55aa22d002712"></meta-data>
+
         <activity
             android:name=".module.login.view.LoginActivity"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
@@ -90,7 +111,20 @@
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity android:name=".module.studetail.view.LossWeightLogActivity" />
         <activity android:name=".module.studetail.view.LogDetailActivity" />
-        <activity android:name=".module.bodygame.view.TipsActivity" />
+        <activity android:name=".module.bodygame.view.TipsActivity"></activity>
+        <activity
+            android:name="com.umeng.socialize.view.ShareActivity"
+            android:configChanges="orientation|keyboard"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:theme="@style/Theme.UMDialog"
+            android:windowSoftInputMode="stateVisible|adjustResize"></activity>
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".module.studentbasedate.view.StudentBaseDateActivity" />
         <activity android:name=".module.bodygamezj.view.BodygameActivity" />
         <activity android:name=".module.bodygamecc.view.BodyGameCcActivity" />

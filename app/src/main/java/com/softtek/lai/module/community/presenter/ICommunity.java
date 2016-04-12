@@ -7,4 +7,7 @@ public interface ICommunity {
 
     //获取健康圈推荐动态
     void getRecommendDynamic();
+
+    //获取健康圈我的动态
+    void getHealthyMine();
 }

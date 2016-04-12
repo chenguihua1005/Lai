@@ -27,6 +27,10 @@ public class RetestAuditModel {
     private String doLegGirth;
     private String image;
     private String classId;
+    private String Weekth;
+    private String CurrStart;
+    private String CurrEnd;
+    private String IsFirst;
 
     @Override
     public String toString() {
@@ -49,6 +53,10 @@ public class RetestAuditModel {
                 ", doLegGirth='" + doLegGirth + '\'' +
                 ", image='" + image + '\'' +
                 ", classId='" + classId + '\'' +
+                ", Weekth='" + Weekth + '\'' +
+                ", CurrStart='" + CurrStart + '\'' +
+                ", CurrEnd='" + CurrEnd + '\'' +
+                ", IsFirst='" + IsFirst + '\'' +
                 '}';
     }
 
@@ -196,7 +204,45 @@ public class RetestAuditModel {
         this.classId = classId;
     }
 
-    public RetestAuditModel(String accountId, String weight, String pysical, String fat, String circum, String waistline, String hiplie, String upArmGirth, String upLegGirth, String doLegGirth, String image, String classId) {
+    public String getWeekth() {
+        return Weekth;
+    }
+
+    public void setWeekth(String weekth) {
+        Weekth = weekth;
+    }
+
+    public String getCurrStart() {
+        return CurrStart;
+    }
+
+    public void setCurrStart(String currStart) {
+        CurrStart = currStart;
+    }
+
+    public String getCurrEnd() {
+        return CurrEnd;
+    }
+
+    public void setCurrEnd(String currEnd) {
+        CurrEnd = currEnd;
+    }
+
+    public String getIsFirst() {
+        return IsFirst;
+    }
+
+    public void setIsFirst(String isFirst) {
+        IsFirst = isFirst;
+    }
+
+    public RetestAuditModel(String userName, String mobile, String photo, String className, String startDate, String initWeight, String accountId, String weight, String pysical, String fat, String circum, String waistline, String hiplie, String upArmGirth, String upLegGirth, String doLegGirth, String image, String classId, String weekth, String currStart, String currEnd, String isFirst) {
+        UserName = userName;
+        Mobile = mobile;
+        Photo = photo;
+        ClassName = className;
+        StartDate = startDate;
+        InitWeight = initWeight;
         this.accountId = accountId;
         this.weight = weight;
         this.pysical = pysical;
@@ -209,6 +255,10 @@ public class RetestAuditModel {
         this.doLegGirth = doLegGirth;
         this.image = image;
         this.classId = classId;
+        Weekth = weekth;
+        CurrStart = currStart;
+        CurrEnd = currEnd;
+        IsFirst = isFirst;
     }
 
     public RetestAuditModel() {
