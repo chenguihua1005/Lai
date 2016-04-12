@@ -81,10 +81,10 @@ public class StudentAdapter extends BaseAdapter {
         holder.tv_retest_classdate.setText(tomonth(startClass[1]));
         holder.tv_retest_classweek.setText(banjiStudentModel.getWeekth()+"");
 
-        String status= "".equals(banjiStudentModel.getAMStatus())?"录入":"审核";
-        if (status=="录入")
+        String status= "".equals(banjiStudentModel.getAMStatus())?"未复测":"待审核";
+        if (status=="未复测")
         {
-            holder.tv_retest_type.setText("录入");
+            holder.tv_retest_type.setText("未复测");
 
             holder.iv_type_ls.setImageResource(R.drawable.luru);
 
@@ -92,7 +92,7 @@ public class StudentAdapter extends BaseAdapter {
             holder.tv_retest_type.setTextColor(context.getResources().getColor(R.color.green));
         }
         else {
-            holder.tv_retest_type.setText("审核");
+            holder.tv_retest_type.setText("待审核");
             holder.iv_type_ls.setImageResource(R.drawable.shenhe);
             holder.tv_retest_type.setTextColor(context.getResources().getColor(R.color.orange));
         }

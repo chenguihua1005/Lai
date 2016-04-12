@@ -6,12 +6,14 @@
     android:fitsSystemWindows="true"
     tools:context=".module.retest.WriteActivity">
 
-
+    <include layout="@layout/toolbar"
+        android:id="@+id/toolbar"/>
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/scrollView"
-        android:layout_marginTop="60dp"
+        android:layout_below="@+id/toolbar"
+
         >
 
         <LinearLayout
@@ -34,8 +36,8 @@
                     <com.softtek.lai.widgets.CircleImageView
                         android:layout_width="80dp"
                         android:layout_height="80dp"
-                        android:background="@drawable/audit_head"
-                        android:id="@+id/iv_write_head" />
+                        android:background="@drawable/img_default"
+                        android:id="@+id/iv_audit_head" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -52,11 +54,11 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Tom"
+                            android:text=""
                             android:textSize="20sp"
                             android:textStyle="bold"
                             android:textColor="#333333"
-                            android:id="@+id/tv_write_nick" />
+                            android:id="@+id/tv_audit_nick" />
 
 
                     </LinearLayout>
@@ -77,11 +79,11 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
-                            android:text="13800001119"
+                            android:text=""
                             android:textSize="18sp"
                             android:textStyle="bold"
                             android:textColor="#333333"
-                            android:id="@+id/tv_write_phone" />
+                            android:id="@+id/tv_audit_phone" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -94,9 +96,16 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="18sp"
-                            android:text="一月班"
+                            android:text="月班"
                             android:textColor="#333333"
-                            android:id="@+id/tv_write_class" />
+                            android:id="@+id/tv_audit_class" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="/"
+                            android:textSize="18sp"
+                            android:textColor="#333333"
+                            />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -105,10 +114,11 @@
                             android:textColor="#333333"
                             />
                         <TextView
+                            android:id="@+id/tv_audit_weekth"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="20dp"
-                            android:text="2"
+                            android:text=""
                             android:textColor="#333333"
                             />
                         <TextView
@@ -126,10 +136,11 @@
                             android:textColor="#333333"
                             />
                         <TextView
+                            android:id="@+id/tv_audit_monst"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="18sp"
-                            android:text="1"
+                            android:text=""
                             android:textColor="#333333"
                             />
                         <TextView
@@ -140,10 +151,11 @@
                             android:textColor="#333333"
                             />
                         <TextView
+                            android:id="@+id/tv_audit_dayst"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="18sp"
-                            android:text="9"
+                            android:text=""
                             android:textColor="#333333"
                             />
                         <TextView
@@ -154,10 +166,11 @@
                             android:textColor="#333333"
                             />
                         <TextView
+                            android:id="@+id/tv_audit_monen"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="18sp"
-                            android:text="1"
+                            android:text=""
                             android:textColor="#333333"
                             />
                         <TextView
@@ -168,10 +181,11 @@
                             android:textColor="#333333"
                             />
                         <TextView
+                            android:id="@+id/tv_audit_dayen"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="18sp"
-                            android:text="15"
+                            android:text=""
                             android:textColor="#333333"
                             />
                         <TextView
@@ -189,7 +203,7 @@
 
 
             <LinearLayout
-                android:id="@+id/ll_write_chu_weight"
+                android:id="@+id/ll_audit_chu_weight"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -218,6 +232,7 @@
                         android:textSize="18sp"
                         android:textColor="#fea300"
                         android:background="@null"
+                        android:cursorVisible="false"
                         android:layout_toLeftOf="@+id/textView15"
                         android:id="@+id/tv_audit_chu_weight" />
 
@@ -267,6 +282,7 @@
                         android:textSize="18sp"
                         android:textColor="#fea300"
                         android:background="@null"
+                        android:cursorVisible="false"
                         android:layout_toLeftOf="@+id/textView18"
                         android:id="@+id/tv_audit_now_weight" />
 
@@ -674,5 +690,5 @@
         </LinearLayout>
 
     </ScrollView>
-    <include layout="@layout/toolbar"/>
+
 </RelativeLayout>

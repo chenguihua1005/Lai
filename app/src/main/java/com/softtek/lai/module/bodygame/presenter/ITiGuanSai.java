@@ -5,6 +5,10 @@
 
 package com.softtek.lai.module.bodygame.presenter;
 
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
+import android.widget.ImageView;
+
 /**
  * Created by lareina.qiao on 3/17/2016.
  */

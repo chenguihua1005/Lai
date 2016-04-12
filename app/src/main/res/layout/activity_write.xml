@@ -37,7 +37,7 @@
                     <com.softtek.lai.widgets.CircleImageView
                         android:layout_width="80dp"
                         android:layout_height="80dp"
-                        android:background="@drawable/audit_head"
+                        android:background="@drawable/img_default"
                         android:id="@+id/iv_write_head" />
                 </LinearLayout>
 
@@ -100,6 +100,12 @@
                             android:text="一月班"
                             android:textColor="#333333"
                             android:id="@+id/tv_write_class" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="/"
+                            android:textSize="18sp"
+                            android:textColor="#333333"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -269,6 +275,7 @@
                         android:textColor="#fea300"
                         android:background="@null"
                         android:layout_toLeftOf="@+id/textView15"
+                        android:cursorVisible="false"
                         android:id="@+id/tv_write_chu_weight" />
 
                     <TextView
@@ -321,6 +328,7 @@
                         android:textColor="#fea300"
                         android:textSize="22sp"
                         android:background="@null"
+                        android:cursorVisible="false"
                         android:layout_alignParentBottom="true"
                         android:layout_toLeftOf="@+id/textView18"
                         android:id="@+id/tv_retestWrite_nowweight" />
