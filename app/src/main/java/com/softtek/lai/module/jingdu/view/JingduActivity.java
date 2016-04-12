@@ -7,8 +7,10 @@ package com.softtek.lai.module.jingdu.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -20,6 +22,7 @@ import com.softtek.lai.module.jingdu.model.RankModel;
 import com.softtek.lai.module.jingdu.model.Table1Model;
 import com.softtek.lai.module.jingdu.presenter.GetProinfoImpl;
 import com.softtek.lai.module.jingdu.presenter.IGetProinfopresenter;
+import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.ShareUtils;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.bean.SocializeConfig;
@@ -73,8 +76,6 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
     String g = "";
     String text;
 
-    // 首先在您的Activity中添加如下成员变量
-    final UMSocialService Controller = UMServiceFactory.getUMSocialService("com.umeng.share");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
