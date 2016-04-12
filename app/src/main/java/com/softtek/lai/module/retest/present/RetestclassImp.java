@@ -178,7 +178,7 @@ public class RetestclassImp implements RetestPre{
 
 //复测写入提交
     @Override
-    public void doPostWrite(long accountId, long loginId, RetestWriteModel retestWrite) {
+    public void doPostWrite(long accountId, long loginId, RetestWriteModel retestWrite, final Context context) {
         String token=SharedPreferenceService.getInstance().get("token","");
         service.doPostWrite(token, accountId, loginId, retestWrite, new Callback<ResponseData<RetestWriteModel>>() {
 
@@ -190,6 +190,8 @@ public class RetestclassImp implements RetestPre{
                 {
                     case 200:
                         Util.toastMsg("复测记保存取成功");
+                        Intent intent=new Intent(context,RetestActivity.class);
+                        context.startActivity(intent);
                         break;
                     case 201:
                         Util.toastMsg("复测记录保存失败");

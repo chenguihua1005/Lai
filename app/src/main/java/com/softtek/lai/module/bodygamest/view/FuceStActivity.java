@@ -235,7 +235,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
                 retestWrite.setClassId("4");
                 retestWrite.setImage("");
                 retestWrite.setAccountId("3");
-                retestPre.doPostWrite(3,36,retestWrite);
+                retestPre.doPostWrite(3,36,retestWrite,this);
                 break;
             case R.id.ll_left:
                 finish();

@@ -84,4 +84,5 @@ public interface RestService {
             Callback<ResponseData<PhotModel>> callback
     );
 
+
 }

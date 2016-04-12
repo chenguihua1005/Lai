@@ -29,6 +29,7 @@ import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.File.model.FileModel;
 import com.softtek.lai.module.newmemberentry.view.GetPhotoDialog;
 import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
@@ -93,6 +94,8 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
     @InjectView(R.id.ll_retestWrite_neizhi)
     LinearLayout ll_retestWrite_neizhi;
 
+    UserInfoModel userInfoModel=UserInfoModel.getInstance();
+    String loginid=userInfoModel.getUser().getUserid();
     @LifeCircleInject
     ValidateLife validateLife;
 
@@ -149,6 +152,8 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
     MeasureModel measureModel;
     RetestAuditModel retestAuditModel;
     String path="";
+    String classid="";
+    long accoutid;
     private static final int PHOTO=1;
     private static final int GET_BODY=2;
     private static final String LAI_CHEN_SWITCH_KEY="laichenSwitch";
@@ -192,6 +197,8 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         String accountId=intent.getStringExtra("accountId");
         String loginId=intent.getStringExtra("loginId");
         String classId=intent.getStringExtra("classId");
+        classid=classId;
+        accoutid=Long.parseLong(accountId);
         String typedate=intent.getStringExtra("typeDate");
         //开班时间，判断班级名称（几月班）
         String StartDate=intent.getStringExtra("StartDate");
@@ -208,19 +215,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         //第几周期
         String Weekth=intent.getStringExtra("Weekth");
         Log.i("dijizhouqi"+Weekth);
-        //头部基本信息
-//        tv_write_nick.setText(UserName);
-//        tv_write_phone.setText(Mobile);
-//        tv_retest_write_weekth.setText(Weekth);
-//        String[] mon=StartDate.split("-");
-//        String[] currStart=CurrStart.split("-");
-//        String[] currEnd=CurrEnd.split("-");
-//        tv_write_class.setText(tomonth(mon[1]));
-//        tv_write_starm.setText(currStart[1]);
-//        tv_write_stard.setText(currStart[2]);
-//        tv_write_endm.setText(currEnd[1]);
-//        tv_write_endd.setText(currEnd[2]);
-       // Picasso.with(this).load(Photo).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_write_head);
+
         Log.i("chuanzhizhizhizhizhi",accountId+loginId+classId);
 
         retestWrite=new RetestWriteModel();
@@ -297,6 +292,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
             case R.id.im_delete:
                 im_retestwrite_showphoto.setVisibility(View.GONE);
                 im_delete.setVisibility(View.GONE);
+                retestWrite.setImage("");
                 break;
             //标题栏左返回
             case R.id.ll_left:
@@ -460,14 +456,13 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onValidationSucceeded() {
-
+        retestWrite.setInitWeight(tv_write_chu_weight.getText().toString());
         retestWrite.setWeight(tv_retestWrite_nowweight.getText()+"");
         retestWrite.setPysical(tv_retestWrite_tizhi.getText()+"");
         retestWrite.setFat(tv_retestWrite_neizhi.getText()+"");
-        retestWrite.setClassId("4");
-        retestWrite.setImage("");
-        retestWrite.setAccountId("3");
-        retestPre.doPostWrite(3,36,retestWrite);
+        retestWrite.setClassId(classid);
+        retestWrite.setAccountId(accoutid+"");
+        retestPre.doPostWrite(accoutid,Long.parseLong(loginid),retestWrite,this);
     }
 
     @Override
