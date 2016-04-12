@@ -173,9 +173,9 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
         iTiGuanSai.getTiGuanSai();
         iTiGuanSai.doGetFuceNum(36);
         iTiGuanSai.doGetTotal();
-        int sp=px2sp(this,30);
+        int sp=px2sp(this,44);
         Log.i("benbenbenben",sp+"");
-        int dp=px2dip(this,22);
+        int dp=px2dip(this,50);
         Log.i("px转换dp为",dp+"");
 
 
