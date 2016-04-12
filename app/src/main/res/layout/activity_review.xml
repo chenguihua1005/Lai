@@ -12,8 +12,8 @@
             layout="@layout/toolbar"/>
 
     <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_above="@+id/lin_create_class"
             android:layout_below="@+id/toolbar">
 

@@ -18,6 +18,7 @@ import com.softtek.lai.module.bodygame.presenter.ITiGuanSai;
 import com.softtek.lai.module.bodygame.presenter.TiGuanSaiImpl;
 import com.softtek.lai.module.bodygame.view.TipsActivity;
 import com.softtek.lai.module.retest.view.RetestActivity;
+import com.softtek.lai.module.review.view.ReviewActivity;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
@@ -48,6 +49,10 @@ public class BodygameActivity extends BaseActivity implements View.OnClickListen
     TextView tv_total_losszj;
     @InjectView(R.id.tv_totalpersonzj)
     TextView tv_totalpersonzj;
+    @InjectView(R.id.ll_review)
+    LinearLayout ll_review;
+
+
     private ITiGuanSai iTiGuanSai;
 
     @Override
@@ -57,6 +62,7 @@ public class BodygameActivity extends BaseActivity implements View.OnClickListen
         ll_tipzj.setOnClickListener(this);
         ll_counselor_fucezj.setOnClickListener(this);
         tv_totalzj.setOnClickListener(this);
+        ll_review.setOnClickListener(this);
     }
 
     @Override
@@ -89,6 +95,9 @@ public class BodygameActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.tv_totalzj:
                 iTiGuanSai.doGetTotal();
+                break;
+            case R.id.ll_review:
+                startActivity(new Intent(this, ReviewActivity.class));
                 break;
         }
     }

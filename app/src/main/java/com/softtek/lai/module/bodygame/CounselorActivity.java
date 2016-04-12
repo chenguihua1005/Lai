@@ -35,6 +35,7 @@ import com.softtek.lai.module.newmemberentry.view.EntryActivity;
 import com.softtek.lai.module.retest.AuditActivity;
 import com.softtek.lai.module.retest.WriteActivity;
 import com.softtek.lai.module.retest.view.RetestActivity;
+import com.softtek.lai.module.review.view.ReviewActivity;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
@@ -232,7 +233,7 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
             break;
             case R.id.ll_review:
             {
-                Intent intent = new Intent(this, AuditActivity.class);
+                Intent intent = new Intent(this, ReviewActivity.class);
                 startActivity(intent);
                 Util.toastMsg("往期回顾");
             }
