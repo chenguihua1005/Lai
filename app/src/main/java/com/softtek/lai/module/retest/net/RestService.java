@@ -2,6 +2,7 @@ package com.softtek.lai.module.retest.net;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
+import com.softtek.lai.module.retest.model.AuditPostModel;
 import com.softtek.lai.module.retest.model.BanjiModel;
 import com.softtek.lai.module.retest.model.BanjiStudentModel;
 import com.softtek.lai.module.retest.model.ClientModel;
@@ -63,8 +64,8 @@ public interface RestService {
             @Query("loginId") String loginId,
             @Query("accountId")String accountId,
             @Query("typeDate")String typeDate,
-            @Body RetestAuditModel retestAudit,
-            Callback<ResponseData<List<RetestAuditModel>>>callback
+            @Body AuditPostModel auditPostModel,
+            Callback<ResponseData<AuditPostModel>>callback
     );
 //复测录入提交
     @POST("/MeasuredRecordLog/SaveMeasuredRecord")

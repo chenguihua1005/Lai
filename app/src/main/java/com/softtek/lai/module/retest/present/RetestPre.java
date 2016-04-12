@@ -6,6 +6,9 @@
 package com.softtek.lai.module.retest.present;
 
 
+import android.content.Context;
+
+import com.softtek.lai.module.retest.model.AuditPostModel;
 import com.softtek.lai.module.retest.model.RetestAuditModel;
 import com.softtek.lai.module.retest.model.RetestWriteModel;
 
@@ -23,7 +26,7 @@ public interface RetestPre {
 
     void doPostWrite(long accountId, long loginId, RetestWriteModel retestWriteModel);
 
-    void doPostAudit(String loginId, String accountId, String typeDate, RetestAuditModel retestAuditModel);
+    void doPostAudit(String loginId, String accountId, String typeDate, AuditPostModel auditPostModel,Context context);
 
     void goGetPicture(String filePath);
 

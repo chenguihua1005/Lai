@@ -2,6 +2,7 @@ package com.softtek.lai.module.retest.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,6 +12,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.utils.Utils;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
@@ -25,6 +27,7 @@ import com.softtek.lai.module.retest.model.BanjiModel;
 import com.softtek.lai.module.retest.model.BanjiStudentModel;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.module.retest.present.RetestclassImp;
+import com.softtek.lai.utils.DisplayUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -34,6 +37,7 @@ import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 /**
  * Created by lareina.qiao on 3/18/2016.
@@ -210,6 +214,9 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
 //        tv_right.setText("搜索");
         iv_email.setVisibility(View.VISIBLE);
         iv_email.setImageResource(R.drawable.retestsearch);
+        iv_email.setMaxHeight(DisplayUtil.dip2px(this,15));
+        iv_email.setMaxWidth(DisplayUtil.dip2px(this,15));
+//        iv_email.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,20),DisplayUtil.dip2px(this,20)));
         retestPre =new RetestclassImp();
         //获取班级列表，参数助教顾问id
         String id=UserInfoModel.getInstance().getUser().getUserid();

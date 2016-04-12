@@ -1,5 +1,9 @@
 package com.softtek.lai.module.retest.present;
 
+import android.content.Context;
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
+
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
@@ -9,6 +13,7 @@ import com.softtek.lai.module.retest.eventModel.BanjiStudentEvent;
 import com.softtek.lai.module.retest.eventModel.MeasureEvent;
 import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
 import com.softtek.lai.module.retest.eventModel.StudentEvent;
+import com.softtek.lai.module.retest.model.AuditPostModel;
 import com.softtek.lai.module.retest.model.BanjiModel;
 import com.softtek.lai.module.retest.model.BanjiStudentModel;
 import com.softtek.lai.module.retest.model.ClientModel;
@@ -18,6 +23,7 @@ import com.softtek.lai.module.retest.model.RetestWriteModel;
 import com.softtek.lai.module.retest.model.StudentModel;
 import com.softtek.lai.module.retest.net.LaiChenService;
 import com.softtek.lai.module.retest.net.RestService;
+import com.softtek.lai.module.retest.view.RetestActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -39,6 +45,7 @@ import zilla.libcore.util.Util;
 public class RetestclassImp implements RetestPre{
     private RestService service;
     private LaiChenService laiChenService;
+    private Context context;
 
     public  RetestclassImp(){
         service= ZillaApi.NormalRestAdapter.create(RestService.class);
@@ -200,14 +207,21 @@ public class RetestclassImp implements RetestPre{
             }
         });
     }
-//复测审核提交
+
+
+
+    //复测审核提交
     @Override
-    public void doPostAudit(String loginId, String accountId, String typeDate, RetestAuditModel retestAudit) {
+    public void doPostAudit(String loginId, String accountId, String typeDate, AuditPostModel auditPostModel, final Context context) {
         String token=SharedPreferenceService.getInstance().get("token","");
-        service.doPostAudit(token, loginId, accountId, typeDate, retestAudit, new Callback<ResponseData<List<RetestAuditModel>>>() {
+        service.doPostAudit(token, loginId, accountId, typeDate, auditPostModel, new Callback<ResponseData<AuditPostModel>>() {
             @Override
-            public void success(ResponseData<List<RetestAuditModel>> listResponseData, Response response) {
+            public void success(ResponseData<AuditPostModel> listResponseData, Response response) {
                 int status=listResponseData.getStatus();
+                if (status==200)
+                {
+                    ((AppCompatActivity)context).finish();
+                }
                 switch (status)
                 {
                     case 200:

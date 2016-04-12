@@ -21,6 +21,7 @@ import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
+import com.softtek.lai.module.retest.model.AuditPostModel;
 import com.softtek.lai.module.retest.model.RetestAuditModel;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.module.retest.present.RetestclassImp;
@@ -28,12 +29,14 @@ import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_audit)
 public class AuditActivity extends BaseActivity implements View.OnClickListener,Validator.ValidationListener{
@@ -136,10 +139,12 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
 
     private RetestPre retestPre;
     private RetestAuditModel retestAudit;
+    AuditPostModel auditPostModel;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        EventBus.getDefault().register(this);
         super.onCreate(savedInstanceState);
         tv_right.setOnClickListener(this);
         ll_left.setOnClickListener(this);
@@ -162,19 +167,27 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
     }
 
     @Override
+    protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
+    }
+
+    @Override
     protected void initDatas() {
 
         tv_title.setText(R.string.AuditBarT);
         tv_right.setText(R.string.AuditBarR);
+        auditPostModel=new AuditPostModel();
         retestPre=new RetestclassImp();
         retestAudit=new RetestAuditModel();
-        retestPre.doGetAudit(3,4,"2016-03-29");
+        retestPre.doGetAudit(3,4,"2016-03-09");
 
     }
     @Subscribe
     public void doGetDates(RetestAuditModelEvent retestAuditModelEvent){
         Log.i("retestAuditModel"+retestAuditModelEvent.getRetestAuditModels());
         tv_audit_chu_weight.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getInitWeight());
+        tv_audit_now_weight.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getWeight());
         tv_audit_nick.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getUserName());
         tv_audit_phone.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getMobile());
         String StartDate=retestAuditModelEvent.getRetestAuditModels().get(0).getStartDate();
@@ -190,6 +203,14 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
         tv_audit_dayen.setText(currEnd[2]);
         tv_audit_weekth.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getWeekth());
         Picasso.with(this).load(retestAuditModelEvent.getRetestAuditModels().get(0).getPhoto()).placeholder(R.drawable.img_default).error(R.drawable.img_default).into(iv_audit_head);
+        tv_retestAudit_tizhi.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getPysical());
+        tv_retesrAudit_fat.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getFat());
+        tv_retestAudit_wasit.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getCircum());
+        tv_retestAudit_yaowei.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getWaistline());
+        tv_retestAudit_tunwei.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getHiplie());
+        tv_retestAudit_upArmGirth.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getUpArmGirth());
+        tv_retestAudit_upLegGirth.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getUpLegGirth());
+        tv_retestAudit_doLegGirth.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getDoLegGirth());
     }
 
     @Override
@@ -203,7 +224,9 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
                 break;
             //信息点击事件
             case R.id.ll_audit_chu_weight:
-                show_information("初始体重（kg）",200,70,20,9,5,0,0);
+
+                    show_information("初始体重（kg）", 200, 70, 20, 9, 5, 0, 0);
+
                 break;
             case R.id.ll_retestAudit_nowweight:
                 show_information("现在体重（kg）",200,70,20,9,5,0,1);
@@ -358,10 +381,19 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onValidationSucceeded() {
-        retestAudit.setInitWeight(tv_audit_chu_weight.getText()+"");
-        retestAudit.setWeight(tv_audit_now_weight.getText()+"");
-//        retestAudit.getCircum(tv_retestAudit_wasit.getText());
-        retestPre.doPostAudit("36","3","2016-03-28",retestAudit);
+
+        auditPostModel.setWeight(tv_audit_now_weight.getText()+"");
+        auditPostModel.setPysical(tv_retestAudit_tizhi.getText()+"");
+        auditPostModel.setFat(tv_retesrAudit_fat.getText()+"");
+        auditPostModel.setCircum(tv_retestAudit_wasit.getText()+"");
+        auditPostModel.setWaistline(tv_retestAudit_yaowei.getText()+"");
+        auditPostModel.setHiplie(tv_retestAudit_tunwei.getText()+"");
+        auditPostModel.setUpArmGirth(tv_retestAudit_upArmGirth.getText()+"");
+        auditPostModel.setUpLegGirth(tv_retestAudit_upLegGirth.getText()+"");
+        auditPostModel.setDoLegGirth(tv_retestAudit_doLegGirth.getText()+"");
+
+
+        retestPre.doPostAudit("13","3","2016-03-09",auditPostModel,this);
 
     }
 
