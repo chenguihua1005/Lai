@@ -130,6 +130,7 @@
         <activity android:name=".module.bodygamecc.view.BodyGameCcActivity" />
         <activity android:name=".module.bodygameyk.view.BodygameYkActivity" />
         <activity android:name=".module.review.view.ReviewActivity"></activity>
+        <activity android:name=".module.health.view.HealthyRecordActivity"/>
     </application>
 
 </manifest>
