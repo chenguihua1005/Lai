@@ -20,7 +20,9 @@ import com.softtek.lai.module.jingdu.model.RankModel;
 import com.softtek.lai.module.jingdu.model.Table1Model;
 import com.softtek.lai.module.jingdu.presenter.GetProinfoImpl;
 import com.softtek.lai.module.jingdu.presenter.IGetProinfopresenter;
+import com.softtek.lai.utils.ShareUtils;
 import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.bean.SocializeConfig;
 import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;
 import com.umeng.socialize.media.SinaShareContent;
@@ -122,62 +124,19 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
                 break;
             //分享功能逻辑
             case R.id.tv_right:
-//                Controller.setShareContent("友盟社会化组件（SDK）让移动应用快速整合社交分享功能，http://www.umeng.com/social");
-//                //   mController.setShareMedia(new UMImage(JingduActivity.this,"http://www.umeng.com/images/pic/banner_module_social.png"));
-//                // 设置分享图片，参数2为本地图片的资源引用
-//                Controller.setShareMedia(new UMImage(JingduActivity.this,R.mipmap.ic_launcher));
-
-                Controller.getConfig().setPlatforms(SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE,SHARE_MEDIA.SINA);
-                // 设置分享内容
-                setShareContent();
-
-                // 添加新浪微博平台
-                Controller.getConfig().setSsoHandler(new SinaSsoHandler());
-                String appId = "wx46b7f1bdb5d0990a";
-                String appSecret ="e9a91be6ee2170767c447c233f8206fc";
-                // 添加微信平台
-                UMWXHandler wxHandler = new UMWXHandler(this, appId, appSecret);
-                wxHandler.addToSocialSDK();
-                // 添加微信朋友圈
-                UMWXHandler wxCircleHandler = new UMWXHandler(this, appId, appSecret);
-                wxCircleHandler.setToCircle(true);
-                wxCircleHandler.addToSocialSDK();
-
-                Controller.openShare(JingduActivity.this, false);
+                ShareUtils shareUtils = new ShareUtils(JingduActivity.this);
+                shareUtils.setShareContent("康宝莱体重管理挑战赛，坚持只为改变！", "http://www.baidu.com", R.drawable.logo, "我在**天里已累计服务**学员，共帮助他们减重**斤，快来参加体重管理挑战赛吧！", "我在**天里已累计服务**学员，共帮助他们减重**斤，快来参加体重管理挑战赛吧！");
+                shareUtils.getController().openShare(JingduActivity.this,false);
                 break;
         }
     }
 
-    private void setShareContent() {
-        WeiXinShareContent weixinContent = new WeiXinShareContent();
-        weixinContent.setShareContent("来自友盟社会化组件（SDK）让移动应用快速整合社交分享功能，微信 www.qq.com");
-        weixinContent.setTitle("友盟社会化分享组件-微信");
-        weixinContent.setTargetUrl("www.baidu.com");
-        weixinContent.setShareMedia(new UMImage(this, R.drawable.umeng_socialize_wechat));
-        Controller.setShareMedia(weixinContent);
-
-        CircleShareContent circleMedia = new CircleShareContent();
-        circleMedia.setShareContent("来自友盟社会化组件（SDK）让移动应用快速整合社交分享功能，微信");
-        circleMedia.setTitle("友盟社会化分享组件-微信");
-        circleMedia.setShareMedia(new UMImage(this, R.drawable.umeng_socialize_wxcircle));
-        // circleMedia.setShareMedia(uMusic);
-        // circleMedia.setShareMedia(video);
-        circleMedia.setTargetUrl("http://www.umeng.com/social");
-        Controller.setShareMedia(circleMedia);
-
-        SinaShareContent sinaContent = new SinaShareContent();
-        sinaContent.setShareContent("http://dev.umeng.com/social/android/android-update#9");
-        sinaContent.setTargetUrl("www.baidu.com");
-        sinaContent.setShareMedia(new UMImage(this, R.drawable.umeng_socialize_sina_on));
-        Controller.setShareMedia(sinaContent);
-
-    }
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        /**使用SSO授权必须添加如下代码 */
-        UMSsoHandler ssoHandler = Controller.getConfig().getSsoHandler(requestCode) ;
-        if(ssoHandler != null){
+        System.out.println("resultCode:" + resultCode);
+        UMSsoHandler ssoHandler = SocializeConfig.getSocializeConfig().getSsoHandler(requestCode);
+        if (ssoHandler != null) {
             ssoHandler.authorizeCallBack(requestCode, resultCode, data);
         }
     }
