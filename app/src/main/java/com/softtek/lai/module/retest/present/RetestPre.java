@@ -15,7 +15,7 @@ import com.softtek.lai.module.retest.model.RetestWriteModel;
 public interface RetestPre {
     void doGetRetestclass(long id);
 
-    void doGetqueryResult(String str);
+    void doGetqueryResult(String str,String accountId);
 
     void doGetBanjiStudent(long classId);
 

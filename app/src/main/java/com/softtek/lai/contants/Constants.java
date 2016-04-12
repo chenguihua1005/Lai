@@ -96,4 +96,13 @@ public class Constants {
      */
     public static final int REFRESH=0;
     public static final int LOADING=1;
+
+    /**
+     * 功能模块常量标识符
+     */
+    public static final int BODY_GAME=0;
+    public static final int LAI_YUNDONG=1;
+    public static final int OFFICE=2;
+    public static final int LAI_EXCLE=3;
+    public static final int LAI_SHOP=4;
 }

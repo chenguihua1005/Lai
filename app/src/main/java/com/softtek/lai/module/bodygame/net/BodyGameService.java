@@ -10,6 +10,7 @@ import com.softtek.lai.module.bodygame.model.FuceNumModel;
 import com.softtek.lai.module.bodygame.model.TiGuanSaiModel;
 import com.softtek.lai.module.bodygame.model.TipsDetailModel;
 import com.softtek.lai.module.bodygame.model.TipsModel;
+import com.softtek.lai.module.bodygame.model.TotolModel;
 
 import java.util.List;
 
@@ -25,7 +26,7 @@ public interface BodyGameService {
 
     //banner接口
     @GET("/Index/TiGuanSaiClick")
-    void doGetTiGuanSaiClickw(@Header("token") String token,
+    void doGetTiGuanSaiClickw(
                               Callback<ResponseData<TiGuanSaiModel>> callback);
 
     @GET("/MeasuredRecordLog/GetNotMeasuredMemberCountBySRP")
@@ -37,13 +38,16 @@ public interface BodyGameService {
     //tip
     @GET("/HerbTips/GetTipsList")
     void doGetTips(
-            @Header("token")String token,
             Callback<ResponseData<List<TipsModel>>>callback
     );
     @GET("/HerbTips/GetTipsContentById")
     void doGetTipsDetail(
-            @Header("token")String token,
             @Query("id")long id,
             Callback<ResponseData<List<TipsDetailModel>>>callback
+    );
+    //参赛总人数及减重斤数
+    @GET("/Index/LoadTotalPersonLoss")
+    void doGetTotal(
+            Callback<ResponseData<List<TotolModel>>>callback
     );
 }

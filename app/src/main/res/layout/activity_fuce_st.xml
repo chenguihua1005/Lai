@@ -6,12 +6,12 @@
     android:fitsSystemWindows="true"
     tools:context=".module.retest.WriteActivity">
 
-
+    <include layout="@layout/toolbar"/>
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/scrollView"
-        android:layout_marginTop="60dp"
+        android:layout_below="@+id/toolbar"
         >
 
         <LinearLayout
@@ -29,13 +29,16 @@
                     android:orientation="vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:padding="10dp">
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp">
 
                     <com.softtek.lai.widgets.CircleImageView
                         android:layout_width="80dp"
                         android:layout_height="80dp"
-                        android:background="@drawable/audit_head"
-                        android:id="@+id/iv_write_head" />
+                        android:background="@drawable/img_default"
+                        android:id="@+id/iv_writest_head" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -53,9 +56,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Tom"
-                            android:textSize="26dp"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
                             android:textColor="#333333"
-                            android:id="@+id/tv_write_nick" />
+                            android:id="@+id/tv_writest_nick" />
 
 
                     </LinearLayout>
@@ -65,8 +69,9 @@
                         android:layout_height="wrap_content">
 
                         <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:scaleType="fitCenter"
                             android:src="@drawable/retestphone"
                             />
 
@@ -74,10 +79,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
-                            android:text="13800001119"
-                            android:textSize="24dp"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
                             android:textColor="#333333"
-                            android:id="@+id/tv_write_phone" />
+                            android:id="@+id/tv_writest_phone" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -89,91 +94,102 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="20dp"
+                            android:textSize="18sp"
                             android:text="一月班"
                             android:textColor="#333333"
-                            android:id="@+id/tv_write_class" />
+                            android:id="@+id/tv_writest_class" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="20dp"
+                            android:text="/"
+                            android:textSize="18sp"
+                            android:textColor="#333333"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="18sp"
                             android:text="第"
                             android:textColor="#333333"
                             />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="20dp"
+                            android:textSize="18sp"
                             android:text="2"
                             android:textColor="#333333"
+                            android:id="@+id/tv_writest_classweek"
                             />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="20dp"
+                            android:textSize="18sp"
                             android:text="周"
                             android:textColor="#333333"
                             />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="20dp"
+                            android:textSize="18sp"
                             android:text="("
                             android:textColor="#333333"
                             />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="20dp"
+                            android:textSize="18sp"
                             android:text="1"
                             android:textColor="#333333"
+                            android:id="@+id/tv_writest_monst"
                             />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="20dp"
+                            android:textSize="18sp"
                             android:text="月"
                             android:textColor="#333333"
                             />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="20dp"
+                            android:textSize="18sp"
                             android:text="9"
                             android:textColor="#333333"
+                            android:id="@+id/tv_writest_dayst"
                             />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="20dp"
+                            android:textSize="18sp"
                             android:text="-"
                             android:textColor="#333333"
                             />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="20dp"
+                            android:textSize="18sp"
                             android:text="1"
                             android:textColor="#333333"
+                            android:id="@+id/tv_writest_monen"
                             />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="20dp"
+                            android:textSize="18sp"
                             android:text="月"
                             android:textColor="#333333"
                             />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="20dp"
+                            android:textSize="18sp"
                             android:text="15"
                             android:textColor="#333333"
+                            android:id="@+id/tv_writest_dayen"
                             />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="20dp"
+                            android:textSize="18sp"
                             android:text=")"
                             android:textColor="#333333"
                             />
@@ -204,20 +220,20 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="自动同步莱秤信息"
-                        android:textSize="20dp"
+                        android:textSize="18sp"
                         android:textColor="#333333"
                         android:layout_centerVertical="true"
                         android:layout_alignParentLeft="true"
                         />
 
-                    <ImageView
-                        android:layout_width="60dp"
+                    <CheckBox
+                        android:id="@+id/selectlaichenst"
+                        android:layout_width="70dp"
                         android:layout_height="50dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:src="@drawable/retest_turnoff"
-
-
+                        android:button="@null"
+                        android:background="@drawable/laichen_selector"
                         />
                 </RelativeLayout>
             </LinearLayout>
@@ -240,8 +256,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="初始体重（必填）"
-                        android:textSize="22dp"
+                        android:textSize="18sp"
                         android:textColor="#333333"
+                        android:padding="1dp"
                         android:layout_alignParentLeft="true"
                         android:id="@+id/tv_write" />
 
@@ -250,17 +267,18 @@
                         android:layout_height="wrap_content"
                         android:text=""
                         android:layout_marginRight="5dp"
-                        android:textSize="22dp"
+                        android:textSize="18sp"
                         android:textColor="#fea300"
                         android:layout_toLeftOf="@+id/textView15"
-                        android:id="@+id/tv_write_chu_weight" />
+                        android:id="@+id/tv_writes_chu_weight" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="kg"
+                        android:paddingRight="3dp"
                         android:layout_alignParentRight="true"
-                        android:textSize="22dp"
+                        android:textSize="18sp"
                         android:textColor="#333333"
                         android:id="@+id/textView15" />
                 </RelativeLayout>
@@ -289,7 +307,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="现在体重（必填）"
-                        android:textSize="22dp"
+                        android:textSize="18sp"
+                        android:padding="1dp"
                         android:textColor="#333333"
                         android:layout_alignParentLeft="true"
                         android:id="@+id/textView16" />
@@ -299,15 +318,16 @@
                         android:layout_height="wrap_content"
                         android:text=""
                         android:textColor="#fea300"
-                        android:textSize="22dp"
+                        android:textSize="18sp"
                         android:layout_toLeftOf="@+id/textView18"
-                        android:id="@+id/tv_retestWrite_nowweight" />
+                        android:id="@+id/tv_retestWrites_nowweight" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="kg"
-                        android:textSize="22dp"
+                        android:paddingRight="3dp"
+                        android:textSize="18sp"
                         android:textColor="#333333"
                         android:layout_alignParentRight="true"
                         android:id="@+id/textView18" />
@@ -337,7 +357,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="体脂（选填）："
-                        android:textSize="22dp"
+                        android:textSize="18sp"
+                        android:padding="1dp"
                         android:textColor="#333333"
                         android:layout_alignParentLeft="true"
                         android:id="@+id/textView13" />
@@ -346,16 +367,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
-                        android:textSize="22dp"
+                        android:textSize="18sp"
+                        android:paddingRight="3dp"
                         android:textColor="#fea300"
                         android:layout_toLeftOf="@+id/textView17"
-                        android:id="@+id/tv_retestWrite_tizhi" />
+                        android:id="@+id/tv_retestWritest_tizhi" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
-                        android:textSize="22dp"
+                        android:textSize="18sp"
                         android:layout_alignParentRight="true"
                         android:id="@+id/textView17" />
                 </RelativeLayout>
@@ -384,7 +406,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="内脂（选填）："
-                        android:textSize="22dp"
+                        android:textSize="18sp"
+                        android:padding="1dp"
                         android:textColor="#333333"
                         android:layout_alignParentLeft="true"
                         android:id="@+id/textView19" />
@@ -393,16 +416,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
-                        android:textSize="22dp"
+                        android:textSize="18sp"
                         android:textColor="#fea300"
                         android:layout_toLeftOf="@+id/textView21"
-                        android:id="@+id/tv_retestWrite_neizhi" />
+                        android:id="@+id/tv_retestWritest_neizhi" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
-                        android:textSize="22dp"
+                        android:textSize="18sp"
+                        android:paddingRight="3dp"
                         android:layout_alignParentRight="true"
                         android:id="@+id/textView21" />
                 </RelativeLayout>
@@ -432,7 +456,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="照片上传"
-                        android:textSize="22dp"
+                        android:textSize="18sp"
+                        android:padding="1dp"
                         android:textColor="#333333"
                         android:layout_alignParentLeft="true"
                         android:id="@+id/textView25" />
@@ -441,7 +466,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
-                        android:textSize="22dp"
+                        android:textSize="18sp"
                         android:layout_toLeftOf="@+id/im_retestwrite_takephoto"
                         android:id="@+id/textView26" />
 
@@ -450,7 +475,8 @@
                         android:layout_height="30dp"
                         android:src="@drawable/retest_write_takephoto"
                         android:layout_alignParentRight="true"
-                        android:id="@+id/im_retestwrite_takephoto" />
+                        android:paddingRight="3dp"
+                        android:id="@+id/im_retestwritest_takephoto" />
                 </RelativeLayout>
 
             </LinearLayout>
@@ -472,7 +498,7 @@
                         android:src="@drawable/retest_write_takephoto"
                         android:layout_centerHorizontal="true"
                         android:visibility="gone"
-                        android:id="@+id/im_retestwrite_showphoto" />
+                        android:id="@+id/im_retestwritest_showphoto" />
                 </RelativeLayout>
 
             </LinearLayout>
@@ -496,7 +522,7 @@
                         android:visibility="gone"
                         android:id="@+id/im_stfuce_showphoto" />
                     <ImageView
-                        android:id="@+id/im_delete"
+                        android:id="@+id/im_deletest"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -520,12 +546,12 @@
                 android:gravity="center"
                 android:padding="10dp" >
                 <Button
-                    android:id="@+id/btn_retest_write_addbody"
+                    android:id="@+id/btn_retest_write_addbodyst"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="添加身体围度"
                     android:textColor="#fea300"
-                    android:textSize="20dp"
+                    android:textSize="20sp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:background="@drawable/shape_retest_write_boder"/>
@@ -535,7 +561,7 @@
                     android:layout_height="wrap_content"
                     android:text="提交评审"
                     android:textColor="#fea300"
-                    android:textSize="20dp"
+                    android:textSize="20sp"
                     android:layout_marginTop="10dp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
@@ -546,5 +572,5 @@
         </LinearLayout>
 
     </ScrollView>
-    <include layout="@layout/toolbar"/>
+
 </RelativeLayout>

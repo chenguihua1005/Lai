@@ -10,11 +10,21 @@ package com.softtek.lai.module.grade.model;
  */
 public class PhotoInfoModel {
 
+    private String ClassBanner;
+
     private String Img_Title;
 
     private String Img_Addr;
 
     private String Img_Content;
+
+    public String getClassBanner() {
+        return ClassBanner;
+    }
+
+    public void setClassBanner(String classBanner) {
+        ClassBanner = classBanner;
+    }
 
     public String getImg_Title() {
         return Img_Title;

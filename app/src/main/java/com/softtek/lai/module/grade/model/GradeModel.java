@@ -15,7 +15,7 @@ public class GradeModel {
 
     private List<GradeInfoModel> ClassInfo;
 
-    private List<PhotoInfoModel> PhotoInfo;
+    //private List<PhotoInfoModel> PhotoInfo;
 
     private List<PeopleModel> SRInfo;
 
@@ -31,13 +31,13 @@ public class GradeModel {
         ClassInfo = classInfo;
     }
 
-    public List<PhotoInfoModel> getPhotoInfo() {
+    /*public List<PhotoInfoModel> getPhotoInfo() {
         return PhotoInfo;
     }
 
     public void setPhotoInfo(List<PhotoInfoModel> photoInfo) {
         PhotoInfo = photoInfo;
-    }
+    }*/
 
     public List<PeopleModel> getSRInfo() {
         return SRInfo;
@@ -66,11 +66,10 @@ public class GradeModel {
     @Override
     public String toString() {
         return "GradeModel{" +
-                "ClassInfoModel=" + ClassInfo +
-                ", PhotoInfoModel=" + PhotoInfo +
-                ", SRInfoModel=" + SRInfo +
+                "ClassInfo=" + ClassInfo +
+                ", SRInfo=" + SRInfo +
                 ", PCInfo=" + PCInfo +
-                ", DynamicInfoModel=" + DynamicInfo +
+                ", DynamicInfo=" + DynamicInfo +
                 '}';
     }
 }

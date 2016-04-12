@@ -1,8 +1,10 @@
 package com.softtek.lai.module.studetail.view;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -18,6 +20,8 @@ import com.softtek.lai.module.studetail.eventModel.LogEvent;
 import com.softtek.lai.module.studetail.model.LossWeightLogModel;
 import com.softtek.lai.module.studetail.presenter.IMemberInfopresenter;
 import com.softtek.lai.module.studetail.presenter.MemberInfoImpl;
+import com.softtek.lai.widgets.CircleImageView;
+import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -40,10 +44,16 @@ public class LossWeightLogActivity extends BaseActivity implements View.OnClickL
 
     @InjectView(R.id.ptrlv)
     PullToRefreshListView ptrlv;
+    //列表内容
+    private ImageView log_banner;
+    private TextView tv_name;
+    private CircleImageView cir_header_image;
 
     private IMemberInfopresenter memberInfopresenter;
     private List<LossWeightLogModel> logs=new ArrayList<>();
     private LossWeightLogAdapter adapter;
+    private long accountId=0;
+    private int review_flag=0;
 
     @Override
     protected void initViews() {
@@ -51,6 +61,9 @@ public class LossWeightLogActivity extends BaseActivity implements View.OnClickL
         tv_title.setText("减重日志");
         ll_left.setOnClickListener(this);
         View view=getLayoutInflater().inflate(R.layout.loss_weight_log_header,null,false);
+        tv_name= (TextView) view.findViewById(R.id.tv_name);
+        cir_header_image= (CircleImageView) view.findViewById(R.id.civ_header_image);
+        log_banner= (ImageView) view.findViewById(R.id.log_header_image);
         ptrlv.getRefreshableView().addHeaderView(view);
         ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
         ptrlv.setOnItemClickListener(this);
@@ -60,13 +73,28 @@ public class LossWeightLogActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void initDatas() {
+        accountId=getIntent().getLongExtra("accountId",0);
+        review_flag=getIntent().getIntExtra("review",0);
         memberInfopresenter=new MemberInfoImpl(this);
         LogEvent logEvent=memberInfopresenter.loadLogListCache();
         if(logEvent!=null){
+            if(!logEvent.getLossWeightLogModels().isEmpty()){
+                LossWeightLogModel model=logEvent.getLossWeightLogModels().get(0);
+                Picasso.with(this).load(model.getAcBanner()).placeholder(R.drawable.default_pic)
+                        .error(R.drawable.default_pic).into(log_banner);
+
+            }
             logs.addAll(logEvent.getLossWeightLogModels());
         }
-        adapter=new LossWeightLogAdapter(this, logs);
+        adapter=new LossWeightLogAdapter(this, logs,review_flag);
         ptrlv.setAdapter(adapter);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ptrlv.setRefreshing();
+            }
+        },200);
     }
 
     @Override
@@ -103,18 +131,20 @@ public class LossWeightLogActivity extends BaseActivity implements View.OnClickL
         if(position<2){
             return;
         }
+        Log.i("日志集合》》》"+logs.size());
         Intent intent=new Intent(this,LogDetailActivity.class);
         intent.putExtra("log",logs.get(position-2));
+        intent.putExtra("review",review_flag);
         startActivity(intent);
     }
 
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-        memberInfopresenter.getLossWeigthLogList(Constants.REFRESH,1);
+        memberInfopresenter.getLossWeigthLogList(Constants.REFRESH,accountId);
     }
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-        memberInfopresenter.getLossWeigthLogList(Constants.LOADING, 1);
+        memberInfopresenter.getLossWeigthLogList(Constants.LOADING, accountId);
     }
 }

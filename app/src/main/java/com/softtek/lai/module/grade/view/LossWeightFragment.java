@@ -17,6 +17,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.grade.adapter.LossWeightAdapter;
 import com.softtek.lai.module.grade.eventModel.LossWeightEvent;
 import com.softtek.lai.module.grade.model.StudentModel;
@@ -30,6 +31,8 @@ import zilla.libcore.ui.InjectLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by jerry.guan on 3/21/2016.
@@ -46,25 +49,38 @@ public class LossWeightFragment extends BaseFragment implements PullToRefreshBas
 
     private List<StudentModel> studentModels = new ArrayList<>();
     private LossWeightAdapter adapter;
-    private int flagType = 0;
 
-    public int getFlagType() {
-        return flagType;
+    private static LossWeightFragment fragment=null;
+    /**
+     * 设置一些参数
+     * @param params
+     * @return
+     */
+    public static LossWeightFragment newInstance( Map<String,String> params) {
+        if(fragment==null){
+            fragment=new LossWeightFragment();
+        }
+        Bundle args = new Bundle();
+        Set<String> keys=params.keySet();
+        for(String key:keys){
+            args.putString(key,params.get(key));
+        }
+        fragment.setArguments(args);
+        return fragment;
     }
-
-    public void setFlagType(int flagType) {
-        this.flagType = flagType;
-    }
-
     @Override
     protected void initViews() {
         ptrlv.setOnItemClickListener(this);
     }
 
+    private String classId;
+    private String review_flag;
     @Override
     protected void initDatas() {
+        classId=getArguments().getString("classId");
+        review_flag=getArguments().getString("review");
         grade = new GradeImpl();
-        adapter = new LossWeightAdapter(getContext(), studentModels, flagType);
+        adapter = new LossWeightAdapter(getContext(), studentModels, Integer.parseInt(Constants.LOSS_WEIGHT));
         ptrlv.setAdapter(adapter);
         ptrlv.setOnRefreshListener(this);
         //第一次加载自动刷新
@@ -74,7 +90,7 @@ public class LossWeightFragment extends BaseFragment implements PullToRefreshBas
             public void run() {
                 ptrlv.setRefreshing();
             }
-        }, 1000);
+        }, 500);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -98,13 +114,16 @@ public class LossWeightFragment extends BaseFragment implements PullToRefreshBas
 
     @Override
     public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-        grade.getStudentList(String.valueOf(flagType), "4", ptrlv);
+        grade.getStudentList(Constants.LOSS_WEIGHT, classId, ptrlv);
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         StudentModel studentModel = studentModels.get(position - 1);
         Intent intent = new Intent(getContext(), StudentDetailActivity.class);
+        intent.putExtra("userId",studentModel.getAccountId());
+        intent.putExtra("classId",studentModel.getClassId());
+        intent.putExtra("review",review_flag);
         startActivity(intent);
     }
 }

@@ -9,33 +9,49 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
+import com.mobsandgeeks.saripaar.Rule;
+import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
 import com.softtek.lai.module.retest.model.RetestAuditModel;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.module.retest.present.RetestclassImp;
 import com.softtek.lai.utils.DisplayUtil;
+import com.softtek.lai.widgets.CircleImageView;
+import com.squareup.picasso.Picasso;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.InjectView;
+import zilla.libcore.lifecircle.LifeCircleInject;
+import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_audit)
-public class AuditActivity extends BaseActivity implements View.OnClickListener{
+public class AuditActivity extends BaseActivity implements View.OnClickListener,Validator.ValidationListener{
+    @LifeCircleInject
+    ValidateLife validateLife;
     //标题栏
     @InjectView(R.id.tv_title)
-    TextView title;
+    TextView tv_title;
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.tv_right)
     TextView tv_right;
 
     //信息保存控件
-    @InjectView(R.id.tv_write_chu_weight)
-    TextView tv_write_chu_weight;
+    @Required(order = 1,message = "初始体重必填项，请选择")
+    @InjectView(R.id.tv_audit_chu_weight)
+    EditText tv_audit_chu_weight;
+    @Required(order = 2,message = "现在体重必填项，请选择")
     @InjectView(R.id.tv_audit_now_weight)
     TextView tv_audit_now_weight;
     //体脂
@@ -63,11 +79,31 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener{
     @InjectView(R.id.tv_retesrAudit_fat)
     TextView tv_retesrAudit_fat;
 
+    //iv_audit_head
+    @InjectView(R.id.iv_audit_head)
+    CircleImageView iv_audit_head;
+    @InjectView(R.id.tv_audit_nick)
+    TextView tv_audit_nick;
+    @InjectView(R.id.tv_audit_phone)
+    TextView tv_audit_phone;
+    @InjectView(R.id.tv_audit_class)
+    TextView tv_audit_class;
+    @InjectView(R.id.tv_audit_weekth)
+    TextView tv_audit_weekth;
+    @InjectView(R.id.tv_audit_monst)
+    TextView tv_audit_monst;
+    @InjectView(R.id.tv_audit_dayst)
+    TextView tv_audit_dayst;
+    @InjectView(R.id.tv_audit_monen)
+    TextView tv_audit_monen;
+    @InjectView(R.id.tv_audit_dayen)
+    TextView tv_audit_dayen;
+
 
     //触发弹框选择点击事件
     //初始体重
-    @InjectView(R.id.ll_write_chu_weight)
-    LinearLayout ll_write_chu_weight;
+    @InjectView(R.id.ll_audit_chu_weight)
+    LinearLayout ll_audit_chu_weight;
     //现在体重
     @InjectView(R.id.ll_retestAudit_nowweight)
     LinearLayout ll_retestAudit_nowweight;
@@ -106,8 +142,8 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         tv_right.setOnClickListener(this);
-        tv_write_chu_weight.setOnClickListener(this);
-        ll_write_chu_weight.setOnClickListener(this);
+        ll_left.setOnClickListener(this);
+        ll_audit_chu_weight.setOnClickListener(this);
         ll_retestAudit_nowweight.setOnClickListener(this);
         ll_retestAudit_tizhi.setOnClickListener(this);
         ll_retestAudit_wasit.setOnClickListener(this);
@@ -128,12 +164,32 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener{
     @Override
     protected void initDatas() {
 
-        title.setText(R.string.AuditBarT);
+        tv_title.setText(R.string.AuditBarT);
         tv_right.setText(R.string.AuditBarR);
         retestPre=new RetestclassImp();
-        retestAudit=new RetestAuditModel("3","55","3","63","3","3","3","3","3","3","3","3");
-        retestPre.doGetAudit(36,3,"2016-03-28");
+        retestAudit=new RetestAuditModel();
+        retestPre.doGetAudit(3,4,"2016-03-29");
 
+    }
+    @Subscribe
+    public void doGetDates(RetestAuditModelEvent retestAuditModelEvent){
+        Log.i("retestAuditModel"+retestAuditModelEvent.getRetestAuditModels());
+        tv_audit_chu_weight.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getInitWeight());
+        tv_audit_nick.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getUserName());
+        tv_audit_phone.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getMobile());
+        String StartDate=retestAuditModelEvent.getRetestAuditModels().get(0).getStartDate();
+        String CurrStart=retestAuditModelEvent.getRetestAuditModels().get(0).getCurrStart();
+        String CurrEnd=retestAuditModelEvent.getRetestAuditModels().get(0).getCurrEnd();
+        String[] mon=StartDate.split("-");
+        String[] currStart=CurrStart.split("-");
+        String[] currEnd=CurrEnd.split("-");
+        tv_audit_class.setText(tomonth(mon[1]));
+        tv_audit_monst.setText(currStart[1]);
+        tv_audit_dayst.setText(currStart[2]);
+        tv_audit_monen.setText(currEnd[1]);
+        tv_audit_dayen.setText(currEnd[2]);
+        tv_audit_weekth.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getWeekth());
+        Picasso.with(this).load(retestAuditModelEvent.getRetestAuditModels().get(0).getPhoto()).placeholder(R.drawable.img_default).error(R.drawable.img_default).into(iv_audit_head);
     }
 
     @Override
@@ -141,11 +197,12 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener{
         switch (v.getId())
         {
             case R.id.tv_right:
+                validateLife.validate();
 //                retestAudit.setDoLegGirth(tv_retestAudit_doLegGirth+"");
-                retestPre.doPostAudit("36","3","2016-03-28",retestAudit);
+
                 break;
             //信息点击事件
-            case R.id.ll_write_chu_weight:
+            case R.id.ll_audit_chu_weight:
                 show_information("初始体重（kg）",200,70,20,9,5,0,0);
                 break;
             case R.id.ll_retestAudit_nowweight:
@@ -175,6 +232,9 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener{
             case R.id.ll_retesrAudit_fat:
                 show_information("内脂（%）",100,50,0,9,5,0,9);
                 break;
+            case R.id.ll_left:
+                finish();
+                break;
 
         }
 
@@ -196,13 +256,13 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener{
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (num==0) {
-                    tv_write_chu_weight.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())); //set the value to textview
-
+                    tv_audit_chu_weight.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())); //set the value to textview
+                    tv_audit_chu_weight.setError(null);
                 }
                 else if (num==1)
                 {
                     tv_audit_now_weight.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
-
+                    tv_audit_now_weight.setError(null);
                 }
                 else if (num==2)
                 {
@@ -255,4 +315,58 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener{
 
     }
 
+    public String tomonth(String month){
+        if (month.equals("01")){
+            month="一月班";
+        }
+        else if (month.equals("02")){
+            month="二月班";
+        }else if (month.equals("03"))
+        {
+            month="三月班";
+        }else if (month.equals("04"))
+        {
+            month="四月班";
+
+        }else if (month.equals("05"))
+        {
+            month="五月班";
+        }else if (month.equals("06"))
+        {
+            month="六月班";
+        }else if (month.equals("07"))
+        {
+            month="七月班";
+        } else if (month.equals("08"))
+        {
+            month="八月班";
+        }else if (month.equals("09"))
+        {
+            month="九月班";
+        }else if (month.equals("10"))
+        {
+            month="十月班";
+        }else if (month.equals("11"))
+        {
+            month="十一月班";
+        }else
+        {
+            month="十二月班";
+        }
+        return month;
+    }
+
+    @Override
+    public void onValidationSucceeded() {
+        retestAudit.setInitWeight(tv_audit_chu_weight.getText()+"");
+        retestAudit.setWeight(tv_audit_now_weight.getText()+"");
+//        retestAudit.getCircum(tv_retestAudit_wasit.getText());
+        retestPre.doPostAudit("36","3","2016-03-28",retestAudit);
+
+    }
+
+    @Override
+    public void onValidationFailed(View failedView, Rule<?> failedRule) {
+        validateLife.onValidationFailed(failedView, failedRule);
+    }
 }

@@ -15,8 +15,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp">
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp">
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -32,9 +32,10 @@
                         android:id="@+id/et_nickname"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
                         android:background="@null"
+                        android:textCursorDrawable="@drawable/color_cursor"
                         android:hint="昵称（必填）"
+                        android:textSize="16sp"
                         android:singleLine="true" />
                 </LinearLayout>
                 <View
@@ -70,8 +71,10 @@
                             android:id="@+id/et_mobile"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="30dp"
                             android:background="@null"
+                            android:textColor="#000"
+                            android:textCursorDrawable="@drawable/color_cursor"
+                            android:textSize="16sp"
                             android:hint="手机号码（必填）"
                             android:singleLine="true" />
                     </LinearLayout>
@@ -90,9 +93,9 @@
                         android:id="@+id/et_classid"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
                         android:layout_marginRight="90dp"
                         android:background="@null"
+                        android:textSize="16sp"
                         android:hint="参赛班级（必填）"
                         android:singleLine="true" />
                     <LinearLayout
@@ -119,8 +122,9 @@
                         android:id="@+id/et_weight"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
                         android:background="@null"
+                        android:textSize="16sp"
+                        android:textCursorDrawable="@drawable/color_cursor"
                         android:hint="初始体重（必填）"
                         android:singleLine="true" />
                 </LinearLayout>
@@ -139,8 +143,9 @@
                         android:id="@+id/et_pysical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
                         android:background="@null"
+                        android:textSize="16sp"
+                        android:textCursorDrawable="@drawable/color_cursor"
                         android:hint="体脂（选填）"
                         android:singleLine="true" />
                 </LinearLayout>
@@ -159,8 +164,9 @@
                         android:id="@+id/et_fat"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
                         android:background="@null"
+                        android:textSize="16sp"
+                        android:textCursorDrawable="@drawable/color_cursor"
                         android:hint="内脂（选填）"
                         android:singleLine="true" />
                 </LinearLayout>
@@ -178,8 +184,7 @@
                         android:id="@+id/et_birthday"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginRight="130dp"
+                        android:textSize="16sp"
                         android:background="@null"
                         android:hint="生日（必填）"
                         android:singleLine="true" />
@@ -209,9 +214,8 @@
                         android:id="@+id/et_gender"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginRight="130dp"
                         android:background="@null"
+                        android:textSize="16sp"
                         android:hint="性别（必填）"
                         android:singleLine="true" />
 
@@ -233,7 +237,6 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
                         android:orientation="horizontal">
                         <LinearLayout
                             android:layout_width="0dp"
@@ -245,7 +248,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:hint="照片上传"
-                                android:textSize="20dp" />
+                                android:textSize="16sp" />
                         </LinearLayout>
                         <LinearLayout
                             android:layout_width="0dp"
@@ -256,7 +259,8 @@
                             <ImageView
                                 android:id="@+id/img1"
                                 android:layout_width="150dp"
-                                android:layout_height="150dp"
+                                android:layout_height="wrap_content"
+                                android:scaleType="fitCenter"
                                 android:layout_marginBottom="20dp"
                                 android:layout_marginTop="20dp"
                                 android:src="@mipmap/ic_launcher"
@@ -274,8 +278,9 @@
                                 android:layout_height="wrap_content">
                                 <ImageView
                                     android:id="@+id/img_photoupload"
-                                    android:layout_width="40dp"
+                                    android:layout_width="30dp"
                                     android:layout_height="wrap_content"
+                                    android:scaleType="fitCenter"
                                     android:layout_marginTop="10dp"
                                     android:src="@drawable/retest_write_takephoto" />
                             </LinearLayout>
@@ -284,8 +289,9 @@
                                 android:layout_height="wrap_content">
                                 <ImageView
                                     android:id="@+id/img_delete"
-                                    android:layout_width="40dp"
+                                    android:layout_width="30dp"
                                     android:layout_height="wrap_content"
+                                    android:scaleType="fitCenter"
                                     android:layout_marginTop="50dp"
                                     android:src="@drawable/retest_write_deleteim"
                                     android:visibility="gone" />
@@ -299,7 +305,7 @@
                 <Button
                         android:id="@+id/btn_Add_bodydimension"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
+                        android:layout_height="40dp"
                         android:layout_marginBottom="60dp"
                         android:layout_marginTop="20dp"
                         android:background="@drawable/bg_addbody_btn"
@@ -310,14 +316,29 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="205dp"
+                android:layout_marginTop="155dp"
                 android:orientation="vertical">
                 <ListView
                     android:id="@+id/list_cansaibanji"
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
-                    android:background="#ffffff"
+                    android:background="#cccccc"
                     android:visibility="invisible" />
+                <!--<View-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="1dp"-->
+                    <!--android:background="#fea300"/>-->
+                <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="40dp"-->
+                    <!--android:background="#ffffff"-->
+                    <!--android:gravity="center"-->
+                    <!--&gt;-->
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="取消"/>-->
+                <!--</LinearLayout>-->
             </LinearLayout>
         </RelativeLayout>
     </ScrollView>

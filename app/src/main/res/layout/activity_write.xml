@@ -29,12 +29,15 @@
                     android:orientation="vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:padding="10dp">
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp">
 
                     <com.softtek.lai.widgets.CircleImageView
                         android:layout_width="80dp"
                         android:layout_height="80dp"
-                        android:background="@drawable/audit_head"
+                        android:background="@drawable/img_default"
                         android:id="@+id/iv_write_head" />
                 </LinearLayout>
 
@@ -100,6 +103,12 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:text="/"
+                            android:textSize="18sp"
+                            android:textColor="#333333"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:textSize="18sp"
                             android:text="第"
                             android:textColor="#333333"
@@ -109,6 +118,7 @@
                             android:layout_height="wrap_content"
                             android:textSize="18sp"
                             android:text="2"
+                            android:id="@+id/tv_retest_write_weekth"
                             android:textColor="#333333"
                             />
                         <TextView
@@ -130,6 +140,7 @@
                             android:layout_height="wrap_content"
                             android:textSize="18sp"
                             android:text="1"
+                            android:id="@+id/tv_write_starm"
                             android:textColor="#333333"
                             />
                         <TextView
@@ -144,6 +155,7 @@
                             android:layout_height="wrap_content"
                             android:textSize="18sp"
                             android:text="9"
+                            android:id="@+id/tv_write_stard"
                             android:textColor="#333333"
                             />
                         <TextView
@@ -158,6 +170,7 @@
                             android:layout_height="wrap_content"
                             android:textSize="18sp"
                             android:text="1"
+                            android:id="@+id/tv_write_endm"
                             android:textColor="#333333"
                             />
                         <TextView
@@ -172,6 +185,7 @@
                             android:layout_height="wrap_content"
                             android:textSize="18sp"
                             android:text="15"
+                            android:id="@+id/tv_write_endd"
                             android:textColor="#333333"
                             />
                         <TextView
@@ -221,7 +235,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:button="@null"
-                        android:background="@drawable/retest_turnoff"
+                        android:background="@drawable/laichen_selector"
                         />
                 </RelativeLayout>
             </LinearLayout>
@@ -246,11 +260,12 @@
                         android:text="初始体重"
                         android:textSize="18sp"
                         android:textColor="#333333"
+                        android:padding="1dp"
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentLeft="true"
                         android:id="@+id/tv_write" />
 
-                    <TextView
+                    <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
@@ -258,7 +273,9 @@
                         android:textSize="22sp"
                         android:layout_alignParentBottom="true"
                         android:textColor="#fea300"
+                        android:background="@null"
                         android:layout_toLeftOf="@+id/textView15"
+                        android:cursorVisible="false"
                         android:id="@+id/tv_write_chu_weight" />
 
                     <TextView
@@ -268,6 +285,7 @@
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentRight="true"
                         android:textSize="18sp"
+                        android:paddingRight="3dp"
                         android:textColor="#333333"
                         android:id="@+id/textView15" />
                 </RelativeLayout>
@@ -298,16 +316,19 @@
                         android:text="现在体重"
                         android:textSize="18sp"
                         android:textColor="#333333"
+                        android:padding="1dp"
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentLeft="true"
                         android:id="@+id/textView16" />
 
-                    <TextView
+                    <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
                         android:textColor="#fea300"
-                        android:textSize="22dp"
+                        android:textSize="22sp"
+                        android:background="@null"
+                        android:cursorVisible="false"
                         android:layout_alignParentBottom="true"
                         android:layout_toLeftOf="@+id/textView18"
                         android:id="@+id/tv_retestWrite_nowweight" />
@@ -318,6 +339,7 @@
                         android:text="kg"
                         android:textSize="18sp"
                         android:textColor="#333333"
+                        android:paddingRight="3dp"
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentRight="true"
                         android:id="@+id/textView18" />
@@ -349,6 +371,7 @@
                         android:text="体脂（选填）："
                         android:textSize="18sp"
                         android:textColor="#333333"
+                        android:padding="1dp"
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentLeft="true"
                         android:id="@+id/textView13" />
@@ -370,6 +393,7 @@
                         android:textSize="22dp"
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentRight="true"
+                        android:paddingRight="3dp"
                         android:id="@+id/textView17" />
                 </RelativeLayout>
             </LinearLayout>
@@ -399,6 +423,7 @@
                         android:text="内脂（选填）："
                         android:textSize="18sp"
                         android:textColor="#333333"
+                        android:padding="1dp"
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentLeft="true"
                         android:id="@+id/textView19" />
@@ -418,6 +443,7 @@
                         android:layout_height="wrap_content"
                         android:text=""
                         android:textSize="22dp"
+                        android:paddingRight="3dp"
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentRight="true"
                         android:id="@+id/textView21" />
@@ -450,6 +476,7 @@
                         android:text="照片上传"
                         android:textSize="18sp"
                         android:textColor="#333333"
+                        android:padding="1dp"
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentLeft="true"
                         android:id="@+id/textView25" />
@@ -467,6 +494,7 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:src="@drawable/retest_write_takephoto"
+                        android:paddingRight="3dp"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentBottom="true"
                         android:id="@+id/im_retestwrite_takephoto" />

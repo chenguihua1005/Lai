@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.softtek.lai.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -17,9 +18,11 @@ import java.util.List;
 public class LogDetailGridAdapter extends BaseAdapter{
 
     private LayoutInflater inflater;
-    private List images;
+    private List<String> images;
+    private Context context;
 
-    public LogDetailGridAdapter(Context context, List images){
+    public LogDetailGridAdapter(Context context, List<String> images){
+        this.context=context;
         inflater=LayoutInflater.from(context);
         this.images =images;
     }
@@ -49,7 +52,8 @@ public class LogDetailGridAdapter extends BaseAdapter{
         }else {
             holder= (LogDetailGrid) convertView.getTag();
         }
-
+        Picasso.with(context).load(images.get(position)).placeholder(R.drawable.default_pic)
+                .error(R.drawable.default_pic).into(holder.iv_image);
         return convertView;
     }
 

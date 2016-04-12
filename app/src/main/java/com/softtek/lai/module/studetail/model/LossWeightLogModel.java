@@ -12,11 +12,38 @@ public class LossWeightLogModel implements Serializable{
     private String Photo;
     private String AcBanner;
     private String LossLogId;
+    private String AfterWeight;
     private String CreateDate;
     private String LogTitle;
     private String LogContent;
     private String imgCollectionFirst;
     private String imgCollection;
+    private String Priase;
+    private String isClicked;
+
+    public String getAfterWeight() {
+        return AfterWeight;
+    }
+
+    public void setAfterWeight(String afterWeight) {
+        AfterWeight = afterWeight;
+    }
+
+    public String getIsClicked() {
+        return isClicked;
+    }
+
+    public void setIsClicked(String isClicked) {
+        this.isClicked = isClicked;
+    }
+
+    public String getPriase() {
+        return Priase;
+    }
+
+    public void setPriase(String priase) {
+        Priase = priase;
+    }
 
     public String getUserName() {
         return UserName;
@@ -102,6 +129,8 @@ public class LossWeightLogModel implements Serializable{
                 ", LogContent='" + LogContent + '\'' +
                 ", imgCollectionFirst='" + imgCollectionFirst + '\'' +
                 ", imgCollection='" + imgCollection + '\'' +
+                ", Priase='" + Priase + '\'' +
+                ", isClicked='" + isClicked + '\'' +
                 '}';
     }
 }

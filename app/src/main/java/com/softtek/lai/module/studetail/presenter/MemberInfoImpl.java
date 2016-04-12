@@ -12,6 +12,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.lossweightstory.model.Zan;
 import com.softtek.lai.module.studetail.eventModel.LineChartEvent;
 import com.softtek.lai.module.studetail.eventModel.LogEvent;
 import com.softtek.lai.module.studetail.model.LossWeightLogModel;
@@ -57,7 +58,6 @@ public class MemberInfoImpl implements IMemberInfopresenter {
         service.getmemberInfo(token, userId, classId, new Callback<ResponseData<MemberModel>>() {
             @Override
             public void success(ResponseData<MemberModel> memberResponseData, Response response) {
-                Log.i("返回值>>>" + memberResponseData.toString());
                 progressDialog.dismiss();
                 int status = memberResponseData.getStatus();
                 if (status == 200) {
@@ -130,5 +130,20 @@ public class MemberInfoImpl implements IMemberInfopresenter {
     @Override
     public LogEvent loadLogListCache() {
         return (LogEvent) aCache.getAsObject(LOG_CACHE_KEY);
+    }
+
+    @Override
+    public void doZan(long accountId, long logId) {
+        service.clickLike(infoModel.getToken(), accountId, logId, new Callback<ResponseData<Zan>>() {
+            @Override
+            public void success(ResponseData<Zan> zanResponseData, Response response) {
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                ZillaApi.dealNetError(error);
+            }
+        });
     }
 }

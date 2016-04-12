@@ -5,6 +5,7 @@
 
 package com.softtek.lai.module.grade.view;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -13,16 +14,20 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import butterknife.InjectView;
+
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
-import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.counselor.view.InviteStudentActivity;
 import com.softtek.lai.module.grade.adapter.TabContentAdapter;
-import zilla.libcore.ui.InjectLayout;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import butterknife.InjectView;
+import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_students)
 public class StudentsActivity extends BaseActivity implements BaseFragment.OnFragmentInteractionListener, View.OnClickListener {
@@ -41,23 +46,24 @@ public class StudentsActivity extends BaseActivity implements BaseFragment.OnFra
     TextView tv_right;
 
     private List<Fragment> fragments = new ArrayList<>();
+    private long classId=0;
+    private int review_flag=0;
 
     @Override
     protected void initViews() {
-
-
-        LossWeightFragment lwf1 = new LossWeightFragment();
-        lwf1.setFlagType(Integer.parseInt(Constants.LOSS_WEIGHT));
-        LossWeightFragment lwf2 = new LossWeightFragment();
-        lwf2.setFlagType(Integer.parseInt(Constants.WAISTLINE));
-        LossWeightFragment lwf3 = new LossWeightFragment();
-        lwf3.setFlagType(Integer.parseInt(Constants.PHYSIQUE));
-        LossWeightFragment lwf4 = new LossWeightFragment();
-        lwf4.setFlagType(Integer.parseInt(Constants.LOSS_WEIGHT_PER));
-        fragments.add(lwf1);
-        fragments.add(lwf2);
-        fragments.add(lwf3);
-        fragments.add(lwf4);
+        classId=getIntent().getLongExtra("classId",0);
+        review_flag=getIntent().getIntExtra("review",0);
+        Map<String,String> params=new HashMap<>();
+        params.put("classId",classId+"");
+        params.put("review",review_flag+"");
+        LossWeightFragment lossWeightFragment = LossWeightFragment.newInstance(params);
+        WaistFragment waist=WaistFragment.newInstance(params);
+        FatFragment fat=FatFragment.newInstance(params);
+        LossWeightPerFragment per=LossWeightPerFragment.newInstance(params);
+        fragments.add(lossWeightFragment);
+        fragments.add(waist);
+        fragments.add(fat);
+        fragments.add(per);
         tabcontent.setOffscreenPageLimit(4);
         tabcontent.setAdapter(new TabContentAdapter(getSupportFragmentManager(), fragments));
         tabLayout.setupWithViewPager(tabcontent);
@@ -73,6 +79,9 @@ public class StudentsActivity extends BaseActivity implements BaseFragment.OnFra
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
         ll_left.setOnClickListener(this);
         tv_right.setOnClickListener(this);
+        if(review_flag==0){
+            tv_right.setVisibility(View.GONE);
+        }
 
     }
 
@@ -92,6 +101,9 @@ public class StudentsActivity extends BaseActivity implements BaseFragment.OnFra
                 finish();
                 break;
             case R.id.tv_right:
+                Intent intents = new Intent(this, InviteStudentActivity.class);
+                intents.putExtra("classId", classId);
+                startActivity(intents);
                 break;
         }
     }

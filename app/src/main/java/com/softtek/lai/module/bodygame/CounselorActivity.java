@@ -1,16 +1,25 @@
 package com.softtek.lai.module.bodygame;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.Interpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.module.bodygame.eventmodel.TotalEventModel;
 import com.softtek.lai.module.bodygame.model.FuceNumModel;
 import com.softtek.lai.module.bodygame.model.TiGuanSaiModel;
+import com.softtek.lai.module.bodygame.model.TotolModel;
 import com.softtek.lai.module.bodygame.presenter.ITiGuanSai;
 import com.softtek.lai.module.bodygame.presenter.TiGuanSaiImpl;
 import com.softtek.lai.module.bodygamest.view.StudentHonorActivity;
@@ -30,6 +39,8 @@ import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -57,7 +68,8 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
     //体管赛点击
     @InjectView(R.id.ll_tiguansai)
     LinearLayout ll_tiguansai;
-
+    @InjectView(R.id.im_refresh)
+    ImageView im_refresh;
     //新学员录入按钮
     @InjectView(R.id.ll_new_student)
     LinearLayout ll_new_student;
@@ -81,6 +93,10 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
     LinearLayout ll_assistant;
     @InjectView(R.id.tv_fucenum)
     TextView tv_fucenum;
+    @InjectView(R.id.tv_totalperson)
+    TextView tv_totalperson;
+    @InjectView(R.id.tv_total_loss)
+    TextView tv_total_loss;
     private ITiGuanSai iTiGuanSai;
     private TiGuanSaiModel tiGuanSai;
     private FuceNumModel fuceNumModel;
@@ -103,6 +119,7 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
         ll_match.setOnClickListener(this);
         ll_assistant.setOnClickListener(this);
         ll_tip.setOnClickListener(this);
+        im_refresh.setOnClickListener(this);
         
     }
 
@@ -117,6 +134,7 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
         System.out.println("dsadasdsadasda>>》》》》》》》》》》》》》》"+tiGuanSai.getImg_Addr());
         //Picasso.with(this).load().into(iv_adv);
 //        Picasso.with(getBaseContext()).load(tiGuanSai.getImg_Addr()).into(iv_adv);
+        iv_adv.setScaleType(ImageView.ScaleType.CENTER_CROP);
         Picasso.with(this).load(tiGuanSai.getImg_Addr()).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_adv);
 
 
@@ -135,6 +153,12 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
         }
 
     }
+    @Subscribe
+    public void doGetTotol(List<TotolModel> totolModels){
+        System.out.println("dsadasdsadasda>>》》》》》》》》》》》》》》"+totolModels.get(0).getTotal_loss());
+        tv_totalperson.setText(totolModels.get(0).getTotal_person());
+        tv_total_loss.setText(totolModels.get(0).getTotal_loss());
+    }
 
 
     @Override
@@ -147,6 +171,11 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
         iTiGuanSai=new TiGuanSaiImpl();
         iTiGuanSai.getTiGuanSai();
         iTiGuanSai.doGetFuceNum(36);
+        iTiGuanSai.doGetTotal();
+        int sp=px2sp(this,30);
+        Log.i("benbenbenben",sp+"");
+        int dp=px2dip(this,22);
+        Log.i("px转换dp为",dp+"");
 
 
     }
@@ -232,7 +261,85 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
                 Util.toastMsg("助教管理页面");
             }
             break;
+            case R.id.im_refresh:
+                iTiGuanSai.doGetTotal();
+//                final Animation rotate= AnimationUtils.loadAnimation(this,R.anim.rotate);
+//                im_refresh.startAnimation(rotate);
+//                rotate.setAnimationListener(new Animation.AnimationListener() {
+//                    @Override
+//                    public void onAnimationStart(Animation animation) {
+//                        //做请求操作
+//                        iTiGuanSai.doGetTotal();
+//                    }
+//
+//                    @Override
+//                    public void onAnimationEnd(Animation animation) {
+//                        im_refresh.clearAnimation();
+//
+//                    }
+//
+//                    @Override
+//                    public void onAnimationRepeat(Animation animation) {
+//
+//                    }
+//                });
+
+
+                break;
 
         }
     }
+
+        /**
+         * 将px值转换为dip或dp值，保证尺寸大小不变
+         *
+         * @param pxValue
+        / * @param scale
+         *            （DisplayMetrics类中属性density）
+         * @return
+         */
+        public  int px2dip(Context context, float pxValue) {
+            final float scale = context.getResources().getDisplayMetrics().density;
+            return (int) (pxValue / scale + 0.5f);
+        }
+
+        /**
+         * 将dip或dp值转换为px值，保证尺寸大小不变
+         *
+         * @param dipValue
+         /* @param scale
+         *            （DisplayMetrics类中属性density）
+         * @return
+         */
+        public  int dip2px(Context context, float dipValue) {
+            final float scale = context.getResources().getDisplayMetrics().density;
+            return (int) (dipValue * scale + 0.5f);
+        }
+
+        /**
+         * 将px值转换为sp值，保证文字大小不变
+         *
+         * @param pxValue
+        / * @param fontScale
+         *            （DisplayMetrics类中属性scaledDensity）
+         * @return
+         */
+        public  int px2sp(Context context, float pxValue) {
+            final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
+            return (int) (pxValue / fontScale + 0.5f);
+        }
+
+        /**
+         * 将sp值转换为px值，保证文字大小不变
+         *
+         * @param spValue
+        / * @param fontScale
+         *            （DisplayMetrics类中属性scaledDensity）
+         * @return
+         */
+        public  int sp2px(Context context, float spValue) {
+            final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
+            return (int) (spValue * fontScale + 0.5f);
+        }
+
 }

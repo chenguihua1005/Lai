@@ -5,11 +5,13 @@
 
 package com.softtek.lai.module.grade.model;
 
+import java.io.Serializable;
+
 /**
  * Created by jerry.guan on 3/22/2016.
  * 学员列表model
  */
-public class StudentModel {
+public class StudentModel{
 
     private long AccountId;
     private long ClassId;
@@ -26,6 +28,15 @@ public class StudentModel {
     //按照学员腰围排序
     private String WaistlineAfter = "0";
     private String Waistlinebefor = "0";
+    private String Photo;
+
+    public String getPhoto() {
+        return Photo;
+    }
+
+    public void setPhoto(String photo) {
+        Photo = photo;
+    }
 
     public long getAccountId() {
         return AccountId;

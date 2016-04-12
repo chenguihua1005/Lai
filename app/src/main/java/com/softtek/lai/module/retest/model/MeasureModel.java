@@ -5,10 +5,12 @@
 
 package com.softtek.lai.module.retest.model;
 
+import java.io.Serializable;
+
 /**
  * Created by lareina.qiao on 3/28/2016.
  */
-public class MeasureModel {
+public class MeasureModel implements Serializable{
     private String phone;
     private String username;
     private String chestgirth;

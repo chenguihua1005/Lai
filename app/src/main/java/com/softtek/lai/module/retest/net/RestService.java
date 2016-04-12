@@ -37,6 +37,7 @@ public interface RestService {
     void doGetqueryResult(
             @Header("token")String token,
             @Query("str")String str,
+            @Query("accountId")String accountId,
             Callback<ResponseData<List<StudentModel>>> callback
     );
     //获取班级学员

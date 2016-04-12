@@ -12,11 +12,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
 import com.softtek.lai.R;
 import com.softtek.lai.module.grade.model.StudentModel;
 import com.softtek.lai.widgets.CircleImageView;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import zilla.libcore.file.AddressManager;
 
 /**
  * Created by jerry.guan on 3/22/2016.
@@ -26,10 +30,12 @@ public class LossWeightAdapter extends BaseAdapter {
     private LayoutInflater inflater;
 
     private List<StudentModel> students;
+    private Context context;
 
     private int flag;
 
     public LossWeightAdapter(Context context, List<StudentModel> studentModels, int flag) {
+        this.context=context;
         inflater = LayoutInflater.from(context);
         this.students = studentModels;
         this.flag = flag;
@@ -85,6 +91,10 @@ public class LossWeightAdapter extends BaseAdapter {
         holder.tv_lw_before.setText("前 " + studentModel.getLossBefor() + "kg");
         holder.tv_lw_after.setText("后 " + studentModel.getLossAfter() + "kg");
         holder.tv_lw_totle.setText(studentModel.getLossWeght());
+        if(!"".equals(studentModel.getPhoto())&&null!=studentModel.getPhoto()){
+            Picasso.with(context).load(AddressManager.get("photoHost")+studentModel.getPhoto()).placeholder(R.drawable.img_default)
+                    .error(R.drawable.img_default).into(holder.civ_header_image);
+        }
         return convertView;
     }
 
@@ -106,6 +116,10 @@ public class LossWeightAdapter extends BaseAdapter {
         holder.tv_lw_after.setText("后 " + studentModel.getLossAfter() + "kg");
         holder.tv_name.setText(studentModel.getUserName());
         holder.tv_lw_per.setText(studentModel.getLossPercent());
+        if(!"".equals(studentModel.getPhoto())&&null!=studentModel.getPhoto()){
+            Picasso.with(context).load(AddressManager.get("photoHost")+studentModel.getPhoto()).placeholder(R.drawable.img_default)
+                    .error(R.drawable.img_default).into(holder.civ_header_image);
+        }
         return convertView;
     }
 
@@ -127,6 +141,10 @@ public class LossWeightAdapter extends BaseAdapter {
         holder.tv_py_after.setText("后 " + studentModel.getLossAfter() + "kg");
         holder.tv_name.setText(studentModel.getUserName());
         holder.tv_physical.setText(studentModel.getPysical());
+        if(!"".equals(studentModel.getPhoto())&&null!=studentModel.getPhoto()){
+            Picasso.with(context).load(AddressManager.get("photoHost")+studentModel.getPhoto()).placeholder(R.drawable.img_default)
+                    .error(R.drawable.img_default).into(holder.civ_header_image);
+        }
         return convertView;
     }
 
@@ -148,6 +166,10 @@ public class LossWeightAdapter extends BaseAdapter {
         holder.tv_wl_before.setText("前 " + studentModel.getWaistlinebefor() + "cm");
         holder.tv_wl_after.setText("后 " + studentModel.getWaistlineAfter() + "cm");
         holder.tv_wl_totle.setText("00");
+        if(!"".equals(studentModel.getPhoto())&&null!=studentModel.getPhoto()){
+            Picasso.with(context).load(AddressManager.get("photoHost")+studentModel.getPhoto()).placeholder(R.drawable.img_default)
+                    .error(R.drawable.img_default).into(holder.civ_header_image);
+        }
         return convertView;
     }
 

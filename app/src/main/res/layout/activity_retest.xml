@@ -40,7 +40,7 @@
                     android:id="@+id/ll_classlist"
                     android:layout_width="match_parent"
                     android:gravity="center_vertical"
-                    android:background="#BBBBBB"
+                    android:background="#B2BBBB"
                     android:layout_height="65dp"
                     >
                     <LinearLayout

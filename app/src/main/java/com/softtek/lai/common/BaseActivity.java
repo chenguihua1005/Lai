@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.utils.SystemBarTintManager;
 
@@ -65,6 +66,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public void onResume() {
         super.onResume();
+        LaiApplication.getInstance().setContext(this);
         LifeCircle.onResume(this);
 
     }

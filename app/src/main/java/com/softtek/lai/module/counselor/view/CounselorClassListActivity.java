@@ -72,6 +72,7 @@ public class CounselorClassListActivity extends BaseActivity implements View.OnC
                 ClassInfoModel classInfo = (ClassInfoModel) expand_list.getAdapter().getItem(position);
                 SharedPreferenceService.getInstance().put("classId", classInfo.getClassId());
                 intent.putExtra("classId", classInfo.getClassId());
+                intent.putExtra("review",1);
                 startActivity(intent);
             }
         });

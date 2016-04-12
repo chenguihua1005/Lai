@@ -5,13 +5,19 @@
 
 package com.softtek.lai.module.bodygame.presenter;
 
+import android.view.animation.Animation;
+
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.module.bodygame.eventmodel.TotalEventModel;
 import com.softtek.lai.module.bodygame.model.FuceNumModel;
 import com.softtek.lai.module.bodygame.model.TiGuanSaiModel;
 import com.softtek.lai.module.bodygame.model.TipsDetailModel;
 import com.softtek.lai.module.bodygame.model.TipsModel;
+import com.softtek.lai.module.bodygame.model.TotolModel;
 import com.softtek.lai.module.bodygame.net.BodyGameService;
+import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
+
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
@@ -36,8 +42,8 @@ public class TiGuanSaiImpl implements ITiGuanSai {
 
     @Override
     public void getTiGuanSai() {
-        String token = SharedPreferenceService.getInstance().get("token", "");
-        service.doGetTiGuanSaiClickw(token, new Callback<ResponseData<TiGuanSaiModel>>() {
+
+        service.doGetTiGuanSaiClickw( new Callback<ResponseData<TiGuanSaiModel>>() {
             @Override
             public void success(ResponseData<TiGuanSaiModel> tiGuanSaiResponseData, Response response) {
                 int status = tiGuanSaiResponseData.getStatus();
@@ -90,8 +96,8 @@ public class TiGuanSaiImpl implements ITiGuanSai {
 
     @Override
     public void doGetTips() {
-        String token = SharedPreferenceService.getInstance().get("token", "");
-        service.doGetTips(token, new Callback<ResponseData<List<TipsModel>>>() {
+
+        service.doGetTips(new Callback<ResponseData<List<TipsModel>>>() {
 
 
             @Override
@@ -119,8 +125,7 @@ public class TiGuanSaiImpl implements ITiGuanSai {
 
     @Override
     public void doGetTipsDetail(long id) {
-        String token=SharedPreferenceService.getInstance().get("token","");
-        service.doGetTipsDetail(token, id, new Callback<ResponseData<List<TipsDetailModel>>>() {
+        service.doGetTipsDetail( id, new Callback<ResponseData<List<TipsDetailModel>>>() {
             @Override
             public void success(ResponseData<List<TipsDetailModel>> listResponseData, Response response) {
                 int status=listResponseData.getStatus();
@@ -141,5 +146,38 @@ public class TiGuanSaiImpl implements ITiGuanSai {
                 error.printStackTrace();
             }
         });
+    }
+//参赛总人数及减重总数
+    @Override
+    public void doGetTotal() {
+        service.doGetTotal(new Callback<ResponseData<List<TotolModel>>>() {
+            @Override
+            public void success(ResponseData<List<TotolModel>> listResponseData, Response response) {
+                int status=listResponseData.getStatus();
+//                if (rotate!=null) {
+//                    rotate.cancel();
+//                }
+                switch (status)
+                {
+                    case 200:
+                        EventBus.getDefault().post(listResponseData.getData());
+                        Util.toastMsg("数据加载成功");
+                        break;
+                    default:
+                        Util.toastMsg(listResponseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+//                if (rotate!=null) {
+//                    rotate.cancel();
+//                }
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
+            }
+        });
+
     }
 }

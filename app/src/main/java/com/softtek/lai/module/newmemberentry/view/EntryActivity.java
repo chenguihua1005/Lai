@@ -39,6 +39,8 @@ import com.softtek.lai.module.newmemberentry.view.presenter.GuwenClassImp;
 import com.softtek.lai.module.newmemberentry.view.presenter.GuwenClassPre;
 import com.softtek.lai.module.newmemberentry.view.presenter.INewStudentpresenter;
 import com.softtek.lai.module.newmemberentry.view.presenter.NewStudentInputImpl;
+import com.softtek.lai.widgets.WheelView;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import zilla.libcore.lifecircle.LifeCircleInject;
@@ -59,7 +61,10 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
 
     private INewStudentpresenter iNewStudentpresenter;
     private GuwenClassPre guwenClassPre;
-
+    private List<String> gradeList = new ArrayList<String>();
+    private List<String> gradeIDList = new ArrayList<String>();
+    private String select_grade = "";
+    private String grade_id = "";
     //toolbar
     @InjectView(R.id.tv_title)
     TextView tv_title;
@@ -210,6 +215,8 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
         tv_title.setText("新学员录入");
         //tv_left.setBackground(null);
         tv_right.setText("确定");
+
+        addGrade();
     }
 
     @Override
@@ -277,7 +284,8 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
                 show_birth_dialog();
                 break;
             case R.id.ll_gender:
-                show_sex_dialog();
+               // show_sex_dialog();
+                showGradeDialog();
                 break;
             case R.id.ll_classid:
                 if (list_cansaibanji.getVisibility() == View.VISIBLE) {
@@ -508,21 +516,69 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
         dialog.show();
         dialog.setCanceledOnTouchOutside(false);
     }
-    //性别对话框
-    public void show_sex_dialog() {
-        Dialog genderdialog = new android.support.v7.app.AlertDialog.Builder(this)
-                .setTitle("请选择您的性别")
-                .setSingleChoiceItems(SexData, 2,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                et_gender.setText(SexData[which]);
-                                et_gender.setError(null);
-                            }
-                        })
-//                .setNegativeButton("取消",null)
-                .setPositiveButton("完成", null)
-                .create();
-        genderdialog.show();
+//    //性别对话框
+//    public void show_sex_dialog() {
+//        Dialog genderdialog = new android.support.v7.app.AlertDialog.Builder(this)
+//                .setTitle("请选择您的性别")
+//                .setSingleChoiceItems(SexData, 2,
+//                        new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                et_gender.setText(SexData[which]);
+//                                et_gender.setError(null);
+//                            }
+//                        })
+////                .setNegativeButton("取消",null)
+//                .setPositiveButton("完成", null)
+//                .create();
+//        genderdialog.show();
+//    }
+
+    private void addGrade() {
+        gradeList.add("男");
+        gradeList.add("女");
+        gradeIDList.add("0");
+        gradeIDList.add("1");
     }
+
+
+    public void showGradeDialog() {
+        final android.support.v7.app.AlertDialog.Builder birdialog=new android.support.v7.app.AlertDialog.Builder(this);
+        View view=getLayoutInflater().inflate(R.layout.dialog_select_grade,null);
+        final WheelView wheel_grade = (WheelView) view.findViewById(R.id.wheel_grade);
+        wheel_grade.setOffset(1);
+        wheel_grade.setItems(gradeList);
+        wheel_grade.setSeletion(0);
+        select_grade = "";
+//        wheel_grade.setBackgroundDrawable(1,"#000",);
+        wheel_grade.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
+            @Override
+            public void onSelected(int selectedIndex, String item) {
+                select_grade = item;
+                grade_id = gradeIDList.get(selectedIndex - 1);
+            }
+        });
+        birdialog.setTitle("选择性别").setView(view)
+                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if ("".equals(select_grade)) {
+                            select_grade = gradeList.get(0);
+                            grade_id = gradeIDList.get(0);
+                        }
+                        et_gender.setText(select_grade);
+//                        if (!"".equals(text_month.getText().toString())) {
+//                            showList();
+//                        }
+                        select_grade = "";
+                    }
+                })
+                .setNegativeButton("取消",new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                }).create()
+                .show();
+    }
+
 }

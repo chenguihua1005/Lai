@@ -16,21 +16,38 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.bodygame.model.FuceNumModel;
 import com.softtek.lai.module.bodygame.model.TiGuanSaiModel;
+import com.softtek.lai.module.bodygame.model.TotolModel;
 import com.softtek.lai.module.bodygame.presenter.ITiGuanSai;
 import com.softtek.lai.module.bodygame.presenter.TiGuanSaiImpl;
+import com.softtek.lai.module.bodygame.view.TipsActivity;
+import com.softtek.lai.module.studentbasedate.view.StudentBaseDateActivity;
 import com.squareup.picasso.Picasso;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import java.util.List;
+
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_student)
 public class StudentActivity extends BaseActivity implements View.OnClickListener {
     private ITiGuanSai tiGuanSai;
     private FuceNumModel fuceNum;
+    //标题
+    @InjectView(R.id.tv_title)
+    TextView tv_title;
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
     @InjectView(R.id.tv_st_num)
     TextView tv_st_num;
     @InjectView(R.id.iv_st_adv)
     ImageView iv_st_adv;
+    @InjectView(R.id.im_refreshst)
+    ImageView im_refreshst;
+    @InjectView(R.id.tv_totalpersonst)
+    TextView tv_totalpersonst;
+    @InjectView(R.id.tv_total_lossst)
+    TextView tv_total_lossst;
     //点击事件
     //基本数据
     @InjectView(R.id.ll_st_jibenshuju)
@@ -54,8 +71,8 @@ public class StudentActivity extends BaseActivity implements View.OnClickListene
     @InjectView(R.id.ll_st_saikuang)
     LinearLayout ll_st_saikuang;
     //提示
-    @InjectView(R.id.ll_st_tips)
-    LinearLayout ll_st_tips;
+    @InjectView(R.id.ll_st_tipst)
+    LinearLayout ll_st_tipst;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +86,8 @@ public class StudentActivity extends BaseActivity implements View.OnClickListene
         ll_st_chengjidan.setOnClickListener(this);
         ll_st_rongyu.setOnClickListener(this);
         ll_st_saikuang.setOnClickListener(this);
-        ll_st_tips.setOnClickListener(this);
+        ll_st_tipst.setOnClickListener(this);
+        ll_left.setOnClickListener(this);
 
     }
 
@@ -81,14 +99,18 @@ public class StudentActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initViews() {
+        im_refreshst.setOnClickListener(this);
 
     }
 
     @Override
     protected void initDatas() {
+        tv_title.setText("体管赛（学员版）");
         tiGuanSai = new TiGuanSaiImpl();
         tiGuanSai.getTiGuanSai();
         tiGuanSai.doGetFuceNum(36);
+        tiGuanSai.doGetTotal();
+
     }
 
     @Subscribe
@@ -111,6 +133,12 @@ public class StudentActivity extends BaseActivity implements View.OnClickListene
         }
 
     }
+    @Subscribe
+    public void doGetTotol(List<TotolModel> totolModels){
+        System.out.println("dsadasdsadasda>>》》》》》》》》》》》》》》"+totolModels.get(0).getTotal_loss());
+        tv_totalpersonst.setText(totolModels.get(0).getTotal_person());
+        tv_total_lossst.setText(totolModels.get(0).getTotal_loss());
+    }
 
     @Override
     public void onClick(View v) {
@@ -118,7 +146,7 @@ public class StudentActivity extends BaseActivity implements View.OnClickListene
 
             //点击跳转事件
             case R.id.ll_st_jibenshuju:
-
+                startActivity(new Intent(this, StudentBaseDateActivity.class));
                 break;
             //上传照片
             case R.id.ll_st_shangchuan:
@@ -147,10 +175,13 @@ public class StudentActivity extends BaseActivity implements View.OnClickListene
 
                 break;
             //提示
-            case R.id.ll_st_tips:
-
+            case R.id.ll_st_tipst:
+                Intent intent2=new Intent(this,TipsActivity.class);
+                startActivity(intent2);
                 break;
-
+            case R.id.ll_left:
+                finish();
+                break;
         }
 
     }

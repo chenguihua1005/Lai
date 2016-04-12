@@ -31,7 +31,7 @@
                 android:scaleType="centerCrop"
                 android:layout_centerInParent="true"
                 android:layout_alignParentLeft="true"
-                android:src="@drawable/testheader"/>
+                android:src="@drawable/img_default"/>
 
             <TextView
                 android:id="@+id/tv_name"

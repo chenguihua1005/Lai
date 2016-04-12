@@ -16,7 +16,12 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.File.view.ExplainActivity;
+import com.softtek.lai.module.retest.model.MeasureModel;
 import com.softtek.lai.module.retest.model.RetestWriteModel;
+import com.softtek.lai.module.retest.present.RetestPre;
+import com.softtek.lai.module.retest.present.RetestclassImp;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -79,6 +84,8 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
     RelativeLayout ll_retest_doleggirth;
 
     private RetestWriteModel retestWrite;
+    private RetestPre retestPre;
+    MeasureModel measureModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,14 +109,23 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void initDatas() {
-        retestWrite= (RetestWriteModel) getIntent().getSerializableExtra("retestWrite");
+//        retestWrite= (RetestWriteModel) getIntent().getSerializableExtra("retestWrite");
         tv_title.setText("添加记录");
-        tv_retest_circum.setText("null".equals(retestWrite.getCircum()+"")?"":retestWrite.getCircum()+"");
-        tv_retest_waistline.setText("null".equals(retestWrite.getWaistline()+"")?"":retestWrite.getWaistline()+"");
-        tv_retest_hiplie.setText("null".equals(retestWrite.getHiplie()+"")?"":retestWrite.getHiplie()+"");
-        tv_retest_uparmgirth.setText("null".equals(retestWrite.getUpArmGirth()+"")?"":retestWrite.getUpArmGirth()+"");
-        tv_retest_upleggirth.setText("null".equals(retestWrite.getUpLegGirth()+"")?"":retestWrite.getUpLegGirth()+"");
-        tv_retest_doleggirth.setText("null".equals(retestWrite.getDoLegGirth()+"")?"":retestWrite.getDoLegGirth()+"");
+        retestWrite= (RetestWriteModel) getIntent().getSerializableExtra("retestWrite");
+
+        tv_retest_circum.setText(retestWrite.getCircum());
+        tv_retest_waistline.setText(retestWrite.getWaistline());
+        tv_retest_hiplie.setText(retestWrite.getHiplie());
+        tv_retest_uparmgirth.setText(retestWrite.getUpArmGirth());
+        tv_retest_upleggirth.setText(retestWrite.getUpArmGirth());
+        tv_retest_doleggirth.setText(retestWrite.getDoLegGirth());
+
+//        tv_retest_circum.setText("null".equals(retestWrite.getCircum()+"")?"":retestWrite.getCircum()+"");
+//        tv_retest_waistline.setText("null".equals(retestWrite.getWaistline()+"")?"":retestWrite.getWaistline()+"");
+//        tv_retest_hiplie.setText("null".equals(retestWrite.getHiplie()+"")?"":retestWrite.getHiplie()+"");
+//        tv_retest_uparmgirth.setText("null".equals(retestWrite.getUpArmGirth()+"")?"":retestWrite.getUpArmGirth()+"");
+//        tv_retest_upleggirth.setText("null".equals(retestWrite.getUpLegGirth()+"")?"":retestWrite.getUpLegGirth()+"");
+//        tv_retest_doleggirth.setText("null".equals(retestWrite.getDoLegGirth()+"")?"":retestWrite.getDoLegGirth()+"");
 
 
 
@@ -157,6 +173,17 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
 //                String doleggirth=Double.parseDouble(tv_retest_doleggirth.getText().toString().equals("")?"0":tv_retest_doleggirth.getText().toString());
 
                 //创建档案的添加围度
+//                measureModel=new MeasureModel();
+//                measureModel.setChestgirth(tv_retest_circum.getText().toString());
+//                measureModel.setWaistgirth(tv_retest_waistline.getText().toString());
+//                measureModel.setHipgirth(tv_retest_hiplie.getText().toString());
+//                measureModel.setUpperarmgirth(tv_retest_uparmgirth.getText().toString());
+//                measureModel.setThighgirth(tv_retest_upleggirth.getText().toString());
+//                measureModel.setCalfgirth(tv_retest_doleggirth.getText().toString());
+//                Intent intent=new Intent();
+//                intent.putExtra("measureModel",measureModel);
+//                setResult(RESULT_OK,intent);
+//                finish();
                 retestWrite=new RetestWriteModel();
                 retestWrite.setCircum(tv_retest_circum.getText().toString());
                 retestWrite.setWaistline(tv_retest_waistline.getText().toString());
@@ -181,6 +208,17 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
         super.onDestroy();
 
     }
+//    @Subscribe
+//    public void event(MeasureModel measureModel){
+//
+//        com.github.snowdream.android.util.Log.i("username"+measureModel.getUsername());
+//        tv_retest_circum.setText(measureModel.getChestgirth());
+//        tv_retest_waistline.setText(measureModel.getWaistgirth());
+//        tv_retest_hiplie.setText(measureModel.getHipgirth());
+//        tv_retest_uparmgirth.setText(measureModel.getUpperarmgirth());
+//        tv_retest_upleggirth.setText(measureModel.getThighgirth());
+//        tv_retest_doleggirth.setText(measureModel.getCalfgirth());
+//    }
 
 
     //围度dialog

@@ -9,10 +9,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.home.view.HomeActviity;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 
 import zilla.libcore.ui.InjectLayout;
@@ -31,6 +33,7 @@ public class GuideActivity extends BaseActivity implements Runnable{
     protected void initDatas() {
         //检查是否存在token
         token= UserInfoModel.getInstance().getToken();
+        Log.i("token="+token);
         new Handler().postDelayed(this,1500);
     }
 
@@ -42,9 +45,16 @@ public class GuideActivity extends BaseActivity implements Runnable{
             finish();
         }else{
             //登陆完后直接去主页
-            Intent intent = new Intent(GuideActivity.this, HomeActviity.class);
-            startActivity(intent);
-            finish();
+            UserModel model=UserInfoModel.getInstance().getUser();
+            if(model==null){
+                Intent intent = new Intent(GuideActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }else{
+                Intent intent = new Intent(GuideActivity.this, HomeActviity.class);
+                startActivity(intent);
+                finish();
+            }
         }
     }
 }

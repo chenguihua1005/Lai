@@ -67,12 +67,6 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
         list_rank.setAdapter(rankAdapter);
         ll_left.setOnClickListener(this);
         tv_right.setOnClickListener(this);
-//        "TotalWeight": "20.3",
-//                "TotalMember": "8",
-//                "TotalClass": "5"
-
-
-
 //        tv_wz.setText(text);
     }
 
@@ -100,19 +94,10 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
         a=rank.getTable().get(0).getTotalClass();
         b=rank.getTable().get(0).getTotalMember();
         c=rank.getTable().get(0).getTotalWeight();
-        tv_wz.setText( "本月新开班级"+a+"个,新增学员"+b+"名,累计减重"+c+"斤 , 其中1月班累计减重"+d+"斤,2月版本月累计减重"+e+"斤,3月版本月累计减重"+f+"斤, 相当于"+g+"头大象.");
+        tv_wz.setText( "本月新开班级"+a+"个,新增学员"+b+"名,累计减重"+c+"斤,其中1月班累计减重"+d+"斤,2月班本月累计减重"+e+"斤,3月班本月累计减重"+f+"斤, 相当于"+g+"头大象.");
 
-
-//        List<Table1Model> table1 = rank.getTable1();
         table1ModelList=rank.getTable1();
         rankAdapter.updateData(table1ModelList);
-//        for (Table1Model table1Model :) {
-//            //System.out.println("》》》》》》》" + "AccountId:" + rk.getAccountId() + "ClassIdModel:" + rk.getClassId() + "OrderNum:" + rk.getOrderNum() + "UserName:" + rk.getUserName() + "LossAfter:" + rk.getLossAfter() + "LossBefor:" + rk.getLossBefor() + "LossWeght:" + rk.getLossWeght());
-//            RankModel r1 = new RankModel(rk.getAccountId(),rk.getBeforeWight(),rk.getAfterWeight(),rk.getLoseWeight(),rk.getUserName());
-//            rankList.add(r1);
-//        }
-//        rankAdapter.updateData(rankList);
-//        Log.i("rankList>>>>>>>>>>>>>>", "" + rankList);
     }
 
     @Override

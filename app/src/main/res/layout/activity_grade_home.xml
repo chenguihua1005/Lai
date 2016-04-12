@@ -204,8 +204,9 @@
 
                 <com.softtek.lai.widgets.CircleImageView
                     android:id="@+id/civ_tutorfirst"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
                     android:scaleType="centerCrop" />
 
                 <ImageView
@@ -224,8 +225,9 @@
 
                 <com.softtek.lai.widgets.CircleImageView
                     android:id="@+id/civ_tutorsecond"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
                     android:scaleType="centerCrop" />
 
                 <ImageView
@@ -244,8 +246,9 @@
 
                 <com.softtek.lai.widgets.CircleImageView
                     android:id="@+id/civ_tutorthird"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
                     android:scaleType="centerCrop" />
 
                 <ImageView
@@ -307,12 +310,14 @@
             <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                >
 
                 <com.softtek.lai.widgets.CircleImageView
                     android:id="@+id/civ_stufirst"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
                     android:scaleType="centerCrop" />
 
                 <ImageView
@@ -331,9 +336,10 @@
 
                 <com.softtek.lai.widgets.CircleImageView
                     android:id="@+id/civ_stusecond"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop" />
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:scaleType="centerCrop"
+                    android:layout_gravity="center"/>
 
                 <ImageView
                     android:layout_width="20dp"
@@ -351,8 +357,9 @@
 
                 <com.softtek.lai.widgets.CircleImageView
                     android:id="@+id/civ_stuthird"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
                     android:scaleType="centerCrop" />
 
                 <ImageView

@@ -21,4 +21,6 @@ public interface IMemberInfopresenter {
     void getLossWeigthLogList(int flag,long accountId);
 
     LogEvent loadLogListCache();
+
+    void doZan(long accountId,long logId);
 }
