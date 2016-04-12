@@ -17,7 +17,7 @@ public class NewstudentsModel implements Serializable {
    // private String certification;//资格证号: 选填
     private String password;    //密码：手机号码后6位
     private String mobile;  //手机号码: 必填
-    private int classid; //参赛班级:必填
+    private String classid; //参赛班级:必填
     private double weight;  //初始体重:必填
     private double pysical; //体脂:选填
     private double fat;     //内脂:选填
@@ -86,11 +86,11 @@ public class NewstudentsModel implements Serializable {
         this.mobile = mobile;
     }
 
-    public int getClassid() {
+    public String getClassid() {
         return classid;
     }
 
-    public void setClassid(int classid) {
+    public void setClassid(String classid) {
         this.classid = classid;
     }
 
@@ -190,7 +190,7 @@ public class NewstudentsModel implements Serializable {
         this.doleggirth = doleggirth;
     }
 
-    public NewstudentsModel(long sentaccid, String nickname, String password, String mobile, int classid, double weight, double pysical, double fat, String birthday, int gender, String photo, double circum, double waistline, double hiplie, double uparmgirth, double upleggirth, double doleggirth) {
+    public NewstudentsModel(long sentaccid, String nickname, String password, String mobile, String classid, double weight, double pysical, double fat, String birthday, int gender, String photo, double circum, double waistline, double hiplie, double uparmgirth, double upleggirth, double doleggirth) {
         this.sentaccid = sentaccid;
         this.nickname = nickname;
         this.password = password;

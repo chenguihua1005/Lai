@@ -24,7 +24,7 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="30dp"
         android:gravity="center"
-        android:text="穿单薄衣物，上臂自然垂直，用软尺围绕上臂中点一周测量。"
+        android:text="上臂围: 穿单薄衣物, 上臂自然下垂, 用软尺围绕上臂中点一周测量。"
         android:textColor="#ffffff"
         android:textSize="18sp" />
 </LinearLayout>

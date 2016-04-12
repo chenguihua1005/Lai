@@ -33,7 +33,19 @@ import com.softtek.lai.module.login.presenter.ILoginPresenter;
 import com.softtek.lai.module.login.presenter.LoginPresenterImpl;
 import com.softtek.lai.module.studetail.view.StudentDetailActivity;
 import com.softtek.lai.utils.MD5;
+import com.softtek.lai.utils.ShareUtils;
 import com.softtek.lai.utils.SoftInputUtil;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.bean.SocializeConfig;
+import com.umeng.socialize.controller.UMServiceFactory;
+import com.umeng.socialize.controller.UMSocialService;
+import com.umeng.socialize.media.SinaShareContent;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.sso.SinaSsoHandler;
+import com.umeng.socialize.sso.UMSsoHandler;
+import com.umeng.socialize.weixin.controller.UMWXHandler;
+import com.umeng.socialize.weixin.media.CircleShareContent;
+import com.umeng.socialize.weixin.media.WeiXinShareContent;
 
 import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
@@ -44,6 +56,7 @@ import zilla.libcore.ui.InjectLayout;
 public class LoginActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener {
 
     private ILoginPresenter loginPresenter;
+    private UMSocialService controller;
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -94,7 +107,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         loginPresenter = new LoginPresenterImpl(this);
     }
 
-    /** 点击屏幕隐藏软键盘**/
+    /**
+     * 点击屏幕隐藏软键盘
+     **/
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
@@ -111,7 +126,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_login:
-               validateLife.validate();
+                validateLife.validate();
                 //startActivity(new Intent(this, CreatFlleActivity.class));
                 break;
             case R.id.tv_forgetpsd:
@@ -123,11 +138,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             case R.id.ll_visitor:
                 UserInfoModel.getInstance().visitorLogin();
                 startActivity(new Intent(this, HomeActviity.class));
+//                ShareUtils shareUtils = new ShareUtils(LoginActivity.this);
+//                shareUtils.setShareContent("1", "http://www.baidu.com", R.drawable.img_default, "222", "333");
+//                shareUtils.getController().openShare(LoginActivity.this,false);
+
                 break;
 
         }
     }
-
 
     @Override
     public void onValidationSucceeded() {
@@ -143,5 +161,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         validateLife.onValidationFailed(failedView, failedRule);
     }
 
-
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        System.out.println("resultCode:" + resultCode);
+        UMSsoHandler ssoHandler = SocializeConfig.getSocializeConfig().getSsoHandler(requestCode);
+        if (ssoHandler != null) {
+            ssoHandler.authorizeCallBack(requestCode, resultCode, data);
+        }
+    }
 }

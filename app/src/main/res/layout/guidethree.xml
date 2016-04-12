@@ -20,7 +20,7 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="30dp"
         android:gravity="center"
-        android:text="穿单薄衣物，将软尺贴着皮肤围绕臀部最丰满处一周测量。"
+        android:text="臀围: 穿单薄衣物, 将软尺贴着皮肤围绕臀部最丰满处一周测量。"
         android:textColor="#ffffff"
         android:textSize="18sp" />
 </LinearLayout>

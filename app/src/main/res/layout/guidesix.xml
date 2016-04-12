@@ -23,7 +23,7 @@
             android:layout_marginRight="20dp"
             android:textSize="18sp"
             android:gravity="center"
-            android:text="穿单薄衣物，软尺水平围绕小腿最饱满处一周测量。"/>
+            android:text="小腿围: 穿单薄衣物, 软尺水平围绕小腿最饱满处一周测量。"/>
 
     <Button
             android:gravity="center"
