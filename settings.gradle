@@ -1,1 +1,1 @@
-include ':app', ':ruler_lib', ':widget_lib'
+include ':app', ':ruler_lib', ':widget_lib', ':social_project'
