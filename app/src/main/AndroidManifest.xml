@@ -84,7 +84,7 @@
         <activity android:name=".module.bodygamest.view.UploadPhotoActivity" />
         <activity android:name=".module.File.view.ExplainActivity" />
         <activity android:name=".module.retest.view.BodyweiduActivity" />
-        <activity android:name=".module.bodygamest.view.BodyweidustActivity"/>
+        <activity android:name=".module.bodygamest.view.BodyweidustActivity" />
         <activity
             android:name=".module.login.view.LoginActivity1"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
@@ -95,7 +95,8 @@
         <activity android:name=".module.bodygamezj.view.BodygameActivity" />
         <activity android:name=".module.bodygamecc.view.BodyGameCcActivity" />
         <activity android:name=".module.bodygameyk.view.BodygameYkActivity" />
-        <activity android:name=".module.review.view.ReviewActivity"></activity>
+        <activity android:name=".module.review.view.ReviewActivity" />
+        <activity android:name=".module.community.view.HealthyDetailActivity"></activity>
     </application>
 
 </manifest>
