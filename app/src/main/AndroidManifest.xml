@@ -47,7 +47,7 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="57071d73e0f55aa22d002712"></meta-data>
+            android:value="57036e6d67e58e5bd200006c"></meta-data>
 
         <activity
             android:name=".module.login.view.LoginActivity"
