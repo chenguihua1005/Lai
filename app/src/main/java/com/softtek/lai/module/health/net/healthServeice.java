@@ -1,18 +1,19 @@
 package com.softtek.lai.module.health.net;
 
+import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.utils.RequestCallback;
 
 import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.HEAD;
+import retrofit.http.Header;
 
 /**
  * Created by John on 2016/4/12.
  */
-public interface healthServeice {
+public interface HealthServeice {
     @GET("/HealthRecords/GetHealthRecords")
     void doGetHealth(
-//            @HEAD("token")String token,
-//            RequestCallback<>
-    );
+            @Header("token") String token,
+            RequestCallback<ResponseData> callback);
 }
