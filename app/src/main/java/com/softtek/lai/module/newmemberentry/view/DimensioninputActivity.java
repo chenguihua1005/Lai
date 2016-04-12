@@ -148,7 +148,7 @@ public class DimensioninputActivity extends BaseActivity implements OnClickListe
             //填写说明
             case R.id.ll_explain:
                 startActivity(new Intent(DimensioninputActivity.this, ExplainActivity.class));
-                finish();
+             //   finish();
                 break;
             //返回按钮
             case R.id.ll_left:

@@ -77,7 +77,7 @@ public class ReviewAdapter extends BaseAdapter {
         }
         /**设置TextView显示的内容，即我们存放在动态数组中的数据*/
         ClassInfoModel classInfo = list.get(position);
-        if (classInfo.getClassStatus().equals("-1")) {
+        /*if (classInfo.getClassStatus().equals("-1")) {
             holder.text_state.setText("未开班");
             holder.text_state.setTextColor(context.getResources().getColor(R.color.grey_font));
             holder.text_class_name.setTextColor(context.getResources().getColor(R.color.grey_font));
@@ -90,8 +90,8 @@ public class ReviewAdapter extends BaseAdapter {
             holder.text_people_count.setTextColor(context.getResources().getColor(R.color.black));
             holder.img_more.setVisibility(View.VISIBLE);
         } else if (classInfo.getClassStatus().equals("1")) {
-            holder.text_state.setText("已结束");
-        }
+        }*/
+        holder.text_state.setText("已结束");
         holder.text_class_name.setText(classInfo.getClassName().toString());
         String startTimeStr = classInfo.getStartDate().toString();
         String str[] = startTimeStr.split("-");

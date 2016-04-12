@@ -361,7 +361,8 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
         newstudentsModel.setNickname(nickname);
         //newstudentsModel.setCertification(certification);
         newstudentsModel.setMobile(mobile);
-        newstudentsModel.setClassid(Integer.parseInt(classid));
+        //newstudentsModel.setClassid(Integer.parseInt(classid));
+        newstudentsModel.setClassid(classid);
        // newstudentsModel.setClassid(classid);
         newstudentsModel.setWeight(Double.parseDouble(weight.equals("") ? "0" : weight));
         newstudentsModel.setPysical(Double.parseDouble(pysical.equals("") ? "0" : pysical));
@@ -567,6 +568,7 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
                             grade_id = gradeIDList.get(0);
                         }
                         et_gender.setText(select_grade);
+                        et_gender.setError(null);
 //                        if (!"".equals(text_month.getText().toString())) {
 //                            showList();
 //                        }
