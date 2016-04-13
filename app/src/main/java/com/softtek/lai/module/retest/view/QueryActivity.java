@@ -6,13 +6,16 @@
 package com.softtek.lai.module.retest.view;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import butterknife.InjectView;
 
@@ -24,6 +27,7 @@ import com.softtek.lai.module.retest.WriteActivity;
 import com.softtek.lai.module.retest.adapter.QueryAdapter;
 import com.softtek.lai.module.retest.eventModel.StudentEvent;
 import com.softtek.lai.module.retest.model.BanjiStudentModel;
+import com.softtek.lai.module.retest.model.RetestWriteModel;
 import com.softtek.lai.module.retest.model.StudentModel;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.module.retest.present.RetestclassImp;
@@ -51,6 +55,7 @@ public class QueryActivity extends BaseActivity implements View.OnClickListener 
     private RetestPre retestPre;
     private List<StudentModel> studentModelList = new ArrayList<StudentModel>();
     private QueryAdapter queryAdapter;
+    private static final int GET_BODY=2;
     private ProgressDialog progressDialog;
 
     @Override
@@ -122,6 +127,8 @@ public class QueryActivity extends BaseActivity implements View.OnClickListener 
     }
 
 
+
+
     @Override
     protected void onDestroy() {
         EventBus.getDefault().unregister(this);
@@ -133,6 +140,9 @@ public class QueryActivity extends BaseActivity implements View.OnClickListener 
         progressDialog = new ProgressDialog(this);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setMessage("正在查询，请稍候...");
+
+
+
 
     }
 
@@ -151,7 +161,9 @@ public class QueryActivity extends BaseActivity implements View.OnClickListener 
 
                 } else {
                     progressDialog.show();
-                    retestPre.doGetqueryResult(et_query.getText().toString(),"13",progressDialog);
+                    studentModelList.clear();
+                    queryAdapter.notifyDataSetChanged();
+                    retestPre.doGetqueryResult(et_query.getText().toString(),"13",progressDialog,this);
                 }
                 break;
             case R.id.tv_retest_query_cancel:
@@ -159,6 +171,8 @@ public class QueryActivity extends BaseActivity implements View.OnClickListener 
                 break;
         }
     }
+
+
 
     @Subscribe
     public void onEvent1(StudentEvent student) {

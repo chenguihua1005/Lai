@@ -40,6 +40,7 @@
                         android:textSize="18sp"
                         android:layout_marginLeft="10dp"
                         android:textColorHint="#ABABAB"
+                        android:textCursorDrawable="@drawable/color_cursor"
                         android:hint="学员手机号，学员姓名"/>
             </LinearLayout>
             <LinearLayout

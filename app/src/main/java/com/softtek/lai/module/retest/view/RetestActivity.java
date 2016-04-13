@@ -68,13 +68,13 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
     //选择班级
     @InjectView(R.id.selectclass)
     TextView selectclass;
-
+    private static final int GET_BODY=2;
     private List<BanjiModel> banjiModelList=new ArrayList<BanjiModel>();
     private List<BanjiStudentModel>banjiStudentModelList=new ArrayList<BanjiStudentModel>();
     private ClassAdapter classAdapter;
     private StudentAdapter studentAdapter;
     boolean h=false;
-
+    long ClassId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +100,7 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 BanjiModel banjiModel=banjiModelList.get(position);
                 retestPre.doGetBanjiStudent(banjiModel.getClassId());
+                ClassId=banjiModel.getClassId();
                 list_class.setVisibility(View.INVISIBLE);
                 ll_shousuo.setVisibility(View.INVISIBLE);
                 ll_shousuolist.setVisibility(View.INVISIBLE);
@@ -135,8 +136,7 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
                     //第几周期
                     intent.putExtra("Weekth",banjiStudentModel.getWeekth());
                     intent.putExtra("loginid","36");
-
-                    startActivity(intent);
+                    startActivityForResult(intent,GET_BODY);
 
                 }
                 else {
@@ -255,6 +255,16 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
 
 
 
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //身体围度值传递
+        if (requestCode==GET_BODY&&resultCode==RESULT_OK){
+//            studentAdapter.notifyDataSetChanged();
+            retestPre.doGetBanjiStudent(ClassId);
+
+        }
     }
 
 
