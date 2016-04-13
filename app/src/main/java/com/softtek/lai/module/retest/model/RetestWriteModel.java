@@ -18,24 +18,7 @@ public class RetestWriteModel implements Serializable{
     private String doLegGirth;
     private String image;
     private String classId;
-
-    @Override
-    public String toString() {
-        return "WriteActivity{" +
-                "accountId='" + accountId + '\'' +
-                ", weight='" + weight + '\'' +
-                ", pysical='" + pysical + '\'' +
-                ", fat='" + fat + '\'' +
-                ", circum='" + circum + '\'' +
-                ", waistline='" + waistline + '\'' +
-                ", hiplie='" + hiplie + '\'' +
-                ", upArmGirth='" + upArmGirth + '\'' +
-                ", upLegGirth='" + upLegGirth + '\'' +
-                ", doLegGirth='" + doLegGirth + '\'' +
-                ", image='" + image + '\'' +
-                ", classId='" + classId + '\'' +
-                '}';
-    }
+    private String InitWeight;
 
     public String getAccountId() {
         return accountId;
@@ -133,21 +116,11 @@ public class RetestWriteModel implements Serializable{
         this.classId = classId;
     }
 
-    public RetestWriteModel(String accountId, String weight, String pysical, String fat, String circum, String waistline, String hiplie, String upArmGirth, String upLegGirth, String doLegGirth, String image, String classId) {
-        this.accountId = accountId;
-        this.weight = weight;
-        this.pysical = pysical;
-        this.fat = fat;
-        this.circum = circum;
-        this.waistline = waistline;
-        this.hiplie = hiplie;
-        this.upArmGirth = upArmGirth;
-        this.upLegGirth = upLegGirth;
-        this.doLegGirth = doLegGirth;
-        this.image = image;
-        this.classId = classId;
+    public String getInitWeight() {
+        return InitWeight;
     }
-    public RetestWriteModel(){
 
+    public void setInitWeight(String initWeight) {
+        InitWeight = initWeight;
     }
 }

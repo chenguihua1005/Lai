@@ -5,6 +5,7 @@
 
 package com.softtek.lai.module.retest.view;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -50,7 +51,7 @@ public class QueryActivity extends BaseActivity implements View.OnClickListener 
     private RetestPre retestPre;
     private List<StudentModel> studentModelList = new ArrayList<StudentModel>();
     private QueryAdapter queryAdapter;
-
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,6 +130,9 @@ public class QueryActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     protected void initViews() {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setMessage("正在查询，请稍候...");
 
     }
 
@@ -146,7 +150,8 @@ public class QueryActivity extends BaseActivity implements View.OnClickListener 
                     Util.toastMsg("未输入关键字查询");
 
                 } else {
-                    retestPre.doGetqueryResult(et_query.getText().toString(),"13");
+                    progressDialog.show();
+                    retestPre.doGetqueryResult(et_query.getText().toString(),"13",progressDialog);
                 }
                 break;
             case R.id.tv_retest_query_cancel:

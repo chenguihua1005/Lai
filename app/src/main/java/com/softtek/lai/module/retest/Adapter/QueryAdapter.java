@@ -74,9 +74,9 @@ public class QueryAdapter extends BaseAdapter{
         }
         StudentModel studentModel=studentModelList.get(position);
         if(!TextUtils.isEmpty(studentModel.getPhoto())){
-        Picasso.with(context).load(studentModel.getPhoto()).placeholder(R.drawable.lufei).error(R.drawable.lufei).into(holder.iv_head);
+        Picasso.with(context).load(studentModel.getPhoto()).placeholder(R.drawable.img_default).error(R.drawable.img_default).into(holder.iv_head);
         }else{
-            Picasso.with(context).load("www").placeholder(R.drawable.lufei).error(R.drawable.lufei).into(holder.iv_head);
+            Picasso.with(context).load("www").placeholder(R.drawable.img_default).error(R.drawable.img_default).into(holder.iv_head);
         }
 //        holder.iv_head.setImageDrawable();
         holder.tv_retest_nick.setText(studentModel.getUserName());
