@@ -5,10 +5,15 @@ import android.widget.RadioGroup;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.studetail.util.LineChartUtil;
+
+import java.util.ArrayList;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -58,6 +63,32 @@ public class FatFragment extends BaseFragment implements RadioGroup.OnCheckedCha
         chart.getAxisRight().setEnabled(false);//取消右边的轴线
         chart.setData(new LineData());//设置一个空数据
         radio_group.setOnCheckedChangeListener(this);
+ //       ArrayList<>
+
+
+//        ArrayList<Entry> valsComp1 = new ArrayList<Entry>();
+//        ArrayList<Entry> valsComp2 = new ArrayList<Entry>();
+//        Entry c1e1 = new Entry(100.000f, 0); // 0 == quarter 1
+//        valsComp1.add(c1e1);
+//        Entry c1e2 = new Entry(50.000f, 1); // 1 == quarter 2 ...
+//        valsComp1.add(c1e2);
+//        Entry c2e1 = new Entry(120.000f, 0); // 0 == quarter 1
+//        valsComp2.add(c2e1);
+//        Entry c2e2 = new Entry(110.000f, 1); // 1 == quarter 2 ...
+//        valsComp2.add(c2e2);
+//        LineDataSet setComp1 = new LineDataSet(valsComp1, "Company 1");
+//        setComp1.setAxisDependency(YAxis.AxisDependency.LEFT);
+//        LineDataSet setComp2 = new LineDataSet(valsComp2, "Company 2");
+//        setComp2.setAxisDependency(YAxis.AxisDependency.LEFT);
+//        ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
+//        dataSets.add(setComp1);
+//        dataSets.add(setComp2);
+//        ArrayList<String> xVals = new ArrayList<String>();
+//        xVals.add("1.Q"); xVals.add("2.Q"); xVals.add("3.Q"); xVals.add("4.Q");
+//        LineData data = new LineData(xVals, dataSets);
+//        chart.setData(data);
+
+
     }
 
     @Override

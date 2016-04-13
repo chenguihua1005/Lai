@@ -1,5 +1,6 @@
 package com.softtek.lai.module.health.view;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
@@ -40,6 +42,7 @@ public class HealthyRecordActivity extends BaseActivity implements View.OnClickL
     protected void initViews() {
         ll_left.setOnClickListener(this);
         tv_title.setText("曲线图");
+
     }
 
     @Override
@@ -65,6 +68,8 @@ public class HealthyRecordActivity extends BaseActivity implements View.OnClickL
         tab_content.setAdapter(new HealthyRecordFragmentAdapter(getSupportFragmentManager(), fragmentList));
         tab.setupWithViewPager(tab_content);
         tab.setTabMode(TabLayout.MODE_SCROLLABLE);
+        int item=getIntent().getIntExtra("id",0);
+        tab_content.setCurrentItem(item);
 
     }
 
