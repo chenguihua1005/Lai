@@ -1,4 +1,4 @@
-package com.softtek.lai.module.newmemberentry.view.presenter;
+package com.softtek.lai.module.confirmInfo.view;
 
 import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;

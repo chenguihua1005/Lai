@@ -120,11 +120,9 @@
                 android:gravity="center"
                 android:layout_height="180dp">
                 <com.ggx.jerryguan.widget_lib.Chart
-                    android:layout_width="170dp"
-                    android:layout_height="170dp"
-                    android:id="@+id/total_weight"
-                    >
-
+                    android:layout_width="130dp"
+                    android:layout_height="130dp"
+                    android:id="@+id/total_weight">
                 </com.ggx.jerryguan.widget_lib.Chart>
 
             </LinearLayout>
@@ -226,7 +224,7 @@
                         android:textSize="12sp"/>
 
                     <TextView
-                        android:id="@+id/threeban"
+                        android:id="@+id/tv_threeban"
                         android:layout_marginRight="2dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
