@@ -1,20 +1,19 @@
 package com.softtek.lai.module.health.view;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.health.adapter.HealthyRecordFragmentAdapter;
+import com.softtek.lai.module.health.model.HealthDateModel;
 import com.softtek.lai.module.health.presenter.HealthyRecordImpl;
+import com.softtek.lai.module.health.presenter.IHealthyRecord;
 import com.softtek.lai.widgets.NoSlidingViewPage;
 
 import java.util.ArrayList;
@@ -22,9 +21,10 @@ import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_weight)
-public class HealthyRecordActivity extends BaseActivity implements View.OnClickListener,BaseFragment.OnFragmentInteractionListener{
+public class HealthyRecordActivity extends BaseActivity implements View.OnClickListener,BaseFragment.OnFragmentInteractionListener,HealthyRecordImpl.HealthyRecordCallback{
 
     private HealthyRecordImpl healthyRecord;
     @InjectView(R.id.ll_left)
@@ -36,6 +36,8 @@ public class HealthyRecordActivity extends BaseActivity implements View.OnClickL
     TabLayout tab;
     @InjectView(R.id.tab_content)
     NoSlidingViewPage tab_content;
+    IHealthyRecord iHealthyRecord;
+
 
     List<Fragment> fragmentList=new ArrayList<>();
     @Override
@@ -70,6 +72,11 @@ public class HealthyRecordActivity extends BaseActivity implements View.OnClickL
         tab.setTabMode(TabLayout.MODE_SCROLLABLE);
         int item=getIntent().getIntExtra("id",0);
         tab_content.setCurrentItem(item);
+//        healthyRecord.getCurveData();
+        iHealthyRecord=new HealthyRecordImpl(this);
+        iHealthyRecord.doGetHealth();
+//        healthyRecord=new HealthyRecordImpl(this);
+
 
     }
 
@@ -84,6 +91,13 @@ public class HealthyRecordActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void onFragmentInteraction(Uri uri) {
+
+    }
+
+
+    @Override
+    public void doGetDate(HealthDateModel healthDateModel) {
+        Util.toastMsg(healthDateModel.toString());
 
     }
 }

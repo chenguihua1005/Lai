@@ -1,6 +1,7 @@
 package com.softtek.lai.module.health.net;
 
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.module.health.model.HealthDateModel;
 import com.softtek.lai.module.health.model.HealthyRecordModel;
 import com.softtek.lai.utils.RequestCallback;
 
@@ -17,6 +18,6 @@ public interface HealthyService {
         @GET("/HealthRecords/GetHealthRecords")
         void doGetHealth(
                 @Header("token") String token,
-                RequestCallback<ResponseData<List<HealthyRecordModel>>> callback);
+                RequestCallback<ResponseData<List<HealthDateModel>>> callback);
 
 }
