@@ -6,12 +6,14 @@
 package com.softtek.lai.module.home.view;
 
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.module.health.view.HealthyRecordActivity;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -66,6 +68,7 @@ public class HealthyRecordFragment extends BaseFragment implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.tv_weight:
+                startActivity(new Intent(getContext(), HealthyRecordActivity.class));
                 break;
             case R.id.tv_body_fat:
                 break;
