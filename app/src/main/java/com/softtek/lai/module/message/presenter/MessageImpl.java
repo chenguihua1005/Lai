@@ -3,18 +3,21 @@
  * Date:2016-03-31
  */
 
-package com.softtek.lai.module.counselor.presenter;
+package com.softtek.lai.module.message.presenter;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.util.Log;
-import android.view.View;
 import android.widget.ListView;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.counselor.adapter.GameAdapter;
 import com.softtek.lai.module.counselor.model.MarchInfoModel;
 import com.softtek.lai.module.counselor.net.CounselorService;
+import com.softtek.lai.module.counselor.presenter.IGamePresenter;
+import com.softtek.lai.module.message.model.MessageModel;
+import com.softtek.lai.module.message.net.MessageService;
+
+import java.util.List;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -23,42 +26,34 @@ import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.util.Util;
 
-import java.util.List;
-
 /**
  * Created by jarvis.liu on 3/22/2016.
  */
-public class GameImpl implements IGamePresenter {
+public class MessageImpl implements IMessagePresenter {
 
-    private CounselorService counselorService;
+    private MessageService messageService;
     private Context context;
 
-    public GameImpl(Context context) {
+    public MessageImpl(Context context) {
         this.context = context;
-        counselorService = ZillaApi.NormalRestAdapter.create(CounselorService.class);
+        messageService = ZillaApi.NormalRestAdapter.create(MessageService.class);
     }
 
 
     @Override
-    public void getMatchInfo(String dtime, String group, final ListView list_game, final ProgressDialog progressDialog) {
+    public void getMsgList() {
         String token = SharedPreferenceService.getInstance().get("token", "");
-        counselorService.getMatchInfo(token, dtime, group, new Callback<ResponseData<List<MarchInfoModel>>>() {
+        messageService.getMsgList(token, new Callback<ResponseData<MessageModel>>() {
             @Override
-            public void success(ResponseData<List<MarchInfoModel>> listResponseData, Response response) {
+            public void success(ResponseData<MessageModel> listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());
-                if (progressDialog != null) {
-                    progressDialog.dismiss();
-                }
                 int status = listResponseData.getStatus();
-                List<MarchInfoModel> list = listResponseData.getData();
+                MessageModel messageModel = listResponseData.getData();
                 switch (status) {
                     case 200:
-                        list_game.setVisibility(View.VISIBLE);
-                        GameAdapter adapter = new GameAdapter(context, list);
-                        list_game.setAdapter(adapter);
+
                         break;
                     default:
-                        list_game.setVisibility(View.GONE);
                         Util.toastMsg(listResponseData.getMsg());
                         break;
                 }
@@ -66,9 +61,6 @@ public class GameImpl implements IGamePresenter {
 
             @Override
             public void failure(RetrofitError error) {
-                if (progressDialog != null) {
-                    progressDialog.dismiss();
-                }
                 Util.toastMsg("获取龙虎榜列表失败");
             }
         });

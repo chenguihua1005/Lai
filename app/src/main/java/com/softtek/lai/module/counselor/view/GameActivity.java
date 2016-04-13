@@ -7,14 +7,17 @@ package com.softtek.lai.module.counselor.view;
 
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import butterknife.InjectView;
@@ -35,6 +38,7 @@ import com.softtek.lai.widgets.WheelView;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -45,7 +49,7 @@ import java.util.List;
  * 大赛赛况
  */
 @InjectLayout(R.layout.activity_game)
-public class GameActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener {
+public class GameActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener {
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -56,49 +60,101 @@ public class GameActivity extends BaseActivity implements View.OnClickListener, 
     @InjectView(R.id.tv_title)
     TextView tv_title;
 
-    @InjectView(R.id.but_select_month)
-    Button but_select_month;
-
-    @InjectView(R.id.but_select_grade)
-    Button but_select_grade;
-
-    @InjectView(R.id.text_month)
-    TextView text_month;
-
-    @InjectView(R.id.text_grade)
-    TextView text_grade;
-
     @InjectView(R.id.list_game)
     ListView list_game;
 
+    @InjectView(R.id.rel_men_up)
+    RelativeLayout rel_men_up;
+
+    @InjectView(R.id.img_men_up_bg)
+    ImageView img_men_up_bg;
+
+    @InjectView(R.id.img_men_up_icon)
+    ImageView img_men_up_icon;
+
+    @InjectView(R.id.text_men_up)
+    TextView text_men_up;
+
+
+    @InjectView(R.id.rel_men_down)
+    RelativeLayout rel_men_down;
+
+    @InjectView(R.id.img_men_down_bg)
+    ImageView img_men_down_bg;
+
+    @InjectView(R.id.img_men_down_icon)
+    ImageView img_men_down_icon;
+
+    @InjectView(R.id.text_men_down)
+    TextView text_men_down;
+
+    @InjectView(R.id.rel_women_up)
+    RelativeLayout rel_women_up;
+
+    @InjectView(R.id.img_women_up_bg)
+    ImageView img_women_up_bg;
+
+    @InjectView(R.id.img_women_up_icon)
+    ImageView img_women_up_icon;
+
+    @InjectView(R.id.text_women_up)
+    TextView text_women_up;
+
+
+    @InjectView(R.id.rel_women_down)
+    RelativeLayout rel_women_down;
+
+    @InjectView(R.id.img_women_down_bg)
+    ImageView img_women_down_bg;
+
+    @InjectView(R.id.img_women_down_icon)
+    ImageView img_women_down_icon;
+
+    @InjectView(R.id.text_women_down)
+    TextView text_women_down;
+
+
+    @InjectView(R.id.text_time)
+    TextView text_time;
+
+    @InjectView(R.id.lin_time)
+    LinearLayout lin_time;
+
+    @InjectView(R.id.lin_left)
+    LinearLayout lin_left;
+
+    @InjectView(R.id.rel_right)
+    RelativeLayout rel_right;
+
 
     private IGamePresenter gamePresenter;
-    private ACache aCache;
-    private UserModel userModel;
-    private List<String> monthList = new ArrayList<String>();
-    private List<String> monthsList = new ArrayList<String>();
-    private List<String> gradeList = new ArrayList<String>();
-    private List<String> gradeIDList = new ArrayList<String>();
 
-    private String select_month = "";
     private String select_grade = "";
-    private String grade_id = "";
+    private String grade_id = "1";
     private String date = "";
-    private String dateInfo = "";
+    private int monthInfo;
+    private int yearInfo;
 
     int year;
     int monthOfYear;
     int dayOfMonth;
+
+    private ProgressDialog progressDialog;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ll_left.setOnClickListener(this);
-        but_select_month.setOnClickListener(this);
-        but_select_grade.setOnClickListener(this);
-//        View view = LayoutInflater.from(this).inflate(R.layout.game_item, null);
-//        list_game.addHeaderView(view);
+        rel_men_up.setOnClickListener(this);
+        rel_men_down.setOnClickListener(this);
+        rel_women_up.setOnClickListener(this);
+        rel_women_down.setOnClickListener(this);
+        lin_left.setOnClickListener(this);
+        rel_right.setOnClickListener(this);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setMessage("查询中");
 
     }
 
@@ -112,114 +168,100 @@ public class GameActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     protected void initDatas() {
         gamePresenter = new GameImpl(this);
-        aCache = ACache.get(this, Constants.USER_ACACHE_DATA_DIR);
-        addMonth();
-        addGrade();
 
         Calendar calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
         monthOfYear = calendar.get(Calendar.MONTH) + 1;
         dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-
-        if (monthOfYear == 1) {
-            select_month = monthList.get(0);
-            dateInfo = monthsList.get(0);
-        } else if (monthOfYear == 2) {
-            select_month = monthList.get(1);
-            dateInfo = monthsList.get(1);
-        } else if (monthOfYear == 3) {
-            select_month = monthList.get(2);
-            dateInfo = monthsList.get(2);
-        } else if (monthOfYear == 4) {
-            select_month = monthList.get(3);
-            dateInfo = monthsList.get(3);
-        } else if (monthOfYear == 5) {
-            select_month = monthList.get(4);
-            dateInfo = monthsList.get(4);
-        } else if (monthOfYear == 6) {
-            select_month = monthList.get(5);
-            dateInfo = monthsList.get(5);
-        } else if (monthOfYear == 7) {
-            select_month = monthList.get(6);
-            dateInfo = monthsList.get(6);
-        } else if (monthOfYear == 8) {
-            select_month = monthList.get(7);
-            dateInfo = monthsList.get(7);
-        } else if (monthOfYear == 9) {
-            select_month = monthList.get(8);
-            dateInfo = monthsList.get(8);
-        } else if (monthOfYear == 10) {
-            select_month = monthList.get(9);
-            dateInfo = monthsList.get(9);
-        } else if (monthOfYear == 11) {
-            select_month = monthList.get(10);
-            dateInfo = monthsList.get(10);
-        } else if (monthOfYear == 12) {
-            select_month = monthList.get(11);
-            dateInfo = monthsList.get(11);
-        }
-
-        text_month.setText(select_month);
-
+        text_time.setText(year + "年" + monthOfYear + "月");
+        monthInfo = monthOfYear;
+        yearInfo = year;
     }
 
-    private void addGrade() {
-        gradeList.add("男子180斤以上");
-        gradeList.add("男子180斤以下");
-        gradeList.add("女子140斤以上");
-        gradeList.add("女子140斤以下");
-        gradeIDList.add("1");
-        gradeIDList.add("4");
-        gradeIDList.add("5");
-        gradeIDList.add("6");
-    }
-
-    private void addMonth() {
-        monthList.add("一月");
-        monthList.add("二月");
-        monthList.add("三月");
-        monthList.add("四月");
-        monthList.add("五月");
-        monthList.add("六月");
-        monthList.add("七月");
-        monthList.add("八月");
-        monthList.add("九月");
-        monthList.add("十月");
-        monthList.add("十一月");
-        monthList.add("十二月");
-
-        monthsList.add("01");
-        monthsList.add("02");
-        monthsList.add("03");
-        monthsList.add("04");
-        monthsList.add("05");
-        monthsList.add("06");
-        monthsList.add("07");
-        monthsList.add("08");
-        monthsList.add("09");
-        monthsList.add("10");
-        monthsList.add("11");
-        monthsList.add("12");
-    }
 
     @Override
     public void onClick(View v) {
-        SoftInputUtil.hidden(this);
         switch (v.getId()) {
             case R.id.ll_left:
                 finish();
                 break;
-
-            case R.id.but_select_month:
-                showDateDialog();
+            case R.id.rel_men_up:
+                grade_id = "1";
+                changeView(img_men_up_bg,text_men_up);
+                showList();
+                break;
+            case R.id.rel_men_down:
+                grade_id = "4";
+                changeView(img_men_down_bg,text_men_down);
+                showList();
+                break;
+            case R.id.rel_women_up:
+                grade_id = "5";
+                changeView(img_women_up_bg,text_women_up);
+                showList();
+                break;
+            case R.id.rel_women_down:
+                grade_id = "6";
+                changeView(img_women_down_bg,text_women_down);
+                showList();
                 break;
 
-            case R.id.but_select_grade:
-                showGradeDialog();
+            case R.id.rel_right:
+                System.out.println("rel_right----------");
+                monthInfo++;
+                if(yearInfo==year && monthInfo>monthOfYear){
+                    Util.toastMsg("请选择晚于当前月");
+                }else {
+                    if (monthInfo == 13) {
+                        monthInfo = 1;
+                        yearInfo++;
+                    }
+                    text_time.setText(yearInfo + "年" + monthInfo + "月");
+                    showList();
+                }
                 break;
+            case R.id.lin_left:
+                monthInfo--;
+                if (monthInfo == 0) {
+                    monthInfo = 12;
+                    yearInfo--;
+                }
+                text_time.setText(yearInfo + "年" + monthInfo + "月");
+                showList();
+                break;
+
         }
     }
 
+    private void changeView(ImageView img_bg, TextView tv) {
+        img_men_up_bg.setImageResource(R.drawable.but_white_select);
+        img_men_down_bg.setImageResource(R.drawable.but_white_select);
+        img_women_up_bg.setImageResource(R.drawable.but_white_select);
+        img_women_down_bg.setImageResource(R.drawable.but_white_select);
+
+        text_men_up.setTextColor(getResources().getColor(R.color.word2));
+        text_men_down.setTextColor(getResources().getColor(R.color.word2));
+        text_women_up.setTextColor(getResources().getColor(R.color.word2));
+        text_women_down.setTextColor(getResources().getColor(R.color.word2));
+
+        img_men_up_icon.setImageResource(R.drawable.img_male_select);
+        img_men_down_icon.setImageResource(R.drawable.img_male_select);
+        img_women_up_icon.setImageResource(R.drawable.img_female_select);
+        img_women_down_icon.setImageResource(R.drawable.img_female_select);
+
+        img_bg.setImageResource(R.drawable.but_yellow_selected);
+        tv.setTextColor(getResources().getColor(R.color.white));
+
+        if("1".equals(grade_id)){
+            img_men_up_icon.setImageResource(R.drawable.img_male_selected);
+        }else if("4".equals(grade_id)){
+            img_men_down_icon.setImageResource(R.drawable.img_male_selected);
+        }else if("5".equals(grade_id)){
+            img_women_up_icon.setImageResource(R.drawable.img_female_selected);
+        }else if("6".equals(grade_id)){
+            img_women_down_icon.setImageResource(R.drawable.img_female_selected);
+        }
+    }
 
     @Override
     protected void onStop() {
@@ -237,92 +279,37 @@ public class GameActivity extends BaseActivity implements View.OnClickListener, 
     }
 
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
-
-    private void showDateDialog() {
-        View outerView = LayoutInflater.from(this).inflate(R.layout.dialog_select_month, null);
-
-        final WheelView wheel_month = (WheelView) outerView.findViewById(R.id.wheel_month);
-
-        wheel_month.setOffset(1);
-        wheel_month.setItems(monthList);
-        wheel_month.setSeletion(0);
-        select_month = "";
-        wheel_month.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
-            @Override
-            public void onSelected(int selectedIndex, String item) {
-                select_month = item;
-                dateInfo = monthsList.get(selectedIndex - 1);
-
-            }
-        });
-
-        new AlertDialog.Builder(this)
-                .setTitle("请选择月份")
-                .setView(outerView)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if ("".equals(select_month)) {
-                            select_month = monthList.get(0);
-                            dateInfo = monthsList.get(0);
-                            System.out.println("select_month:" + select_month);
-                        }
-                        text_month.setText(select_month);
-                        if (!"".equals(text_grade.getText().toString())) {
-                            showList();
-                        }
-                        select_month = "";
-
-                    }
-                })
-                .show();
-    }
-
     private void showList() {
-        date = year + "-" + dateInfo + "-" + dayOfMonth;
-        System.out.println("date:" + date + "      SelectGrade" + select_grade);
-        gamePresenter.getMatchInfo(date, grade_id, list_game);
-    }
-
-    private void showGradeDialog() {
-        View outerView = LayoutInflater.from(this).inflate(R.layout.dialog_select_grade, null);
-
-        final WheelView wheel_grade = (WheelView) outerView.findViewById(R.id.wheel_grade);
-
-        wheel_grade.setOffset(1);
-        wheel_grade.setItems(gradeList);
-        wheel_grade.setSeletion(0);
-        select_grade = "";
-        wheel_grade.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
-            @Override
-            public void onSelected(int selectedIndex, String item) {
-                select_grade = item;
-                grade_id = gradeIDList.get(selectedIndex - 1);
-            }
-        });
-
-        new AlertDialog.Builder(this)
-                .setTitle("请选择组别")
-                .setView(outerView)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if ("".equals(select_grade)) {
-                            select_grade = gradeList.get(0);
-                            grade_id = gradeIDList.get(0);
-                        }
-                        text_grade.setText(select_grade);
-                        if (!"".equals(text_month.getText().toString())) {
-                            showList();
-                        }
-                        select_grade = "";
-                    }
-                })
-                .show();
+        String info="";
+        if(monthInfo==1){
+            info="01";
+        }else if(monthInfo==2){
+            info="02";
+        }else if(monthInfo==3){
+            info="03";
+        }else if(monthInfo==4){
+            info="04";
+        }else if(monthInfo==5){
+            info="05";
+        }else if(monthInfo==6){
+            info="06";
+        }else if(monthInfo==7){
+            info="07";
+        }else if(monthInfo==8){
+            info="08";
+        }else if(monthInfo==9){
+            info="09";
+        }else if(monthInfo==10){
+            info="10";
+        }else if(monthInfo==11){
+            info="11";
+        }else if(monthInfo==12){
+            info="12";
+        }
+        date = yearInfo + "-" + info + "-" + dayOfMonth;
+        System.out.println("date:" + date + "      SelectGrade" + grade_id);
+        progressDialog.show();
+        gamePresenter.getMatchInfo(date, grade_id, list_game,progressDialog);
     }
 
 }

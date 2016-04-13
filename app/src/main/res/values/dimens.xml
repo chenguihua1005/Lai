@@ -68,14 +68,6 @@
     <dimen name="inviteStudentButtonWidth">70dip</dimen>
     <dimen name="inviteStudentButtonHeight">50dip</dimen>
 
-    <dimen name="gametMargin">20dip</dimen>
-    <dimen name="gametMarginLeft">10dip</dimen>
-    <dimen name="gametTextSize">15sp</dimen>
-    <dimen name="gametValueTextSize">16sp</dimen>
-    <dimen name="gametValueTextSizes">18sp</dimen>
-    <dimen name="gametButtonWidth">60dip</dimen>
-    <dimen name="gametButtonHeight">40dip</dimen>
-
     <dimen name="spHonorTextSize">16sp</dimen>
     <dimen name="spHonorTextSizes">20sp</dimen>
     <dimen name="spHonorMargin">20dip</dimen>
@@ -107,4 +99,14 @@
     <dimen name="studentHonorTextSizes">14sp</dimen>
     <dimen name="studentHonorHeight">100dip</dimen>
 
+    <dimen name="gameMarginTop">17dip</dimen>
+    <dimen name="gameMarginTop1">14dip</dimen>
+    <dimen name="gameMarginTop2">15dip</dimen>
+    <dimen name="gameMarginLeft">14dip</dimen>
+    <dimen name="gameMarginLeft1">57dip</dimen>
+    <dimen name="gameMarginLeft2">9dip</dimen>
+
+
+    <dimen name="margin">15dip</dimen>
+    <dimen name="textSize1">15sp</dimen>
 </resources>

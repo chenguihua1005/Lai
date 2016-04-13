@@ -1,102 +1,252 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
   ~ Date:2016-03-31
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:fitsSystemWindows="true"
-              android:orientation="vertical"
-              tools:context="com.softtek.lai.module.login.view.ForgetActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey_bg"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context="com.softtek.lai.module.login.view.ForgetActivity">
 
     <include
-            android:id="@+id/toolbar"
-            layout="@layout/toolbar"/>
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
 
     <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="@dimen/margin"
+        android:layout_marginTop="@dimen/gameMarginTop">
+
+        <RelativeLayout
+            android:id="@+id/rel_men_up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/img_men_up_bg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/but_yellow_selected" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true">
+
+                <ImageView
+                    android:id="@+id/img_men_up_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/img_male_selected" />
+
+                <TextView
+                    android:id="@+id/text_men_up"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/gameMarginLeft"
+                    android:gravity="center"
+                    android:text="男子180斤以上"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/textSize1" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rel_men_down"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/gametMargin">
+            android:layout_marginLeft="@dimen/margin"
+            android:layout_toRightOf="@+id/rel_men_up">
 
-        <TextView
-                android:id="@+id/text_month_value"
+            <ImageView
+                android:id="@+id/img_men_down_bg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="@string/selectMonthValue"
-                android:textSize="@dimen/gametTextSize"/>
+                android:src="@drawable/but_white_select" />
 
-        <TextView
-                android:id="@+id/text_month"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/gametMarginLeft"
-                android:layout_toRightOf="@+id/text_month_value"
-                android:textColor="@color/mytoolbar_green"
-                android:textSize="@dimen/gametValueTextSize"/>
+                android:layout_centerInParent="true">
 
-        <Button
-                android:id="@+id/but_select_month"
-                android:layout_width="@dimen/gametButtonWidth"
-                android:layout_height="@dimen/gametButtonHeight"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/bg_login_btn"
-                android:textColor="@color/sc_transparent_background"
-                android:text="选择"
-                android:textSize="@dimen/gametTextSize"/>
+                <ImageView
+                    android:id="@+id/img_men_down_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/img_male_select" />
+
+                <TextView
+                    android:id="@+id/text_men_down"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/gameMarginLeft"
+                    android:gravity="center"
+                    android:text="男子180斤以下"
+                    android:textColor="@color/word2"
+                    android:textSize="@dimen/textSize1" />
+            </LinearLayout>
+        </RelativeLayout>
     </RelativeLayout>
 
     <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="@dimen/margin"
+        android:layout_marginTop="@dimen/gameMarginTop1">
+
+        <RelativeLayout
+            android:id="@+id/rel_women_up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/img_women_up_bg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/but_white_select" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true">
+
+                <ImageView
+                    android:id="@+id/img_women_up_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/img_female_select" />
+
+                <TextView
+                    android:id="@+id/text_women_up"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/gameMarginLeft"
+                    android:gravity="center"
+                    android:text="女子140斤以上"
+                    android:textColor="@color/word2"
+                    android:textSize="@dimen/textSize1" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rel_women_down"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/gametMargin"
-            android:layout_marginRight="@dimen/gametMargin">
+            android:layout_marginLeft="@dimen/margin"
+            android:layout_toRightOf="@+id/rel_women_up">
 
-        <TextView
-                android:id="@+id/text_grade_value"
+            <ImageView
+                android:id="@+id/img_women_down_bg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="@string/selectGradeValue"
-                android:textSize="@dimen/gametTextSize"/>
+                android:src="@drawable/but_white_select" />
 
-        <TextView
-                android:id="@+id/text_grade"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/gametMarginLeft"
-                android:layout_toRightOf="@+id/text_grade_value"
-                android:textColor="@color/mytoolbar_green"
-                android:textSize="@dimen/gametValueTextSize"/>
+                android:layout_centerInParent="true">
 
-        <Button
-                android:id="@+id/but_select_grade"
-                android:layout_width="@dimen/gametButtonWidth"
-                android:layout_height="@dimen/gametButtonHeight"
-                android:layout_alignParentRight="true"
-                android:textColor="@color/sc_transparent_background"
-                android:background="@drawable/bg_login_btn"
-                android:text="选择"
-                android:textSize="@dimen/gametTextSize"/>
+                <ImageView
+                    android:id="@+id/img_women_down_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/img_female_select" />
+
+                <TextView
+                    android:id="@+id/text_women_down"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/gameMarginLeft"
+                    android:gravity="center"
+                    android:text="女子140斤以下"
+                    android:textColor="@color/word2"
+                    android:textSize="@dimen/textSize1" />
+            </LinearLayout>
+        </RelativeLayout>
     </RelativeLayout>
 
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/gametMargin"
-            android:layout_marginTop="@dimen/gametMargin"
-            android:text="@string/gameValue"
-            android:textSize="@dimen/gametValueTextSizes"/>
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="46dip"
+        android:layout_marginTop="@dimen/gameMarginTop2"
+        android:background="@color/white">
 
-    <ListView
+        <LinearLayout
+            android:id="@+id/lin_left"
+            android:layout_width="100dip"
+            android:layout_height="fill_parent"
+            android:layout_centerVertical="true">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/gameMarginLeft1"
+                android:src="@drawable/img_left" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lin_time"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/text_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2015年12月"
+                android:textSize="@dimen/textSize1" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/gameMarginLeft2"
+                android:src="@drawable/img_game" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/rel_right"
+            android:layout_width="100dip"
+            android:layout_height="fill_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/gameMarginLeft1"
+                android:src="@drawable/img_right" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_marginTop="1dip"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/white">
+
+        <ListView
             android:id="@+id/list_game"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:dividerHeight="3dp"
-            android:layout_margin="@dimen/gametMargin"></ListView>
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="15dip"
+            android:layout_marginRight="15dip"
+            />
+    </LinearLayout>
 </LinearLayout>
