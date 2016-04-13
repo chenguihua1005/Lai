@@ -6,6 +6,8 @@
 package com.softtek.lai.module.retest.present;
 
 
+import android.app.ProgressDialog;
+
 import com.softtek.lai.module.retest.model.RetestAuditModel;
 import com.softtek.lai.module.retest.model.RetestWriteModel;
 
@@ -15,7 +17,7 @@ import com.softtek.lai.module.retest.model.RetestWriteModel;
 public interface RetestPre {
     void doGetRetestclass(long id);
 
-    void doGetqueryResult(String str,String accountId);
+    void doGetqueryResult(String str,String accountId,ProgressDialog dialog);
 
     void doGetBanjiStudent(long classId);
 

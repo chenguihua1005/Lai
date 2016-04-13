@@ -29,6 +29,7 @@ import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.File.model.FileModel;
 import com.softtek.lai.module.newmemberentry.view.GetPhotoDialog;
 import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
@@ -149,6 +150,9 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
     MeasureModel measureModel;
     RetestAuditModel retestAuditModel;
     String path="";
+    UserInfoModel userInfoModel=UserInfoModel.getInstance();
+    long loginid=Long.parseLong(userInfoModel.getUser().getUserid());
+    String acountid;
     private static final int PHOTO=1;
     private static final int GET_BODY=2;
     private static final String LAI_CHEN_SWITCH_KEY="laichenSwitch";
@@ -207,6 +211,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         String Photo=intent.getStringExtra("Photo");
         //第几周期
         String Weekth=intent.getStringExtra("Weekth");
+        acountid=accountId;
         Log.i("dijizhouqi"+Weekth);
         //头部基本信息
 //        tv_write_nick.setText(UserName);
@@ -222,7 +227,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
 //        tv_write_endd.setText(currEnd[2]);
        // Picasso.with(this).load(Photo).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_write_head);
         Log.i("chuanzhizhizhizhizhi",accountId+loginId+classId);
-
+        acountid=accountId;
         retestWrite=new RetestWriteModel();
 //        retestWrite.setAccountId(accountId);
         retestPre.doGetAudit(Integer.parseInt(accountId),Integer.parseInt(classId),typedate);
@@ -460,14 +465,14 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onValidationSucceeded() {
-
+        retestWrite.setInitWeight(tv_write_chu_weight.getText()+"");
         retestWrite.setWeight(tv_retestWrite_nowweight.getText()+"");
         retestWrite.setPysical(tv_retestWrite_tizhi.getText()+"");
         retestWrite.setFat(tv_retestWrite_neizhi.getText()+"");
         retestWrite.setClassId("4");
         retestWrite.setImage("");
-        retestWrite.setAccountId("3");
-        retestPre.doPostWrite(3,36,retestWrite);
+        retestWrite.setAccountId(acountid);
+        retestPre.doPostWrite(Long.parseLong(acountid),loginid,retestWrite);
     }
 
     @Override

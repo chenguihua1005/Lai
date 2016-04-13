@@ -61,6 +61,10 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
     //展开班级列表
     @InjectView(R.id.ll_classlist)
     RelativeLayout ll_classlist;
+    @InjectView(R.id.ll_shousuolist)
+    LinearLayout ll_shousuolist;
+    @InjectView(R.id.ll_shousuo)
+    LinearLayout ll_shousuo;
     //选择班级
     @InjectView(R.id.selectclass)
     TextView selectclass;
@@ -87,6 +91,7 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
 
         list_query.setAdapter(studentAdapter);
         ll_classlist.setOnClickListener(this);
+        ll_shousuo.setOnClickListener(this);
         ll_left.setOnClickListener(this);
         tv_right.setOnClickListener(this);
         iv_email.setOnClickListener(this);
@@ -96,6 +101,8 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
                 BanjiModel banjiModel=banjiModelList.get(position);
                 retestPre.doGetBanjiStudent(banjiModel.getClassId());
                 list_class.setVisibility(View.INVISIBLE);
+                ll_shousuo.setVisibility(View.INVISIBLE);
+                ll_shousuolist.setVisibility(View.INVISIBLE);
                 Iv_fold.setImageResource(R.drawable.unfold);
                 selectclass.setText(banjiModel.getClassName());
                 h=false;
@@ -168,11 +175,16 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
 
                         if (h==false) {
                             list_class.setVisibility(View.VISIBLE);
+                            ll_classlist.setVisibility(View.VISIBLE);
+                            ll_shousuo.setVisibility(View.VISIBLE);
+                            ll_shousuolist.setVisibility(View.VISIBLE);
                             Iv_fold.setImageResource(R.drawable.retract);
                             h=true;
                         }
                         else {
                             list_class.setVisibility(View.INVISIBLE);
+                            ll_shousuo.setVisibility(View.INVISIBLE);
+                            ll_shousuolist.setVisibility(View.INVISIBLE);
                             Iv_fold.setImageResource(R.drawable.unfold);
                             h=false;
                         }
@@ -180,6 +192,7 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
 
                     case MotionEvent.ACTION_BUTTON_PRESS:
                         list_class.setVisibility(View.VISIBLE);
+                        ll_shousuo.setVisibility(View.VISIBLE);
                         break;
                     case MotionEvent.ACTION_UP:
 //                        list_class.setVisibility(View.INVISIBLE);
@@ -188,6 +201,27 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
                 return false;
             }
 
+        });
+        ll_shousuo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (h==false)
+                {
+                    list_class.setVisibility(View.VISIBLE);
+                    ll_classlist.setVisibility(View.VISIBLE);
+                    ll_shousuo.setVisibility(View.VISIBLE);
+                    ll_shousuolist.setVisibility(View.VISIBLE);
+                    Iv_fold.setImageResource(R.drawable.retract);
+                    h=true;
+                }
+                else {
+                    list_class.setVisibility(View.INVISIBLE);
+                    ll_shousuo.setVisibility(View.INVISIBLE);
+                    ll_shousuolist.setVisibility(View.INVISIBLE);
+                    Iv_fold.setImageResource(R.drawable.unfold);
+                    h=false;
+                }
+            }
         });
 
     }

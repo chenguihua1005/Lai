@@ -1,5 +1,7 @@
 package com.softtek.lai.module.retest.present;
 
+import android.app.ProgressDialog;
+
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
@@ -83,12 +85,13 @@ public class RetestclassImp implements RetestPre{
     }
 
     @Override
-    public void doGetqueryResult(String str, String accountId) {
+    public void doGetqueryResult(String str, String accountId, final ProgressDialog dialog) {
         String token=SharedPreferenceService.getInstance().get("token","");
         service.doGetqueryResult(token, str, accountId, new Callback<ResponseData<List<StudentModel>>>() {
             @Override
             public void success(ResponseData<List<StudentModel>> listResponseData, Response response) {
                 int status=listResponseData.getStatus();
+                dialog.dismiss();
                 switch (status){
                     case 200:
                         EventBus.getDefault().post(new StudentEvent(listResponseData.getData()));
@@ -101,6 +104,7 @@ public class RetestclassImp implements RetestPre{
 
             @Override
             public void failure(RetrofitError error) {
+                dialog.dismiss();
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }
