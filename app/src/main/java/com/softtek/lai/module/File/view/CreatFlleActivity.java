@@ -351,8 +351,12 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         final AlertDialog.Builder birdialog=new AlertDialog.Builder(this);
         View view=getLayoutInflater().inflate(R.layout.dialog,null);
         final NumberPicker np = (NumberPicker) view.findViewById(R.id.numberPicker1);
+        if(tv_sex.getText().toString()=="男"){
+            np.setValue(170);
+        }else {
+            np.setValue(155);
+        }
         np.setMaxValue(220);
-        np.setValue(155);
         np.setMinValue(50);
         np.setWrapSelectorWheel(false);
         birdialog.setTitle("选择身高(单位：cm)").setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -374,9 +378,14 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         final AlertDialog.Builder birdialog=new AlertDialog.Builder(this);
         View view=getLayoutInflater().inflate(R.layout.dialog,null);
         final NumberPicker np = (NumberPicker) view.findViewById(R.id.numberPicker1);
+        if(tv_sex.getText().toString()=="男"){
+            np.setValue(150);
+        }else {
+            np.setValue(100);
+        }
         np.setMaxValue(220);
-        np.setValue(100);
         np.setMinValue(20);
+        np.setWrapSelectorWheel(false);
         birdialog.setTitle("选择体重(单位：斤)").setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

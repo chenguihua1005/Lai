@@ -4,7 +4,15 @@
     android:layout_height="match_parent"
     android:gravity="center_vertical"
     android:orientation="vertical">
-
+    <TextView
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:textColor="#ffffff"
+        android:layout_gravity="center"
+        android:layout_marginBottom="40dp"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:text="测量臀围"/>
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="300dp"
@@ -20,7 +28,7 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="30dp"
         android:gravity="center"
-        android:text="臀围: 穿单薄衣物, 将软尺贴着皮肤围绕臀部最丰满处一周测量。"
+        android:text="穿单薄衣物, 将软尺贴着皮肤围绕臀部最丰满处一周测量。"
         android:textColor="#ffffff"
         android:textSize="18sp" />
 </LinearLayout>

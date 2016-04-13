@@ -1,5 +1,10 @@
 package com.softtek.lai.module.retest.present;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
+
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
@@ -83,24 +88,33 @@ public class RetestclassImp implements RetestPre{
     }
 
     @Override
-    public void doGetqueryResult(String str, String accountId) {
+    public void doGetqueryResult(String str, String accountId, final ProgressDialog dialog, final Context context) {
         String token=SharedPreferenceService.getInstance().get("token","");
         service.doGetqueryResult(token, str, accountId, new Callback<ResponseData<List<StudentModel>>>() {
             @Override
             public void success(ResponseData<List<StudentModel>> listResponseData, Response response) {
                 int status=listResponseData.getStatus();
+                dialog.dismiss();
                 switch (status){
                     case 200:
                         EventBus.getDefault().post(new StudentEvent(listResponseData.getData()));
                         Log.i("查询成功");
                         break;
                     default:
-                        Util.toastMsg("未查询到结果");
+                        final AlertDialog.Builder information_dialog=new AlertDialog.Builder(context);
+                        information_dialog.setTitle("查询").setMessage(listResponseData.getMsg()).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        }).create().show();
+                        
                 }
             }
 
             @Override
             public void failure(RetrofitError error) {
+                dialog.dismiss();
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }
@@ -177,19 +191,23 @@ public class RetestclassImp implements RetestPre{
 
             @Override
             public void success(ResponseData retestWriteResponseData, Response response) {
-                System.out.println("retestWriteResponseData==null?"+retestWriteResponseData);
-                int status=retestWriteResponseData.getStatus();
-                switch (status)
-                {
-                    case 200:
-                        Util.toastMsg("复测记保存取成功");
-                        break;
-                    case 201:
-                        Util.toastMsg("复测记录保存失败");
-                        break;
-                    case 302:
-                        Util.toastMsg("本周复测记录已存在");
+
+                if(retestWriteResponseData!=null){
+                    int status=retestWriteResponseData.getStatus();
+                    switch (status)
+                    {
+                        case 200:
+
+                            Util.toastMsg("复测记保存取成功");
+                            break;
+                        case 201:
+                            Util.toastMsg("复测记录保存失败");
+                            break;
+                        case 302:
+                            Util.toastMsg("本周复测记录已存在");
+                    }
                 }
+
             }
 
             @Override

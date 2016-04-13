@@ -8,7 +8,15 @@
     android:layout_height="match_parent"
     android:gravity="center_vertical"
     android:orientation="vertical">
-
+    <TextView
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:textColor="#ffffff"
+        android:layout_gravity="center"
+        android:layout_marginBottom="40dp"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:text="测量上臂围"/>
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="300dp"
@@ -24,7 +32,7 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="30dp"
         android:gravity="center"
-        android:text="上臂围: 穿单薄衣物, 上臂自然下垂, 用软尺围绕上臂中点一周测量。"
+        android:text="穿单薄衣物, 上臂自然下垂, 用软尺围绕上臂中点一周测量。"
         android:textColor="#ffffff"
         android:textSize="18sp" />
 </LinearLayout>
