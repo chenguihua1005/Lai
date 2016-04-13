@@ -68,11 +68,16 @@
             android:textSize="14sp" />
     </android.support.v7.widget.Toolbar>
 
+    <com.softtek.lai.widgets.MyScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        android:scrollbars="none">
     <!--主布局-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbar"
+
         android:orientation="vertical">
 
         <RelativeLayout
@@ -110,7 +115,7 @@
                     android:layout_height="80dp"
                     android:layout_marginLeft="18dp"
                     android:layout_marginBottom="15dp"
-                    android:scaleType="centerCrop"
+                    android:scaleType="fitCenter"
                     android:src="@drawable/img_default" />
             </LinearLayout>
         </RelativeLayout>
@@ -122,9 +127,9 @@
         <android.support.v4.view.ViewPager
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="750dp"
             android:id="@+id/tab_content"/>
 
     </LinearLayout>
-
+    </com.softtek.lai.widgets.MyScrollView>
 </RelativeLayout>

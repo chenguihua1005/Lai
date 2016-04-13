@@ -12,12 +12,12 @@ import zilla.libcore.ui.InjectLayout;
 /**
  * Created by jerry.guan on 4/13/2016.
  */
-@InjectLayout(R.layout.fragment_basedate)
+@InjectLayout(R.layout.fragment_basedate_dynamic)
 public class ClassDynamicFragment extends BaseFragment{
 
 
     public static ClassDynamicFragment getInstance(String classId){
-        ClassDynamicFragment fragment=new ClassDynamicFragment();
+            ClassDynamicFragment fragment=new ClassDynamicFragment();
             Bundle bundle=new Bundle();
             bundle.putString("classId",classId);
             fragment.setArguments(bundle);
