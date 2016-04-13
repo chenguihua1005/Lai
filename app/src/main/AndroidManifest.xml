@@ -129,7 +129,7 @@
         <activity android:name=".module.bodygameyk.view.BodygameYkActivity" />
         <activity android:name=".module.review.view.ReviewActivity" />
         <activity android:name=".module.health.view.HealthyRecordActivity" />
-        <activity android:name=".module.newmemberentry.view.presenter.CansaiActivity"></activity>
+        <activity android:name=".module.confirmInfo.view.CansaiActivity"></activity>
     </application>
 
 </manifest>

@@ -70,8 +70,9 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
     @InjectView(R.id.tv_twoban)
     TextView tv_twoban;
 
-    @InjectView(R.id.threeban)
-    TextView threeban;
+    @InjectView(R.id.tv_threeban)
+    TextView tv_threeban;
+
     @InjectView(R.id.total_weight)
     Chart total_weight;
 
@@ -81,13 +82,12 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
 
     private RankModel rank;
     public RankAdapter rankAdapter;
-    String a = "";
-    String b = "";
+    String newban = "";
+    String newmem = "";
     String c = "";
-    String d = "";
-    String e = "";
-    String f = "";
-    String g = "";
+    int oneban;
+    int twoban;
+    int threeban;
     String text;
 
     @Override
@@ -116,17 +116,25 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void initDatas() {
         tv_right.setText("分享");
-        total_weight.setValue(150,200,180);
     }
 
     @Subscribe
     public void onEvent(RankModel rank) {
         System.out.println("rankEvent.getRanks()》》》》》》》》》》》》》》" + rank.getTable());
-        a=rank.getTable().get(0).getTotalClass();
-        b=rank.getTable().get(0).getTotalMember();
+        newban=rank.getTable().get(0).getTotalClass();
+        newmem=rank.getTable().get(0).getTotalMember();
         c=rank.getTable().get(0).getTotalWeight();
-        tv_newban.setText(a);
-        tv_newmem.setText(b);
+        oneban =100;
+        twoban =200;
+        threeban =300;
+
+        tv_newban.setText(newban);
+        tv_newmem.setText(newmem);
+        tv_oneban.setText(oneban+"");
+        tv_twoban.setText(twoban+"");
+        tv_threeban.setText(threeban+"");
+        total_weight.setValue(oneban,twoban,threeban);
+
 
         table1ModelList=rank.getTable1();
         rankAdapter.updateData(table1ModelList);
