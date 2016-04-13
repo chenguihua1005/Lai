@@ -43,8 +43,8 @@ public class ShareUtils {
     }
 
     private void addWXPlatform() {
-        String appId = "wxd282ca7dfe25dd68";
-        String appSecret = "b65fc1262a4c030e44be9e258fa22072";
+        String appId = "wx46b7f1bdb5d0990a";
+        String appSecret = "e9a91be6ee2170767c447c233f8206fc";
 // 添加微信平台
         UMWXHandler wxHandler = new UMWXHandler(context, appId, appSecret);
         wxHandler.addToSocialSDK();
@@ -64,30 +64,26 @@ public class ShareUtils {
      */
     public void setShareContent(String title, String url, int img, String weiXinShareContent, String sinaShareContent) {
         WeiXinShareContent weixinContent = new WeiXinShareContent();
-        weixinContent
-                .setShareContent(weiXinShareContent);
+        weixinContent.setShareContent(weiXinShareContent);
         weixinContent.setTitle(title);
         weixinContent.setTargetUrl(url);
-        weixinContent
-                .setShareMedia(new UMImage(context, img));
+        weixinContent.setShareMedia(new UMImage(context, img));
         controller.setShareMedia(weixinContent);
 
         CircleShareContent circleMedia = new CircleShareContent();
-        circleMedia
-                .setShareContent(weiXinShareContent);
+        circleMedia.setShareContent(weiXinShareContent);
         circleMedia.setTitle(title);
+        circleMedia.setShareMedia(new UMImage(context, img));
         // circleMedia.setShareMedia(uMusic);
         // circleMedia.setShareMedia(video);
         circleMedia.setTargetUrl(url);
         controller.setShareMedia(circleMedia);
 
         SinaShareContent sinaContent = new SinaShareContent();
-        sinaContent
-                .setShareContent(sinaShareContent);
-        sinaContent
-                .setShareMedia(new UMImage(context, img));
+        sinaContent.setTitle(title);
+        sinaContent.setShareContent(sinaShareContent);
+        sinaContent.setShareMedia(new UMImage(context, img));
         controller.setShareMedia(sinaContent);
-
     }
 
 }

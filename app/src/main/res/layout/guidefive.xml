@@ -25,5 +25,5 @@
             android:layout_marginRight="20dp"
             android:textSize="18sp"
             android:gravity="center"
-            android:text="穿单薄衣物，自然站立，在大腿最上部位，臀折线下，用软尺围绕一周测量。"/>
+            android:text="大腿围: 穿单薄衣物, 自然站立, 在大腿最上部位, 臀折线下, 用软尺围绕一周测量。"/>
 </LinearLayout>

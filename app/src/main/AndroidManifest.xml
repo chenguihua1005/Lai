@@ -20,7 +20,6 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <!-- 拨打电话权限 -->
     <uses-permission android:name="android.permission.CALL_PHONE" />
-
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -37,7 +36,6 @@
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
 
-
     <application
         android:name=".LaiApplication"
         android:allowBackup="true"
@@ -47,7 +45,8 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="57071d73e0f55aa22d002712"></meta-data>
+            android:value="57036e6d67e58e5bd200006c"></meta-data>
+
 
         <activity
             android:name=".module.login.view.LoginActivity"
@@ -105,20 +104,20 @@
         <activity android:name=".module.bodygamest.view.UploadPhotoActivity" />
         <activity android:name=".module.File.view.ExplainActivity" />
         <activity android:name=".module.retest.view.BodyweiduActivity" />
-        <activity android:name=".module.bodygamest.view.BodyweidustActivity"/>
+        <activity android:name=".module.bodygamest.view.BodyweidustActivity" />
         <activity
             android:name=".module.login.view.LoginActivity1"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity android:name=".module.studetail.view.LossWeightLogActivity" />
         <activity android:name=".module.studetail.view.LogDetailActivity" />
-        <activity android:name=".module.bodygame.view.TipsActivity"></activity>
+        <activity android:name=".module.bodygame.view.TipsActivity" />
         <activity
             android:name="com.umeng.socialize.view.ShareActivity"
             android:configChanges="orientation|keyboard"
             android:launchMode="singleTask"
             android:noHistory="true"
             android:theme="@style/Theme.UMDialog"
-            android:windowSoftInputMode="stateVisible|adjustResize"></activity>
+            android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -129,7 +128,8 @@
         <activity android:name=".module.bodygamezj.view.BodygameActivity" />
         <activity android:name=".module.bodygamecc.view.BodyGameCcActivity" />
         <activity android:name=".module.bodygameyk.view.BodygameYkActivity" />
-        <activity android:name=".module.review.view.ReviewActivity"></activity>
+        <activity android:name=".module.review.view.ReviewActivity" />
+        <activity android:name=".module.health.view.WeightActivity"></activity>
     </application>
 
 </manifest>
