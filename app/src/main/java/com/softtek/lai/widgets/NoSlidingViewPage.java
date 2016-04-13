@@ -23,7 +23,7 @@ public class NoSlidingViewPage extends ViewPager{
     @Override
     public boolean onTouchEvent(MotionEvent arg0) {
         /* return false;//super.onTouchEvent(arg0); */
-        if (noScroll)
+        if (!noScroll)
             return false;
         else
             return super.onTouchEvent(arg0);
