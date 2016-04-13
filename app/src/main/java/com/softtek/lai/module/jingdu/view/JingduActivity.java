@@ -56,11 +56,21 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
     @InjectView(R.id.list_rank)
     ListView list_rank;
 
-    //@InjectView(R.id.tv_wz)
-    TextView tv_wz;
+    @InjectView(R.id.tv_newban)
+    TextView tv_newban;
 
-    //@InjectView(R.id.tv_wz2)
-    TextView tv_wz2;
+    @InjectView(R.id.tv_newmem)
+    TextView tv_newmem;
+
+    @InjectView(R.id.tv_oneban)
+    TextView tv_oneban;
+
+    @InjectView(R.id.tv_twoban)
+    TextView tv_twoban;
+
+    @InjectView(R.id.threeban)
+    TextView threeban;
+
 
     private List<Table1Model> table1ModelList = new ArrayList<Table1Model>();
     private IGetProinfopresenter iGetProinfopresenter;
@@ -84,7 +94,6 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
         list_rank.setAdapter(rankAdapter);
         ll_left.setOnClickListener(this);
         tv_right.setOnClickListener(this);
-//        tv_wz.setText(text);
     }
 
     @Override
@@ -111,7 +120,8 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
         a=rank.getTable().get(0).getTotalClass();
         b=rank.getTable().get(0).getTotalMember();
         c=rank.getTable().get(0).getTotalWeight();
-        tv_wz.setText( "本月新开班级"+a+"个,新增学员"+b+"名,累计减重"+c+"斤,其中1月班累计减重"+d+"斤,2月班本月累计减重"+e+"xx"+"斤,3月班本月累计减重"+f+"xx"+"斤, 相当于"+g+"xx"+"头大象.");
+        tv_newban.setText(a);
+        tv_newmem.setText(b);
 
         table1ModelList=rank.getTable1();
         rankAdapter.updateData(table1ModelList);
