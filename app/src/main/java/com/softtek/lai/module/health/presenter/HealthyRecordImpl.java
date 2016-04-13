@@ -10,6 +10,7 @@ import java.util.List;
 
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
+import zilla.libcore.util.Util;
 
 /**
  * Created by jerry.guan on 4/12/2016.
@@ -29,7 +30,12 @@ public class HealthyRecordImpl {
         serveice.doGetHealth(token, new RequestCallback<ResponseData<List<HealthyRecordModel>>>() {
             @Override
             public void success(ResponseData<List<HealthyRecordModel>> listResponseData, Response response) {
-
+                int status = listResponseData.getStatus();
+                switch (status) {
+                    case 200:
+                        Util.toastMsg("获取健康记录数据成功");
+                        break;
+                }
             }
         });
 
@@ -37,7 +43,6 @@ public class HealthyRecordImpl {
 
 
     public interface HealthyRecordCallback{
-
 
     }
 }
