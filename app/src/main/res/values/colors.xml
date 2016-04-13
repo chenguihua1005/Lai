@@ -14,6 +14,9 @@
     <color name="grey1">#F8F8F8</color>
     <color name="word">#333333</color>
     <color name="words">#BFBFBF</color>
+    <color name="word2">#C2C2C2</color>
+    <color name="word3">#6f6f6f</color>
     <color name="textCursor">#ff346df5</color>
+    <color name="grey_bg">#f6f6f6</color>
 
 </resources>

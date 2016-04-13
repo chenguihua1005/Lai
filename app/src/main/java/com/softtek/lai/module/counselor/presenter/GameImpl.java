@@ -5,13 +5,17 @@
 
 package com.softtek.lai.module.counselor.presenter;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
 import android.widget.ListView;
+
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.counselor.adapter.GameAdapter;
 import com.softtek.lai.module.counselor.model.MarchInfoModel;
 import com.softtek.lai.module.counselor.net.CounselorService;
+
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -36,20 +40,25 @@ public class GameImpl implements IGamePresenter {
 
 
     @Override
-    public void getMatchInfo(String dtime, String group, final ListView list_game) {
+    public void getMatchInfo(String dtime, String group, final ListView list_game, final ProgressDialog progressDialog) {
         String token = SharedPreferenceService.getInstance().get("token", "");
         counselorService.getMatchInfo(token, dtime, group, new Callback<ResponseData<List<MarchInfoModel>>>() {
             @Override
             public void success(ResponseData<List<MarchInfoModel>> listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());
+                if (progressDialog != null) {
+                    progressDialog.dismiss();
+                }
                 int status = listResponseData.getStatus();
                 List<MarchInfoModel> list = listResponseData.getData();
                 switch (status) {
                     case 200:
+                        list_game.setVisibility(View.VISIBLE);
                         GameAdapter adapter = new GameAdapter(context, list);
                         list_game.setAdapter(adapter);
                         break;
                     default:
+                        list_game.setVisibility(View.GONE);
                         Util.toastMsg(listResponseData.getMsg());
                         break;
                 }
@@ -57,6 +66,9 @@ public class GameImpl implements IGamePresenter {
 
             @Override
             public void failure(RetrofitError error) {
+                if (progressDialog != null) {
+                    progressDialog.dismiss();
+                }
                 Util.toastMsg("获取龙虎榜列表失败");
             }
         });

@@ -5,6 +5,7 @@
 
 package com.softtek.lai.module.counselor.presenter;
 
+import android.app.ProgressDialog;
 import android.widget.ListView;
 
 /**
@@ -13,6 +14,6 @@ import android.widget.ListView;
 public interface IGamePresenter {
 
     //大赛赛况
-    void getMatchInfo(String dtime, String group, ListView list_game);
+    void getMatchInfo(String dtime, String group, ListView list_game,ProgressDialog progressDialog);
 
 }

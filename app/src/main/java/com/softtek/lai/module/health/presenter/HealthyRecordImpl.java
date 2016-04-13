@@ -3,7 +3,7 @@ package com.softtek.lai.module.health.presenter;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.health.model.HealthyRecordModel;
-import com.softtek.lai.module.health.net.HealthServeice;
+import com.softtek.lai.module.health.net.HealthyService;
 import com.softtek.lai.utils.RequestCallback;
 
 import java.util.List;
@@ -16,12 +16,12 @@ import zilla.libcore.api.ZillaApi;
  */
 public class HealthyRecordImpl {
 
-    private HealthServeice serveice;
+    private HealthyService serveice;
     private HealthyRecordCallback cb;
 
     public HealthyRecordImpl(HealthyRecordCallback cb) {
         this.cb=cb;
-        serveice= ZillaApi.NormalRestAdapter.create(HealthServeice.class);
+        serveice= ZillaApi.NormalRestAdapter.create(HealthyService.class);
     }
 
     public void getCurveData(){

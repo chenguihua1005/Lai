@@ -10,6 +10,7 @@ import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.studentbasedate.model.StudentBaseInfoModel;
 import com.softtek.lai.module.studentbasedate.net.StudentBaseDateService;
 import com.softtek.lai.module.studetail.model.StudentLinChartInfoModel;
+import com.softtek.lai.utils.RequestCallback;
 
 import java.util.List;
 
@@ -23,57 +24,53 @@ import zilla.libcore.api.ZillaApi;
  */
 public class StudentBaseDateImpl implements IStudentBaseDate{
 
-    private Context contex;
     private StudentBaseDateService service;
     private String token;
+    private StudentBaseDataCallback cb;
     public StudentBaseDateImpl(Context contex) {
-        this.contex = contex;
+        cb= (StudentBaseDataCallback) contex;
         service= ZillaApi.NormalRestAdapter.create(StudentBaseDateService.class);
         token=UserInfoModel.getInstance().getToken();
     }
 
     @Override
     public void getClassMemberInfoPC() {
-        service.getClassMemberInfoPC(token, new Callback<ResponseData<StudentBaseInfoModel>>() {
+        service.getClassMemberInfoPC(token, new RequestCallback<ResponseData<StudentBaseInfoModel>>() {
             @Override
             public void success(ResponseData<StudentBaseInfoModel> studentBaseInfoModelResponseData, Response response) {
                 Log.i("学员信息："+studentBaseInfoModelResponseData.toString());
+                if(studentBaseInfoModelResponseData.getStatus()==200){
+                    if(cb!=null)cb.getClassMemberInfo(studentBaseInfoModelResponseData.getData());
+                }else{
+                    if(cb!=null)cb.getClassMemberInfo(null);
+                }
             }
 
-            @Override
-            public void failure(RetrofitError error) {
-                ZillaApi.dealNetError(error);
-            }
         });
     }
 
     @Override
     public void getClassMemberInfoCurvePC() {
-        service.getClassMemberInfoCurvePC(token, new Callback<ResponseData<List<StudentLinChartInfoModel>>>() {
+        service.getClassMemberInfoCurvePC(token, new RequestCallback<ResponseData<List<StudentLinChartInfoModel>>>() {
             @Override
             public void success(ResponseData<List<StudentLinChartInfoModel>> listResponseData, Response response) {
                 Log.i("学员曲线图："+listResponseData.toString());
             }
 
-            @Override
-            public void failure(RetrofitError error) {
-                ZillaApi.dealNetError(error);
-            }
         });
     }
 
     @Override
     public void getClassDynamic(long classId) {
-        service.getClassDynamic(token,classId, new Callback<ResponseData<List<DynamicInfoModel>>>() {
+        service.getClassDynamic(token,classId, new RequestCallback<ResponseData<List<DynamicInfoModel>>>() {
             @Override
             public void success(ResponseData<List<DynamicInfoModel>> listResponseData, Response response) {
                 Log.i("班级动态："+listResponseData.toString());
             }
-
-            @Override
-            public void failure(RetrofitError error) {
-                ZillaApi.dealNetError(error);
-            }
         });
+    }
+
+    public interface StudentBaseDataCallback{
+        void getClassMemberInfo(StudentBaseInfoModel studentBaseInfoModel);
     }
 }
