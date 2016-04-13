@@ -3,7 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".module.health.view.HealthyRecordActivity">
+    <include layout="@layout/toolbar"
+        android:id="@+id/toolbar"/>
 
-    tools:context=".module.health.view.WeightActivity">
+    <android.support.design.widget.TabLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tab"
+        android:layout_below="@id/toolbar"/>
+
+    <com.softtek.lai.widgets.NoSlidingViewPage
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/tab_content"
+        android:layout_below="@id/tab"/>
 
 </RelativeLayout>

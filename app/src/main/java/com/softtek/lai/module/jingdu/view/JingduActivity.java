@@ -56,10 +56,10 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
     @InjectView(R.id.list_rank)
     ListView list_rank;
 
-    @InjectView(R.id.tv_wz)
+    //@InjectView(R.id.tv_wz)
     TextView tv_wz;
 
-    @InjectView(R.id.tv_wz2)
+    //@InjectView(R.id.tv_wz2)
     TextView tv_wz2;
 
     private List<Table1Model> table1ModelList = new ArrayList<Table1Model>();

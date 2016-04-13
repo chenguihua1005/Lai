@@ -16,7 +16,6 @@ import com.softtek.lai.module.review.adapter.ReviewAdapter;
 import com.softtek.lai.module.review.presenter.ReviewPresenterManager;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -40,7 +39,7 @@ public class ReviewActivity extends BaseActivity implements View.OnClickListener
     @InjectView(R.id.img_mo_message)
     ImageView img_mo_message;
 
-    private ReviewPresenterManager reviewPresenter=null;
+    private ReviewPresenterManager reviewPresenter;
     private ReviewAdapter adapter;
     private List<ClassInfoModel> classInfoModels=new ArrayList<>();
 
@@ -66,7 +65,7 @@ public class ReviewActivity extends BaseActivity implements View.OnClickListener
     protected void initDatas() {
         reviewPresenter = new ReviewPresenterManager(this);
         //3表示已结束
-        reviewPresenter.getClassList("3",expand_list, img_mo_message);
+        reviewPresenter.getClassList("3", expand_list, img_mo_message);
         adapter=new ReviewAdapter(this,classInfoModels);
     }
 
