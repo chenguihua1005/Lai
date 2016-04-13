@@ -15,6 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import butterknife.InjectView;
+
+import com.ggx.jerryguan.widget_lib.Chart;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.jingdu.Adapter.RankAdapter;
@@ -70,6 +72,8 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
 
     @InjectView(R.id.threeban)
     TextView threeban;
+    @InjectView(R.id.total_weight)
+    Chart total_weight;
 
 
     private List<Table1Model> table1ModelList = new ArrayList<Table1Model>();
@@ -112,6 +116,7 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void initDatas() {
         tv_right.setText("分享");
+        total_weight.setValue(150,200,180);
     }
 
     @Subscribe

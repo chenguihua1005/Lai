@@ -117,7 +117,15 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:layout_height="180dp">
+                <com.ggx.jerryguan.widget_lib.Chart
+                    android:layout_width="170dp"
+                    android:layout_height="170dp"
+                    android:id="@+id/total_weight"
+                    >
+
+                </com.ggx.jerryguan.widget_lib.Chart>
 
             </LinearLayout>
             <LinearLayout
