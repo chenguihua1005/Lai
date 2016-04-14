@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -261,8 +262,8 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
         super.onActivityResult(requestCode, resultCode, data);
         //身体围度值传递
         if (requestCode==GET_BODY&&resultCode==RESULT_OK){
-//            studentAdapter.notifyDataSetChanged();
-            retestPre.doGetBanjiStudent(ClassId);
+            studentAdapter.notifyDataSetChanged();
+//            retestPre.doGetBanjiStudent(ClassId);
 
         }
     }

@@ -18,6 +18,6 @@ public interface HealthyService {
         @GET("/HealthRecords/GetHealthRecords")
         void doGetHealth(
                 @Header("token") String token,
-                RequestCallback<ResponseData<List<HealthDateModel>>> callback);
+                RequestCallback<ResponseData<HealthDateModel>> callback);
 
 }
