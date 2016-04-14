@@ -7,6 +7,8 @@ import com.softtek.lai.module.health.model.HealthyRecordModel;
 import com.softtek.lai.module.health.net.HealthyService;
 import com.softtek.lai.utils.RequestCallback;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.List;
 
 import retrofit.client.Response;
@@ -28,9 +30,9 @@ public class HealthyRecordImpl implements IHealthyRecord  {
 
     public void getCurveData(){
         String token= UserInfoModel.getInstance().getToken();
-        serveice.doGetHealth(token, new RequestCallback<ResponseData<List<HealthDateModel>>>() {
+        serveice.doGetHealth(token, new RequestCallback<ResponseData<HealthDateModel>>() {
             @Override
-            public void success(ResponseData<List<HealthDateModel>> listResponseData, Response response) {
+            public void success(ResponseData<HealthDateModel> listResponseData, Response response) {
                 int status = listResponseData.getStatus();
                 switch (status) {
                     case 200:
@@ -45,13 +47,13 @@ public class HealthyRecordImpl implements IHealthyRecord  {
     @Override
     public void doGetHealth() {
         String token= UserInfoModel.getInstance().getToken();
-        serveice.doGetHealth(token, new RequestCallback<ResponseData<List<HealthDateModel>>>() {
+        serveice.doGetHealth(token, new RequestCallback<ResponseData<HealthDateModel>>() {
             @Override
-            public void success(ResponseData<List<HealthDateModel>> listResponseData, Response response) {
+            public void success(ResponseData<HealthDateModel> listResponseData, Response response) {
                 int status = listResponseData.getStatus();
                 switch (status) {
                     case 200:
-
+                        EventBus.getDefault().post(listResponseData.getData());
                         listResponseData.getData();
                         Util.toastMsg("获取健康记录数据成功");
                         break;

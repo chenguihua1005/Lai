@@ -63,12 +63,12 @@
                 android:layout_toRightOf="@+id/tv_personum"
                 android:textSize="18sp"
                 android:textColor="#333"/>
-        <RadioButton
+        <CheckBox
                 android:id="@+id/rbtn_retest"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:background="@drawable/radiocir"
+                android:background="@drawable/radioselect"
                 android:focusable="false"
                 android:button="@null"
         />
