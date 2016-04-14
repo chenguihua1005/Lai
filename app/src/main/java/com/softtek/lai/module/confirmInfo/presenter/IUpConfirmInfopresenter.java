@@ -7,5 +7,5 @@ import com.softtek.lai.module.confirmInfo.model.ConinfoModel;
  */
 public interface IUpConfirmInfopresenter {
     //2.16.3修改参赛数据
-    void changeUpConfirmInfo(ConinfoModel coninfoModel);
+    void changeUpConfirmInfo(String token,ConinfoModel coninfoModel);
 }

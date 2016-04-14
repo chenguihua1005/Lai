@@ -8,7 +8,7 @@ android:background="#FFFFFF">
 <!--tv_order-->
 <TextView
     android:id="@+id/tv_rank"
-    android:layout_width="30dp"
+    android:layout_width="60dp"
     android:layout_height="match_parent"
     android:gravity="center"
     android:textColor="#ffc200"

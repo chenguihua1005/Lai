@@ -28,10 +28,11 @@ public class UpConfirmInfoImpl implements IUpConfirmInfopresenter{
         context=cansaiActivity;
     }
 
+
     @Override
-    public void changeUpConfirmInfo(ConinfoModel coninfoModel) {
+    public void changeUpConfirmInfo(String token, ConinfoModel coninfoModel) {
         Log.i("ConfirmInfoService>>>>>>>>>>>>>>" + confirmInfoService);
-        String token = SharedPreferenceService.getInstance().get("token", "");
+      //  String token = SharedPreferenceService.getInstance().get("token", "");
         confirmInfoService.changeUpConfirmInfo(token, coninfoModel, new Callback<ResponseData<ConinfoModel>>() {
             @Override
             public void success(ResponseData<ConinfoModel> coninfoModelResponseData, Response response) {
@@ -50,8 +51,8 @@ public class UpConfirmInfoImpl implements IUpConfirmInfopresenter{
 
             @Override
             public void failure(RetrofitError error) {
+                ZillaApi.dealNetError(error);
                 error.printStackTrace();
-                Util.toastMsg("服务器异常");
             }
         });
     }

@@ -8,7 +8,18 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.LineData;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.module.health.model.HealthDateModel;
+import com.softtek.lai.module.health.model.MonthDateModel;
+import com.softtek.lai.module.health.model.WeekDateModel;
+import com.softtek.lai.module.retest.eventModel.BanJiEvent;
+import com.softtek.lai.module.retest.model.BanjiModel;
 import com.softtek.lai.module.studetail.util.LineChartUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -33,10 +44,16 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
     @InjectView(R.id.year)
     RadioButton year;
 
+
     private LineChartUtil chartUtil;
+    List<Float> dates=new ArrayList<Float>();
+//    private List<MonthDateModel> banjiModelList=new ArrayList<>();
+
+
 
     @Override
     protected void initViews() {
+//        EventBus.getDefault().register(this);
         //初始化统计图
         //取消统计图整体背景色
         chart.setDrawGridBackground(false);
@@ -60,10 +77,30 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
         radio_group.setOnCheckedChangeListener(this);
     }
 
+//    @Override
+//    public void onDestroy() {
+//        EventBus.getDefault().unregister(this);
+//        super.onDestroy();
+//    }
+
     @Override
     protected void initDatas() {
+        chartUtil=new LineChartUtil(getContext(),chart);
+        dates.add(15f);
+        dates.add(18f);
+        dates.add(6.3f);
+        chartUtil.addDataSet(dates);
+        dates.clear();
 
     }
+    @Subscribe
+    public void onEvent(HealthDateModel healthDateModel){
+//        banjiModelList=banji.getBanjiModels();
+//        classAdapter.updateData(banjiModelList);
+
+    }
+
+
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {

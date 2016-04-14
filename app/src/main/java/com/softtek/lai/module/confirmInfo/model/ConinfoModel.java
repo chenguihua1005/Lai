@@ -37,7 +37,9 @@ public class ConinfoModel {
         this.upleggirth = upleggirth;
         this.doleggirth = doleggirth;
     }
+    public ConinfoModel() {
 
+    }
     public long getAccountid() {
         return accountid;
     }
