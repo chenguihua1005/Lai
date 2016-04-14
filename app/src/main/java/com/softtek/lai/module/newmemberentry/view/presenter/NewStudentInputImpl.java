@@ -50,6 +50,7 @@ public class NewStudentInputImpl implements INewStudentpresenter {
             @Override
             public void success(ResponseData<NewstudentsModel> listResponseData, Response response) {
                 int status = listResponseData.getStatus();
+                Log.i("listResponseData:"+listResponseData);
                 switch (status) {
                     case 200:
                         Intent intent = new Intent(context, CounselorActivity.class);

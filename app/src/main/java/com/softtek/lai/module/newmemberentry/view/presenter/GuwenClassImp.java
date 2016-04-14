@@ -37,6 +37,7 @@ public class GuwenClassImp implements GuwenClassPre {
             @Override
             public void success(ResponseData<List<PargradeModel>> listResponseData, retrofit.client.Response response) {
                 int status = listResponseData.getStatus();
+                Log.i("listResponseData:"+listResponseData);
                 switch (status) {
                     case 200:
                         EventBus.getDefault().post(new ClassEvent(listResponseData.getData()));
