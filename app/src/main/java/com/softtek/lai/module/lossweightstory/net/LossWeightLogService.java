@@ -1,6 +1,7 @@
 package com.softtek.lai.module.lossweightstory.net;
 
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.module.lossweightstory.model.LossWeightStoryModel;
 import com.softtek.lai.module.lossweightstory.model.Zan;
 import com.softtek.lai.module.studetail.model.LossWeightLogModel;
 
@@ -24,7 +25,7 @@ public interface LossWeightLogService {
     @GET("/CompetitionLog/GetCompetitionLogList")
     void getCompetitionLogList(@Header(TOKEN)String token,
                                @Query("accountId")long accountId,
-                               Callback<ResponseData<List<LossWeightLogModel>>> callback);
+                               Callback<ResponseData<List<LossWeightStoryModel>>> callback);
 
     //点赞
     @POST("/CompetitionLog/ClickLike")

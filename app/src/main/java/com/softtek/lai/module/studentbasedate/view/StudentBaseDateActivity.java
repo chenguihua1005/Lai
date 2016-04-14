@@ -15,6 +15,7 @@ import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.module.grade.model.DynamicInfoModel;
 import com.softtek.lai.module.studentbasedate.adapter.BaseDataFragmentAdapter;
 import com.softtek.lai.module.studentbasedate.model.StudentBaseInfoModel;
 import com.softtek.lai.module.studentbasedate.presenter.IStudentBaseDate;
@@ -60,9 +61,10 @@ public class StudentBaseDateActivity extends BaseActivity implements BaseFragmen
 
     @Override
     protected void initDatas() {
+        long classId=getIntent().getLongExtra("classId",0);
         studentBaseDate=new StudentBaseDateImpl(this);
         BaseDateFragment baseDateFragment=BaseDateFragment.getInstance(null);
-        ClassDynamicFragment classDynamicFragment=ClassDynamicFragment.getInstance(1+"");
+        ClassDynamicFragment classDynamicFragment=ClassDynamicFragment.getInstance(classId);
         fragments.add(baseDateFragment);
         fragments.add(classDynamicFragment);
         tab_content.setAdapter(new BaseDataFragmentAdapter(getSupportFragmentManager(),fragments));

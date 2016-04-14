@@ -18,7 +18,7 @@ import com.softtek.lai.module.home.view.SaleInfoFragment;
 public class FragementAdapter extends FragmentPagerAdapter {
 
     private String[] titles = {"活动推荐", "产品信息", "促销信息"};
-    private Fragment[] frament = {new ActivityRecordFragment(), new ProductInfoFragment(), new SaleInfoFragment()};
+    private Fragment[] frament = {new ActivityRecordFragment()/*, new ProductInfoFragment(), new SaleInfoFragment()*/};
 
     public FragementAdapter(FragmentManager fm) {
         super(fm);
@@ -32,7 +32,7 @@ public class FragementAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 3;
+        return frament.length;
     }
 
     @Override

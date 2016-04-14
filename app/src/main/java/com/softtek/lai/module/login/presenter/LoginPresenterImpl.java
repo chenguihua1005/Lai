@@ -117,8 +117,7 @@ public class LoginPresenterImpl implements ILoginPresenter {
             @Override
             public void failure(RetrofitError error) {
                 if (dialog != null) dialog.dismiss();
-                error.printStackTrace();
-                Util.toastMsg(R.string.neterror);
+                ZillaApi.dealNetError(error);
             }
         });
     }

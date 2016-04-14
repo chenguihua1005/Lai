@@ -72,5 +72,6 @@ public class StudentBaseDateImpl implements IStudentBaseDate{
 
     public interface StudentBaseDataCallback{
         void getClassMemberInfo(StudentBaseInfoModel studentBaseInfoModel);
+
     }
 }

@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
-  ~ Date:2016-03-16
-  -->
-
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:state_pressed="true">
         <shape>
-            <solid android:color="#B2ECECEC"/>
+            <solid android:color="#B274BB2A"/>
             <corners android:radius="4dp"/>
         </shape>
     </item>
-
+    <item android:state_enabled="false">
+        <shape>
+            <solid android:color="#CECECE"/>
+            <corners android:radius="4dp"/>
+        </shape>
+    </item>
     <item>
         <shape>
             <corners android:radius="4dp"/>
-            <solid android:color="#ECECEC"/>
+            <solid android:color="#74BB2A"/>
         </shape>
     </item>
 </selector>
