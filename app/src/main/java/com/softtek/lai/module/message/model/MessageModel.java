@@ -6,6 +6,7 @@
 package com.softtek.lai.module.message.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,40 +14,40 @@ import java.util.List;
  */
 public class MessageModel implements Serializable {
 
-    private List<MeasureRemindInfo> MeasureRemind;
-    private List<MessageDetailInfo> SPInviteSR;
-    private List<MessageDetailInfo> SRandPCApply;
-    private List<MessageDetailInfo> PCJoin;
+    private ArrayList<MeasureRemindInfo> MeasureRemind;
+    private ArrayList<MessageDetailInfo> SPInviteSR;
+    private ArrayList<MessageDetailInfo> SRandPCApply;
+    private ArrayList<MessageDetailInfo> PCJoin;
 
-    public List<MeasureRemindInfo> getMeasureRemind() {
+    public ArrayList<MeasureRemindInfo> getMeasureRemind() {
         return MeasureRemind;
     }
 
-    public void setMeasureRemind(List<MeasureRemindInfo> measureRemind) {
+    public void setMeasureRemind(ArrayList<MeasureRemindInfo> measureRemind) {
         MeasureRemind = measureRemind;
     }
 
-    public List<MessageDetailInfo> getSPInviteSR() {
+    public ArrayList<MessageDetailInfo> getSPInviteSR() {
         return SPInviteSR;
     }
 
-    public void setSPInviteSR(List<MessageDetailInfo> SPInviteSR) {
+    public void setSPInviteSR(ArrayList<MessageDetailInfo> SPInviteSR) {
         this.SPInviteSR = SPInviteSR;
     }
 
-    public List<MessageDetailInfo> getSRandPCApply() {
+    public ArrayList<MessageDetailInfo> getSRandPCApply() {
         return SRandPCApply;
     }
 
-    public void setSRandPCApply(List<MessageDetailInfo> SRandPCApply) {
+    public void setSRandPCApply(ArrayList<MessageDetailInfo> SRandPCApply) {
         this.SRandPCApply = SRandPCApply;
     }
 
-    public List<MessageDetailInfo> getPCJoin() {
+    public ArrayList<MessageDetailInfo> getPCJoin() {
         return PCJoin;
     }
 
-    public void setPCJoin(List<MessageDetailInfo> PCJoin) {
+    public void setPCJoin(ArrayList<MessageDetailInfo> PCJoin) {
         this.PCJoin = PCJoin;
     }
 

@@ -16,7 +16,12 @@
     <color name="words">#BFBFBF</color>
     <color name="word2">#C2C2C2</color>
     <color name="word3">#6f6f6f</color>
+    <color name="word4">#B2B2B2</color>
+    <color name="word5">#999999</color>
+    <color name="word6">#666666</color>
     <color name="textCursor">#ff346df5</color>
     <color name="grey_bg">#f6f6f6</color>
+    <color name="grey2">#e6e6e6</color>
+    <color name="grey3">#CCCCCC</color>
 
 </resources>

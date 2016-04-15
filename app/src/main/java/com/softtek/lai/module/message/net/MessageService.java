@@ -36,4 +36,12 @@ public interface MessageService {
     void getMsgList(@Header("token") String token,
                     Callback<ResponseData<MessageModel>> callback);
 
+    @FormUrlEncoded
+    @POST("/HerbrClass/AcceptInviterToClass")
+    void acceptInviterToClass(@Header("token") String token,
+                              @Field("Inviters") String inviters,
+                              @Field("ClassId") String classId,
+                              @Field("acceptType") String acceptType,       //拒绝:0,接受:1
+                              Callback<ResponseData> callback);
+
 }

@@ -90,6 +90,8 @@ public class StudentScoreAdapter extends BaseAdapter {
 //        }
         if ((position + 1) < 4) {
             holder.text_rnum.setTextColor(Color.parseColor("#FDB02B"));
+        }else {
+            holder.text_rnum.setTextColor(context.getResources().getColor(R.color.word3));
         }
 
         holder.text_rnum.setText(marchInfo.getRowNumber().toString());

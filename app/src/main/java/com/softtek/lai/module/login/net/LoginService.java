@@ -9,11 +9,13 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.login.model.IdentifyModel;
 import com.softtek.lai.module.login.model.RoleInfo;
 import com.softtek.lai.module.login.model.UserModel;
+
 import retrofit.Callback;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.Header;
 import retrofit.http.POST;
+import retrofit.http.Query;
 
 /**
  * Created by jerry.guan on 3/3/2016.
@@ -56,6 +58,14 @@ public interface LoginService {
     void checkIdentify(@Field("phone") String phone,
                        @Field("identify") String identify,
                        Callback<ResponseData> callback);
+
+    @FormUrlEncoded
+    @POST("/MineInfo/ChangePsd")
+    void changePsd(
+            @Header("token") String token,
+            @Field("newpsd") String newpsd,
+            @Field("psd") String psd,
+            Callback<ResponseData> callback);
 
     @FormUrlEncoded
     @POST("/HerbUser/ValidateCertification")

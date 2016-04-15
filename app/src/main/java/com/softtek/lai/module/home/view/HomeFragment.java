@@ -37,6 +37,7 @@ import com.softtek.lai.module.home.presenter.HomeInfoImpl;
 import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.login.view.RegistActivity;
+import com.softtek.lai.module.message.view.MessageActivity;
 import com.softtek.lai.module.lossweightstory.view.LossWeightStoryActivity;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.utils.ACache;
@@ -59,7 +60,7 @@ import zilla.libcore.util.Util;
  *
  */
 @InjectLayout(R.layout.fragment_home)
-public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetChangedListener, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
+public class HomeFragment extends BaseFragment implements View.OnClickListener,AppBarLayout.OnOffsetChangedListener, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
 
     @InjectView(R.id.toolbar)
     Toolbar toolbar;
@@ -104,6 +105,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     protected void initViews() {
         tv_left.setVisibility(View.INVISIBLE);
         iv_email.setVisibility(View.VISIBLE);
+        iv_email.setOnClickListener(this);
         page.setAdapter(new FragementAdapter(getFragmentManager()));
         //设置tabLayout和viewpage关联
         tab.setupWithViewPager(page);
@@ -319,4 +321,13 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         }
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.iv_email:
+                startActivity(new Intent(getContext(), MessageActivity.class));
+                break;
+
+        }
+    }
 }

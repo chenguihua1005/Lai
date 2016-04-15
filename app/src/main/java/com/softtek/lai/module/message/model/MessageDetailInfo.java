@@ -16,6 +16,7 @@ public class MessageDetailInfo implements Serializable {
     private String SenderId;
     private String Comments;
     private String ClassId;
+    private String SendTime;
 
     public String getInviterId() {
         return InviterId;
@@ -56,6 +57,16 @@ public class MessageDetailInfo implements Serializable {
                 ", SenderId='" + SenderId + '\'' +
                 ", Comments='" + Comments + '\'' +
                 ", ClassId='" + ClassId + '\'' +
+                ", SendTime='" + SendTime + '\'' +
                 '}';
     }
+
+    public String getSendTime() {
+        return SendTime;
+    }
+
+    public void setSendTime(String sendTime) {
+        SendTime = sendTime;
+    }
+
 }

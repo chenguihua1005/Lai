@@ -7,16 +7,20 @@ package com.softtek.lai.module.login.presenter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
+
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.login.net.LoginService;
 import com.softtek.lai.module.login.view.ForgetActivity2;
 import com.softtek.lai.module.login.view.LoginActivity;
+
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
+import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.util.Util;
 
 /**
@@ -41,6 +45,34 @@ public class PasswordPresnter implements IPasswordPresenter {
                 Util.toastMsg(R.string.psdResetY);
 
                 context.startActivity(new Intent(context, LoginActivity.class));
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.i("重置失败");
+                Util.toastMsg(R.string.psdResetN);
+            }
+        });
+
+    }
+
+    @Override
+    public void changePsd(String newpsd, String psd) {
+        String token = SharedPreferenceService.getInstance().get("token", "");
+        service.changePsd(token, newpsd, psd, new Callback<ResponseData>() {
+            @Override
+            public void success(ResponseData responseData, Response response) {
+                Log.e("jarvis", responseData.toString());
+                int status = responseData.getStatus();
+                switch (status) {
+                    case 200:
+                        Util.toastMsg(R.string.psdResetY);
+                        ((AppCompatActivity) context).finish();
+                        break;
+                    default:
+                        Util.toastMsg(responseData.getMsg());
+                        break;
+                }
             }
 
             @Override

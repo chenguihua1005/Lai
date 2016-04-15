@@ -44,6 +44,7 @@
 
     <string name="neterror">服务器异常</string>
     <string name="newPasswordNull">请输入新密码</string>
+    <string name="oldPasswordNull">请输入原密码</string>
     <string name="resetpasswordNull">请输入确认密码</string>
     <string name="phoneValidateNull">请输入手机号码</string>
     <string name="phoneValidateNullLogin">请输入手机号码/资格证号</string>
@@ -115,6 +116,7 @@
     <string name="CounselorG">大赛赛况</string>
     <string name="CounselorH">TIPS</string>
     <string name="CounselorI">助教管理</string>
+    <string name="CounselorJ">消息中心</string>
     <string name="CounselorBarL">体管赛（顾问版）</string>
     <string name="AuditBarT">复测审核</string>
     <string name="AuditBarR">确认</string>
@@ -136,4 +138,12 @@
     <string name="joinGame">参赛邀请</string>
     <string name="share">分享</string>
     <string name="review">往期回顾</string>
+    <string name="message1">体管赛小助手</string>
+    <string name="message2">助教申请</string>
+    <string name="message3">参赛邀请</string>
+    <string name="fcRemind">复测提醒</string>
+    <string name="joinGameP">本人已仔细阅读《康宝莱使用知情书》</string>
+    <string name="joinGameQ">请仔细阅读《康宝莱使用知情书》</string>
+    <string name="old_password">原密码</string>
+    <string name="version_name">版本信息</string>
 </resources>

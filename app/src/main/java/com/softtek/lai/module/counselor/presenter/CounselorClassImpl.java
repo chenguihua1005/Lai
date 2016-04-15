@@ -43,9 +43,9 @@ public class CounselorClassImpl implements ICounselorClassPresenter {
 
 
     @Override
-    public void getClassList(final ListView expand_lis, final LinearLayout lin_create_class, final ImageView img_mo_message) {
+    public void getClassList(String classtype,final ListView expand_lis, final LinearLayout lin_create_class, final ImageView img_mo_message) {
         String token = SharedPreferenceService.getInstance().get("token", "");
-        counselorService.getClassList(token, new Callback<ResponseData<List<ClassInfoModel>>>() {
+        counselorService.getClassList(token, classtype,new Callback<ResponseData<List<ClassInfoModel>>>() {
 
             @Override
             public void success(ResponseData<List<ClassInfoModel>> listResponseData, Response response) {

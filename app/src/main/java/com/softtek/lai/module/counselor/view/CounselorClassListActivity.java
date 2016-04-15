@@ -9,7 +9,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
+
 import butterknife.InjectView;
+
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
@@ -20,6 +22,7 @@ import com.softtek.lai.module.counselor.presenter.CounselorClassImpl;
 import com.softtek.lai.module.counselor.presenter.ICounselorClassPresenter;
 import com.softtek.lai.module.grade.view.GradeHomeActivity;
 import com.softtek.lai.utils.SoftInputUtil;
+
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
@@ -72,7 +75,7 @@ public class CounselorClassListActivity extends BaseActivity implements View.OnC
                 ClassInfoModel classInfo = (ClassInfoModel) expand_list.getAdapter().getItem(position);
                 SharedPreferenceService.getInstance().put("classId", classInfo.getClassId());
                 intent.putExtra("classId", classInfo.getClassId());
-                intent.putExtra("review",1);
+                intent.putExtra("review", 1);
                 startActivity(intent);
             }
         });
@@ -88,7 +91,7 @@ public class CounselorClassListActivity extends BaseActivity implements View.OnC
     @Override
     protected void initDatas() {
         counselorClassPresenter = new CounselorClassImpl(this);
-        counselorClassPresenter.getClassList(expand_list, lin_create_class, img_mo_message);
+        counselorClassPresenter.getClassList("0", expand_list, lin_create_class, img_mo_message);
 
     }
 

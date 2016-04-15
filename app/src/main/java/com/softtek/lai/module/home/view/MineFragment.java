@@ -155,6 +155,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
 
             case R.id.lin_reset_password:
 
+                startActivity(new Intent(getContext(), ModifyPasswordActivity.class));
                 break;
             case R.id.but_login:
                 startActivity(new Intent(getContext(), LoginActivity.class));
@@ -174,7 +175,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 startActivity(new Intent(getContext(), ValidateCertificationActivity.class));
                 break;
             case R.id.lin_setting:
-
+                startActivity(new Intent(getContext(), SettingsActivity.class));
                 break;
         }
     }
