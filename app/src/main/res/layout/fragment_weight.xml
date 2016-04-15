@@ -61,6 +61,7 @@
             android:textColor="#fdb02c"
             android:layout_marginRight="30dp"/>
         <!--android:background="@drawable/bg_radiobtn"-->
+
         <RadioButton
             android:id="@+id/month"
             android:layout_width="40dp"
@@ -88,6 +89,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:button="@null"
+            android:background="@drawable/radio_button_selector"
             android:text="年"
             android:textColor="#fdb02c"
             android:gravity="center"

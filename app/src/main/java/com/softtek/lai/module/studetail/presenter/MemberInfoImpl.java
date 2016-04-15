@@ -110,16 +110,6 @@ public class MemberInfoImpl implements IMemberInfopresenter {
                 new Callback<ResponseData<LogList>>() {
                     @Override
                     public void success(ResponseData<LogList> listResponseData, Response response) {
-                        /*if(listResponseData.getStatus()==200){
-                            LogEvent logEvent=new LogEvent(flag,listResponseData.getData());
-                            if(flag== Constants.REFRESH){
-                                //缓存值
-                                aCache.put(LOG_CACHE_KEY,logEvent);
-                            }
-                            EventBus.getDefault().post(logEvent);
-                        }else{
-                            EventBus.getDefault().post(new LogEvent());
-                        }*/
                         if(cb!=null){
                             cb.getLogList(listResponseData.getData());
                         }
@@ -127,7 +117,6 @@ public class MemberInfoImpl implements IMemberInfopresenter {
 
                     @Override
                     public void failure(RetrofitError error) {
-                        //EventBus.getDefault().post(new LogEvent());
                         if(cb!=null){
                             cb.getLogList(null);
                         }
@@ -136,7 +125,10 @@ public class MemberInfoImpl implements IMemberInfopresenter {
                 });
     }
 
-    @Override
+    /**
+     * 此方法暂时作废
+     * @return
+     */
     public LogEvent loadLogListCache() {
         return (LogEvent) aCache.getAsObject(LOG_CACHE_KEY);
     }

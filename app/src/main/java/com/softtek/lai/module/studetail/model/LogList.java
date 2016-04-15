@@ -13,7 +13,7 @@ public class LogList {
     private String Photo;
     private String Banner;
     private String TotalPage;
-    private List<LossWeightStoryModel> LogList;
+    private List<LossWeightLogModel> LogList;
 
     public String getUserName() {
         return UserName;
@@ -47,17 +47,17 @@ public class LogList {
         TotalPage = totalPage;
     }
 
-    public List<LossWeightStoryModel> getLogList() {
+    public List<LossWeightLogModel> getLogList() {
         return LogList;
     }
 
-    public void setLogList(List<LossWeightStoryModel> logList) {
+    public void setLogList(List<LossWeightLogModel> logList) {
         LogList = logList;
     }
 
     @Override
     public String toString() {
-        return "StoryList{" +
+        return "LogList{" +
                 "UserName='" + UserName + '\'' +
                 ", Photo='" + Photo + '\'' +
                 ", Banner='" + Banner + '\'' +

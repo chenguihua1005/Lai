@@ -23,5 +23,6 @@
     <color name="grey_bg">#f6f6f6</color>
     <color name="grey2">#e6e6e6</color>
     <color name="grey3">#CCCCCC</color>
+    <color name="editorText">#75ba2b</color>
 
 </resources>

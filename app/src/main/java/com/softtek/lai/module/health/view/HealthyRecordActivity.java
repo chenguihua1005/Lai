@@ -49,7 +49,7 @@ public class HealthyRecordActivity extends BaseActivity implements View.OnClickL
     protected void initViews() {
         EventBus.getDefault().register(this);
         ll_left.setOnClickListener(this);
-        tv_title.setText("曲线图");
+        tv_title.setText("历史数据");
 
     }
 

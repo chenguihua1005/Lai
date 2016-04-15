@@ -20,6 +20,7 @@ public interface IMemberInfopresenter {
 
     void getLossWeigthLogList(long accountId,int pageIndex);
 
+    @Deprecated
     LogEvent loadLogListCache();
 
     void doZan(long accountId,long logId);

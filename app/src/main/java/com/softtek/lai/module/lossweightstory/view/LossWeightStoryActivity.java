@@ -1,8 +1,10 @@
 package com.softtek.lai.module.lossweightstory.view;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -38,6 +40,8 @@ public class LossWeightStoryActivity extends BaseActivity implements View.OnClic
     TextView tv_title;
     @InjectView(R.id.tv_right)
     TextView tv_right;
+    @InjectView(R.id.fl_right)
+    FrameLayout fl;
 
     @InjectView(R.id.ptrlv)
     PullToRefreshListView ptrlv;
@@ -55,7 +59,7 @@ public class LossWeightStoryActivity extends BaseActivity implements View.OnClic
         ll_left.setOnClickListener(this);
         tv_title.setText("减重故事");
         tv_right.setText("新故事");
-        tv_right.setOnClickListener(this);
+        fl.setOnClickListener(this);
         View view=getLayoutInflater().inflate(R.layout.loss_weight_log_header,null,false);
         tv_name= (TextView) view.findViewById(R.id.tv_name);
         cir_header_image= (CircleImageView) view.findViewById(R.id.civ_header_image);
@@ -85,8 +89,9 @@ public class LossWeightStoryActivity extends BaseActivity implements View.OnClic
             case R.id.ll_left:
                 finish();
                 break;
-            case R.id.tv_right:
+            case R.id.fl_right:
                 //跳转新故事
+                startActivity(new Intent(this,NewStoryActivity.class));
                 break;
         }
     }
