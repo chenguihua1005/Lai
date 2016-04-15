@@ -18,7 +18,7 @@ public class MarchInfoModel implements Serializable {
     private String LoseWeight;        //减重斤数
     private String UserName;        //昵称
     private String AccountId;        //Id
-    private String photo;        //图片路径
+    private String Photo;        //图片路径
 
     public String getRnum() {
         return rnum;
@@ -69,11 +69,11 @@ public class MarchInfoModel implements Serializable {
     }
 
     public String getPhoto() {
-        return photo;
+        return Photo;
     }
 
-    public void setPhoto(String photo) {
-        this.photo = photo;
+    public void setPhoto(String Photo) {
+        this.Photo = Photo;
     }
 
     @Override
@@ -85,7 +85,7 @@ public class MarchInfoModel implements Serializable {
                 ", LoseWeight='" + LoseWeight + '\'' +
                 ", UserName='" + UserName + '\'' +
                 ", AccountId='" + AccountId + '\'' +
-                ", photo='" + photo + '\'' +
+                ", Photo='" + Photo + '\'' +
                 '}';
     }
 }

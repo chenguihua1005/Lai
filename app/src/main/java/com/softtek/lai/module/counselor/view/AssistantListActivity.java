@@ -87,6 +87,7 @@ public class AssistantListActivity extends BaseActivity implements View.OnClickL
             case R.id.tv_right:
                 Intent intent = new Intent(this, GradeHomeActivity.class);
                 intent.putExtra("classId", classId);
+                intent.putExtra("review", 1);
                 startActivity(intent);
                 break;
 

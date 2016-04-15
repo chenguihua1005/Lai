@@ -42,6 +42,7 @@ import com.umeng.socialize.weixin.media.WeiXinShareContent;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,6 +77,8 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
     @InjectView(R.id.total_weight)
     Chart total_weight;
 
+//    @InjectView(R.id.tv_rank)
+//    TextView tv_rank;
 
     private List<Table1Model> table1ModelList = new ArrayList<Table1Model>();
     private IGetProinfopresenter iGetProinfopresenter;
@@ -85,9 +88,9 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
     String newban = "";
     String newmem = "";
     String c = "";
-    int oneban;
-    int twoban;
-    int threeban;
+    String oneban;
+    String twoban;
+    String threeban;
     String text;
 
     @Override
@@ -120,24 +123,35 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
 
     @Subscribe
     public void onEvent(RankModel rank) {
+        //Table：教练本月总开班数量，新增学员数量，累计减重数量
         System.out.println("rankEvent.getRanks()》》》》》》》》》》》》》》" + rank.getTable());
         newban=rank.getTable().get(0).getTotalClass();
         newmem=rank.getTable().get(0).getTotalMember();
-        c=rank.getTable().get(0).getTotalWeight();
-        oneban =100;
-        twoban =200;
-        threeban =300;
-
         tv_newban.setText(newban);
         tv_newmem.setText(newmem);
-        tv_oneban.setText(oneban+"");
-        tv_twoban.setText(twoban+"");
-        tv_threeban.setText(threeban+"");
-        total_weight.setValue(oneban,twoban,threeban);
 
 
+        //Table1: 教练所有班级的所有学员减重最多的前10名学员
         table1ModelList=rank.getTable1();
         rankAdapter.updateData(table1ModelList);
+
+        //Table2:各个班本月累计减重
+        System.out.println("rankEvent.getRanks()------------------------Table2:" + rank.getTable2());
+        oneban =rank.getTable2().get(3).getLoseWeight();
+        twoban =rank.getTable2().get(4).getLoseWeight();
+
+        Util.toastMsg(twoban);
+//
+//        threeban =300;
+//
+        tv_oneban.setText(oneban);
+        tv_twoban.setText(twoban);
+        tv_threeban.setText("300");
+//
+
+        total_weight.setValue(50,100,130);
+       // total_weight.setValue(oneban,twoban,threeban);
+
     }
 
     @Override

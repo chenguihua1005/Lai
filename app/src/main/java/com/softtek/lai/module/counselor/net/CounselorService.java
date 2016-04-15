@@ -30,6 +30,7 @@ public interface CounselorService {
 
     @GET("/HerbrClass/GetClass")
     void getClassList(@Header("token") String token,
+                      @Query("classtype") String classtype,
                       Callback<ResponseData<List<ClassInfoModel>>> callback);
 
     @GET("/Index/GetSPHonor")

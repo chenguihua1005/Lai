@@ -311,8 +311,6 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
 
    }
 
-
-
     //生日警告对话框
     public void show_warn_dialog() {
         Dialog dialog = new AlertDialog.Builder(this)
@@ -329,39 +327,21 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
     }
 
 
-    //性别对话框
-    public void show_sex_dialog() {
-        Dialog genderdialog = new AlertDialog.Builder(this)
-                .setTitle("请选择您的性别")
-                .setSingleChoiceItems(SexData, 2,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                tv_sex.setText(SexData[which]);
-                                tv_sex.setError(null);
-                            }
-                        })
-//                .setNegativeButton("取消",null)
-                .setPositiveButton("完成", null)
-                .create();
-        //genderdialog.setCanceledOnTouchOutside(false);  // 设置点击屏幕Dialog不消失
-        genderdialog.show();
-    }
-
     //身高对话框
     public void show_height_dialog() {
         final AlertDialog.Builder birdialog=new AlertDialog.Builder(this);
         View view=getLayoutInflater().inflate(R.layout.dialog,null);
         final NumberPicker np = (NumberPicker) view.findViewById(R.id.numberPicker1);
-        Util.toastMsg(tv_sex.getText().toString());
-        if(tv_sex.getText().toString()=="男"){
-            np.setValue(170);
-        }else {
-            np.setValue(155);
-        }
         np.setMaxValue(220);
+        if(tv_sex.getText().toString().equals("男")){
+            np.setValue(170);
+        }else if(tv_sex.getText().toString().equals("女")){
+            np.setValue(155);
+        }else {
+            np.setValue(170);
+        }
         np.setMinValue(50);
-        np.setWrapSelectorWheel(false);
+        np.setWrapSelectorWheel(true);
         birdialog.setTitle("选择身高(单位：cm)").setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -381,13 +361,14 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         final AlertDialog.Builder birdialog=new AlertDialog.Builder(this);
         View view=getLayoutInflater().inflate(R.layout.dialog,null);
         final NumberPicker np = (NumberPicker) view.findViewById(R.id.numberPicker1);
-        Util.toastMsg(tv_sex.getText().toString());
-        if(tv_sex.getText().toString()=="男"){
-            np.setValue(150);
-        }else {
-            np.setValue(100);
-        }
         np.setMaxValue(220);
+        if(tv_sex.getText().toString().equals("男")){
+            np.setValue(150);
+        }else if(tv_sex.getText().toString().equals("女")){
+            np.setValue(100);
+        }else {
+            np.setValue(150);
+        }
         np.setMinValue(20);
         np.setWrapSelectorWheel(false);
         birdialog.setTitle("选择体重(单位：斤)").setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -443,7 +424,6 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         wheel_grade.setItems(gradeList);
         wheel_grade.setSeletion(0);
         select_grade = "";
-//        wheel_grade.setBackgroundDrawable(1,"#000",);
         wheel_grade.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
             @Override
             public void onSelected(int selectedIndex, String item) {
@@ -460,9 +440,6 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                             grade_id = gradeIDList.get(0);
                         }
                         tv_sex.setText(select_grade);
-//                        if (!"".equals(text_month.getText().toString())) {
-//                            showList();
-//                        }
                         select_grade = "";
                     }
                 })

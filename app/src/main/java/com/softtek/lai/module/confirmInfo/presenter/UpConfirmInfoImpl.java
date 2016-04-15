@@ -7,6 +7,7 @@ import zilla.libcore.util.Util;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.confirmInfo.model.ConinfoModel;
+import com.softtek.lai.module.confirmInfo.model.GetConfirmInfoModel;
 import com.softtek.lai.module.confirmInfo.net.ConfirmInfoService;
 import com.softtek.lai.module.confirmInfo.view.CansaiActivity;
 
@@ -20,12 +21,45 @@ import zilla.libcore.file.SharedPreferenceService;
  * Created by zcy on 2016/4/13.
  */
 public class UpConfirmInfoImpl implements IUpConfirmInfopresenter{
+
+
     private ConfirmInfoService confirmInfoService;
     private Context context;
 
     public UpConfirmInfoImpl(CansaiActivity cansaiActivity) {
         confirmInfoService= ZillaApi.NormalRestAdapter.create(ConfirmInfoService.class);
         context=cansaiActivity;
+    }
+
+
+    @Override
+    public void getConfirmInfo(long accountid, long classid) {
+        Log.i("confirmInfoService>>>>>>>>>>>>>>>>>>>>>>>>>>" + confirmInfoService);
+        confirmInfoService= ZillaApi.NormalRestAdapter.create(ConfirmInfoService.class);
+        String token = SharedPreferenceService.getInstance().get("token", "");
+        confirmInfoService.doGetConfirmInfo(token,accountid,classid, new Callback<ResponseData<GetConfirmInfoModel>>() {
+            @Override
+            public void success(ResponseData<GetConfirmInfoModel> getConfirmInfoModelResponseData, Response response) {
+                int status = getConfirmInfoModelResponseData.getStatus();
+                Log.i("getConfirmInfoModelResponseData:"+getConfirmInfoModelResponseData);
+                switch (status) {
+                    case 200:
+//                        EventBus.getDefault().post(new ClassEvent(listResponseData.getData()));
+//                        System.out.println(listResponseData);
+                        Util.toastMsg("读取信息成功");
+                        break;
+                    case 100:
+                        Util.toastMsg("暂无数据");
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
+            }
+        });
     }
 
 
@@ -56,4 +90,6 @@ public class UpConfirmInfoImpl implements IUpConfirmInfopresenter{
             }
         });
     }
+
+
 }

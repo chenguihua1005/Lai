@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+  ~ Date:2016-03-31
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    tools:context=".module.retest.WriteActivity">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="@dimen/margin"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/messageMarginTop2"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="115dip"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/img_line_left" />
+
+            <TextView
+                android:id="@+id/text_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/messageMargin"
+                android:layout_marginRight="@dimen/messageMargin"
+                android:gravity="center"
+                android:text="2015年3月12号"
+                android:textColor="@color/word5"
+                android:textSize="@dimen/textSize2" />
+
+            <ImageView
+                android:layout_width="115dip"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/img_line_right" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/messageMarginTop2"
+            android:background="@color/grey2"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/text_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/messageMarginTop"
+                android:layout_marginTop="@dimen/messageMarginTop"
+                android:text="复测提醒"
+                android:textColor="@color/word"
+                android:textSize="@dimen/textSize3" />
+
+            <TextView
+                android:id="@+id/text_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/messageMarginTop"
+                android:layout_marginRight="@dimen/messageMarginRight"
+                android:layout_marginTop="@dimen/messageMarginTop"
+                android:text="复测提醒复测提醒复测提醒复测提醒复测提醒复测提醒复测提醒复测提醒复测提醒复测提醒"
+                android:textColor="@color/word6"
+                android:textSize="@dimen/textSize1" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dip"
+                android:layout_marginLeft="@dimen/messageMargin1"
+                android:layout_marginRight="@dimen/messageMargin1"
+                android:layout_marginTop="@dimen/messageMarginTop2"
+                android:background="@color/grey3" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/messageMarginTop"
+                android:layout_marginLeft="@dimen/messageMarginTop"
+                android:layout_marginTop="@dimen/messageMarginTop">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="详情"
+                    android:textColor="@color/word5"
+                    android:textSize="@dimen/textSize4" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dip"
+                    android:src="@drawable/img_fc_more" />
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

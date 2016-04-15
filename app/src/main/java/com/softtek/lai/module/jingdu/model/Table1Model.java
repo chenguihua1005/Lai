@@ -9,32 +9,15 @@ public class Table1Model {
     private String AfterWeight;
     private String LoseWeight;
     private String UserName;
+    private String Photo;
 
-    public Table1Model(String accountId, String beforeWight, String afterWeight, String loseWeight, String userName) {
+    public Table1Model(String accountId, String beforeWight, String afterWeight, String loseWeight, String userName, String photo) {
         AccountId = accountId;
         BeforeWight = beforeWight;
         AfterWeight = afterWeight;
         LoseWeight = loseWeight;
         UserName = userName;
-    }
-
-    @Override
-    public String toString() {
-        return "Table1Model{" +
-                "AccountId='" + AccountId + '\'' +
-                ", BeforeWight='" + BeforeWight + '\'' +
-                ", AfterWeight='" + AfterWeight + '\'' +
-                ", LoseWeight='" + LoseWeight + '\'' +
-                ", UserName='" + UserName + '\'' +
-                '}';
-    }
-
-    public String getUserName() {
-        return UserName;
-    }
-
-    public void setUserName(String userName) {
-        UserName = userName;
+        Photo = photo;
     }
 
     public String getAccountId() {
@@ -67,5 +50,33 @@ public class Table1Model {
 
     public void setLoseWeight(String loseWeight) {
         LoseWeight = loseWeight;
+    }
+
+    public String getUserName() {
+        return UserName;
+    }
+
+    public void setUserName(String userName) {
+        UserName = userName;
+    }
+
+    public String getPhoto() {
+        return Photo;
+    }
+
+    public void setPhoto(String photo) {
+        Photo = photo;
+    }
+
+    @Override
+    public String toString() {
+        return "Table1Model{" +
+                "AccountId='" + AccountId + '\'' +
+                ", BeforeWight='" + BeforeWight + '\'' +
+                ", AfterWeight='" + AfterWeight + '\'' +
+                ", LoseWeight='" + LoseWeight + '\'' +
+                ", UserName='" + UserName + '\'' +
+                ", Photo='" + Photo + '\'' +
+                '}';
     }
 }

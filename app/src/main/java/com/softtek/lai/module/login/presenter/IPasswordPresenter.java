@@ -15,4 +15,7 @@ public interface IPasswordPresenter {
 
     //校验验证码是否正确
     void checkIdentify(String phone, String identify);
+
+    //我的页面 修改密码
+    void changePsd(String newpsd, String psd);
 }

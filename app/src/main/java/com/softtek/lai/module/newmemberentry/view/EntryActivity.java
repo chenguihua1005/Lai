@@ -230,7 +230,7 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
             case R.id.tv_right:
           //---------------------------------------------------------------------------------------------
                 //      validateLife.validate();
-                newstudentsModel = new NewstudentsModel(3,"ggg","182022","18206182022","32",12,12,12,"1960-6-15",1,"2024938094839380",90,90,90,90,90,90);
+                newstudentsModel = new NewstudentsModel(0,"ggg","182022","18209123079","32",12,12,12,"1960-6-15",1,"2024938094839380",90,90,90,90,90,90);
                 iNewStudentpresenter.input(newstudentsModel);
                 break;
             case R.id.btn_Add_bodydimension:
