@@ -138,7 +138,8 @@
         <activity android:name=".module.review.view.ReviewActivity" />
         <activity android:name=".module.health.view.HealthyRecordActivity" />
         <activity android:name=".module.confirmInfo.view.CansaiActivity" />
-        <activity android:name=".module.lossweightstory.view.LossWeightStoryActivity"></activity>
+        <activity android:name=".module.lossweightstory.view.LossWeightStoryActivity" />
+        <activity android:name=".module.lossweightstory.view.NewStoryActivity"></activity>
     </application>
 
 </manifest>

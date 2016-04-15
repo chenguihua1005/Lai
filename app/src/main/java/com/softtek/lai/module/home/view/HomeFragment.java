@@ -198,10 +198,10 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
      */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        startActivity(new Intent(getContext(), LossWeightStoryActivity.class));
+        /*startActivity(new Intent(getContext(), LossWeightStoryActivity.class));
         if(1==1){
             return;
-        }
+        }*/
         UserInfoModel userInfoModel=UserInfoModel.getInstance();
         int role=Integer.parseInt(userInfoModel.getUser().getUserrole());
         ////判断当前用户是否拥有此按钮权限

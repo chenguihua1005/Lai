@@ -20,6 +20,7 @@ import com.softtek.lai.module.studetail.model.LossWeightLogModel;
 import com.softtek.lai.module.studetail.presenter.IMemberInfopresenter;
 import com.softtek.lai.module.studetail.presenter.MemberInfoImpl;
 import com.softtek.lai.widgets.CircleImageView;
+import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -29,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_loss_weight_log)
@@ -56,7 +58,6 @@ public class LossWeightLogActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void initViews() {
-        //EventBus.getDefault().register(this);
         tv_title.setText("减重日志");
         ll_left.setOnClickListener(this);
         View view=getLayoutInflater().inflate(R.layout.loss_weight_log_header,null,false);
@@ -84,14 +85,6 @@ public class LossWeightLogActivity extends BaseActivity implements View.OnClickL
             }
         },200);
     }
-
- /*   @Override
-    protected void onDestroy() {
-        EventBus.getDefault().unregister(this);
-        super.onDestroy();
-    }*/
-
-
 
     @Override
     public void onClick(View v) {
@@ -130,7 +123,30 @@ public class LossWeightLogActivity extends BaseActivity implements View.OnClickL
     public void getLogList(LogList logs) {
         ptrlv.onRefreshComplete();
         if(logs==null){
-
+            pageIndex=--pageIndex<1?1:pageIndex;
+            return;
         }
+        tv_name.setText(logs.getUserName());
+        List<LossWeightLogModel> models=logs.getLogList();
+        if(logs.getLogList().isEmpty()){
+            pageIndex=--pageIndex<1?1:pageIndex;
+            return;
+        }
+        if(pageIndex==1){
+            this.logs.clear();
+        }
+        this.logs.addAll(models);
+        adapter.notifyDataSetChanged();
+        String path= AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+        try {
+            Picasso.with(this).load(path + logs.getPhoto())
+                    .placeholder(R.drawable.img_default)
+                    .error(R.drawable.img_default)
+                    .into(cir_header_image);
+            Picasso.with(this).load(path + logs.getBanner())
+                    .placeholder(R.drawable.default_pic)
+                    .error(R.drawable.default_pic)
+                    .into(log_banner);
+        }catch (Exception e){}
     }
 }

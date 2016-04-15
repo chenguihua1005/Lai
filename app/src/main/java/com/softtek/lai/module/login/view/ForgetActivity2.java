@@ -36,15 +36,13 @@ public class ForgetActivity2 extends BaseActivity implements View.OnClickListene
     @LifeCircleInject
     ValidateLife validateLife;
 
-    @Required(order = 1, messageResId = R.string.newPasswordNull)
-    @Password(order = 2)
-    @Regex(order = 3, pattern = "(?![^a-zA-Z]+$)(?!\\D+$).{6,16}", messageResId = R.string.npasswordValidate)
-    //@TextRule(order = 3,minLength = 6,maxLength = 16,messageResId = R.string.passwordValidate)
+    @Password(order = 1,messageResId = R.string.newPasswordNull)
+    @Regex(order = 2, pattern = "(?![^a-zA-Z]+$)(?!\\D+$).{6,16}", messageResId = R.string.npasswordValidate)
     @InjectView(R.id.et_password)
     EditText et_password;
 
-    @Required(order = 4, messageResId = R.string.resetpasswordNull)
-    @ConfirmPassword(order = 5, messageResId = R.string.confirmPassword)
+    @Required(order = 3, messageResId = R.string.resetpasswordNull)
+    @ConfirmPassword(order = 4, messageResId = R.string.confirmPassword)
     @InjectView(R.id.et_repassword)
     EditText et_repassword;
 

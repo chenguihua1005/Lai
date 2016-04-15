@@ -52,6 +52,7 @@ public class NetErrorHandler implements IApiErrorHandler {
 
     @Override
     public void dealNetError(RetrofitError error) {
+        Log.i(error.getUrl());
         error.printStackTrace();
         switch (error.getKind()) {
             case NETWORK:
