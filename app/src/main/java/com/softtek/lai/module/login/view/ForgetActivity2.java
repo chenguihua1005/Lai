@@ -38,7 +38,7 @@ public class ForgetActivity2 extends BaseActivity implements View.OnClickListene
 
     @Required(order = 1, messageResId = R.string.newPasswordNull)
     @Password(order = 2)
-    @Regex(order = 4, pattern = "(?![^a-zA-Z]+$)(?!\\D+$).{6,16}", messageResId = R.string.npasswordValidate)
+    @Regex(order = 3, pattern = "(?![^a-zA-Z]+$)(?!\\D+$).{6,16}", messageResId = R.string.npasswordValidate)
     //@TextRule(order = 3,minLength = 6,maxLength = 16,messageResId = R.string.passwordValidate)
     @InjectView(R.id.et_password)
     EditText et_password;
