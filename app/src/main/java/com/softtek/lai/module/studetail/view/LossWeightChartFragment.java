@@ -54,6 +54,7 @@ public class LossWeightChartFragment extends BaseFragment implements RadioGroup.
     private List<Float> lossWeightDatas=new ArrayList<>();
     private List<Float> bodyFatDatas=new ArrayList<>();
     private List<Float> fatDatas=new ArrayList<>();
+    List<String>day=new ArrayList<String>();
 
     private IMemberInfopresenter memberInfopresenter;
 
@@ -111,6 +112,13 @@ public class LossWeightChartFragment extends BaseFragment implements RadioGroup.
         String userId=args.getString("userId");
         String classId=args.getString("classId");
         memberInfopresenter.getLossWeightChatData(userId,classId);
+        day.add("4/15");
+        day.add("4/14");
+        day.add("4/13");
+        day.add("4/12");
+        day.add("4/11");
+        day.add("4/10");
+        day.add("4/09");
     }
 
     @Override

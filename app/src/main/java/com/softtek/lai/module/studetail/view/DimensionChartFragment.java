@@ -62,6 +62,7 @@ public class DimensionChartFragment extends BaseFragment implements View.OnClick
     private List<Float> upArmGirthDatas=new ArrayList<>();
     private List<Float> upLegGirthDatas=new ArrayList<>();
     private List<Float> doLegGirthDatas=new ArrayList<>();
+    List<String>day=new ArrayList<String>();
 
     /**
      * 设置一些参数
@@ -126,6 +127,13 @@ public class DimensionChartFragment extends BaseFragment implements View.OnClick
         String userId=args.getString("userId");
         String classId=args.getString("classId");
         memberInfopresenter.getLossWeightChatData(userId,classId);
+        day.add("4/15");
+        day.add("4/14");
+        day.add("4/13");
+        day.add("4/12");
+        day.add("4/11");
+        day.add("4/10");
+        day.add("4/09");
     }
 
 
