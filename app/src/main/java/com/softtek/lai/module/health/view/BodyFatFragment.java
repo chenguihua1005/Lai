@@ -1,5 +1,6 @@
 package com.softtek.lai.module.health.view;
 
+import android.app.ProgressDialog;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -11,6 +12,8 @@ import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.health.model.HealthDateModel;
 import com.softtek.lai.module.health.model.MonthDateModel;
 import com.softtek.lai.module.health.model.WeekDateModel;
+import com.softtek.lai.module.health.presenter.HealthyRecordImpl;
+import com.softtek.lai.module.health.presenter.IHealthyRecord;
 import com.softtek.lai.module.retest.eventModel.BanJiEvent;
 import com.softtek.lai.module.retest.model.BanjiModel;
 import com.softtek.lai.module.studetail.util.LineChartUtil;
@@ -19,6 +22,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -28,7 +32,7 @@ import zilla.libcore.ui.InjectLayout;
  * Created by John on 2016/4/12.
  */
 @InjectLayout(R.layout.fragment_weight)
-public class BodyFatFragment extends BaseFragment implements RadioGroup.OnCheckedChangeListener{
+public class BodyFatFragment extends BaseFragment implements RadioGroup.OnCheckedChangeListener,HealthyRecordImpl.HealthyRecordCallback{
 
     @InjectView(R.id.chart)
     LineChart chart;
@@ -47,6 +51,19 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
 
     private LineChartUtil chartUtil;
     List<Float> dates=new ArrayList<Float>();
+    List<String>days=new ArrayList<String>();
+    IHealthyRecord iHealthyRecord;
+    List<WeekDateModel> students=new ArrayList<WeekDateModel>();
+    //时间
+    Calendar c = Calendar.getInstance();
+    //            取得系统日期:
+    int years = c.get(Calendar.YEAR);
+    int months = c.get(Calendar.MONTH) + 1;
+    int day = c.get(Calendar.DAY_OF_MONTH);
+    //取得系统时间：
+    int hour = c.get(Calendar.HOUR_OF_DAY);
+    int minute = c.get(Calendar.MINUTE);
+    private ProgressDialog progressDialog;
 //    private List<MonthDateModel> banjiModelList=new ArrayList<>();
 
 
@@ -89,8 +106,16 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
         dates.add(15f);
         dates.add(18f);
         dates.add(6.3f);
+        days.add("4/15");
+        days.add("4/14");
+        days.add("4/13");
+        days.add("4/12");
+        days.add("4/11");
+        days.add("4/10");
+        days.add("4/09");
         chartUtil.addDataSet(dates);
         dates.clear();
+        days.clear();
 
     }
     @Subscribe
@@ -115,5 +140,19 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
 
                 break;
         }
+    }
+
+    @Override
+    public void doGetDate(HealthDateModel healthDateModel) {
+        List<WeekDateModel> weekDateModels=healthDateModel.getWeekDate();
+        for (WeekDateModel wd:weekDateModels){
+//            for ()
+//            if (healthDateModel.getWeekDate())
+//            String month=st.getStartDate().substring(5,7);
+//            Student lis=new Student(st.getPhoto(),st.getUserName(),st.getMobile(),tomonth(month),st.getWeekth(),st.getAMStatus());
+//            studentList.add(lis);
+//            queryAdapter.updateData(studentList);
+        }
+
     }
 }

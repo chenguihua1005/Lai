@@ -8,6 +8,9 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.LineData;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.module.health.model.HealthDateModel;
+import com.softtek.lai.module.health.presenter.HealthyRecordImpl;
+import com.softtek.lai.module.health.presenter.IHealthyRecord;
 import com.softtek.lai.module.studetail.util.LineChartUtil;
 
 import butterknife.InjectView;
@@ -17,7 +20,7 @@ import zilla.libcore.ui.InjectLayout;
  * Created by John on 2016/4/12.
  */
 @InjectLayout(R.layout.fragment_weight)
-public class WeightFragment extends BaseFragment implements RadioGroup.OnCheckedChangeListener{
+public class WeightFragment extends BaseFragment implements RadioGroup.OnCheckedChangeListener, HealthyRecordImpl.HealthyRecordCallback{
 
     @InjectView(R.id.chart)
     LineChart chart;
@@ -34,6 +37,7 @@ public class WeightFragment extends BaseFragment implements RadioGroup.OnChecked
     RadioButton year;
 
     private LineChartUtil chartUtil;
+    IHealthyRecord iHealthyRecord;
 
     @Override
     protected void initViews() {
@@ -62,6 +66,8 @@ public class WeightFragment extends BaseFragment implements RadioGroup.OnChecked
 
     @Override
     protected void initDatas() {
+        iHealthyRecord=new HealthyRecordImpl(this);
+        iHealthyRecord.doGetHealth();
 
     }
 
@@ -78,5 +84,10 @@ public class WeightFragment extends BaseFragment implements RadioGroup.OnChecked
 
                 break;
         }
+    }
+
+    @Override
+    public void doGetDate(HealthDateModel healthDateModel) {
+        healthDateModel.getMonthDate().get(0).getAccountId();
     }
 }
