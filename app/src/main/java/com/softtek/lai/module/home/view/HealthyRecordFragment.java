@@ -8,6 +8,7 @@ package com.softtek.lai.module.home.view;
 
 import android.content.Intent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -25,8 +26,12 @@ public class HealthyRecordFragment extends BaseFragment implements View.OnClickL
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
+    @InjectView(R.id.tv_left)
+    TextView tv_left;
     @InjectView(R.id.tv_title)
     TextView tv_title;
+    @InjectView(R.id.iv_email)
+    ImageView iv_email;
 
     @InjectView(R.id.tv_weight)
     TextView tv_weight;
@@ -64,6 +69,8 @@ public class HealthyRecordFragment extends BaseFragment implements View.OnClickL
     @Override
     protected void initDatas() {
         tv_title.setText("健康记录");
+        iv_email.setImageResource(R.drawable.healthedit);
+
     }
 
     @Override
