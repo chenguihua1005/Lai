@@ -105,7 +105,7 @@ public class LossWeightChartFragment extends BaseFragment implements RadioGroup.
     protected void initDatas() {
         chartUtil=new LineChartUtil(getContext(),chart);
         //chartUtil.addDataSet(null);
-        memberInfopresenter=new MemberInfoImpl(getContext());
+        memberInfopresenter=new MemberInfoImpl(getContext(),null);
         //请求网络数据
         Bundle args=getArguments();
         String userId=args.getString("userId");

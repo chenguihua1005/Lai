@@ -15,6 +15,7 @@ import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.lossweightstory.model.Zan;
 import com.softtek.lai.module.studetail.eventModel.LineChartEvent;
 import com.softtek.lai.module.studetail.eventModel.LogEvent;
+import com.softtek.lai.module.studetail.model.LogList;
 import com.softtek.lai.module.studetail.model.LossWeightLogModel;
 import com.softtek.lai.module.studetail.model.MemberModel;
 import com.softtek.lai.module.studetail.model.StudentLinChartInfoModel;
@@ -44,10 +45,12 @@ public class MemberInfoImpl implements IMemberInfopresenter {
     private UserInfoModel infoModel;
     private Context context;
     private ACache aCache;
+    private MemberInfoImplCallback cb;
 
-    public MemberInfoImpl(Context context) {
+    public MemberInfoImpl(Context context,MemberInfoImplCallback cb) {
         service = ZillaApi.NormalRestAdapter.create(MemberInfoService.class);
         this.context = context;
+        this.cb= cb;
         infoModel=UserInfoModel.getInstance();
         aCache=ACache.get(context,LOG_CACHE_DIR);
     }
@@ -99,15 +102,15 @@ public class MemberInfoImpl implements IMemberInfopresenter {
     }
 
     @Override
-    public void getLossWeigthLogList(final int flag,long accountId) {
+    public void getLossWeigthLogList(long accountId,int pageIndex) {
 
         service.getCompetitionLog(infoModel.getToken(),
                 accountId,
-                new Callback<ResponseData<List<LossWeightLogModel>>>() {
+                pageIndex,
+                new Callback<ResponseData<LogList>>() {
                     @Override
-                    public void success(ResponseData<List<LossWeightLogModel>> listResponseData, Response response) {
-                        Log.i(listResponseData.toString());
-                        if(listResponseData.getStatus()==200){
+                    public void success(ResponseData<LogList> listResponseData, Response response) {
+                        /*if(listResponseData.getStatus()==200){
                             LogEvent logEvent=new LogEvent(flag,listResponseData.getData());
                             if(flag== Constants.REFRESH){
                                 //缓存值
@@ -116,12 +119,18 @@ public class MemberInfoImpl implements IMemberInfopresenter {
                             EventBus.getDefault().post(logEvent);
                         }else{
                             EventBus.getDefault().post(new LogEvent());
+                        }*/
+                        if(cb!=null){
+                            cb.getLogList(listResponseData.getData());
                         }
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
-                        EventBus.getDefault().post(new LogEvent());
+                        //EventBus.getDefault().post(new LogEvent());
+                        if(cb!=null){
+                            cb.getLogList(null);
+                        }
                         ZillaApi.dealNetError(error);
                     }
                 });
@@ -145,5 +154,9 @@ public class MemberInfoImpl implements IMemberInfopresenter {
                 ZillaApi.dealNetError(error);
             }
         });
+    }
+
+    public interface MemberInfoImplCallback{
+        void getLogList(LogList logs);
     }
 }

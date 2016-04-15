@@ -49,7 +49,7 @@
     <string name="phoneValidateNullLogin">请输入手机号码/资格证号</string>
     <string name="passwordValidateNull">请输入密码</string>
     <string name="phoneValidate">请输入正确的手机号码</string>
-    <string name="passwordValidate">密码不符合规则</string>
+    <string name="passwordValidate">密码不符合规则(字母+数字，6到16位)</string>
     <string name="npasswordValidate">新密码不符合规则</string>
     <string name="termValidate">必须遵循该条款</string>
     <string name="identiftValidtae">请输入验证码</string>

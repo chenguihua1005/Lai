@@ -13,32 +13,27 @@ import com.softtek.lai.module.home.view.HealthyRecordFragment;
 import com.softtek.lai.module.home.view.HomeFragment;
 import com.softtek.lai.module.home.view.MineFragment;
 
+import java.util.List;
+
 /**
  * Created by jerry.guan on 3/9/2016.
  */
 public class MainPageAdapter extends FragmentPagerAdapter {
 
-    public MainPageAdapter(FragmentManager fm) {
+    private List<Fragment> fragments;
+
+    public MainPageAdapter(FragmentManager fm,List<Fragment> fragments) {
         super(fm);
+        this.fragments=fragments;
     }
 
     @Override
     public Fragment getItem(int position) {
-        switch (position) {
-            case 0:
-                return new HomeFragment();
-            case 1:
-                return new HealthyFragment();
-            case 2:
-                return new HealthyRecordFragment();
-            case 3:
-                return new MineFragment();
-        }
-        return null;
+        return fragments.get(position);
     }
 
     @Override
     public int getCount() {
-        return 4;
+        return fragments.size();
     }
 }

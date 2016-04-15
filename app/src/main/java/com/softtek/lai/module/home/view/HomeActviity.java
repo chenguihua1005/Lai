@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.View;
@@ -19,6 +20,9 @@ import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.home.adapter.MainPageAdapter;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.lifecircle.exit.AppManager;
@@ -50,6 +54,7 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
     Drawable green;
 
     private int select_page = 0;
+    private List<Fragment> fragments=new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +74,11 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     protected void initDatas() {
-        content.setAdapter(new MainPageAdapter(getSupportFragmentManager()));
+        fragments.add(new HomeFragment());
+        fragments.add(new HealthyFragment());
+        fragments.add(new HealthyRecordFragment());
+        fragments.add(new MineFragment());
+        content.setAdapter(new MainPageAdapter(getSupportFragmentManager(),fragments));
         content.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -208,4 +217,6 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
     public void onFragmentInteraction(Uri uri) {
 
     }
+
+
 }

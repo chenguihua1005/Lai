@@ -121,7 +121,7 @@ public class DimensionChartFragment extends BaseFragment implements View.OnClick
     @Override
     protected void initDatas() {
         chartUtil=new LineChartUtil(getContext(),chart);
-        memberInfopresenter=new MemberInfoImpl(getContext());
+        memberInfopresenter=new MemberInfoImpl(getContext(),null);
         Bundle args=getArguments();
         String userId=args.getString("userId");
         String classId=args.getString("classId");

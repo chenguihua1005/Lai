@@ -17,6 +17,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -59,7 +60,7 @@ import zilla.libcore.util.Util;
  *
  */
 @InjectLayout(R.layout.fragment_home)
-public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetChangedListener, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
+public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetChangedListener, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener ,View.OnClickListener{
 
     @InjectView(R.id.toolbar)
     Toolbar toolbar;
@@ -90,9 +91,8 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     TextView tv_left;
     @InjectView(R.id.iv_email)
     ImageView iv_email;
-    /*@InjectView(R.id.view)
-    View view;*/
-
+    @InjectView(R.id.fl_right)
+    FrameLayout fl_right;
     private ACache aCache;
 
     private IHomeInfoPresenter homeInfoPresenter;
@@ -103,7 +103,8 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     @Override
     protected void initViews() {
         tv_left.setVisibility(View.INVISIBLE);
-        iv_email.setVisibility(View.VISIBLE);
+        iv_email.setBackgroundResource(R.drawable.email);
+        fl_right.setOnClickListener(this);
         page.setAdapter(new FragementAdapter(getFragmentManager()));
         //设置tabLayout和viewpage关联
         tab.setupWithViewPager(page);
@@ -319,4 +320,11 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         }
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.fl_right:
+                break;
+        }
+    }
 }

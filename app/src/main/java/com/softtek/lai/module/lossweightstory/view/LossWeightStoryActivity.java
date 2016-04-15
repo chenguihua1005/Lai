@@ -15,14 +15,17 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.lossweightstory.adapter.LossWeightStoryAdapter;
+import com.softtek.lai.module.lossweightstory.model.LogList;
 import com.softtek.lai.module.lossweightstory.model.LossWeightStoryModel;
 import com.softtek.lai.module.lossweightstory.presenter.LossWeightStoryManager;
 import com.softtek.lai.widgets.CircleImageView;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_loss_weight_story)
@@ -46,6 +49,7 @@ public class LossWeightStoryActivity extends BaseActivity implements View.OnClic
     private LossWeightStoryManager lossWeightStoryManager;
     private List<LossWeightStoryModel> lossWeightStoryModels=new ArrayList<>();
     private LossWeightStoryAdapter adapter;
+    int pageIndex=0;
     @Override
     protected void initViews() {
         ll_left.setOnClickListener(this);
@@ -57,7 +61,7 @@ public class LossWeightStoryActivity extends BaseActivity implements View.OnClic
         cir_header_image= (CircleImageView) view.findViewById(R.id.civ_header_image);
         log_banner= (ImageView) view.findViewById(R.id.log_header_image);
         ptrlv.getRefreshableView().addHeaderView(view);
-        //ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
+        ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
         ptrlv.setOnItemClickListener(this);
         ptrlv.setOnRefreshListener(this);
     }
@@ -95,25 +99,46 @@ public class LossWeightStoryActivity extends BaseActivity implements View.OnClic
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
         String userId=UserInfoModel.getInstance().getUser().getUserid();
-        lossWeightStoryManager.getLossWeightLogForClass(13/*Long.parseLong(userId)*/);
+        pageIndex=1;
+        lossWeightStoryManager.getLossWeightLogForClass(13/*Long.parseLong(userId)*/,1);
     }
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-
+        pageIndex++;
+        lossWeightStoryManager.getLossWeightLogForClass(13,pageIndex);
     }
 
     @Override
-    public void getStroyList(List<LossWeightStoryModel> models) {
+    public void getStroyList(LogList logList) {
         ptrlv.onRefreshComplete();
-        if(models==null){
+        if (logList==null){
+            pageIndex=--pageIndex<1?1:pageIndex;
             return;
         }
-        Log.i(models.toString());
-        if(!models.isEmpty()){
-            lossWeightStoryModels.clear();
-            lossWeightStoryModels.addAll(models);
-            adapter.notifyDataSetChanged();
+        Log.i(logList.toString());
+        List<LossWeightStoryModel> models=logList.getLogList();
+        tv_name.setText(logList.getUserName());
+        if(models==null||models.isEmpty()){
+            pageIndex=--pageIndex<1?1:pageIndex;
+            return;
         }
+        if (pageIndex==1){
+            lossWeightStoryModels.clear();
+        }
+        lossWeightStoryModels.addAll(models);
+        adapter.notifyDataSetChanged();
+        String path= AddressManager.get("photoHost","http://172.16.98.167/UpFiles/");
+        try {
+            Picasso.with(this).load(path + logList.getPhoto())
+                    .placeholder(R.drawable.img_default)
+                    .error(R.drawable.img_default)
+                    .into(cir_header_image);
+            Picasso.with(this).load(path + logList.getBanner())
+                    .placeholder(R.drawable.default_pic)
+                    .error(R.drawable.default_pic)
+                    .into(log_banner);
+        }catch (Exception e){}
+
     }
 }
