@@ -103,7 +103,7 @@ public class StudentDetailActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void initDatas() {
         EventBus.getDefault().register(this);
-        memberInfopresenter = new MemberInfoImpl(this);
+        memberInfopresenter = new MemberInfoImpl(this,null);
         tv_title.setText("学员详情");
 
         progressDialog.show();

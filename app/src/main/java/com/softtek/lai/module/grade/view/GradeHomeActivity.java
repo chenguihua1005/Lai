@@ -170,6 +170,7 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
 
     }
 
+    CharSequence[] items={"拍照","照片"};
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -179,13 +180,30 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
             case R.id.tv_editor:
                 //点击编辑按钮
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                View view1 = getLayoutInflater().inflate(R.layout.camera_or_picture, null);
-                camera = (ImageView) view1.findViewById(R.id.camera);
-                picture = (ImageView) view1.findViewById(R.id.picture);
-                camera.setOnClickListener(this);
-                picture.setOnClickListener(this);
-                builder.setTitle("请选择").setView(view1).create();
-                dialog = builder.show();
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(which==0){
+                            //拍照
+                            //先验证手机是否有sdcard
+                            String status = Environment.getExternalStorageState();
+                            if (status.equals(Environment.MEDIA_MOUNTED)) {
+                                try {
+                                    if (!dir.exists()) dir.mkdirs();
+                                    File f = new File(dir, localTempImgFileName);
+                                    startActivityForResult(SystemUtils.openCamera(Uri.fromFile(f)), GET_IMAGE_VIA_CAMERA);
+                                } catch (ActivityNotFoundException e) {
+                                    Util.toastMsg("没有找到存储目录");
+                                }
+                            } else {
+                                Util.toastMsg("没有存储卡");
+                            }
+                        }else if(which==1){
+                            //照片
+                            startActivityForResult(SystemUtils.openPicture(), GET_IMAGE_VIA_PICTURE);
+                        }
+                    }
+                }).create().show();
                 break;
             case R.id.ll_pc:
                 //点击学员条
@@ -225,32 +243,6 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
                         .setPositiveButton("确认", this)
                         .setNegativeButton("取消", this);
                 alert.create().show();
-                break;
-            case R.id.camera:
-                //选择相机
-                //先验证手机是否有sdcard
-                String status = Environment.getExternalStorageState();
-                if (status.equals(Environment.MEDIA_MOUNTED)) {
-                    try {
-                        if (!dir.exists()) dir.mkdirs();
-                        File f = new File(dir, localTempImgFileName);
-                        startActivityForResult(SystemUtils.openCamera(Uri.fromFile(f)), GET_IMAGE_VIA_CAMERA);
-                    } catch (ActivityNotFoundException e) {
-                        Util.toastMsg("没有找到存储目录");
-                    }
-                } else {
-                    Util.toastMsg("没有存储卡");
-                }
-                if (dialog != null) {
-                    dialog.dismiss();
-                }
-                break;
-            case R.id.picture:
-                //选择图片
-                startActivityForResult(SystemUtils.openPicture(), GET_IMAGE_VIA_PICTURE);
-                if (dialog != null) {
-                    dialog.dismiss();
-                }
                 break;
         }
     }

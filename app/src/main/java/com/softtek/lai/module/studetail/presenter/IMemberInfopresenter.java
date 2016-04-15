@@ -18,7 +18,7 @@ public interface IMemberInfopresenter {
 
     void getLossWeightChatData(String userId,String classId);
 
-    void getLossWeigthLogList(int flag,long accountId);
+    void getLossWeigthLogList(long accountId,int pageIndex);
 
     LogEvent loadLogListCache();
 

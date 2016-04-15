@@ -37,7 +37,7 @@ public class LossWeightLogAdapter extends BaseAdapter{
         this.context=context;
         inflater=LayoutInflater.from(context);
         this.logs=logs;
-        memberInfopresenter=new MemberInfoImpl(context);
+        memberInfopresenter=new MemberInfoImpl(context,null);
         this.review_flag=review_flag;
     }
 

@@ -99,7 +99,7 @@
                     android:layout_gravity="bottom"
                     android:gravity="center"
                     android:layout_marginLeft="10dp"
-                    android:textColor="#6a6a6a"
+                    android:textColor="@color/white"
                     android:background="@drawable/identify_bg"
                     android:text="@string/sendIdentify"/>
             </LinearLayout>

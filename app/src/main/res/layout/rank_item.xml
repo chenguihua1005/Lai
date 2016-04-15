@@ -8,7 +8,7 @@ android:background="#FFFFFF">
 <!--tv_order-->
 <TextView
     android:id="@+id/tv_rank"
-    android:layout_width="60dp"
+    android:layout_width="35dp"
     android:layout_height="match_parent"
     android:gravity="center"
     android:textColor="#ffc200"
@@ -45,11 +45,21 @@ android:background="#FFFFFF">
         android:gravity="center|left">
         <!--tv_wl_before-->
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="前"/>
+        <TextView
             android:id="@+id/tv_LossBefore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:text="前 78.5kg"/>
+            android:text="78.5"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="kg"/>
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
@@ -60,11 +70,21 @@ android:background="#FFFFFF">
             android:background="@color/white"/>
         <!--tv_wl_after-->
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="后"/>
+        <TextView
             android:id="@+id/tv_LossAfter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:text="后 60.5kg"/>
+            android:text="60.5"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="kg"/>
     </LinearLayout>
 </LinearLayout>
 <LinearLayout
@@ -88,7 +108,7 @@ android:background="#FFFFFF">
         android:layout_height="match_parent"
         android:gravity="center"
         android:textSize="12sp"
-        android:text="cm"
+        android:text="kg"
         android:layout_marginRight="15dp"/>
 
 </LinearLayout>

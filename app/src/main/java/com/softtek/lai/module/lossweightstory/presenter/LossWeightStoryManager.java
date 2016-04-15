@@ -3,8 +3,10 @@ package com.softtek.lai.module.lossweightstory.presenter;
 import android.content.Context;
 import android.widget.CheckBox;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.lossweightstory.model.LogList;
 import com.softtek.lai.module.lossweightstory.model.LossWeightStoryModel;
 import com.softtek.lai.module.lossweightstory.model.Zan;
 import com.softtek.lai.module.lossweightstory.net.LossWeightLogService;
@@ -36,15 +38,16 @@ public class LossWeightStoryManager {
     }
 
 
-    public void getLossWeightLogForClass(long accoundId) {
-        service.getCompetitionLogList(token, accoundId, new Callback<ResponseData<List<LossWeightStoryModel>>>() {
+    public void getLossWeightLogForClass(long accoundId,int pageIndex) {
+        service.getCompetitionLogList(token, accoundId,pageIndex, new Callback<ResponseData<LogList>>() {
             @Override
-            public void success(ResponseData<List<LossWeightStoryModel>> listResponseData, Response response) {
+            public void success(ResponseData<LogList> listResponseData, Response response) {
                 cb.getStroyList(listResponseData.getData());
             }
 
             @Override
             public void failure(RetrofitError error) {
+                Log.i("请求错误拉");
                 cb.getStroyList(null);
                 ZillaApi.dealNetError(error);
             }
@@ -72,6 +75,6 @@ public class LossWeightStoryManager {
 
     public interface StoryManagerCallBack{
 
-        void getStroyList(List<LossWeightStoryModel> models);
+        void getStroyList(LogList logList);
     }
 }
