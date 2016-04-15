@@ -12,15 +12,16 @@ import java.io.Serializable;
  */
 public class MeasureRemindInfo implements Serializable {
 
-    private String RecAcId;
+    private String MessageId;
     private String Content;
+    private String SentTime;
 
-    public String getRecAcId() {
-        return RecAcId;
+    public String getMessageId() {
+        return MessageId;
     }
 
-    public void setRecAcId(String recAcId) {
-        RecAcId = recAcId;
+    public void setMessageId(String messageId) {
+        MessageId = messageId;
     }
 
     public String getContent() {
@@ -34,8 +35,17 @@ public class MeasureRemindInfo implements Serializable {
     @Override
     public String toString() {
         return "MeasureRemindInfo{" +
-                "RecAcId='" + RecAcId + '\'' +
+                "MessageId='" + MessageId + '\'' +
                 ", Content='" + Content + '\'' +
+                ", SentTime='" + SentTime + '\'' +
                 '}';
+    }
+
+    public String getSentTime() {
+        return SentTime;
+    }
+
+    public void setSentTime(String sentTime) {
+        SentTime = sentTime;
     }
 }

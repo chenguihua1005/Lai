@@ -13,7 +13,7 @@
     <dimen name="fab_margin">16dp</dimen>
 
     <!-- 顾问版-->
-    <dimen name="circleImage">55dip</dimen>
+    <dimen name="circleImage">50dip</dimen>
 
     <dimen name="counselorClassTextSize">16sp</dimen>
     <dimen name="counselorClassTextMargin">10dip</dimen>
@@ -106,7 +106,20 @@
     <dimen name="gameMarginLeft1">57dip</dimen>
     <dimen name="gameMarginLeft2">9dip</dimen>
 
+    <dimen name="messageMarginLeft">11dip</dimen>
+    <dimen name="messageMarginTop">10dip</dimen>
+    <dimen name="messageMarginTop1">14dip</dimen>
+    <dimen name="messageMarginTop2">15dip</dimen>
+    <dimen name="messageMarginTop3">40dip</dimen>
+    <dimen name="messageMarginTop4">25dip</dimen>
+    <dimen name="messageMargin">6dip</dimen>
+    <dimen name="messageMargin1">5dip</dimen>
+    <dimen name="messageMarginRight">35dip</dimen>
 
     <dimen name="margin">15dip</dimen>
     <dimen name="textSize1">15sp</dimen>
+    <dimen name="textSize2">12sp</dimen>
+    <dimen name="textSize3">18sp</dimen>
+    <dimen name="textSize4">14sp</dimen>
+    <dimen name="textSize5">17sp</dimen>
 </resources>

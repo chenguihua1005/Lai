@@ -72,6 +72,8 @@
             android:name=".module.home.view.HomeActviity"
             android:launchMode="singleTask" />
         <activity android:name=".module.home.view.ValidateCertificationActivity" />
+        <activity android:name=".module.home.view.ModifyPasswordActivity" />
+        <activity android:name=".module.home.view.SettingsActivity" />
         <activity android:name=".module.File.view.DimensionRecordActivity" />
         <activity android:name=".module.retest.WriteActivity" />
         <activity android:name=".module.retest.AuditActivity" />
@@ -103,6 +105,12 @@
         <activity android:name=".module.bodygamest.view.FuceStActivity" />
         <activity android:name=".module.bodygamest.view.UploadPhotoActivity" />
         <activity android:name=".module.File.view.ExplainActivity" />
+        <activity android:name=".module.message.view.MessageActivity" />
+        <activity android:name=".module.message.view.MessageFcRemindActivity" />
+        <activity android:name=".module.message.view.MessageSrRemindActivity" />
+        <activity android:name=".module.message.view.MessagePcRemindActivity" />
+        <activity android:name=".module.message.view.JoinGameActivity" />
+        <activity android:name=".module.message.view.MessageSrManageActivity" />
         <activity android:name=".module.retest.view.BodyweiduActivity" />
         <activity android:name=".module.bodygamest.view.BodyweidustActivity" />
         <activity
