@@ -9,6 +9,12 @@
 
     </style>
 
+    <style name="radiobtn_style" parent="@android:style/Widget.Button">
+        <item name="android:textColor">@drawable/skin_color_button</item>
+        <!--@drawable/skin_color_button-->
+        <item name="android:background">@drawable/bg_radiobtn</item>
+    </style>
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

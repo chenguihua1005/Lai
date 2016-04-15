@@ -50,35 +50,48 @@
         android:gravity="center_horizontal">
 
         <RadioButton
+            style="@style/radiobtn_style"
             android:id="@+id/week"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:button="@null"
             android:text="周"
+            android:gravity="center"
             android:textSize="20sp"
+            android:textColor="#fdb02c"
             android:layout_marginRight="30dp"/>
+        <!--android:background="@drawable/bg_radiobtn"-->
         <RadioButton
             android:id="@+id/month"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:button="@null"
             android:text="月"
+            android:gravity="center"
+            style="@style/radiobtn_style"
             android:textSize="20sp"
+            android:textColor="#fdb02c"
             android:layout_marginRight="30dp"/>
         <RadioButton
             android:id="@+id/quarter"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:button="@null"
             android:text="季"
+            android:gravity="center"
+            style="@style/radiobtn_style"
             android:textSize="20sp"
+            android:textColor="#fdb02c"
             android:layout_marginRight="30dp"/>
         <RadioButton
             android:id="@+id/year"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:button="@null"
             android:text="年"
+            android:textColor="#fdb02c"
+            android:gravity="center"
+            style="@style/radiobtn_style"
             android:textSize="20sp"/>
     </RadioGroup>
 

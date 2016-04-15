@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--按钮样式文字：http://my.oschina.net/cuitongliang/blog/340169-->
+    <!--<?xml version="1.0" encoding="utf-8"?>-->
+    <!--<selector xmlns:android="http://schemas.android.com/apk/res/android">-->
+        <!--<item android:state_pressed="true" android:color="#fff"/>-->
+        <!--<item android:state_focused="true" android:color="#fff"/>-->
+        <!--<item android:color="#000" />-->
+    <!--</selector>-->
+
+    <!--2.添加至需要的xml里-->
+
+    <!--<android:textColor="@drawable/button_font_style">-->
+    <item android:state_checked="false">
+        <shape>
+            <stroke android:width="1dp"
+                android:color="#FFA302"/>
+            <solid android:color="#ffffff"/>
+            <corners android:radius="360dp"/>
+        </shape>
+    </item>
+    <item android:state_checked="true">
+
+<!--<color android:color="@color/white"/>-->
+        <shape>
+
+            <corners android:radius="360dp"/>
+            <solid android:color="#fdb02c"/>
+        </shape>
+  </item>
+
+</selector>
