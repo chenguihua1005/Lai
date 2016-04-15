@@ -45,8 +45,7 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="57036e6d67e58e5bd200006c"></meta-data>
-
+            android:value="57036e6d67e58e5bd200006c" />
 
         <activity
             android:name=".module.login.view.LoginActivity"
@@ -137,7 +136,9 @@
         <activity android:name=".module.bodygamecc.view.BodyGameCcActivity" />
         <activity android:name=".module.bodygameyk.view.BodygameYkActivity" />
         <activity android:name=".module.review.view.ReviewActivity" />
-        <activity android:name=".module.health.view.WeightActivity"></activity>
+        <activity android:name=".module.health.view.HealthyRecordActivity" />
+        <activity android:name=".module.confirmInfo.view.CansaiActivity" />
+        <activity android:name=".module.lossweightstory.view.LossWeightStoryActivity"></activity>
     </application>
 
 </manifest>

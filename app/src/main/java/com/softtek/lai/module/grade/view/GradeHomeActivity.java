@@ -262,7 +262,7 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
         if (grades != null && grades.size() > 0) {
             GradeInfoModel info = grades.get(0);
             tv_title.setText(info.getClassName());
-            tv_title_date.setText(info.getStartDate());
+            tv_title_date.setText(info.getStartDate()+"-"+info.getEndDate());
             Picasso.with(this).load(info.getClassBanner()).centerInside().placeholder(R.drawable.default_pic)
                     .error(R.drawable.default_pic).into(iv_grade_banner);
         }

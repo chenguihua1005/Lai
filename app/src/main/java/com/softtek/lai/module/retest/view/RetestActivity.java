@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -61,16 +62,20 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
     //展开班级列表
     @InjectView(R.id.ll_classlist)
     RelativeLayout ll_classlist;
+    @InjectView(R.id.ll_shousuolist)
+    LinearLayout ll_shousuolist;
+    @InjectView(R.id.ll_shousuo)
+    LinearLayout ll_shousuo;
     //选择班级
     @InjectView(R.id.selectclass)
     TextView selectclass;
-
+    private static final int GET_BODY=2;
     private List<BanjiModel> banjiModelList=new ArrayList<BanjiModel>();
     private List<BanjiStudentModel>banjiStudentModelList=new ArrayList<BanjiStudentModel>();
     private ClassAdapter classAdapter;
     private StudentAdapter studentAdapter;
     boolean h=false;
-
+    long ClassId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +92,7 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
 
         list_query.setAdapter(studentAdapter);
         ll_classlist.setOnClickListener(this);
+        ll_shousuo.setOnClickListener(this);
         ll_left.setOnClickListener(this);
         tv_right.setOnClickListener(this);
         iv_email.setOnClickListener(this);
@@ -95,7 +101,10 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 BanjiModel banjiModel=banjiModelList.get(position);
                 retestPre.doGetBanjiStudent(banjiModel.getClassId());
+                ClassId=banjiModel.getClassId();
                 list_class.setVisibility(View.INVISIBLE);
+                ll_shousuo.setVisibility(View.INVISIBLE);
+                ll_shousuolist.setVisibility(View.INVISIBLE);
                 Iv_fold.setImageResource(R.drawable.unfold);
                 selectclass.setText(banjiModel.getClassName());
                 h=false;
@@ -128,8 +137,7 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
                     //第几周期
                     intent.putExtra("Weekth",banjiStudentModel.getWeekth());
                     intent.putExtra("loginid","36");
-
-                    startActivity(intent);
+                    startActivityForResult(intent,GET_BODY);
 
                 }
                 else {
@@ -168,11 +176,16 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
 
                         if (h==false) {
                             list_class.setVisibility(View.VISIBLE);
+                            ll_classlist.setVisibility(View.VISIBLE);
+                            ll_shousuo.setVisibility(View.VISIBLE);
+                            ll_shousuolist.setVisibility(View.VISIBLE);
                             Iv_fold.setImageResource(R.drawable.retract);
                             h=true;
                         }
                         else {
                             list_class.setVisibility(View.INVISIBLE);
+                            ll_shousuo.setVisibility(View.INVISIBLE);
+                            ll_shousuolist.setVisibility(View.INVISIBLE);
                             Iv_fold.setImageResource(R.drawable.unfold);
                             h=false;
                         }
@@ -180,6 +193,7 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
 
                     case MotionEvent.ACTION_BUTTON_PRESS:
                         list_class.setVisibility(View.VISIBLE);
+                        ll_shousuo.setVisibility(View.VISIBLE);
                         break;
                     case MotionEvent.ACTION_UP:
 //                        list_class.setVisibility(View.INVISIBLE);
@@ -188,6 +202,27 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
                 return false;
             }
 
+        });
+        ll_shousuo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (h==false)
+                {
+                    list_class.setVisibility(View.VISIBLE);
+                    ll_classlist.setVisibility(View.VISIBLE);
+                    ll_shousuo.setVisibility(View.VISIBLE);
+                    ll_shousuolist.setVisibility(View.VISIBLE);
+                    Iv_fold.setImageResource(R.drawable.retract);
+                    h=true;
+                }
+                else {
+                    list_class.setVisibility(View.INVISIBLE);
+                    ll_shousuo.setVisibility(View.INVISIBLE);
+                    ll_shousuolist.setVisibility(View.INVISIBLE);
+                    Iv_fold.setImageResource(R.drawable.unfold);
+                    h=false;
+                }
+            }
         });
 
     }
@@ -221,6 +256,16 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
 
 
 
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //身体围度值传递
+        if (requestCode==GET_BODY&&resultCode==RESULT_OK){
+            studentAdapter.notifyDataSetChanged();
+//            retestPre.doGetBanjiStudent(ClassId);
+
+        }
     }
 
 

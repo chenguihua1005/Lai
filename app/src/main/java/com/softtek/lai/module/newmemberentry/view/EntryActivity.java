@@ -211,7 +211,8 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
         guwenClassPre.doGetGuwenClass(36);
         iNewStudentpresenter = new NewStudentInputImpl(this);
 
-        newstudentsModel = new NewstudentsModel();
+       //----------------------------------------
+        // newstudentsModel = new NewstudentsModel();
         tv_title.setText("新学员录入");
         //tv_left.setBackground(null);
         tv_right.setText("确定");
@@ -227,11 +228,15 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
                 break;
             //确定按钮
             case R.id.tv_right:
-                validateLife.validate();
+          //---------------------------------------------------------------------------------------------
+                //      validateLife.validate();
+                newstudentsModel = new NewstudentsModel(3,"ggg","182022","18206182022","32",12,12,12,"1960-6-15",1,"2024938094839380",90,90,90,90,90,90);
+                iNewStudentpresenter.input(newstudentsModel);
                 break;
             case R.id.btn_Add_bodydimension:
                 Intent intent1 = new Intent(EntryActivity.this, DimensioninputActivity.class);
-                intent1.putExtra("newstudentsModel", newstudentsModel);
+            //--------------------------------------------------------------
+                //    intent1.putExtra("newstudentsModel", newstudentsModel);
                 startActivityForResult(intent1, GET_BODY);
                 break;
             case R.id.img_photoupload:
@@ -337,7 +342,8 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
     @Subscribe
     public void onEvent1(PhotModel photModel) {
         System.out.println("classEvent.getPargradeModels()>>》》》》》》》》》》》》》》" + photModel.getImg());
-        newstudentsModel.setPhoto(photModel.getImg());
+        //-----------------------------------------------------------------
+        // newstudentsModel.setPhoto(photModel.getImg());
     }
 
     @Override
@@ -355,21 +361,22 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
 
         String b = mobile.substring(mobile.length() - 6, mobile.length());
         Log.i("获取新学员录入手机号码后6位：" + b);
-
-        newstudentsModel.setPassword(b);
-        newstudentsModel.setSentaccid(1);
-        newstudentsModel.setNickname(nickname);
-        //newstudentsModel.setCertification(certification);
-        newstudentsModel.setMobile(mobile);
-        //newstudentsModel.setClassid(Integer.parseInt(classid));
-        newstudentsModel.setClassid(classid);
-       // newstudentsModel.setClassid(classid);
-        newstudentsModel.setWeight(Double.parseDouble(weight.equals("") ? "0" : weight));
-        newstudentsModel.setPysical(Double.parseDouble(pysical.equals("") ? "0" : pysical));
-        newstudentsModel.setFat(Double.parseDouble(fat.equals("") ? "0" : fat));
-        newstudentsModel.setBirthday(birthday);
-        newstudentsModel.setGender(gender.equals("女") ? 0 : 1);
-//        newstudentsModel.setPhoto(img.getPhoto()+"");
+// "birthday":"1960-6-15","classid":"32","password":"182022","nickname":"ggg","mobile":"18206182022","hiplie":0.0,"weight":133.0,"fat":5.0,"doleggirth":0.0,"circum":0.0,"pysical":132.0,"sentaccid":1,"uparmgirth":90.0,"upleggirth":0.0,"waistline":0.0,"gender":1}
+        newstudentsModel = new NewstudentsModel(3,"ggg","182022","18206182022","32",12,12,12,"1960-6-15",1,"2024938094839380",90,90,90,90,90,90);
+//        newstudentsModel.setPassword(b);
+//        newstudentsModel.setSentaccid(1);
+//        newstudentsModel.setNickname(nickname);
+//        //newstudentsModel.setCertification(certification);
+//        newstudentsModel.setMobile(mobile);
+//        //newstudentsModel.setClassid(Integer.parseInt(classid));
+//        newstudentsModel.setClassid(classid);
+//       // newstudentsModel.setClassid(classid);
+//        newstudentsModel.setWeight(Double.parseDouble(weight.equals("") ? "0" : weight));
+//        newstudentsModel.setPysical(Double.parseDouble(pysical.equals("") ? "0" : pysical));
+//        newstudentsModel.setFat(Double.parseDouble(fat.equals("") ? "0" : fat));
+//        newstudentsModel.setBirthday(birthday);
+//        newstudentsModel.setGender(gender.equals("女") ? 0 : 1);
+//       newstudentsModel.setPhoto("2024938094839380");//img.getPhoto()+""
         iNewStudentpresenter.input(newstudentsModel);
         //newstudentsModel.setPhoto("/storage/emulated/0/123.jpg");
     }

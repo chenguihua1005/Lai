@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.snowdream.android.util.Log;
 import com.mobsandgeeks.saripaar.Rule;
@@ -42,6 +43,7 @@ import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 
 @InjectLayout(R.layout.activity_creatfile)
@@ -351,8 +353,13 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         final AlertDialog.Builder birdialog=new AlertDialog.Builder(this);
         View view=getLayoutInflater().inflate(R.layout.dialog,null);
         final NumberPicker np = (NumberPicker) view.findViewById(R.id.numberPicker1);
+        Util.toastMsg(tv_sex.getText().toString());
+        if(tv_sex.getText().toString()=="男"){
+            np.setValue(170);
+        }else {
+            np.setValue(155);
+        }
         np.setMaxValue(220);
-        np.setValue(155);
         np.setMinValue(50);
         np.setWrapSelectorWheel(false);
         birdialog.setTitle("选择身高(单位：cm)").setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -374,9 +381,15 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         final AlertDialog.Builder birdialog=new AlertDialog.Builder(this);
         View view=getLayoutInflater().inflate(R.layout.dialog,null);
         final NumberPicker np = (NumberPicker) view.findViewById(R.id.numberPicker1);
+        Util.toastMsg(tv_sex.getText().toString());
+        if(tv_sex.getText().toString()=="男"){
+            np.setValue(150);
+        }else {
+            np.setValue(100);
+        }
         np.setMaxValue(220);
-        np.setValue(100);
         np.setMinValue(20);
+        np.setWrapSelectorWheel(false);
         birdialog.setTitle("选择体重(单位：斤)").setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

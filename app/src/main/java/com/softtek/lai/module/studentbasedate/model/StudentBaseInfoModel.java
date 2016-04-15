@@ -1,9 +1,11 @@
 package com.softtek.lai.module.studentbasedate.model;
 
+import java.io.Serializable;
+
 /**
  * Created by jerry.guan on 4/8/2016.
  */
-public class StudentBaseInfoModel {
+public class StudentBaseInfoModel implements Serializable{
 
     private long AccountId;
     private String banner;

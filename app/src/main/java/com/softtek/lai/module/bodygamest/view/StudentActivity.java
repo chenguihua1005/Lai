@@ -20,6 +20,7 @@ import com.softtek.lai.module.bodygame.model.TotolModel;
 import com.softtek.lai.module.bodygame.presenter.ITiGuanSai;
 import com.softtek.lai.module.bodygame.presenter.TiGuanSaiImpl;
 import com.softtek.lai.module.bodygame.view.TipsActivity;
+import com.softtek.lai.module.lossweightstory.view.LossWeightStoryActivity;
 import com.softtek.lai.module.studentbasedate.view.StudentBaseDateActivity;
 import com.squareup.picasso.Picasso;
 import org.greenrobot.eventbus.EventBus;
@@ -160,7 +161,7 @@ public class StudentActivity extends BaseActivity implements View.OnClickListene
                 break;
             //减重故事
             case R.id.ll_st_jianzhong:
-
+                startActivity(new Intent(this, LossWeightStoryActivity.class));
                 break;
             //成绩单
             case R.id.ll_st_chengjidan:

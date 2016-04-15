@@ -12,103 +12,233 @@
         android:background="#ffffff"
         android:id="@+id/top"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:background="#ffffff"
             android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="0.45"
                 android:layout_height="wrap_content"
                 android:gravity="center">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="当月新开班级"
-                    android:textSize="20dp" />
-                <TextView
-                    android:id="@+id/tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="3"
-                    android:textSize="20dp" />
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/pic_addbanji"/>
+                <LinearLayout
+                    android:layout_weight="0.7"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="当月新开班级"
+                        android:textSize="15sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:gravity="center|right"
+                    android:layout_weight="0.3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/tv_newban"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:text="3"
+                        android:textSize="20sp" />
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/pic_addbanji"/>
+                </LinearLayout>
             </LinearLayout>
             <LinearLayout
-                android:gravity="center_horizontal"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="0.1"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+            </LinearLayout>
+            <LinearLayout
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_weight="0.45"
                 android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="新增学员"
-                    android:textSize="20dp" />
-                <TextView
-                    android:id="@+id/t"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="500"
-                    android:textSize="20dp" />
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/pic_addstudent"/>
+                <LinearLayout
+                    android:layout_weight="0.7"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="新增学员"
+                        android:textSize="15sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:gravity="center|right"
+                    android:layout_weight="0.3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/tv_newmem"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:text="500"
+                        android:textSize="20sp" />
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/pic_addstudent"/>
+                </LinearLayout>
+
             </LinearLayout>
         </LinearLayout>
-
+        <View
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="#e2e2e2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <LinearLayout
-                android:background="#808080"
                 android:layout_width="0dp"
-                android:layout_weight="0.5"
-                android:layout_height="wrap_content">
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_height="180dp">
+                <com.ggx.jerryguan.widget_lib.Chart
+                    android:layout_width="130dp"
+                    android:layout_height="130dp"
+                    android:id="@+id/total_weight">
+                </com.ggx.jerryguan.widget_lib.Chart>
 
             </LinearLayout>
             <LinearLayout
-                android:background="#999980"
+                android:gravity="center"
+                android:orientation="vertical"
                 android:layout_width="0dp"
-                android:layout_weight="0.5"
-                android:layout_height="wrap_content">
+                android:layout_weight="1"
+                android:layout_height="180dp">
 
-                <TextView
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:gravity="center|left"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="排名" />
+                    android:layout_marginBottom="15dp">
+                    <ImageView
+                        android:layout_marginRight="5dp"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/pic_oneban"/>
+                    <TextView
+                        android:layout_marginRight="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1月班减重"
+                        android:textColor="#6f6f6f"
+                        android:textSize="12sp" />
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="姓名" />
+                    <TextView
+                        android:id="@+id/tv_oneban"
+                        android:layout_marginRight="2dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#333333"
+                        android:textSize="18sp"
+                        android:text="800"/>
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="减重前" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:text="kg" />
 
-                <TextView
-                    android:layout_width="0dp"
+
+                </LinearLayout>
+                <LinearLayout
+                    android:gravity="center|left"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="减重后" />
+                    android:layout_marginBottom="15dp">
+                    <ImageView
+                        android:layout_marginRight="5dp"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/pic_twoban"/>
+                    <TextView
+                        android:layout_marginRight="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2月班减重"
+                        android:textColor="#6f6f6f"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_twoban"
+                        android:layout_marginRight="2dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#333333"
+                        android:textSize="18sp"
+                        android:text="800" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:text="kg" />
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:gravity="center|left"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_marginRight="5dp"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/pic_threeban"/>
+                    <TextView
+                        android:layout_marginRight="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="3月班减重"
+                        android:textColor="#6f6f6f"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_threeban"
+                        android:layout_marginRight="2dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#333333"
+                        android:textSize="18sp"
+                        android:text="800" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:text="kg" />
+
+                </LinearLayout>
 
 
             </LinearLayout>
@@ -125,9 +255,11 @@
         <LinearLayout
             android:background="#74bb2a"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:gravity="center|left">
             <ImageView
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:scaleType="fitCenter"

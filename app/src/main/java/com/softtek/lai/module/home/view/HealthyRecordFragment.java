@@ -6,12 +6,16 @@
 package com.softtek.lai.module.home.view;
 
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.module.health.view.FatFragment;
+import com.softtek.lai.module.health.view.HealthyRecordActivity;
+import com.softtek.lai.module.health.view.WeightFragment;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -66,22 +70,52 @@ public class HealthyRecordFragment extends BaseFragment implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.tv_weight:
+                Intent intent=new Intent(getContext(),HealthyRecordActivity.class);
+                intent.putExtra("id",0);
+                startActivity(intent);
+//                startActivity(new Intent(getContext(), HealthyRecordActivity.class));
                 break;
             case R.id.tv_body_fat:
+                Intent intent1=new Intent(getContext(),HealthyRecordActivity.class);
+                intent1.putExtra("id",1);
+                startActivity(intent1);
+               // startActivity(new Intent(getContext(), HealthyRecordActivity.class));
                 break;
             case R.id.tv_fat:
+                Intent intent2=new Intent(getContext(),HealthyRecordActivity.class);
+                intent2.putExtra("id",2);
+                startActivity(intent2);
+               // startActivity(new Intent(getContext(), HealthyRecordActivity.class));
                 break;
             case R.id.tv_bust:
+                Intent intent3=new Intent(getContext(),HealthyRecordActivity.class);
+                intent3.putExtra("id",3);
+                startActivity(intent3);
                 break;
             case R.id.tv_waistline:
+                Intent intent4=new Intent(getContext(),HealthyRecordActivity.class);
+                intent4.putExtra("id",4);
+                startActivity(intent4);
                 break;
             case R.id.tv_hipline:
+                Intent intent5=new Intent(getContext(),HealthyRecordActivity.class);
+                intent5.putExtra("id",5);
+                startActivity(intent5);
                 break;
             case R.id.tv_uphipline:
+                Intent intent6=new Intent(getContext(),HealthyRecordActivity.class);
+                intent6.putExtra("id",6);
+                startActivity(intent6);
                 break;
             case R.id.tv_leg:
+                Intent intent7=new Intent(getContext(),HealthyRecordActivity.class);
+                intent7.putExtra("id",7);
+                startActivity(intent7);
                 break;
             case R.id.tv_shin:
+                Intent intent8=new Intent(getContext(),HealthyRecordActivity.class);
+                intent8.putExtra("id",8);
+                startActivity(intent8);
                 break;
         }
     }

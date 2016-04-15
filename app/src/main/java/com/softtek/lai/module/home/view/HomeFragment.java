@@ -38,6 +38,7 @@ import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.login.view.RegistActivity;
 import com.softtek.lai.module.message.view.MessageActivity;
+import com.softtek.lai.module.lossweightstory.view.LossWeightStoryActivity;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.DisplayUtil;
@@ -198,7 +199,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,A
      */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        startActivity(new Intent(getContext(),CounselorActivity.class));
+        startActivity(new Intent(getContext(), LossWeightStoryActivity.class));
         if(1==1){
             return;
         }

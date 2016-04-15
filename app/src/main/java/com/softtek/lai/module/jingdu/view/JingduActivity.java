@@ -15,6 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import butterknife.InjectView;
+
+import com.ggx.jerryguan.widget_lib.Chart;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.jingdu.Adapter.RankAdapter;
@@ -56,24 +58,36 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
     @InjectView(R.id.list_rank)
     ListView list_rank;
 
-//    @InjectView(R.id.tv_wz)
-//    TextView tv_wz;
-//
-//    @InjectView(R.id.tv_wz2)
-//    TextView tv_wz2;
+    @InjectView(R.id.tv_newban)
+    TextView tv_newban;
+
+    @InjectView(R.id.tv_newmem)
+    TextView tv_newmem;
+
+    @InjectView(R.id.tv_oneban)
+    TextView tv_oneban;
+
+    @InjectView(R.id.tv_twoban)
+    TextView tv_twoban;
+
+    @InjectView(R.id.tv_threeban)
+    TextView tv_threeban;
+
+    @InjectView(R.id.total_weight)
+    Chart total_weight;
+
 
     private List<Table1Model> table1ModelList = new ArrayList<Table1Model>();
     private IGetProinfopresenter iGetProinfopresenter;
 
     private RankModel rank;
     public RankAdapter rankAdapter;
-    String a = "";
-    String b = "";
+    String newban = "";
+    String newmem = "";
     String c = "";
-    String d = "";
-    String e = "";
-    String f = "";
-    String g = "";
+    int oneban;
+    int twoban;
+    int threeban;
     String text;
 
     @Override
@@ -84,7 +98,6 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
         list_rank.setAdapter(rankAdapter);
         ll_left.setOnClickListener(this);
         tv_right.setOnClickListener(this);
-//        tv_wz.setText(text);
     }
 
     @Override
@@ -108,10 +121,20 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
     @Subscribe
     public void onEvent(RankModel rank) {
         System.out.println("rankEvent.getRanks()》》》》》》》》》》》》》》" + rank.getTable());
-        a=rank.getTable().get(0).getTotalClass();
-        b=rank.getTable().get(0).getTotalMember();
+        newban=rank.getTable().get(0).getTotalClass();
+        newmem=rank.getTable().get(0).getTotalMember();
         c=rank.getTable().get(0).getTotalWeight();
-       // tv_wz.setText( "本月新开班级"+a+"个,新增学员"+b+"名,累计减重"+c+"斤,其中1月班累计减重"+d+"斤,2月班本月累计减重"+e+"xx"+"斤,3月班本月累计减重"+f+"xx"+"斤, 相当于"+g+"xx"+"头大象.");
+        oneban =100;
+        twoban =200;
+        threeban =300;
+
+        tv_newban.setText(newban);
+        tv_newmem.setText(newmem);
+        tv_oneban.setText(oneban+"");
+        tv_twoban.setText(twoban+"");
+        tv_threeban.setText(threeban+"");
+        total_weight.setValue(oneban,twoban,threeban);
+
 
         table1ModelList=rank.getTable1();
         rankAdapter.updateData(table1ModelList);

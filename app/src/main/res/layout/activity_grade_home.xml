@@ -23,10 +23,13 @@
             android:gravity="center">
 
             <TextView
-                android:layout_width="15dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="-15dp"
-                android:background="@drawable/back" />
+                android:id="@+id/tv_left"
+                android:layout_width="10dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="-18dp"
+                android:background="@drawable/back"
+                android:textColor="#ffffff"
+                />
         </LinearLayout>
 
         <LinearLayout

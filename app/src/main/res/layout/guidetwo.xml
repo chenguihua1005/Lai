@@ -5,7 +5,15 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:gravity="center_vertical">
-
+    <TextView
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:textColor="#ffffff"
+        android:layout_gravity="center"
+        android:layout_marginBottom="40dp"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:text="测量腰围"/>
     <ImageView
             android:layout_width="300dp"
             android:layout_height="300dp"
@@ -23,5 +31,5 @@
             android:layout_marginRight="20dp"
             android:textSize="18sp"
             android:gravity="center"
-            android:text="腰围: 穿单薄衣物, 正常呼吸, 将软尺贴着皮肤围绕腰部最细处一周测量 (向心性肥胖者在肚脐上方3cm 的水平位置), 吐气结束时读取数值。"/>
+            android:text="穿单薄衣物, 正常呼吸, 将软尺贴着皮肤围绕腰部最细处一周测量 (向心性肥胖者在肚脐上方3cm 的水平位置), 吐气结束时读取数值。"/>
 </LinearLayout>
