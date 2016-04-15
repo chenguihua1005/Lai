@@ -56,7 +56,8 @@
             android:button="@null"
             android:text="周"
             android:textSize="20sp"
-            android:layout_marginRight="30dp"/>
+            android:layout_marginRight="30dp"
+            android:background="@drawable/radio_button_selector"/>
         <RadioButton
             android:id="@+id/month"
             android:layout_width="wrap_content"
@@ -64,7 +65,8 @@
             android:button="@null"
             android:text="月"
             android:textSize="20sp"
-            android:layout_marginRight="30dp"/>
+            android:layout_marginRight="30dp"
+            android:background="@drawable/radio_button_selector"/>
         <RadioButton
             android:id="@+id/quarter"
             android:layout_width="wrap_content"
@@ -72,12 +74,14 @@
             android:button="@null"
             android:text="季"
             android:textSize="20sp"
-            android:layout_marginRight="30dp"/>
+            android:layout_marginRight="30dp"
+            android:background="@drawable/radio_button_selector"/>
         <RadioButton
             android:id="@+id/year"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:button="@null"
+            android:background="@drawable/radio_button_selector"
             android:text="年"
             android:textSize="20sp"/>
     </RadioGroup>
