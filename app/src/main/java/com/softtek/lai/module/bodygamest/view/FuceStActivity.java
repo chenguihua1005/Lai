@@ -31,6 +31,9 @@ import android.widget.TextView;
 import butterknife.InjectView;
 
 import com.github.snowdream.android.util.Log;
+import com.mobsandgeeks.saripaar.Rule;
+import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
@@ -54,11 +57,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 import zilla.libcore.file.SharedPreferenceService;
+import zilla.libcore.lifecircle.LifeCircleInject;
+import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_fuce_st)
-public class FuceStActivity extends BaseActivity implements View.OnClickListener{
+public class FuceStActivity extends BaseActivity implements View.OnClickListener,Validator.ValidationListener{
+    @LifeCircleInject
+    ValidateLife validateLife;
 
     //toolbar
     @InjectView(R.id.tv_title)
@@ -89,9 +96,11 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
 
     //保存数据点击
     //初始体重
+    @Required(order = 1,message = "初始体重必填项，请选择")
     @InjectView(R.id.ll_fucest_chu_weight)
     LinearLayout ll_fucest_chu_weight;
     //现在体重
+    @Required(order = 2,message = "现在体重必填项，请选择")
     @InjectView(R.id.ll_fucest_nowweight)
     LinearLayout ll_fucest_nowweight;
     // 体脂
@@ -253,12 +262,8 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
                 dialog.show();
                 break;
             case R.id.bt_pingshen:
-                retestWrite.setWeight(tv_retestWrites_nowweight.getText()+"");
-                retestWrite.setPysical(tv_retestWritest_tizhi.getText()+"");
-                retestWrite.setFat(tv_retestWritest_neizhi.getText()+"");
-                retestWrite.setClassId("");
-                retestWrite.setAccountId("");
-                retestPre.doPostWrite(loginid,loginid,retestWrite);
+                validateLife.validate();
+
                 break;
             case R.id.ll_left:
                 finish();
@@ -278,6 +283,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         String[] mon=StartDate.split("-");
         String[] currStart=CurrStart.split("-");
         String[] currEnd=CurrEnd.split("-");
+        retestWrite.setClassId(retestAuditModelEvent.getRetestAuditModels().get(0).getClassId());
         tv_writest_class.setText(tomonth(mon[1]));
         tv_writest_monst.setText(currStart[1]);
         tv_writest_dayst.setText(currStart[2]);
@@ -393,12 +399,12 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
             public void onClick(DialogInterface dialog, int which) {
                 if (num==0) {
                     tv_writes_chu_weight.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())); //set the value to textview
-
+                    tv_writes_chu_weight.setError(null);
                 }
                 else if (num==1)
                 {
                     tv_retestWrites_nowweight.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
-
+                    tv_retestWrites_nowweight.setError(null);
                 }
                 else if (num==2)
                 {
@@ -460,5 +466,21 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
             month="十二月班";
         }
         return month;
+    }
+
+    @Override
+    public void onValidationSucceeded() {
+        retestWrite.setWeight(tv_retestWrites_nowweight.getText()+"");
+        retestWrite.setInitWeight(tv_writes_chu_weight.getText()+"");
+        retestWrite.setPysical(tv_retestWritest_tizhi.getText()+"");
+        retestWrite.setFat(tv_retestWritest_neizhi.getText()+"");
+        retestWrite.setAccountId(loginid+"");
+        retestPre.doPostWrite(loginid,loginid,retestWrite);
+
+    }
+
+    @Override
+    public void onValidationFailed(View failedView, Rule<?> failedRule) {
+        validateLife.onValidationFailed(failedView, failedRule);
     }
 }

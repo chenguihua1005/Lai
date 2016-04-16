@@ -193,12 +193,11 @@ public class RetestclassImp implements RetestPre{
             @Override
             public void success(ResponseData retestWriteResponseData, Response response) {
 
-                if(retestWriteResponseData!=null){
+//                if(retestWriteResponseData!=null){
                     int status=retestWriteResponseData.getStatus();
                     switch (status)
                     {
                         case 200:
-
                             Util.toastMsg("复测记保存取成功");
                             break;
                         case 201:
@@ -206,12 +205,14 @@ public class RetestclassImp implements RetestPre{
                             break;
                         case 302:
                             Util.toastMsg("本周复测记录已存在");
+                            break;
                             default:
                                 Util.toastMsg(retestWriteResponseData.getMsg());
+                                break;
                     }
                 }
 
-            }
+//            }
 
             @Override
             public void failure(RetrofitError error) {
