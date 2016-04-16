@@ -107,11 +107,11 @@ public class MessageSrManageActivity extends BaseActivity implements View.OnClic
                 }
                 break;
             case R.id.but_no:
-                messagePresenter.acceptInviterToClass(messageDetailInfo.getInviterId(),messageDetailInfo.getClassId(),"0",messageDetailInfo);
+                messagePresenter.acceptInviter(messageDetailInfo.getInviterId(), messageDetailInfo.getClassId(), "0");
                 break;
             case R.id.but_yes:
                 if (isSelect) {
-                    messagePresenter.acceptInviterToClass(messageDetailInfo.getInviterId(),messageDetailInfo.getClassId(),"1",messageDetailInfo);
+                    messagePresenter.acceptInviter(messageDetailInfo.getInviterId(), messageDetailInfo.getClassId(), "1");
                 } else {
                     Util.toastMsg(R.string.joinGameQ);
                 }

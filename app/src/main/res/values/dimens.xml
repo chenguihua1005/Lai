@@ -95,6 +95,12 @@
 
     <dimen name="studentHonorMargin">20dip</dimen>
     <dimen name="studentHonorMarginTop">10dip</dimen>
+    <dimen name="studentHonorMarginTop1">39dip</dimen>
+    <dimen name="studentHonorMarginTop2">15dip</dimen>
+    <dimen name="studentHonorMarginTop3">37dip</dimen>
+    <dimen name="studentHonorMarginTop4">18dip</dimen>
+    <dimen name="studentHonorMarginTop5">22dip</dimen>
+    <dimen name="studentHonorMarginRight">26dip</dimen>
     <dimen name="studentHonorTextSize">16sp</dimen>
     <dimen name="studentHonorTextSizes">14sp</dimen>
     <dimen name="studentHonorHeight">100dip</dimen>
@@ -122,4 +128,8 @@
     <dimen name="textSize3">18sp</dimen>
     <dimen name="textSize4">14sp</dimen>
     <dimen name="textSize5">17sp</dimen>
+    <dimen name="textSize6">11sp</dimen>
+    <dimen name="textSize7">6sp</dimen>
+    <dimen name="textSize8">7sp</dimen>
+    <dimen name="textSize9">5sp</dimen>
 </resources>

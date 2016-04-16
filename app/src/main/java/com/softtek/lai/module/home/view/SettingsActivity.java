@@ -5,6 +5,7 @@
 
 package com.softtek.lai.module.home.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,6 +26,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.login.presenter.IPasswordPresenter;
 import com.softtek.lai.module.login.presenter.PasswordPresnter;
+import com.softtek.lai.module.message.view.MessageActivity;
 import com.softtek.lai.utils.SoftInputUtil;
 
 import butterknife.InjectView;
@@ -48,10 +50,14 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
     @InjectView(R.id.tv_title)
     TextView tv_title;
 
+    @InjectView(R.id.lin_about)
+    LinearLayout lin_about;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ll_left.setOnClickListener(this);
+        lin_about.setOnClickListener(this);
     }
 
     @Override
@@ -71,6 +77,8 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         switch (v.getId()) {
             case R.id.ll_left:
                 finish();
+                break;
+            case R.id.lin_about:
                 break;
 
         }

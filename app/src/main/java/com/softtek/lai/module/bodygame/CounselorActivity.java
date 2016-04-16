@@ -219,9 +219,9 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
             break;
             case R.id.ll_honor:
             {
- //               Intent intent = new Intent(this, StudentHonorActivity.class);
+                Intent intent = new Intent(this, StudentHonorActivity.class);
 //               Intent intent = new Intent(this, SPHonorActivity.class);
-               Intent intent = new Intent(this, StudentScoreActivity.class);
+//               Intent intent = new Intent(this, StudentScoreActivity.class);
                 startActivity(intent);
                 Util.toastMsg("荣誉榜页面");
             }

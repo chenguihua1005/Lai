@@ -11,6 +11,7 @@ import android.content.Context;
 import android.database.DataSetObserver;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
@@ -18,6 +19,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.Scroller;
+
+import com.ggx.ruler_lib.OnScrollViewChanged;
 
 public class HorizontalListView extends AdapterView<ListAdapter> {
 
@@ -52,6 +55,11 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
         mMaxX = Integer.MAX_VALUE;
         mScroller = new Scroller(getContext());
         mGesture = new GestureDetector(getContext(), mOnGesture);
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        return super.onInterceptTouchEvent(ev) && mGesture.onTouchEvent(ev);
     }
 
     @Override
@@ -262,6 +270,7 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
         }
     }
 
+
     public synchronized void scrollTo(int x) {
         mScroller.startScroll(mNextX, 0, x - mNextX, 0);
         requestLayout();
@@ -290,6 +299,7 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
         return true;
     }
 
+
     private OnGestureListener mOnGesture = new GestureDetector.SimpleOnGestureListener() {
 
         @Override
@@ -300,18 +310,26 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
                                float velocityY) {
+
             return HorizontalListView.this.onFling(e1, e2, velocityX, velocityY);
         }
 
         @Override
         public boolean onScroll(MotionEvent e1, MotionEvent e2,
                                 float distanceX, float distanceY) {
-            synchronized (HorizontalListView.this) {
-                mNextX += (int) distanceX;
+            if (Math.abs(distanceY) < Math.abs(distanceX)) {
+                synchronized (HorizontalListView.this) {
+                    mNextX += (int) distanceX;
+                }
+                requestLayout();
+                return true;
             }
-            requestLayout();
-            return true;
-
+            return false;
+//            synchronized (HorizontalListView.this) {
+//                mNextX += (int) distanceX;
+//            }
+//            requestLayout();
+//            return true;
         }
 
         @Override
@@ -359,6 +377,5 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
             return viewRect.contains((int) e.getRawX(), (int) e.getRawY());
         }
     };
-
 
 }
