@@ -74,7 +74,8 @@
         <activity android:name=".module.home.view.ModifyPasswordActivity" />
         <activity android:name=".module.home.view.SettingsActivity" />
         <activity android:name=".module.File.view.DimensionRecordActivity" />
-        <activity android:name=".module.retest.WriteActivity" />
+        <activity android:name=".module.retest.WriteActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"/>/>
         <activity android:name=".module.retest.AuditActivity"
             android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity android:name=".module.retest.view.RetestActivity" />
@@ -103,7 +104,8 @@
         <activity android:name=".module.counselor.view.InviteStudentActivity" />
         <activity android:name=".module.counselor.view.GameActivity" />
         <activity android:name=".module.newmemberentry.view.DimensioninputActivity" />
-        <activity android:name=".module.bodygamest.view.FuceStActivity" />
+        <activity android:name=".module.bodygamest.view.FuceStActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"/>/>
         <activity android:name=".module.bodygamest.view.UploadPhotoActivity" />
         <activity android:name=".module.File.view.ExplainActivity" />
         <activity

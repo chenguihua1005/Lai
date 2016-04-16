@@ -59,6 +59,7 @@ import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_write)
 public class WriteActivity extends BaseActivity implements View.OnClickListener,
@@ -366,11 +367,18 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
                 startActivityForResult(intent,GET_BODY);
                 break;
             //点击弹框事件
+
             case R.id.ll_retestWrite_chu_weight:
-                show_information("初始体重（kg）",200,70,20,9,5,0,0);
+                if (retestAuditModel.getIsFirst()=="true") {
+                    show_information("初始体重（kg）",200,100,20,9,5,0,0);
+                }
+                else {
+                    Util.toastMsg("该学员非第一次加入不能修改初始体重");
+                }
+
                 break;
             case R.id.ll_retestWrite_nowweight:
-                show_information("现在体重（kg）",200,70,20,9,5,0,1);
+                show_information("现在体重（kg）",200,100,20,9,5,0,1);
                 break;
             case R.id.ll_retestWrite_tizhi:
                 show_information("体脂（%）",100,50,0,9,5,0,2);
