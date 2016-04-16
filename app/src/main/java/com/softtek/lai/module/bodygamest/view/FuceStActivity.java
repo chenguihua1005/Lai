@@ -256,10 +256,10 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
                 retestWrite.setWeight(tv_retestWrites_nowweight.getText()+"");
                 retestWrite.setPysical(tv_retestWritest_tizhi.getText()+"");
                 retestWrite.setFat(tv_retestWritest_neizhi.getText()+"");
-                retestWrite.setClassId("4");
+                retestWrite.setClassId("");
                 retestWrite.setImage("");
                 retestWrite.setAccountId("3");
-                retestPre.doPostWrite(3,36,retestWrite);
+                retestPre.doPostWrite(loginid,loginid,retestWrite);
                 break;
             case R.id.ll_left:
                 finish();
