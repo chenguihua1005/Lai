@@ -7,8 +7,8 @@ package com.softtek.lai.module.newmemberentry.view;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -20,8 +20,15 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
-import android.widget.*;
-import butterknife.InjectView;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.NumberPicker;
+import android.widget.TextView;
+
 import com.github.snowdream.android.util.Log;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
@@ -29,7 +36,6 @@ import com.mobsandgeeks.saripaar.annotation.Regex;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.module.File.view.CreatFlleActivity;
 import com.softtek.lai.module.newmemberentry.view.Adapter.MemberAdapter;
 import com.softtek.lai.module.newmemberentry.view.EventModel.ClassEvent;
 import com.softtek.lai.module.newmemberentry.view.model.NewstudentsModel;
@@ -43,16 +49,18 @@ import com.softtek.lai.widgets.WheelView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import zilla.libcore.lifecircle.LifeCircleInject;
-import zilla.libcore.lifecircle.validate.ValidateLife;
-import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import butterknife.InjectView;
+import zilla.libcore.lifecircle.LifeCircleInject;
+import zilla.libcore.lifecircle.validate.ValidateLife;
+import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_member_entry)
 public class EntryActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener {
@@ -219,6 +227,14 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
         addGrade();
     }
 
+    String first_image;
+    private CharSequence[] items={"拍照","照片"};
+    private static final int OPEN_CAMERA_REQUEST=1;
+    private static final int OPEN_PICTURE_REQUEST=2;
+    private static final String IMAGE_UPLOADS_DIR=Environment.getExternalStorageDirectory() + File.separator + "healthyfragmentuoploads";
+    private File dir=new File(IMAGE_UPLOADS_DIR);
+
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -236,45 +252,63 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
                 intent1.putExtra("newstudentsModel", newstudentsModel);
                 startActivityForResult(intent1, GET_BODY);
                 break;
+            //弹出照片选择对话框
             case R.id.img_photoupload:
-//                final Dialog dialog=new AlertDialog.Builder(EntryActivity.this)
-//                        .setTitle("照片上传")
-//                        .setPositiveButton("从相机选择图片",
-//                                new DialogInterface.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(DialogInterface dialogInterface, int which) {
-//                                        takecamera();
-//                                        dialogInterface.dismiss();
+                AlertDialog.Builder builder=new AlertDialog.Builder(EntryActivity.this);
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(which==0){
+                            //拍照
+                            //先验证手机是否有sdcard
+                            String status = Environment.getExternalStorageState();
+                            if (status.equals(Environment.MEDIA_MOUNTED)) {
+                                try {
+//                                    if (!dir.exists()){
+//                                        dir.mkdirs();
+//                                    }else {
+//                                        dir.delete();
+//                                        dir.mkdirs();
+//                                    }
+//                                    String nameTemp= SystemClock.currentThreadTimeMillis()+".png";
+//                                    File f = new File(dir, nameTemp);
+//                                    first_image=f.getAbsolutePath();
+////                                    bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(selectedImage));
 //
-//                                    }
-//                                })
-//                        .setNegativeButton("从相册选择图片",
-//                                new DialogInterface.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(DialogInterface dialogInterface, int arg1) {
-//                                        takepic();
-//                                        dialogInterface.dismiss();
-//                                    }
-//                                })
-//                        .create();
-//                dialog.show();
-                final GetPhotoDialog dialog = new GetPhotoDialog(this,
-                        new GetPhotoDialog.GetPhotoDialogListener() {
-                            @Override
-                            public void onClick(View view) {
-                                switch (view.getId()) {
-                                    case R.id.imgbtn_camera:
-                                        takecamera();
-                                        break;
-                                    case R.id.imgbtn_pic:
-                                        takepic();
-                                        break;
+//                                    startActivityForResult(SystemUtils.openCamera(Uri.fromFile(f)), OPEN_CAMERA_REQUEST);
+                                    takecamera();
+                                } catch (ActivityNotFoundException e) {
+                                    Util.toastMsg("没有找到存储目录");
                                 }
+                            } else {
+                                Util.toastMsg("没有存储卡");
                             }
-                        });
-                dialog.setTitle("照片上传");
-                //dialog.setCanceledOnTouchOutside(false);
-                dialog.show();
+                        }else if(which==1){
+                            //照片
+                            //startActivityForResult(SystemUtils.openPicture(),OPEN_PICTURE_REQUEST);
+                            takepic();
+                        }
+                    }
+                }).create().show();
+
+
+//                final GetPhotoDialog dialog = new GetPhotoDialog(this,
+//                        new GetPhotoDialog.GetPhotoDialogListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//                                switch (view.getId()) {
+//                                    case R.id.imgbtn_camera:
+//                                        takecamera();
+//                                        break;
+//                                    case R.id.imgbtn_pic:
+//                                        takepic();
+//                                        break;
+//                                }
+//                            }
+//                        });
+//                dialog.setTitle("照片上传");
+//                //dialog.setCanceledOnTouchOutside(false);
+//                dialog.show();
                 break;
             //删除照片功能
             case R.id.img_delete:
@@ -359,7 +393,6 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
 
         newstudentsModel.setSentaccid(36);
         newstudentsModel.setNickname(nickname);
-        //newstudentsModel.setCertification(certification);
         newstudentsModel.setMobile(mobile);
         //newstudentsModel.setClassid(Integer.parseInt(classid));
         newstudentsModel.setClassid(classid);
@@ -410,10 +443,32 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
         return inSampleSize;
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+//        if(resultCode==RESULT_OK){//result_ok
+//            if(requestCode==OPEN_CAMERA_REQUEST){
+//                iNewStudentpresenter.upload(first_image.toString());
+//            }else if(requestCode==OPEN_PICTURE_REQUEST){
+//                ContentResolver resolver=EntryActivity.this.getContentResolver();
+//                Uri originalUri=data.getData();
+//                String[] proj = {MediaStore.Images.Media.DATA};
+//                Cursor cursor = resolver.query(originalUri, proj, null, null, null);
+//                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+//                cursor.moveToFirst();
+//                //索引值获取图片路径
+//                String path = cursor.getString(column_index);
+//                first_image=path;
+//                iNewStudentpresenter.upload(first_image.toString());
+//            }
+//
+//        }else if(resultCode==0){//返回取消
+//            first_image=null;
+//        }
+
+
+
+
 
         if (resultCode == RESULT_OK && requestCode == PHOTO) {
             Bitmap bm = BitmapFactory.decodeFile(path.toString());
@@ -421,8 +476,6 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
             //  bitmap = compressBitmap(getResources(), R.drawable.img3, 100, 100);
 //                Log.v("zxy", "compressBitmap,width=" + bitmap.getWidth() + ",height=" + bitmap.getHeight());
 //                mResizeImageView.setImageBitmap(bitmap);
-
-
 
             img1.setImageBitmap(bm);
             iNewStudentpresenter.upload(path.toString());

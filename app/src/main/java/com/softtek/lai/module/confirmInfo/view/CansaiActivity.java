@@ -6,12 +6,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.module.confirmInfo.EventModel.ConinfoEvent;
 import com.softtek.lai.module.confirmInfo.model.ConinfoModel;
 import com.softtek.lai.module.confirmInfo.model.GetConfirmInfoModel;
 import com.softtek.lai.module.confirmInfo.presenter.IUpConfirmInfopresenter;
 import com.softtek.lai.module.confirmInfo.presenter.UpConfirmInfoImpl;
+import com.softtek.lai.module.newmemberentry.view.EventModel.ClassEvent;
+import com.softtek.lai.module.newmemberentry.view.model.PargradeModel;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
+import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.file.SharedPreferenceService;
@@ -36,6 +45,9 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
     @InjectView(R.id.et_name)
     EditText et_name;
 
+    @InjectView(R.id.et_birthday)
+    EditText et_birthday;
+
     @InjectView(R.id.et_mobile)
     EditText et_mobile;
 
@@ -51,11 +63,8 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
     @InjectView(R.id.et_fat)
     EditText et_fat;
 
-    @InjectView(R.id.et_birthday)
-    EditText et_birthday;
-
-    @InjectView(R.id.et_gender)
-    EditText et_gender;
+    @InjectView(R.id.et_yaowei)
+    EditText et_yaowei;
 
     //确认照片信息
     // photo
@@ -64,23 +73,36 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
     @InjectView(R.id.btn_sure)
     Button btn_sure;
 
-    //添加身体围度
-    @InjectView(R.id.btn_Add_bodydimension)
-    Button btn_Add_bodydimension;
-
     private ConinfoModel coninfoModel;
     private GetConfirmInfoModel getConfirmInfoModel;
 
     private IUpConfirmInfopresenter iUpConfirmInfopresenter;
 
+    private String name;
+
+    private String birthday;
+
+    private String mobile;
+
+    private String classid;
+
+    private String weight;
+
+    private String pysical;
+
+    private String fat;
+
+    private String yaowei;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        EventBus.getDefault().register(this);
         super.onCreate(savedInstanceState);
+        iUpConfirmInfopresenter = new UpConfirmInfoImpl(this);
+        iUpConfirmInfopresenter.getConfirmInfo(130,1);
 
-       // getConfirmInfoModel = new GetConfirmInfoModel();
-        String mb=getConfirmInfoModel.getMobile();
-        et_birthday.setText(mb);
+       // getConfirmInfoModel.getBirthday();
+       // Log.i("getAccountId:"+getConfirmInfoModel.getAccountId()+"getMobile:"+getConfirmInfoModel.getMobile()+"getBirthday:"+getConfirmInfoModel.getBirthday()+"getClassName:"+getConfirmInfoModel.getClassName());
     }
 
     @Override
@@ -90,12 +112,54 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     protected void initDatas() {
-        iUpConfirmInfopresenter = new UpConfirmInfoImpl(this);
         tv_title.setText("报名参赛");
         btn_sure.setOnClickListener(this);
-        btn_Add_bodydimension.setOnClickListener(this);
+    }
 
-        iUpConfirmInfopresenter.getConfirmInfo(130,1);
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe
+    public void onEvent(ConinfoEvent coninfoEvent) {
+        System.out.println("classEvent.getPargradeModels()>>》》》》》》》》》》》》》》" + coninfoEvent.getConfirmInfoModel());
+        GetConfirmInfoModel getConfirmInfoModel = coninfoEvent.getConfirmInfoModel();
+//        for (PargradeModel cl : pargradeModels) {
+//            System.out.println("dsfsdfsdfsdfsdfsdf?????/?????>>》》》》》》》》》》》》》》" + "ClassIdModel:" + cl.getClassId() + "ClassName:" + cl.getClassName());
+//            PargradeModel p1 = new PargradeModel(cl.getClassId(), cl.getClassName());
+//            pargradeModelList.add(p1);
+//        }
+        name=getConfirmInfoModel.getUserName();
+
+        birthday=getConfirmInfoModel.getBirthday();
+
+        mobile=getConfirmInfoModel.getMobile();
+
+        weight=getConfirmInfoModel.getWeight();
+
+        pysical=getConfirmInfoModel.getPysical();
+
+        fat=getConfirmInfoModel.getFat();
+
+        yaowei=getConfirmInfoModel.getWaistline();
+
+        et_name.setText(name);
+
+        et_birthday.setText(birthday);
+
+        et_mobile.setText(mobile);
+
+        et_weight.setText(weight);
+
+        et_pysical.setText(pysical);
+
+        et_fat.setText(fat);
+
+        et_yaowei.setText(yaowei);
+//        Log.i("------------>>>>>>getConfirmInfoModel.getBirthday:"+getConfirmInfoModel.getBirthday());
+
     }
 
     @Override
@@ -106,13 +170,13 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
                 coninfoModel = new ConinfoModel();
                 coninfoModel.setAccountid(12);
                 coninfoModel.setClassid("202984");
-                coninfoModel.setNickname("mynickname");
-                coninfoModel.setBirthday("2012_12_07");
+                coninfoModel.setNickname(et_name.getText().toString());
+                coninfoModel.setBirthday(et_birthday.getText().toString());
                 coninfoModel.setGender(1);
                 coninfoModel.setPhoto("photoname");
-                coninfoModel.setWeight(100);
+                coninfoModel.setWeight(Integer.parseInt(et_weight.getText().toString()));
                 coninfoModel.setPysical(22);
-                coninfoModel.setFat(12);
+                coninfoModel.setFat(Integer.parseInt(et_pysical.getText().toString()));
                 coninfoModel.setCircum(11);
                 coninfoModel.setWaistline(12);
                 coninfoModel.setHiplie(11);
@@ -120,10 +184,6 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
                 coninfoModel.setUpleggirth(11);
                 coninfoModel.setDoleggirth(11);
                 iUpConfirmInfopresenter.changeUpConfirmInfo(token,coninfoModel);
-                break;
-            //添加身体围度按钮
-            case  R.id.btn_Add_bodydimension:
-//              startActivity(new Intent(this, DimensioninputActivity.class));
                 break;
         }
     }

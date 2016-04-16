@@ -6,10 +6,13 @@ import zilla.libcore.util.Util;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.module.confirmInfo.EventModel.ConinfoEvent;
 import com.softtek.lai.module.confirmInfo.model.ConinfoModel;
 import com.softtek.lai.module.confirmInfo.model.GetConfirmInfoModel;
 import com.softtek.lai.module.confirmInfo.net.ConfirmInfoService;
 import com.softtek.lai.module.confirmInfo.view.CansaiActivity;
+
+import org.greenrobot.eventbus.EventBus;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -43,8 +46,11 @@ public class UpConfirmInfoImpl implements IUpConfirmInfopresenter{
                 Log.i("getConfirmInfoModelResponseData:"+getConfirmInfoModelResponseData);
                 switch (status) {
                     case 200:
-//                        EventBus.getDefault().post(new ClassEvent(listResponseData.getData()));
-                       System.out.println("getConfirmInfoModelResponseData:"+getConfirmInfoModelResponseData);
+                        EventBus.getDefault().post(new ConinfoEvent(getConfirmInfoModelResponseData.getData()));
+                        System.out.println(getConfirmInfoModelResponseData);
+
+
+                        System.out.println("getConfirmInfoModelResponseData:"+getConfirmInfoModelResponseData);
                         Util.toastMsg("读取信息成功");
                         break;
                     case 100:
