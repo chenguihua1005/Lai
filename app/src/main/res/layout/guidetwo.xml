@@ -10,7 +10,8 @@
         android:layout_height="wrap_content"
         android:textColor="#ffffff"
         android:layout_gravity="center"
-        android:layout_marginBottom="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         android:textSize="20sp"
         android:gravity="center"
         android:text="测量腰围"/>
