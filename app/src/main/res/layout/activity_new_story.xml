@@ -150,8 +150,15 @@
             android:layout_marginTop="26dp"
             android:text="减重后照片:"/>
         <com.softtek.lai.widgets.CustomGridView
+            android:id="@+id/cgv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:horizontalSpacing="2dp"
+            android:numColumns="3"
+            android:columnWidth="100dp"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="2dp">
 
         </com.softtek.lai.widgets.CustomGridView>
     </LinearLayout>

@@ -156,35 +156,58 @@ public class StudentActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
+        final int id=v.getId();
+        if(id!=R.id.ll_st_saikuang&&id!=R.id.ll_st_tipst&&id!=R.id.ll_left){
+            dialogShow("检查中...");
+            studentImpl.hasClass(new RequestCallback<ResponseData<HasClass>>() {
+                @Override
+                public void success(ResponseData<HasClass> hasClassResponseData, Response response) {
+                    dialogDissmiss();
+                    Log.i(hasClassResponseData.toString());
+                    if(hasClassResponseData.getStatus()==200){
+                        if("1".equals(hasClassResponseData.getData().getIsHave())){
+                            doStartActivity(id);
+                        }else{
+                            //学员没有班级
+                            new AlertDialog.Builder(StudentActivity.this).setTitle("提示")
+                                    .setMessage("您目前还没有参加班级").create().show();
+                        }
+                    }else{
+                        Util.toastMsg(hasClassResponseData.getMsg());
+                    }
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    dialogDissmiss();
+                    super.failure(error);
+                }
+            });
+        }else {
+            switch (id) {
+                //大赛赛况
+                case R.id.ll_st_saikuang:
+                    startActivity(new Intent(this, GameActivity.class));
+                    break;
+                //提示
+                case R.id.ll_st_tipst:
+                    Intent intent2 = new Intent(this, TipsActivity.class);
+                    startActivity(intent2);
+                    break;
+                case R.id.ll_left:
+                    finish();
+                    break;
+            }
+        }
+
+    }
+
+    private void doStartActivity(int id){
+        switch (id) {
 
             //点击跳转事件
             case R.id.ll_st_jibenshuju:
-                dialogShow("检查中...");
-                studentImpl.hasClass(new RequestCallback<ResponseData<HasClass>>() {
-                    @Override
-                    public void success(ResponseData<HasClass> hasClassResponseData, Response response) {
-                        dialogDissmiss();
-                        Log.i(hasClassResponseData.toString());
-                        if(hasClassResponseData.getStatus()==200){
-                            if("1".equals(hasClassResponseData.getData().getIsHave())){
-                                startActivity(new Intent(StudentActivity.this, StudentBaseDateActivity.class));
-                            }else{
-                                //学员没有班级
-                                new AlertDialog.Builder(StudentActivity.this).setTitle("提示")
-                                        .setMessage("您目前还没有参加班级").create().show();
-                            }
-                        }else{
-                            Util.toastMsg(hasClassResponseData.getMsg());
-                        }
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        dialogDissmiss();
-                        super.failure(error);
-                    }
-                });
+                startActivity(new Intent(StudentActivity.this, StudentBaseDateActivity.class));
                 break;
             //上传照片
             case R.id.ll_st_shangchuan:
@@ -208,19 +231,6 @@ public class StudentActivity extends BaseActivity implements View.OnClickListene
             case R.id.ll_st_rongyu:
                 startActivity(new Intent(this, StudentHonorGridActivity.class));
                 break;
-            //大赛赛况
-            case R.id.ll_st_saikuang:
-                startActivity(new Intent(this, GameActivity.class));
-                break;
-            //提示
-            case R.id.ll_st_tipst:
-                Intent intent2=new Intent(this,TipsActivity.class);
-                startActivity(intent2);
-                break;
-            case R.id.ll_left:
-                finish();
-                break;
         }
-
     }
 }
