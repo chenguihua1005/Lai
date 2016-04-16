@@ -14,6 +14,7 @@ import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.home.adapter.ModelAdapter;
 import com.softtek.lai.module.home.cache.HomeInfoCache;
 import com.softtek.lai.module.home.eventModel.ActivityEvent;
+import com.softtek.lai.module.home.eventModel.HomeEvent;
 import com.softtek.lai.module.home.eventModel.ProductEvent;
 import com.softtek.lai.module.home.eventModel.RefreshEvent;
 import com.softtek.lai.module.home.eventModel.SaleEvent;
@@ -72,7 +73,7 @@ public class HomeInfoImpl implements IHomeInfoPresenter {
                 switch (status) {
                     case 200:
                         aCache.put(Constants.HOEM_ACACHE_KEY, new Gson().toJson(new HomeInfoCache(data.getData())));
-                        EventBus.getDefault().post(data.getData());
+                        EventBus.getDefault().post(new HomeEvent(data.getData()));
                         break;
                     default:
                         Util.toastMsg(data.getMsg());
