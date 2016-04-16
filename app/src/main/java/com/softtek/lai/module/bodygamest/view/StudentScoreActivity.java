@@ -96,7 +96,6 @@ public class StudentScoreActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        SoftInputUtil.hidden(this);
         switch (v.getId()) {
             case R.id.ll_left:
                 finish();

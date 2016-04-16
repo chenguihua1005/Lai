@@ -34,6 +34,7 @@
                 android:id="@+id/edit_class_name"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+            android:background="@drawable/border_none"
                 android:layout_marginLeft="@dimen/createClassTextMarginLeft"/>
     </LinearLayout>
 
