@@ -28,7 +28,7 @@ public interface StudentService {
     @GET("/Transcript/GetTranscrip")
     void getTranscrip(
             @Header("token") String token,
-            @Query("classid") String classid,
+            @Query("AccountID") String accountID,
             Callback<ResponseData<List<StudentScripInfo>>> callback
     );
 
