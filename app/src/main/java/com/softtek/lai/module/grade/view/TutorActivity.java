@@ -87,8 +87,7 @@ public class TutorActivity extends BaseActivity implements PullToRefreshBase.OnR
 
     @Override
     public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-        grade.getTutorList(1, prlv);
-        grade.getTutorList(3, prlv);
+        grade.getTutorList(classId, prlv);
     }
 
     @Subscribe
