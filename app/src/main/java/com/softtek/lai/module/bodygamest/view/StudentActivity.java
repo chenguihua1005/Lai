@@ -150,7 +150,6 @@ public class StudentActivity extends BaseActivity implements View.OnClickListene
     }
     @Subscribe
     public void doGetTotol(List<TotolModel> totolModels){
-        System.out.println("dsadasdsadasda>>》》》》》》》》》》》》》》"+totolModels.get(0).getTotal_loss());
         tv_totalpersonst.setText(totolModels.get(0).getTotal_person());
         tv_total_lossst.setText(totolModels.get(0).getTotal_loss());
     }
@@ -161,7 +160,7 @@ public class StudentActivity extends BaseActivity implements View.OnClickListene
 
             //点击跳转事件
             case R.id.ll_st_jibenshuju:
-                dialogShow("验证中...");
+                dialogShow("检查中...");
                 studentImpl.hasClass(new RequestCallback<ResponseData<HasClass>>() {
                     @Override
                     public void success(ResponseData<HasClass> hasClassResponseData, Response response) {
