@@ -37,7 +37,7 @@ public class GetProinfoImpl implements IGetProinfopresenter {
             @Override
             public void success(ResponseData<RankModel> rankModelResponseData, Response response) {
                 EventBus.getDefault().post(rankModelResponseData.getData());
-                Log.i("rankModelResponseData"+rankModelResponseData);
+                Log.i("rankModelResponseData-------------"+rankModelResponseData);
                 int status=rankModelResponseData.getStatus();
                 switch (status)
                 {

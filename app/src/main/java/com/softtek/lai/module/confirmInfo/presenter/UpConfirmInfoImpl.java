@@ -22,7 +22,6 @@ import zilla.libcore.file.SharedPreferenceService;
  */
 public class UpConfirmInfoImpl implements IUpConfirmInfopresenter{
 
-
     private ConfirmInfoService confirmInfoService;
     private Context context;
 
@@ -31,7 +30,7 @@ public class UpConfirmInfoImpl implements IUpConfirmInfopresenter{
         context=cansaiActivity;
     }
 
-
+    //获取参赛确认信息
     @Override
     public void getConfirmInfo(long accountid, long classid) {
         Log.i("confirmInfoService>>>>>>>>>>>>>>>>>>>>>>>>>>" + confirmInfoService);
@@ -45,7 +44,7 @@ public class UpConfirmInfoImpl implements IUpConfirmInfopresenter{
                 switch (status) {
                     case 200:
 //                        EventBus.getDefault().post(new ClassEvent(listResponseData.getData()));
-//                        System.out.println(listResponseData);
+                       System.out.println("getConfirmInfoModelResponseData:"+getConfirmInfoModelResponseData);
                         Util.toastMsg("读取信息成功");
                         break;
                     case 100:
@@ -62,7 +61,7 @@ public class UpConfirmInfoImpl implements IUpConfirmInfopresenter{
         });
     }
 
-
+    //修改参赛数据
     @Override
     public void changeUpConfirmInfo(String token, ConinfoModel coninfoModel) {
         Log.i("ConfirmInfoService>>>>>>>>>>>>>>" + confirmInfoService);
@@ -73,8 +72,6 @@ public class UpConfirmInfoImpl implements IUpConfirmInfopresenter{
                 int status = coninfoModelResponseData.getStatus();
                 switch (status) {
                     case 200:
-//                        Intent intent = new Intent(context, CounselorActivity.class);
-//                        context.startActivity(intent);
                         Util.toastMsg("修改成功");
                         break;
                     case 500:

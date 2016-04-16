@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:fitsSystemWindows="true"
@@ -15,8 +14,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp">
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -27,15 +26,49 @@
                     android:layout_height="50dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
-
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="0.3"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:text="姓名:"/>
                     <EditText
-                        android:id="@+id/et_nickname"
-                        android:layout_width="match_parent"
+                        android:id="@+id/et_name"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.7"
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:textCursorDrawable="@drawable/color_cursor"
-                        android:hint="昵称（必填）"
+                        android:hint="XXX"
                         android:textSize="16sp"
+                        android:singleLine="true" />
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#78BC27" />
+                <LinearLayout
+                    android:id="@+id/ll_birthday"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="0.3"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:text="生日:"/>
+                    <EditText
+                        android:id="@+id/et_birthday"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.7"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:background="@null"
+                        android:hint="1985_03_05"
                         android:singleLine="true" />
                 </LinearLayout>
                 <View
@@ -67,15 +100,24 @@
                     android:layout_height="50dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
-                    <EditText
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="0.3"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:text="手机号码:"/>
+
+                    <TextView
                         android:id="@+id/et_mobile"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.7"
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:textColor="#000"
                         android:textCursorDrawable="@drawable/color_cursor"
                         android:textSize="16sp"
-                        android:hint="手机号码（必填）"
+                        android:hint="13656898976"
                         android:singleLine="true" />
                 </LinearLayout>
                 <View
@@ -89,24 +131,25 @@
                     android:layout_height="50dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="0.3"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:text="参赛班级:"/>
+
                     <EditText
                         android:id="@+id/et_classid"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.7"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="90dp"
                         android:background="@null"
+                        android:textColor="#000"
+                        android:textCursorDrawable="@drawable/color_cursor"
                         android:textSize="16sp"
-                        android:hint="参赛班级（必填）"
+                        android:hint="一月班"
                         android:singleLine="true" />
-                    <LinearLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="right">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="请选择" />
-                    </LinearLayout>
                 </LinearLayout>
                 <View
                     android:layout_width="match_parent"
@@ -118,14 +161,22 @@
                     android:layout_height="50dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="0.3"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:text="初始体重："/>
                     <EditText
                         android:id="@+id/et_weight"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.7"
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:textSize="16sp"
                         android:textCursorDrawable="@drawable/color_cursor"
-                        android:hint="初始体重（必填）"
+                        android:hint="60kg"
                         android:singleLine="true" />
                 </LinearLayout>
                 <View
@@ -138,15 +189,22 @@
                     android:layout_height="50dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
-
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="0.3"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:text="体脂："/>
                     <EditText
                         android:id="@+id/et_pysical"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.7"
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:textSize="16sp"
                         android:textCursorDrawable="@drawable/color_cursor"
-                        android:hint="体脂（选填）"
+                        android:hint="30%"
                         android:singleLine="true" />
                 </LinearLayout>
                 <View
@@ -159,44 +217,23 @@
                     android:layout_height="50dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
-
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="0.3"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:text="内脂："/>
                     <EditText
                         android:id="@+id/et_fat"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.7"
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:textSize="16sp"
                         android:textCursorDrawable="@drawable/color_cursor"
-                        android:hint="内脂（选填）"
+                        android:hint="30%"
                         android:singleLine="true" />
-                </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#78BC27" />
-                <LinearLayout
-                    android:id="@+id/ll_birthday"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-                    <EditText
-                        android:id="@+id/et_birthday"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        android:background="@null"
-                        android:hint="生日（必填）"
-                        android:singleLine="true" />
-                    <LinearLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="right">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="请选择" />
-                    </LinearLayout>
                 </LinearLayout>
                 <View
                     android:layout_width="match_parent"
@@ -209,26 +246,24 @@
                     android:layout_height="50dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="0.3"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:text="腰围:"/>
 
                     <EditText
                         android:id="@+id/et_gender"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.7"
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:textSize="16sp"
-                        android:hint="性别（必填）"
+                        android:hint="80cm"
                         android:singleLine="true" />
 
-                    <LinearLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="right">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="请选择" />
-                    </LinearLayout>
                 </LinearLayout>
                 <View
                     android:layout_width="match_parent"
@@ -247,7 +282,8 @@
                             android:layout_marginTop="20dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:hint="照片上传"
+                            android:text="照片上传"
+                            android:textColor="#000000"
                             android:textSize="16sp" />
                     </LinearLayout>
                     <LinearLayout
@@ -303,16 +339,6 @@
                     android:layout_height="1dp"
                     android:background="#78BC27" />
                 <Button
-                    android:id="@+id/btn_Add_bodydimension"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginBottom="60dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/bg_addbody_btn"
-                    android:text="添加身体围度"
-                    android:textColor="#FFA302"
-                    android:textSize="22sp" />
-                <Button
                     android:id="@+id/btn_sure"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
@@ -334,21 +360,7 @@
                     android:layout_height="300dp"
                     android:background="#cccccc"
                     android:visibility="invisible" />
-                <!--<View-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="1dp"-->
-                <!--android:background="#fea300"/>-->
-                <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="40dp"-->
-                <!--android:background="#ffffff"-->
-                <!--android:gravity="center"-->
-                <!--&gt;-->
-                <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="取消"/>-->
-                <!--</LinearLayout>-->
+
             </LinearLayout>
         </RelativeLayout>
     </ScrollView>

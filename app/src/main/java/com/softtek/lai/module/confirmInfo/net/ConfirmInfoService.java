@@ -29,7 +29,7 @@ public interface ConfirmInfoService {
     // 修改参赛数据
     @POST("/MsgCenter/UpConfirmInfo")
     void changeUpConfirmInfo(@Header("token") String token,
-                             @Body ConinfoModel coninfo,
+                             @Body ConinfoModel coninfoModel,
                              Callback<ResponseData<ConinfoModel>> callback);
 
 }

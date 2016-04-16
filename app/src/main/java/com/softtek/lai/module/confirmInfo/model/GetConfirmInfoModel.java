@@ -2,6 +2,7 @@ package com.softtek.lai.module.confirmInfo.model;
 
 /**
  * Created by julie.zhu on 4/15/2016.
+ * 2.16.4	获取参赛确认信息
  */
 public class GetConfirmInfoModel {
 
