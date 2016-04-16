@@ -85,6 +85,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     TextView tv_writest_dayen;
     UserInfoModel userInfoModel=UserInfoModel.getInstance();
     long loginid=Long.parseLong(userInfoModel.getUser().getUserid());
+    String moblie=userInfoModel.getUser().getMobile();
 
     //保存数据点击
     //初始体重
@@ -130,7 +131,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     String path="";
     private static final int PHOTO=1;
     private static final int GET_BODY=2;
-    private static final String LAI_CHEN_SWITCH_KEY1="laichenSwitch";
+//    private static final String LAI_CHEN_SWITCH_KEY1="laichenSwitch";
     private RetestPre retestPre;
     RetestWriteModel retestWrite;
     MeasureModel measureModel;
@@ -187,7 +188,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         retestWrite=new RetestWriteModel();
         retestAuditModel=new RetestAuditModel();
         measureModel=new MeasureModel();
-        retestPre.GetUserMeasuredInfo(Mobile);
+        retestPre.GetUserMeasuredInfo(moblie);
 //        boolean laichenSwitch= SharedPreferenceService.getInstance().get(LAI_CHEN_SWITCH_KEY1,false);
 //        selectlaichenst.setChecked(laichenSwitch);
 //        if(selectlaichenst.isChecked()){
