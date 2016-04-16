@@ -260,7 +260,8 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
             tv_title_date.setText(info.getStartDate()+"-"+info.getEndDate());
             tv_pc_num.setText(info.getPCNum() + "人");
             tv_sr_num.setText(info.getSRNum() + "人");
-            Picasso.with(this).load(info.getClassBanner()).centerInside().placeholder(R.drawable.default_pic)
+            Log.i("班级主页--------------------->Banner="+info.getClassBanner());
+            Picasso.with(this).load(info.getClassBanner()).placeholder(R.drawable.default_pic)
                     .error(R.drawable.default_pic).into(iv_grade_banner);
         }
         //加载学员头像

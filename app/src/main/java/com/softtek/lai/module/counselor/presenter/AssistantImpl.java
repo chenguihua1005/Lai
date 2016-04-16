@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.counselor.adapter.AssistantAdapter;
 import com.softtek.lai.module.counselor.adapter.AssistantApplyAdapter;
 import com.softtek.lai.module.counselor.adapter.AssistantClassAdapter;
@@ -48,7 +49,7 @@ public class AssistantImpl implements IAssistantPresenter {
 
     @Override
     public void showAllApplyAssistants(String accountId, final ListView listView) {
-        String token = SharedPreferenceService.getInstance().get("token", "");
+        String token = UserInfoModel.getInstance().getToken();
         counselorService.showAllApplyAssistants(token, accountId, new Callback<ResponseData<List<AssistantApplyInfoModel>>>() {
             @Override
             public void success(ResponseData<List<AssistantApplyInfoModel>> listResponseData, Response response) {
@@ -68,14 +69,15 @@ public class AssistantImpl implements IAssistantPresenter {
 
             @Override
             public void failure(RetrofitError error) {
-                Util.toastMsg("获取助教申请列表失败");
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
             }
         });
     }
 
     @Override
     public void showAssistantDetails(String assistantId, String classId) {
-        String token = SharedPreferenceService.getInstance().get("token", "");
+        String token = UserInfoModel.getInstance().getToken();
         counselorService.showAssistantDetails(token, assistantId, classId, new Callback<ResponseData<AssistantDetailInfoModel>>() {
             @Override
             public void success(ResponseData<AssistantDetailInfoModel> listResponseData, Response response) {
@@ -94,15 +96,15 @@ public class AssistantImpl implements IAssistantPresenter {
 
             @Override
             public void failure(RetrofitError error) {
-                System.out.println("error:" + error);
-                Util.toastMsg("获取助教详情失败");
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
             }
         });
     }
 
     @Override
     public void removeAssistantRoleByClass(String assistantId, String classId) {
-        String token = SharedPreferenceService.getInstance().get("token", "");
+        String token = UserInfoModel.getInstance().getToken();
         counselorService.removeAssistantRoleByClass(token, assistantId, classId, new Callback<ResponseData>() {
             @Override
             public void success(ResponseData listResponseData, Response response) {
@@ -122,15 +124,15 @@ public class AssistantImpl implements IAssistantPresenter {
 
             @Override
             public void failure(RetrofitError error) {
-                System.out.println("error:" + error);
-                Util.toastMsg("移除失败");
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
             }
         });
     }
 
     @Override
     public void showAssistantByClass(String accountId, String classId, final ListView list_assistant) {
-        String token = SharedPreferenceService.getInstance().get("token", "");
+        String token = UserInfoModel.getInstance().getToken();
         counselorService.showAssistantByClass(token, accountId, classId, new Callback<ResponseData<List<AssistantInfoModel>>>() {
             @Override
             public void success(ResponseData<List<AssistantInfoModel>> listResponseData, Response response) {
@@ -151,14 +153,15 @@ public class AssistantImpl implements IAssistantPresenter {
 
             @Override
             public void failure(RetrofitError error) {
-                Util.toastMsg("获取助教列表失败");
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
             }
         });
     }
 
     @Override
     public void showAllClassList(String managerId, final ListView list_class) {
-        String token = SharedPreferenceService.getInstance().get("token", "");
+        String token = UserInfoModel.getInstance().getToken();
         counselorService.showAllClassList(token, managerId, new Callback<ResponseData<List<AssistantClassInfoModel>>>() {
             @Override
             public void success(ResponseData<List<AssistantClassInfoModel>> listResponseData, Response response) {
@@ -178,14 +181,15 @@ public class AssistantImpl implements IAssistantPresenter {
 
             @Override
             public void failure(RetrofitError error) {
-                Util.toastMsg("获取班级列表失败");
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
             }
         });
     }
 
     @Override
     public void reviewAssistantApplyList(long applyId, final int status, final LinearLayout lin_buttons, final TextView text_state) {
-        String token = SharedPreferenceService.getInstance().get("token", "");
+        String token = UserInfoModel.getInstance().getToken();
         counselorService.reviewAssistantApplyList(token, applyId, status, new Callback<ResponseData>() {
             @Override
             public void success(ResponseData listResponseData, Response
@@ -211,14 +215,15 @@ public class AssistantImpl implements IAssistantPresenter {
 
             @Override
             public void failure(RetrofitError error) {
-                Util.toastMsg("助教审批失败");
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
             }
         });
     }
 
     @Override
     public void getAssistantList(String classId, final ListView list_assistant) {
-        String token = SharedPreferenceService.getInstance().get("token", "");
+        String token = UserInfoModel.getInstance().getToken();
         counselorService.getAssistantList(token, classId, new Callback<ResponseData<List<AssistantModel>>>() {
             @Override
             public void success(ResponseData<List<AssistantModel>> listResponseData, Response response) {
@@ -238,14 +243,15 @@ public class AssistantImpl implements IAssistantPresenter {
 
             @Override
             public void failure(RetrofitError error) {
-                Util.toastMsg("获取助教列表失败");
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
             }
         });
     }
 
     @Override
     public void sendInviterSR(String classId, String Inviters, final ImageView img_invite) {
-        String token = SharedPreferenceService.getInstance().get("token", "");
+        String token = UserInfoModel.getInstance().getToken();
         counselorService.sendInviterSR(token, classId, Inviters, new Callback<ResponseData>() {
             @Override
             public void success(ResponseData listResponseData, Response
@@ -266,7 +272,8 @@ public class AssistantImpl implements IAssistantPresenter {
 
             @Override
             public void failure(RetrofitError error) {
-                Util.toastMsg("邀请助教失败");
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
             }
         });
 

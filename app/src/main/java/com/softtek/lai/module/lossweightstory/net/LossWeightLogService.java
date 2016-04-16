@@ -2,13 +2,16 @@ package com.softtek.lai.module.lossweightstory.net;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.lossweightstory.model.LogList;
+import com.softtek.lai.module.lossweightstory.model.LogStoryModel;
 import com.softtek.lai.module.lossweightstory.model.LossWeightStoryModel;
 import com.softtek.lai.module.lossweightstory.model.Zan;
 import com.softtek.lai.module.studetail.model.LossWeightLogModel;
+import com.softtek.lai.utils.RequestCallback;
 
 import java.util.List;
 
 import retrofit.Callback;
+import retrofit.http.Body;
 import retrofit.http.Field;
 import retrofit.http.GET;
 import retrofit.http.Header;
@@ -35,4 +38,10 @@ public interface LossWeightLogService {
                    @Field("accountId")long accountId,
                    @Field("logId")long logId,
                    Callback<ResponseData<Zan>> callback);
+
+    //发布日志
+    @POST("/CompetitionLog/SaveCompetitionLog")
+    void sendLog(@Header(TOKEN)String token,
+                 @Body LogStoryModel story,
+                 RequestCallback<ResponseData> callback);
 }

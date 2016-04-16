@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+  ~ Date:2016-03-31
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <com.softtek.lai.widgets.CustomScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/studentHonorMarginTop1"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin"
+                    android:layout_marginRight="@dimen/margin"
+                    android:text="@string/studentHonorJZ"
+                    android:textSize="@dimen/studentHonorTextSize" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_marginTop="@dimen/studentHonorMarginTop2"
+                    android:background="@color/white">
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="155dip"
+                        android:layout_marginLeft="@dimen/margin"
+                        android:layout_marginRight="@dimen/margin"
+                        android:background="@color/white"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/img"
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:layout_gravity="center"
+                            android:src="@drawable/img_student_honor_left" />
+
+                        <HorizontalScrollView
+                            android:id="@+id/hs_jz"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_margin="5dp"
+                            android:layout_marginTop="@dimen/studentHonorMarginTop2"
+                            android:layout_toLeftOf="@+id/img2"
+                            android:layout_toRightOf="@+id/img">
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent">
+
+                                <GridView
+                                    android:id="@+id/list_jz"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="fill_parent"
+                                    android:gravity="center"
+                                    android:numColumns="auto_fit"
+                                    android:stretchMode="spacingWidthUniform"></GridView>
+                            </LinearLayout>
+                        </HorizontalScrollView>
+
+                        <ImageView
+                            android:id="@+id/img2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:layout_alignParentRight="true"
+                            android:layout_gravity="center"
+                            android:src="@drawable/img_student_honor_right" />
+
+                        <LinearLayout
+                            android:id="@+id/lin_jz_left"
+                            android:layout_width="40dip"
+                            android:layout_height="fill_parent"
+                            android:orientation="horizontal">
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/lin_jz_right"
+                            android:layout_width="40dip"
+                            android:layout_height="fill_parent"
+                            android:layout_alignParentRight="true"
+                            android:orientation="horizontal">
+
+
+                        </LinearLayout>
+                    </RelativeLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/studentHonorMarginTop3"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin"
+                    android:layout_marginRight="@dimen/margin"
+                    android:text="@string/studentHonorFC"
+                    android:textSize="@dimen/studentHonorTextSize" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_marginTop="@dimen/studentHonorMarginTop4"
+                    android:background="@color/white">
+
+                    <LinearLayout
+                        android:id="@+id/lin_fc"
+                        android:layout_width="fill_parent"
+                        android:layout_height="155dip"
+                        android:layout_marginLeft="@dimen/margin"
+                        android:layout_marginRight="@dimen/margin"
+                        android:background="@color/white"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/img_fc_1"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:src="@drawable/img_student_honor_grey" />
+
+                        <ImageView
+                            android:id="@+id/img_fc_2"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:src="@drawable/img_student_honor_grey" />
+
+                        <ImageView
+                            android:id="@+id/img_fc_3"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:src="@drawable/img_student_honor_grey" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin"
+                    android:layout_marginRight="@dimen/margin"
+                    android:layout_marginTop="@dimen/studentHonorMarginTop1"
+                    android:text="@string/studentHonorYGJ"
+                    android:textSize="@dimen/studentHonorTextSize" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_marginTop="@dimen/studentHonorMarginTop2"
+                    android:background="@color/white">
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="155dip"
+                        android:layout_marginLeft="@dimen/margin"
+                        android:layout_marginRight="@dimen/margin"
+                        android:background="@color/white"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/img4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:layout_gravity="center"
+                            android:src="@drawable/img_student_honor_left" />
+
+                        <HorizontalScrollView
+                            android:id="@+id/hs_ygj"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_marginTop="@dimen/studentHonorMarginTop2"
+                            android:layout_toLeftOf="@+id/img3"
+                            android:layout_toRightOf="@+id/img4">
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent">
+
+                                <GridView
+                                    android:id="@+id/list_ygj"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="fill_parent"
+                                    android:gravity="center"
+                                    android:numColumns="auto_fit"
+                                    android:stretchMode="spacingWidthUniform"></GridView>
+                            </LinearLayout>
+                        </HorizontalScrollView>
+
+                        <ImageView
+                            android:id="@+id/img3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:layout_alignParentRight="true"
+                            android:layout_gravity="center"
+                            android:src="@drawable/img_student_honor_right" />
+
+                        <LinearLayout
+                            android:id="@+id/lin_ygj_left"
+                            android:layout_width="40dip"
+                            android:layout_height="fill_parent"
+                            android:orientation="horizontal">
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/lin_ygj_right"
+                            android:layout_width="40dip"
+                            android:layout_height="fill_parent"
+                            android:layout_alignParentRight="true"
+                            android:orientation="horizontal">
+
+
+                        </LinearLayout>
+                    </RelativeLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/studentHonorMarginTop1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin"
+                    android:layout_marginRight="@dimen/margin"
+                    android:text="@string/studentHonorJZ"
+                    android:textSize="@dimen/studentHonorTextSize" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_marginTop="@dimen/studentHonorMarginTop2"
+                    android:background="@color/white">
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="155dip"
+                        android:layout_marginLeft="@dimen/margin"
+                        android:layout_marginRight="@dimen/margin"
+                        android:background="@color/white"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/img5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:layout_gravity="center"
+                            android:src="@drawable/img_student_honor_left" />
+
+                        <HorizontalScrollView
+                            android:id="@+id/hs_star"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_marginTop="@dimen/studentHonorMarginTop2"
+                            android:layout_toLeftOf="@+id/img6"
+                            android:layout_toRightOf="@+id/img5">
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent">
+
+                                <GridView
+                                    android:id="@+id/list_star"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="fill_parent"
+                                    android:gravity="center"
+                                    android:numColumns="auto_fit"
+                                    android:stretchMode="spacingWidthUniform"></GridView>
+                            </LinearLayout>
+                        </HorizontalScrollView>
+
+                        <ImageView
+                            android:id="@+id/img6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:layout_alignParentRight="true"
+                            android:layout_gravity="center"
+                            android:src="@drawable/img_student_honor_right" />
+
+                        <LinearLayout
+                            android:id="@+id/lin_star_left"
+                            android:layout_width="40dip"
+                            android:layout_height="fill_parent"
+                            android:orientation="horizontal">
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/lin_star_right"
+                            android:layout_width="40dip"
+                            android:layout_height="fill_parent"
+                            android:layout_alignParentRight="true"
+                            android:orientation="horizontal">
+
+
+                        </LinearLayout>
+                    </RelativeLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </com.softtek.lai.widgets.CustomScrollView>
+</LinearLayout>

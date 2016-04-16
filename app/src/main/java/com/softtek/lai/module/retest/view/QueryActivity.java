@@ -22,6 +22,7 @@ import butterknife.InjectView;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.retest.AuditActivity;
 import com.softtek.lai.module.retest.WriteActivity;
 import com.softtek.lai.module.retest.adapter.QueryAdapter;
@@ -57,6 +58,8 @@ public class QueryActivity extends BaseActivity implements View.OnClickListener 
     private QueryAdapter queryAdapter;
     private static final int GET_BODY=2;
     private ProgressDialog progressDialog;
+    UserInfoModel userInfoModel=UserInfoModel.getInstance();
+    long loginid=Long.parseLong(userInfoModel.getUser().getUserid());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +98,7 @@ public class QueryActivity extends BaseActivity implements View.OnClickListener 
                     intent.putExtra("Weekth",studentModel.getWeekth());
                     intent.putExtra("loginid","36");
 
-                    startActivity(intent);
+                    startActivityForResult(intent,GET_BODY);
 
                 }
                 else {
@@ -120,7 +123,7 @@ public class QueryActivity extends BaseActivity implements View.OnClickListener 
                     //第几周期
                     intent.putExtra("Weekth",studentModel.getWeekth());
                     Log.i("zhouqizhouqi"+studentModel.getWeekth());
-                    startActivity(intent);
+                    startActivityForResult(intent,GET_BODY);
                 }
             }
         });
@@ -163,7 +166,7 @@ public class QueryActivity extends BaseActivity implements View.OnClickListener 
                     progressDialog.show();
                     studentModelList.clear();
                     queryAdapter.notifyDataSetChanged();
-                    retestPre.doGetqueryResult(et_query.getText().toString(),"13",progressDialog,this);
+                    retestPre.doGetqueryResult(et_query.getText().toString(),loginid+"",progressDialog,this);
                 }
                 break;
             case R.id.tv_retest_query_cancel:
@@ -181,5 +184,15 @@ public class QueryActivity extends BaseActivity implements View.OnClickListener 
         queryAdapter.updateData(studentModelList);
 
 
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //身体围度值传递
+//        if (requestCode==GET_BODY&&resultCode==RESULT_OK){
+//            retestPre.doGetBanjiStudent(ClassId);
+//            studentAdapter.notifyDataSetChanged();
+
+//        }
     }
 }

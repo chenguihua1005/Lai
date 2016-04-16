@@ -9,11 +9,14 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.ListView;
+
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.counselor.adapter.InviteStudentAdapter;
 import com.softtek.lai.module.counselor.model.InviteStudentInfoModel;
 import com.softtek.lai.module.counselor.net.CounselorService;
+
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -39,7 +42,7 @@ public class StudentImpl implements IStudentPresenter {
 
     @Override
     public void sendInviterMsg(String inviters, String classId, final ImageView img_invite) {
-        String token = SharedPreferenceService.getInstance().get("token", "");
+        String token = UserInfoModel.getInstance().getToken();
         counselorService.sendInviterMsg(token, inviters, classId, new Callback<ResponseData>() {
             @Override
             public void success(ResponseData listResponseData, Response response) {
@@ -58,14 +61,15 @@ public class StudentImpl implements IStudentPresenter {
 
             @Override
             public void failure(RetrofitError error) {
-                Util.toastMsg("邀请失败");
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
             }
         });
     }
 
     @Override
     public void getNotInvitePC(String classid, String spaccid, final ListView list_student) {
-        String token = SharedPreferenceService.getInstance().get("token", "");
+        String token = UserInfoModel.getInstance().getToken();
         counselorService.getNotInvitePC(token, classid, spaccid, new Callback<ResponseData<List<InviteStudentInfoModel>>>() {
             @Override
             public void success(ResponseData<List<InviteStudentInfoModel>> listResponseData, Response response) {
@@ -85,7 +89,8 @@ public class StudentImpl implements IStudentPresenter {
 
             @Override
             public void failure(RetrofitError error) {
-                Util.toastMsg("获取学员列表失败");
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
             }
         });
     }

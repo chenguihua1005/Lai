@@ -3,12 +3,19 @@ package com.softtek.lai.module.lossweightstory.view;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.login.model.UserModel;
+import com.softtek.lai.widgets.CustomGridView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -25,6 +32,19 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
     @InjectView(R.id.fl_right)
     FrameLayout fl;
 
+    @InjectView(R.id.et_sender)
+    EditText et_sender;
+    @InjectView(R.id.et_log_title)
+    EditText et_log_title;
+    @InjectView(R.id.et_weight_after)
+    EditText et_weight_after;
+    @InjectView(R.id.et_content)
+    EditText et_content;
+    @InjectView(R.id.cgv)
+    CustomGridView cgv;
+
+    private List<String> images=new ArrayList<>();
+
     @Override
     protected void initViews() {
         ll_left.setOnClickListener(this);
@@ -35,6 +55,8 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void initDatas() {
+        UserModel model= UserInfoModel.getInstance().getUser();
+        et_sender.setText(model.getNickname());
 
     }
 

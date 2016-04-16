@@ -6,10 +6,14 @@
 package com.softtek.lai.module.bodygamest.view;
 
 
+import android.annotation.TargetApi;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnScrollChangeListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -21,6 +25,8 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygamest.Adapter.StudentHonorJZAdapter;
+import com.softtek.lai.module.bodygamest.Adapter.StudentHonorStarAdapter;
+import com.softtek.lai.module.bodygamest.Adapter.StudentHonorYGJAdapter;
 import com.softtek.lai.module.bodygamest.model.StudentHonorInfo;
 import com.softtek.lai.module.bodygamest.present.IStudentPresenter;
 import com.softtek.lai.module.bodygamest.present.StudentImpl;
@@ -77,20 +83,29 @@ public class StudentHonorActivity extends BaseActivity implements View.OnClickLi
     @InjectView(R.id.list_jz)
     HorizontalListView list_jz;
 
+    @InjectView(R.id.lin_ygj_left)
+    LinearLayout lin_ygj_left;
+
+    @InjectView(R.id.lin_ygj_right)
+    LinearLayout lin_ygj_right;
+
 
     private IStudentPresenter studentHonorPresenter;
     private ACache aCache;
-    int width;
+    int widthPosition;
 
     private List<StudentHonorInfo> jz_list = new ArrayList<StudentHonorInfo>();
     private List<StudentHonorInfo> fc_list = new ArrayList<StudentHonorInfo>();
     private List<StudentHonorInfo> ygj_list = new ArrayList<StudentHonorInfo>();
     private List<StudentHonorInfo> star_list = new ArrayList<StudentHonorInfo>();
 
+    @TargetApi(Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ll_left.setOnClickListener(this);
+        lin_ygj_left.setOnClickListener(this);
+        lin_ygj_right.setOnClickListener(this);
         EventBus.getDefault().register(this);
     }
 
@@ -116,71 +131,75 @@ public class StudentHonorActivity extends BaseActivity implements View.OnClickLi
                 star_list.add(studentHonorInfo);
             }
         }
-//        if (jz_list.size() < 3) {
-//            addData();
-//        }
-        StudentHonorJZAdapter adapter = new StudentHonorJZAdapter(this, jz_list, width);
+        StudentHonorInfo studentHonorInfo = new StudentHonorInfo("1", "43", "33", "5");
+        StudentHonorInfo studentHonorInfo1 = new StudentHonorInfo("1", "43", "33", "10");
+        StudentHonorInfo studentHonorInfo2 = new StudentHonorInfo("1", "43", "33", "15");
+        StudentHonorInfo studentHonorInfo3 = new StudentHonorInfo("1", "43", "33", "20");
+        jz_list.add(studentHonorInfo);
+        jz_list.add(studentHonorInfo1);
+        jz_list.add(studentHonorInfo2);
+        jz_list.add(studentHonorInfo3);
+        System.out.println("jz_list:" + jz_list);
+        StudentHonorJZAdapter adapter = new StudentHonorJZAdapter(this, jz_list);
         list_jz.setAdapter(adapter);
 
-        if(fc_list.size()==0){
+        if (fc_list.size() == 0) {
 
-        }else if(fc_list.size()==1){
-            img_fc_1.setVisibility(View.VISIBLE);
-        }else if(fc_list.size()==2){
-            img_fc_1.setVisibility(View.VISIBLE);
-            img_fc_2.setVisibility(View.VISIBLE);
-        }else if(fc_list.size()==3){
-            img_fc_1.setVisibility(View.VISIBLE);
-            img_fc_2.setVisibility(View.VISIBLE);
-            img_fc_3.setVisibility(View.VISIBLE);
+        } else if (fc_list.size() == 1) {
+            img_fc_1.setImageResource(R.drawable.img_student_honor_tong);
+        } else if (fc_list.size() == 2) {
+            img_fc_1.setImageResource(R.drawable.img_student_honor_tong);
+            img_fc_2.setImageResource(R.drawable.img_student_honor_yin);
+        } else if (fc_list.size() == 3) {
+            img_fc_1.setImageResource(R.drawable.img_student_honor_tong);
+            img_fc_2.setImageResource(R.drawable.img_student_honor_yin);
+            img_fc_3.setImageResource(R.drawable.img_student_honor_jin);
         }
-        StudentHonorJZAdapter ygj_adapter = new StudentHonorJZAdapter(this, ygj_list, width);
-        list_ygj.setAdapter(ygj_adapter);
 
-        StudentHonorJZAdapter star_adapter = new StudentHonorJZAdapter(this, star_list, width);
+        addData();
+        StudentHonorYGJAdapter ygj_adapter = new StudentHonorYGJAdapter(this, ygj_list);
+        list_ygj.setAdapter(ygj_adapter);
+        addData1();
+
+        StudentHonorStarAdapter star_adapter = new StudentHonorStarAdapter(this, star_list);
         list_star.setAdapter(star_adapter);
     }
 
-    //增加未点亮的减重奖章
-    private void addData() {
-        StudentHonorInfo studentHonorInfo;
-        for (int i = 0; i < 20; i++) {
-            int lastValue = 0;
-            if (jz_list.size() != 0) {
-                lastValue = Integer.parseInt(jz_list.get(jz_list.size() - 1).getValue().toString());
-            }
-
-            if (lastValue >= 50) {
-                studentHonorInfo = new StudentHonorInfo("0", "减重奖章", "False", (lastValue + 10) + "");
-            } else {
-                studentHonorInfo = new StudentHonorInfo("0", "减重奖章", "False", (lastValue + 5) + "");
-            }
-            jz_list.add(studentHonorInfo);
+    private void addData(){
+        for (int i = 0; i <37 ; i++) {
+            StudentHonorInfo studentHonorInfo = new StudentHonorInfo("1", "43", "33", "2015年12月");
+            ygj_list.add(studentHonorInfo);
         }
     }
 
+    private void addData1(){
+        for (int i = 0; i <27 ; i++) {
+            StudentHonorInfo studentHonorInfo = new StudentHonorInfo("1", "43", "33", i+"");
+            star_list.add(studentHonorInfo);
+        }
+    }
     @Override
     protected void initViews() {
         //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
         tv_title.setText(R.string.CounselorF);
 
 
-        img_fc_1.post(new Runnable() {
-            @Override
-            public void run() {
-                width = img_fc_1.getWidth();
-                ViewGroup.LayoutParams para = list_jz.getLayoutParams();
-                para.height = width;
-                list_jz.setLayoutParams(para);
-
-                list_ygj.setLayoutParams(para);
-
-                list_star.setLayoutParams(para);
-
-                //lin_fc.setLayoutParams(para);
-                lin_fc.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, width));
-            }
-        });
+//        img_fc_1.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                width = img_fc_1.getWidth();
+//                ViewGroup.LayoutParams para = list_jz.getLayoutParams();
+//                para.height = width;
+//                list_jz.setLayoutParams(para);
+//
+//                list_ygj.setLayoutParams(para);
+//
+//                list_star.setLayoutParams(para);
+//
+//                //lin_fc.setLayoutParams(para);
+//                lin_fc.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, width));
+//            }
+//        });
     }
 
     @Override
@@ -192,18 +211,30 @@ public class StudentHonorActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        SoftInputUtil.hidden(this);
         switch (v.getId()) {
             case R.id.ll_left:
                 finish();
                 break;
 
-            case R.id.tv_right:
+            case R.id.lin_ygj_left:
+
+                break;
+
+            case R.id.lin_ygj_right:
+                list_ygj.scrollTo(list_ygj.getScrollX()+100);
                 break;
         }
     }
 
-
+    public int getScrollY() {
+        View c = list_ygj.getChildAt(0);
+        if (c == null) {
+            return 0;
+        }
+        int firstVisiblePosition = list_ygj.getFirstVisiblePosition();
+        int top = c.getTop();
+        return -top + firstVisiblePosition * c.getHeight();
+    }
     @Override
     protected void onStop() {
         super.onStop();

@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.counselor.adapter.CounselorClassAdapter;
 import com.softtek.lai.module.counselor.model.ClassIdModel;
 import com.softtek.lai.module.counselor.model.ClassInfoModel;
@@ -44,7 +45,7 @@ public class CounselorClassImpl implements ICounselorClassPresenter {
 
     @Override
     public void getClassList(String classtype,final ListView expand_lis, final LinearLayout lin_create_class, final ImageView img_mo_message) {
-        String token = SharedPreferenceService.getInstance().get("token", "");
+        String token = UserInfoModel.getInstance().getToken();
         counselorService.getClassList(token, classtype,new Callback<ResponseData<List<ClassInfoModel>>>() {
 
             @Override
@@ -107,16 +108,15 @@ public class CounselorClassImpl implements ICounselorClassPresenter {
 
             @Override
             public void failure(RetrofitError error) {
+                ZillaApi.dealNetError(error);
                 error.printStackTrace();
-
-                Util.toastMsg("获取列表失败");
             }
         });
     }
 
     @Override
     public void createClass(String className, String startDate, String endDate, String managerId) {
-        String token = SharedPreferenceService.getInstance().get("token", "");
+        String token = UserInfoModel.getInstance().getToken();
         counselorService.createClass(token, className, startDate, endDate, managerId, new Callback<ResponseData<ClassIdModel>>() {
             @Override
             public void success(ResponseData<ClassIdModel> classIdResponseData, Response response) {
@@ -137,7 +137,8 @@ public class CounselorClassImpl implements ICounselorClassPresenter {
 
             @Override
             public void failure(RetrofitError error) {
-                Util.toastMsg("创建班级失败");
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
             }
         });
     }

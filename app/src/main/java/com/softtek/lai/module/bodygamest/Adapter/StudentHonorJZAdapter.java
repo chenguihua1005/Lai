@@ -26,13 +26,12 @@ public class StudentHonorJZAdapter extends BaseAdapter {
     private List<StudentHonorInfo> list;
     private LayoutInflater mInflater;
     private Context context;
-    private int width;
 
-    public StudentHonorJZAdapter(Context context, List<StudentHonorInfo> list,int width) {
+    public StudentHonorJZAdapter(Context context, List<StudentHonorInfo> list) {
+        System.out.println("list:" + list);
         this.context = context;
         this.list = list;
         mInflater = LayoutInflater.from(context);
-        this.width=width;
     }
 
     @Override
@@ -52,26 +51,17 @@ public class StudentHonorJZAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
         ViewHolder holder;
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = mInflater.inflate(R.layout.student_honor_jz_item, null);
-            holder.img = (ImageView) convertView.findViewById(R.id.img);
-            holder.rel = (RelativeLayout) convertView.findViewById(R.id.rel);
             holder.text_value = (TextView) convertView.findViewById(R.id.text_value);
 
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        convertView.setLayoutParams(new AbsListView.LayoutParams(width,width));
-        StudentHonorInfo studentHonorInfo=list.get(position);
-        if("True".equals(studentHonorInfo.getHonorStatus())){
-
-        }else {
-
-        }
+        StudentHonorInfo studentHonorInfo = list.get(position);
         holder.text_value.setText(studentHonorInfo.getValue().toString());
 
         return convertView;
@@ -79,7 +69,5 @@ public class StudentHonorJZAdapter extends BaseAdapter {
 
     private static class ViewHolder {
         private TextView text_value;
-        private ImageView img;
-        private RelativeLayout rel;
     }
 }

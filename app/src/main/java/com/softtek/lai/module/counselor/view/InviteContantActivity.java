@@ -118,7 +118,6 @@ public class InviteContantActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void onClick(View v) {
-        SoftInputUtil.hidden(this);
         switch (v.getId()) {
             case R.id.ll_left:
                 finish();
