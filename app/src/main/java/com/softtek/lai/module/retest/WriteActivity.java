@@ -12,6 +12,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -35,6 +36,7 @@ import com.softtek.lai.module.newmemberentry.view.GetPhotoDialog;
 import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
 import com.softtek.lai.module.retest.eventModel.BanJiEvent;
 import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
+import com.softtek.lai.module.retest.model.LaichModel;
 import com.softtek.lai.module.retest.model.MeasureModel;
 import com.softtek.lai.module.retest.model.RetestAuditModel;
 import com.softtek.lai.module.retest.model.RetestWriteModel;
@@ -59,7 +61,7 @@ import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_write)
-public class WriteActivity extends BaseActivity implements View.OnClickListener,CompoundButton.OnCheckedChangeListener,
+public class WriteActivity extends BaseActivity implements View.OnClickListener,
         Validator.ValidationListener{
     //标题栏
     @InjectView(R.id.tv_title)
@@ -141,9 +143,9 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
     //结束日期
     @InjectView(R.id.tv_write_endd)
     TextView tv_write_endd;
-    //莱秤开关
-    @InjectView(R.id.selectlaichen)
-    CheckBox selectlaichen;
+//    //莱秤开关
+//    @InjectView(R.id.selectlaichen)
+//    CheckBox selectlaichen;
 
     private RetestPre retestPre;
     RetestWriteModel retestWrite;
@@ -153,6 +155,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
     UserInfoModel userInfoModel=UserInfoModel.getInstance();
     long loginid=Long.parseLong(userInfoModel.getUser().getUserid());
     String acountid;
+    String classid;
     private static final int PHOTO=1;
     private static final int GET_BODY=2;
     private static final String LAI_CHEN_SWITCH_KEY="laichenSwitch";
@@ -171,7 +174,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         ll_retestWrite_neizhi.setOnClickListener(this);
         im_delete.setOnClickListener(this);
         //selectlaichen.setOnClickListener(this);
-        selectlaichen.setOnCheckedChangeListener(this);
+//        selectlaichen.setOnCheckedChangeListener(this);
     }
     @Override
     protected void onDestroy() {
@@ -212,7 +215,9 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         //第几周期
         String Weekth=intent.getStringExtra("Weekth");
         acountid=accountId;
+        classid=classId;
         Log.i("dijizhouqi"+Weekth);
+        retestPre.GetUserMeasuredInfo(Mobile);
         //头部基本信息
 //        tv_write_nick.setText(UserName);
 //        tv_write_phone.setText(Mobile);
@@ -230,34 +235,50 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         acountid=accountId;
         retestWrite=new RetestWriteModel();
 //        retestWrite.setAccountId(accountId);
-        retestPre.doGetAudit(Integer.parseInt(accountId),Integer.parseInt(classId),typedate);
-        boolean laichenSwitch= SharedPreferenceService.getInstance().get(LAI_CHEN_SWITCH_KEY,false);
-        selectlaichen.setChecked(laichenSwitch);
-        if(selectlaichen.isChecked()){
-            Log.i("上一次莱秤被打开");
-            retestPre.doGetMeasure("0Pmg0UmrnZBYbcPABC5YB0pSqNXOFnB885ZYInLptG8YvAZsT87oGUPZtU5wbAad-26xsvP8Ov_eoq6Mj9rISg-XZiz2xesbiiqYPWK0AeYquQ8fXwXNpmvL0XwbUkse","18206182086");
-        }
+        retestPre.doGetAudit(Integer.parseInt(accountId),Integer.parseInt(classId),"");
+//        boolean laichenSwitch= SharedPreferenceService.getInstance().get(LAI_CHEN_SWITCH_KEY,false);
+//        selectlaichen.setChecked(laichenSwitch);
+//        if(selectlaichen.isChecked()){
+//            Log.i("上一次莱秤被打开");
+//            retestPre.doGetMeasure("0Pmg0UmrnZBYbcPABC5YB0pSqNXOFnB885ZYInLptG8YvAZsT87oGUPZtU5wbAad-26xsvP8Ov_eoq6Mj9rISg-XZiz2xesbiiqYPWK0AeYquQ8fXwXNpmvL0XwbUkse","18206182086");
+//        }
 
 
 
     }
 
 
+//    @Subscribe
+//    public void event(MeasureModel measureModel1){
+//        measureModel=measureModel1;
+//        Log.i("username"+measureModel.getUsername());
+////        tv_write_nick.setText(measureModel.getUsername());
+////        tv_write_phone.setText(measureModel.getPhone());
+//        tv_retestWrite_nowweight.setText(measureModel.getMeasureddata().getItems().get(0).getWeight());
+//        tv_retestWrite_tizhi.setText(measureModel.getMeasureddata().getItems().get(0).getBodyfat());
+//        tv_retestWrite_neizhi.setText(measureModel.getMeasureddata().getItems().get(0).getVisceralfatindex());
+//        retestWrite.setCircum(measureModel.getChestgirth());
+//        retestWrite.setWaistline(measureModel.getWaistgirth());
+//        retestWrite.setHiplie(measureModel.getHipgirth());
+//        retestWrite.setUpArmGirth(measureModel.getUpperarmgirth());
+//        retestWrite.setUpLegGirth(measureModel.getThighgirth());
+//        retestWrite.setDoLegGirth(measureModel.getCalfgirth());
+//    }
     @Subscribe
-    public void event(MeasureModel measureModel1){
-        measureModel=measureModel1;
-        Log.i("username"+measureModel.getUsername());
+    public void event(LaichModel laichModel){
+//        measureModel=measureModel1;
+        Log.i("username"+laichModel.getCircum());
 //        tv_write_nick.setText(measureModel.getUsername());
 //        tv_write_phone.setText(measureModel.getPhone());
-        tv_retestWrite_nowweight.setText(measureModel.getMeasureddata().getItems().get(0).getWeight());
-        tv_retestWrite_tizhi.setText(measureModel.getMeasureddata().getItems().get(0).getBodyfat());
-        tv_retestWrite_neizhi.setText(measureModel.getMeasureddata().getItems().get(0).getVisceralfatindex());
-        retestWrite.setCircum(measureModel.getChestgirth());
-        retestWrite.setWaistline(measureModel.getWaistgirth());
-        retestWrite.setHiplie(measureModel.getHipgirth());
-        retestWrite.setUpArmGirth(measureModel.getUpperarmgirth());
-        retestWrite.setUpLegGirth(measureModel.getThighgirth());
-        retestWrite.setDoLegGirth(measureModel.getCalfgirth());
+        tv_retestWrite_nowweight.setText(laichModel.getWeight());
+        tv_retestWrite_tizhi.setText(laichModel.getPysical());
+        tv_retestWrite_neizhi.setText(laichModel.getFat());
+        retestWrite.setCircum(laichModel.getCircum());
+        retestWrite.setWaistline(laichModel.getWaistline());
+        retestWrite.setHiplie(laichModel.getHiplie());
+        retestWrite.setUpArmGirth(laichModel.getUpArmGirth());
+        retestWrite.setUpLegGirth(laichModel.getUpLegGirth());
+        retestWrite.setDoLegGirth(laichModel.getDoLegGirth());
     }
     @Subscribe
     public void doGetPhoto(PhotModel photModel) {
@@ -282,7 +303,12 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         tv_write_endm.setText(currEnd[1]);
         tv_write_endd.setText(currEnd[2]);
         tv_retest_write_weekth.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getWeekth());
-        Picasso.with(this).load(retestAuditModelEvent.getRetestAuditModels().get(0).getPhoto()).placeholder(R.drawable.img_default).error(R.drawable.img_default).into(iv_write_head);
+        if(!TextUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getPhoto())) {
+            Picasso.with(this).load(retestAuditModelEvent.getRetestAuditModels().get(0).getPhoto()).placeholder(R.drawable.img_default).error(R.drawable.img_default).into(iv_write_head);
+        }
+        else {
+            Picasso.with(this).load("www").placeholder(R.drawable.img_default).error(R.drawable.img_default).into(iv_write_head);
+        }
     }
 
 //    @Subscribe(threadMode = ThreadMode.MAIN)
@@ -469,7 +495,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         retestWrite.setWeight(tv_retestWrite_nowweight.getText()+"");
         retestWrite.setPysical(tv_retestWrite_tizhi.getText()+"");
         retestWrite.setFat(tv_retestWrite_neizhi.getText()+"");
-        retestWrite.setClassId("4");
+        retestWrite.setClassId(classid);
         retestWrite.setImage("");
         retestWrite.setAccountId(acountid);
         retestPre.doPostWrite(Long.parseLong(acountid),loginid,retestWrite);
@@ -483,17 +509,18 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         validateLife.onValidationFailed(failedView, failedRule);
     }
 
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        //莱秤
-        Log.i("莱秤被点击了。。。。。。。。。。。。。。。。。。。。。。");
-        SharedPreferenceService.getInstance().put(LAI_CHEN_SWITCH_KEY,isChecked);
-        if(isChecked){
-            retestPre.doGetMeasure("0Pmg0UmrnZBYbcPABC5YB0pSqNXOFnB885ZYInLptG8YvAZsT87oGUPZtU5wbAad-26xsvP8Ov_eoq6Mj9rISg-XZiz2xesbiiqYPWK0AeYquQ8fXwXNpmvL0XwbUkse","18206182086");
-        }
-
-
-    }
+//    @Override
+//    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+//    {
+//        //莱秤
+//        Log.i("莱秤被点击了。。。。。。。。。。。。。。。。。。。。。。");
+//        SharedPreferenceService.getInstance().put(LAI_CHEN_SWITCH_KEY,isChecked);
+//        if(isChecked){
+//            retestPre.doGetMeasure("0Pmg0UmrnZBYbcPABC5YB0pSqNXOFnB885ZYInLptG8YvAZsT87oGUPZtU5wbAad-26xsvP8Ov_eoq6Mj9rISg-XZiz2xesbiiqYPWK0AeYquQ8fXwXNpmvL0XwbUkse","18206182086");
+//        }
+//
+//
+//    }
     public String tomonth(String month){
         if (month.equals("01")){
             month="一月班";

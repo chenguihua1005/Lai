@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -35,6 +36,7 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.newmemberentry.view.GetPhotoDialog;
 import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
 import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
+import com.softtek.lai.module.retest.model.LaichModel;
 import com.softtek.lai.module.retest.model.MeasureModel;
 import com.softtek.lai.module.retest.model.RetestAuditModel;
 import com.softtek.lai.module.retest.model.RetestWriteModel;
@@ -55,7 +57,7 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_fuce_st)
-public class FuceStActivity extends BaseActivity implements View.OnClickListener,CompoundButton.OnCheckedChangeListener{
+public class FuceStActivity extends BaseActivity implements View.OnClickListener{
 
     //toolbar
     @InjectView(R.id.tv_title)
@@ -130,6 +132,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     RetestWriteModel retestWrite;
     MeasureModel measureModel;
     RetestAuditModel retestAuditModel;
+    String Mobile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
@@ -141,7 +144,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         ll_retestWrite_neizhi.setOnClickListener(this);
         im_retestwritest_takephoto.setOnClickListener(this);
         im_deletest.setOnClickListener(this);
-        selectlaichenst.setOnCheckedChangeListener(this);
+//        selectlaichenst.setOnCheckedChangeListener(this);
         bt_pingshen.setOnClickListener(this);
         ll_left.setOnClickListener(this);
     }
@@ -152,6 +155,22 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         super.onDestroy();
     }
 
+    @Subscribe
+    public void event(LaichModel laichModel){
+//        measureModel=measureModel1;
+        Log.i("username"+laichModel.getCircum());
+//        tv_write_nick.setText(measureModel.getUsername());
+//        tv_write_phone.setText(measureModel.getPhone());
+        tv_retestWrites_nowweight.setText(laichModel.getWeight());
+        tv_retestWritest_tizhi.setText(laichModel.getPysical());
+        tv_retestWritest_neizhi.setText(laichModel.getFat());
+        retestWrite.setCircum(laichModel.getCircum());
+        retestWrite.setWaistline(laichModel.getWaistline());
+        retestWrite.setHiplie(laichModel.getHiplie());
+        retestWrite.setUpArmGirth(laichModel.getUpArmGirth());
+        retestWrite.setUpLegGirth(laichModel.getUpLegGirth());
+        retestWrite.setDoLegGirth(laichModel.getDoLegGirth());
+    }
     @Override
     protected void initViews() {
 
@@ -165,12 +184,13 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         retestWrite=new RetestWriteModel();
         retestAuditModel=new RetestAuditModel();
         measureModel=new MeasureModel();
-        boolean laichenSwitch= SharedPreferenceService.getInstance().get(LAI_CHEN_SWITCH_KEY1,false);
-        selectlaichenst.setChecked(laichenSwitch);
-        if(selectlaichenst.isChecked()){
-            Log.i("上一次莱秤被打开");
-            retestPre.doGetMeasure("0Pmg0UmrnZBYbcPABC5YB0pSqNXOFnB885ZYInLptG8YvAZsT87oGUPZtU5wbAad-26xsvP8Ov_eoq6Mj9rISg-XZiz2xesbiiqYPWK0AeYquQ8fXwXNpmvL0XwbUkse","18206182086");
-        }
+        retestPre.GetUserMeasuredInfo(Mobile);
+//        boolean laichenSwitch= SharedPreferenceService.getInstance().get(LAI_CHEN_SWITCH_KEY1,false);
+//        selectlaichenst.setChecked(laichenSwitch);
+//        if(selectlaichenst.isChecked()){
+//            Log.i("上一次莱秤被打开");
+//            retestPre.doGetMeasure("0Pmg0UmrnZBYbcPABC5YB0pSqNXOFnB885ZYInLptG8YvAZsT87oGUPZtU5wbAad-26xsvP8Ov_eoq6Mj9rISg-XZiz2xesbiiqYPWK0AeYquQ8fXwXNpmvL0XwbUkse","18206182086");
+//        }
 
     }
 
@@ -247,6 +267,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         Log.i("retestAuditModel"+retestAuditModelEvent.getRetestAuditModels());
         tv_writes_chu_weight.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getInitWeight());
         tv_writest_nick.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getUserName());
+        Mobile=retestAuditModelEvent.getRetestAuditModels().get(0).getMobile();
         tv_writest_phone.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getMobile());
         String StartDate=retestAuditModelEvent.getRetestAuditModels().get(0).getStartDate();
         String CurrStart=retestAuditModelEvent.getRetestAuditModels().get(0).getCurrStart();
@@ -283,14 +304,14 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     }
 
 
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        //莱秤
-        Log.i("莱秤被点击了。。。。。。。。。。。。。。。。。。。。。。");
-        SharedPreferenceService.getInstance().put(LAI_CHEN_SWITCH_KEY1, isChecked);
-        if (isChecked) {
-            retestPre.doGetMeasure("0Pmg0UmrnZBYbcPABC5YB0pSqNXOFnB885ZYInLptG8YvAZsT87oGUPZtU5wbAad-26xsvP8Ov_eoq6Mj9rISg-XZiz2xesbiiqYPWK0AeYquQ8fXwXNpmvL0XwbUkse", "18206182086");
-        }
-    }
+//    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//        //莱秤
+//        Log.i("莱秤被点击了。。。。。。。。。。。。。。。。。。。。。。");
+//        SharedPreferenceService.getInstance().put(LAI_CHEN_SWITCH_KEY1, isChecked);
+//        if (isChecked) {
+//            retestPre.doGetMeasure("0Pmg0UmrnZBYbcPABC5YB0pSqNXOFnB885ZYInLptG8YvAZsT87oGUPZtU5wbAad-26xsvP8Ov_eoq6Mj9rISg-XZiz2xesbiiqYPWK0AeYquQ8fXwXNpmvL0XwbUkse", "18206182086");
+//        }
+//    }
 
     public void takecamera() {
 
