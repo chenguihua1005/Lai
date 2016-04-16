@@ -108,7 +108,12 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
                 Iv_fold.setImageResource(R.drawable.unfold);
                 selectclass.setText(banjiModel.getClassName());
                 h=false;
-
+                for(int i=0;i<parent.getChildCount();i++){
+                    ImageView iv= (ImageView) parent.getChildAt(i).findViewById(R.id.rbtn_retest);
+                    iv.setImageResource(R.drawable.radiocir);
+                }
+                ImageView iv= (ImageView) view.findViewById(R.id.rbtn_retest);
+                iv.setImageResource(R.drawable.radiosel);
             }
         });
         //学员列表

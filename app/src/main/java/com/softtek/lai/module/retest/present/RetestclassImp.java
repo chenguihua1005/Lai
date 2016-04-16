@@ -17,6 +17,7 @@ import com.softtek.lai.module.retest.eventModel.StudentEvent;
 import com.softtek.lai.module.retest.model.BanjiModel;
 import com.softtek.lai.module.retest.model.BanjiStudentModel;
 import com.softtek.lai.module.retest.model.ClientModel;
+import com.softtek.lai.module.retest.model.LaichModel;
 import com.softtek.lai.module.retest.model.MeasureModel;
 import com.softtek.lai.module.retest.model.RetestAuditModel;
 import com.softtek.lai.module.retest.model.RetestWriteModel;
@@ -205,6 +206,8 @@ public class RetestclassImp implements RetestPre{
                             break;
                         case 302:
                             Util.toastMsg("本周复测记录已存在");
+                            default:
+                                Util.toastMsg(retestWriteResponseData.getMsg());
                     }
                 }
 
@@ -222,9 +225,9 @@ public class RetestclassImp implements RetestPre{
     @Override
     public void doPostAudit(String loginId, String accountId, String typeDate, RetestAuditModel retestAudit) {
         String token=SharedPreferenceService.getInstance().get("token","");
-        service.doPostAudit(token, loginId, accountId, typeDate, retestAudit, new Callback<ResponseData<List<RetestAuditModel>>>() {
+        service.doPostAudit(token, loginId, accountId, typeDate, retestAudit, new Callback<ResponseData<RetestAuditModel>>() {
             @Override
-            public void success(ResponseData<List<RetestAuditModel>> listResponseData, Response response) {
+            public void success(ResponseData<RetestAuditModel> listResponseData, Response response) {
                 int status=listResponseData.getStatus();
                 switch (status)
                 {
@@ -315,5 +318,36 @@ public class RetestclassImp implements RetestPre{
         });
     }
 
+    @Override
+    public void GetUserMeasuredInfo(String phone) {
+        String token=SharedPreferenceService.getInstance().get("token","");
+        service.GetUserMeasuredInfo(token, phone, new Callback<ResponseData<LaichModel>>() {
+            @Override
+            public void success(ResponseData<LaichModel> laichModelResponseData, Response response) {
+                int status=laichModelResponseData.getStatus();
+                switch (status)
+                {
+                    case 200:
+                        LaichModel laichModel= (LaichModel)laichModelResponseData.getData();
+                        EventBus.getDefault().post(laichModel);
+                        Util.toastMsg("成功");
+                        default:
+                            Util.toastMsg(laichModelResponseData.getMsg());
+                }
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
+            }
+        });
+
+    }
+
 
 }
+
+
+

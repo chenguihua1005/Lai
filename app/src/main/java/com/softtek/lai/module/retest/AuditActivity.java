@@ -2,14 +2,18 @@ package com.softtek.lai.module.retest;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
@@ -29,6 +33,9 @@ import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.Subscribe;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
@@ -78,6 +85,9 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
     //内脂
     @InjectView(R.id.tv_retesrAudit_fat)
     TextView tv_retesrAudit_fat;
+    //照片显示
+    @InjectView(R.id.im_retestaudit_showphoto)
+    ImageView im_retestaudit_showphoto;
 
     //iv_audit_head
     @InjectView(R.id.iv_audit_head)
@@ -136,6 +146,7 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
 
     private RetestPre retestPre;
     private RetestAuditModel retestAudit;
+    String acountid;
 
 
     @Override
@@ -159,6 +170,7 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
     protected void initViews() {
 
 
+
     }
 
     @Override
@@ -168,7 +180,28 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
         tv_right.setText(R.string.AuditBarR);
         retestPre=new RetestclassImp();
         retestAudit=new RetestAuditModel();
-        retestPre.doGetAudit(3,4,"2016-03-29");
+        Intent intent=getIntent();
+        String accountId=intent.getStringExtra("accountId");
+        String loginId=intent.getStringExtra("loginId");
+        String classId=intent.getStringExtra("classId");
+        String typedate=intent.getStringExtra("typeDate");
+        //开班时间，判断班级名称（几月班）
+        String StartDate=intent.getStringExtra("StartDate");
+        //开始周期
+        String CurrStart=intent.getStringExtra("CurrStart");
+        //结束周期
+        String CurrEnd=intent.getStringExtra("CurrEnd");
+        //昵称
+        String UserName=intent.getStringExtra("UserName");
+        //手机号
+        String Mobile=intent.getStringExtra("Mobile");
+        //头像
+        String Photo=intent.getStringExtra("Photo");
+        //第几周期
+        String Weekth=intent.getStringExtra("Weekth");
+//        typedate
+        acountid=accountId;
+        retestPre.doGetAudit(Integer.parseInt(accountId),Integer.parseInt(classId),"2016-03-30");
 
     }
     @Subscribe
@@ -189,7 +222,29 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
         tv_audit_monen.setText(currEnd[1]);
         tv_audit_dayen.setText(currEnd[2]);
         tv_audit_weekth.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getWeekth());
-        Picasso.with(this).load(retestAuditModelEvent.getRetestAuditModels().get(0).getPhoto()).placeholder(R.drawable.img_default).error(R.drawable.img_default).into(iv_audit_head);
+        if(!TextUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getPhoto())) {
+            Picasso.with(this).load(retestAuditModelEvent.getRetestAuditModels().get(0).getPhoto()).placeholder(R.drawable.img_default).error(R.drawable.img_default).into(iv_audit_head);
+        }
+        else {
+            Picasso.with(this).load("www").placeholder(R.drawable.img_default).error(R.drawable.img_default).into(iv_audit_head);
+        }
+        tv_audit_now_weight.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getWeight());
+        tv_retestAudit_tizhi.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getPysical());
+        tv_retesrAudit_fat.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getFat());
+        tv_retestAudit_wasit.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getCircum());
+        tv_retestAudit_yaowei.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getWaistline());
+        tv_retestAudit_tunwei.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getHiplie());
+        tv_retestAudit_upArmGirth.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getUpArmGirth());
+        tv_retestAudit_upLegGirth.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getUpArmGirth());
+        tv_retestAudit_doLegGirth.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getDoLegGirth());
+        if(!TextUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getImage())) {
+            Picasso.with(this).load(retestAuditModelEvent.getRetestAuditModels().get(0).getPhoto()).placeholder(R.drawable.img_default).error(R.drawable.img_default).into(im_retestaudit_showphoto);
+        }
+        else {
+
+        }
+        im_retestaudit_showphoto.setVisibility(View.GONE);
+
     }
 
     @Override
@@ -369,4 +424,7 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
     public void onValidationFailed(View failedView, Rule<?> failedRule) {
         validateLife.onValidationFailed(failedView, failedRule);
     }
+
+
+
 }
