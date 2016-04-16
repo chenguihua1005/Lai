@@ -33,6 +33,7 @@ import butterknife.InjectView;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.newmemberentry.view.GetPhotoDialog;
 import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
 import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
@@ -82,6 +83,8 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     TextView tv_writest_monen;
     @InjectView(R.id.tv_writest_dayen)
     TextView tv_writest_dayen;
+    UserInfoModel userInfoModel=UserInfoModel.getInstance();
+    long loginid=Long.parseLong(userInfoModel.getUser().getUserid());
 
     //保存数据点击
     //初始体重
@@ -180,7 +183,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     protected void initDatas() {
         tv_title.setText("复测录入");
         retestPre=new RetestclassImp();
-        retestPre.doGetAudit(3,4,"");
+        retestPre.doGetAudit(loginid,0,"");
         retestWrite=new RetestWriteModel();
         retestAuditModel=new RetestAuditModel();
         measureModel=new MeasureModel();
