@@ -419,7 +419,7 @@
             android:layout_height="1dp"
             android:background="#dddddd" />
 
-        <ListView
+        <com.handmark.pulltorefresh.library.PullToRefreshListView
             android:id="@+id/lv_dynamic"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

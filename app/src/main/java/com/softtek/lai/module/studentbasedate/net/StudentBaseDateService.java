@@ -32,5 +32,6 @@ public interface StudentBaseDateService {
     @GET("/BasicData/GetClassDynamic")
     void getClassDynamic(@Header("token")String token,
                          @Query("classid")long classId,
+                         @Query("pageIndex")int pageIndex,
                          RequestCallback<ResponseData<List<DynamicInfoModel>>> callback);
 }

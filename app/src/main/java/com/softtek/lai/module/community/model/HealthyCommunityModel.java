@@ -13,6 +13,51 @@ public class HealthyCommunityModel {
     private String UserName;
     private String Photo;
     private String minetype;
+    private String imgCollectionFirst;
+    private String imgCollection;
+    private String IsPraise;
+    private String PraiseNum;
+    private String usernameSet;
+
+    public String getImgCollectionFirst() {
+        return imgCollectionFirst;
+    }
+
+    public void setImgCollectionFirst(String imgCollectionFirst) {
+        this.imgCollectionFirst = imgCollectionFirst;
+    }
+
+    public String getImgCollection() {
+        return imgCollection;
+    }
+
+    public void setImgCollection(String imgCollection) {
+        this.imgCollection = imgCollection;
+    }
+
+    public String getIsPraise() {
+        return IsPraise;
+    }
+
+    public void setIsPraise(String isPraise) {
+        IsPraise = isPraise;
+    }
+
+    public String getPraiseNum() {
+        return PraiseNum;
+    }
+
+    public void setPraiseNum(String praiseNum) {
+        PraiseNum = praiseNum;
+    }
+
+    public String getUsernameSet() {
+        return usernameSet;
+    }
+
+    public void setUsernameSet(String usernameSet) {
+        this.usernameSet = usernameSet;
+    }
 
     public String getID() {
         return ID;
@@ -80,6 +125,11 @@ public class HealthyCommunityModel {
                 ", UserName='" + UserName + '\'' +
                 ", Photo='" + Photo + '\'' +
                 ", minetype='" + minetype + '\'' +
+                ", imgCollectionFirst='" + imgCollectionFirst + '\'' +
+                ", imgCollection='" + imgCollection + '\'' +
+                ", IsPraise='" + IsPraise + '\'' +
+                ", PraiseNum='" + PraiseNum + '\'' +
+                ", usernameSet='" + usernameSet + '\'' +
                 '}';
     }
 }

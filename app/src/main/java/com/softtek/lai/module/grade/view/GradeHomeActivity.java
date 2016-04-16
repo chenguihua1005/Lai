@@ -22,10 +22,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
@@ -38,7 +39,6 @@ import com.softtek.lai.module.grade.model.DynamicInfoModel;
 import com.softtek.lai.module.grade.model.GradeInfoModel;
 import com.softtek.lai.module.grade.model.GradeModel;
 import com.softtek.lai.module.grade.model.PeopleModel;
-import com.softtek.lai.module.grade.model.PhotoInfoModel;
 import com.softtek.lai.module.grade.presenter.GradeImpl;
 import com.softtek.lai.module.grade.presenter.IGrade;
 import com.softtek.lai.utils.SystemUtils;
@@ -51,7 +51,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -60,7 +59,7 @@ import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_grade_home)
 public class GradeHomeActivity extends BaseActivity implements View.OnClickListener, DialogInterface.OnClickListener
-        , TextWatcher, BannerUpdateCallBack {
+        , TextWatcher, BannerUpdateCallBack,GradeImpl.GradeCalllback,PullToRefreshBase.OnRefreshListener2 {
 
     private static final int GET_IMAGE_VIA_CAMERA = 1;//相机
     private static final int GET_IMAGE_VIA_PICTURE = 2;//图库
@@ -114,7 +113,7 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
     ImageView iv_grade_banner;
 
     @InjectView(R.id.lv_dynamic)
-    ListView lv_dynamic;
+    PullToRefreshListView lv_dynamic;
 
     @InjectView(R.id.ll_fooder)
     LinearLayout ll_footer;
@@ -134,6 +133,7 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
     private int review_flag=0;
     private long classId=0;
     private long accountId=0;
+    private int pageIndex;
 
     private File dir = new File(uploadloadImageDir);
     @Override
@@ -150,6 +150,8 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
             ll_footer.setVisibility(View.GONE);
             tv_editor.setVisibility(View.GONE);
         }
+        lv_dynamic.setOnRefreshListener(this);
+        lv_dynamic.setMode(PullToRefreshBase.Mode.BOTH);
         progressDialog = new ProgressDialog(this);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setMessage("正在加载内容...");
@@ -167,6 +169,7 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
         grade.getGradeInfos(classId, progressDialog);
         adapter = new DynamicAdapter(this, dynamicInfos);
         lv_dynamic.setAdapter(adapter);
+        grade.getClassDynamic(classId,1);
 
     }
 
@@ -255,20 +258,14 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
             GradeInfoModel info = grades.get(0);
             tv_title.setText(info.getClassName());
             tv_title_date.setText(info.getStartDate()+"-"+info.getEndDate());
+            tv_pc_num.setText(info.getPCNum() + "人");
+            tv_sr_num.setText(info.getSRNum() + "人");
             Picasso.with(this).load(info.getClassBanner()).centerInside().placeholder(R.drawable.default_pic)
                     .error(R.drawable.default_pic).into(iv_grade_banner);
         }
         //加载学员头像
         List<PeopleModel> pcs = gradeModel.getPCInfo();
         List<PeopleModel> srs = gradeModel.getSRInfo();
-        tv_pc_num.setText(pcs.size() + "人");
-        tv_sr_num.setText(srs.size() + "人");
-
-        //更新班级动态
-        dynamicInfos.clear();
-        dynamicInfos.addAll(gradeModel.getDynamicInfo());
-        adapter.notifyDataSetChanged();
-
         for (int i = 0; i < pcs.size(); i++) {
             PeopleModel pc = pcs.get(i);
             switch (i) {
@@ -373,10 +370,10 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
                     //从指定目录获取图片原图
                     File image = new File(uploadloadImageDir,localTempImgFileName);
                     Log.i("拍完照后图片是否存在？=="+image.exists());
-                    startActivityForResult(SystemUtils.crop(Uri.fromFile(image), null, 3, 2, 300, 300), CROP_VIA_IMAGE);
+                    startActivityForResult(SystemUtils.crop(Uri.fromFile(image), null, 2, 1, 300, 300), CROP_VIA_IMAGE);
                     break;
                 case GET_IMAGE_VIA_PICTURE:
-                    Intent intent = SystemUtils.crop(data.getData(), null, 3, 2, 300, 300);
+                    Intent intent = SystemUtils.crop(data.getData(), null, 2, 1, 300, 300);
                     startActivityForResult(intent, CROP_VIA_IMAGE);
                     break;
                 case CROP_VIA_IMAGE:
@@ -412,5 +409,35 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public void getDynamicCallback(List<DynamicInfoModel> dynamicInfoModels) {
+        lv_dynamic.onRefreshComplete();
+        if(dynamicInfoModels==null){
+            pageIndex=--pageIndex<1?1:pageIndex;
+            return;
+        }
+        if(dynamicInfoModels.isEmpty()){
+            pageIndex=--pageIndex<1?1:pageIndex;
+            return;
+        }
+        if(pageIndex==1){
+         dynamicInfos.clear();
+        }
+        dynamicInfos.addAll(dynamicInfoModels);
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onPullDownToRefresh(PullToRefreshBase refreshView) {
+        pageIndex=1;
+        grade.getClassDynamic(classId,1);
+    }
+
+    @Override
+    public void onPullUpToRefresh(PullToRefreshBase refreshView) {
+        pageIndex++;
+        grade.getClassDynamic(classId,pageIndex);
     }
 }
