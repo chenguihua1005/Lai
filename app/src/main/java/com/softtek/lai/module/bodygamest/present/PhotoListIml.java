@@ -34,7 +34,6 @@ public class PhotoListIml implements PhotoListPre{
 
     @Override
     public void doGetDownPhoto(String AccountId,final ProgressDialog loadingDialog) {
-        Log.i("service>>>>>>>>>>>>>>>>>>>>>>>>>>"+service);
         String token=SharedPreferenceService.getInstance().get("token","");
         service.doGetDownPhoto(token, AccountId, new Callback<ResponseData<List<DownPhotoModel>>>() {
             @Override

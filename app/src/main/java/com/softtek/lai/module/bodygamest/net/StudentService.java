@@ -33,6 +33,7 @@ public interface StudentService {
     );
 
     //判断这个人是否有班级
+    @GET("/BasicData/IsHaveClass")
     void hasClass(@Header("token")String token,
                   RequestCallback<ResponseData<HasClass>> callback);
 }

@@ -5,13 +5,20 @@ package com.softtek.lai.module.bodygamest.model;
  */
 public class HasClass {
 
-    private String isHave;
+    private String IsHave;
 
     public String getIsHave() {
-        return isHave;
+        return IsHave;
     }
 
     public void setIsHave(String isHave) {
-        this.isHave = isHave;
+        IsHave = isHave;
+    }
+
+    @Override
+    public String toString() {
+        return "HasClass{" +
+                "IsHave='" + IsHave + '\'' +
+                '}';
     }
 }

@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import butterknife.InjectView;
+
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -163,8 +165,9 @@ public class StudentActivity extends BaseActivity implements View.OnClickListene
                     @Override
                     public void success(ResponseData<HasClass> hasClassResponseData, Response response) {
                         dialogDissmiss();
+                        Log.i(hasClassResponseData.toString());
                         if(hasClassResponseData.getStatus()==200){
-                            if(hasClassResponseData.getData().getIsHave().equals("1")){
+                            if("1".equals(hasClassResponseData.getData().getIsHave())){
                                 startActivity(new Intent(StudentActivity.this, StudentBaseDateActivity.class));
                             }else{
                                 //学员没有班级
