@@ -65,6 +65,7 @@ public class GradeImpl implements IGrade {
             @Override
             public void success(ResponseData<GradeModel> gradeResponseData, Response response) {
                 loadingDialog.dismiss();
+                Log.i("班级信息"+gradeResponseData.getData());
                 int status = gradeResponseData.getStatus();
                 switch (status) {
                     case 200:

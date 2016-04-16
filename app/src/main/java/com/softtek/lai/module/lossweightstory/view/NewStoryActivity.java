@@ -57,7 +57,7 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
     protected void initDatas() {
         UserModel model= UserInfoModel.getInstance().getUser();
         et_sender.setText(model.getNickname());
-        
+
     }
 
     @Override
