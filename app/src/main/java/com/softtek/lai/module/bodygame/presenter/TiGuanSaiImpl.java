@@ -106,10 +106,10 @@ public class TiGuanSaiImpl implements ITiGuanSai {
                 switch (status)
                 {
                     case 200:
-                        Util.toastMsg("获取成功");
+                        //Util.toastMsg("获取成功");
                         break;
                     default:
-                        Util.toastMsg("获取失败");
+                        //Util.toastMsg("获取失败");
                         break;
                 }
             }
