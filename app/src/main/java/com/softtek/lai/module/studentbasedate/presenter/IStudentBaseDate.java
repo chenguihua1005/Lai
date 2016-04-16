@@ -11,5 +11,4 @@ public interface IStudentBaseDate {
 
     void  getClassMemberInfoCurvePC();
 
-    void  getClassDynamic(long classId);
 }

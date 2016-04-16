@@ -27,9 +27,9 @@ public class CommunityManager{
     }
 
 
-    public void getHealthyMine() {
+    public void getHealthyMine(int pageIndex) {
         String token= UserInfoModel.getInstance().getToken();
-        service.getHealthyMine(token, new RequestCallback<ResponseData<List<HealthyCommunityModel>>>() {
+        service.getHealthyMine(token,pageIndex, new RequestCallback<ResponseData<List<HealthyCommunityModel>>>() {
             @Override
             public void success(ResponseData<List<HealthyCommunityModel>> listResponseData, Response response) {
                 Log.i("健康圈 我的"+listResponseData.toString());
@@ -38,8 +38,8 @@ public class CommunityManager{
 
             @Override
             public void failure(RetrofitError error) {
-                super.failure(error);
                 if(cb!=null)cb.getMineDynamic(null);
+                super.failure(error);
             }
         });
     }

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/lin_is_vr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/default_pic" />
+        <TextView
+            android:layout_marginTop="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center|bottom"
+            android:textSize="16sp"
+            android:textColor="#333333"
+            android:text="登录后，才能使用更多功能哦"/>
+        <Button
+            android:id="@+id/but_login"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dip"
+            android:layout_marginLeft="@dimen/fragmentMineMargin"
+            android:layout_marginRight="@dimen/fragmentMineMargin"
+            android:textColor="@color/white"
+            android:background="@drawable/bg_login_btn"
+            android:text="立即登录" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -44,4 +44,9 @@ public interface IGrade {
     void updateClassBanner(long classId, String type, File image);
 
     void removeTutorRole(long classId,long tutorId, Callback<ResponseData> callback);
+
+    /*
+    获取动态
+     */
+    void getClassDynamic(long classId,int pageIndex);
 }

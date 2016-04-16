@@ -44,10 +44,8 @@ public class MyScrollView extends ScrollView{
                     double radian=Math.atan2(deltaY,deltaX);
                     double deg=Math.toDegrees(radian);
                     if(deg>45){
-                        Log.i("计算得出此次的角度是="+deg+"是上下滑动");
                         return true;
                     }else{
-                        Log.i("计算得出此次的角度是="+deg+"不是上下滑动");
                         return false;
                     }
                 }

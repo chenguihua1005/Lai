@@ -21,8 +21,6 @@ public class GradeModel {
 
     private List<PeopleModel> PCInfo;
 
-    private List<DynamicInfoModel> DynamicInfo;
-
     public List<GradeInfoModel> getClassInfo() {
         return ClassInfo;
     }
@@ -30,14 +28,6 @@ public class GradeModel {
     public void setClassInfo(List<GradeInfoModel> classInfo) {
         ClassInfo = classInfo;
     }
-
-    /*public List<PhotoInfoModel> getPhotoInfo() {
-        return PhotoInfo;
-    }
-
-    public void setPhotoInfo(List<PhotoInfoModel> photoInfo) {
-        PhotoInfo = photoInfo;
-    }*/
 
     public List<PeopleModel> getSRInfo() {
         return SRInfo;
@@ -55,21 +45,12 @@ public class GradeModel {
         this.PCInfo = PCInfo;
     }
 
-    public List<DynamicInfoModel> getDynamicInfo() {
-        return DynamicInfo;
-    }
-
-    public void setDynamicInfo(List<DynamicInfoModel> dynamicInfo) {
-        DynamicInfo = dynamicInfo;
-    }
-
     @Override
     public String toString() {
         return "GradeModel{" +
                 "ClassInfo=" + ClassInfo +
                 ", SRInfo=" + SRInfo +
                 ", PCInfo=" + PCInfo +
-                ", DynamicInfo=" + DynamicInfo +
                 '}';
     }
 }

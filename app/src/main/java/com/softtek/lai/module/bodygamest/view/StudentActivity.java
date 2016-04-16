@@ -7,6 +7,7 @@ package com.softtek.lai.module.bodygamest.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -14,25 +15,34 @@ import android.widget.TextView;
 import butterknife.InjectView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.bodygame.model.FuceNumModel;
 import com.softtek.lai.module.bodygame.model.TiGuanSaiModel;
 import com.softtek.lai.module.bodygame.model.TotolModel;
 import com.softtek.lai.module.bodygame.presenter.ITiGuanSai;
 import com.softtek.lai.module.bodygame.presenter.TiGuanSaiImpl;
 import com.softtek.lai.module.bodygame.view.TipsActivity;
+import com.softtek.lai.module.bodygamest.model.HasClass;
+import com.softtek.lai.module.bodygamest.present.IStudentPresenter;
+import com.softtek.lai.module.bodygamest.present.StudentImpl;
 import com.softtek.lai.module.lossweightstory.view.LossWeightStoryActivity;
 import com.softtek.lai.module.studentbasedate.view.StudentBaseDateActivity;
+import com.softtek.lai.utils.RequestCallback;
 import com.squareup.picasso.Picasso;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
 
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_student)
 public class StudentActivity extends BaseActivity implements View.OnClickListener {
     private ITiGuanSai tiGuanSai;
+    private StudentImpl studentImpl;
     private FuceNumModel fuceNum;
     //标题
     @InjectView(R.id.tv_title)
@@ -111,6 +121,7 @@ public class StudentActivity extends BaseActivity implements View.OnClickListene
         tiGuanSai.getTiGuanSai();
         tiGuanSai.doGetFuceNum(36);
         tiGuanSai.doGetTotal();
+        studentImpl=new StudentImpl(this);
 
     }
 
@@ -147,7 +158,30 @@ public class StudentActivity extends BaseActivity implements View.OnClickListene
 
             //点击跳转事件
             case R.id.ll_st_jibenshuju:
-                startActivity(new Intent(this, StudentBaseDateActivity.class));
+                dialogShow("验证中...");
+                studentImpl.hasClass(new RequestCallback<ResponseData<HasClass>>() {
+                    @Override
+                    public void success(ResponseData<HasClass> hasClassResponseData, Response response) {
+                        dialogDissmiss();
+                        if(hasClassResponseData.getStatus()==200){
+                            if(hasClassResponseData.getData().getIsHave().equals("1")){
+                                startActivity(new Intent(StudentActivity.this, StudentBaseDateActivity.class));
+                            }else{
+                                //学员没有班级
+                                new AlertDialog.Builder(StudentActivity.this).setTitle("提示")
+                                        .setMessage("您目前还没有参加班级").create().show();
+                            }
+                        }else{
+                            Util.toastMsg(hasClassResponseData.getMsg());
+                        }
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        dialogDissmiss();
+                        super.failure(error);
+                    }
+                });
                 break;
             //上传照片
             case R.id.ll_st_shangchuan:

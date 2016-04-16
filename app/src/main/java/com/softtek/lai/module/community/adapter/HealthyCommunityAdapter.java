@@ -9,7 +9,9 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
+import com.softtek.lai.module.community.model.HealthyCommunityModel;
 import com.softtek.lai.module.lossweightstory.model.LossWeightStoryModel;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
@@ -24,11 +26,13 @@ import zilla.libcore.file.AddressManager;
 public class HealthyCommunityAdapter extends BaseAdapter{
 
     private Context context;
-    private List<LossWeightStoryModel> lossWeightStoryModels;
+    private List<HealthyCommunityModel> lossWeightStoryModels;
+    private boolean isVR=false;
 
-    public HealthyCommunityAdapter(Context context, List<LossWeightStoryModel> lossWeightStoryModels) {
+    public HealthyCommunityAdapter(Context context, List<HealthyCommunityModel> lossWeightStoryModels,boolean isVR) {
         this.context = context;
         this.lossWeightStoryModels = lossWeightStoryModels;
+        this.isVR=isVR;
     }
 
     @Override
@@ -56,17 +60,20 @@ public class HealthyCommunityAdapter extends BaseAdapter{
         }else{
             holder= (ViewHolder) convertView.getTag();
         }
-        LossWeightStoryModel model=lossWeightStoryModels.get(position);
+        HealthyCommunityModel model=lossWeightStoryModels.get(position);
         holder.tv_name.setText(model.getUserName());
-        holder.tv_content.setText(model.getLogContent());
+        holder.tv_content.setText(model.getContent());
         holder.tv_date.setText(model.getCreateDate());
         holder.tv_zan_name.setText(model.getUsernameSet());
-        holder.cb_zan.setText(model.getPriase());
-        if("1".equals(model.getIsClicked())){
+        holder.cb_zan.setText(model.getPraiseNum());
+        if("True".equals(model.getIsPraise())){
             holder.cb_zan.setChecked(true);
             holder.cb_zan.setEnabled(false);
         }else {
             holder.cb_zan.setChecked(false);
+        }
+        if(isVR){
+            holder.cb_zan.setEnabled(false);
         }
         //加载图片
         String path= AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");

@@ -1,10 +1,11 @@
 package com.softtek.lai.module.studentbasedate.view;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.ListView;
+import android.os.Handler;
 
+import com.github.snowdream.android.util.Log;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.ResponseData;
@@ -12,76 +13,123 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.grade.adapter.DynamicAdapter;
 import com.softtek.lai.module.grade.model.DynamicInfoModel;
 import com.softtek.lai.module.studentbasedate.net.StudentBaseDateService;
-import com.softtek.lai.module.studentbasedate.presenter.IStudentBaseDate;
-import com.softtek.lai.module.studentbasedate.presenter.StudentBaseDateImpl;
 import com.softtek.lai.utils.RequestCallback;
 
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 /**
  * Created by jerry.guan on 4/13/2016.
  */
 @InjectLayout(R.layout.fragment_basedate_dynamic)
-public class ClassDynamicFragment extends BaseFragment{
+public class ClassDynamicFragment extends BaseFragment implements PullToRefreshBase.OnRefreshListener2{
 
     @InjectView(R.id.lv)
-    ListView lv;
-    @InjectView(R.id.img_no_message)
-    ImageView no_message_img;
+    PullToRefreshListView lv;
 
     private StudentBaseDateService service;
     private DynamicAdapter dynamicAdapter;
-    public static ClassDynamicFragment getInstance(long classId){
-            ClassDynamicFragment fragment=new ClassDynamicFragment();
-            Bundle bundle=new Bundle();
-            bundle.putLong("classId",classId);
-            fragment.setArguments(bundle);
+    private List<DynamicInfoModel> dynamicInfoModels=new ArrayList<>();
+    private int pageIndex=1;
+    private long classId=0;
+
+    public static ClassDynamicFragment getInstance(){
+        ClassDynamicFragment fragment=new ClassDynamicFragment();
         return fragment;
     }
 
     @Override
     protected void initViews() {
-
+        lv.setOnRefreshListener(this);
+        lv.setMode(PullToRefreshBase.Mode.BOTH);
     }
 
     @Override
     protected void initDatas() {
         service= ZillaApi.NormalRestAdapter.create(StudentBaseDateService.class);
-        Bundle bundle=getArguments();
-        if(bundle!=null){
-            long classId=bundle.getLong("classId",0);
-            String token= UserInfoModel.getInstance().getToken();
-            service.getClassDynamic(
-                    token,
-                    classId,
-                    new RequestCallback<ResponseData<List<DynamicInfoModel>>>() {
-                @Override
-                public void success(ResponseData<List<DynamicInfoModel>> listResponseData, Response response) {
-                    switch (listResponseData.getStatus()){
-                        case 200:
-                            if(!listResponseData.getData().isEmpty()){
-                                no_message_img.setVisibility(View.GONE);
-                                lv.setVisibility(View.VISIBLE);
-                                dynamicAdapter=new DynamicAdapter(getContext(),listResponseData.getData());
-                                lv.setAdapter(dynamicAdapter);
-                            }else{
-                                lv.setVisibility(View.GONE);
-                                no_message_img.setVisibility(View.VISIBLE);
-                            }
-                            break;
-                        default:
-                            Util.toastMsg(listResponseData.getMsg());
-                            break;
-                    }
-                }
-            });
+        dynamicAdapter=new DynamicAdapter(getContext(),dynamicInfoModels);
+        lv.setAdapter(dynamicAdapter);
+    }
+
+    @Override
+    public void onPullDownToRefresh(PullToRefreshBase refreshView) {
+        pageIndex=1;
+        String token= UserInfoModel.getInstance().getToken();
+        service.getClassDynamic(token, classId, 1, new RequestCallback<ResponseData<List<DynamicInfoModel>>>() {
+            @Override
+            public void success(ResponseData<List<DynamicInfoModel>> listResponseData, Response response) {
+                dealCallbackData(listResponseData.getData());
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                dealCallbackData(null);
+                super.failure(error);
+            }
+        });
+    }
+
+    @Override
+    public void onPullUpToRefresh(PullToRefreshBase refreshView) {
+        pageIndex++;
+        String token= UserInfoModel.getInstance().getToken();
+        service.getClassDynamic(token, classId, pageIndex, new RequestCallback<ResponseData<List<DynamicInfoModel>>>() {
+            @Override
+            public void success(ResponseData<List<DynamicInfoModel>> listResponseData, Response response) {
+                dealCallbackData(listResponseData.getData());
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                dealCallbackData(null);
+                super.failure(error);
+            }
+        });
+    }
+
+    private void dealCallbackData(List<DynamicInfoModel> models){
+        lv.onRefreshComplete();
+
+        Log.i("返回的动态不为null?"+models);
+        if(models==null){
+            pageIndex=--pageIndex<1?1:pageIndex;
+            Log.i("当前第"+pageIndex+"页");
+            return;
         }
+        Log.i("返回的动态是"+models);
+        if(models.isEmpty()){
+            pageIndex=--pageIndex<1?1:pageIndex;
+            Log.i("当前第"+pageIndex+"页");
+            return;
+        }
+        if(pageIndex==1){
+            dynamicInfoModels.clear();
+        }
+        dynamicInfoModels.addAll(models);
+        dynamicAdapter.notifyDataSetChanged();
+        Log.i("当前第"+pageIndex+"页");
+    }
+
+    public void loadDynamic(long classId){
+        String token= UserInfoModel.getInstance().getToken();
+        this.classId=classId;
+        service.getClassDynamic(token, classId, 1, new RequestCallback<ResponseData<List<DynamicInfoModel>>>() {
+            @Override
+            public void success(ResponseData<List<DynamicInfoModel>> listResponseData, Response response) {
+                dealCallbackData(listResponseData.getData());
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                dealCallbackData(null);
+                super.failure(error);
+            }
+        });
     }
 }
