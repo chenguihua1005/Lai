@@ -25,6 +25,7 @@ import com.softtek.lai.module.bodygame.view.TipsActivity;
 import com.softtek.lai.module.bodygamest.model.HasClass;
 import com.softtek.lai.module.bodygamest.present.IStudentPresenter;
 import com.softtek.lai.module.bodygamest.present.StudentImpl;
+import com.softtek.lai.module.counselor.view.GameActivity;
 import com.softtek.lai.module.lossweightstory.view.LossWeightStoryActivity;
 import com.softtek.lai.module.studentbasedate.view.StudentBaseDateActivity;
 import com.softtek.lai.utils.RequestCallback;
@@ -199,15 +200,15 @@ public class StudentActivity extends BaseActivity implements View.OnClickListene
                 break;
             //成绩单
             case R.id.ll_st_chengjidan:
-
+                startActivity(new Intent(this, StudentScoreActivity.class));
                 break;
             //荣誉榜
             case R.id.ll_st_rongyu:
-
+                startActivity(new Intent(this, StudentHonorGridActivity.class));
                 break;
             //大赛赛况
             case R.id.ll_st_saikuang:
-
+                startActivity(new Intent(this, GameActivity.class));
                 break;
             //提示
             case R.id.ll_st_tipst:
