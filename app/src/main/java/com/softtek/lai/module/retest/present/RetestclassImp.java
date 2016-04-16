@@ -157,11 +157,11 @@ public class RetestclassImp implements RetestPre{
     public void doGetAudit(long accountId, long classId, String typeDate) {
         String token=SharedPreferenceService.getInstance().get("token","");
         service.doGetAudit(token, accountId, classId, typeDate, new Callback<ResponseData<List<RetestAuditModel>>>() {
+
             @Override
             public void success(ResponseData<List<RetestAuditModel>> listResponseData, Response response) {
-                int status=listResponseData.getStatus();
-                switch (status)
-                {
+                int status = listResponseData.getStatus();
+                switch (status) {
                     case 200:
                         EventBus.getDefault().post(new RetestAuditModelEvent(listResponseData.getData()));
                         Util.toastMsg("复测记录获取成功");
@@ -177,8 +177,6 @@ public class RetestclassImp implements RetestPre{
 
             @Override
             public void failure(RetrofitError error) {
-                ZillaApi.dealNetError(error);
-                error.printStackTrace();
 
             }
         });
