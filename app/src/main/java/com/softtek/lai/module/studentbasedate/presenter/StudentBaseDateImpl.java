@@ -60,16 +60,6 @@ public class StudentBaseDateImpl implements IStudentBaseDate{
         });
     }
 
-    @Override
-    public void getClassDynamic(long classId) {
-        service.getClassDynamic(token,classId, new RequestCallback<ResponseData<List<DynamicInfoModel>>>() {
-            @Override
-            public void success(ResponseData<List<DynamicInfoModel>> listResponseData, Response response) {
-                Log.i("班级动态："+listResponseData.toString());
-            }
-        });
-    }
-
     public interface StudentBaseDataCallback{
         void getClassMemberInfo(StudentBaseInfoModel studentBaseInfoModel);
 

@@ -7,9 +7,12 @@ package com.softtek.lai.module.grade.net;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.grade.model.BannerModel;
+import com.softtek.lai.module.grade.model.DynamicInfoModel;
 import com.softtek.lai.module.grade.model.GradeModel;
 import com.softtek.lai.module.grade.model.SRInfoModel;
 import com.softtek.lai.module.grade.model.StudentModel;
+import com.softtek.lai.utils.RequestCallback;
+
 import retrofit.Callback;
 import retrofit.http.*;
 import retrofit.mime.TypedFile;
@@ -67,4 +70,11 @@ public interface GradeService {
                          @Field("assistantId")long tutorId,
                          @Field("classId")long classId,
                          Callback<ResponseData> callback);
+
+    //获取班级动态
+    @GET("/BasicData/GetClassDynamic")
+    void getClassDynamic(@Header("token")String token,
+                         @Query("classid")long classId,
+                         @Query("pageIndex")int pageIndex,
+                         RequestCallback<ResponseData<List<DynamicInfoModel>>> callback);
 }

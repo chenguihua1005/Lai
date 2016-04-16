@@ -2,6 +2,7 @@ package com.softtek.lai.module.confirmInfo.model;
 
 /**
  * Created by zcy on 2016/4/13.
+ *2.16.5	修改参赛数据
  */
 public class ConinfoModel {
     private long accountid;

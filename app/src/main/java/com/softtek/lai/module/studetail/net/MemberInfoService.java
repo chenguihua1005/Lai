@@ -7,6 +7,7 @@ package com.softtek.lai.module.studetail.net;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.lossweightstory.model.Zan;
+import com.softtek.lai.module.studetail.model.LogList;
 import com.softtek.lai.module.studetail.model.LossWeightLogModel;
 import com.softtek.lai.module.studetail.model.MemberModel;
 import com.softtek.lai.module.studetail.model.StudentLinChartInfoModel;
@@ -45,7 +46,8 @@ public interface MemberInfoService {
     @GET("/CompetitionLog/GetCompetitionLog")
     void getCompetitionLog(@Header(TOKEN)String token,
                            @Query("accountId")long accountId,
-                           Callback<ResponseData<List<LossWeightLogModel>>> callback);
+                           @Query("pageIndex")int pageIndex,
+                           Callback<ResponseData<LogList>> callback);
 
     //点赞
     @FormUrlEncoded

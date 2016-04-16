@@ -12,9 +12,11 @@ import android.widget.ListView;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygamest.Adapter.StudentScoreAdapter;
+import com.softtek.lai.module.bodygamest.model.HasClass;
 import com.softtek.lai.module.bodygamest.model.StudentHonorInfo;
 import com.softtek.lai.module.bodygamest.model.StudentScripInfo;
 import com.softtek.lai.module.bodygamest.net.StudentService;
+import com.softtek.lai.utils.RequestCallback;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -93,5 +95,10 @@ public class StudentImpl implements IStudentPresenter {
                 error.printStackTrace();
             }
         });
+    }
+
+    public void hasClass(RequestCallback<ResponseData<HasClass>> callback){
+        String token= UserInfoModel.getInstance().getToken();
+        studentService.hasClass(token,callback);
     }
 }

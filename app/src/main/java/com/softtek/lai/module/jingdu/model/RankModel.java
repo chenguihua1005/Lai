@@ -13,13 +13,21 @@ import java.util.List;
 public class RankModel {
     private List<TableModel> Table;
     private List<Table1Model> Table1;
+    private List<Table2Model> Table2;
 
     @Override
     public String toString() {
         return "RankModel{" +
                 "Table=" + Table +
                 ", Table1=" + Table1 +
+                ", Table2=" + Table2 +
                 '}';
+    }
+
+    public RankModel(List<TableModel> table, List<Table1Model> table1, List<Table2Model> table2) {
+        Table = table;
+        Table1 = table1;
+        Table2 = table2;
     }
 
     public List<TableModel> getTable() {
@@ -36,5 +44,13 @@ public class RankModel {
 
     public void setTable1(List<Table1Model> table1) {
         Table1 = table1;
+    }
+
+    public List<Table2Model> getTable2() {
+        return Table2;
+    }
+
+    public void setTable2(List<Table2Model> table2) {
+        Table2 = table2;
     }
 }

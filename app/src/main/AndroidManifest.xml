@@ -75,7 +75,8 @@
         <activity android:name=".module.home.view.SettingsActivity" />
         <activity android:name=".module.File.view.DimensionRecordActivity" />
         <activity android:name=".module.retest.WriteActivity" />
-        <activity android:name=".module.retest.AuditActivity" />
+        <activity android:name=".module.retest.AuditActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity android:name=".module.retest.view.RetestActivity" />
         <activity android:name=".module.login.view.TermActivity" />
         <activity android:name=".module.bodygame.CounselorActivity" />
@@ -141,7 +142,8 @@
         <activity android:name=".module.review.view.ReviewActivity" />
         <activity android:name=".module.health.view.HealthyRecordActivity" />
         <activity android:name=".module.confirmInfo.view.CansaiActivity" />
-        <activity android:name=".module.lossweightstory.view.LossWeightStoryActivity"></activity>
+        <activity android:name=".module.lossweightstory.view.LossWeightStoryActivity" />
+        <activity android:name=".module.lossweightstory.view.NewStoryActivity"></activity>
     </application>
 
 </manifest>

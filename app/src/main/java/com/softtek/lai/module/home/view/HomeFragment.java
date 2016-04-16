@@ -17,6 +17,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,18 +29,16 @@ import com.softtek.lai.module.File.view.CreatFlleActivity;
 import com.softtek.lai.module.bodygame.CounselorActivity;
 import com.softtek.lai.module.bodygamecc.view.BodyGameCcActivity;
 import com.softtek.lai.module.bodygamest.view.StudentActivity;
-import com.softtek.lai.module.bodygamest.view.StudentHonorActivity;
-import com.softtek.lai.module.bodygamest.view.StudentHonorGridActivity;
 import com.softtek.lai.module.bodygameyk.view.BodygameYkActivity;
 import com.softtek.lai.module.bodygamezj.view.BodygameActivity;
 import com.softtek.lai.module.home.adapter.FragementAdapter;
 import com.softtek.lai.module.home.adapter.ModelAdapter;
+import com.softtek.lai.module.home.eventModel.HomeEvent;
 import com.softtek.lai.module.home.model.HomeInfoModel;
 import com.softtek.lai.module.home.presenter.HomeInfoImpl;
 import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.login.view.RegistActivity;
-import com.softtek.lai.module.message.view.MessageActivity;
 import com.softtek.lai.module.lossweightstory.view.LossWeightStoryActivity;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.utils.ACache;
@@ -62,7 +61,7 @@ import zilla.libcore.util.Util;
  *
  */
 @InjectLayout(R.layout.fragment_home)
-public class HomeFragment extends BaseFragment implements View.OnClickListener,AppBarLayout.OnOffsetChangedListener, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
+public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetChangedListener, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener ,View.OnClickListener{
 
     @InjectView(R.id.toolbar)
     Toolbar toolbar;
@@ -93,9 +92,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,A
     TextView tv_left;
     @InjectView(R.id.iv_email)
     ImageView iv_email;
-    /*@InjectView(R.id.view)
-    View view;*/
-
+    @InjectView(R.id.fl_right)
+    FrameLayout fl_right;
     private ACache aCache;
 
     private IHomeInfoPresenter homeInfoPresenter;
@@ -106,8 +104,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,A
     @Override
     protected void initViews() {
         tv_left.setVisibility(View.INVISIBLE);
-        iv_email.setVisibility(View.VISIBLE);
-        iv_email.setOnClickListener(this);
+        iv_email.setBackgroundResource(R.drawable.email);
+        fl_right.setOnClickListener(this);
         page.setAdapter(new FragementAdapter(getFragmentManager()));
         //设置tabLayout和viewpage关联
         tab.setupWithViewPager(page);
@@ -141,9 +139,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,A
 
 
     @Subscribe
-    public void onEventRefresh(List<HomeInfoModel> infos) {
+    public void onEventRefresh(HomeEvent event) {
         advList.clear();
-        for (HomeInfoModel info : infos) {
+        for (HomeInfoModel info : event.getInfos()) {
             switch (info.getImg_Type()) {
                 case "0":
                     advList.add(info.getImg_Addr());
@@ -201,10 +199,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,A
      */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        startActivity(new Intent(getContext(), LossWeightStoryActivity.class));
+        /*startActivity(new Intent(getContext(), LossWeightStoryActivity.class));
         if(1==1){
             return;
-        }
+        }*/
         UserInfoModel userInfoModel=UserInfoModel.getInstance();
         int role=Integer.parseInt(userInfoModel.getUser().getUserrole());
         ////判断当前用户是否拥有此按钮权限
@@ -325,13 +323,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,A
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.iv_email:
-                //startActivity(new Intent(getContext(), MessageActivity.class));
-                Intent intent = new Intent(getContext(), StudentHonorGridActivity.class);
-                startActivity(intent);
+        switch (v.getId()){
+            case R.id.fl_right:
                 break;
-
         }
     }
 }

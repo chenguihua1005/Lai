@@ -65,7 +65,7 @@ public class LogDetailActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void initDatas() {
-        memberInfopresenter=new MemberInfoImpl(this);
+        memberInfopresenter=new MemberInfoImpl(this,null);
         log= (LossWeightLogModel) getIntent().getSerializableExtra("log");
         Picasso.with(this).load(log.getPhoto()).placeholder(R.drawable.img_default)
                 .error(R.drawable.img_default).into(civ_header_image);

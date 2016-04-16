@@ -5,6 +5,7 @@ import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
 import com.softtek.lai.module.retest.model.BanjiModel;
 import com.softtek.lai.module.retest.model.BanjiStudentModel;
 import com.softtek.lai.module.retest.model.ClientModel;
+import com.softtek.lai.module.retest.model.LaichModel;
 import com.softtek.lai.module.retest.model.MeasureModel;
 import com.softtek.lai.module.retest.model.RetestAuditModel;
 import com.softtek.lai.module.retest.model.RetestWriteModel;
@@ -64,7 +65,7 @@ public interface RestService {
             @Query("accountId")String accountId,
             @Query("typeDate")String typeDate,
             @Body RetestAuditModel retestAudit,
-            Callback<ResponseData<List<RetestAuditModel>>>callback
+            Callback<ResponseData<RetestAuditModel>>callback
     );
 //复测录入提交
     @POST("/MeasuredRecordLog/SaveMeasuredRecord")
@@ -81,6 +82,12 @@ public interface RestService {
             @Header("token") String token,
             @Part("photo") TypedFile photo,
             Callback<ResponseData<PhotModel>> callback
+    );
+    @GET("/HerbUser/GetUserMeasuredInfo")
+    void GetUserMeasuredInfo(
+            @Header("token") String token,
+            @Query("phone") String phone,
+            Callback<ResponseData<LaichModel>>callback
     );
 
 }

@@ -117,7 +117,7 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
         tv_retest_waistline.setText(retestWrite.getWaistline());
         tv_retest_hiplie.setText(retestWrite.getHiplie());
         tv_retest_uparmgirth.setText(retestWrite.getUpArmGirth());
-        tv_retest_upleggirth.setText(retestWrite.getUpArmGirth());
+        tv_retest_upleggirth.setText(retestWrite.getUpLegGirth());
         tv_retest_doleggirth.setText(retestWrite.getDoLegGirth());
 
 //        tv_retest_circum.setText("null".equals(retestWrite.getCircum()+"")?"":retestWrite.getCircum()+"");

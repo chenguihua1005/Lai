@@ -18,8 +18,9 @@ public interface IMemberInfopresenter {
 
     void getLossWeightChatData(String userId,String classId);
 
-    void getLossWeigthLogList(int flag,long accountId);
+    void getLossWeigthLogList(long accountId,int pageIndex);
 
+    @Deprecated
     LogEvent loadLogListCache();
 
     void doZan(long accountId,long logId);

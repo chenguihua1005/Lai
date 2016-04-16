@@ -22,6 +22,7 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.jingdu.Adapter.RankAdapter;
 import com.softtek.lai.module.jingdu.model.RankModel;
 import com.softtek.lai.module.jingdu.model.Table1Model;
+import com.softtek.lai.module.jingdu.model.Table2Model;
 import com.softtek.lai.module.jingdu.presenter.GetProinfoImpl;
 import com.softtek.lai.module.jingdu.presenter.IGetProinfopresenter;
 import com.softtek.lai.utils.DisplayUtil;
@@ -42,6 +43,7 @@ import com.umeng.socialize.weixin.media.WeiXinShareContent;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,6 +78,8 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
     @InjectView(R.id.total_weight)
     Chart total_weight;
 
+//    @InjectView(R.id.tv_rank)
+//    TextView tv_rank;
 
     private List<Table1Model> table1ModelList = new ArrayList<Table1Model>();
     private IGetProinfopresenter iGetProinfopresenter;
@@ -85,9 +89,10 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
     String newban = "";
     String newmem = "";
     String c = "";
-    int oneban;
-    int twoban;
-    int threeban;
+
+    String oneban;
+    String twoban;
+    String threeban;
     String text;
 
     @Override
@@ -120,24 +125,47 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
 
     @Subscribe
     public void onEvent(RankModel rank) {
-        System.out.println("rankEvent.getRanks()》》》》》》》》》》》》》》" + rank.getTable());
+        //Table：教练本月总开班数量，新增学员数量，累计减重数量
+       // System.out.println("rankEvent.getRanks()》》》》》》》》》》》》》》" + rank.getTable());
         newban=rank.getTable().get(0).getTotalClass();
         newmem=rank.getTable().get(0).getTotalMember();
-        c=rank.getTable().get(0).getTotalWeight();
-        oneban =100;
-        twoban =200;
-        threeban =300;
-
         tv_newban.setText(newban);
         tv_newmem.setText(newmem);
-        tv_oneban.setText(oneban+"");
-        tv_twoban.setText(twoban+"");
-        tv_threeban.setText(threeban+"");
-        total_weight.setValue(oneban,twoban,threeban);
 
 
+        //Table1: 教练所有班级的所有学员减重最多的前10名学员
         table1ModelList=rank.getTable1();
         rankAdapter.updateData(table1ModelList);
+
+        //Table2:各个班本月累计减重
+        System.out.println("rankEvent.getRanks()------------------------Table2:" + rank.getTable2());
+
+//        banjiStudentModelList=banjiStudent.getBanjiStudentModels();
+//        studentAdapter.updateData(banjiStudentModelList);
+//        List<Student> students=student.getStudents();
+//        for (Student st:students){
+//            String month=st.getStartDate().substring(5,7);
+//            Student lis=new Student(st.getPhoto(),st.getUserName(),st.getMobile(),tomonth(month),st.getWeekth(),st.getAMStatus());
+//            studentList.add(lis);
+//            queryAdapter.updateData(studentList);
+//        }
+
+
+        oneban =rank.getTable2().get(0).getLoseWeight();
+        twoban =rank.getTable2().get(1).getLoseWeight();
+
+
+        System.out.println("oneban.twoban------------------------Table2:" + rank.getTable2().get(0).getClassId()+"");
+        tv_oneban.setText(oneban);
+        tv_twoban.setText(twoban);
+        tv_threeban.setText("0");
+
+        float a=Float.parseFloat(oneban);
+        float b=Float.parseFloat(twoban);
+        //float c=Float.parseFloat(threeban);
+        com.github.snowdream.android.util.Log.i("a="+a+";b="+b+";c="+c);
+        total_weight.setValue(a,b,0);
+
     }
 
     @Override

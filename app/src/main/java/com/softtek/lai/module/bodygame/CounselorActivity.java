@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.module.File.view.CreatFlleActivity;
 import com.softtek.lai.module.bodygame.eventmodel.TotalEventModel;
 import com.softtek.lai.module.bodygame.model.FuceNumModel;
 import com.softtek.lai.module.bodygame.model.TiGuanSaiModel;
@@ -25,6 +26,7 @@ import com.softtek.lai.module.bodygame.presenter.TiGuanSaiImpl;
 import com.softtek.lai.module.bodygamest.view.StudentHonorActivity;
 import com.softtek.lai.module.bodygame.view.TipsActivity;
 import com.softtek.lai.module.bodygamest.view.StudentScoreActivity;
+import com.softtek.lai.module.confirmInfo.view.CansaiActivity;
 import com.softtek.lai.module.counselor.view.AssistantActivity;
 import com.softtek.lai.module.counselor.view.CounselorClassListActivity;
 import com.softtek.lai.module.counselor.view.GameActivity;

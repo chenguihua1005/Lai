@@ -14,7 +14,11 @@ import com.softtek.lai.module.health.adapter.HealthyRecordFragmentAdapter;
 import com.softtek.lai.module.health.model.HealthDateModel;
 import com.softtek.lai.module.health.presenter.HealthyRecordImpl;
 import com.softtek.lai.module.health.presenter.IHealthyRecord;
+import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
 import com.softtek.lai.widgets.NoSlidingViewPage;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,11 +44,19 @@ public class HealthyRecordActivity extends BaseActivity implements View.OnClickL
 
 
     List<Fragment> fragmentList=new ArrayList<>();
+
     @Override
     protected void initViews() {
+        EventBus.getDefault().register(this);
         ll_left.setOnClickListener(this);
-        tv_title.setText("曲线图");
+        tv_title.setText("历史数据");
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 
     @Override
@@ -98,6 +110,11 @@ public class HealthyRecordActivity extends BaseActivity implements View.OnClickL
     @Override
     public void doGetDate(HealthDateModel healthDateModel) {
         Util.toastMsg(healthDateModel.toString());
+
+    }
+    @Subscribe
+    public void doGetPhoto(HealthDateModel healthDateModel) {
+        System.out.println("照片名称" + healthDateModel.getMonthDate());
 
     }
 }

@@ -3,51 +3,95 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/context">
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/chart"
         android:layout_width="match_parent"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:layout_height="300dp">
     </com.github.mikephil.charting.charts.LineChart>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        >
+    <Button
+        android:layout_width="30dp"
+        android:layout_height="40dp"
+        android:background="@drawable/back_arrow_left"
+        android:layout_centerVertical="true"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        >
+    <Button
+        android:layout_width="30dp"
+        android:layout_height="40dp"
+        android:background="@drawable/back_arrow_right"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"/>
+    </LinearLayout>
 
+</RelativeLayout>
     <RadioGroup
         android:id="@+id/rg"
         android:layout_marginTop="30dp"
-        android:layout_below="@id/chart"
+        android:layout_below="@id/context"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:orientation="horizontal"
         android:gravity="center_horizontal">
 
         <RadioButton
+            android:background="@drawable/bg_radiobtn"
+            android:textColor="@drawable/skin_color_button"
             android:id="@+id/week"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:button="@null"
             android:text="周"
+            android:gravity="center"
             android:textSize="20sp"
+            android:checked="true"
             android:layout_marginRight="30dp"/>
         <RadioButton
             android:id="@+id/month"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:button="@null"
             android:text="月"
+            android:gravity="center"
+            android:background="@drawable/bg_radiobtn"
+            android:textColor="@drawable/skin_color_button"
             android:textSize="20sp"
             android:layout_marginRight="30dp"/>
         <RadioButton
             android:id="@+id/quarter"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:button="@null"
             android:text="季"
+            android:gravity="center"
+            android:background="@drawable/bg_radiobtn"
+            android:textColor="@drawable/skin_color_button"
             android:textSize="20sp"
             android:layout_marginRight="30dp"/>
         <RadioButton
             android:id="@+id/year"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:button="@null"
             android:text="年"
+            android:gravity="center"
+            android:background="@drawable/bg_radiobtn"
+            android:textColor="@drawable/skin_color_button"
             android:textSize="20sp"/>
     </RadioGroup>
 

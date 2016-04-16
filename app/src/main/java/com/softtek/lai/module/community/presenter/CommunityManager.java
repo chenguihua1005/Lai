@@ -9,39 +9,43 @@ import com.softtek.lai.utils.RequestCallback;
 
 import java.util.List;
 
+import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 
 /**
  * Created by jerry.guan on 4/11/2016.
  */
-public class CommunityImpl implements ICommunity{
+public class CommunityManager{
 
     private CommunityService service;
+    private CommunityManagerCallback cb;
 
-
-    public CommunityImpl() {
+    public CommunityManager(CommunityManagerCallback cb) {
+        this.cb=cb;
         service= ZillaApi.NormalRestAdapter.create(CommunityService.class);
     }
 
-    @Override
-    public void getRecommendDynamic() {
-        service.getrecommendHealthyContent(new RequestCallback<ResponseData<List<HealthyCommunityModel>>>() {
+
+    public void getHealthyMine(int pageIndex) {
+        String token= UserInfoModel.getInstance().getToken();
+        service.getHealthyMine(token,pageIndex, new RequestCallback<ResponseData<List<HealthyCommunityModel>>>() {
             @Override
             public void success(ResponseData<List<HealthyCommunityModel>> listResponseData, Response response) {
-                Log.i("健康圈推荐"+listResponseData.toString());
+                Log.i("健康圈 我的"+listResponseData.toString());
+                if(cb!=null)cb.getMineDynamic(listResponseData.getData());
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                if(cb!=null)cb.getMineDynamic(null);
+                super.failure(error);
             }
         });
     }
 
-    @Override
-    public void getHealthyMine() {
-        String token= UserInfoModel.getInstance().getToken();
-        service.getHealthyMine(token, new RequestCallback<ResponseData<List<HealthyCommunityModel>>>() {
-            @Override
-            public void success(ResponseData<List<HealthyCommunityModel>> listResponseData, Response response) {
-                Log.i("健康圈 我的"+listResponseData.toString());
-            }
-        });
+    public interface CommunityManagerCallback{
+        void getMineDynamic(List<HealthyCommunityModel> models);
     }
+
 }

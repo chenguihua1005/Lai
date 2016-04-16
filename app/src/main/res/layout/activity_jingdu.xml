@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center">
                 <LinearLayout
-                    android:layout_weight="0.7"
+                    android:layout_weight="0.65"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content">
                     <TextView
@@ -43,7 +43,7 @@
                 </LinearLayout>
                 <LinearLayout
                     android:gravity="center|right"
-                    android:layout_weight="0.3"
+                    android:layout_weight="0.35"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content">
                     <TextView
@@ -73,7 +73,7 @@
                 android:layout_weight="0.45"
                 android:layout_height="wrap_content">
                 <LinearLayout
-                    android:layout_weight="0.7"
+                    android:layout_weight="0.65"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content">
                     <TextView
@@ -84,7 +84,7 @@
                 </LinearLayout>
                 <LinearLayout
                     android:gravity="center|right"
-                    android:layout_weight="0.3"
+                    android:layout_weight="0.35"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content">
                     <TextView
@@ -132,7 +132,11 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="180dp">
+<ListView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
+</ListView>
                 <LinearLayout
                     android:gravity="center|left"
                     android:layout_width="match_parent"
@@ -145,6 +149,7 @@
                         android:scaleType="fitCenter"
                         android:src="@drawable/pic_oneban"/>
                     <TextView
+                        android:id="@+id/tv_classname1"
                         android:layout_marginRight="10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -159,7 +164,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="#333333"
                         android:textSize="18sp"
-                        android:text="800"/>
+                        android:text=""/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -181,6 +186,7 @@
                         android:scaleType="fitCenter"
                         android:src="@drawable/pic_twoban"/>
                     <TextView
+                        android:id="@+id/tv_classname2"
                         android:layout_marginRight="10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -195,7 +201,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="#333333"
                         android:textSize="18sp"
-                        android:text="800" />
+                        android:text="" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -216,6 +222,7 @@
                         android:scaleType="fitCenter"
                         android:src="@drawable/pic_threeban"/>
                     <TextView
+                        android:id="@+id/tv_classname3"
                         android:layout_marginRight="10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -230,7 +237,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="#333333"
                         android:textSize="18sp"
-                        android:text="800" />
+                        android:text="" />
 
                     <TextView
                         android:layout_width="wrap_content"

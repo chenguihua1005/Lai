@@ -6,6 +6,7 @@
 package com.softtek.lai.module.grade.presenter;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 
 import com.github.snowdream.android.util.Log;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -20,6 +21,7 @@ import com.softtek.lai.module.grade.model.GradeModel;
 import com.softtek.lai.module.grade.model.SRInfoModel;
 import com.softtek.lai.module.grade.model.StudentModel;
 import com.softtek.lai.module.grade.net.GradeService;
+import com.softtek.lai.utils.RequestCallback;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -42,17 +44,20 @@ public class GradeImpl implements IGrade {
 
     private GradeService service;
     private BannerUpdateCallBack callBack;
+    private GradeCalllback cb;
     private String token="";
 
     public GradeImpl() {
         this(null);
     }
 
-    public GradeImpl(BannerUpdateCallBack callBack) {
-        this.callBack = callBack;
+    public GradeImpl(Context callBack) {
+        this.callBack = (BannerUpdateCallBack) callBack;
+        this.cb= (GradeCalllback) callBack;
         service = ZillaApi.NormalRestAdapter.create(GradeService.class);
         token= UserInfoModel.getInstance().getToken();
     }
+
 
     @Override
     public void getGradeInfos(final long classId, final ProgressDialog loadingDialog) {
@@ -180,5 +185,25 @@ public class GradeImpl implements IGrade {
     @Override
     public void removeTutorRole(long classId, long tutorId,Callback<ResponseData> callback) {
         service.removeTutorRole(token, tutorId, classId, callback);
+    }
+
+    @Override
+    public void getClassDynamic(long classId, int pageIndex) {
+        service.getClassDynamic(token, classId, pageIndex, new RequestCallback<ResponseData<List<DynamicInfoModel>>>() {
+            @Override
+            public void success(ResponseData<List<DynamicInfoModel>> listResponseData, Response response) {
+                if(cb!=null)cb.getDynamicCallback(listResponseData.getData());
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                if(cb!=null)cb.getDynamicCallback(null);
+                super.failure(error);
+            }
+        });
+    }
+
+    public interface GradeCalllback{
+        void getDynamicCallback(List<DynamicInfoModel> dynamicInfoModels);
     }
 }
