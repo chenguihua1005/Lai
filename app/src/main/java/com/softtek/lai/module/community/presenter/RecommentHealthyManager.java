@@ -25,11 +25,10 @@ public class RecommentHealthyManager {
         service= ZillaApi.NormalRestAdapter.create(CommunityService.class);
     }
 
-    public void getRecommendDynamic() {
-        service.getrecommendHealthyContent(new RequestCallback<ResponseData<List<HealthyCommunityModel>>>() {
+    public void getRecommendDynamic(long accountId,int pageIndex) {
+        service.getrecommendHealthyContent(accountId,pageIndex,new RequestCallback<ResponseData<List<HealthyCommunityModel>>>() {
             @Override
             public void success(ResponseData<List<HealthyCommunityModel>> listResponseData, Response response) {
-                Log.i("健康圈推荐"+listResponseData.toString());
                 if(cb!=null){
                     cb.getRecommendDynamic(listResponseData.getData());
                 }

@@ -33,6 +33,7 @@ import com.softtek.lai.module.bodygameyk.view.BodygameYkActivity;
 import com.softtek.lai.module.bodygamezj.view.BodygameActivity;
 import com.softtek.lai.module.home.adapter.FragementAdapter;
 import com.softtek.lai.module.home.adapter.ModelAdapter;
+import com.softtek.lai.module.home.eventModel.HomeEvent;
 import com.softtek.lai.module.home.model.HomeInfoModel;
 import com.softtek.lai.module.home.presenter.HomeInfoImpl;
 import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
@@ -138,9 +139,9 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
 
 
     @Subscribe
-    public void onEventRefresh(List<HomeInfoModel> infos) {
+    public void onEventRefresh(HomeEvent event) {
         advList.clear();
-        for (HomeInfoModel info : infos) {
+        for (HomeInfoModel info : event.getInfos()) {
             switch (info.getImg_Type()) {
                 case "0":
                     advList.add(info.getImg_Addr());

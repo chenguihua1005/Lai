@@ -25,6 +25,8 @@ import zilla.libcore.util.Util;
  */
 public class NetErrorHandler implements IApiErrorHandler {
 
+    private AlertDialog.Builder builder=null;
+
     @Override
     public boolean dealCustomError(Context context, @NonNull IApiError object) {
         boolean isCustomError = false;
@@ -71,11 +73,15 @@ public class NetErrorHandler implements IApiErrorHandler {
                 int statusCode = error.getResponse().getStatus();
                 switch (statusCode) {
                     case 401:
-                        new AlertDialog.Builder(LaiApplication.getInstance().getContext())
+                        if(builder!=null){
+                            return;
+                        }
+                        builder=new AlertDialog.Builder(LaiApplication.getInstance().getContext())
                                 .setTitle("温馨提示").setMessage("您的账号已在别处登录，请您登录后再进行")
                                 .setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
+                                        builder=null;
                                         Intent intent=new Intent(LaiApplication.getInstance(), LoginActivity.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -84,8 +90,10 @@ public class NetErrorHandler implements IApiErrorHandler {
                                 }).setNegativeButton("稍候", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
+                                        builder=null;
                                     }
-                                }).create().show();
+                                });
+                        builder.create().show();
                         //Util.toastMsg("token以过时");
                         break;
                     case 403:

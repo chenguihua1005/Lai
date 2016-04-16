@@ -61,10 +61,10 @@ public class StudentBaseDateActivity extends BaseActivity implements BaseFragmen
 
     @Override
     protected void initDatas() {
-        long classId=getIntent().getLongExtra("classId",0);
+
         studentBaseDate=new StudentBaseDateImpl(this);
         BaseDateFragment baseDateFragment=BaseDateFragment.getInstance(null);
-        ClassDynamicFragment classDynamicFragment=ClassDynamicFragment.getInstance(classId);
+        ClassDynamicFragment classDynamicFragment=ClassDynamicFragment.getInstance();
         fragments.add(baseDateFragment);
         fragments.add(classDynamicFragment);
         tab_content.setAdapter(new BaseDataFragmentAdapter(getSupportFragmentManager(),fragments));
@@ -92,15 +92,21 @@ public class StudentBaseDateActivity extends BaseActivity implements BaseFragmen
         Log.i("加载结束");
         if(studentBaseInfoModel!=null){
             tv_title.setText(studentBaseInfoModel.getClassName());
-            tv_title_date.setText(studentBaseInfoModel.getStartDate()+"-"+studentBaseInfoModel.getEndDate());
+            String strDate="";
+            String endDate="";
+            if(studentBaseInfoModel.getStartDate()!=null){
+                strDate=studentBaseInfoModel.getStartDate().split(" ")[0];
+            }
+            if(studentBaseInfoModel.getEndDate()!=null){
+                endDate=studentBaseInfoModel.getEndDate().split(" ")[0];
+            }
+            tv_title_date.setText(strDate+"-"+endDate);
             tv_name.setText(studentBaseInfoModel.getUserName());
             Picasso.with(this).load(AddressManager.get("photoHost")+studentBaseInfoModel.getUserPhoto())
                     .placeholder(R.drawable.img_default)
                     .error(R.drawable.img_default).into(cir_header_image);
-            Picasso.with(this).load(AddressManager.get("photoHost")+studentBaseInfoModel.getUserPhoto())
-                    .placeholder(R.drawable.default_pic)
-                    .error(R.drawable.default_pic).into(cir_header_image);
             ((BaseDateFragment)fragments.get(0)).updateData(studentBaseInfoModel);
+            ((ClassDynamicFragment)fragments.get(1)).loadDynamic(studentBaseInfoModel.getClassId());
         }
     }
 
