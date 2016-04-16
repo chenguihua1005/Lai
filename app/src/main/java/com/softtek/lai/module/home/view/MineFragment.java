@@ -102,7 +102,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
             lin_is_vr.setVisibility(View.GONE);
         }
 
-        if (model.getNickname()==null||"".equals(model.getNickname())) {
+        if (model.getNickname() == null || "".equals(model.getNickname())) {
             text_name.setText(model.getMobile());
         } else {
             text_name.setText(model.getNickname());

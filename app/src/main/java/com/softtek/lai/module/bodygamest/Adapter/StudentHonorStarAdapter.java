@@ -5,13 +5,9 @@ package com.softtek.lai.module.bodygamest.Adapter;
  */
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.media.ThumbnailUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -22,13 +18,12 @@ import com.softtek.lai.module.bodygamest.model.StudentHonorInfo;
 
 import java.util.List;
 
-public class StudentHonorJZAdapter extends BaseAdapter {
+public class StudentHonorStarAdapter extends BaseAdapter {
     private List<StudentHonorInfo> list;
     private LayoutInflater mInflater;
     private Context context;
 
-    public StudentHonorJZAdapter(Context context, List<StudentHonorInfo> list) {
-        System.out.println("list:" + list);
+    public StudentHonorStarAdapter(Context context, List<StudentHonorInfo> list) {
         this.context = context;
         this.list = list;
         mInflater = LayoutInflater.from(context);
@@ -51,17 +46,19 @@ public class StudentHonorJZAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
         ViewHolder holder;
         if (convertView == null) {
             holder = new ViewHolder();
-            convertView = mInflater.inflate(R.layout.student_honor_jz_item, null);
+            convertView = mInflater.inflate(R.layout.student_honor_star_item, null);
             holder.text_value = (TextView) convertView.findViewById(R.id.text_value);
+            holder.text_value1 = (TextView) convertView.findViewById(R.id.text_value1);
 
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        StudentHonorInfo studentHonorInfo = list.get(position);
+        StudentHonorInfo studentHonorInfo=list.get(position);
         holder.text_value.setText(studentHonorInfo.getValue().toString());
 
         return convertView;
@@ -69,5 +66,6 @@ public class StudentHonorJZAdapter extends BaseAdapter {
 
     private static class ViewHolder {
         private TextView text_value;
+        private TextView text_value1;
     }
 }

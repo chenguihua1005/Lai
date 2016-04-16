@@ -44,4 +44,21 @@ public interface MessageService {
                               @Field("acceptType") String acceptType,       //拒绝:0,接受:1
                               Callback<ResponseData> callback);
 
+    @FormUrlEncoded
+    @POST("/HerbrClass/AcceptInviter")
+    void acceptInviter(@Header("token") String token,
+                       @Field("Inviters") String inviters,
+                       @Field("ClassId") String classId,
+                       @Field("acceptType") String acceptType,       //拒绝:0,接受:1
+                       Callback<ResponseData> callback);
+
+    @FormUrlEncoded
+    @POST("/MsgCenter/UpReadTime")
+    void upReadTime(@Header("token") String token,
+                    @Field("msgtype") String msgtype,        //1：复测消息 2：SP邀请SR信息 3：SR与PC申请信息 4：学员参赛信息
+                    @Field("recevieid") String recevieid,
+                    @Field("senderid") String senderid,
+                    @Field("classid") String classid,
+                    Callback<ResponseData> callback);
+
 }

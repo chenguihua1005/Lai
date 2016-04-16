@@ -28,6 +28,8 @@ import com.softtek.lai.module.File.view.CreatFlleActivity;
 import com.softtek.lai.module.bodygame.CounselorActivity;
 import com.softtek.lai.module.bodygamecc.view.BodyGameCcActivity;
 import com.softtek.lai.module.bodygamest.view.StudentActivity;
+import com.softtek.lai.module.bodygamest.view.StudentHonorActivity;
+import com.softtek.lai.module.bodygamest.view.StudentHonorGridActivity;
 import com.softtek.lai.module.bodygameyk.view.BodygameYkActivity;
 import com.softtek.lai.module.bodygamezj.view.BodygameActivity;
 import com.softtek.lai.module.home.adapter.FragementAdapter;
@@ -325,7 +327,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener,A
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_email:
-                startActivity(new Intent(getContext(), MessageActivity.class));
+                //startActivity(new Intent(getContext(), MessageActivity.class));
+                Intent intent = new Intent(getContext(), StudentHonorGridActivity.class);
+                startActivity(intent);
                 break;
 
         }

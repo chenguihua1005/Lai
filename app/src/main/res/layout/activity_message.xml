@@ -32,8 +32,7 @@
             <RelativeLayout
                 android:id="@+id/rel_fc"
                 android:layout_width="fill_parent"
-                android:layout_height="68dip"
-                android:visibility="gone">
+                android:layout_height="68dip">
 
                 <com.softtek.lai.widgets.CircleImageView
                     android:id="@+id/img1"
@@ -93,8 +92,7 @@
             <RelativeLayout
                 android:id="@+id/rel_1"
                 android:layout_width="fill_parent"
-                android:layout_height="68dip"
-                android:visibility="gone">
+                android:layout_height="68dip">
 
                 <com.softtek.lai.widgets.CircleImageView
                     android:id="@+id/img"

@@ -30,6 +30,7 @@ import com.softtek.lai.module.counselor.model.HonorTableModel;
 import com.softtek.lai.module.counselor.presenter.HonorImpl;
 import com.softtek.lai.module.counselor.presenter.IHonorPresenter;
 import com.softtek.lai.module.counselor.view.AssistantActivity;
+import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.message.model.MeasureRemindInfo;
 import com.softtek.lai.module.message.model.MessageDetailInfo;
 import com.softtek.lai.module.message.model.MessageModel;
@@ -186,8 +187,15 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.rel_fc:
                 ArrayList<MeasureRemindInfo> MeasureRemind = messageModel.getMeasureRemind();
+                ArrayList<MeasureRemindInfo> fcRemind = new ArrayList<MeasureRemindInfo>();
+                for (int i = 0; i < MeasureRemind.size(); i++) {
+                    String type = MeasureRemind.get(i).getMessageType();
+                    if ("2".equals(type)) {
+                        fcRemind.add(MeasureRemind.get(i));
+                    }
+                }
                 Intent intent = new Intent(this, MessageFcRemindActivity.class);
-                intent.putExtra("list", MeasureRemind);
+                intent.putExtra("list", fcRemind);
                 startActivity(intent);
                 break;
 

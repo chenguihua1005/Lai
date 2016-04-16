@@ -17,6 +17,27 @@ public class MessageDetailInfo implements Serializable {
     private String Comments;
     private String ClassId;
     private String SendTime;
+    private String IsRead;
+
+    @Override
+    public String toString() {
+        return "MessageDetailInfo{" +
+                "InviterId='" + InviterId + '\'' +
+                ", SenderId='" + SenderId + '\'' +
+                ", Comments='" + Comments + '\'' +
+                ", ClassId='" + ClassId + '\'' +
+                ", SendTime='" + SendTime + '\'' +
+                ", IsRead='" + IsRead + '\'' +
+                '}';
+    }
+
+    public String getIsRead() {
+        return IsRead;
+    }
+
+    public void setIsRead(String isRead) {
+        IsRead = isRead;
+    }
 
     public String getInviterId() {
         return InviterId;
@@ -48,17 +69,6 @@ public class MessageDetailInfo implements Serializable {
 
     public void setClassId(String classId) {
         ClassId = classId;
-    }
-
-    @Override
-    public String toString() {
-        return "MessageDetailInfo{" +
-                "InviterId='" + InviterId + '\'' +
-                ", SenderId='" + SenderId + '\'' +
-                ", Comments='" + Comments + '\'' +
-                ", ClassId='" + ClassId + '\'' +
-                ", SendTime='" + SendTime + '\'' +
-                '}';
     }
 
     public String getSendTime() {

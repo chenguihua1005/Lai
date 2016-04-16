@@ -51,8 +51,34 @@ public class MessageImpl implements IMessagePresenter {
 
 
     @Override
+    public void upReadTime(String msgtype, String recevieid, String senderid, String classid) {
+        String token = UserInfoModel.getInstance().getToken();
+        messageService.upReadTime(token, msgtype, recevieid, senderid, classid, new Callback<ResponseData>() {
+            @Override
+            public void success(ResponseData listResponseData, Response response) {
+                Log.e("jarvis", listResponseData.toString());
+                int status = listResponseData.getStatus();
+                switch (status) {
+                    case 200:
+                        EventBus.getDefault().post(listResponseData);
+                        break;
+                    default:
+                        Util.toastMsg(listResponseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
+            }
+        });
+    }
+
+    @Override
     public void getMsgList() {
-        String token = SharedPreferenceService.getInstance().get("token", "");
+        String token = UserInfoModel.getInstance().getToken();
         messageService.getMsgList(token, new Callback<ResponseData<MessageModel>>() {
             @Override
             public void success(ResponseData<MessageModel> listResponseData, Response response) {
@@ -71,14 +97,15 @@ public class MessageImpl implements IMessagePresenter {
 
             @Override
             public void failure(RetrofitError error) {
-                Util.toastMsg("");
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
             }
         });
     }
 
     @Override
     public void acceptInviterToClass(String inviters, String classId, final String acceptType, final MessageDetailInfo messageDetailInfo) {
-        String token = SharedPreferenceService.getInstance().get("token", "");
+        String token = UserInfoModel.getInstance().getToken();
         messageService.acceptInviterToClass(token, inviters, classId, acceptType, new Callback<ResponseData>() {
             @Override
             public void success(ResponseData listResponseData, Response response) {
@@ -92,7 +119,8 @@ public class MessageImpl implements IMessagePresenter {
                                 context.startActivity(new Intent(context, LoginActivity.class));
 
                             } else {
-                                context.startActivity(new Intent(context, MessageActivity.class));
+                                Intent intent = new Intent(context, MessageActivity.class);
+                                context.startActivity(intent);
 
                             }
                         } else {
@@ -110,7 +138,36 @@ public class MessageImpl implements IMessagePresenter {
 
             @Override
             public void failure(RetrofitError error) {
-                Util.toastMsg("");
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
+            }
+        });
+    }
+
+    @Override
+    public void acceptInviter(String inviters, String classId, final String acceptType) {
+        String token = UserInfoModel.getInstance().getToken();
+        messageService.acceptInviter(token, inviters, classId, acceptType, new Callback<ResponseData>() {
+            @Override
+            public void success(ResponseData listResponseData, Response response) {
+                Log.e("jarvis", listResponseData.toString());
+                int status = listResponseData.getStatus();
+                switch (status) {
+                    case 200:
+                        Intent intent = new Intent(context, LoginActivity.class);
+                        context.startActivity(intent);
+                        ((AppCompatActivity) context).finish();
+                        break;
+                    default:
+                        Util.toastMsg(listResponseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
             }
         });
     }

@@ -9,9 +9,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -49,8 +51,10 @@ import com.umeng.socialize.weixin.media.WeiXinShareContent;
 
 import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
+import zilla.libcore.lifecircle.exit.AppManager;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_login)
 public class LoginActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener {
@@ -169,5 +173,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         if (ssoHandler != null) {
             ssoHandler.authorizeCallBack(requestCode, resultCode, data);
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            AppManager.getAppManager().AppExit(this);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

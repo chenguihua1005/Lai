@@ -8,6 +8,7 @@ package com.softtek.lai.module.counselor.presenter;
 import android.content.Context;
 import android.util.Log;
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.counselor.model.HonorInfoModel;
 import com.softtek.lai.module.counselor.net.CounselorService;
 import org.greenrobot.eventbus.EventBus;
@@ -34,7 +35,7 @@ public class HonorImpl implements IHonorPresenter {
 
     @Override
     public void getSPHonor() {
-        String token = SharedPreferenceService.getInstance().get("token", "");
+        String token = UserInfoModel.getInstance().getToken();
         counselorService.getSPHonor(token, new Callback<ResponseData<HonorInfoModel>>() {
 
             @Override
@@ -55,9 +56,8 @@ public class HonorImpl implements IHonorPresenter {
 
             @Override
             public void failure(RetrofitError error) {
+                ZillaApi.dealNetError(error);
                 error.printStackTrace();
-
-                Util.toastMsg("获取列表失败");
             }
         });
     }

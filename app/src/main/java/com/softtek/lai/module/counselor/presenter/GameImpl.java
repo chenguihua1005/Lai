@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.counselor.adapter.GameAdapter;
 import com.softtek.lai.module.counselor.model.MarchInfoModel;
 import com.softtek.lai.module.counselor.net.CounselorService;
@@ -41,7 +42,7 @@ public class GameImpl implements IGamePresenter {
 
     @Override
     public void getMatchInfo(String dtime, String group, final ListView list_game, final ProgressDialog progressDialog) {
-        String token = SharedPreferenceService.getInstance().get("token", "");
+        String token = UserInfoModel.getInstance().getToken();
         counselorService.getMatchInfo(token, dtime, group, new Callback<ResponseData<List<MarchInfoModel>>>() {
             @Override
             public void success(ResponseData<List<MarchInfoModel>> listResponseData, Response response) {
@@ -69,7 +70,8 @@ public class GameImpl implements IGamePresenter {
                 if (progressDialog != null) {
                     progressDialog.dismiss();
                 }
-                Util.toastMsg("获取龙虎榜列表失败");
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
             }
         });
     }
