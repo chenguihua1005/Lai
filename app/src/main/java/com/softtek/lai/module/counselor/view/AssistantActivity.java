@@ -143,6 +143,10 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 System.out.println("position:" + position);
+                for (int i = 0; i <parent.getChildCount() ; i++) {
+                    ImageView imageView = (ImageView) parent.getChildAt(i).findViewById(R.id.img);
+                    imageView.setImageDrawable(getResources().getDrawable(R.drawable.img_select));
+                }
                 ImageView imageView = (ImageView) view.findViewById(R.id.img);
                 imageView.setImageDrawable(getResources().getDrawable(R.drawable.img_selceted));
                 assistantClassInfo = (AssistantClassInfoModel) list_class.getAdapter().getItem(position);

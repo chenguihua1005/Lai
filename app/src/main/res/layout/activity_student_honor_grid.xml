@@ -56,14 +56,29 @@
                             android:layout_gravity="center"
                             android:src="@drawable/img_student_honor_left" />
 
-                        <com.softtek.lai.widgets.HorizontalListView
-                            android:id="@+id/list_jz"
-                            android:layout_width="wrap_content"
+                        <HorizontalScrollView
+                            android:id="@+id/hs_jz"
+                            android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
+                            android:layout_margin="5dp"
                             android:layout_marginTop="@dimen/studentHonorMarginTop2"
                             android:layout_toLeftOf="@+id/img2"
-                            android:layout_toRightOf="@+id/img" />
+                            android:layout_toRightOf="@+id/img">
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent">
+
+                                <GridView
+                                    android:id="@+id/list_jz"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="fill_parent"
+                                    android:gravity="center"
+                                    android:numColumns="auto_fit"
+                                    android:stretchMode="spacingWidthUniform"></GridView>
+                            </LinearLayout>
+                        </HorizontalScrollView>
 
                         <ImageView
                             android:id="@+id/img2"
@@ -185,14 +200,28 @@
                             android:layout_gravity="center"
                             android:src="@drawable/img_student_honor_left" />
 
-                        <com.softtek.lai.widgets.HorizontalListView
-                            android:id="@+id/list_ygj"
-                            android:layout_width="wrap_content"
+                        <HorizontalScrollView
+                            android:id="@+id/hs_ygj"
+                            android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
                             android:layout_marginTop="@dimen/studentHonorMarginTop2"
                             android:layout_toLeftOf="@+id/img3"
-                            android:layout_toRightOf="@+id/img4" />
+                            android:layout_toRightOf="@+id/img4">
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent">
+
+                                <GridView
+                                    android:id="@+id/list_ygj"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="fill_parent"
+                                    android:gravity="center"
+                                    android:numColumns="auto_fit"
+                                    android:stretchMode="spacingWidthUniform"></GridView>
+                            </LinearLayout>
+                        </HorizontalScrollView>
 
                         <ImageView
                             android:id="@+id/img3"
@@ -258,14 +287,28 @@
                             android:layout_gravity="center"
                             android:src="@drawable/img_student_honor_left" />
 
-                        <com.softtek.lai.widgets.HorizontalListView
-                            android:id="@+id/list_star"
-                            android:layout_width="wrap_content"
+                        <HorizontalScrollView
+                            android:id="@+id/hs_star"
+                            android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
                             android:layout_marginTop="@dimen/studentHonorMarginTop2"
                             android:layout_toLeftOf="@+id/img6"
-                            android:layout_toRightOf="@+id/img5" />
+                            android:layout_toRightOf="@+id/img5">
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent">
+
+                                <GridView
+                                    android:id="@+id/list_star"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="fill_parent"
+                                    android:gravity="center"
+                                    android:numColumns="auto_fit"
+                                    android:stretchMode="spacingWidthUniform"></GridView>
+                            </LinearLayout>
+                        </HorizontalScrollView>
 
                         <ImageView
                             android:id="@+id/img6"

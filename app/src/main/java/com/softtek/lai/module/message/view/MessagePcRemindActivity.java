@@ -20,11 +20,18 @@ import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.message.adapter.MessageFcRemindAdapter;
 import com.softtek.lai.module.message.adapter.MessagePcRemindAdapter;
 import com.softtek.lai.module.message.model.MeasureRemindInfo;
 import com.softtek.lai.module.message.model.MessageDetailInfo;
+import com.softtek.lai.module.message.model.MessageModel;
+import com.softtek.lai.module.message.presenter.IMessagePresenter;
+import com.softtek.lai.module.message.presenter.MessageImpl;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 
@@ -52,23 +59,37 @@ public class MessagePcRemindActivity extends BaseActivity implements View.OnClic
     ListView list;
 
     ArrayList<MessageDetailInfo> listPc;
-
+    private IMessagePresenter messagePresenter;
+    MessageDetailInfo messageDetailInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ll_left.setOnClickListener(this);
+        EventBus.getDefault().register(this);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                MessageDetailInfo messageDetailInfo=listPc.get(position);
-                Intent intent=new Intent(MessagePcRemindActivity.this,JoinGameActivity.class);
-                intent.putExtra("messageDetailInfo",messageDetailInfo);
-                startActivity(intent);
+                messageDetailInfo = listPc.get(position);
+                messagePresenter.upReadTime("4", messageDetailInfo.getInviterId(), messageDetailInfo.getSenderId(), messageDetailInfo.getClassId());
             }
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
+    }
+
+    @Subscribe
+    public void onEvent(ResponseData listResponseData) {
+        System.out.println("此条标记已读");
+        Intent intent = new Intent(MessagePcRemindActivity.this, JoinGameActivity.class);
+        intent.putExtra("messageDetailInfo", messageDetailInfo);
+        startActivity(intent);
+
+    }
 
     @Override
     protected void initViews() {
@@ -78,6 +99,7 @@ public class MessagePcRemindActivity extends BaseActivity implements View.OnClic
 
     @Override
     protected void initDatas() {
+        messagePresenter = new MessageImpl(this);
         Intent intent = getIntent();
         listPc = (ArrayList<MessageDetailInfo>) intent.getSerializableExtra("list");
         MessagePcRemindAdapter adapter = new MessagePcRemindAdapter(this, listPc);

@@ -45,7 +45,7 @@ public class StudentImpl implements IStudentPresenter {
 
     @Override
     public void getTranscrip(String classid, final ListView list_student_score) {
-        String token = SharedPreferenceService.getInstance().get("token", "");
+        String token = UserInfoModel.getInstance().getToken();
         studentService.getTranscrip(token, classid, new Callback<ResponseData<List<StudentScripInfo>>>() {
             @Override
             public void success(ResponseData<List<StudentScripInfo>> listResponseData, Response response) {
@@ -65,14 +65,15 @@ public class StudentImpl implements IStudentPresenter {
 
             @Override
             public void failure(RetrofitError error) {
-                Util.toastMsg("获取龙虎榜列表失败");
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
             }
         });
     }
 
     @Override
     public void getStudentHonor() {
-        String token = SharedPreferenceService.getInstance().get("token", "");
+        String token = UserInfoModel.getInstance().getToken();
         studentService.getStudentHonor(token, new Callback<ResponseData<List<StudentHonorInfo>>>() {
             @Override
             public void success(ResponseData<List<StudentHonorInfo>> listResponseData, Response response) {
@@ -90,7 +91,8 @@ public class StudentImpl implements IStudentPresenter {
 
             @Override
             public void failure(RetrofitError error) {
-                Util.toastMsg("获取龙虎榜列表失败");
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
             }
         });
     }

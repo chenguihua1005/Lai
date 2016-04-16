@@ -10,10 +10,10 @@ import android.annotation.TargetApi;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
-import android.view.View.OnScrollChangeListener;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.GridView;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -31,7 +31,6 @@ import com.softtek.lai.module.bodygamest.model.StudentHonorInfo;
 import com.softtek.lai.module.bodygamest.present.IStudentPresenter;
 import com.softtek.lai.module.bodygamest.present.StudentImpl;
 import com.softtek.lai.utils.ACache;
-import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.widgets.HorizontalListView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -49,8 +48,8 @@ import zilla.libcore.ui.InjectLayout;
  * Created by jarvis.liu on 3/22/2016.
  * 助教管理页面
  */
-@InjectLayout(R.layout.activity_student_honor)
-public class StudentHonorActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener {
+@InjectLayout(R.layout.activity_student_honor_grid)
+public class StudentHonorGridActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener {
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -63,7 +62,7 @@ public class StudentHonorActivity extends BaseActivity implements View.OnClickLi
     TextView tv_title;
 
     @InjectView(R.id.list_star)
-    HorizontalListView list_star;
+    GridView list_star;
 
     @InjectView(R.id.img_fc_1)
     ImageView img_fc_1;
@@ -78,16 +77,35 @@ public class StudentHonorActivity extends BaseActivity implements View.OnClickLi
     LinearLayout lin_fc;
 
     @InjectView(R.id.list_ygj)
-    HorizontalListView list_ygj;
+    GridView list_ygj;
+
+    @InjectView(R.id.hs_jz)
+    HorizontalScrollView hs_jz;
+    @InjectView(R.id.hs_ygj)
+    HorizontalScrollView hs_ygj;
+    @InjectView(R.id.hs_star)
+    HorizontalScrollView hs_star;
 
     @InjectView(R.id.list_jz)
-    HorizontalListView list_jz;
+    GridView list_jz;
+
+    @InjectView(R.id.lin_jz_left)
+    LinearLayout lin_jz_left;
+
+    @InjectView(R.id.lin_jz_right)
+    LinearLayout lin_jz_right;
 
     @InjectView(R.id.lin_ygj_left)
     LinearLayout lin_ygj_left;
 
     @InjectView(R.id.lin_ygj_right)
     LinearLayout lin_ygj_right;
+
+    @InjectView(R.id.lin_star_left)
+    LinearLayout lin_star_left;
+
+    @InjectView(R.id.lin_star_right)
+    LinearLayout lin_star_right;
 
 
     private IStudentPresenter studentHonorPresenter;
@@ -104,8 +122,12 @@ public class StudentHonorActivity extends BaseActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ll_left.setOnClickListener(this);
+        lin_jz_left.setOnClickListener(this);
+        lin_jz_right.setOnClickListener(this);
         lin_ygj_left.setOnClickListener(this);
         lin_ygj_right.setOnClickListener(this);
+        lin_star_left.setOnClickListener(this);
+        lin_star_right.setOnClickListener(this);
         EventBus.getDefault().register(this);
     }
 
@@ -131,17 +153,6 @@ public class StudentHonorActivity extends BaseActivity implements View.OnClickLi
                 star_list.add(studentHonorInfo);
             }
         }
-        StudentHonorInfo studentHonorInfo = new StudentHonorInfo("1", "43", "33", "5");
-        StudentHonorInfo studentHonorInfo1 = new StudentHonorInfo("1", "43", "33", "10");
-        StudentHonorInfo studentHonorInfo2 = new StudentHonorInfo("1", "43", "33", "15");
-        StudentHonorInfo studentHonorInfo3 = new StudentHonorInfo("1", "43", "33", "20");
-        jz_list.add(studentHonorInfo);
-        jz_list.add(studentHonorInfo1);
-        jz_list.add(studentHonorInfo2);
-        jz_list.add(studentHonorInfo3);
-        System.out.println("jz_list:" + jz_list);
-        StudentHonorJZAdapter adapter = new StudentHonorJZAdapter(this, jz_list);
-        list_jz.setAdapter(adapter);
 
         if (fc_list.size() == 0) {
 
@@ -156,28 +167,92 @@ public class StudentHonorActivity extends BaseActivity implements View.OnClickLi
             img_fc_3.setImageResource(R.drawable.img_student_honor_jin);
         }
 
-        addData();
+//        StudentHonorInfo studentHonorInfo = new StudentHonorInfo("1", "43", "33", "5");
+//        StudentHonorInfo studentHonorInfo1 = new StudentHonorInfo("1", "43", "33", "10");
+//        StudentHonorInfo studentHonorInfo2 = new StudentHonorInfo("1", "43", "33", "15");
+//        StudentHonorInfo studentHonorInfo3 = new StudentHonorInfo("1", "43", "33", "20");
+//        jz_list.add(studentHonorInfo);
+//        jz_list.add(studentHonorInfo1);
+//        jz_list.add(studentHonorInfo2);
+//        jz_list.add(studentHonorInfo3);
+//        System.out.println("jz_list:" + jz_list);
+//
+//        for (int i = 0; i < 37; i++) {
+//            StudentHonorInfo studentHonorInfos = new StudentHonorInfo("1", "43", "33", "2015年月" + i);
+//            ygj_list.add(studentHonorInfos);
+//        }
+//
+//        for (int i = 0; i < 27; i++) {
+//            StudentHonorInfo studentHonorInfoss = new StudentHonorInfo("1", "43", "33", i + "");
+//            star_list.add(studentHonorInfoss);
+//        }
+
+
+        setGridView();
+
+
+        StudentHonorJZAdapter jz_adapter = new StudentHonorJZAdapter(this, jz_list);
+        list_jz.setAdapter(jz_adapter);
+
         StudentHonorYGJAdapter ygj_adapter = new StudentHonorYGJAdapter(this, ygj_list);
         list_ygj.setAdapter(ygj_adapter);
-        addData1();
 
         StudentHonorStarAdapter star_adapter = new StudentHonorStarAdapter(this, star_list);
         list_star.setAdapter(star_adapter);
     }
 
-    private void addData(){
-        for (int i = 0; i <37 ; i++) {
-            StudentHonorInfo studentHonorInfo = new StudentHonorInfo("1", "43", "33", "2015年12月");
-            ygj_list.add(studentHonorInfo);
-        }
+    /**
+     * 设置GirdView参数，绑定数据
+     */
+    private void setGridView() {
+        int size = jz_list.size();
+        int length = 100;
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        float density = dm.density;
+        int gridviewWidth = (int) (size * (length + 4) * density);
+        int itemWidth = (int) (length * density);
+        widthPosition = itemWidth;
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                gridviewWidth, LinearLayout.LayoutParams.FILL_PARENT);
+        list_jz.setLayoutParams(params); // 设置GirdView布局参数,横向布局的关键
+        list_jz.setColumnWidth(itemWidth); // 设置列表项宽
+        list_jz.setStretchMode(GridView.NO_STRETCH);
+        list_jz.setNumColumns(size); // 设置列数量=列表集合数
+
+        int size1 = ygj_list.size();
+        int length1 = 100;
+        DisplayMetrics dm1 = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm1);
+        float density1 = dm1.density;
+        int gridviewWidth1 = (int) (size1 * (length1 + 4) * density1);
+        int itemWidth1 = (int) (length1 * density1);
+
+        LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(
+                gridviewWidth1, LinearLayout.LayoutParams.FILL_PARENT);
+        list_ygj.setLayoutParams(params1); // 设置GirdView布局参数,横向布局的关键
+        list_ygj.setColumnWidth(itemWidth1); // 设置列表项宽
+        list_ygj.setStretchMode(GridView.NO_STRETCH);
+        list_ygj.setNumColumns(size1); // 设置列数量=列表集合数
+
+        int size2 = star_list.size();
+        int length2 = 100;
+        DisplayMetrics dm2 = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm2);
+        float density2 = dm2.density;
+        int gridviewWidth2 = (int) (size2 * (length2 + 4) * density2);
+        int itemWidth2 = (int) (length2 * density2);
+
+        LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(
+                gridviewWidth2, LinearLayout.LayoutParams.FILL_PARENT);
+        list_star.setLayoutParams(params2); // 设置GirdView布局参数,横向布局的关键
+        list_star.setColumnWidth(itemWidth2); // 设置列表项宽
+        list_star.setStretchMode(GridView.NO_STRETCH);
+        list_star.setNumColumns(size2); // 设置列数量=列表集合数
+
     }
 
-    private void addData1(){
-        for (int i = 0; i <27 ; i++) {
-            StudentHonorInfo studentHonorInfo = new StudentHonorInfo("1", "43", "33", i+"");
-            star_list.add(studentHonorInfo);
-        }
-    }
     @Override
     protected void initViews() {
         //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
@@ -217,11 +292,33 @@ public class StudentHonorActivity extends BaseActivity implements View.OnClickLi
                 break;
 
             case R.id.lin_ygj_left:
-
+                hs_ygj.getScrollX();
+                hs_ygj.smoothScrollTo(hs_ygj.getScrollX() - widthPosition, 0);
                 break;
 
             case R.id.lin_ygj_right:
-                list_ygj.scrollTo(list_ygj.getScrollX()+100);
+                hs_ygj.getScrollX();
+                hs_ygj.smoothScrollTo(hs_ygj.getScrollX() + widthPosition, 0);
+                break;
+
+            case R.id.lin_jz_left:
+                hs_jz.getScrollX();
+                hs_jz.smoothScrollTo(hs_jz.getScrollX() - widthPosition, 0);
+                break;
+
+            case R.id.lin_jz_right:
+                hs_jz.getScrollX();
+                hs_jz.smoothScrollTo(hs_jz.getScrollX() + widthPosition, 0);
+                break;
+
+            case R.id.lin_star_left:
+                hs_star.getScrollX();
+                hs_star.smoothScrollTo(hs_star.getScrollX() - widthPosition, 0);
+                break;
+
+            case R.id.lin_star_right:
+                hs_star.getScrollX();
+                hs_star.smoothScrollTo(hs_star.getScrollX() + widthPosition, 0);
                 break;
         }
     }
@@ -235,6 +332,7 @@ public class StudentHonorActivity extends BaseActivity implements View.OnClickLi
         int top = c.getTop();
         return -top + firstVisiblePosition * c.getHeight();
     }
+
     @Override
     protected void onStop() {
         super.onStop();

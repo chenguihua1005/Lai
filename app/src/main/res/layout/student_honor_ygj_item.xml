@@ -6,12 +6,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rel"
     android:layout_width="wrap_content"
-    android:layout_height="fill_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="102dip"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <ImageView
@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:src="@drawable/img_student_honor_jz_bg" />
+            android:src="@drawable/img_student_honor_ygj" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -30,16 +30,10 @@
                 android:id="@+id/text_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="10"
+                android:text="2015年12月"
+                android:layout_marginTop="@dimen/studentHonorMarginTop5"
                 android:textColor="@color/white"
-                android:textSize="@dimen/textSize5" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="斤"
-                android:textColor="@color/white"
-                android:textSize="@dimen/textSize6" />
+                android:textSize="@dimen/textSize7" />
         </LinearLayout>
     </RelativeLayout>
 </RelativeLayout>

@@ -12,9 +12,18 @@ import java.io.Serializable;
  */
 public class MeasureRemindInfo implements Serializable {
 
+    private String MessageType;
     private String MessageId;
     private String Content;
     private String SentTime;
+
+    public String getMessageType() {
+        return MessageType;
+    }
+
+    public void setMessageType(String messageType) {
+        MessageType = messageType;
+    }
 
     public String getMessageId() {
         return MessageId;
@@ -35,7 +44,8 @@ public class MeasureRemindInfo implements Serializable {
     @Override
     public String toString() {
         return "MeasureRemindInfo{" +
-                "MessageId='" + MessageId + '\'' +
+                "MessageType='" + MessageType + '\'' +
+                ", MessageId='" + MessageId + '\'' +
                 ", Content='" + Content + '\'' +
                 ", SentTime='" + SentTime + '\'' +
                 '}';

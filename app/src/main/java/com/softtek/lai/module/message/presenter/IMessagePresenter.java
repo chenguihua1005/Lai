@@ -7,7 +7,12 @@ package com.softtek.lai.module.message.presenter;
 
 import android.widget.ListView;
 
+import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.message.model.MessageDetailInfo;
+
+import retrofit.Callback;
+import retrofit.http.Field;
+import retrofit.http.Header;
 
 /**
  * Created by jarvis on 3/3/2016.
@@ -18,6 +23,12 @@ public interface IMessagePresenter {
     void getMsgList();
 
     //PC接受参赛要求
-    void acceptInviterToClass(String inviters,String classId,String acceptType,MessageDetailInfo messageDetailInfo);
+    void acceptInviterToClass(String inviters, String classId, String acceptType, MessageDetailInfo messageDetailInfo);
+
+    //SR接受SP邀请
+    void acceptInviter(String inviters, String classId, String acceptType);
+
+    //更改阅读时间
+    void upReadTime(String msgtype, String recevieid, String senderid, String classid);
 
 }
