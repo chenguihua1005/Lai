@@ -1,10 +1,6 @@
 package com.softtek.lai.module.confirmInfo.view;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,7 +12,6 @@ import com.softtek.lai.module.confirmInfo.model.ConinfoModel;
 import com.softtek.lai.module.confirmInfo.model.GetConfirmInfoModel;
 import com.softtek.lai.module.confirmInfo.presenter.IUpConfirmInfopresenter;
 import com.softtek.lai.module.confirmInfo.presenter.UpConfirmInfoImpl;
-import com.softtek.lai.module.newmemberentry.view.EntryActivity;
 
 import butterknife.InjectView;
 import zilla.libcore.file.SharedPreferenceService;
@@ -38,8 +33,8 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
 
 
     //确认参赛信息
-    @InjectView(R.id.et_nickname)
-    EditText et_nickname;
+    @InjectView(R.id.et_name)
+    EditText et_name;
 
     @InjectView(R.id.et_mobile)
     EditText et_mobile;
@@ -73,7 +68,9 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
     @InjectView(R.id.btn_Add_bodydimension)
     Button btn_Add_bodydimension;
 
-    private ConinfoModel coninfo;
+    private ConinfoModel coninfoModel;
+    private GetConfirmInfoModel getConfirmInfoModel;
+
     private IUpConfirmInfopresenter iUpConfirmInfopresenter;
 
 
@@ -81,7 +78,9 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
+       // getConfirmInfoModel = new GetConfirmInfoModel();
+        String mb=getConfirmInfoModel.getMobile();
+        et_birthday.setText(mb);
     }
 
     @Override
@@ -96,6 +95,7 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
         btn_sure.setOnClickListener(this);
         btn_Add_bodydimension.setOnClickListener(this);
 
+        iUpConfirmInfopresenter.getConfirmInfo(130,1);
     }
 
     @Override
@@ -103,32 +103,27 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
         switch (v.getId()){
             case  R.id.btn_sure:
                 String token = SharedPreferenceService.getInstance().get("token", "");
-                coninfo = new ConinfoModel();
-                // Log.i("ConinfoModel:--------------" + ConinfoModel);
-                coninfo.setAccountid(12);
-                coninfo.setClassid("202984");
-                coninfo.setNickname("mynickname");
-                coninfo.setBirthday("2012_12_07");
-                coninfo.setGender(1);
-                coninfo.setPhoto("photoname");
-                coninfo.setWeight(100);
-                coninfo.setPysical(22);
-                coninfo.setFat(12);
-                coninfo.setCircum(11);
-                coninfo.setWaistline(12);
-                coninfo.setHiplie(11);
-                coninfo.setUparmgirth(12);
-                coninfo.setUpleggirth(11);
-                coninfo.setDoleggirth(11);
-                iUpConfirmInfopresenter.changeUpConfirmInfo(token,coninfo);
+                coninfoModel = new ConinfoModel();
+                coninfoModel.setAccountid(12);
+                coninfoModel.setClassid("202984");
+                coninfoModel.setNickname("mynickname");
+                coninfoModel.setBirthday("2012_12_07");
+                coninfoModel.setGender(1);
+                coninfoModel.setPhoto("photoname");
+                coninfoModel.setWeight(100);
+                coninfoModel.setPysical(22);
+                coninfoModel.setFat(12);
+                coninfoModel.setCircum(11);
+                coninfoModel.setWaistline(12);
+                coninfoModel.setHiplie(11);
+                coninfoModel.setUparmgirth(12);
+                coninfoModel.setUpleggirth(11);
+                coninfoModel.setDoleggirth(11);
+                iUpConfirmInfopresenter.changeUpConfirmInfo(token,coninfoModel);
                 break;
+            //添加身体围度按钮
             case  R.id.btn_Add_bodydimension:
-               // DimensioninputActivity
 //              startActivity(new Intent(this, DimensioninputActivity.class));
-
-                //GetConfirmInfoModel getConfirmInfoModel = pargradeModelList.get(position);
-                iUpConfirmInfopresenter.getConfirmInfo(130,1);
-                //UserName:uuu123  Birthday:2016-09-17
                 break;
         }
     }

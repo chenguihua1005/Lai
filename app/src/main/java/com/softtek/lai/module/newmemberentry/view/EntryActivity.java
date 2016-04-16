@@ -210,13 +210,12 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
         guwenClassPre = new GuwenClassImp();
         guwenClassPre.doGetGuwenClass(36);
         iNewStudentpresenter = new NewStudentInputImpl(this);
-
-       //----------------------------------------
-        // newstudentsModel = new NewstudentsModel();
+        newstudentsModel = new NewstudentsModel();
         tv_title.setText("新学员录入");
         //tv_left.setBackground(null);
         tv_right.setText("确定");
 
+        //添加性别
         addGrade();
     }
 
@@ -228,15 +227,13 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
                 break;
             //确定按钮
             case R.id.tv_right:
-          //---------------------------------------------------------------------------------------------
-                //      validateLife.validate();
-                newstudentsModel = new NewstudentsModel(0,"ggg","182022","18209123079","32",12,12,12,"1960-6-15",1,"2024938094839380",90,90,90,90,90,90);
-                iNewStudentpresenter.input(newstudentsModel);
+                validateLife.validate();
+               // newstudentsModel = new NewstudentsModel(36,"ggg","182022","18209129759","32",12,12,12,"1960-6-15",1,"2024938094839380",90,90,90,90,90,90);
+                //iNewStudentpresenter.input(newstudentsModel);
                 break;
             case R.id.btn_Add_bodydimension:
                 Intent intent1 = new Intent(EntryActivity.this, DimensioninputActivity.class);
-            //--------------------------------------------------------------
-                //    intent1.putExtra("newstudentsModel", newstudentsModel);
+                intent1.putExtra("newstudentsModel", newstudentsModel);
                 startActivityForResult(intent1, GET_BODY);
                 break;
             case R.id.img_photoupload:
@@ -261,7 +258,6 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
 //                                })
 //                        .create();
 //                dialog.show();
-
                 final GetPhotoDialog dialog = new GetPhotoDialog(this,
                         new GetPhotoDialog.GetPhotoDialogListener() {
                             @Override
@@ -289,7 +285,6 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
                 show_birth_dialog();
                 break;
             case R.id.ll_gender:
-               // show_sex_dialog();
                 showGradeDialog();
                 break;
             case R.id.ll_classid:
@@ -303,7 +298,6 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
     }
 
     public void takecamera() {
-
         path = (Environment.getExternalStorageDirectory().getPath()) + "/123.jpg";
         File file = new File(path.toString());
         Uri uri = Uri.fromFile(file);
@@ -330,7 +324,6 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
     @Subscribe
     public void onEvent(ClassEvent classEvent) {
         System.out.println("classEvent.getPargradeModels()>>》》》》》》》》》》》》》》" + classEvent.getPargradeModels());
-//        String SexData[] = {"男","女"};//性别数据
         List<PargradeModel> pargradeModels = classEvent.getPargradeModels();
         for (PargradeModel cl : pargradeModels) {
             System.out.println("dsfsdfsdfsdfsdfsdf?????/?????>>》》》》》》》》》》》》》》" + "ClassIdModel:" + cl.getClassId() + "ClassName:" + cl.getClassName());
@@ -342,8 +335,7 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
     @Subscribe
     public void onEvent1(PhotModel photModel) {
         System.out.println("classEvent.getPargradeModels()>>》》》》》》》》》》》》》》" + photModel.getImg());
-        //-----------------------------------------------------------------
-        // newstudentsModel.setPhoto(photModel.getImg());
+        newstudentsModel.setPhoto(photModel.getImg());
     }
 
     @Override
@@ -361,22 +353,22 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
 
         String b = mobile.substring(mobile.length() - 6, mobile.length());
         Log.i("获取新学员录入手机号码后6位：" + b);
-// "birthday":"1960-6-15","classid":"32","password":"182022","nickname":"ggg","mobile":"18206182022","hiplie":0.0,"weight":133.0,"fat":5.0,"doleggirth":0.0,"circum":0.0,"pysical":132.0,"sentaccid":1,"uparmgirth":90.0,"upleggirth":0.0,"waistline":0.0,"gender":1}
-        newstudentsModel = new NewstudentsModel(3,"ggg","182022","18206182022","32",12,12,12,"1960-6-15",1,"2024938094839380",90,90,90,90,90,90);
-//        newstudentsModel.setPassword(b);
-//        newstudentsModel.setSentaccid(1);
-//        newstudentsModel.setNickname(nickname);
-//        //newstudentsModel.setCertification(certification);
-//        newstudentsModel.setMobile(mobile);
-//        //newstudentsModel.setClassid(Integer.parseInt(classid));
-//        newstudentsModel.setClassid(classid);
-//       // newstudentsModel.setClassid(classid);
-//        newstudentsModel.setWeight(Double.parseDouble(weight.equals("") ? "0" : weight));
-//        newstudentsModel.setPysical(Double.parseDouble(pysical.equals("") ? "0" : pysical));
-//        newstudentsModel.setFat(Double.parseDouble(fat.equals("") ? "0" : fat));
-//        newstudentsModel.setBirthday(birthday);
-//        newstudentsModel.setGender(gender.equals("女") ? 0 : 1);
-//       newstudentsModel.setPhoto("2024938094839380");//img.getPhoto()+""
+      //  newstudentsModel = new NewstudentsModel(3,"ggg","182022","18206182022","32",12,12,12,"1960-6-15",1,"2024938094839380",90,90,90,90,90,90);
+        newstudentsModel = new NewstudentsModel();
+        newstudentsModel.setPassword(b);
+
+        newstudentsModel.setSentaccid(36);
+        newstudentsModel.setNickname(nickname);
+        //newstudentsModel.setCertification(certification);
+        newstudentsModel.setMobile(mobile);
+        //newstudentsModel.setClassid(Integer.parseInt(classid));
+        newstudentsModel.setClassid(classid);
+        newstudentsModel.setWeight(Double.parseDouble(weight.equals("") ? "0" : weight));
+        newstudentsModel.setPysical(Double.parseDouble(pysical.equals("") ? "0" : pysical));
+        newstudentsModel.setFat(Double.parseDouble(fat.equals("") ? "0" : fat));
+        newstudentsModel.setBirthday(birthday);
+        newstudentsModel.setGender(gender.equals("女") ? 0 : 1);
+       newstudentsModel.setPhoto("2024938094839380");//img.getPhoto()+""
         iNewStudentpresenter.input(newstudentsModel);
         //newstudentsModel.setPhoto("/storage/emulated/0/123.jpg");
     }
@@ -502,13 +494,9 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
         }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
             }
         }).create().show();
-
     }
-
-
 
     //生日警告对话框
     public void show_warn_dialog() {
@@ -524,23 +512,6 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
         dialog.show();
         dialog.setCanceledOnTouchOutside(false);
     }
-//    //性别对话框
-//    public void show_sex_dialog() {
-//        Dialog genderdialog = new android.support.v7.app.AlertDialog.Builder(this)
-//                .setTitle("请选择您的性别")
-//                .setSingleChoiceItems(SexData, 2,
-//                        new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                et_gender.setText(SexData[which]);
-//                                et_gender.setError(null);
-//                            }
-//                        })
-////                .setNegativeButton("取消",null)
-//                .setPositiveButton("完成", null)
-//                .create();
-//        genderdialog.show();
-//    }
 
     private void addGrade() {
         gradeList.add("男");
@@ -548,7 +519,6 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
         gradeIDList.add("0");
         gradeIDList.add("1");
     }
-
 
     public void showGradeDialog() {
         final android.support.v7.app.AlertDialog.Builder birdialog=new android.support.v7.app.AlertDialog.Builder(this);
@@ -576,9 +546,6 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
                         }
                         et_gender.setText(select_grade);
                         et_gender.setError(null);
-//                        if (!"".equals(text_month.getText().toString())) {
-//                            showList();
-//                        }
                         select_grade = "";
                     }
                 })

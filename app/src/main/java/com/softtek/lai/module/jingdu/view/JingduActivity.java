@@ -22,6 +22,7 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.jingdu.Adapter.RankAdapter;
 import com.softtek.lai.module.jingdu.model.RankModel;
 import com.softtek.lai.module.jingdu.model.Table1Model;
+import com.softtek.lai.module.jingdu.model.Table2Model;
 import com.softtek.lai.module.jingdu.presenter.GetProinfoImpl;
 import com.softtek.lai.module.jingdu.presenter.IGetProinfopresenter;
 import com.softtek.lai.utils.DisplayUtil;
@@ -88,6 +89,7 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
     String newban = "";
     String newmem = "";
     String c = "";
+
     String oneban;
     String twoban;
     String threeban;
@@ -124,7 +126,7 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
     @Subscribe
     public void onEvent(RankModel rank) {
         //Table：教练本月总开班数量，新增学员数量，累计减重数量
-        System.out.println("rankEvent.getRanks()》》》》》》》》》》》》》》" + rank.getTable());
+       // System.out.println("rankEvent.getRanks()》》》》》》》》》》》》》》" + rank.getTable());
         newban=rank.getTable().get(0).getTotalClass();
         newmem=rank.getTable().get(0).getTotalMember();
         tv_newban.setText(newban);
@@ -137,20 +139,32 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
 
         //Table2:各个班本月累计减重
         System.out.println("rankEvent.getRanks()------------------------Table2:" + rank.getTable2());
-        oneban =rank.getTable2().get(3).getLoseWeight();
-        twoban =rank.getTable2().get(4).getLoseWeight();
 
-        Util.toastMsg(twoban);
-//
-//        threeban =300;
-//
+//        banjiStudentModelList=banjiStudent.getBanjiStudentModels();
+//        studentAdapter.updateData(banjiStudentModelList);
+//        List<Student> students=student.getStudents();
+//        for (Student st:students){
+//            String month=st.getStartDate().substring(5,7);
+//            Student lis=new Student(st.getPhoto(),st.getUserName(),st.getMobile(),tomonth(month),st.getWeekth(),st.getAMStatus());
+//            studentList.add(lis);
+//            queryAdapter.updateData(studentList);
+//        }
+
+
+        oneban =rank.getTable2().get(0).getLoseWeight();
+        twoban =rank.getTable2().get(1).getLoseWeight();
+
+
+        System.out.println("oneban.twoban------------------------Table2:" + rank.getTable2().get(0).getClassId()+"");
         tv_oneban.setText(oneban);
         tv_twoban.setText(twoban);
-        tv_threeban.setText("300");
-//
+        tv_threeban.setText("0");
 
-        total_weight.setValue(50,100,130);
-       // total_weight.setValue(oneban,twoban,threeban);
+        float a=Float.parseFloat(oneban);
+        float b=Float.parseFloat(twoban);
+        //float c=Float.parseFloat(threeban);
+        com.github.snowdream.android.util.Log.i("a="+a+";b="+b+";c="+c);
+        total_weight.setValue(a,b,0);
 
     }
 

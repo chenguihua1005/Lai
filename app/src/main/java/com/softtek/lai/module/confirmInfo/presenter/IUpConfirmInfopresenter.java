@@ -9,6 +9,6 @@ public interface IUpConfirmInfopresenter {
     //获取参赛确认信息
     void getConfirmInfo(long accountid,long classid);
 
-    //2.16.3修改参赛数据
+    //修改参赛数据
     void changeUpConfirmInfo(String token,ConinfoModel coninfoModel);
 }
