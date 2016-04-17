@@ -47,7 +47,6 @@ public class LossWeightStoryManager {
 
             @Override
             public void failure(RetrofitError error) {
-                Log.i("请求错误拉");
                 cb.getStroyList(null);
                 ZillaApi.dealNetError(error);
             }

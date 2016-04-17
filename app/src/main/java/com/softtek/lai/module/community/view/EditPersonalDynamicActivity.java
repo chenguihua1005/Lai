@@ -1,4 +1,4 @@
-package com.softtek.lai.module.lossweightstory.view;
+package com.softtek.lai.module.community.view;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -7,8 +7,11 @@ import android.net.Uri;
 import android.os.Environment;
 import android.os.SystemClock;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -21,11 +24,8 @@ import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.login.model.UserModel;
-import com.softtek.lai.module.lossweightstory.adapter.PhotoGridViewAdapter;
+import com.softtek.lai.module.community.adapter.CommunityPhotoGridViewAdapter;
 import com.softtek.lai.module.lossweightstory.model.UploadImage;
-import com.softtek.lai.module.lossweightstory.presenter.NewStoryManager;
 import com.softtek.lai.utils.FileUtils;
 import com.softtek.lai.utils.SystemUtils;
 import com.softtek.lai.widgets.CustomGridView;
@@ -40,57 +40,51 @@ import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
-@InjectLayout(R.layout.activity_new_story)
-public class NewStoryActivity extends BaseActivity implements View.OnClickListener,AdapterView.OnItemClickListener
-    ,Validator.ValidationListener{
+@InjectLayout(R.layout.activity_edit_personal_dynamic)
+public class EditPersonalDynamicActivity extends BaseActivity implements View.OnClickListener
+,Validator.ValidationListener,AdapterView.OnItemClickListener{
 
     @LifeCircleInject
     ValidateLife validateLife;
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
-    @InjectView(R.id.tv_title)
-    TextView tv_title;
+    @InjectView(R.id.tv_left)
+    TextView tv_left;
     @InjectView(R.id.tv_right)
     TextView tv_right;
     @InjectView(R.id.fl_right)
-    FrameLayout fl;
-
-    @Required(order = 1,message = "请填写故事人")
-    @InjectView(R.id.et_sender)
-    EditText et_sender;
-    @Required(order = 2,message = "请填写故事标题")
-    @InjectView(R.id.et_log_title)
-    EditText et_log_title;
-    @Required(order = 3,message = "请填写减重后体重")
-    @InjectView(R.id.et_weight_after)
-    EditText et_weight_after;
-    @Required(order = 4,message = "请填写说明")
+    FrameLayout fl_right;
+    @Required(order = 1,message = "请填写内容")
     @InjectView(R.id.et_content)
     EditText et_content;
     @InjectView(R.id.cgv)
     CustomGridView cgv;
-    private File dir=new File(Environment.getExternalStorageDirectory()+File.separator+"imgload/");
+
+    private File dir=new File(Environment.getExternalStorageDirectory()+File.separator+"laiAppImage/");
     private List<UploadImage> images=new ArrayList<>();
-    private PhotoGridViewAdapter adapter;
-    private NewStoryManager storyManager;
+    private CommunityPhotoGridViewAdapter adapter;
+
     @Override
     protected void initViews() {
+        tv_left.setText("取消");
+        tv_left.setBackground(null);
+        LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        tv_left.setLayoutParams(params);
+        tv_right.setText("发送");
         ll_left.setOnClickListener(this);
-        tv_title.setText("发布故事");
-        tv_right.setText("发布");
-        fl.setOnClickListener(this);
+        fl_right.setOnClickListener(this);
         cgv.setOnItemClickListener(this);
     }
 
     @Override
     protected void initDatas() {
-        storyManager=new NewStoryManager();
-        UserModel model= UserInfoModel.getInstance().getUser();
-        et_sender.setText(model.getNickname());
-        et_sender.setSelection(et_sender.getText().toString().length());
-        images.add(new UploadImage(null,BitmapFactory.decodeResource(getResources(), R.drawable.camera_sel)));
-        adapter=new PhotoGridViewAdapter(images,this);
+        UploadImage image= getIntent().getParcelableExtra("uploadImage");
+        if(image!=null)images.add(image);
+        images.add(new UploadImage(null, BitmapFactory.decodeResource(getResources(), R.drawable.shizi)));
+        adapter=new CommunityPhotoGridViewAdapter(images,this);
         cgv.setAdapter(adapter);
     }
 
@@ -101,11 +95,54 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
                 exitEdit();
                 break;
             case R.id.fl_right:
-                //发布日志按钮
+                //发布个人动态按钮
                 validateLife.validate();
                 break;
-
         }
+    }
+
+    private void exitEdit(){
+        new AlertDialog.Builder(this)
+                .setMessage("退出此次编辑？")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //清楚本地编辑的图片
+                        FileUtils.deleteDir(dir);
+                        finish();
+                    }
+                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        }).create().show();
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            exitEdit();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onValidationSucceeded() {
+        if(images.size()==1){
+            new AlertDialog.Builder(this)
+                    .setMessage("请选择至少一张图片上传")
+                    .create().show();
+            return;
+        }
+        //开始发布
+    }
+
+    @Override
+    public void onValidationFailed(View failedView, Rule<?> failedRule) {
+        String message = failedRule.getFailureMessage();
+        new AlertDialog.Builder(this)
+                .setMessage(message)
+                .create().show();
     }
 
     CharSequence[] options={"拍照","选择个人相册"};
@@ -135,7 +172,6 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
                 }
             }).create().show();
         }
-
     }
 
     @Override
@@ -144,7 +180,7 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
         if(resultCode==RESULT_OK){
             if(requestCode==OPEN_PICTUR){
                 Uri imageUri = data.getData();
-                images.add(0, new UploadImage(new File(imageUri.getPath()),SystemUtils.getThumbnail(this, imageUri, 100, 100)));
+                images.add(0, new UploadImage(new File(imageUri.getPath()),SystemUtils.getThumbnail(this, imageUri, 50, 50)));
             }else if(requestCode==OPEN_CAMERA){
                 //处理mOutPutFileUri中的完整图像
                 images.add(0,new UploadImage(file,BitmapFactory.decodeFile(file.getAbsolutePath())));
@@ -153,53 +189,7 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
                 images.remove(9);
             }
             adapter.notifyDataSetChanged();
+
         }
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            exitEdit();
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
-    private void exitEdit(){
-        new AlertDialog.Builder(this)
-                .setMessage("退出此次编辑？")
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //清楚本地编辑的图片
-                        FileUtils.deleteDir(dir);
-                        finish();
-
-                    }
-                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-            }
-        }).create().show();
-    }
-
-    @Override
-    public void onValidationSucceeded() {
-        if(images.size()==1){
-            new AlertDialog.Builder(this).setTitle("验证失败")
-                    .setMessage("请选择至少一张图片上传")
-                    .create().show();
-            return;
-        }
-        dialogShow("正在上传");
-        storyManager.uploadStory(images,progressDialog);
-    }
-
-    @Override
-    public void onValidationFailed(View failedView, Rule<?> failedRule) {
-        String message = failedRule.getFailureMessage();
-        new AlertDialog.Builder(this)
-                .setMessage(message)
-                .create().show();
     }
 }

@@ -3,13 +3,14 @@
     android:layout_width="100dp"
     android:layout_height="100dp"
     android:orientation="vertical"
-    android:background="#dadada"
+    android:background="@drawable/edit_shap"
     android:gravity="center">
 
     <ImageView
         android:id="@+id/iv"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop"
+        />
 
 </LinearLayout>
