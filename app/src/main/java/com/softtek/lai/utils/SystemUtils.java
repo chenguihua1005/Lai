@@ -6,12 +6,16 @@
 package com.softtek.lai.utils;
 
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
+
 import com.github.snowdream.android.util.Log;
 
 import java.io.File;
@@ -129,5 +133,27 @@ public class SystemUtils {
         Intent getAlbum = new Intent(Intent.ACTION_PICK);
         getAlbum.setType("image/*");
         return getAlbum;
+    }
+
+    /**
+     * 根据图片路径返回指定大小的缩略图
+     * 用于从系统相册选取图片可直接返回缩略图
+     * 对于拍照的无效，拍照之后系统默认返回的就是所缩略图
+     * sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,uri));
+     * @param uri 原图片地址
+     * @param height 指定缩略图的高度 单位:dp
+     * @param width 指定缩略图的宽度 单位:dp
+     */
+    public static Bitmap getThumbnail(Context context,Uri uri,int width,int height){
+        String[] filePathColumn = { MediaStore.Images.Media.DATA };
+        Cursor cursor = context.getContentResolver().query(uri,
+                filePathColumn, null, null, null);
+        cursor.moveToFirst();
+        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+        String picturePath = cursor.getString(columnIndex);
+        cursor.close();
+        width=DisplayUtil.dip2px(context,width);
+        height=DisplayUtil.dip2px(context,height);
+        return ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(picturePath),width,height);
     }
 }

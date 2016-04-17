@@ -47,6 +47,16 @@ public class MineHealthyFragment extends BaseFragment  implements  AdapterView.O
     boolean isLogin=false;
     @Override
     protected void initViews() {
+        but_login.setOnClickListener(this);
+        ptrlv.setOnItemClickListener(this);
+        ptrlv.setOnRefreshListener(this);
+        ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
         String token=UserInfoModel.getInstance().getToken();
         if(token==null||"".equals(token)){
             isLogin=false;
@@ -57,11 +67,6 @@ public class MineHealthyFragment extends BaseFragment  implements  AdapterView.O
             lin_is_vr.setVisibility(View.GONE);
             ptrlv.setVisibility(View.VISIBLE);
         }
-        but_login.setOnClickListener(this);
-        ptrlv.setOnItemClickListener(this);
-        ptrlv.setOnRefreshListener(this);
-        ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
-
     }
 
     @Override
