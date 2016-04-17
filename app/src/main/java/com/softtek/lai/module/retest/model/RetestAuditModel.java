@@ -15,22 +15,24 @@ public class RetestAuditModel {
     private String ClassName;
     private String StartDate;
     private String InitWeight;
-    private String accountId;
-    private String weight;
-    private String pysical;
-    private String fat;
-    private String circum;
-    private String waistline;
-    private String hiplie;
-    private String upArmGirth;
-    private String upLegGirth;
-    private String doLegGirth;
-    private String image;
-    private String classId;
+    private String AccountId;
+    private String Weight;
+    private String Pysical;
+    private String Fat;
+    private String Circum;
+    private String Waistline;
+    private String Hiplie;
+    private String UpArmGirth;
+    private String UpLegGirth;
+    private String DoLegGirth;
+    private String Image;
+    private String ClassId;
     private String Weekth;
     private String CurrStart;
     private String CurrEnd;
     private String IsFirst;
+    private String Loss;
+    private String TypeDate;
 
     @Override
     public String toString() {
@@ -41,22 +43,24 @@ public class RetestAuditModel {
                 ", ClassName='" + ClassName + '\'' +
                 ", StartDate='" + StartDate + '\'' +
                 ", InitWeight='" + InitWeight + '\'' +
-                ", accountId='" + accountId + '\'' +
-                ", weight='" + weight + '\'' +
-                ", pysical='" + pysical + '\'' +
-                ", fat='" + fat + '\'' +
-                ", circum='" + circum + '\'' +
-                ", waistline='" + waistline + '\'' +
-                ", hiplie='" + hiplie + '\'' +
-                ", upArmGirth='" + upArmGirth + '\'' +
-                ", upLegGirth='" + upLegGirth + '\'' +
-                ", doLegGirth='" + doLegGirth + '\'' +
-                ", image='" + image + '\'' +
-                ", classId='" + classId + '\'' +
+                ", AccountId='" + AccountId + '\'' +
+                ", Weight='" + Weight + '\'' +
+                ", Pysical='" + Pysical + '\'' +
+                ", Fat='" + Fat + '\'' +
+                ", Circum='" + Circum + '\'' +
+                ", Waistline='" + Waistline + '\'' +
+                ", Hiplie='" + Hiplie + '\'' +
+                ", UpArmGirth='" + UpArmGirth + '\'' +
+                ", UpLegGirth='" + UpLegGirth + '\'' +
+                ", DoLegGirth='" + DoLegGirth + '\'' +
+                ", Image='" + Image + '\'' +
+                ", ClassId='" + ClassId + '\'' +
                 ", Weekth='" + Weekth + '\'' +
                 ", CurrStart='" + CurrStart + '\'' +
                 ", CurrEnd='" + CurrEnd + '\'' +
                 ", IsFirst='" + IsFirst + '\'' +
+                ", Loss='" + Loss + '\'' +
+                ", TypeDate='" + TypeDate + '\'' +
                 '}';
     }
 
@@ -109,99 +113,99 @@ public class RetestAuditModel {
     }
 
     public String getAccountId() {
-        return accountId;
+        return AccountId;
     }
 
     public void setAccountId(String accountId) {
-        this.accountId = accountId;
+        AccountId = accountId;
     }
 
     public String getWeight() {
-        return weight;
+        return Weight;
     }
 
     public void setWeight(String weight) {
-        this.weight = weight;
+        Weight = weight;
     }
 
     public String getPysical() {
-        return pysical;
+        return Pysical;
     }
 
-    public void setPysical(String pysical) {
-        this.pysical = pysical;
+    public void setPysical(String Pysical) {
+        this.Pysical = Pysical;
     }
 
     public String getFat() {
-        return fat;
+        return Fat;
     }
 
     public void setFat(String fat) {
-        this.fat = fat;
+        Fat = fat;
     }
 
     public String getCircum() {
-        return circum;
+        return Circum;
     }
 
     public void setCircum(String circum) {
-        this.circum = circum;
+        Circum = circum;
     }
 
     public String getWaistline() {
-        return waistline;
+        return Waistline;
     }
 
     public void setWaistline(String waistline) {
-        this.waistline = waistline;
+        Waistline = waistline;
     }
 
     public String getHiplie() {
-        return hiplie;
+        return Hiplie;
     }
 
     public void setHiplie(String hiplie) {
-        this.hiplie = hiplie;
+        Hiplie = hiplie;
     }
 
     public String getUpArmGirth() {
-        return upArmGirth;
+        return UpArmGirth;
     }
 
     public void setUpArmGirth(String upArmGirth) {
-        this.upArmGirth = upArmGirth;
+        UpArmGirth = upArmGirth;
     }
 
     public String getUpLegGirth() {
-        return upLegGirth;
+        return UpLegGirth;
     }
 
     public void setUpLegGirth(String upLegGirth) {
-        this.upLegGirth = upLegGirth;
+        UpLegGirth = upLegGirth;
     }
 
     public String getDoLegGirth() {
-        return doLegGirth;
+        return DoLegGirth;
     }
 
     public void setDoLegGirth(String doLegGirth) {
-        this.doLegGirth = doLegGirth;
+        DoLegGirth = doLegGirth;
     }
 
     public String getImage() {
-        return image;
+        return Image;
     }
 
     public void setImage(String image) {
-        this.image = image;
+        Image = image;
     }
 
     public String getClassId() {
-        return classId;
+        return ClassId;
     }
 
     public void setClassId(String classId) {
-        this.classId = classId;
+        ClassId = classId;
     }
 
     public String getWeekth() {
@@ -236,29 +240,20 @@ public class RetestAuditModel {
         IsFirst = isFirst;
     }
 
-    public RetestAuditModel(String userName, String mobile, String photo, String className, String startDate, String initWeight, String accountId, String weight, String pysical, String fat, String circum, String waistline, String hiplie, String upArmGirth, String upLegGirth, String doLegGirth, String image, String classId, String weekth, String currStart, String currEnd, String isFirst) {
-        UserName = userName;
-        Mobile = mobile;
-        Photo = photo;
-        ClassName = className;
-        StartDate = startDate;
-        InitWeight = initWeight;
-        this.accountId = accountId;
-        this.weight = weight;
-        this.pysical = pysical;
-        this.fat = fat;
-        this.circum = circum;
-        this.waistline = waistline;
-        this.hiplie = hiplie;
-        this.upArmGirth = upArmGirth;
-        this.upLegGirth = upLegGirth;
-        this.doLegGirth = doLegGirth;
-        this.image = image;
-        this.classId = classId;
-        Weekth = weekth;
-        CurrStart = currStart;
-        CurrEnd = currEnd;
-        IsFirst = isFirst;
+    public String getLoss() {
+        return Loss;
+    }
+
+    public void setLoss(String loss) {
+        Loss = loss;
+    }
+
+    public String getTypeDate() {
+        return TypeDate;
+    }
+
+    public void setTypeDate(String typeDate) {
+        TypeDate = typeDate;
     }
 
     public RetestAuditModel() {

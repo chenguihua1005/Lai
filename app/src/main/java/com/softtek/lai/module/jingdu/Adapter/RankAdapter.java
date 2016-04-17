@@ -9,13 +9,13 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
-import com.softtek.lai.module.jingdu.model.RankModel;
+import com.softtek.lai.module.jingdu.model.PaimingModel;
 import com.softtek.lai.module.jingdu.model.Table1Model;
-import com.softtek.lai.module.retest.model.BanjiModel;
 
 import java.util.List;
 
@@ -26,6 +26,9 @@ public class RankAdapter extends BaseAdapter {
 
     private Context context;
     private List<Table1Model> table1ModelList;
+
+   // private List<PaimingModel> paimingModelList;
+
     public RankAdapter(Context context,List<Table1Model>table1ModelList){
     this.context=context;
     this.table1ModelList=table1ModelList;
@@ -63,6 +66,18 @@ public class RankAdapter extends BaseAdapter {
             viewHolder=(ViewHolder)convertView.getTag();
         }
         Table1Model table1Model=table1ModelList.get(position);
+
+       // initpaiming();
+        //PaimingModel paimingModel=paimingModelList.get(position);
+
+//        String []paiming={"1","2","3","4","5","6","7","8","9","10"};
+//        for (int i=0;i<10;i++){
+//            Log.i(paiming[i]);
+//            viewHolder.ranid.setText(paiming[i]);
+//        }
+
+       // viewHolder.ranid.setText(paimingModelList.get(position).getPaiming()+"");
+
         viewHolder.ranid.setText(table1ModelList.get(position).getAccountId());
         viewHolder.Username.setText(table1ModelList.get(position).getUserName());
         viewHolder.AfterWeight.setText(table1ModelList.get(position).getAfterWeight());
@@ -70,6 +85,30 @@ public class RankAdapter extends BaseAdapter {
         viewHolder.LossWeight.setText(table1ModelList.get(position).getLoseWeight());
         return convertView;
     }
+
+//    private void initpaiming(){
+//        PaimingModel p1=new PaimingModel(1);
+//        paimingModelList.add(p1);
+//        PaimingModel p2=new PaimingModel(2);
+//        paimingModelList.add(p2);
+//        PaimingModel p3=new PaimingModel(3);
+//        paimingModelList.add(p3);
+//        PaimingModel p4=new PaimingModel(4);
+//        paimingModelList.add(p4);
+//        PaimingModel p5=new PaimingModel(5);
+//        paimingModelList.add(p5);
+//        PaimingModel p6=new PaimingModel(6);
+//        paimingModelList.add(p6);
+//        PaimingModel p7=new PaimingModel(7);
+//        paimingModelList.add(p7);
+//        PaimingModel p8=new PaimingModel(8);
+//        paimingModelList.add(p8);
+//        PaimingModel p9=new PaimingModel(9);
+//        paimingModelList.add(p9);
+//        PaimingModel p10=new PaimingModel(10);
+//        paimingModelList.add(p10);
+//    }
+
     class ViewHolder{
         TextView ranid;
         TextView Username;
@@ -85,32 +124,4 @@ public class RankAdapter extends BaseAdapter {
         }
     }
 
-//    public RankAdapter(Context context, int textViewResourceId, List<RankModel> rankList) {
-//        super(context, textViewResourceId, rankList);
-//        resourceId = textViewResourceId;
-//        this.rankList = rankList;
-//    }
-//
-//    public void updateData(List<RankModel> rankList) {
-//        this.rankList = rankList;
-//        notifyDataSetChanged();
-//    }
-//
-//    @Override
-//    public View getView(int position, View convertView, ViewGroup parent) {
-//        RankModel rank = getItem(position);
-//        View view = LayoutInflater.from(getContext()).inflate(resourceId, null);
-//        TextView ranid = (TextView) view.findViewById(R.id.tv_rank);
-//        TextView Username = (TextView) view.findViewById(R.id.tv_name);
-//        TextView AfterWeight = (TextView) view.findViewById(R.id.tv_LossAfter);
-//        TextView BeforeWeight = (TextView) view.findViewById(R.id.tv_LossBefore);
-//        TextView LossWeight = (TextView) view.findViewById(R.id.tv_LossWeight);
-//
-////        ranid.setText(RankModel.getAccountId() + "");
-////        Username.setText(rank.getUserName());
-////        AfterWeight.setText(rank.getAfterWeight() + "");
-////        BeforeWeight.setText(rank.getBeforeWight() + "");
-////        LossWeight.setText(rank.getLoseWeight()+ "");
-//        return view;
-//    }
 }

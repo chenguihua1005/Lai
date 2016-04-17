@@ -198,41 +198,16 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         iv_email.setVisibility(View.INVISIBLE);
         Intent intent=getIntent();
         String accountId=intent.getStringExtra("accountId");
-        String loginId=intent.getStringExtra("loginId");
+//        String loginId=intent.getStringExtra("loginId");
         String classId=intent.getStringExtra("classId");
-        String typedate=intent.getStringExtra("typeDate");
-        //开班时间，判断班级名称（几月班）
-        String StartDate=intent.getStringExtra("StartDate");
-        //开始周期
-        String CurrStart=intent.getStringExtra("CurrStart");
-        //结束周期
-        String CurrEnd=intent.getStringExtra("CurrEnd");
-        //昵称
-        String UserName=intent.getStringExtra("UserName");
-        //手机号
-        String Mobile=intent.getStringExtra("Mobile");
-        //头像
-        String Photo=intent.getStringExtra("Photo");
-        //第几周期
-        String Weekth=intent.getStringExtra("Weekth");
+//
         acountid=accountId;
         classid=classId;
-        Log.i("dijizhouqi"+Weekth);
-        retestPre.GetUserMeasuredInfo(Mobile);
-        //头部基本信息
-//        tv_write_nick.setText(UserName);
-//        tv_write_phone.setText(Mobile);
-//        tv_retest_write_weekth.setText(Weekth);
-//        String[] mon=StartDate.split("-");
-//        String[] currStart=CurrStart.split("-");
-//        String[] currEnd=CurrEnd.split("-");
-//        tv_write_class.setText(tomonth(mon[1]));
-//        tv_write_starm.setText(currStart[1]);
-//        tv_write_stard.setText(currStart[2]);
-//        tv_write_endm.setText(currEnd[1]);
-//        tv_write_endd.setText(currEnd[2]);
+//        Log.i("dijizhouqi"+Weekth);
+//        retestPre.GetUserMeasuredInfo(Mobile);
+
        // Picasso.with(this).load(Photo).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_write_head);
-        Log.i("chuanzhizhizhizhizhi",accountId+loginId+classId);
+//        Log.i("chuanzhizhizhizhizhi",accountId+loginId+classId);
         acountid=accountId;
         retestWrite=new RetestWriteModel();
 //        retestWrite.setAccountId(accountId);
@@ -329,6 +304,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
             case R.id.im_delete:
                 im_retestwrite_showphoto.setVisibility(View.GONE);
                 im_delete.setVisibility(View.GONE);
+                retestWrite.setImage("");
                 break;
             //标题栏左返回
             case R.id.ll_left:
@@ -504,7 +480,6 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         retestWrite.setPysical(tv_retestWrite_tizhi.getText()+"");
         retestWrite.setFat(tv_retestWrite_neizhi.getText()+"");
         retestWrite.setClassId(classid);
-        retestWrite.setImage("");
         retestWrite.setAccountId(acountid);
         retestPre.doPostWrite(Long.parseLong(acountid),loginid,retestWrite);
         Intent intent=new Intent();
