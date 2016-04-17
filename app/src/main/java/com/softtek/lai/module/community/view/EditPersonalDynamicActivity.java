@@ -24,7 +24,10 @@ import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.community.adapter.CommunityPhotoGridViewAdapter;
+import com.softtek.lai.module.community.model.CommunityModel;
+import com.softtek.lai.module.community.presenter.PersionalDynamicManager;
 import com.softtek.lai.module.lossweightstory.model.UploadImage;
 import com.softtek.lai.utils.FileUtils;
 import com.softtek.lai.utils.SystemUtils;
@@ -65,6 +68,8 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
     private List<UploadImage> images=new ArrayList<>();
     private CommunityPhotoGridViewAdapter adapter;
 
+    private PersionalDynamicManager manager;
+
     @Override
     protected void initViews() {
         tv_left.setText("取消");
@@ -81,8 +86,12 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
 
     @Override
     protected void initDatas() {
+        manager=new PersionalDynamicManager(images);
         UploadImage image= getIntent().getParcelableExtra("uploadImage");
-        if(image!=null)images.add(image);
+        if(image!=null){
+            image.setBitmap(BitmapFactory.decodeFile(image.getImage().getAbsolutePath()));
+            images.add(image);
+        }
         images.add(new UploadImage(null, BitmapFactory.decodeResource(getResources(), R.drawable.shizi)));
         adapter=new CommunityPhotoGridViewAdapter(images,this);
         cgv.setAdapter(adapter);
@@ -135,6 +144,12 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
             return;
         }
         //开始发布
+        CommunityModel model=new CommunityModel();
+        model.setContent(et_content.getText().toString().trim());
+        model.setHtype(1);
+        model.setTitle("");
+        model.setAccountId(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()));
+        if(manager!=null)manager.sendDynamic(model);
     }
 
     @Override
@@ -148,6 +163,7 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
     CharSequence[] options={"拍照","选择个人相册"};
     private static final int OPEN_PICTUR=1;
     private static final int OPEN_CAMERA=2;
+    private static final int OPEN_PREVIEW=3;
     File file;
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -171,6 +187,11 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
                     }
                 }
             }).create().show();
+        }else{
+            Intent intent=new Intent(this,PreviewImageActivity.class);
+            intent.putExtra("uri",Uri.fromFile(image.getImage()));
+            intent.putExtra("position",position);
+            startActivityForResult(intent, OPEN_PREVIEW);
         }
     }
 
@@ -180,13 +201,21 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
         if(resultCode==RESULT_OK){
             if(requestCode==OPEN_PICTUR){
                 Uri imageUri = data.getData();
-                images.add(0, new UploadImage(new File(imageUri.getPath()),SystemUtils.getThumbnail(this, imageUri, 50, 50)));
+                images.add(0, new UploadImage(new File(SystemUtils.getPathForSystemPic(this,imageUri)), SystemUtils.getThumbnail(this, imageUri, 100, 100)));
+                if(images.size()==10){
+                    images.remove(9);
+                }
             }else if(requestCode==OPEN_CAMERA){
-                //处理mOutPutFileUri中的完整图像
                 images.add(0,new UploadImage(file,BitmapFactory.decodeFile(file.getAbsolutePath())));
-            }
-            if(images.size()==10){
-                images.remove(9);
+                if(images.size()==10){
+                    images.remove(9);
+                }
+            }else if(requestCode==OPEN_PREVIEW){
+                int position= data.getIntExtra("position",0);
+                images.remove(position);
+                if(images.get(images.size()-1).getImage()!=null){
+                    images.add(new UploadImage(null,BitmapFactory.decodeResource(getResources(),R.drawable.shizi)));
+                }
             }
             adapter.notifyDataSetChanged();
 

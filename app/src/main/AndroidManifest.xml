@@ -153,7 +153,8 @@
         <activity
             android:name=".module.lossweightstory.view.NewStoryActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-        <activity android:name=".module.community.view.EditPersonalDynamicActivity"></activity>
+        <activity android:name=".module.community.view.EditPersonalDynamicActivity" />
+        <activity android:name=".module.community.view.PreviewImageActivity"></activity>
     </application>
 
 </manifest>

@@ -156,4 +156,18 @@ public class SystemUtils {
         height=DisplayUtil.dip2px(context,height);
         return ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(picturePath),width,height);
     }
+
+    /**
+     * 获取图片路径系统相册图的原始路径
+     */
+    public static String getPathForSystemPic(Context context,Uri uri){
+        String[] filePathColumn = { MediaStore.Images.Media.DATA };
+        Cursor cursor = context.getContentResolver().query(uri,
+                filePathColumn, null, null, null);
+        cursor.moveToFirst();
+        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+        String picturePath = cursor.getString(columnIndex);
+        cursor.close();
+        return picturePath;
+    }
 }

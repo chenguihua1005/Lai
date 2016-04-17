@@ -1,5 +1,6 @@
 package com.softtek.lai.module.lossweightstory.view;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -22,8 +23,10 @@ import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.community.view.PreviewImageActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.lossweightstory.adapter.PhotoGridViewAdapter;
+import com.softtek.lai.module.lossweightstory.model.LogStoryModel;
 import com.softtek.lai.module.lossweightstory.model.UploadImage;
 import com.softtek.lai.module.lossweightstory.presenter.NewStoryManager;
 import com.softtek.lai.utils.FileUtils;
@@ -85,7 +88,7 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void initDatas() {
-        storyManager=new NewStoryManager();
+        storyManager=new NewStoryManager(images);
         UserModel model= UserInfoModel.getInstance().getUser();
         et_sender.setText(model.getNickname());
         et_sender.setSelection(et_sender.getText().toString().length());
@@ -111,6 +114,7 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
     CharSequence[] options={"拍照","选择个人相册"};
     private static final int OPEN_PICTUR=1;
     private static final int OPEN_CAMERA=2;
+    private static final int OPEN_PREVIEW=3;
     File file;
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -134,6 +138,11 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
                     }
                 }
             }).create().show();
+        }else{
+            Intent intent=new Intent(this,PreviewImageActivity.class);
+            intent.putExtra("uri",Uri.fromFile(image.getImage()));
+            intent.putExtra("position",position);
+            startActivityForResult(intent, OPEN_PREVIEW);
         }
 
     }
@@ -144,13 +153,24 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
         if(resultCode==RESULT_OK){
             if(requestCode==OPEN_PICTUR){
                 Uri imageUri = data.getData();
-                images.add(0, new UploadImage(new File(imageUri.getPath()),SystemUtils.getThumbnail(this, imageUri, 100, 100)));
+                images.add(0, new UploadImage(
+                        new File(SystemUtils.getPathForSystemPic(this,imageUri)),
+                        SystemUtils.getThumbnail(this, imageUri, 100, 100)));
+                if(images.size()==10){
+                    images.remove(9);
+                }
             }else if(requestCode==OPEN_CAMERA){
                 //处理mOutPutFileUri中的完整图像
                 images.add(0,new UploadImage(file,BitmapFactory.decodeFile(file.getAbsolutePath())));
-            }
-            if(images.size()==10){
-                images.remove(9);
+                if(images.size()==10){
+                    images.remove(9);
+                }
+            }else if(requestCode==OPEN_PREVIEW){
+                int position= data.getIntExtra("position",0);
+                images.remove(position);
+                if(images.get(images.size()-1).getImage()!=null){
+                    images.add(new UploadImage(null,BitmapFactory.decodeResource(getResources(),R.drawable.shizi)));
+                }
             }
             adapter.notifyDataSetChanged();
         }
@@ -192,7 +212,12 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
             return;
         }
         dialogShow("正在上传");
-        storyManager.uploadStory(images,progressDialog);
+        LogStoryModel model=new LogStoryModel();
+        model.setLogTitle(et_log_title.getText().toString().trim());
+        model.setAfterWeight(et_weight_after.getText().toString());
+        model.setLogContent(et_content.getText().toString().trim());
+        model.setStoryPeople(et_sender.getText().toString().trim());
+        storyManager.sendLogStory(model, progressDialog);
     }
 
     @Override

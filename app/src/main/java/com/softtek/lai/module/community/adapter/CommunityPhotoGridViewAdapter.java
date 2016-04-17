@@ -11,12 +11,12 @@ import android.widget.RelativeLayout;
 
 import com.softtek.lai.R;
 import com.softtek.lai.module.lossweightstory.model.UploadImage;
-import com.softtek.lai.utils.DisplayUtil;
 
 import java.util.List;
 
 /**
  * Created by jerry.guan on 4/16/2016.
+ *
  */
 public class CommunityPhotoGridViewAdapter extends BaseAdapter{
 
@@ -56,8 +56,9 @@ public class CommunityPhotoGridViewAdapter extends BaseAdapter{
         UploadImage file=images.get(position);
         if(file.getImage()==null){
             LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(
-                    RelativeLayout.LayoutParams.WRAP_CONTENT,
-                    RelativeLayout.LayoutParams.WRAP_CONTENT);
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
             holder.image.setLayoutParams(params);
         }
         holder.image.setImageBitmap(file.getBitmap());

@@ -5,17 +5,12 @@
 
 package com.softtek.lai.module.home.view;
 
-import android.content.ActivityNotFoundException;
-import android.content.ContentResolver;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.SystemClock;
-import android.provider.MediaStore;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -31,7 +26,6 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.community.adapter.CommunityAdapter;
-import com.softtek.lai.module.community.model.UploadImageModel;
 import com.softtek.lai.module.community.view.EditPersonalDynamicActivity;
 import com.softtek.lai.module.community.view.MineHealthyFragment;
 import com.softtek.lai.module.community.view.RecommendHealthyFragment;
@@ -40,6 +34,7 @@ import com.softtek.lai.utils.FileUtils;
 import com.softtek.lai.utils.SystemUtils;
 
 import java.io.File;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -141,10 +136,12 @@ public class HealthyFragment extends BaseFragment implements View.OnClickListene
         Log.i("requestCode="+requestCode+";resultCode="+resultCode);
         if(resultCode== -1){//result_ok
             if(requestCode==OPEN_CAMERA_REQUEST){
-                uploadImage=new UploadImage(cameraPhoto, BitmapFactory.decodeFile(cameraPhoto.getAbsolutePath()));
+                uploadImage=new UploadImage(cameraPhoto, null);
             }else if(requestCode==OPEN_PICTURE_REQUEST){
                 Uri originalUri=data.getData();
-                uploadImage=new UploadImage(new File(originalUri.getPath()),
+                uploadImage=new UploadImage(
+                        new File(SystemUtils.getPathForSystemPic(getContext(),
+                                originalUri)),
                         SystemUtils.getThumbnail(getContext(),originalUri,100,100));
             }
             Intent intent=new Intent(getContext(),EditPersonalDynamicActivity.class);//跳转到发布动态界面
@@ -152,6 +149,7 @@ public class HealthyFragment extends BaseFragment implements View.OnClickListene
             startActivity(intent);
         }else if(resultCode==0){//返回取消
             uploadImage=null;
+            FileUtils.deleteDir(dir);
         }
     }
 }

@@ -17,7 +17,6 @@ public class UploadImage implements Parcelable {
 
     public UploadImage() {
     }
-
     public UploadImage(File image, Bitmap bitmap) {
         this.image = image;
         this.bitmap = bitmap;
@@ -25,6 +24,7 @@ public class UploadImage implements Parcelable {
 
     protected UploadImage(Parcel in) {
         bitmap = in.readParcelable(Bitmap.class.getClassLoader());
+        image= (File) in.readSerializable();
     }
 
     public static final Creator<UploadImage> CREATOR = new Creator<UploadImage>() {

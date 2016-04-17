@@ -1,13 +1,16 @@
 package com.softtek.lai.module.community.net;
 
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.module.community.model.CommunityModel;
 import com.softtek.lai.module.community.model.HealthyCommunityModel;
 import com.softtek.lai.utils.RequestCallback;
 
 import java.util.List;
 
+import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.Header;
+import retrofit.http.POST;
 import retrofit.http.Query;
 
 /**
@@ -26,4 +29,10 @@ public interface CommunityService {
     void getHealthyMine(@Header("token")String token,
                         @Query("pageIndex")int pageIndex,
                         RequestCallback<ResponseData<List<HealthyCommunityModel>>> callback);
+
+    //保存我健康圈我的动态
+    @POST("/HealthyCircle/GetReleaseDynamic")
+    void saveDynamic(@Header("token")String token,
+                     @Body CommunityModel model,
+                     RequestCallback<ResponseData> callback);
 }

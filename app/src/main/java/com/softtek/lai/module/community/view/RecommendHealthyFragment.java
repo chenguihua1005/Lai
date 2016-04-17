@@ -68,7 +68,7 @@ public class RecommendHealthyFragment extends BaseFragment implements AdapterVie
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+        
     }
 
     @Override
