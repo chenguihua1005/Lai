@@ -144,7 +144,7 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
         if(resultCode==RESULT_OK){
             if(requestCode==OPEN_PICTUR){
                 Uri imageUri = data.getData();
-                images.add(0, new UploadImage(new File(imageUri.getPath()),SystemUtils.getThumbnail(this, imageUri, 50, 50)));
+                images.add(0, new UploadImage(new File(imageUri.getPath()),SystemUtils.getThumbnail(this, imageUri, 100, 100)));
             }else if(requestCode==OPEN_CAMERA){
                 //处理mOutPutFileUri中的完整图像
                 images.add(0,new UploadImage(file,BitmapFactory.decodeFile(file.getAbsolutePath())));

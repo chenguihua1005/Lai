@@ -6,9 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.softtek.lai.R;
 import com.softtek.lai.module.lossweightstory.model.UploadImage;
+import com.softtek.lai.utils.DisplayUtil;
 
 import java.util.List;
 
@@ -51,6 +54,12 @@ public class CommunityPhotoGridViewAdapter extends BaseAdapter{
             holder= (ViewHolder) convertView.getTag();
         }
         UploadImage file=images.get(position);
+        if(file.getImage()==null){
+            LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.WRAP_CONTENT,
+                    RelativeLayout.LayoutParams.WRAP_CONTENT);
+            holder.image.setLayoutParams(params);
+        }
         holder.image.setImageBitmap(file.getBitmap());
         return convertView;
     }
