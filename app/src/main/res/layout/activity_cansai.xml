@@ -40,8 +40,8 @@
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:textCursorDrawable="@drawable/color_cursor"
-                        android:hint="XXX"
                         android:textSize="16sp"
+                        android:textColor="#cccccc"
                         android:singleLine="true" />
                 </LinearLayout>
                 <View
@@ -61,15 +61,14 @@
                         android:textColor="#000000"
                         android:textSize="16sp"
                         android:text="生日:"/>
-                    <EditText
-                        android:id="@+id/et_birthday"
+                    <TextView
+                        android:id="@+id/tv_birthday"
                         android:layout_width="0dp"
                         android:layout_weight="0.7"
                         android:layout_height="wrap_content"
                         android:textCursorDrawable="@drawable/color_cursor"
                         android:textSize="16sp"
                         android:background="@null"
-                        android:hint="1985_03_05"
                         android:singleLine="true" />
                 </LinearLayout>
                 <View
@@ -89,40 +88,20 @@
                         android:textColor="#000000"
                         android:textSize="16sp"
                         android:text="性别:"/>
-                    <EditText
-                        android:id="@+id/et_sex"
+                    <TextView
+                        android:id="@+id/tv_sex"
                         android:layout_width="0dp"
                         android:layout_weight="0.7"
                         android:layout_height="wrap_content"
                         android:textCursorDrawable="@drawable/color_cursor"
                         android:textSize="16sp"
                         android:background="@null"
-                        android:hint="男"
                         android:singleLine="true" />
                 </LinearLayout>
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#78BC27" />
-                <!--<LinearLayout-->
-                <!--android:id="@+id/ll_certification"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="50dp"-->
-                <!--android:gravity="center_vertical"-->
-                <!--android:orientation="horizontal">-->
-                <!--<EditText-->
-                <!--android:id="@+id/et_certification"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginLeft="30dp"-->
-                <!--android:background="@null"-->
-                <!--android:hint="资格证号（选填）"-->
-                <!--android:singleLine="true" />-->
-                <!--</LinearLayout>-->
-                <!--<View-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="1dp"-->
-                <!--android:background="#78BC27" />-->
                 <LinearLayout
                     android:id="@+id/ll_mobile"
                     android:layout_width="match_parent"
@@ -143,10 +122,9 @@
                         android:layout_weight="0.7"
                         android:layout_height="wrap_content"
                         android:background="@null"
-                        android:textColor="#000"
                         android:textCursorDrawable="@drawable/color_cursor"
                         android:textSize="16sp"
-                        android:hint="13656898976"
+                        android:textColor="#cccccc"
                         android:singleLine="true" />
                 </LinearLayout>
                 <View
@@ -168,16 +146,15 @@
                         android:textSize="16sp"
                         android:text="参赛班级:"/>
 
-                    <EditText
-                        android:id="@+id/et_classname"
+                    <TextView
+                        android:id="@+id/tv_classname"
                         android:layout_width="0dp"
                         android:layout_weight="0.7"
                         android:layout_height="wrap_content"
                         android:background="@null"
-                        android:textColor="#000"
+                        android:textColor="#cccccc"
                         android:textCursorDrawable="@drawable/color_cursor"
                         android:textSize="16sp"
-                        android:hint="一月班"
                         android:singleLine="true" />
                 </LinearLayout>
                 <View
@@ -197,15 +174,14 @@
                         android:textColor="#000000"
                         android:textSize="16sp"
                         android:text="初始体重："/>
-                    <EditText
-                        android:id="@+id/et_weight"
+                    <TextView
+                        android:id="@+id/tv_weight"
                         android:layout_width="0dp"
                         android:layout_weight="0.7"
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:textSize="16sp"
                         android:textCursorDrawable="@drawable/color_cursor"
-                        android:hint="60kg"
                         android:singleLine="true" />
                 </LinearLayout>
                 <View
@@ -225,15 +201,15 @@
                         android:textColor="#000000"
                         android:textSize="16sp"
                         android:text="体脂："/>
-                    <EditText
-                        android:id="@+id/et_pysical"
+                    <TextView
+                        android:id="@+id/tv_pysical"
                         android:layout_width="0dp"
                         android:layout_weight="0.7"
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:textSize="16sp"
                         android:textCursorDrawable="@drawable/color_cursor"
-                        android:hint="30%"
+                        android:textColor="#cccccc"
                         android:singleLine="true" />
                 </LinearLayout>
                 <View
@@ -253,15 +229,15 @@
                         android:textColor="#000000"
                         android:textSize="16sp"
                         android:text="内脂："/>
-                    <EditText
-                        android:id="@+id/et_fat"
+                    <TextView
+                        android:id="@+id/tv_fat"
                         android:layout_width="0dp"
                         android:layout_weight="0.7"
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:textSize="16sp"
+                        android:textColor="#cccccc"
                         android:textCursorDrawable="@drawable/color_cursor"
-                        android:hint="30%"
                         android:singleLine="true" />
                 </LinearLayout>
                 <View
@@ -281,20 +257,24 @@
                         android:layout_height="wrap_content"
                         android:textColor="#000000"
                         android:textSize="16sp"
-                        android:text="circum:"/>
+                        android:text="胸围:"/>
 
-                    <EditText
-                        android:id="@+id/et_circum"
+                    <TextView
+                        android:id="@+id/tv_circum"
                         android:layout_width="0dp"
                         android:layout_weight="0.7"
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:textCursorDrawable="@drawable/color_cursor"
                         android:textSize="16sp"
-                        android:hint="80cm"
+                        android:textColor="#cccccc"
                         android:singleLine="true" />
 
                 </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#78BC27" />
                 <LinearLayout
                     android:id="@+id/ll_waistline"
                     android:layout_width="match_parent"
@@ -309,18 +289,22 @@
                         android:textSize="16sp"
                         android:text="腰围:"/>
 
-                    <EditText
-                        android:id="@+id/et_waistline"
+                    <TextView
+                        android:id="@+id/tv_waistline"
                         android:layout_width="0dp"
                         android:layout_weight="0.7"
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:textCursorDrawable="@drawable/color_cursor"
                         android:textSize="16sp"
-                        android:hint="80cm"
+                        android:textColor="#cccccc"
                         android:singleLine="true" />
 
                 </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#78BC27" />
                 <LinearLayout
                     android:id="@+id/ll_hiplie"
                     android:layout_width="match_parent"
@@ -335,44 +319,22 @@
                         android:textSize="16sp"
                         android:text="臀围:"/>
 
-                    <EditText
-                        android:id="@+id/et_hiplie"
-                        android:layout_width="0dp"
-                        android:layout_weight="0.7"
-                        android:layout_height="wrap_content"
-                        android:background="@null"
-                        android:textCursorDrawable="@drawable/color_cursor"
-                        android:textSize="16sp"
-                        android:hint="80cm"
-                        android:singleLine="true" />
-
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/ll_armgirth"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
                     <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="0.3"
-                        android:layout_height="wrap_content"
-                        android:textColor="#000000"
-                        android:textSize="16sp"
-                        android:text="臂围:"/>
-
-                    <EditText
-                        android:id="@+id/et_armgirth"
+                        android:id="@+id/tv_hiplie"
                         android:layout_width="0dp"
                         android:layout_weight="0.7"
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:textCursorDrawable="@drawable/color_cursor"
                         android:textSize="16sp"
-                        android:hint="80cm"
+                        android:textColor="#cccccc"
                         android:singleLine="true" />
 
                 </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#78BC27" />
                 <LinearLayout
                     android:id="@+id/ll_uparmgirth"
                     android:layout_width="match_parent"
@@ -387,18 +349,22 @@
                         android:textSize="16sp"
                         android:text="上臂围:"/>
 
-                    <EditText
-                        android:id="@+id/et_uparmgirth"
+                    <TextView
+                        android:id="@+id/tv_uparmgirth"
                         android:layout_width="0dp"
                         android:layout_weight="0.7"
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:textCursorDrawable="@drawable/color_cursor"
                         android:textSize="16sp"
-                        android:hint="80cm"
+                        android:textColor="#cccccc"
                         android:singleLine="true" />
 
                 </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#78BC27" />
                 <LinearLayout
                     android:id="@+id/ll_upleggirth"
                     android:layout_width="match_parent"
@@ -413,15 +379,15 @@
                         android:textSize="16sp"
                         android:text="大腿围:"/>
 
-                    <EditText
-                        android:id="@+id/et_yaowei"
+                    <TextView
+                        android:id="@+id/tv_upleggirth"
                         android:layout_width="0dp"
                         android:layout_weight="0.7"
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:textCursorDrawable="@drawable/color_cursor"
                         android:textSize="16sp"
-                        android:hint="80cm"
+                        android:textColor="#cccccc"
                         android:singleLine="true" />
 
                 </LinearLayout>
@@ -429,6 +395,37 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#78BC27" />
+                <LinearLayout
+                    android:id="@+id/ll_doleggirth"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="0.3"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:text="小腿围:"/>
+
+                    <TextView
+                        android:id="@+id/tv_doleggirth"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.7"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:textCursorDrawable="@drawable/color_cursor"
+                        android:textSize="16sp"
+                        android:textColor="#cccccc"
+                        android:singleLine="true" />
+
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#78BC27" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -442,27 +439,9 @@
                             android:layout_marginTop="20dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="照片上传"
-                            android:textColor="#000000"
+                            android:hint="照片上传"
                             android:textSize="16sp" />
                     </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_weight="0.4"
-                        android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:orientation="vertical">
-                        <ImageView
-                            android:id="@+id/img1"
-                            android:layout_width="150dp"
-                            android:layout_height="150dp"
-                            android:scaleType="fitCenter"
-                            android:layout_marginBottom="20dp"
-                            android:layout_marginTop="20dp"
-                            android:src="@mipmap/ic_launcher"
-                            android:visibility="gone" />
-                    </LinearLayout>
-
                     <LinearLayout
                         android:orientation="vertical"
                         android:layout_width="0dp"
@@ -475,30 +454,47 @@
                             <ImageView
                                 android:id="@+id/img_photoupload"
                                 android:layout_width="30dp"
-                                android:layout_height="wrap_content"
+                                android:layout_height="30dp"
                                 android:scaleType="fitCenter"
                                 android:layout_marginTop="10dp"
                                 android:src="@drawable/retest_write_takephoto" />
                         </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
-                            <ImageView
-                                android:id="@+id/img_delete"
-                                android:layout_width="30dp"
-                                android:layout_height="wrap_content"
-                                android:scaleType="fitCenter"
-                                android:layout_marginTop="50dp"
-                                android:src="@drawable/retest_write_deleteim"
-                                android:visibility="gone" />
-                        </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
-                <!--<LinearLayout-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content">-->
-                    <!---->
-                <!--</LinearLayout>-->
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:layout_marginBottom="5dp">
+
+                    <RelativeLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <ImageView
+                            android:layout_width="150dp"
+                            android:layout_height="150dp"
+                            android:src="@mipmap/ic_launcher"
+                            android:layout_centerHorizontal="true"
+                            android:visibility="visible"
+                            android:id="@+id/img1" />
+
+                        <ImageView
+                            android:id="@+id/img_delete"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:scaleType="fitCenter"
+                            android:layout_alignParentRight="true"
+                            android:visibility="visible"
+                            android:layout_alignBottom="@id/img1"
+                            android:background="@drawable/retest_write_deleteim"/>
+                    </RelativeLayout>
+
+                </LinearLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"

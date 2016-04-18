@@ -11,4 +11,6 @@ public interface IUpConfirmInfopresenter {
 
     //修改参赛数据
     void changeUpConfirmInfo(String token,ConinfoModel coninfoModel);
+
+    void upload(String filePath);
 }

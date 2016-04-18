@@ -2,6 +2,8 @@ package com.softtek.lai.module.confirmInfo.presenter;
 
 
 import android.content.Context;
+
+import retrofit.mime.TypedFile;
 import zilla.libcore.util.Util;
 
 import com.github.snowdream.android.util.Log;
@@ -11,8 +13,11 @@ import com.softtek.lai.module.confirmInfo.model.ConinfoModel;
 import com.softtek.lai.module.confirmInfo.model.GetConfirmInfoModel;
 import com.softtek.lai.module.confirmInfo.net.ConfirmInfoService;
 import com.softtek.lai.module.confirmInfo.view.CansaiActivity;
+import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.io.File;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -88,6 +93,35 @@ public class UpConfirmInfoImpl implements IUpConfirmInfopresenter{
 
             @Override
             public void failure(RetrofitError error) {
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
+            }
+        });
+    }
+
+    @Override
+    public void upload(final String upimg) {
+        String token = SharedPreferenceService.getInstance().get("token", "");
+        confirmInfoService.upimg(token, new TypedFile("image/png", new File(upimg)), new Callback<ResponseData<PhotModel>>() {
+            @Override
+            public void success(ResponseData upimgResponseData, Response response) {
+
+                int status = upimgResponseData.getStatus();
+                switch (status) {
+                    case 200:
+                        PhotModel photModel = (PhotModel) upimgResponseData.getData();
+                        EventBus.getDefault().post(photModel);
+                        Util.toastMsg("获取成功");
+                        break;
+                    case 500:
+                        Util.toastMsg("上传图片异常");
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }
