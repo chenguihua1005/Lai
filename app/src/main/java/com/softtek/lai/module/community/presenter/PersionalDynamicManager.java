@@ -1,5 +1,9 @@
 package com.softtek.lai.module.community.presenter;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.support.v7.app.AppCompatActivity;
+
 import com.github.snowdream.android.util.Log;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -41,10 +45,12 @@ public class PersionalDynamicManager implements Runnable{
     private CommunityService service;
     private CommunityModel model;
     private String photos=null;
+    private ProgressDialog progressDialog;
+    private Context context;
 
-    public PersionalDynamicManager(List<UploadImage> images) {
+    public PersionalDynamicManager(List<UploadImage> images, Context context) {
         this.images = images;
-        latch=new CountDownLatch(1);
+        this.context=context;
         token=UserInfoModel.getInstance().getToken();
         appId=PropertiesManager.get("appid");
         url= AddressManager.getHost()+"/CompetitionLog/PostMultiImgs";
@@ -53,6 +59,12 @@ public class PersionalDynamicManager implements Runnable{
 
     public void sendDynamic(CommunityModel model){
         this.model=model;
+        latch=new CountDownLatch(1);
+        progressDialog=new ProgressDialog(context);
+        progressDialog.setMessage("提交中，请稍候...");
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
         new Thread(this).start();
         try {
             Log.i("开始上传第一阶段");
@@ -69,11 +81,10 @@ public class PersionalDynamicManager implements Runnable{
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     super.onSuccess(statusCode, headers, response);
-                    latch.countDown();
                     try {
                         JSONObject obj=response.getJSONObject("data");
                         photos=obj.getString("Imgs");
-                        Util.toastMsg("上传成功"+photos);
+                        latch.countDown();
                         Log.i("第一阶段上传成功"+photos);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -83,6 +94,7 @@ public class PersionalDynamicManager implements Runnable{
                 @Override
                 public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                     super.onFailure(statusCode, headers, responseString, throwable);
+                    photos=null;
                     latch.countDown();
                     Util.toastMsg(responseString);
                     throwable.printStackTrace();
@@ -90,6 +102,7 @@ public class PersionalDynamicManager implements Runnable{
             });
 
         } catch (FileNotFoundException e) {
+            latch.countDown();
             e.printStackTrace();
         }
 
@@ -98,10 +111,13 @@ public class PersionalDynamicManager implements Runnable{
     @Override
     public void run() {
         try {
-            latch.await(2, TimeUnit.MINUTES);
+            latch.await();
             //上传内容
             if(photos==null){
                 Log.i("图片没传成功上传终止");
+                if(progressDialog!=null){
+                    progressDialog.dismiss();
+                }
                 return;
             }else{
                 model.setPhotoes(photos);
@@ -112,15 +128,27 @@ public class PersionalDynamicManager implements Runnable{
                 @Override
                 public void success(ResponseData responseData, Response response) {
                     Util.toastMsg(responseData.getMsg());
+                    Log.i("第二阶段上传结束->"+responseData.getMsg());
+                    if(progressDialog!=null){
+                        progressDialog.dismiss();
+                    }
+                    ((AppCompatActivity)context).finish();
                 }
 
                 @Override
                 public void failure(RetrofitError error) {
                     super.failure(error);
                     Log.i("上传失败");
+                    if(progressDialog!=null){
+                        progressDialog.dismiss();
+                    }
                 }
             });
+
         } catch (InterruptedException e) {
+            if(progressDialog!=null){
+                progressDialog.dismiss();
+            }
             e.printStackTrace();
         }
 
