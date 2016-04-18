@@ -201,7 +201,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
      */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        startActivity(new Intent(getContext(), LossWeightStoryActivity.class));
+        //startActivity(new Intent(getContext(), LossWeightStoryActivity.class));
         if(1==1){
             return;
         }
