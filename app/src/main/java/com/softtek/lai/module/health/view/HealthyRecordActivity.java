@@ -10,11 +10,14 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.health.adapter.HealthyRecordFragmentAdapter;
 import com.softtek.lai.module.health.model.HealthDateModel;
 import com.softtek.lai.module.health.presenter.HealthyRecordImpl;
 import com.softtek.lai.module.health.presenter.IHealthyRecord;
 import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
+import com.softtek.lai.module.retest.present.RetestPre;
+import com.softtek.lai.module.retest.present.RetestclassImp;
 import com.softtek.lai.widgets.NoSlidingViewPage;
 
 import org.greenrobot.eventbus.EventBus;
@@ -41,6 +44,9 @@ public class HealthyRecordActivity extends BaseActivity implements View.OnClickL
     @InjectView(R.id.tab_content)
     NoSlidingViewPage tab_content;
     IHealthyRecord iHealthyRecord;
+    RetestPre retestPre;
+    UserInfoModel userInfoModel=UserInfoModel.getInstance();
+    String moblie=userInfoModel.getUser().getMobile();
 
 
     List<Fragment> fragmentList=new ArrayList<>();
@@ -50,6 +56,8 @@ public class HealthyRecordActivity extends BaseActivity implements View.OnClickL
         EventBus.getDefault().register(this);
         ll_left.setOnClickListener(this);
         tv_title.setText("历史数据");
+        retestPre=new RetestclassImp();
+        retestPre.GetUserMeasuredInfo(moblie);
 
     }
 
