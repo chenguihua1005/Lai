@@ -33,7 +33,7 @@ public class PreviewImageActivity extends BaseActivity implements View.OnClickLi
     protected void initViews() {
         ll_left.setOnClickListener(this);
         fl_right.setOnClickListener(this);
-        iv_delete.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.froyo));
+        iv_delete.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.delete));
 
     }
 
