@@ -69,25 +69,10 @@ public class SaleInfoFragment extends BaseFragment implements PullToRefreshRecyc
         aCache = ACache.get(getContext(), Constants.HOME_CACHE_DATA_DIR);
         page = 0;
         homeInfoPresenter = new HomeInfoImpl(getContext());
-        //获取缓存数据
-        List<HomeInfoModel> caches = homeInfoPresenter.loadActivityCacheDate(Constants.HOEM_SALE_KEY);
-        infos.clear();
-        /*if (caches == null) {
-            index = 0;//下次加载从第0条插入
-            for (int i = 0; i < 10; i++) {
-                infos.add(new HomeInfoModel());
-            }
-        } else if (caches.size() < 10) {
-            index = caches.size();//下次加载插入的位置
-            for (int i = 0; i < 10 - infos.size(); i++) {
-                caches.add(new HomeInfoModel());
-            }
-            infos.addAll(caches);
-        }*/
         adapter = new RecyclerViewAdapter(getContext(), infos);
         ptrrv.setAdapter(adapter);
         ptrrv.onFinishLoading(true, true);
-        homeInfoPresenter.getContentByPage(0, ++page, Constants.SALE_INFO);
+        //homeInfoPresenter.getContentByPage(0, ++page, Constants.SALE_INFO);
     }
 
 
@@ -114,17 +99,6 @@ public class SaleInfoFragment extends BaseFragment implements PullToRefreshRecyc
             infos.addAll(index, sale.sales);
             System.out.println("这次是添加插入，目前数据有" + infos.size() + "条");
         }
-        index = index + sale.sales.size();
-        /*if (infos.size() < 10) {
-            int size = 10 - infos.size();
-            System.out.println("数据小于10条需要添加" + size + "条");
-            HomeInfoModel info = new HomeInfoModel();
-            for (int i = 0; i < size; i++) {
-                infos.add(info);
-                System.out.println("添加了第" + (i + 1) + "条");
-            }
-        }*/
-        System.out.println("当前数据大小....." + infos.size());
         adapter.notifyDataSetChanged();
         aCache.put(Constants.HOEM_SALE_KEY, new Gson().toJson(new HomeInfoCache(infos)));
     }
@@ -145,6 +119,10 @@ public class SaleInfoFragment extends BaseFragment implements PullToRefreshRecyc
             ptrrv.onFinishLoading(true, true);
         }
     }
-
+    public void updateInfo(List<HomeInfoModel> sales){
+        infos.clear();
+        infos.addAll(sales);
+        adapter.notifyDataSetChanged();
+    }
 
 }
