@@ -12,23 +12,43 @@ import java.io.Serializable;
  */
 public class MessageDetailInfo implements Serializable {
 
+    private String MsgType;
     private String InviterId;
     private String SenderId;
     private String Comments;
     private String ClassId;
     private String SendTime;
     private String IsRead;
+    private String MessageId;
 
     @Override
     public String toString() {
         return "MessageDetailInfo{" +
-                "InviterId='" + InviterId + '\'' +
+                "MsgType='" + MsgType + '\'' +
+                ", InviterId='" + InviterId + '\'' +
                 ", SenderId='" + SenderId + '\'' +
                 ", Comments='" + Comments + '\'' +
                 ", ClassId='" + ClassId + '\'' +
                 ", SendTime='" + SendTime + '\'' +
                 ", IsRead='" + IsRead + '\'' +
+                ", MessageId='" + MessageId + '\'' +
                 '}';
+    }
+
+    public String getMessageId() {
+        return MessageId;
+    }
+
+    public void setMessageId(String messageId) {
+        MessageId = messageId;
+    }
+
+    public String getMsgType() {
+        return MsgType;
+    }
+
+    public void setMsgType(String msgType) {
+        MsgType = msgType;
     }
 
     public String getIsRead() {

@@ -75,6 +75,57 @@ public class MessageImpl implements IMessagePresenter {
             }
         });
     }
+    @Override
+    public void getMessageRead(String accountID) {
+        String token = UserInfoModel.getInstance().getToken();
+        messageService.getMessageRead(token,accountID, new Callback<ResponseData>() {
+            @Override
+            public void success(ResponseData listResponseData, Response response) {
+                Log.e("jarvis", listResponseData.toString());
+                int status = listResponseData.getStatus();
+                switch (status) {
+                    case 200:
+                        EventBus.getDefault().post(listResponseData);
+                        break;
+                    default:
+                        Util.toastMsg(listResponseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
+            }
+        });
+    }
+
+    @Override
+    public void delNoticeOrMeasureMsg(String messageId) {
+        String token = UserInfoModel.getInstance().getToken();
+        messageService.delNoticeOrMeasureMsg(token, messageId, new Callback<ResponseData>() {
+            @Override
+            public void success(ResponseData listResponseData, Response response) {
+                Log.e("jarvis", listResponseData.toString());
+                int status = listResponseData.getStatus();
+                switch (status) {
+                    case 200:
+                        EventBus.getDefault().post(listResponseData);
+                        break;
+                    default:
+                        Util.toastMsg(listResponseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
+            }
+        });
+    }
 
     @Override
     public void getMsgList() {

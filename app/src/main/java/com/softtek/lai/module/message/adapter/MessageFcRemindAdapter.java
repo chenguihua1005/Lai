@@ -78,11 +78,22 @@ public class MessageFcRemindAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();//取出ViewHolder对象
         }
         /**设置TextView显示的内容，即我们存放在动态数组中的数据*/
-        MeasureRemindInfo measureRemindInfo=list.get(position);
-        String time=measureRemindInfo.getSentTime();
-        String[] str=time.split("-");
-        holder.text_time.setText(str[0]+"年"+str[1]+"月"+str[2]+"日");
-        holder.text_value.setText(measureRemindInfo.getContent());
+        MeasureRemindInfo measureRemindInfo = list.get(position);
+        String time = measureRemindInfo.getSentTime();
+
+        if (!"".equals(time)) {
+            String[] str1 = time.split(" ");
+            String[] str = str1[0].split("-");
+            holder.text_time.setText(str[0] + "年" + str[1] + "月" + str[2] + "日");
+        } else {
+            holder.text_time.setText("");
+        }
+        if (!"".equals(measureRemindInfo.getContent())) {
+            holder.text_value.setText(measureRemindInfo.getContent());
+        } else {
+            holder.text_value.setText("");
+        }
+
         return convertView;
     }
 
