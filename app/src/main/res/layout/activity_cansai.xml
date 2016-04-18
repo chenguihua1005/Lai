@@ -76,6 +76,34 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#78BC27" />
+                <LinearLayout
+                    android:id="@+id/ll_sex"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="0.3"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:text="性别:"/>
+                    <EditText
+                        android:id="@+id/et_sex"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.7"
+                        android:layout_height="wrap_content"
+                        android:textCursorDrawable="@drawable/color_cursor"
+                        android:textSize="16sp"
+                        android:background="@null"
+                        android:hint="男"
+                        android:singleLine="true" />
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#78BC27" />
                 <!--<LinearLayout-->
                 <!--android:id="@+id/ll_certification"-->
                 <!--android:layout_width="match_parent"-->
@@ -127,7 +155,7 @@
                     android:background="#78BC27" />
 
                 <LinearLayout
-                    android:id="@+id/ll_classid"
+                    android:id="@+id/ll_classname"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:gravity="center_vertical"
@@ -141,7 +169,7 @@
                         android:text="参赛班级:"/>
 
                     <EditText
-                        android:id="@+id/et_classid"
+                        android:id="@+id/et_classname"
                         android:layout_width="0dp"
                         android:layout_weight="0.7"
                         android:layout_height="wrap_content"
@@ -242,7 +270,33 @@
                     android:background="#78BC27" />
 
                 <LinearLayout
-                    android:id="@+id/ll_gender"
+                    android:id="@+id/ll_circum"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="0.3"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:text="circum:"/>
+
+                    <EditText
+                        android:id="@+id/et_circum"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.7"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:textCursorDrawable="@drawable/color_cursor"
+                        android:textSize="16sp"
+                        android:hint="80cm"
+                        android:singleLine="true" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_waistline"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:gravity="center_vertical"
@@ -254,6 +308,110 @@
                         android:textColor="#000000"
                         android:textSize="16sp"
                         android:text="腰围:"/>
+
+                    <EditText
+                        android:id="@+id/et_waistline"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.7"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:textCursorDrawable="@drawable/color_cursor"
+                        android:textSize="16sp"
+                        android:hint="80cm"
+                        android:singleLine="true" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_hiplie"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="0.3"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:text="臀围:"/>
+
+                    <EditText
+                        android:id="@+id/et_hiplie"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.7"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:textCursorDrawable="@drawable/color_cursor"
+                        android:textSize="16sp"
+                        android:hint="80cm"
+                        android:singleLine="true" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_armgirth"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="0.3"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:text="臂围:"/>
+
+                    <EditText
+                        android:id="@+id/et_armgirth"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.7"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:textCursorDrawable="@drawable/color_cursor"
+                        android:textSize="16sp"
+                        android:hint="80cm"
+                        android:singleLine="true" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_uparmgirth"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="0.3"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:text="上臂围:"/>
+
+                    <EditText
+                        android:id="@+id/et_uparmgirth"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.7"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:textCursorDrawable="@drawable/color_cursor"
+                        android:textSize="16sp"
+                        android:hint="80cm"
+                        android:singleLine="true" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_upleggirth"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="0.3"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:text="大腿围:"/>
 
                     <EditText
                         android:id="@+id/et_yaowei"
@@ -336,6 +494,11 @@
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
+                <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content">-->
+                    <!---->
+                <!--</LinearLayout>-->
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
