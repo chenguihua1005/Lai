@@ -27,6 +27,7 @@ public interface CommunityService {
     //获取健康圈我的内容
     @GET("/HealthyCircle/HealthMine")
     void getHealthyMine(@Header("token")String token,
+                        @Query("accountid")int accountId,
                         @Query("pageIndex")int pageIndex,
                         RequestCallback<ResponseData<List<HealthyCommunityModel>>> callback);
 

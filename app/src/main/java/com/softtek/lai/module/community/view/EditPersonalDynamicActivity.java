@@ -1,5 +1,7 @@
 package com.softtek.lai.module.community.view;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -86,7 +88,7 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
 
     @Override
     protected void initDatas() {
-        manager=new PersionalDynamicManager(images);
+        manager=new PersionalDynamicManager(images, this);
         UploadImage image= getIntent().getParcelableExtra("uploadImage");
         if(image!=null){
             image.setBitmap(BitmapFactory.decodeFile(image.getImage().getAbsolutePath()));
@@ -144,12 +146,14 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
             return;
         }
         //开始发布
-        CommunityModel model=new CommunityModel();
-        model.setContent(et_content.getText().toString().trim());
-        model.setHtype(1);
-        model.setTitle("");
-        model.setAccountId(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()));
-        if(manager!=null)manager.sendDynamic(model);
+        if(manager!=null){
+            CommunityModel model=new CommunityModel();
+            model.setContent(et_content.getText().toString().trim());
+            model.setHtype(1);
+            model.setTitle("");
+            model.setAccountId(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()));
+            manager.sendDynamic(model);
+        }
     }
 
     @Override

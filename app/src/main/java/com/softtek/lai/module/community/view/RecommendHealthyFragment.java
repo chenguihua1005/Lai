@@ -41,9 +41,9 @@ public class RecommendHealthyFragment extends BaseFragment implements AdapterVie
 
     @Override
     protected void initViews() {
-        ptrlv.setOnItemClickListener(this);
         ptrlv.setOnRefreshListener(this);
         ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
+        ptrlv.setOnItemClickListener(this);
     }
     long accountId=0;
     @Override

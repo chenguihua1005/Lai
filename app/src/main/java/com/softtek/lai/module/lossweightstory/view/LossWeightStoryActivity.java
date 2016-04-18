@@ -105,13 +105,14 @@ public class LossWeightStoryActivity extends BaseActivity implements View.OnClic
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
         String userId=UserInfoModel.getInstance().getUser().getUserid();
         pageIndex=1;
-        lossWeightStoryManager.getLossWeightLogForClass(13/*Long.parseLong(userId)*/,1);
+        lossWeightStoryManager.getLossWeightLogForClass(Long.parseLong(userId),1);
     }
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+        String userId=UserInfoModel.getInstance().getUser().getUserid();
         pageIndex++;
-        lossWeightStoryManager.getLossWeightLogForClass(13,pageIndex);
+        lossWeightStoryManager.getLossWeightLogForClass(Long.parseLong(userId),pageIndex);
     }
 
     @Override
