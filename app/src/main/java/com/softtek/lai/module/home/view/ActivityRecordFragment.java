@@ -68,26 +68,10 @@ public class ActivityRecordFragment extends BaseFragment implements PullToRefres
         aCache = ACache.get(getContext(), Constants.HOME_CACHE_DATA_DIR);
         page = 0;
         homeInfoPresenter = new HomeInfoImpl(getContext());
-        //获取缓存数据
-        List<HomeInfoModel> caches = homeInfoPresenter.loadActivityCacheDate(Constants.HOEM_ACTIVITY_KEY);
-        infos.clear();
-        /*if (caches == null) {
-            index = 0;//下次加载从第0条插入
-            for (int i = 0; i < 10; i++) {
-                infos.add(new HomeInfoModel());
-            }
-        } else if (caches.size() < 10) {
-            index = caches.size();//下次加载插入的位置
-            for (int i = 0; i < 10 - infos.size(); i++) {
-                caches.add(new HomeInfoModel());
-            }
-            infos.addAll(caches);
-        }*/
-
         adapter = new RecyclerViewAdapter(getContext(), infos);
         ptrrv.setAdapter(adapter);
         ptrrv.onFinishLoading(true, true);
-        homeInfoPresenter.getContentByPage(0, ++page, Constants.ACTIVITY_RECORD);
+        //homeInfoPresenter.getContentByPage(0, ++page, Constants.ACTIVITY_RECORD);
     }
 
 
@@ -102,23 +86,10 @@ public class ActivityRecordFragment extends BaseFragment implements PullToRefres
         if (activity.flag == 0) {
             infos.clear();
             infos.addAll(activity.activitys);
-            System.out.println("这次是更新，目前数据有" + infos.size() + "条");
         } else {
             //插入上次数据的末尾
             infos.addAll(index, activity.activitys);
-            System.out.println("这次是添加插入，目前数据有" + infos.size() + "条");
         }
-        index = index + activity.activitys.size();
-        /*if (infos.size() < 10) {
-            int size = 10 - infos.size();
-            System.out.println("数据小于10条需要添加" + size + "条");
-            HomeInfoModel info = new HomeInfoModel();
-            for (int i = 0; i < size; i++) {
-                infos.add(info);
-                System.out.println("添加了第" + (i + 1) + "条");
-            }
-        }*/
-        System.out.println("当前数据大小....." + infos.size());
         adapter.notifyDataSetChanged();
         aCache.put(Constants.HOEM_ACTIVITY_KEY, new Gson().toJson(new HomeInfoCache(infos)));
     }
@@ -141,5 +112,10 @@ public class ActivityRecordFragment extends BaseFragment implements PullToRefres
         }
     }
 
+    public void updateInfo(List<HomeInfoModel> records){
+        infos.clear();
+        infos.addAll(records);
+        adapter.notifyDataSetChanged();
+    }
 
 }

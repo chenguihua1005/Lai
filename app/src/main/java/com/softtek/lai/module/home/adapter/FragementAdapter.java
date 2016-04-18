@@ -8,31 +8,32 @@ package com.softtek.lai.module.home.adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import com.softtek.lai.module.home.view.ActivityRecordFragment;
-import com.softtek.lai.module.home.view.ProductInfoFragment;
-import com.softtek.lai.module.home.view.SaleInfoFragment;
+
+import java.util.List;
 
 /**
  * Created by jerry.guan on 3/23/2016.
+ *
  */
 public class FragementAdapter extends FragmentPagerAdapter {
 
     private String[] titles = {"活动推荐", "产品信息", "促销信息"};
-    private Fragment[] frament = {new ActivityRecordFragment()/*, new ProductInfoFragment(), new SaleInfoFragment()*/};
+    private List<Fragment> fragmentList;
 
-    public FragementAdapter(FragmentManager fm) {
+    public FragementAdapter(FragmentManager fm,List<Fragment> fragments) {
         super(fm);
+        this.fragmentList=fragments;
 
     }
 
     @Override
     public Fragment getItem(int position) {
-        return frament[position];
+        return fragmentList.get(position);
     }
 
     @Override
     public int getCount() {
-        return frament.length;
+        return fragmentList.size();
     }
 
     @Override

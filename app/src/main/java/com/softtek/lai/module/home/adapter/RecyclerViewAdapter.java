@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.module.home.model.HomeInfoModel;
 import com.squareup.picasso.Picasso;
@@ -42,6 +44,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(final RecyclerViewAdapter.ViewHolder holder, int position) {
         //绑定数据
         HomeInfoModel info = infos.get(position);
+        Log.i("连接"+info.getImg_Addr());
         Picasso.with(mContext).load(info.getImg_Addr()).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(holder.iv_image);
         holder.tv_title.setText(info.getImg_Title());
 
