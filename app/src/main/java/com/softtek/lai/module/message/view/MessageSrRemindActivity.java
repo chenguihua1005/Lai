@@ -70,7 +70,13 @@ public class MessageSrRemindActivity extends BaseActivity implements View.OnClic
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 messageDetailInfo = listSr.get(position);
-                messagePresenter.upReadTime("2", messageDetailInfo.getInviterId(), messageDetailInfo.getSenderId(), messageDetailInfo.getClassId());
+                String msg_type=messageDetailInfo.getMsgType();
+                if("0".equals(msg_type)){
+                    messagePresenter.upReadTime("2", messageDetailInfo.getInviterId(), messageDetailInfo.getSenderId(), messageDetailInfo.getClassId());
+                }else {
+                    messagePresenter.delNoticeOrMeasureMsg(messageDetailInfo.getMessageId());
+                }
+
             }
         });
     }

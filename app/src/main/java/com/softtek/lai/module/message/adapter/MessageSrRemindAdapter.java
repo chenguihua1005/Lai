@@ -77,9 +77,18 @@ public class MessageSrRemindAdapter extends BaseAdapter {
         /**设置TextView显示的内容，即我们存放在动态数组中的数据*/
         MessageDetailInfo messageDetailInfo=list.get(position);
         String time=messageDetailInfo.getSendTime();
-        String[] str=time.split("-");
-        holder.text_time.setText(str[0]+"年"+str[1]+"月"+str[2]+"日");
-        holder.text_value.setText(messageDetailInfo.getComments());
+        if(!"".equals(time)){
+            String[] str1=time.split(" ");
+            String[] str=str1[0].split("-");
+            holder.text_time.setText(str[0]+"年"+str[1]+"月"+str[2]+"日");
+        }else {
+            holder.text_time.setText("");
+        }
+        if(!"".equals(messageDetailInfo.getComments())){
+            holder.text_value.setText(messageDetailInfo.getComments());
+        }else {
+            holder.text_value.setText("");
+        }
         return convertView;
     }
 
