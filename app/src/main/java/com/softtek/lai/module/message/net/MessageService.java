@@ -52,6 +52,16 @@ public interface MessageService {
                        @Field("acceptType") String acceptType,       //拒绝:0,接受:1
                        Callback<ResponseData> callback);
 
+    @POST("/MsgCenter/DelNoticeOrMeasureMsg")
+    void delNoticeOrMeasureMsg(@Header("token") String token,
+                       @Query("MessageId") String messageId,
+                       Callback<ResponseData> callback);
+
+    @GET("/MessageRead/GetMessageRead")
+    void getMessageRead(@Header("token") String token,
+                       @Query("AccountID") String accountID,
+                       Callback<ResponseData> callback);
+
     @FormUrlEncoded
     @POST("/MsgCenter/UpReadTime")
     void upReadTime(@Header("token") String token,
