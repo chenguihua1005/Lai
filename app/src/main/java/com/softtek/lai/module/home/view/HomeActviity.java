@@ -75,10 +75,10 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
     @Override
     protected void initDatas() {
         fragments.add(new HomeFragment());
-        fragments.add(new HealthyFragment());
-        fragments.add(new HealthyRecordFragment());
-        /*fragments.add(new TestFragment());
-        fragments.add(new TestFragment());*/
+        /*fragments.add(new HealthyFragment());
+        fragments.add(new HealthyRecordFragment());*/
+        fragments.add(new TestFragment());
+        fragments.add(new TestFragment());
         fragments.add(new MineFragment());
         content.setAdapter(new MainPageAdapter(getSupportFragmentManager(),fragments));
         content.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -98,33 +98,6 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
                 select_page = position;
                 //页面切换了
                 isClick = false;
-
-                /*switch (position){
-                    case 0:
-                        btn_home.setBackground(green);
-                        btn_healthy.setBackground(white);
-                        btn_healthy_record.setBackground(white);
-                        btn_mine.setBackground(white);
-                        break;
-                    case 1:
-                        btn_home.setBackground(white);
-                        btn_healthy.setBackground(green);
-                        btn_healthy_record.setBackground(white);
-                        btn_mine.setBackground(white);
-                        break;
-                    case 2:
-                        btn_home.setBackground(white);
-                        btn_healthy.setBackground(white);
-                        btn_healthy_record.setBackground(green);
-                        btn_mine.setBackground(white);
-                        break;
-                    case 3:
-                        btn_home.setBackground(white);
-                        btn_healthy.setBackground(white);
-                        btn_healthy_record.setBackground(white);
-                        btn_mine.setBackground(green);
-                        break;
-                }*/
 
             }
 

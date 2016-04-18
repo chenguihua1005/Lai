@@ -74,18 +74,21 @@ public class RecommendHealthyFragment extends BaseFragment implements AdapterVie
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
         //获取健康推荐动态
+        Log.i("推荐记录开始刷新拉");
         pageIndex=1;
         community.getRecommendDynamic(accountId,1);
     }
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+        Log.i("推荐记录开始加载更多");
         pageIndex++;
         community.getRecommendDynamic(accountId,pageIndex);
     }
 
     @Override
     public void getRecommendDynamic(List<HealthyCommunityModel> communityModels) {
+        Log.i("推荐记录请求结束"+communityModels.toString());
         ptrlv.onRefreshComplete();
         if(communityModels==null){
             pageIndex=--pageIndex<1?1:pageIndex;

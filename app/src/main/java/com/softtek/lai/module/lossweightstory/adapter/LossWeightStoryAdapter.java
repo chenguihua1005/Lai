@@ -6,16 +6,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
+import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.lossweightstory.model.LossWeightStoryModel;
+import com.softtek.lai.module.lossweightstory.model.Zan;
+import com.softtek.lai.module.lossweightstory.net.LossWeightLogService;
+import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 
 /**
@@ -25,10 +35,11 @@ public class LossWeightStoryAdapter extends BaseAdapter{
 
     private Context context;
     private List<LossWeightStoryModel> lossWeightStoryModels;
-
+    private LossWeightLogService service;
     public LossWeightStoryAdapter(Context context, List<LossWeightStoryModel> lossWeightStoryModels) {
         this.context = context;
         this.lossWeightStoryModels = lossWeightStoryModels;
+        service= ZillaApi.NormalRestAdapter.create(LossWeightLogService.class);
     }
 
     @Override
@@ -48,7 +59,7 @@ public class LossWeightStoryAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
+        final ViewHolder holder;
         if(convertView==null){
             convertView= LayoutInflater.from(context).inflate(R.layout.loss_weight_story_item,parent,false);
             holder=new ViewHolder(convertView);
@@ -56,7 +67,43 @@ public class LossWeightStoryAdapter extends BaseAdapter{
         }else{
             holder= (ViewHolder) convertView.getTag();
         }
-        LossWeightStoryModel model=lossWeightStoryModels.get(position);
+        final LossWeightStoryModel model=lossWeightStoryModels.get(position);
+        holder.cb_zan.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(final CompoundButton buttonView, boolean isChecked) {
+                holder.cb_zan.setChecked(isChecked);
+                if(isChecked){
+                    UserInfoModel infoModel=UserInfoModel.getInstance();
+                    model.setPriase(Integer.parseInt(model.getPriase())+1+"");
+                    model.setUsernameSet(model.getUsernameSet()+","+infoModel.getUser().getNickname());
+                    //向服务器提交
+                    String token= infoModel.getToken();
+                    service.clickLike(token, Long.parseLong(infoModel.getUser().getUserid()),
+                            Long.parseLong(model.getLossLogId()),
+                            new RequestCallback<ResponseData<Zan>>() {
+                                @Override
+                                public void success(ResponseData<Zan> zanResponseData, Response response) {
+                                    ((CheckBox)buttonView).setEnabled(false);
+                                    holder.cb_zan.setText(zanResponseData.getData().getTotalNum());
+                                    notifyDataSetChanged();
+                                }
+
+                                @Override
+                                public void failure(RetrofitError error) {
+                                    super.failure(error);
+                                    ((CheckBox)buttonView).setEnabled(true);
+                                    int priase=Integer.parseInt(model.getPriase())-1<0?0:Integer.parseInt(model.getPriase())-1;
+                                    model.setPriase(priase+"");
+                                    notifyDataSetChanged();
+                                }
+                            });
+                }else{
+                    int priase=Integer.parseInt(model.getPriase())-1<0?0:Integer.parseInt(model.getPriase())-1;
+                    model.setPriase(priase+"");
+                }
+                notifyDataSetChanged();
+            }
+        });
         holder.tv_name.setText(model.getUserName());
         holder.tv_content.setText(model.getLogContent());
         holder.tv_date.setText(model.getCreateDate());
@@ -64,7 +111,7 @@ public class LossWeightStoryAdapter extends BaseAdapter{
         holder.cb_zan.setText(model.getPriase());
         if("1".equals(model.getIsClicked())){
             holder.cb_zan.setChecked(true);
-            holder.cb_zan.setEnabled(false);
+            //holder.cb_zan.setEnabled(false);
         }else {
             holder.cb_zan.setChecked(false);
         }
