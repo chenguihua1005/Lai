@@ -89,6 +89,16 @@ public class MessageSrManageActivity extends BaseActivity implements View.OnClic
         Intent intent = getIntent();
         messageDetailInfo = (MessageDetailInfo) intent.getSerializableExtra("messageDetailInfo");
         text_value.setText(messageDetailInfo.getComments());
+        String msg_type = messageDetailInfo.getMsgType();
+        if ("0".equals(msg_type)) {
+            but_no.setVisibility(View.VISIBLE);
+            but_yes.setVisibility(View.VISIBLE);
+            lin.setVisibility(View.VISIBLE);
+        } else if ("1".equals(msg_type)) {
+            but_no.setVisibility(View.GONE);
+            but_yes.setVisibility(View.GONE);
+            lin.setVisibility(View.GONE);
+        }
     }
 
     @Override

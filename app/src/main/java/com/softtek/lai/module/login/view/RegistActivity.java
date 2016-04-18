@@ -120,8 +120,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
                 registPresenter.getIdentify(phone, Constants.REGIST_IDENTIFY);
                 break;
             case R.id.btn_regist:
-                startActivity(new Intent(this,ForgetActivity2.class));
-                //validateLife.validate();
+                validateLife.validate();
                 break;
             case R.id.tv_protocol:
                 startActivity(new Intent(this, TermActivity.class));

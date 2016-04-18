@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
@@ -88,7 +89,7 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void initDatas() {
-        storyManager=new NewStoryManager(images);
+        storyManager=new NewStoryManager(images,this);
         UserModel model= UserInfoModel.getInstance().getUser();
         et_sender.setText(model.getNickname());
         et_sender.setSelection(et_sender.getText().toString().length());
@@ -211,13 +212,17 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
                     .create().show();
             return;
         }
-        dialogShow("正在上传");
-        LogStoryModel model=new LogStoryModel();
-        model.setLogTitle(et_log_title.getText().toString().trim());
-        model.setAfterWeight(et_weight_after.getText().toString());
-        model.setLogContent(et_content.getText().toString().trim());
-        model.setStoryPeople(et_sender.getText().toString().trim());
-        storyManager.sendLogStory(model, progressDialog);
+        if(storyManager!=null){
+            LogStoryModel model=new LogStoryModel();
+            model.setAccountId(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()));
+            model.setLogTitle(et_log_title.getText().toString().trim());
+            model.setAfterWeight(et_weight_after.getText().toString());
+            model.setLogContent(et_content.getText().toString().trim());
+            model.setStoryPeople(et_sender.getText().toString().trim());
+            storyManager.sendLogStory(model);
+        }
+
+
     }
 
     @Override

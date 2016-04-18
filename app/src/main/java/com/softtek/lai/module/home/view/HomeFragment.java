@@ -40,6 +40,7 @@ import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.login.view.RegistActivity;
 import com.softtek.lai.module.lossweightstory.view.LossWeightStoryActivity;
+import com.softtek.lai.module.message.view.MessageActivity;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.DisplayUtil;
@@ -106,6 +107,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         tv_left.setVisibility(View.INVISIBLE);
         iv_email.setBackgroundResource(R.drawable.email);
         fl_right.setOnClickListener(this);
+        iv_email.setOnClickListener(this);
         page.setAdapter(new FragementAdapter(getFragmentManager()));
         //设置tabLayout和viewpage关联
         tab.setupWithViewPager(page);
@@ -324,7 +326,8 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.fl_right:
+            case R.id.iv_email:
+                startActivity(new Intent(getContext(), MessageActivity.class));
                 break;
         }
     }

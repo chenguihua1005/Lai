@@ -155,6 +155,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity android:name=".module.community.view.EditPersonalDynamicActivity" />
         <activity android:name=".module.community.view.PreviewImageActivity"></activity>
+        <activity android:name=".module.lossweightstory.view.LogStoryDetailActivity"/>
     </application>
 
 </manifest>

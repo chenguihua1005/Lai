@@ -31,4 +31,10 @@ public interface IMessagePresenter {
     //更改阅读时间
     void upReadTime(String msgtype, String recevieid, String senderid, String classid);
 
+    //删除通知或复测消息
+    void delNoticeOrMeasureMsg(String messageId);
+
+    //主页是否有提示消息
+    void getMessageRead(String accountID);
+
 }

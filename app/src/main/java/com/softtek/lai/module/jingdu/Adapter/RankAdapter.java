@@ -6,37 +6,41 @@
 package com.softtek.lai.module.jingdu.Adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.module.jingdu.model.PaimingModel;
 import com.softtek.lai.module.jingdu.model.Table1Model;
+import com.softtek.lai.widgets.CircleImageView;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import zilla.libcore.file.AddressManager;
 
 /**
  * Created by julie.zhu on 3/25/2016.
  */
-public class RankAdapter extends BaseAdapter {
-
+public class RankAdapter extends BaseAdapter{
     private Context context;
     private List<Table1Model> table1ModelList;
+    private List<PaimingModel> paimingModelList;
 
-   // private List<PaimingModel> paimingModelList;
-
-    public RankAdapter(Context context,List<Table1Model>table1ModelList){
+    public RankAdapter(Context context,List<Table1Model>table1ModelList,List<PaimingModel> paimingModelList){
     this.context=context;
     this.table1ModelList=table1ModelList;
-
+    this.paimingModelList=paimingModelList;
 }
-    public void updateData(List<Table1Model> table1ModelList){
+    public void updateData(List<Table1Model> table1ModelList,List<PaimingModel>paimingModelList){
         this.table1ModelList=table1ModelList;
-        notifyDataSetChanged();;
+
+        this.paimingModelList=paimingModelList;
+        notifyDataSetChanged();
     }
     @Override
     public int getCount() {
@@ -66,19 +70,16 @@ public class RankAdapter extends BaseAdapter {
             viewHolder=(ViewHolder)convertView.getTag();
         }
         Table1Model table1Model=table1ModelList.get(position);
+        PaimingModel paimingModel=paimingModelList.get(position);
+        String path= AddressManager.get("photoHost","http://172.16.98.167/UpFiles/");
+        if(!TextUtils.isEmpty(table1ModelList.get(position).getPhoto())) {
+            Picasso.with(context).load(path+table1ModelList.get(position).getPhoto()).placeholder(R.drawable.img_default).error(R.drawable.img_default).into(viewHolder.civ_header_image);
+        }
+        else {
+            Picasso.with(context).load("www").placeholder(R.drawable.img_default).error(R.drawable.img_default).into(viewHolder.civ_header_image);
 
-       // initpaiming();
-        //PaimingModel paimingModel=paimingModelList.get(position);
-
-//        String []paiming={"1","2","3","4","5","6","7","8","9","10"};
-//        for (int i=0;i<10;i++){
-//            Log.i(paiming[i]);
-//            viewHolder.ranid.setText(paiming[i]);
-//        }
-
-       // viewHolder.ranid.setText(paimingModelList.get(position).getPaiming()+"");
-
-        viewHolder.ranid.setText(table1ModelList.get(position).getAccountId());
+        }
+        viewHolder.ranid.setText(paimingModelList.get(position).getPaiming()+"");
         viewHolder.Username.setText(table1ModelList.get(position).getUserName());
         viewHolder.AfterWeight.setText(table1ModelList.get(position).getAfterWeight());
         viewHolder.BeforeWeight.setText(table1ModelList.get(position).getBeforeWight());
@@ -86,41 +87,20 @@ public class RankAdapter extends BaseAdapter {
         return convertView;
     }
 
-//    private void initpaiming(){
-//        PaimingModel p1=new PaimingModel(1);
-//        paimingModelList.add(p1);
-//        PaimingModel p2=new PaimingModel(2);
-//        paimingModelList.add(p2);
-//        PaimingModel p3=new PaimingModel(3);
-//        paimingModelList.add(p3);
-//        PaimingModel p4=new PaimingModel(4);
-//        paimingModelList.add(p4);
-//        PaimingModel p5=new PaimingModel(5);
-//        paimingModelList.add(p5);
-//        PaimingModel p6=new PaimingModel(6);
-//        paimingModelList.add(p6);
-//        PaimingModel p7=new PaimingModel(7);
-//        paimingModelList.add(p7);
-//        PaimingModel p8=new PaimingModel(8);
-//        paimingModelList.add(p8);
-//        PaimingModel p9=new PaimingModel(9);
-//        paimingModelList.add(p9);
-//        PaimingModel p10=new PaimingModel(10);
-//        paimingModelList.add(p10);
-//    }
-
     class ViewHolder{
         TextView ranid;
         TextView Username;
         TextView AfterWeight;
         TextView BeforeWeight;
         TextView LossWeight;
+        CircleImageView civ_header_image;
         public ViewHolder(View view){
             ranid=(TextView)view.findViewById(R.id.tv_rank);
             Username=(TextView)view.findViewById(R.id.tv_name);
             AfterWeight=(TextView)view.findViewById(R.id.tv_LossAfter);
             BeforeWeight=(TextView)view.findViewById(R.id.tv_LossBefore);
             LossWeight=(TextView)view.findViewById(R.id.tv_LossWeight);
+            civ_header_image= (CircleImageView) view.findViewById(R.id.civ_header_image);
         }
     }
 
