@@ -40,6 +40,25 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
     @InjectView(R.id.tv_right)
     TextView tv_right;
 
+    //修改信息
+//    昵称。生日。性别。照片。体重。体脂。内脂
+//    胸围。腰围。臀围。上臂围。大腿围。小腿围
+
+
+
+//    显示姓名,生日,性别,手机号码, 参赛班级,初始体重, 照片. 用户可以对参赛数据进行一次修改.
+//           // "Mobile": "18286565885",
+//            "Photo": "201603290913492218475932.jpg",
+//         //   "ClassName": "20160310_1",
+//            "Weight": "158",
+//            "Pysical": "",
+//            "Fat": "",
+//            "Circum": "",
+//            "Waistline": "",
+//            "Hiplie": "",
+//            "UpArmGirth": "",
+//            "UpLegGirth": "",
+//            "DoLegGirth": ""
 
     //确认参赛信息
     @InjectView(R.id.et_name)
@@ -48,11 +67,15 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
     @InjectView(R.id.et_birthday)
     EditText et_birthday;
 
+    @InjectView(R.id.et_sex)
+    EditText et_sex;
+
+    //手机号码
     @InjectView(R.id.et_mobile)
     EditText et_mobile;
 
-    @InjectView(R.id.et_classid)
-    EditText et_classid;
+    @InjectView(R.id.et_classname)
+    EditText et_classname;
 
     @InjectView(R.id.et_weight)
     EditText et_weight;
@@ -65,7 +88,12 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
 
     @InjectView(R.id.et_yaowei)
     EditText et_yaowei;
-
+//    "Circum": "",
+//            "Waistline": "",
+//            "Hiplie": "",
+//            "UpArmGirth": "",
+//            "UpLegGirth": "",
+//            "DoLegGirth": ""
     //确认照片信息
     // photo
 
@@ -84,7 +112,7 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
 
     private String mobile;
 
-    private String classid;
+    private String classname;
 
     private String weight;
 
@@ -185,6 +213,7 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
                 coninfoModel.setDoleggirth(11);
                 iUpConfirmInfopresenter.changeUpConfirmInfo(token,coninfoModel);
                 break;
+
         }
     }
 }
