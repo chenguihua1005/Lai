@@ -29,6 +29,7 @@ import com.softtek.lai.module.message.model.MeasureRemindInfo;
 import com.softtek.lai.module.message.presenter.IMessagePresenter;
 import com.softtek.lai.module.message.presenter.MessageImpl;
 import com.softtek.lai.module.retest.WriteActivity;
+import com.softtek.lai.module.retest.view.RetestActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -91,9 +92,13 @@ public class MessageFcRemindActivity extends BaseActivity implements View.OnClic
             startActivity(intent);
         } else if (String.valueOf(Constants.SR).equals(userrole)) {
             //助教身份跳转复测页面
+            Intent intent = new Intent(this, RetestActivity.class);
+            startActivity(intent);
 
         } else if (String.valueOf(Constants.SP).equals(userrole)) {
             //顾问身份跳转复测页面
+            Intent intent = new Intent(this, RetestActivity.class);
+            startActivity(intent);
 
         }
     }

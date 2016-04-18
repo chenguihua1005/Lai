@@ -164,7 +164,7 @@
                 android:id="@+id/btn_delete"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:background="#33ff0000"
+                android:background="#fc1100"
                 android:text="删除"/>
     </LinearLayout>
 

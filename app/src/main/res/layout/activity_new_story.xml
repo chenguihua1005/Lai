@@ -9,13 +9,14 @@
     <include layout="@layout/toolbar"
         android:id="@+id/toolbar"/>
     <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:scrollbars="none"
+        android:paddingBottom="20dp"
         android:layout_below="@id/toolbar">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
@@ -105,6 +106,7 @@
                 android:textSize="17sp"
                 android:layout_marginLeft="14dp"
                 android:gravity="bottom"
+                android:inputType="number"
                 android:paddingBottom="10dp"
                 android:singleLine="true"
                 android:textStyle="bold"
@@ -127,13 +129,12 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/editorText"/>
-
         <EditText
             android:id="@+id/et_content"
             android:layout_width="match_parent"
             android:layout_height="177dp"
-            android:layout_marginTop="29dp"
             android:background="#f0f0f0"
+            android:layout_marginTop="29dp"
             android:gravity="top"
             android:paddingTop="8dp"
             android:paddingLeft="6dp"
@@ -141,7 +142,6 @@
             android:textCursorDrawable="@drawable/color_cursor"
             android:textColorHint="#999999"
             android:hint="我的故事..."/>
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -150,8 +150,15 @@
             android:layout_marginTop="26dp"
             android:text="减重后照片:"/>
         <com.softtek.lai.widgets.CustomGridView
+            android:id="@+id/cgv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_marginTop="16dp"
+            android:numColumns="3"
+            android:columnWidth="100dp"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="4dp">
 
         </com.softtek.lai.widgets.CustomGridView>
     </LinearLayout>

@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import butterknife.InjectView;
+
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -25,6 +27,7 @@ import com.softtek.lai.module.bodygame.view.TipsActivity;
 import com.softtek.lai.module.bodygamest.model.HasClass;
 import com.softtek.lai.module.bodygamest.present.IStudentPresenter;
 import com.softtek.lai.module.bodygamest.present.StudentImpl;
+import com.softtek.lai.module.counselor.view.GameActivity;
 import com.softtek.lai.module.lossweightstory.view.LossWeightStoryActivity;
 import com.softtek.lai.module.studentbasedate.view.StudentBaseDateActivity;
 import com.softtek.lai.utils.RequestCallback;
@@ -147,41 +150,64 @@ public class StudentActivity extends BaseActivity implements View.OnClickListene
     }
     @Subscribe
     public void doGetTotol(List<TotolModel> totolModels){
-        System.out.println("dsadasdsadasda>>》》》》》》》》》》》》》》"+totolModels.get(0).getTotal_loss());
         tv_totalpersonst.setText(totolModels.get(0).getTotal_person());
         tv_total_lossst.setText(totolModels.get(0).getTotal_loss());
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
+        final int id=v.getId();
+        if(id!=R.id.ll_st_saikuang&&id!=R.id.ll_st_tipst&&id!=R.id.ll_left){
+            dialogShow("检查中...");
+            studentImpl.hasClass(new RequestCallback<ResponseData<HasClass>>() {
+                @Override
+                public void success(ResponseData<HasClass> hasClassResponseData, Response response) {
+                    dialogDissmiss();
+                    Log.i(hasClassResponseData.toString());
+                    if(hasClassResponseData.getStatus()==200){
+                        if("1".equals(hasClassResponseData.getData().getIsHave())){
+                            doStartActivity(id);
+                        }else{
+                            //学员没有班级
+                            new AlertDialog.Builder(StudentActivity.this).setTitle("提示")
+                                    .setMessage("您目前还没有参加班级").create().show();
+                        }
+                    }else{
+                        Util.toastMsg(hasClassResponseData.getMsg());
+                    }
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    dialogDissmiss();
+                    super.failure(error);
+                }
+            });
+        }else {
+            switch (id) {
+                //大赛赛况
+                case R.id.ll_st_saikuang:
+                    startActivity(new Intent(this, GameActivity.class));
+                    break;
+                //提示
+                case R.id.ll_st_tipst:
+                    Intent intent2 = new Intent(this, TipsActivity.class);
+                    startActivity(intent2);
+                    break;
+                case R.id.ll_left:
+                    finish();
+                    break;
+            }
+        }
+
+    }
+
+    private void doStartActivity(int id){
+        switch (id) {
 
             //点击跳转事件
             case R.id.ll_st_jibenshuju:
-                dialogShow("验证中...");
-                studentImpl.hasClass(new RequestCallback<ResponseData<HasClass>>() {
-                    @Override
-                    public void success(ResponseData<HasClass> hasClassResponseData, Response response) {
-                        dialogDissmiss();
-                        if(hasClassResponseData.getStatus()==200){
-                            if(hasClassResponseData.getData().getIsHave().equals("1")){
-                                startActivity(new Intent(StudentActivity.this, StudentBaseDateActivity.class));
-                            }else{
-                                //学员没有班级
-                                new AlertDialog.Builder(StudentActivity.this).setTitle("提示")
-                                        .setMessage("您目前还没有参加班级").create().show();
-                            }
-                        }else{
-                            Util.toastMsg(hasClassResponseData.getMsg());
-                        }
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        dialogDissmiss();
-                        super.failure(error);
-                    }
-                });
+                startActivity(new Intent(StudentActivity.this, StudentBaseDateActivity.class));
                 break;
             //上传照片
             case R.id.ll_st_shangchuan:
@@ -199,25 +225,12 @@ public class StudentActivity extends BaseActivity implements View.OnClickListene
                 break;
             //成绩单
             case R.id.ll_st_chengjidan:
-
+                startActivity(new Intent(this, StudentScoreActivity.class));
                 break;
             //荣誉榜
             case R.id.ll_st_rongyu:
-
-                break;
-            //大赛赛况
-            case R.id.ll_st_saikuang:
-
-                break;
-            //提示
-            case R.id.ll_st_tipst:
-                Intent intent2=new Intent(this,TipsActivity.class);
-                startActivity(intent2);
-                break;
-            case R.id.ll_left:
-                finish();
+                startActivity(new Intent(this, StudentHonorGridActivity.class));
                 break;
         }
-
     }
 }

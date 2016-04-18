@@ -24,6 +24,7 @@ import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
 import com.softtek.lai.module.retest.model.RetestAuditModel;
 import com.softtek.lai.module.retest.present.RetestPre;
@@ -32,6 +33,7 @@ import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.Timer;
@@ -143,10 +145,14 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
     LinearLayout ll_retesrAudit_fat;
 
 
-
+    UserInfoModel userInfoModel=UserInfoModel.getInstance();
+    long loginid=Long.parseLong(userInfoModel.getUser().getUserid());
+    String accountid;
     private RetestPre retestPre;
     private RetestAuditModel retestAudit;
     String acountid;
+    String Typedate;
+    String classid;
 
 
     @Override
@@ -168,9 +174,16 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     protected void initViews() {
+        EventBus.getDefault().register(this);
 
 
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 
     @Override
@@ -184,7 +197,10 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
         String accountId=intent.getStringExtra("accountId");
         String loginId=intent.getStringExtra("loginId");
         String classId=intent.getStringExtra("classId");
+        classid=classId;
+        accountid=accountId;
         String typedate=intent.getStringExtra("typeDate");
+        Typedate=typedate;
         //开班时间，判断班级名称（几月班）
         String StartDate=intent.getStringExtra("StartDate");
         //开始周期
@@ -201,7 +217,7 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
         String Weekth=intent.getStringExtra("Weekth");
 //        typedate
         acountid=accountId;
-        retestPre.doGetAudit(Integer.parseInt(accountId),Integer.parseInt(classId),"2016-03-30");
+        retestPre.doGetAudit(Integer.parseInt(accountId),Integer.parseInt(classId),Typedate);
 
     }
     @Subscribe
@@ -238,12 +254,12 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
         tv_retestAudit_upLegGirth.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getUpArmGirth());
         tv_retestAudit_doLegGirth.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getDoLegGirth());
         if(!TextUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getImage())) {
-            Picasso.with(this).load(retestAuditModelEvent.getRetestAuditModels().get(0).getPhoto()).placeholder(R.drawable.img_default).error(R.drawable.img_default).into(im_retestaudit_showphoto);
+            Picasso.with(this).load(retestAuditModelEvent.getRetestAuditModels().get(0).getImage()).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(im_retestaudit_showphoto);
         }
         else {
-
+            im_retestaudit_showphoto.setVisibility(View.GONE);
         }
-        im_retestaudit_showphoto.setVisibility(View.GONE);
+
 
     }
 
@@ -415,8 +431,22 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
     public void onValidationSucceeded() {
         retestAudit.setInitWeight(tv_audit_chu_weight.getText()+"");
         retestAudit.setWeight(tv_audit_now_weight.getText()+"");
+        retestAudit.setPysical(tv_retestAudit_tizhi.getText()+"");
+        retestAudit.setFat(tv_retesrAudit_fat.getText()+"");
+        retestAudit.setCircum(tv_retestAudit_wasit.getText()+"");
+        retestAudit.setWaistline(tv_retestAudit_yaowei.getText()+"");
+        retestAudit.setHiplie(tv_retestAudit_tunwei.getText()+"");
+        retestAudit.setUpArmGirth(tv_retestAudit_upArmGirth.getText()+"");
+        retestAudit.setUpLegGirth(tv_retestAudit_upLegGirth.getText()+"");
+        retestAudit.setDoLegGirth(tv_retestAudit_doLegGirth.getText()+"");
+        retestAudit.setAccountId(accountid);
+        retestAudit.setClassId(classid);
+
 //        retestAudit.getCircum(tv_retestAudit_wasit.getText());
-        retestPre.doPostAudit("36","3","2016-03-28",retestAudit);
+        retestPre.doPostAudit(loginid+"",accountid,Typedate,retestAudit);
+        Intent intent=new Intent();
+        setResult(RESULT_OK,intent);
+        finish();
 
     }
 

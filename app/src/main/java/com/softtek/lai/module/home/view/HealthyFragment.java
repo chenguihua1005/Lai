@@ -5,16 +5,12 @@
 
 package com.softtek.lai.module.home.view;
 
-import android.content.ActivityNotFoundException;
-import android.content.ContentResolver;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.SystemClock;
-import android.provider.MediaStore;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -28,13 +24,17 @@ import android.widget.TextView;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.community.adapter.CommunityAdapter;
-import com.softtek.lai.module.community.model.UploadImageModel;
+import com.softtek.lai.module.community.view.EditPersonalDynamicActivity;
 import com.softtek.lai.module.community.view.MineHealthyFragment;
 import com.softtek.lai.module.community.view.RecommendHealthyFragment;
+import com.softtek.lai.module.lossweightstory.model.UploadImage;
+import com.softtek.lai.utils.FileUtils;
 import com.softtek.lai.utils.SystemUtils;
 
 import java.io.File;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,17 +74,30 @@ public class HealthyFragment extends BaseFragment implements View.OnClickListene
         tab_content.setAdapter(new CommunityAdapter(getFragmentManager(),fragments));
         tab.setupWithViewPager(tab_content);
     }
-    String first_image;
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        String token= UserInfoModel.getInstance().getToken();
+        if(null==token||"".equals(token)){
+            fl_right.setVisibility(View.GONE);
+        }else{
+            fl_right.setVisibility(View.VISIBLE);
+        }
+    }
+
     @Override
     protected void initDatas() {
 
     }
 
-    private CharSequence[] items={"拍照","照片"};
+    private CharSequence[] items={"拍照","从相册选择照片"};
     private static final int OPEN_CAMERA_REQUEST=1;
     private static final int OPEN_PICTURE_REQUEST=2;
-    private static final String IMAGE_UPLOADS_DIR=Environment.getExternalStorageDirectory() + File.separator + "healthyfragmentuoploads";
+    private static final String IMAGE_UPLOADS_DIR=Environment.getExternalStorageDirectory() + File.separator + "laiAppImage/";
     private File dir=new File(IMAGE_UPLOADS_DIR);
+    private UploadImage uploadImage;
+    private File cameraPhoto;
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -99,20 +112,11 @@ public class HealthyFragment extends BaseFragment implements View.OnClickListene
                             //先验证手机是否有sdcard
                             String status = Environment.getExternalStorageState();
                             if (status.equals(Environment.MEDIA_MOUNTED)) {
-                                try {
-                                    if (!dir.exists()){
-                                        dir.mkdirs();
-                                    }else {
-                                        dir.delete();
-                                        dir.mkdirs();
-                                    }
-                                    String nameTemp= SystemClock.currentThreadTimeMillis()+".png";
-                                    File f = new File(dir, nameTemp);
-                                    first_image=f.getAbsolutePath();
-                                    startActivityForResult(SystemUtils.openCamera(Uri.fromFile(f)), OPEN_CAMERA_REQUEST);
-                                } catch (ActivityNotFoundException e) {
-                                    Util.toastMsg("没有找到存储目录");
-                                }
+                                FileUtils.deleteDir(dir);
+                                dir.mkdirs();
+                                String nameTemp= SystemClock.elapsedRealtime()+".png";
+                                cameraPhoto= new File(dir, nameTemp);
+                                startActivityForResult(SystemUtils.openCamera(Uri.fromFile(cameraPhoto)), OPEN_CAMERA_REQUEST);
                             } else {
                                 Util.toastMsg("没有存储卡");
                             }
@@ -132,23 +136,20 @@ public class HealthyFragment extends BaseFragment implements View.OnClickListene
         Log.i("requestCode="+requestCode+";resultCode="+resultCode);
         if(resultCode== -1){//result_ok
             if(requestCode==OPEN_CAMERA_REQUEST){
-
+                uploadImage=new UploadImage(cameraPhoto, null);
             }else if(requestCode==OPEN_PICTURE_REQUEST){
-                ContentResolver resolver=getContext().getContentResolver();
                 Uri originalUri=data.getData();
-                String[] proj = {MediaStore.Images.Media.DATA};
-                Cursor cursor = resolver.query(originalUri, proj, null, null, null);
-                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-                cursor.moveToFirst();
-                //索引值获取图片路径
-                String path = cursor.getString(column_index);
-                first_image=path;
+                uploadImage=new UploadImage(
+                        new File(SystemUtils.getPathForSystemPic(getContext(),
+                                originalUri)),
+                        SystemUtils.getThumbnail(getContext(),originalUri,100,100));
             }
-            Intent intent=new Intent(getContext(),HomeActviity.class);//跳转到添加详情页
-            intent.putExtra("image",first_image);
+            Intent intent=new Intent(getContext(),EditPersonalDynamicActivity.class);//跳转到发布动态界面
+            intent.putExtra("uploadImage",uploadImage);
             startActivity(intent);
         }else if(resultCode==0){//返回取消
-            first_image=null;
+            uploadImage=null;
+            FileUtils.deleteDir(dir);
         }
     }
 }

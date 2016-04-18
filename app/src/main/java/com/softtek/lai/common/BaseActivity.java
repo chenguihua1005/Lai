@@ -41,7 +41,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected Toolbar mToolbar;
     protected SystemBarTintManager tintManager;
 
-    private ProgressDialog progressDialog;
+    protected ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -12,14 +12,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/tab"
-        android:layout_below="@id/toolbar"/>
+        android:layout_below="@id/toolbar"
+        style="@style/myTabLayout2"/>
 
     <com.softtek.lai.widgets.NoSlidingViewPage
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/tab_content"
         android:layout_below="@id/tab"
-        style="@style/myTabLayout2"
+
         />
 
 </RelativeLayout>

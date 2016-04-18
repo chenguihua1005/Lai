@@ -70,6 +70,8 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
     @InjectView(R.id.selectclass)
     TextView selectclass;
     private static final int GET_BODY=2;
+    UserInfoModel userInfoModel=UserInfoModel.getInstance();
+    long loginid=Long.parseLong(userInfoModel.getUser().getUserid());
     private List<BanjiModel> banjiModelList=new ArrayList<BanjiModel>();
     private List<BanjiStudentModel>banjiStudentModelList=new ArrayList<BanjiStudentModel>();
     private ClassAdapter classAdapter;
@@ -106,7 +108,8 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
                 ll_shousuo.setVisibility(View.INVISIBLE);
                 ll_shousuolist.setVisibility(View.INVISIBLE);
                 Iv_fold.setImageResource(R.drawable.unfold);
-                selectclass.setText(banjiModel.getClassName());
+                String[] clas=banjiModel.getStartDate().split("-");
+                selectclass.setText(tomonth(clas[1]));
                 h=false;
                 for(int i=0;i<parent.getChildCount();i++){
                     ImageView iv= (ImageView) parent.getChildAt(i).findViewById(R.id.rbtn_retest);
@@ -141,7 +144,7 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
                     intent.putExtra("Photo",banjiStudentModel.getPhoto());
                     //第几周期
                     intent.putExtra("Weekth",banjiStudentModel.getWeekth());
-                    intent.putExtra("loginid","36");
+
                     startActivityForResult(intent,GET_BODY);
 
                 }
@@ -167,7 +170,7 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
                     //第几周期
                     intent.putExtra("Weekth",banjiStudentModel.getWeekth());
                     Log.i("zhouqizhouqi"+banjiStudentModel.getWeekth());
-                    startActivity(intent);
+                    startActivityForResult(intent,GET_BODY);
                 }
             }
         });
@@ -253,7 +256,7 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
         retestPre =new RetestclassImp();
         //获取班级列表，参数助教顾问id
         String id=UserInfoModel.getInstance().getUser().getUserid();
-        retestPre.doGetRetestclass(36);
+        retestPre.doGetRetestclass(loginid);
         Log.i("id="+id);
 //        retestPre.doGetRetestclass(Integer.parseInt(id));
 
@@ -267,8 +270,8 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
         super.onActivityResult(requestCode, resultCode, data);
         //身体围度值传递
         if (requestCode==GET_BODY&&resultCode==RESULT_OK){
+            retestPre.doGetBanjiStudent(ClassId);
             studentAdapter.notifyDataSetChanged();
-//            retestPre.doGetBanjiStudent(ClassId);
 
         }
     }

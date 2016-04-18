@@ -97,7 +97,6 @@ public class CounselorClassListActivity extends BaseActivity implements View.OnC
 
     @Override
     public void onClick(View v) {
-        SoftInputUtil.hidden(this);
         switch (v.getId()) {
             case R.id.lin_create_class:        //我要开班
                 startActivity(new Intent(this, CreateCounselorClassActivity.class));
