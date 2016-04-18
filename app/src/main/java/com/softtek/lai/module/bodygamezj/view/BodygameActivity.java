@@ -1,9 +1,6 @@
 package com.softtek.lai.module.bodygamezj.view;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -51,6 +48,8 @@ public class BodygameActivity extends BaseActivity implements View.OnClickListen
     TextView tv_totalpersonzj;
     @InjectView(R.id.ll_review)
     LinearLayout ll_review;
+    @InjectView(R.id.ll_tiguansai)
+    LinearLayout ll_tiguansai;
 
 
     private ITiGuanSai iTiGuanSai;
@@ -63,6 +62,7 @@ public class BodygameActivity extends BaseActivity implements View.OnClickListen
         ll_counselor_fucezj.setOnClickListener(this);
         tv_totalzj.setOnClickListener(this);
         ll_review.setOnClickListener(this);
+        ll_tiguansai.setOnClickListener(this);
     }
 
     @Override
@@ -99,20 +99,19 @@ public class BodygameActivity extends BaseActivity implements View.OnClickListen
             case R.id.ll_review:
                 startActivity(new Intent(this, ReviewActivity.class));
                 break;
+            case R.id.ll_tiguansai:
+
+                break;
         }
     }
     @Subscribe
     public void onEvent(TiGuanSaiModel tiGuanSai){
-        System.out.println("dsadasdsadasda>>》》》》》》》》》》》》》》"+tiGuanSai.getImg_Addr());
-        //Picasso.with(this).load().into(iv_adv);
-//        Picasso.with(getBaseContext()).load(tiGuanSai.getImg_Addr()).into(iv_adv);
         Picasso.with(this).load(tiGuanSai.getImg_Addr()).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_advzj);
 
 
     }
     @Subscribe
     public void onEvent1(FuceNumModel fuceNum){
-        System.out.println("dsadasdsadasda>>》》》》》》》》》》》》》》"+fuceNum.getCount());
         if (Integer.parseInt(fuceNum.getCount())>10)
         {
             tv_fucenumzj.setVisibility(View.VISIBLE);
@@ -126,7 +125,7 @@ public class BodygameActivity extends BaseActivity implements View.OnClickListen
     }
     @Subscribe
     public void doGetTotol(List<TotolModel> totolModels){
-        System.out.println("dsadasdsadasda>>》》》》》》》》》》》》》》"+totolModels.get(0).getTotal_loss());
+
         tv_totalpersonzj.setText(totolModels.get(0).getTotal_person());
         tv_total_losszj.setText(totolModels.get(0).getTotal_loss());
     }

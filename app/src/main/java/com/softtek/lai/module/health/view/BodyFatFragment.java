@@ -375,7 +375,20 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
                 break;
             case R.id.month:
                 flag=1;
-
+                String monthdate4=getPeriodDate(type,0)+"";
+                String monthdate3=getPeriodDate(type,7)+"";
+                String monthdate2=getPeriodDate(type,14)+"";
+                String monthdate1=getPeriodDate(type,21)+"";
+                days.add(formdate(monthdate1));
+                days.add(formdate(monthdate2));
+                days.add(formdate(monthdate3));
+                days.add(formdate(monthdate4));
+                dates.add(15f);
+                dates.add(18f);
+                dates.add(6.3f);
+                chartUtil.addData(dates,4,days);
+                days.clear();
+                dates.clear();
                 break;
         }
     }
