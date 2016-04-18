@@ -88,6 +88,7 @@ public class RecommendHealthyFragment extends BaseFragment implements AdapterVie
 
     @Override
     public void getRecommendDynamic(List<HealthyCommunityModel> communityModels) {
+        Log.i("推荐记录请求结束"+communityModels.toString());
         ptrlv.onRefreshComplete();
         if(communityModels==null){
             pageIndex=--pageIndex<1?1:pageIndex;

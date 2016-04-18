@@ -6,6 +6,7 @@
 package com.softtek.lai.module.home.view;
 
 import android.os.Bundle;
+import android.text.Html;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -132,6 +133,13 @@ public class ModifyPasswordActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void onValidationFailed(View failedView, Rule<?> failedRule) {
-        validateLife.onValidationFailed(failedView, failedRule);
+        if(failedView instanceof EditText && failedView.getId()==R.id.et_password){
+            String message=failedRule.getFailureMessage();
+            failedView.requestFocus();
+            ((EditText)failedView).setError(Html.fromHtml("<small>"+message+"</small>"));
+        }else {
+            validateLife.onValidationFailed(failedView, failedRule);
+        }
+
     }
 }

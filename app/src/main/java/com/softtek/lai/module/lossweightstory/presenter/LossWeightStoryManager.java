@@ -54,23 +54,23 @@ public class LossWeightStoryManager {
     }
 
 
-    public void doZan(long accountId, long logId, final CheckBox zan) {
-        service.clickLike(token, accountId, logId, new Callback<ResponseData<Zan>>() {
-            @Override
-            public void success(ResponseData<Zan> zanResponseData, Response response) {
-                if(zanResponseData.getStatus()==200){
-                    zan.setText(zanResponseData.getData().getTotalNum());
-                }
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                zan.setChecked(false);
-                zan.setText(Integer.parseInt(zan.getText().toString())-1+"");
-                ZillaApi.dealNetError(error);
-            }
-        });
-    }
+//    public void doZan(long accountId, long logId, final CheckBox zan) {
+//        service.clickLike(token, accountId, logId, new Callback<ResponseData<Zan>>() {
+//            @Override
+//            public void success(ResponseData<Zan> zanResponseData, Response response) {
+//                if(zanResponseData.getStatus()==200){
+//                    zan.setText(zanResponseData.getData().getTotalNum());
+//                }
+//            }
+//
+//            @Override
+//            public void failure(RetrofitError error) {
+//                zan.setChecked(false);
+//                zan.setText(Integer.parseInt(zan.getText().toString())-1+"");
+//                ZillaApi.dealNetError(error);
+//            }
+//        });
+//    }
 
     public interface StoryManagerCallBack{
 
