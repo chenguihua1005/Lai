@@ -73,14 +73,14 @@ public class DownPhotoAdapter extends BaseAdapter {
             viewHolder=(ViewHolder)convertView.getTag();
         }
         LogListModel logListModel = logListModelList.get(position);
-        String[] date=logListModel.getCreateDate().split("/");
-        String[] yearshi=date[2].split(" ");
-        viewHolder.tv_uploadphoto_day.setText(date[1]);
-        viewHolder.tv_uploadphoto_month.setText(tomonth(date[0]));
+        String[] date=logListModel.getCreateDate().split("-");
+//        String[] yearshi=date[2].split(" ");
+        viewHolder.tv_uploadphoto_day.setText(date[2]);
+        viewHolder.tv_uploadphoto_month.setText(tomonth(date[1]));
         if(!TextUtils.isEmpty(logListModel.getImgUrl())){
-            Picasso.with(context).load(logListModel.getImgUrl()).placeholder(R.drawable.lufei).error(R.drawable.lufei).into(viewHolder.im_uploadphoto);
+            Picasso.with(context).load(logListModel.getImgUrl()).fit().placeholder(R.drawable.lufei).error(R.drawable.lufei).into(viewHolder.im_uploadphoto);
         }else{
-            Picasso.with(context).load("www").placeholder(R.drawable.lufei).error(R.drawable.lufei).into(viewHolder.im_uploadphoto);
+            Picasso.with(context).load("www").placeholder(R.drawable.lufei).fit().error(R.drawable.lufei).into(viewHolder.im_uploadphoto);
         }
 
         return convertView;

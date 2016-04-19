@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
@@ -31,8 +32,15 @@ import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 import com.softtek.lai.module.counselor.view.AssistantApplyFragment;
 import com.softtek.lai.module.counselor.view.AssistantListFragment;
 import com.softtek.lai.module.login.model.UserModel;
+import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
+import com.softtek.lai.module.retest.model.RetestWriteModel;
+import com.softtek.lai.module.retest.present.RetestPre;
+import com.softtek.lai.module.retest.present.RetestclassImp;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.SoftInputUtil;
+import com.squareup.picasso.Picasso;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +74,7 @@ public class StudentScoreActivity extends BaseActivity implements View.OnClickLi
     ListView list_student_score;
 
 
+
     private IStudentPresenter studentPresenter;
     private ACache aCache;
     private UserModel userModel;
@@ -92,6 +101,7 @@ public class StudentScoreActivity extends BaseActivity implements View.OnClickLi
         userModel = UserInfoModel.getInstance().getUser();
         String id = userModel.getUserid();
         studentPresenter.getTranscrip(id,list_student_score);
+
     }
 
     @Override

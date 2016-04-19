@@ -60,11 +60,10 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     TextView tv_left;
     @InjectView(R.id.imtest)
     ImageView imtest;
-    //照片列表listview
-    @InjectView(R.id.list_uploadphoto)
-    ListView list_uploadphoto;
     @InjectView(R.id.ptrlvlist)
     PullToRefreshListView ptrlvlist;
+    @InjectView(R.id.im_uploadphoto_banner)
+            ImageView im_uploadphoto_banner;
     int pageIndex=0;
     private List<LogListModel> logListModelList = new ArrayList<LogListModel>();
     private DownPhotoAdapter downPhotoAdapter;
@@ -85,22 +84,18 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     LogListModel logListModel;
     DownloadManager downloadManager;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
         super.onCreate(savedInstanceState);
         downPhotoAdapter = new DownPhotoAdapter(this, logListModelList);
         ptrlvlist.setAdapter(downPhotoAdapter);
-        list_uploadphoto.setAdapter(downPhotoAdapter);
+
         //监听点击事件
         tv_left.setOnClickListener(this);
         imtest.setOnClickListener(this);
-        list_uploadphoto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                LogListModel logListModel=logListModelList.get(position);
-            }
-        });
+
 
     }
 
@@ -145,17 +140,9 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
 
     @Override
     protected void initViews() {
-//        DownPhotoModel downPhotoModel1 = new DownPhotoModel("", month + "/" + day + "/" + years);
-//        downPhotoModelList.add(downPhotoModel1);
         progressDialog = new ProgressDialog(this);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setMessage("正在加载内容...");
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                ptrlvlist.setRefreshing();
-//            }
-//        },200);
 
     }
 
@@ -170,6 +157,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         ptrlvlist.setMode(PullToRefreshBase.Mode.BOTH);
         ptrlvlist.setOnItemClickListener(this);
         ptrlvlist.setOnRefreshListener(this);
+        downloadManager.doGetDownPhoto("3",pageIndex+1,progressDialog);
     }
 
     @Override
@@ -284,48 +272,22 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
     }
-//    @Override
-//    public void getStroyList(LogList logList) {
-//        ptrlvlist.onRefreshComplete();
-//        if (logList==null){
-//            pageIndex=--pageIndex<1?1:pageIndex;
-//            com.github.snowdream.android.util.Log.i("网络请求错误，当前第"+pageIndex+"页");
-//            return;
-//        }
-//        com.github.snowdream.android.util.Log.i("获取的新数据有"+logList.getLogList().size()+"个，当前第"+pageIndex+"页");
-//        com.github.snowdream.android.util.Log.i(logList.toString());
-//        List<LogListModel> models=downPhotoModel.getLogList();
-//        if(models==null||models.isEmpty()){
-//            pageIndex=--pageIndex<1?1:pageIndex;
-//            com.github.snowdream.android.util.Log.i("集合为空，当前第"+pageIndex+"页");
-//            return;
-//        }
-//        if (pageIndex==1){
-//            logListModelList.clear();
-//        }
-//        logListModelList.addAll(models);
-//        downPhotoAdapter.notifyDataSetChanged();
-//        String path= AddressManager.get("photoHost","http://172.16.98.167/UpFiles/");
-//        try {
-//            Picasso.with(this).load(path + logList.getPhoto())
-//                    .placeholder(R.drawable.img_default)
-//                    .error(R.drawable.img_default)
-//                    .into(cir_header_image);
-//            Picasso.with(this).load(path + logList.getBanner())
-//                    .placeholder(R.drawable.default_pic)
-//                    .error(R.drawable.default_pic)
-//                    .into(log_banner);
-//        }catch (Exception e){}
 
-//    }
 
 
     @Override
     public void getStroyList(DownPhotoModel downPhotoModel) {
+
+        if(!TextUtils.isEmpty(downPhotoModel.getBanner())){
+
+            Picasso.with(this).load("http://172.16.98.167/UpFiles/"+downPhotoModel.getBanner()).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(im_uploadphoto_banner);
+        }else{
+            Picasso.with(this).load("www").placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(im_uploadphoto_banner);
+        }
         ptrlvlist.onRefreshComplete();
         if (downPhotoModel==null){
             pageIndex=--pageIndex<1?1:pageIndex;
-            com.github.snowdream.android.util.Log.i("网络请求错误，当前第"+pageIndex+"页");
+            com.github.snowdream.android.util.Log.i("当前第"+pageIndex+"页");
             return;
         }
         com.github.snowdream.android.util.Log.i("获取的新数据有"+downPhotoModel.getLogList().size()+"个，当前第"+pageIndex+"页");

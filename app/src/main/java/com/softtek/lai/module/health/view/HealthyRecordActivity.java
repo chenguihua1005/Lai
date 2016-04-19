@@ -35,7 +35,7 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_weight)
-public class HealthyRecordActivity extends BaseActivity implements View.OnClickListener,BaseFragment.OnFragmentInteractionListener,HealthyRecordImpl.HealthyRecordCallback{
+public class HealthyRecordActivity extends BaseActivity implements View.OnClickListener,BaseFragment.OnFragmentInteractionListener{
 
     private HealthyRecordImpl healthyRecord;
     @InjectView(R.id.ll_left)
@@ -97,10 +97,7 @@ public class HealthyRecordActivity extends BaseActivity implements View.OnClickL
         tab.setTabMode(TabLayout.MODE_SCROLLABLE);
         int item=getIntent().getIntExtra("id",0);
         tab_content.setCurrentItem(item);
-//        healthyRecord.getCurveData();
-        iHealthyRecord=new HealthyRecordImpl(this);
-        iHealthyRecord.doGetHealth();
-//        healthyRecord=new HealthyRecordImpl(this);
+
 
 
     }
@@ -120,11 +117,6 @@ public class HealthyRecordActivity extends BaseActivity implements View.OnClickL
     }
 
 
-    @Override
-    public void doGetDate(HealthDateModel healthDateModel) {
-        Util.toastMsg(healthDateModel.toString());
-
-    }
     @Subscribe
     public void doGetPhoto(HealthDateModel healthDateModel) {
         System.out.println("照片名称" + healthDateModel.getMonthDate());
