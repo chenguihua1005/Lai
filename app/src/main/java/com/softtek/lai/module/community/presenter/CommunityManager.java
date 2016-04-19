@@ -35,8 +35,7 @@ public class CommunityManager{
         service.getHealthyMine(token,accountId,pageIndex, new RequestCallback<ResponseData<HealthyRecommendModel>>() {
             @Override
             public void success(ResponseData<HealthyRecommendModel> listResponseData, Response response) {
-                Log.i("健康圈 我的"+listResponseData.toString());
-                if(cb!=null)cb.getMineDynamic(listResponseData.getData().getHealthList());
+                if(cb!=null)cb.getMineDynamic(listResponseData.getData());
             }
 
             @Override
@@ -48,7 +47,7 @@ public class CommunityManager{
     }
 
     public interface CommunityManagerCallback{
-        void getMineDynamic(List<HealthyCommunityModel> models);
+        void getMineDynamic(HealthyRecommendModel model);
     }
 
 }

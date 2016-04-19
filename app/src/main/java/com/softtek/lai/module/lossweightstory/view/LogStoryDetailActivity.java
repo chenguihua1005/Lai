@@ -158,12 +158,13 @@ public class LogStoryDetailActivity extends BaseActivity implements View.OnClick
         tv_content.setText(log.getLogContent());
         tv_date.setText(log.getCreateDate());
         tv_totle_lw.setText(log.getAfterWeight()+"斤");
-       /* cb_zan.setText(log.get);
-        if(LossWeightLogAdapter.ZAN_NO.equals(log.getIsClicked())){
+        cb_zan.setText(log.getPriasenum());
+        if("是".equals(log.getIfpriasenum())){
             cb_zan.setChecked(true);
+            cb_zan.setEnabled(false);
         }else{
             cb_zan.setChecked(false);
-        }*/
+        }
         //拆分字符串图片列表,并添加到图片集合中
         if(!"".equals(log.getImgCollection())&&!(null==log.getImgCollection())){
             String[] image=log.getImgCollection().split(",");

@@ -53,7 +53,7 @@ public class LogDetailGridAdapter extends BaseAdapter{
             holder= (LogDetailGrid) convertView.getTag();
         }
         try {
-            Picasso.with(context).load(images.get(position)).placeholder(R.drawable.default_pic)
+            Picasso.with(context).load(images.get(position)).fit().placeholder(R.drawable.default_pic)
                     .error(R.drawable.default_pic).into(holder.iv_image);
         }catch (Exception e){}
         return convertView;

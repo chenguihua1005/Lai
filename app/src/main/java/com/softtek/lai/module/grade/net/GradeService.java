@@ -44,6 +44,7 @@ public interface GradeService {
     //获取学员列表
     @GET("/HerbrClass/SearchClassMember")
     void getStudentsList(@Header("token") String token,
+                         @Query("accountid")long accountId,
                          @Query("classId") String classId,
                          @Query("ordertype") String orderType,
                          Callback<ResponseData<List<StudentModel>>> callback);

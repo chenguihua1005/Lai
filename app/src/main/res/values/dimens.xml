@@ -138,4 +138,6 @@
     <dimen name="textSize8">7sp</dimen>
     <dimen name="textSize9">5sp</dimen>
     <dimen name="textSize10">10sp</dimen>
+
+    <dimen name="logStoryPic">79dp</dimen>
 </resources>

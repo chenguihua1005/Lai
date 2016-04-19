@@ -1,9 +1,11 @@
 package com.softtek.lai.module.lossweightstory.model;
 
+import java.io.Serializable;
+
 /**
  * Created by jerry.guan on 4/16/2016.
  */
-public class LogStoryModel {
+public class LogStoryModel implements Serializable{
 
     private long accountId;
     private String logTitle;

@@ -76,7 +76,7 @@ public class StudentDetailActivity extends BaseActivity implements View.OnClickL
     private List<Fragment> fragmentList=new ArrayList<>();
     private long accountId=0;
     private long classId=0;
-    private String review_flag;
+    private String review_flag="1";
     @Override
     protected void initViews() {
         ll_left.setOnClickListener(this);
@@ -87,6 +87,7 @@ public class StudentDetailActivity extends BaseActivity implements View.OnClickL
         accountId=getIntent().getLongExtra("userId",0);
         classId=getIntent().getLongExtra("classId",0);
         review_flag=getIntent().getStringExtra("review");
+        review_flag=review_flag==null?"1":review_flag;
         Map<String,String> params=new HashMap<>();
         params.put("userId",accountId+"");
         params.put("classId",classId+"");

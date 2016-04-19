@@ -18,8 +18,11 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.counselor.view.InviteStudentActivity;
 import com.softtek.lai.module.grade.adapter.TabContentAdapter;
+import com.softtek.lai.module.login.model.UserModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -88,7 +91,12 @@ public class StudentsActivity extends BaseActivity implements BaseFragment.OnFra
     @Override
     protected void initDatas() {
         tv_title.setText("学员列表");
+        UserModel user= UserInfoModel.getInstance().getUser();
         tv_right.setText("邀请学员");
+        if(!String.valueOf(Constants.SR).equals(user.getUserrole())){
+            tv_right.setVisibility(View.GONE);
+
+        }
         tv_right.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
 
     }
