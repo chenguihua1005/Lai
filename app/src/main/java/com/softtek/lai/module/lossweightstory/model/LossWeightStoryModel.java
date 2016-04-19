@@ -1,9 +1,11 @@
 package com.softtek.lai.module.lossweightstory.model;
 
+import java.io.Serializable;
+
 /**
  * Created by John on 2016/4/14.
  */
-public class LossWeightStoryModel {
+public class LossWeightStoryModel implements Serializable{
 
     private String UserName;
     private String Photo;
@@ -17,6 +19,15 @@ public class LossWeightStoryModel {
     private String imgCollection;
     private String isClicked;
     private String usernameSet;
+    private String AfterWeight;
+
+    public String getAfterWeight() {
+        return AfterWeight;
+    }
+
+    public void setAfterWeight(String afterWeight) {
+        AfterWeight = afterWeight;
+    }
 
     public String getUserName() {
         return UserName;

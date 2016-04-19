@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
@@ -111,9 +112,13 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     private IMessagePresenter messagePresenter;
 
     private List<String> advList = new ArrayList<>();
+    private List<HomeInfoModel> records = new ArrayList<>();
+    private List<HomeInfoModel> products = new ArrayList<>();
+    private List<HomeInfoModel> sales = new ArrayList<>();
     private RetestPre retestPre;
-
     private MessageReceiver mMessageReceiver;
+
+    private List<Fragment> fragments = new ArrayList<>();
 
     @Override
     protected void initViews() {
@@ -121,7 +126,14 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         iv_email.setBackgroundResource(R.drawable.email);
         fl_right.setOnClickListener(this);
         iv_email.setOnClickListener(this);
-        page.setAdapter(new FragementAdapter(getFragmentManager()));
+        ActivityRecordFragment recordFragment = new ActivityRecordFragment();
+        /*ProductInfoFragment productInfoFragment=new ProductInfoFragment();
+        SaleInfoFragment saleInfoFragment=new SaleInfoFragment();*/
+        fragments.add(recordFragment);
+        /*fragments.add(productInfoFragment);
+        fragments.add(saleInfoFragment);*/
+        page.setAdapter(new FragementAdapter(getFragmentManager(), fragments));
+        page.setOffscreenPageLimit(3);
         //设置tabLayout和viewpage关联
         tab.setupWithViewPager(page);
         tab.setTabMode(TabLayout.MODE_FIXED);
@@ -159,14 +171,29 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     @Subscribe
     public void onEventRefresh(HomeEvent event) {
         advList.clear();
+        records.clear();
+        /*products.clear();
+        sales.clear();*/
         for (HomeInfoModel info : event.getInfos()) {
             switch (info.getImg_Type()) {
                 case "0":
                     advList.add(info.getImg_Addr());
                     break;
+                case "1":
+                    records.add(info);
+                    break;
+               /* case "2":
+                    products.add(info);
+                    break;
+                case "6":
+                    sales.add(info);
+                    break;*/
             }
         }
         rhv_adv.setImgUrlData(advList);
+        ((ActivityRecordFragment) fragments.get(0)).updateInfo(records);
+        /*((ProductInfoFragment)fragments.get(1)).updateInfo(products);
+        ((SaleInfoFragment)fragments.get(2)).updateInfo(sales);*/
 
     }
 
@@ -210,8 +237,8 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     public void onRefresh() {
         System.out.println("正在加载......");
         homeInfoPresenter.getHomeInfoData(pull);
-        String id=UserInfoModel.getInstance().getUser().getUserid();
-        messagePresenter.getMessageRead(id,img_red);
+        String id = UserInfoModel.getInstance().getUser().getUserid();
+        messagePresenter.getMessageRead(id, img_red);
     }
 
 
@@ -226,6 +253,10 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         }*/
         UserInfoModel userInfoModel = UserInfoModel.getInstance();
         int role = Integer.parseInt(userInfoModel.getUser().getUserrole());
+//        startActivity(new Intent(getContext(), LossWeightStoryActivity.class));
+//        if(1==1){
+//            return;
+//        }
         ////判断当前用户是否拥有此按钮权限
         if (userInfoModel.hasPower(position)) {
             //如果有则判断更具具体角色进入相应的页面
@@ -349,7 +380,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_email:
- //               startActivity(new Intent(getContext(), SPHonorActivity.class));
+                //               startActivity(new Intent(getContext(), SPHonorActivity.class));
 //                startActivity(new Intent(getContext(), MessageActivity.class));
                 break;
         }
@@ -370,7 +401,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
             if (Constants.MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {
                 String messge = intent.getStringExtra(Constants.KEY_MESSAGE);
                 String extras = intent.getStringExtra(Constants.KEY_EXTRAS);
-                System.out.println("messge:"+messge+"   extras"+extras);
+                System.out.println("messge:" + messge + "   extras" + extras);
                 img_red.setVisibility(View.VISIBLE);
             }
         }

@@ -285,6 +285,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         else {
             Picasso.with(this).load("www").placeholder(R.drawable.img_default).error(R.drawable.img_default).into(iv_write_head);
         }
+        retestPre.GetUserMeasuredInfo(retestAuditModelEvent.getRetestAuditModels().get(0).getMobile());
     }
 
 //    @Subscribe(threadMode = ThreadMode.MAIN)

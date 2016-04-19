@@ -5,11 +5,20 @@ package com.softtek.lai.module.lossweightstory.model;
  */
 public class LogStoryModel {
 
+    private long accountId;
     private String logTitle;
     private String logContent;
     private String storyPeople;
     private String afterWeight;
-    private String photos;
+    private String photoes;
+
+    public long getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(long accountId) {
+        this.accountId = accountId;
+    }
 
     public String getLogTitle() {
         return logTitle;
@@ -43,11 +52,11 @@ public class LogStoryModel {
         this.afterWeight = afterWeight;
     }
 
-    public String getPhotos() {
-        return photos;
+    public String getPhotoes() {
+        return photoes;
     }
 
-    public void setPhotos(String photos) {
-        this.photos = photos;
+    public void setPhotoes(String photoes) {
+        this.photoes = photoes;
     }
 }

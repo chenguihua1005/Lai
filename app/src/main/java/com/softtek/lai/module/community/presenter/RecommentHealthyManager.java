@@ -29,6 +29,7 @@ public class RecommentHealthyManager {
         service.getrecommendHealthyContent(accountId,pageIndex,new RequestCallback<ResponseData<List<HealthyCommunityModel>>>() {
             @Override
             public void success(ResponseData<List<HealthyCommunityModel>> listResponseData, Response response) {
+                Log.i(listResponseData.toString());
                 if(cb!=null){
                     cb.getRecommendDynamic(listResponseData.getData());
                 }

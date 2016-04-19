@@ -140,5 +140,6 @@ public class ModifyPasswordActivity extends BaseActivity implements View.OnClick
         }else {
             validateLife.onValidationFailed(failedView, failedRule);
         }
+
     }
 }

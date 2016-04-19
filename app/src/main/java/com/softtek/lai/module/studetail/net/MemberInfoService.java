@@ -50,11 +50,10 @@ public interface MemberInfoService {
                            Callback<ResponseData<LogList>> callback);
 
     //点赞
-    @FormUrlEncoded
     @POST("/CompetitionLog/ClickLike")
     void clickLike(@Header(TOKEN)String token,
-                   @Field("accountId")long accountId,
-                   @Field("logId")long logId,
+                   @Query("accountId") long accountId,
+                   @Query("logId") long logId,
                    Callback<ResponseData<Zan>> callback);
 
 }

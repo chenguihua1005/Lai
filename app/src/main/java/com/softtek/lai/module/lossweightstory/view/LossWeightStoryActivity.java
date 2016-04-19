@@ -20,6 +20,7 @@ import com.softtek.lai.module.lossweightstory.adapter.LossWeightStoryAdapter;
 import com.softtek.lai.module.lossweightstory.model.LogList;
 import com.softtek.lai.module.lossweightstory.model.LossWeightStoryModel;
 import com.softtek.lai.module.lossweightstory.presenter.LossWeightStoryManager;
+import com.softtek.lai.module.studetail.view.LogDetailActivity;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
@@ -98,20 +99,27 @@ public class LossWeightStoryActivity extends BaseActivity implements View.OnClic
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+        Log.i("点击了itme---->"+position);
+        if(position<2){
+            return;
+        }
+        Intent intent=new Intent(this,LogStoryDetailActivity.class);
+        intent.putExtra("log",lossWeightStoryModels.get(position-2));
+        startActivity(intent);
     }
 
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
         String userId=UserInfoModel.getInstance().getUser().getUserid();
         pageIndex=1;
-        lossWeightStoryManager.getLossWeightLogForClass(13/*Long.parseLong(userId)*/,1);
+        lossWeightStoryManager.getLossWeightLogForClass(Long.parseLong(userId),1);
     }
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+        String userId=UserInfoModel.getInstance().getUser().getUserid();
         pageIndex++;
-        lossWeightStoryManager.getLossWeightLogForClass(13,pageIndex);
+        lossWeightStoryManager.getLossWeightLogForClass(Long.parseLong(userId),pageIndex);
     }
 
     @Override
@@ -119,13 +127,16 @@ public class LossWeightStoryActivity extends BaseActivity implements View.OnClic
         ptrlv.onRefreshComplete();
         if (logList==null){
             pageIndex=--pageIndex<1?1:pageIndex;
+            Log.i("网络请求错误，当前第"+pageIndex+"页");
             return;
         }
+        Log.i("获取的新数据有"+logList.getLogList().size()+"个，当前第"+pageIndex+"页");
         Log.i(logList.toString());
         List<LossWeightStoryModel> models=logList.getLogList();
         tv_name.setText(logList.getUserName());
         if(models==null||models.isEmpty()){
             pageIndex=--pageIndex<1?1:pageIndex;
+            Log.i("集合为空，当前第"+pageIndex+"页");
             return;
         }
         if (pageIndex==1){

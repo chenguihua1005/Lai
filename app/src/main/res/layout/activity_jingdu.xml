@@ -51,7 +51,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
-                        android:text="3"
+                        android:text=""
                         android:textSize="20sp" />
                     <ImageView
                         android:layout_width="15dp"
@@ -92,7 +92,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
-                        android:text="500"
+                        android:text=""
                         android:textSize="20sp" />
                     <ImageView
                         android:layout_width="15dp"
@@ -120,8 +120,8 @@
                 android:gravity="center"
                 android:layout_height="180dp">
                 <com.ggx.jerryguan.widget_lib.Chart
-                    android:layout_width="130dp"
-                    android:layout_height="130dp"
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
                     android:id="@+id/total_weight">
                 </com.ggx.jerryguan.widget_lib.Chart>
 

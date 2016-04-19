@@ -513,19 +513,19 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
         View view=getLayoutInflater().inflate(R.layout.birth_dialog,null);
         final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
         np1.setMaxValue(myear);
-        np1.setValue(1960);
+        np1.setValue(myear);
         np1.setMinValue(1900);
         np1.setWrapSelectorWheel(false);
 
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
         np2.setMaxValue(12);
-        np2.setValue(6);
+        np2.setValue(mmonth+1);
         np2.setMinValue(1);
         np2.setWrapSelectorWheel(false);
 
         final NumberPicker np3 = (NumberPicker) view.findViewById(R.id.numberPicker3);
         np3.setMaxValue(31);
-        np3.setValue(15);
+        np3.setValue(mday);
         np3.setMinValue(1);
         np3.setWrapSelectorWheel(false);
 

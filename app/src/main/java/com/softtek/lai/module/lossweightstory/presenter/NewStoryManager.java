@@ -1,6 +1,8 @@
 package com.softtek.lai.module.lossweightstory.presenter;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.support.v7.app.AppCompatActivity;
 
 import com.github.snowdream.android.util.Log;
 import com.loopj.android.http.AsyncHttpClient;
@@ -8,8 +10,6 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.community.model.CommunityModel;
-import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.module.lossweightstory.model.LogStoryModel;
 import com.softtek.lai.module.lossweightstory.model.UploadImage;
 import com.softtek.lai.module.lossweightstory.net.LossWeightLogService;
@@ -21,7 +21,6 @@ import org.json.JSONObject;
 import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 import cz.msebera.android.httpclient.Header;
 import retrofit.RetrofitError;
@@ -33,6 +32,7 @@ import zilla.libcore.util.Util;
 
 /**
  * Created by John on 2016/4/17.
+ *
  */
 public class NewStoryManager implements Runnable{
 
@@ -45,19 +45,25 @@ public class NewStoryManager implements Runnable{
     private LogStoryModel model;
     private String photos=null;
     private ProgressDialog progressDialog;
+    private Context context;
 
-    public NewStoryManager(List<UploadImage> images) {
+    public NewStoryManager(List<UploadImage> images,Context context) {
         this.images = images;
-        latch=new CountDownLatch(1);
+        this.context=context;
         token= UserInfoModel.getInstance().getToken();
         appId= PropertiesManager.get("appid");
         url= AddressManager.getHost()+"/CompetitionLog/PostMultiImgs";
         service= ZillaApi.NormalRestAdapter.create(LossWeightLogService.class);
     }
 
-    public void sendLogStory(LogStoryModel model,ProgressDialog progressDialog){
+    public void sendLogStory(LogStoryModel model){
         this.model=model;
-        this.progressDialog=progressDialog;
+        latch=new CountDownLatch(1);
+        progressDialog=new ProgressDialog(context);
+        progressDialog.setMessage("提交中，请稍候...");
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
         new Thread(this).start();
         try {
             Log.i("开始上传第一阶段");
@@ -74,13 +80,14 @@ public class NewStoryManager implements Runnable{
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     super.onSuccess(statusCode, headers, response);
-                    latch.countDown();
                     try {
                         JSONObject obj = response.getJSONObject("data");
                         photos = obj.getString("Imgs");
-                        Util.toastMsg("上传成功" + photos);
+                        latch.countDown();
                         Log.i("第一阶段上传成功" + photos);
                     } catch (JSONException e) {
+                        photos=null;
+                        latch.countDown();
                         e.printStackTrace();
                     }
                 }
@@ -96,6 +103,7 @@ public class NewStoryManager implements Runnable{
             });
 
         } catch (FileNotFoundException e) {
+            latch.countDown();
             e.printStackTrace();
         }
 
@@ -104,14 +112,14 @@ public class NewStoryManager implements Runnable{
     @Override
     public void run() {
         try {
-            latch.await(2, TimeUnit.MINUTES);
+            latch.await();
             //上传内容
             if(photos==null){
                 if(progressDialog!=null)progressDialog.dismiss();
                 Log.i("图片没传成功上传终止");
                 return;
             }else{
-                model.setPhotos(photos);
+                model.setPhotoes(photos);
             }
 
             Log.i("开始上传第二阶段");
@@ -119,6 +127,7 @@ public class NewStoryManager implements Runnable{
                 @Override
                 public void success(ResponseData responseData, Response response) {
                     if(progressDialog!=null)progressDialog.dismiss();
+                    ((AppCompatActivity)context).finish();
                     Util.toastMsg(responseData.getMsg());
                 }
 
@@ -130,6 +139,9 @@ public class NewStoryManager implements Runnable{
                 }
             });
         } catch (InterruptedException e) {
+            if(progressDialog!=null){
+                progressDialog.dismiss();
+            }
             e.printStackTrace();
         }
 

@@ -177,6 +177,8 @@
             android:name=".module.lossweightstory.view.NewStoryActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity android:name=".module.community.view.EditPersonalDynamicActivity" />
+        <activity android:name=".module.lossweightstory.view.LogStoryDetailActivity" />
+        <activity android:name=".module.healthrecords.view.HealthEntryActivity" />
         <activity android:name=".module.community.view.PreviewImageActivity"></activity>
         <!-- Rich push 核心功能 since 2.0.6-->
         <activity
@@ -293,6 +295,5 @@
             android:value="f332885d101702ebad1cc671" />
         <!--  </>值来自开发者平台取得的AppKey-->
     </application>
-
 
 </manifest>

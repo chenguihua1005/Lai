@@ -51,10 +51,10 @@
     <string name="passwordValidateNull">请输入密码</string>
     <string name="phoneValidate">请输入正确的手机号码</string>
     <string name="passwordValidate">密码不符合规则(字母+数字，6~16位)</string>
-    <string name="npasswordValidate">密码不符合规则(字母+数字，6~16位)</string>
+    <string name="npasswordValidate">新密码不符合规则(字母+数字，6~16位)</string>
     <string name="termValidate">必须遵循该条款</string>
     <string name="identiftValidtae">请输入验证码</string>
-    <string name="phonePattern">^((13[0-9])|(147)|(15[^4,\\D])|(18[0-9]))\\d{8}$</string>
+    <string name="phonePattern">^((13[0-9])|(14[0-9])|(17)[0-9]|(15[^4,\\D])|(18[0-9]))\\d{8}$</string>
     <string name="identifyValidateMsg">验证码错误</string>
     <string name="identifyAsNull">请获取验证码</string>
     <string name="confirmPassword">两次密码不一致</string>

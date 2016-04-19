@@ -9,7 +9,7 @@
             android:layout_width="wrap_content"
             android:id="@+id/ll"
             android:orientation="horizontal"
-            android:layout_marginBottom="70dp"
+            android:layout_marginBottom="20dp"
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true">
 

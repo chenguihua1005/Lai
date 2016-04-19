@@ -29,7 +29,8 @@ public class CommunityManager{
 
     public void getHealthyMine(int pageIndex) {
         String token= UserInfoModel.getInstance().getToken();
-        service.getHealthyMine(token,pageIndex, new RequestCallback<ResponseData<List<HealthyCommunityModel>>>() {
+        int accountId=Integer.parseInt(UserInfoModel.getInstance().getUser().getUserid());
+        service.getHealthyMine(token,accountId,pageIndex, new RequestCallback<ResponseData<List<HealthyCommunityModel>>>() {
             @Override
             public void success(ResponseData<List<HealthyCommunityModel>> listResponseData, Response response) {
                 Log.i("健康圈 我的"+listResponseData.toString());

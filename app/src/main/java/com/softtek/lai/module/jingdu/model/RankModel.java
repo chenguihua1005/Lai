@@ -14,6 +14,7 @@ public class RankModel {
     private List<TableModel> Table;
     private List<Table1Model> Table1;
     private List<Table2Model> Table2;
+    private List<PaimingModel> paiming;
 
     @Override
     public String toString() {
@@ -21,13 +22,15 @@ public class RankModel {
                 "Table=" + Table +
                 ", Table1=" + Table1 +
                 ", Table2=" + Table2 +
+                ", paiming=" + paiming +
                 '}';
     }
 
-    public RankModel(List<TableModel> table, List<Table1Model> table1, List<Table2Model> table2) {
+    public RankModel(List<TableModel> table, List<Table1Model> table1, List<Table2Model> table2, List<PaimingModel> paiming) {
         Table = table;
         Table1 = table1;
         Table2 = table2;
+        this.paiming = paiming;
     }
 
     public List<TableModel> getTable() {
@@ -52,5 +55,13 @@ public class RankModel {
 
     public void setTable2(List<Table2Model> table2) {
         Table2 = table2;
+    }
+
+    public List<PaimingModel> getPaiming() {
+        return paiming;
+    }
+
+    public void setPaiming(List<PaimingModel> paiming) {
+        this.paiming = paiming;
     }
 }

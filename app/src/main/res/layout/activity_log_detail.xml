@@ -40,7 +40,7 @@
                 android:textStyle="bold"
                 android:textColor="#333333"
                 android:textSize="20sp"
-                android:text="Joy"
+                android:text=""
                 android:layout_centerInParent="true"
                 android:layout_toRightOf="@id/civ_header_image"
                 android:layout_marginLeft="10dp"/>
@@ -65,7 +65,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="4kg"
+                        android:text=""
                         android:layout_marginLeft="5dp"
                         android:textColor="@color/white"/>
 
@@ -85,8 +85,10 @@
             android:gravity="center|left"
             android:textStyle="bold"
             android:textSize="18sp"
+            android:ellipsize="end"
+            android:maxLines="2"
             android:textColor="#333333"
-            android:text="减重第一天的锻炼成果~"/>
+            android:text=""/>
         <com.softtek.lai.widgets.CustomGridView
             android:id="@+id/cgv_list_image"
             android:layout_width="match_parent"
@@ -108,7 +110,7 @@
             android:layout_marginTop="10dp"
             android:textColor="#333333"
             android:textSize="16sp"
-            android:text="选择健身，其实是选择了一种生活方式。这种生活方式帮助人们远离一些一定不好的生活习惯。但，每个健身者似乎都在不停的埋怨：没有时间健身！除了受伤，太忙是健身者普遍停不下来在健身的最普遍原因"/>
+            android:text=""/>
          <RelativeLayout
              android:layout_width="match_parent"
              android:layout_height="50dp"
