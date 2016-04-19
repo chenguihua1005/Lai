@@ -12,18 +12,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
-import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.health.view.FatFragment;
 import com.softtek.lai.module.health.view.HealthyRecordActivity;
 import com.softtek.lai.module.health.view.WeightFragment;
-import com.softtek.lai.module.retest.model.LaichModel;
-import com.softtek.lai.module.retest.present.RetestPre;
-import com.softtek.lai.module.retest.present.RetestclassImp;
-
-import org.greenrobot.eventbus.Subscribe;
+import com.softtek.lai.module.healthrecords.view.HealthEntryActivity;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -58,32 +52,11 @@ public class HealthyRecordFragment extends BaseFragment implements View.OnClickL
     TextView tv_leg;
     @InjectView(R.id.tv_shin)
     TextView tv_shin;
-    //saveinformation
-    //体重
-    @InjectView(R.id.tv_health_weight)
-    TextView tv_health_weight;
-    @InjectView(R.id.tv_health_Pysical)
-    TextView tv_health_Pysical;
-    @InjectView(R.id.tv_health_fat)
-            TextView tv_health_fat;
-    @InjectView(R.id.tv_health_circum)
-            TextView tv_health_circum;
-    @InjectView(R.id.tv_health_waistline)
-            TextView tv_health_waistline;
-    @InjectView(R.id.tv_health_hiplie)
-            TextView tv_health_hiplie;
-    @InjectView(R.id.tv_health_upArmGirth)
-            TextView tv_health_upArmGirth;
-    @InjectView(R.id.tv_health_upLegGirth)
-            TextView tv_health_upLegGirth;
-    @InjectView(R.id.tv_health_doLegGirth)
-            TextView tv_health_doLegGirth;
-    RetestPre retestPre;
-    UserInfoModel userInfoModel=UserInfoModel.getInstance();
-    String mobile=userInfoModel.getUser().getMobile();
+
     @Override
     protected void initViews() {
         ll_left.setVisibility(View.GONE);
+        iv_email.setOnClickListener(this);
         tv_weight.setOnClickListener(this);
         tv_body_fat.setOnClickListener(this);
         tv_fat.setOnClickListener(this);
@@ -99,14 +72,17 @@ public class HealthyRecordFragment extends BaseFragment implements View.OnClickL
     protected void initDatas() {
         tv_title.setText("健康记录");
         iv_email.setImageResource(R.drawable.healthedit);
-        retestPre=new RetestclassImp();
-        retestPre.GetUserMeasuredInfo(mobile);
 
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.iv_email:
+                Intent intent9=new Intent(getContext(),HealthEntryActivity.class);
+                startActivity(intent9);
+                getActivity().finish();
+                break;
             case R.id.tv_weight:
                 Intent intent=new Intent(getContext(),HealthyRecordActivity.class);
                 intent.putExtra("id",0);

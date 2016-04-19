@@ -6,12 +6,18 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.module.confirmInfo.presenter.GuwenClassImp;
+import com.softtek.lai.module.confirmInfo.presenter.GuwenClassPre;
+import com.softtek.lai.module.healthrecords.model.HealthModel;
+import com.softtek.lai.module.healthrecords.presenter.EntryHealthImpl;
+import com.softtek.lai.module.healthrecords.presenter.IEntryHealthpresenter;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -76,6 +82,11 @@ public class HealthEntryActivity extends BaseActivity implements View.OnClickLis
     @InjectView(R.id.tv_doleggirth)
     TextView tv_doleggirth;
 
+    @InjectView(R.id.btn_sure)
+    Button btn_sure;
+
+    private HealthModel healthModele;
+    private IEntryHealthpresenter iEntryHealthpresenter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +99,10 @@ public class HealthEntryActivity extends BaseActivity implements View.OnClickLis
         ll_uparmgirth.setOnClickListener(this);
         ll_upleggirth.setOnClickListener(this);
         ll_doleggirth.setOnClickListener(this);
+        btn_sure.setOnClickListener(this);
+
+        iEntryHealthpresenter = new EntryHealthImpl(this);
+
     }
 
     @Override
@@ -127,6 +142,32 @@ public class HealthEntryActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.ll_doleggirth:
                 show_doleggirth_dialog();
+                break;
+            case R.id.btn_sure:
+                String weight = tv_weight.getText().toString();
+                String pysical = tv_pysical.getText().toString();
+                String fat =tv_fat.getText().toString();
+                String circum = tv_circum.getText().toString();
+                String waistline =tv_waistline.getText().toString();
+                String hiplie =tv_hiplie.getText().toString();
+                String uparmgirth =tv_uparmgirth.getText().toString();
+                String upleggirth = tv_upleggirth.getText().toString();
+                String doleggirth =tv_doleggirth.getText().toString();
+
+                healthModele = new HealthModel();
+                healthModele.setWeight(weight);
+                healthModele.setPysical(pysical);
+                healthModele.setFat(fat);
+                healthModele.setCircum(circum);
+                healthModele.setWaistline(waistline);
+                healthModele.setHiplie(hiplie);
+                healthModele.setUpArmGirth(uparmgirth);
+                healthModele.setUpLegGirth(upleggirth);
+                healthModele.setDoLegGirth(doleggirth);
+
+//                newstudentsModel.setWeight(Double.parseDouble(weight.equals("") ? "0" : weight));
+//                newstudentsModel.setPysical(Double.parseDouble(pysical.equals("") ? "0" : pysical));
+                iEntryHealthpresenter.entryhealthrecord(130,healthModele);
                 break;
         }
     }

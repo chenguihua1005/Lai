@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
@@ -15,6 +16,9 @@ import com.softtek.lai.module.bodygame.model.TotolModel;
 import com.softtek.lai.module.bodygame.presenter.ITiGuanSai;
 import com.softtek.lai.module.bodygame.presenter.TiGuanSaiImpl;
 import com.softtek.lai.module.bodygame.view.TipsActivity;
+import com.softtek.lai.module.counselor.view.CounselorClassListActivity;
+import com.softtek.lai.module.counselor.view.GameActivity;
+import com.softtek.lai.module.jingdu.view.JingduActivity;
 import com.softtek.lai.module.retest.view.RetestActivity;
 import com.softtek.lai.module.review.view.ReviewActivity;
 import com.squareup.picasso.Picasso;
@@ -27,30 +31,41 @@ import java.util.List;
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
-@InjectLayout(R.layout.activity_bodygame)
-public class BodygameActivity extends BaseActivity implements View.OnClickListener{
+@InjectLayout(R.layout.activity_bodygame_sr)
+public class BodygameSRActivity extends BaseActivity implements View.OnClickListener{
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.tv_title)
     TextView tv_title;
-    @InjectView(R.id.ll_tipzj)
-    LinearLayout ll_tipzj;
-    @InjectView(R.id.tv_fucenumzj)
-    TextView tv_fucenumzj;
+
     @InjectView(R.id.iv_advzj)
     ImageView iv_advzj;
-    @InjectView(R.id.ll_counselor_fucezj)
-    LinearLayout ll_counselor_fucezj;
     @InjectView(R.id.tv_totalzj)
     ImageView tv_totalzj;
     @InjectView(R.id.tv_total_losszj)
     TextView tv_total_losszj;
     @InjectView(R.id.tv_totalpersonzj)
     TextView tv_totalpersonzj;
+
     @InjectView(R.id.ll_review)
     LinearLayout ll_review;
     @InjectView(R.id.ll_tiguansai)
     LinearLayout ll_tiguansai;
+    @InjectView(R.id.ll_process)
+    LinearLayout ll_process;
+    @InjectView(R.id.ll_assistant)
+    LinearLayout ll_assistant;
+    @InjectView(R.id.ll_saikuang)
+    LinearLayout ll_saikuang;
+    @InjectView(R.id.ll_rongyu)
+    LinearLayout ll_rongyu;
+    @InjectView(R.id.ll_tips)
+    LinearLayout ll_tips;
+    @InjectView(R.id.tv_fucenumzj)
+    TextView tv_fucenumzj;
+    @InjectView(R.id.ll_fuce)
+    LinearLayout ll_fuce;
+
     UserInfoModel userInfoModel=UserInfoModel.getInstance();
     long loginid=Long.parseLong(userInfoModel.getUser().getUserid());
 
@@ -61,11 +76,15 @@ public class BodygameActivity extends BaseActivity implements View.OnClickListen
     protected void initViews() {
         EventBus.getDefault().register(this);
         ll_left.setOnClickListener(this);
-        ll_tipzj.setOnClickListener(this);
-        ll_counselor_fucezj.setOnClickListener(this);
         tv_totalzj.setOnClickListener(this);
+        ll_tips.setOnClickListener(this);
+        ll_fuce.setOnClickListener(this);
         ll_review.setOnClickListener(this);
         ll_tiguansai.setOnClickListener(this);
+        ll_process.setOnClickListener(this);
+        ll_saikuang.setOnClickListener(this);
+        ll_rongyu.setOnClickListener(this);
+        ll_assistant.setOnClickListener(this);
     }
 
     @Override
@@ -89,11 +108,11 @@ public class BodygameActivity extends BaseActivity implements View.OnClickListen
             case R.id.ll_left:
                 finish();
                 break;
-            case R.id.ll_tipzj:
+            case R.id.ll_tips:
                 Intent intent=new Intent(this,TipsActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.ll_counselor_fucezj:
+            case R.id.ll_fuce:
                 startActivity(new Intent(this, RetestActivity.class));
                 break;
             case R.id.tv_totalzj:
@@ -103,7 +122,22 @@ public class BodygameActivity extends BaseActivity implements View.OnClickListen
                 startActivity(new Intent(this, ReviewActivity.class));
                 break;
             case R.id.ll_tiguansai:
+                Intent zhujiao=new Intent(this, CounselorClassListActivity.class);
+                startActivity(zhujiao);
+                break;
+            case R.id.ll_process:
+                startActivity(new Intent(this, JingduActivity.class));
+                break;
+            case R.id.ll_saikuang:
+                //大赛赛况
+                startActivity(new Intent(this,GameActivity.class));
+                break;
+            case R.id.ll_rongyu:
+                //荣誉榜
 
+                break;
+            case R.id.ll_assistant:
+                //申请助教
                 break;
         }
     }

@@ -16,7 +16,7 @@ import zilla.libcore.api.ZillaApi;
 
 /**
  * Created by jerry.guan on 4/11/2016.
- * 
+ *
  */
 public class CommunityManager{
 

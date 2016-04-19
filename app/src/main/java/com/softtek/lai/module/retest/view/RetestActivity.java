@@ -40,7 +40,7 @@ import zilla.libcore.ui.InjectLayout;
  * Created by lareina.qiao on 3/18/2016.
  */
 @InjectLayout(R.layout.activity_retest)
-public class RetestActivity extends BaseActivity implements View.OnClickListener{
+public class  RetestActivity extends BaseActivity implements View.OnClickListener{
     private RetestPre retestPre;
     //标题栏
     @InjectView(R.id.tv_right)
@@ -83,14 +83,12 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
     protected void onCreate(Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
         super.onCreate(savedInstanceState);
-        System.out.println("dsadasdsadasda>>》》》》》》》》》》》》》》-----------");
         classAdapter=new ClassAdapter(this,banjiModelList);
         studentAdapter=new StudentAdapter(this,banjiStudentModelList);
         list_class.setAdapter(classAdapter);
 //        queryAdapter=new QueryAdapter(this,banjiStudentList);
 
 //        ListView listView=(ListView)findViewById(R.id.list_class);
-        System.out.println("dsadasdsadasda>>》》》》》》》》》》》》》》==============");
 
         list_query.setAdapter(studentAdapter);
         ll_classlist.setOnClickListener(this);

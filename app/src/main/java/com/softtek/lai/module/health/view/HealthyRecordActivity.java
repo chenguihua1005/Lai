@@ -1,5 +1,6 @@
 package com.softtek.lai.module.health.view;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,7 @@ import com.softtek.lai.module.health.adapter.HealthyRecordFragmentAdapter;
 import com.softtek.lai.module.health.model.HealthDateModel;
 import com.softtek.lai.module.health.presenter.HealthyRecordImpl;
 import com.softtek.lai.module.health.presenter.IHealthyRecord;
+import com.softtek.lai.module.healthrecords.view.HealthEntryActivity;
 import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
 import com.softtek.lai.module.retest.model.LaichModel;
 import com.softtek.lai.module.retest.present.RetestPre;

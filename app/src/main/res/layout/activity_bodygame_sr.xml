@@ -24,7 +24,7 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:id="@+id/iv_st_adv"
+                    android:id="@+id/iv_advzj"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop" />
@@ -54,7 +54,7 @@
                         android:textSize="14sp" />
 
                     <TextView
-                        android:id="@+id/tv_totalpersonst"
+                        android:id="@+id/tv_totalpersonzj"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
@@ -76,7 +76,7 @@
                     android:layout_marginLeft="40dp"
                     android:layout_marginRight="30dp"
                     android:layout_marginTop="21dp"
-                    android:gravity="center_vertical|center_horizontal"
+                    android:gravity="center_vertical"
                     android:orientation="vertical">
 
                     <TextView
@@ -87,7 +87,7 @@
                         android:textSize="14sp" />
 
                     <TextView
-                        android:id="@+id/tv_total_lossst"
+                        android:id="@+id/tv_total_losszj"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
@@ -102,10 +102,9 @@
                     android:gravity="center_vertical">
 
                     <ImageView
-                        android:id="@+id/im_refreshst"
+                        android:id="@+id/tv_totalzj"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:scaleType="fitCenter"
                         android:src="@drawable/refresh" />
                 </LinearLayout>
 
@@ -128,46 +127,37 @@
                         android:layout_marginRight="11dp"
                         android:orientation="horizontal"
                         android:padding="2dp">
-
                         <LinearLayout
+                            android:id="@+id/ll_tiguansai"
                             android:layout_width="0dp"
-                            android:layout_height="match_parent"
+                            android:layout_height="80dp"
                             android:layout_marginRight="2.5dp"
                             android:layout_weight="1">
-
-                            <FrameLayout
+                            <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="80dp">
+                                android:layout_height="match_parent"
+                                android:background="#F4F4F4"
+                                android:gravity="center|bottom"
+                                android:orientation="vertical">
 
-                                <LinearLayout
-                                    android:id="@+id/ll_st_jibenshuju"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:background="#F4F4F4"
-                                    android:gravity="center|bottom"
-                                    android:orientation="vertical">
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:background="@drawable/bt_tiguansai" />
 
-                                    <ImageView
-                                        android:layout_width="30dp"
-                                        android:layout_height="30dp"
-                                        android:background="@drawable/basedate" />
-
-                                    <TextView
-                                        android:id="@+id/bt_tiguansai"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginBottom="11dp"
-                                        android:background="@null"
-                                        android:padding="2dp"
-                                        android:text="@string/gamestA"
-                                        android:textColor="#666666"
-                                        android:textSize="16sp" />
-                                </LinearLayout>
-                            </FrameLayout>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="11dp"
+                                    android:background="@null"
+                                    android:padding="2dp"
+                                    android:text="@string/CounselorA"
+                                    android:textSize="16sp" />
+                            </LinearLayout>
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/ll_st_shangchuan"
+                            android:id="@+id/ll_review"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="2.5dp"
@@ -179,17 +169,15 @@
                             <ImageView
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
-                                android:src="@drawable/uploadphoto" />
+                                android:src="@drawable/bt_review" />
 
                             <TextView
-                                android:id="@+id/bt_review"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="11dp"
                                 android:background="@null"
                                 android:padding="2dp"
-                                android:text="@string/gamestB"
-                                android:textColor="#666666"
+                                android:text="@string/CounselorB"
                                 android:textSize="16sp" />
                         </LinearLayout>
                     </LinearLayout>
@@ -203,12 +191,12 @@
                         android:padding="2dp">
 
                         <LinearLayout
-                            android:id="@+id/ll_st_fuce"
+                            android:id="@+id/ll_fuce"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginRight="2.5dp"
+                            android:orientation="vertical"
                             android:layout_weight="1">
-
                             <FrameLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="80dp">
@@ -238,7 +226,7 @@
                                 </LinearLayout>
 
                                 <TextView
-                                    android:id="@+id/tv_st_num"
+                                    android:id="@+id/tv_fucenumzj"
                                     android:layout_width="20dp"
                                     android:layout_height="20dp"
                                     android:layout_gravity="right"
@@ -252,7 +240,7 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/ll_st_jianzhong"
+                            android:id="@+id/ll_process"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="2.5dp"
@@ -264,17 +252,15 @@
                             <ImageView
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
-                                android:src="@drawable/lossweight" />
+                                android:src="@drawable/bt_process" />
 
                             <TextView
-                                android:id="@+id/bt_process"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="11dp"
                                 android:background="@null"
                                 android:padding="2dp"
-                                android:text="@string/gamestD"
-                                android:textColor="#666666"
+                                android:text="@string/CounselorE"
                                 android:textSize="16sp" />
                         </LinearLayout>
 
@@ -289,45 +275,37 @@
                         android:padding="2dp">
 
                         <LinearLayout
-                            android:id="@+id/ll_st_chengjidan"
+                            android:id="@+id/ll_assistant"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginRight="2.5dp"
                             android:layout_weight="1">
 
-                            <FrameLayout
+                            <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="80dp">
+                                android:layout_height="80dp"
+                                android:background="#F4F4F4"
+                                android:gravity="center|bottom"
+                                android:orientation="vertical">
 
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:background="#F4F4F4"
-                                    android:gravity="center|bottom"
-                                    android:orientation="vertical">
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/btn_sr_assistant" />
 
-                                    <ImageView
-                                        android:layout_width="30dp"
-                                        android:layout_height="30dp"
-                                        android:src="@drawable/scorecard" />
-
-                                    <TextView
-                                        android:id="@+id/bt_match"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginBottom="11dp"
-                                        android:background="@null"
-                                        android:padding="2dp"
-                                        android:text="@string/gamestE"
-                                        android:textColor="#666666"
-                                        android:textSize="16sp" />
-                                </LinearLayout>
-
-                            </FrameLayout>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="11dp"
+                                    android:background="@null"
+                                    android:padding="2dp"
+                                    android:text="申请助教"
+                                    android:textSize="16sp" />
+                            </LinearLayout>
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/ll_st_rongyu"
+                            android:id="@+id/ll_rongyu"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="2.5dp"
@@ -342,7 +320,6 @@
                                 android:src="@drawable/bt_honor" />
 
                             <TextView
-                                android:id="@+id/btn_tip"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="11dp"
@@ -364,46 +341,38 @@
                         android:padding="2dp">
 
                         <LinearLayout
-                            android:id="@+id/ll_st_saikuang"
+                            android:id="@+id/ll_saikuang"
                             android:layout_width="0dp"
-                            android:layout_height="match_parent"
+                            android:layout_height="80dp"
                             android:layout_marginRight="2.5dp"
                             android:layout_weight="1">
 
-                            <FrameLayout
+                            <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="80dp">
+                                android:layout_height="match_parent"
+                                android:background="#F4F4F4"
+                                android:gravity="center|bottom"
+                                android:orientation="vertical">
 
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:background="#F4F4F4"
-                                    android:gravity="center|bottom"
-                                    android:orientation="vertical">
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/bt_match" />
 
-                                    <ImageView
-                                        android:layout_width="30dp"
-                                        android:layout_height="30dp"
-                                        android:src="@drawable/bt_match" />
-
-                                    <TextView
-
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginBottom="11dp"
-                                        android:background="@null"
-                                        android:padding="2dp"
-                                        android:text="@string/gamestG"
-                                        android:textColor="#666666"
-                                        android:textSize="16sp" />
-                                </LinearLayout>
-
-
-                            </FrameLayout>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="11dp"
+                                    android:background="@null"
+                                    android:padding="2dp"
+                                    android:text="@string/gamestG"
+                                    android:textColor="#666666"
+                                    android:textSize="16sp" />
+                            </LinearLayout>
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/ll_st_tipst"
+                            android:id="@+id/ll_tips"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginRight="2.5dp"
@@ -418,7 +387,6 @@
                                 android:src="@drawable/btn_tip" />
 
                             <TextView
-
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="11dp"

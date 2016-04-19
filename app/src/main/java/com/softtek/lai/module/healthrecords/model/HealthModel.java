@@ -5,6 +5,113 @@ package com.softtek.lai.module.healthrecords.model;
  */
 public class HealthModel {
     private String weight;
-    private String Physical;
+    private String pysical;
+    private String fat;
+    private String circum;
+    private String hiplie;
+    private String waistline;
+    private String upArmGirth;
+    private String upLegGirth;
+    private String doLegGirth;
 
+    public HealthModel(String weight, String pysical, String fat, String circum, String hiplie, String waistline, String upArmGirth, String upLegGirth, String doLegGirth) {
+        this.weight = weight;
+        this.pysical = pysical;
+        this.fat = fat;
+        this.circum = circum;
+        this.hiplie = hiplie;
+        this.waistline = waistline;
+        this.upArmGirth = upArmGirth;
+        this.upLegGirth = upLegGirth;
+        this.doLegGirth = doLegGirth;
+    }
+    public HealthModel() {
+
+    }
+    public String getWeight() {
+        return weight;
+    }
+
+    public void setWeight(String weight) {
+        this.weight = weight;
+    }
+
+    public String getPysical() {
+        return pysical;
+    }
+
+    public void setPysical(String pysical) {
+        this.pysical = pysical;
+    }
+
+    public String getFat() {
+        return fat;
+    }
+
+    public void setFat(String fat) {
+        this.fat = fat;
+    }
+
+    public String getCircum() {
+        return circum;
+    }
+
+    public void setCircum(String circum) {
+        this.circum = circum;
+    }
+
+    public String getHiplie() {
+        return hiplie;
+    }
+
+    public void setHiplie(String hiplie) {
+        this.hiplie = hiplie;
+    }
+
+    public String getWaistline() {
+        return waistline;
+    }
+
+    public void setWaistline(String waistline) {
+        this.waistline = waistline;
+    }
+
+    public String getUpArmGirth() {
+        return upArmGirth;
+    }
+
+    public void setUpArmGirth(String upArmGirth) {
+        this.upArmGirth = upArmGirth;
+    }
+
+    public String getUpLegGirth() {
+        return upLegGirth;
+    }
+
+    public void setUpLegGirth(String upLegGirth) {
+        this.upLegGirth = upLegGirth;
+    }
+
+    public String getDoLegGirth() {
+        return doLegGirth;
+    }
+
+    public void setDoLegGirth(String doLegGirth) {
+        this.doLegGirth = doLegGirth;
+    }
+
+    @Override
+    public String toString() {
+        return "HealthModel{" +
+                "weight='" + weight + '\'' +
+                ", pysical='" + pysical + '\'' +
+                ", fat='" + fat + '\'' +
+                ", circum='" + circum + '\'' +
+                ", hiplie='" + hiplie + '\'' +
+                ", waistline='" + waistline + '\'' +
+                ", upArmGirth='" + upArmGirth + '\'' +
+                ", upLegGirth='" + upLegGirth + '\'' +
+                ", doLegGirth='" + doLegGirth + '\'' +
+                '}';
+    }
 }
