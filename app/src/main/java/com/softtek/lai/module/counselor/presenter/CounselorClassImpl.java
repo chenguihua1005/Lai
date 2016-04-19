@@ -14,11 +14,14 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.counselor.adapter.CounselorClassAdapter;
 import com.softtek.lai.module.counselor.model.ClassIdModel;
 import com.softtek.lai.module.counselor.model.ClassInfoModel;
 import com.softtek.lai.module.counselor.net.CounselorService;
 import com.softtek.lai.module.counselor.view.AssistantListActivity;
+import com.softtek.lai.module.login.model.UserModel;
+
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -64,6 +67,8 @@ public class CounselorClassImpl implements ICounselorClassPresenter {
                             expand_lis.setVisibility(View.GONE);
                             img_mo_message.setVisibility(View.VISIBLE);
                         }
+                        UserModel user=UserInfoModel.getInstance().getUser();
+                        if(String.valueOf(Constants.SR).equals(user.getUserrole()))break;
                         Calendar calendar = Calendar.getInstance();
                         int year = calendar.get(Calendar.YEAR);
                         int monthOfYear = calendar.get(Calendar.MONTH) + 1;
@@ -93,6 +98,7 @@ public class CounselorClassImpl implements ICounselorClassPresenter {
                             }
                         }
                         System.out.println("count:" + count);
+
                         if (count == 2) {
                             lin_create_class.setVisibility(View.GONE);
                         } else {

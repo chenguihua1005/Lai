@@ -41,7 +41,6 @@ public class CounselorClassListActivity extends BaseActivity implements View.OnC
     @LifeCircleInject
     ValidateLife validateLife;
 
-
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
 

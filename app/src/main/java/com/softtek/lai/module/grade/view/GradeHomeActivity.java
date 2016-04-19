@@ -41,6 +41,7 @@ import com.softtek.lai.module.grade.model.GradeModel;
 import com.softtek.lai.module.grade.model.PeopleModel;
 import com.softtek.lai.module.grade.presenter.GradeImpl;
 import com.softtek.lai.module.grade.presenter.IGrade;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.SystemUtils;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
@@ -146,7 +147,8 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
         ll_invite_pc.setOnClickListener(this);
         ll_invite_sr.setOnClickListener(this);
         ll_send_dynamic.setOnClickListener(this);
-        if(review_flag==0){
+        UserModel user=UserInfoModel.getInstance().getUser();
+        if(review_flag==0||String.valueOf(Constants.SR).equals(user.getUserrole())){
             ll_footer.setVisibility(View.GONE);
             tv_editor.setVisibility(View.GONE);
         }
@@ -155,6 +157,9 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
         progressDialog = new ProgressDialog(this);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setMessage("正在加载内容...");
+        if(String.valueOf(Constants.SR).equals(user.getUserrole())){
+            ll_sr.setVisibility(View.GONE);
+        }
 
     }
 

@@ -1,15 +1,8 @@
-package com.softtek.lai.module.bodygame;
+package com.softtek.lai.module.bodygame.view;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.Interpolator;
-import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,26 +10,17 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.File.view.CreatFlleActivity;
-import com.softtek.lai.module.bodygame.eventmodel.TotalEventModel;
 import com.softtek.lai.module.bodygame.model.FuceNumModel;
 import com.softtek.lai.module.bodygame.model.TiGuanSaiModel;
 import com.softtek.lai.module.bodygame.model.TotolModel;
 import com.softtek.lai.module.bodygame.presenter.ITiGuanSai;
 import com.softtek.lai.module.bodygame.presenter.TiGuanSaiImpl;
-import com.softtek.lai.module.bodygamest.view.StudentHonorActivity;
-import com.softtek.lai.module.bodygame.view.TipsActivity;
-import com.softtek.lai.module.bodygamest.view.StudentScoreActivity;
-import com.softtek.lai.module.confirmInfo.view.CansaiActivity;
 import com.softtek.lai.module.counselor.view.AssistantActivity;
 import com.softtek.lai.module.counselor.view.CounselorClassListActivity;
 import com.softtek.lai.module.counselor.view.GameActivity;
-import com.softtek.lai.module.counselor.view.InviteStudentActivity;
 import com.softtek.lai.module.counselor.view.SPHonorActivity;
 import com.softtek.lai.module.jingdu.view.JingduActivity;
 import com.softtek.lai.module.newmemberentry.view.EntryActivity;
-import com.softtek.lai.module.retest.AuditActivity;
-import com.softtek.lai.module.retest.WriteActivity;
 import com.softtek.lai.module.retest.view.RetestActivity;
 import com.softtek.lai.module.review.view.ReviewActivity;
 import com.squareup.picasso.Picasso;
@@ -112,8 +96,6 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
         EventBus.getDefault().register(this);
         super.onCreate(savedInstanceState);
         //初始化事件总线，并注册当前类
-//        User user= (User) aCache.getAsObject(Constants.USER_ACACHE_KEY);
-//        user.getUserrole();
         //按钮监听
         ll_counselor_fuce.setOnClickListener(this);
         ll_left.setOnClickListener(this);
@@ -137,9 +119,6 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
 
     @Subscribe
     public void onEvent(TiGuanSaiModel tiGuanSai){
-        System.out.println("dsadasdsadasda>>》》》》》》》》》》》》》》"+tiGuanSai.getImg_Addr());
-        //Picasso.with(this).load().into(iv_adv);
-//        Picasso.with(getBaseContext()).load(tiGuanSai.getImg_Addr()).into(iv_adv);
         iv_adv.setScaleType(ImageView.ScaleType.CENTER_CROP);
         Picasso.with(this).load(tiGuanSai.getImg_Addr()).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_adv);
 
@@ -147,7 +126,6 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
     }
     @Subscribe
     public void onEvent1(FuceNumModel fuceNum){
-        System.out.println("dsadasdsadasda>>》》》》》》》》》》》》》》"+fuceNum.getCount());
         if (Integer.parseInt(fuceNum.getCount())>10)
         {
             tv_fucenum.setVisibility(View.VISIBLE);
@@ -161,7 +139,6 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
     }
     @Subscribe
     public void doGetTotol(List<TotolModel> totolModels){
-        System.out.println("dsadasdsadasda>>》》》》》》》》》》》》》》"+totolModels.get(0).getTotal_loss());
         tv_totalperson.setText(totolModels.get(0).getTotal_person());
         tv_total_loss.setText(totolModels.get(0).getTotal_loss());
     }
@@ -178,12 +155,6 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
         iTiGuanSai.getTiGuanSai();
         iTiGuanSai.doGetFuceNum(loginid);
         iTiGuanSai.doGetTotal();
-        int sp=px2sp(this,30);
-        Log.i("benbenbenben",sp+"");
-        int dp=px2dip(this,22);
-        Log.i("px转换dp为",dp+"");
-
-
     }
 
     @Override
@@ -193,7 +164,7 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
             //复测按钮点击跳转事件
             case R.id.ll_counselor_fuce:
             {
-                Intent intent=new Intent(CounselorActivity.this, RetestActivity.class);
+                Intent intent=new Intent(this, RetestActivity.class);
                 startActivity(intent);
 
 
@@ -222,9 +193,7 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
             break;
             case R.id.ll_honor:
             {
-//                Intent intent = new Intent(this, StudentHonorActivity.class);
-               Intent intent = new Intent(this, SPHonorActivity.class);
-//               Intent intent = new Intent(this, StudentScoreActivity.class);
+                Intent intent = new Intent(this, SPHonorActivity.class);
                 startActivity(intent);
                 Util.toastMsg("荣誉榜页面");
             }
@@ -246,7 +215,7 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
             //大赛赛况事件跳转
             case R.id.ll_match:
             {
-                Intent intent=new Intent(CounselorActivity.this,GameActivity.class);
+                Intent intent=new Intent(this,GameActivity.class);
                 startActivity(intent);
                 Util.toastMsg("大赛赛况页面");
             }
@@ -254,7 +223,7 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
             //提示事件跳转
             case R.id.ll_tip:
             {
-                Intent intent=new Intent(CounselorActivity.this,TipsActivity.class);
+                Intent intent=new Intent(this,TipsActivity.class);
                 startActivity(intent);
                 Util.toastMsg("提示页面");
             }
@@ -262,7 +231,7 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
             //助教管理跳转事件
             case R.id.ll_assistant:
             {
-                Intent intent=new Intent(CounselorActivity.this,AssistantActivity.class);
+                Intent intent=new Intent(this,AssistantActivity.class);
                 startActivity(intent);
                 Util.toastMsg("助教管理页面");
             }
@@ -295,57 +264,5 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
 
         }
     }
-
-        /**
-         * 将px值转换为dip或dp值，保证尺寸大小不变
-         *
-         * @param pxValue
-        / * @param scale
-         *            （DisplayMetrics类中属性density）
-         * @return
-         */
-        public  int px2dip(Context context, float pxValue) {
-            final float scale = context.getResources().getDisplayMetrics().density;
-            return (int) (pxValue / scale + 0.5f);
-        }
-
-        /**
-         * 将dip或dp值转换为px值，保证尺寸大小不变
-         *
-         * @param dipValue
-         /* @param scale
-         *            （DisplayMetrics类中属性density）
-         * @return
-         */
-        public  int dip2px(Context context, float dipValue) {
-            final float scale = context.getResources().getDisplayMetrics().density;
-            return (int) (dipValue * scale + 0.5f);
-        }
-
-        /**
-         * 将px值转换为sp值，保证文字大小不变
-         *
-         * @param pxValue
-        / * @param fontScale
-         *            （DisplayMetrics类中属性scaledDensity）
-         * @return
-         */
-        public  int px2sp(Context context, float pxValue) {
-            final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
-            return (int) (pxValue / fontScale + 0.5f);
-        }
-
-        /**
-         * 将sp值转换为px值，保证文字大小不变
-         *
-         * @param spValue
-        / * @param fontScale
-         *            （DisplayMetrics类中属性scaledDensity）
-         * @return
-         */
-        public  int sp2px(Context context, float spValue) {
-            final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
-            return (int) (spValue * fontScale + 0.5f);
-        }
 
 }

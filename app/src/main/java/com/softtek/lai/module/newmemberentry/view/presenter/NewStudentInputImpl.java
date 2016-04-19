@@ -10,7 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.bodygame.CounselorActivity;
+import com.softtek.lai.module.bodygame.view.CounselorActivity;
 import com.softtek.lai.module.newmemberentry.view.EntryActivity;
 import com.softtek.lai.module.newmemberentry.view.model.NewstudentsModel;
 import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
