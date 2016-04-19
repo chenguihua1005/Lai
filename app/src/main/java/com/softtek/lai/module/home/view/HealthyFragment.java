@@ -94,6 +94,7 @@ public class HealthyFragment extends BaseFragment implements View.OnClickListene
     private CharSequence[] items={"拍照","从相册选择照片"};
     private static final int OPEN_CAMERA_REQUEST=1;
     private static final int OPEN_PICTURE_REQUEST=2;
+    private static final int OPEN_SENDER_REQUEST=3;
     private static final String IMAGE_UPLOADS_DIR=Environment.getExternalStorageDirectory() + File.separator + "laiAppImage/";
     private File dir=new File(IMAGE_UPLOADS_DIR);
     private UploadImage uploadImage;
@@ -137,16 +138,23 @@ public class HealthyFragment extends BaseFragment implements View.OnClickListene
         if(resultCode== -1){//result_ok
             if(requestCode==OPEN_CAMERA_REQUEST){
                 uploadImage=new UploadImage(cameraPhoto, null);
+                Intent intent=new Intent(getContext(),EditPersonalDynamicActivity.class);//跳转到发布动态界面
+                intent.putExtra("uploadImage",uploadImage);
+                startActivityForResult(intent,OPEN_SENDER_REQUEST);
             }else if(requestCode==OPEN_PICTURE_REQUEST){
                 Uri originalUri=data.getData();
                 uploadImage=new UploadImage(
                         new File(SystemUtils.getPathForSystemPic(getContext(),
                                 originalUri)),
                         SystemUtils.getThumbnail(getContext(),originalUri,100,100));
+                Intent intent=new Intent(getContext(),EditPersonalDynamicActivity.class);//跳转到发布动态界面
+                intent.putExtra("uploadImage",uploadImage);
+                startActivityForResult(intent,OPEN_SENDER_REQUEST);
+            }else if(requestCode==OPEN_SENDER_REQUEST){
+                Log.i("健康圈我的发布完成返回");
+                ((MineHealthyFragment)fragments.get(1)).updateList();
             }
-            Intent intent=new Intent(getContext(),EditPersonalDynamicActivity.class);//跳转到发布动态界面
-            intent.putExtra("uploadImage",uploadImage);
-            startActivity(intent);
+
         }else if(resultCode==0){//返回取消
             uploadImage=null;
             FileUtils.deleteDir(dir);

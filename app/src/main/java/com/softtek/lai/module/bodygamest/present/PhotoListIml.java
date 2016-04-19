@@ -33,18 +33,18 @@ public class PhotoListIml implements PhotoListPre{
     }
 
     @Override
-    public void doGetDownPhoto(String AccountId,final ProgressDialog loadingDialog) {
+    public void doGetDownPhoto(String AccountId,int pageIndex,final ProgressDialog loadingDialog) {
         String token=SharedPreferenceService.getInstance().get("token","");
-        service.doGetDownPhoto(token, AccountId, new Callback<ResponseData<List<DownPhotoModel>>>() {
+        service.doGetDownPhoto(token, AccountId,pageIndex, new Callback<ResponseData<DownPhotoModel>>() {
             @Override
-            public void success(ResponseData<List<DownPhotoModel>> listResponseData, Response response) {
+            public void success(ResponseData<DownPhotoModel> listResponseData, Response response) {
                 loadingDialog.dismiss();
                 int status=listResponseData.getStatus();
                 switch (status)
                 {
 
                     case 200:
-                        EventBus.getDefault().post(new PhotoListEvent(listResponseData.getData()));
+                        EventBus.getDefault().post(listResponseData.getData());
                         Util.toastMsg("获取图片成功");
                         break;
                     case 500:

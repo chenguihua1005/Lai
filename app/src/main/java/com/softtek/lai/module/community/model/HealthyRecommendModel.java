@@ -11,7 +11,7 @@ public class HealthyRecommendModel {
     private  List<HealthyCommunityModel> HealthList;
 
     public String getTotalPage() {
-        return TotalPage;
+        return TotalPage==null||"".equals(TotalPage)?"0":TotalPage;
     }
 
     public void setTotalPage(String totalPage) {
@@ -24,5 +24,13 @@ public class HealthyRecommendModel {
 
     public void setHealthList(List<HealthyCommunityModel> healthList) {
         HealthList = healthList;
+    }
+
+    @Override
+    public String toString() {
+        return "HealthyRecommendModel{" +
+                "TotalPage='" + TotalPage + '\'' +
+                ", HealthList=" + HealthList +
+                '}';
     }
 }

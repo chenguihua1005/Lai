@@ -33,6 +33,7 @@ public class RetestAuditModel {
     private String IsFirst;
     private String Loss;
     private String TypeDate;
+    private String AMStatus;
 
     @Override
     public String toString() {
@@ -61,6 +62,7 @@ public class RetestAuditModel {
                 ", IsFirst='" + IsFirst + '\'' +
                 ", Loss='" + Loss + '\'' +
                 ", TypeDate='" + TypeDate + '\'' +
+                ", AMStatus='" + AMStatus + '\'' +
                 '}';
     }
 
@@ -132,8 +134,8 @@ public class RetestAuditModel {
         return Pysical;
     }
 
-    public void setPysical(String Pysical) {
-        this.Pysical = Pysical;
+    public void setPysical(String pysical) {
+        Pysical = pysical;
     }
 
     public String getFat() {
@@ -254,6 +256,14 @@ public class RetestAuditModel {
 
     public void setTypeDate(String typeDate) {
         TypeDate = typeDate;
+    }
+
+    public String getAMStatus() {
+        return AMStatus;
+    }
+
+    public void setAMStatus(String AMStatus) {
+        this.AMStatus = AMStatus;
     }
 
     public RetestAuditModel() {

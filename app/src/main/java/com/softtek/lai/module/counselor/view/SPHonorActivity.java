@@ -6,9 +6,11 @@
 package com.softtek.lai.module.counselor.view;
 
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -28,6 +30,7 @@ import com.softtek.lai.module.counselor.model.HonorTable1Model;
 import com.softtek.lai.module.counselor.model.HonorTableModel;
 import com.softtek.lai.module.counselor.presenter.HonorImpl;
 import com.softtek.lai.module.counselor.presenter.IHonorPresenter;
+import com.softtek.lai.module.studetail.view.StudentDetailActivity;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.SoftInputUtil;
 
@@ -98,6 +101,8 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
     private IHonorPresenter honorPresenter;
     private ACache aCache;
 
+    List<HonorTable1Model> honorTable1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,7 +122,7 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
     @Subscribe
     public void onEvent(HonorInfoModel honorInfo) {
         System.out.println("honorInfo:" + honorInfo);
-        List<HonorTable1Model> honorTable1 = honorInfo.getTable1();
+        honorTable1 = honorInfo.getTable1();
         List<HonorTableModel> honorTable = honorInfo.getTable();
         HonorStudentAdapter adapter = new HonorStudentAdapter(this, honorTable1);
         list_stars.setAdapter(adapter);
@@ -128,7 +133,7 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
             String num = honor.getNum().toString();
             String rank_num = honor.getRank_num().toString();
 
-            if(Integer.parseInt(rank_num)<=10){
+            if (Integer.parseInt(rank_num) <= 10) {
                 if ("rtest_rank".equals(rowname)) {
                     text_rtest.setText(num);
                     text_fc_mc.setText(rank_num);
@@ -147,7 +152,7 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
                     img_jzjs.setImageResource(R.drawable.img_sp_honor_jin);
                     text_jzjs_mc.setTextColor(getResources().getColor(R.color.word8));
                 }
-            }else {
+            } else {
                 if ("rtest_rank".equals(rowname)) {
                     text_rtest.setText(num);
                     text_fc_mc.setText(rank_num);
@@ -176,7 +181,14 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
     protected void initViews() {
         //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
         tv_title.setText(R.string.CounselorF);
-
+        list_stars.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                String accountId=honorTable1.get(position).getAccountId();
+//                Intent intent=new Intent(SPHonorActivity.this, StudentDetailActivity.class);
+//                intent.putExtra("userId",Long.parseLong(accountId));
+            }
+        });
     }
 
     @Override

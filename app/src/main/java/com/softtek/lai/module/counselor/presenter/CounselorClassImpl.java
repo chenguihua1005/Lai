@@ -12,15 +12,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.counselor.adapter.CounselorClassAdapter;
 import com.softtek.lai.module.counselor.model.ClassIdModel;
 import com.softtek.lai.module.counselor.model.ClassInfoModel;
 import com.softtek.lai.module.counselor.net.CounselorService;
 import com.softtek.lai.module.counselor.view.AssistantListActivity;
-import com.softtek.lai.module.login.model.UserModel;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -29,6 +28,7 @@ import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.util.Util;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -47,9 +47,9 @@ public class CounselorClassImpl implements ICounselorClassPresenter {
 
 
     @Override
-    public void getClassList(String classtype,final ListView expand_lis, final LinearLayout lin_create_class, final ImageView img_mo_message) {
+    public void getClassList(String classtype, final ListView expand_lis, final LinearLayout lin_create_class, final ImageView img_mo_message) {
         String token = UserInfoModel.getInstance().getToken();
-        counselorService.getClassList(token, classtype,new Callback<ResponseData<List<ClassInfoModel>>>() {
+        counselorService.getClassList(token, classtype, new Callback<ResponseData<List<ClassInfoModel>>>() {
 
             @Override
             public void success(ResponseData<List<ClassInfoModel>> listResponseData, Response response) {
@@ -58,17 +58,23 @@ public class CounselorClassImpl implements ICounselorClassPresenter {
                 List<ClassInfoModel> list = listResponseData.getData();
                 switch (status) {
                     case 200:
-                        CounselorClassAdapter adapter = new CounselorClassAdapter(context, list);
+                        List<ClassInfoModel> lists = new ArrayList<ClassInfoModel>();
+                        for (int i = 0; i < list.size(); i++) {
+                            ClassInfoModel classInfoModel = list.get(i);
+                            String type = classInfoModel.getClassStatus();
+                            if (!"1".equals(type)) {
+                                lists.add(classInfoModel);
+                            }
+                        }
+                        CounselorClassAdapter adapter = new CounselorClassAdapter(context, lists);
                         expand_lis.setAdapter(adapter);
-                        if (list.size() > 0) {
+                        if (lists.size() > 0) {
                             expand_lis.setVisibility(View.VISIBLE);
                             img_mo_message.setVisibility(View.GONE);
                         } else {
                             expand_lis.setVisibility(View.GONE);
                             img_mo_message.setVisibility(View.VISIBLE);
                         }
-                        UserModel user=UserInfoModel.getInstance().getUser();
-                        if(String.valueOf(Constants.SR).equals(user.getUserrole()))break;
                         Calendar calendar = Calendar.getInstance();
                         int year = calendar.get(Calendar.YEAR);
                         int monthOfYear = calendar.get(Calendar.MONTH) + 1;
@@ -79,10 +85,10 @@ public class CounselorClassImpl implements ICounselorClassPresenter {
                             nextMonth = monthOfYear + 1;
                         }
                         int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-                        System.out.println("list--------------" + list);
+                        System.out.println("lists--------------" + lists);
                         int count = 0;
-                        for (int i = 0; i < list.size(); i++) {
-                            ClassInfoModel classInfo = list.get(i);
+                        for (int i = 0; i < lists.size(); i++) {
+                            ClassInfoModel classInfo = lists.get(i);
                             String str[] = classInfo.getStartDate().toString().split("-");
                             if (str[1].equals(monthOfYear + "") || str[1].equals("0" + monthOfYear)) {
                                 System.out.println("当前月已开班" + str[1]);
@@ -98,7 +104,6 @@ public class CounselorClassImpl implements ICounselorClassPresenter {
                             }
                         }
                         System.out.println("count:" + count);
-
                         if (count == 2) {
                             lin_create_class.setVisibility(View.GONE);
                         } else {

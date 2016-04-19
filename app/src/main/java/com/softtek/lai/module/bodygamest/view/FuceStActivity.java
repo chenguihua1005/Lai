@@ -201,7 +201,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         retestWrite=new RetestWriteModel();
         retestAuditModel=new RetestAuditModel();
         measureModel=new MeasureModel();
-        retestPre.GetUserMeasuredInfo(moblie);
+
 //        boolean laichenSwitch= SharedPreferenceService.getInstance().get(LAI_CHEN_SWITCH_KEY1,false);
 //        selectlaichenst.setChecked(laichenSwitch);
 //        if(selectlaichenst.isChecked()){
@@ -307,22 +307,44 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         tv_writest_monen.setText(currEnd[1]);
         tv_writest_dayen.setText(currEnd[2]);
         tv_writest_classweek.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getWeekth());
-        Picasso.with(this).load(retestAuditModelEvent.getRetestAuditModels().get(0).getPhoto()).placeholder(R.drawable.img_default).error(R.drawable.img_default).into(iv_writest_head);
+        if(!TextUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getPhoto())) {
+            Picasso.with(this).load(retestAuditModelEvent.getRetestAuditModels().get(0).getPhoto()).placeholder(R.drawable.img_default).error(R.drawable.img_default).into(iv_writest_head);
+        }
+        else {
+            Picasso.with(this).load("www").placeholder(R.drawable.img_default).error(R.drawable.img_default).into(iv_writest_head);
+        }
+
+        if (retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("1")||retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("0"))
+        {
+            tv_retestWrites_nowweight.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getWeight());
+            tv_retestWritest_tizhi.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getPysical());
+            tv_retestWritest_neizhi.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getFat());
+            retestWrite.setCircum(retestAuditModelEvent.getRetestAuditModels().get(0).getCircum());
+            retestWrite.setWaistline(retestAuditModelEvent.getRetestAuditModels().get(0).getWaistline());
+            retestWrite.setHiplie(retestAuditModelEvent.getRetestAuditModels().get(0).getHiplie());
+            retestWrite.setUpArmGirth(retestAuditModelEvent.getRetestAuditModels().get(0).getUpArmGirth());
+            retestWrite.setUpLegGirth(retestAuditModelEvent.getRetestAuditModels().get(0).getUpLegGirth());
+            retestWrite.setDoLegGirth(retestAuditModelEvent.getRetestAuditModels().get(0).getDoLegGirth());
+        }
+        else {
+            retestPre.GetUserMeasuredInfo(moblie);
+
+        }
     }
-    @Subscribe
-    public void eventst(MeasureModel measureModel1){
-        measureModel=measureModel1;
-        Log.i("username"+measureModel.getUsername());
-        tv_retestWrites_nowweight.setText(measureModel.getMeasureddata().getItems().get(0).getWeight());
-        tv_retestWritest_tizhi.setText(measureModel.getMeasureddata().getItems().get(0).getBodyfat());
-        tv_retestWritest_neizhi.setText(measureModel.getMeasureddata().getItems().get(0).getVisceralfatindex());
-        retestWrite.setCircum(measureModel.getChestgirth());
-        retestWrite.setWaistline(measureModel.getWaistgirth());
-        retestWrite.setHiplie(measureModel.getHipgirth());
-        retestWrite.setUpArmGirth(measureModel.getUpperarmgirth());
-        retestWrite.setUpLegGirth(measureModel.getThighgirth());
-        retestWrite.setDoLegGirth(measureModel.getCalfgirth());
-    }
+//    @Subscribe
+//    public void eventst(MeasureModel measureModel1){
+//        measureModel=measureModel1;
+//        Log.i("username"+measureModel.getUsername());
+//        tv_retestWrites_nowweight.setText(measureModel.getMeasureddata().getItems().get(0).getWeight());
+//        tv_retestWritest_tizhi.setText(measureModel.getMeasureddata().getItems().get(0).getBodyfat());
+//        tv_retestWritest_neizhi.setText(measureModel.getMeasureddata().getItems().get(0).getVisceralfatindex());
+//        retestWrite.setCircum(measureModel.getChestgirth());
+//        retestWrite.setWaistline(measureModel.getWaistgirth());
+//        retestWrite.setHiplie(measureModel.getHipgirth());
+//        retestWrite.setUpArmGirth(measureModel.getUpperarmgirth());
+//        retestWrite.setUpLegGirth(measureModel.getThighgirth());
+//        retestWrite.setDoLegGirth(measureModel.getCalfgirth());
+//    }
     @Subscribe
     public void doGetPhotost(PhotModel photModel) {
         System.out.println("照片名称" + photModel.getImg());
