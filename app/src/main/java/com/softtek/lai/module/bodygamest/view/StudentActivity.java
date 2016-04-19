@@ -18,6 +18,7 @@ import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame.model.FuceNumModel;
 import com.softtek.lai.module.bodygame.model.TiGuanSaiModel;
 import com.softtek.lai.module.bodygame.model.TotolModel;
@@ -87,6 +88,8 @@ public class StudentActivity extends BaseActivity implements View.OnClickListene
     //提示
     @InjectView(R.id.ll_st_tipst)
     LinearLayout ll_st_tipst;
+    UserInfoModel userInfoModel=UserInfoModel.getInstance();
+    long loginid=Long.parseLong(userInfoModel.getUser().getUserid());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,7 +125,7 @@ public class StudentActivity extends BaseActivity implements View.OnClickListene
         tv_title.setText("体管赛（学员版）");
         tiGuanSai = new TiGuanSaiImpl();
         tiGuanSai.getTiGuanSai();
-        tiGuanSai.doGetFuceNum(36);
+        tiGuanSai.doGetFuceNum(loginid);
         tiGuanSai.doGetTotal();
         studentImpl=new StudentImpl(this);
 
