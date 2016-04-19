@@ -40,8 +40,6 @@ public class HealthyRecordActivity extends BaseActivity implements View.OnClickL
     LinearLayout ll_left;
     @InjectView(R.id.tv_title)
     TextView tv_title;
-    @InjectView(R.id.tv_right)
-    TextView tv_right;
 
     @InjectView(R.id.tab)
     TabLayout tab;
@@ -59,7 +57,6 @@ public class HealthyRecordActivity extends BaseActivity implements View.OnClickL
     protected void initViews() {
         EventBus.getDefault().register(this);
         ll_left.setOnClickListener(this);
-        tv_right.setOnClickListener(this);
         tv_title.setText("历史数据");
         retestPre=new RetestclassImp();
         retestPre.GetUserMeasuredInfo(moblie);
@@ -110,9 +107,6 @@ public class HealthyRecordActivity extends BaseActivity implements View.OnClickL
         switch (v.getId()){
             case R.id.ll_left:
                 finish();
-                break;
-            case R.id.tv_right:
-                startActivity(new Intent(this, HealthEntryActivity.class));
                 break;
         }
     }

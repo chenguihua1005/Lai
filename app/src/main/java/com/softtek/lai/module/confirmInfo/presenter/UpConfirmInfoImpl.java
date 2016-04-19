@@ -55,8 +55,6 @@ public class UpConfirmInfoImpl implements IUpConfirmInfopresenter{
                     case 200:
                         EventBus.getDefault().post(new ConinfoEvent(getConfirmInfoModelResponseData.getData()));
                         System.out.println(getConfirmInfoModelResponseData);
-
-
                         System.out.println("getConfirmInfoModelResponseData:"+getConfirmInfoModelResponseData);
                         Util.toastMsg("读取信息成功");
                         break;
