@@ -16,7 +16,7 @@ import android.widget.ListView;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.bodygamezj.view.BodygameActivity;
+import com.softtek.lai.module.bodygamezj.view.BodygameSRActivity;
 import com.softtek.lai.module.confirmInfo.view.CansaiActivity;
 import com.softtek.lai.module.counselor.adapter.GameAdapter;
 import com.softtek.lai.module.counselor.model.MarchInfoModel;
@@ -210,7 +210,7 @@ public class MessageImpl implements IMessagePresenter {
                 switch (status) {
                     case 200:
                         if ("1".equals(acceptType)) {
-                            Intent intent = new Intent(context, BodygameActivity.class);
+                            Intent intent = new Intent(context, BodygameSRActivity.class);
                             context.startActivity(intent);
                             ((AppCompatActivity) context).finish();
                         }else {

@@ -23,7 +23,6 @@ import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.bodygamest.view.StudentActivity;
 import com.softtek.lai.module.message.adapter.MessageFcRemindAdapter;
 import com.softtek.lai.module.message.adapter.MessageRemoveSrRemindAdapter;
 import com.softtek.lai.module.message.model.MeasureRemindInfo;
