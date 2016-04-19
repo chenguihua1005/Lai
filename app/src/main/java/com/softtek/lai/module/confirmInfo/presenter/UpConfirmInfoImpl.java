@@ -2,12 +2,14 @@ package com.softtek.lai.module.confirmInfo.presenter;
 
 
 import android.content.Context;
+import android.content.Intent;
 
 import retrofit.mime.TypedFile;
 import zilla.libcore.util.Util;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.module.bodygame.view.CounselorActivity;
 import com.softtek.lai.module.confirmInfo.EventModel.ConinfoEvent;
 import com.softtek.lai.module.confirmInfo.model.ConinfoModel;
 import com.softtek.lai.module.confirmInfo.model.GetConfirmInfoModel;
@@ -53,8 +55,6 @@ public class UpConfirmInfoImpl implements IUpConfirmInfopresenter{
                     case 200:
                         EventBus.getDefault().post(new ConinfoEvent(getConfirmInfoModelResponseData.getData()));
                         System.out.println(getConfirmInfoModelResponseData);
-
-
                         System.out.println("getConfirmInfoModelResponseData:"+getConfirmInfoModelResponseData);
                         Util.toastMsg("读取信息成功");
                         break;
@@ -83,6 +83,9 @@ public class UpConfirmInfoImpl implements IUpConfirmInfopresenter{
                 int status = coninfoModelResponseData.getStatus();
                 switch (status) {
                     case 200:
+                        Intent intent = new Intent(context,CounselorActivity.class);
+                        context.startActivity(intent);
+                        ((CounselorActivity) context).finish();
                         Util.toastMsg("修改成功");
                         break;
                     case 500:
@@ -121,7 +124,6 @@ public class UpConfirmInfoImpl implements IUpConfirmInfopresenter{
 
             @Override
             public void failure(RetrofitError error) {
-
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }

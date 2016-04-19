@@ -5,11 +5,8 @@
 
 package com.softtek.lai.module.home.view;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -29,16 +26,11 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.jpush.JpushSet;
-import com.softtek.lai.module.File.view.CreatFlleActivity;
-import com.softtek.lai.module.bodygame.CounselorActivity;
+import com.softtek.lai.module.bodygame.view.CounselorActivity;
 import com.softtek.lai.module.bodygamecc.view.BodyGameCcActivity;
-import com.softtek.lai.module.bodygamest.view.StudentActivity;
-import com.softtek.lai.module.bodygamest.view.StudentHonorGridActivity;
+import com.softtek.lai.module.bodygamest.view.BodyGamePCActivity;
 import com.softtek.lai.module.bodygameyk.view.BodygameYkActivity;
-import com.softtek.lai.module.bodygamezj.view.BodygameActivity;
-import com.softtek.lai.module.counselor.view.ApplyAssistantActivity;
-import com.softtek.lai.module.counselor.view.SPHonorActivity;
+import com.softtek.lai.module.bodygamezj.view.BodygameSRActivity;
 import com.softtek.lai.module.home.adapter.FragementAdapter;
 import com.softtek.lai.module.home.adapter.ModelAdapter;
 import com.softtek.lai.module.home.eventModel.HomeEvent;
@@ -47,12 +39,7 @@ import com.softtek.lai.module.home.presenter.HomeInfoImpl;
 import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.login.view.RegistActivity;
-import com.softtek.lai.module.lossweightstory.view.LossWeightStoryActivity;
-import com.softtek.lai.module.message.presenter.IMessagePresenter;
-import com.softtek.lai.module.message.presenter.MessageImpl;
 import com.softtek.lai.module.message.view.MessageActivity;
-import com.softtek.lai.module.retest.present.RetestPre;
-import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.CustomGridView;
 import com.softtek.lai.widgets.RollHeaderView;
@@ -64,15 +51,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
-import cn.jpush.android.api.JPushInterface;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 /**
  * Created by jerry.guan on 3/15/2016.
+ *
  */
 @InjectLayout(R.layout.fragment_home)
-public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetChangedListener, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener, View.OnClickListener {
+public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetChangedListener, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener ,View.OnClickListener{
 
     @InjectView(R.id.toolbar)
     Toolbar toolbar;
@@ -101,39 +88,31 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     TextView tv_right;
     @InjectView(R.id.tv_left)
     TextView tv_left;
-    @InjectView(R.id.img_red)
-    ImageView img_red;
     @InjectView(R.id.iv_email)
     ImageView iv_email;
     @InjectView(R.id.fl_right)
     FrameLayout fl_right;
-    private ACache aCache;
 
     private IHomeInfoPresenter homeInfoPresenter;
-    private IMessagePresenter messagePresenter;
 
     private List<String> advList = new ArrayList<>();
     private List<HomeInfoModel> records = new ArrayList<>();
-    private List<HomeInfoModel> products = new ArrayList<>();
-    private List<HomeInfoModel> sales = new ArrayList<>();
-    private RetestPre retestPre;
-    private MessageReceiver mMessageReceiver;
-
-    private List<Fragment> fragments = new ArrayList<>();
-
+   /* private List<HomeInfoModel> products = new ArrayList<>();
+    private List<HomeInfoModel> sales = new ArrayList<>();*/
+    private List<Fragment> fragments=new ArrayList<>();
     @Override
     protected void initViews() {
         tv_left.setVisibility(View.INVISIBLE);
         iv_email.setBackgroundResource(R.drawable.email);
         fl_right.setOnClickListener(this);
         iv_email.setOnClickListener(this);
-        ActivityRecordFragment recordFragment = new ActivityRecordFragment();
+        ActivityRecordFragment recordFragment=new ActivityRecordFragment();
         /*ProductInfoFragment productInfoFragment=new ProductInfoFragment();
         SaleInfoFragment saleInfoFragment=new SaleInfoFragment();*/
         fragments.add(recordFragment);
         /*fragments.add(productInfoFragment);
         fragments.add(saleInfoFragment);*/
-        page.setAdapter(new FragementAdapter(getFragmentManager(), fragments));
+        page.setAdapter(new FragementAdapter(getFragmentManager(),fragments));
         page.setOffscreenPageLimit(3);
         //设置tabLayout和viewpage关联
         tab.setupWithViewPager(page);
@@ -145,15 +124,12 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                 android.R.color.holo_orange_light,
                 android.R.color.holo_green_light);
         pull.setOnRefreshListener(this);
-
-        registerMessageReceiver();
-
     }
 
     @Override
     protected void initDatas() {
         tv_title.setText("莱聚+");
-        img_red.setVisibility(View.GONE);
+
         //载入缓存数据
         homeInfoPresenter.loadCacheData();
         gv_model.setAdapter(new ModelAdapter(getContext()));
@@ -192,7 +168,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
             }
         }
         rhv_adv.setImgUrlData(advList);
-        ((ActivityRecordFragment) fragments.get(0)).updateInfo(records);
+        ((ActivityRecordFragment)fragments.get(0)).updateInfo(records);
         /*((ProductInfoFragment)fragments.get(1)).updateInfo(products);
         ((SaleInfoFragment)fragments.get(2)).updateInfo(sales);*/
 
@@ -203,7 +179,6 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
         homeInfoPresenter = new HomeInfoImpl(getContext());
-        messagePresenter = new MessageImpl(getContext());
     }
 
     @Override
@@ -238,8 +213,6 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     public void onRefresh() {
         System.out.println("正在加载......");
         homeInfoPresenter.getHomeInfoData(pull);
-        String id = UserInfoModel.getInstance().getUser().getUserid();
-        messagePresenter.getMessageRead(id, img_red);
     }
 
 
@@ -248,42 +221,40 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
      */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        /*startActivity(new Intent(getContext(), LossWeightStoryActivity.class));
-        if(1==1){
-            return;
-        }*/
-        UserInfoModel userInfoModel = UserInfoModel.getInstance();
-        int role = Integer.parseInt(userInfoModel.getUser().getUserrole());
 //        startActivity(new Intent(getContext(), LossWeightStoryActivity.class));
 //        if(1==1){
 //            return;
 //        }
+        UserInfoModel userInfoModel=UserInfoModel.getInstance();
+        int role=Integer.parseInt(userInfoModel.getUser().getUserrole());
         ////判断当前用户是否拥有此按钮权限
-        if (userInfoModel.hasPower(position)) {
+        if(userInfoModel.hasPower(position)){
             //如果有则判断更具具体角色进入相应的页面
             switch (position) {
                 case Constants.BODY_GAME:
                     intoBodyGamePage(role);
                     break;
                 case Constants.LAI_YUNDONG:
-                    startActivity(new Intent(getContext(), StudentActivity.class));
+                    //startActivity(new Intent(getContext(), StudentActivity.class));
+                    new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
                     break;
                 case Constants.OFFICE:
-                    //retestPre=new RetestclassImp();
-                    // retestPre.doPostClient("client_credentials","shhcieurjfn734js","qieow8572jkcv");
+                    new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
                     break;
                 case Constants.LAI_EXCLE:
-                    startActivity(new Intent(getContext(), CounselorActivity.class));
+                    new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
+                    //startActivity(new Intent(getContext(), CounselorActivity.class));
                     break;
                 case Constants.LAI_SHOP:
-                    startActivity(new Intent(getContext(), CreatFlleActivity.class));
+                    new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
+                    //startActivity(new Intent(getContext(), CreatFlleActivity.class));
                     break;
             }
 
-        } else {
+        }else{
             //如果本身没有该按钮权限则根据不同身份提示用户，进行下一步操作
-            AlertDialog.Builder information_dialog = null;
-            switch (Integer.parseInt(userInfoModel.getUser().getUserrole())) {
+            AlertDialog.Builder information_dialog=null;
+            switch (Integer.parseInt(userInfoModel.getUser().getUserrole())){
                 case Constants.VR:
                     //游客若没有此功能，可能是未登录，提示请先登录
                     information_dialog = new AlertDialog.Builder(getContext());
@@ -294,8 +265,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                         }
                     }).setNegativeButton("稍候", new DialogInterface.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
+                        public void onClick(DialogInterface dialog, int which) {}
                     }).create().show();
                     break;
                 case Constants.NC:
@@ -310,8 +280,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                         }
                     }).setNegativeButton("稍候", new DialogInterface.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
+                        public void onClick(DialogInterface dialog, int which) {}
                     }).create().show();
                     break;
                 case Constants.SR:
@@ -325,14 +294,13 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
 
     /**
      * 根据角色进入相应的体管赛页面
-     *
      * @param role
      * @return
      */
-    private void intoBodyGamePage(int role) {
+    private void intoBodyGamePage(int role){
         //受邀未认证成功就是普通用户，认证成功就是高级用户
-        AlertDialog.Builder information_dialog = null;
-        if (role == Constants.VR) {
+        AlertDialog.Builder information_dialog=null;
+        if(role== Constants.VR){
             //提示用户让他注册或者直接进入2个功能的踢馆赛模块
             information_dialog = new AlertDialog.Builder(getContext());
             information_dialog.setTitle("您当前处于游客模式，需要注册认证").setPositiveButton("现在注册", new DialogInterface.OnClickListener() {
@@ -346,7 +314,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                     startActivity(new Intent(getContext(), BodygameYkActivity.class));
                 }
             }).create().show();
-        } else if (role == Constants.NC) {
+        }else if(role==Constants.NC){
             //提示用户让他进行身份认证否则进入2个功能的踢馆赛模块
             information_dialog = new AlertDialog.Builder(getContext());
             information_dialog.setTitle("参加体管赛需进行身份认证").setPositiveButton("现在认证", new DialogInterface.OnClickListener() {
@@ -361,16 +329,16 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
 
                 }
             }).create().show();
-        } else if (role == Constants.INC) {
+        }else if(role==Constants.INC){
             //提示用户让他进行身份认证否则进入2个功能的踢馆赛模块
             Util.toastMsg("受邀普通顾客");
-        } else if (role == Constants.PC) {
+        }else if(role==Constants.PC){
             //直接进入踢馆赛学员版
-            startActivity(new Intent(getContext(), StudentActivity.class));
-        } else if (role == Constants.SR) {
+            startActivity(new Intent(getContext(),BodyGamePCActivity.class));
+        }else if(role==Constants.SR){
             //进入踢馆赛助教版
-            startActivity(new Intent(getContext(), BodygameActivity.class));
-        } else if (role == Constants.SP) {
+            startActivity(new Intent(getContext(), BodygameSRActivity.class));
+        }else if(role==Constants.SP){
             //进入踢馆赛顾问版
             startActivity(new Intent(getContext(), CounselorActivity.class));
 
@@ -379,32 +347,10 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
+        switch (v.getId()){
             case R.id.iv_email:
-//                               startActivity(new Intent(getContext(), SPHonorActivity.class));
                 startActivity(new Intent(getContext(), MessageActivity.class));
                 break;
-        }
-    }
-
-    public void registerMessageReceiver() {
-        mMessageReceiver = new MessageReceiver();
-        IntentFilter filter = new IntentFilter();
-        filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
-        filter.addAction(Constants.MESSAGE_RECEIVED_ACTION);
-        getActivity().registerReceiver(mMessageReceiver, filter);
-    }
-
-    public class MessageReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (Constants.MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {
-                String messge = intent.getStringExtra(Constants.KEY_MESSAGE);
-                String extras = intent.getStringExtra(Constants.KEY_EXTRAS);
-                System.out.println("messge:" + messge + "   extras" + extras);
-                img_red.setVisibility(View.VISIBLE);
-            }
         }
     }
 }

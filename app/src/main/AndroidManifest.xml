@@ -105,7 +105,7 @@
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".module.retest.view.RetestActivity" />
         <activity android:name=".module.login.view.TermActivity" />
-        <activity android:name=".module.bodygame.CounselorActivity" />
+        <activity android:name=".module.bodygame.view.CounselorActivity" />
         <activity
             android:name=".module.grade.view.GradeHomeActivity"
             android:configChanges="orientation|keyboardHidden" />
@@ -113,7 +113,7 @@
         <activity android:name=".module.grade.view.StudentsActivity" />
         <activity android:name=".module.studetail.view.StudentDetailActivity" />
         <activity android:name=".module.retest.view.QueryActivity" />
-        <activity android:name=".module.bodygamest.view.StudentActivity" />
+        <activity android:name=".module.bodygamest.view.BodyGamePCActivity" />
         <activity android:name=".module.bodygamest.view.StudentHonorActivity" />
         <activity android:name=".module.bodygamest.view.StudentHonorGridActivity" />
         <activity android:name=".module.bodygamest.view.StudentScoreActivity" />
@@ -169,7 +169,7 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".module.studentbasedate.view.StudentBaseDateActivity" />
-        <activity android:name=".module.bodygamezj.view.BodygameActivity" />
+        <activity android:name=".module.bodygamezj.view.BodygameSRActivity" />
         <activity android:name=".module.bodygamecc.view.BodyGameCcActivity" />
         <activity android:name=".module.bodygameyk.view.BodygameYkActivity" />
         <activity android:name=".module.review.view.ReviewActivity" />

@@ -161,7 +161,6 @@ public class TiGuanSaiImpl implements ITiGuanSai {
                 {
                     case 200:
                         EventBus.getDefault().post(listResponseData.getData());
-                        Util.toastMsg("数据加载成功");
                         break;
                     default:
                         Util.toastMsg(listResponseData.getMsg());

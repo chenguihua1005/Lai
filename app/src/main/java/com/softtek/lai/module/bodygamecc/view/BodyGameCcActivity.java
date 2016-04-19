@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame.model.TotolModel;
 import com.softtek.lai.module.bodygame.presenter.ITiGuanSai;
 import com.softtek.lai.module.bodygame.presenter.TiGuanSaiImpl;
@@ -46,6 +47,8 @@ public class BodyGameCcActivity extends BaseActivity implements View.OnClickList
     @InjectView(R.id.tv_totalpersoncc)
     TextView tv_totalpersoncc;
     private ITiGuanSai iTiGuanSai;
+    UserInfoModel userInfoModel=UserInfoModel.getInstance();
+    long loginid=Long.parseLong(userInfoModel.getUser().getUserid());
     @Override
     protected void initViews() {
         EventBus.getDefault().register(this);

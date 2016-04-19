@@ -21,6 +21,15 @@ public class HomeInfoModel implements Serializable {
     private String Img_Addr;//图片路径
 
     private String Img_Content;//详情
+    private String BannerType;
+
+    public String getBannerType() {
+        return BannerType;
+    }
+
+    public void setBannerType(String bannerType) {
+        BannerType = bannerType;
+    }
 
     public String getImg_Type() {
         return Img_Type;
