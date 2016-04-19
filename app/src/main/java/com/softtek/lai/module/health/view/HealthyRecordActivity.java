@@ -1,5 +1,6 @@
 package com.softtek.lai.module.health.view;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import com.softtek.lai.module.health.adapter.HealthyRecordFragmentAdapter;
 import com.softtek.lai.module.health.model.HealthDateModel;
 import com.softtek.lai.module.health.presenter.HealthyRecordImpl;
 import com.softtek.lai.module.health.presenter.IHealthyRecord;
+import com.softtek.lai.module.healthrecords.view.HealthEntryActivity;
 import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.module.retest.present.RetestclassImp;
@@ -38,6 +40,8 @@ public class HealthyRecordActivity extends BaseActivity implements View.OnClickL
     LinearLayout ll_left;
     @InjectView(R.id.tv_title)
     TextView tv_title;
+    @InjectView(R.id.tv_right)
+    TextView tv_right;
 
     @InjectView(R.id.tab)
     TabLayout tab;
@@ -55,6 +59,7 @@ public class HealthyRecordActivity extends BaseActivity implements View.OnClickL
     protected void initViews() {
         EventBus.getDefault().register(this);
         ll_left.setOnClickListener(this);
+        tv_right.setOnClickListener(this);
         tv_title.setText("历史数据");
         retestPre=new RetestclassImp();
         retestPre.GetUserMeasuredInfo(moblie);
@@ -105,6 +110,9 @@ public class HealthyRecordActivity extends BaseActivity implements View.OnClickL
         switch (v.getId()){
             case R.id.ll_left:
                 finish();
+                break;
+            case R.id.tv_right:
+                startActivity(new Intent(this, HealthEntryActivity.class));
                 break;
         }
     }

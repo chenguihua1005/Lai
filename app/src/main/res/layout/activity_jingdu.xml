@@ -139,25 +139,38 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="15dp">
-                    <ImageView
-                        android:layout_marginRight="5dp"
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/pic_oneban"/>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:layout_marginRight="5dp"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/pic_noneban"/>
+                        <ImageView
+                            android:id="@+id/img_oneban"
+                            android:layout_marginRight="5dp"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:scaleType="fitCenter"
+                            android:visibility="invisible"
+                            android:src="@drawable/pic_oneban"/>
+                    </RelativeLayout>
+
                     <TextView
                         android:id="@+id/tv_classname1"
-                        android:layout_marginRight="10dp"
-                        android:layout_width="wrap_content"
+                        android:layout_width="80dp"
                         android:layout_height="wrap_content"
-                        android:text="1月班减重"
+                        android:text="未开班"
                         android:textColor="#6f6f6f"
                         android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/tv_oneban"
                         android:layout_marginRight="2dp"
-                        android:layout_width="wrap_content"
+                        android:layout_width="50dp"
                         android:layout_height="wrap_content"
                         android:textColor="#333333"
                         android:textSize="18sp"
@@ -167,7 +180,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="12sp"
-                        android:text="kg" />
+                        android:text="斤" />
 
 
                 </LinearLayout>
@@ -178,25 +191,36 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="15dp">
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
                     <ImageView
                         android:layout_marginRight="5dp"
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:scaleType="fitCenter"
+                        android:src="@drawable/pic_noneban"/>
+                    <ImageView
+                        android:id="@+id/img_twoban"
+                        android:layout_marginRight="5dp"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:scaleType="fitCenter"
+                        android:visibility="invisible"
                         android:src="@drawable/pic_twoban"/>
+                    </RelativeLayout>
                     <TextView
                         android:id="@+id/tv_classname2"
-                        android:layout_marginRight="10dp"
-                        android:layout_width="wrap_content"
+                        android:layout_width="80dp"
                         android:layout_height="wrap_content"
-                        android:text="2月班减重"
+                        android:text="未开班"
                         android:textColor="#6f6f6f"
                         android:textSize="12sp"/>
 
                     <TextView
                         android:id="@+id/tv_twoban"
                         android:layout_marginRight="2dp"
-                        android:layout_width="wrap_content"
+                        android:layout_width="50dp"
                         android:layout_height="wrap_content"
                         android:textColor="#333333"
                         android:textSize="18sp"
@@ -206,7 +230,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="12sp"
-                        android:text="kg" />
+                        android:text="斤" />
 
 
                 </LinearLayout>
@@ -216,25 +240,36 @@
                     android:gravity="center|left"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
                     <ImageView
                         android:layout_marginRight="5dp"
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:scaleType="fitCenter"
+                        android:src="@drawable/pic_noneban"/>
+                    <ImageView
+                        android:id="@+id/img_threeban"
+                        android:layout_marginRight="5dp"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:scaleType="fitCenter"
+                        android:visibility="invisible"
                         android:src="@drawable/pic_threeban"/>
+                    </RelativeLayout>
                     <TextView
                         android:id="@+id/tv_classname3"
-                        android:layout_marginRight="10dp"
-                        android:layout_width="wrap_content"
+                        android:layout_width="80dp"
                         android:layout_height="wrap_content"
-                        android:text="3月班减重"
+                        android:text="未开班"
                         android:textColor="#6f6f6f"
                         android:textSize="12sp"/>
 
                     <TextView
                         android:id="@+id/tv_threeban"
                         android:layout_marginRight="2dp"
-                        android:layout_width="wrap_content"
+                        android:layout_width="50dp"
                         android:layout_height="wrap_content"
                         android:textColor="#333333"
                         android:textSize="18sp"
@@ -244,7 +279,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="12sp"
-                        android:text="kg" />
+                        android:text="斤" />
 
                 </LinearLayout>
 

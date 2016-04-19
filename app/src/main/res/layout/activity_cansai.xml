@@ -32,7 +32,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="#000000"
                         android:textSize="16sp"
-                        android:text="姓名:"/>
+                        android:text="姓名"/>
                     <EditText
                         android:id="@+id/et_name"
                         android:layout_width="0dp"
@@ -41,7 +41,7 @@
                         android:background="@null"
                         android:textCursorDrawable="@drawable/color_cursor"
                         android:textSize="16sp"
-                        android:textColor="#cccccc"
+                        android:textColor="#999999"
                         android:singleLine="true" />
                 </LinearLayout>
                 <View
@@ -60,7 +60,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="#000000"
                         android:textSize="16sp"
-                        android:text="生日:"/>
+                        android:text="生日"/>
                     <TextView
                         android:id="@+id/tv_birthday"
                         android:layout_width="0dp"
@@ -68,6 +68,7 @@
                         android:layout_height="wrap_content"
                         android:textCursorDrawable="@drawable/color_cursor"
                         android:textSize="16sp"
+                        android:textColor="#999999"
                         android:background="@null"
                         android:singleLine="true" />
                 </LinearLayout>
@@ -87,7 +88,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="#000000"
                         android:textSize="16sp"
-                        android:text="性别:"/>
+                        android:text="性别"/>
                     <TextView
                         android:id="@+id/tv_sex"
                         android:layout_width="0dp"
@@ -95,6 +96,7 @@
                         android:layout_height="wrap_content"
                         android:textCursorDrawable="@drawable/color_cursor"
                         android:textSize="16sp"
+                        android:textColor="#999999"
                         android:background="@null"
                         android:singleLine="true" />
                 </LinearLayout>
@@ -114,7 +116,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="#000000"
                         android:textSize="16sp"
-                        android:text="手机号码:"/>
+                        android:text="手机号码"/>
 
                     <EditText
                         android:id="@+id/et_mobile"
@@ -124,7 +126,7 @@
                         android:background="@null"
                         android:textCursorDrawable="@drawable/color_cursor"
                         android:textSize="16sp"
-                        android:textColor="#cccccc"
+                        android:textColor="#999999"
                         android:singleLine="true" />
                 </LinearLayout>
                 <View
@@ -144,7 +146,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="#000000"
                         android:textSize="16sp"
-                        android:text="参赛班级:"/>
+                        android:text="参赛班级"/>
 
                     <TextView
                         android:id="@+id/tv_classname"
@@ -152,7 +154,7 @@
                         android:layout_weight="0.7"
                         android:layout_height="wrap_content"
                         android:background="@null"
-                        android:textColor="#cccccc"
+                        android:textColor="#999999"
                         android:textCursorDrawable="@drawable/color_cursor"
                         android:textSize="16sp"
                         android:singleLine="true" />
@@ -173,7 +175,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="#000000"
                         android:textSize="16sp"
-                        android:text="初始体重："/>
+                        android:text="初始体重"/>
                     <TextView
                         android:id="@+id/tv_weight"
                         android:layout_width="0dp"
@@ -181,6 +183,7 @@
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:textSize="16sp"
+                        android:textColor="#999999"
                         android:textCursorDrawable="@drawable/color_cursor"
                         android:singleLine="true" />
                 </LinearLayout>
@@ -200,16 +203,16 @@
                         android:layout_height="wrap_content"
                         android:textColor="#000000"
                         android:textSize="16sp"
-                        android:text="体脂："/>
-                    <TextView
-                        android:id="@+id/tv_pysical"
+                        android:text="体脂"/>
+                    <EditText
+                        android:id="@+id/et_pysical"
                         android:layout_width="0dp"
                         android:layout_weight="0.7"
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:textSize="16sp"
                         android:textCursorDrawable="@drawable/color_cursor"
-                        android:textColor="#cccccc"
+                        android:textColor="#999999"
                         android:singleLine="true" />
                 </LinearLayout>
                 <View
@@ -228,15 +231,15 @@
                         android:layout_height="wrap_content"
                         android:textColor="#000000"
                         android:textSize="16sp"
-                        android:text="内脂："/>
-                    <TextView
-                        android:id="@+id/tv_fat"
+                        android:text="内脂"/>
+                    <EditText
+                        android:id="@+id/et_fat"
                         android:layout_width="0dp"
                         android:layout_weight="0.7"
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:textSize="16sp"
-                        android:textColor="#cccccc"
+                        android:textColor="#999999"
                         android:textCursorDrawable="@drawable/color_cursor"
                         android:singleLine="true" />
                 </LinearLayout>
@@ -257,7 +260,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="#000000"
                         android:textSize="16sp"
-                        android:text="胸围:"/>
+                        android:text="胸围"/>
 
                     <TextView
                         android:id="@+id/tv_circum"
@@ -267,7 +270,7 @@
                         android:background="@null"
                         android:textCursorDrawable="@drawable/color_cursor"
                         android:textSize="16sp"
-                        android:textColor="#cccccc"
+                        android:textColor="#999999"
                         android:singleLine="true" />
 
                 </LinearLayout>
@@ -287,7 +290,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="#000000"
                         android:textSize="16sp"
-                        android:text="腰围:"/>
+                        android:text="腰围"/>
 
                     <TextView
                         android:id="@+id/tv_waistline"
@@ -297,7 +300,7 @@
                         android:background="@null"
                         android:textCursorDrawable="@drawable/color_cursor"
                         android:textSize="16sp"
-                        android:textColor="#cccccc"
+                        android:textColor="#999999"
                         android:singleLine="true" />
 
                 </LinearLayout>
@@ -317,7 +320,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="#000000"
                         android:textSize="16sp"
-                        android:text="臀围:"/>
+                        android:text="臀围"/>
 
                     <TextView
                         android:id="@+id/tv_hiplie"
@@ -327,7 +330,7 @@
                         android:background="@null"
                         android:textCursorDrawable="@drawable/color_cursor"
                         android:textSize="16sp"
-                        android:textColor="#cccccc"
+                        android:textColor="#999999"
                         android:singleLine="true" />
 
                 </LinearLayout>
@@ -347,7 +350,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="#000000"
                         android:textSize="16sp"
-                        android:text="上臂围:"/>
+                        android:text="上臂围"/>
 
                     <TextView
                         android:id="@+id/tv_uparmgirth"
@@ -357,7 +360,7 @@
                         android:background="@null"
                         android:textCursorDrawable="@drawable/color_cursor"
                         android:textSize="16sp"
-                        android:textColor="#cccccc"
+                        android:textColor="#999999"
                         android:singleLine="true" />
 
                 </LinearLayout>
@@ -377,7 +380,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="#000000"
                         android:textSize="16sp"
-                        android:text="大腿围:"/>
+                        android:text="大腿围"/>
 
                     <TextView
                         android:id="@+id/tv_upleggirth"
@@ -387,7 +390,7 @@
                         android:background="@null"
                         android:textCursorDrawable="@drawable/color_cursor"
                         android:textSize="16sp"
-                        android:textColor="#cccccc"
+                        android:textColor="#999999"
                         android:singleLine="true" />
 
                 </LinearLayout>
@@ -407,7 +410,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="#000000"
                         android:textSize="16sp"
-                        android:text="小腿围:"/>
+                        android:text="小腿围"/>
 
                     <TextView
                         android:id="@+id/tv_doleggirth"
@@ -417,7 +420,7 @@
                         android:background="@null"
                         android:textCursorDrawable="@drawable/color_cursor"
                         android:textSize="16sp"
-                        android:textColor="#cccccc"
+                        android:textColor="#999999"
                         android:singleLine="true" />
 
                 </LinearLayout>
@@ -440,7 +443,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:hint="照片上传"
-                            android:textSize="16sp" />
+                            android:textColor="#000000"
+                            android:textSize="16sp"/>
                     </LinearLayout>
                     <LinearLayout
                         android:orientation="vertical"
@@ -513,7 +517,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="155dp"
+                android:layout_marginTop="255dp"
                 android:orientation="vertical">
                 <ListView
                     android:id="@+id/list_cansaibanji"
