@@ -6,8 +6,10 @@
 package com.softtek.lai.module.login.view;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -29,6 +31,7 @@ import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.jpush.JpushSet;
 import com.softtek.lai.module.File.view.CreatFlleActivity;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.login.presenter.ILoginPresenter;
@@ -50,6 +53,7 @@ import com.umeng.socialize.weixin.media.CircleShareContent;
 import com.umeng.socialize.weixin.media.WeiXinShareContent;
 
 import butterknife.InjectView;
+import cn.jpush.android.api.JPushInterface;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.exit.AppManager;
 import zilla.libcore.lifecircle.validate.ValidateLife;

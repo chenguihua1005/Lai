@@ -60,6 +60,12 @@ public class StudentHonorStarAdapter extends BaseAdapter {
         }
         StudentHonorInfo studentHonorInfo=list.get(position);
         holder.text_value.setText(studentHonorInfo.getValue().toString());
+        String time=studentHonorInfo.getCreateDate();
+        String[] str1=time.split(" ");
+        String[] str=str1[0].split("-");
+        holder.text_value1.setText(str[0]+"/"+str[1]+"/"+str[2]);
+
+
 
         return convertView;
     }

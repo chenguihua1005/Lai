@@ -6,6 +6,7 @@ package com.softtek.lai.module.bodygamest.model;
 public class StudentHonorInfo {
     private String HonorType;       //奖章类型	0:减重奖章,1:复测奖章,2:月冠军,3:全国排名
     private String HonorName;       //奖章名称
+    private String CreateDate;       //时间
     private String HonorStatus;       //是否点亮	True:点亮，False:未点亮
     private String Value;       //奖章级别	   例：减重奖章:5,10,15
                                                 //复测奖章:1,2,3
@@ -18,6 +19,14 @@ public class StudentHonorInfo {
         HonorName = honorName;
         HonorStatus = honorStatus;
         Value = value;
+    }
+
+    public String getCreateDate() {
+        return CreateDate;
+    }
+
+    public void setCreateDate(String createDate) {
+        CreateDate = createDate;
     }
 
     public String getHonorType() {
@@ -52,11 +61,20 @@ public class StudentHonorInfo {
         Value = value;
     }
 
+    public StudentHonorInfo(String honorType, String honorName, String createDate, String honorStatus, String value) {
+        HonorType = honorType;
+        HonorName = honorName;
+        CreateDate = createDate;
+        HonorStatus = honorStatus;
+        Value = value;
+    }
+
     @Override
     public String toString() {
         return "StudentHonorInfo{" +
                 "HonorType='" + HonorType + '\'' +
                 ", HonorName='" + HonorName + '\'' +
+                ", CreateDate='" + CreateDate + '\'' +
                 ", HonorStatus='" + HonorStatus + '\'' +
                 ", Value='" + Value + '\'' +
                 '}';

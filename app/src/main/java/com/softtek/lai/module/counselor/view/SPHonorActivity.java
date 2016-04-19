@@ -9,10 +9,13 @@ package com.softtek.lai.module.counselor.view;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import butterknife.InjectView;
+
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
@@ -27,8 +30,10 @@ import com.softtek.lai.module.counselor.presenter.HonorImpl;
 import com.softtek.lai.module.counselor.presenter.IHonorPresenter;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.SoftInputUtil;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
@@ -54,17 +59,40 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
     @InjectView(R.id.text_servernum)
     TextView text_servernum;
 
+    @InjectView(R.id.text_fwrs_top)
+    TextView text_fwrs_top;
+
+    @InjectView(R.id.text_fwrs_mc)
+    TextView text_fwrs_mc;
+
     @InjectView(R.id.text_weight)
     TextView text_weight;
+
+    @InjectView(R.id.text_jzjs_top)
+    TextView text_jzjs_top;
+
+    @InjectView(R.id.text_jzjs_mc)
+    TextView text_jzjs_mc;
 
     @InjectView(R.id.text_rtest)
     TextView text_rtest;
 
-    @InjectView(R.id.text_starnum)
-    TextView text_starnum;
+    @InjectView(R.id.text_fc_top)
+    TextView text_fc_top;
+
+    @InjectView(R.id.text_fc_mc)
+    TextView text_fc_mc;
+
 
     @InjectView(R.id.list_stars)
     ListView list_stars;
+
+    @InjectView(R.id.img_fwrs)
+    ImageView img_fwrs;
+    @InjectView(R.id.img_jzjs)
+    ImageView img_jzjs;
+    @InjectView(R.id.img_fc)
+    ImageView img_fc;
 
 
     private IHonorPresenter honorPresenter;
@@ -99,14 +127,45 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
             String rowname = honor.getRowname().toString();
             String num = honor.getNum().toString();
             String rank_num = honor.getRank_num().toString();
-            if ("rtest_rank".equals(rowname)) {
-                text_rtest.setText(num + "/" + rank_num);
-            } else if ("servernum_rank".equals(rowname)) {
-                text_servernum.setText(num + "/" + rank_num);
-            } else if ("starnum_rank".equals(rowname)) {
-                text_starnum.setText(num + "/" + rank_num);
-            } else if ("weight_rank".equals(rowname)) {
-                text_weight.setText(num + "/" + rank_num);
+
+            if(Integer.parseInt(rank_num)<=10){
+                if ("rtest_rank".equals(rowname)) {
+                    text_rtest.setText(num);
+                    text_fc_mc.setText(rank_num);
+                    img_fc.setImageResource(R.drawable.img_sp_honor_jin);
+                    text_fc_mc.setTextColor(getResources().getColor(R.color.word8));
+                } else if ("servernum_rank".equals(rowname)) {
+                    text_servernum.setText(num);
+                    text_fwrs_mc.setText(rank_num);
+                    img_fwrs.setImageResource(R.drawable.img_sp_honor_jin);
+                    text_fwrs_mc.setTextColor(getResources().getColor(R.color.word8));
+                } else if ("starnum_rank".equals(rowname)) {
+                    //text_starnum.setText(num + "/" + rank_num);
+                } else if ("weight_rank".equals(rowname)) {
+                    text_weight.setText(num);
+                    text_jzjs_mc.setText(rank_num);
+                    img_jzjs.setImageResource(R.drawable.img_sp_honor_jin);
+                    text_jzjs_mc.setTextColor(getResources().getColor(R.color.word8));
+                }
+            }else {
+                if ("rtest_rank".equals(rowname)) {
+                    text_rtest.setText(num);
+                    text_fc_mc.setText(rank_num);
+                    img_fc.setImageResource(R.drawable.img_sp_honor_yin);
+                    text_fc_mc.setTextColor(getResources().getColor(R.color.word7));
+                } else if ("servernum_rank".equals(rowname)) {
+                    text_servernum.setText(num);
+                    text_fwrs_mc.setText(rank_num);
+                    img_fwrs.setImageResource(R.drawable.img_sp_honor_yin);
+                    text_fwrs_mc.setTextColor(getResources().getColor(R.color.word7));
+                } else if ("starnum_rank".equals(rowname)) {
+                    //text_starnum.setText(num + "/" + rank_num);
+                } else if ("weight_rank".equals(rowname)) {
+                    text_weight.setText(num);
+                    text_jzjs_mc.setText(rank_num);
+                    img_jzjs.setImageResource(R.drawable.img_sp_honor_yin);
+                    text_jzjs_mc.setTextColor(getResources().getColor(R.color.word7));
+                }
             }
         }
 

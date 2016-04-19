@@ -44,11 +44,19 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/img_join_game_select"/>
             <TextView
+                android:id="@+id/text_zqs"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/messageMargin1"
                 android:text="@string/joinGameP"/>
+            <TextView
+                android:id="@+id/text_zqs1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/textCursor"
+                android:text="@string/joinGameR"/>
         </LinearLayout>
         <Button
             android:id="@+id/but_yes"

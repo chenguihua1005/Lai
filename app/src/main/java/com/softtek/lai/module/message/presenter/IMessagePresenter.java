@@ -5,6 +5,7 @@
 
 package com.softtek.lai.module.message.presenter;
 
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.softtek.lai.common.ResponseData;
@@ -20,7 +21,7 @@ import retrofit.http.Header;
 public interface IMessagePresenter {
 
     //消息中心消息列表
-    void getMsgList();
+    void getMsgList(String accountid);
 
     //PC接受参赛要求
     void acceptInviterToClass(String inviters, String classId, String acceptType, MessageDetailInfo messageDetailInfo);
@@ -35,6 +36,6 @@ public interface IMessagePresenter {
     void delNoticeOrMeasureMsg(String messageId);
 
     //主页是否有提示消息
-    void getMessageRead(String accountID);
+    void getMessageRead(String accountID,ImageView img_red);
 
 }

@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.File.view.CreatFlleActivity;
 import com.softtek.lai.module.bodygame.eventmodel.TotalEventModel;
 import com.softtek.lai.module.bodygame.model.FuceNumModel;
@@ -103,6 +104,8 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
     private ITiGuanSai iTiGuanSai;
     private TiGuanSaiModel tiGuanSai;
     private FuceNumModel fuceNumModel;
+    UserInfoModel userInfoModel=UserInfoModel.getInstance();
+    long loginid=Long.parseLong(userInfoModel.getUser().getUserid());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,7 +176,7 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
     protected void initDatas() {
         iTiGuanSai=new TiGuanSaiImpl();
         iTiGuanSai.getTiGuanSai();
-        iTiGuanSai.doGetFuceNum(36);
+        iTiGuanSai.doGetFuceNum(loginid);
         iTiGuanSai.doGetTotal();
         int sp=px2sp(this,30);
         Log.i("benbenbenben",sp+"");

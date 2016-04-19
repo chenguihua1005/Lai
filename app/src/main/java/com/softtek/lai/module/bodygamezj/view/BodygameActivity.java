@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame.model.FuceNumModel;
 import com.softtek.lai.module.bodygame.model.TiGuanSaiModel;
 import com.softtek.lai.module.bodygame.model.TotolModel;
@@ -50,6 +51,8 @@ public class BodygameActivity extends BaseActivity implements View.OnClickListen
     LinearLayout ll_review;
     @InjectView(R.id.ll_tiguansai)
     LinearLayout ll_tiguansai;
+    UserInfoModel userInfoModel=UserInfoModel.getInstance();
+    long loginid=Long.parseLong(userInfoModel.getUser().getUserid());
 
 
     private ITiGuanSai iTiGuanSai;
@@ -70,7 +73,7 @@ public class BodygameActivity extends BaseActivity implements View.OnClickListen
         tv_title.setText("体管赛（助教版）");
         iTiGuanSai=new TiGuanSaiImpl();
         iTiGuanSai.getTiGuanSai();
-        iTiGuanSai.doGetFuceNum(36);
+        iTiGuanSai.doGetFuceNum(loginid);
         iTiGuanSai.doGetTotal();
     }
     @Override
