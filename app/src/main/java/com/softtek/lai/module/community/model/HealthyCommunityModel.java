@@ -13,19 +13,10 @@ public class HealthyCommunityModel {
     private String UserName;
     private String Photo;
     private String minetype;
-    private String imgCollectionFirst;
     private String imgCollection;
     private String IsPraise;
     private String PraiseNum;
     private String usernameSet;
-
-    public String getImgCollectionFirst() {
-        return imgCollectionFirst;
-    }
-
-    public void setImgCollectionFirst(String imgCollectionFirst) {
-        this.imgCollectionFirst = imgCollectionFirst;
-    }
 
     public String getImgCollection() {
         return imgCollection;
@@ -125,7 +116,6 @@ public class HealthyCommunityModel {
                 ", UserName='" + UserName + '\'' +
                 ", Photo='" + Photo + '\'' +
                 ", minetype='" + minetype + '\'' +
-                ", imgCollectionFirst='" + imgCollectionFirst + '\'' +
                 ", imgCollection='" + imgCollection + '\'' +
                 ", IsPraise='" + IsPraise + '\'' +
                 ", PraiseNum='" + PraiseNum + '\'' +

@@ -26,7 +26,6 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.File.view.CreatFlleActivity;
 import com.softtek.lai.module.bodygame.CounselorActivity;
 import com.softtek.lai.module.bodygamecc.view.BodyGameCcActivity;
 import com.softtek.lai.module.bodygamest.view.StudentActivity;
@@ -40,10 +39,7 @@ import com.softtek.lai.module.home.presenter.HomeInfoImpl;
 import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.login.view.RegistActivity;
-import com.softtek.lai.module.lossweightstory.view.LossWeightStoryActivity;
 import com.softtek.lai.module.message.view.MessageActivity;
-import com.softtek.lai.module.retest.present.RetestPre;
-import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.CustomGridView;
 import com.softtek.lai.widgets.RollHeaderView;
@@ -96,15 +92,13 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     ImageView iv_email;
     @InjectView(R.id.fl_right)
     FrameLayout fl_right;
-    private ACache aCache;
 
     private IHomeInfoPresenter homeInfoPresenter;
 
     private List<String> advList = new ArrayList<>();
     private List<HomeInfoModel> records = new ArrayList<>();
-    private List<HomeInfoModel> products = new ArrayList<>();
-    private List<HomeInfoModel> sales = new ArrayList<>();
-    private RetestPre retestPre;
+   /* private List<HomeInfoModel> products = new ArrayList<>();
+    private List<HomeInfoModel> sales = new ArrayList<>();*/
     private List<Fragment> fragments=new ArrayList<>();
     @Override
     protected void initViews() {
@@ -241,17 +235,19 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                     intoBodyGamePage(role);
                     break;
                 case Constants.LAI_YUNDONG:
-                    startActivity(new Intent(getContext(), StudentActivity.class));
+                    //startActivity(new Intent(getContext(), StudentActivity.class));
+                    new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
                     break;
                 case Constants.OFFICE:
-                    //retestPre=new RetestclassImp();
-                    // retestPre.doPostClient("client_credentials","shhcieurjfn734js","qieow8572jkcv");
+                    new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
                     break;
                 case Constants.LAI_EXCLE:
-                    startActivity(new Intent(getContext(), CounselorActivity.class));
+                    new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
+                    //startActivity(new Intent(getContext(), CounselorActivity.class));
                     break;
                 case Constants.LAI_SHOP:
-                    startActivity(new Intent(getContext(), CreatFlleActivity.class));
+                    new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
+                    //startActivity(new Intent(getContext(), CreatFlleActivity.class));
                     break;
             }
 

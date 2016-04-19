@@ -20,7 +20,6 @@ import com.softtek.lai.module.lossweightstory.adapter.LossWeightStoryAdapter;
 import com.softtek.lai.module.lossweightstory.model.LogList;
 import com.softtek.lai.module.lossweightstory.model.LossWeightStoryModel;
 import com.softtek.lai.module.lossweightstory.presenter.LossWeightStoryManager;
-import com.softtek.lai.module.studetail.view.LogDetailActivity;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
