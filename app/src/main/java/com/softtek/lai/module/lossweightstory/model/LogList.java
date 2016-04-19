@@ -38,7 +38,7 @@ public class LogList {
     }
 
     public String getTotalPage() {
-        return TotalPage;
+        return TotalPage==null||"".equals(TotalPage)?"0":TotalPage;
     }
 
     public void setTotalPage(String totalPage) {

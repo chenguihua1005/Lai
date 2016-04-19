@@ -14,7 +14,7 @@
     <RelativeLayout
         android:id="@+id/rel_item"
         android:layout_width="fill_parent"
-        android:layout_height="105dip"
+        android:layout_height="80dip"
         android:layout_marginLeft="@dimen/margin"
         android:layout_marginRight="@dimen/margin">
 
@@ -36,18 +36,18 @@
                 android:textSize="@dimen/textSize5" />
 
             <TextView
-                android:id="@+id/text_people_count"
+                android:id="@+id/text_class_time"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="15dip"
+                android:layout_marginTop="@dimen/applyAssistantMarginTop"
                 android:gravity="left"
                 android:text="default"
-                android:textColor="@color/word"
+                android:textColor="@color/word6"
                 android:textSize="@dimen/textSize1" />
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/lin_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -56,22 +56,28 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/text_apply"
+                android:layout_width="60dip"
+                android:layout_height="29dip"
+                android:layout_gravity="center"
+                android:background="@drawable/bg_login_btn"
+                android:gravity="center"
+                android:text="申请"
+                android:textColor="@color/white"
+                android:textSize="@dimen/counselorClassTextSize" />
+
+            <TextView
                 android:id="@+id/text_state"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="60dip"
+                android:layout_height="29dip"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="即将开始"
-                android:textColor="@color/green1"
-                android:textSize="@dimen/textSize1" />
+                android:text="已申请"
+                android:textColor="@color/green"
+                android:textSize="@dimen/counselorClassTextSize"
+                android:visibility="gone"/>
 
-            <ImageView
-                android:id="@+id/img_more"
-                android:layout_width="20dip"
-                android:layout_height="20dip"
-                android:layout_marginLeft="8dip"
-                android:src="@drawable/green_more" />
-        </LinearLayout>
+        </RelativeLayout>
 
 
     </RelativeLayout>

@@ -2,6 +2,7 @@ package com.softtek.lai.module.lossweightstory.presenter;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 
 import com.github.snowdream.android.util.Log;
@@ -127,6 +128,9 @@ public class NewStoryManager implements Runnable{
                 @Override
                 public void success(ResponseData responseData, Response response) {
                     if(progressDialog!=null)progressDialog.dismiss();
+                    Intent intent=((AppCompatActivity)context).getIntent();
+                    //intent.putExtra("story",model);
+                    ((AppCompatActivity)context).setResult(-1,intent);
                     ((AppCompatActivity)context).finish();
                     Util.toastMsg(responseData.getMsg());
                 }

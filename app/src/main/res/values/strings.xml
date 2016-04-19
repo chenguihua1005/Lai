@@ -134,6 +134,7 @@
     <string name="phoneOr">手机号/资格证号</string>
     <string name="assistantManage">助教管理</string>
     <string name="assistantDetail">助教详情</string>
+    <string name="applyAssistant">助教申请</string>
     <string name="createClass">创建班级</string>
     <string name="joinGame">参赛邀请</string>
     <string name="share">分享</string>

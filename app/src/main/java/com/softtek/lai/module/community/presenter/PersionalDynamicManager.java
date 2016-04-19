@@ -2,6 +2,7 @@ package com.softtek.lai.module.community.presenter;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 
 import com.github.snowdream.android.util.Log;
@@ -92,13 +93,13 @@ public class PersionalDynamicManager implements Runnable{
                 }
 
                 @Override
-                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                    super.onFailure(statusCode, headers, responseString, throwable);
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                    Log.i("上传失败");
                     photos=null;
                     latch.countDown();
-                    Util.toastMsg(responseString);
-                    throwable.printStackTrace();
+                    super.onFailure(statusCode, headers, throwable, errorResponse);
                 }
+
             });
 
         } catch (FileNotFoundException e) {
@@ -132,6 +133,9 @@ public class PersionalDynamicManager implements Runnable{
                     if(progressDialog!=null){
                         progressDialog.dismiss();
                     }
+                    Intent intent=((AppCompatActivity)context).getIntent();
+                    intent.putExtra("uploadImage",new UploadImage());
+                    ((AppCompatActivity)context).setResult(-1,intent);
                     ((AppCompatActivity)context).finish();
                 }
 

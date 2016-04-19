@@ -32,7 +32,7 @@ public class RecommentHealthyManager {
             public void success(ResponseData<HealthyRecommendModel> listResponseData, Response response) {
                 Log.i(listResponseData.toString());
                 if(cb!=null){
-                    cb.getRecommendDynamic(listResponseData.getData().getHealthList());
+                    cb.getRecommendDynamic(listResponseData.getData());
                 }
             }
 
@@ -47,6 +47,6 @@ public class RecommentHealthyManager {
     }
 
     public interface RecommentHealthyManagerCallback{
-        void getRecommendDynamic(List<HealthyCommunityModel> communityModels);
+        void getRecommendDynamic(HealthyRecommendModel model);
     }
 }

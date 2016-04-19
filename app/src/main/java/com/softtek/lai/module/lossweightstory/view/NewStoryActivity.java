@@ -92,7 +92,8 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
         storyManager=new NewStoryManager(images,this);
         UserModel model= UserInfoModel.getInstance().getUser();
         et_sender.setText(model.getNickname());
-        et_sender.setSelection(et_sender.getText().toString().length());
+        //et_sender.setSelection(et_sender.getText().toString().length());
+        et_sender.setEnabled(false);
         images.add(new UploadImage(null,BitmapFactory.decodeResource(getResources(), R.drawable.camera_sel)));
         adapter=new PhotoGridViewAdapter(images,this);
         cgv.setAdapter(adapter);

@@ -75,18 +75,16 @@ public class CounselorClassAdapter extends BaseAdapter {
         ClassInfoModel classInfo = list.get(position);
         if (classInfo.getClassStatus().equals("-1")) {
             holder.text_state.setText("未开班");
-            holder.text_state.setTextColor(context.getResources().getColor(R.color.grey_font));
-            holder.text_class_name.setTextColor(context.getResources().getColor(R.color.grey_font));
-            holder.text_people_count.setTextColor(context.getResources().getColor(R.color.grey_font));
-            holder.img_more.setVisibility(View.GONE);
+            holder.text_state.setTextColor(context.getResources().getColor(R.color.word9));
+            holder.text_class_name.setTextColor(context.getResources().getColor(R.color.word9));
+            holder.text_people_count.setTextColor(context.getResources().getColor(R.color.word9));
+            holder.img_more.setVisibility(View.INVISIBLE);
         } else if (classInfo.getClassStatus().equals("0")) {
             holder.text_state.setText("已开班");
-            holder.text_state.setTextColor(context.getResources().getColor(R.color.mytoolbar_green));
-            holder.text_class_name.setTextColor(context.getResources().getColor(R.color.black));
-            holder.text_people_count.setTextColor(context.getResources().getColor(R.color.black));
+            holder.text_state.setTextColor(context.getResources().getColor(R.color.green1));
+            holder.text_class_name.setTextColor(context.getResources().getColor(R.color.word));
+            holder.text_people_count.setTextColor(context.getResources().getColor(R.color.word));
             holder.img_more.setVisibility(View.VISIBLE);
-        } else if (classInfo.getClassStatus().equals("1")) {
-            holder.text_state.setText("已结束");
         }
         holder.text_class_name.setText(classInfo.getClassName().toString());
         String startTimeStr = classInfo.getStartDate().toString();

@@ -7,6 +7,7 @@ package com.softtek.lai.module.counselor.net;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.counselor.model.*;
+
 import retrofit.Callback;
 import retrofit.http.*;
 
@@ -83,9 +84,10 @@ public interface CounselorService {
 
     @POST("/HerbAssistant/RemoveAssistantRoleByClass")
     void removeAssistantRoleByClass(@Header("token") String token,
-                        @Query("assistantId") String assistantId,
-                        @Query("classId") String classId,
-                        Callback<ResponseData> callback);
+                                    @Query("assistantId") String assistantId,
+                                    @Query("classId") String classId,
+                                    @Query("messageId") String messageId,
+                                    Callback<ResponseData> callback);
 
 
     @GET("/HerbrClass/GetNotInvitePC")
@@ -99,4 +101,18 @@ public interface CounselorService {
                       @Query("dtime") String dtime,
                       @Query("group") String group,
                       Callback<ResponseData<List<MarchInfoModel>>> callback);
+
+    @GET("/HerbAssistant/ShowSRApplyList")
+    void showSRApplyList(@Header("token") String token,
+                         @Query("assistantId") String assistantId,
+                         Callback<ResponseData<List<ApplyAssistantModel>>> callback);
+
+    @FormUrlEncoded
+    @POST("/HerbAssistant/SRApplyAssistant")
+    void srApplyAssistant(@Header("token") String token,
+                          @Field("applyerId") String applyerId,
+                          @Field("classManagerId") String classManagerId,
+                          @Field("classId") String classId,
+                          @Field("comments") String comments,
+                          Callback<ResponseData<ApplySuccessModel>> callback);
 }

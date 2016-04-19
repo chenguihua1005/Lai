@@ -152,7 +152,7 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
     @Subscribe
     public void onEvent(TiGuanSaiModel tiGuanSai) {
 
-        Picasso.with(this).load(tiGuanSai.getImg_Addr()).placeholder(R.drawable.froyo).error(R.drawable.gingerbread).into(iv_st_adv);
+        Picasso.with(this).load(tiGuanSai.getImg_Addr()).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_st_adv);
 
 
     }
