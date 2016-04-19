@@ -17,6 +17,24 @@ public class HonorTable1Model implements Serializable {
     private String LoseWeight;     //减重斤数
     private String UserName;     //用户昵称
     private String photo;     //头像路径
+    private String BeforeWeight;     //头像路径beforeWight
+    private String AfterWeight;     //头像路径
+
+    public String getBeforeWeight() {
+        return BeforeWeight;
+    }
+
+    public void setBeforeWeight(String beforeWeight) {
+        BeforeWeight = beforeWeight;
+    }
+
+    public String getAfterWeight() {
+        return AfterWeight;
+    }
+
+    public void setAfterWeight(String afterWeight) {
+        AfterWeight = afterWeight;
+    }
 
     public String getRnum() {
         return rnum;
@@ -66,6 +84,8 @@ public class HonorTable1Model implements Serializable {
                 ", LoseWeight='" + LoseWeight + '\'' +
                 ", UserName='" + UserName + '\'' +
                 ", photo='" + photo + '\'' +
+                ", BeforeWeight='" + BeforeWeight + '\'' +
+                ", AfterWeight='" + AfterWeight + '\'' +
                 '}';
     }
 }

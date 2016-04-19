@@ -1,6 +1,9 @@
 package com.softtek.lai.module.home.view;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -217,6 +220,5 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
     public void onFragmentInteraction(Uri uri) {
 
     }
-
 
 }

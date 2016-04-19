@@ -49,6 +49,12 @@ public class MessageSrManageActivity extends BaseActivity implements View.OnClic
     @InjectView(R.id.text_value)
     TextView text_value;
 
+    @InjectView(R.id.text_zqs)
+    TextView text_zqs;
+
+    @InjectView(R.id.text_zqs1)
+    TextView text_zqs1;
+
     @InjectView(R.id.but_yes)
     Button but_yes;
 
@@ -72,7 +78,10 @@ public class MessageSrManageActivity extends BaseActivity implements View.OnClic
         ll_left.setOnClickListener(this);
         but_no.setOnClickListener(this);
         but_yes.setOnClickListener(this);
-        lin.setOnClickListener(this);
+        text_zqs.setOnClickListener(this);
+        text_zqs1.setOnClickListener(this);
+        img.setOnClickListener(this);
+        //lin.setOnClickListener(this);
     }
 
 
@@ -107,7 +116,7 @@ public class MessageSrManageActivity extends BaseActivity implements View.OnClic
             case R.id.ll_left:
                 finish();
                 break;
-            case R.id.lin:
+            case R.id.img:
                 if (isSelect) {
                     img.setImageResource(R.drawable.img_join_game_select);
                     isSelect = false;
@@ -115,6 +124,18 @@ public class MessageSrManageActivity extends BaseActivity implements View.OnClic
                     img.setImageResource(R.drawable.img_join_game_selected);
                     isSelect = true;
                 }
+                break;
+            case R.id.text_zqs:
+                if (isSelect) {
+                    img.setImageResource(R.drawable.img_join_game_select);
+                    isSelect = false;
+                } else {
+                    img.setImageResource(R.drawable.img_join_game_selected);
+                    isSelect = true;
+                }
+                break;
+            case R.id.text_zqs1:
+                startActivity(new Intent(this, ZQSActivity.class));
                 break;
             case R.id.but_no:
                 messagePresenter.acceptInviter(messageDetailInfo.getInviterId(), messageDetailInfo.getClassId(), "0");

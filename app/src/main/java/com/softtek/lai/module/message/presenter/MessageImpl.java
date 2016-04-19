@@ -9,11 +9,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.confirmInfo.view.CansaiActivity;
 import com.softtek.lai.module.counselor.adapter.GameAdapter;
 import com.softtek.lai.module.counselor.model.MarchInfoModel;
 import com.softtek.lai.module.counselor.net.CounselorService;
@@ -76,7 +79,7 @@ public class MessageImpl implements IMessagePresenter {
         });
     }
     @Override
-    public void getMessageRead(String accountID) {
+    public void getMessageRead(String accountID, final ImageView img_red) {
         String token = UserInfoModel.getInstance().getToken();
         messageService.getMessageRead(token,accountID, new Callback<ResponseData>() {
             @Override
@@ -85,7 +88,7 @@ public class MessageImpl implements IMessagePresenter {
                 int status = listResponseData.getStatus();
                 switch (status) {
                     case 200:
-                        EventBus.getDefault().post(listResponseData);
+                        img_red.setVisibility(View.VISIBLE);
                         break;
                     default:
                         Util.toastMsg(listResponseData.getMsg());
@@ -128,9 +131,9 @@ public class MessageImpl implements IMessagePresenter {
     }
 
     @Override
-    public void getMsgList() {
+    public void getMsgList(String accountid) {
         String token = UserInfoModel.getInstance().getToken();
-        messageService.getMsgList(token, new Callback<ResponseData<MessageModel>>() {
+        messageService.getMsgList(token,accountid, new Callback<ResponseData<MessageModel>>() {
             @Override
             public void success(ResponseData<MessageModel> listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());
@@ -175,7 +178,7 @@ public class MessageImpl implements IMessagePresenter {
 
                             }
                         } else {
-                            Intent intent = new Intent(context, LoginActivity.class);
+                            Intent intent = new Intent(context, CansaiActivity.class);
                             intent.putExtra("messageDetailInfo", messageDetailInfo);
                             context.startActivity(intent);
                         }
