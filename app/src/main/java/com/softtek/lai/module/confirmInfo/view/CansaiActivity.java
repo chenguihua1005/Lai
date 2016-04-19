@@ -15,21 +15,27 @@ import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.module.confirmInfo.Adapter.MemberAdapter;
 import com.softtek.lai.module.confirmInfo.EventModel.ConinfoEvent;
 import com.softtek.lai.module.confirmInfo.model.ConinfoModel;
 import com.softtek.lai.module.confirmInfo.model.GetConfirmInfoModel;
+import com.softtek.lai.module.confirmInfo.presenter.GuwenClassImp;
+import com.softtek.lai.module.confirmInfo.presenter.GuwenClassPre;
 import com.softtek.lai.module.confirmInfo.presenter.IUpConfirmInfopresenter;
 import com.softtek.lai.module.confirmInfo.presenter.UpConfirmInfoImpl;
+import com.softtek.lai.module.message.model.MessageDetailInfo;
 import com.softtek.lai.module.newmemberentry.view.EventModel.ClassEvent;
 import com.softtek.lai.module.newmemberentry.view.model.PargradeModel;
 import com.softtek.lai.widgets.WheelView;
@@ -58,8 +64,8 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
     @InjectView(R.id.tv_title)
     TextView tv_title;
 
-    @InjectView(R.id.tv_left)
-    TextView tv_left;
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
 
     @InjectView(R.id.tv_right)
     TextView tv_right;
@@ -132,11 +138,11 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
     @InjectView(R.id.tv_weight)
     TextView tv_weight;
 
-    @InjectView(R.id.tv_pysical)
-    TextView tv_pysical;
+    @InjectView(R.id.et_pysical)
+    EditText et_pysical;
 
-    @InjectView(R.id.tv_fat)
-    TextView tv_fat;
+    @InjectView(R.id.et_fat)
+    EditText et_fat;
 
     //身体围度
     @InjectView(R.id.tv_circum)
@@ -170,6 +176,7 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
     //确定按钮
     @InjectView(R.id.btn_sure)
     Button btn_sure;
+    private GuwenClassPre guwenClassPre;
 
     private ConinfoModel coninfoModel;
     private GetConfirmInfoModel getConfirmInfoModel;
@@ -220,12 +227,34 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
     String path = "";
     private static final int PHOTO = 1;
 
+    @InjectView(R.id.list_cansaibanji)
+    ListView list_cansaibanji;
+    private List<PargradeModel> pargradeModelList = new ArrayList<PargradeModel>();
+
+    //private long messageDetailInfo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
         super.onCreate(savedInstanceState);
         iUpConfirmInfopresenter = new UpConfirmInfoImpl(this);
         iUpConfirmInfopresenter.getConfirmInfo(130,1);
+
+        guwenClassPre = new GuwenClassImp();
+        guwenClassPre.doGetGuwenClass(36);
+        MemberAdapter memberAdapter = new MemberAdapter(this, R.layout.member_item, pargradeModelList);
+        list_cansaibanji.setAdapter(memberAdapter);
+        list_cansaibanji.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                PargradeModel pargradeModel = pargradeModelList.get(position);
+                tv_classname.setText(pargradeModel.getClassName());
+                tv_classname.setError(null);
+                list_cansaibanji.setVisibility(View.INVISIBLE);
+
+            }
+        });
+
     }
 
     @Override
@@ -236,6 +265,7 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void initDatas() {
         tv_title.setText("报名参赛");
+        ll_left.setOnClickListener(this);
         btn_sure.setOnClickListener(this);
         ll_birthday.setOnClickListener(this);
         addGrade();
@@ -257,6 +287,17 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe
+    public void onEvent(ClassEvent classEvent) {
+        System.out.println("classEvent.getPargradeModels()>>》》》》》》》》》》》》》》" + classEvent.getPargradeModels());
+        List<PargradeModel> pargradeModels = classEvent.getPargradeModels();
+        for (PargradeModel cl : pargradeModels) {
+            System.out.println("dsfsdfsdfsdfsdfsdf?????/?????>>》》》》》》》》》》》》》》" + "ClassIdModel:" + cl.getClassId() + "ClassName:" + cl.getClassName());
+            PargradeModel p1 = new PargradeModel(cl.getClassId(), cl.getClassName());
+            pargradeModelList.add(p1);
+        }
     }
 
     @Subscribe
@@ -296,8 +337,8 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
         et_mobile.setText(mobile);
         tv_classname.setText(classname);
         tv_weight.setText(String.valueOf(weight));
-        tv_pysical.setText(String.valueOf(pysical));
-        tv_fat.setText(String.valueOf(fat));
+        et_pysical.setText(String.valueOf(pysical));
+        et_fat.setText(String.valueOf(fat));
         tv_circum.setText(String.valueOf(circum));
         tv_waistline.setText(String.valueOf(waistline));
         tv_hiplie.setText(String.valueOf(hiplie));
@@ -311,6 +352,9 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.ll_left:
+                    finish();
+                break;
             case  R.id.ll_birthday:
                 show_birth_dialog();
                 break;
@@ -318,7 +362,11 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
                     showGradeDialog();
                 break;
             case R.id.ll_classname:
-
+                if (list_cansaibanji.getVisibility() == View.VISIBLE) {
+                    list_cansaibanji.setVisibility(View.INVISIBLE);
+                } else if (list_cansaibanji.getVisibility() == View.INVISIBLE) {
+                    list_cansaibanji.setVisibility(View.VISIBLE);
+                }
                 break;
             case R.id.ll_weight:
                 show_weight_dialog();
@@ -378,15 +426,22 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
                 String token = SharedPreferenceService.getInstance().get("token", "");
                 coninfoModel = new ConinfoModel();
                 coninfoModel.setAccountid(130);
-                coninfoModel.setClassid("202984");
+                //获取classid
+                Intent intent = getIntent();
+                MessageDetailInfo messageDetailInfo = (MessageDetailInfo) intent.getSerializableExtra("messageDetailInfo");
+                Log.i("获取classid:--messageDetailInfo------------------->"+messageDetailInfo);
+
+                //设置classid
+                coninfoModel.setClassid("20160310");//String.valueOf(messageDetailInfo)
+
                 coninfoModel.setNickname(et_name.getText().toString());
                 coninfoModel.setBirthday(tv_birthday.getText().toString());
                 coninfoModel.setGender(tv_sex.getText().toString()=="男"?1:0);
                 ///////////////////////////////////////////////////////
                 coninfoModel.setPhoto("201603290913492218475932.jpg");
                 coninfoModel.setWeight(Double.parseDouble(tv_weight.getText().toString()));
-                coninfoModel.setPysical(Double.parseDouble(tv_pysical.getText().toString()));
-                coninfoModel.setFat(Double.parseDouble(tv_fat.getText().toString()));
+                coninfoModel.setPysical(Double.parseDouble(et_pysical.getText().toString()));
+                coninfoModel.setFat(Double.parseDouble(et_fat.getText().toString()));
                 coninfoModel.setCircum(Double.parseDouble(tv_circum.getText().toString()));
                 coninfoModel.setWaistline(Double.parseDouble(tv_waistline.getText().toString()));
                 coninfoModel.setHiplie(Double.parseDouble(tv_hiplie.getText().toString()));

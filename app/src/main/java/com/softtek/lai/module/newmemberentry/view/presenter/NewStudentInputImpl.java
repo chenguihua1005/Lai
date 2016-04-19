@@ -55,6 +55,7 @@ public class NewStudentInputImpl implements INewStudentpresenter {
                     case 200:
                         Intent intent = new Intent(context, CounselorActivity.class);
                         context.startActivity(intent);
+                        ((CounselorActivity) context).finish();
                         Util.toastMsg("录入成功");
                         break;
                     case 500:
@@ -93,7 +94,6 @@ public class NewStudentInputImpl implements INewStudentpresenter {
 
             @Override
             public void failure(RetrofitError error) {
-
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }

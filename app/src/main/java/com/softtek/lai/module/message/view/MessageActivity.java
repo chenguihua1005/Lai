@@ -72,6 +72,9 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
     @InjectView(R.id.text_value1)
     TextView text_value1;
 
+    @InjectView(R.id.text_value2)
+    TextView text_value2;
+
     @InjectView(R.id.text_title)
     TextView text_title;
 
@@ -84,10 +87,16 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
     @InjectView(R.id.rel_1)
     RelativeLayout rel_1;
 
+    @InjectView(R.id.rel_2)
+    RelativeLayout rel_2;
+
 
     private IMessagePresenter messagePresenter;
     private ACache aCache;
     MessageModel messageModel;
+    ArrayList<MessageDetailInfo> list_remove=new ArrayList<MessageDetailInfo>();
+    ArrayList<MessageDetailInfo> list_apply=new ArrayList<MessageDetailInfo>();
+
 
 
     @Override
@@ -120,13 +129,30 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
                 text_value1.setText(messageModel.getSPInviteSR().get(0).getComments());
             }
         } else if (String.valueOf(Constants.SP).equals(userrole)) {
-            if (messageModel.getSRandPCApply().size() == 0) {
+            ArrayList<MessageDetailInfo> list=messageModel.getSRandPCApply();
+            for (int i = 0; i <list.size() ; i++) {
+                MessageDetailInfo messageDetailInfo=list.get(i);
+                String type=messageDetailInfo.getMsgType();
+                if("0".equals(type)){
+                    list_apply.add(messageDetailInfo);
+                }else {
+                    list_remove.add(messageDetailInfo);
+                }
+            }
+            if (list_remove.size() == 0) {
+                rel_2.setVisibility(View.GONE);
+            } else {
+                rel_2.setVisibility(View.VISIBLE);
+                text_value2.setText(list_remove.get(0).getComments());
+            }
+
+            if (list_apply.size() == 0) {
                 rel_1.setVisibility(View.GONE);
             } else {
                 rel_1.setVisibility(View.VISIBLE);
                 text_title.setText(getResources().getText(R.string.message1));
                 img.setImageResource(R.drawable.img_assistant_apply);
-                text_value1.setText(messageModel.getSRandPCApply().get(0).getComments());
+                text_value1.setText(list_apply.get(0).getComments());
             }
         } else {
             if (messageModel.getPCJoin().size() == 0) {
@@ -176,7 +202,6 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
                     intent.putExtra("list", list);
                     startActivity(intent);
                 } else if (String.valueOf(Constants.SP).equals(userrole)) {
-                    list = messageModel.getSRandPCApply();
                     Intent intent = new Intent(this, AssistantActivity.class);
                     startActivity(intent);
                 } else {
@@ -186,6 +211,12 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
                     startActivity(intent);
                 }
                 break;
+            case R.id.rel_2:
+                Intent intents = new Intent(this, MessageRemoveSrRemindActivity.class);
+                intents.putExtra("list", list_remove);
+                startActivity(intents);
+                break;
+
             case R.id.rel_fc:
                 ArrayList<MeasureRemindInfo> MeasureRemind = messageModel.getMeasureRemind();
                 ArrayList<MeasureRemindInfo> fcRemind = new ArrayList<MeasureRemindInfo>();
@@ -196,7 +227,7 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
                     }
                 }
                 Intent intent = new Intent(this, MessageFcRemindActivity.class);
-                intent.putExtra("list", fcRemind);
+                intent.putExtra("list", MeasureRemind);
                 startActivity(intent);
                 break;
 

@@ -16,6 +16,7 @@ import android.widget.ListView;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.bodygamezj.view.BodygameSRActivity;
 import com.softtek.lai.module.confirmInfo.view.CansaiActivity;
 import com.softtek.lai.module.counselor.adapter.GameAdapter;
 import com.softtek.lai.module.counselor.model.MarchInfoModel;
@@ -208,9 +209,15 @@ public class MessageImpl implements IMessagePresenter {
                 int status = listResponseData.getStatus();
                 switch (status) {
                     case 200:
-                        Intent intent = new Intent(context, LoginActivity.class);
-                        context.startActivity(intent);
-                        ((AppCompatActivity) context).finish();
+                        if ("1".equals(acceptType)) {
+                            Intent intent = new Intent(context, BodygameSRActivity.class);
+                            context.startActivity(intent);
+                            ((AppCompatActivity) context).finish();
+                        }else {
+                            Intent intent = new Intent(context, MessageActivity.class);
+                            context.startActivity(intent);
+                            ((AppCompatActivity) context).finish();
+                        }
                         break;
                     default:
                         Util.toastMsg(listResponseData.getMsg());

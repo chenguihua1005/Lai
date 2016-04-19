@@ -40,7 +40,7 @@ import zilla.libcore.ui.InjectLayout;
  * Created by lareina.qiao on 3/18/2016.
  */
 @InjectLayout(R.layout.activity_retest)
-public class RetestActivity extends BaseActivity implements View.OnClickListener{
+public class  RetestActivity extends BaseActivity implements View.OnClickListener{
     private RetestPre retestPre;
     //标题栏
     @InjectView(R.id.tv_right)

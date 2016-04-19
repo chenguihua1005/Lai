@@ -16,6 +16,7 @@ import com.softtek.lai.module.bodygame.model.TotolModel;
 import com.softtek.lai.module.bodygame.presenter.ITiGuanSai;
 import com.softtek.lai.module.bodygame.presenter.TiGuanSaiImpl;
 import com.softtek.lai.module.bodygame.view.TipsActivity;
+import com.softtek.lai.module.counselor.view.GameActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -32,6 +33,9 @@ public class BodyGameCcActivity extends BaseActivity implements View.OnClickList
     LinearLayout ll_left;
     @InjectView(R.id.tv_title)
     TextView tv_title;
+
+    @InjectView(R.id.ll_match)
+    LinearLayout ll_match;
 
     @InjectView(R.id.ll_tipcc)
     LinearLayout ll_tipcc;
@@ -50,6 +54,7 @@ public class BodyGameCcActivity extends BaseActivity implements View.OnClickList
         EventBus.getDefault().register(this);
         ll_left.setOnClickListener(this);
         ll_tipcc.setOnClickListener(this);
+        ll_match.setOnClickListener(this);
         tv_totalcc.setOnClickListener(this);
 
     }
@@ -78,6 +83,10 @@ public class BodyGameCcActivity extends BaseActivity implements View.OnClickList
             case R.id.ll_tipcc:
                 Intent intent=new Intent(this,TipsActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.ll_match:
+                Intent intents=new Intent(this,GameActivity.class);
+                startActivity(intents);
                 break;
             case R.id.tv_totalcc:
                 iTiGuanSai.doGetTotal();

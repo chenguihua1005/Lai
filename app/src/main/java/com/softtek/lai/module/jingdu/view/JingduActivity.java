@@ -8,6 +8,7 @@ package com.softtek.lai.module.jingdu.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -53,6 +54,15 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
     TextView tv_newmem;
 
     //班级布局
+    @InjectView(R.id.img_oneban)
+    ImageView img_oneban;
+
+    @InjectView(R.id.img_twoban)
+    ImageView img_twoban;
+
+    @InjectView(R.id.img_threeban)
+    ImageView img_threeban;
+
     @InjectView(R.id.ll_oneban)
     LinearLayout ll_oneban;
 
@@ -172,8 +182,10 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
         //Table2:各个班本月累计减重
        System.out.println("rankEvent.getRanks()------------------------Table2:" + rank.getTable2());
        if (rank.getTable2().size()==1){
-           ll_threeban.setVisibility(View.GONE);
-           ll_threeban.setVisibility(View.GONE);
+           img_oneban.setVisibility(View.VISIBLE);
+
+//           ll_twoban.setVisibility(View.GONE);
+//           ll_threeban.setVisibility(View.GONE);
            onebanname=rank.getTable2().get(0).getClassName();
            oneban =rank.getTable2().get(0).getLoseWeight();
            tv_classname1.setText(onebanname);
@@ -181,7 +193,10 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
            float a=Float.parseFloat(oneban);
            total_weight.setValue(a,0,0);
        }else if (rank.getTable2().size()==2){
-           ll_threeban.setVisibility(View.GONE);
+           //ll_threeban.setVisibility(View.GONE);
+           img_oneban.setVisibility(View.VISIBLE);
+           img_twoban.setVisibility(View.VISIBLE);
+
            onebanname=rank.getTable2().get(0).getClassName();
            oneban =rank.getTable2().get(0).getLoseWeight();
            twobanname=rank.getTable2().get(1).getClassName();
@@ -194,6 +209,10 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
            float b=Float.parseFloat(twoban);
            total_weight.setValue(a,b,0);
        }else if(rank.getTable2().size()==3){
+           img_oneban.setVisibility(View.VISIBLE);
+           img_twoban.setVisibility(View.VISIBLE);
+           img_threeban.setVisibility(View.INVISIBLE);
+
            onebanname=rank.getTable2().get(0).getClassName();
            oneban =rank.getTable2().get(0).getLoseWeight();
            twobanname=rank.getTable2().get(1).getClassName();

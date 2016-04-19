@@ -10,6 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import retrofit.http.Field;
+
 /**
  * Created by jarvis on 3/3/2016.
  */
@@ -37,5 +39,11 @@ public interface IAssistantPresenter {
     void showAssistantDetails(String assistantId, String classId);
 
     //移除助教
-    void removeAssistantRoleByClass(String assistantId, String classId);
+    void removeAssistantRoleByClass(String assistantId, String classId,String messageId,String type);
+
+    //可申请班级助教列表
+    void showSRApplyList(String assistantId,ListView list_apply_assistant);
+
+    //申请班级助教（SR）
+    void srApplyAssistant(String applyerId,String classManagerId,String classId,String comments,TextView text_apply,TextView text_state);
 }
