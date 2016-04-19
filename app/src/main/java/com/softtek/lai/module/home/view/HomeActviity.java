@@ -78,10 +78,10 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
     @Override
     protected void initDatas() {
         fragments.add(new HomeFragment());
-        /*fragments.add(new HealthyFragment());
-        fragments.add(new HealthyRecordFragment());*/
-        fragments.add(new TestFragment());
-        fragments.add(new TestFragment());
+        fragments.add(new HealthyFragment());
+        fragments.add(new HealthyRecordFragment());
+        /*fragments.add(new TestFragment());
+        fragments.add(new TestFragment());*/
         fragments.add(new MineFragment());
         content.setAdapter(new MainPageAdapter(getSupportFragmentManager(),fragments));
         content.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
