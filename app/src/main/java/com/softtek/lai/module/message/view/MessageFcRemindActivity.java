@@ -23,7 +23,7 @@ import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.bodygamest.view.StudentActivity;
+import com.softtek.lai.module.bodygamest.view.BodyGamePCActivity;
 import com.softtek.lai.module.message.adapter.MessageFcRemindAdapter;
 import com.softtek.lai.module.message.model.MeasureRemindInfo;
 import com.softtek.lai.module.message.presenter.IMessagePresenter;
@@ -88,7 +88,7 @@ public class MessageFcRemindActivity extends BaseActivity implements View.OnClic
         System.out.println("此条标记已读");
         String userrole = UserInfoModel.getInstance().getUser().getUserrole();
         if (String.valueOf(Constants.PC).equals(userrole)) {
-            Intent intent = new Intent(this, StudentActivity.class);
+            Intent intent = new Intent(this, BodyGamePCActivity.class);
             startActivity(intent);
         } else if (String.valueOf(Constants.SR).equals(userrole)) {
             //助教身份跳转复测页面

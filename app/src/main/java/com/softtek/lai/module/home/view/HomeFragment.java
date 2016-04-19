@@ -26,11 +26,11 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.bodygame.CounselorActivity;
+import com.softtek.lai.module.bodygame.view.CounselorActivity;
 import com.softtek.lai.module.bodygamecc.view.BodyGameCcActivity;
-import com.softtek.lai.module.bodygamest.view.StudentActivity;
+import com.softtek.lai.module.bodygamest.view.BodyGamePCActivity;
 import com.softtek.lai.module.bodygameyk.view.BodygameYkActivity;
-import com.softtek.lai.module.bodygamezj.view.BodygameActivity;
+import com.softtek.lai.module.bodygamezj.view.BodygameSRActivity;
 import com.softtek.lai.module.home.adapter.FragementAdapter;
 import com.softtek.lai.module.home.adapter.ModelAdapter;
 import com.softtek.lai.module.home.eventModel.HomeEvent;
@@ -334,10 +334,10 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
             Util.toastMsg("受邀普通顾客");
         }else if(role==Constants.PC){
             //直接进入踢馆赛学员版
-            startActivity(new Intent(getContext(),StudentActivity.class));
+            startActivity(new Intent(getContext(),BodyGamePCActivity.class));
         }else if(role==Constants.SR){
             //进入踢馆赛助教版
-            startActivity(new Intent(getContext(), BodygameActivity.class));
+            startActivity(new Intent(getContext(), BodygameSRActivity.class));
         }else if(role==Constants.SP){
             //进入踢馆赛顾问版
             startActivity(new Intent(getContext(), CounselorActivity.class));

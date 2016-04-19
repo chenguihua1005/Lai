@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import butterknife.InjectView;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
@@ -26,25 +25,26 @@ import com.softtek.lai.module.bodygame.presenter.ITiGuanSai;
 import com.softtek.lai.module.bodygame.presenter.TiGuanSaiImpl;
 import com.softtek.lai.module.bodygame.view.TipsActivity;
 import com.softtek.lai.module.bodygamest.model.HasClass;
-import com.softtek.lai.module.bodygamest.present.IStudentPresenter;
 import com.softtek.lai.module.bodygamest.present.StudentImpl;
 import com.softtek.lai.module.counselor.view.GameActivity;
 import com.softtek.lai.module.lossweightstory.view.LossWeightStoryActivity;
 import com.softtek.lai.module.studentbasedate.view.StudentBaseDateActivity;
 import com.softtek.lai.utils.RequestCallback;
 import com.squareup.picasso.Picasso;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
 
+import butterknife.InjectView;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_student)
-public class StudentActivity extends BaseActivity implements View.OnClickListener {
+public class BodyGamePCActivity extends BaseActivity implements View.OnClickListener {
     private ITiGuanSai tiGuanSai;
     private StudentImpl studentImpl;
     private FuceNumModel fuceNum;
@@ -172,7 +172,7 @@ public class StudentActivity extends BaseActivity implements View.OnClickListene
                             doStartActivity(id);
                         }else{
                             //学员没有班级
-                            new AlertDialog.Builder(StudentActivity.this).setTitle("提示")
+                            new AlertDialog.Builder(BodyGamePCActivity.this).setTitle("提示")
                                     .setMessage("您目前还没有参加班级").create().show();
                         }
                     }else{
@@ -210,7 +210,7 @@ public class StudentActivity extends BaseActivity implements View.OnClickListene
 
             //点击跳转事件
             case R.id.ll_st_jibenshuju:
-                startActivity(new Intent(StudentActivity.this, StudentBaseDateActivity.class));
+                startActivity(new Intent(this, StudentBaseDateActivity.class));
                 break;
             //上传照片
             case R.id.ll_st_shangchuan:
