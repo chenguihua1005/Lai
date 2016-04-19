@@ -128,6 +128,7 @@
         <activity android:name=".module.counselor.view.InviteContantActivity" />
         <activity android:name=".module.counselor.view.InviteStudentActivity" />
         <activity android:name=".module.counselor.view.GameActivity" />
+        <activity android:name=".module.counselor.view.ApplyAssistantActivity" />
         <activity android:name=".module.newmemberentry.view.DimensioninputActivity" />
         <activity
             android:name=".module.bodygamest.view.FuceStActivity"
@@ -143,6 +144,8 @@
         <activity android:name=".module.message.view.MessagePcRemindActivity" />
         <activity android:name=".module.message.view.ZQSActivity" />
         <activity android:name=".module.message.view.JoinGameActivity" />
+        <activity android:name=".module.message.view.MessageRemoveSrRemindActivity" />
+        <activity android:name=".module.message.view.RemoveSRActivity" />
         <activity android:name=".module.message.view.MessageSrManageActivity" />
         <activity android:name=".module.retest.view.BodyweiduActivity" />
         <activity android:name=".module.bodygamest.view.BodyweidustActivity" />

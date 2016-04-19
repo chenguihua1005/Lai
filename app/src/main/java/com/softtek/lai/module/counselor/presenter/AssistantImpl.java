@@ -6,6 +6,7 @@
 package com.softtek.lai.module.counselor.presenter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -13,9 +14,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.counselor.adapter.ApplyAssistantAdapter;
 import com.softtek.lai.module.counselor.adapter.AssistantAdapter;
 import com.softtek.lai.module.counselor.adapter.AssistantApplyAdapter;
 import com.softtek.lai.module.counselor.adapter.AssistantClassAdapter;
@@ -23,8 +26,11 @@ import com.softtek.lai.module.counselor.adapter.AssistantClassListAdapter;
 import com.softtek.lai.module.counselor.model.*;
 import com.softtek.lai.module.counselor.net.CounselorService;
 import com.softtek.lai.module.counselor.view.AssistantDetailActivity;
+import com.softtek.lai.module.home.view.HomeActviity;
+import com.softtek.lai.module.message.view.MessageActivity;
 
 import org.greenrobot.eventbus.EventBus;
+
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -76,6 +82,34 @@ public class AssistantImpl implements IAssistantPresenter {
     }
 
     @Override
+    public void srApplyAssistant(String applyerId, String classManagerId, String classId, String comments, final TextView text_apply, final TextView text_state) {
+        String token = UserInfoModel.getInstance().getToken();
+        counselorService.srApplyAssistant(token, applyerId, classManagerId, classId, comments, new Callback<ResponseData<ApplySuccessModel>>() {
+            @Override
+            public void success(ResponseData<ApplySuccessModel> listResponseData, Response response) {
+                Log.e("jarvis", listResponseData.toString());
+                int status = listResponseData.getStatus();
+                ApplySuccessModel applySuccessModel = listResponseData.getData();
+                switch (status) {
+                    case 200:
+                        text_apply.setVisibility(View.GONE);
+                        text_state.setVisibility(View.VISIBLE);
+                        break;
+                    default:
+                        Util.toastMsg(listResponseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
+            }
+        });
+    }
+
+    @Override
     public void showAssistantDetails(String assistantId, String classId) {
         String token = UserInfoModel.getInstance().getToken();
         counselorService.showAssistantDetails(token, assistantId, classId, new Callback<ResponseData<AssistantDetailInfoModel>>() {
@@ -103,9 +137,9 @@ public class AssistantImpl implements IAssistantPresenter {
     }
 
     @Override
-    public void removeAssistantRoleByClass(String assistantId, String classId) {
+    public void removeAssistantRoleByClass(String assistantId, String classId,String messageId, final String type) {
         String token = UserInfoModel.getInstance().getToken();
-        counselorService.removeAssistantRoleByClass(token, assistantId, classId, new Callback<ResponseData>() {
+        counselorService.removeAssistantRoleByClass(token, assistantId, classId,messageId, new Callback<ResponseData>() {
             @Override
             public void success(ResponseData listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());
@@ -113,8 +147,39 @@ public class AssistantImpl implements IAssistantPresenter {
 
                 switch (status) {
                     case 200:
-                        Util.toastMsg("移除成功");
-                        ((AssistantDetailActivity) context).finish();
+                        if ("message".equals(type)) {
+                            context.startActivity(new Intent(context, MessageActivity.class));
+                        } else {
+                            ((AssistantDetailActivity) context).finish();
+                        }
+                        break;
+                    default:
+                        Util.toastMsg(listResponseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
+            }
+        });
+    }
+
+    @Override
+    public void showSRApplyList(String assistantId, final ListView list_apply_assistant) {
+        String token = UserInfoModel.getInstance().getToken();
+        counselorService.showSRApplyList(token, assistantId, new Callback<ResponseData<List<ApplyAssistantModel>>>() {
+            @Override
+            public void success(ResponseData<List<ApplyAssistantModel>> listResponseData, Response response) {
+                Log.e("jarvis", listResponseData.toString());
+                int status = listResponseData.getStatus();
+                List<ApplyAssistantModel> list = listResponseData.getData();
+                switch (status) {
+                    case 200:
+                        ApplyAssistantAdapter applyAssistantAdapter = new ApplyAssistantAdapter(context, list);
+                        list_apply_assistant.setAdapter(applyAssistantAdapter);
                         break;
                     default:
                         Util.toastMsg(listResponseData.getMsg());
