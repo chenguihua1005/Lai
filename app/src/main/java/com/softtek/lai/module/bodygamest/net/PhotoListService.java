@@ -26,7 +26,8 @@ public interface PhotoListService {
     void doGetDownPhoto(
             @Header("token")String token,
             @Query("AccountId")String AccountId,
-            Callback<ResponseData<List<DownPhotoModel>>>callback
+            @Query("pageIndex")int pageIndex,
+            Callback<ResponseData<DownPhotoModel>>callback
     );
     //上传图片
     @POST("/UploadPhotos/PostUploadPhotos")
