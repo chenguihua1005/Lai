@@ -27,6 +27,7 @@ import android.widget.TextView;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.confirmInfo.Adapter.MemberAdapter;
 import com.softtek.lai.module.confirmInfo.EventModel.ConinfoEvent;
 import com.softtek.lai.module.confirmInfo.model.ConinfoModel;
@@ -108,16 +109,6 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
     @InjectView(R.id.ll_doleggirth)
     LinearLayout ll_doleggirth;
 
-    //修改信息
-//    昵称。生日。性别。照片。体重。体脂。内脂
-//    胸围。腰围。臀围。上臂围。大腿围。小腿围
-
-
-
-//    显示姓名,生日,性别,手机号码, 参赛班级,初始体重, 照片. 用户可以对参赛数据进行一次修改.
-//           // "Mobile": "18286565885",
-//         //   "ClassName": "20160310_1",
-
     //确认参赛信息
     @InjectView(R.id.et_name)
     EditText et_name;
@@ -128,7 +119,6 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
     @InjectView(R.id.tv_sex)
     TextView tv_sex;
 
-    //手机号码
     @InjectView(R.id.et_mobile)
     EditText et_mobile;
 
@@ -231,15 +221,26 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
     ListView list_cansaibanji;
     private List<PargradeModel> pargradeModelList = new ArrayList<PargradeModel>();
 
-    //private long messageDetailInfo;
+    UserInfoModel userInfoModel=UserInfoModel.getInstance();
+    long accoutid=Long.parseLong(userInfoModel.getUser().getUserid());
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
         super.onCreate(savedInstanceState);
         iUpConfirmInfopresenter = new UpConfirmInfoImpl(this);
-        iUpConfirmInfopresenter.getConfirmInfo(130,1);
 
+        //classid
+//        Intent intent = getIntent();
+//        MessageDetailInfo messageDetailInfo = (MessageDetailInfo) intent.getSerializableExtra("messageDetailInfo");
+//       long classid= Long.parseLong(messageDetailInfo.getClassId());
+//
+//
+//        Log.i("-------------messageDetailInfo-----------"+messageDetailInfo.getClassId());
+        //参数:---accountid 学员id,classid  班级id
+        iUpConfirmInfopresenter.getConfirmInfo(accoutid,1);//130,1-------17,30,32
         guwenClassPre = new GuwenClassImp();
+        //managerId	bigint	顾问id
         guwenClassPre.doGetGuwenClass(36);
         MemberAdapter memberAdapter = new MemberAdapter(this, R.layout.member_item, pargradeModelList);
         list_cansaibanji.setAdapter(memberAdapter);
@@ -425,14 +426,14 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
             case  R.id.btn_sure:
                 String token = SharedPreferenceService.getInstance().get("token", "");
                 coninfoModel = new ConinfoModel();
-                coninfoModel.setAccountid(130);
-                //获取classid
-                Intent intent = getIntent();
-                MessageDetailInfo messageDetailInfo = (MessageDetailInfo) intent.getSerializableExtra("messageDetailInfo");
-                Log.i("获取classid:--messageDetailInfo------------------->"+messageDetailInfo);
+//                coninfoModel.setAccountid(accoutid);
+//                //获取classid
+//                Intent intent = getIntent();
+//                MessageDetailInfo messageDetailInfo = (MessageDetailInfo) intent.getSerializableExtra("messageDetailInfo");
+//                Log.i("获取classid:--messageDetailInfo------------------->"+messageDetailInfo);
 
                 //设置classid
-                coninfoModel.setClassid("20160310");//String.valueOf(messageDetailInfo)
+                //coninfoModel.setClassid("20160310");//String.valueOf(messageDetailInfo)
 
                 coninfoModel.setNickname(et_name.getText().toString());
                 coninfoModel.setBirthday(tv_birthday.getText().toString());

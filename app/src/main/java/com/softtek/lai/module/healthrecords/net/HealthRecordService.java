@@ -22,7 +22,7 @@ public interface HealthRecordService {
     void entryhealthrecord(@Header("token") String token,
                            @Query("accountId") long accountId,
                            @Body HealthModel healthModel,
-                           Callback<ResponseData<HealthModel>> callback);
+                           Callback<ResponseData> callback);
 
     //获取最新健康记录
     @GET("/HealthyCircle/GetLastestRecord")
