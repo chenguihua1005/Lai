@@ -9,7 +9,7 @@ import zilla.libcore.util.Util;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.bodygame.CounselorActivity;
+import com.softtek.lai.module.bodygame.view.CounselorActivity;
 import com.softtek.lai.module.confirmInfo.EventModel.ConinfoEvent;
 import com.softtek.lai.module.confirmInfo.model.ConinfoModel;
 import com.softtek.lai.module.confirmInfo.model.GetConfirmInfoModel;
@@ -85,7 +85,6 @@ public class UpConfirmInfoImpl implements IUpConfirmInfopresenter{
                 int status = coninfoModelResponseData.getStatus();
                 switch (status) {
                     case 200:
-
                         Intent intent = new Intent(context,CounselorActivity.class);
                         context.startActivity(intent);
                         ((CounselorActivity) context).finish();
