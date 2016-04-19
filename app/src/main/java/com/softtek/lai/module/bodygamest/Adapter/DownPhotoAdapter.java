@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.module.bodygamest.model.DownPhotoModel;
+import com.softtek.lai.module.bodygamest.model.LogListModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
@@ -21,7 +22,7 @@ import java.util.List;
  */
 public class DownPhotoAdapter extends BaseAdapter {
     private Context context;
-    private List<DownPhotoModel> downPhotoModelList;
+    private List<LogListModel> logListModelList;
     private LayoutInflater inflater;
     //时间
     Calendar c = Calendar.getInstance();
@@ -33,25 +34,25 @@ public class DownPhotoAdapter extends BaseAdapter {
     int hour = c.get(Calendar.HOUR_OF_DAY);
     int minute = c.get(Calendar.MINUTE);
 
-    public DownPhotoAdapter(Context context,List<DownPhotoModel> downPhotoModelList)
+    public DownPhotoAdapter(Context context, List<LogListModel> logListModelList)
     {
         this.context=context;
         inflater=LayoutInflater.from(context);
-        this.downPhotoModelList = downPhotoModelList;
+        this.logListModelList = logListModelList;
     }
-    public void updateData(List<DownPhotoModel> downPhotoModelList){
-        this.downPhotoModelList = downPhotoModelList;
+    public void updateData(List<LogListModel> logListModelList){
+        this.logListModelList = logListModelList;
         notifyDataSetChanged();;
     }
 
     @Override
     public int getCount() {
-        return downPhotoModelList.size();
+        return logListModelList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return downPhotoModelList.get(position);
+        return logListModelList.get(position);
     }
 
     @Override
@@ -71,13 +72,13 @@ public class DownPhotoAdapter extends BaseAdapter {
         else {
             viewHolder=(ViewHolder)convertView.getTag();
         }
-        DownPhotoModel downPhotoModel = downPhotoModelList.get(position);
-        String[] date=downPhotoModel.getCreateDate().split("/");
+        LogListModel logListModel = logListModelList.get(position);
+        String[] date=logListModel.getCreateDate().split("/");
         String[] yearshi=date[2].split(" ");
         viewHolder.tv_uploadphoto_day.setText(date[1]);
         viewHolder.tv_uploadphoto_month.setText(tomonth(date[0]));
-        if(!TextUtils.isEmpty(downPhotoModel.getImgUrl())){
-            Picasso.with(context).load(downPhotoModel.getImgUrl()).placeholder(R.drawable.lufei).error(R.drawable.lufei).into(viewHolder.im_uploadphoto);
+        if(!TextUtils.isEmpty(logListModel.getImgUrl())){
+            Picasso.with(context).load(logListModel.getImgUrl()).placeholder(R.drawable.lufei).error(R.drawable.lufei).into(viewHolder.im_uploadphoto);
         }else{
             Picasso.with(context).load("www").placeholder(R.drawable.lufei).error(R.drawable.lufei).into(viewHolder.im_uploadphoto);
         }

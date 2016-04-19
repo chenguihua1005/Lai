@@ -262,7 +262,7 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
                 // System.out.println(df.format(c.getTime()));
                 break;
             case '7': // 一个月前
-                day = c.get(Calendar.DAY_OF_MONTH) - 30;
+                day = c.get(Calendar.DAY_OF_MONTH) - 30*n;
                 c.set(Calendar.DAY_OF_MONTH, day);
                 // System.out.println(df.format(c.getTime()));
                 break;
@@ -390,7 +390,57 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
                 days.clear();
                 dates.clear();
                 break;
+            case R.id.quarter:
+                flag=1;
+                String quarterdate4=getPeriodDate(type,0)+"";
+                String quarterdate3=getPeriodDate(type,21)+"";
+                String quarterdate2=getPeriodDate(type,21*2)+"";
+                String quarterdate1=getPeriodDate(type,21*3)+"";
+                days.add(formdate(quarterdate1));
+                days.add(formdate(quarterdate2));
+                days.add(formdate(quarterdate3));
+                days.add(formdate(quarterdate4));
+                dates.add(15f);
+                dates.add(18f);
+                dates.add(6.3f);
+                chartUtil.addData(dates,4,days);
+                days.clear();
+                dates.clear();
+                break;
+            case R.id.year:
+                type='7';
+                String yeardate4=getPeriodDate(type,0)+"";
+                String yeardate3=getPeriodDate(type,1)+"";
+                String yeardate2=getPeriodDate(type,2)+"";
+                String yeardate1=getPeriodDate(type,3)+"";
+                days.add(formyeardate(yeardate1));
+                days.add(formyeardate(yeardate2));
+                days.add(formyeardate(yeardate3));
+                days.add(formyeardate(yeardate4));
+                dates.add(15f);
+                dates.add(18f);
+                dates.add(6.3f);
+                chartUtil.addData(dates,4,days);
+                days.clear();
+                dates.clear();
+                break;
         }
+    }
+    public String formyeardate(String nowdate)
+    {
+        String date;
+        String sr=nowdate.substring(0,4);
+//        if (nowdate.substring(4,5).equals("0"))
+//        {
+//            date=nowdate.substring(5,6)+"/"+nowdate.substring(6,8);
+//        }
+//        else {
+//            date=nowdate.substring(4,6)+"/"+nowdate.substring(6,8);
+//
+//        }
+        date=sr+"/"+nowdate.substring(4,6);
+        return date;
+
     }
 
 }

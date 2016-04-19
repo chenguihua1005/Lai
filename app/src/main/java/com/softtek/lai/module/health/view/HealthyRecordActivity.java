@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
@@ -16,6 +17,7 @@ import com.softtek.lai.module.health.model.HealthDateModel;
 import com.softtek.lai.module.health.presenter.HealthyRecordImpl;
 import com.softtek.lai.module.health.presenter.IHealthyRecord;
 import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
+import com.softtek.lai.module.retest.model.LaichModel;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.module.retest.present.RetestclassImp;
 import com.softtek.lai.widgets.NoSlidingViewPage;
@@ -60,6 +62,7 @@ public class HealthyRecordActivity extends BaseActivity implements View.OnClickL
         retestPre.GetUserMeasuredInfo(moblie);
 
     }
+
 
     @Override
     protected void onDestroy() {
