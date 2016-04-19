@@ -80,7 +80,7 @@ public class TutorAdapter extends BaseAdapter {
         holder.tv_name.setText(info.getUserName());
         holder.tv_phone.setText(info.getMobile());
         if(!"".equals(info.getPhoto())&&null!=info.getPhoto()){
-            Picasso.with(context).load(AddressManager.get("photoHost")+info.getPhoto()).placeholder(R.drawable.img_default)
+            Picasso.with(context).load(AddressManager.get("photoHost")+info.getPhoto()).fit().placeholder(R.drawable.img_default)
                     .error(R.drawable.img_default).into(holder.circleImageView);
         }
         if (Integer.parseInt(info.getIsInvited()) == Constants.NOT_INVITED) {
@@ -91,7 +91,7 @@ public class TutorAdapter extends BaseAdapter {
             holder.ll_context.setVisibility(View.VISIBLE);
             holder.tv_num.setText(info.getNum());
             holder.tv_reset.setText(info.getRtest());
-            holder.tv_totleweight.setText(info.getTotalWight() + "kg");
+            holder.tv_totleweight.setText(info.getTotalWight() + "斤");
         }
         if(review_flag==0){
             holder.btn_delete.setVisibility(View.GONE);

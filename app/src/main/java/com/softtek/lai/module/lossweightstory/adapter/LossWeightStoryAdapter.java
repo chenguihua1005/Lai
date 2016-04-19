@@ -10,7 +10,6 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
@@ -60,7 +59,6 @@ public class LossWeightStoryAdapter extends BaseAdapter{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final ViewHolder holder;
-        final LossWeightStoryModel model=lossWeightStoryModels.get(position);
         if(convertView==null){
             convertView= LayoutInflater.from(context).inflate(R.layout.loss_weight_story_item,parent,false);
             holder=new ViewHolder(convertView);
@@ -68,59 +66,55 @@ public class LossWeightStoryAdapter extends BaseAdapter{
         }else{
             holder= (ViewHolder) convertView.getTag();
         }
-        holder.cb_zan.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(final CompoundButton buttonView, boolean isChecked) {
-                if(isChecked&&!"1".equals(model.getIsClicked())){
-                    final UserInfoModel infoModel=UserInfoModel.getInstance();
-                    model.setPriase(Integer.parseInt(model.getPriase())+1+"");
-                    String before="".equals(model.getUsernameSet())?"":",";
-                    model.setIsClicked("1");
-                    model.setUsernameSet(before+infoModel.getUser().getNickname());
-                    //向服务器提交
-                    String token= infoModel.getToken();
-                    service.clickLike(token, Long.parseLong(infoModel.getUser().getUserid()),
-                            Long.parseLong(model.getLossLogId()),
-                            new RequestCallback<ResponseData<Zan>>() {
-                                @Override
-                                public void success(ResponseData<Zan> zanResponseData, Response response) {
-                                }
+        final LossWeightStoryModel model=lossWeightStoryModels.get(position);
+        if("1".equals(model.getIsClicked())){
+            holder.cb_zan.setChecked(true);
+            holder.cb_zan.setEnabled(false);
+        }else {
+            holder.cb_zan.setChecked(false);
+            holder.cb_zan.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(final CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        final UserInfoModel infoModel = UserInfoModel.getInstance();
+                        model.setPriase(Integer.parseInt(model.getPriase()) + 1 + "");
+                        String before = "".equals(model.getUsernameSet()) ? "" : ",";
+                        model.setIsClicked("1");
+                        model.setUsernameSet(before + infoModel.getUser().getNickname());
+                        //向服务器提交
+                        String token = infoModel.getToken();
+                        service.clickLike(token, Long.parseLong(infoModel.getUser().getUserid()),
+                                Long.parseLong(model.getLossLogId()),
+                                new RequestCallback<ResponseData<Zan>>() {
+                                    @Override
+                                    public void success(ResponseData<Zan> zanResponseData, Response response) {
+                                    }
 
-                                @Override
-                                public void failure(RetrofitError error) {
-                                    super.failure(error);
-                                    int priase=Integer.parseInt(model.getPriase())-1<0?0:Integer.parseInt(model.getPriase())-1;
-                                    model.setPriase(priase+"");
-                                    model.setUsernameSet(model.getUsernameSet().substring(0,model.getUsernameSet().lastIndexOf(",")));
-                                    model.setIsClicked("1");
-                                    notifyDataSetChanged();
-                                }
-                            });
-                }else{
-                    int priase=Integer.parseInt(model.getPriase())-1<0?0:Integer.parseInt(model.getPriase())-1;
-                    model.setPriase(priase+"");
-                    model.setIsClicked("1");
+                                    @Override
+                                    public void failure(RetrofitError error) {
+                                        super.failure(error);
+                                        int priase = Integer.parseInt(model.getPriase()) - 1 < 0 ? 0 : Integer.parseInt(model.getPriase()) - 1;
+                                        model.setPriase(priase + "");
+                                        model.setUsernameSet(model.getUsernameSet().substring(0, model.getUsernameSet().lastIndexOf(",")));
+                                        model.setIsClicked("0");
+                                        notifyDataSetChanged();
+                                    }
+                                });
+                    }
+                    notifyDataSetChanged();
                 }
-                notifyDataSetChanged();
-            }
-        });
+            });
+        }
         holder.tv_name.setText(model.getUserName());
         holder.tv_content.setText(model.getLogContent());
         holder.tv_date.setText(model.getCreateDate());
         holder.tv_zan_name.setText(model.getUsernameSet());
         holder.cb_zan.setText(model.getPriase());
-        if("1".equals(model.getIsClicked())){
-            holder.cb_zan.setChecked(true);
-            //holder.cb_zan.setEnabled(false);
-        }else {
-            //holder.cb_zan.setChecked(false);
-        }
         //加载图片
         String path= AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
         Picasso.with(context).load(path+model.getPhoto())
                 .placeholder(R.drawable.img_default).error(R.drawable.img_default).into(holder.civ_header_image);
-        String[] imgs=model.getImgCollection().split(",");
-        visitableOrGone(holder,imgs);
+        visitableOrGone(holder,model.getImgCollection().split(","));
         return convertView;
     }
     static class ViewHolder{

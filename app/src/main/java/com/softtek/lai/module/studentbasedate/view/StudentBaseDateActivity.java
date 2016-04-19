@@ -1,12 +1,9 @@
 package com.softtek.lai.module.studentbasedate.view;
 
-import android.app.ProgressDialog;
 import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,7 +12,6 @@ import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
-import com.softtek.lai.module.grade.model.DynamicInfoModel;
 import com.softtek.lai.module.studentbasedate.adapter.BaseDataFragmentAdapter;
 import com.softtek.lai.module.studentbasedate.model.StudentBaseInfoModel;
 import com.softtek.lai.module.studentbasedate.presenter.IStudentBaseDate;

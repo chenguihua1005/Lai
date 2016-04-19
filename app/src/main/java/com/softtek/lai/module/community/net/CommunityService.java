@@ -3,6 +3,7 @@ package com.softtek.lai.module.community.net;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.community.model.CommunityModel;
 import com.softtek.lai.module.community.model.HealthyCommunityModel;
+import com.softtek.lai.module.community.model.HealthyDynamicModel;
 import com.softtek.lai.module.community.model.HealthyRecommendModel;
 import com.softtek.lai.utils.RequestCallback;
 
@@ -37,4 +38,13 @@ public interface CommunityService {
     void saveDynamic(@Header("token")String token,
                      @Body CommunityModel model,
                      RequestCallback<ResponseData> callback);
+
+    //健康圈动态详情
+    @GET("/HealthyCircle/GetHealthDetail")
+    void getHealthyDynamciDetail(@Query("accountid")long accountId,
+                                 @Query("HealthId")String healthyId,
+                                 RequestCallback<ResponseData<HealthyDynamicModel>> callback);
+
+    //健康圈点赞
+
 }

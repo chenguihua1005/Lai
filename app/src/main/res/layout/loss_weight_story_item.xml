@@ -40,7 +40,7 @@
                 android:textColor="#666666"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:text="如果你无法简洁的表达你的想法，那只说明你还不够了解他.啊哈哈哈哈哈哈" />
+                android:text="" />
             <GridLayout
                 android:layout_marginTop="21dp"
                 android:layout_width="match_parent"
@@ -141,7 +141,8 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/zan"
                     android:button="@null"
-                    android:text="120"
+                    android:text="0"
+                    android:checked="false"
                     android:background="@null"
                     android:textColor="#f67169"
                     android:layout_alignParentRight="true"
@@ -169,7 +170,7 @@
                     android:layout_marginLeft="5dp"
                     android:textColor="#7a7a7a"
                     android:textSize="10sp"
-                    android:text="小明，David,小利"/>
+                    android:text=""/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
