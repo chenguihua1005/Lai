@@ -16,6 +16,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -47,6 +48,8 @@ import com.softtek.lai.module.retest.model.RetestWriteModel;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.module.retest.present.RetestclassImp;
 import com.softtek.lai.module.retest.view.BodyweiduActivity;
+import com.softtek.lai.utils.FileUtils;
+import com.softtek.lai.utils.SystemUtils;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
@@ -146,6 +149,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     MeasureModel measureModel;
     RetestAuditModel retestAuditModel;
     String Mobile;
+    private CharSequence[] items={"拍照","从相册选择照片"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
@@ -243,23 +247,36 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
                 break;
             //拍照事件
             case R.id.im_retestwritest_takephoto:
-                final GetPhotoDialog dialog = new GetPhotoDialog(this,
-                        new GetPhotoDialog.GetPhotoDialogListener() {
-                            @Override
-                            public void onClick(View view) {
-                                switch(view.getId()){
-                                    case R.id.imgbtn_camera:
-                                        takecamera();
-                                        break;
-                                    case R.id.imgbtn_pic:
-                                        takepic();
-                                        break;
-                                }
-                            }
-                        });
-                dialog.setTitle("照片上传");
-                dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
-                dialog.show();
+                AlertDialog.Builder builder=new AlertDialog.Builder(this);
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(which==0){
+                            takecamera();
+
+                        }else if(which==1){
+                            //照片
+                        takepic();
+                        }
+                    }
+                }).create().show();
+//                final GetPhotoDialog dialog = new GetPhotoDialog(this,
+//                        new GetPhotoDialog.GetPhotoDialogListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//                                switch(view.getId()){
+//                                    case R.id.imgbtn_camera:
+//                                        takecamera();
+//                                        break;
+//                                    case R.id.imgbtn_pic:
+//                                        takepic();
+//                                        break;
+//                                }
+//                            }
+//                        });
+//                dialog.setTitle("照片上传");
+//                dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
+//                dialog.show();
                 break;
             case R.id.bt_pingshen:
                 validateLife.validate();
