@@ -72,6 +72,11 @@
     <dimen name="spHonorTextSizes">20sp</dimen>
     <dimen name="spHonorMargin">20dip</dimen>
     <dimen name="spHonorMarginLeft">5dip</dimen>
+    <dimen name="spHonorMarginLeft1">12dip</dimen>
+    <dimen name="spHonorMarginTop">5dip</dimen>
+    <dimen name="spHonorMarginTop1">16dip</dimen>
+    <dimen name="spHonorMarginTop2">22dip</dimen>
+    <dimen name="spHonorMarginTop3">10dip</dimen>
 
     <dimen name="fragmentMineMargin">20dp</dimen>
     <dimen name="fragmentMineMarginTop">10dp</dimen>
@@ -132,4 +137,5 @@
     <dimen name="textSize7">6sp</dimen>
     <dimen name="textSize8">7sp</dimen>
     <dimen name="textSize9">5sp</dimen>
+    <dimen name="textSize10">10sp</dimen>
 </resources>

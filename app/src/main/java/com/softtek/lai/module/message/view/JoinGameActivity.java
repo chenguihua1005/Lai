@@ -72,6 +72,12 @@ public class JoinGameActivity extends BaseActivity implements View.OnClickListen
     @InjectView(R.id.img)
     ImageView img;
 
+    @InjectView(R.id.text_zqs)
+    TextView text_zqs;
+
+    @InjectView(R.id.text_zqs1)
+    TextView text_zqs1;
+
     @InjectView(R.id.lin)
     LinearLayout lin;
 
@@ -86,7 +92,9 @@ public class JoinGameActivity extends BaseActivity implements View.OnClickListen
         ll_left.setOnClickListener(this);
         but_no.setOnClickListener(this);
         but_yes.setOnClickListener(this);
-        lin.setOnClickListener(this);
+        img.setOnClickListener(this);
+        text_zqs.setOnClickListener(this);
+        text_zqs1.setOnClickListener(this);
     }
 
 
@@ -122,7 +130,7 @@ public class JoinGameActivity extends BaseActivity implements View.OnClickListen
             case R.id.ll_left:
                 finish();
                 break;
-            case R.id.lin:
+            case R.id.img:
                 if (isSelect) {
                     img.setImageResource(R.drawable.img_join_game_select);
                     isSelect = false;
@@ -130,6 +138,18 @@ public class JoinGameActivity extends BaseActivity implements View.OnClickListen
                     img.setImageResource(R.drawable.img_join_game_selected);
                     isSelect = true;
                 }
+                break;
+            case R.id.text_zqs:
+                if (isSelect) {
+                    img.setImageResource(R.drawable.img_join_game_select);
+                    isSelect = false;
+                } else {
+                    img.setImageResource(R.drawable.img_join_game_selected);
+                    isSelect = true;
+                }
+                break;
+            case R.id.text_zqs1:
+               startActivity(new Intent(this,ZQSActivity.class));
                 break;
             case R.id.but_no:
                 messagePresenter.acceptInviterToClass(messageDetailInfo.getInviterId(),messageDetailInfo.getClassId(),"0",messageDetailInfo);

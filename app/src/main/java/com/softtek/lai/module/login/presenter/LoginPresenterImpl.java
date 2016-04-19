@@ -14,6 +14,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.jpush.JpushSet;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.home.view.ValidateCertificationActivity;
 import com.softtek.lai.module.login.model.RoleInfo;
@@ -22,6 +23,7 @@ import com.softtek.lai.module.login.net.LoginService;
 
 import org.greenrobot.eventbus.EventBus;
 
+import cn.jpush.android.api.JPushInterface;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -104,6 +106,11 @@ public class LoginPresenterImpl implements ILoginPresenter {
                 int status = userResponseData.getStatus();
                 switch (status) {
                     case 200:
+                        JPushInterface.init(context);
+                        JpushSet set = new JpushSet(context);
+                        set.setAlias(userResponseData.getData().getToken());
+                        set.setStyleBasic();
+
                         UserInfoModel.getInstance().saveUserCache(userResponseData.getData());
                         context.startActivity(new Intent(context, HomeActviity.class));
                         ((AppCompatActivity) context).finish();

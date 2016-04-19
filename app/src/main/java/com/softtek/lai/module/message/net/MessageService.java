@@ -34,6 +34,7 @@ import retrofit.http.Query;
 public interface MessageService {
     @GET("/MsgCenter/MsgList")
     void getMsgList(@Header("token") String token,
+                    @Query("accountid") String accountid,
                     Callback<ResponseData<MessageModel>> callback);
 
     @FormUrlEncoded

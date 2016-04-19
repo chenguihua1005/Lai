@@ -58,7 +58,10 @@ public class StudentHonorYGJAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         StudentHonorInfo studentHonorInfo=list.get(position);
-        holder.text_value.setText(studentHonorInfo.getValue().toString());
+        String time=studentHonorInfo.getCreateDate();
+        String[] str1=time.split(" ");
+        String[] str=str1[0].split("-");
+        holder.text_value.setText(str[0]+"年"+str[1]+"月");
 
         return convertView;
     }

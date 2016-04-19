@@ -157,7 +157,8 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
     protected void initDatas() {
         messagePresenter = new MessageImpl(this);
         aCache = ACache.get(this, Constants.USER_ACACHE_DATA_DIR);
-        messagePresenter.getMsgList();
+        String id=UserInfoModel.getInstance().getUser().getUserid();
+        messagePresenter.getMsgList(id);
     }
 
     @Override
