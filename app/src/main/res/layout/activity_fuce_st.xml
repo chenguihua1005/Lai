@@ -528,8 +528,8 @@
                         android:id="@+id/im_stfuce_showphoto" />
                     <ImageView
                         android:id="@+id/im_deletest"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="10dp"
                         android:visibility="gone"

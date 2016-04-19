@@ -144,7 +144,7 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
     @InjectView(R.id.ll_retesrAudit_fat)
     LinearLayout ll_retesrAudit_fat;
 
-
+    
     UserInfoModel userInfoModel=UserInfoModel.getInstance();
     long loginid=Long.parseLong(userInfoModel.getUser().getUserid());
     String accountid;

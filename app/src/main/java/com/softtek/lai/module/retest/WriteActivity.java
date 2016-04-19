@@ -160,6 +160,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
     private static final int PHOTO=1;
     private static final int GET_BODY=2;
     private static final String LAI_CHEN_SWITCH_KEY="laichenSwitch";
+    private CharSequence[] items={"拍照","从相册选择照片"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -317,23 +318,36 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
                 break;
             //拍照事件
             case R.id.im_retestwrite_takephoto:
-                final GetPhotoDialog dialog = new GetPhotoDialog(this,
-                        new GetPhotoDialog.GetPhotoDialogListener() {
-                            @Override
-                            public void onClick(View view) {
-                                switch(view.getId()){
-                                    case R.id.imgbtn_camera:
-                                        takecamera();
-                                        break;
-                                    case R.id.imgbtn_pic:
-                                        takepic();
-                                        break;
-                                }
-                            }
-                        });
-                dialog.setTitle("照片上传");
-                dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
-                dialog.show();
+                AlertDialog.Builder builder=new AlertDialog.Builder(this);
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(which==0){
+                            takecamera();
+
+                        }else if(which==1){
+                            //照片
+                            takepic();
+                        }
+                    }
+                }).create().show();
+//                final GetPhotoDialog dialog = new GetPhotoDialog(this,
+//                        new GetPhotoDialog.GetPhotoDialogListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//                                switch(view.getId()){
+//                                    case R.id.imgbtn_camera:
+//                                        takecamera();
+//                                        break;
+//                                    case R.id.imgbtn_pic:
+//                                        takepic();
+//                                        break;
+//                                }
+//                            }
+//                        });
+//                dialog.setTitle("照片上传");
+//                dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
+//                dialog.show();
                 break;
             //添加身体围度
             case R.id.btn_retest_write_addbody:
