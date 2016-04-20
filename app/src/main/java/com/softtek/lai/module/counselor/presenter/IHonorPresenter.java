@@ -12,4 +12,7 @@ public interface IHonorPresenter {
 
     //获取荣誉榜
     void getSPHonor();
+
+    //获取荣誉榜
+    void getSRHonor();
 }

@@ -16,8 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import butterknife.InjectView;
-
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
@@ -32,23 +30,23 @@ import com.softtek.lai.module.counselor.presenter.HonorImpl;
 import com.softtek.lai.module.counselor.presenter.IHonorPresenter;
 import com.softtek.lai.module.studetail.view.StudentDetailActivity;
 import com.softtek.lai.utils.ACache;
-import com.softtek.lai.utils.SoftInputUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.util.List;
+
+import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
-
-import java.util.List;
 
 /**
  * Created by jarvis.liu on 3/22/2016.
  * 荣誉榜
  */
 @InjectLayout(R.layout.activity_sp_honor)
-public class SPHonorActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener {
+public class SRHonorActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener {
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -186,7 +184,7 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String accountId = honorTable1.get(position).getAccountId();
                 String classId = honorTable1.get(position).getClassId();
-                Intent intent = new Intent(SPHonorActivity.this, StudentDetailActivity.class);
+                Intent intent = new Intent(SRHonorActivity.this, StudentDetailActivity.class);
                 intent.putExtra("userId", Long.parseLong(accountId));
                 intent.putExtra("classId", Long.parseLong(classId));
                 intent.putExtra("review", 1);
@@ -199,7 +197,7 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
     protected void initDatas() {
         honorPresenter = new HonorImpl(this);
         aCache = ACache.get(this, Constants.USER_ACACHE_DATA_DIR);
-        honorPresenter.getSPHonor();
+        honorPresenter.getSRHonor();
     }
 
     @Override

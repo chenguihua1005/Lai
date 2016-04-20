@@ -26,22 +26,22 @@ import zilla.libzilla.dialog.LoadingDialog;
 /**
  * Created by lareina.qiao on 3/31/2016.
  */
-public class PhotoListIml implements PhotoListPre{
+public class PhotoListIml implements PhotoListPre {
     private PhotoListService service;
-    public PhotoListIml(){
-        service= ZillaApi.NormalRestAdapter.create(PhotoListService.class);
+
+    public PhotoListIml() {
+        service = ZillaApi.NormalRestAdapter.create(PhotoListService.class);
     }
 
     @Override
-    public void doGetDownPhoto(String AccountId,int pageIndex,final ProgressDialog loadingDialog) {
-        String token=SharedPreferenceService.getInstance().get("token","");
-        service.doGetDownPhoto(token, AccountId,pageIndex, new Callback<ResponseData<DownPhotoModel>>() {
+    public void doGetDownPhoto(String AccountId, int pageIndex, final ProgressDialog loadingDialog) {
+        String token = SharedPreferenceService.getInstance().get("token", "");
+        service.doGetDownPhoto(token, AccountId, pageIndex, new Callback<ResponseData<DownPhotoModel>>() {
             @Override
             public void success(ResponseData<DownPhotoModel> listResponseData, Response response) {
                 loadingDialog.dismiss();
-                int status=listResponseData.getStatus();
-                switch (status)
-                {
+                int status = listResponseData.getStatus();
+                switch (status) {
 
                     case 200:
                         EventBus.getDefault().post(listResponseData.getData());
@@ -63,15 +63,43 @@ public class PhotoListIml implements PhotoListPre{
     }
 
     @Override
-    public void doUploadPhoto(String AccountId, String filePath,final ProgressDialog loadingDialog) {
-        String token=SharedPreferenceService.getInstance().get("token","");
+    public void getUploadPhoto(String AccountId, String pageIndex) {
+        String token = SharedPreferenceService.getInstance().get("token", "");
+        service.getUploadPhoto(token, AccountId, pageIndex, new Callback<ResponseData<DownPhotoModel>>() {
+            @Override
+            public void success(ResponseData<DownPhotoModel> listResponseData, Response response) {
+
+                int status = listResponseData.getStatus();
+                switch (status) {
+
+                    case 200:
+                        EventBus.getDefault().post(listResponseData.getData());
+                        Util.toastMsg("获取图片成功");
+                        break;
+                    case 500:
+                        Util.toastMsg("获取图片失败");
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
+            }
+        });
+    }
+
+
+    @Override
+    public void doUploadPhoto(String AccountId, String filePath, final ProgressDialog loadingDialog) {
+        String token = SharedPreferenceService.getInstance().get("token", "");
         service.doUploadPhoto(token, AccountId, new TypedFile("image/png", new File(filePath)), new Callback<ResponseData<UploadPhotModel>>() {
             @Override
             public void success(ResponseData<UploadPhotModel> uploadPhotModelResponseData, Response response) {
                 loadingDialog.dismiss();
-                int status=uploadPhotModelResponseData.getStatus();
-                switch (status)
-                {
+                int status = uploadPhotModelResponseData.getStatus();
+                switch (status) {
                     case 200:
                         Util.toastMsg("上传成功");
                         break;
