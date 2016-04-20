@@ -10,6 +10,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.community.model.HealthyDynamicModel;
 import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.module.login.model.UserModel;
@@ -75,6 +76,17 @@ public class HealthyDetailActivity extends BaseActivity implements View.OnClickL
         tv_date.setText(model.getCreateDate());
         tv_content.setText(model.getContent());
         cb_zan.setText(model.getPraiseNum());
+        if(Constants.HAS_ZAN.equals(model.getIsPraise())){
+            cb_zan.setChecked(true);
+            cb_zan.setEnabled(false);
+        }else if(Constants.NO_ZAN.equals(model.getIsPraise())){
+            cb_zan.setChecked(false);
+            cb_zan.setEnabled(true);
+        }
+        if("".equals(UserInfoModel.getInstance().getToken())){
+            cb_zan.setChecked(false);
+            cb_zan.setEnabled(false);
+        }
         //拆分字符串图片列表,并添加到图片集合中
         if(!"".equals(model.getImgCollection())&&null!=model.getImgCollection()){
             String[] image=model.getImgCollection().split(",");
@@ -119,12 +131,12 @@ public class HealthyDetailActivity extends BaseActivity implements View.OnClickL
         tv_name.setText(dynamicModel.getUserName());
         tv_content.setText(dynamicModel.getContent());
         //判断是否点过赞
-        if("false".equals(dynamicModel.getIsPraise())){
-            cb_zan.setChecked(false);
-
-        }else{
+        if(Constants.HAS_ZAN.equals(dynamicModel.getIsPraise())){
             cb_zan.setChecked(true);
             cb_zan.setEnabled(false);
+        }else if(Constants.NO_ZAN.equals(dynamicModel.getIsPraise())){
+            cb_zan.setChecked(false);
+            cb_zan.setEnabled(true);
         }
     }
 

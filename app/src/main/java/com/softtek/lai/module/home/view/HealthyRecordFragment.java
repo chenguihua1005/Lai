@@ -18,6 +18,7 @@ import com.softtek.lai.module.health.view.FatFragment;
 import com.softtek.lai.module.health.view.HealthyRecordActivity;
 import com.softtek.lai.module.health.view.WeightFragment;
 import com.softtek.lai.module.healthrecords.view.HealthEntryActivity;
+import com.softtek.lai.module.historydate.view.HistoryDataActivity;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -52,6 +53,8 @@ public class HealthyRecordFragment extends BaseFragment implements View.OnClickL
     TextView tv_leg;
     @InjectView(R.id.tv_shin)
     TextView tv_shin;
+    @InjectView(R.id.tv_healthhistoty)
+    TextView tv_healthhistoty;
 
     @Override
     protected void initViews() {
@@ -66,6 +69,7 @@ public class HealthyRecordFragment extends BaseFragment implements View.OnClickL
         tv_uphipline.setOnClickListener(this);
         tv_leg.setOnClickListener(this);
         tv_shin.setOnClickListener(this);
+        tv_healthhistoty.setOnClickListener(this);
     }
 
     @Override
@@ -130,6 +134,9 @@ public class HealthyRecordFragment extends BaseFragment implements View.OnClickL
                 Intent intent8=new Intent(getContext(),HealthyRecordActivity.class);
                 intent8.putExtra("id",8);
                 startActivity(intent8);
+                break;
+            case R.id.tv_healthhistoty:
+                startActivity(new Intent(getContext(), HistoryDataActivity.class));
                 break;
         }
     }

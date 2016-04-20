@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.community.model.HealthyCommunityModel;
 import com.softtek.lai.module.lossweightstory.model.LossWeightStoryModel;
 import com.softtek.lai.widgets.CircleImageView;
@@ -66,11 +67,12 @@ public class HealthyCommunityAdapter extends BaseAdapter{
         holder.tv_date.setText(model.getCreateDate());
         holder.tv_zan_name.setText(model.getUsernameSet());
         holder.cb_zan.setText(model.getPraiseNum());
-        if("True".equals(model.getIsPraise())){
+        if(Constants.HAS_ZAN.equals(model.getIsPraise())){
             holder.cb_zan.setChecked(true);
             holder.cb_zan.setEnabled(false);
-        }else {
+        }else if(Constants.NO_ZAN.equals(model.getIsPraise())){
             holder.cb_zan.setChecked(false);
+            holder.cb_zan.setEnabled(true);
         }
         if(isVR){
             holder.cb_zan.setEnabled(false);

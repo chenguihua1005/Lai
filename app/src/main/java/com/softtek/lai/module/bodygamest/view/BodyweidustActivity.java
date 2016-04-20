@@ -81,6 +81,7 @@ public class BodyweidustActivity extends BaseActivity implements View.OnClickLis
     private RetestWriteModel retestWrite;
     private RetestPre retestPre;
     MeasureModel measureModel;
+    String state="true";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,8 +108,9 @@ public class BodyweidustActivity extends BaseActivity implements View.OnClickLis
 //        retestWrite= (RetestWriteModel) getIntent().getSerializableExtra("retestWrite");
         tv_title.setText("添加记录");
         retestWrite=new RetestWriteModel();
+        Intent intent=getIntent();
         retestWrite= (RetestWriteModel) getIntent().getSerializableExtra("retestWrite");
-
+        state=intent.getStringExtra("isState");
         tv_retest_circum.setText(retestWrite.getCircum());
         tv_retest_waistline.setText(retestWrite.getWaistline());
         tv_retest_hiplie.setText(retestWrite.getHiplie());
@@ -131,22 +133,34 @@ public class BodyweidustActivity extends BaseActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ll_retest_circum:
-                show_circum_dialog();
+                if (state.equals("true")) {
+                    show_circum_dialog();
+                }
                 break;
             case R.id.ll_retest_waistline:
-                show_waistline_dialog();
+                if (state.equals("true")) {
+                    show_waistline_dialog();
+                }
                 break;
             case R.id.ll_retest_hiplie:
-                show_hiplie_dialog();
+                if (state.equals("true")) {
+                    show_hiplie_dialog();
+                }
                 break;
             case R.id.ll_retest_uparmgirth:
-                show_uparmgirth_dialog();
+                if (state.equals("true")) {
+                    show_uparmgirth_dialog();
+                }
                 break;
             case R.id.ll_retest_upleggirth:
-                show_upleggirth_dialog();
+                if (state.equals("true")) {
+                    show_upleggirth_dialog();
+                }
                 break;
             case R.id.ll_retest_doleggirth:
-                show_doleggirth_dialog();
+                if (state.equals("true")) {
+                    show_doleggirth_dialog();
+                }
                 break;
             //填写说明
             case R.id.ll_retest_explain:
@@ -168,18 +182,7 @@ public class BodyweidustActivity extends BaseActivity implements View.OnClickLis
 //                String tupleggirth=Double.parseDouble(tv_retest_upleggirth.getText().toString().equals("")?"0":tv_retest_upleggirth.getText().toString());
 //                String doleggirth=Double.parseDouble(tv_retest_doleggirth.getText().toString().equals("")?"0":tv_retest_doleggirth.getText().toString());
 
-                //创建档案的添加围度
-//                measureModel=new MeasureModel();
-//                measureModel.setChestgirth(tv_retest_circum.getText().toString());
-//                measureModel.setWaistgirth(tv_retest_waistline.getText().toString());
-//                measureModel.setHipgirth(tv_retest_hiplie.getText().toString());
-//                measureModel.setUpperarmgirth(tv_retest_uparmgirth.getText().toString());
-//                measureModel.setThighgirth(tv_retest_upleggirth.getText().toString());
-//                measureModel.setCalfgirth(tv_retest_doleggirth.getText().toString());
-//                Intent intent=new Intent();
-//                intent.putExtra("measureModel",measureModel);
-//                setResult(RESULT_OK,intent);
-//                finish();
+
                 retestWrite=new RetestWriteModel();
                 retestWrite.setCircum(tv_retest_circum.getText().toString());
                 retestWrite.setWaistline(tv_retest_waistline.getText().toString());
