@@ -1,7 +1,6 @@
 package com.softtek.lai.module.historydate.view;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -9,7 +8,7 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.module.historydate.model.HistoryDataModel;
+import com.softtek.lai.module.historydate.model.HistoryData;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -47,7 +46,7 @@ public class HistoryDataDetailActivity extends BaseActivity implements View.OnCl
     @InjectView(R.id.tv_calf)
     TextView tv_calf;
 
-    private HistoryDataModel model;
+    private HistoryData model;
 
     @Override
     protected void initViews() {
@@ -58,7 +57,24 @@ public class HistoryDataDetailActivity extends BaseActivity implements View.OnCl
     @Override
     protected void initDatas() {
         model=getIntent().getParcelableExtra("historyData");
-
+        if("1".equals(model.getISGuid())){
+            //莱秤数据
+            iv_icon.setBackground(ContextCompat.getDrawable(this,R.drawable.laichen));
+        }else if("0".equals(model.getISGuid())){
+            iv_icon.setBackground(ContextCompat.getDrawable(this,R.drawable.shoudongluru));
+        }
+        String[] date=model.getCreateDate().split(" ");
+        tv_ymd.setText(date[0]);
+        tv_hm.setText(date[1]);
+        tv_weight.setText(model.getWeight());
+        tv_body_fat.setText(model.getPysical());
+        tv_fat.setText(model.getFat());
+        tv_bust.setText(model.getCircum());
+        tv_waistline.setText(model.getWaistline());
+        tv_hipline.setText(model.getHiplie());
+        tv_up_hipline.setText(model.getUpArmGirth());
+        tv_thigh.setText(model.getUpLegGirth());
+        tv_calf.setText(model.getDoLegGirth());
     }
 
     @Override

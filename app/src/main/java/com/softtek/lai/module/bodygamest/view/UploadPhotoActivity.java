@@ -15,6 +15,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -60,6 +61,10 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     TextView tv_left;
     @InjectView(R.id.imtest)
     ImageView imtest;
+    @InjectView(R.id.tv_right)
+    TextView tv_right;
+    @InjectView(R.id.fl_right)
+    FrameLayout fl_right;
     @InjectView(R.id.ptrlvlist)
     PullToRefreshListView ptrlvlist;
     @InjectView(R.id.im_uploadphoto_banner)
@@ -95,6 +100,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         //监听点击事件
         tv_left.setOnClickListener(this);
         imtest.setOnClickListener(this);
+        fl_right.setOnClickListener(this);
 
 
     }
@@ -143,6 +149,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         progressDialog = new ProgressDialog(this);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setMessage("正在加载内容...");
+        tv_right.setText("分享");
 
     }
 
@@ -167,6 +174,10 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         {
             case R.id.tv_left:
                 finish();
+                break;
+            case R.id.fl_right:
+                Intent intent=new Intent(this,SelectPhotoActivity.class);
+                startActivityForResult(intent,100);
                 break;
             case R.id.imtest:
                 final GetPhotoDialog dialog = new GetPhotoDialog(UploadPhotoActivity.this,
@@ -220,7 +231,9 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        if(requestCode==100 &&resultCode == RESULT_OK){
+            String result = data.getExtras().getString("result");//得到新Activity 关闭后返回的数据
+        }
         if (resultCode == RESULT_OK && requestCode == PHOTO) {
             Bitmap bm = BitmapFactory.decodeFile(path.toString());
             imtest.setImageBitmap(bm);

@@ -30,8 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerInParent="true"
-                android:layout_marginLeft="15dp"
-                android:src="@drawable/laichen" />
+                android:layout_marginLeft="15dp" />
 
             <TextView
                 android:id="@+id/tv_ymd"

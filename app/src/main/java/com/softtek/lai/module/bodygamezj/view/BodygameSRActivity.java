@@ -19,6 +19,7 @@ import com.softtek.lai.module.bodygame.view.TipsActivity;
 import com.softtek.lai.module.counselor.view.ApplyAssistantActivity;
 import com.softtek.lai.module.counselor.view.CounselorClassListActivity;
 import com.softtek.lai.module.counselor.view.GameActivity;
+import com.softtek.lai.module.counselor.view.SRHonorActivity;
 import com.softtek.lai.module.jingdu.view.JingduActivity;
 import com.softtek.lai.module.retest.view.RetestActivity;
 import com.softtek.lai.module.review.view.ReviewActivity;
@@ -135,7 +136,7 @@ public class BodygameSRActivity extends BaseActivity implements View.OnClickList
                 break;
             case R.id.ll_rongyu:
                 //荣誉榜
-                //startActivity(new Intent(this,SRHonorActivity.class));
+                startActivity(new Intent(this,SRHonorActivity.class));
                 break;
             case R.id.ll_assistant:
                 //申请助教

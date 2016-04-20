@@ -5,15 +5,24 @@ package com.softtek.lai.module.historydate.model;
  */
 public class HistoryDataItemModel {
 
-    private boolean isChecked;
-    private boolean isShow;
-    private HistoryDataModel dataModel;
+    private boolean isChecked=false;
+    private boolean isShow=false;
+    private HistoryData dataModel;
 
-    public HistoryDataModel getDataModel() {
+    public HistoryDataItemModel() {
+    }
+
+    public HistoryDataItemModel(boolean isChecked, boolean isShow, HistoryData dataModel) {
+        this.isChecked = isChecked;
+        this.isShow = isShow;
+        this.dataModel = dataModel;
+    }
+
+    public HistoryData getDataModel() {
         return dataModel;
     }
 
-    public void setDataModel(HistoryDataModel dataModel) {
+    public void setDataModel(HistoryData dataModel) {
         this.dataModel = dataModel;
     }
 

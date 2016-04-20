@@ -77,7 +77,7 @@ public class PhotoListIml implements PhotoListPre {
                         Util.toastMsg("获取图片成功");
                         break;
                     case 500:
-                        Util.toastMsg("获取图片失败");
+                        EventBus.getDefault().post(listResponseData.getData());
                         break;
                 }
             }
