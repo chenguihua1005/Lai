@@ -7,7 +7,11 @@ package com.softtek.lai.module.home.view;
 
 
 import android.support.v7.widget.LinearLayoutManager;
+import android.widget.TextView;
+
 import butterknife.InjectView;
+
+import com.github.snowdream.android.util.Log;
 import com.google.gson.Gson;
 import com.lhh.ptrrv.library.PullToRefreshRecyclerView;
 import com.softtek.lai.R;
@@ -22,6 +26,7 @@ import com.softtek.lai.module.home.eventModel.RefreshEvent;
 import com.softtek.lai.module.home.model.HomeInfoModel;
 import com.softtek.lai.module.home.presenter.HomeInfoImpl;
 import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
+import com.softtek.lai.module.retest.model.LaichModel;
 import com.softtek.lai.utils.ACache;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -100,6 +105,7 @@ public class ActivityRecordFragment extends BaseFragment implements PullToRefres
         homeInfoPresenter.getContentByPage(1, page, Constants.ACTIVITY_RECORD);
 
     }
+
 
     @Subscribe
     public void onRefreshEnd(RefreshEvent event) {

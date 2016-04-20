@@ -5,6 +5,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.health.eventmodel.HealthEventModel;
 import com.softtek.lai.module.health.model.HealthDateModel;
 import com.softtek.lai.module.health.model.HealthyRecordModel;
+import com.softtek.lai.module.health.model.PysicalModel;
 import com.softtek.lai.module.health.net.HealthyService;
 import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
 import com.softtek.lai.utils.RequestCallback;
@@ -13,6 +14,8 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
+import retrofit.Callback;
+import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.util.Util;
@@ -23,52 +26,42 @@ import zilla.libcore.util.Util;
 public class HealthyRecordImpl implements IHealthyRecord  {
 
     private HealthyService serveice;
-    private HealthyRecordCallback cb;
 
-    public HealthyRecordImpl(HealthyRecordCallback cb) {
-        this.cb=cb;
+
+    public HealthyRecordImpl() {
         serveice= ZillaApi.NormalRestAdapter.create(HealthyService.class);
     }
 
-    public void getCurveData(){
-        String token= UserInfoModel.getInstance().getToken();
-        serveice.doGetHealth(token, new RequestCallback<ResponseData<HealthDateModel>>() {
-            @Override
-            public void success(ResponseData<HealthDateModel> listResponseData, Response response) {
-                int status = listResponseData.getStatus();
-                switch (status) {
-                    case 200:
-                        Util.toastMsg("获取健康记录数据成功");
-                        break;
-                }
-            }
-        });
 
-    }
+
+
+
 
     @Override
-    public void doGetHealth() {
+    public void doGetHealthPysicalRecords(String Startdate, String Enddate, int i) {
         String token= UserInfoModel.getInstance().getToken();
-        serveice.doGetHealth(token, new RequestCallback<ResponseData<HealthDateModel>>() {
+        serveice.doGetHealthPysicalRecords(token, Startdate, Enddate, i, new Callback<ResponseData<PysicalModel>>() {
             @Override
-            public void success(ResponseData<HealthDateModel> listResponseData, Response response) {
-                int status = listResponseData.getStatus();
-                switch (status) {
+            public void success(ResponseData<PysicalModel> pysicalModelResponseData, Response response) {
+                int states=pysicalModelResponseData.getStatus();
+                switch (states)
+                {
                     case 200:
-                        EventBus.getDefault().post(listResponseData.getData());
-                        listResponseData.getData();
-                        Util.toastMsg("获取健康记录数据成功");
-                        break;
+                        Util.toastMsg(pysicalModelResponseData.getMsg());
+                        default:
+                            Util.toastMsg(pysicalModelResponseData.getMsg());
                 }
             }
+
+            @Override
+            public void failure(RetrofitError error) {
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
+
+            }
         });
-
-
     }
 
 
-    public interface HealthyRecordCallback{
-        void doGetDate(HealthDateModel healthDateModel);
 
-    }
 }

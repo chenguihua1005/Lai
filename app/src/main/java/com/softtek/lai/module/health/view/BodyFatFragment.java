@@ -18,6 +18,7 @@ import com.softtek.lai.module.health.model.MonthDateModel;
 import com.softtek.lai.module.health.model.WeekDateModel;
 import com.softtek.lai.module.health.presenter.HealthyRecordImpl;
 import com.softtek.lai.module.health.presenter.IHealthyRecord;
+import com.softtek.lai.module.lossweightstory.model.LogList;
 import com.softtek.lai.module.retest.eventModel.BanJiEvent;
 import com.softtek.lai.module.retest.model.BanjiModel;
 import com.softtek.lai.module.studetail.util.LineChartUtil;
@@ -25,8 +26,10 @@ import com.softtek.lai.module.studetail.util.LineChartUtil;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -36,7 +39,7 @@ import zilla.libcore.ui.InjectLayout;
  * Created by John on 2016/4/12.
  */
 @InjectLayout(R.layout.fragment_weight)
-public class BodyFatFragment extends BaseFragment implements RadioGroup.OnCheckedChangeListener,HealthyRecordImpl.HealthyRecordCallback,View.OnClickListener{
+public class BodyFatFragment extends BaseFragment implements RadioGroup.OnCheckedChangeListener,View.OnClickListener{
 
     @InjectView(R.id.chart)
     LineChart chart;
@@ -76,6 +79,9 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
     boolean state=true;
     int flag=0;
     private ProgressDialog progressDialog;
+    SimpleDateFormat    sDateFormat    =   new    SimpleDateFormat("yyyy-MM-dd    hh:mm:ss");
+    String    date    =    sDateFormat.format(new    java.util.Date());
+    String[] datetime=date.split("   ");
 //    private List<MonthDateModel> banjiModelList=new ArrayList<>();
 
 
@@ -108,6 +114,7 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
         bt_right.setOnClickListener(this);
         week.setOnClickListener(this);
         month.setOnClickListener(this);
+        year.setOnClickListener(this);
     }
 
 //    @Override
@@ -119,7 +126,8 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
     @Override
     protected void initDatas() {
         chartUtil=new LineChartUtil(getContext(),chart);
-
+        iHealthyRecord=new HealthyRecordImpl();
+        Log.i(""+date+datetime[0]+datetime[1]);
 
         String nowdate7=getPeriodDate(type,0)+"";
         String nowdate6=getPeriodDate(type,1)+"";
@@ -135,6 +143,7 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
         days.add(formdate(nowdate5));
         days.add(formdate(nowdate6));
         days.add(formdate(nowdate7));
+        iHealthyRecord.doGetHealthPysicalRecords(getDateform(nowdate1)+" "+datetime[1],date,1);
         dates.add(15f);
         dates.add(18f);
         dates.add(6.3f);
@@ -157,6 +166,14 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
             date=nowdate.substring(4,6)+"/"+nowdate.substring(6,8);
 
     }
+        return date;
+
+    }
+    public String getDateform(String nowdate)
+    {
+        String date;
+        String sr=nowdate.substring(4,5);
+        date=nowdate.substring(0,4)+"-"+nowdate.substring(4,6)+"-"+nowdate.substring(6,8);
         return date;
 
     }
@@ -184,7 +201,7 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
         }
     }
 
-
+/*
     @Override
     public void doGetDate(HealthDateModel healthDateModel) {
         List<WeekDateModel> weekDateModels=healthDateModel.getWeekDate();
@@ -215,6 +232,7 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
         }
 
     }
+    */
     /**
      * 获取阶段日期
      * @param  dateType
@@ -262,7 +280,7 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
                 // System.out.println(df.format(c.getTime()));
                 break;
             case '7': // 一个月前
-                day = c.get(Calendar.DAY_OF_MONTH) - 30;
+                day = c.get(Calendar.DAY_OF_MONTH) - 30*n;
                 c.set(Calendar.DAY_OF_MONTH, day);
                 // System.out.println(df.format(c.getTime()));
                 break;
@@ -390,7 +408,49 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
                 days.clear();
                 dates.clear();
                 break;
+            case R.id.quarter:
+                flag=1;
+                String quarterdate4=getPeriodDate(type,0)+"";
+                String quarterdate3=getPeriodDate(type,21)+"";
+                String quarterdate2=getPeriodDate(type,21*2)+"";
+                String quarterdate1=getPeriodDate(type,21*3)+"";
+                days.add(formdate(quarterdate1));
+                days.add(formdate(quarterdate2));
+                days.add(formdate(quarterdate3));
+                days.add(formdate(quarterdate4));
+                dates.add(15f);
+                dates.add(18f);
+                dates.add(6.3f);
+                chartUtil.addData(dates,4,days);
+                days.clear();
+                dates.clear();
+                break;
+            case R.id.year:
+                type='7';
+                String yeardate4=getPeriodDate(type,0)+"";
+                String yeardate3=getPeriodDate(type,1)+"";
+                String yeardate2=getPeriodDate(type,2)+"";
+                String yeardate1=getPeriodDate(type,3)+"";
+                days.add(formyeardate(yeardate1));
+                days.add(formyeardate(yeardate2));
+                days.add(formyeardate(yeardate3));
+                days.add(formyeardate(yeardate4));
+                dates.add(15f);
+                dates.add(18f);
+                dates.add(6.3f);
+                chartUtil.addData(dates,4,days);
+                days.clear();
+                dates.clear();
+                break;
         }
+    }
+    public String formyeardate(String nowdate)
+    {
+        String date;
+        String sr=nowdate.substring(0,4);
+        date=sr+"/"+nowdate.substring(4,6);
+        return date;
+
     }
 
 }

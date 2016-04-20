@@ -13,6 +13,42 @@ public class LogStoryDetailModel {
     private String CreateDate;
     private String LogContent;
     private String imgCollection;
+    private String Photo;
+    private String priasenum;
+    private String ifpriasenum;
+    private String UserNames;
+
+    public String getPhoto() {
+        return Photo;
+    }
+
+    public void setPhoto(String photo) {
+        Photo = photo;
+    }
+
+    public String getPriasenum() {
+        return priasenum;
+    }
+
+    public void setPriasenum(String priasenum) {
+        this.priasenum = priasenum;
+    }
+
+    public String getIfpriasenum() {
+        return ifpriasenum;
+    }
+
+    public void setIfpriasenum(String ifpriasenum) {
+        this.ifpriasenum = ifpriasenum;
+    }
+
+    public String getUserNames() {
+        return UserNames;
+    }
+
+    public void setUserNames(String userNames) {
+        UserNames = userNames;
+    }
 
     public String getLossLogId() {
         return LossLogId;

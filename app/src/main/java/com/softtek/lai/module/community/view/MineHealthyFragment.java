@@ -16,6 +16,7 @@ import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.community.adapter.HealthyCommunityAdapter;
 import com.softtek.lai.module.community.model.HealthyCommunityModel;
+import com.softtek.lai.module.community.model.HealthyRecommendModel;
 import com.softtek.lai.module.community.presenter.CommunityManager;
 import com.softtek.lai.module.login.view.LoginActivity;
 
@@ -44,19 +45,29 @@ public class MineHealthyFragment extends BaseFragment  implements  AdapterView.O
     private HealthyCommunityAdapter adapter;
     private List<HealthyCommunityModel> communityModels=new ArrayList<>();
     int pageIndex=1;
+    int totalPage=0;
     boolean isLogin=false;
     @Override
     protected void initViews() {
         but_login.setOnClickListener(this);
         ptrlv.setOnItemClickListener(this);
-        ptrlv.setOnRefreshListener(this);
         ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
+        ptrlv.setOnRefreshListener(this);
 
     }
 
     @Override
     public void onStart() {
         super.onStart();
+
+    }
+
+    @Override
+    protected void initDatas() {
+        community=new CommunityManager(this);
+        //加载数据适配器
+        adapter=new HealthyCommunityAdapter(getContext(),communityModels,false);
+        ptrlv.setAdapter(adapter);
         String token=UserInfoModel.getInstance().getToken();
         if(token==null||"".equals(token)){
             isLogin=false;
@@ -67,14 +78,6 @@ public class MineHealthyFragment extends BaseFragment  implements  AdapterView.O
             lin_is_vr.setVisibility(View.GONE);
             ptrlv.setVisibility(View.VISIBLE);
         }
-    }
-
-    @Override
-    protected void initDatas() {
-        community=new CommunityManager(this);
-        //加载数据适配器
-        adapter=new HealthyCommunityAdapter(getContext(),communityModels,false);
-        ptrlv.setAdapter(adapter);
         //自动加载
         if(isLogin){
             new Handler().postDelayed(new Runnable() {
@@ -92,13 +95,24 @@ public class MineHealthyFragment extends BaseFragment  implements  AdapterView.O
         //获取健康我的动态
         Log.i("加载健康圈我的动态");
         pageIndex=1;
-        community.getHealthyMine(pageIndex);
+        community.getHealthyMine(1);
     }
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
         pageIndex++;
-        community.getHealthyMine(pageIndex);
+        if(pageIndex<=totalPage){
+            community.getHealthyMine(pageIndex);
+        }else{
+            pageIndex--;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ptrlv.onRefreshComplete();
+
+                }
+            },300);
+        }
     }
 
     @Override
@@ -107,20 +121,23 @@ public class MineHealthyFragment extends BaseFragment  implements  AdapterView.O
     }
 
     @Override
-    public void getMineDynamic(List<HealthyCommunityModel> models) {
+    public void getMineDynamic(HealthyRecommendModel model) {
         ptrlv.onRefreshComplete();
-        if(communityModels==null){
+        if(model==null){
             pageIndex=--pageIndex<1?1:pageIndex;
             return;
         }
-        if(communityModels.isEmpty()){
+        Log.i("我的="+model.toString());
+        totalPage=Integer.parseInt(model.getTotalPage());
+        List<HealthyCommunityModel> models=model.getHealthList();
+        if(models==null||models.isEmpty()){
             pageIndex=--pageIndex<1?1:pageIndex;
             return;
         }
         if(pageIndex==1){
             this.communityModels.clear();
         }
-        this.communityModels.addAll(communityModels);
+        this.communityModels.addAll(models);
         adapter.notifyDataSetChanged();
     }
 
@@ -131,5 +148,14 @@ public class MineHealthyFragment extends BaseFragment  implements  AdapterView.O
                 startActivity(new Intent(getContext(), LoginActivity.class));
                 break;
         }
+    }
+
+    public  void updateList(){
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ptrlv.setRefreshing();
+            }
+        }, 300);
     }
 }

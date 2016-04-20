@@ -28,6 +28,12 @@ import com.softtek.lai.module.bodygamest.model.HasClass;
 import com.softtek.lai.module.bodygamest.present.StudentImpl;
 import com.softtek.lai.module.counselor.view.GameActivity;
 import com.softtek.lai.module.lossweightstory.view.LossWeightStoryActivity;
+import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
+import com.softtek.lai.module.retest.model.MeasureModel;
+import com.softtek.lai.module.retest.model.RetestAuditModel;
+import com.softtek.lai.module.retest.model.RetestWriteModel;
+import com.softtek.lai.module.retest.present.RetestPre;
+import com.softtek.lai.module.retest.present.RetestclassImp;
 import com.softtek.lai.module.studentbasedate.view.StudentBaseDateActivity;
 import com.softtek.lai.utils.RequestCallback;
 import com.squareup.picasso.Picasso;
@@ -88,8 +94,10 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
     //提示
     @InjectView(R.id.ll_st_tipst)
     LinearLayout ll_st_tipst;
+    RetestPre retestPre;
     UserInfoModel userInfoModel=UserInfoModel.getInstance();
     long loginid=Long.parseLong(userInfoModel.getUser().getUserid());
+    boolean flag=true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,13 +136,23 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
         tiGuanSai.doGetFuceNum(loginid);
         tiGuanSai.doGetTotal();
         studentImpl=new StudentImpl(this);
+        retestPre=new RetestclassImp();
+        retestPre.doGetAudit(loginid,0,"");
 
     }
+    @Subscribe
+    public void doGetDates(RetestAuditModelEvent retestAuditModelEvent){
 
+        if (retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("0"))
+        {
+            flag=false;
+
+        }
+    }
     @Subscribe
     public void onEvent(TiGuanSaiModel tiGuanSai) {
 
-        Picasso.with(this).load(tiGuanSai.getImg_Addr()).placeholder(R.drawable.froyo).error(R.drawable.gingerbread).into(iv_st_adv);
+        Picasso.with(this).load(tiGuanSai.getImg_Addr()).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_st_adv);
 
 
     }
@@ -219,8 +237,15 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
                 break;
             //复测
             case R.id.ll_st_fuce:
-                Intent intent1 = new Intent(this, FuceStActivity.class);
-                startActivity(intent1);
+                if (flag==true) {
+                    Intent intent1 = new Intent(this, FuceStActivity.class);
+                    startActivity(intent1);
+                }
+                else {
+                    new AlertDialog.Builder(BodyGamePCActivity.this).setTitle("提示")
+                            .setMessage("复测审核中……").create().show();
+
+                }
                 break;
             //减重故事
             case R.id.ll_st_jianzhong:

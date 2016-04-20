@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
@@ -18,6 +19,7 @@ import com.softtek.lai.module.health.presenter.HealthyRecordImpl;
 import com.softtek.lai.module.health.presenter.IHealthyRecord;
 import com.softtek.lai.module.healthrecords.view.HealthEntryActivity;
 import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
+import com.softtek.lai.module.retest.model.LaichModel;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.module.retest.present.RetestclassImp;
 import com.softtek.lai.widgets.NoSlidingViewPage;
@@ -33,7 +35,7 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_weight)
-public class HealthyRecordActivity extends BaseActivity implements View.OnClickListener,BaseFragment.OnFragmentInteractionListener,HealthyRecordImpl.HealthyRecordCallback{
+public class HealthyRecordActivity extends BaseActivity implements View.OnClickListener,BaseFragment.OnFragmentInteractionListener{
 
     private HealthyRecordImpl healthyRecord;
     @InjectView(R.id.ll_left)
@@ -62,6 +64,7 @@ public class HealthyRecordActivity extends BaseActivity implements View.OnClickL
         retestPre.GetUserMeasuredInfo(moblie);
 
     }
+
 
     @Override
     protected void onDestroy() {
@@ -94,10 +97,7 @@ public class HealthyRecordActivity extends BaseActivity implements View.OnClickL
         tab.setTabMode(TabLayout.MODE_SCROLLABLE);
         int item=getIntent().getIntExtra("id",0);
         tab_content.setCurrentItem(item);
-//        healthyRecord.getCurveData();
-        iHealthyRecord=new HealthyRecordImpl(this);
-        iHealthyRecord.doGetHealth();
-//        healthyRecord=new HealthyRecordImpl(this);
+
 
 
     }
@@ -117,11 +117,6 @@ public class HealthyRecordActivity extends BaseActivity implements View.OnClickL
     }
 
 
-    @Override
-    public void doGetDate(HealthDateModel healthDateModel) {
-        Util.toastMsg(healthDateModel.toString());
-
-    }
     @Subscribe
     public void doGetPhoto(HealthDateModel healthDateModel) {
         System.out.println("照片名称" + healthDateModel.getMonthDate());

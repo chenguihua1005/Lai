@@ -20,7 +20,7 @@ import zilla.libcore.ui.InjectLayout;
  * Created by John on 2016/4/12.
  */
 @InjectLayout(R.layout.fragment_weight)
-public class WeightFragment extends BaseFragment implements RadioGroup.OnCheckedChangeListener, HealthyRecordImpl.HealthyRecordCallback{
+public class WeightFragment extends BaseFragment implements RadioGroup.OnCheckedChangeListener{
 
     @InjectView(R.id.chart)
     LineChart chart;
@@ -66,8 +66,8 @@ public class WeightFragment extends BaseFragment implements RadioGroup.OnChecked
 
     @Override
     protected void initDatas() {
-        iHealthyRecord=new HealthyRecordImpl(this);
-        iHealthyRecord.doGetHealth();
+//        iHealthyRecord=new HealthyRecordImpl(this);
+//        iHealthyRecord.doGetHealth();
 
     }
 
@@ -86,8 +86,5 @@ public class WeightFragment extends BaseFragment implements RadioGroup.OnChecked
         }
     }
 
-    @Override
-    public void doGetDate(HealthDateModel healthDateModel) {
-        healthDateModel.getMonthDate().get(0).getAccountId();
-    }
+
 }

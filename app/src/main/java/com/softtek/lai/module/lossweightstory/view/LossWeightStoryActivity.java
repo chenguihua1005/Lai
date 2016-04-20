@@ -18,6 +18,7 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.lossweightstory.adapter.LossWeightStoryAdapter;
 import com.softtek.lai.module.lossweightstory.model.LogList;
+import com.softtek.lai.module.lossweightstory.model.LogStoryModel;
 import com.softtek.lai.module.lossweightstory.model.LossWeightStoryModel;
 import com.softtek.lai.module.lossweightstory.presenter.LossWeightStoryManager;
 import com.softtek.lai.widgets.CircleImageView;
@@ -53,7 +54,8 @@ public class LossWeightStoryActivity extends BaseActivity implements View.OnClic
     private LossWeightStoryManager lossWeightStoryManager;
     private List<LossWeightStoryModel> lossWeightStoryModels=new ArrayList<>();
     private LossWeightStoryAdapter adapter;
-    int pageIndex=0;
+    int pageIndex=1;
+    int totalPage;
     @Override
     protected void initViews() {
         ll_left.setOnClickListener(this);
@@ -83,6 +85,8 @@ public class LossWeightStoryActivity extends BaseActivity implements View.OnClic
         },200);
     }
 
+    public static final int SEND_NEW_STORY=1;
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -91,14 +95,30 @@ public class LossWeightStoryActivity extends BaseActivity implements View.OnClic
                 break;
             case R.id.fl_right:
                 //跳转新故事
-                startActivity(new Intent(this,NewStoryActivity.class));
+                startActivityForResult(new Intent(this,NewStoryActivity.class),SEND_NEW_STORY);
                 break;
         }
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_OK){
+            if(requestCode==SEND_NEW_STORY){
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ptrlv.setRefreshing();
+                    }
+                }, 200);
+
+            }
+        }
+    }
+
+    @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Log.i("点击了itme---->"+position);
+
         if(position<2){
             return;
         }
@@ -118,7 +138,18 @@ public class LossWeightStoryActivity extends BaseActivity implements View.OnClic
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
         String userId=UserInfoModel.getInstance().getUser().getUserid();
         pageIndex++;
-        lossWeightStoryManager.getLossWeightLogForClass(Long.parseLong(userId),pageIndex);
+        if(pageIndex<=totalPage){
+            lossWeightStoryManager.getLossWeightLogForClass(Long.parseLong(userId),pageIndex);
+        }else{
+            pageIndex--;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ptrlv.onRefreshComplete();
+
+                }
+            },300);
+        }
     }
 
     @Override
@@ -126,16 +157,13 @@ public class LossWeightStoryActivity extends BaseActivity implements View.OnClic
         ptrlv.onRefreshComplete();
         if (logList==null){
             pageIndex=--pageIndex<1?1:pageIndex;
-            Log.i("网络请求错误，当前第"+pageIndex+"页");
             return;
         }
-        Log.i("获取的新数据有"+logList.getLogList().size()+"个，当前第"+pageIndex+"页");
-        Log.i(logList.toString());
-        List<LossWeightStoryModel> models=logList.getLogList();
         tv_name.setText(logList.getUserName());
+        totalPage=Integer.parseInt(logList.getTotalPage());
+        List<LossWeightStoryModel> models=logList.getLogList();
         if(models==null||models.isEmpty()){
             pageIndex=--pageIndex<1?1:pageIndex;
-            Log.i("集合为空，当前第"+pageIndex+"页");
             return;
         }
         if (pageIndex==1){

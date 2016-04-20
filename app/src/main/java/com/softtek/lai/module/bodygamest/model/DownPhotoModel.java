@@ -1,38 +1,65 @@
 package com.softtek.lai.module.bodygamest.model;
 
+import java.util.List;
+
 /**
  * Created by lareina.qiao on 3/31/2016.
  */
 public class DownPhotoModel {
-    private String ImgUrl;
-    private String CreateDate;
+    private String UserName;
+    private String Photo;
+    private String Banner;
+    private String TotalPage;
+    private List<LogListModel> LogList;
 
     @Override
     public String toString() {
         return "DownPhotoModel{" +
-                "ImgUrl='" + ImgUrl + '\'' +
-                ", CreateDate='" + CreateDate + '\'' +
+                "UserName='" + UserName + '\'' +
+                ", Photo='" + Photo + '\'' +
+                ", Banner='" + Banner + '\'' +
+                ", TotalPage='" + TotalPage + '\'' +
+                ", LogList=" + LogList +
                 '}';
     }
 
-    public String getCreateDate() {
-        return CreateDate;
+    public String getUserName() {
+        return UserName;
     }
 
-    public void setCreateDate(String createDate) {
-        CreateDate = createDate;
+    public void setUserName(String userName) {
+        UserName = userName;
     }
 
-    public String getImgUrl() {
-        return ImgUrl;
+    public String getPhoto() {
+        return Photo;
     }
 
-    public void setImgUrl(String imgUrl) {
-        ImgUrl = imgUrl;
+    public void setPhoto(String photo) {
+        Photo = photo;
     }
 
-    public DownPhotoModel(String imgUrl, String createDate) {
-        ImgUrl = imgUrl;
-        CreateDate = createDate;
+    public String getBanner() {
+        return Banner;
+    }
+
+    public void setBanner(String banner) {
+        Banner = banner;
+    }
+
+    public String getTotalPage() {
+        return TotalPage;
+    }
+
+    public void setTotalPage(String totalPage) {
+        TotalPage = totalPage;
+    }
+
+    public List<LogListModel> getLogList() {
+        return LogList;
+    }
+
+    public void setLogList(List<LogListModel> logList) {
+        LogList = logList;
     }
 }

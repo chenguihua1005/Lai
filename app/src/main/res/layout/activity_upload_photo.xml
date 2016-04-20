@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true"
     android:background="#ffffff"
     tools:context=".module.bodygamest.view.UploadPhotoActivity">
@@ -25,6 +26,7 @@
                 android:layout_height="220dp"
                 >
                 <ImageView
+                    android:id="@+id/im_uploadphoto_banner"
                     android:layout_width="match_parent"
                     android:layout_height="195dp"
                     android:src="@drawable/default_pic"
@@ -72,13 +74,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#e5e5e5"/>
+            <com.handmark.pulltorefresh.library.PullToRefreshListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="#00ececec"
+                android:dividerHeight="1dp"
+                android:listSelector="@android:color/transparent"
+                android:scrollbars="none"
+                app:ptrShowIndicator="false"
+                android:id="@+id/ptrlvlist"
+                android:focusable="false"
+                >
 
+            </com.handmark.pulltorefresh.library.PullToRefreshListView>
 
-                <ListView
-                    android:id="@+id/list_uploadphoto"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                </ListView>
             
         </LinearLayout>
         

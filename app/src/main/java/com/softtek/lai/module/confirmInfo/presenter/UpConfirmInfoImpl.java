@@ -50,11 +50,10 @@ public class UpConfirmInfoImpl implements IUpConfirmInfopresenter{
             @Override
             public void success(ResponseData<GetConfirmInfoModel> getConfirmInfoModelResponseData, Response response) {
                 int status = getConfirmInfoModelResponseData.getStatus();
-                Log.i("getConfirmInfoModelResponseData:"+getConfirmInfoModelResponseData);
+                Log.i("--------获取参赛确认信息--------------getConfirmInfoModelResponseData:"+getConfirmInfoModelResponseData);
                 switch (status) {
                     case 200:
                         EventBus.getDefault().post(new ConinfoEvent(getConfirmInfoModelResponseData.getData()));
-                        System.out.println(getConfirmInfoModelResponseData);
                         System.out.println("getConfirmInfoModelResponseData:"+getConfirmInfoModelResponseData);
                         Util.toastMsg("读取信息成功");
                         break;
@@ -102,6 +101,7 @@ public class UpConfirmInfoImpl implements IUpConfirmInfopresenter{
         });
     }
 
+    //上传图片文件
     @Override
     public void upload(final String upimg) {
         String token = SharedPreferenceService.getInstance().get("token", "");

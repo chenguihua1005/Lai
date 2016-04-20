@@ -76,7 +76,7 @@ public class StudentDetailActivity extends BaseActivity implements View.OnClickL
     private List<Fragment> fragmentList=new ArrayList<>();
     private long accountId=0;
     private long classId=0;
-    private String review_flag;
+    private String review_flag="1";
     @Override
     protected void initViews() {
         ll_left.setOnClickListener(this);
@@ -87,6 +87,7 @@ public class StudentDetailActivity extends BaseActivity implements View.OnClickL
         accountId=getIntent().getLongExtra("userId",0);
         classId=getIntent().getLongExtra("classId",0);
         review_flag=getIntent().getStringExtra("review");
+        review_flag=review_flag==null?"1":review_flag;
         Map<String,String> params=new HashMap<>();
         params.put("userId",accountId+"");
         params.put("classId",classId+"");
@@ -132,9 +133,9 @@ public class StudentDetailActivity extends BaseActivity implements View.OnClickL
         tv_name.setText(memberModel.getUserName());
         tv_phone.setText(memberModel.getMobile());
         tv_totle_log.setText(memberModel.getLogCount() + "篇");
-        tv_totle_lw.setText(memberModel.getLossWeight() + "kg");
-        tv_loss_before.setText(memberModel.getLossBefor() + "kg");
-        tv_loss_after.setText(memberModel.getLossAfter() + "kg");
+        tv_totle_lw.setText(memberModel.getLossWeight() + "斤");
+        tv_loss_before.setText(memberModel.getLossBefor() + "斤");
+        tv_loss_after.setText(memberModel.getLossAfter() + "斤");
 
         Picasso.with(this).load(memberModel.getPhoto()).placeholder(R.drawable.img_default).error(R.drawable.img_default).into(civ_header_image);
         Picasso.with(this).load(memberModel.getBeforImg()).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_loss_before);

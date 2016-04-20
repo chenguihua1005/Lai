@@ -9,6 +9,7 @@
         android:layout_below="@id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fillViewport="true"
         android:scrollbars="none">
 
         <LinearLayout
@@ -39,7 +40,7 @@
                     android:text="2016年4月15日"
                     android:textColor="#999999"
                     android:layout_toRightOf="@+id/tv_updatetext"
-                    android:layout_marginLeft="8dp"
+                    android:layout_marginLeft="4dp"
                     android:textSize="14sp"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -48,7 +49,7 @@
                     android:textColor="#999999"
                     android:layout_toRightOf="@+id/tv_healthdate"
                     android:textSize="14sp"
-                    android:layout_marginLeft="10dp"/>
+                    android:layout_marginLeft="5dp"/>
                 <TextView
                     android:id="@+id/tv_healthhistoty"
                     android:layout_width="wrap_content"
@@ -92,6 +93,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_centerVertical="true">
                 <TextView
+                    android:id="@+id/tv_health_weight"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="10斤"
@@ -140,6 +142,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_centerVertical="true">
             <TextView
+                android:id="@+id/tv_health_Pysical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="20%"
@@ -190,6 +193,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_centerVertical="true">
             <TextView
+                android:id="@+id/tv_health_fat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="13"
@@ -240,6 +244,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_centerVertical="true">
             <TextView
+                android:id="@+id/tv_health_circum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="90cm"
@@ -290,6 +295,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_centerVertical="true">
             <TextView
+                android:id="@+id/tv_health_waistline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="60cm"
@@ -340,6 +346,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_centerVertical="true">
             <TextView
+                android:id="@+id/tv_health_hiplie"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="50cm"
@@ -390,6 +397,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_centerVertical="true">
             <TextView
+                android:id="@+id/tv_health_upArmGirth"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="140cm"
@@ -440,6 +448,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_centerVertical="true">
             <TextView
+                android:id="@+id/tv_health_upLegGirth"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="185cm"
@@ -491,6 +500,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_centerVertical="true">
             <TextView
+                android:id="@+id/tv_health_doLegGirth"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="100cm"

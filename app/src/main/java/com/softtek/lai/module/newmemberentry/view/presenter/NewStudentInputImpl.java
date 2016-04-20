@@ -55,7 +55,7 @@ public class NewStudentInputImpl implements INewStudentpresenter {
                     case 200:
                         Intent intent = new Intent(context, CounselorActivity.class);
                         context.startActivity(intent);
-                        ((CounselorActivity) context).finish();
+//                        ((CounselorActivity) context).finish();
                         Util.toastMsg("录入成功");
                         break;
                     case 500:

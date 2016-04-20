@@ -10,7 +10,6 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
@@ -68,129 +67,54 @@ public class LossWeightStoryAdapter extends BaseAdapter{
             holder= (ViewHolder) convertView.getTag();
         }
         final LossWeightStoryModel model=lossWeightStoryModels.get(position);
-        holder.cb_zan.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(final CompoundButton buttonView, boolean isChecked) {
-                holder.cb_zan.setChecked(isChecked);
-                if(isChecked){
-                    UserInfoModel infoModel=UserInfoModel.getInstance();
-                    model.setPriase(Integer.parseInt(model.getPriase())+1+"");
-                    model.setUsernameSet(model.getUsernameSet()+","+infoModel.getUser().getNickname());
-                    //向服务器提交
-                    String token= infoModel.getToken();
-                    service.clickLike(token, Long.parseLong(infoModel.getUser().getUserid()),
-                            Long.parseLong(model.getLossLogId()),
-                            new RequestCallback<ResponseData<Zan>>() {
-                                @Override
-                                public void success(ResponseData<Zan> zanResponseData, Response response) {
-                                    ((CheckBox)buttonView).setEnabled(false);
-                                    holder.cb_zan.setText(zanResponseData.getData().getTotalNum());
-                                    notifyDataSetChanged();
-                                }
+        if("1".equals(model.getIsClicked())){
+            holder.cb_zan.setChecked(true);
+            holder.cb_zan.setEnabled(false);
+        }else {
+            holder.cb_zan.setChecked(false);
+            holder.cb_zan.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(final CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        final UserInfoModel infoModel = UserInfoModel.getInstance();
+                        model.setPriase(Integer.parseInt(model.getPriase()) + 1 + "");
+                        String before = "".equals(model.getUsernameSet()) ? "" : ",";
+                        model.setIsClicked("1");
+                        model.setUsernameSet(before + infoModel.getUser().getNickname());
+                        //向服务器提交
+                        String token = infoModel.getToken();
+                        service.clickLike(token, Long.parseLong(infoModel.getUser().getUserid()),
+                                Long.parseLong(model.getLossLogId()),
+                                new RequestCallback<ResponseData<Zan>>() {
+                                    @Override
+                                    public void success(ResponseData<Zan> zanResponseData, Response response) {
+                                    }
 
-                                @Override
-                                public void failure(RetrofitError error) {
-                                    super.failure(error);
-                                    ((CheckBox)buttonView).setEnabled(true);
-                                    int priase=Integer.parseInt(model.getPriase())-1<0?0:Integer.parseInt(model.getPriase())-1;
-                                    model.setPriase(priase+"");
-                                    notifyDataSetChanged();
-                                }
-                            });
-                }else{
-                    int priase=Integer.parseInt(model.getPriase())-1<0?0:Integer.parseInt(model.getPriase())-1;
-                    model.setPriase(priase+"");
+                                    @Override
+                                    public void failure(RetrofitError error) {
+                                        super.failure(error);
+                                        int priase = Integer.parseInt(model.getPriase()) - 1 < 0 ? 0 : Integer.parseInt(model.getPriase()) - 1;
+                                        model.setPriase(priase + "");
+                                        model.setUsernameSet(model.getUsernameSet().substring(0, model.getUsernameSet().lastIndexOf(",")));
+                                        model.setIsClicked("0");
+                                        notifyDataSetChanged();
+                                    }
+                                });
+                    }
+                    notifyDataSetChanged();
                 }
-                notifyDataSetChanged();
-            }
-        });
+            });
+        }
         holder.tv_name.setText(model.getUserName());
         holder.tv_content.setText(model.getLogContent());
         holder.tv_date.setText(model.getCreateDate());
         holder.tv_zan_name.setText(model.getUsernameSet());
         holder.cb_zan.setText(model.getPriase());
-        if("1".equals(model.getIsClicked())){
-            holder.cb_zan.setChecked(true);
-            //holder.cb_zan.setEnabled(false);
-        }else {
-            holder.cb_zan.setChecked(false);
-        }
         //加载图片
         String path= AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
         Picasso.with(context).load(path+model.getPhoto())
-        .placeholder(R.drawable.img_default).error(R.drawable.img_default).into(holder.civ_header_image);
-        String[] imgs=model.getImgCollection().split(",");
-        for(int i=0;i<imgs.length;i++){
-            try {
-                switch (i + 1) {
-                    case 1:
-                        holder.img1.setVisibility(View.VISIBLE);
-                        Picasso.with(context).load(imgs[i])
-                                .placeholder(R.drawable.default_pic)
-                                .error(R.drawable.default_pic)
-                                .into(holder.img1);
-                        break;
-                    case 2:
-                        holder.img2.setVisibility(View.VISIBLE);
-                        Picasso.with(context).load(imgs[i])
-                                .placeholder(R.drawable.default_pic)
-                                .error(R.drawable.default_pic)
-                                .into(holder.img2);
-                        break;
-                    case 3:
-                        holder.img3.setVisibility(View.VISIBLE);
-                        Picasso.with(context).load(imgs[i])
-                                .placeholder(R.drawable.default_pic)
-                                .error(R.drawable.default_pic)
-                                .into(holder.img3);
-                        break;
-                    case 4:
-                        holder.img4.setVisibility(View.VISIBLE);
-                        Picasso.with(context).load(imgs[i])
-                                .placeholder(R.drawable.default_pic)
-                                .error(R.drawable.default_pic)
-                                .into(holder.img4);
-                        break;
-                    case 5:
-                        holder.img5.setVisibility(View.VISIBLE);
-                        Picasso.with(context).load(imgs[i])
-                                .placeholder(R.drawable.default_pic)
-                                .error(R.drawable.default_pic)
-                                .into(holder.img5);
-                        break;
-                    case 6:
-                        holder.img6.setVisibility(View.VISIBLE);
-                        Picasso.with(context).load(imgs[i])
-                                .placeholder(R.drawable.default_pic)
-                                .error(R.drawable.default_pic)
-                                .into(holder.img6);
-                        break;
-                    case 7:
-                        holder.img7.setVisibility(View.VISIBLE);
-                        Picasso.with(context).load(imgs[i])
-                                .placeholder(R.drawable.default_pic)
-                                .error(R.drawable.default_pic)
-                                .into(holder.img7);
-                        break;
-                    case 8:
-                        holder.img8.setVisibility(View.VISIBLE);
-                        Picasso.with(context).load(imgs[i])
-                                .placeholder(R.drawable.default_pic)
-                                .error(R.drawable.default_pic)
-                                .into(holder.img8);
-                        break;
-                    case 9:
-                        holder.img9.setVisibility(View.VISIBLE);
-                        Picasso.with(context).load(imgs[i])
-                                .placeholder(R.drawable.default_pic)
-                                .error(R.drawable.default_pic)
-                                .into(holder.img9);
-                        break;
-                }
-            }catch (Exception e){
-
-            }
-        }
+                .placeholder(R.drawable.img_default).error(R.drawable.img_default).into(holder.civ_header_image);
+        visitableOrGone(holder,model.getImgCollection().split(","));
         return convertView;
     }
     static class ViewHolder{
@@ -217,5 +141,115 @@ public class LossWeightStoryAdapter extends BaseAdapter{
             cb_zan= (CheckBox) view.findViewById(R.id.cb_zan);
         }
 
+    }
+
+    private void visitableOrGone(ViewHolder holder,String[] imgs) {
+        for (int i = 0; i < imgs.length; i++) {
+            try {
+                switch (i + 1) {
+                    case 1:
+                        holder.img1.setVisibility(View.VISIBLE);
+                        holder.img2.setVisibility(View.GONE);
+                        holder.img3.setVisibility(View.GONE);
+                        holder.img4.setVisibility(View.GONE);
+                        holder.img5.setVisibility(View.GONE);
+                        holder.img6.setVisibility(View.GONE);
+                        holder.img7.setVisibility(View.GONE);
+                        holder.img8.setVisibility(View.GONE);
+                        holder.img9.setVisibility(View.GONE);
+                        Picasso.with(context).load(imgs[i]).fit()
+                                .placeholder(R.drawable.default_pic)
+                                .error(R.drawable.default_pic)
+                                .into(holder.img1);
+                        break;
+                    case 2:
+                        holder.img2.setVisibility(View.VISIBLE);
+                        holder.img3.setVisibility(View.GONE);
+                        holder.img4.setVisibility(View.GONE);
+                        holder.img5.setVisibility(View.GONE);
+                        holder.img6.setVisibility(View.GONE);
+                        holder.img7.setVisibility(View.GONE);
+                        holder.img8.setVisibility(View.GONE);
+                        holder.img9.setVisibility(View.GONE);
+                        Picasso.with(context).load(imgs[i]).fit()
+                                .placeholder(R.drawable.default_pic)
+                                .error(R.drawable.default_pic)
+                                .into(holder.img2);
+                        break;
+                    case 3:
+                        holder.img3.setVisibility(View.VISIBLE);
+                        holder.img4.setVisibility(View.GONE);
+                        holder.img5.setVisibility(View.GONE);
+                        holder.img6.setVisibility(View.GONE);
+                        holder.img7.setVisibility(View.GONE);
+                        holder.img8.setVisibility(View.GONE);
+                        holder.img9.setVisibility(View.GONE);
+                        Picasso.with(context).load(imgs[i]).fit()
+                                .placeholder(R.drawable.default_pic)
+                                .error(R.drawable.default_pic)
+                                .into(holder.img3);
+                        break;
+                    case 4:
+                        holder.img4.setVisibility(View.VISIBLE);
+                        holder.img5.setVisibility(View.GONE);
+                        holder.img6.setVisibility(View.GONE);
+                        holder.img7.setVisibility(View.GONE);
+                        holder.img8.setVisibility(View.GONE);
+                        holder.img9.setVisibility(View.GONE);
+                        Picasso.with(context).load(imgs[i]).fit()
+                                .placeholder(R.drawable.default_pic)
+                                .error(R.drawable.default_pic)
+                                .into(holder.img4);
+                        break;
+                    case 5:
+                        holder.img5.setVisibility(View.VISIBLE);
+                        holder.img6.setVisibility(View.GONE);
+                        holder.img7.setVisibility(View.GONE);
+                        holder.img8.setVisibility(View.GONE);
+                        holder.img9.setVisibility(View.GONE);
+                        Picasso.with(context).load(imgs[i]).fit()
+                                .placeholder(R.drawable.default_pic)
+                                .error(R.drawable.default_pic)
+                                .into(holder.img5);
+                        break;
+                    case 6:
+                        holder.img6.setVisibility(View.VISIBLE);
+                        holder.img7.setVisibility(View.GONE);
+                        holder.img8.setVisibility(View.GONE);
+                        holder.img9.setVisibility(View.GONE);
+                        Picasso.with(context).load(imgs[i]).fit()
+                                .placeholder(R.drawable.default_pic)
+                                .error(R.drawable.default_pic)
+                                .into(holder.img6);
+                        break;
+                    case 7:
+                        holder.img7.setVisibility(View.VISIBLE);
+                        holder.img8.setVisibility(View.GONE);
+                        holder.img9.setVisibility(View.GONE);
+                        Picasso.with(context).load(imgs[i]).fit()
+                                .placeholder(R.drawable.default_pic)
+                                .error(R.drawable.default_pic)
+                                .into(holder.img7);
+                        break;
+                    case 8:
+                        holder.img8.setVisibility(View.VISIBLE);
+                        holder.img9.setVisibility(View.GONE);
+                        Picasso.with(context).load(imgs[i]).fit()
+                                .placeholder(R.drawable.default_pic)
+                                .error(R.drawable.default_pic)
+                                .into(holder.img8);
+                        break;
+                    case 9:
+                        holder.img9.setVisibility(View.VISIBLE);
+                        Picasso.with(context).load(imgs[i]).fit()
+                                .placeholder(R.drawable.default_pic)
+                                .error(R.drawable.default_pic)
+                                .into(holder.img9);
+                        break;
+                }
+            } catch (Exception e) {
+
+            }
+        }
     }
 }
