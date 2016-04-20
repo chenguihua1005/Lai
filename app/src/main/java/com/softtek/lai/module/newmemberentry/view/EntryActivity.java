@@ -19,6 +19,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -27,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.NumberPicker;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
@@ -36,6 +38,7 @@ import com.mobsandgeeks.saripaar.annotation.Regex;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.newmemberentry.view.Adapter.MemberAdapter;
 import com.softtek.lai.module.newmemberentry.view.EventModel.ClassEvent;
 import com.softtek.lai.module.newmemberentry.view.model.NewstudentsModel;
@@ -101,10 +104,6 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
     @InjectView(R.id.et_nickname)
     EditText et_nickname;
 
-    //资格证号
-//    @InjectView(R.id.et_certification)
-//    EditText et_certification;
-
     @Required(order = 2, message = "手机号码必填项")
     @Regex(order = 3, patternResId = R.string.phonePattern, messageResId = R.string.phoneValidate)
     @InjectView(R.id.et_mobile)
@@ -143,6 +142,9 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
     @InjectView(R.id.img1)
     ImageView img1;
 
+//    @InjectView(R.id.scrollView4)
+//    ScrollView scrollView4;
+
     //添加身体围度
     @InjectView(R.id.btn_Add_bodydimension)
     Button btn_Add_bodydimension;
@@ -166,11 +168,19 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
     int mmonth=ca.get(Calendar.MONTH);//获取月份
     int mday=ca.get(Calendar.DATE);//获取日
 
+    UserInfoModel userInfoModel=UserInfoModel.getInstance();
+
+    long sentaccid=Long.parseLong(userInfoModel.getUser().getUserid());
+    long role=Long.parseLong(userInfoModel.getUser().getUserrole());
+
+//    Log.i("sentaccid----------------------->"+sentaccid);
+//    Log.i("role---------------------------->"+role);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
         super.onCreate(savedInstanceState);
+
         //返回按钮
         ll_left.setOnClickListener(this);
         //确定按钮
@@ -184,7 +194,6 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
         ll_birthday.setOnClickListener(this);
         ll_gender.setOnClickListener(this);
         ll_classid.setOnClickListener(this);
-
 
         MemberAdapter memberAdapter = new MemberAdapter(EntryActivity.this, R.layout.member_item, pargradeModelList);
 
@@ -216,7 +225,7 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
     @Override
     protected void initDatas() {
         guwenClassPre = new GuwenClassImp();
-        guwenClassPre.doGetGuwenClass(36);
+        guwenClassPre.doGetGuwenClass(sentaccid);//36
         iNewStudentpresenter = new NewStudentInputImpl(this);
         newstudentsModel = new NewstudentsModel();
         tv_title.setText("新学员录入");
@@ -244,8 +253,6 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
             //确定按钮
             case R.id.tv_right:
                 validateLife.validate();
-               // newstudentsModel = new NewstudentsModel(36,"ggg","182022","18209129759","32",12,12,12,"1960-6-15",1,"2024938094839380",90,90,90,90,90,90);
-                //iNewStudentpresenter.input(newstudentsModel);
                 break;
             case R.id.btn_Add_bodydimension:
                 Intent intent1 = new Intent(EntryActivity.this, DimensioninputActivity.class);
@@ -291,24 +298,6 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
                     }
                 }).create().show();
 
-
-//                final GetPhotoDialog dialog = new GetPhotoDialog(this,
-//                        new GetPhotoDialog.GetPhotoDialogListener() {
-//                            @Override
-//                            public void onClick(View view) {
-//                                switch (view.getId()) {
-//                                    case R.id.imgbtn_camera:
-//                                        takecamera();
-//                                        break;
-//                                    case R.id.imgbtn_pic:
-//                                        takepic();
-//                                        break;
-//                                }
-//                            }
-//                        });
-//                dialog.setTitle("照片上传");
-//                //dialog.setCanceledOnTouchOutside(false);
-//                dialog.show();
                 break;
             //删除照片功能
             case R.id.img_delete:
@@ -375,7 +364,6 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void onValidationSucceeded() {
         String nickname = et_nickname.getText().toString();
-       // String certification = et_certification.getText().toString();
         String mobile = et_mobile.getText().toString();
         String classid = et_classid.getText().toString();
         String weight = et_weight.getText().toString();
@@ -384,14 +372,12 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
         String birthday = et_birthday.getText().toString();
         String gender = et_gender.getText().toString();
         Log.i("新学员录入：" + "nickname:" + nickname + ";mobile:" + mobile + ";classid:" + classid + ";weight:" + weight + "pysical:" + pysical + "fat:" + fat + "birthday:" + birthday + "gender:" + gender);
-
         String b = mobile.substring(mobile.length() - 6, mobile.length());
         Log.i("获取新学员录入手机号码后6位：" + b);
-      //  newstudentsModel = new NewstudentsModel(3,"ggg","182022","18206182022","32",12,12,12,"1960-6-15",1,"2024938094839380",90,90,90,90,90,90);
         newstudentsModel = new NewstudentsModel();
         newstudentsModel.setPassword(b);
 
-        newstudentsModel.setSentaccid(36);
+        newstudentsModel.setSentaccid(sentaccid);//36
         newstudentsModel.setNickname(nickname);
         newstudentsModel.setMobile(mobile);
         //newstudentsModel.setClassid(Integer.parseInt(classid));
@@ -404,6 +390,7 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
        newstudentsModel.setPhoto("2024938094839380");//img.getPhoto()+""
         iNewStudentpresenter.input(newstudentsModel);
         //newstudentsModel.setPhoto("/storage/emulated/0/123.jpg");
+        finish();
     }
 
     @Override
@@ -446,37 +433,10 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        if(resultCode==RESULT_OK){//result_ok
-//            if(requestCode==OPEN_CAMERA_REQUEST){
-//                iNewStudentpresenter.upload(first_image.toString());
-//            }else if(requestCode==OPEN_PICTURE_REQUEST){
-//                ContentResolver resolver=EntryActivity.this.getContentResolver();
-//                Uri originalUri=data.getData();
-//                String[] proj = {MediaStore.Images.Media.DATA};
-//                Cursor cursor = resolver.query(originalUri, proj, null, null, null);
-//                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-//                cursor.moveToFirst();
-//                //索引值获取图片路径
-//                String path = cursor.getString(column_index);
-//                first_image=path;
-//                iNewStudentpresenter.upload(first_image.toString());
-//            }
-//
-//        }else if(resultCode==0){//返回取消
-//            first_image=null;
-//        }
-
-
-
-
 
         if (resultCode == RESULT_OK && requestCode == PHOTO) {
             Bitmap bm = BitmapFactory.decodeFile(path.toString());
             Util.toastMsg(bm+"");
-            //  bitmap = compressBitmap(getResources(), R.drawable.img3, 100, 100);
-//                Log.v("zxy", "compressBitmap,width=" + bitmap.getWidth() + ",height=" + bitmap.getHeight());
-//                mResizeImageView.setImageBitmap(bitmap);
-
             img1.setImageBitmap(bm);
             iNewStudentpresenter.upload(path.toString());
         }

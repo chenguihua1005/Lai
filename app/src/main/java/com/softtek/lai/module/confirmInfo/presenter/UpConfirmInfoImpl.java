@@ -82,9 +82,9 @@ public class UpConfirmInfoImpl implements IUpConfirmInfopresenter{
                 int status = coninfoModelResponseData.getStatus();
                 switch (status) {
                     case 200:
-                        Intent intent = new Intent(context,CounselorActivity.class);
-                        context.startActivity(intent);
-                        ((CounselorActivity) context).finish();
+//                        Intent intent = new Intent(context,CounselorActivity.class);
+//                        context.startActivity(intent);
+//                        ((CounselorActivity) context).finish();
                         Util.toastMsg("修改成功");
                         break;
                     case 500:
