@@ -111,4 +111,10 @@ public class Constants {
     public static final String KEY_MESSAGE = "message";
     public static final String KEY_EXTRAS = "extras";
 
+    /**
+     * 点赞标识
+     */
+    public static final String NO_ZAN="0";
+    public static final String HAS_ZAN="1";
+
 }

@@ -86,6 +86,13 @@ public class ApplyAssistantAdapter extends BaseAdapter {
         final ApplyAssistantModel applyAssistantModel = list.get(position);
         holder.text_class_name.setText(applyAssistantModel.getClassName());
         holder.text_class_time.setText("开班日期：" + applyAssistantModel.getStartDate());
+        if("0".equals(applyAssistantModel.getState())){
+            holder.text_apply.setVisibility(View.VISIBLE);
+            holder.text_state.setVisibility(View.GONE);
+        }else {
+            holder.text_apply.setVisibility(View.GONE);
+            holder.text_state.setVisibility(View.VISIBLE);
+        }
         holder.text_apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

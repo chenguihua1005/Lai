@@ -6,6 +6,24 @@ package com.softtek.lai.module.bodygamest.model;
 public class LogListModel {
     private String ImgUrl;
     private String CreateDate;
+    private Boolean isSelect;
+
+    @Override
+    public String toString() {
+        return "LogListModel{" +
+                "ImgUrl='" + ImgUrl + '\'' +
+                ", CreateDate='" + CreateDate + '\'' +
+                ", isSelect=" + isSelect +
+                '}';
+    }
+
+    public Boolean getIsSelect() {
+        return isSelect;
+    }
+
+    public void setIsSelect(Boolean isSelect) {
+        this.isSelect = isSelect;
+    }
 
     public LogListModel(String imgUrl, String createDate) {
 
@@ -13,14 +31,6 @@ public class LogListModel {
 
     public LogListModel() {
 
-    }
-
-    @Override
-    public String toString() {
-        return "LogListModel{" +
-                "ImgUrl='" + ImgUrl + '\'' +
-                ", CreateDate='" + CreateDate + '\'' +
-                '}';
     }
 
     public String getImgUrl() {

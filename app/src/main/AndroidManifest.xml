@@ -8,11 +8,12 @@
     <uses-sdk
         android:minSdkVersion="9"
         android:targetSdkVersion="21" />
+
     <permission
         android:name="com.softtek.lai.permission.JPUSH_MESSAGE"
         android:protectionLevel="signature" />
 
-    <!-- Required  一些系统要求的权限，如访问网络等-->
+    <!-- Required  一些系统要求的权限，如访问网络等 -->
     <uses-permission android:name="com.softtek.lai.permission.JPUSH_MESSAGE" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -151,6 +152,7 @@
         <activity android:name=".module.retest.view.BodyweiduActivity" />
         <activity android:name=".module.bodygamest.view.BodyweidustActivity" />
         <activity android:name=".module.bodygamest.view.SelectPhotoActivity" />
+        <activity android:name=".module.bodygamest.view.PhotoDetailActivity" />
         <activity
             android:name=".module.login.view.LoginActivity1"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
@@ -184,14 +186,14 @@
         <activity android:name=".module.community.view.EditPersonalDynamicActivity" />
         <activity android:name=".module.lossweightstory.view.LogStoryDetailActivity" />
         <activity android:name=".module.healthrecords.view.HealthEntryActivity" />
-        <activity android:name=".module.community.view.PreviewImageActivity"></activity>
-        <!-- Rich push 核心功能 since 2.0.6-->
+        <activity android:name=".module.community.view.PreviewImageActivity" />
+        <!-- Rich push 核心功能 since 2.0.6 -->
         <activity
             android:name="cn.jpush.android.ui.PopWinActivity"
             android:exported="false"
-            android:theme="@style/MyDialogStyle"></activity>
+            android:theme="@style/MyDialogStyle" />
 
-        <!-- Required SDK核心功能-->
+        <!-- Required SDK核心功能 -->
         <activity
             android:name="cn.jpush.android.ui.PushActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -204,14 +206,13 @@
                 <category android:name="com.softtek.lai" />
             </intent-filter>
         </activity>
-        <!-- Required  SDK核心功能-->
+        <!-- Required  SDK核心功能 -->
         <service
             android:name="cn.jpush.android.service.DownloadService"
             android:enabled="true"
-            android:exported="false"></service>
+            android:exported="false" />
 
-
-        <!-- Required SDK 核心功能-->
+        <!-- Required SDK 核心功能 -->
         <!-- 可配置android:process参数将PushService放在其他进程中 -->
         <service
             android:name="cn.jpush.android.service.PushService"
@@ -233,19 +234,19 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.DaemonService" />
+
                 <category android:name="com.softtek.lai" />
             </intent-filter>
-
         </service>
 
-        <!-- Required SDK核心功能-->
+        <!-- Required SDK核心功能 -->
         <receiver
             android:name="cn.jpush.android.service.PushReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter android:priority="1000">
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
-                <!--Required  显示通知栏 -->
+                <!-- Required  显示通知栏 -->
                 <category android:name="com.softtek.lai" />
             </intent-filter>
             <intent-filter>
@@ -259,37 +260,35 @@
 
                 <data android:scheme="package" />
             </intent-filter>
-
         </receiver>
 
-        <!-- Required SDK核心功能-->
+        <!-- Required SDK核心功能 -->
         <receiver
             android:name="cn.jpush.android.service.AlarmReceiver"
             android:exported="false" />
 
-        <!-- User defined.  For test only  用户自定义的广播接收器-->
+        <!-- User defined.  For test only  用户自定义的广播接收器 -->
         <receiver
             android:name=".jpush.MyReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.REGISTRATION" />
-                <!--Required  用户注册SDK的intent-->
+                <!-- Required  用户注册SDK的intent -->
                 <action android:name="cn.jpush.android.intent.UNREGISTRATION" />
                 <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
-                <!--Required  用户接收SDK消息的intent-->
+                <!-- Required  用户接收SDK消息的intent -->
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
-                <!--Required  用户接收SDK通知栏信息的intent-->
+                <!-- Required  用户接收SDK通知栏信息的intent -->
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
-                <!--Required  用户打开自定义通知栏的intent-->
+                <!-- Required  用户打开自定义通知栏的intent -->
                 <action android:name="cn.jpush.android.intent.ACTION_RICHPUSH_CALLBACK" />
-                <!--Optional 用户接受Rich Push Javascript 回调函数的intent-->
+                <!-- Optional 用户接受Rich Push Javascript 回调函数的intent -->
                 <action android:name="cn.jpush.android.intent.CONNECTION" />
                 <!-- 接收网络变化 连接/断开 since 1.6.3 -->
                 <category android:name="com.softtek.lai" />
             </intent-filter>
         </receiver>
-
 
         <!-- Required  . Enable it you can get statistics data with channel -->
         <meta-data
@@ -298,7 +297,9 @@
         <meta-data
             android:name="JPUSH_APPKEY"
             android:value="f332885d101702ebad1cc671" />
-        <!--  </>值来自开发者平台取得的AppKey-->
+        <!-- </>值来自开发者平台取得的AppKey -->
+        <activity android:name=".module.historydate.view.HistoryDataActivity" />
+        <activity android:name=".module.historydate.view.HistoryDataDetailActivity"></activity>
     </application>
 
 </manifest>

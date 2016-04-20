@@ -53,12 +53,13 @@ public class NewStudentInputImpl implements INewStudentpresenter {
                 Log.i("listResponseData:"+listResponseData);
                 switch (status) {
                     case 200:
-                        Intent intent = new Intent(context, CounselorActivity.class);
-                        context.startActivity(intent);
-//                        ((CounselorActivity) context).finish();
+//                        Intent intent = new Intent(context, CounselorActivity.class);
+//                        context.startActivity(intent);
+                   //     ((CounselorActivity) context).finish();
                         Util.toastMsg("录入成功");
                         break;
                     case 500:
+                        Util.toastMsg("手机号码已注册");
                         Util.toastMsg("录入失败");
                         break;
                 }

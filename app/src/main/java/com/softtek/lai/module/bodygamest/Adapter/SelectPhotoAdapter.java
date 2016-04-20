@@ -6,6 +6,7 @@
 package com.softtek.lai.module.bodygamest.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,18 +14,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygamest.model.DownPhotoModel;
 import com.softtek.lai.module.bodygamest.model.LogListModel;
+import com.softtek.lai.module.bodygamest.view.PhotoDetailActivity;
+import com.softtek.lai.module.bodygamest.view.SelectPhotoActivity;
 import com.softtek.lai.module.counselor.model.ApplyAssistantModel;
 import com.softtek.lai.module.counselor.presenter.AssistantImpl;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
+import com.softtek.lai.module.lossweightstory.model.LogStoryDetailModel;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import zilla.libcore.util.Util;
 
 /**
  * Created by jarvis.liu on 3/22/2016.
@@ -34,15 +43,18 @@ public class SelectPhotoAdapter extends BaseAdapter {
     private List<LogListModel> list;
     Context context;
     private IAssistantPresenter assistantPresenter;
+    private boolean is_select=false;
+    CallBack callBack;
 
     /**
      * 构造函数
      */
-    public SelectPhotoAdapter(Context context, List<LogListModel> list) {
+    public SelectPhotoAdapter(Context context, List<LogListModel> list,CallBack callBack) {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
         this.list = list;
         assistantPresenter = new AssistantImpl(context);
+        this.callBack=callBack;
         Log.e("jarvis", list.toString());
     }
 
@@ -72,9 +84,9 @@ public class SelectPhotoAdapter extends BaseAdapter {
             convertView = mInflater.inflate(R.layout.select_photo_list_item, null);
             holder = new ViewHolder();
             /**得到各个控件的对象*/
-//            holder.rel_item = (RelativeLayout) convertView.findViewById(R.id.rel_item);
-//            holder.lin_state = (LinearLayout) convertView.findViewById(R.id.lin_state);
             holder.img = (ImageView) convertView.findViewById(R.id.img);
+            holder.img_select_button = (ImageView) convertView.findViewById(R.id.img_select_button);
+            holder.lin = (LinearLayout) convertView.findViewById(R.id.lin);
 
             convertView.setTag(holder);//绑定ViewHolder对象
         } else {
@@ -87,6 +99,33 @@ public class SelectPhotoAdapter extends BaseAdapter {
         } else {
             Picasso.with(context).load("www").placeholder(R.drawable.lufei).error(R.drawable.lufei).into(holder.img);
         }
+        holder.lin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(SelectPhotoActivity.count==9){
+                    Util.toastMsg("最多只能选择9张照片");
+                }else {
+                    if (is_select) {
+                        logListModel.setIsSelect(false);
+                        holder.img_select_button.setImageResource(R.drawable.img_select);
+                        is_select = false;
+                    } else {
+                        logListModel.setIsSelect(true);
+                        holder.img_select_button.setImageResource(R.drawable.img_selceted);
+                        is_select = true;
+                    }
+                    callBack.getResult(is_select);
+                }
+            }
+        });
+        holder.img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context, PhotoDetailActivity.class);
+                intent.putExtra("photo",logListModel.getImgUrl());
+                context.startActivity(intent);
+            }
+        });
         return convertView;
     }
 
@@ -95,6 +134,11 @@ public class SelectPhotoAdapter extends BaseAdapter {
      */
     public class ViewHolder {
         public ImageView img;
+        public ImageView img_select_button;
+        public LinearLayout lin;
+    }
+    public interface CallBack{
+        void getResult(boolean is_select);
     }
 }
 
