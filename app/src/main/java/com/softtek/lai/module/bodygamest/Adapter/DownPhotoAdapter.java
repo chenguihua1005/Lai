@@ -78,9 +78,9 @@ public class DownPhotoAdapter extends BaseAdapter {
         viewHolder.tv_uploadphoto_day.setText(date[2]);
         viewHolder.tv_uploadphoto_month.setText(tomonth(date[1]));
         if(!TextUtils.isEmpty(logListModel.getImgUrl())){
-            Picasso.with(context).load(logListModel.getImgUrl()).fit().placeholder(R.drawable.lufei).error(R.drawable.lufei).into(viewHolder.im_uploadphoto);
+            Picasso.with(context).load(logListModel.getImgUrl()).fit().placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(viewHolder.im_uploadphoto);
         }else{
-            Picasso.with(context).load("www").placeholder(R.drawable.lufei).fit().error(R.drawable.lufei).into(viewHolder.im_uploadphoto);
+            Picasso.with(context).load("www").placeholder(R.drawable.default_pic).fit().error(R.drawable.default_pic).into(viewHolder.im_uploadphoto);
         }
 
         return convertView;
