@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="58dp"
+    android:orientation="horizontal"
+    android:background="@color/white"
+    android:descendantFocusability="blocksDescendants">
+
+    <CheckBox
+        android:id="@+id/cb_selecter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="10dp"
+        android:button="@null"
+        android:drawableLeft="@drawable/history_data_item_checkbox"
+        android:visibility="visible" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/iv_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/laichen" />
+
+        <TextView
+            android:id="@+id/tv_ymd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="17dp"
+            android:layout_toRightOf="@id/iv_icon"
+            android:text="2016年4月15日"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_hm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="13dp"
+            android:layout_toRightOf="@id/tv_ymd"
+            android:text="21:00"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/history_data_arrow" />
+    </RelativeLayout>
+</LinearLayout>

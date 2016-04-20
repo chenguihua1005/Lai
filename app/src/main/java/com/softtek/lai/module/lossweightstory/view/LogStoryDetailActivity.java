@@ -10,6 +10,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.lossweightstory.model.LogStoryDetailModel;
 import com.softtek.lai.module.lossweightstory.model.LossWeightStoryModel;
@@ -87,10 +88,12 @@ public class LogStoryDetailActivity extends BaseActivity implements View.OnClick
         tv_date.setText(log.getCreateDate());
         tv_totle_lw.setText(log.getAfterWeight()+"斤");
         cb_zan.setText(log.getPriase());
-        if(LossWeightLogAdapter.ZAN_NO.equals(log.getIsClicked())){
+        if(Constants.HAS_ZAN.equals(log.getIsClicked())){
             cb_zan.setChecked(true);
-        }else{
+            cb_zan.setEnabled(false);
+        }else if(Constants.NO_ZAN.equals(log.getIsClicked())){
             cb_zan.setChecked(false);
+            cb_zan.setEnabled(true);
         }
         //拆分字符串图片列表,并添加到图片集合中
         if(!"".equals(log.getImgCollection())&&!(null==log.getImgCollection())){
@@ -159,11 +162,12 @@ public class LogStoryDetailActivity extends BaseActivity implements View.OnClick
         tv_date.setText(log.getCreateDate());
         tv_totle_lw.setText(log.getAfterWeight()+"斤");
         cb_zan.setText(log.getPriasenum());
-        if("是".equals(log.getIfpriasenum())){
+        if(Constants.HAS_ZAN.equals(log.getIfpriasenum())){
             cb_zan.setChecked(true);
             cb_zan.setEnabled(false);
-        }else{
+        }else if(Constants.NO_ZAN.equals(log.getIfpriasenum())){
             cb_zan.setChecked(false);
+            cb_zan.setEnabled(true);
         }
         //拆分字符串图片列表,并添加到图片集合中
         if(!"".equals(log.getImgCollection())&&!(null==log.getImgCollection())){

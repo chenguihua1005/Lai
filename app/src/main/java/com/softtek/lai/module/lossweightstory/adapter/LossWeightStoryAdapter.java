@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.lossweightstory.model.LossWeightStoryModel;
 import com.softtek.lai.module.lossweightstory.model.Zan;
 import com.softtek.lai.module.lossweightstory.net.LossWeightLogService;
@@ -67,10 +68,11 @@ public class LossWeightStoryAdapter extends BaseAdapter{
             holder= (ViewHolder) convertView.getTag();
         }
         final LossWeightStoryModel model=lossWeightStoryModels.get(position);
-        if("1".equals(model.getIsClicked())){
+        if(Constants.HAS_ZAN.equals(model.getIsClicked())){
             holder.cb_zan.setChecked(true);
             holder.cb_zan.setEnabled(false);
         }else {
+            holder.cb_zan.setEnabled(true);
             holder.cb_zan.setChecked(false);
             holder.cb_zan.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
@@ -79,7 +81,7 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                         final UserInfoModel infoModel = UserInfoModel.getInstance();
                         model.setPriase(Integer.parseInt(model.getPriase()) + 1 + "");
                         String before = "".equals(model.getUsernameSet()) ? "" : ",";
-                        model.setIsClicked("1");
+                        model.setIsClicked(Constants.HAS_ZAN);
                         model.setUsernameSet(before + infoModel.getUser().getNickname());
                         //向服务器提交
                         String token = infoModel.getToken();
@@ -96,7 +98,7 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                                         int priase = Integer.parseInt(model.getPriase()) - 1 < 0 ? 0 : Integer.parseInt(model.getPriase()) - 1;
                                         model.setPriase(priase + "");
                                         model.setUsernameSet(model.getUsernameSet().substring(0, model.getUsernameSet().lastIndexOf(",")));
-                                        model.setIsClicked("0");
+                                        model.setIsClicked(Constants.NO_ZAN);
                                         notifyDataSetChanged();
                                     }
                                 });

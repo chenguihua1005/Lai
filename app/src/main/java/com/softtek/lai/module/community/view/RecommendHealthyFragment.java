@@ -73,7 +73,7 @@ public class RecommendHealthyFragment extends BaseFragment implements AdapterVie
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        HealthyCommunityModel model=communityModels.get(position);
+        HealthyCommunityModel model=communityModels.get(position-1);
         if("1".equals(model.getMinetype())){//减重日志
             Intent logDetail=new Intent(getContext(), LogStoryDetailActivity.class);
             logDetail.putExtra("log",copyModel(model));
