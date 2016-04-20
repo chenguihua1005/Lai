@@ -19,8 +19,11 @@ import com.softtek.lai.R;
 import com.softtek.lai.module.bodygamest.model.StudentScripInfo;
 import com.softtek.lai.module.counselor.model.MarchInfoModel;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import zilla.libcore.file.AddressManager;
 
 /**
  * Created by jarvis.liu on 3/22/2016.
@@ -82,12 +85,12 @@ public class StudentScoreAdapter extends BaseAdapter {
         }
         /**设置TextView显示的内容，即我们存放在动态数组中的数据*/
         StudentScripInfo marchInfo = list.get(position);
-
-//        if ("".equals(marchInfo.getPhoto())) {
-//            Picasso.with(context).load("111").error(R.drawable.img_default).into(holder.img);
-//        } else {
-//            Picasso.with(context).load(marchInfo.getPhoto()).error(R.drawable.img_default).into(holder.img);
-//        }
+        String path= AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+        if ("".equals(marchInfo.getPhoto())) {
+            Picasso.with(context).load("111").error(R.drawable.img_default).into(holder.img);
+        } else {
+            Picasso.with(context).load(path+marchInfo.getPhoto()).error(R.drawable.img_default).into(holder.img);
+        }
         if ((position + 1) < 4) {
             holder.text_rnum.setTextColor(Color.parseColor("#FDB02B"));
         }else {

@@ -149,6 +149,7 @@
         <activity android:name=".module.message.view.MessageSrManageActivity" />
         <activity android:name=".module.retest.view.BodyweiduActivity" />
         <activity android:name=".module.bodygamest.view.BodyweidustActivity" />
+        <activity android:name=".module.bodygamest.view.SelectPhotoActivity" />
         <activity
             android:name=".module.login.view.LoginActivity1"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />

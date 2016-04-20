@@ -21,6 +21,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import zilla.libcore.file.AddressManager;
+
 /**
  * Created by jarvis.liu on 3/22/2016.
  */
@@ -80,10 +82,11 @@ public class HonorStudentAdapter extends BaseAdapter {
 
         /**设置TextView显示的内容，即我们存放在动态数组中的数据*/
         final HonorTable1Model honorTable1 = list.get(position);
+        String path= AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
         if ("".equals(honorTable1.getPhoto()) || "null".equals(honorTable1.getPhoto()) || honorTable1.getPhoto() == null) {
             Picasso.with(context).load("111").error(R.drawable.img_default).into(holder.img);
         } else {
-            Picasso.with(context).load(honorTable1.getPhoto()).error(R.drawable.img_default).into(holder.img);
+            Picasso.with(context).load(path+honorTable1.getPhoto()).error(R.drawable.img_default).into(holder.img);
         }
         //Picasso.with(context).load("111").error(R.drawable.img_default).into(holder.img);
         if ((position + 1) < 4) {

@@ -8,4 +8,5 @@ import android.app.ProgressDialog;
 public interface PhotoListPre {
     void doGetDownPhoto(String AccountId, ProgressDialog loadingDialog);
     void doUploadPhoto(String AccountId,String filePath, ProgressDialog loadingDialog);
+    void getUploadPhoto(String AccountId,String pageIndex);
 }

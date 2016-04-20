@@ -37,4 +37,14 @@ public interface PhotoListService {
             @Part("photo") TypedFile photo,
             Callback<ResponseData<UploadPhotModel>> callback
     );
+
+    //获取图片列表接口
+    @GET("/UploadPhotos/GetUploadPhoto")
+    void getUploadPhoto(
+            @Header("token")String token,
+            @Query("AccountId")String AccountId,
+            @Query("pageIndex")String pageIndex,
+            Callback<ResponseData<List<DownPhotoModel>>>callback
+    );
+
 }
