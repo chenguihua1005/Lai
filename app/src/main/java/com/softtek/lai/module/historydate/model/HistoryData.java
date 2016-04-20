@@ -21,6 +21,9 @@ public class HistoryData implements Parcelable{
     private String CreateDate;
     private String ISGuid;
 
+    public HistoryData() {
+    }
+
     protected HistoryData(Parcel in) {
         AcInfoId = in.readString();
         Weight = in.readString();
