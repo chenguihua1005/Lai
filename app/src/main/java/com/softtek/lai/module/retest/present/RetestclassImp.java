@@ -3,7 +3,9 @@ package com.softtek.lai.module.retest.present;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
@@ -184,7 +186,7 @@ public class RetestclassImp implements RetestPre{
 
 //复测写入提交
     @Override
-    public void doPostWrite(long accountId, long loginId, RetestWriteModel retestWrite) {
+    public void doPostWrite(long accountId, long loginId, RetestWriteModel retestWrite, final Context context) {
         String token=SharedPreferenceService.getInstance().get("token","");
         service.doPostWrite(token, accountId, loginId, retestWrite, new Callback<ResponseData<RetestWriteModel>>() {
 
@@ -196,6 +198,10 @@ public class RetestclassImp implements RetestPre{
                     switch (status)
                     {
                         case 200:
+                            Intent intent=((AppCompatActivity)context).getIntent();
+                            //intent.putExtra("story",model);
+                            ((AppCompatActivity)context).setResult(-1,intent);
+                            ((AppCompatActivity)context).finish();
                             Util.toastMsg("复测记保存取成功");
                             break;
                         case 201:

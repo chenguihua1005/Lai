@@ -19,6 +19,15 @@ public class HonorTable1Model implements Serializable {
     private String photo;     //头像路径
     private String BeforeWeight;     //头像路径beforeWight
     private String AfterWeight;     //头像路径
+    private String ClassId;     //头像路径
+
+    public String getClassId() {
+        return ClassId;
+    }
+
+    public void setClassId(String classId) {
+        ClassId = classId;
+    }
 
     public String getBeforeWeight() {
         return BeforeWeight;
@@ -86,6 +95,7 @@ public class HonorTable1Model implements Serializable {
                 ", photo='" + photo + '\'' +
                 ", BeforeWeight='" + BeforeWeight + '\'' +
                 ", AfterWeight='" + AfterWeight + '\'' +
+                ", ClassId='" + ClassId + '\'' +
                 '}';
     }
 }

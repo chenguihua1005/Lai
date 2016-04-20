@@ -149,6 +149,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     MeasureModel measureModel;
     RetestAuditModel retestAuditModel;
     String Mobile;
+    String isState="true";
     private CharSequence[] items={"拍照","从相册选择照片"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -201,6 +202,8 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         retestWrite=new RetestWriteModel();
         retestAuditModel=new RetestAuditModel();
         measureModel=new MeasureModel();
+        Intent intent=getIntent();
+
 
 //        boolean laichenSwitch= SharedPreferenceService.getInstance().get(LAI_CHEN_SWITCH_KEY1,false);
 //        selectlaichenst.setChecked(laichenSwitch);
@@ -226,40 +229,50 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
 //                intent.putExtra("retestWrite",retestWrite);
                 Log.i("retestWrite="+retestWrite.toString());
                 intent.putExtra("retestWrite",retestWrite);
+                intent.putExtra("isState",isState);
                 startActivityForResult(intent,GET_BODY);
                 break;
             case R.id.ll_fucest_chu_weight:
-                if (retestAuditModel.getIsFirst()=="true") {
-                    show_information("初始体重（kg）", 200, 70, 20, 9, 5, 0, 0);
-                }
-                else {
-                    Util.toastMsg("您不是第一次参加班级，不能修改初始体重");
+                if (isState.equals("true")) {
+                    if (retestAuditModel.getIsFirst() == "true") {
+                        show_information("初始体重（kg）", 200, 70, 20, 9, 5, 0, 0);
+                    } else {
+                        Util.toastMsg("您不是第一次参加班级，不能修改初始体重");
+                    }
                 }
                 break;
             case R.id.ll_fucest_nowweight:
-                show_information("现在体重（kg）",200,70,20,9,5,0,1);
+                if (isState.equals("true")) {
+                    show_information("现在体重（kg）", 200, 70, 20, 9, 5, 0, 1);
+                }
                 break;
             case R.id.ll_fucest_tizhi:
-                show_information("体脂（%）",100,50,0,9,5,0,2);
+                if (isState.equals("true")) {
+                    show_information("体脂（%）", 100, 50, 0, 9, 5, 0, 2);
+                }
                 break;
             case R.id.ll_retestWrite_neizhi:
-                show_information("内脂（%）",100,50,0,9,5,0,3);
+                if (isState.equals("true")) {
+                    show_information("内脂（%）", 100, 50, 0, 9, 5, 0, 3);
+                }
                 break;
             //拍照事件
             case R.id.im_retestwritest_takephoto:
-                AlertDialog.Builder builder=new AlertDialog.Builder(this);
-                builder.setItems(items, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if(which==0){
-                            takecamera();
+                if (isState.equals("true")) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setItems(items, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (which == 0) {
+                                takecamera();
 
-                        }else if(which==1){
-                            //照片
-                        takepic();
+                            } else if (which == 1) {
+                                //照片
+                                takepic();
+                            }
                         }
-                    }
-                }).create().show();
+                    }).create().show();
+                }
 //                final GetPhotoDialog dialog = new GetPhotoDialog(this,
 //                        new GetPhotoDialog.GetPhotoDialogListener() {
 //                            @Override
@@ -279,8 +292,9 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
 //                dialog.show();
                 break;
             case R.id.bt_pingshen:
-                validateLife.validate();
-
+                if (isState.equals("true")) {
+                    validateLife.validate();
+                }
                 break;
             case R.id.ll_left:
                 finish();
@@ -314,7 +328,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
             Picasso.with(this).load("www").placeholder(R.drawable.img_default).error(R.drawable.img_default).into(iv_writest_head);
         }
 
-        if (retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("1")||retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("0"))
+        if (retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("1")||retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("2"))
         {
             tv_retestWrites_nowweight.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getWeight());
             tv_retestWritest_tizhi.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getPysical());
@@ -325,26 +339,26 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
             retestWrite.setUpArmGirth(retestAuditModelEvent.getRetestAuditModels().get(0).getUpArmGirth());
             retestWrite.setUpLegGirth(retestAuditModelEvent.getRetestAuditModels().get(0).getUpLegGirth());
             retestWrite.setDoLegGirth(retestAuditModelEvent.getRetestAuditModels().get(0).getDoLegGirth());
+            isState="false";
+            bt_pingshen.setFocusable(false);
+            bt_pingshen.setBackgroundResource(R.drawable.shape_retest_write_boder_disable);
+            bt_pingshen.setTextColor(this.getResources().getColor(R.color.grey));
+
+            if(!TextUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getImage())) {
+                im_retestwritest_showphoto.setVisibility(View.VISIBLE);
+                Picasso.with(this).load(retestAuditModelEvent.getRetestAuditModels().get(0).getPhoto()).placeholder(R.drawable.img_default).error(R.drawable.img_default).into(im_retestwritest_showphoto);
+            }
+            else {
+//                im_retestwritest_showphoto.setVisibility(View.GONE);
+//                Picasso.with(this).load("www").placeholder(R.drawable.img_default).error(R.drawable.img_default).into(iv_writest_head);
+            }
         }
         else {
             retestPre.GetUserMeasuredInfo(moblie);
 
         }
     }
-//    @Subscribe
-//    public void eventst(MeasureModel measureModel1){
-//        measureModel=measureModel1;
-//        Log.i("username"+measureModel.getUsername());
-//        tv_retestWrites_nowweight.setText(measureModel.getMeasureddata().getItems().get(0).getWeight());
-//        tv_retestWritest_tizhi.setText(measureModel.getMeasureddata().getItems().get(0).getBodyfat());
-//        tv_retestWritest_neizhi.setText(measureModel.getMeasureddata().getItems().get(0).getVisceralfatindex());
-//        retestWrite.setCircum(measureModel.getChestgirth());
-//        retestWrite.setWaistline(measureModel.getWaistgirth());
-//        retestWrite.setHiplie(measureModel.getHipgirth());
-//        retestWrite.setUpArmGirth(measureModel.getUpperarmgirth());
-//        retestWrite.setUpLegGirth(measureModel.getThighgirth());
-//        retestWrite.setDoLegGirth(measureModel.getCalfgirth());
-//    }
+
     @Subscribe
     public void doGetPhotost(PhotModel photModel) {
         System.out.println("照片名称" + photModel.getImg());
@@ -514,7 +528,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         retestWrite.setPysical(tv_retestWritest_tizhi.getText()+"");
         retestWrite.setFat(tv_retestWritest_neizhi.getText()+"");
         retestWrite.setAccountId(loginid+"");
-        retestPre.doPostWrite(loginid,loginid,retestWrite);
+        retestPre.doPostWrite(loginid,loginid,retestWrite,this);
 
     }
 

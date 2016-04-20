@@ -22,6 +22,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import zilla.libcore.file.AddressManager;
+
 /**
  * Created by jarvis.liu on 3/22/2016.
  */
@@ -82,11 +84,11 @@ public class GameAdapter extends BaseAdapter {
         }
         /**设置TextView显示的内容，即我们存放在动态数组中的数据*/
         MarchInfoModel marchInfo = list.get(position);
-
+        String path= AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
         if ("".equals(marchInfo.getPhoto()) || "null".equals(marchInfo.getPhoto()) || marchInfo.getPhoto() == null) {
             Picasso.with(context).load("111").error(R.drawable.img_default).into(holder.img);
         } else {
-            Picasso.with(context).load(marchInfo.getPhoto()).error(R.drawable.img_default).into(holder.img);
+            Picasso.with(context).load(path+marchInfo.getPhoto()).error(R.drawable.img_default).into(holder.img);
         }
         //Picasso.with(context).load("111").error(R.drawable.img_default).into(holder.img);
         if ((position + 1) < 4) {

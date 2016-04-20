@@ -62,4 +62,33 @@ public class HonorImpl implements IHonorPresenter {
         });
     }
 
+    @Override
+    public void getSRHonor() {
+        String token = UserInfoModel.getInstance().getToken();
+        counselorService.getSRHonor(token, new Callback<ResponseData<HonorInfoModel>>() {
+
+            @Override
+            public void success(ResponseData<HonorInfoModel> listResponseData, Response response) {
+                Log.e("jarvis", listResponseData.toString());
+                int status = listResponseData.getStatus();
+                HonorInfoModel honorInfo = listResponseData.getData();
+                switch (status) {
+                    case 200:
+                        EventBus.getDefault().post(listResponseData.getData());
+                        break;
+                    default:
+                        Util.toastMsg(listResponseData.getMsg());
+                        break;
+                }
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
+            }
+        });
+    }
+
 }

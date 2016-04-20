@@ -18,6 +18,8 @@ import com.softtek.lai.module.counselor.model.AssistantModel;
 import com.softtek.lai.module.counselor.presenter.AssistantImpl;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 import com.squareup.picasso.Picasso;
+
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.file.SharedPreferenceService;
 
 import java.util.List;
@@ -78,10 +80,11 @@ public class AssistantAdapter extends BaseAdapter {
         }
         /**设置TextView显示的内容，即我们存放在动态数组中的数据*/
         final AssistantModel assistant = list.get(position);
+        String path= AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
         if ("".equals(assistant.getPhoto())) {
             Picasso.with(context).load("111").error(R.drawable.img_default).into(holder.img);
         } else {
-            Picasso.with(context).load(assistant.getPhoto()).error(R.drawable.img_default).into(holder.img);
+            Picasso.with(context).load(path+assistant.getPhoto()).error(R.drawable.img_default).into(holder.img);
         }
         holder.text_phone.setText(assistant.getMobile().toString());
         holder.text_name.setText(assistant.getUserName().toString());

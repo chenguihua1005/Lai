@@ -19,6 +19,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import zilla.libcore.file.AddressManager;
+
 /**
  * Created by jarvis.liu on 3/22/2016.
  */
@@ -79,10 +81,11 @@ public class AssistantApplyAdapter extends BaseAdapter {
         }
         /**设置TextView显示的内容，即我们存放在动态数组中的数据*/
         final AssistantApplyInfoModel assistantApplyInfo = list.get(position);
+        String path= AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
         if ("".equals(assistantApplyInfo.getPhoto())) {
             Picasso.with(context).load("111").error(R.drawable.img_default).into(holder.img);
         } else {
-            Picasso.with(context).load(assistantApplyInfo.getPhoto()).error(R.drawable.img_default).into(holder.img);
+            Picasso.with(context).load(path+assistantApplyInfo.getPhoto()).error(R.drawable.img_default).into(holder.img);
         }
 
         holder.text_name.setText(assistantApplyInfo.getUserName().toString());

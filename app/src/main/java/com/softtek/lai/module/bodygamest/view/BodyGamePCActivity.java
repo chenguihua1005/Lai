@@ -5,8 +5,14 @@
 
 package com.softtek.lai.module.bodygamest.view;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ImageView;
@@ -28,6 +34,7 @@ import com.softtek.lai.module.bodygamest.model.HasClass;
 import com.softtek.lai.module.bodygamest.present.StudentImpl;
 import com.softtek.lai.module.counselor.view.GameActivity;
 import com.softtek.lai.module.lossweightstory.view.LossWeightStoryActivity;
+import com.softtek.lai.module.lossweightstory.view.NewStoryActivity;
 import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
 import com.softtek.lai.module.retest.model.MeasureModel;
 import com.softtek.lai.module.retest.model.RetestAuditModel;
@@ -41,6 +48,7 @@ import com.squareup.picasso.Picasso;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -127,7 +135,8 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
         im_refreshst.setOnClickListener(this);
 
     }
-
+    public static final int Student_reteset=1;
+    private static final int GET_BODY=2;
     @Override
     protected void initDatas() {
         tv_title.setText("体管赛（学员版）");
@@ -238,8 +247,9 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
             //复测
             case R.id.ll_st_fuce:
                 if (flag==true) {
-                    Intent intent1 = new Intent(this, FuceStActivity.class);
-                    startActivity(intent1);
+                    startActivityForResult(new Intent(this,FuceStActivity.class),Student_reteset);
+//                    Intent intent1 = new Intent(this, FuceStActivity.class);
+//                    startActivity(intent1);
                 }
                 else {
                     new AlertDialog.Builder(BodyGamePCActivity.this).setTitle("提示")
@@ -259,6 +269,14 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
             case R.id.ll_st_rongyu:
                 startActivity(new Intent(this, StudentHonorGridActivity.class));
                 break;
+        }
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //学员复测传递
+        if (requestCode==GET_BODY&&resultCode==RESULT_OK){
+
         }
     }
 }
