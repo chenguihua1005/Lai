@@ -254,6 +254,7 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
         tv_retestAudit_upLegGirth.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getUpArmGirth());
         tv_retestAudit_doLegGirth.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getDoLegGirth());
         if(!TextUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getImage())) {
+            im_retestaudit_showphoto.setVisibility(View.VISIBLE);
             Picasso.with(this).load(retestAuditModelEvent.getRetestAuditModels().get(0).getImage()).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(im_retestaudit_showphoto);
         }
         else {

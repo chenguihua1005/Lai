@@ -48,6 +48,7 @@ public class HealthyRecordImpl implements IHealthyRecord  {
                 {
                     case 200:
                         Util.toastMsg(pysicalModelResponseData.getMsg());
+                        EventBus.getDefault().post(pysicalModelResponseData.getData());
                         default:
                             Util.toastMsg(pysicalModelResponseData.getMsg());
                 }

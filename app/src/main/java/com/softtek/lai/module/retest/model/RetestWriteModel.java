@@ -101,7 +101,7 @@ public class RetestWriteModel implements Serializable{
     }
 
     public String getImage() {
-        return image;
+        return image==null?"":image;
     }
 
     public void setImage(String image) {

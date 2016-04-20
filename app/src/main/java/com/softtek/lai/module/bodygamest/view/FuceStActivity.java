@@ -362,7 +362,8 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     @Subscribe
     public void doGetPhotost(PhotModel photModel) {
         System.out.println("照片名称" + photModel.getImg());
-        retestWrite.setImage(photModel.getImg());
+        retestWrite.setImage(photModel.getImg()+"");
+        int i;
     }
 
 
@@ -528,6 +529,9 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         retestWrite.setPysical(tv_retestWritest_tizhi.getText()+"");
         retestWrite.setFat(tv_retestWritest_neizhi.getText()+"");
         retestWrite.setAccountId(loginid+"");
+        String image=retestWrite.getImage();
+//        int i;
+//        String m="0";
         retestPre.doPostWrite(loginid,loginid,retestWrite,this);
 
     }
