@@ -1,6 +1,7 @@
 package com.softtek.lai.module.historydate.adapter;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.historydate.model.HistoryData;
 import com.softtek.lai.module.historydate.model.HistoryDataItemModel;
 import com.softtek.lai.module.historydate.model.HistoryDataModel;
 
@@ -25,8 +27,10 @@ public class HistoryDataAdapter extends BaseAdapter{
     private LayoutInflater inflater;
     private List<HistoryDataItemModel> dataModels;
     private CheckBox cb_all;
+    private Context context;
 
     public HistoryDataAdapter(Context context, List<HistoryDataItemModel> dataModels,CheckBox cb_all) {
+        this.context=context;
         this.inflater =LayoutInflater.from(context);
         this.dataModels = dataModels;
         this.cb_all=cb_all;
@@ -74,6 +78,16 @@ public class HistoryDataAdapter extends BaseAdapter{
             }
         });
         holder.cb_selecter.setChecked(model.isChecked());
+        HistoryData data=model.getDataModel();
+        if("1".equals(data.getISGuid())){
+            //莱秤数据
+            holder.icon.setBackground(ContextCompat.getDrawable(context,R.drawable.laichen));
+        }else if("0".equals(data.getISGuid())){
+            holder.icon.setBackground(ContextCompat.getDrawable(context,R.drawable.shoudongluru));
+        }
+        String[] date=data.getCreateDate().split(" ");
+        holder.tv_ymd.setText(date[0]);
+        holder.tv_hm.setText(date[1]);
         return convertView;
     }
 
