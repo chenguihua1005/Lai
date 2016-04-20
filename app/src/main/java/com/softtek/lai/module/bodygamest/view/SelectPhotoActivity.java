@@ -52,7 +52,7 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_select_photo)
-public class SelectPhotoActivity extends BaseActivity implements View.OnClickListener {
+public class SelectPhotoActivity extends BaseActivity implements View.OnClickListener ,PhotoListIml.PhotoListCallback{
     //toolbar标题栏
     @InjectView(R.id.text_count)
     TextView text_count;
@@ -136,7 +136,7 @@ public class SelectPhotoActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void initDatas() {
-        photoListPre = new PhotoListIml();
+        photoListPre = new PhotoListIml(this);
         id = UserInfoModel.getInstance().getUser().getUserid();
         photoListPre.getUploadPhoto(id, pageIndex + "");
     }
@@ -165,4 +165,8 @@ public class SelectPhotoActivity extends BaseActivity implements View.OnClickLis
 
     }
 
+    @Override
+    public void uoploadPhotoSuccess(boolean result, String photo) {
+
+    }
 }

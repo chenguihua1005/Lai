@@ -12,7 +12,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
@@ -29,17 +28,11 @@ import com.softtek.lai.module.bodygamest.Adapter.DownPhotoAdapter;
 import com.softtek.lai.module.bodygamest.eventModel.PhotoListEvent;
 import com.softtek.lai.module.bodygamest.model.DownPhotoModel;
 import com.softtek.lai.module.bodygamest.model.LogListModel;
-import com.softtek.lai.module.bodygamest.model.UploadPhotModel;
 import com.softtek.lai.module.bodygamest.present.DownloadManager;
 import com.softtek.lai.module.bodygamest.present.PhotoListIml;
 import com.softtek.lai.module.bodygamest.present.PhotoListPre;
-import com.softtek.lai.module.lossweightstory.model.LogList;
-import com.softtek.lai.module.lossweightstory.model.LossWeightStoryModel;
-import com.softtek.lai.module.lossweightstory.presenter.LossWeightStoryManager;
 import com.softtek.lai.module.newmemberentry.view.GetPhotoDialog;
-import com.softtek.lai.module.retest.eventModel.BanJiEvent;
 import com.squareup.picasso.Picasso;
-
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -55,7 +48,8 @@ import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_upload_photo)
-public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBase.OnRefreshListener2<ListView>,View.OnClickListener,AdapterView.OnItemClickListener,DownloadManager.DownloadCallBack {
+public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBase.OnRefreshListener2<ListView>,View.OnClickListener,AdapterView.OnItemClickListener,DownloadManager.DownloadCallBack
+,PhotoListIml.PhotoListCallback{
     //toolbar标题栏
     @InjectView(R.id.tv_left)
     TextView tv_left;
@@ -153,7 +147,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         downloadManager=new DownloadManager(this);
         downPhotoModel=new DownPhotoModel();
         logListModel=new LogListModel();
-        photoListPre = new PhotoListIml();
+        photoListPre = new PhotoListIml(this);
         downPhotoAdapter = new DownPhotoAdapter(this, logListModelList);
         ptrlvlist.setAdapter(downPhotoAdapter);
         new Handler().postDelayed(new Runnable() {
@@ -232,8 +226,6 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
             String result = data.getExtras().getString("result");//得到新Activity 关闭后返回的数据
         }
         if (resultCode == RESULT_OK && requestCode == PHOTO) {
-            Bitmap bm = BitmapFactory.decodeFile(path.toString());
-            imtest.setImageBitmap(bm);
             progressDialog.setMessage("图片正在上传...");
             progressDialog.show();
             photoListPre.doUploadPhoto(UserInfoModel.getInstance().getUser().getUserid(),path.toString(),progressDialog);
@@ -245,26 +237,17 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
             c.moveToFirst();
             int columnIndex = c.getColumnIndex(filePathColumns[0]);
             String picturePath = c.getString(columnIndex);
-            Bitmap bitmap = null;
-            try {
-                bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(selectedImage));
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-
-            imtest.setImageBitmap(bitmap);
+            c.close();
             progressDialog.setMessage("图片正在上传...");
             progressDialog.show();
-            photoListPre.doUploadPhoto(UserInfoModel.getInstance().getUser().getUserid(),picturePath.toString(),progressDialog);
-            com.github.snowdream.android.util.Log.i("picturePath------------------------------------------------:" + picturePath);
-            c.close();
+            photoListPre.doUploadPhoto(UserInfoModel.getInstance().getUser().getUserid(),picturePath,progressDialog);
+
         }
 
     }
 
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-        com.github.snowdream.android.util.Log.i("正在刷新数据图片");
         String userId= UserInfoModel.getInstance().getUser().getUserid();
         pageIndex=1;
         downloadManager.doGetDownPhoto(userId,1);
@@ -308,5 +291,18 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         }
         logListModelList.addAll(models);
         downPhotoAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void uoploadPhotoSuccess(boolean result, String photo) {
+        if(result){
+            Picasso.with(this).load(AddressManager.get("photoHost")+photo).fit().placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(imtest);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ptrlvlist.setRefreshing();
+                }
+            },300);
+        }
     }
 }
