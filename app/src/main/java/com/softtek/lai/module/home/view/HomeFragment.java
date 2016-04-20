@@ -32,6 +32,7 @@ import com.softtek.lai.module.bodygamest.view.BodyGamePCActivity;
 import com.softtek.lai.module.bodygamest.view.SelectPhotoActivity;
 import com.softtek.lai.module.bodygameyk.view.BodygameYkActivity;
 import com.softtek.lai.module.bodygamezj.view.BodygameSRActivity;
+import com.softtek.lai.module.counselor.view.SRHonorActivity;
 import com.softtek.lai.module.home.adapter.FragementAdapter;
 import com.softtek.lai.module.home.adapter.ModelAdapter;
 import com.softtek.lai.module.home.eventModel.HomeEvent;
@@ -350,7 +351,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.iv_email:
-                startActivity(new Intent(getContext(), SelectPhotoActivity.class));
+                startActivity(new Intent(getContext(), SRHonorActivity.class));
                 break;
         }
     }

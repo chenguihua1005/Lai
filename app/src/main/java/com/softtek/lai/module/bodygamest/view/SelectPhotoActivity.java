@@ -68,9 +68,9 @@ public class SelectPhotoActivity extends BaseActivity implements View.OnClickLis
     }
 
     @Subscribe
-    public void onEvent(PhotoListEvent photoListEvent) {
-        System.out.println(photoListEvent);
-        SelectPhotoAdapter adapter=new SelectPhotoAdapter(this,photoListEvent.getDownPhotoModels());
+    public void onEvent(DownPhotoModel downPhotoModel) {
+        System.out.println(downPhotoModel);
+        SelectPhotoAdapter adapter=new SelectPhotoAdapter(this,downPhotoModel.getLogList());
         pull_refresh_grid.setAdapter(adapter);
     }
 

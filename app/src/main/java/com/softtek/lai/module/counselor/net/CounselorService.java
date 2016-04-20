@@ -38,6 +38,10 @@ public interface CounselorService {
     void getSPHonor(@Header("token") String token,
                     Callback<ResponseData<HonorInfoModel>> callback);
 
+    @GET("/Index/GetSRHonor")
+    void getSRHonor(@Header("token") String token,
+                    Callback<ResponseData<HonorInfoModel>> callback);
+
     @FormUrlEncoded
     @POST("/HerbrClass/CreateClass")
     void createClass(@Header("token") String token,

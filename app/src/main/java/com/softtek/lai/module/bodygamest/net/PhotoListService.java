@@ -45,7 +45,7 @@ public interface PhotoListService {
             @Header("token")String token,
             @Query("AccountId")String AccountId,
             @Query("pageIndex")String pageIndex,
-            Callback<ResponseData<List<DownPhotoModel>>>callback
+            Callback<ResponseData<DownPhotoModel>> callback
     );
 
 }
