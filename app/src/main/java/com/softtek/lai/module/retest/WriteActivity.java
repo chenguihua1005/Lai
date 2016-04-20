@@ -161,7 +161,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
     private static final int GET_BODY=2;
     private static final String LAI_CHEN_SWITCH_KEY="laichenSwitch";
     private CharSequence[] items={"拍照","从相册选择照片"};
-
+    String isState="true";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
@@ -225,22 +225,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
     }
 
 
-//    @Subscribe
-//    public void event(MeasureModel measureModel1){
-//        measureModel=measureModel1;
-//        Log.i("username"+measureModel.getUsername());
-////        tv_write_nick.setText(measureModel.getUsername());
-////        tv_write_phone.setText(measureModel.getPhone());
-//        tv_retestWrite_nowweight.setText(measureModel.getMeasureddata().getItems().get(0).getWeight());
-//        tv_retestWrite_tizhi.setText(measureModel.getMeasureddata().getItems().get(0).getBodyfat());
-//        tv_retestWrite_neizhi.setText(measureModel.getMeasureddata().getItems().get(0).getVisceralfatindex());
-//        retestWrite.setCircum(measureModel.getChestgirth());
-//        retestWrite.setWaistline(measureModel.getWaistgirth());
-//        retestWrite.setHiplie(measureModel.getHipgirth());
-//        retestWrite.setUpArmGirth(measureModel.getUpperarmgirth());
-//        retestWrite.setUpLegGirth(measureModel.getThighgirth());
-//        retestWrite.setDoLegGirth(measureModel.getCalfgirth());
-//    }
+
     @Subscribe
     public void event(LaichModel laichModel){
 //        measureModel=measureModel1;
@@ -355,6 +340,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
 //                intent.putExtra("retestWrite",retestWrite);
                 Log.i("retestWrite="+retestWrite.toString());
                 intent.putExtra("retestWrite",retestWrite);
+                intent.putExtra("isState",isState);
                 startActivityForResult(intent,GET_BODY);
                 break;
             //点击弹框事件
@@ -496,7 +482,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         retestWrite.setFat(tv_retestWrite_neizhi.getText()+"");
         retestWrite.setClassId(classid);
         retestWrite.setAccountId(acountid);
-        retestPre.doPostWrite(Long.parseLong(acountid),loginid,retestWrite);
+        retestPre.doPostWrite(Long.parseLong(acountid),loginid,retestWrite,this);
         Intent intent=new Intent();
         setResult(RESULT_OK,intent);
         finish();
