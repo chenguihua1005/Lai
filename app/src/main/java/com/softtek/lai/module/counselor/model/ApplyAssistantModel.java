@@ -19,6 +19,29 @@ public class ApplyAssistantModel implements Serializable {
     private String EndDate;
     private String num;
     private String CreateDate;
+    private String State;
+
+    @Override
+    public String toString() {
+        return "ApplyAssistantModel{" +
+                "ClassId='" + ClassId + '\'' +
+                ", ClassName='" + ClassName + '\'' +
+                ", ManagerId='" + ManagerId + '\'' +
+                ", StartDate='" + StartDate + '\'' +
+                ", EndDate='" + EndDate + '\'' +
+                ", num='" + num + '\'' +
+                ", CreateDate='" + CreateDate + '\'' +
+                ", State='" + State + '\'' +
+                '}';
+    }
+
+    public String getState() {
+        return State;
+    }
+
+    public void setState(String state) {
+        State = state;
+    }
 
     public String getClassId() {
         return ClassId;
@@ -76,16 +99,4 @@ public class ApplyAssistantModel implements Serializable {
         CreateDate = createDate;
     }
 
-    @Override
-    public String toString() {
-        return "ApplyAssistantModel{" +
-                "ClassId='" + ClassId + '\'' +
-                ", ClassName='" + ClassName + '\'' +
-                ", ManagerId='" + ManagerId + '\'' +
-                ", StartDate='" + StartDate + '\'' +
-                ", EndDate='" + EndDate + '\'' +
-                ", num='" + num + '\'' +
-                ", CreateDate='" + CreateDate + '\'' +
-                '}';
-    }
 }

@@ -13,20 +13,28 @@
 
     <RelativeLayout
         android:id="@+id/rel_item"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="90dip"
+        android:layout_height="90dip">
 
         <ImageView
             android:id="@+id/img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:scaleType="center"
             android:src="@drawable/img_default" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/img_selceted" />
+        <LinearLayout
+            android:id="@+id/lin"
+            android:layout_width="40dip"
+            android:layout_height="40dip"
+            android:layout_alignParentRight="true">
 
+            <ImageView
+                android:id="@+id/img_select_button"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/img_select" />
+        </LinearLayout>
     </RelativeLayout>
 </LinearLayout>
