@@ -9,6 +9,8 @@ import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
 import java.util.List;
 
 import retrofit.Callback;
+import retrofit.http.Field;
+import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.Header;
 import retrofit.http.Multipart;
@@ -48,4 +50,12 @@ public interface PhotoListService {
             Callback<ResponseData<DownPhotoModel>> callback
     );
 
+    //获取图片列表接口
+    @FormUrlEncoded
+    @POST("/HerbUser/GetUserPhotos")
+    void getUserPhotos(
+            @Header("token")String token,
+            @Field("PhotoName")String photoName,
+            Callback<ResponseData> callback
+    );
 }

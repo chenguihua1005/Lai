@@ -6,7 +6,7 @@ package com.softtek.lai.module.bodygamest.model;
 public class LogListModel {
     private String ImgUrl;
     private String CreateDate;
-    private Boolean isSelect;
+    private Boolean isSelect=false;
 
     @Override
     public String toString() {

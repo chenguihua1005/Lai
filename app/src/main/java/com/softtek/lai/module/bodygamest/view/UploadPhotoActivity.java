@@ -23,9 +23,9 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygamest.Adapter.DownPhotoAdapter;
-import com.softtek.lai.module.bodygamest.eventModel.PhotoListEvent;
 import com.softtek.lai.module.bodygamest.model.DownPhotoModel;
 import com.softtek.lai.module.bodygamest.model.LogListModel;
 import com.softtek.lai.module.bodygamest.present.DownloadManager;
@@ -62,8 +62,8 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     @InjectView(R.id.ptrlvlist)
     PullToRefreshListView ptrlvlist;
     @InjectView(R.id.im_uploadphoto_banner)
-            ImageView im_uploadphoto_banner;
-    int pageIndex=0;
+    ImageView im_uploadphoto_banner;
+    int pageIndex = 0;
     private List<LogListModel> logListModelList = new ArrayList<LogListModel>();
     private DownPhotoAdapter downPhotoAdapter;
     private PhotoListPre photoListPre;
@@ -97,9 +97,9 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     }
 
     @Subscribe
-    public void onEvent(PhotoListEvent photoListEvent) {
+    public void onEvent(ResponseData listResponseData) {
 
-        List<DownPhotoModel> downPhotoModels = photoListEvent.getDownPhotoModels();
+        /*List<DownPhotoModel> downPhotoModels = photoListEvent.getDownPhotoModels();
         for (DownPhotoModel dp : downPhotoModels) {
             int i=0;
 //            if (i<dp.getTotalPage())
@@ -121,8 +121,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
 //                downPhotoAdapter.updateData(downPhotoModelList);
             }
             System.out.print("hihihihihihihihihihihihi" + date + year);
-        }
-
+        }*/
 
     }
 
@@ -159,25 +158,21 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     }
 
     @Override
-    public void onClick(View v)
-    {
-        switch (v.getId())
-        {
+    public void onClick(View v) {
+        switch (v.getId()) {
             case R.id.tv_left:
                 finish();
                 break;
             case R.id.fl_right:
-                Intent intent=new Intent(this,SelectPhotoActivity.class);
-                startActivityForResult(intent,100);
+                Intent intent = new Intent(this, SelectPhotoActivity.class);
+                startActivityForResult(intent, 100);
                 break;
             case R.id.imtest:
                 final GetPhotoDialog dialog = new GetPhotoDialog(UploadPhotoActivity.this,
-                        new GetPhotoDialog.GetPhotoDialogListener()
-                        {
+                        new GetPhotoDialog.GetPhotoDialogListener() {
                             @Override
                             public void onClick(View view) {
-                                switch (view.getId())
-                                {
+                                switch (view.getId()) {
                                     case R.id.imgbtn_camera:
                                         takecamera();
                                         break;
@@ -191,7 +186,6 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
                 dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
                 dialog.show();
         }
-
 
 
     }
@@ -222,8 +216,11 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==100 &&resultCode == RESULT_OK){
+        if (requestCode == 100 && resultCode == RESULT_OK) {
             String result = data.getExtras().getString("result");//得到新Activity 关闭后返回的数据
+            if (!"".equals(result)) {
+                photoListPre.getUserPhotos(result);
+            }
         }
         if (resultCode == RESULT_OK && requestCode == PHOTO) {
             progressDialog.setMessage("图片正在上传...");
@@ -241,7 +238,6 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
             progressDialog.setMessage("图片正在上传...");
             progressDialog.show();
             photoListPre.doUploadPhoto(UserInfoModel.getInstance().getUser().getUserid(),picturePath,progressDialog);
-
         }
 
     }
@@ -255,7 +251,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-        String userId=UserInfoModel.getInstance().getUser().getUserid();
+        String userId = UserInfoModel.getInstance().getUser().getUserid();
         pageIndex++;
         downloadManager.doGetDownPhoto(userId,pageIndex);
     }
@@ -266,14 +262,12 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     }
 
 
-
     @Override
     public void getStroyList(DownPhotoModel downPhotoModel) {
         ptrlvlist.onRefreshComplete();
         if(!TextUtils.isEmpty(downPhotoModel.getBanner())){
-
-            Picasso.with(this).load("http://172.16.98.167/UpFiles/"+downPhotoModel.getBanner()).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(im_uploadphoto_banner);
-        }else{
+            Picasso.with(this).load("http://172.16.98.167/UpFiles/" + downPhotoModel.getBanner()).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(im_uploadphoto_banner);
+        } else {
             Picasso.with(this).load("www").placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(im_uploadphoto_banner);
         }
         if (downPhotoModel==null){
@@ -286,7 +280,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
             pageIndex=--pageIndex<1?1:pageIndex;
             return;
         }
-        if (pageIndex==1){
+        if (pageIndex == 1) {
             logListModelList.clear();
         }
         logListModelList.addAll(models);

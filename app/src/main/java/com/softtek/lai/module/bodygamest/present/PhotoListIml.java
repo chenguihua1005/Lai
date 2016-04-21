@@ -65,6 +65,33 @@ public class PhotoListIml implements PhotoListPre {
     }
 
     @Override
+    public void getUserPhotos(String photoName) {
+        String token = SharedPreferenceService.getInstance().get("token", "");
+        service.getUserPhotos(token, photoName, new Callback<ResponseData>() {
+            @Override
+            public void success(ResponseData listResponseData, Response response) {
+                System.out.println("listResponseData"+listResponseData);
+                int status = listResponseData.getStatus();
+                switch (status) {
+
+                    case 200:
+                        EventBus.getDefault().post(listResponseData.getData());
+                        break;
+                    case 500:
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
+            }
+        });
+    }
+
+    @Override
     public void getUploadPhoto(String AccountId, String pageIndex) {
         String token = SharedPreferenceService.getInstance().get("token", "");
         service.getUploadPhoto(token, AccountId, pageIndex, new Callback<ResponseData<DownPhotoModel>>() {
