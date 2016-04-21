@@ -224,19 +224,18 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
     UserInfoModel userInfoModel=UserInfoModel.getInstance();
     long accoutid=Long.parseLong(userInfoModel.getUser().getUserid());
 
-    //获取classid
-    Intent intent = getIntent();
-    MessageDetailInfo messageDetailInfo = (MessageDetailInfo) intent.getSerializableExtra("messageDetailInfo");
-    String classid=messageDetailInfo.getClassId();
-    //Log.i("获取classid:--messageDetailInfo------------------->"+messageDetailInfo);
-    //Log.i("-------------messageDetailInfo-----------"+messageDetailInfo.getClassId());
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
         super.onCreate(savedInstanceState);
         iUpConfirmInfopresenter = new UpConfirmInfoImpl(this);
+
+        Intent intent = getIntent();
+        MessageDetailInfo messageDetailInfo = (MessageDetailInfo) intent.getSerializableExtra("messageDetailInfo");
+        String classid=messageDetailInfo.getClassId();
+
+        //获取classid
+        Log.i("获取classid:--messageDetailInfo------------------->"+classid);
 
         //参数:---accountid 学员id,classid  班级id
         iUpConfirmInfopresenter.getConfirmInfo(accoutid,Long.parseLong(classid));//130,1-------17,30,32
@@ -322,8 +321,8 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
         doleggirth=getConfirmInfoModel.getDoLegGirth();
         photo=getConfirmInfoModel.getPhoto();
 
-//        String path= AddressManager.get("photoHost","http://172.16.98.167/UpFiles/");
-          String path= AddressManager.get("photoHost","http://172.16.98.167/FileUpload/PostFile/");
+        String path= AddressManager.get("photoHost","http://172.16.98.167/UpFiles/");
+        //String path= AddressManager.get("photoHost","http://172.16.98.167/FileUpload/PostFile/");
         if(!TextUtils.isEmpty(getConfirmInfoModel.getPhoto())) {
             Picasso.with(this).load(path+getConfirmInfoModel.getPhoto()).placeholder(R.drawable.img_default).error(R.drawable.img_default).into(img1);
         }
@@ -425,27 +424,71 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
                 break;
             case  R.id.btn_sure:
                 String token = SharedPreferenceService.getInstance().get("token", "");
-                String classid = tv_classname.getText().toString();
-                coninfoModel = new ConinfoModel();
-                coninfoModel.setAccountid(accoutid);
+                Intent intent = getIntent();
+                MessageDetailInfo messageDetailInfo = (MessageDetailInfo) intent.getSerializableExtra("messageDetailInfo");
+                String classid=messageDetailInfo.getClassId();
 
+
+
+                coninfoModel = new ConinfoModel();
                 //设置classid
                 coninfoModel.setClassid(classid);
 
+                coninfoModel.setAccountid(accoutid);
                 coninfoModel.setNickname(et_name.getText().toString());
                 coninfoModel.setBirthday(tv_birthday.getText().toString());
                 coninfoModel.setGender(tv_sex.getText().toString()=="男"?1:0);
-//                ///////////////////////////////////////////////////////
+
                 coninfoModel.setPhoto("201603290913492218475932.jpg");
                 coninfoModel.setWeight(Double.parseDouble(tv_weight.getText().toString()));
-                coninfoModel.setPysical(Double.parseDouble(et_pysical.getText().toString()));
-                coninfoModel.setFat(Double.parseDouble(et_fat.getText().toString()));
-                coninfoModel.setCircum(Double.parseDouble(tv_circum.getText().toString()));
-                coninfoModel.setWaistline(Double.parseDouble(tv_waistline.getText().toString()));
-                coninfoModel.setHiplie(Double.parseDouble(tv_hiplie.getText().toString()));
-                coninfoModel.setUparmgirth(Double.parseDouble(tv_uparmgirth.getText().toString()));
-                coninfoModel.setUpleggirth(Double.parseDouble(tv_upleggirth.getText().toString()));
-                coninfoModel.setDoleggirth(Double.parseDouble(tv_doleggirth.getText().toString()));
+                if(et_pysical.getText().toString().equals("")){
+                    coninfoModel.setPysical(0.0);
+                }else {
+                    coninfoModel.setPysical(Double.parseDouble(et_pysical.getText().toString()));
+                }
+
+                if(et_fat.getText().toString().equals("")){
+                    coninfoModel.setFat(0.0);
+                }else {
+                    coninfoModel.setFat(Double.parseDouble(et_fat.getText().toString()));
+                }
+
+                if (tv_circum.getText().toString().equals("")){
+                    coninfoModel.setCircum(0.0);
+                }else {
+                    coninfoModel.setCircum(Double.parseDouble(tv_circum.getText().toString()));
+                }
+
+                if(tv_waistline.getText().toString().equals("")){
+                    coninfoModel.setWaistline(0.0);
+                }else {
+                    coninfoModel.setWaistline(Double.parseDouble(tv_waistline.getText().toString()));
+                }
+
+                if (tv_hiplie.getText().toString().equals("")){
+                    coninfoModel.setHiplie(0.0);
+                }else {
+                    coninfoModel.setHiplie(Double.parseDouble(tv_hiplie.getText().toString()));
+                }
+
+                if (tv_uparmgirth.getText().toString().equals("")){
+                    coninfoModel.setUparmgirth(0.0);
+                }else {
+                    coninfoModel.setUparmgirth(Double.parseDouble(tv_uparmgirth.getText().toString()));
+                }
+
+                if (tv_upleggirth.getText().toString().equals("")){
+                    coninfoModel.setUpleggirth(0.0);
+                }else {
+                    coninfoModel.setUpleggirth(Double.parseDouble(tv_upleggirth.getText().toString()));
+                }
+
+                if (tv_doleggirth.getText().toString().equals("")){
+                    coninfoModel.setDoleggirth(0.0);
+                }else {
+                    coninfoModel.setDoleggirth(Double.parseDouble(tv_doleggirth.getText().toString()));
+                }
+
                 iUpConfirmInfopresenter.changeUpConfirmInfo(token,coninfoModel);
                 finish();
                 break;

@@ -124,7 +124,7 @@ public class HealthEntryActivity extends BaseActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
-        iEntryHealthpresenter.doGetLastestRecord(accoutid,lastestRecordModel);//getaccountid
+        iEntryHealthpresenter.doGetLastestRecord(accoutid,lastestRecordModel);
 
         ll_left.setOnClickListener(this);
         ll_weight.setOnClickListener(this);
