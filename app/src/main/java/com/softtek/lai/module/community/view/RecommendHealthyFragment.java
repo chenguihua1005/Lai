@@ -70,18 +70,21 @@ public class RecommendHealthyFragment extends BaseFragment implements AdapterVie
             }
         }, 500);
     }
-
+    private static final int LIST_JUMP=1;
+    private static final int LIST_JUMP_2=2;
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         HealthyCommunityModel model=communityModels.get(position-1);
         if("1".equals(model.getMinetype())){//减重日志
             Intent logDetail=new Intent(getContext(), LogStoryDetailActivity.class);
             logDetail.putExtra("log",copyModel(model));
-            startActivity(logDetail);
+            logDetail.putExtra("position",position-1);
+            startActivityForResult(logDetail,LIST_JUMP_2);
         }else if("0".equals(model.getMinetype())){//动态
             Intent logDetail=new Intent(getContext(), HealthyDetailActivity.class);
             logDetail.putExtra("dynamicModel",copyModeltoDynamci(model));
-            startActivity(logDetail);
+            logDetail.putExtra("position",position-1);
+            startActivityForResult(logDetail,LIST_JUMP);
         }
     }
 
@@ -161,5 +164,31 @@ public class RecommendHealthyFragment extends BaseFragment implements AdapterVie
         dynamicModel.setImgCollection(model.getImgCollection());
         dynamicModel.setPhoto(model.getPhoto());
         return dynamicModel;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==-1){
+            if(requestCode==LIST_JUMP){
+                int position=data.getIntExtra("position",-1);
+                HealthyDynamicModel model=data.getParcelableExtra("dynamicModel");
+                if(position!=-1&&model!=null){
+                    communityModels.get(position).setIsPraise(model.getIsPraise());
+                    communityModels.get(position).setUsernameSet(model.getUsernameSet());
+                    communityModels.get(position).setPraiseNum(model.getPraiseNum());
+                    adapter.notifyDataSetChanged();
+                }
+            }else if(requestCode==LIST_JUMP_2){
+                int position=data.getIntExtra("position",-1);
+                LossWeightStoryModel model=data.getParcelableExtra("log");
+                if(position!=-1&&model!=null){
+                    communityModels.get(position).setIsPraise(model.getIsClicked());
+                    communityModels.get(position).setUsernameSet(model.getUsernameSet());
+                    communityModels.get(position).setPraiseNum(model.getPriase());
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        }
     }
 }

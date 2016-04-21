@@ -1,6 +1,5 @@
 package com.softtek.lai.module.lossweightstory.view;
 
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -16,7 +15,6 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
@@ -38,7 +36,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
-import zilla.libcore.file.AddressManager;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
@@ -92,7 +89,6 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
         storyManager=new NewStoryManager(images,this);
         UserModel model= UserInfoModel.getInstance().getUser();
         et_sender.setText(model.getNickname());
-        //et_sender.setSelection(et_sender.getText().toString().length());
         et_sender.setEnabled(false);
         images.add(new UploadImage(null,BitmapFactory.decodeResource(getResources(), R.drawable.camera_sel)));
         adapter=new PhotoGridViewAdapter(images,this);

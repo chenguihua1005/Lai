@@ -82,8 +82,7 @@
                 android:id="@+id/log_header_image"
                 android:layout_width="match_parent"
                 android:layout_height="127dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/test_header" />
+                android:scaleType="centerCrop" />
 
             <LinearLayout
                 android:layout_width="wrap_content"

@@ -2,6 +2,7 @@ package com.softtek.lai.module.community.net;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.community.model.CommunityModel;
+import com.softtek.lai.module.community.model.DoZan;
 import com.softtek.lai.module.community.model.HealthyCommunityModel;
 import com.softtek.lai.module.community.model.HealthyDynamicModel;
 import com.softtek.lai.module.community.model.HealthyRecommendModel;
@@ -46,5 +47,8 @@ public interface CommunityService {
                                  RequestCallback<ResponseData<HealthyDynamicModel>> callback);
 
     //健康圈点赞
-
+    @POST("/HealthyCircle/InsertThumbUp")
+    void clickLike(@Header("token")String token,
+                   @Body DoZan zan,
+                   RequestCallback<ResponseData> callback);
 }

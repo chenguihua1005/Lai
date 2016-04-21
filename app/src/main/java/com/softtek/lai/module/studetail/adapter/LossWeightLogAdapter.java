@@ -12,12 +12,21 @@ import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
+import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.lossweightstory.model.Zan;
 import com.softtek.lai.module.studetail.model.LossWeightLogModel;
 import com.softtek.lai.module.studetail.presenter.IMemberInfopresenter;
 import com.softtek.lai.module.studetail.presenter.MemberInfoImpl;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import zilla.libcore.api.ZillaApi;
+import zilla.libcore.file.AddressManager;
 
 /**
  * Created by John on 2016/4/3.
@@ -58,7 +67,7 @@ public class LossWeightLogAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LogHolder holder=null;
+        final LogHolder holder;
         if(convertView==null){
             convertView=inflater.inflate(R.layout.loss_weight_log_item,parent,false);
             holder=new LogHolder(convertView);
@@ -70,6 +79,32 @@ public class LossWeightLogAdapter extends BaseAdapter{
         Log.i(log.toString());
         if(ZAN_OFF.equals(log.getIsClicked())){//未点赞
             holder.cb_zan.setChecked(false);
+            holder.cb_zan.setEnabled(true);
+            holder.cb_zan.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(holder.cb_zan.isChecked()){
+                        log.setPriase(Integer.parseInt(log.getPriase())+1+"");
+                        log.setIsClicked(ZAN_NO);
+                        //向服务器提交
+                        memberInfopresenter.doZan(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()),
+                                Long.parseLong(log.getLossLogId()),
+                                new Callback<ResponseData<Zan>>() {
+                                    @Override
+                                    public void success(ResponseData<Zan> zanResponseData, Response response) {}
+
+                                    @Override
+                                    public void failure(RetrofitError error) {
+                                        log.setPriase(Integer.parseInt(log.getPriase())-1+"");
+                                        log.setIsClicked(ZAN_OFF);
+                                        notifyDataSetChanged();
+                                        ZillaApi.dealNetError(error);
+                                    }
+                                });
+                    }
+                    notifyDataSetChanged();
+                }
+            });
         }else if(ZAN_NO.equals(log.getIsClicked())){
             holder.cb_zan.setChecked(true);
             holder.cb_zan.setEnabled(false);
@@ -77,22 +112,11 @@ public class LossWeightLogAdapter extends BaseAdapter{
         if(review_flag==0){
             holder.cb_zan.setEnabled(false);
         }
-        holder.cb_zan.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    log.setPriase(Integer.parseInt(log.getPriase())+1+"");
-                    ((CheckBox)buttonView).setEnabled(false);
-                    //向服务器提交
-                    memberInfopresenter.doZan(3,Long.parseLong(log.getLossLogId()));
-                }else{
-                    log.setPriase(Integer.parseInt(log.getPriase())-1+"");
-                }
-                notifyDataSetChanged();
-            }
-        });
+
         holder.cb_zan.setText(log.getPriase());
-       // Picasso.with(context).load(log.getImgCollectionFirst()).into(holder.iv_image);
+        if(log.getImgCollectionFirst()!=null&&!log.getImgCollectionFirst().equals("")){
+            Picasso.with(context).load(AddressManager.get("photoHost")+log.getImgCollectionFirst()).fit().placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(holder.iv_image);
+        }
         holder.tv_log_title.setText(log.getLogTitle());
         holder.tv_content.setText(log.getLogContent());
         String date=log.getCreateDate();

@@ -55,71 +55,62 @@
                     android:layout_width="79dp"
                     android:scaleType="centerCrop"
                     android:layout_marginRight="3dp"
-                    android:visibility="gone"
-                    android:src="@drawable/test_header"/>
+                    android:visibility="gone" />
                 <ImageView
                     android:id="@+id/img_2"
                     android:layout_height="79dp"
                     android:layout_width="79dp"
                     android:scaleType="centerCrop"
                     android:layout_marginRight="3dp"
-                    android:visibility="gone"
-                    android:src="@drawable/test_header"/>
+                    android:visibility="gone" />
                 <ImageView
                     android:id="@+id/img_3"
                     android:layout_height="79dp"
                     android:layout_width="79dp"
                     android:scaleType="centerCrop"
-                    android:visibility="gone"
-                    android:src="@drawable/test_header"/>
+                    android:visibility="gone" />
                 <ImageView
                     android:id="@+id/img_4"
                     android:layout_height="79dp"
                     android:layout_width="79dp"
                     android:scaleType="centerCrop"
                     android:visibility="gone"
-                    android:layout_marginTop="3dp"
-                    android:src="@drawable/test_header"/>
+                    android:layout_marginTop="3dp" />
                 <ImageView
                     android:id="@+id/img_5"
                     android:layout_height="79dp"
                     android:layout_width="79dp"
                     android:scaleType="centerCrop"
                     android:layout_marginTop="3dp"
-                    android:visibility="gone"
-                    android:src="@drawable/test_header"/>
+                    android:visibility="gone" />
                 <ImageView
                     android:id="@+id/img_6"
                     android:layout_height="79dp"
                     android:layout_width="79dp"
                     android:scaleType="centerCrop"
                     android:layout_marginTop="3dp"
-                    android:visibility="gone"
-                    android:src="@drawable/test_header"/>
+                    android:visibility="gone" />
                 <ImageView
                     android:id="@+id/img_7"
                     android:layout_height="79dp"
                     android:layout_width="79dp"
                     android:scaleType="centerCrop"
                     android:layout_marginTop="3dp"
-                    android:visibility="gone"
-                    android:src="@drawable/test_header"/>
+                    android:visibility="gone" />
                 <ImageView
                     android:id="@+id/img_8"
                     android:layout_height="79dp"
                     android:layout_width="79dp"
                     android:scaleType="centerCrop"
                     android:layout_marginTop="3dp"
-                    android:visibility="gone"
-                    android:src="@drawable/test_header"/>
+                    android:visibility="gone" />
                 <ImageView
                     android:id="@+id/img_9"
                     android:layout_height="79dp"
                     android:layout_width="79dp"
                     android:scaleType="centerCrop"
                     android:layout_marginTop="3dp"
-                    android:visibility="gone"
-                    android:src="@drawable/test_header"/>
+                    android:visibility="gone" />
             </GridLayout>
             <RelativeLayout
                 android:layout_width="match_parent"

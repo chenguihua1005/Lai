@@ -25,7 +25,6 @@
         android:verticalSpacing="3dp"
         android:layout_marginLeft="3dip"
         android:layout_marginRight="3dip"
-        ptr:ptrDrawable="@drawable/img_default"
         ptr:ptrMode="both" />
 
     <RelativeLayout

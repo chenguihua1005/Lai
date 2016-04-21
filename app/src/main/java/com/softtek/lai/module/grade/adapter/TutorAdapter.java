@@ -10,9 +10,13 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.HorizontalScrollView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import com.softtek.lai.R;
-import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.grade.model.SRInfoModel;
 import com.softtek.lai.module.grade.presenter.GradeImpl;
@@ -23,12 +27,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
-import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
-import zilla.libcore.util.Util;
 
 /**
  * Created by jerry.guan on 3/23/2016.
@@ -117,7 +116,7 @@ public class TutorAdapter extends BaseAdapter {
                 return false;
             }
         });
-        holder.btn_delete.setOnClickListener(new View.OnClickListener() {
+        /*holder.btn_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 holder.horizontalScrollView.smoothScrollTo(0,0);
@@ -138,7 +137,7 @@ public class TutorAdapter extends BaseAdapter {
                     }
                 });
             }
-        });
+        });*/
         return convertView;
     }
 

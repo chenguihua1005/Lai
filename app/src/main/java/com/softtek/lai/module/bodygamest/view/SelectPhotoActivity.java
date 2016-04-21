@@ -50,9 +50,10 @@ import java.util.Set;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_select_photo)
-public class SelectPhotoActivity extends BaseActivity implements View.OnClickListener ,PhotoListIml.PhotoListCallback{
+public class SelectPhotoActivity extends BaseActivity implements View.OnClickListener, PhotoListIml.PhotoListCallback {
     //toolbar标题栏
     @InjectView(R.id.text_count)
     TextView text_count;
@@ -152,24 +153,30 @@ public class SelectPhotoActivity extends BaseActivity implements View.OnClickLis
                 finish();
                 break;
             case R.id.fl_right:
-                String str="";
+                String str = "";
                 for (int i = 0; i < list_all.size(); i++) {
-                    LogListModel logListModel=list_all.get(i);
-                    if(logListModel.getIsSelect()){
-                        if("".equals(str)){
-                            str=str+logListModel.getImgUrl();
-                        }else {
-                            str=str+","+logListModel.getImgUrl();
+                    LogListModel logListModel = list_all.get(i);
+                    if (logListModel.getIsSelect()) {
+                        String[] photo_url = logListModel.getImgUrl().split("/");
+
+                        String url_name = photo_url[photo_url.length - 1];
+                        if ("".equals(str)) {
+                            str = str + url_name;
+                        } else {
+                            str = str + "," + url_name;
                         }
                     }
                 }
                 System.out.println("str:" + str);
-                Intent intent = new Intent();
-                //把返回数据存入Intent
-                intent.putExtra("result", str);
-                setResult(RESULT_OK, intent);
-                finish();
-
+                if("".equals(str)){
+                    Util.toastMsg("您还未选择照片");
+                }else {
+                    Intent intent = new Intent();
+                    //把返回数据存入Intent
+                    intent.putExtra("result", str);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
 
                 break;
 

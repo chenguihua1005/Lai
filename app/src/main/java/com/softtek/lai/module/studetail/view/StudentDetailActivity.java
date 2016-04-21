@@ -136,10 +136,15 @@ public class StudentDetailActivity extends BaseActivity implements View.OnClickL
         tv_totle_lw.setText(memberModel.getLossWeight() + "斤");
         tv_loss_before.setText(memberModel.getLossBefor() + "斤");
         tv_loss_after.setText(memberModel.getLossAfter() + "斤");
-
-        Picasso.with(this).load(memberModel.getPhoto()).placeholder(R.drawable.img_default).error(R.drawable.img_default).into(civ_header_image);
-        Picasso.with(this).load(memberModel.getBeforImg()).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_loss_before);
-        Picasso.with(this).load(memberModel.getAfterImg()).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_loss_after);
+        if(memberModel.getPhoto()!=null&&memberModel.getPhoto().equals("")){
+            Picasso.with(this).load(memberModel.getPhoto()).placeholder(R.drawable.img_default).error(R.drawable.img_default).into(civ_header_image);
+        }
+        if(memberModel.getBeforImg()!=null&&memberModel.getBeforImg().equals("")){
+            Picasso.with(this).load(memberModel.getBeforImg()).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_loss_before);
+        }
+        if(memberModel.getAfterImg()!=null&&memberModel.getAfterImg().equals("")){
+            Picasso.with(this).load(memberModel.getAfterImg()).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_loss_after);
+        }
     }
 
 

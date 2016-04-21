@@ -12,6 +12,7 @@
             android:divider="#00ececec"
             android:dividerHeight="1dp"
             android:listSelector="@android:color/transparent"
+            android:overScrollMode="never"
             android:scrollbars="none"
             app:ptrShowIndicator="false"
             />
