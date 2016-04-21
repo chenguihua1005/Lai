@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
@@ -95,6 +96,7 @@ public class LossWeightLogActivity extends BaseActivity implements View.OnClickL
         }
     }
 
+    private static final int LIST_JUMP=2;
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if(position<2){
@@ -104,7 +106,24 @@ public class LossWeightLogActivity extends BaseActivity implements View.OnClickL
         Intent intent=new Intent(this,LogDetailActivity.class);
         intent.putExtra("log",logs.get(position-2));
         intent.putExtra("review",review_flag);
-        startActivity(intent);
+        intent.putExtra("position",position-2);
+        startActivityForResult(intent,LIST_JUMP);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_OK){
+            if(requestCode==LIST_JUMP){
+                LossWeightLogModel model= (LossWeightLogModel) data.getSerializableExtra("log");
+                int position=data.getIntExtra("position",-1);
+                if(position!=-1&&model!=null){
+                    logs.get(position).setIsClicked(model.getIsClicked());
+                    logs.get(position).setPriase(model.getPriase());
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        }
     }
 
     @Override
@@ -128,7 +147,7 @@ public class LossWeightLogActivity extends BaseActivity implements View.OnClickL
         }
         tv_name.setText(logs.getUserName());
         List<LossWeightLogModel> models=logs.getLogList();
-        if(logs.getLogList().isEmpty()){
+        if(models==null||logs.getLogList().isEmpty()){
             pageIndex=--pageIndex<1?1:pageIndex;
             return;
         }
@@ -137,16 +156,20 @@ public class LossWeightLogActivity extends BaseActivity implements View.OnClickL
         }
         this.logs.addAll(models);
         adapter.notifyDataSetChanged();
-        String path= AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-        try {
-            Picasso.with(this).load(path + logs.getPhoto())
+        String path= AddressManager.get("photoHost");
+        Log.i("头像路径"+logs.getPhoto());
+        Log.i("banner路径"+logs.getPhoto());
+        if(logs.getPhoto()!=null){
+            Picasso.with(this).load(path + logs.getPhoto()).fit()
                     .placeholder(R.drawable.img_default)
                     .error(R.drawable.img_default)
                     .into(cir_header_image);
-            Picasso.with(this).load(path + logs.getBanner())
+        }
+        if(logs.getBanner()!=null){
+            Picasso.with(this).load(path + logs.getBanner()).fit()
                     .placeholder(R.drawable.default_pic)
                     .error(R.drawable.default_pic)
                     .into(log_banner);
-        }catch (Exception e){}
+        }
     }
 }

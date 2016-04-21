@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#F0F0F2"
     android:fitsSystemWindows="true"
     tools:context="com.softtek.lai.module.grade.view.GradeHomeActivity">
@@ -425,6 +426,8 @@
             android:layout_height="match_parent"
             android:cacheColorHint="#00000000"
             android:dividerHeight="0.5dp"
+            android:overScrollMode="never"
+            app:ptrShowIndicator="false"
             android:fadingEdge="none"
             android:scrollbars="none" />
     </LinearLayout>

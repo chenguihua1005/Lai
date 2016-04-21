@@ -15,6 +15,7 @@
         android:dividerHeight="1dp"
         android:listSelector="@android:color/transparent"
         android:scrollbars="none"
+        android:overScrollMode="never"
         app:ptrShowIndicator="false"
         android:id="@+id/ptrlv"
         android:layout_below="@id/toolbar">

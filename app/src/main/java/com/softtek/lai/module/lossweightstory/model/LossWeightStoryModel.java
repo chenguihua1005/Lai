@@ -1,11 +1,12 @@
 package com.softtek.lai.module.lossweightstory.model;
 
-import java.io.Serializable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  * Created by John on 2016/4/14.
  */
-public class LossWeightStoryModel implements Serializable{
+public class LossWeightStoryModel implements Parcelable{
 
     private String UserName;
     private String Photo;
@@ -20,6 +21,37 @@ public class LossWeightStoryModel implements Serializable{
     private String isClicked;
     private String usernameSet;
     private String AfterWeight;
+
+    public LossWeightStoryModel() {
+    }
+
+    protected LossWeightStoryModel(Parcel in) {
+        UserName = in.readString();
+        Photo = in.readString();
+        AcBanner = in.readString();
+        LossLogId = in.readString();
+        CreateDate = in.readString();
+        LogTitle = in.readString();
+        LogContent = in.readString();
+        Priase = in.readString();
+        imgCollectionFirst = in.readString();
+        imgCollection = in.readString();
+        isClicked = in.readString();
+        usernameSet = in.readString();
+        AfterWeight = in.readString();
+    }
+
+    public static final Creator<LossWeightStoryModel> CREATOR = new Creator<LossWeightStoryModel>() {
+        @Override
+        public LossWeightStoryModel createFromParcel(Parcel in) {
+            return new LossWeightStoryModel(in);
+        }
+
+        @Override
+        public LossWeightStoryModel[] newArray(int size) {
+            return new LossWeightStoryModel[size];
+        }
+    };
 
     public String getAfterWeight() {
         return AfterWeight;
@@ -141,5 +173,27 @@ public class LossWeightStoryModel implements Serializable{
                 ", isClicked='" + isClicked + '\'' +
                 ", usernameSet='" + usernameSet + '\'' +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(UserName);
+        dest.writeString(Photo);
+        dest.writeString(AcBanner);
+        dest.writeString(LossLogId);
+        dest.writeString(CreateDate);
+        dest.writeString(LogTitle);
+        dest.writeString(LogContent);
+        dest.writeString(Priase);
+        dest.writeString(imgCollectionFirst);
+        dest.writeString(imgCollection);
+        dest.writeString(isClicked);
+        dest.writeString(usernameSet);
+        dest.writeString(AfterWeight);
     }
 }

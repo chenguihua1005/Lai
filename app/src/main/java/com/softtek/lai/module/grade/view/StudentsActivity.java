@@ -93,7 +93,7 @@ public class StudentsActivity extends BaseActivity implements BaseFragment.OnFra
         tv_title.setText("学员列表");
         UserModel user= UserInfoModel.getInstance().getUser();
         tv_right.setText("邀请学员");
-        if(!String.valueOf(Constants.SR).equals(user.getUserrole())){
+        if(String.valueOf(Constants.SR).equals(user.getUserrole())){
             tv_right.setVisibility(View.GONE);
 
         }

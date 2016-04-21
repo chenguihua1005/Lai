@@ -1,5 +1,8 @@
 package com.softtek.lai.module.community.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by jerry.guan on 4/11/2016.
  * 健康圈实体
@@ -17,6 +20,7 @@ public class HealthyCommunityModel {
     private String IsPraise;
     private String PraiseNum;
     private String usernameSet;
+
 
     public String getImgCollection() {
         return imgCollection;
@@ -122,4 +126,5 @@ public class HealthyCommunityModel {
                 ", usernameSet='" + usernameSet + '\'' +
                 '}';
     }
+
 }

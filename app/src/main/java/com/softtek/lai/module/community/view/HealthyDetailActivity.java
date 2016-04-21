@@ -1,8 +1,9 @@
 package com.softtek.lai.module.community.view;
 
+import android.content.Intent;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -11,6 +12,7 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.community.model.DoZan;
 import com.softtek.lai.module.community.model.HealthyDynamicModel;
 import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.module.login.model.UserModel;
@@ -32,8 +34,7 @@ import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_healthy_detail)
-public class HealthyDetailActivity extends BaseActivity implements View.OnClickListener
-,CompoundButton.OnCheckedChangeListener{
+public class HealthyDetailActivity extends BaseActivity implements View.OnClickListener {
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -56,12 +57,13 @@ public class HealthyDetailActivity extends BaseActivity implements View.OnClickL
     private HealthyDynamicModel model;
     private List<String> images=new ArrayList<>();
     private LogDetailGridAdapter adapter;
+    private long accountId=-1;
 
     @Override
     protected void initViews() {
         tv_title.setText("动态详情");
         ll_left.setOnClickListener(this);
-        cb_zan.setOnCheckedChangeListener(this);
+        cb_zan.setOnClickListener(this);
     }
 
     @Override
@@ -76,16 +78,17 @@ public class HealthyDetailActivity extends BaseActivity implements View.OnClickL
         tv_date.setText(model.getCreateDate());
         tv_content.setText(model.getContent());
         cb_zan.setText(model.getPraiseNum());
-        if(Constants.HAS_ZAN.equals(model.getIsPraise())){
-            cb_zan.setChecked(true);
-            cb_zan.setEnabled(false);
-        }else if(Constants.NO_ZAN.equals(model.getIsPraise())){
-            cb_zan.setChecked(false);
-            cb_zan.setEnabled(true);
-        }
         if("".equals(UserInfoModel.getInstance().getToken())){
             cb_zan.setChecked(false);
             cb_zan.setEnabled(false);
+        }else{
+            if(Constants.HAS_ZAN.equals(model.getIsPraise())){
+                cb_zan.setChecked(true);
+                cb_zan.setEnabled(false);
+            }else if(Constants.NO_ZAN.equals(model.getIsPraise())){
+                cb_zan.setChecked(false);
+                cb_zan.setEnabled(true);
+            }
         }
         //拆分字符串图片列表,并添加到图片集合中
         if(!"".equals(model.getImgCollection())&&null!=model.getImgCollection()){
@@ -96,7 +99,12 @@ public class HealthyDetailActivity extends BaseActivity implements View.OnClickL
         list_image.setAdapter(adapter);
         dialogShow("加载中...");
         UserModel user= UserInfoModel.getInstance().getUser();
-        service.getHealthyDynamciDetail(Long.parseLong(user.getUserid()), model.getHealtId(),
+        if("".equals(UserInfoModel.getInstance().getToken())){
+            accountId=-1;
+        }else{
+            accountId=Long.parseLong(user.getUserid());
+        }
+        service.getHealthyDynamciDetail(accountId, model.getHealtId(),
                 new RequestCallback<ResponseData<HealthyDynamicModel>>() {
                     @Override
                     public void success(ResponseData<HealthyDynamicModel> healthyDynamicModelResponseData, Response response) {
@@ -117,7 +125,34 @@ public class HealthyDetailActivity extends BaseActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ll_left:
+                Intent i=getIntent();
+                i.putExtra("dynamicModel",model);
+                setResult(RESULT_OK,i);
                 finish();
+                break;
+            case R.id.cb_zan:
+                UserInfoModel infoModel = UserInfoModel.getInstance();
+                model.setPraiseNum(Integer.parseInt(model.getPraiseNum()) + 1 + "");
+                String before = "".equals(model.getUsernameSet()) ? "" : ",";
+                model.setIsPraise(Constants.HAS_ZAN);
+                model.setUsernameSet(before + infoModel.getUser().getNickname());
+                setValue(model);
+                //向服务器提交
+                String token = infoModel.getToken();
+                service.clickLike(token,new DoZan(Long.parseLong(infoModel.getUser().getUserid()),model.getHealtId()),
+                        new RequestCallback<ResponseData>() {
+                            @Override
+                            public void success(ResponseData responseData, Response response) {}
+                            @Override
+                            public void failure(RetrofitError error) {
+                                super.failure(error);
+                                int priase = Integer.parseInt(model.getPraiseNum()) - 1 < 0 ? 0 : Integer.parseInt(model.getPraiseNum()) - 1;
+                                model.setPraiseNum(priase + "");
+                                model.setUsernameSet(model.getUsernameSet().substring(0, model.getUsernameSet().lastIndexOf(",")));
+                                model.setIsPraise(Constants.NO_ZAN);
+                                setValue(model);
+                            }
+                        });
                 break;
         }
     }
@@ -131,19 +166,30 @@ public class HealthyDetailActivity extends BaseActivity implements View.OnClickL
         tv_name.setText(dynamicModel.getUserName());
         tv_content.setText(dynamicModel.getContent());
         //判断是否点过赞
-        if(Constants.HAS_ZAN.equals(dynamicModel.getIsPraise())){
-            cb_zan.setChecked(true);
-            cb_zan.setEnabled(false);
-        }else if(Constants.NO_ZAN.equals(dynamicModel.getIsPraise())){
+        if(accountId==-1){
             cb_zan.setChecked(false);
-            cb_zan.setEnabled(true);
+            cb_zan.setEnabled(false);
+        }else{
+            if(Constants.HAS_ZAN.equals(dynamicModel.getIsPraise())){
+                cb_zan.setChecked(true);
+                cb_zan.setEnabled(false);
+            }else if(Constants.NO_ZAN.equals(dynamicModel.getIsPraise())){
+                cb_zan.setChecked(false);
+                cb_zan.setEnabled(true);
+            }
         }
     }
 
     @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if(isChecked){
-
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            Intent i=getIntent();
+            i.putExtra("dynamicModel",model);
+            setResult(RESULT_OK,i);
+            finish();
+            return true;
         }
+        return super.onKeyDown(keyCode, event);
     }
+
 }

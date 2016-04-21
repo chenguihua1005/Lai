@@ -16,11 +16,13 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.community.model.HealthyDynamicModel;
 import com.softtek.lai.module.lossweightstory.adapter.LossWeightStoryAdapter;
 import com.softtek.lai.module.lossweightstory.model.LogList;
 import com.softtek.lai.module.lossweightstory.model.LogStoryModel;
 import com.softtek.lai.module.lossweightstory.model.LossWeightStoryModel;
 import com.softtek.lai.module.lossweightstory.presenter.LossWeightStoryManager;
+import com.softtek.lai.module.studetail.view.LossWeightLogActivity;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
@@ -70,6 +72,7 @@ public class LossWeightStoryActivity extends BaseActivity implements View.OnClic
         ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
         ptrlv.setOnItemClickListener(this);
         ptrlv.setOnRefreshListener(this);
+        cir_header_image.setOnClickListener(this);
     }
 
     @Override
@@ -97,6 +100,12 @@ public class LossWeightStoryActivity extends BaseActivity implements View.OnClic
                 //跳转新故事
                 startActivityForResult(new Intent(this,NewStoryActivity.class),SEND_NEW_STORY);
                 break;
+            case R.id.civ_header_image:
+                Intent i=new Intent(this, LossWeightLogActivity.class);
+                i.putExtra("accountId",Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()));
+                i.putExtra("review",1);
+                startActivity(i);
+                break;
         }
     }
 
@@ -112,10 +121,20 @@ public class LossWeightStoryActivity extends BaseActivity implements View.OnClic
                     }
                 }, 200);
 
+            }else if(requestCode==LIST_JUMP){
+                int position=data.getIntExtra("position",-1);
+                LossWeightStoryModel model=data.getParcelableExtra("log");
+                if(position!=-1&&model!=null){
+                    lossWeightStoryModels.get(position).setIsClicked(model.getIsClicked());
+                    lossWeightStoryModels.get(position).setUsernameSet(model.getUsernameSet());
+                    lossWeightStoryModels.get(position).setPriase(model.getPriase());
+                    adapter.notifyDataSetChanged();
+                }
             }
         }
     }
 
+    private static final int LIST_JUMP=2;
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -124,7 +143,8 @@ public class LossWeightStoryActivity extends BaseActivity implements View.OnClic
         }
         Intent intent=new Intent(this,LogStoryDetailActivity.class);
         intent.putExtra("log",lossWeightStoryModels.get(position-2));
-        startActivity(intent);
+        intent.putExtra("position",position-2);
+        startActivityForResult(intent,LIST_JUMP);
     }
 
     @Override
@@ -171,7 +191,7 @@ public class LossWeightStoryActivity extends BaseActivity implements View.OnClic
         }
         lossWeightStoryModels.addAll(models);
         adapter.notifyDataSetChanged();
-        String path= AddressManager.get("photoHost","http://172.16.98.167/UpFiles/");
+        String path= AddressManager.get("photoHost");
         try {
             Picasso.with(this).load(path + logList.getPhoto())
                     .placeholder(R.drawable.img_default)
@@ -184,4 +204,5 @@ public class LossWeightStoryActivity extends BaseActivity implements View.OnClic
         }catch (Exception e){}
 
     }
+
 }
