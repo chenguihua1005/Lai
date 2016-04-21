@@ -364,6 +364,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         System.out.println("照片名称" + photModel.getImg());
         retestWrite.setImage(photModel.getImg()+"");
         int i;
+        String m="0";
     }
 
 
@@ -530,8 +531,10 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         retestWrite.setFat(tv_retestWritest_neizhi.getText()+"");
         retestWrite.setAccountId(loginid+"");
         String image=retestWrite.getImage();
-//        int i;
-//        String m="0";
+        int i;
+
+        Log.i(retestWrite+"");
+        String m="0";
         retestPre.doPostWrite(loginid,loginid,retestWrite,this);
 
     }

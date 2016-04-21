@@ -32,6 +32,7 @@ import com.softtek.lai.module.bodygamest.present.DownloadManager;
 import com.softtek.lai.module.bodygamest.present.PhotoListIml;
 import com.softtek.lai.module.bodygamest.present.PhotoListPre;
 import com.softtek.lai.module.newmemberentry.view.GetPhotoDialog;
+import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
@@ -63,6 +64,10 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     PullToRefreshListView ptrlvlist;
     @InjectView(R.id.im_uploadphoto_banner)
     ImageView im_uploadphoto_banner;
+    @InjectView(R.id.cir_downphoto_head)
+    CircleImageView cir_downphoto_head;
+    @InjectView(R.id.tv_downphoto_nick)
+            TextView tv_downphoto_nick;
     int pageIndex = 0;
     private List<LogListModel> logListModelList = new ArrayList<LogListModel>();
     private DownPhotoAdapter downPhotoAdapter;
@@ -265,11 +270,21 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     @Override
     public void getStroyList(DownPhotoModel downPhotoModel) {
         ptrlvlist.onRefreshComplete();
-        if(!TextUtils.isEmpty(downPhotoModel.getBanner())){
-            Picasso.with(this).load("http://172.16.98.167/UpFiles/" + downPhotoModel.getBanner()).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(im_uploadphoto_banner);
-        } else {
-            Picasso.with(this).load("www").placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(im_uploadphoto_banner);
+        if (downPhotoModel.getUserName()!=null) {
+            tv_downphoto_nick.setText(downPhotoModel.getUserName());
+            if (!TextUtils.isEmpty(downPhotoModel.getPhoto())) {
+                Picasso.with(this).load("http://172.16.98.167/UpFiles/" + downPhotoModel.getPhoto()).fit().placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(cir_downphoto_head);
+            } else {
+                Picasso.with(this).load("www").placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(cir_downphoto_head);
+            }
+
+            if (!TextUtils.isEmpty(downPhotoModel.getBanner())) {
+                Picasso.with(this).load("http://172.16.98.167/UpFiles/" + downPhotoModel.getBanner()).fit().placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(im_uploadphoto_banner);
+            } else {
+                Picasso.with(this).load("www").placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(im_uploadphoto_banner);
+            }
         }
+
         if (downPhotoModel==null){
             pageIndex=--pageIndex<1?1:pageIndex;
             return;
@@ -285,12 +300,13 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         }
         logListModelList.addAll(models);
         downPhotoAdapter.notifyDataSetChanged();
+
     }
 
     @Override
     public void uoploadPhotoSuccess(boolean result, String photo) {
         if(result){
-            Picasso.with(this).load(AddressManager.get("photoHost")+photo).fit().placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(imtest);
+            Picasso.with(this).load(AddressManager.get("photoHost")+photo).fit().placeholder(R.drawable.takephoto_upload).error(R.drawable.takephoto_upload).into(imtest);
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
