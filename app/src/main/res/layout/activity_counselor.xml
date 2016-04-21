@@ -5,13 +5,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true">
+    <include layout="@layout/toolbar"></include>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:fillViewport="true"
+        android:fadeScrollbars="false"
+        android:layout_below="@+id/toolbar">
 
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
 
-        <include layout="@layout/toolbar"></include>
+        >
+
+
 
         <LinearLayout
                 android:orientation="vertical"
@@ -108,7 +117,9 @@
             <ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/scrollView3">
+                    android:id="@+id/scrollView3"
+                    android:fadeScrollbars="false"
+                    android:fillViewport="true">
 
                 <LinearLayout
                         android:orientation="vertical"
@@ -416,4 +427,5 @@
             </ScrollView>
         </LinearLayout>
     </LinearLayout>
+    </ScrollView>
 </RelativeLayout>
