@@ -161,7 +161,10 @@ public class MineHealthyFragment extends BaseFragment  implements  AdapterView.O
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.but_login:
-                startActivity(new Intent(getContext(), LoginActivity.class));
+                Intent toLoginIntent=new Intent(getContext(), LoginActivity.class);
+                toLoginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                toLoginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(toLoginIntent);
                 break;
         }
     }
