@@ -13,18 +13,11 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
-import com.softtek.lai.module.health.model.HealthDateModel;
-import com.softtek.lai.module.health.model.MonthDateModel;
+import com.softtek.lai.module.health.model.PysicalModel;
 import com.softtek.lai.module.health.model.WeekDateModel;
-import com.softtek.lai.module.health.presenter.HealthyRecordImpl;
-import com.softtek.lai.module.health.presenter.IHealthyRecord;
-import com.softtek.lai.module.lossweightstory.model.LogList;
-import com.softtek.lai.module.retest.eventModel.BanJiEvent;
-import com.softtek.lai.module.retest.model.BanjiModel;
+import com.softtek.lai.module.health.presenter.PysicalManager;
 import com.softtek.lai.module.studetail.util.LineChartUtil;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -39,7 +32,7 @@ import zilla.libcore.ui.InjectLayout;
  * Created by John on 2016/4/12.
  */
 @InjectLayout(R.layout.fragment_weight)
-public class BodyFatFragment extends BaseFragment implements RadioGroup.OnCheckedChangeListener,View.OnClickListener{
+public class BodyFatFragment extends BaseFragment implements RadioGroup.OnCheckedChangeListener,View.OnClickListener,PysicalManager.GetHealthCallBack{
 
     @InjectView(R.id.chart)
     LineChart chart;
@@ -63,7 +56,6 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
     private LineChartUtil chartUtil;
     List<Float> dates=new ArrayList<Float>();
     List<String>days=new ArrayList<String>();
-    IHealthyRecord iHealthyRecord;
     List<WeekDateModel> students=new ArrayList<WeekDateModel>();
     //时间
     Calendar c = Calendar.getInstance();
@@ -79,6 +71,7 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
     boolean state=true;
     int flag=0;
     private ProgressDialog progressDialog;
+    PysicalManager pysicalManager;
     SimpleDateFormat    sDateFormat    =   new    SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
     String    date    =    sDateFormat.format(new    java.util.Date());
     String[] datetime=date.split(" ");
@@ -88,7 +81,7 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
 
     @Override
     protected void initViews() {
-        EventBus.getDefault().register(this);
+
         //初始化统计图
         //取消统计图整体背景色
         chart.setDrawGridBackground(false);
@@ -118,16 +111,12 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
         year.setOnClickListener(this);
     }
 
-    @Override
-    public void onDestroy() {
-        EventBus.getDefault().unregister(this);
-        super.onDestroy();
-    }
+
 
     @Override
     protected void initDatas() {
         chartUtil=new LineChartUtil(getContext(),chart);
-        iHealthyRecord=new HealthyRecordImpl();
+        pysicalManager=new PysicalManager(getContext());
         Log.i(""+date+datetime[0]+datetime[1]);
 
         String nowdate7=getPeriodDate(type,0)+"";
@@ -144,10 +133,7 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
         days.add(formdate(nowdate5));
         days.add(formdate(nowdate6));
         days.add(formdate(nowdate7));
-        iHealthyRecord.doGetHealthPysicalRecords(date,getDateform(nowdate1)+" "+datetime[1],1);
-        dates.add(15f);
-        dates.add(18f);
-        dates.add(6.3f);
+        pysicalManager.doGetHealthPysicalRecords(date,getDateform(nowdate1)+" "+datetime[1],1);
         chartUtil.addData(dates,7,days);
         days.clear();
         dates.clear();
@@ -178,12 +164,7 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
         return date;
 
     }
-    @Subscribe
-    public void onEvent(HealthDateModel healthDateModel){
-//        banjiModelList=banji.getBanjiModels();
-//        classAdapter.updateData(banjiModelList);
 
-    }
 
 
 
@@ -202,38 +183,7 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
         }
     }
 
-/*
-    @Override
-    public void doGetDate(HealthDateModel healthDateModel) {
-        List<WeekDateModel> weekDateModels=healthDateModel.getWeekDate();
-        for (WeekDateModel wd:weekDateModels){
-            int n=0,num=7;
-            if (n>=7)
-            {
-                break;
-            }
-            else {
-                n++;
-                for (int i=0;i<healthDateModel.getWeekDate().size();i++) {
 
-                    if (healthDateModel.getWeekDate().get(i).getCreateDate()==years+"-"+months+"-"+days)
-                        dates.add(Float.parseFloat(healthDateModel.getWeekDate().get(i).getPysical()));
-                    else {
-                        dates.set(num--,0f);
-//                        dates.add(0f);
-                    }
-//                    if (healthDateModel.getWeekDate().get(i).getCreateDate()==years+""+months+""+(Integer.parseInt(days)-1))
-//                        String month = st.getStartDate().substring(5, 7);
-//                    Student lis = new Student(st.getPhoto(), st.getUserName(), st.getMobile(), tomonth(month), st.getWeekth(), st.getAMStatus());
-//                    studentList.add(lis);
-//                    queryAdapter.updateData(studentList);
-                }
-            }
-
-        }
-
-    }
-    */
     /**
      * 获取阶段日期
      * @param  dateType
@@ -405,7 +355,7 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
                 days.add(formdate(weekdate5));
                 days.add(formdate(weekdate6));
                 days.add(formdate(weekdate7));
-                iHealthyRecord.doGetHealthPysicalRecords(date,getDateform(weekdate1)+" "+datetime[1],1);
+                pysicalManager.doGetHealthPysicalRecords(date,getDateform(weekdate1)+" "+datetime[1],1);
                 dates.add(15f);
                 dates.add(18f);
                 dates.add(6.3f);
@@ -477,4 +427,10 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
 
     }
 
+    @Override
+    public void getPysicalList(PysicalModel pysicalModel) {
+        System.out.println("照片名称" + pysicalModel.getFirstrecordtime());
+        for (int i=pysicalModel.getPysicallist().size()-1;i>0;i++)
+            dates.add(Float.parseFloat(pysicalModel.getPysicallist().get(i).getPysical()));
+    }
 }

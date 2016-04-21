@@ -15,8 +15,10 @@ import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.health.adapter.HealthyRecordFragmentAdapter;
 import com.softtek.lai.module.health.model.HealthDateModel;
+import com.softtek.lai.module.health.model.PysicalModel;
 import com.softtek.lai.module.health.presenter.HealthyRecordImpl;
 import com.softtek.lai.module.health.presenter.IHealthyRecord;
+import com.softtek.lai.module.health.presenter.PysicalManager;
 import com.softtek.lai.module.healthrecords.view.HealthEntryActivity;
 import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
 import com.softtek.lai.module.retest.model.LaichModel;
@@ -35,7 +37,7 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_weight)
-public class HealthyRecordActivity extends BaseActivity implements View.OnClickListener,BaseFragment.OnFragmentInteractionListener{
+public class HealthyRecordActivity extends BaseActivity implements View.OnClickListener,BaseFragment.OnFragmentInteractionListener,PysicalManager.GetHealthCallBack{
 
     private HealthyRecordImpl healthyRecord;
     @InjectView(R.id.ll_left)
@@ -47,17 +49,15 @@ public class HealthyRecordActivity extends BaseActivity implements View.OnClickL
     TabLayout tab;
     @InjectView(R.id.tab_content)
     NoSlidingViewPage tab_content;
-    IHealthyRecord iHealthyRecord;
     RetestPre retestPre;
     UserInfoModel userInfoModel=UserInfoModel.getInstance();
     String moblie=userInfoModel.getUser().getMobile();
-
+    List<Float> dates=new ArrayList<Float>();
 
     List<Fragment> fragmentList=new ArrayList<>();
 
     @Override
     protected void initViews() {
-        EventBus.getDefault().register(this);
         ll_left.setOnClickListener(this);
         tv_title.setText("历史数据");
         retestPre=new RetestclassImp();
@@ -66,11 +66,6 @@ public class HealthyRecordActivity extends BaseActivity implements View.OnClickL
     }
 
 
-    @Override
-    protected void onDestroy() {
-        EventBus.getDefault().unregister(this);
-        super.onDestroy();
-    }
 
     @Override
     protected void initDatas() {
@@ -117,9 +112,10 @@ public class HealthyRecordActivity extends BaseActivity implements View.OnClickL
     }
 
 
-    @Subscribe
-    public void doGetPhoto(HealthDateModel healthDateModel) {
-        System.out.println("照片名称" + healthDateModel.getMonthDate());
+
+
+    @Override
+    public void getPysicalList(PysicalModel pysicalModel) {
 
     }
 }

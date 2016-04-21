@@ -2,6 +2,7 @@ package com.softtek.lai.module.bodygamest.view;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -76,6 +78,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     private DownPhotoAdapter downPhotoAdapter;
     private PhotoListPre photoListPre;
     String path = "";
+    private CharSequence[] items={"拍照","从相册选择照片"};
     private static final int PHOTO = 1;
     //时间
     Calendar c = Calendar.getInstance();
@@ -156,23 +159,37 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
                 startActivityForResult(intent, 100);
                 break;
             case R.id.imtest:
-                final GetPhotoDialog dialog = new GetPhotoDialog(UploadPhotoActivity.this,
-                        new GetPhotoDialog.GetPhotoDialogListener() {
-                            @Override
-                            public void onClick(View view) {
-                                switch (view.getId()) {
-                                    case R.id.imgbtn_camera:
-                                        takecamera();
-                                        break;
-                                    case R.id.imgbtn_pic:
-                                        takepic();
-                                        break;
-                                }
-                            }
-                        });
-                dialog.setTitle("照片上传");
-                dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
-                dialog.show();
+                AlertDialog.Builder builder=new AlertDialog.Builder(this);
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(which==0){
+                            takecamera();
+
+                        }else if(which==1){
+                            //照片
+                            takepic();
+                        }
+                    }
+                }).create().show();
+                break;
+//                final GetPhotoDialog dialog = new GetPhotoDialog(UploadPhotoActivity.this,
+//                        new GetPhotoDialog.GetPhotoDialogListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//                                switch (view.getId()) {
+//                                    case R.id.imgbtn_camera:
+//                                        takecamera();
+//                                        break;
+//                                    case R.id.imgbtn_pic:
+//                                        takepic();
+//                                        break;
+//                                }
+//                            }
+//                        });
+//                dialog.setTitle("照片上传");
+//                dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
+//                dialog.show();
         }
 
 

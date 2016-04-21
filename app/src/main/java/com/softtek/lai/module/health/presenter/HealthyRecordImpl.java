@@ -33,10 +33,6 @@ public class HealthyRecordImpl implements IHealthyRecord  {
     }
 
 
-
-
-
-
     @Override
     public void doGetHealthPysicalRecords(String Startdate, String Enddate, int i) {
         String token= UserInfoModel.getInstance().getToken();
@@ -48,7 +44,8 @@ public class HealthyRecordImpl implements IHealthyRecord  {
                 {
                     case 200:
                         Util.toastMsg(pysicalModelResponseData.getMsg());
-                        EventBus.getDefault().post(pysicalModelResponseData.getData());
+                        PysicalModel pysicalModel=(PysicalModel) pysicalModelResponseData.getData();
+                        EventBus.getDefault().post(pysicalModel);
                         default:
                             Util.toastMsg(pysicalModelResponseData.getMsg());
                 }
