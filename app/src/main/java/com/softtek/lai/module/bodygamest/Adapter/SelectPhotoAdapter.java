@@ -43,18 +43,17 @@ public class SelectPhotoAdapter extends BaseAdapter {
     private List<LogListModel> list;
     Context context;
     private IAssistantPresenter assistantPresenter;
-    private boolean is_select=false;
     CallBack callBack;
 
     /**
      * 构造函数
      */
-    public SelectPhotoAdapter(Context context, List<LogListModel> list,CallBack callBack) {
+    public SelectPhotoAdapter(Context context, List<LogListModel> list, CallBack callBack) {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
         this.list = list;
         assistantPresenter = new AssistantImpl(context);
-        this.callBack=callBack;
+        this.callBack = callBack;
         Log.e("jarvis", list.toString());
     }
 
@@ -102,27 +101,27 @@ public class SelectPhotoAdapter extends BaseAdapter {
         holder.lin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(SelectPhotoActivity.count==9){
-                    Util.toastMsg("最多只能选择9张照片");
-                }else {
-                    if (is_select) {
-                        logListModel.setIsSelect(false);
-                        holder.img_select_button.setImageResource(R.drawable.img_select);
-                        is_select = false;
+
+                if (logListModel.getIsSelect()) {
+                    logListModel.setIsSelect(false);
+                    holder.img_select_button.setImageResource(R.drawable.img_select);
+                    callBack.getResult(logListModel);
+                } else {
+                    if (SelectPhotoActivity.count == 9) {
+                        Util.toastMsg("最多只能选择9张照片");
                     } else {
                         logListModel.setIsSelect(true);
                         holder.img_select_button.setImageResource(R.drawable.img_selceted);
-                        is_select = true;
+                        callBack.getResult(logListModel);
                     }
-                    callBack.getResult(is_select);
                 }
             }
         });
         holder.img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(context, PhotoDetailActivity.class);
-                intent.putExtra("photo",logListModel.getImgUrl());
+                Intent intent = new Intent(context, PhotoDetailActivity.class);
+                intent.putExtra("photo", logListModel.getImgUrl());
                 context.startActivity(intent);
             }
         });
@@ -137,8 +136,9 @@ public class SelectPhotoAdapter extends BaseAdapter {
         public ImageView img_select_button;
         public LinearLayout lin;
     }
-    public interface CallBack{
-        void getResult(boolean is_select);
+
+    public interface CallBack {
+        void getResult(LogListModel logListModel);
     }
 }
 

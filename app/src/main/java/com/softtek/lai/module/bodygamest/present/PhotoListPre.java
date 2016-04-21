@@ -9,4 +9,5 @@ public interface PhotoListPre {
     void doGetDownPhoto(String AccountId,int pageIndex, ProgressDialog loadingDialog);
     void doUploadPhoto(String AccountId,String filePath, ProgressDialog loadingDialog);
     void getUploadPhoto(String AccountId,String pageIndex);
+    void getUserPhotos(String photoName);
 }

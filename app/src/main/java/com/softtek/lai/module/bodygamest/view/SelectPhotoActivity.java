@@ -68,7 +68,7 @@ public class SelectPhotoActivity extends BaseActivity implements View.OnClickLis
     private PhotoListPre photoListPre;
     private List<LogListModel> list_all;
     private List<LogListModel> list_info;
-    public static int count=0;
+    public static int count = 0;
     private int pageIndex = 1;
     private String id;
     private SelectPhotoAdapter adapter;
@@ -105,13 +105,17 @@ public class SelectPhotoActivity extends BaseActivity implements View.OnClickLis
         System.out.println(downPhotoModel);
         list_info = downPhotoModel.getLogList();
         if (list_info != null) {
+            for (int i = 0; i < list_info.size(); i++) {
+                list_info.get(i).setIsSelect(false);
+            }
             if (pageIndex == 1) {
-                count=0;
+                count = 0;
+                text_count.setText(count + "");
                 list_all = list_info;
                 adapter = new SelectPhotoAdapter(this, list_info, new SelectPhotoAdapter.CallBack() {
                     @Override
-                    public void getResult(boolean is_select) {
-                        if (is_select) {
+                    public void getResult(LogListModel logListModel) {
+                        if (logListModel.getIsSelect()) {
                             count++;
                         } else {
                             count--;
@@ -148,13 +152,22 @@ public class SelectPhotoActivity extends BaseActivity implements View.OnClickLis
                 finish();
                 break;
             case R.id.fl_right:
-
-
-//                System.out.println("str:" + str);
-//                Intent intent = new Intent();
-//                //把返回数据存入Intent
-//                intent.putExtra("result", str);
-//                setResult(RESULT_OK, intent);
+                String str="";
+                for (int i = 0; i < list_all.size(); i++) {
+                    LogListModel logListModel=list_all.get(i);
+                    if(logListModel.getIsSelect()){
+                        if("".equals(str)){
+                            str=str+logListModel.getImgUrl();
+                        }else {
+                            str=str+","+logListModel.getImgUrl();
+                        }
+                    }
+                }
+                System.out.println("str:" + str);
+                Intent intent = new Intent();
+                //把返回数据存入Intent
+                intent.putExtra("result", str);
+                setResult(RESULT_OK, intent);
                 finish();
 
 

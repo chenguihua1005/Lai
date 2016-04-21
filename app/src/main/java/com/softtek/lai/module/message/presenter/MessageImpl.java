@@ -92,6 +92,7 @@ public class MessageImpl implements IMessagePresenter {
                         img_red.setVisibility(View.VISIBLE);
                         break;
                     default:
+                        img_red.setVisibility(View.GONE);
                         Util.toastMsg(listResponseData.getMsg());
                         break;
                 }
