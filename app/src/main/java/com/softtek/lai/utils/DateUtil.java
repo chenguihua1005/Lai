@@ -47,6 +47,9 @@ public class DateUtil {
      */
     public int getYear(String dateValue){
         int year=0;
+        if(dateValue==null||"".equals(dateValue)){
+            return year;
+        }
         SimpleDateFormat sdf=new SimpleDateFormat(PATTERN);
         try {
             Date date=sdf.parse(dateValue);
@@ -63,6 +66,9 @@ public class DateUtil {
      */
     public int getMonth(String dateValue){
         int month=0;
+        if(dateValue==null||"".equals(dateValue)){
+            return month;
+        }
         SimpleDateFormat sdf=new SimpleDateFormat(PATTERN);
         try {
             Date date=sdf.parse(dateValue);
@@ -79,6 +85,9 @@ public class DateUtil {
      */
     public int getDay(String dateValue){
         int day=0;
+        if(dateValue==null||"".equals(dateValue)){
+            return day;
+        }
         SimpleDateFormat sdf=new SimpleDateFormat(PATTERN);
         try {
             Date date=sdf.parse(dateValue);
@@ -95,6 +104,9 @@ public class DateUtil {
      */
     public int getHour(String dateValue){
         int hour=0;
+        if(dateValue==null||"".equals(dateValue)){
+            return hour;
+        }
         SimpleDateFormat sdf=new SimpleDateFormat(PATTERN);
         try {
             Date date=sdf.parse(dateValue);
@@ -111,6 +123,9 @@ public class DateUtil {
      */
     public int getMinute(String dateValue){
         int minute=0;
+        if(dateValue==null||"".equals(dateValue)){
+            return minute;
+        }
         SimpleDateFormat sdf=new SimpleDateFormat(PATTERN);
         try {
             Date date=sdf.parse(dateValue);
@@ -127,6 +142,9 @@ public class DateUtil {
      */
     public int getSecond(String dateValue){
         int second=0;
+        if(dateValue==null||"".equals(dateValue)){
+            return second;
+        }
         SimpleDateFormat sdf=new SimpleDateFormat(PATTERN);
         try {
             Date date=sdf.parse(dateValue);

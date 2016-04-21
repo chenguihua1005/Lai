@@ -32,10 +32,8 @@ import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame.view.CounselorActivity;
 import com.softtek.lai.module.bodygamecc.view.BodyGameCcActivity;
 import com.softtek.lai.module.bodygamest.view.BodyGamePCActivity;
-import com.softtek.lai.module.bodygamest.view.SelectPhotoActivity;
 import com.softtek.lai.module.bodygameyk.view.BodygameYkActivity;
 import com.softtek.lai.module.bodygamezj.view.BodygameSRActivity;
-import com.softtek.lai.module.counselor.view.SRHonorActivity;
 import com.softtek.lai.module.home.adapter.FragementAdapter;
 import com.softtek.lai.module.home.adapter.ModelAdapter;
 import com.softtek.lai.module.home.eventModel.HomeEvent;
@@ -43,7 +41,6 @@ import com.softtek.lai.module.home.model.HomeInfoModel;
 import com.softtek.lai.module.home.presenter.HomeInfoImpl;
 import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
 import com.softtek.lai.module.login.view.LoginActivity;
-import com.softtek.lai.module.login.view.RegistActivity;
 import com.softtek.lai.module.message.presenter.IMessagePresenter;
 import com.softtek.lai.module.message.presenter.MessageImpl;
 import com.softtek.lai.module.message.view.MessageActivity;
@@ -63,6 +60,7 @@ import zilla.libcore.util.Util;
 
 /**
  * Created by jerry.guan on 3/15/2016.
+ *
  */
 @InjectLayout(R.layout.fragment_home)
 public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetChangedListener, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener, View.OnClickListener {
@@ -202,7 +200,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
 
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-        float num = Math.abs(1f * Math.abs(verticalOffset) / 1000);
+        //float num = Math.abs(1f * Math.abs(verticalOffset) / 1000);
         //toolbar.setAlpha(num);
         /*if(verticalOffset<0){
             toolbar.setVisibility(View.VISIBLE);
@@ -321,10 +319,10 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         if (role == Constants.VR) {
             //提示用户让他注册或者直接进入2个功能的踢馆赛模块
             information_dialog = new AlertDialog.Builder(getContext());
-            information_dialog.setTitle("您当前处于游客模式，需要注册认证").setPositiveButton("现在注册", new DialogInterface.OnClickListener() {
+            information_dialog.setTitle("您当前处于游客模式，需要登录认证").setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    startActivity(new Intent(getContext(), RegistActivity.class));
+                    startActivity(new Intent(getContext(), LoginActivity.class));
                 }
             }).setNegativeButton("稍候", new DialogInterface.OnClickListener() {
                 @Override

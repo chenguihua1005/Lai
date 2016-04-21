@@ -18,6 +18,7 @@ import com.softtek.lai.module.lossweightstory.model.Zan;
 import com.softtek.lai.module.studetail.model.LossWeightLogModel;
 import com.softtek.lai.module.studetail.presenter.IMemberInfopresenter;
 import com.softtek.lai.module.studetail.presenter.MemberInfoImpl;
+import com.softtek.lai.utils.DateUtil;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -120,9 +121,8 @@ public class LossWeightLogAdapter extends BaseAdapter{
         holder.tv_log_title.setText(log.getLogTitle());
         holder.tv_content.setText(log.getLogContent());
         String date=log.getCreateDate();
-        String[] dates=date.split("/");
-        holder.tv_month.setText(dates[0]);
-        holder.tv_day.setText(dates[1]);
+        holder.tv_month.setText(DateUtil.getInstance().getMonth(date)+"月");
+        holder.tv_day.setText(DateUtil.getInstance().getDay(date)+"");
         return convertView;
     }
 
