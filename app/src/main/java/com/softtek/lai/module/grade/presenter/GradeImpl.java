@@ -187,7 +187,7 @@ public class GradeImpl implements IGrade {
 
     @Override
     public void removeTutorRole(long classId, long tutorId,Callback<ResponseData> callback) {
-        service.removeTutorRole(token, tutorId, classId, callback);
+        service.removeTutorRole(token, tutorId, classId,0, callback);
     }
 
     @Override

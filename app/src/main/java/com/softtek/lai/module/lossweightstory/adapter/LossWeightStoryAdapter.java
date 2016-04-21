@@ -74,10 +74,10 @@ public class LossWeightStoryAdapter extends BaseAdapter{
         }else {
             holder.cb_zan.setEnabled(true);
             holder.cb_zan.setChecked(false);
-            holder.cb_zan.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            holder.cb_zan.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onCheckedChanged(final CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {
+                public void onClick(View v) {
+                    if (holder.cb_zan.isChecked()) {
                         final UserInfoModel infoModel = UserInfoModel.getInstance();
                         model.setPriase(Integer.parseInt(model.getPriase()) + 1 + "");
                         String before = "".equals(model.getUsernameSet()) ? "" : ",";
@@ -113,10 +113,10 @@ public class LossWeightStoryAdapter extends BaseAdapter{
         holder.tv_zan_name.setText(model.getUsernameSet());
         holder.cb_zan.setText(model.getPriase());
         //加载图片
-        String path= AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+        String path= AddressManager.get("photoHost");
         Picasso.with(context).load(path+model.getPhoto())
                 .placeholder(R.drawable.img_default).error(R.drawable.img_default).into(holder.civ_header_image);
-        visitableOrGone(holder,model.getImgCollection().split(","));
+        visitableOrGone(holder,model.getImgCollection().split(","),path);
         return convertView;
     }
     static class ViewHolder{
@@ -145,7 +145,7 @@ public class LossWeightStoryAdapter extends BaseAdapter{
 
     }
 
-    private void visitableOrGone(ViewHolder holder,String[] imgs) {
+    private void visitableOrGone(ViewHolder holder,String[] imgs,String path) {
         for (int i = 0; i < imgs.length; i++) {
             try {
                 switch (i + 1) {
@@ -159,7 +159,7 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                         holder.img7.setVisibility(View.GONE);
                         holder.img8.setVisibility(View.GONE);
                         holder.img9.setVisibility(View.GONE);
-                        Picasso.with(context).load(imgs[i]).fit()
+                        Picasso.with(context).load(path+imgs[i]).fit()
                                 .placeholder(R.drawable.default_pic)
                                 .error(R.drawable.default_pic)
                                 .into(holder.img1);
@@ -173,7 +173,7 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                         holder.img7.setVisibility(View.GONE);
                         holder.img8.setVisibility(View.GONE);
                         holder.img9.setVisibility(View.GONE);
-                        Picasso.with(context).load(imgs[i]).fit()
+                        Picasso.with(context).load(path+imgs[i]).fit()
                                 .placeholder(R.drawable.default_pic)
                                 .error(R.drawable.default_pic)
                                 .into(holder.img2);
@@ -186,7 +186,7 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                         holder.img7.setVisibility(View.GONE);
                         holder.img8.setVisibility(View.GONE);
                         holder.img9.setVisibility(View.GONE);
-                        Picasso.with(context).load(imgs[i]).fit()
+                        Picasso.with(context).load(path+imgs[i]).fit()
                                 .placeholder(R.drawable.default_pic)
                                 .error(R.drawable.default_pic)
                                 .into(holder.img3);
@@ -198,7 +198,7 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                         holder.img7.setVisibility(View.GONE);
                         holder.img8.setVisibility(View.GONE);
                         holder.img9.setVisibility(View.GONE);
-                        Picasso.with(context).load(imgs[i]).fit()
+                        Picasso.with(context).load(path+imgs[i]).fit()
                                 .placeholder(R.drawable.default_pic)
                                 .error(R.drawable.default_pic)
                                 .into(holder.img4);
@@ -209,7 +209,7 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                         holder.img7.setVisibility(View.GONE);
                         holder.img8.setVisibility(View.GONE);
                         holder.img9.setVisibility(View.GONE);
-                        Picasso.with(context).load(imgs[i]).fit()
+                        Picasso.with(context).load(path+imgs[i]).fit()
                                 .placeholder(R.drawable.default_pic)
                                 .error(R.drawable.default_pic)
                                 .into(holder.img5);
@@ -219,7 +219,7 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                         holder.img7.setVisibility(View.GONE);
                         holder.img8.setVisibility(View.GONE);
                         holder.img9.setVisibility(View.GONE);
-                        Picasso.with(context).load(imgs[i]).fit()
+                        Picasso.with(context).load(path+imgs[i]).fit()
                                 .placeholder(R.drawable.default_pic)
                                 .error(R.drawable.default_pic)
                                 .into(holder.img6);
@@ -228,7 +228,7 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                         holder.img7.setVisibility(View.VISIBLE);
                         holder.img8.setVisibility(View.GONE);
                         holder.img9.setVisibility(View.GONE);
-                        Picasso.with(context).load(imgs[i]).fit()
+                        Picasso.with(context).load(path+imgs[i]).fit()
                                 .placeholder(R.drawable.default_pic)
                                 .error(R.drawable.default_pic)
                                 .into(holder.img7);
@@ -236,14 +236,14 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                     case 8:
                         holder.img8.setVisibility(View.VISIBLE);
                         holder.img9.setVisibility(View.GONE);
-                        Picasso.with(context).load(imgs[i]).fit()
+                        Picasso.with(context).load(path+imgs[i]).fit()
                                 .placeholder(R.drawable.default_pic)
                                 .error(R.drawable.default_pic)
                                 .into(holder.img8);
                         break;
                     case 9:
                         holder.img9.setVisibility(View.VISIBLE);
-                        Picasso.with(context).load(imgs[i]).fit()
+                        Picasso.with(context).load(path+imgs[i]).fit()
                                 .placeholder(R.drawable.default_pic)
                                 .error(R.drawable.default_pic)
                                 .into(holder.img9);

@@ -7,16 +7,12 @@ package com.softtek.lai.module.studetail.presenter;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import com.github.snowdream.android.util.Log;
-import com.softtek.lai.R;
+
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.lossweightstory.model.Zan;
 import com.softtek.lai.module.studetail.eventModel.LineChartEvent;
-import com.softtek.lai.module.studetail.eventModel.LogEvent;
 import com.softtek.lai.module.studetail.model.LogList;
-import com.softtek.lai.module.studetail.model.LossWeightLogModel;
 import com.softtek.lai.module.studetail.model.MemberModel;
 import com.softtek.lai.module.studetail.model.StudentLinChartInfoModel;
 import com.softtek.lai.module.studetail.net.MemberInfoService;
@@ -30,7 +26,6 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
-import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.util.Util;
 
 /**
@@ -125,27 +120,9 @@ public class MemberInfoImpl implements IMemberInfopresenter {
                 });
     }
 
-    /**
-     * 此方法暂时作废
-     * @return
-     */
-    public LogEvent loadLogListCache() {
-        return (LogEvent) aCache.getAsObject(LOG_CACHE_KEY);
-    }
-
     @Override
-    public void doZan(long accountId, long logId) {
-        service.clickLike(infoModel.getToken(), accountId, logId, new Callback<ResponseData<Zan>>() {
-            @Override
-            public void success(ResponseData<Zan> zanResponseData, Response response) {
-
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                ZillaApi.dealNetError(error);
-            }
-        });
+    public void doZan(long accountId, long logId,Callback<ResponseData<Zan>> callback) {
+        service.clickLike(infoModel.getToken(), accountId, logId, callback);
     }
 
     public interface MemberInfoImplCallback{

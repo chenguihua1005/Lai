@@ -12,6 +12,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import zilla.libcore.file.AddressManager;
+
 /**
  * Created by John on 2016/4/3.
  */
@@ -53,7 +55,7 @@ public class LogDetailGridAdapter extends BaseAdapter{
             holder= (LogDetailGrid) convertView.getTag();
         }
         try {
-            Picasso.with(context).load(images.get(position)).fit().placeholder(R.drawable.default_pic)
+            Picasso.with(context).load(AddressManager.get("photoHost")+images.get(position)).fit().placeholder(R.drawable.default_pic)
                     .error(R.drawable.default_pic).into(holder.iv_image);
         }catch (Exception e){}
         return convertView;

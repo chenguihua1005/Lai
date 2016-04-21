@@ -60,6 +60,7 @@ public class QueryActivity extends BaseActivity implements View.OnClickListener 
     private ProgressDialog progressDialog;
     UserInfoModel userInfoModel=UserInfoModel.getInstance();
     long loginid=Long.parseLong(userInfoModel.getUser().getUserid());
+    String ClassId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +83,7 @@ public class QueryActivity extends BaseActivity implements View.OnClickListener 
                     intent.putExtra("accountId",studentModel.getAccountId());
                     intent.putExtra("classId",studentModel.getClassId());
                     intent.putExtra("typeDate",studentModel.getTypeDate());
+                    ClassId=studentModel.getClassId();
                     //开班时间，判断班级名称（几月班）
                     intent.putExtra("StartDate",studentModel.getStartDate());
                     //开始周期
@@ -108,6 +110,7 @@ public class QueryActivity extends BaseActivity implements View.OnClickListener 
                     intent.putExtra("classId",studentModel.getClassId());
                     intent.putExtra("typeDate",studentModel.getTypeDate());
                     intent.putExtra("loginid","36");
+                    ClassId=studentModel.getClassId();
                     //开班时间，判断班级名称（几月班）
                     intent.putExtra("StartDate",studentModel.getStartDate());
                     //开始周期
@@ -188,11 +191,11 @@ public class QueryActivity extends BaseActivity implements View.OnClickListener 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        //身体围度值传递
-//        if (requestCode==GET_BODY&&resultCode==RESULT_OK){
-//            retestPre.doGetBanjiStudent(ClassId);
-//            studentAdapter.notifyDataSetChanged();
+        if (requestCode==GET_BODY&&resultCode==RESULT_OK){
+            retestPre.doGetBanjiStudent(Long.parseLong(ClassId));
+            queryAdapter.notifyDataSetChanged();
 
-//        }
+        }
+
     }
 }

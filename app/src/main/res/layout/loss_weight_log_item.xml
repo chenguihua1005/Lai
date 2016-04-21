@@ -44,7 +44,7 @@
         android:layout_height="100dp"
         android:scaleType="centerCrop"
         android:layout_marginLeft="10dp"
-        android:src="@drawable/test_header"/>
+        android:background="@drawable/default_pic"/>
 
     <LinearLayout
         android:layout_width="match_parent"

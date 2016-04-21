@@ -70,6 +70,7 @@ public interface GradeService {
     void removeTutorRole(@Header("token")String token,
                          @Field("assistantId")long tutorId,
                          @Field("classId")long classId,
+                         @Field("messageId")long messageId,
                          Callback<ResponseData> callback);
 
     //获取班级动态
