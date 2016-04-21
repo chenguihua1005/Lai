@@ -224,35 +224,35 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
     UserInfoModel userInfoModel=UserInfoModel.getInstance();
     long accoutid=Long.parseLong(userInfoModel.getUser().getUserid());
 
+    //获取classid
+    Intent intent = getIntent();
+    MessageDetailInfo messageDetailInfo = (MessageDetailInfo) intent.getSerializableExtra("messageDetailInfo");
+    String classid=messageDetailInfo.getClassId();
+    //Log.i("获取classid:--messageDetailInfo------------------->"+messageDetailInfo);
+    //Log.i("-------------messageDetailInfo-----------"+messageDetailInfo.getClassId());
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
         super.onCreate(savedInstanceState);
         iUpConfirmInfopresenter = new UpConfirmInfoImpl(this);
 
-        //classid
-//        Intent intent = getIntent();
-//        MessageDetailInfo messageDetailInfo = (MessageDetailInfo) intent.getSerializableExtra("messageDetailInfo");
-//       long classid= Long.parseLong(messageDetailInfo.getClassId());
-//
-//
-//        Log.i("-------------messageDetailInfo-----------"+messageDetailInfo.getClassId());
         //参数:---accountid 学员id,classid  班级id
-        iUpConfirmInfopresenter.getConfirmInfo(accoutid,1);//130,1-------17,30,32
+        iUpConfirmInfopresenter.getConfirmInfo(accoutid,Long.parseLong(classid));//130,1-------17,30,32
         guwenClassPre = new GuwenClassImp();
-        //managerId	bigint	顾问id
-        guwenClassPre.doGetGuwenClass(36);
+
+        //managerId顾问id
+        guwenClassPre.doGetGuwenClass(accoutid);//36
         MemberAdapter memberAdapter = new MemberAdapter(this, R.layout.member_item, pargradeModelList);
         list_cansaibanji.setAdapter(memberAdapter);
         list_cansaibanji.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                 PargradeModel pargradeModel = pargradeModelList.get(position);
                 tv_classname.setText(pargradeModel.getClassName());
                 tv_classname.setError(null);
                 list_cansaibanji.setVisibility(View.INVISIBLE);
-
             }
         });
 
@@ -425,20 +425,17 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
                 break;
             case  R.id.btn_sure:
                 String token = SharedPreferenceService.getInstance().get("token", "");
+                String classid = tv_classname.getText().toString();
                 coninfoModel = new ConinfoModel();
-//                coninfoModel.setAccountid(accoutid);
-//                //获取classid
-//                Intent intent = getIntent();
-//                MessageDetailInfo messageDetailInfo = (MessageDetailInfo) intent.getSerializableExtra("messageDetailInfo");
-//                Log.i("获取classid:--messageDetailInfo------------------->"+messageDetailInfo);
+                coninfoModel.setAccountid(accoutid);
 
                 //设置classid
-                //coninfoModel.setClassid("20160310");//String.valueOf(messageDetailInfo)
+                coninfoModel.setClassid(classid);
 
                 coninfoModel.setNickname(et_name.getText().toString());
                 coninfoModel.setBirthday(tv_birthday.getText().toString());
                 coninfoModel.setGender(tv_sex.getText().toString()=="男"?1:0);
-                ///////////////////////////////////////////////////////
+//                ///////////////////////////////////////////////////////
                 coninfoModel.setPhoto("201603290913492218475932.jpg");
                 coninfoModel.setWeight(Double.parseDouble(tv_weight.getText().toString()));
                 coninfoModel.setPysical(Double.parseDouble(et_pysical.getText().toString()));
@@ -450,6 +447,7 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
                 coninfoModel.setUpleggirth(Double.parseDouble(tv_upleggirth.getText().toString()));
                 coninfoModel.setDoleggirth(Double.parseDouble(tv_doleggirth.getText().toString()));
                 iUpConfirmInfopresenter.changeUpConfirmInfo(token,coninfoModel);
+                finish();
                 break;
         }
     }

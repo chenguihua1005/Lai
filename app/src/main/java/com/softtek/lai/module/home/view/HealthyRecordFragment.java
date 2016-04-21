@@ -83,9 +83,7 @@ public class HealthyRecordFragment extends BaseFragment implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.iv_email:
-                Intent intent9=new Intent(getContext(),HealthEntryActivity.class);
-                startActivity(intent9);
-                getActivity().finish();
+                startActivity(new Intent(getContext(), HealthEntryActivity.class));
                 break;
             case R.id.tv_weight:
                 Intent intent=new Intent(getContext(),HealthyRecordActivity.class);

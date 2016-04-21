@@ -28,9 +28,11 @@ import zilla.libzilla.dialog.LoadingDialog;
  */
 public class PhotoListIml implements PhotoListPre {
     private PhotoListService service;
+    private PhotoListCallback cb;
 
-    public PhotoListIml() {
+    public PhotoListIml(PhotoListCallback cb) {
         service = ZillaApi.NormalRestAdapter.create(PhotoListService.class);
+        this.cb=cb;
     }
 
     @Override
@@ -128,9 +130,11 @@ public class PhotoListIml implements PhotoListPre {
                 int status = uploadPhotModelResponseData.getStatus();
                 switch (status) {
                     case 200:
+                        cb.uoploadPhotoSuccess(true,uploadPhotModelResponseData.getData().getImg());
                         Util.toastMsg("上传成功");
                         break;
                     case 500:
+                        cb.uoploadPhotoSuccess(false,null);
                         Util.toastMsg("上传失败");
                         break;
                 }
@@ -139,10 +143,15 @@ public class PhotoListIml implements PhotoListPre {
             @Override
             public void failure(RetrofitError error) {
                 loadingDialog.dismiss();
+                cb.uoploadPhotoSuccess(false,null);
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
 
             }
         });
+    }
+
+    public interface PhotoListCallback{
+        void uoploadPhotoSuccess(boolean result,String photo);
     }
 }

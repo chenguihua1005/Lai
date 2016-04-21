@@ -3,6 +3,7 @@ package com.softtek.lai.module.bodygamest.present;
 import android.app.ProgressDialog;
 import android.content.Context;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygamest.model.DownPhotoModel;
@@ -36,17 +37,16 @@ public class DownloadManager {
     }
 
 
-    public void doGetDownPhoto(String AccountId, int pageIndex, final ProgressDialog loadingDialog) {
+    public void doGetDownPhoto(String AccountId, int pageIndex) {
         service.doGetDownPhoto(token, AccountId, pageIndex, new Callback<ResponseData<DownPhotoModel>>() {
             @Override
             public void success(ResponseData<DownPhotoModel> listResponseData, Response response) {
+                Log.i(listResponseData.toString());
                 cb.getStroyList(listResponseData.getData());
-                loadingDialog.dismiss();
             }
 
             @Override
             public void failure(RetrofitError error) {
-                loadingDialog.dismiss();
                 cb.getStroyList(null);
                 ZillaApi.dealNetError(error);
 

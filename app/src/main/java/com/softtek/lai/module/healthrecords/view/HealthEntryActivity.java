@@ -209,7 +209,7 @@ public class HealthEntryActivity extends BaseActivity implements View.OnClickLis
                 Log.i("healthModele:----------"+healthModele);
                 Log.i("accoutid"+accoutid);
                 iEntryHealthpresenter.entryhealthrecord(accoutid,healthModele);
-                //finish();
+                finish();
 
                 break;
         }

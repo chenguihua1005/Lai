@@ -14,7 +14,6 @@ public class NewstudentsModel implements Serializable {
 
     private long sentaccid; //Sp id
     private String nickname;    //昵称:必填
-   // private String certification;//资格证号: 选填
     private String password;    //密码：手机号码后6位
     private String mobile;  //手机号码: 必填
     private String classid; //参赛班级:必填

@@ -67,7 +67,7 @@ public class RetestAuditModel {
     }
 
     public String getUserName() {
-        return UserName;
+        return UserName==null?"":UserName;
     }
 
     public void setUserName(String userName) {
@@ -75,7 +75,7 @@ public class RetestAuditModel {
     }
 
     public String getMobile() {
-        return Mobile;
+        return Mobile==null?"":Mobile;
     }
 
     public void setMobile(String mobile) {
@@ -83,7 +83,7 @@ public class RetestAuditModel {
     }
 
     public String getPhoto() {
-        return Photo;
+        return Photo==null?"":Photo;
     }
 
     public void setPhoto(String photo) {
@@ -91,7 +91,7 @@ public class RetestAuditModel {
     }
 
     public String getClassName() {
-        return ClassName;
+        return ClassName==null?"":ClassName;
     }
 
     public void setClassName(String className) {
@@ -99,7 +99,7 @@ public class RetestAuditModel {
     }
 
     public String getStartDate() {
-        return StartDate;
+        return StartDate==null?"":StartDate;
     }
 
     public void setStartDate(String startDate) {
@@ -107,7 +107,7 @@ public class RetestAuditModel {
     }
 
     public String getInitWeight() {
-        return InitWeight;
+        return InitWeight==null?"":InitWeight;
     }
 
     public void setInitWeight(String initWeight) {
@@ -115,7 +115,7 @@ public class RetestAuditModel {
     }
 
     public String getAccountId() {
-        return AccountId;
+        return AccountId==null?"":AccountId;
     }
 
     public void setAccountId(String accountId) {
@@ -123,7 +123,7 @@ public class RetestAuditModel {
     }
 
     public String getWeight() {
-        return Weight;
+        return Weight==null?"":Weight;
     }
 
     public void setWeight(String weight) {
@@ -131,7 +131,7 @@ public class RetestAuditModel {
     }
 
     public String getPysical() {
-        return Pysical;
+        return Pysical==null?"":Pysical;
     }
 
     public void setPysical(String pysical) {
@@ -139,7 +139,7 @@ public class RetestAuditModel {
     }
 
     public String getFat() {
-        return Fat;
+        return Fat==null?"":Fat;
     }
 
     public void setFat(String fat) {
@@ -147,7 +147,7 @@ public class RetestAuditModel {
     }
 
     public String getCircum() {
-        return Circum;
+        return Circum==null?"":Circum;
     }
 
     public void setCircum(String circum) {
@@ -155,7 +155,7 @@ public class RetestAuditModel {
     }
 
     public String getWaistline() {
-        return Waistline;
+        return Waistline==null?"":Waistline;
     }
 
     public void setWaistline(String waistline) {
@@ -163,7 +163,7 @@ public class RetestAuditModel {
     }
 
     public String getHiplie() {
-        return Hiplie;
+        return Hiplie==null?"":Hiplie;
     }
 
     public void setHiplie(String hiplie) {
@@ -171,7 +171,7 @@ public class RetestAuditModel {
     }
 
     public String getUpArmGirth() {
-        return UpArmGirth;
+        return UpArmGirth==null?"":UpArmGirth;
     }
 
     public void setUpArmGirth(String upArmGirth) {
@@ -179,7 +179,7 @@ public class RetestAuditModel {
     }
 
     public String getUpLegGirth() {
-        return UpLegGirth;
+        return UpLegGirth==null?"":UpLegGirth;
     }
 
     public void setUpLegGirth(String upLegGirth) {
@@ -187,7 +187,7 @@ public class RetestAuditModel {
     }
 
     public String getDoLegGirth() {
-        return DoLegGirth;
+        return DoLegGirth==null?"":DoLegGirth;
     }
 
     public void setDoLegGirth(String doLegGirth) {
@@ -195,7 +195,7 @@ public class RetestAuditModel {
     }
 
     public String getImage() {
-        return Image;
+        return Image==null?"":Image;
     }
 
     public void setImage(String image) {
@@ -203,7 +203,7 @@ public class RetestAuditModel {
     }
 
     public String getClassId() {
-        return ClassId;
+        return ClassId==null?"":ClassId;
     }
 
     public void setClassId(String classId) {
@@ -211,7 +211,7 @@ public class RetestAuditModel {
     }
 
     public String getWeekth() {
-        return Weekth;
+        return Weekth==null?"":Weekth;
     }
 
     public void setWeekth(String weekth) {
@@ -219,7 +219,7 @@ public class RetestAuditModel {
     }
 
     public String getCurrStart() {
-        return CurrStart;
+        return CurrStart==null?"":CurrStart;
     }
 
     public void setCurrStart(String currStart) {
@@ -227,7 +227,7 @@ public class RetestAuditModel {
     }
 
     public String getCurrEnd() {
-        return CurrEnd;
+        return CurrEnd==null?"":CurrEnd;
     }
 
     public void setCurrEnd(String currEnd) {
@@ -235,7 +235,7 @@ public class RetestAuditModel {
     }
 
     public String getIsFirst() {
-        return IsFirst;
+        return IsFirst==null?"":IsFirst;
     }
 
     public void setIsFirst(String isFirst) {
@@ -243,7 +243,7 @@ public class RetestAuditModel {
     }
 
     public String getLoss() {
-        return Loss;
+        return Loss==null?"":Loss;
     }
 
     public void setLoss(String loss) {
@@ -251,7 +251,7 @@ public class RetestAuditModel {
     }
 
     public String getTypeDate() {
-        return TypeDate;
+        return TypeDate==null?"":TypeDate;
     }
 
     public void setTypeDate(String typeDate) {
@@ -259,7 +259,7 @@ public class RetestAuditModel {
     }
 
     public String getAMStatus() {
-        return AMStatus;
+        return AMStatus==null?"":AMStatus;
     }
 
     public void setAMStatus(String AMStatus) {
