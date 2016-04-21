@@ -116,7 +116,7 @@ public class JoinGameActivity extends BaseActivity implements View.OnClickListen
             but_no.setVisibility(View.VISIBLE);
             but_yes.setVisibility(View.VISIBLE);
             lin.setVisibility(View.VISIBLE);
-        } else if ("1".equals(msg_type)) {
+        } else{
             but_no.setVisibility(View.GONE);
             but_yes.setVisibility(View.GONE);
             lin.setVisibility(View.GONE);

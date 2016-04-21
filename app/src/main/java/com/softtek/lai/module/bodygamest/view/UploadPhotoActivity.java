@@ -32,7 +32,10 @@ import com.softtek.lai.module.bodygamest.present.DownloadManager;
 import com.softtek.lai.module.bodygamest.present.PhotoListIml;
 import com.softtek.lai.module.bodygamest.present.PhotoListPre;
 import com.softtek.lai.module.newmemberentry.view.GetPhotoDialog;
+import com.softtek.lai.utils.ShareUtils;
 import com.squareup.picasso.Picasso;
+import com.umeng.socialize.bean.SocializeConfig;
+import com.umeng.socialize.sso.UMSsoHandler;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -98,30 +101,10 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
 
     @Subscribe
     public void onEvent(ResponseData listResponseData) {
-
-        /*List<DownPhotoModel> downPhotoModels = photoListEvent.getDownPhotoModels();
-        for (DownPhotoModel dp : downPhotoModels) {
-            int i=0;
-//            if (i<dp.getTotalPage())
-            String[] date = dp.getLogList().get(pageIndex).getCreateDate().split("/");
-            String[] year = date[2].split(" ");
-            if (years == Integer.parseInt(year[0]) && month==Integer.parseInt(date[0]) && day == Integer.parseInt(date[1])) {
-
-                if(!TextUtils.isEmpty(dp.getLogList().get(pageIndex).getImgUrl())){
-
-                    Picasso.with(this).load(dp.getLogList().get(pageIndex).getImgUrl()).placeholder(R.drawable.lufei).error(R.drawable.lufei).into(imtest);
-                }else{
-                    Picasso.with(this).load("www").placeholder(R.drawable.lufei).error(R.drawable.lufei).into(imtest);
-                }
-            }
-            else {
-
-                LogListModel logListModel = new LogListModel(dp.getLogList().get(pageIndex).getImgUrl(),dp.getLogList().get(pageIndex).getCreateDate());
-                logListModelList.add(logListModel);
-//                downPhotoAdapter.updateData(downPhotoModelList);
-            }
-            System.out.print("hihihihihihihihihihihihi" + date + year);
-        }*/
+        ShareUtils shareUtils = new ShareUtils(UploadPhotoActivity.this);
+        String url = "http://172.16.98.167/Share/SharePhotoAblum?AccountId=" + UserInfoModel.getInstance().getUser().getUserid();
+        shareUtils.setShareContent("康宝莱体重管理挑战赛，坚持只为改变！", url, R.drawable.img_default, "我在**天里已累计服务**学员，共帮助他们减重**斤，快来参加体重管理挑战赛吧！", "我在**天里已累计服务**学员，共帮助他们减重**斤，快来参加体重管理挑战赛吧！"+url);
+        shareUtils.getController().openShare(UploadPhotoActivity.this,false);
 
     }
 
@@ -216,6 +199,11 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        UMSsoHandler ssoHandler = SocializeConfig.getSocializeConfig().getSsoHandler(requestCode);
+        if (ssoHandler != null) {
+            ssoHandler.authorizeCallBack(requestCode, resultCode, data);
+        }
+
         if (requestCode == 100 && resultCode == RESULT_OK) {
             String result = data.getExtras().getString("result");//得到新Activity 关闭后返回的数据
             if (!"".equals(result)) {

@@ -90,7 +90,7 @@ public class StudentScoreActivity extends BaseActivity implements View.OnClickLi
     protected void initViews() {
         //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
         tv_title.setText(R.string.gamestE);
-        tv_right.setText(R.string.share);
+        //tv_right.setText(R.string.share);
 
     }
 

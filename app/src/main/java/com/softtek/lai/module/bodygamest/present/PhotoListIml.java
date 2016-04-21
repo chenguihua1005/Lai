@@ -70,12 +70,12 @@ public class PhotoListIml implements PhotoListPre {
         service.getUserPhotos(token, photoName, new Callback<ResponseData>() {
             @Override
             public void success(ResponseData listResponseData, Response response) {
-                System.out.println("listResponseData"+listResponseData);
                 int status = listResponseData.getStatus();
                 switch (status) {
 
                     case 200:
-                        EventBus.getDefault().post(listResponseData.getData());
+                        System.out.println("listResponseData:"+listResponseData);
+                        EventBus.getDefault().post(listResponseData);
                         break;
                     case 500:
                         break;

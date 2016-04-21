@@ -369,6 +369,9 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
             case R.id.fl_right:
                 startActivity(new Intent(getContext(), MessageActivity.class));
                 break;
+            case R.id.iv_email:
+                startActivity(new Intent(getContext(), MessageActivity.class));
+                break;
         }
     }
 
