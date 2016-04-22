@@ -381,7 +381,7 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
                     //从指定目录获取图片原图
                     File image = new File(uploadloadImageDir,localTempImgFileName);
                     Log.i("拍完照后图片是否存在？=="+image.exists());
-                    startActivityForResult(SystemUtils.crop(Uri.fromFile(image), null, 1, 1, 300, 300), CROP_VIA_IMAGE);
+                    startActivityForResult(SystemUtils.crop(Uri.fromFile(image), null, 5, 4, 0, 0), CROP_VIA_IMAGE);
                     break;
                 case GET_IMAGE_VIA_PICTURE:
                     Intent intent = SystemUtils.crop(data.getData(), null, 2, 1, 300, 300);
