@@ -1,14 +1,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:fitsSystemWindows="true"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-    <include android:id="@+id/toolbar" layout="@layout/toolbar" />
+    android:fitsSystemWindows="true">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
 
     <ScrollView
         android:id="@+id/scrollView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:scrollbars="none"
         android:layout_below="@+id/toolbar">
 
         <RelativeLayout
@@ -16,113 +19,123 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
-            android:orientation="vertical"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
                 <LinearLayout
                     android:id="@+id/ll_weight"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:layout_height="wrap_content"
+                        android:text="体重："
                         android:textColor="#000000"
-                        android:textSize="16sp"
-                        android:text="体重："/>
+                        android:textSize="16sp" />
+
                     <TextView
+                        android:id="@+id/tv_weight"
                         android:layout_width="wrap_content"
-                        android:layout_marginRight="15dp"
                         android:layout_height="wrap_content"
-                        android:textSize="16sp"
+                        android:layout_marginRight="15dp"
                         android:textColor="#ffbb00"
-                        android:id="@+id/tv_weight"/>
+                        android:textSize="16sp" />
+
                     <TextView
-                        android:gravity="right"
                         android:layout_width="30dp"
                         android:layout_height="wrap_content"
-                        android:textColor="#000"
-                        android:textSize="16sp"
                         android:layout_alignParentRight="true"
-                        android:text="斤"/>
+                        android:gravity="right"
+                        android:text="斤"
+                        android:textColor="#000"
+                        android:textSize="16sp" />
                 </LinearLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#78BC27" />
+
                 <LinearLayout
                     android:id="@+id/ll_pysical"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="体脂："
                         android:textColor="#000000"
-                        android:textSize="16sp"
-                        android:text="体脂："/>
-                    <EditText
-                        android:layout_width="150dp"
-                        android:layout_marginRight="15dp"
-                        android:layout_height="50dp"
-                        android:gravity="right|center"
-                        android:textCursorDrawable="@drawable/color_cursor"
-                        android:textSize="16sp"
-                        android:background="@null"
-                        android:textColor="#ffbb00"
-                        android:id="@+id/et_pysical"/>
+                        android:textSize="16sp" />
+
                     <TextView
-                        android:gravity="right"
+                        android:id="@+id/tv_pysical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="15dp"
+                        android:textColor="#ffbb00"
+                        android:textSize="16sp" />
+
+                    <TextView
                         android:layout_width="30dp"
                         android:layout_height="wrap_content"
-                        android:textColor="#000"
-                        android:textSize="16sp"
                         android:layout_alignParentRight="true"
-                        android:text="%"/>
+                        android:gravity="right"
+                        android:text="%"
+                        android:textColor="#000"
+                        android:textSize="16sp" />
                 </LinearLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#78BC27" />
+
                 <LinearLayout
                     android:id="@+id/ll_fat"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="内脂："
                         android:textColor="#000000"
-                        android:textSize="16sp"
-                        android:text="内脂："/>
-                    <EditText
-                        android:id="@+id/et_fat"
-                        android:layout_width="150dp"
-                        android:layout_marginRight="15dp"
-                        android:gravity="right|center"
-                        android:layout_height="50dp"
-                        android:textCursorDrawable="@drawable/color_cursor"
-                        android:textSize="16sp"
-                        android:background="@null"
-                        android:textColor="#ffbb00"/>
+                        android:textSize="16sp" />
+
                     <TextView
-                        android:gravity="right"
+                        android:id="@+id/tv_fat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="15dp"
+                        android:textColor="#ffbb00"
+                        android:textSize="16sp" />
+                    <TextView
                         android:layout_width="30dp"
                         android:layout_height="wrap_content"
-                        android:textColor="#000"
-                        android:textSize="16sp"
                         android:layout_alignParentRight="true"
-                        android:text="%"/>
+                        android:gravity="right"
+                        android:text=""
+                        android:textColor="#000"
+                        android:textSize="16sp" />
+
                 </LinearLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -134,204 +147,228 @@
                     android:layout_height="50dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="胸围:"
                         android:textColor="#000000"
-                        android:textSize="16sp"
-                        android:text="胸围:"/>
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/tv_circum"
                         android:layout_width="wrap_content"
-                        android:layout_marginRight="15dp"
                         android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        android:textColor="#ffbb00" />
+                        android:layout_marginRight="15dp"
+                        android:textColor="#ffbb00"
+                        android:textSize="16sp" />
+
                     <TextView
-                        android:gravity="right"
                         android:layout_width="30dp"
                         android:layout_height="wrap_content"
-                        android:textColor="#000"
-                        android:textSize="16sp"
                         android:layout_alignParentRight="true"
-                        android:text="cm"/>
+                        android:gravity="right"
+                        android:text="cm"
+                        android:textColor="#000"
+                        android:textSize="16sp" />
                 </LinearLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#78BC27" />
+
                 <LinearLayout
                     android:id="@+id/ll_waistline"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="腰围:"
                         android:textColor="#000000"
-                        android:textSize="16sp"
-                        android:text="腰围:"/>
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/tv_waistline"
                         android:layout_width="wrap_content"
-                        android:layout_marginRight="15dp"
                         android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        android:textColor="#ffbb00" />
+                        android:layout_marginRight="15dp"
+                        android:textColor="#ffbb00"
+                        android:textSize="16sp" />
+
                     <TextView
-                        android:gravity="right"
                         android:layout_width="30dp"
                         android:layout_height="wrap_content"
-                        android:textColor="#000"
-                        android:textSize="16sp"
                         android:layout_alignParentRight="true"
-                        android:text="cm"/>
+                        android:gravity="right"
+                        android:text="cm"
+                        android:textColor="#000"
+                        android:textSize="16sp" />
                 </LinearLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#78BC27" />
+
                 <LinearLayout
                     android:id="@+id/ll_hiplie"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="臀围:"
                         android:textColor="#000000"
-                        android:textSize="16sp"
-                        android:text="臀围:"/>
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/tv_hiplie"
                         android:layout_width="wrap_content"
-                        android:layout_marginRight="15dp"
                         android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        android:textColor="#ffbb00" />
+                        android:layout_marginRight="15dp"
+                        android:textColor="#ffbb00"
+                        android:textSize="16sp" />
+
                     <TextView
-                        android:gravity="right"
                         android:layout_width="30dp"
                         android:layout_height="wrap_content"
-                        android:textColor="#000"
-                        android:textSize="16sp"
                         android:layout_alignParentRight="true"
-                        android:text="cm"/>
+                        android:gravity="right"
+                        android:text="cm"
+                        android:textColor="#000"
+                        android:textSize="16sp" />
                 </LinearLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#78BC27" />
+
                 <LinearLayout
                     android:id="@+id/ll_uparmgirth"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="上臂围:"
                         android:textColor="#000000"
-                        android:textSize="16sp"
-                        android:text="上臂围:"/>
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/tv_uparmgirth"
                         android:layout_width="wrap_content"
-                        android:layout_marginRight="15dp"
                         android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        android:textColor="#ffbb00" />
+                        android:layout_marginRight="15dp"
+                        android:textColor="#ffbb00"
+                        android:textSize="16sp" />
+
                     <TextView
-                        android:gravity="right"
                         android:layout_width="30dp"
                         android:layout_height="wrap_content"
-                        android:textColor="#000"
-                        android:textSize="16sp"
                         android:layout_alignParentRight="true"
-                        android:text="cm"/>
+                        android:gravity="right"
+                        android:text="cm"
+                        android:textColor="#000"
+                        android:textSize="16sp" />
                 </LinearLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#78BC27" />
+
                 <LinearLayout
                     android:id="@+id/ll_upleggirth"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="大腿围:"
                         android:textColor="#000000"
-                        android:textSize="16sp"
-                        android:text="大腿围:"/>
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/tv_upleggirth"
                         android:layout_width="wrap_content"
-                        android:layout_marginRight="15dp"
                         android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        android:textColor="#ffbb00" />
+                        android:layout_marginRight="15dp"
+                        android:textColor="#ffbb00"
+                        android:textSize="16sp" />
+
                     <TextView
-                        android:gravity="right"
                         android:layout_width="30dp"
                         android:layout_height="wrap_content"
-                        android:textColor="#000"
-                        android:textSize="16sp"
                         android:layout_alignParentRight="true"
-                        android:text="cm"/>
+                        android:gravity="right"
+                        android:text="cm"
+                        android:textColor="#000"
+                        android:textSize="16sp" />
                 </LinearLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#78BC27" />
+
                 <LinearLayout
                     android:id="@+id/ll_doleggirth"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="小腿围:"
                         android:textColor="#000000"
-                        android:textSize="16sp"
-                        android:text="小腿围:"/>
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/tv_doleggirth"
                         android:layout_width="wrap_content"
-                        android:layout_marginRight="15dp"
                         android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        android:textColor="#ffbb00" />
+                        android:layout_marginRight="15dp"
+                        android:textColor="#ffbb00"
+                        android:textSize="16sp" />
+
                     <TextView
-                        android:gravity="right"
                         android:layout_width="30dp"
                         android:layout_height="wrap_content"
-                        android:textColor="#000"
-                        android:textSize="16sp"
                         android:layout_alignParentRight="true"
-                        android:text="cm"/>
+                        android:gravity="right"
+                        android:text="cm"
+                        android:textColor="#000"
+                        android:textSize="16sp" />
                 </LinearLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#78BC27" />
+
                 <Button
                     android:id="@+id/btn_sure"
                     android:layout_width="match_parent"

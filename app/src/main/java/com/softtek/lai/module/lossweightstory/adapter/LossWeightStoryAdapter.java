@@ -17,6 +17,7 @@ import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.lossweightstory.model.LossWeightStoryModel;
 import com.softtek.lai.module.lossweightstory.model.Zan;
 import com.softtek.lai.module.lossweightstory.net.LossWeightLogService;
+import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
@@ -109,12 +110,15 @@ public class LossWeightStoryAdapter extends BaseAdapter{
         }
         holder.tv_name.setText(model.getUserName());
         holder.tv_content.setText(model.getLogContent());
-        holder.tv_date.setText(model.getCreateDate());
+        String date=model.getCreateDate();
+        holder.tv_date.setText(DateUtil.getInstance().getYear(date)+
+                "年"+DateUtil.getInstance().getMonth(date)+
+                "月"+DateUtil.getInstance().getDay(date)+"日");
         holder.tv_zan_name.setText(model.getUsernameSet());
         holder.cb_zan.setText(model.getPriase());
         //加载图片
         String path= AddressManager.get("photoHost");
-        Picasso.with(context).load(path+model.getPhoto())
+        Picasso.with(context).load(path+model.getPhoto()).fit()
                 .placeholder(R.drawable.img_default).error(R.drawable.img_default).into(holder.civ_header_image);
         visitableOrGone(holder,model.getImgCollection().split(","),path);
         return convertView;

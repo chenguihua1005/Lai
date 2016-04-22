@@ -155,7 +155,10 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 //startActivity(new Intent(getContext(), ModifyPasswordActivity.class));
                 break;
             case R.id.but_login:
-                startActivity(new Intent(getContext(), LoginActivity.class));
+                Intent login=new Intent(getContext(), LoginActivity.class);
+                login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(login);
                 break;
 
             case R.id.lin_not_vr:

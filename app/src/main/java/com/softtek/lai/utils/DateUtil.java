@@ -1,5 +1,7 @@
 package com.softtek.lai.utils;
 
+import android.text.TextUtils;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -24,8 +26,8 @@ public class DateUtil {
     }
 
     /**
-     * 更具传入的解析格式 解析日期
-     * @param pattern
+     * 传入的解析格式 解析日期
+     * @param pattern 指定的日期格式
      * @return
      */
     public static DateUtil getInstance(String pattern){
@@ -154,5 +156,117 @@ public class DateUtil {
             e.printStackTrace();
         }
         return second;
+    }
+
+    /**
+     * 根据日期格式字符串获取该日期对应的long型数值
+     */
+    public long getValueOfDate(String dateValue){
+        long value=0;
+        if(dateValue==null||"".equals(dateValue)){
+            return value;
+        }
+        SimpleDateFormat sdf=new SimpleDateFormat(PATTERN);
+        try {
+            Date date=sdf.parse(dateValue);
+            value=date.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return value;
+    }
+    /**
+     * 转换日期格式字符串为日期类型
+     */
+    public Date convert2Date(String date){
+        SimpleDateFormat sdf=new SimpleDateFormat(PATTERN);
+        try {
+            return sdf.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    /**
+     * 比较两个日期的大小
+     * @param date1
+     * @param date2
+     * @return -1表示date1<date2<br/> 0表示date1=date2<br/> 1表示date1>date2<br/>
+     */
+    public int compare(String date1,String date2){
+        if(date1==null||date2==null||"".equals(date1)||"".equals(date2)){
+            throw new RuntimeException("日期字符串不合法");
+        }
+        SimpleDateFormat sdf=new SimpleDateFormat(PATTERN);
+        try {
+            Date d1=sdf.parse(date1);
+            Date d2=convert2Date(date2);
+            return d1.compareTo(d2);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return -2;
+    }
+
+    /**
+     * date1>date2
+     * @param date1
+     * @param date2
+     * @return
+     */
+    public boolean isGt(String date1,String date2){
+        if(date1==null||date2==null||"".equals(date1)||"".equals(date2)){
+            throw new RuntimeException("日期字符串不合法");
+        }
+        SimpleDateFormat sdf=new SimpleDateFormat(PATTERN);
+        try {
+            Date d1=sdf.parse(date1);
+            Date d2=convert2Date(date2);
+            return d1.compareTo(d2)==1?true:false;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * date1<date2
+     * @param date1
+     * @param date2
+     * @return
+     */
+    public boolean isLt(String date1,String date2){
+        if(date1==null||date2==null||"".equals(date1)||"".equals(date2)){
+            throw new RuntimeException("日期字符串不合法");
+        }
+        SimpleDateFormat sdf=new SimpleDateFormat(PATTERN);
+        try {
+            Date d1=sdf.parse(date1);
+            Date d2=convert2Date(date2);
+            return d1.compareTo(d2)==-1?true:false;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    /**
+     * date1=date2
+     * @param date1
+     * @param date2
+     * @return
+     */
+    public boolean isEq(String date1,String date2){
+        if(date1==null||date2==null||"".equals(date1)||"".equals(date2)){
+            throw new RuntimeException("日期字符串不合法");
+        }
+        SimpleDateFormat sdf=new SimpleDateFormat(PATTERN);
+        try {
+            Date d1=sdf.parse(date1);
+            Date d2=convert2Date(date2);
+            return d1.compareTo(d2)==0?true:false;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

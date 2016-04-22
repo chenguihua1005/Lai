@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
@@ -74,11 +75,11 @@ public class HealthEntryActivity extends BaseActivity implements View.OnClickLis
     @InjectView(R.id.tv_weight)
     TextView tv_weight;
 
-    @InjectView(R.id.et_pysical)
-    EditText et_pysical;
+    @InjectView(R.id.tv_pysical)
+    TextView et_pysical;
 
-    @InjectView(R.id.et_fat)
-    EditText et_fat;
+    @InjectView(R.id.tv_fat)
+    TextView et_fat;
 
     @InjectView(R.id.tv_circum)
     TextView tv_circum;
@@ -140,8 +141,10 @@ public class HealthEntryActivity extends BaseActivity implements View.OnClickLis
                 show_weight_dialog();
                 break;
             case  R.id.ll_pysical:
+                show_pysical_dialog();
                 break;
             case  R.id.ll_fat:
+                show_fat_dialog();
                 break;
             case R.id.ll_circum:
                 show_circum_dialog();
@@ -230,6 +233,65 @@ public class HealthEntryActivity extends BaseActivity implements View.OnClickLis
         }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+            }
+        }).create().show();
+
+    }
+
+    //体脂对话框
+    public void show_pysical_dialog() {
+        final AlertDialog.Builder birdialog = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
+        final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
+        final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
+        np1.setMaxValue(99);
+        np1.setValue(50);
+        np1.setMinValue(0);
+        np1.setWrapSelectorWheel(false);
+        np2.setMaxValue(9);
+        np2.setValue(0);
+        np2.setMinValue(0);
+        np2.setWrapSelectorWheel(false);
+
+        birdialog.setTitle("选择体脂").setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                et_pysical.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+            }
+        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        }).create().show();
+
+    }
+
+    //内脂对话框
+    public void show_fat_dialog() {
+        final AlertDialog.Builder birdialog = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
+        final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
+        final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
+        np1.setMaxValue(220);
+        np1.setValue(90);
+        np1.setMinValue(50);
+        np1.setWrapSelectorWheel(false);
+        np2.setMaxValue(9);
+        np2.setValue(0);
+        np2.setMinValue(0);
+        np2.setWrapSelectorWheel(false);
+
+        birdialog.setTitle("选择内脂").setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                et_fat.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+
+            }
+        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
             }
         }).create().show();
 
