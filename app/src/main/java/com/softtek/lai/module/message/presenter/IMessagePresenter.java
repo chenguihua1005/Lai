@@ -36,6 +36,6 @@ public interface IMessagePresenter {
     void delNoticeOrMeasureMsg(String messageId);
 
     //主页是否有提示消息
-    void getMessageRead(String accountID,ImageView img_red);
+    void getMessageRead(ImageView img_red);
 
 }
