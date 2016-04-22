@@ -1,9 +1,8 @@
 package com.softtek.lai.module.healthrecords.view;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.os.Bundle;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
@@ -12,7 +11,9 @@ import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
+import com.mobsandgeeks.saripaar.Rule;
+import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
@@ -26,10 +27,15 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.InjectView;
+import zilla.libcore.lifecircle.LifeCircleInject;
+import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_health_entry)
-public class HealthEntryActivity extends BaseActivity implements View.OnClickListener{
+public class HealthEntryActivity extends BaseActivity implements View.OnClickListener,Validator.ValidationListener,EntryHealthImpl.EntryHealthyCallback{
+
+    @LifeCircleInject
+    ValidateLife validateLife;
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -40,6 +46,7 @@ public class HealthEntryActivity extends BaseActivity implements View.OnClickLis
     @InjectView(R.id.ll_weight)
     LinearLayout ll_weight;
 
+    @Required(order = 1,message = "请填写体重")
     @InjectView(R.id.ll_pysical)
     LinearLayout ll_pysical;
 
@@ -94,38 +101,14 @@ public class HealthEntryActivity extends BaseActivity implements View.OnClickLis
     @InjectView(R.id.btn_sure)
     Button btn_sure;
 
-    private String weight;
-
-    private String pysical;
-
-    private String fat;
-
-    private String circum;
-
-    private String waistline;
-
-    private String hiplie;
-
-    private String uparmgirth;
-
-    private String upleggirth;
-
-    private String doleggirth;
-
     private HealthModel healthModele;
     private LastestRecordModel lastestRecordModel;
 
     private IEntryHealthpresenter iEntryHealthpresenter;
 
-    UserInfoModel userInfoModel=UserInfoModel.getInstance();
-    long accoutid=Long.parseLong(userInfoModel.getUser().getUserid());
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void initViews() {
         EventBus.getDefault().register(this);
-        iEntryHealthpresenter.doGetLastestRecord(accoutid,lastestRecordModel);
-
         ll_left.setOnClickListener(this);
         ll_weight.setOnClickListener(this);
         ll_pysical.setOnClickListener(this);
@@ -140,15 +123,11 @@ public class HealthEntryActivity extends BaseActivity implements View.OnClickLis
     }
 
     @Override
-    protected void initViews() {
-
-    }
-
-    @Override
     protected void initDatas() {
         tv_title.setText("健康记录录入");
         iEntryHealthpresenter = new EntryHealthImpl(this);
-        healthModele = new HealthModel();
+        dialogShow("获取数据中...");
+        iEntryHealthpresenter.doGetLastestRecord(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()));
     }
 
     @Override
@@ -183,34 +162,7 @@ public class HealthEntryActivity extends BaseActivity implements View.OnClickLis
                 show_doleggirth_dialog();
                 break;
             case R.id.btn_sure:
-                String weight = tv_weight.getText().toString();
-                String pysical = et_pysical.getText().toString();
-                String fat =et_fat.getText().toString();
-                String circum = tv_circum.getText().toString();
-                String waistline =tv_waistline.getText().toString();
-                String hiplie =tv_hiplie.getText().toString();
-                String uparmgirth =tv_uparmgirth.getText().toString();
-                String upleggirth = tv_upleggirth.getText().toString();
-                String doleggirth =tv_doleggirth.getText().toString();
-
-                Log.i("jainkangjiluluruxinxi--------"+weight+pysical+fat+circum+waistline+hiplie+uparmgirth+upleggirth+doleggirth);
-
-                healthModele = new HealthModel();
-                healthModele.setWeight(weight);
-                healthModele.setPysical(pysical);
-                healthModele.setFat(fat);
-                healthModele.setCircum(circum);
-                healthModele.setWaistline(waistline);
-                healthModele.setHiplie(hiplie);
-                healthModele.setUpArmGirth(uparmgirth);
-                healthModele.setUpLegGirth(upleggirth);
-                healthModele.setDoLegGirth(doleggirth);
-
-                Log.i("healthModele:----------"+healthModele);
-                Log.i("accoutid"+accoutid);
-                iEntryHealthpresenter.entryhealthrecord(accoutid,healthModele);
-                finish();
-
+                validateLife.validate();
                 break;
         }
     }
@@ -223,28 +175,17 @@ public class HealthEntryActivity extends BaseActivity implements View.OnClickLis
 
     @Subscribe
     public void onEvent(RecordEvent recordEvent) {
-        System.out.println("recordEvent.lastestRecordModel()>>》》》》》》》》》》》》》》" + recordEvent.lastestRecordModel());
-
-        LastestRecordModel lastestRecordModel = recordEvent.lastestRecordModel();
-        Log.i("recordEvent.lastestRecordModel()-------------dfdsfdfdf-------------------》"+lastestRecordModel);
-        weight=lastestRecordModel.getWeight();
-        pysical=lastestRecordModel.getPysical();
-        fat=lastestRecordModel.getFat();
-        circum=lastestRecordModel.getCircum();
-        waistline=lastestRecordModel.getWaistline();
-        hiplie=lastestRecordModel.getHiplie();
-        uparmgirth=lastestRecordModel.getUpArmGirth();
-        upleggirth=lastestRecordModel.getUpLegGirth();
-        doleggirth=lastestRecordModel.getDoLegGirth();
-        tv_weight.setText(weight);
-        et_pysical.setText(pysical);
-        et_fat.setText(fat);
-        tv_circum.setText(circum);
-        tv_waistline.setText(waistline);
-        tv_hiplie.setText(hiplie);
-        tv_uparmgirth.setText(uparmgirth);
-        tv_upleggirth.setText(upleggirth);
-        tv_doleggirth.setText(doleggirth);
+        dialogDissmiss();
+        lastestRecordModel = recordEvent.lastestRecordModel();
+        tv_weight.setText(lastestRecordModel.getWeight());
+        et_pysical.setText(lastestRecordModel.getPysical());
+        et_fat.setText(lastestRecordModel.getFat());
+        tv_circum.setText(lastestRecordModel.getCircum());
+        tv_waistline.setText(lastestRecordModel.getWaistline());
+        tv_hiplie.setText(lastestRecordModel.getHiplie());
+        tv_uparmgirth.setText(lastestRecordModel.getUpArmGirth());
+        tv_upleggirth.setText(lastestRecordModel.getUpLegGirth());
+        tv_doleggirth.setText(lastestRecordModel.getDoLegGirth());
 
     }
 
@@ -462,5 +403,47 @@ public class HealthEntryActivity extends BaseActivity implements View.OnClickLis
 
             }
         }).create().show();
+    }
+
+    @Override
+    public void onValidationSucceeded() {
+        String weight = tv_weight.getText().toString();
+        String pysical = et_pysical.getText().toString();
+        String fat =et_fat.getText().toString();
+        String circum = tv_circum.getText().toString();
+        String waistline =tv_waistline.getText().toString();
+        String hiplie =tv_hiplie.getText().toString();
+        String uparmgirth =tv_uparmgirth.getText().toString();
+        String upleggirth = tv_upleggirth.getText().toString();
+        String doleggirth =tv_doleggirth.getText().toString();
+
+        healthModele = new HealthModel();
+        healthModele.setWeight(weight);
+        healthModele.setPysical(pysical);
+        healthModele.setFat(fat);
+        healthModele.setCircum(circum);
+        healthModele.setWaistline(waistline);
+        healthModele.setHiplie(hiplie);
+        healthModele.setUpArmGirth(uparmgirth);
+        healthModele.setUpLegGirth(upleggirth);
+        healthModele.setDoLegGirth(doleggirth);
+        healthModele.setAccountId(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()));
+        dialogShow("正在提交");
+        iEntryHealthpresenter.entryhealthrecord(healthModele);
+
+    }
+
+    @Override
+    public void onValidationFailed(View failedView, Rule<?> failedRule) {
+        new AlertDialog.Builder(this).setMessage(failedRule.getFailureMessage()).create().show();
+    }
+
+    @Override
+    public void saveSuccess(boolean res) {
+        dialogDissmiss();
+        if(res) {
+            setResult(RESULT_OK, getIntent());
+            finish();
+        }
     }
 }

@@ -143,7 +143,7 @@ public class MineHealthyFragment extends BaseFragment  implements  AdapterView.O
             pageIndex=--pageIndex<1?1:pageIndex;
             return;
         }
-        Log.i("我的="+model.toString());
+
         totalPage=Integer.parseInt(model.getTotalPage());
         List<HealthyCommunityModel> models=model.getHealthList();
         if(models==null||models.isEmpty()){

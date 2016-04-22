@@ -20,7 +20,6 @@ public interface HealthRecordService {
     //健康记录手动录入
     @POST("/HealthRecords/SaveHealthRecord")
     void entryhealthrecord(@Header("token") String token,
-                           @Query("accountId") long accountId,
                            @Body HealthModel healthModel,
                            Callback<ResponseData> callback);
 
