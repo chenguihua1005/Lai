@@ -224,8 +224,13 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     public void onRefresh() {
         System.out.println("正在加载......");
         homeInfoPresenter.getHomeInfoData(pull);
-        String id = UserInfoModel.getInstance().getUser().getUserid();
-        messagePresenter.getMessageRead(id, img_red);
+        String userrole=UserInfoModel.getInstance().getUser().getUserrole();
+        if (String.valueOf(Constants.VR).equals(userrole)) {
+
+        } else {
+            messagePresenter.getMessageRead(img_red);
+        }
+
     }
 
 

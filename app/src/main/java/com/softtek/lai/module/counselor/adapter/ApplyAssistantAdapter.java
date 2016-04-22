@@ -86,10 +86,10 @@ public class ApplyAssistantAdapter extends BaseAdapter {
         final ApplyAssistantModel applyAssistantModel = list.get(position);
         holder.text_class_name.setText(applyAssistantModel.getClassName());
         holder.text_class_time.setText("开班日期：" + applyAssistantModel.getStartDate());
-        if("0".equals(applyAssistantModel.getState())){
+        if ("0".equals(applyAssistantModel.getState())) {
             holder.text_apply.setVisibility(View.VISIBLE);
             holder.text_state.setVisibility(View.GONE);
-        }else {
+        } else {
             holder.text_apply.setVisibility(View.GONE);
             holder.text_state.setVisibility(View.VISIBLE);
         }
@@ -98,36 +98,39 @@ public class ApplyAssistantAdapter extends BaseAdapter {
             public void onClick(View v) {
                 String id = UserInfoModel.getInstance().getUser().getUserid();
                 String name = UserInfoModel.getInstance().getUser().getNickname();
-                String startDate=applyAssistantModel.getStartDate();
-                String[] timeStr=startDate.split("-");
-                String time="";
-                if("01".equals(timeStr[1]) ||"1".equals(timeStr[1])){
-                    time="一月班";
-                }else  if("02".equals(timeStr[1]) ||"2".equals(timeStr[1])){
-                    time="二月班";
-                }else  if("03".equals(timeStr[1]) ||"3".equals(timeStr[1])){
-                    time="三月班";
-                }else  if("04".equals(timeStr[1]) ||"4".equals(timeStr[1])){
-                    time="四月班";
-                }else  if("05".equals(timeStr[1]) ||"5".equals(timeStr[1])){
-                    time="五月班";
-                }else  if("06".equals(timeStr[1]) ||"6".equals(timeStr[1])){
-                    time="六月班";
-                }else  if("07".equals(timeStr[1]) ||"7".equals(timeStr[1])){
-                    time="七月班";
-                }else  if("08".equals(timeStr[1]) ||"8".equals(timeStr[1])){
-                    time="八月班";
-                }else  if("09".equals(timeStr[1]) ||"9".equals(timeStr[1])){
-                    time="九月班";
-                }else  if("10".equals(timeStr[1]) ||"10".equals(timeStr[1])){
-                    time="十月班";
-                }else  if("11".equals(timeStr[1]) ||"11".equals(timeStr[1])){
-                    time="十一月班";
-                }else  if("12".equals(timeStr[1]) ||"12".equals(timeStr[1])){
-                    time="十二月班";
+                if (name == null || "null".equals(name)) {
+                    name = "";
                 }
-                String comment=name+"申请了"+time+"助教";
-                assistantPresenter.srApplyAssistant(id, applyAssistantModel.getManagerId(), applyAssistantModel.getClassId(), comment,holder.text_apply,holder.text_state);
+                String startDate = applyAssistantModel.getStartDate();
+                String[] timeStr = startDate.split("-");
+                String time = "";
+                if ("01".equals(timeStr[1]) || "1".equals(timeStr[1])) {
+                    time = "一月班";
+                } else if ("02".equals(timeStr[1]) || "2".equals(timeStr[1])) {
+                    time = "二月班";
+                } else if ("03".equals(timeStr[1]) || "3".equals(timeStr[1])) {
+                    time = "三月班";
+                } else if ("04".equals(timeStr[1]) || "4".equals(timeStr[1])) {
+                    time = "四月班";
+                } else if ("05".equals(timeStr[1]) || "5".equals(timeStr[1])) {
+                    time = "五月班";
+                } else if ("06".equals(timeStr[1]) || "6".equals(timeStr[1])) {
+                    time = "六月班";
+                } else if ("07".equals(timeStr[1]) || "7".equals(timeStr[1])) {
+                    time = "七月班";
+                } else if ("08".equals(timeStr[1]) || "8".equals(timeStr[1])) {
+                    time = "八月班";
+                } else if ("09".equals(timeStr[1]) || "9".equals(timeStr[1])) {
+                    time = "九月班";
+                } else if ("10".equals(timeStr[1]) || "10".equals(timeStr[1])) {
+                    time = "十月班";
+                } else if ("11".equals(timeStr[1]) || "11".equals(timeStr[1])) {
+                    time = "十一月班";
+                } else if ("12".equals(timeStr[1]) || "12".equals(timeStr[1])) {
+                    time = "十二月班";
+                }
+                String comment = name + "申请了" + time + "助教";
+                assistantPresenter.srApplyAssistant(id, applyAssistantModel.getManagerId(), applyAssistantModel.getClassId(), comment, holder.text_apply, holder.text_state);
             }
         });
         return convertView;

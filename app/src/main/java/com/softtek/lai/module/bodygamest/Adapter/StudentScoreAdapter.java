@@ -77,6 +77,7 @@ public class StudentScoreAdapter extends BaseAdapter {
             holder.text_after_weight = (TextView) convertView.findViewById(R.id.text_after_weight);
             holder.text_lose_weight = (TextView) convertView.findViewById(R.id.text_lose_weight);
             holder.img = (ImageView) convertView.findViewById(R.id.img);
+            holder.img_state = (ImageView) convertView.findViewById(R.id.img_state);
 
 
             convertView.setTag(holder);//绑定ViewHolder对象
@@ -99,9 +100,14 @@ public class StudentScoreAdapter extends BaseAdapter {
 
         holder.text_rnum.setText(marchInfo.getRowNumber().toString());
         holder.text_user_name.setText(marchInfo.getUserName().toString());
-        holder.text_before_weight.setText("前 " + marchInfo.getBeforeWeight().toString() + "kg");
-        holder.text_after_weight.setText("后 " + marchInfo.getAfterWeight().toString() + "kg");
+        holder.text_before_weight.setText("前 " + marchInfo.getBeforeWeight().toString() + "斤");
+        holder.text_after_weight.setText("后 " + marchInfo.getAfterWeight().toString() + "斤");
         holder.text_lose_weight.setText(marchInfo.getLoss().toString());
+        if("上升".equals(marchInfo.getChange())){
+            holder.img_state.setImageResource(R.drawable.img_score_up);
+        }else {
+            holder.img_state.setImageResource(R.drawable.img_score_down);
+        }
         return convertView;
     }
 
@@ -115,6 +121,7 @@ public class StudentScoreAdapter extends BaseAdapter {
         public TextView text_after_weight;
         public TextView text_lose_weight;
         public ImageView img;
+        public ImageView img_state;
     }
 }
 

@@ -12,14 +12,14 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="100dip">
 
         <com.softtek.lai.widgets.CircleImageView
             android:id="@+id/img"
-            android:layout_width="@dimen/circleImage"
-            android:layout_height="@dimen/circleImage"
+            android:layout_width="67dip"
+            android:layout_height="67dip"
             android:layout_centerVertical="true"
-            android:layout_margin="@dimen/fragmentAssistantApplyMargin"
+            android:layout_marginLeft="@dimen/margin"
             android:src="@drawable/img_default" />
 
         <TextView
@@ -38,7 +38,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_margin="@dimen/fragmentAssistantApplyMargin"
+            android:layout_marginRight="@dimen/margin"
+            android:layout_marginLeft="5dip"
             android:orientation="vertical">
 
             <Button
@@ -66,6 +67,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/img"
+            android:layout_toLeftOf="@+id/lin_buttons"
+            android:layout_marginLeft="@dimen/fragmentAssistantApplyMarginLeft"
             android:orientation="vertical">
 
             <TextView
@@ -75,12 +78,12 @@
                 android:text="Default"
                 android:textColor="@color/word"
                 android:textStyle="bold"
-                android:textSize="@dimen/fragmentAssistantApplyNameTextSize" />
+                android:textSize="@dimen/textSize5" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/fragmentAssistantApplyMargin"
+                android:layout_marginTop="@dimen/fragmentAssistantApplyMarginTop"
                 android:orientation="horizontal">
 
 
@@ -90,7 +93,7 @@
                     android:layout_height="wrap_content"
                     android:text="18261576084"
                     android:textColor="@color/word"
-                    android:textSize="@dimen/fragmentAssistantApplyValueTextSize" />
+                    android:textSize="@dimen/textSize1" />
             </LinearLayout>
 
         </LinearLayout>
