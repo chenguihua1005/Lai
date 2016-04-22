@@ -535,7 +535,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
 
         Log.i(retestWrite+"");
         String m="0";
-        retestPre.doPostWrite(loginid,loginid,retestWrite,this);
+//        retestPre.doPostWrite(loginid,loginid,retestWrite,this);
         Intent intent=new Intent();
         setResult(RESULT_OK,intent);
         finish();

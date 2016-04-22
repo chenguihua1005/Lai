@@ -156,7 +156,6 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
         {
             flag=false;
 
-
         }
     }
     @Subscribe
@@ -249,8 +248,7 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
             case R.id.ll_st_fuce:
                 retestPre.doGetAudit(loginid,0,"");
                 if (flag==true) {
-                    Log.i(flag+"");
-//                    startActivityForResult(new Intent(this,FuceStActivity.class),Student_reteset);
+                    startActivityForResult(new Intent(this,FuceStActivity.class),Student_reteset);
 //                    Intent intent1 = new Intent(this, FuceStActivity.class);
 //                    startActivity(intent1);
                 }
