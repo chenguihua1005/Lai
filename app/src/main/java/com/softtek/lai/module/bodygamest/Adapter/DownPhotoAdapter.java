@@ -74,9 +74,15 @@ public class DownPhotoAdapter extends BaseAdapter {
         }
         LogListModel logListModel = logListModelList.get(position);
         String[] date=logListModel.getCreateDate().split("-");
-//        String[] yearshi=date[2].split(" ");
-        viewHolder.tv_uploadphoto_day.setText(date[2]);
-        viewHolder.tv_uploadphoto_month.setText(tomonth(date[1]));
+        String[] yearshi=date[2].split(" ");
+        if (date[0].equals(years+"")&date[1].equals(month+"")&yearshi[0].equals(day+""))
+        {
+            viewHolder.tv_uploadphoto_day.setText("今天");
+        }
+        else {
+            viewHolder.tv_uploadphoto_day.setText(yearshi[0]);
+            viewHolder.tv_uploadphoto_month.setText(tomonth(date[1]));
+        }
         if(!TextUtils.isEmpty(logListModel.getImgUrl())){
             Picasso.with(context).load(logListModel.getImgUrl()).fit().placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(viewHolder.im_uploadphoto);
         }else{

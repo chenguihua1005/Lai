@@ -2,6 +2,7 @@ package com.softtek.lai.module.bodygamest.view;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -32,6 +34,7 @@ import com.softtek.lai.module.bodygamest.present.DownloadManager;
 import com.softtek.lai.module.bodygamest.present.PhotoListIml;
 import com.softtek.lai.module.bodygamest.present.PhotoListPre;
 import com.softtek.lai.module.newmemberentry.view.GetPhotoDialog;
+import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.utils.ShareUtils;
 import com.squareup.picasso.Picasso;
 import com.umeng.socialize.bean.SocializeConfig;
@@ -66,11 +69,16 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     PullToRefreshListView ptrlvlist;
     @InjectView(R.id.im_uploadphoto_banner)
     ImageView im_uploadphoto_banner;
+    @InjectView(R.id.cir_downphoto_head)
+    CircleImageView cir_downphoto_head;
+    @InjectView(R.id.tv_downphoto_nick)
+            TextView tv_downphoto_nick;
     int pageIndex = 0;
     private List<LogListModel> logListModelList = new ArrayList<LogListModel>();
     private DownPhotoAdapter downPhotoAdapter;
     private PhotoListPre photoListPre;
     String path = "";
+    private CharSequence[] items={"拍照","从相册选择照片"};
     private static final int PHOTO = 1;
     //时间
     Calendar c = Calendar.getInstance();
@@ -151,23 +159,37 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
                 startActivityForResult(intent, 100);
                 break;
             case R.id.imtest:
-                final GetPhotoDialog dialog = new GetPhotoDialog(UploadPhotoActivity.this,
-                        new GetPhotoDialog.GetPhotoDialogListener() {
-                            @Override
-                            public void onClick(View view) {
-                                switch (view.getId()) {
-                                    case R.id.imgbtn_camera:
-                                        takecamera();
-                                        break;
-                                    case R.id.imgbtn_pic:
-                                        takepic();
-                                        break;
-                                }
-                            }
-                        });
-                dialog.setTitle("照片上传");
-                dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
-                dialog.show();
+                AlertDialog.Builder builder=new AlertDialog.Builder(this);
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(which==0){
+                            takecamera();
+
+                        }else if(which==1){
+                            //照片
+                            takepic();
+                        }
+                    }
+                }).create().show();
+                break;
+//                final GetPhotoDialog dialog = new GetPhotoDialog(UploadPhotoActivity.this,
+//                        new GetPhotoDialog.GetPhotoDialogListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//                                switch (view.getId()) {
+//                                    case R.id.imgbtn_camera:
+//                                        takecamera();
+//                                        break;
+//                                    case R.id.imgbtn_pic:
+//                                        takepic();
+//                                        break;
+//                                }
+//                            }
+//                        });
+//                dialog.setTitle("照片上传");
+//                dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
+//                dialog.show();
         }
 
 
@@ -253,11 +275,21 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     @Override
     public void getStroyList(DownPhotoModel downPhotoModel) {
         ptrlvlist.onRefreshComplete();
-        if(!TextUtils.isEmpty(downPhotoModel.getBanner())){
-            Picasso.with(this).load("http://172.16.98.167/UpFiles/" + downPhotoModel.getBanner()).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(im_uploadphoto_banner);
-        } else {
-            Picasso.with(this).load("www").placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(im_uploadphoto_banner);
+        if (downPhotoModel.getUserName()!=null) {
+            tv_downphoto_nick.setText(downPhotoModel.getUserName());
+            if (!TextUtils.isEmpty(downPhotoModel.getPhoto())) {
+                Picasso.with(this).load("http://172.16.98.167/UpFiles/" + downPhotoModel.getPhoto()).fit().placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(cir_downphoto_head);
+            } else {
+                Picasso.with(this).load("www").placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(cir_downphoto_head);
+            }
+
+            if (!TextUtils.isEmpty(downPhotoModel.getBanner())) {
+                Picasso.with(this).load("http://172.16.98.167/UpFiles/" + downPhotoModel.getBanner()).fit().placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(im_uploadphoto_banner);
+            } else {
+                Picasso.with(this).load("www").placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(im_uploadphoto_banner);
+            }
         }
+
         if (downPhotoModel==null){
             pageIndex=--pageIndex<1?1:pageIndex;
             return;
@@ -273,12 +305,13 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         }
         logListModelList.addAll(models);
         downPhotoAdapter.notifyDataSetChanged();
+
     }
 
     @Override
     public void uoploadPhotoSuccess(boolean result, String photo) {
         if(result){
-            Picasso.with(this).load(AddressManager.get("photoHost")+photo).fit().placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(imtest);
+            Picasso.with(this).load(AddressManager.get("photoHost")+photo).fit().placeholder(R.drawable.takephoto_upload).error(R.drawable.takephoto_upload).into(imtest);
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
