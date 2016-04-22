@@ -52,18 +52,7 @@ public class DownloadManager {
 
             }
         });
-//        service.getCompetitionLogList(token, accoundId,pageIndex, new Callback<ResponseData<LogList>>() {
-//            @Override
-//            public void success(ResponseData<LogList> listResponseData, Response response) {
-//                cb.getStroyList(listResponseData.getData());
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError error) {
-//                cb.getStroyList(null);
-//                ZillaApi.dealNetError(error);
-//            }
-//        });
+
     }
 
 

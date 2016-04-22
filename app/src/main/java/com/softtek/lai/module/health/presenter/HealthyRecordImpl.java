@@ -36,16 +36,16 @@ public class HealthyRecordImpl implements IHealthyRecord  {
     @Override
     public void doGetHealthPysicalRecords(String Startdate, String Enddate, int i) {
         String token= UserInfoModel.getInstance().getToken();
-        serveice.doGetHealthPysicalRecords(token, Startdate, Enddate, i, new Callback<ResponseData<PysicalModel>>() {
+        serveice.doGetHealthPysicalRecords(token, Startdate, Enddate, i, new RequestCallback<ResponseData<PysicalModel>>() {
             @Override
             public void success(ResponseData<PysicalModel> pysicalModelResponseData, Response response) {
                 int states=pysicalModelResponseData.getStatus();
                 switch (states)
                 {
                     case 200:
-                        Util.toastMsg(pysicalModelResponseData.getMsg());
                         PysicalModel pysicalModel=(PysicalModel) pysicalModelResponseData.getData();
                         EventBus.getDefault().post(pysicalModel);
+                        Util.toastMsg(pysicalModelResponseData.getMsg());
                         default:
                             Util.toastMsg(pysicalModelResponseData.getMsg());
                 }

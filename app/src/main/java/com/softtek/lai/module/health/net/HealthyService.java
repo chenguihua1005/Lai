@@ -21,7 +21,7 @@ public interface HealthyService {
         @GET("/HealthRecords/GetHealthRecords")
         void doGetHealth(
                 @Header("token") String token,
-                RequestCallback<ResponseData<HealthDateModel>> callback);
+                Callback<ResponseData<HealthDateModel>> callback);
         //获取体脂
         @GET("/HealthRecords/GetHealthPysicalRecords")
         void doGetHealthPysicalRecords(
