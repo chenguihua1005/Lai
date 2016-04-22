@@ -39,6 +39,7 @@ import com.softtek.lai.module.confirmInfo.presenter.UpConfirmInfoImpl;
 import com.softtek.lai.module.message.model.MessageDetailInfo;
 import com.softtek.lai.module.newmemberentry.view.EventModel.ClassEvent;
 import com.softtek.lai.module.newmemberentry.view.model.PargradeModel;
+import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
 import com.softtek.lai.widgets.WheelView;
 import com.squareup.picasso.Picasso;
 
@@ -58,7 +59,7 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_cansai)
-public class CansaiActivity extends BaseActivity implements View.OnClickListener{
+public class CansaiActivity extends BaseActivity implements View.OnClickListener {
 
     //toolbar
     //标题
@@ -120,7 +121,7 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
     TextView tv_sex;
 
     @InjectView(R.id.et_mobile)
-    EditText et_mobile;
+    TextView et_mobile;
 
     @InjectView(R.id.tv_classname)
     TextView tv_classname;
@@ -129,10 +130,10 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
     TextView tv_weight;
 
     @InjectView(R.id.et_pysical)
-    EditText et_pysical;
+    TextView et_pysical;
 
     @InjectView(R.id.et_fat)
-    EditText et_fat;
+    TextView et_fat;
 
     //身体围度
     @InjectView(R.id.tv_circum)
@@ -174,6 +175,7 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
     private IUpConfirmInfopresenter iUpConfirmInfopresenter;
 
     private String photo;
+    private String change_photo;
 
     private String name;
 
@@ -206,8 +208,8 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
     //获取当前日期
     Calendar ca = Calendar.getInstance();
     int myear = ca.get(Calendar.YEAR);//获取年份
-    int mmonth=ca.get(Calendar.MONTH);//获取月份
-    int mday=ca.get(Calendar.DATE);//获取日
+    int mmonth = ca.get(Calendar.MONTH);//获取月份
+    int mday = ca.get(Calendar.DATE);//获取日
 
     private List<String> gradeList = new ArrayList<String>();
     private List<String> gradeIDList = new ArrayList<String>();
@@ -221,39 +223,40 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
     ListView list_cansaibanji;
     private List<PargradeModel> pargradeModelList = new ArrayList<PargradeModel>();
 
-    UserInfoModel userInfoModel=UserInfoModel.getInstance();
-    long accoutid=Long.parseLong(userInfoModel.getUser().getUserid());
+    long accoutid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
         super.onCreate(savedInstanceState);
         iUpConfirmInfopresenter = new UpConfirmInfoImpl(this);
-
-        Intent intent = getIntent();
-        MessageDetailInfo messageDetailInfo = (MessageDetailInfo) intent.getSerializableExtra("messageDetailInfo");
-        String classid=messageDetailInfo.getClassId();
-
+        UserInfoModel userInfoModel = UserInfoModel.getInstance();
+        accoutid = Long.parseLong(userInfoModel.getUser().getUserid());
+        accoutid = 327;
+//        Intent intent = getIntent();
+//        MessageDetailInfo messageDetailInfo = (MessageDetailInfo) intent.getSerializableExtra("messageDetailInfo");
+//        String classid = messageDetailInfo.getClassId();
+        String classid = "35";
         //获取classid
-        Log.i("获取classid:--messageDetailInfo------------------->"+classid);
+        Log.i("获取classid:--messageDetailInfo------------------->" + classid);
 
         //参数:---accountid 学员id,classid  班级id
-        iUpConfirmInfopresenter.getConfirmInfo(accoutid,Long.parseLong(classid));//130,1-------17,30,32
-        guwenClassPre = new GuwenClassImp();
+        iUpConfirmInfopresenter.getConfirmInfo(accoutid, Long.parseLong(classid));//130,1-------17,30,32
+        //guwenClassPre = new GuwenClassImp();
 
         //managerId顾问id
-        guwenClassPre.doGetGuwenClass(accoutid);//36
-        MemberAdapter memberAdapter = new MemberAdapter(this, R.layout.member_item, pargradeModelList);
-        list_cansaibanji.setAdapter(memberAdapter);
-        list_cansaibanji.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                PargradeModel pargradeModel = pargradeModelList.get(position);
-                tv_classname.setText(pargradeModel.getClassName());
-                tv_classname.setError(null);
-                list_cansaibanji.setVisibility(View.INVISIBLE);
-            }
-        });
+        //guwenClassPre.doGetGuwenClass(accoutid);//36
+//        MemberAdapter memberAdapter = new MemberAdapter(this, R.layout.member_item, pargradeModelList);
+//        list_cansaibanji.setAdapter(memberAdapter);
+//        list_cansaibanji.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                PargradeModel pargradeModel = pargradeModelList.get(position);
+//                tv_classname.setText(pargradeModel.getClassName());
+//                tv_classname.setError(null);
+//                list_cansaibanji.setVisibility(View.INVISIBLE);
+//            }
+//        });
 
     }
 
@@ -270,7 +273,7 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
         ll_birthday.setOnClickListener(this);
         addGrade();
         ll_sex.setOnClickListener(this);
-        ll_classname.setOnClickListener(this);
+        //ll_classname.setOnClickListener(this);
         ll_weight.setOnClickListener(this);
         ll_pysical.setOnClickListener(this);
         ll_fat.setOnClickListener(this);
@@ -292,12 +295,18 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
     @Subscribe
     public void onEvent(ClassEvent classEvent) {
         System.out.println("classEvent.getPargradeModels()>>》》》》》》》》》》》》》》" + classEvent.getPargradeModels());
-        List<PargradeModel> pargradeModels = classEvent.getPargradeModels();
-        for (PargradeModel cl : pargradeModels) {
-            System.out.println("dsfsdfsdfsdfsdfsdf?????/?????>>》》》》》》》》》》》》》》" + "ClassIdModel:" + cl.getClassId() + "ClassName:" + cl.getClassName());
-            PargradeModel p1 = new PargradeModel(cl.getClassId(), cl.getClassName());
-            pargradeModelList.add(p1);
-        }
+//        List<PargradeModel> pargradeModels = classEvent.getPargradeModels();
+//        for (PargradeModel cl : pargradeModels) {
+//            System.out.println("dsfsdfsdfsdfsdfsdf?????/?????>>》》》》》》》》》》》》》》" + "ClassIdModel:" + cl.getClassId() + "ClassName:" + cl.getClassName());
+//            PargradeModel p1 = new PargradeModel(cl.getClassId(), cl.getClassName());
+//            pargradeModelList.add(p1);
+//        }
+    }
+
+    @Subscribe
+    public void onEvent(PhotModel photModel) {
+        System.out.println("photModel:" + photModel);
+        change_photo = photModel.getImg();
     }
 
     @Subscribe
@@ -305,35 +314,34 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
         System.out.println("classEvent.getPargradeModels()>>》》》》》》》》》》》》》》" + coninfoEvent.getConfirmInfoModel());
         GetConfirmInfoModel getConfirmInfoModel = coninfoEvent.getConfirmInfoModel();
 
-        name=getConfirmInfoModel.getUserName();
-        birthday=getConfirmInfoModel.getBirthday();
-        sex=getConfirmInfoModel.getGender();
-        mobile=getConfirmInfoModel.getMobile();
-        classname=getConfirmInfoModel.getClassName();
-        weight=getConfirmInfoModel.getWeight();
-        pysical=getConfirmInfoModel.getPysical();
-        fat=getConfirmInfoModel.getFat();
-        circum=getConfirmInfoModel.getCircum();
-        waistline=getConfirmInfoModel.getWaistline();
-        hiplie=getConfirmInfoModel.getHiplie();
-        uparmgirth=getConfirmInfoModel.getUpArmGirth();
-        upleggirth=getConfirmInfoModel.getUpLegGirth();
-        doleggirth=getConfirmInfoModel.getDoLegGirth();
-        photo=getConfirmInfoModel.getPhoto();
+        name = getConfirmInfoModel.getUserName();
+        birthday = getConfirmInfoModel.getBirthday();
+        sex = getConfirmInfoModel.getGender();
+        mobile = getConfirmInfoModel.getMobile();
+        classname = getConfirmInfoModel.getClassName();
+        weight = getConfirmInfoModel.getWeight();
+        pysical = getConfirmInfoModel.getPysical();
+        fat = getConfirmInfoModel.getFat();
+        circum = getConfirmInfoModel.getCircum();
+        waistline = getConfirmInfoModel.getWaistline();
+        hiplie = getConfirmInfoModel.getHiplie();
+        uparmgirth = getConfirmInfoModel.getUpArmGirth();
+        upleggirth = getConfirmInfoModel.getUpLegGirth();
+        doleggirth = getConfirmInfoModel.getDoLegGirth();
+        photo = getConfirmInfoModel.getPhoto();
 
-        String path= AddressManager.get("photoHost","http://172.16.98.167/UpFiles/");
+        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
         //String path= AddressManager.get("photoHost","http://172.16.98.167/FileUpload/PostFile/");
-        if(!TextUtils.isEmpty(getConfirmInfoModel.getPhoto())) {
-            Picasso.with(this).load(path+getConfirmInfoModel.getPhoto()).placeholder(R.drawable.img_default).error(R.drawable.img_default).into(img1);
-        }
-        else {
+        if (!TextUtils.isEmpty(getConfirmInfoModel.getPhoto())) {
+            Picasso.with(this).load(path + getConfirmInfoModel.getPhoto()).placeholder(R.drawable.img_default).error(R.drawable.img_default).into(img1);
+        } else {
             Picasso.with(this).load("www").placeholder(R.drawable.img_default).error(R.drawable.img_default).into(img1);
         }
 
-        Log.i("获取照片地址：》》》》》》"+path+getConfirmInfoModel.getPhoto());
+        Log.i("获取照片地址：》》》》》》" + path + getConfirmInfoModel.getPhoto());
         et_name.setText(name);
         tv_birthday.setText(birthday);
-        tv_sex.setText(sex.equals(1)?"男":"女");
+        tv_sex.setText(sex.equals("0") ? "男" : "女");
         et_mobile.setText(mobile);
         tv_classname.setText(classname);
         tv_weight.setText(String.valueOf(weight));
@@ -347,35 +355,35 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
         tv_doleggirth.setText(String.valueOf(doleggirth));
     }
 
-    private CharSequence[] items={"拍照","照片"};
+    private CharSequence[] items = {"拍照", "照片"};
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.ll_left:
-                    finish();
+                finish();
                 break;
-            case  R.id.ll_birthday:
+            case R.id.ll_birthday:
                 show_birth_dialog();
                 break;
             case R.id.ll_sex:
-                    showGradeDialog();
+                showGradeDialog();
                 break;
             case R.id.ll_classname:
-                if (list_cansaibanji.getVisibility() == View.VISIBLE) {
-                    list_cansaibanji.setVisibility(View.INVISIBLE);
-                } else if (list_cansaibanji.getVisibility() == View.INVISIBLE) {
-                    list_cansaibanji.setVisibility(View.VISIBLE);
-                }
+//                if (list_cansaibanji.getVisibility() == View.VISIBLE) {
+//                    list_cansaibanji.setVisibility(View.INVISIBLE);
+//                } else if (list_cansaibanji.getVisibility() == View.INVISIBLE) {
+//                    list_cansaibanji.setVisibility(View.VISIBLE);
+//                }
                 break;
             case R.id.ll_weight:
                 show_weight_dialog();
                 break;
             case R.id.ll_pysical:
-
+                show_pysical_dialog();
                 break;
             case R.id.ll_fat:
-
+                show_fat_dialog();
                 break;
             case R.id.ll_circum:
                 show_circum_dialog();
@@ -396,11 +404,11 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
                 show_doleggirth_dialog();
                 break;
             case R.id.img_photoupload:
-                AlertDialog.Builder builder=new AlertDialog.Builder(CansaiActivity.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(CansaiActivity.this);
                 builder.setItems(items, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if(which==0){
+                        if (which == 0) {
                             //拍照
                             //先验证手机是否有sdcard
                             String status = Environment.getExternalStorageState();
@@ -413,7 +421,7 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
                             } else {
                                 Util.toastMsg("没有存储卡");
                             }
-                        }else if(which==1){
+                        } else if (which == 1) {
                             //照片
                             //startActivityForResult(SystemUtils.openPicture(),OPEN_PICTURE_REQUEST);
                             takepic();
@@ -422,13 +430,12 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
                 }).create().show();
 
                 break;
-            case  R.id.btn_sure:
+            case R.id.btn_sure:
                 String token = SharedPreferenceService.getInstance().get("token", "");
-                Intent intent = getIntent();
-                MessageDetailInfo messageDetailInfo = (MessageDetailInfo) intent.getSerializableExtra("messageDetailInfo");
-                String classid=messageDetailInfo.getClassId();
-
-
+//                Intent intent = getIntent();
+//                MessageDetailInfo messageDetailInfo = (MessageDetailInfo) intent.getSerializableExtra("messageDetailInfo");
+//                String classid = messageDetailInfo.getClassId();
+                String classid = "35";
 
                 coninfoModel = new ConinfoModel();
                 //设置classid
@@ -437,60 +444,58 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
                 coninfoModel.setAccountid(accoutid);
                 coninfoModel.setNickname(et_name.getText().toString());
                 coninfoModel.setBirthday(tv_birthday.getText().toString());
-                coninfoModel.setGender(tv_sex.getText().toString()=="男"?1:0);
-
-                coninfoModel.setPhoto("201603290913492218475932.jpg");
+                coninfoModel.setGender(tv_sex.getText().toString() == "男" ? 0 : 1);
+                coninfoModel.setPhoto(change_photo);
                 coninfoModel.setWeight(Double.parseDouble(tv_weight.getText().toString()));
-                if(et_pysical.getText().toString().equals("")){
+                if (et_pysical.getText().toString().equals("")) {
                     coninfoModel.setPysical(0.0);
-                }else {
+                } else {
                     coninfoModel.setPysical(Double.parseDouble(et_pysical.getText().toString()));
                 }
 
-                if(et_fat.getText().toString().equals("")){
+                if (et_fat.getText().toString().equals("")) {
                     coninfoModel.setFat(0.0);
-                }else {
+                } else {
                     coninfoModel.setFat(Double.parseDouble(et_fat.getText().toString()));
                 }
 
-                if (tv_circum.getText().toString().equals("")){
+                if (tv_circum.getText().toString().equals("")) {
                     coninfoModel.setCircum(0.0);
-                }else {
+                } else {
                     coninfoModel.setCircum(Double.parseDouble(tv_circum.getText().toString()));
                 }
 
-                if(tv_waistline.getText().toString().equals("")){
+                if (tv_waistline.getText().toString().equals("")) {
                     coninfoModel.setWaistline(0.0);
-                }else {
+                } else {
                     coninfoModel.setWaistline(Double.parseDouble(tv_waistline.getText().toString()));
                 }
 
-                if (tv_hiplie.getText().toString().equals("")){
+                if (tv_hiplie.getText().toString().equals("")) {
                     coninfoModel.setHiplie(0.0);
-                }else {
+                } else {
                     coninfoModel.setHiplie(Double.parseDouble(tv_hiplie.getText().toString()));
                 }
 
-                if (tv_uparmgirth.getText().toString().equals("")){
+                if (tv_uparmgirth.getText().toString().equals("")) {
                     coninfoModel.setUparmgirth(0.0);
-                }else {
+                } else {
                     coninfoModel.setUparmgirth(Double.parseDouble(tv_uparmgirth.getText().toString()));
                 }
 
-                if (tv_upleggirth.getText().toString().equals("")){
+                if (tv_upleggirth.getText().toString().equals("")) {
                     coninfoModel.setUpleggirth(0.0);
-                }else {
+                } else {
                     coninfoModel.setUpleggirth(Double.parseDouble(tv_upleggirth.getText().toString()));
                 }
 
-                if (tv_doleggirth.getText().toString().equals("")){
+                if (tv_doleggirth.getText().toString().equals("")) {
                     coninfoModel.setDoleggirth(0.0);
-                }else {
+                } else {
                     coninfoModel.setDoleggirth(Double.parseDouble(tv_doleggirth.getText().toString()));
                 }
-
-                iUpConfirmInfopresenter.changeUpConfirmInfo(token,coninfoModel);
-                finish();
+                System.out.println("coninfoModel:" + coninfoModel);
+                iUpConfirmInfopresenter.changeUpConfirmInfo(token, coninfoModel);
                 break;
         }
     }
@@ -552,6 +557,7 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
 //                mResizeImageView.setImageBitmap(bitmap);
 
             img1.setImageBitmap(bm);
+            dialogShow("正在上传照片，请稍后。。。");
             iUpConfirmInfopresenter.upload(path.toString());
         }
         if (requestCode == 101 && resultCode == Activity.RESULT_OK && null != data) {
@@ -570,15 +576,17 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
             img_delete.setVisibility(View.VISIBLE);
             img1.setVisibility(View.VISIBLE);
             img1.setImageBitmap(bitmap);
+            dialogShow("正在上传照片，请稍后。。。");
             iUpConfirmInfopresenter.upload(picturePath.toString());
             Log.i("picturePath------------------------------------------------:" + picturePath);
             c.close();
         }
     }
-        // 生日对话框
+
+    // 生日对话框
     public void show_birth_dialog() {
-        final android.support.v7.app.AlertDialog.Builder birdialog=new android.support.v7.app.AlertDialog.Builder(this);
-        View view=getLayoutInflater().inflate(R.layout.birth_dialog,null);
+        final android.support.v7.app.AlertDialog.Builder birdialog = new android.support.v7.app.AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.birth_dialog, null);
         final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
         np1.setMaxValue(myear);
         np1.setValue(myear);
@@ -587,7 +595,7 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
 
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
         np2.setMaxValue(12);
-        np2.setValue(mmonth+1);
+        np2.setValue(mmonth + 1);
         np2.setMinValue(1);
         np2.setWrapSelectorWheel(false);
 
@@ -601,10 +609,10 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                if (np1.getValue()==myear&&np2.getValue()>(mmonth+1)) {
+                if (np1.getValue() == myear && np2.getValue() > (mmonth + 1)) {
                     show_warn_dialog();
                 }
-                if (np1.getValue() == myear && np2.getValue() == (mmonth+1) && np3.getValue() > mday) {
+                if (np1.getValue() == myear && np2.getValue() == (mmonth + 1) && np3.getValue() > mday) {
                     show_warn_dialog();
                 } else {
                     tv_birthday.setText(String.valueOf(np1.getValue()) + "-" + String.valueOf(np2.getValue()) + "-" + String.valueOf(np3.getValue()));
@@ -618,6 +626,7 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
             }
         }).create().show();
     }
+
     //生日警告对话框
     public void show_warn_dialog() {
         Dialog dialog = new android.support.v7.app.AlertDialog.Builder(this)
@@ -640,9 +649,10 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
         gradeIDList.add("0");
         gradeIDList.add("1");
     }
+
     public void showGradeDialog() {
-        final AlertDialog.Builder birdialog=new AlertDialog.Builder(this);
-        View view=getLayoutInflater().inflate(R.layout.dialog_select_grade,null);
+        final AlertDialog.Builder birdialog = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.dialog_select_grade, null);
         final WheelView wheel_grade = (WheelView) view.findViewById(R.id.wheel_grade);
         wheel_grade.setOffset(1);
         wheel_grade.setItems(gradeList);
@@ -667,7 +677,7 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
                         select_grade = "";
                     }
                 })
-                .setNegativeButton("取消",new DialogInterface.OnClickListener(){
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                     }
@@ -675,6 +685,62 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
                 .show();
     }
 
+    //体脂dialog
+    public void show_pysical_dialog() {
+        final AlertDialog.Builder birdialog = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
+        final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
+        final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
+        np1.setMaxValue(99);
+        np1.setValue(50);
+        np1.setMinValue(0);
+        np1.setWrapSelectorWheel(false);
+        np2.setMaxValue(9);
+        np2.setValue(0);
+        np2.setMinValue(0);
+        np2.setWrapSelectorWheel(false);
+
+        birdialog.setTitle("选择体脂").setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                et_pysical.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+                dialog.dismiss();
+            }
+        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        }).create().show();
+    }
+    //内脂dialog
+    public void show_fat_dialog() {
+        final AlertDialog.Builder birdialog = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
+        final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
+        final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
+        np1.setMaxValue(200);
+        np1.setValue(100);
+        np1.setMinValue(0);
+        np1.setWrapSelectorWheel(false);
+        np2.setMaxValue(9);
+        np2.setValue(0);
+        np2.setMinValue(0);
+        np2.setWrapSelectorWheel(false);
+
+        birdialog.setTitle("选择体脂").setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                et_fat.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+                dialog.dismiss();
+            }
+        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        }).create().show();
+    }
     //围度dialog
     public void show_circum_dialog() {
         final AlertDialog.Builder birdialog = new AlertDialog.Builder(this);
@@ -847,15 +913,15 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
 
     //体重对话框
     public void show_weight_dialog() {
-        final AlertDialog.Builder birdialog=new AlertDialog.Builder(this);
-        View view=getLayoutInflater().inflate(R.layout.dialog,null);
+        final AlertDialog.Builder birdialog = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.dialog, null);
         final NumberPicker np = (NumberPicker) view.findViewById(R.id.numberPicker1);
         np.setMaxValue(220);
-        if(tv_sex.getText().toString().equals("男")){
+        if (tv_sex.getText().toString().equals("男")) {
             np.setValue(150);
-        }else if(tv_sex.getText().toString().equals("女")){
+        } else if (tv_sex.getText().toString().equals("女")) {
             np.setValue(100);
-        }else {
+        } else {
             np.setValue(150);
         }
         np.setMinValue(20);
