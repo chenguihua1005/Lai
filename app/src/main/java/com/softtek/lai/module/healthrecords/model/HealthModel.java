@@ -2,8 +2,10 @@ package com.softtek.lai.module.healthrecords.model;
 
 /**
  * Created by zcy on 2016/4/18.
+ * 健康录入表单
  */
 public class HealthModel {
+    private long accountId;
     private String weight;
     private String pysical;
     private String fat;
@@ -14,20 +16,18 @@ public class HealthModel {
     private String upLegGirth;
     private String doLegGirth;
 
-    public HealthModel(String weight, String pysical, String fat, String circum, String hiplie, String waistline, String upArmGirth, String upLegGirth, String doLegGirth) {
-        this.weight = weight;
-        this.pysical = pysical;
-        this.fat = fat;
-        this.circum = circum;
-        this.hiplie = hiplie;
-        this.waistline = waistline;
-        this.upArmGirth = upArmGirth;
-        this.upLegGirth = upLegGirth;
-        this.doLegGirth = doLegGirth;
-    }
     public HealthModel() {
 
     }
+
+    public long getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(long accountId) {
+        this.accountId = accountId;
+    }
+
     public String getWeight() {
         return weight;
     }
@@ -103,7 +103,8 @@ public class HealthModel {
     @Override
     public String toString() {
         return "HealthModel{" +
-                "weight='" + weight + '\'' +
+                "accountId=" + accountId +
+                ", weight='" + weight + '\'' +
                 ", pysical='" + pysical + '\'' +
                 ", fat='" + fat + '\'' +
                 ", circum='" + circum + '\'' +

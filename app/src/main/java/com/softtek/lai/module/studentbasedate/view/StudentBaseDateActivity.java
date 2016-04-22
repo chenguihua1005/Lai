@@ -5,6 +5,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -16,6 +17,7 @@ import com.softtek.lai.module.studentbasedate.adapter.BaseDataFragmentAdapter;
 import com.softtek.lai.module.studentbasedate.model.StudentBaseInfoModel;
 import com.softtek.lai.module.studentbasedate.presenter.IStudentBaseDate;
 import com.softtek.lai.module.studentbasedate.presenter.StudentBaseDateImpl;
+import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
@@ -45,6 +47,8 @@ public class StudentBaseDateActivity extends BaseActivity implements BaseFragmen
     TextView tv_name;
     @InjectView(R.id.civ_header_image)
     CircleImageView cir_header_image;
+    @InjectView(R.id.banner)
+    ImageView banner;
 
 
     private IStudentBaseDate studentBaseDate;
@@ -87,20 +91,36 @@ public class StudentBaseDateActivity extends BaseActivity implements BaseFragmen
         dialogDissmiss();
         Log.i("加载结束");
         if(studentBaseInfoModel!=null){
+            Log.i("基础数据"+studentBaseInfoModel);
             tv_title.setText(studentBaseInfoModel.getClassName());
-            String strDate="";
-            String endDate="";
-            if(studentBaseInfoModel.getStartDate()!=null){
-                strDate=studentBaseInfoModel.getStartDate().split(" ")[0];
+            StringBuffer strDate=new StringBuffer();
+            StringBuffer endDate=new StringBuffer();
+            String start=studentBaseInfoModel.getStartDate();
+            String end=studentBaseInfoModel.getEndDate();
+            if(start!=null&&!"".equals(start)){
+                strDate.append(DateUtil.getInstance().getYear(start));
+                strDate.append("年");
+                strDate.append(DateUtil.getInstance().getMonth(start));
+                strDate.append("月");
             }
-            if(studentBaseInfoModel.getEndDate()!=null){
-                endDate=studentBaseInfoModel.getEndDate().split(" ")[0];
+            if(end!=null&&!"".equals(end)){
+                endDate.append(DateUtil.getInstance().getYear(end));
+                endDate.append("年");
+                endDate.append(DateUtil.getInstance().getMonth(end));
+                endDate.append("月");
             }
-            tv_title_date.setText(strDate+"-"+endDate);
+            tv_title_date.setText(strDate.toString()+"-"+endDate.toString());
             tv_name.setText(studentBaseInfoModel.getUserName());
-            Picasso.with(this).load(AddressManager.get("photoHost")+studentBaseInfoModel.getUserPhoto())
-                    .placeholder(R.drawable.img_default)
-                    .error(R.drawable.img_default).into(cir_header_image);
+            if(studentBaseInfoModel.getBanner()!=null&&!"".equals(studentBaseInfoModel.getBanner())){
+                Picasso.with(this).load(studentBaseInfoModel.getBanner()).fit()
+                        .placeholder(R.drawable.default_pic)
+                        .error(R.drawable.default_pic).into(banner);
+            }
+            if(studentBaseInfoModel.getUserPhoto()!=null&&!"".equals(studentBaseInfoModel.getUserPhoto())){
+                Picasso.with(this).load(studentBaseInfoModel.getUserPhoto()).fit()
+                        .placeholder(R.drawable.img_default)
+                        .error(R.drawable.img_default).into(cir_header_image);
+            }
             ((BaseDateFragment)fragments.get(0)).updateData(studentBaseInfoModel);
             ((ClassDynamicFragment)fragments.get(1)).loadDynamic(studentBaseInfoModel.getClassId());
         }

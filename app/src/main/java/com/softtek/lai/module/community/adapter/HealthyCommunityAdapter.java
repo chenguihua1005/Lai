@@ -18,6 +18,7 @@ import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.community.model.DoZan;
 import com.softtek.lai.module.community.model.HealthyCommunityModel;
 import com.softtek.lai.module.community.net.CommunityService;
+import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
@@ -74,7 +75,10 @@ public class HealthyCommunityAdapter extends BaseAdapter{
         }
         holder.tv_name.setText(model.getUserName());
         holder.tv_content.setText(model.getContent());
-        holder.tv_date.setText(model.getCreateDate());
+        String date=model.getCreateDate();
+        holder.tv_date.setText(DateUtil.getInstance().getYear(date)+
+                "年"+DateUtil.getInstance().getMonth(date)+
+                "月"+DateUtil.getInstance().getDay(date)+"日");
         holder.tv_zan_name.setText(model.getUsernameSet());
         holder.cb_zan.setText(model.getPraiseNum());
         if(isVR){
@@ -121,7 +125,7 @@ public class HealthyCommunityAdapter extends BaseAdapter{
         }
         //加载图片
         String path= AddressManager.get("photoHost");
-        Picasso.with(context).load(path+model.getPhoto())
+        Picasso.with(context).load(path+model.getPhoto()).fit()
                 .placeholder(R.drawable.img_default).error(R.drawable.img_default).into(holder.civ_header_image);
         String[] imgs=model.getImgCollection().split(",");
         visitableOrGone(holder,imgs,path);
@@ -171,7 +175,7 @@ public class HealthyCommunityAdapter extends BaseAdapter{
                         holder.img7.setVisibility(View.GONE);
                         holder.img8.setVisibility(View.GONE);
                         holder.img9.setVisibility(View.GONE);
-                        Picasso.with(context).load(path+imgs[i]).resizeDimen(R.dimen.logStoryPic,R.dimen.logStoryPic)
+                        Picasso.with(context).load(path+imgs[i]).fit()
                                 .placeholder(R.drawable.default_pic)
                                 .error(R.drawable.default_pic)
                                 .into(holder.img1);
@@ -185,7 +189,7 @@ public class HealthyCommunityAdapter extends BaseAdapter{
                         holder.img7.setVisibility(View.GONE);
                         holder.img8.setVisibility(View.GONE);
                         holder.img9.setVisibility(View.GONE);
-                        Picasso.with(context).load(path+imgs[i]).resizeDimen(R.dimen.logStoryPic,R.dimen.logStoryPic)
+                        Picasso.with(context).load(path+imgs[i]).fit()
                                 .placeholder(R.drawable.default_pic)
                                 .error(R.drawable.default_pic)
                                 .into(holder.img2);
@@ -198,7 +202,7 @@ public class HealthyCommunityAdapter extends BaseAdapter{
                         holder.img7.setVisibility(View.GONE);
                         holder.img8.setVisibility(View.GONE);
                         holder.img9.setVisibility(View.GONE);
-                        Picasso.with(context).load(path+imgs[i]).resizeDimen(R.dimen.logStoryPic,R.dimen.logStoryPic)
+                        Picasso.with(context).load(path+imgs[i]).fit()
                                 .placeholder(R.drawable.default_pic)
                                 .error(R.drawable.default_pic)
                                 .into(holder.img3);
@@ -210,7 +214,7 @@ public class HealthyCommunityAdapter extends BaseAdapter{
                         holder.img7.setVisibility(View.GONE);
                         holder.img8.setVisibility(View.GONE);
                         holder.img9.setVisibility(View.GONE);
-                        Picasso.with(context).load(path+imgs[i]).resizeDimen(R.dimen.logStoryPic,R.dimen.logStoryPic)
+                        Picasso.with(context).load(path+imgs[i]).fit()
                                 .placeholder(R.drawable.default_pic)
                                 .error(R.drawable.default_pic)
                                 .into(holder.img4);
@@ -221,7 +225,7 @@ public class HealthyCommunityAdapter extends BaseAdapter{
                         holder.img7.setVisibility(View.GONE);
                         holder.img8.setVisibility(View.GONE);
                         holder.img9.setVisibility(View.GONE);
-                        Picasso.with(context).load(path+imgs[i]).resizeDimen(R.dimen.logStoryPic,R.dimen.logStoryPic)
+                        Picasso.with(context).load(path+imgs[i]).fit()
                                 .placeholder(R.drawable.default_pic)
                                 .error(R.drawable.default_pic)
                                 .into(holder.img5);
@@ -231,7 +235,7 @@ public class HealthyCommunityAdapter extends BaseAdapter{
                         holder.img7.setVisibility(View.GONE);
                         holder.img8.setVisibility(View.GONE);
                         holder.img9.setVisibility(View.GONE);
-                        Picasso.with(context).load(path+imgs[i]).resizeDimen(R.dimen.logStoryPic,R.dimen.logStoryPic)
+                        Picasso.with(context).load(path+imgs[i]).fit()
                                 .placeholder(R.drawable.default_pic)
                                 .error(R.drawable.default_pic)
                                 .into(holder.img6);
@@ -240,7 +244,7 @@ public class HealthyCommunityAdapter extends BaseAdapter{
                         holder.img7.setVisibility(View.VISIBLE);
                         holder.img8.setVisibility(View.GONE);
                         holder.img9.setVisibility(View.GONE);
-                        Picasso.with(context).load(path+imgs[i]).resizeDimen(R.dimen.logStoryPic,R.dimen.logStoryPic)
+                        Picasso.with(context).load(path+imgs[i]).fit()
                                 .placeholder(R.drawable.default_pic)
                                 .error(R.drawable.default_pic)
                                 .into(holder.img7);
@@ -248,14 +252,14 @@ public class HealthyCommunityAdapter extends BaseAdapter{
                     case 8:
                         holder.img8.setVisibility(View.VISIBLE);
                         holder.img9.setVisibility(View.GONE);
-                        Picasso.with(context).load(path+imgs[i]).resizeDimen(R.dimen.logStoryPic,R.dimen.logStoryPic)
+                        Picasso.with(context).load(path+imgs[i]).fit()
                                 .placeholder(R.drawable.default_pic)
                                 .error(R.drawable.default_pic)
                                 .into(holder.img8);
                         break;
                     case 9:
                         holder.img9.setVisibility(View.VISIBLE);
-                        Picasso.with(context).load(path+imgs[i]).resizeDimen(R.dimen.logStoryPic,R.dimen.logStoryPic)
+                        Picasso.with(context).load(path+imgs[i]).fit()
                                 .placeholder(R.drawable.default_pic)
                                 .error(R.drawable.default_pic)
                                 .into(holder.img9);

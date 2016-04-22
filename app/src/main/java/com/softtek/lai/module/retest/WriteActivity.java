@@ -361,7 +361,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
                 show_information("体脂（%）",100,50,0,9,5,0,2);
                 break;
             case R.id.ll_retestWrite_neizhi:
-                show_information("内脂（%）",100,50,0,9,5,0,3);
+                show_information("内脂",100,50,0,9,5,0,3);
                 break;
 
 

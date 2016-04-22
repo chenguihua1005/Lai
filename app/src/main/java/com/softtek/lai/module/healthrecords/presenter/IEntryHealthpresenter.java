@@ -8,9 +8,9 @@ import com.softtek.lai.module.healthrecords.model.LastestRecordModel;
  */
 public interface IEntryHealthpresenter {
     //手动录入健康记录
-    void entryhealthrecord(long accountId,HealthModel healthModel);
+    void entryhealthrecord(HealthModel healthModel);
 
     //获取最新健康记录
-    void doGetLastestRecord(long accountid,LastestRecordModel lastestRecordModel);
+    void doGetLastestRecord(long accountid);
 
 }

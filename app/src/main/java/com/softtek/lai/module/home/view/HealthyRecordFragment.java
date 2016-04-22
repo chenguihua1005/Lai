@@ -8,17 +8,19 @@ package com.softtek.lai.module.home.view;
 
 import android.content.Intent;
 import android.view.View;
+import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
-import com.softtek.lai.module.health.view.FatFragment;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.health.view.HealthyRecordActivity;
-import com.softtek.lai.module.health.view.WeightFragment;
 import com.softtek.lai.module.healthrecords.view.HealthEntryActivity;
 import com.softtek.lai.module.historydate.view.HistoryDataActivity;
+import com.softtek.lai.module.login.view.LoginActivity;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -34,6 +36,8 @@ public class HealthyRecordFragment extends BaseFragment implements View.OnClickL
     TextView tv_title;
     @InjectView(R.id.iv_email)
     ImageView iv_email;
+    @InjectView(R.id.fl_right)
+    FrameLayout fl_right;
 
     @InjectView(R.id.tv_weight)
     TextView tv_weight;
@@ -56,10 +60,17 @@ public class HealthyRecordFragment extends BaseFragment implements View.OnClickL
     @InjectView(R.id.tv_healthhistoty)
     TextView tv_healthhistoty;
 
+    @InjectView(R.id.lin_is_vr)
+    LinearLayout lin_is_vr;
+    @InjectView(R.id.ll)
+    LinearLayout ll;
+    @InjectView(R.id.but_login)
+    Button but_login;
+
     @Override
     protected void initViews() {
         ll_left.setVisibility(View.GONE);
-        iv_email.setOnClickListener(this);
+        fl_right.setOnClickListener(this);
         tv_weight.setOnClickListener(this);
         tv_body_fat.setOnClickListener(this);
         tv_fat.setOnClickListener(this);
@@ -70,38 +81,48 @@ public class HealthyRecordFragment extends BaseFragment implements View.OnClickL
         tv_leg.setOnClickListener(this);
         tv_shin.setOnClickListener(this);
         tv_healthhistoty.setOnClickListener(this);
+        but_login.setOnClickListener(this);
     }
 
     @Override
     protected void initDatas() {
         tv_title.setText("健康记录");
         iv_email.setImageResource(R.drawable.healthedit);
+        if("".equals(UserInfoModel.getInstance().getToken())){
+            lin_is_vr.setVisibility(View.VISIBLE);
+            ll.setVisibility(View.GONE);
+            fl_right.setVisibility(View.GONE);
+
+        }else{
+            lin_is_vr.setVisibility(View.GONE);
+            ll.setVisibility(View.VISIBLE);
+            fl_right.setVisibility(View.VISIBLE);
+            //获取健康记录
+        }
 
     }
 
+    private static final int EDIT_HEALTHY_RECORD=2;
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.iv_email:
-                startActivity(new Intent(getContext(), HealthEntryActivity.class));
+            case R.id.fl_right:
+                startActivityForResult(new Intent(getContext(), HealthEntryActivity.class),2);
                 break;
             case R.id.tv_weight:
                 Intent intent=new Intent(getContext(),HealthyRecordActivity.class);
                 intent.putExtra("id",0);
                 startActivity(intent);
-//                startActivity(new Intent(getContext(), HealthyRecordActivity.class));
                 break;
             case R.id.tv_body_fat:
                 Intent intent1=new Intent(getContext(),HealthyRecordActivity.class);
                 intent1.putExtra("id",1);
                 startActivity(intent1);
-               // startActivity(new Intent(getContext(), HealthyRecordActivity.class));
                 break;
             case R.id.tv_fat:
                 Intent intent2=new Intent(getContext(),HealthyRecordActivity.class);
                 intent2.putExtra("id",2);
                 startActivity(intent2);
-               // startActivity(new Intent(getContext(), HealthyRecordActivity.class));
                 break;
             case R.id.tv_bust:
                 Intent intent3=new Intent(getContext(),HealthyRecordActivity.class);
@@ -136,6 +157,22 @@ public class HealthyRecordFragment extends BaseFragment implements View.OnClickL
             case R.id.tv_healthhistoty:
                 startActivity(new Intent(getContext(), HistoryDataActivity.class));
                 break;
+            case R.id.but_login:
+                Intent i=new Intent(getContext(), LoginActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+                break;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==-1){
+            if(requestCode==EDIT_HEALTHY_RECORD){
+
+            }
         }
     }
 }

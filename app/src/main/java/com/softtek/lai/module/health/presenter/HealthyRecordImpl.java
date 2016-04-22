@@ -4,6 +4,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.health.eventmodel.HealthEventModel;
 import com.softtek.lai.module.health.model.HealthDateModel;
+import com.softtek.lai.module.health.model.HealthWeightModel;
 import com.softtek.lai.module.health.model.HealthyRecordModel;
 import com.softtek.lai.module.health.model.PysicalModel;
 import com.softtek.lai.module.health.net.HealthyService;
@@ -36,18 +37,20 @@ public class HealthyRecordImpl implements IHealthyRecord  {
     @Override
     public void doGetHealthPysicalRecords(String Startdate, String Enddate, int i) {
         String token= UserInfoModel.getInstance().getToken();
-        serveice.doGetHealthPysicalRecords(token, Startdate, Enddate, i, new Callback<ResponseData<PysicalModel>>() {
+        serveice.doGetHealthPysicalRecords(token, Startdate, Enddate, i, new RequestCallback<ResponseData<PysicalModel>>() {
             @Override
             public void success(ResponseData<PysicalModel> pysicalModelResponseData, Response response) {
                 int states=pysicalModelResponseData.getStatus();
                 switch (states)
                 {
                     case 200:
-                        Util.toastMsg(pysicalModelResponseData.getMsg());
                         PysicalModel pysicalModel=(PysicalModel) pysicalModelResponseData.getData();
                         EventBus.getDefault().post(pysicalModel);
+                        Util.toastMsg(pysicalModelResponseData.getMsg());
+                        break;
                         default:
                             Util.toastMsg(pysicalModelResponseData.getMsg());
+                            break;
                 }
             }
 
@@ -60,6 +63,33 @@ public class HealthyRecordImpl implements IHealthyRecord  {
         });
     }
 
+    @Override
+    public void GetHealthWeightRecords(String Startdate, String Enddate, int i) {
+        String token= UserInfoModel.getInstance().getToken();
+        serveice.GetHealthWeightRecords(token, Startdate, Enddate, i, new Callback<ResponseData<HealthWeightModel>>() {
+            @Override
+            public void success(ResponseData<HealthWeightModel> healthWeightModelResponseData, Response response) {
+                int states=healthWeightModelResponseData.getStatus();
+                switch (states)
+                {
+                    case 200:
+                        HealthWeightModel healthWeightModel=(HealthWeightModel) healthWeightModelResponseData.getData();
+                        EventBus.getDefault().post(healthWeightModel);
+                        Util.toastMsg(healthWeightModelResponseData.getMsg());
+                        break;
+                    default:
+                        Util.toastMsg(healthWeightModelResponseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
+            }
+        });
+    }
 
 
 }
