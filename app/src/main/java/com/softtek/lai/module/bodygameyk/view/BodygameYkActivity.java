@@ -92,6 +92,7 @@ public class BodygameYkActivity extends BaseActivity implements View.OnClickList
             case R.id.tv_refreshyk:
                 progressDialog.setCanceledOnTouchOutside(false);
                 progressDialog.setMessage("数据刷新中...");
+                progressDialog.show();
                 iTiGuanSai.doGetTotal(progressDialog);
                 break;
         }

@@ -235,6 +235,7 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
                 case R.id.im_refreshst:
                     progressDialog.setCanceledOnTouchOutside(false);
                     progressDialog.setMessage("数据刷新中...");
+                    progressDialog.show();
                     tiGuanSai.doGetTotal(progressDialog);
                     break;
             }
