@@ -31,18 +31,9 @@ public class LastestRecordModel {
                 '}';
     }
 
-    public LastestRecordModel(String accountId, String weight, String pysical, String fat, String circum, String hiplie, String waistline, String upArmGirth, String upLegGirth, String doLegGirth) {
-        AccountId = accountId;
-        Weight = weight;
-        Pysical = pysical;
-        Fat = fat;
-        Circum = circum;
-        Hiplie = hiplie;
-        Waistline = waistline;
-        UpArmGirth = upArmGirth;
-        UpLegGirth = upLegGirth;
-        DoLegGirth = doLegGirth;
+    public LastestRecordModel() {
     }
+
 
     public String getAccountId() {
         return AccountId;

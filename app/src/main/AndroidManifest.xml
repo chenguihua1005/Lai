@@ -185,7 +185,8 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity android:name=".module.community.view.EditPersonalDynamicActivity" />
         <activity android:name=".module.lossweightstory.view.LogStoryDetailActivity" />
-        <activity android:name=".module.healthrecords.view.HealthEntryActivity" />
+        <activity android:name=".module.healthrecords.view.HealthEntryActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity android:name=".module.community.view.PreviewImageActivity" />
         <activity android:name=".module.community.view.HealthyDetailActivity"/>
         <!-- Rich push 核心功能 since 2.0.6 -->

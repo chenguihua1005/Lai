@@ -103,7 +103,8 @@ public class HealthModel {
     @Override
     public String toString() {
         return "HealthModel{" +
-                "weight='" + weight + '\'' +
+                "accountId=" + accountId +
+                ", weight='" + weight + '\'' +
                 ", pysical='" + pysical + '\'' +
                 ", fat='" + fat + '\'' +
                 ", circum='" + circum + '\'' +

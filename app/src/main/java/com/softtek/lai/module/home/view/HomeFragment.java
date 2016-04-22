@@ -327,7 +327,10 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
             information_dialog.setTitle("您当前处于游客模式，需要登录认证").setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    startActivity(new Intent(getContext(), LoginActivity.class));
+                    Intent login=new Intent(getContext(), LoginActivity.class);
+                    login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(login);
                 }
             }).setNegativeButton("稍候", new DialogInterface.OnClickListener() {
                 @Override
