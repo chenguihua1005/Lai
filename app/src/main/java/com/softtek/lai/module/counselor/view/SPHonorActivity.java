@@ -86,6 +86,9 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
     @InjectView(R.id.text_fc_mc)
     TextView text_fc_mc;
 
+    @InjectView(R.id.text_star)
+    TextView text_star;
+
 
     @InjectView(R.id.list_stars)
     ListView list_stars;
@@ -137,39 +140,72 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
                 if ("rtest_rank".equals(rowname)) {
                     text_rtest.setText(num);
                     text_fc_mc.setText(rank_num);
-                    img_fc.setImageResource(R.drawable.img_sp_honor_jin);
-                    text_fc_mc.setTextColor(getResources().getColor(R.color.word8));
+                    img_fc.setImageResource(R.drawable.img_honor_10);
+                    text_fc_mc.setTextColor(getResources().getColor(R.color.word11));
+                    if(rank_num.equals("3")){
+                        text_fc_mc.setVisibility(View.GONE);
+                        img_fc.setImageResource(R.drawable.img_honor_3);
+                    }else if(rank_num.equals("2")){
+                        text_fc_mc.setVisibility(View.GONE);
+                        img_fc.setImageResource(R.drawable.img_honor_2);
+                    }else if(rank_num.equals("1")){
+                        text_fc_mc.setVisibility(View.GONE);
+                        img_fc.setImageResource(R.drawable.img_honor_1);
+                    }
                 } else if ("servernum_rank".equals(rowname)) {
                     text_servernum.setText(num);
                     text_fwrs_mc.setText(rank_num);
-                    img_fwrs.setImageResource(R.drawable.img_sp_honor_jin);
-                    text_fwrs_mc.setTextColor(getResources().getColor(R.color.word8));
+                    img_fwrs.setImageResource(R.drawable.img_honor_10);
+                    text_fwrs_mc.setTextColor(getResources().getColor(R.color.word11));
+                    if(rank_num.equals("3")){
+                        text_fwrs_mc.setVisibility(View.GONE);
+                        img_fwrs.setImageResource(R.drawable.img_honor_3);
+                    }else if(rank_num.equals("2")){
+                        text_fwrs_mc.setVisibility(View.GONE);
+                        img_fwrs.setImageResource(R.drawable.img_honor_2);
+                    }else if(rank_num.equals("1")){
+                        text_fwrs_mc.setVisibility(View.GONE);
+                        img_fwrs.setImageResource(R.drawable.img_honor_1);
+                    }
+
                 } else if ("starnum_rank".equals(rowname)) {
-                    //text_starnum.setText(num + "/" + rank_num);
+                    text_star.setText(num + "人");
                 } else if ("weight_rank".equals(rowname)) {
                     text_weight.setText(num);
                     text_jzjs_mc.setText(rank_num);
-                    img_jzjs.setImageResource(R.drawable.img_sp_honor_jin);
-                    text_jzjs_mc.setTextColor(getResources().getColor(R.color.word8));
+                    img_jzjs.setImageResource(R.drawable.img_honor_10);
+                    text_jzjs_mc.setTextColor(getResources().getColor(R.color.word11));
+                    if(rank_num.equals("3")){
+                        text_jzjs_mc.setVisibility(View.GONE);
+                        img_jzjs.setImageResource(R.drawable.img_honor_3);
+                    }else if(rank_num.equals("2")){
+                        text_jzjs_mc.setVisibility(View.GONE);
+                        img_jzjs.setImageResource(R.drawable.img_honor_2);
+                    }else if(rank_num.equals("1")){
+                        text_jzjs_mc.setVisibility(View.GONE);
+                        img_jzjs.setImageResource(R.drawable.img_honor_1);
+                    }
                 }
+
+
             } else {
                 if ("rtest_rank".equals(rowname)) {
                     text_rtest.setText(num);
                     text_fc_mc.setText(rank_num);
-                    img_fc.setImageResource(R.drawable.img_sp_honor_yin);
-                    text_fc_mc.setTextColor(getResources().getColor(R.color.word7));
+                    img_fc.setImageResource(R.drawable.img_honor_100);
+                    text_fc_mc.setTextColor(getResources().getColor(R.color.word10));
                 } else if ("servernum_rank".equals(rowname)) {
                     text_servernum.setText(num);
                     text_fwrs_mc.setText(rank_num);
-                    img_fwrs.setImageResource(R.drawable.img_sp_honor_yin);
-                    text_fwrs_mc.setTextColor(getResources().getColor(R.color.word7));
+                    img_fwrs.setImageResource(R.drawable.img_honor_100);
+                    text_fwrs_mc.setTextColor(getResources().getColor(R.color.word10));
                 } else if ("starnum_rank".equals(rowname)) {
-                    //text_starnum.setText(num + "/" + rank_num);
+                    text_star.setText(num + "人");
                 } else if ("weight_rank".equals(rowname)) {
                     text_weight.setText(num);
                     text_jzjs_mc.setText(rank_num);
-                    img_jzjs.setImageResource(R.drawable.img_sp_honor_yin);
-                    text_jzjs_mc.setTextColor(getResources().getColor(R.color.word7));
+                    img_jzjs.setImageResource(R.drawable.img_honor_100);
+                    text_jzjs_mc.setTextColor(getResources().getColor(R.color.word10));
                 }
             }
         }
