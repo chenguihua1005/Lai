@@ -79,7 +79,6 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
     SimpleDateFormat    sDateFormat    =   new    SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
     String    date    =    sDateFormat.format(new    java.util.Date());
     String[] datetime=date.split(" ");
-//    private List<MonthDateModel> banjiModelList=new ArrayList<>();
 
 
 
@@ -144,10 +143,6 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
         days.add(formdate(nowdate6));
         days.add(formdate(nowdate7));
         iHealthyRecord.doGetHealthPysicalRecords(date,getDateform(nowdate1)+" "+datetime[1],1);
-//        pysicalManager.doGetHealthPysicalRecords(date,getDateform(nowdate1)+" "+datetime[1],1);
-
-
-        Log.i("");
 
 
     }
@@ -349,82 +344,85 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
 //                sta=false;
                 break;
             case R.id.week:
-//                flag=0;
-//                type='6';
-//                String weekdate7=getPeriodDate(type,0)+"";
-//                String weekdate6=getPeriodDate(type,1)+"";
-//                String weekdate5=getPeriodDate(type,2)+"";
-//                String weekdate4=getPeriodDate(type,3)+"";
-//                String weekdate3=getPeriodDate(type,4)+"";
-//                String weekdate2=getPeriodDate(type,5)+"";
-//                String weekdate1=getPeriodDate(type,6)+"";
-//                days.add(formdate(weekdate1));
-//                days.add(formdate(weekdate2));
-//                days.add(formdate(weekdate3));
-//                days.add(formdate(weekdate4));
-//                days.add(formdate(weekdate5));
-//                days.add(formdate(weekdate6));
-//                days.add(formdate(weekdate7));
-////                pysicalManager.doGetHealthPysicalRecords(date,getDateform(weekdate1)+" "+datetime[1],1);
+                flag=0;
+                type='6';
+                dates.clear();
+                days.clear();
+                String weekdate7=getPeriodDate(type,0)+"";
+                String weekdate6=getPeriodDate(type,1)+"";
+                String weekdate5=getPeriodDate(type,2)+"";
+                String weekdate4=getPeriodDate(type,3)+"";
+                String weekdate3=getPeriodDate(type,4)+"";
+                String weekdate2=getPeriodDate(type,5)+"";
+                String weekdate1=getPeriodDate(type,6)+"";
+                days.add(formdate(weekdate1));
+                days.add(formdate(weekdate2));
+                days.add(formdate(weekdate3));
+                days.add(formdate(weekdate4));
+                days.add(formdate(weekdate5));
+                days.add(formdate(weekdate6));
+                days.add(formdate(weekdate7));
+                iHealthyRecord.doGetHealthPysicalRecords(date,getDateform(weekdate1)+" "+datetime[1],1);
+//                pysicalManager.doGetHealthPysicalRecords(date,getDateform(weekdate1)+" "+datetime[1],1);
 //                dates.add(18f);
+//                dates.add(0f);
 //                chartUtil.addData(dates,7,days);
-//                days.clear();
-//                dates.clear();
+
                 break;
             case R.id.month:
                 ceshi.get(0);
-//                flag=1;
-//                type='6';
-//                String monthdate4=getPeriodDate(type,0)+"";
-//                String monthdate3=getPeriodDate(type,7)+"";
-//                String monthdate2=getPeriodDate(type,14)+"";
-//                String monthdate1=getPeriodDate(type,21)+"";
-//                days.add(formdate(monthdate1));
-//                days.add(formdate(monthdate2));
-//                days.add(formdate(monthdate3));
-//                days.add(formdate(monthdate4));
-//                iHealthyRecord.doGetHealthPysicalRecords(date,getDateform(monthdate1)+" "+datetime[1],1);
-////                dates.add(15f);
-////                dates.add(18f);
-////                dates.add(6.3f);
+                dates.clear();
+                days.clear();
+                flag=1;
+                type='6';
+                String monthdate4=getPeriodDate(type,0)+"";
+                String monthdate3=getPeriodDate(type,7)+"";
+                String monthdate2=getPeriodDate(type,14)+"";
+                String monthdate1=getPeriodDate(type,21)+"";
+                days.add(formdate(monthdate1));
+                days.add(formdate(monthdate2));
+                days.add(formdate(monthdate3));
+                days.add(formdate(monthdate4));
+                iHealthyRecord.doGetHealthPysicalRecords(date,getDateform(monthdate1)+" "+datetime[1],2);
+//                dates.add(0f);
 //                chartUtil.addData(dates,4,days);
-//                days.clear();
-//                dates.clear();
+
                 break;
             case R.id.quarter:
-//                flag=1;
-//                type='6';
-//                String quarterdate4=getPeriodDate(type,0)+"";
-//                String quarterdate3=getPeriodDate(type,21)+"";
-//                String quarterdate2=getPeriodDate(type,21*2)+"";
-//                String quarterdate1=getPeriodDate(type,21*3)+"";
-//                days.add(formdate(quarterdate1));
-//                days.add(formdate(quarterdate2));
-//                days.add(formdate(quarterdate3));
-//                days.add(formdate(quarterdate4));
-//                dates.add(15f);
-//                dates.add(18f);
-//                dates.add(6.3f);
+                dates.clear();
+                days.clear();
+                flag=1;
+                type='6';
+                String quarterdate4=getPeriodDate(type,0)+"";
+                String quarterdate3=getPeriodDate(type,21)+"";
+                String quarterdate2=getPeriodDate(type,21*2)+"";
+                String quarterdate1=getPeriodDate(type,21*3)+"";
+                days.add(formdate(quarterdate1));
+                days.add(formdate(quarterdate2));
+                days.add(formdate(quarterdate3));
+                days.add(formdate(quarterdate4));
+                iHealthyRecord.doGetHealthPysicalRecords(date,getDateform(quarterdate1)+" "+datetime[1],3);
+//                dates.add(0f);
 //                chartUtil.addData(dates,4,days);
-//                days.clear();
-//                dates.clear();
                 break;
             case R.id.year:
-//                type='7';
-//                String yeardate4=getPeriodDate(type,0)+"";
-//                String yeardate3=getPeriodDate(type,1)+"";
-//                String yeardate2=getPeriodDate(type,2)+"";
-//                String yeardate1=getPeriodDate(type,3)+"";
-//                days.add(formyeardate(yeardate1));
-//                days.add(formyeardate(yeardate2));
-//                days.add(formyeardate(yeardate3));
-//                days.add(formyeardate(yeardate4));
-//                dates.add(0.0f);
-//                dates.add(0.0f);
-//                dates.add(0.0f);
+                flag=1;
+                dates.clear();
+                days.clear();
+                type='7';
+                chartUtil.addData(dates,4,days);
+                String yeardate4=getPeriodDate(type,0)+"";
+                String yeardate3=getPeriodDate(type,2)+"";
+                String yeardate2=getPeriodDate(type,4)+"";
+                String yeardate1=getPeriodDate(type,6)+"";
+                String yeardate0=getPeriodDate(type,8)+"";
+                days.add(formyeardate(yeardate1));
+                days.add(formyeardate(yeardate2));
+                days.add(formyeardate(yeardate3));
+                days.add(formyeardate(yeardate4));
+                iHealthyRecord.doGetHealthPysicalRecords(date,getDateform(yeardate0)+" "+datetime[1],4);
+//                dates.add(0f);
 //                chartUtil.addData(dates,4,days);
-//                days.clear();
-//                dates.clear();
                 break;
         }
     }
@@ -443,12 +441,11 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
         int n=pysicalModel.getPysicallist().size();
         for (int i=pysicalModel.getPysicallist().size()-1;i>-1;i--) {
             dates.add(Float.parseFloat(pysicalModel.getPysicallist().get(i).getPysical()));
-//            Float a=dates.get(i);
         }
         ceshi.add(dates.get(0));
         ceshi.add(dates.get(1));
         ceshi.add(dates.get(2));
         ceshi.add(dates.get(3));
-        chartUtil.addData(dates,7,days);
+        chartUtil.addData(dates,n,days);
     }
 }

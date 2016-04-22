@@ -9,20 +9,20 @@ package com.softtek.lai.module.newmemberentry.view.model;
  * Created by julie.zhu on 3/25/2016.
  */
 public class PhotModel {
-    private String img;
+    private String Img;
 
     @Override
     public String toString() {
         return "PhotModel{" +
-                "img='" + img + '\'' +
+                "img='" + Img + '\'' +
                 '}';
     }
 
     public String getImg() {
-        return img;
+        return Img;
     }
 
     public void setImg(String img) {
-        this.img = img;
+        this.Img = img;
     }
 }

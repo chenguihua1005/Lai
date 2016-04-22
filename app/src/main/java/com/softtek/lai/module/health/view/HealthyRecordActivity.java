@@ -12,6 +12,7 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.health.adapter.HealthyRecordFragmentAdapter;
+import com.softtek.lai.module.health.model.HealthWeightModel;
 import com.softtek.lai.module.health.model.PysicalModel;
 import com.softtek.lai.module.health.presenter.HealthyRecordImpl;
 import com.softtek.lai.module.retest.present.RetestPre;
@@ -110,11 +111,21 @@ public class HealthyRecordActivity extends BaseActivity implements View.OnClickL
 
     @Subscribe
     public void getPysicalList(PysicalModel pysicalModel) {
-        System.out.println("照片名称" + pysicalModel.getFirstrecordtime());
+        System.out.println("健康记录脂肪" + pysicalModel.getFirstrecordtime());
         for (int i=pysicalModel.getPysicallist().size()-1;i>-1;i--) {
             dates.add(Float.parseFloat(pysicalModel.getPysicallist().get(i).getPysical()));
 
         }
+
+    }
+    @Subscribe
+    public void getWeightList(HealthWeightModel healthWeightModel) {
+        System.out.println("健康记录体重" + healthWeightModel.getFirstrecordtime());
+        int n=healthWeightModel.getweightlist().size();
+        for (int i=healthWeightModel.getweightlist().size()-1;i>-1;i--) {
+            dates.add(Float.parseFloat(healthWeightModel.getweightlist().get(i).getWeight()));
+        }
+
 
     }
 

@@ -2,6 +2,7 @@ package com.softtek.lai.module.health.net;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.health.model.HealthDateModel;
+import com.softtek.lai.module.health.model.HealthWeightModel;
 import com.softtek.lai.module.health.model.HealthyRecordModel;
 import com.softtek.lai.module.health.model.PysicalModel;
 import com.softtek.lai.utils.RequestCallback;
@@ -30,6 +31,15 @@ public interface HealthyService {
                 @Query("Enddate")String Enddate,
                 @Query("i")int i,
                 Callback<ResponseData<PysicalModel>> callback
+        );
+        //获取体重
+        @GET("/HealthRecords/GetHealthWeightRecords")
+        void GetHealthWeightRecords(
+                @Header("token") String token,
+                @Query("Startdate")String Startdate,
+                @Query("Enddate")String Enddate,
+                @Query("i")int i,
+                Callback<ResponseData<HealthWeightModel>> callback
         );
 
 }

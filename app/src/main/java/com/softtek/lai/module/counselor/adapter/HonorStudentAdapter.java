@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.softtek.lai.R;
 import com.softtek.lai.module.counselor.model.HonorTable1Model;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
@@ -74,6 +75,7 @@ public class HonorStudentAdapter extends BaseAdapter {
             holder.text_after_weight = (TextView) convertView.findViewById(R.id.text_after_weight);
             holder.text_lose_weight = (TextView) convertView.findViewById(R.id.text_lose_weight);
             holder.img = (ImageView) convertView.findViewById(R.id.img);
+            holder.img_top = (ImageView) convertView.findViewById(R.id.img_top);
 
             convertView.setTag(holder);//绑定ViewHolder对象
         } else {
@@ -82,23 +84,36 @@ public class HonorStudentAdapter extends BaseAdapter {
 
         /**设置TextView显示的内容，即我们存放在动态数组中的数据*/
         final HonorTable1Model honorTable1 = list.get(position);
-        String path= AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
         if ("".equals(honorTable1.getPhoto()) || "null".equals(honorTable1.getPhoto()) || honorTable1.getPhoto() == null) {
             Picasso.with(context).load("111").error(R.drawable.img_default).into(holder.img);
         } else {
-            Picasso.with(context).load(path+honorTable1.getPhoto()).error(R.drawable.img_default).into(holder.img);
+            Picasso.with(context).load(path + honorTable1.getPhoto()).error(R.drawable.img_default).into(holder.img);
         }
         //Picasso.with(context).load("111").error(R.drawable.img_default).into(holder.img);
-        if ((position + 1) < 4) {
-            holder.text_rnum.setTextColor(Color.parseColor("#FDB02B"));
+        String rnum = honorTable1.getRnum();
+        if (rnum.equals("1")) {
+            holder.text_rnum.setVisibility(View.GONE);
+            holder.img_top.setVisibility(View.VISIBLE);
+            holder.img_top.setImageResource(R.drawable.img_honor_item_1);
+        } else if (rnum.equals("2")) {
+            holder.text_rnum.setVisibility(View.GONE);
+            holder.img_top.setVisibility(View.VISIBLE);
+            holder.img_top.setImageResource(R.drawable.img_honor_item_2);
+        } else if (rnum.equals("3")) {
+            holder.text_rnum.setVisibility(View.GONE);
+            holder.img_top.setVisibility(View.VISIBLE);
+            holder.img_top.setImageResource(R.drawable.img_honor_item_3);
         } else {
+            holder.text_rnum.setVisibility(View.VISIBLE);
+            holder.img_top.setVisibility(View.GONE);
             holder.text_rnum.setTextColor(context.getResources().getColor(R.color.word3));
         }
 
         holder.text_rnum.setText(honorTable1.getRnum().toString());
         holder.text_user_name.setText(honorTable1.getUserName().toString());
-        holder.text_before_weight.setText("减重前 " + honorTable1.getBeforeWeight().toString() + "斤");
-        holder.text_after_weight.setText("减重后 " + honorTable1.getAfterWeight().toString() + "斤");
+        holder.text_before_weight.setText("减重：前 " + honorTable1.getBeforeWeight().toString() + "斤");
+        holder.text_after_weight.setText("后 " + honorTable1.getAfterWeight().toString() + "斤");
         holder.text_lose_weight.setText(honorTable1.getLoseWeight().toString());
         return convertView;
     }
@@ -113,6 +128,7 @@ public class HonorStudentAdapter extends BaseAdapter {
         public TextView text_after_weight;
         public TextView text_lose_weight;
         public ImageView img;
+        public ImageView img_top;
     }
 }
 

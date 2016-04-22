@@ -13,6 +13,15 @@ public class LaichModel {
     private String UpArmGirth;
     private String UpLegGirth;
     private String DoLegGirth;
+    private String CreateDate;
+
+    public String getCreateDate() {
+        return CreateDate;
+    }
+
+    public void setCreateDate(String createDate) {
+        CreateDate = createDate;
+    }
 
     @Override
     public String toString() {
@@ -26,6 +35,7 @@ public class LaichModel {
                 ", UpArmGirth='" + UpArmGirth + '\'' +
                 ", UpLegGirth='" + UpLegGirth + '\'' +
                 ", DoLegGirth='" + DoLegGirth + '\'' +
+                ", CreateDate='" + CreateDate + '\'' +
                 '}';
     }
 
