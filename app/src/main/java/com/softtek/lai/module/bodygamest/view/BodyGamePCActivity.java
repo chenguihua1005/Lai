@@ -156,7 +156,6 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
         {
             flag=false;
 
-
         }
     }
     @Subscribe
@@ -247,10 +246,9 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
                 break;
             //复测
             case R.id.ll_st_fuce:
-                retestPre.doGetAudit(loginid,0,"");
-                if (flag==true) {
-                    Log.i(flag+"");
-//                    startActivityForResult(new Intent(this,FuceStActivity.class),Student_reteset);
+                //retestPre.doGetAudit(loginid,0,"");
+                if (flag) {
+                    startActivityForResult(new Intent(this,FuceStActivity.class),Student_reteset);
 //                    Intent intent1 = new Intent(this, FuceStActivity.class);
 //                    startActivity(intent1);
                 }
@@ -278,8 +276,9 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         //学员复测传递
-        if (requestCode==GET_BODY&&resultCode==RESULT_OK){
-            retestPre.doGetAudit(loginid,0,"");
+        if (requestCode==Student_reteset&&resultCode==RESULT_OK){
+            //retestPre.doGetAudit(loginid,0,"");
+            flag=false;
         }
     }
 }
