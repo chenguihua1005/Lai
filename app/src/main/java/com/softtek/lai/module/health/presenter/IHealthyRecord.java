@@ -6,4 +6,5 @@ package com.softtek.lai.module.health.presenter;
 public interface IHealthyRecord {
 
     void doGetHealthPysicalRecords(String Startdate,String Enddate,int i);
+    void GetHealthWeightRecords(String Startdate,String Enddate,int i);
 }

@@ -12,6 +12,7 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.health.adapter.HealthyRecordFragmentAdapter;
+import com.softtek.lai.module.health.model.HealthWeightModel;
 import com.softtek.lai.module.health.model.PysicalModel;
 import com.softtek.lai.module.health.presenter.HealthyRecordImpl;
 import com.softtek.lai.module.retest.present.RetestPre;
@@ -115,6 +116,16 @@ public class HealthyRecordActivity extends BaseActivity implements View.OnClickL
             dates.add(Float.parseFloat(pysicalModel.getPysicallist().get(i).getPysical()));
 
         }
+
+    }
+    @Subscribe
+    public void getWeightList(HealthWeightModel healthWeightModel) {
+        System.out.println("健康记录体重" + healthWeightModel.getFirstrecordtime());
+        int n=healthWeightModel.getPysicallist().size();
+        for (int i=healthWeightModel.getPysicallist().size()-1;i>-1;i--) {
+            dates.add(Float.parseFloat(healthWeightModel.getPysicallist().get(i).getWeight()));
+        }
+
 
     }
 

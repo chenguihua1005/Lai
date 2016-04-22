@@ -97,6 +97,7 @@ public class HealthyRecordFragment extends BaseFragment implements View.OnClickL
             lin_is_vr.setVisibility(View.GONE);
             ll.setVisibility(View.VISIBLE);
             fl_right.setVisibility(View.VISIBLE);
+            //获取健康记录
         }
 
     }
