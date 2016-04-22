@@ -111,7 +111,7 @@ public class HealthyRecordActivity extends BaseActivity implements View.OnClickL
 
     @Subscribe
     public void getPysicalList(PysicalModel pysicalModel) {
-        System.out.println("照片名称" + pysicalModel.getFirstrecordtime());
+        System.out.println("健康记录脂肪" + pysicalModel.getFirstrecordtime());
         for (int i=pysicalModel.getPysicallist().size()-1;i>-1;i--) {
             dates.add(Float.parseFloat(pysicalModel.getPysicallist().get(i).getPysical()));
 
@@ -121,9 +121,9 @@ public class HealthyRecordActivity extends BaseActivity implements View.OnClickL
     @Subscribe
     public void getWeightList(HealthWeightModel healthWeightModel) {
         System.out.println("健康记录体重" + healthWeightModel.getFirstrecordtime());
-        int n=healthWeightModel.getPysicallist().size();
-        for (int i=healthWeightModel.getPysicallist().size()-1;i>-1;i--) {
-            dates.add(Float.parseFloat(healthWeightModel.getPysicallist().get(i).getWeight()));
+        int n=healthWeightModel.getweightlist().size();
+        for (int i=healthWeightModel.getweightlist().size()-1;i>-1;i--) {
+            dates.add(Float.parseFloat(healthWeightModel.getweightlist().get(i).getWeight()));
         }
 
 
