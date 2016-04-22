@@ -2,9 +2,11 @@ package com.softtek.lai.module.healthrecords.presenter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.healthrecords.EventModel.RecordEvent;
 import com.softtek.lai.module.healthrecords.model.HealthModel;
 import com.softtek.lai.module.healthrecords.model.LastestRecordModel;
@@ -29,36 +31,38 @@ import zilla.libcore.util.Util;
 public class EntryHealthImpl implements IEntryHealthpresenter {
 
     private HealthRecordService healthRecordService;
-    private Context context;
+    private EntryHealthyCallback  cb;
+    private String token;
 
-    public EntryHealthImpl(HealthEntryActivity healthEntryActivity) {
+    public EntryHealthImpl(EntryHealthyCallback cb) {
         healthRecordService = ZillaApi.NormalRestAdapter.create(HealthRecordService.class);
-        context = healthEntryActivity;
+        this.cb=cb;
+        token= UserInfoModel.getInstance().getToken();
     }
 
     //手动录入健康记录
     @Override
-    public void entryhealthrecord(long accountId, HealthModel healthModel) {
-        Log.i("HealthRecordService>>>>>>>>>>>>>>" + healthRecordService);
-        String token = SharedPreferenceService.getInstance().get("token", "");
-        healthRecordService.entryhealthrecord(token,accountId,healthModel,new Callback<ResponseData>() {
+    public void entryhealthrecord(HealthModel healthModel) {
+
+        healthRecordService.entryhealthrecord(token,healthModel,new Callback<ResponseData>() {
             @Override
             public void success(ResponseData healthModelResponseData,Response response) {
                 int status = healthModelResponseData.getStatus();
                 Log.i("healthModelResponseData:"+healthModelResponseData);
                 switch (status) {
                     case 200:
-                        //((HealthEntryActivity) context).finish();
-                        Util.toastMsg("健康记录录入成功");
+                       if(cb!=null)cb.saveSuccess(true);
                         break;
                     case 201:
-                        Util.toastMsg("健康记录保存异常");
+                        if(cb!=null)cb.saveSuccess(false);
+                        Util.toastMsg("健康记录保存失败");
                         break;
                 }
             }
 
             @Override
             public void failure(RetrofitError error) {
+                if(cb!=null)cb.saveSuccess(false);
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }
@@ -67,18 +71,14 @@ public class EntryHealthImpl implements IEntryHealthpresenter {
 
     //获取最新健康记录
     @Override
-    public void doGetLastestRecord(long accountid, LastestRecordModel lastestRecordModel) {
-        Log.i("HealthRecordService>>>>>>>>>>>>>>" + healthRecordService);
-        String token = SharedPreferenceService.getInstance().get("token", "");
+    public void doGetLastestRecord(long accountid) {
         healthRecordService.doGetLastestRecord(token,accountid, new Callback<ResponseData<LastestRecordModel>>() {
             @Override
             public void success(ResponseData<LastestRecordModel> lastestRecordModelResponseData, Response response) {
                 int status = lastestRecordModelResponseData.getStatus();
-                Log.i("lastestRecordModelResponseData:"+lastestRecordModelResponseData);
                 switch (status) {
                     case 200:
                         EventBus.getDefault().post(new RecordEvent(lastestRecordModelResponseData.getData()));
-                        Util.toastMsg("获取最新健康记录成功");
                         break;
                     case 100:
                         Util.toastMsg("暂无健康记录数据");
@@ -91,6 +91,11 @@ public class EntryHealthImpl implements IEntryHealthpresenter {
                     error.printStackTrace();
             }
         });
+    }
+
+    public interface EntryHealthyCallback{
+
+        void saveSuccess(boolean res);
     }
 
 }
