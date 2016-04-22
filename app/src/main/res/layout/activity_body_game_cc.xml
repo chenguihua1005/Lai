@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
     android:fitsSystemWindows="true">
 
     <LinearLayout
@@ -21,12 +22,13 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="198dp">
+                android:layout_height="194dp"
+                android:background="#ffffff">
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/iv_adv"
+                    android:id="@+id/iv_advcc"
                     android:scaleType="centerCrop"
                     />
 
@@ -316,7 +318,9 @@
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="5dp">
+                        android:padding="5dp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp">
 
                         <LinearLayout
                             android:id="@+id/ll_match"
@@ -335,6 +339,7 @@
                                     android:layout_height="match_parent"
                                     android:orientation="vertical"
                                     android:background="#F4F4F4"
+                                    android:layout_marginRight="10dp"
                                     android:gravity="center|bottom">
                                     <ImageView
                                         android:layout_width="30dp"
@@ -348,6 +353,7 @@
                                         android:text="@string/CounselorG"
                                         android:textSize="16sp"
                                         android:padding="2dp"
+                                        android:layout_marginBottom="11dp"
                                         android:background="@null"/>
                                 </LinearLayout>
 
@@ -361,6 +367,7 @@
                             android:orientation="vertical"
                             android:background="#F4F4F4"
                             android:gravity="center|bottom"
+                            android:layout_marginLeft="10dp"
                             android:layout_margin="2dp"
                             android:layout_height="match_parent">
                             <ImageView
@@ -375,32 +382,10 @@
                                 android:text="@string/CounselorH"
                                 android:textSize="16sp"
                                 android:padding="2dp"
+                                android:layout_marginBottom="11dp"
                                 android:background="@null"/>
                         </LinearLayout>
-                        <LinearLayout
-                            android:id="@+id/ll_assistant"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:gravity="center|bottom"
-                            android:layout_margin="2dp"
-                            android:background="#F4F4F4"
-                            android:visibility="invisible"
-                            android:layout_height="match_parent">
-                            <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:src="@drawable/btn_assistant"/>
 
-                            <TextView
-                                android:id="@+id/btn_assistant"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="申请助教"
-                                android:textSize="16sp"
-                                android:padding="2dp"
-                                android:background="@null"/>
-                        </LinearLayout>
                     </LinearLayout>
 
                 </LinearLayout>

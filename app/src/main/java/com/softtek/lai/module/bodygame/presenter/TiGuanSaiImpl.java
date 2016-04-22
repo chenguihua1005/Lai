@@ -5,6 +5,7 @@
 
 package com.softtek.lai.module.bodygame.presenter;
 
+import android.app.ProgressDialog;
 import android.view.animation.Animation;
 
 import com.softtek.lai.R;
@@ -46,6 +47,7 @@ public class TiGuanSaiImpl implements ITiGuanSai {
         service.doGetTiGuanSaiClickw( new Callback<ResponseData<TiGuanSaiModel>>() {
             @Override
             public void success(ResponseData<TiGuanSaiModel> tiGuanSaiResponseData, Response response) {
+
                 int status = tiGuanSaiResponseData.getStatus();
                 switch (status) {
                     case 200:
@@ -149,10 +151,11 @@ public class TiGuanSaiImpl implements ITiGuanSai {
     }
 //参赛总人数及减重总数
     @Override
-    public void doGetTotal() {
+    public void doGetTotal(final ProgressDialog progressDialog) {
         service.doGetTotal(new Callback<ResponseData<List<TotolModel>>>() {
             @Override
             public void success(ResponseData<List<TotolModel>> listResponseData, Response response) {
+                progressDialog.dismiss();
                 int status=listResponseData.getStatus();
 //                if (rotate!=null) {
 //                    rotate.cancel();
@@ -170,6 +173,7 @@ public class TiGuanSaiImpl implements ITiGuanSai {
 
             @Override
             public void failure(RetrofitError error) {
+                progressDialog.dismiss();
 //                if (rotate!=null) {
 //                    rotate.cancel();
 //                }

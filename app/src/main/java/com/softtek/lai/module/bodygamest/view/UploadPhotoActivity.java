@@ -93,6 +93,8 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     DownPhotoModel downPhotoModel;
     LogListModel logListModel;
     DownloadManager downloadManager;
+    UserInfoModel userInfoModel=UserInfoModel.getInstance();
+    String username=userInfoModel.getUser().getNickname();
 
 
     @Override
@@ -137,6 +139,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         downloadManager=new DownloadManager(this);
         downPhotoModel=new DownPhotoModel();
         logListModel=new LogListModel();
+        tv_downphoto_nick.setText(username);
         photoListPre = new PhotoListIml(this);
         downPhotoAdapter = new DownPhotoAdapter(this, logListModelList);
         ptrlvlist.setAdapter(downPhotoAdapter);
@@ -276,11 +279,11 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     public void getStroyList(DownPhotoModel downPhotoModel) {
         ptrlvlist.onRefreshComplete();
         if (downPhotoModel.getUserName()!=null) {
-            tv_downphoto_nick.setText(downPhotoModel.getUserName());
+//            tv_downphoto_nick.setText(downPhotoModel.getUserName());
             if (!TextUtils.isEmpty(downPhotoModel.getPhoto())) {
-                Picasso.with(this).load("http://172.16.98.167/UpFiles/" + downPhotoModel.getPhoto()).fit().placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(cir_downphoto_head);
+                Picasso.with(this).load("http://172.16.98.167/UpFiles/" + downPhotoModel.getPhoto()).fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(cir_downphoto_head);
             } else {
-                Picasso.with(this).load("www").placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(cir_downphoto_head);
+                Picasso.with(this).load("www").placeholder(R.drawable.img_default).error(R.drawable.img_default).into(cir_downphoto_head);
             }
 
             if (!TextUtils.isEmpty(downPhotoModel.getBanner())) {
