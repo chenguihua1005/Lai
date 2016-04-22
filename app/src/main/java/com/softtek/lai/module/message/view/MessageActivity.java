@@ -105,6 +105,7 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
         ll_left.setOnClickListener(this);
         rel_fc.setOnClickListener(this);
         rel_1.setOnClickListener(this);
+        rel_2.setOnClickListener(this);
         EventBus.getDefault().register(this);
     }
 

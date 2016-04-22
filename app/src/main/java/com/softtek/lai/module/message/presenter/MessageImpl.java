@@ -80,9 +80,9 @@ public class MessageImpl implements IMessagePresenter {
         });
     }
     @Override
-    public void getMessageRead(String accountID, final ImageView img_red) {
+    public void getMessageRead(final ImageView img_red) {
         String token = UserInfoModel.getInstance().getToken();
-        messageService.getMessageRead(token,accountID, new Callback<ResponseData>() {
+        messageService.getMessageRead(token, new Callback<ResponseData>() {
             @Override
             public void success(ResponseData listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());

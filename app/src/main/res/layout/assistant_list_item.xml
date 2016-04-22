@@ -12,13 +12,15 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="106dip"
+        android:background="@color/grey">
 
         <com.softtek.lai.widgets.CircleImageView
             android:id="@+id/img"
-            android:layout_width="@dimen/circleImage"
-            android:layout_height="@dimen/circleImage"
-            android:layout_margin="@dimen/assistantMargin"
+            android:layout_width="67dip"
+            android:layout_height="67dip"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin"
             android:src="@drawable/img_default" />
 
         <ImageView
@@ -27,13 +29,14 @@
             android:layout_height="@dimen/assistantButtonHeight"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_margin="@dimen/assistantMargin"
+            android:layout_marginRight="@dimen/margin"
             android:src="@drawable/img_invite" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/assistantMarginLeft1"
             android:layout_toRightOf="@+id/img"
             android:orientation="vertical">
 
@@ -42,13 +45,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Default"
-                android:textSize="@dimen/assistantNameTextSize"
+                android:textColor="@color/word"
+                android:textSize="@dimen/textSize5"
                 android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/assistantMargin"
+                android:layout_marginTop="@dimen/assistantMarginTop2"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -62,7 +66,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/assistantMarginLeft"
                     android:text="18261576084"
-                    android:textSize="@dimen/assistantPhoneTextSize" />
+                    android:textColor="@color/word"
+                    android:textSize="@dimen/textSize1" />
             </LinearLayout>
 
         </LinearLayout>

@@ -138,11 +138,11 @@ public class MessageSrManageActivity extends BaseActivity implements View.OnClic
                 startActivity(new Intent(this, ZQSActivity.class));
                 break;
             case R.id.but_no:
-                messagePresenter.acceptInviter(messageDetailInfo.getInviterId(), messageDetailInfo.getClassId(), "0");
+                messagePresenter.acceptInviter(messageDetailInfo.getSenderId(), messageDetailInfo.getClassId(), "0");
                 break;
             case R.id.but_yes:
                 if (isSelect) {
-                    messagePresenter.acceptInviter(messageDetailInfo.getInviterId(), messageDetailInfo.getClassId(), "1");
+                    messagePresenter.acceptInviter(messageDetailInfo.getSenderId(), messageDetailInfo.getClassId(), "1");
                 } else {
                     Util.toastMsg(R.string.joinGameQ);
                 }

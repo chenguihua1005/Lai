@@ -60,7 +60,6 @@ public interface MessageService {
 
     @GET("/MessageRead/GetMessageRead")
     void getMessageRead(@Header("token") String token,
-                       @Query("AccountID") String accountID,
                        Callback<ResponseData> callback);
 
     @FormUrlEncoded

@@ -1,103 +1,114 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
   ~ Date:2016-03-31
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:fitsSystemWindows="true"
-              android:orientation="vertical"
-              tools:context="com.softtek.lai.module.login.view.ForgetActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context="com.softtek.lai.module.login.view.ForgetActivity">
 
     <include
-            android:id="@+id/toolbar"
-            layout="@layout/toolbar"/>
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
 
     <LinearLayout
-            android:id="@+id/lin_class_name"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/createClassTextMargin"
-            android:orientation="horizontal">
+        android:id="@+id/lin_class_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="@dimen/margin"
+        android:layout_marginTop="@dimen/createClassTextMarginTop"
+        android:orientation="horizontal">
 
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/crateClassClassNameValue"
-                android:textColor="@color/black"
-                android:textSize="@dimen/createClassTextSize"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/crateClassClassNameValue"
+            android:textColor="@color/word"
+            android:textSize="@dimen/textSize5" />
 
         <EditText
-                android:id="@+id/edit_class_name"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+            android:id="@+id/edit_class_name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/createClassTextMarginLeft"
             android:background="@drawable/border_none"
-                android:layout_marginLeft="@dimen/createClassTextMarginLeft"/>
+            android:singleLine="true"
+            android:textColor="@color/word"
+            android:textSize="@dimen/textSize5" />
     </LinearLayout>
 
     <View
-            android:layout_width="fill_parent"
-            android:layout_height="2dip"
-            android:layout_marginLeft="@dimen/createClassTextMargin"
-            android:layout_marginRight="@dimen/createClassTextMargin"
-            android:background="@color/mytoolbar_green"/>
+        android:layout_width="fill_parent"
+        android:layout_height="2dip"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="@dimen/margin"
+        android:layout_marginTop="10dip"
+        android:background="@color/mytoolbar_green" />
 
     <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/lin_class_name"
-            android:layout_margin="@dimen/createClassTextMargin">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lin_class_name"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="@dimen/margin"
+        android:layout_marginTop="@dimen/createClassTextMarginTop1">
 
         <TextView
-                android:id="@+id/text_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="@string/crateClassTimeValue"
-                android:textColor="@color/black"
-                android:textSize="@dimen/createClassTextSize"/>
+            android:id="@+id/text_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/crateClassTimeValue"
+            android:textColor="@color/word"
+            android:textSize="@dimen/textSize5" />
 
         <LinearLayout
-                android:id="@+id/lin_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/createClassTextMarginLeft"
-                android:layout_toRightOf="@+id/text_time"
-                android:orientation="horizontal">
+            android:id="@+id/lin_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/createClassTextMarginLeft"
+            android:layout_toLeftOf="@+id/img_choose"
+            android:layout_toRightOf="@+id/text_time"
+            android:orientation="horizontal">
 
             <TextView
-                    android:id="@+id/text_time_value"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textColor="@color/mytoolbar_green"
-                    android:textSize="@dimen/createClassTextSize"/>
+                android:id="@+id/text_time_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/mytoolbar_green"
+                android:textSize="@dimen/textSize5" />
         </LinearLayout>
 
         <ImageView
-                android:id="@+id/img_choose"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/rili"/>
+            android:id="@+id/img_choose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="@dimen/createClassTextMarginLeft"
+            android:src="@drawable/rili" />
     </RelativeLayout>
 
     <View
-            android:layout_width="fill_parent"
-            android:layout_height="2dip"
-            android:layout_marginLeft="@dimen/createClassTextMargin"
-            android:layout_marginRight="@dimen/createClassTextMargin"
-            android:background="@color/mytoolbar_green"/>
+        android:layout_width="fill_parent"
+        android:layout_height="2dip"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="@dimen/margin"
+        android:layout_marginTop="10dip"
+        android:background="@color/mytoolbar_green" />
+
     <ImageView
-            android:id="@+id/img_next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="100dip"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:src="@drawable/next"/>
+        android:id="@+id/img_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="@dimen/margin"
+        android:layout_marginTop="136dip"
+        android:src="@drawable/next" />
 </LinearLayout>

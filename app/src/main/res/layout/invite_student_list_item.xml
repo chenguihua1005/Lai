@@ -12,28 +12,31 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="106dip"
+        android:background="@color/grey">
 
         <com.softtek.lai.widgets.CircleImageView
             android:id="@+id/img"
-            android:layout_width="@dimen/circleImage"
-            android:layout_height="@dimen/circleImage"
-            android:layout_margin="@dimen/inviteStudentMargins"
+            android:layout_width="67dip"
+            android:layout_height="67dip"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin"
             android:src="@drawable/img_default" />
 
         <ImageView
             android:id="@+id/img_invite"
-            android:layout_width="@dimen/inviteStudentButtonWidth"
-            android:layout_height="@dimen/inviteStudentButtonHeight"
+            android:layout_width="@dimen/assistantButtonWidth"
+            android:layout_height="@dimen/assistantButtonHeight"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_margin="@dimen/inviteStudentMargins"
+            android:layout_margin="@dimen/margin"
             android:src="@drawable/img_invite" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/inviteStudentMarginLeft1"
             android:layout_toRightOf="@+id/img"
             android:orientation="vertical">
 
@@ -42,13 +45,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Default"
-                android:textSize="@dimen/inviteStudentTextSize"
+                android:textColor="@color/word"
+                android:textSize="@dimen/textSize5"
                 android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/inviteStudentMargins"
+                android:layout_marginTop="@dimen/inviteStudentMarginTop"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -62,7 +66,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/inviteStudentMarginLeft"
                     android:text="18261576084"
-                    android:textSize="@dimen/inviteStudentNameTextSize" />
+                    android:textColor="@color/word"
+                    android:textSize="@dimen/textSize1" />
             </LinearLayout>
 
         </LinearLayout>
