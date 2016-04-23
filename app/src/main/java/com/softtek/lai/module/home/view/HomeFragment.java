@@ -34,6 +34,7 @@ import com.softtek.lai.module.bodygamecc.view.BodyGameCcActivity;
 import com.softtek.lai.module.bodygamest.view.BodyGamePCActivity;
 import com.softtek.lai.module.bodygameyk.view.BodygameYkActivity;
 import com.softtek.lai.module.bodygamezj.view.BodygameSRActivity;
+import com.softtek.lai.module.confirmInfo.view.CansaiActivity;
 import com.softtek.lai.module.home.adapter.FragementAdapter;
 import com.softtek.lai.module.home.adapter.ModelAdapter;
 import com.softtek.lai.module.home.eventModel.HomeEvent;
@@ -60,7 +61,6 @@ import zilla.libcore.util.Util;
 
 /**
  * Created by jerry.guan on 3/15/2016.
- *
  */
 @InjectLayout(R.layout.fragment_home)
 public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetChangedListener, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener, View.OnClickListener {
@@ -224,8 +224,13 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     public void onRefresh() {
         System.out.println("正在加载......");
         homeInfoPresenter.getHomeInfoData(pull);
-        String id = UserInfoModel.getInstance().getUser().getUserid();
-        messagePresenter.getMessageRead(id, img_red);
+        String userrole = UserInfoModel.getInstance().getUser().getUserrole();
+        if (String.valueOf(Constants.VR).equals(userrole)) {
+
+        } else {
+            messagePresenter.getMessageRead(img_red);
+        }
+
     }
 
 
@@ -322,7 +327,10 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
             information_dialog.setTitle("您当前处于游客模式，需要登录认证").setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    startActivity(new Intent(getContext(), LoginActivity.class));
+                    Intent login=new Intent(getContext(), LoginActivity.class);
+                    login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(login);
                 }
             }).setNegativeButton("稍候", new DialogInterface.OnClickListener() {
                 @Override

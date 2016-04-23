@@ -347,7 +347,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
 
             case R.id.ll_retestWrite_chu_weight:
                 if (retestAuditModel.getIsFirst()=="true") {
-                    show_information("初始体重（kg）",200,100,20,9,5,0,0);
+                    show_information("初始体重（斤）",200,100,20,9,5,0,0);
                 }
                 else {
                     Util.toastMsg("该学员非第一次加入不能修改初始体重");
@@ -355,13 +355,13 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
 
                 break;
             case R.id.ll_retestWrite_nowweight:
-                show_information("现在体重（kg）",200,100,20,9,5,0,1);
+                show_information("现在体重（斤）",200,100,20,9,5,0,1);
                 break;
             case R.id.ll_retestWrite_tizhi:
                 show_information("体脂（%）",100,50,0,9,5,0,2);
                 break;
             case R.id.ll_retestWrite_neizhi:
-                show_information("内脂（%）",100,50,0,9,5,0,3);
+                show_information("内脂",100,50,0,9,5,0,3);
                 break;
 
 

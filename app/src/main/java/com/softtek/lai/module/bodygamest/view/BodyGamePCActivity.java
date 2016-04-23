@@ -6,6 +6,7 @@
 package com.softtek.lai.module.bodygamest.view;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -71,8 +72,6 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
     TextView tv_st_num;
     @InjectView(R.id.iv_st_adv)
     ImageView iv_st_adv;
-    @InjectView(R.id.im_refreshst)
-    ImageView im_refreshst;
     @InjectView(R.id.tv_totalpersonst)
     TextView tv_totalpersonst;
     @InjectView(R.id.tv_total_lossst)
@@ -102,10 +101,14 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
     //提示
     @InjectView(R.id.ll_st_tipst)
     LinearLayout ll_st_tipst;
+    //刷新
+    @InjectView(R.id.im_refreshst)
+            ImageView im_refreshst;
     RetestPre retestPre;
     UserInfoModel userInfoModel=UserInfoModel.getInstance();
     long loginid=Long.parseLong(userInfoModel.getUser().getUserid());
     boolean flag=true;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,7 +135,9 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
 
     @Override
     protected void initViews() {
+        progressDialog = new ProgressDialog(this);
         im_refreshst.setOnClickListener(this);
+
 
     }
     public static final int Student_reteset=1;
@@ -143,7 +148,7 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
         tiGuanSai = new TiGuanSaiImpl();
         tiGuanSai.getTiGuanSai();
         tiGuanSai.doGetFuceNum(loginid);
-        tiGuanSai.doGetTotal();
+        tiGuanSai.doGetTotal(progressDialog);
         studentImpl=new StudentImpl(this);
         retestPre=new RetestclassImp();
         retestPre.doGetAudit(loginid,0,"");
@@ -227,6 +232,12 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
                 case R.id.ll_left:
                     finish();
                     break;
+                case R.id.im_refreshst:
+                    progressDialog.setCanceledOnTouchOutside(false);
+                    progressDialog.setMessage("数据刷新中...");
+                    progressDialog.show();
+                    tiGuanSai.doGetTotal(progressDialog);
+                    break;
             }
         }
 
@@ -246,7 +257,8 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
                 break;
             //复测
             case R.id.ll_st_fuce:
-                if (flag==true) {
+                //retestPre.doGetAudit(loginid,0,"");
+                if (flag) {
                     startActivityForResult(new Intent(this,FuceStActivity.class),Student_reteset);
 //                    Intent intent1 = new Intent(this, FuceStActivity.class);
 //                    startActivity(intent1);
@@ -275,8 +287,9 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         //学员复测传递
-        if (requestCode==GET_BODY&&resultCode==RESULT_OK){
-
+        if (requestCode==Student_reteset&&resultCode==RESULT_OK){
+            //retestPre.doGetAudit(loginid,0,"");
+            flag=false;
         }
     }
 }

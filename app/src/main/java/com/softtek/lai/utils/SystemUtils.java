@@ -46,7 +46,7 @@ public class SystemUtils {
         intent.setDataAndType(uri, "image/*");
         // crop为true是设置在开启的intent中设置显示的view可以剪裁
         intent.putExtra("crop", "true");
-        intent.putExtra("scale", true);
+        //intent.putExtra("scale", true);
         // aspectX aspectY 是宽高的比例
         intent.putExtra("aspectX", aspectX);
         intent.putExtra("aspectY", aspectY);

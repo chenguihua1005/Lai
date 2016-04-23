@@ -7,8 +7,8 @@
     <!-- 顾问版-->
     <string name="crateClassVlaue">我要开班</string>
     <string name="bodyGameVlaue">体管赛</string>
-    <string name="crateClassClassNameValue">班级名称:</string>
-    <string name="crateClassTimeValue">时间段:</string>
+    <string name="crateClassClassNameValue">班级名称：</string>
+    <string name="crateClassTimeValue">班级周期：</string>
     <string name="crateClassChooseValue">请选择</string>
 
     <string name="app_name">莱聚+</string>

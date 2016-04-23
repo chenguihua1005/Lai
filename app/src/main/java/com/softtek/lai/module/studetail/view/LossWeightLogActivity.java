@@ -56,6 +56,7 @@ public class LossWeightLogActivity extends BaseActivity implements View.OnClickL
     private long accountId=0;
     private int review_flag=0;
     private int pageIndex=1;
+    private int totalPage=0;
 
     @Override
     protected void initViews() {
@@ -135,7 +136,18 @@ public class LossWeightLogActivity extends BaseActivity implements View.OnClickL
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
         pageIndex++;
-        memberInfopresenter.getLossWeigthLogList(accountId,pageIndex);
+        if(pageIndex<=totalPage){
+            memberInfopresenter.getLossWeigthLogList(accountId,pageIndex);
+
+        }else{
+            pageIndex--;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ptrlv.onRefreshComplete();
+                }
+            },200);
+        }
     }
 
     @Override
@@ -145,6 +157,7 @@ public class LossWeightLogActivity extends BaseActivity implements View.OnClickL
             pageIndex=--pageIndex<1?1:pageIndex;
             return;
         }
+        totalPage=Integer.parseInt(logs.getTotalPage());
         tv_name.setText(logs.getUserName());
         List<LossWeightLogModel> models=logs.getLogList();
         if(models==null||logs.getLogList().isEmpty()){

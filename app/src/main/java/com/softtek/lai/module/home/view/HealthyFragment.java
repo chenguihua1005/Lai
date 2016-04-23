@@ -152,6 +152,7 @@ public class HealthyFragment extends BaseFragment implements View.OnClickListene
                 startActivityForResult(intent,OPEN_SENDER_REQUEST);
             }else if(requestCode==OPEN_SENDER_REQUEST){
                 Log.i("健康圈我的发布完成返回");
+                tab_content.setCurrentItem(1);
                 ((MineHealthyFragment)fragments.get(1)).updateList();
             }
 

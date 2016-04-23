@@ -5,6 +5,7 @@
 
 package com.softtek.lai.module.bodygame.presenter;
 
+import android.app.ProgressDialog;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
@@ -19,5 +20,5 @@ public interface ITiGuanSai {
     void doGetFuceNum(long id);
     void doGetTips();
     void doGetTipsDetail(long id);
-    void doGetTotal();
+    void doGetTotal(ProgressDialog progressDialog);
 }

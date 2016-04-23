@@ -77,7 +77,7 @@ public class NetErrorHandler implements IApiErrorHandler {
                             return;
                         }
                         builder=new AlertDialog.Builder(LaiApplication.getInstance().getContext())
-                                .setTitle("温馨提示").setMessage("您的账号已在别处登录，请您登录后再进行")
+                                .setTitle("温馨提示").setMessage("您的账号已在别处登录，请您登录后再试")
                                 .setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {

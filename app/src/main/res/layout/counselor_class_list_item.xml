@@ -67,8 +67,8 @@
 
             <ImageView
                 android:id="@+id/img_more"
-                android:layout_width="20dip"
-                android:layout_height="20dip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="8dip"
                 android:src="@drawable/green_more" />
         </LinearLayout>

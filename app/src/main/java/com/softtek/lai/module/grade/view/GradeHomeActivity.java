@@ -273,19 +273,22 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
         List<PeopleModel> srs = gradeModel.getSRInfo();
         for (int i = 0; i < pcs.size(); i++) {
             PeopleModel pc = pcs.get(i);
+            if(pc.getPhoto()==null||"".equals(pc.getPhoto())){
+                break;
+            }
             switch (i) {
                 case 0:
-                    Picasso.with(this).load(pc.getPhoto())
+                    Picasso.with(this).load(pc.getPhoto()).fit()
                             .placeholder(R.drawable.img_default)
                             .error(R.drawable.img_default).into(cir_pc_one);
                     break;
                 case 1:
-                    Picasso.with(this).load(pc.getPhoto())
+                    Picasso.with(this).load(pc.getPhoto()).fit()
                             .placeholder(R.drawable.img_default)
                             .error(R.drawable.img_default).into(cir_pc_two);
                     break;
                 case 2:
-                    Picasso.with(this).load(pc.getPhoto())
+                    Picasso.with(this).load(pc.getPhoto()).fit()
                             .placeholder(R.drawable.img_default)
                             .error(R.drawable.img_default).into(cir_pc_three);
                     break;
@@ -293,19 +296,22 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
         }
         for (int i = 0; i < srs.size(); i++) {
             PeopleModel sr = srs.get(i);
+            if(sr.getPhoto()==null||"".equals(sr.getPhoto())){
+                break;
+            }
             switch (i) {
                 case 0:
-                    Picasso.with(this).load(sr.getPhoto())
+                    Picasso.with(this).load(sr.getPhoto()).fit()
                             .placeholder(R.drawable.img_default)
                             .error(R.drawable.img_default).into(cir_sr_one);
                     break;
                 case 1:
-                    Picasso.with(this).load(sr.getPhoto())
+                    Picasso.with(this).load(sr.getPhoto()).fit()
                             .placeholder(R.drawable.img_default)
                             .error(R.drawable.img_default).into(cir_sr_two);
                     break;
                 case 2:
-                    Picasso.with(this).load(sr.getPhoto())
+                    Picasso.with(this).load(sr.getPhoto()).fit()
                             .placeholder(R.drawable.img_default)
                             .error(R.drawable.img_default).into(cir_sr_three);
                     break;
@@ -375,7 +381,7 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
                     //从指定目录获取图片原图
                     File image = new File(uploadloadImageDir,localTempImgFileName);
                     Log.i("拍完照后图片是否存在？=="+image.exists());
-                    startActivityForResult(SystemUtils.crop(Uri.fromFile(image), null, 2, 1, 300, 300), CROP_VIA_IMAGE);
+                    startActivityForResult(SystemUtils.crop(Uri.fromFile(image), null, 5, 4, 0, 0), CROP_VIA_IMAGE);
                     break;
                 case GET_IMAGE_VIA_PICTURE:
                     Intent intent = SystemUtils.crop(data.getData(), null, 2, 1, 300, 300);

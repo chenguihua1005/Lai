@@ -24,21 +24,22 @@ public class DateUtil {
     }
 
     /**
-     * 更具传入的解析格式 解析日期
-     * @param pattern
+     * 传入的解析格式 解析日期
+     * @param pattern 指定的日期格式
      * @return
      */
     public static DateUtil getInstance(String pattern){
-        PATTERN=pattern;
         if(util==null){
             util=new DateUtil();
         }
+        PATTERN=pattern;
         return util;
     }
     public static DateUtil getInstance(){
         if(util==null){
             util=new DateUtil();
         }
+        PATTERN=yyyy_MM_dd_HH_mm_ss;
         return util;
     }
 
@@ -155,4 +156,328 @@ public class DateUtil {
         }
         return second;
     }
+
+    /**
+     * 根据日期格式字符串获取该日期对应的long型数值
+     */
+    public long getValueOfDate(String dateValue){
+        long value=0;
+        if(dateValue==null||"".equals(dateValue)){
+            return value;
+        }
+        SimpleDateFormat sdf=new SimpleDateFormat(PATTERN);
+        try {
+            Date date=sdf.parse(dateValue);
+            value=date.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return value;
+    }
+    /**
+     * 转换日期格式字符串为日期类型
+     */
+    public Date convert2Date(String date){
+        SimpleDateFormat sdf=new SimpleDateFormat(PATTERN);
+        try {
+            return sdf.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    /**
+     * 比较两个日期的大小
+     * @param date1
+     * @param date2
+     * @return -1表示date1<date2<br/> 0表示date1=date2<br/> 1表示date1>date2<br/>
+     */
+    public int compare(String date1,String date2){
+        if(date1==null||date2==null||"".equals(date1)||"".equals(date2)){
+            throw new RuntimeException("日期字符串不合法");
+        }
+        SimpleDateFormat sdf=new SimpleDateFormat(PATTERN);
+        try {
+            Date d1=sdf.parse(date1);
+            Date d2=convert2Date(date2);
+            return d1.compareTo(d2);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return -2;
+    }
+
+    /**
+     * date1>date2
+     * @param date1
+     * @param date2
+     * @return
+     */
+    public boolean isGt(String date1,String date2){
+        if(date1==null||date2==null||"".equals(date1)||"".equals(date2)){
+            throw new RuntimeException("日期字符串不合法");
+        }
+        SimpleDateFormat sdf=new SimpleDateFormat(PATTERN);
+        try {
+            Date d1=sdf.parse(date1);
+            Date d2=convert2Date(date2);
+            return d1.compareTo(d2)==1?true:false;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * date1<date2
+     * @param date1
+     * @param date2
+     * @return
+     */
+    public boolean isLt(String date1,String date2){
+        if(date1==null||date2==null||"".equals(date1)||"".equals(date2)){
+            throw new RuntimeException("日期字符串不合法");
+        }
+        SimpleDateFormat sdf=new SimpleDateFormat(PATTERN);
+        try {
+            Date d1=sdf.parse(date1);
+            Date d2=convert2Date(date2);
+            return d1.compareTo(d2)==-1?true:false;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    /**
+     * date1=date2
+     * @param date1
+     * @param date2
+     * @return
+     */
+    public boolean isEq(String date1,String date2){
+        if(date1==null||date2==null||"".equals(date1)||"".equals(date2)){
+            throw new RuntimeException("日期字符串不合法");
+        }
+        SimpleDateFormat sdf=new SimpleDateFormat(PATTERN);
+        try {
+            Date d1=sdf.parse(date1);
+            Date d2=convert2Date(date2);
+            return d1.compareTo(d2)==0?true:false;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * 更具传入的日期跳转到指定天数的日期
+     * @param date 指定日期 如果为null则默认当前日期
+     * @param days 跳转几天 整数向后，负数向前
+     * @return
+     */
+    public String jumpDateByDay(String date,int days){
+        if("".equals(date)){
+            return "";
+        }
+        SimpleDateFormat sdf=new SimpleDateFormat(PATTERN);
+        try {
+            Date d1=null;
+            if(date==null){
+                d1=new Date();
+            }else{
+                d1=sdf.parse(date);
+            }
+            calendar.setTime(d1);
+            calendar.add(Calendar.DATE,days);
+            return sdf.format(calendar.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    /**
+     * 更具传入的日期跳转到指定月数的日期
+     * @param date 指定日期 如果为null则默认当前日期
+     * @param months 跳转几天 整数向后，负数向前
+     * @return
+     */
+    public String jumpDateByMonth(String date,int months){
+        if("".equals(date)){
+            return "";
+        }
+        SimpleDateFormat sdf=new SimpleDateFormat(PATTERN);
+        try {
+            Date d1=null;
+            if(date==null){
+                d1=new Date();
+            }else{
+                d1=sdf.parse(date);
+            }
+            calendar.setTime(d1);
+            calendar.add(Calendar.MONTH,months);
+            return sdf.format(calendar.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    /**
+     * 更具传入的日期跳转到指定月数的日期
+     * @param date 指定日期 如果为null则默认当前日期
+     * @param years 跳转几天 整数向后，负数向前
+     * @return
+     */
+    public String jumpDateByYear(String date,int years){
+        if("".equals(date)){
+            return "";
+        }
+        SimpleDateFormat sdf=new SimpleDateFormat(PATTERN);
+        try {
+            Date d1=null;
+            if(date==null){
+                d1=new Date();
+            }else{
+                d1=sdf.parse(date);
+            }
+            calendar.setTime(d1);
+            calendar.add(Calendar.YEAR,years);
+            return sdf.format(calendar.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    /**
+     *
+     * 1 第一季度 2 第二季度 3 第三季度 4 第四季度
+     *
+     * @param date
+     * @return
+     */
+    public static int getSeason(Date date) {
+
+        int season = 0;
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        int month = c.get(Calendar.MONTH);
+        switch (month) {
+            case Calendar.JANUARY:
+            case Calendar.FEBRUARY:
+            case Calendar.MARCH:
+                season = 1;
+                break;
+            case Calendar.APRIL:
+            case Calendar.MAY:
+            case Calendar.JUNE:
+                season = 2;
+                break;
+            case Calendar.JULY:
+            case Calendar.AUGUST:
+            case Calendar.SEPTEMBER:
+                season = 3;
+                break;
+            case Calendar.OCTOBER:
+            case Calendar.NOVEMBER:
+            case Calendar.DECEMBER:
+                season = 4;
+                break;
+            default:
+                break;
+        }
+        return season;
+    }
+
+    /**
+     * 取得季度月
+     *
+     * @param date
+     * @return
+     */
+    public static Date[] getSeasonDate(Date date) {
+        Date[] season = new Date[3];
+
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        int nSeason = getSeason(date);
+        if (nSeason == 1) {// 第一季度
+            c.set(Calendar.MONTH, Calendar.JANUARY);
+            season[0] = c.getTime();
+            c.set(Calendar.MONTH, Calendar.FEBRUARY);
+            season[1] = c.getTime();
+            c.set(Calendar.MONTH, Calendar.MARCH);
+            season[2] = c.getTime();
+        } else if (nSeason == 2) {// 第二季度
+            c.set(Calendar.MONTH, Calendar.APRIL);
+            season[0] = c.getTime();
+            c.set(Calendar.MONTH, Calendar.MAY);
+            season[1] = c.getTime();
+            c.set(Calendar.MONTH, Calendar.JUNE);
+            season[2] = c.getTime();
+        } else if (nSeason == 3) {// 第三季度
+            c.set(Calendar.MONTH, Calendar.JULY);
+            season[0] = c.getTime();
+            c.set(Calendar.MONTH, Calendar.AUGUST);
+            season[1] = c.getTime();
+            c.set(Calendar.MONTH, Calendar.SEPTEMBER);
+            season[2] = c.getTime();
+        } else if (nSeason == 4) {// 第四季度
+            c.set(Calendar.MONTH, Calendar.OCTOBER);
+            season[0] = c.getTime();
+            c.set(Calendar.MONTH, Calendar.NOVEMBER);
+            season[1] = c.getTime();
+            c.set(Calendar.MONTH, Calendar.DECEMBER);
+            season[2] = c.getTime();
+        }
+        return season;
+    }
+
+    /**
+     * 取得月第一天
+     *
+     * @param date
+     * @return
+     */
+    public static Date getFirstDateOfMonth(Date date) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.set(Calendar.DAY_OF_MONTH, c.getActualMinimum(Calendar.DAY_OF_MONTH));
+        return c.getTime();
+    }
+
+    /**
+     * 取得月最后一天
+     *
+     * @param date
+     * @return
+     */
+    public static Date getLastDateOfMonth(Date date) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH));
+        return c.getTime();
+    }
+
+    /**
+     * 取得季度第一天
+     *
+     * @param date
+     * @return
+     */
+    public static Date getFirstDateOfSeason(Date date) {
+        return getFirstDateOfMonth(getSeasonDate(date)[0]);
+    }
+
+    /**
+     * 取得季度最后一天
+     *
+     * @param date
+     * @return
+     */
+    public static Date getLastDateOfSeason(Date date) {
+        return getLastDateOfMonth(getSeasonDate(date)[2]);
+    }
+
 }

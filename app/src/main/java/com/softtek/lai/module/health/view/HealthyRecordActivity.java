@@ -1,6 +1,5 @@
 package com.softtek.lai.module.health.view;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -8,20 +7,14 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.health.adapter.HealthyRecordFragmentAdapter;
-import com.softtek.lai.module.health.model.HealthDateModel;
+import com.softtek.lai.module.health.model.HealthWeightModel;
 import com.softtek.lai.module.health.model.PysicalModel;
 import com.softtek.lai.module.health.presenter.HealthyRecordImpl;
-import com.softtek.lai.module.health.presenter.IHealthyRecord;
-import com.softtek.lai.module.health.presenter.PysicalManager;
-import com.softtek.lai.module.healthrecords.view.HealthEntryActivity;
-import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
-import com.softtek.lai.module.retest.model.LaichModel;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.module.retest.present.RetestclassImp;
 import com.softtek.lai.widgets.NoSlidingViewPage;
@@ -34,10 +27,9 @@ import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_weight)
-public class HealthyRecordActivity extends BaseActivity implements View.OnClickListener,BaseFragment.OnFragmentInteractionListener,PysicalManager.GetHealthCallBack{
+public class HealthyRecordActivity extends BaseActivity implements View.OnClickListener,BaseFragment.OnFragmentInteractionListener{
 
     private HealthyRecordImpl healthyRecord;
     @InjectView(R.id.ll_left)
@@ -58,6 +50,7 @@ public class HealthyRecordActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void initViews() {
+
         ll_left.setOnClickListener(this);
         tv_title.setText("历史数据");
         retestPre=new RetestclassImp();
@@ -65,10 +58,15 @@ public class HealthyRecordActivity extends BaseActivity implements View.OnClickL
 
     }
 
-
+    @Override
+    protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
+    }
 
     @Override
     protected void initDatas() {
+        EventBus.getDefault().register(this);
         WeightFragment weightFragment=new WeightFragment();
         BodyFatFragment bodyFatFragment=new BodyFatFragment();
         FatFragment fatFragment=new FatFragment();
@@ -111,11 +109,26 @@ public class HealthyRecordActivity extends BaseActivity implements View.OnClickL
 
     }
 
-
-
-
-    @Override
+    @Subscribe
     public void getPysicalList(PysicalModel pysicalModel) {
+        System.out.println("健康记录脂肪" + pysicalModel.getFirstrecordtime());
+        for (int i=pysicalModel.getPysicallist().size()-1;i>-1;i--) {
+            dates.add(Float.parseFloat(pysicalModel.getPysicallist().get(i).getPysical()));
+
+        }
 
     }
+    @Subscribe
+    public void getWeightList(HealthWeightModel healthWeightModel) {
+        System.out.println("健康记录体重" + healthWeightModel.getFirstrecordtime());
+        int n=healthWeightModel.getweightlist().size();
+        for (int i=healthWeightModel.getweightlist().size()-1;i>-1;i--) {
+            dates.add(Float.parseFloat(healthWeightModel.getweightlist().get(i).getWeight()));
+        }
+
+
+    }
+
+
+
 }

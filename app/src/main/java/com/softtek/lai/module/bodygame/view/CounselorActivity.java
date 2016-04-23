@@ -1,5 +1,6 @@
 package com.softtek.lai.module.bodygame.view;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -90,6 +91,7 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
     private FuceNumModel fuceNumModel;
     UserInfoModel userInfoModel=UserInfoModel.getInstance();
     long loginid=Long.parseLong(userInfoModel.getUser().getUserid());
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,6 +149,7 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void initViews() {
         bar_title.setText(R.string.CounselorBarL);
+        progressDialog = new ProgressDialog(this);
     }
 
     @Override
@@ -154,7 +157,7 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
         iTiGuanSai=new TiGuanSaiImpl();
         iTiGuanSai.getTiGuanSai();
         iTiGuanSai.doGetFuceNum(loginid);
-        iTiGuanSai.doGetTotal();
+        iTiGuanSai.doGetTotal(progressDialog);
     }
 
     @Override
@@ -237,7 +240,9 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
             }
             break;
             case R.id.im_refresh:
-                iTiGuanSai.doGetTotal();
+                progressDialog.setCanceledOnTouchOutside(false);
+                progressDialog.setMessage("数据刷新中...");
+                iTiGuanSai.doGetTotal(progressDialog);
 //                final Animation rotate= AnimationUtils.loadAnimation(this,R.anim.rotate);
 //                im_refresh.startAnimation(rotate);
 //                rotate.setAnimationListener(new Animation.AnimationListener() {
