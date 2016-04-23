@@ -4,8 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Environment;
-import android.os.SystemClock;
 import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.View;
@@ -27,9 +25,10 @@ import com.softtek.lai.module.lossweightstory.adapter.PhotoGridViewAdapter;
 import com.softtek.lai.module.lossweightstory.model.LogStoryModel;
 import com.softtek.lai.module.lossweightstory.model.UploadImage;
 import com.softtek.lai.module.lossweightstory.presenter.NewStoryManager;
-import com.softtek.lai.utils.FileUtils;
-import com.softtek.lai.utils.SystemUtils;
+import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.CustomGridView;
+import com.sw926.imagefileselector.ImageCropper;
+import com.sw926.imagefileselector.ImageFileSelector;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -39,11 +38,11 @@ import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_new_story)
 public class NewStoryActivity extends BaseActivity implements View.OnClickListener,AdapterView.OnItemClickListener
-    ,Validator.ValidationListener{
+    ,Validator.ValidationListener,ImageFileSelector.Callback,
+        ImageCropper.ImageCropperCallback{
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -71,10 +70,13 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
     EditText et_content;
     @InjectView(R.id.cgv)
     CustomGridView cgv;
-    private File dir=new File(Environment.getExternalStorageDirectory()+File.separator+"imgload/");
+
     private List<UploadImage> images=new ArrayList<>();
     private PhotoGridViewAdapter adapter;
     private NewStoryManager storyManager;
+
+    private ImageFileSelector imageFileSelector;
+    private ImageCropper imageCropper;
     @Override
     protected void initViews() {
         ll_left.setOnClickListener(this);
@@ -93,6 +95,15 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
         images.add(new UploadImage(null,BitmapFactory.decodeResource(getResources(), R.drawable.camera_sel)));
         adapter=new PhotoGridViewAdapter(images,this);
         cgv.setAdapter(adapter);
+        imageFileSelector=new ImageFileSelector(this);
+        imageFileSelector.setQuality(100);
+        int px= DisplayUtil.dip2px(this, 100);
+        imageFileSelector.setOutPutImageSize(px,px);
+        imageCropper=new ImageCropper(this);
+        imageCropper.setOutPutAspect(1, 1);
+        imageCropper.setScale(true);
+        imageCropper.setCallback(this);
+        imageFileSelector.setCallback(this);
     }
 
     @Override
@@ -110,10 +121,7 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
     }
 
     CharSequence[] options={"拍照","选择个人相册"};
-    private static final int OPEN_PICTUR=1;
-    private static final int OPEN_CAMERA=2;
     private static final int OPEN_PREVIEW=3;
-    File file;
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         UploadImage image=images.get(position);
@@ -123,16 +131,10 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
                 public void onClick(DialogInterface dialog, int which) {
                     if(which==0){
                         //打开照相机
-                        if(!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
-                            Util.toastMsg("您没有存储卡");
-                            return;
-                        }
-                        if(!dir.exists())dir.mkdirs();
-                        file=new File(dir, SystemClock.elapsedRealtime()+".png");
-                        startActivityForResult(SystemUtils.openCamera(Uri.fromFile(file)),OPEN_CAMERA);
+                        imageFileSelector.takePhoto(NewStoryActivity.this);
                     }else if(which==1){
                         //打开图库
-                        startActivityForResult(SystemUtils.openPicture(),OPEN_PICTUR);
+                        imageFileSelector.selectImage(NewStoryActivity.this);
                     }
                 }
             }).create().show();
@@ -148,26 +150,14 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        imageFileSelector.onActivityResult(requestCode, resultCode, data);
+        imageCropper.onActivityResult(requestCode,resultCode,data);
         if(resultCode==RESULT_OK){
-            if(requestCode==OPEN_PICTUR){
-                Uri imageUri = data.getData();
-                images.add(0, new UploadImage(
-                        new File(SystemUtils.getPathForSystemPic(this,imageUri)),
-                        SystemUtils.getThumbnail(this, imageUri, 100, 100)));
-                if(images.size()==10){
-                    images.remove(9);
-                }
-            }else if(requestCode==OPEN_CAMERA){
-                //处理mOutPutFileUri中的完整图像
-                images.add(0,new UploadImage(file,BitmapFactory.decodeFile(file.getAbsolutePath())));
-                if(images.size()==10){
-                    images.remove(9);
-                }
-            }else if(requestCode==OPEN_PREVIEW){
-                int position= data.getIntExtra("position",0);
+            if(requestCode==OPEN_PREVIEW){
+                int position= data.getIntExtra("position", 0);
                 images.remove(position);
                 if(images.get(images.size()-1).getImage()!=null){
-                    images.add(new UploadImage(null,BitmapFactory.decodeResource(getResources(),R.drawable.shizi)));
+                    images.add(new UploadImage(null, BitmapFactory.decodeResource(getResources(), R.drawable.shizi)));
                 }
             }
             adapter.notifyDataSetChanged();
@@ -190,7 +180,7 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //清楚本地编辑的图片
-                        FileUtils.deleteDir(dir);
+                        //FileUtils.deleteDir(dir);
                         finish();
 
                     }
@@ -228,5 +218,27 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
         new AlertDialog.Builder(this)
                 .setMessage(message)
                 .create().show();
+    }
+
+    @Override
+    public void onSuccess(String file) {
+        imageCropper.cropImage(new File(file));
+    }
+
+    @Override
+    public void onError() {
+
+    }
+
+    @Override
+    public void onCropperCallback(ImageCropper.CropperResult result, File srcFile, File outFile) {
+        UploadImage image=new UploadImage();
+        image.setImage(outFile);
+        image.setBitmap(BitmapFactory.decodeFile(outFile.getAbsolutePath()));
+        images.add(0, image);
+        if(images.size()==10){
+            images.remove(9);
+        }
+        adapter.notifyDataSetChanged();
     }
 }

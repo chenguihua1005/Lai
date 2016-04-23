@@ -6,15 +6,10 @@
 package com.softtek.lai.module.grade.view;
 
 import android.app.ProgressDialog;
-import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.SystemClock;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -42,9 +37,11 @@ import com.softtek.lai.module.grade.model.PeopleModel;
 import com.softtek.lai.module.grade.presenter.GradeImpl;
 import com.softtek.lai.module.grade.presenter.IGrade;
 import com.softtek.lai.module.login.model.UserModel;
-import com.softtek.lai.utils.SystemUtils;
+import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
+import com.sw926.imagefileselector.ImageCropper;
+import com.sw926.imagefileselector.ImageFileSelector;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -56,19 +53,11 @@ import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_grade_home)
 public class GradeHomeActivity extends BaseActivity implements View.OnClickListener, DialogInterface.OnClickListener
-        , TextWatcher, BannerUpdateCallBack,GradeImpl.GradeCalllback,PullToRefreshBase.OnRefreshListener2 {
-
-    private static final int GET_IMAGE_VIA_CAMERA = 1;//相机
-    private static final int GET_IMAGE_VIA_PICTURE = 2;//图库
-    private static final int CROP_VIA_IMAGE = 3;//裁剪
-    private static final String localTempImgDir = "laiImage";//相机拍照临时存储目录
-    private static final String localTempImgFileName = "GradeHomeActivityBanner.png";
-    private static final String uploadloadImageDir = Environment.getExternalStorageDirectory() + File.separator + localTempImgDir;
-
+        , TextWatcher, BannerUpdateCallBack,GradeImpl.GradeCalllback,PullToRefreshBase.OnRefreshListener2
+,ImageFileSelector.Callback,ImageCropper.ImageCropperCallback{
 
     @InjectView(R.id.tv_title)
     TextView tv_title;
@@ -121,7 +110,6 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
 
     private EditText et_content;
     private TextView tv_dialog_title;
-    private ImageView camera, picture;
 
     private View view;
     List<DynamicInfoModel> dynamicInfos = new ArrayList<>();
@@ -136,7 +124,9 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
     private long accountId=0;
     private int pageIndex;
 
-    private File dir = new File(uploadloadImageDir);
+    private ImageFileSelector imageFileSelector;
+    private ImageCropper imageCropper;
+
     @Override
     protected void initViews() {
         review_flag=getIntent().getIntExtra("review",0);
@@ -175,6 +165,15 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
         adapter = new DynamicAdapter(this, dynamicInfos);
         lv_dynamic.setAdapter(adapter);
         grade.getClassDynamic(classId,1);
+        imageFileSelector=new ImageFileSelector(this);
+        imageFileSelector.setQuality(100);
+        int px= DisplayUtil.dip2px(this, 100);
+        imageFileSelector.setOutPutImageSize(px,px);
+        imageCropper=new ImageCropper(this);
+        imageCropper.setOutPutAspect(2, 1);
+        imageCropper.setScale(true);
+        imageCropper.setCallback(this);
+        imageFileSelector.setCallback(this);
 
     }
 
@@ -193,22 +192,10 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
                     public void onClick(DialogInterface dialog, int which) {
                         if(which==0){
                             //拍照
-                            //先验证手机是否有sdcard
-                            String status = Environment.getExternalStorageState();
-                            if (status.equals(Environment.MEDIA_MOUNTED)) {
-                                try {
-                                    if (!dir.exists()) dir.mkdirs();
-                                    File f = new File(dir, localTempImgFileName);
-                                    startActivityForResult(SystemUtils.openCamera(Uri.fromFile(f)), GET_IMAGE_VIA_CAMERA);
-                                } catch (ActivityNotFoundException e) {
-                                    Util.toastMsg("没有找到存储目录");
-                                }
-                            } else {
-                                Util.toastMsg("没有存储卡");
-                            }
+                            imageFileSelector.takePhoto(GradeHomeActivity.this);
                         }else if(which==1){
                             //照片
-                            startActivityForResult(SystemUtils.openPicture(), GET_IMAGE_VIA_PICTURE);
+                            imageFileSelector.selectImage(GradeHomeActivity.this);
                         }
                     }
                 }).create().show();
@@ -375,33 +362,8 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                case GET_IMAGE_VIA_CAMERA:
-                    //从指定目录获取图片原图
-                    File image = new File(uploadloadImageDir,localTempImgFileName);
-                    Log.i("拍完照后图片是否存在？=="+image.exists());
-                    startActivityForResult(SystemUtils.crop(Uri.fromFile(image), null, 5, 4, 0, 0), CROP_VIA_IMAGE);
-                    break;
-                case GET_IMAGE_VIA_PICTURE:
-                    Intent intent = SystemUtils.crop(data.getData(), null, 2, 1, 300, 300);
-                    startActivityForResult(intent, CROP_VIA_IMAGE);
-                    break;
-                case CROP_VIA_IMAGE:
-                    Bitmap bitmap = data.getParcelableExtra("data");
-                    if (!dir.exists()) {
-                        dir.mkdirs();
-                    }
-                    File saveImage = new File(dir, SystemClock.elapsedRealtime()+".png");
-                    SystemUtils.saveBitmap(bitmap, saveImage);
-                    if (saveImage.exists()) {
-                        progressDialog.setMessage("正在上传图片,请稍候...");
-                        progressDialog.show();
-                        grade.updateClassBanner(classId, "2", saveImage);
-                    }
-                    break;
-            }
-        }
+        imageFileSelector.onActivityResult(requestCode, resultCode, data);
+        imageCropper.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -450,5 +412,22 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
     public void onPullUpToRefresh(PullToRefreshBase refreshView) {
         pageIndex++;
         grade.getClassDynamic(classId,pageIndex);
+    }
+
+    @Override
+    public void onSuccess(String file) {
+        imageCropper.cropImage(new File(file));
+    }
+
+    @Override
+    public void onError() {
+
+    }
+
+    @Override
+    public void onCropperCallback(ImageCropper.CropperResult result, File srcFile, File outFile) {
+        progressDialog.setMessage("正在上传图片,请稍候...");
+        progressDialog.show();
+        grade.updateClassBanner(classId, "2", outFile);
     }
 }
