@@ -6,24 +6,19 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 
 import com.github.snowdream.android.util.Log;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.community.net.UploadImageService;
 import com.softtek.lai.module.lossweightstory.model.LogStoryModel;
 import com.softtek.lai.module.lossweightstory.model.UploadImage;
 import com.softtek.lai.module.lossweightstory.net.LossWeightLogService;
 import com.softtek.lai.utils.RequestCallback;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.FileNotFoundException;
 import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.CountDownLatch;
 
-import cz.msebera.android.httpclient.Header;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
@@ -35,77 +30,45 @@ import zilla.libcore.util.Util;
  * Created by John on 2016/4/17.
  *
  */
-public class NewStoryManager implements Runnable{
+public class NewStoryManager implements Runnable,UploadImageService.UploadImageCallback{
 
     private CountDownLatch latch;
     private List<UploadImage> images;
     private String token;
-    private String appId;
-    private String url;
     private LossWeightLogService service;
     private LogStoryModel model;
-    private String photos=null;
+    private StringBuffer photo=new StringBuffer();
     private ProgressDialog progressDialog;
     private Context context;
-
-    public NewStoryManager(List<UploadImage> images,Context context) {
+    private Queue<UploadImageService> queue;
+    private int size=0;
+    public NewStoryManager(List<UploadImage> images, Context context) {
         this.images = images;
         this.context=context;
         token= UserInfoModel.getInstance().getToken();
-        appId= PropertiesManager.get("appid");
-        url= AddressManager.getHost()+"/CompetitionLog/PostMultiImgs";
         service= ZillaApi.NormalRestAdapter.create(LossWeightLogService.class);
     }
 
     public void sendLogStory(LogStoryModel model){
         this.model=model;
-        latch=new CountDownLatch(1);
         progressDialog=new ProgressDialog(context);
         progressDialog.setMessage("提交中，请稍候...");
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setCancelable(false);
+        for(int i=0;i<images.size();i++){
+            if(images.get(i).getImage()!=null){
+                size++;
+            }
+        }
+        latch=new CountDownLatch(size);
+        queue=new ArrayBlockingQueue<>(size);
+        for(int i=0;i<size;i++){
+            queue.offer(new UploadImageService(this,images.get(i).getImage()));
+        }
         progressDialog.show();
         new Thread(this).start();
-        try {
-            Log.i("开始上传第一阶段");
-            AsyncHttpClient client=new AsyncHttpClient();
-            client.addHeader("appid", appId);
-            client.addHeader("token", token);
-            RequestParams params=new RequestParams();
-            int size=images.size()<9?images.size()-1:images.size();
-            for(int i=0;i<size;i++){
-                UploadImage image=images.get(i);
-                params.put("image"+i,image.getImage());
-            }
-            client.post(url, params, new JsonHttpResponseHandler() {
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                    super.onSuccess(statusCode, headers, response);
-                    try {
-                        JSONObject obj = response.getJSONObject("data");
-                        photos = obj.getString("Imgs");
-                        latch.countDown();
-                        Log.i("第一阶段上传成功" + photos);
-                    } catch (JSONException e) {
-                        photos=null;
-                        latch.countDown();
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                    super.onFailure(statusCode, headers, responseString, throwable);
-                    photos=null;
-                    latch.countDown();
-                    Util.toastMsg(responseString);
-                    throwable.printStackTrace();
-                }
-            });
-
-        } catch (FileNotFoundException e) {
-            latch.countDown();
-            e.printStackTrace();
+        if(queue.size()!=0){
+            new Thread(queue.poll()).start();
         }
 
     }
@@ -115,12 +78,12 @@ public class NewStoryManager implements Runnable{
         try {
             latch.await();
             //上传内容
-            if(photos==null){
+            if(photo.toString().equals("")){
                 if(progressDialog!=null)progressDialog.dismiss();
                 Log.i("图片没传成功上传终止");
                 return;
             }else{
-                model.setPhotoes(photos);
+                model.setPhotoes(photo.substring(0, photo.lastIndexOf(",")));
             }
 
             Log.i("开始上传第二阶段");
@@ -151,4 +114,16 @@ public class NewStoryManager implements Runnable{
 
     }
 
+    @Override
+    public void getImageName(String imageName) {
+        if(imageName!=null){
+            photo.append(imageName);
+            photo.append(",");
+        }
+        latch.countDown();
+        Log.i("开始上传图片队列大小" + queue.size());
+        if(queue.size()!=0){
+            new Thread(queue.poll()).start();
+        }
+    }
 }
