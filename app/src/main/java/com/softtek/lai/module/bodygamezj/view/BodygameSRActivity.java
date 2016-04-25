@@ -95,6 +95,7 @@ public class BodygameSRActivity extends BaseActivity implements View.OnClickList
         iTiGuanSai=new TiGuanSaiImpl();
         iTiGuanSai.getTiGuanSai();
         iTiGuanSai.doGetFuceNum(loginid);
+        dialogShow("数据刷新中...");
         iTiGuanSai.doGetTotal(progressDialog);
     }
     @Override
@@ -118,9 +119,7 @@ public class BodygameSRActivity extends BaseActivity implements View.OnClickList
                 startActivity(new Intent(this, RetestActivity.class));
                 break;
             case R.id.tv_totalzj:
-                progressDialog.setCanceledOnTouchOutside(false);
-                progressDialog.setMessage("数据刷新中...");
-                progressDialog.show();
+                dialogShow("数据刷新中...");
                 iTiGuanSai.doGetTotal(progressDialog);
                 break;
             case R.id.ll_review:

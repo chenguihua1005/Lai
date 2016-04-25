@@ -144,6 +144,8 @@
         <activity android:name=".module.message.view.MessageFcRemindActivity" />
         <activity android:name=".module.message.view.MessageSrRemindActivity" />
         <activity android:name=".module.message.view.MessagePcRemindActivity" />
+        <activity android:name=".module.message.view.JoinGameDetailActivity" />
+        <activity android:name=".module.message.view.JoinGameDimensionRecordActivity" />
         <activity android:name=".module.message.view.ZQSActivity" />
         <activity android:name=".module.message.view.JoinGameActivity" />
         <activity android:name=".module.message.view.MessageRemoveSrRemindActivity" />
@@ -153,9 +155,6 @@
         <activity android:name=".module.bodygamest.view.BodyweidustActivity" />
         <activity android:name=".module.bodygamest.view.SelectPhotoActivity" />
         <activity android:name=".module.bodygamest.view.PhotoDetailActivity" />
-        <activity
-            android:name=".module.login.view.LoginActivity1"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity android:name=".module.studetail.view.LossWeightLogActivity" />
         <activity android:name=".module.studetail.view.LogDetailActivity" />
         <activity android:name=".module.bodygame.view.TipsActivity" />
@@ -189,6 +188,9 @@
             android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity android:name=".module.community.view.PreviewImageActivity" />
         <activity android:name=".module.community.view.HealthyDetailActivity"/>
+       <!-- <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"/>-->
         <!-- Rich push 核心功能 since 2.0.6 -->
         <activity
             android:name="cn.jpush.android.ui.PopWinActivity"

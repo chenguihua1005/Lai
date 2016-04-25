@@ -11,7 +11,9 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import butterknife.InjectView;
+
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
@@ -22,6 +24,7 @@ import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 import com.softtek.lai.module.grade.view.GradeHomeActivity;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.SoftInputUtil;
+
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
@@ -58,7 +61,7 @@ public class AssistantListActivity extends BaseActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ll_left.setOnClickListener(this);
-        tv_right.setOnClickListener(this);
+        //tv_right.setOnClickListener(this);
 
     }
 
@@ -67,7 +70,7 @@ public class AssistantListActivity extends BaseActivity implements View.OnClickL
         //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
         tv_title.setText(R.string.inviteTutor);
 
-        tv_right.setText("完成");
+        //tv_right.setText("完成");
 
     }
 

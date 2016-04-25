@@ -52,9 +52,6 @@ public class ReviewPresenterManager {
                             cb.getClassList(listResponseData.getData());
                         }
                         break;
-                    default:
-                        Util.toastMsg(listResponseData.getMsg());
-                        break;
                 }
 
             }

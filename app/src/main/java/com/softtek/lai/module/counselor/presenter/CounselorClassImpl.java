@@ -62,7 +62,7 @@ public class CounselorClassImpl implements ICounselorClassPresenter {
                         for (int i = 0; i < list.size(); i++) {
                             ClassInfoModel classInfoModel = list.get(i);
                             String type = classInfoModel.getClassStatus();
-                            if (!"1".equals(type)) {
+                            if (!"2".equals(type)) {
                                 lists.add(classInfoModel);
                             }
                         }

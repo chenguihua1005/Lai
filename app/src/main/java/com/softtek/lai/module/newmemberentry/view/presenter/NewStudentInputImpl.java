@@ -8,14 +8,18 @@ package com.softtek.lai.module.newmemberentry.view.presenter;
 
 import android.content.Context;
 import android.content.Intent;
+
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.bodygame.view.CounselorActivity;
+import com.softtek.lai.module.message.view.JoinGameDetailActivity;
 import com.softtek.lai.module.newmemberentry.view.EntryActivity;
 import com.softtek.lai.module.newmemberentry.view.model.NewstudentsModel;
 import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
 import com.softtek.lai.module.newmemberentry.view.net.NewstudentsService;
+
 import org.greenrobot.eventbus.EventBus;
+
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -35,9 +39,9 @@ public class NewStudentInputImpl implements INewStudentpresenter {
     private NewstudentsService newstudentsService;
     private Context context;
 
-    public NewStudentInputImpl(EntryActivity entryActivity) {
+    public NewStudentInputImpl(Context context) {
         newstudentsService = ZillaApi.NormalRestAdapter.create(NewstudentsService.class);
-        context = entryActivity;
+        this.context = context;
     }
 
     @Override
@@ -50,12 +54,10 @@ public class NewStudentInputImpl implements INewStudentpresenter {
             @Override
             public void success(ResponseData<NewstudentsModel> listResponseData, Response response) {
                 int status = listResponseData.getStatus();
-                Log.i("listResponseData:"+listResponseData);
+                Log.i("listResponseData:" + listResponseData);
                 switch (status) {
                     case 200:
-//                        Intent intent = new Intent(context, CounselorActivity.class);
-//                        context.startActivity(intent);
-                   //     ((CounselorActivity) context).finish();
+                        ((JoinGameDetailActivity) context).finish();
                         Util.toastMsg("录入成功");
                         break;
                     case 500:

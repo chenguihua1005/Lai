@@ -21,6 +21,7 @@ import com.softtek.lai.module.grade.model.GradeModel;
 import com.softtek.lai.module.grade.model.SRInfoModel;
 import com.softtek.lai.module.grade.model.StudentModel;
 import com.softtek.lai.module.grade.net.GradeService;
+import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
 
 import org.greenrobot.eventbus.EventBus;
@@ -92,7 +93,7 @@ public class GradeImpl implements IGrade {
             @Override
             public void success(ResponseData responseData, Response response) {
                 DynamicInfoModel info = new DynamicInfoModel();
-                info.setCreateDate(SimpleDateFormat.getDateTimeInstance().format(new Date()));
+                info.setCreateDate(DateUtil.getInstance(DateUtil.yyyy_MM_dd_HH_mm_ss).getCurrentDate());
                 info.setDyContent(dyContent);
                 EventBus.getDefault().post(info);
                 Util.toastMsg(responseData.getMsg());

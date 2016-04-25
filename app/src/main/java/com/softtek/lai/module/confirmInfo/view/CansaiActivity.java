@@ -232,7 +232,7 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
         iUpConfirmInfopresenter = new UpConfirmInfoImpl(this);
         UserInfoModel userInfoModel = UserInfoModel.getInstance();
         accoutid = Long.parseLong(userInfoModel.getUser().getUserid());
-        accoutid = 327;
+        accoutid = 341;
 //        Intent intent = getIntent();
 //        MessageDetailInfo messageDetailInfo = (MessageDetailInfo) intent.getSerializableExtra("messageDetailInfo");
 //        String classid = messageDetailInfo.getClassId();
@@ -242,10 +242,10 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
 
         //参数:---accountid 学员id,classid  班级id
         iUpConfirmInfopresenter.getConfirmInfo(accoutid, Long.parseLong(classid));//130,1-------17,30,32
-        //guwenClassPre = new GuwenClassImp();
+        guwenClassPre = new GuwenClassImp();
 
         //managerId顾问id
-        //guwenClassPre.doGetGuwenClass(accoutid);//36
+        guwenClassPre.doGetGuwenClass(accoutid);//36
 //        MemberAdapter memberAdapter = new MemberAdapter(this, R.layout.member_item, pargradeModelList);
 //        list_cansaibanji.setAdapter(memberAdapter);
 //        list_cansaibanji.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -528,27 +528,6 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        if(resultCode==RESULT_OK){//result_ok
-//            if(requestCode==OPEN_CAMERA_REQUEST){
-//                iNewStudentpresenter.upload(first_image.toString());
-//            }else if(requestCode==OPEN_PICTURE_REQUEST){
-//                ContentResolver resolver=EntryActivity.this.getContentResolver();
-//                Uri originalUri=data.getData();
-//                String[] proj = {MediaStore.Images.Media.DATA};
-//                Cursor cursor = resolver.query(originalUri, proj, null, null, null);
-//                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-//                cursor.moveToFirst();
-//                //索引值获取图片路径
-//                String path = cursor.getString(column_index);
-//                first_image=path;
-//                iNewStudentpresenter.upload(first_image.toString());
-//            }
-//
-//        }else if(resultCode==0){//返回取消
-//            first_image=null;
-//        }
-
-
         if (resultCode == RESULT_OK && requestCode == PHOTO) {
             Bitmap bm = BitmapFactory.decodeFile(path.toString());
             Util.toastMsg(bm + "");
