@@ -76,7 +76,7 @@ public class ActivityRecordFragment extends BaseFragment implements PullToRefres
         adapter = new RecyclerViewAdapter(getContext(), infos);
         ptrrv.setAdapter(adapter);
         ptrrv.onFinishLoading(true, true);
-        //homeInfoPresenter.getContentByPage(0, ++page, Constants.ACTIVITY_RECORD);
+
     }
 
 
