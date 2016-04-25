@@ -96,8 +96,8 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
         adapter=new PhotoGridViewAdapter(images,this);
         cgv.setAdapter(adapter);
         imageFileSelector=new ImageFileSelector(this);
-        imageFileSelector.setQuality(100);
-        int px= DisplayUtil.dip2px(this, 100);
+        imageFileSelector.setQuality(30);
+        int px= DisplayUtil.dip2px(this, 300);
         imageFileSelector.setOutPutImageSize(px,px);
         imageCropper=new ImageCropper(this);
         imageCropper.setOutPutAspect(1, 1);

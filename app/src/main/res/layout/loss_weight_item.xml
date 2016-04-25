@@ -47,7 +47,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="14sp"
-                    android:text="前 78.5kg"/>
+                    android:text="前 78.5斤"/>
             <View
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
@@ -61,7 +61,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="14sp"
-                    android:text="后 60.5kg"/>
+                    android:text="后 60.5斤"/>
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
@@ -84,7 +84,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:textSize="12sp"
-                android:text="kg"
+                android:text="斤"
                 android:layout_marginRight="15dp"/>
         <ImageView
                 android:layout_width="15dp"

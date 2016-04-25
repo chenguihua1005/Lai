@@ -8,6 +8,7 @@ package com.softtek.lai.module.home.view;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -87,12 +88,15 @@ public class HealthyFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     protected void initDatas() {
+        //int px=Math.min(DisplayUtil.getMobileHeight(getContext()),DisplayUtil.getMobileWidth(getContext()));
+        int px=DisplayUtil.dip2px(getContext(),300);
+        Log.i("图片尺寸"+px);
         imageFileSelector=new ImageFileSelector(getContext());
         imageCropper=new ImageCropper(this);
         imageCropper.setScale(true);
         imageCropper.setOutPutAspect(1, 1);
-        imageFileSelector.setQuality(100);
-        int px=DisplayUtil.dip2px(getContext(),100);
+        imageCropper.setOutPut(px,px);
+        imageFileSelector.setQuality(30);
         imageFileSelector.setOutPutImageSize(px,px);
         imageCropper.setCallback(new ImageCropper.ImageCropperCallback() {
             @Override
@@ -100,7 +104,7 @@ public class HealthyFragment extends BaseFragment implements View.OnClickListene
                 Intent intent=new Intent(getContext(),EditPersonalDynamicActivity.class);//跳转到发布动态界面
                 UploadImage image=new UploadImage();
                 image.setImage(outFile);
-                image.setBitmap(BitmapFactory.decodeFile(outFile.getAbsolutePath()));
+                image.setUri(Uri.fromFile(outFile));
                 intent.putExtra("uploadImage",image);
                 startActivityForResult(intent,OPEN_SENDER_REQUEST);
             }
@@ -109,6 +113,11 @@ public class HealthyFragment extends BaseFragment implements View.OnClickListene
             @Override
             public void onSuccess(String file) {
                 imageCropper.cropImage(new File(file));
+
+                /*UCrop.of(Uri.fromFile(new File(file)), Uri.fromFile(new File(file)))
+                        .withAspectRatio(16, 9)
+                        .withMaxResultSize(maxWidth, maxWidth)
+                        .start(getContext(),HealthyFragment.this);*/
             }
 
             @Override
@@ -150,10 +159,13 @@ public class HealthyFragment extends BaseFragment implements View.OnClickListene
         Log.i("requestCode=" + requestCode + ";resultCode=" + resultCode);
         if(resultCode== -1){//result_ok
             if(requestCode==OPEN_SENDER_REQUEST){
-                Log.i("健康圈我的发布完成返回");
+
                 tab_content.setCurrentItem(1);
                 ((MineHealthyFragment)fragments.get(1)).updateList();
-            }
+            }/*else if(requestCode== UCrop.REQUEST_CROP){
+                *//*final Uri resultUri = UCrop.getOutput(data);
+                Log.i("返回="+resultUri);*//*
+            }*/
 
         }
     }

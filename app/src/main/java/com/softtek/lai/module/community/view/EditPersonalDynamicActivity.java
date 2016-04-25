@@ -29,6 +29,7 @@ import com.sw926.imagefileselector.ImageCropper;
 import com.sw926.imagefileselector.ImageFileSelector;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,15 +86,19 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
         manager=new PersionalDynamicManager(images, this);
         UploadImage image= getIntent().getParcelableExtra("uploadImage");
         if(image!=null){
-            image.setBitmap(image.getBitmap());
+            try {
+                image.setBitmap(BitmapFactory.decodeStream(getContentResolver().openInputStream(image.getUri())));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
             images.add(image);
         }
         images.add(new UploadImage(null, BitmapFactory.decodeResource(getResources(), R.drawable.shizi)));
         adapter=new CommunityPhotoGridViewAdapter(images,this);
         cgv.setAdapter(adapter);
         imageFileSelector=new ImageFileSelector(this);
-        imageFileSelector.setQuality(100);
-        int px= DisplayUtil.dip2px(this,100);
+        imageFileSelector.setQuality(30);
+        int px= DisplayUtil.dip2px(this,300);
         imageFileSelector.setOutPutImageSize(px,px);
         imageCropper=new ImageCropper(this);
         imageCropper.setOutPutAspect(1,1);

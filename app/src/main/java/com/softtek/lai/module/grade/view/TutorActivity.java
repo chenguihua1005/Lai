@@ -21,6 +21,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.counselor.view.AssistantListActivity;
 import com.softtek.lai.module.grade.adapter.TutorAdapter;
 import com.softtek.lai.module.grade.eventModel.SRInfoEvent;
@@ -93,7 +94,12 @@ public class TutorActivity extends BaseActivity implements PullToRefreshBase.OnR
     @Subscribe
     public void onRefreshTutor(SRInfoEvent event) {
         infos.clear();
-        infos.addAll(event.getInfos());
+        //过滤为接受邀请的
+        for(SRInfoModel model:event.getInfos()){
+            if(model.getIsInvited().equals(String.valueOf(Constants.INVITED))){
+                infos.add(model);
+            }
+        }
         adapter.notifyDataSetChanged();
     }
 

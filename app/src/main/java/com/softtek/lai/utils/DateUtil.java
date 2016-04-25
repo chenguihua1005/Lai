@@ -12,6 +12,7 @@ import java.util.Date;
 public class DateUtil {
 
     public static final String yyyy_MM_dd_HH_mm_ss="yyyy-MM-dd HH:mm:ss";
+    public static final String yyyy_MM_dd_HH_mm="yyyy-MM-dd HH:mm";
     public static final String yyyy_MM_dd="yyyy-MM-dd";
 
     private static String PATTERN="yyyy-MM-dd HH:mm:ss";
@@ -173,6 +174,29 @@ public class DateUtil {
             e.printStackTrace();
         }
         return value;
+    }
+
+    /**
+     * 获取当前日期时间格式字符串
+     */
+    public String getCurrentDate(){
+        return new SimpleDateFormat(PATTERN).format(new Date());
+    }
+
+    /**
+     * 转换日期格式字符串到指定的格式
+     * @param date 需要转换的日期格式字符串
+     * @param pattern 指定转换后的格式
+     * @return 返回结果
+     */
+    public String convertDateStr(String date,String pattern){
+        try {
+            Date d1=new SimpleDateFormat(PATTERN).parse(date);
+            return new SimpleDateFormat(pattern).format(d1);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
     /**
      * 转换日期格式字符串为日期类型

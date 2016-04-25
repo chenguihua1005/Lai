@@ -13,6 +13,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.module.grade.model.DynamicInfoModel;
+import com.softtek.lai.utils.DateUtil;
 
 import java.util.List;
 
@@ -55,7 +56,7 @@ public class DynamicAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         DynamicInfoModel info = dynamicInfoList.get(position);
-        holder.tv_date.setText(info.getCreateDate());
+        holder.tv_date.setText(DateUtil.getInstance().convertDateStr(info.getCreateDate(),DateUtil.yyyy_MM_dd_HH_mm_ss));
         holder.tv_content.setText(info.getDyContent());
         return convertView;
     }
