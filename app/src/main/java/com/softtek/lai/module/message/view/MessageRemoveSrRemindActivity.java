@@ -72,11 +72,12 @@ public class MessageRemoveSrRemindActivity extends BaseActivity implements View.
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 measureRemindInfo = listRemind.get(position);
-                String type=measureRemindInfo.getMsgType();
-                if("2".equals(type)){
-                    messagePresenter.delNoticeOrMeasureMsg(measureRemindInfo.getMessageId());
-                }else {
+                String type = measureRemindInfo.getMsgType();
+                if ("1".equals(type)) {
                     messagePresenter.upReadTime("1", measureRemindInfo.getInviterId(), measureRemindInfo.getSenderId(), measureRemindInfo.getClassId());
+
+                } else {
+                    messagePresenter.delNoticeOrMeasureMsg(measureRemindInfo.getMessageId());
                 }
             }
         });
