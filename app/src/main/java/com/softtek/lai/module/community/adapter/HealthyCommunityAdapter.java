@@ -6,11 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
@@ -159,7 +157,6 @@ public class HealthyCommunityAdapter extends BaseAdapter{
 
     private void visitableOrGone(ViewHolder holder,String[] imgs,String path) {
         for (int i = 0; i < imgs.length; i++) {
-            Log.i("图片列表"+imgs[i]);
             if("".equals(imgs[i])){
                 continue;
             }

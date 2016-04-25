@@ -7,22 +7,22 @@ import java.util.List;
  */
 public class HealthWeightModel {
     private String firstrecordtime;
-    private List<weightlistModel> Pysicallist;
+    private List<weightlistModel> weightlist;
 
     @Override
     public String toString() {
         return "HealthWeightModel{" +
                 "firstrecordtime='" + firstrecordtime + '\'' +
-                ", Pysicallist=" + Pysicallist +
+                ", weightlist=" + weightlist +
                 '}';
     }
 
-    public List<weightlistModel> getPysicallist() {
-        return Pysicallist;
+    public List<weightlistModel> getweightlist() {
+        return weightlist;
     }
 
-    public void setPysicallist(List<weightlistModel> pysicallist) {
-        Pysicallist = pysicallist;
+    public void setweightlist(List<weightlistModel> weightlist) {
+        weightlist = weightlist;
     }
 
     public String getFirstrecordtime() {

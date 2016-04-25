@@ -95,7 +95,7 @@ public class BodygameSRActivity extends BaseActivity implements View.OnClickList
         iTiGuanSai=new TiGuanSaiImpl();
         iTiGuanSai.getTiGuanSai();
         iTiGuanSai.doGetFuceNum(loginid);
-        iTiGuanSai.doGetTotal();
+        iTiGuanSai.doGetTotal(progressDialog);
     }
     @Override
     protected void onDestroy() {
@@ -118,7 +118,10 @@ public class BodygameSRActivity extends BaseActivity implements View.OnClickList
                 startActivity(new Intent(this, RetestActivity.class));
                 break;
             case R.id.tv_totalzj:
-                iTiGuanSai.doGetTotal();
+                progressDialog.setCanceledOnTouchOutside(false);
+                progressDialog.setMessage("数据刷新中...");
+                progressDialog.show();
+                iTiGuanSai.doGetTotal(progressDialog);
                 break;
             case R.id.ll_review:
                 startActivity(new Intent(this, ReviewActivity.class));

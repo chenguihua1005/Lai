@@ -120,6 +120,7 @@ public class WeightFragment extends BaseFragment implements RadioGroup.OnChecked
         days.add(formdate(nowdate5));
         days.add(formdate(nowdate6));
         days.add(formdate(nowdate7));
+        dates.add(0f);
         iHealthyRecord.GetHealthWeightRecords(date,getDateform(nowdate1)+" "+datetime[1],1);
 
     }
@@ -232,14 +233,15 @@ public class WeightFragment extends BaseFragment implements RadioGroup.OnChecked
     @Subscribe
     public void getWeightList(HealthWeightModel healthWeightModel) {
         System.out.println("健康记录体重" + healthWeightModel.getFirstrecordtime());
-        int n=healthWeightModel.getPysicallist().size();
-        for (int i=healthWeightModel.getPysicallist().size()-1;i>-1;i--) {
-            dates.add(Float.parseFloat(healthWeightModel.getPysicallist().get(i).getWeight()));
+        int n=healthWeightModel.getweightlist().size();
+        for (int i=healthWeightModel.getweightlist().size()-1;i>-1;i--) {
+            dates.add(Float.parseFloat(healthWeightModel.getweightlist().get(i).getWeight()));
         }
         ceshi.add(dates.get(0));
         ceshi.add(dates.get(1));
         ceshi.add(dates.get(2));
         ceshi.add(dates.get(3));
+
         chartUtil.addData(dates,n,days);
     }
 }

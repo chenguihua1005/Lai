@@ -6,6 +6,7 @@ import com.softtek.lai.module.community.model.DoZan;
 import com.softtek.lai.module.community.model.HealthyCommunityModel;
 import com.softtek.lai.module.community.model.HealthyDynamicModel;
 import com.softtek.lai.module.community.model.HealthyRecommendModel;
+import com.softtek.lai.module.community.model.ImageResponse;
 import com.softtek.lai.utils.RequestCallback;
 
 import java.util.List;
@@ -13,8 +14,11 @@ import java.util.List;
 import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.Header;
+import retrofit.http.Multipart;
 import retrofit.http.POST;
+import retrofit.http.Part;
 import retrofit.http.Query;
+import retrofit.mime.TypedFile;
 
 /**
  * Created by jerry.guan on 4/11/2016.
@@ -51,4 +55,10 @@ public interface CommunityService {
     void clickLike(@Header("token")String token,
                    @Body DoZan zan,
                    RequestCallback<ResponseData> callback);
+    //上传照片接口
+    @Multipart
+    @POST("/CompetitionLog/PostMultiImgs")
+    void uploadMutilpartImage(@Header("token")String token,
+                              @Part("photo")TypedFile file,
+                              RequestCallback<ResponseData<ImageResponse>> callback);
 }

@@ -34,7 +34,6 @@ import com.softtek.lai.module.bodygamecc.view.BodyGameCcActivity;
 import com.softtek.lai.module.bodygamest.view.BodyGamePCActivity;
 import com.softtek.lai.module.bodygameyk.view.BodygameYkActivity;
 import com.softtek.lai.module.bodygamezj.view.BodygameSRActivity;
-import com.softtek.lai.module.confirmInfo.view.CansaiActivity;
 import com.softtek.lai.module.home.adapter.FragementAdapter;
 import com.softtek.lai.module.home.adapter.ModelAdapter;
 import com.softtek.lai.module.home.eventModel.HomeEvent;
@@ -61,6 +60,7 @@ import zilla.libcore.util.Util;
 
 /**
  * Created by jerry.guan on 3/15/2016.
+ * 首页
  */
 @InjectLayout(R.layout.fragment_home)
 public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetChangedListener, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener, View.OnClickListener {
@@ -233,14 +233,13 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
 
     }
 
-
     /**
      * 功能模块按钮
      */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        /*startActivity(new Intent(getContext(), HistoryDataActivity.class));
-        if(1==1){
+        //startActivity(new Intent(getContext(), HistoryDataActivity.class));
+        /*if(1==1){
             return;
         }*/
         UserInfoModel userInfoModel = UserInfoModel.getInstance();

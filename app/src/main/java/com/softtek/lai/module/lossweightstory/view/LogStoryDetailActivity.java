@@ -19,6 +19,7 @@ import com.softtek.lai.module.lossweightstory.model.Zan;
 import com.softtek.lai.module.lossweightstory.net.LossWeightLogService;
 import com.softtek.lai.module.lossweightstory.presenter.LogStoryDetailManager;
 import com.softtek.lai.module.studetail.adapter.LogDetailGridAdapter;
+import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.widgets.CustomGridView;
@@ -85,7 +86,10 @@ public class LogStoryDetailActivity extends BaseActivity implements View.OnClick
         tv_name.setText(log.getUserName());
         tv_log_title.setText(log.getLogTitle());
         tv_content.setText(log.getLogContent());
-        tv_date.setText(log.getCreateDate());
+        String date=log.getCreateDate();
+        tv_date.setText(DateUtil.getInstance().getYear(date)+
+                "年"+DateUtil.getInstance().getMonth(date)+
+                "月"+DateUtil.getInstance().getDay(date)+"日");
         tv_totle_lw.setText(log.getAfterWeight()+"斤");
         cb_zan.setText(log.getPriase());
         zanSet();
@@ -150,7 +154,10 @@ public class LogStoryDetailActivity extends BaseActivity implements View.OnClick
         tv_name.setText(log.getUserName());
         tv_log_title.setText(log.getLogTitle());
         tv_content.setText(log.getLogContent());
-        tv_date.setText(log.getCreateDate());
+        String date=log.getCreateDate();
+        tv_date.setText(DateUtil.getInstance().getYear(date)+
+                "年"+DateUtil.getInstance().getMonth(date)+
+                "月"+DateUtil.getInstance().getDay(date)+"日");
         tv_totle_lw.setText(log.getAfterWeight()+"斤");
         cb_zan.setText(log.getPriasenum());
         if(Constants.HAS_ZAN.equals(log.getIfpriasenum())){

@@ -17,8 +17,11 @@ import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.Header;
+import retrofit.http.Multipart;
 import retrofit.http.POST;
+import retrofit.http.Part;
 import retrofit.http.Query;
+import retrofit.mime.TypedFile;
 
 /**
  * Created by jerry.guan on 4/8/2016.
@@ -51,4 +54,9 @@ public interface LossWeightLogService {
     void getLogById(@Header("token")String token,
                     @Query("LossLogId")long logId,
                     RequestCallback<ResponseData<LogStoryDetailModel>> callback);
+    //上传照片接口
+    @Multipart
+    @POST("/CompetitionLog/PostMultiImgs")
+    void uploadMutilpartImage(@Header("token")String token,
+                              @Part("photo")TypedFile file);
 }

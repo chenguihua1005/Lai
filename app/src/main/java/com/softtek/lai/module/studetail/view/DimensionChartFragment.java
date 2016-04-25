@@ -8,7 +8,6 @@ import android.widget.CheckBox;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.LineData;
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.studetail.eventModel.LineChartEvent;
@@ -62,7 +61,7 @@ public class DimensionChartFragment extends BaseFragment implements View.OnClick
     private List<Float> upArmGirthDatas=new ArrayList<>();
     private List<Float> upLegGirthDatas=new ArrayList<>();
     private List<Float> doLegGirthDatas=new ArrayList<>();
-    List<String>day=new ArrayList<String>();
+    List<String> day=new ArrayList<String>();
 
     /**
      * 设置一些参数

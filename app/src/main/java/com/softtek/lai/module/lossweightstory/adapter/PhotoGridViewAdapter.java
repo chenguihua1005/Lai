@@ -6,9 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.softtek.lai.R;
 import com.softtek.lai.module.lossweightstory.model.UploadImage;
+import com.softtek.lai.utils.DisplayUtil;
 
 import java.util.List;
 
@@ -51,7 +53,17 @@ public class PhotoGridViewAdapter extends BaseAdapter{
             holder= (ViewHolder) convertView.getTag();
         }
         UploadImage file=images.get(position);
-        holder.image.setImageBitmap(file.getBitmap());
+        if(file.getImage()!=null){
+            int px= DisplayUtil.dip2px(context, 100);
+            LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(px,px);
+            holder.image.setLayoutParams(params);
+            holder.image.setImageBitmap(file.getBitmap());
+        }else{
+            LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            holder.image.setLayoutParams(params);
+            holder.image.setImageBitmap(file.getBitmap());
+        }
         return convertView;
     }
 

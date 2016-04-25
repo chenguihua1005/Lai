@@ -1,26 +1,18 @@
 package com.softtek.lai.module.community.view;
 
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Environment;
-import android.os.SystemClock;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
@@ -31,9 +23,10 @@ import com.softtek.lai.module.community.adapter.CommunityPhotoGridViewAdapter;
 import com.softtek.lai.module.community.model.CommunityModel;
 import com.softtek.lai.module.community.presenter.PersionalDynamicManager;
 import com.softtek.lai.module.lossweightstory.model.UploadImage;
-import com.softtek.lai.utils.FileUtils;
-import com.softtek.lai.utils.SystemUtils;
+import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.CustomGridView;
+import com.sw926.imagefileselector.ImageCropper;
+import com.sw926.imagefileselector.ImageFileSelector;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -43,11 +36,11 @@ import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_edit_personal_dynamic)
 public class EditPersonalDynamicActivity extends BaseActivity implements View.OnClickListener
-,Validator.ValidationListener,AdapterView.OnItemClickListener{
+,Validator.ValidationListener,AdapterView.OnItemClickListener,ImageFileSelector.Callback,
+        ImageCropper.ImageCropperCallback{
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -66,11 +59,12 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
     @InjectView(R.id.cgv)
     CustomGridView cgv;
 
-    private File dir=new File(Environment.getExternalStorageDirectory()+File.separator+"laiAppImage/");
     private List<UploadImage> images=new ArrayList<>();
     private CommunityPhotoGridViewAdapter adapter;
 
     private PersionalDynamicManager manager;
+    private ImageFileSelector imageFileSelector;
+    private ImageCropper imageCropper;
 
     @Override
     protected void initViews() {
@@ -91,12 +85,21 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
         manager=new PersionalDynamicManager(images, this);
         UploadImage image= getIntent().getParcelableExtra("uploadImage");
         if(image!=null){
-            image.setBitmap(BitmapFactory.decodeFile(image.getImage().getAbsolutePath()));
+            image.setBitmap(image.getBitmap());
             images.add(image);
         }
         images.add(new UploadImage(null, BitmapFactory.decodeResource(getResources(), R.drawable.shizi)));
         adapter=new CommunityPhotoGridViewAdapter(images,this);
         cgv.setAdapter(adapter);
+        imageFileSelector=new ImageFileSelector(this);
+        imageFileSelector.setQuality(100);
+        int px= DisplayUtil.dip2px(this,100);
+        imageFileSelector.setOutPutImageSize(px,px);
+        imageCropper=new ImageCropper(this);
+        imageCropper.setOutPutAspect(1,1);
+        imageCropper.setScale(true);
+        imageCropper.setCallback(this);
+        imageFileSelector.setCallback(this);
     }
 
     @Override
@@ -119,7 +122,7 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //清楚本地编辑的图片
-                        FileUtils.deleteDir(dir);
+                        //FileUtils.deleteDir(dir);
                         finish();
                     }
                 }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -165,10 +168,7 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
     }
 
     CharSequence[] options={"拍照","选择个人相册"};
-    private static final int OPEN_PICTUR=1;
-    private static final int OPEN_CAMERA=2;
     private static final int OPEN_PREVIEW=3;
-    File file;
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         UploadImage image=images.get(position);
@@ -178,16 +178,10 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
                 public void onClick(DialogInterface dialog, int which) {
                     if(which==0){
                         //打开照相机
-                        if(!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
-                            Util.toastMsg("您没有存储卡");
-                            return;
-                        }
-                        if(!dir.exists())dir.mkdirs();
-                        file=new File(dir, SystemClock.elapsedRealtime()+".png");
-                        startActivityForResult(SystemUtils.openCamera(Uri.fromFile(file)),OPEN_CAMERA);
+                        imageFileSelector.takePhoto(EditPersonalDynamicActivity.this);
                     }else if(which==1){
                         //打开图库
-                        startActivityForResult(SystemUtils.openPicture(),OPEN_PICTUR);
+                        imageFileSelector.selectImage(EditPersonalDynamicActivity.this);
                     }
                 }
             }).create().show();
@@ -202,27 +196,42 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        imageFileSelector.onActivityResult(requestCode, resultCode, data);
+        imageCropper.onActivityResult(requestCode,resultCode,data);
         if(resultCode==RESULT_OK){
-            if(requestCode==OPEN_PICTUR){
-                Uri imageUri = data.getData();
-                images.add(0, new UploadImage(new File(SystemUtils.getPathForSystemPic(this,imageUri)), SystemUtils.getThumbnail(this, imageUri, 100, 100)));
-                if(images.size()==10){
-                    images.remove(9);
-                }
-            }else if(requestCode==OPEN_CAMERA){
-                images.add(0,new UploadImage(file,BitmapFactory.decodeFile(file.getAbsolutePath())));
-                if(images.size()==10){
-                    images.remove(9);
-                }
-            }else if(requestCode==OPEN_PREVIEW){
-                int position= data.getIntExtra("position",0);
+            if(requestCode==OPEN_PREVIEW){
+                int position= data.getIntExtra("position", 0);
                 images.remove(position);
                 if(images.get(images.size()-1).getImage()!=null){
-                    images.add(new UploadImage(null,BitmapFactory.decodeResource(getResources(),R.drawable.shizi)));
+                    images.add(new UploadImage(null, BitmapFactory.decodeResource(getResources(), R.drawable.shizi)));
                 }
             }
             adapter.notifyDataSetChanged();
 
         }
+    }
+    private File dir;
+
+    @Override
+    public void onSuccess(String file) {
+        dir=new File(file);
+        imageCropper.cropImage(dir);
+    }
+
+    @Override
+    public void onError() {
+
+    }
+
+    @Override
+    public void onCropperCallback(ImageCropper.CropperResult result, File srcFile, File outFile) {
+        UploadImage image=new UploadImage();
+        image.setImage(outFile);
+        image.setBitmap(BitmapFactory.decodeFile(outFile.getAbsolutePath()));
+        images.add(0, image);
+        if(images.size()==10){
+            images.remove(9);
+        }
+        adapter.notifyDataSetChanged();
     }
 }

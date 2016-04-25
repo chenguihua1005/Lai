@@ -35,7 +35,7 @@
                     android:id="@+id/tv_downphoto_nick"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Joy"
+                    android:text=""
                     android:textSize="22sp"
                     android:textColor="#333"
                     android:textStyle="bold"

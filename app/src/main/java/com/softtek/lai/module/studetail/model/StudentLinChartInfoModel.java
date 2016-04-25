@@ -17,6 +17,51 @@ public class StudentLinChartInfoModel {
     private String waistline;
     private String weight;
     private String typeDate;
+    private String ClassEnd;
+    private String ClassStart;
+    private String CurrentDate;
+    private int CurrentWeekDay;
+    private int WeekDay;
+
+    public String getClassEnd() {
+        return ClassEnd;
+    }
+
+    public void setClassEnd(String classEnd) {
+        ClassEnd = classEnd;
+    }
+
+    public String getClassStart() {
+        return ClassStart;
+    }
+
+    public void setClassStart(String classStart) {
+        ClassStart = classStart;
+    }
+
+    public String getCurrentDate() {
+        return CurrentDate;
+    }
+
+    public void setCurrentDate(String currentDate) {
+        CurrentDate = currentDate;
+    }
+
+    public int getCurrentWeekDay() {
+        return CurrentWeekDay;
+    }
+
+    public void setCurrentWeekDay(int currentWeekDay) {
+        CurrentWeekDay = currentWeekDay;
+    }
+
+    public int getWeekDay() {
+        return WeekDay;
+    }
+
+    public void setWeekDay(int weekDay) {
+        WeekDay = weekDay;
+    }
 
     public long getAccountId() {
         return AccountId;

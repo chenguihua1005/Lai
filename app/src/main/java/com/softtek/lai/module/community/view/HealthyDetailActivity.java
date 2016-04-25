@@ -7,6 +7,7 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -17,6 +18,7 @@ import com.softtek.lai.module.community.model.HealthyDynamicModel;
 import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.studetail.adapter.LogDetailGridAdapter;
+import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.widgets.CustomGridView;
@@ -75,7 +77,10 @@ public class HealthyDetailActivity extends BaseActivity implements View.OnClickL
                     .fit().error(R.drawable.img_default).into(header_image);
         }
         tv_name.setText(model.getUserName());
-        tv_date.setText(model.getCreateDate());
+        String date=model.getCreateDate();
+        tv_date.setText(DateUtil.getInstance().getYear(date)+
+                "年"+DateUtil.getInstance().getMonth(date)+
+                "月"+DateUtil.getInstance().getDay(date)+"日");
         tv_content.setText(model.getContent());
         cb_zan.setText(model.getPraiseNum());
         if("".equals(UserInfoModel.getInstance().getToken())){
@@ -162,7 +167,10 @@ public class HealthyDetailActivity extends BaseActivity implements View.OnClickL
             return;
         }
         cb_zan.setText(dynamicModel.getPraiseNum());
-        tv_date.setText(dynamicModel.getCreateDate());
+        String date=dynamicModel.getCreateDate();
+        tv_date.setText(DateUtil.getInstance().getYear(date)+
+                "年"+DateUtil.getInstance().getMonth(date)+
+                "月"+DateUtil.getInstance().getDay(date)+"日");
         tv_name.setText(dynamicModel.getUserName());
         tv_content.setText(dynamicModel.getContent());
         //判断是否点过赞

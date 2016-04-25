@@ -45,8 +45,6 @@ public class LineChartUtil {
         //添加具体数据
         float max=0;
         for (int i = 0; i <data.getXValCount()&&i<datas.size(); i++) {
-//            float mult = (50 + 1);
-//            float val = (float) (Math.random() * mult) + 3;
             float val=datas.get(i);
             //获取数值
             yVals.add(new Entry(val, i));
