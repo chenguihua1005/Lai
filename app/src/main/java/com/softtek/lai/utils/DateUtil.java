@@ -504,4 +504,30 @@ public class DateUtil {
         return getLastDateOfMonth(getSeasonDate(date)[2]);
     }
 
+    /**
+     * 获取该日期是周几
+     */
+    public int getDayOfWeek(Date date){
+        calendar.setTime(date);
+        int day=calendar.get(Calendar.DAY_OF_WEEK);
+        /*
+        由于国外是周日为一周第一天，而国内是周一为第一天，
+        因此，当计算到当天如果是1则为周日，对应转换为中国的7，如果不是周日则
+        按照规则 减去1即可。
+         */
+        return day==1?7:day-1;
+    }
+
+    /**
+     * 获取两个日期之间一共有多少周
+     */
+    public int getWeekNumForDate(Date date1,Date date2){
+        calendar.setTime(date1);
+        long time1=calendar.getTimeInMillis();
+        calendar.setTime(date2);
+        long time2=calendar.getTimeInMillis();
+        long between_days=(time2-time1)/(1000*3600*24);
+
+        return 0;
+    }
 }

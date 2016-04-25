@@ -15,6 +15,7 @@ import com.softtek.lai.module.studetail.model.StudentLinChartInfoModel;
 import com.softtek.lai.module.studetail.presenter.IMemberInfopresenter;
 import com.softtek.lai.module.studetail.presenter.MemberInfoImpl;
 import com.softtek.lai.module.studetail.util.LineChartUtil;
+import com.softtek.lai.utils.DateUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -111,13 +112,7 @@ public class LossWeightChartFragment extends BaseFragment implements RadioGroup.
         String userId=args.getString("userId");
         String classId=args.getString("classId");
         memberInfopresenter.getLossWeightChatData(userId,classId);
-        day.add("4/15");
-        day.add("4/14");
-        day.add("4/13");
-        day.add("4/12");
-        day.add("4/11");
-        day.add("4/10");
-        day.add("4/09");
+
     }
 
     @Override
@@ -131,7 +126,24 @@ public class LossWeightChartFragment extends BaseFragment implements RadioGroup.
         lossWeightDatas.clear();
         bodyFatDatas.clear();
         fatDatas.clear();
+        long start=0;
+        long end=0;
+        long current=0;
+        int week=0;
+        int totleWeek=0;
+        if(!event.getModels().isEmpty()){
+            DateUtil util=DateUtil.getInstance(DateUtil.yyyy_MM_dd);
+            StudentLinChartInfoModel model=event.getModels().get(0);
+            start= util.getValueOfDate(model.getClassStart());
+            end=util.getValueOfDate(model.getClassEnd());
+            current=util.getValueOfDate(model.getCurrentDate());
+            week=model.getCurrentWeekDay();
+        }
         for(StudentLinChartInfoModel model:event.getModels()){
+            int surplus=12-model.getCurrentWeekDay();
+            if(model.getWeekDay()<model.getCurrentWeekDay()){
+
+            }
             lossWeightDatas.add(getFloat(model.getWeight()));
             bodyFatDatas.add(getFloat(model.getPysical()));
             fatDatas.add(getFloat(model.getFat()));
@@ -142,6 +154,9 @@ public class LossWeightChartFragment extends BaseFragment implements RadioGroup.
     }
     private float getFloat(String str){
         return str==null||"".equals(str)?0f:Float.parseFloat(str);
+    }
+    private void doDeal(List<StudentLinChartInfoModel> models){
+
     }
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
