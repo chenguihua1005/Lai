@@ -93,7 +93,7 @@ public class GradeImpl implements IGrade {
             @Override
             public void success(ResponseData responseData, Response response) {
                 DynamicInfoModel info = new DynamicInfoModel();
-                info.setCreateDate(DateUtil.getInstance().getCurrentDate());
+                info.setCreateDate(DateUtil.getInstance(DateUtil.yyyy_MM_dd_HH_mm_ss).getCurrentDate());
                 info.setDyContent(dyContent);
                 EventBus.getDefault().post(info);
                 Util.toastMsg(responseData.getMsg());
