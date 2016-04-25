@@ -27,6 +27,7 @@ import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.message.model.MessageDetailInfo;
 import com.softtek.lai.module.message.model.MessageModel;
 import com.softtek.lai.module.message.net.MessageService;
+import com.softtek.lai.module.message.view.JoinGameDetailActivity;
 import com.softtek.lai.module.message.view.MessageActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -180,8 +181,9 @@ public class MessageImpl implements IMessagePresenter {
 
                             }
                         } else {
-                            Intent intent = new Intent(context, CansaiActivity.class);
+                            Intent intent = new Intent(context, JoinGameDetailActivity.class);
                             intent.putExtra("messageDetailInfo", messageDetailInfo);
+                            intent.putExtra("type", "1");
                             context.startActivity(intent);
                         }
                         ((AppCompatActivity) context).finish();

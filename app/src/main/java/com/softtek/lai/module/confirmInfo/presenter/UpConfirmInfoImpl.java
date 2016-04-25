@@ -16,6 +16,7 @@ import com.softtek.lai.module.confirmInfo.model.GetConfirmInfoModel;
 import com.softtek.lai.module.confirmInfo.net.ConfirmInfoService;
 import com.softtek.lai.module.confirmInfo.view.CansaiActivity;
 import com.softtek.lai.module.home.view.HomeActviity;
+import com.softtek.lai.module.message.view.JoinGameDetailActivity;
 import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
 
 import org.greenrobot.eventbus.EventBus;
@@ -36,9 +37,9 @@ public class UpConfirmInfoImpl implements IUpConfirmInfopresenter {
     private ConfirmInfoService confirmInfoService;
     private Context context;
 
-    public UpConfirmInfoImpl(CansaiActivity cansaiActivity) {
+    public UpConfirmInfoImpl(Context context) {
         confirmInfoService = ZillaApi.NormalRestAdapter.create(ConfirmInfoService.class);
-        context = cansaiActivity;
+        this.context = context;
     }
 
     //获取参赛确认信息
@@ -85,7 +86,7 @@ public class UpConfirmInfoImpl implements IUpConfirmInfopresenter {
                     case 200:
                         Intent intent = new Intent(context, HomeActviity.class);
                         context.startActivity(intent);
-                        ((CansaiActivity) context).finish();
+                        ((JoinGameDetailActivity) context).finish();
                         Util.toastMsg("修改成功");
                         break;
                     case 500:
@@ -109,7 +110,7 @@ public class UpConfirmInfoImpl implements IUpConfirmInfopresenter {
         confirmInfoService.upimg(token, new TypedFile("image/png", new File(upimg)), new Callback<ResponseData<PhotModel>>() {
             @Override
             public void success(ResponseData<PhotModel> upimgResponseData, Response response) {
-                ((CansaiActivity) context).dialogDissmiss();
+                ((JoinGameDetailActivity) context).dialogDissmiss();
                 System.out.println("upimgResponseData:"+upimgResponseData);
                 int status = upimgResponseData.getStatus();
                 switch (status) {
@@ -126,7 +127,7 @@ public class UpConfirmInfoImpl implements IUpConfirmInfopresenter {
 
             @Override
             public void failure(RetrofitError error) {
-                ((CansaiActivity) context).dialogDissmiss();
+                ((JoinGameDetailActivity) context).dialogDissmiss();
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }

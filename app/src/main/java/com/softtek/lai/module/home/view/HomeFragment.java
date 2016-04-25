@@ -43,6 +43,7 @@ import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.message.presenter.IMessagePresenter;
 import com.softtek.lai.module.message.presenter.MessageImpl;
+import com.softtek.lai.module.message.view.JoinGameDetailActivity;
 import com.softtek.lai.module.message.view.MessageActivity;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.CustomGridView;
@@ -326,7 +327,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
             information_dialog.setTitle("您当前处于游客模式，需要登录认证").setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Intent login=new Intent(getContext(), LoginActivity.class);
+                    Intent login = new Intent(getContext(), LoginActivity.class);
                     login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(login);
@@ -372,10 +373,16 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fl_right:
+//                Intent intent=new Intent(getContext(), JoinGameDetailActivity.class);
+//                intent.putExtra("type","1");
+//                startActivity(intent);
                 startActivity(new Intent(getContext(), MessageActivity.class));
                 break;
             case R.id.iv_email:
                 startActivity(new Intent(getContext(), MessageActivity.class));
+//                Intent intents=new Intent(getContext(), JoinGameDetailActivity.class);
+//                intents.putExtra("type","1");
+//                startActivity(intents);
                 break;
         }
     }

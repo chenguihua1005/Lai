@@ -73,20 +73,21 @@ public class CounselorClassAdapter extends BaseAdapter {
         }
         /**设置TextView显示的内容，即我们存放在动态数组中的数据*/
         ClassInfoModel classInfo = list.get(position);
-        if (classInfo.getClassStatus().equals("-1")) {
+        if (classInfo.getClassStatus().equals("1")) {
             holder.text_state.setText("未开班");
+            holder.text_class_name.setText(classInfo.getClassName().toString()+"(即将开始)");
             holder.text_state.setTextColor(context.getResources().getColor(R.color.word9));
             holder.text_class_name.setTextColor(context.getResources().getColor(R.color.word9));
             holder.text_people_count.setTextColor(context.getResources().getColor(R.color.word9));
             holder.img_more.setVisibility(View.INVISIBLE);
         } else if (classInfo.getClassStatus().equals("0")) {
             holder.text_state.setText("已开班");
+            holder.text_class_name.setText(classInfo.getClassName().toString());
             holder.text_state.setTextColor(context.getResources().getColor(R.color.green1));
             holder.text_class_name.setTextColor(context.getResources().getColor(R.color.word));
             holder.text_people_count.setTextColor(context.getResources().getColor(R.color.word));
             holder.img_more.setVisibility(View.VISIBLE);
         }
-        holder.text_class_name.setText(classInfo.getClassName().toString());
         String startTimeStr = classInfo.getStartDate().toString();
         String str[] = startTimeStr.split("-");
         if ("01".equals(str[1]) || "1".equals(str[1])) {
