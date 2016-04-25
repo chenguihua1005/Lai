@@ -1,19 +1,19 @@
 package com.softtek.lai.module.health.model;
 
 /**
- * Created by lareina.qiao on 4/22/2016.
+ * Created by lareina.qiao on 4/25/2016.
  */
-public class WeightlistModel {
+public class UpLegGirthlistModel {
     private String AccountId;
     private String createDate;
-    private String weight;
+    private String UpLegGirth;
 
     @Override
     public String toString() {
-        return "WeightlistModel{" +
+        return "UpLegGirthlistModel{" +
                 "AccountId='" + AccountId + '\'' +
                 ", createDate='" + createDate + '\'' +
-                ", weight='" + weight + '\'' +
+                ", UpLegGirth='" + UpLegGirth + '\'' +
                 '}';
     }
 
@@ -33,11 +33,11 @@ public class WeightlistModel {
         this.createDate = createDate;
     }
 
-    public String getWeight() {
-        return weight;
+    public String getUpLegGirth() {
+        return UpLegGirth;
     }
 
-    public void setWeight(String weight) {
-        this.weight = weight;
+    public void setUpLegGirth(String upLegGirth) {
+        UpLegGirth = upLegGirth;
     }
 }

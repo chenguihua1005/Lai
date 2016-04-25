@@ -12,8 +12,17 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.module.health.model.HealthCircrumModel;
+import com.softtek.lai.module.health.model.HealthFatModel;
+import com.softtek.lai.module.health.model.HealthHiplieModel;
+import com.softtek.lai.module.health.model.HealthUpArmGirthModel;
+import com.softtek.lai.module.health.model.HealthWaistlineModel;
+import com.softtek.lai.module.health.model.HealthWeightModel;
+import com.softtek.lai.module.health.model.HealthdoLegGirthModel;
+import com.softtek.lai.module.health.model.HealthupLegGirthModel;
 import com.softtek.lai.module.health.model.PysicalModel;
 import com.softtek.lai.module.health.model.WeekDateModel;
+import com.softtek.lai.module.health.presenter.HealthRecordManager;
 import com.softtek.lai.module.health.presenter.HealthyRecordImpl;
 import com.softtek.lai.module.health.presenter.IHealthyRecord;
 import com.softtek.lai.module.studetail.util.LineChartUtil;
@@ -34,7 +43,7 @@ import zilla.libcore.ui.InjectLayout;
  * Created by John on 2016/4/12.
  */
 @InjectLayout(R.layout.fragment_weight)
-public class BodyFatFragment extends BaseFragment implements RadioGroup.OnCheckedChangeListener,View.OnClickListener{
+public class BodyFatFragment extends BaseFragment implements RadioGroup.OnCheckedChangeListener,View.OnClickListener,HealthRecordManager.HealthRecordCallBack{
 
     @InjectView(R.id.chart)
     LineChart chart;
@@ -59,7 +68,6 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
     List<Float> dates=new ArrayList<Float>();
     List<Float> ceshi=new ArrayList<Float>();
     List<String>days=new ArrayList<String>();
-    List<WeekDateModel> students=new ArrayList<WeekDateModel>();
     //时间
     Calendar c = Calendar.getInstance();
     //            取得系统日期:
@@ -73,12 +81,12 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
     int n=7;
     boolean state=true;
     int flag=0;
-    IHealthyRecord iHealthyRecord;
     private ProgressDialog progressDialog;
 //    PysicalManager pysicalManager;
     SimpleDateFormat    sDateFormat    =   new    SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
     String    date    =    sDateFormat.format(new    java.util.Date());
     String[] datetime=date.split(" ");
+    HealthRecordManager healthRecordManager;
 
 
 
@@ -114,20 +122,14 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
         year.setOnClickListener(this);
     }
 
-    @Override
-    public void onDestroy() {
-        EventBus.getDefault().unregister(getContext());
-        super.onDestroy();
-    }
 
     @Override
     protected void initDatas() {
-        EventBus.getDefault().register(this);
+        healthRecordManager=new HealthRecordManager(this);
         chartUtil=new LineChartUtil(getContext(),chart);
         dates.clear();
 //        pysicalManager=new PysicalManager(getContext());
         Log.i(""+date+datetime[0]+datetime[1]);
-        iHealthyRecord=new HealthyRecordImpl();
         String nowdate7=getPeriodDate(type,0)+"";
         String nowdate6=getPeriodDate(type,1)+"";
         String nowdate5=getPeriodDate(type,2)+"";
@@ -142,7 +144,7 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
         days.add(formdate(nowdate5));
         days.add(formdate(nowdate6));
         days.add(formdate(nowdate7));
-        iHealthyRecord.doGetHealthPysicalRecords(date,getDateform(nowdate1)+" "+datetime[1],1);
+        healthRecordManager.doGetHealthPysicalRecords(date,getDateform(nowdate1)+" "+datetime[1],1);
 
 
     }
@@ -265,6 +267,7 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
                 }
                 state=true;
                 days.clear();
+                dates.clear();
                 String nowdate7 = getPeriodDate(type, n) + "";
                 String nowdate6 = getPeriodDate(type, n + 1) + "";
                 String nowdate5 = getPeriodDate(type, n + 2) + "";
@@ -279,21 +282,7 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
                 days.add(formdate(nowdate5));
                 days.add(formdate(nowdate6));
                 days.add(formdate(nowdate7));
-                dates.add(15f);
-                dates.add(18f);
-                dates.add(6.3f);
-                dates.add(15f);
-                dates.add(18f);
-                dates.add(6.3f);
-                dates.add(15f);
-                dates.add(18f);
-                dates.add(6.3f);
-                dates.add(15f);
-                dates.add(18f);
-                dates.add(6.3f);
-                chartUtil.addData(dates, 7, days);
-                dates.clear();
-                days.clear();
+                healthRecordManager.doGetHealthPysicalRecords(getDateform(nowdate7)+" "+datetime[1],getDateform(nowdate1)+" "+datetime[1],1);
                 n = n + 7;
                 bt_right.setVisibility(View.VISIBLE);
 
@@ -308,6 +297,7 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
                 else {
                     n=n-7;
                 }
+                dates.clear();
                 String nowdate7 = getPeriodDate(type, n) + "";
                 String nowdate6 = getPeriodDate(type, n + 1) + "";
                 String nowdate5 = getPeriodDate(type, n + 2) + "";
@@ -322,20 +312,7 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
                 days.add(formdate(nowdate5));
                 days.add(formdate(nowdate6));
                 days.add(formdate(nowdate7));
-                dates.add(15f);
-                dates.add(18f);
-                dates.add(6.3f);
-                dates.add(15f);
-                dates.add(18f);
-                dates.add(6.3f);
-                dates.add(15f);
-                dates.add(18f);
-                dates.add(6.3f);
-                dates.add(15f);
-                dates.add(18f);
-                dates.add(6.3f);
-                chartUtil.addData(dates,7,days);
-                dates.clear();
+                healthRecordManager.doGetHealthPysicalRecords(getDateform(nowdate7)+" "+datetime[1],getDateform(nowdate1)+" "+datetime[1],1);
                 days.clear();
                 state=false;
                 if (nowdate7.equals(getPeriodDate(type,0)+""))
@@ -362,11 +339,7 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
                 days.add(formdate(weekdate5));
                 days.add(formdate(weekdate6));
                 days.add(formdate(weekdate7));
-                iHealthyRecord.doGetHealthPysicalRecords(date,getDateform(weekdate1)+" "+datetime[1],1);
-//                pysicalManager.doGetHealthPysicalRecords(date,getDateform(weekdate1)+" "+datetime[1],1);
-//                dates.add(18f);
-//                dates.add(0f);
-//                chartUtil.addData(dates,7,days);
+                healthRecordManager.doGetHealthPysicalRecords(date,getDateform(weekdate1)+" "+datetime[1],1);
 
                 break;
             case R.id.month:
@@ -383,9 +356,7 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
                 days.add(formdate(monthdate2));
                 days.add(formdate(monthdate3));
                 days.add(formdate(monthdate4));
-                iHealthyRecord.doGetHealthPysicalRecords(date,getDateform(monthdate1)+" "+datetime[1],2);
-//                dates.add(0f);
-//                chartUtil.addData(dates,4,days);
+                healthRecordManager.doGetHealthPysicalRecords(date,getDateform(monthdate1)+" "+datetime[1],2);
 
                 break;
             case R.id.quarter:
@@ -401,9 +372,7 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
                 days.add(formdate(quarterdate2));
                 days.add(formdate(quarterdate3));
                 days.add(formdate(quarterdate4));
-                iHealthyRecord.doGetHealthPysicalRecords(date,getDateform(quarterdate1)+" "+datetime[1],3);
-//                dates.add(0f);
-//                chartUtil.addData(dates,4,days);
+                healthRecordManager.doGetHealthPysicalRecords(date,getDateform(quarterdate1)+" "+datetime[1],3);
                 break;
             case R.id.year:
                 flag=1;
@@ -420,9 +389,7 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
                 days.add(formyeardate(yeardate2));
                 days.add(formyeardate(yeardate3));
                 days.add(formyeardate(yeardate4));
-                iHealthyRecord.doGetHealthPysicalRecords(date,getDateform(yeardate0)+" "+datetime[1],4);
-//                dates.add(0f);
-//                chartUtil.addData(dates,4,days);
+                healthRecordManager.doGetHealthPysicalRecords(date,getDateform(yeardate0)+" "+datetime[1],4);
                 break;
         }
     }
@@ -435,17 +402,56 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
 
     }
 
-    @Subscribe
-    public void getPysicalList(PysicalModel pysicalModel) {
-        System.out.println("照片名称" + pysicalModel.getFirstrecordtime());
+
+    @Override
+    public void getHealthPysicalRecords(PysicalModel pysicalModel) {
+        System.out.println("健康记录" + pysicalModel.getFirstrecordtime());
         int n=pysicalModel.getPysicallist().size();
         for (int i=pysicalModel.getPysicallist().size()-1;i>-1;i--) {
             dates.add(Float.parseFloat(pysicalModel.getPysicallist().get(i).getPysical()));
         }
-        ceshi.add(dates.get(0));
-        ceshi.add(dates.get(1));
-        ceshi.add(dates.get(2));
-        ceshi.add(dates.get(3));
         chartUtil.addData(dates,n,days);
+        days.get(0);
+        days.get(1);
+    }
+
+    @Override
+    public void getHealthWeightRecords(HealthWeightModel healthWeightModel) {
+
+    }
+
+    @Override
+    public void getHealthfatRecords(HealthFatModel healthFatModel) {
+
+    }
+
+    @Override
+    public void getHealthcircumRecords(HealthCircrumModel healthCircrumModel) {
+
+    }
+
+    @Override
+    public void getHealthwaistlineRecords(HealthWaistlineModel healthWaistlineModel) {
+
+    }
+
+    @Override
+    public void getHealthhiplieRecords(HealthHiplieModel healthHiplieModel) {
+
+    }
+
+    @Override
+    public void getHealthupArmGirthRecords(HealthUpArmGirthModel healthUpArmGirthModel) {
+
+    }
+
+    @Override
+    public void getGetHealthupLegGirthRecords(HealthupLegGirthModel healthupLegGirthModel) {
+
+    }
+
+    @Override
+    public void getHealthdoLegGirthRecords(HealthdoLegGirthModel healthdoLegGirthModel) {
+
     }
 }

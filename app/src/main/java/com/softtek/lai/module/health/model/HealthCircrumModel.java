@@ -3,26 +3,18 @@ package com.softtek.lai.module.health.model;
 import java.util.List;
 
 /**
- * Created by lareina.qiao on 4/22/2016.
+ * Created by lareina.qiao on 4/25/2016.
  */
-public class HealthWeightModel {
+public class HealthCircrumModel {
     private String firstrecordtime;
-    private List<WeightlistModel> weightlist;
+    private List<CircumlistModel> Circumlist;
 
     @Override
     public String toString() {
-        return "HealthWeightModel{" +
+        return "HealthCircrumModel{" +
                 "firstrecordtime='" + firstrecordtime + '\'' +
-                ", weightlist=" + weightlist +
+                ", Circumlist=" + Circumlist +
                 '}';
-    }
-
-    public List<WeightlistModel> getweightlist() {
-        return weightlist;
-    }
-
-    public void setweightlist(List<WeightlistModel> weightlist) {
-        weightlist = weightlist;
     }
 
     public String getFirstrecordtime() {
@@ -31,5 +23,13 @@ public class HealthWeightModel {
 
     public void setFirstrecordtime(String firstrecordtime) {
         this.firstrecordtime = firstrecordtime;
+    }
+
+    public List<CircumlistModel> getCircumlist() {
+        return Circumlist;
+    }
+
+    public void setCircumlist(List<CircumlistModel> circumlist) {
+        Circumlist = circumlist;
     }
 }
