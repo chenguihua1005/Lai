@@ -21,6 +21,7 @@ import com.softtek.lai.module.counselor.view.CounselorClassListActivity;
 import com.softtek.lai.module.counselor.view.GameActivity;
 import com.softtek.lai.module.counselor.view.SPHonorActivity;
 import com.softtek.lai.module.jingdu.view.JingduActivity;
+import com.softtek.lai.module.message.view.JoinGameDetailActivity;
 import com.softtek.lai.module.newmemberentry.view.EntryActivity;
 import com.softtek.lai.module.retest.view.RetestActivity;
 import com.softtek.lai.module.review.view.ReviewActivity;
@@ -190,7 +191,8 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
             //新学员录入跳转事件
             case R.id.ll_new_student:
             {
-                Intent intent = new Intent(this, EntryActivity.class);
+                Intent intent = new Intent(this, JoinGameDetailActivity.class);
+                intent.putExtra("type","0");
                 startActivity(intent);
             }
             break;

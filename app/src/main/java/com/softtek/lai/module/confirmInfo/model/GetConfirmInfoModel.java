@@ -1,10 +1,12 @@
 package com.softtek.lai.module.confirmInfo.model;
 
+import java.io.Serializable;
+
 /**
  * Created by julie.zhu on 4/15/2016.
  * 2.16.4	获取参赛确认信息
  */
-public class GetConfirmInfoModel {
+public class GetConfirmInfoModel implements Serializable {
 
     private String AccountId;
     private String UserName;
@@ -16,31 +18,12 @@ public class GetConfirmInfoModel {
     private String Weight;
     private String Pysical;
     private String Fat;
-    private String Circum;
-    private String Waistline;
-    private String Hiplie;
-    private String UpArmGirth;
-    private String UpLegGirth;
-    private String DoLegGirth;
-
-    public GetConfirmInfoModel(String accountId, String userName, String mobile, String birthday, String gender, String photo, String className, String weight, String pysical, String fat, String circum, String waistline, String hiplie, String upArmGirth, String upLegGirth, String doLegGirth) {
-        AccountId = accountId;
-        UserName = userName;
-        Mobile = mobile;
-        Birthday = birthday;
-        Gender = gender;
-        Photo = photo;
-        ClassName = className;
-        Weight = weight;
-        Pysical = pysical;
-        Fat = fat;
-        Circum = circum;
-        Waistline = waistline;
-        Hiplie = hiplie;
-        UpArmGirth = upArmGirth;
-        UpLegGirth = upLegGirth;
-        DoLegGirth = doLegGirth;
-    }
+    private String Circum="";
+    private String Waistline="";
+    private String Hiplie="";
+    private String UpArmGirth="";
+    private String UpLegGirth="";
+    private String DoLegGirth="";
 
     public String getAccountId() {
         return AccountId;

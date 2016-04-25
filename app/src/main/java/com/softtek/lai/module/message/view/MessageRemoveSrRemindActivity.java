@@ -94,6 +94,7 @@ public class MessageRemoveSrRemindActivity extends BaseActivity implements View.
         System.out.println("此条标记已读");
         String userrole = UserInfoModel.getInstance().getUser().getUserrole();
         Intent intent = new Intent(this, RemoveSRActivity.class);
+        intent.putExtra("messageDetailInfo", measureRemindInfo);
         startActivity(intent);
     }
 
