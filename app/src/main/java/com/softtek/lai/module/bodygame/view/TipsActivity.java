@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
@@ -16,8 +17,8 @@ import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_tips)
 public class TipsActivity extends BaseActivity implements View.OnClickListener{
-    @InjectView(R.id.tv_left)
-    TextView tv_left;
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
     @InjectView(R.id.tv_title)
     TextView tv_title;
     private ITiGuanSai iTiGuanSai;
@@ -25,7 +26,7 @@ public class TipsActivity extends BaseActivity implements View.OnClickListener{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        tv_left.setOnClickListener(this);
+        ll_left.setOnClickListener(this);
 
     }
 
@@ -46,7 +47,7 @@ public class TipsActivity extends BaseActivity implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId())
         {
-            case R.id.tv_left:
+            case R.id.ll_left:
                 finish();
                 break;
         }
