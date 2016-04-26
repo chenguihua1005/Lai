@@ -102,8 +102,11 @@ public class  RetestActivity extends BaseActivity implements View.OnClickListene
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 BanjiModel banjiModel=banjiModelList.get(position);
+                banjiStudentModelList.clear();
                 retestPre.doGetBanjiStudent(banjiModel.getClassId());
                 ClassId=banjiModel.getClassId();
+                retestPre.doGetBanjiStudent(ClassId);
+                studentAdapter.notifyDataSetChanged();
                 list_class.setVisibility(View.INVISIBLE);
                 ll_shousuo.setVisibility(View.INVISIBLE);
                 ll_shousuolist.setVisibility(View.INVISIBLE);
