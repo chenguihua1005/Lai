@@ -15,7 +15,6 @@ import com.softtek.lai.module.studetail.model.StudentLinChartInfoModel;
 import com.softtek.lai.module.studetail.presenter.IMemberInfopresenter;
 import com.softtek.lai.module.studetail.presenter.MemberInfoImpl;
 import com.softtek.lai.module.studetail.util.LineChartUtil;
-import com.softtek.lai.utils.DateUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

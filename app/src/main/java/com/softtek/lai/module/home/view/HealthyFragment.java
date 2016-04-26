@@ -30,6 +30,7 @@ import com.softtek.lai.module.community.view.RecommendHealthyFragment;
 import com.softtek.lai.module.lossweightstory.model.UploadImage;
 import com.softtek.lai.utils.DisplayUtil;
 import com.sw926.imagefileselector.ImageCropper;
+import com.sw926.imagefileselector.ImageFileCropSelector;
 import com.sw926.imagefileselector.ImageFileSelector;
 
 import java.io.File;
@@ -60,6 +61,7 @@ public class HealthyFragment extends BaseFragment implements View.OnClickListene
 
     private ImageFileSelector imageFileSelector;
     private ImageCropper imageCropper;
+    private ImageFileCropSelector imageFileCropSelector;
 
     @Override
     protected void initViews() {
@@ -91,6 +93,30 @@ public class HealthyFragment extends BaseFragment implements View.OnClickListene
         //int px=Math.min(DisplayUtil.getMobileHeight(getContext()),DisplayUtil.getMobileWidth(getContext()));
         int px=DisplayUtil.dip2px(getContext(),300);
         Log.i("图片尺寸"+px);
+        //*************************
+        imageFileCropSelector=new ImageFileCropSelector(getContext());
+        imageFileCropSelector.setOutPutImageSize(px, px);
+        imageFileCropSelector.setQuality(30);
+        imageFileCropSelector.setScale(true);
+        imageFileCropSelector.setOutPutAspect(1, 1);
+        imageFileCropSelector.setOutPut(px,px);
+        imageFileCropSelector.setCallback(new ImageFileCropSelector.Callback() {
+            @Override
+            public void onSuccess(String file) {
+                Intent intent=new Intent(getContext(),EditPersonalDynamicActivity.class);//跳转到发布动态界面
+                UploadImage image=new UploadImage();
+                image.setImage(new File(file));
+                image.setUri(Uri.fromFile(new File(file)));
+                intent.putExtra("uploadImage",image);
+                startActivityForResult(intent,OPEN_SENDER_REQUEST);
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
+        //**************************
         imageFileSelector=new ImageFileSelector(getContext());
         imageCropper=new ImageCropper(this);
         imageCropper.setScale(true);
@@ -140,10 +166,12 @@ public class HealthyFragment extends BaseFragment implements View.OnClickListene
                     public void onClick(DialogInterface dialog, int which) {
                         if(which==0){
                             //拍照
-                            imageFileSelector.takePhoto(HealthyFragment.this);
+                            //imageFileSelector.takePhoto(HealthyFragment.this);
+                            imageFileCropSelector.takePhoto(HealthyFragment.this);
                         }else if(which==1){
                             //照片
-                            imageFileSelector.selectImage(HealthyFragment.this);
+                            //imageFileSelector.selectImage(HealthyFragment.this);
+                            imageFileCropSelector.selectImage(HealthyFragment.this);
                         }
                     }
                 }).create().show();
@@ -154,8 +182,10 @@ public class HealthyFragment extends BaseFragment implements View.OnClickListene
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        imageFileSelector.onActivityResult(requestCode, resultCode, data);
-        imageCropper.onActivityResult(requestCode,resultCode,data);
+        imageFileCropSelector.onActivityResult(requestCode,resultCode,data);
+        imageFileCropSelector.getmImageCropperHelper().onActivityResult(requestCode,resultCode,data);
+        //imageFileSelector.onActivityResult(requestCode, resultCode, data);
+        //imageCropper.onActivityResult(requestCode,resultCode,data);
         Log.i("requestCode=" + requestCode + ";resultCode=" + resultCode);
         if(resultCode== -1){//result_ok
             if(requestCode==OPEN_SENDER_REQUEST){
