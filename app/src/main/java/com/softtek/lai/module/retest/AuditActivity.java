@@ -223,7 +223,7 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
     @Subscribe
     public void doGetDates(RetestAuditModelEvent retestAuditModelEvent){
         Log.i("retestAuditModel"+retestAuditModelEvent.getRetestAuditModels());
-        tv_audit_chu_weight.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getInitWeight());
+        tv_audit_chu_weight.setText(Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getInitWeight())+"");
         tv_audit_nick.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getUserName());
         tv_audit_phone.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getMobile());
         String StartDate=retestAuditModelEvent.getRetestAuditModels().get(0).getStartDate();
@@ -244,7 +244,7 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
         else {
             Picasso.with(this).load("www").placeholder(R.drawable.img_default).error(R.drawable.img_default).into(iv_audit_head);
         }
-        tv_audit_now_weight.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getWeight());
+        tv_audit_now_weight.setText(Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getWeight())+"");
         tv_retestAudit_tizhi.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getPysical());
         tv_retesrAudit_fat.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getFat());
         tv_retestAudit_wasit.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getCircum());
@@ -275,10 +275,10 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
                 break;
             //信息点击事件
             case R.id.ll_audit_chu_weight:
-                show_information("初始体重（kg）",200,70,20,9,5,0,0);
+                show_information("初始体重（斤）",200,70,20,9,5,0,0);
                 break;
             case R.id.ll_retestAudit_nowweight:
-                show_information("现在体重（kg）",200,70,20,9,5,0,1);
+                show_information("现在体重（斤）",200,70,20,9,5,0,1);
                 break;
             case R.id.ll_retestAudit_tizhi:
                 show_information("体脂（%）",100,50,0,9,5,0,2);
@@ -302,7 +302,7 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
                 show_information("小腿围（CM）",100,50,0,9,5,0,8);
                 break;
             case R.id.ll_retesrAudit_fat:
-                show_information("内脂（%）",100,50,0,9,5,0,9);
+                show_information("内脂",100,50,0,9,5,0,9);
                 break;
             case R.id.ll_left:
                 finish();

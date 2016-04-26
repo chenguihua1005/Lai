@@ -271,6 +271,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
+                        android:focusable="false"
                         android:layout_marginRight="5dp"
                         android:textSize="22sp"
                         android:layout_alignParentBottom="true"
