@@ -129,10 +129,8 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
         progressDialog.setMessage("加载中...");
         progressDialog.setCanceledOnTouchOutside(false);
         healthRecordManager=new HealthRecordManager(this);
-        week.setChecked(true);
         chartUtil=new LineChartUtil(getContext(),chart);
         dates.clear();
-//        pysicalManager=new PysicalManager(getContext());
         Log.i(""+date+datetime[0]+datetime[1]);
         String nowdate7=getPeriodDate(type,0)+"";
         String nowdate6=getPeriodDate(type,1)+"";

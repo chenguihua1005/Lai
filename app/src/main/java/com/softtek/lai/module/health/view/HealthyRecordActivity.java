@@ -34,6 +34,8 @@ public class HealthyRecordActivity extends BaseActivity implements View.OnClickL
     @InjectView(R.id.tab_content)
     NoSlidingViewPage tab_content;
     List<Fragment> fragmentList=new ArrayList<>();
+    int item;
+    int flag=0;
 
     @Override
     protected void initViews() {
@@ -66,8 +68,27 @@ public class HealthyRecordActivity extends BaseActivity implements View.OnClickL
         tab_content.addOnPageChangeListener(this);
         tab.setupWithViewPager(tab_content);
         tab.setTabMode(TabLayout.MODE_SCROLLABLE);
-        int item=getIntent().getIntExtra("id",0);
+//        tab.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+//            @Override
+//            public void onTabSelected(TabLayout.Tab tab) {
+//                flag=0;
+//                Log.i("tab被选择了.......................................");
+//            }
+//
+//            @Override
+//            public void onTabUnselected(TabLayout.Tab tab) {
+//
+//            }
+//
+//            @Override
+//            public void onTabReselected(TabLayout.Tab tab) {
+//
+//            }
+//        });
+        item=getIntent().getIntExtra("id",0);
+        flag=getIntent().getIntExtra("flag",0);
         tab_content.setCurrentItem(item);
+//        tab.getTabAt(item).select();
 
 
 
@@ -95,38 +116,45 @@ public class HealthyRecordActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void onPageSelected(int position) {
-        Log.i("页面切换到===》"+position);
-        switch (position)
-        {
-            case 0:
-                ((WeightFragment)fragmentList.get(0)).updateStatus();
-                break;
-            case 1:
-                ((BodyFatFragment)fragmentList.get(1)).updateBodyFatStatus();
-                break;
-            case 2:
-                ((FatFragment)fragmentList.get(2)).updateFatStatus();
-                break;
-            case 3:
-                ((BustFragment)fragmentList.get(3)).updateBustStatus();
-                break;
-            case 4:
-                ((WaistlineFragment)fragmentList.get(4)).updateWaistlineStatus();
-                break;
-            case 5:
-                ((HiplineFragment)fragmentList.get(5)).updateHiplineStatus();
-                break;
-            case 6:
-                ((UpHiplineFragment)fragmentList.get(6)).updateUpHiplineStatus();
-                break;
-            case 7:
-                ((LegFragment)fragmentList.get(7)).updateLegStatus();
-                break;
-            case 8:
-                ((ShinFragment)fragmentList.get(8)).updateShinStatus();
-                break;
-
+        if(flag==1){
+            flag=0;
         }
+        else {
+            Log.i("页面切换到===》"+position);
+            switch (position)
+            {
+                case 0:
+                    ((WeightFragment)fragmentList.get(0)).updateStatus();
+                    break;
+                case 1:
+                    ((BodyFatFragment)fragmentList.get(1)).updateBodyFatStatus();
+                    break;
+                case 2:
+                    ((FatFragment)fragmentList.get(2)).updateFatStatus();
+                    break;
+                case 3:
+                    ((BustFragment)fragmentList.get(3)).updateBustStatus();
+                    break;
+                case 4:
+                    ((WaistlineFragment)fragmentList.get(4)).updateWaistlineStatus();
+                    break;
+                case 5:
+                    ((HiplineFragment)fragmentList.get(5)).updateHiplineStatus();
+                    break;
+                case 6:
+                    ((UpHiplineFragment)fragmentList.get(6)).updateUpHiplineStatus();
+                    break;
+                case 7:
+                    ((LegFragment)fragmentList.get(7)).updateLegStatus();
+                    break;
+                case 8:
+                    ((ShinFragment)fragmentList.get(8)).updateShinStatus();
+                    break;
+
+            }
+        }
+
+
     }
 
     @Override
