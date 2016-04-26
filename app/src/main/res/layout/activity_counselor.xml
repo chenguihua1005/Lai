@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:fillViewport="true"
-        android:fadeScrollbars="false"
+        android:scrollbars="none"
         android:layout_below="@+id/toolbar">
 
     <LinearLayout

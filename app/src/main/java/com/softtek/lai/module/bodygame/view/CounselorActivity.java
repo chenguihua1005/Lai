@@ -22,7 +22,6 @@ import com.softtek.lai.module.counselor.view.GameActivity;
 import com.softtek.lai.module.counselor.view.SPHonorActivity;
 import com.softtek.lai.module.jingdu.view.JingduActivity;
 import com.softtek.lai.module.message.view.JoinGameDetailActivity;
-import com.softtek.lai.module.newmemberentry.view.EntryActivity;
 import com.softtek.lai.module.retest.view.RetestActivity;
 import com.softtek.lai.module.review.view.ReviewActivity;
 import com.squareup.picasso.Picasso;
