@@ -210,7 +210,7 @@ public class GameActivity extends BaseActivity implements View.OnClickListener, 
                 System.out.println("rel_right----------");
                 monthInfo++;
                 if(yearInfo==year && monthInfo>monthOfYear){
-                    Util.toastMsg("请选择晚于当前月");
+                    monthInfo--;
                 }else {
                     if (monthInfo == 13) {
                         monthInfo = 1;

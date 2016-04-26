@@ -136,7 +136,6 @@ public class CreateCounselorClassActivity extends BaseActivity implements View.O
 
     @Override
     public void onClick(View v) {
-        SoftInputUtil.hidden(this);
         switch (v.getId()) {
             case R.id.img_next:
                 validateLife.validate();

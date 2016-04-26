@@ -105,8 +105,10 @@ public class StudentScoreAdapter extends BaseAdapter {
         holder.text_lose_weight.setText(marchInfo.getLoss().toString());
         if("上升".equals(marchInfo.getChange())){
             holder.img_state.setImageResource(R.drawable.img_score_up);
-        }else {
+        }else if("下滑".equals(marchInfo.getChange())){
             holder.img_state.setImageResource(R.drawable.img_score_down);
+        }else {
+            holder.img_state.setImageResource(android.R.color.transparent);
         }
         return convertView;
     }

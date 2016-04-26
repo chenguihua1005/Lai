@@ -92,7 +92,6 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
     private FuceNumModel fuceNumModel;
     UserInfoModel userInfoModel=UserInfoModel.getInstance();
     long loginid=Long.parseLong(userInfoModel.getUser().getUserid());
-    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
