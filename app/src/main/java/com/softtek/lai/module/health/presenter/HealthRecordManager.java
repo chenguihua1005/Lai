@@ -62,6 +62,13 @@ public class HealthRecordManager {
                 cb.getHealthWeightRecords(healthWeightModelResponseData.getData());
                 Log.i("diaoyonng111111");
             }
+
+            @Override
+            public void failure(RetrofitError error) {
+                cb.getHealthWeightRecords(null);
+                super.failure(error);
+
+            }
         });
     }
     //内脂
@@ -72,6 +79,12 @@ public class HealthRecordManager {
                 Log.i(healthFatModelResponseData.toString());
                 cb.getHealthfatRecords(healthFatModelResponseData.getData());
                 Util.toastMsg(healthFatModelResponseData.getMsg());
+            }
+            @Override
+            public void failure(RetrofitError error) {
+                cb.getHealthWeightRecords(null);
+                super.failure(error);
+
             }
 
         });
@@ -85,6 +98,12 @@ public class HealthRecordManager {
                 cb.getHealthcircumRecords(healthCircrumModelResponseData.getData());
                 Util.toastMsg(healthCircrumModelResponseData.getMsg());
             }
+            @Override
+            public void failure(RetrofitError error) {
+                cb.getHealthWeightRecords(null);
+                super.failure(error);
+
+            }
         });
     }
     //腰围
@@ -96,6 +115,12 @@ public class HealthRecordManager {
                 cb.getHealthwaistlineRecords(healthWaistlineModelResponseData.getData());
                 Util.toastMsg(healthWaistlineModelResponseData.getMsg());
             }
+            @Override
+            public void failure(RetrofitError error) {
+                cb.getHealthWeightRecords(null);
+                super.failure(error);
+
+            }
         });
     }
     //臀围
@@ -106,6 +131,12 @@ public class HealthRecordManager {
                 Log.i(healthHiplieModelResponseData.toString());
                 cb.getHealthhiplieRecords(healthHiplieModelResponseData.getData());
                 Util.toastMsg(healthHiplieModelResponseData.getMsg());
+            }
+            @Override
+            public void failure(RetrofitError error) {
+                cb.getHealthWeightRecords(null);
+                super.failure(error);
+
             }
         });
     }
@@ -119,6 +150,12 @@ public class HealthRecordManager {
                 cb.getHealthupArmGirthRecords(healthUpArmGirthModelResponseData.getData());
                 Util.toastMsg(healthUpArmGirthModelResponseData.getMsg());
             }
+            @Override
+            public void failure(RetrofitError error) {
+                cb.getHealthWeightRecords(null);
+                super.failure(error);
+
+            }
         });
     }
     //大腿围
@@ -130,6 +167,12 @@ public class HealthRecordManager {
                 cb.getGetHealthupLegGirthRecords(healthupLegGirthModelResponseData.getData());
                 Util.toastMsg(healthupLegGirthModelResponseData.getMsg());
             }
+            @Override
+            public void failure(RetrofitError error) {
+                cb.getHealthWeightRecords(null);
+                super.failure(error);
+
+            }
         });
     }
     //小腿围
@@ -140,6 +183,12 @@ public class HealthRecordManager {
                 Log.i(healthdoLegGirthModelResponseData.toString());
                 cb.getHealthdoLegGirthRecords(healthdoLegGirthModelResponseData.getData());
                 Util.toastMsg(healthdoLegGirthModelResponseData.getMsg());
+            }
+            @Override
+            public void failure(RetrofitError error) {
+                cb.getHealthWeightRecords(null);
+                super.failure(error);
+
             }
         });
     }

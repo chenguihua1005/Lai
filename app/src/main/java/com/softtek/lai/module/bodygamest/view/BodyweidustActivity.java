@@ -111,12 +111,12 @@ public class BodyweidustActivity extends BaseActivity implements View.OnClickLis
         Intent intent=getIntent();
         retestWrite= (RetestWriteModel) getIntent().getSerializableExtra("retestWrite");
         state=intent.getStringExtra("isState");
-        tv_retest_circum.setText(retestWrite.getCircum());
-        tv_retest_waistline.setText(retestWrite.getWaistline());
-        tv_retest_hiplie.setText(retestWrite.getHiplie());
-        tv_retest_uparmgirth.setText(retestWrite.getUpArmGirth());
-        tv_retest_upleggirth.setText(retestWrite.getUpArmGirth());
-        tv_retest_doleggirth.setText(retestWrite.getDoLegGirth());
+        tv_retest_circum.setText(Float.parseFloat(retestWrite.getCircum())+"");
+        tv_retest_waistline.setText(Float.parseFloat(retestWrite.getWaistline())+"");
+        tv_retest_hiplie.setText(Float.parseFloat(retestWrite.getHiplie())+"");
+        tv_retest_uparmgirth.setText(Float.parseFloat(retestWrite.getUpArmGirth())+"");
+        tv_retest_upleggirth.setText(Float.parseFloat(retestWrite.getUpArmGirth())+"");
+        tv_retest_doleggirth.setText(Float.parseFloat(retestWrite.getDoLegGirth())+"");
 
 //        tv_retest_circum.setText("null".equals(retestWrite.getCircum()+"")?"":retestWrite.getCircum()+"");
 //        tv_retest_waistline.setText("null".equals(retestWrite.getWaistline()+"")?"":retestWrite.getWaistline()+"");
@@ -184,12 +184,12 @@ public class BodyweidustActivity extends BaseActivity implements View.OnClickLis
 
 
                 retestWrite=new RetestWriteModel();
-                retestWrite.setCircum(tv_retest_circum.getText().toString());
-                retestWrite.setWaistline(tv_retest_waistline.getText().toString());
-                retestWrite.setHiplie(tv_retest_hiplie.getText().toString());
-                retestWrite.setUpArmGirth(tv_retest_uparmgirth.getText().toString());
-                retestWrite.setUpLegGirth(tv_retest_upleggirth.getText().toString());
-                retestWrite.setDoLegGirth(tv_retest_doleggirth.getText().toString());
+                retestWrite.setCircum(Float.parseFloat(tv_retest_circum.getText().toString())+"");
+                retestWrite.setWaistline(Float.parseFloat(tv_retest_waistline.getText().toString())+"");
+                retestWrite.setHiplie(Float.parseFloat(tv_retest_hiplie.getText().toString())+"");
+                retestWrite.setUpArmGirth(Float.parseFloat(tv_retest_uparmgirth.getText().toString())+"");
+                retestWrite.setUpLegGirth(Float.parseFloat(tv_retest_upleggirth.getText().toString())+"");
+                retestWrite.setDoLegGirth(Float.parseFloat(tv_retest_doleggirth.getText().toString())+"");
                 Intent intent=new Intent();
                 intent.putExtra("retestWrite",retestWrite);
                 setResult(RESULT_OK,intent);

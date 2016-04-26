@@ -179,15 +179,15 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         Log.i("username"+laichModel.getCircum());
 //        tv_write_nick.setText(measureModel.getUsername());
 //        tv_write_phone.setText(measureModel.getPhone());
-        tv_retestWrites_nowweight.setText(laichModel.getWeight());
-        tv_retestWritest_tizhi.setText(laichModel.getPysical());
-        tv_retestWritest_neizhi.setText(laichModel.getFat());
-        retestWrite.setCircum(laichModel.getCircum());
-        retestWrite.setWaistline(laichModel.getWaistline());
-        retestWrite.setHiplie(laichModel.getHiplie());
-        retestWrite.setUpArmGirth(laichModel.getUpArmGirth());
-        retestWrite.setUpLegGirth(laichModel.getUpLegGirth());
-        retestWrite.setDoLegGirth(laichModel.getDoLegGirth());
+        tv_retestWrites_nowweight.setText(Float.parseFloat(laichModel.getWeight())+"");
+        tv_retestWritest_tizhi.setText(Float.parseFloat(laichModel.getPysical())+"");
+        tv_retestWritest_neizhi.setText(Float.parseFloat(laichModel.getFat())+"");
+        retestWrite.setCircum(Float.parseFloat(laichModel.getCircum())+"");
+        retestWrite.setWaistline(Float.parseFloat(laichModel.getWaistline())+"");
+        retestWrite.setHiplie(Float.parseFloat(laichModel.getHiplie())+"");
+        retestWrite.setUpArmGirth(Float.parseFloat(laichModel.getUpArmGirth())+"");
+        retestWrite.setUpLegGirth(Float.parseFloat(laichModel.getUpLegGirth())+"");
+        retestWrite.setDoLegGirth(Float.parseFloat(laichModel.getDoLegGirth())+"");
     }
     @Override
     protected void initViews() {
@@ -304,7 +304,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     @Subscribe
     public void doGetDates(RetestAuditModelEvent retestAuditModelEvent){
         Log.i("retestAuditModel"+retestAuditModelEvent.getRetestAuditModels());
-        tv_writes_chu_weight.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getInitWeight());
+        tv_writes_chu_weight.setText(Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getInitWeight())+"");
         tv_writest_nick.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getUserName());
         Mobile=retestAuditModelEvent.getRetestAuditModels().get(0).getMobile();
         tv_writest_phone.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getMobile());
@@ -330,7 +330,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
 
         if (retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("1")||retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("2"))
         {
-            tv_retestWrites_nowweight.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getWeight());
+            tv_retestWrites_nowweight.setText(Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getWeight())+"");
             tv_retestWritest_tizhi.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getPysical());
             tv_retestWritest_neizhi.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getFat());
             retestWrite.setCircum(retestAuditModelEvent.getRetestAuditModels().get(0).getCircum());
@@ -343,6 +343,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
             bt_pingshen.setFocusable(false);
             bt_pingshen.setBackgroundResource(R.drawable.shape_retest_write_boder_disable);
             bt_pingshen.setTextColor(this.getResources().getColor(R.color.grey));
+            btn_retest_write_addbodyst.setText("查看围度记录");
 
             if(!TextUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getImage())) {
                 im_retestwritest_showphoto.setVisibility(View.VISIBLE);
