@@ -88,7 +88,7 @@ public class UpConfirmInfoImpl implements IUpConfirmInfopresenter {
                         ((JoinGameDetailActivity) context).finish();
                         break;
                     case 500:
-                        Util.toastMsg("修改失败");
+                        Util.toastMsg(coninfoModelResponseData.getMsg());
                         break;
                 }
             }
@@ -117,7 +117,7 @@ public class UpConfirmInfoImpl implements IUpConfirmInfopresenter {
                         EventBus.getDefault().post(photModel);
                         break;
                     case 500:
-                        Util.toastMsg("上传图片异常");
+                        Util.toastMsg(upimgResponseData.getMsg());
                         break;
                 }
             }

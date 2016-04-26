@@ -15,28 +15,27 @@
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar" />
-
+    <ImageView
+        android:id="@+id/img_mo_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@drawable/no_message"
+        android:visibility="gone"/>
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/lin_create_class"
         android:layout_below="@+id/toolbar"
+        android:layout_centerInParent="true"
         android:layout_marginTop="20dip">
-
-        <ImageView
-            android:id="@+id/img_mo_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:src="@drawable/no_message"
-            android:visibility="gone" />
 
         <ListView
             android:id="@+id/expand_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:divider="@color/sc_transparent_background"
-            android:dividerHeight="4dip" />
+            android:dividerHeight="4dip"/>
     </RelativeLayout>
 
     <LinearLayout
