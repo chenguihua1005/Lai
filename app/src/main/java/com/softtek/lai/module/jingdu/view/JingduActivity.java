@@ -42,6 +42,9 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
 
+    @InjectView(R.id.tv_title)
+    TextView tv_title;
+
     @InjectView(R.id.tv_right)
     TextView tv_right;
 
@@ -166,7 +169,8 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     protected void initDatas() {
-        tv_right.setText("分享");
+        tv_title.setText("当期进度");
+        //tv_right.setText("分享");
     }
 
     @Subscribe
