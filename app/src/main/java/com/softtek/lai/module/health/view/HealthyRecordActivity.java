@@ -3,32 +3,17 @@ package com.softtek.lai.module.health.view;
 import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
-import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.health.adapter.HealthyRecordFragmentAdapter;
-import com.softtek.lai.module.health.model.HealthCircrumModel;
-import com.softtek.lai.module.health.model.HealthFatModel;
-import com.softtek.lai.module.health.model.HealthHiplieModel;
-import com.softtek.lai.module.health.model.HealthUpArmGirthModel;
-import com.softtek.lai.module.health.model.HealthWaistlineModel;
-import com.softtek.lai.module.health.model.HealthWeightModel;
-import com.softtek.lai.module.health.model.HealthdoLegGirthModel;
-import com.softtek.lai.module.health.model.HealthupLegGirthModel;
-import com.softtek.lai.module.health.model.PysicalModel;
-import com.softtek.lai.module.health.presenter.HealthRecordManager;
-import com.softtek.lai.module.health.presenter.HealthyRecordImpl;
-import com.softtek.lai.module.retest.present.RetestPre;
-import com.softtek.lai.module.retest.present.RetestclassImp;
 import com.softtek.lai.widgets.NoSlidingViewPage;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,46 +22,28 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_weight)
-public class HealthyRecordActivity extends BaseActivity implements View.OnClickListener,BaseFragment.OnFragmentInteractionListener,HealthRecordManager.HealthRecordCallBack{
+public class HealthyRecordActivity extends BaseActivity implements View.OnClickListener,BaseFragment.OnFragmentInteractionListener,ViewPager.OnPageChangeListener{
 
-    private HealthyRecordImpl healthyRecord;
+
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.tv_title)
     TextView tv_title;
-
     @InjectView(R.id.tab)
     TabLayout tab;
     @InjectView(R.id.tab_content)
     NoSlidingViewPage tab_content;
-    RetestPre retestPre;
-    UserInfoModel userInfoModel=UserInfoModel.getInstance();
-    String moblie=userInfoModel.getUser().getMobile();
-    List<Float> dates=new ArrayList<Float>();
-
     List<Fragment> fragmentList=new ArrayList<>();
-    HealthRecordManager healthRecordManager;
 
     @Override
     protected void initViews() {
 
         ll_left.setOnClickListener(this);
         tv_title.setText("历史数据");
-        retestPre=new RetestclassImp();
-        retestPre.GetUserMeasuredInfo(moblie);
-
     }
-
-//    @Override
-//    protected void onDestroy() {
-//        EventBus.getDefault().unregister(this);
-//        super.onDestroy();
-//    }
 
     @Override
     protected void initDatas() {
-//        EventBus.getDefault().register(this);
-        healthRecordManager=new HealthRecordManager(this);
         WeightFragment weightFragment=new WeightFragment();
         BodyFatFragment bodyFatFragment=new BodyFatFragment();
         FatFragment fatFragment=new FatFragment();
@@ -96,6 +63,7 @@ public class HealthyRecordActivity extends BaseActivity implements View.OnClickL
         fragmentList.add(legFragment);
         fragmentList.add(shinFragment);
         tab_content.setAdapter(new HealthyRecordFragmentAdapter(getSupportFragmentManager(), fragmentList));
+        tab_content.addOnPageChangeListener(this);
         tab.setupWithViewPager(tab_content);
         tab.setTabMode(TabLayout.MODE_SCROLLABLE);
         int item=getIntent().getIntExtra("id",0);
@@ -119,70 +87,52 @@ public class HealthyRecordActivity extends BaseActivity implements View.OnClickL
 
     }
 
+
     @Override
-    public void getHealthPysicalRecords(PysicalModel pysicalModel) {
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
     }
 
     @Override
-    public void getHealthWeightRecords(HealthWeightModel healthWeightModel) {
+    public void onPageSelected(int position) {
+        Log.i("页面切换到===》"+position);
+        switch (position)
+        {
+            case 0:
+                ((WeightFragment)fragmentList.get(0)).updateStatus();
+                break;
+            case 1:
+                ((BodyFatFragment)fragmentList.get(1)).updateBodyFatStatus();
+                break;
+            case 2:
+                ((FatFragment)fragmentList.get(2)).updateFatStatus();
+                break;
+            case 3:
+                ((BustFragment)fragmentList.get(3)).updateBustStatus();
+                break;
+            case 4:
+                ((WaistlineFragment)fragmentList.get(4)).updateWaistlineStatus();
+                break;
+            case 5:
+                ((HiplineFragment)fragmentList.get(5)).updateHiplineStatus();
+                break;
+            case 6:
+                ((UpHiplineFragment)fragmentList.get(6)).updateUpHiplineStatus();
+                break;
+            case 7:
+                ((LegFragment)fragmentList.get(7)).updateLegStatus();
+                break;
+            case 8:
+                ((ShinFragment)fragmentList.get(8)).updateShinStatus();
+                break;
 
+        }
     }
 
     @Override
-    public void getHealthfatRecords(HealthFatModel healthFatModel) {
+    public void onPageScrollStateChanged(int state) {
 
     }
-
-    @Override
-    public void getHealthcircumRecords(HealthCircrumModel healthCircrumModel) {
-
-    }
-
-    @Override
-    public void getHealthwaistlineRecords(HealthWaistlineModel healthWaistlineModel) {
-
-    }
-
-    @Override
-    public void getHealthhiplieRecords(HealthHiplieModel healthHiplieModel) {
-
-    }
-
-    @Override
-    public void getHealthupArmGirthRecords(HealthUpArmGirthModel healthUpArmGirthModel) {
-
-    }
-
-    @Override
-    public void getGetHealthupLegGirthRecords(HealthupLegGirthModel healthupLegGirthModel) {
-
-    }
-
-    @Override
-    public void getHealthdoLegGirthRecords(HealthdoLegGirthModel healthdoLegGirthModel) {
-
-    }
-
-//    @Subscribe
-//    public void getPysicalList(PysicalModel pysicalModel) {
-//        System.out.println("健康记录脂肪" + pysicalModel.getFirstrecordtime());
-//        for (int i=pysicalModel.getPysicallist().size()-1;i>-1;i--) {
-//            dates.add(Float.parseFloat(pysicalModel.getPysicallist().get(i).getPysical()));
-//
-//        }
-//
-//    }
-//    @Subscribe
-//    public void getWeightList(HealthWeightModel healthWeightModel) {
-//        System.out.println("健康记录体重" + healthWeightModel.getFirstrecordtime());
-//        int n=healthWeightModel.getweightlist().size();
-//        for (int i=healthWeightModel.getweightlist().size()-1;i>-1;i--) {
-//            dates.add(Float.parseFloat(healthWeightModel.getweightlist().get(i).getWeight()));
-//        }
-
-
-//    }
 
 
 

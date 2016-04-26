@@ -125,7 +125,11 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
 
     @Override
     protected void initDatas() {
+        progressDialog=new ProgressDialog(getContext());
+        progressDialog.setMessage("加载中...");
+        progressDialog.setCanceledOnTouchOutside(false);
         healthRecordManager=new HealthRecordManager(this);
+        week.setChecked(true);
         chartUtil=new LineChartUtil(getContext(),chart);
         dates.clear();
 //        pysicalManager=new PysicalManager(getContext());
@@ -144,6 +148,7 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
         days.add(formdate(nowdate5));
         days.add(formdate(nowdate6));
         days.add(formdate(nowdate7));
+        progressDialog.show();
         healthRecordManager.doGetHealthPysicalRecords(date,getDateform(nowdate1)+" "+datetime[1],1);
 
 
@@ -284,6 +289,7 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
                         days.add(formdate(nowdate5));
                         days.add(formdate(nowdate6));
                         days.add(formdate(nowdate7));
+                        progressDialog.show();
                         healthRecordManager.doGetHealthPysicalRecords(getDateform(nowdate7)+" "+datetime[1],getDateform(nowdate1)+" "+datetime[1],1);
                         n = n + 7;
                         bt_right.setVisibility(View.VISIBLE);
@@ -296,7 +302,6 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
                         state=true;
                         dates.clear();
                         days.clear();
-                        flag=1;
                         type='6';
                         String monthdate4=getPeriodDate(type,7*n)+"";
                         String monthdate3=getPeriodDate(type,7*(n+1))+"";
@@ -306,6 +311,7 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
                         days.add(formdate(monthdate2));
                         days.add(formdate(monthdate3));
                         days.add(formdate(monthdate4));
+                        progressDialog.show();
                         healthRecordManager.doGetHealthPysicalRecords(getDateform(monthdate4)+" "+datetime[1],getDateform(monthdate1)+" "+datetime[1],2);
                         n=n+4;
                         bt_right.setVisibility(View.VISIBLE);
@@ -318,7 +324,6 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
                         state=true;
                         dates.clear();
                         days.clear();
-                        flag=1;
                         type='6';
                         String quarterdate4=getPeriodDate(type,21*n)+"";
                         String quarterdate3=getPeriodDate(type,21*(n+1))+"";
@@ -328,6 +333,7 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
                         days.add(formdate(quarterdate2));
                         days.add(formdate(quarterdate3));
                         days.add(formdate(quarterdate4));
+                        progressDialog.show();
                         healthRecordManager.doGetHealthPysicalRecords(getDateform(quarterdate4)+" "+datetime[1],getDateform(quarterdate1)+" "+datetime[1],3);
                         n=n+4;
                         bt_right.setVisibility(View.VISIBLE);
@@ -340,10 +346,7 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
                         dates.clear();
                         days.clear();
                         state=true;
-                        bt_right.setVisibility(View.GONE);
                         type='7';
-                        n=7;
-                        chartUtil.addData(dates,4,days);
                         String yeardate4=getPeriodDate(type,2*n)+"";
                         String yeardate3=getPeriodDate(type,2*(n+1))+"";
                         String yeardate2=getPeriodDate(type,2*(n+2))+"";
@@ -353,7 +356,10 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
                         days.add(formyeardate(yeardate2));
                         days.add(formyeardate(yeardate3));
                         days.add(formyeardate(yeardate4));
+                        progressDialog.show();
                         healthRecordManager.doGetHealthPysicalRecords(getDateform(yeardate4)+" "+datetime[1],getDateform(yeardate0)+" "+datetime[1],4);
+                        n=n+4;
+                        bt_right.setVisibility(View.VISIBLE);
                         break;
                 }
 
@@ -387,6 +393,7 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
                         days.add(formdate(nowdate5));
                         days.add(formdate(nowdate6));
                         days.add(formdate(nowdate7));
+                        progressDialog.show();
                         healthRecordManager.doGetHealthPysicalRecords(getDateform(nowdate7)+" "+datetime[1],getDateform(nowdate1)+" "+datetime[1],1);
                         state=false;
                         if (nowdate7.equals(getPeriodDate(type,0)+""))
@@ -411,6 +418,7 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
                         days.add(formdate(monthdate2));
                         days.add(formdate(monthdate3));
                         days.add(formdate(monthdate4));
+                        progressDialog.show();
                         healthRecordManager.doGetHealthPysicalRecords(getDateform(monthdate4)+" "+datetime[1],getDateform(monthdate1)+" "+datetime[1],2);
                         state=false;
                         if (monthdate4.equals(getPeriodDate(type,0)+""))
@@ -435,6 +443,7 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
                         days.add(formdate(quarterdate2));
                         days.add(formdate(quarterdate3));
                         days.add(formdate(quarterdate4));
+                        progressDialog.show();
                         healthRecordManager.doGetHealthPysicalRecords(getDateform(quarterdate4)+" "+datetime[1],getDateform(quarterdate1)+" "+datetime[1],3);
                         bt_right.setVisibility(View.VISIBLE);
                         state=false;
@@ -442,6 +451,31 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
                             bt_right.setVisibility(View.GONE);
                         break;
                     case 3:
+                        if (state!=false) {
+                            n = n - 8;
+                        }
+                        else {
+                            n=n-4;
+
+                        }
+                        dates.clear();
+                        days.clear();
+                        type='7';
+                        String yeardate4=getPeriodDate(type,2*n)+"";
+                        String yeardate3=getPeriodDate(type,2*(n+1))+"";
+                        String yeardate2=getPeriodDate(type,2*(n+2))+"";
+                        String yeardate1=getPeriodDate(type,2*(n+3))+"";
+                        String yeardate0=getPeriodDate(type,2*(n+4))+"";
+                        days.add(formyeardate(yeardate1));
+                        days.add(formyeardate(yeardate2));
+                        days.add(formyeardate(yeardate3));
+                        days.add(formyeardate(yeardate4));
+                        progressDialog.show();
+                        healthRecordManager.doGetHealthPysicalRecords(getDateform(yeardate4)+" "+datetime[1],getDateform(yeardate0)+" "+datetime[1],4);
+                        bt_right.setVisibility(View.VISIBLE);
+                        state=false;
+                        if (yeardate4.equals(getPeriodDate(type,0)+""))
+                            bt_right.setVisibility(View.GONE);
                         break;
                 }
 
@@ -469,6 +503,7 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
                 days.add(formdate(weekdate5));
                 days.add(formdate(weekdate6));
                 days.add(formdate(weekdate7));
+                progressDialog.show();
                 healthRecordManager.doGetHealthPysicalRecords(date,getDateform(weekdate1)+" "+datetime[1],1);
 
                 break;
@@ -488,6 +523,7 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
                 days.add(formdate(monthdate2));
                 days.add(formdate(monthdate3));
                 days.add(formdate(monthdate4));
+                progressDialog.show();
                 healthRecordManager.doGetHealthPysicalRecords(getDateform(monthdate4)+" "+datetime[1],getDateform(monthdate1)+" "+datetime[1],2);
                 break;
             case R.id.quarter:
@@ -506,6 +542,7 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
                 days.add(formdate(quarterdate2));
                 days.add(formdate(quarterdate3));
                 days.add(formdate(quarterdate4));
+                progressDialog.show();
                 healthRecordManager.doGetHealthPysicalRecords(getDateform(quarterdate4)+" "+datetime[1],getDateform(quarterdate1)+" "+datetime[1],3);
                 break;
             case R.id.year:
@@ -515,8 +552,7 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
                 state=true;
                 bt_right.setVisibility(View.GONE);
                 type='7';
-                n=7;
-                chartUtil.addData(dates,4,days);
+                n=4;
                 String yeardate4=getPeriodDate(type,0)+"";
                 String yeardate3=getPeriodDate(type,2)+"";
                 String yeardate2=getPeriodDate(type,4)+"";
@@ -526,6 +562,7 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
                 days.add(formyeardate(yeardate2));
                 days.add(formyeardate(yeardate3));
                 days.add(formyeardate(yeardate4));
+                progressDialog.show();
                 healthRecordManager.doGetHealthPysicalRecords(getDateform(yeardate4)+" "+datetime[1],getDateform(yeardate0)+" "+datetime[1],4);
                 break;
         }
@@ -542,14 +579,17 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
 
     @Override
     public void getHealthPysicalRecords(PysicalModel pysicalModel) {
+        progressDialog.dismiss();
+        if(pysicalModel==null){
+            return;
+        }
         System.out.println("健康记录" + pysicalModel.getFirstrecordtime());
         int n=pysicalModel.getPysicallist().size();
         for (int i=pysicalModel.getPysicallist().size()-1;i>-1;i--) {
             dates.add(Float.parseFloat(pysicalModel.getPysicallist().get(i).getPysical()));
         }
         chartUtil.addData(dates,n,days);
-        days.get(0);
-        days.get(1);
+
     }
 
     @Override
@@ -590,5 +630,33 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
     @Override
     public void getHealthdoLegGirthRecords(HealthdoLegGirthModel healthdoLegGirthModel) {
 
+    }
+    public void updateBodyFatStatus(){
+
+        week.setChecked(true);
+        flag=0;
+        type='6';
+        n=7;
+        state=true;
+        bt_right.setVisibility(View.GONE);
+        bt_right.setVisibility(View.GONE);
+        dates.clear();
+        days.clear();
+        String weekdate7=getPeriodDate(type,0)+"";
+        String weekdate6=getPeriodDate(type,1)+"";
+        String weekdate5=getPeriodDate(type,2)+"";
+        String weekdate4=getPeriodDate(type,3)+"";
+        String weekdate3=getPeriodDate(type,4)+"";
+        String weekdate2=getPeriodDate(type,5)+"";
+        String weekdate1=getPeriodDate(type,6)+"";
+        days.add(formdate(weekdate1));
+        days.add(formdate(weekdate2));
+        days.add(formdate(weekdate3));
+        days.add(formdate(weekdate4));
+        days.add(formdate(weekdate5));
+        days.add(formdate(weekdate6));
+        days.add(formdate(weekdate7));
+        progressDialog.show();
+        healthRecordManager.doGetHealthPysicalRecords(date,getDateform(weekdate1)+" "+datetime[1],1);
     }
 }
