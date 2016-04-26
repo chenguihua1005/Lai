@@ -61,6 +61,10 @@ public class HealthRecordManager {
                 Log.i("diaoyonng");
                 cb.getHealthWeightRecords(healthWeightModelResponseData.getData());
                 Log.i("diaoyonng111111");
+                if (!healthWeightModelResponseData.getMsg().equals("200"))
+                {
+                    Util.toastMsg(healthWeightModelResponseData.getMsg());
+                }
             }
 
             @Override
@@ -78,11 +82,14 @@ public class HealthRecordManager {
             public void success(ResponseData<HealthFatModel> healthFatModelResponseData, Response response) {
                 Log.i(healthFatModelResponseData.toString());
                 cb.getHealthfatRecords(healthFatModelResponseData.getData());
-                Util.toastMsg(healthFatModelResponseData.getMsg());
+                if (!healthFatModelResponseData.getMsg().equals("200"))
+                {
+                    Util.toastMsg(healthFatModelResponseData.getMsg());
+                }
             }
             @Override
             public void failure(RetrofitError error) {
-                cb.getHealthWeightRecords(null);
+                cb.getHealthfatRecords(null);
                 super.failure(error);
 
             }
@@ -96,11 +103,14 @@ public class HealthRecordManager {
             public void success(ResponseData<HealthCircrumModel> healthCircrumModelResponseData, Response response) {
                 Log.i(healthCircrumModelResponseData.toString());
                 cb.getHealthcircumRecords(healthCircrumModelResponseData.getData());
-                Util.toastMsg(healthCircrumModelResponseData.getMsg());
+                if (!healthCircrumModelResponseData.getMsg().equals("200"))
+                {
+                    Util.toastMsg(healthCircrumModelResponseData.getMsg());
+                }
             }
             @Override
             public void failure(RetrofitError error) {
-                cb.getHealthWeightRecords(null);
+                cb.getHealthcircumRecords(null);
                 super.failure(error);
 
             }
@@ -113,11 +123,14 @@ public class HealthRecordManager {
             public void success(ResponseData<HealthWaistlineModel> healthWaistlineModelResponseData, Response response) {
                 Log.i(healthWaistlineModelResponseData.toString());
                 cb.getHealthwaistlineRecords(healthWaistlineModelResponseData.getData());
-                Util.toastMsg(healthWaistlineModelResponseData.getMsg());
+                if (!healthWaistlineModelResponseData.getMsg().equals("200"))
+                {
+                    Util.toastMsg(healthWaistlineModelResponseData.getMsg());
+                }
             }
             @Override
             public void failure(RetrofitError error) {
-                cb.getHealthWeightRecords(null);
+                cb.getHealthwaistlineRecords(null);
                 super.failure(error);
 
             }
@@ -130,11 +143,14 @@ public class HealthRecordManager {
             public void success(ResponseData<HealthHiplieModel> healthHiplieModelResponseData, Response response) {
                 Log.i(healthHiplieModelResponseData.toString());
                 cb.getHealthhiplieRecords(healthHiplieModelResponseData.getData());
-                Util.toastMsg(healthHiplieModelResponseData.getMsg());
+                if (!healthHiplieModelResponseData.getMsg().equals("200"))
+                {
+                    Util.toastMsg(healthHiplieModelResponseData.getMsg());
+                }
             }
             @Override
             public void failure(RetrofitError error) {
-                cb.getHealthWeightRecords(null);
+                cb.getHealthhiplieRecords(null);
                 super.failure(error);
 
             }
@@ -148,11 +164,14 @@ public class HealthRecordManager {
             public void success(ResponseData<HealthUpArmGirthModel> healthUpArmGirthModelResponseData, Response response) {
                 Log.i(healthUpArmGirthModelResponseData.toString());
                 cb.getHealthupArmGirthRecords(healthUpArmGirthModelResponseData.getData());
-                Util.toastMsg(healthUpArmGirthModelResponseData.getMsg());
+                if (!healthUpArmGirthModelResponseData.getMsg().equals("200"))
+                {
+                    Util.toastMsg(healthUpArmGirthModelResponseData.getMsg());
+                }
             }
             @Override
             public void failure(RetrofitError error) {
-                cb.getHealthWeightRecords(null);
+                cb.getHealthupArmGirthRecords(null);
                 super.failure(error);
 
             }
@@ -165,11 +184,14 @@ public class HealthRecordManager {
             public void success(ResponseData<HealthupLegGirthModel> healthupLegGirthModelResponseData, Response response) {
                 Log.i(healthupLegGirthModelResponseData.toString());
                 cb.getGetHealthupLegGirthRecords(healthupLegGirthModelResponseData.getData());
-                Util.toastMsg(healthupLegGirthModelResponseData.getMsg());
+                if (!healthupLegGirthModelResponseData.getMsg().equals("200"))
+                {
+                    Util.toastMsg(healthupLegGirthModelResponseData.getMsg());
+                }
             }
             @Override
             public void failure(RetrofitError error) {
-                cb.getHealthWeightRecords(null);
+                cb.getGetHealthupLegGirthRecords(null);
                 super.failure(error);
 
             }
@@ -182,11 +204,14 @@ public class HealthRecordManager {
             public void success(ResponseData<HealthdoLegGirthModel> healthdoLegGirthModelResponseData, Response response) {
                 Log.i(healthdoLegGirthModelResponseData.toString());
                 cb.getHealthdoLegGirthRecords(healthdoLegGirthModelResponseData.getData());
-                Util.toastMsg(healthdoLegGirthModelResponseData.getMsg());
+                if (!healthdoLegGirthModelResponseData.getMsg().equals("200"))
+                {
+                    Util.toastMsg(healthdoLegGirthModelResponseData.getMsg());
+                }
             }
             @Override
             public void failure(RetrofitError error) {
-                cb.getHealthWeightRecords(null);
+                cb.getHealthdoLegGirthRecords(null);
                 super.failure(error);
 
             }
