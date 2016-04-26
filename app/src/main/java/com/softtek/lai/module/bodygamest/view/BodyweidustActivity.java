@@ -111,20 +111,16 @@ public class BodyweidustActivity extends BaseActivity implements View.OnClickLis
         Intent intent=getIntent();
         retestWrite= (RetestWriteModel) getIntent().getSerializableExtra("retestWrite");
         state=intent.getStringExtra("isState");
+        if (!state.equals("true"))
+        {
+            btn_retest_save.setVisibility(View.GONE);
+        }
         tv_retest_circum.setText(Float.parseFloat(retestWrite.getCircum())+"");
         tv_retest_waistline.setText(Float.parseFloat(retestWrite.getWaistline())+"");
         tv_retest_hiplie.setText(Float.parseFloat(retestWrite.getHiplie())+"");
         tv_retest_uparmgirth.setText(Float.parseFloat(retestWrite.getUpArmGirth())+"");
         tv_retest_upleggirth.setText(Float.parseFloat(retestWrite.getUpArmGirth())+"");
         tv_retest_doleggirth.setText(Float.parseFloat(retestWrite.getDoLegGirth())+"");
-
-//        tv_retest_circum.setText("null".equals(retestWrite.getCircum()+"")?"":retestWrite.getCircum()+"");
-//        tv_retest_waistline.setText("null".equals(retestWrite.getWaistline()+"")?"":retestWrite.getWaistline()+"");
-//        tv_retest_hiplie.setText("null".equals(retestWrite.getHiplie()+"")?"":retestWrite.getHiplie()+"");
-//        tv_retest_uparmgirth.setText("null".equals(retestWrite.getUpArmGirth()+"")?"":retestWrite.getUpArmGirth()+"");
-//        tv_retest_upleggirth.setText("null".equals(retestWrite.getUpLegGirth()+"")?"":retestWrite.getUpLegGirth()+"");
-//        tv_retest_doleggirth.setText("null".equals(retestWrite.getDoLegGirth()+"")?"":retestWrite.getDoLegGirth()+"");
-
 
 
     }
