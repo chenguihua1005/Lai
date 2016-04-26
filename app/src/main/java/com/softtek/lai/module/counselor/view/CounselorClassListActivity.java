@@ -8,28 +8,26 @@ package com.softtek.lai.module.counselor.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.*;
-
-import butterknife.InjectView;
+import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.module.counselor.adapter.CounselorClassAdapter;
 import com.softtek.lai.module.counselor.model.ClassInfoModel;
 import com.softtek.lai.module.counselor.presenter.CounselorClassImpl;
 import com.softtek.lai.module.counselor.presenter.ICounselorClassPresenter;
 import com.softtek.lai.module.grade.view.GradeHomeActivity;
-import com.softtek.lai.utils.SoftInputUtil;
 
+import butterknife.InjectView;
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by jarvis.liu on 3/22/2016.
@@ -58,9 +56,9 @@ public class CounselorClassListActivity extends BaseActivity implements View.OnC
 
 
     private ICounselorClassPresenter counselorClassPresenter;
-    private CounselorClassAdapter adapter;
-    List<ClassInfoModel> list;
-    List<String> time_month_list = new ArrayList<String>();
+    //private CounselorClassAdapter adapter;
+    /*List<ClassInfoModel> list;
+    List<String> time_month_list = new ArrayList<String>();*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +80,6 @@ public class CounselorClassListActivity extends BaseActivity implements View.OnC
 
     @Override
     protected void initViews() {
-        //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
         tv_title.setText(R.string.CounselorA);
 
     }

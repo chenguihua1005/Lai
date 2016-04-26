@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,8 +18,11 @@ import com.softtek.lai.module.lossweightstory.model.Zan;
 import com.softtek.lai.module.lossweightstory.net.LossWeightLogService;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
+import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
@@ -81,9 +83,9 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                     if (holder.cb_zan.isChecked()) {
                         final UserInfoModel infoModel = UserInfoModel.getInstance();
                         model.setPriase(Integer.parseInt(model.getPriase()) + 1 + "");
-                        String before = "".equals(model.getUsernameSet()) ? "" : ",";
                         model.setIsClicked(Constants.HAS_ZAN);
-                        model.setUsernameSet(before + infoModel.getUser().getNickname());
+                        model.setUsernameSet(StringUtil.appendDot(model.getUsernameSet(),infoModel.getUser().getNickname(),
+                                infoModel.getUser().getMobile()));
                         //向服务器提交
                         String token = infoModel.getToken();
                         service.clickLike(token, Long.parseLong(infoModel.getUser().getUserid()),
@@ -98,7 +100,8 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                                         super.failure(error);
                                         int priase = Integer.parseInt(model.getPriase()) - 1 < 0 ? 0 : Integer.parseInt(model.getPriase()) - 1;
                                         model.setPriase(priase + "");
-                                        model.setUsernameSet(model.getUsernameSet().substring(0, model.getUsernameSet().lastIndexOf(",")));
+                                        String del=StringUtils.removeEnd(StringUtils.removeEnd(model.getUsernameSet(),infoModel.getUser().getNickname()),",");
+                                        model.setUsernameSet(del);
                                         model.setIsClicked(Constants.NO_ZAN);
                                         notifyDataSetChanged();
                                     }
@@ -123,6 +126,7 @@ public class LossWeightStoryAdapter extends BaseAdapter{
         visitableOrGone(holder,model.getImgCollection().split(","),path);
         return convertView;
     }
+
     static class ViewHolder{
         CircleImageView civ_header_image;
         TextView tv_name,tv_content,tv_date,tv_zan_name;

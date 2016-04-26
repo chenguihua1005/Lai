@@ -18,8 +18,11 @@ import com.softtek.lai.module.community.model.HealthyCommunityModel;
 import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
+import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
@@ -94,9 +97,9 @@ public class HealthyCommunityAdapter extends BaseAdapter{
                         if (holder.cb_zan.isChecked()) {
                             final UserInfoModel infoModel = UserInfoModel.getInstance();
                             model.setPraiseNum(Integer.parseInt(model.getPraiseNum()) + 1 + "");
-                            String before = "".equals(model.getUsernameSet()) ? "" : ",";
                             model.setIsPraise(Constants.HAS_ZAN);
-                            model.setUsernameSet(before + infoModel.getUser().getNickname());
+                            model.setUsernameSet(StringUtil.appendDot(model.getUsernameSet(),infoModel.getUser().getNickname(),
+                                    infoModel.getUser().getMobile()));
                             //向服务器提交
                             String token = infoModel.getToken();
                             service.clickLike(token,new DoZan(Long.parseLong(infoModel.getUser().getUserid()),model.getID()),
@@ -110,7 +113,8 @@ public class HealthyCommunityAdapter extends BaseAdapter{
                                             super.failure(error);
                                             int priase = Integer.parseInt(model.getPraiseNum()) - 1 < 0 ? 0 : Integer.parseInt(model.getPraiseNum()) - 1;
                                             model.setPraiseNum(priase + "");
-                                            model.setUsernameSet(model.getUsernameSet().substring(0, model.getUsernameSet().lastIndexOf(",")));
+                                            String del= StringUtils.removeEnd(StringUtils.removeEnd(model.getUsernameSet(),infoModel.getUser().getNickname()),",");
+                                            model.setUsernameSet(del);
                                             model.setIsPraise(Constants.NO_ZAN);
                                             notifyDataSetChanged();
                                         }
@@ -130,6 +134,7 @@ public class HealthyCommunityAdapter extends BaseAdapter{
         return convertView;
 
     }
+
     static class ViewHolder{
         CircleImageView civ_header_image;
         TextView tv_name,tv_content,tv_date,tv_zan_name;
