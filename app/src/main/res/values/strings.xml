@@ -46,6 +46,7 @@
     <string name="newPasswordNull">请输入新密码</string>
     <string name="oldPasswordNull">请输入原密码</string>
     <string name="resetpasswordNull">请输入确认密码</string>
+    <string name="resetNewpasswordNull">请输入确认新密码</string>
     <string name="phoneValidateNull">请输入手机号码</string>
     <string name="phoneValidateNullLogin">请输入手机号码/资格证号</string>
     <string name="passwordValidateNull">请输入密码</string>

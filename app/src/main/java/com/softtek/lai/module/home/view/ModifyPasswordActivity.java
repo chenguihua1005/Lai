@@ -50,7 +50,7 @@ public class ModifyPasswordActivity extends BaseActivity implements View.OnClick
     @InjectView(R.id.et_password)
     EditText et_password;
 
-    @Required(order = 4, messageResId = R.string.resetpasswordNull)
+    @Required(order = 4, messageResId = R.string.resetNewpasswordNull)
     @ConfirmPassword(order = 5, messageResId = R.string.confirmPassword)
     @InjectView(R.id.et_repassword)
     EditText et_repassword;
