@@ -653,6 +653,6 @@ public class FatFragment extends BaseFragment implements RadioGroup.OnCheckedCha
         days.add(formdate(weekdate6));
         days.add(formdate(weekdate7));
         progressDialog.show();
-        healthRecordManager.doGetHealthWeightRecords(date,getDateform(weekdate1)+" "+datetime[1],1);
+        healthRecordManager.doGetHealthfatRecords(date,getDateform(weekdate1)+" "+datetime[1],1);
     }
 }
