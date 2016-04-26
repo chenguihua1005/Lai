@@ -37,6 +37,7 @@ import com.softtek.lai.module.grade.model.PeopleModel;
 import com.softtek.lai.module.grade.presenter.GradeImpl;
 import com.softtek.lai.module.grade.presenter.IGrade;
 import com.softtek.lai.module.login.model.UserModel;
+import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
@@ -117,7 +118,6 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
     private IGrade grade;
     private DynamicAdapter adapter;
     private ProgressDialog progressDialog;
-    private AlertDialog dialog;
     private int count = 0;//计数器
     private int review_flag=0;
     private long classId=0;
@@ -166,11 +166,12 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
         lv_dynamic.setAdapter(adapter);
         grade.getClassDynamic(classId,1);
         imageFileSelector=new ImageFileSelector(this);
-        imageFileSelector.setQuality(100);
-        int px= DisplayUtil.dip2px(this, 100);
+        imageFileSelector.setQuality(30);
+        int px= DisplayUtil.dip2px(this, 300);
         imageFileSelector.setOutPutImageSize(px,px);
         imageCropper=new ImageCropper(this);
         imageCropper.setOutPutAspect(2, 1);
+        imageCropper.setOutPut(DisplayUtil.getMobileWidth(this),DisplayUtil.dip2px(this,130));
         imageCropper.setScale(true);
         imageCropper.setCallback(this);
         imageFileSelector.setCallback(this);
@@ -233,7 +234,7 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
                 view = getLayoutInflater().inflate(R.layout.activity_input_dynamic_alert, null);
                 et_content = (EditText) view.findViewById(R.id.et_content);
                 tv_dialog_title = (TextView) view.findViewById(R.id.tv__dialog_title);
-                et_content.addTextChangedListener(this);
+                //et_content.addTextChangedListener(this);
                 AlertDialog.Builder alert = new AlertDialog.Builder(this).setView(view)
                         .setPositiveButton("确认", this)
                         .setNegativeButton("取消", this);
@@ -249,11 +250,18 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
         if (grades != null && grades.size() > 0) {
             GradeInfoModel info = grades.get(0);
             tv_title.setText(info.getClassName());
-            tv_title_date.setText(info.getStartDate()+"-"+info.getEndDate());
+            String startDate=info.getStartDate();
+            String endDate=info.getEndDate();
+            tv_title_date.setText(DateUtil.getInstance(DateUtil.yyyy_MM_dd).getYear(startDate)+"年"+
+                                  DateUtil.getInstance(DateUtil.yyyy_MM_dd).getMonth(startDate)+"月"+"-"+
+                    DateUtil.getInstance(DateUtil.yyyy_MM_dd).getYear(endDate)+"年"+
+                    DateUtil.getInstance(DateUtil.yyyy_MM_dd).getMonth(endDate)+"月");
             tv_pc_num.setText(info.getPCNum() + "人");
             tv_sr_num.setText(info.getSRNum() + "人");
-            Picasso.with(this).load(info.getClassBanner()).fit().placeholder(R.drawable.default_pic)
-                    .error(R.drawable.default_pic).into(iv_grade_banner);
+            if (info.getClassBanner()!=null&&!info.getClassBanner().equals("")){
+                Picasso.with(this).load(info.getClassBanner()).fit().placeholder(R.drawable.default_pic)
+                        .error(R.drawable.default_pic).into(iv_grade_banner);
+            }
         }
         //加载学员头像
         List<PeopleModel> pcs = gradeModel.getPCInfo();

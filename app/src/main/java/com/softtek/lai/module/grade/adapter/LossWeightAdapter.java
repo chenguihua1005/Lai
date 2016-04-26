@@ -169,7 +169,7 @@ public class LossWeightAdapter extends BaseAdapter {
         holder.tv_name.setText(studentModel.getUserName());
         holder.tv_wl_before.setText("前 " + studentModel.getWaistlinebefor() + "cm");
         holder.tv_wl_after.setText("后 " + studentModel.getWaistlineAfter() + "cm");
-        holder.tv_wl_totle.setText("00");
+        holder.tv_wl_totle.setText(studentModel.getLossWeght());
         if (!"".equals(studentModel.getPhoto()) && null != studentModel.getPhoto()) {
             Picasso.with(context).load(AddressManager.get("photoHost") + studentModel.getPhoto()).fit().placeholder(R.drawable.img_default)
                     .error(R.drawable.img_default).into(holder.civ_header_image);

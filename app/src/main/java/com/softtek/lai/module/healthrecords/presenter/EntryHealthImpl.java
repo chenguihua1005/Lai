@@ -14,7 +14,7 @@ import com.softtek.lai.module.healthrecords.net.HealthRecordService;
 import com.softtek.lai.module.healthrecords.view.HealthEntryActivity;
 import com.softtek.lai.module.home.view.HealthyFragment;
 import com.softtek.lai.module.home.view.HealthyRecordFragment;
-import com.softtek.lai.module.home.view.HealthyRecordFragment$$ViewInjector;
+
 
 import org.greenrobot.eventbus.EventBus;
 

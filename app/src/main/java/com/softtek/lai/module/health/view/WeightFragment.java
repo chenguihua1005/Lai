@@ -10,10 +10,18 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.module.health.model.HealthCircrumModel;
 import com.softtek.lai.module.health.model.HealthDateModel;
+import com.softtek.lai.module.health.model.HealthFatModel;
+import com.softtek.lai.module.health.model.HealthHiplieModel;
+import com.softtek.lai.module.health.model.HealthUpArmGirthModel;
+import com.softtek.lai.module.health.model.HealthWaistlineModel;
 import com.softtek.lai.module.health.model.HealthWeightModel;
+import com.softtek.lai.module.health.model.HealthdoLegGirthModel;
+import com.softtek.lai.module.health.model.HealthupLegGirthModel;
 import com.softtek.lai.module.health.model.PysicalModel;
 import com.softtek.lai.module.health.model.WeekDateModel;
+import com.softtek.lai.module.health.presenter.HealthRecordManager;
 import com.softtek.lai.module.health.presenter.HealthyRecordImpl;
 import com.softtek.lai.module.health.presenter.IHealthyRecord;
 import com.softtek.lai.module.studetail.util.LineChartUtil;
@@ -33,7 +41,7 @@ import zilla.libcore.ui.InjectLayout;
  * Created by John on 2016/4/12.
  */
 @InjectLayout(R.layout.fragment_weight)
-public class WeightFragment extends BaseFragment implements RadioGroup.OnCheckedChangeListener{
+public class WeightFragment extends BaseFragment implements RadioGroup.OnCheckedChangeListener,HealthRecordManager.HealthRecordCallBack{
 
     @InjectView(R.id.chart)
     LineChart chart;
@@ -72,6 +80,7 @@ public class WeightFragment extends BaseFragment implements RadioGroup.OnChecked
     SimpleDateFormat sDateFormat    =   new    SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
     String    date    =    sDateFormat.format(new    java.util.Date());
     String[] datetime=date.split(" ");
+    HealthRecordManager healthRecordManager;
 
     @Override
     protected void initViews() {
@@ -100,7 +109,8 @@ public class WeightFragment extends BaseFragment implements RadioGroup.OnChecked
 
     @Override
     protected void initDatas() {
-//        EventBus.getDefault().register(getContext());
+//        EventBus.getDefault().register(this);
+        healthRecordManager=new HealthRecordManager(this);
         chartUtil=new LineChartUtil(getContext(),chart);
         dates.clear();
 //        pysicalManager=new PysicalManager(getContext());
@@ -120,15 +130,12 @@ public class WeightFragment extends BaseFragment implements RadioGroup.OnChecked
         days.add(formdate(nowdate5));
         days.add(formdate(nowdate6));
         days.add(formdate(nowdate7));
-        dates.add(0f);
-        iHealthyRecord.GetHealthWeightRecords(date,getDateform(nowdate1)+" "+datetime[1],1);
+        healthRecordManager.doGetHealthWeightRecords(date,getDateform(nowdate1)+" "+datetime[1],1);
+//        iHealthyRecord.GetHealthWeightRecords(date,getDateform(nowdate1)+" "+datetime[1],1);
+
 
     }
-    @Override
-    public void onDestroy() {
-        EventBus.getDefault().unregister(getContext());
-        super.onDestroy();
-    }
+
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -230,8 +237,28 @@ public class WeightFragment extends BaseFragment implements RadioGroup.OnChecked
         return date;
 
     }
-    @Subscribe
-    public void getWeightList(HealthWeightModel healthWeightModel) {
+//    @Subscribe
+//    public void getWeightList(HealthWeightModel healthWeightModel) {
+//        System.out.println("健康记录体重" + healthWeightModel.getFirstrecordtime());
+//        int n=healthWeightModel.getweightlist().size();
+//        for (int i=healthWeightModel.getweightlist().size()-1;i>-1;i--) {
+//            dates.add(Float.parseFloat(healthWeightModel.getweightlist().get(i).getWeight()));
+//        }
+//        ceshi.add(dates.get(0));
+//        ceshi.add(dates.get(1));
+//        ceshi.add(dates.get(2));
+//        ceshi.add(dates.get(3));
+//
+//        chartUtil.addData(dates,n,days);
+//    }
+
+    @Override
+    public void getHealthPysicalRecords(PysicalModel pysicalModel) {
+
+    }
+
+    @Override
+    public void getHealthWeightRecords(HealthWeightModel healthWeightModel) {
         System.out.println("健康记录体重" + healthWeightModel.getFirstrecordtime());
         int n=healthWeightModel.getweightlist().size();
         for (int i=healthWeightModel.getweightlist().size()-1;i>-1;i--) {
@@ -243,5 +270,40 @@ public class WeightFragment extends BaseFragment implements RadioGroup.OnChecked
         ceshi.add(dates.get(3));
 
         chartUtil.addData(dates,n,days);
+    }
+
+    @Override
+    public void getHealthfatRecords(HealthFatModel healthFatModel) {
+
+    }
+
+    @Override
+    public void getHealthcircumRecords(HealthCircrumModel healthCircrumModel) {
+
+    }
+
+    @Override
+    public void getHealthwaistlineRecords(HealthWaistlineModel healthWaistlineModel) {
+
+    }
+
+    @Override
+    public void getHealthhiplieRecords(HealthHiplieModel healthHiplieModel) {
+
+    }
+
+    @Override
+    public void getHealthupArmGirthRecords(HealthUpArmGirthModel healthUpArmGirthModel) {
+
+    }
+
+    @Override
+    public void getGetHealthupLegGirthRecords(HealthupLegGirthModel healthupLegGirthModel) {
+
+    }
+
+    @Override
+    public void getHealthdoLegGirthRecords(HealthdoLegGirthModel healthdoLegGirthModel) {
+
     }
 }

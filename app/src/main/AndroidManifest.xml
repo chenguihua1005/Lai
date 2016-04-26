@@ -188,6 +188,9 @@
             android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity android:name=".module.community.view.PreviewImageActivity" />
         <activity android:name=".module.community.view.HealthyDetailActivity"/>
+       <!-- <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"/>-->
         <!-- Rich push 核心功能 since 2.0.6 -->
         <activity
             android:name="cn.jpush.android.ui.PopWinActivity"

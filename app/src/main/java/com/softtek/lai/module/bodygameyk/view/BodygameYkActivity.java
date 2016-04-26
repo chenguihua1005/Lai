@@ -70,6 +70,7 @@ public class BodygameYkActivity extends BaseActivity implements View.OnClickList
         tv_title.setText("体管赛（游客版）");
         iTiGuanSai=new TiGuanSaiImpl();
         iTiGuanSai.getTiGuanSai();
+        dialogShow("数据刷新中...");
         iTiGuanSai.doGetTotal(progressDialog);
 
     }
@@ -90,9 +91,7 @@ public class BodygameYkActivity extends BaseActivity implements View.OnClickList
                 startActivity(intents);
                 break;
             case R.id.tv_refreshyk:
-                progressDialog.setCanceledOnTouchOutside(false);
-                progressDialog.setMessage("数据刷新中...");
-                progressDialog.show();
+                dialogShow("数据刷新中...");
                 iTiGuanSai.doGetTotal(progressDialog);
                 break;
         }

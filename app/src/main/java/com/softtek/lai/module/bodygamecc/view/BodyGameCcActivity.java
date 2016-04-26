@@ -80,6 +80,7 @@ public class BodyGameCcActivity extends BaseActivity implements View.OnClickList
     protected void initDatas() {
         tv_title.setText("体管赛（普通顾客版）");
         iTiGuanSai=new TiGuanSaiImpl();
+        dialogShow("数据刷新中...");
         iTiGuanSai.doGetTotal(progressDialog);
         iTiGuanSai.getTiGuanSai();
 
@@ -115,9 +116,7 @@ public class BodyGameCcActivity extends BaseActivity implements View.OnClickList
                 startActivity(intents);
                 break;
             case R.id.tv_totalcc:
-                progressDialog.setCanceledOnTouchOutside(false);
-                progressDialog.setMessage("数据刷新中...");
-                progressDialog.show();
+                dialogShow("数据刷新中...");
                 iTiGuanSai.doGetTotal(progressDialog);
                 break;
 

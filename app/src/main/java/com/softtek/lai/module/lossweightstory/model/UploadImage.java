@@ -1,6 +1,7 @@
 package com.softtek.lai.module.lossweightstory.model;
 
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -14,6 +15,15 @@ public class UploadImage implements Parcelable {
 
     private File image;
     private Bitmap bitmap;
+    private Uri uri;
+
+    public Uri getUri() {
+        return uri;
+    }
+
+    public void setUri(Uri uri) {
+        this.uri = uri;
+    }
 
     public UploadImage() {
     }
@@ -23,7 +33,7 @@ public class UploadImage implements Parcelable {
     }
 
     protected UploadImage(Parcel in) {
-        bitmap = in.readParcelable(Bitmap.class.getClassLoader());
+        uri = in.readParcelable(Uri.class.getClassLoader());
         image= (File) in.readSerializable();
     }
 
@@ -70,8 +80,7 @@ public class UploadImage implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-
-        dest.writeParcelable(bitmap, flags);
+        dest.writeParcelable(uri, flags);
         dest.writeSerializable(image);
     }
 }
