@@ -77,6 +77,9 @@ public class RetestclassImp implements RetestPre{
                        Util.toastMsg("未分配班级");
                    }
                    break;
+                   default:
+                       Util.toastMsg(banjiResponseData.getMsg());
+                       break;
                }
            }
 
@@ -166,7 +169,6 @@ public class RetestclassImp implements RetestPre{
                 switch (status) {
                     case 200:
                         EventBus.getDefault().post(new RetestAuditModelEvent(listResponseData.getData()));
-                        Util.toastMsg("复测记录获取成功");
                         break;
                     case 500:
                         Util.toastMsg("复测记录获取失败");
@@ -179,7 +181,8 @@ public class RetestclassImp implements RetestPre{
 
             @Override
             public void failure(RetrofitError error) {
-
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
             }
         });
     }
@@ -202,7 +205,6 @@ public class RetestclassImp implements RetestPre{
                             //intent.putExtra("story",model);
                             ((AppCompatActivity)context).setResult(-1,intent);
                             ((AppCompatActivity)context).finish();
-                            Util.toastMsg("复测记保存取成功");
                             break;
                         case 201:
                             Util.toastMsg("复测记录保存失败");
@@ -237,7 +239,7 @@ public class RetestclassImp implements RetestPre{
                 switch (status)
                 {
                     case 200:
-                        Util.toastMsg("复测数据更新成功");
+                        Log.i("复测数据更新成功");
                         break;
                     case 201:
                         Util.toastMsg("复测数据更新失败");
@@ -267,13 +269,13 @@ public class RetestclassImp implements RetestPre{
                     case 200:
                         PhotModel phot= (PhotModel) photResponseData.getData();
                         EventBus.getDefault().post(phot);
-                        Util.toastMsg("获取成功");
+//                        Util.toastMsg("获取成功");
                         break;
                     case 500:
                         Util.toastMsg("上传图片异常");
                         break;
                     default:
-                        Util.toastMsg(""+status);
+                        Util.toastMsg(photResponseData.getMsg());
                         break;
                 }
             }
@@ -294,7 +296,7 @@ public class RetestclassImp implements RetestPre{
             @Override
             public void success(MeasureModel measureModel, Response response) {
                 EventBus.getDefault().post(measureModel);
-                Util.toastMsg("获取信息成功"+measureModel.toString());
+//                Util.toastMsg("获取信息成功"+measureModel.toString());
             }
 
             @Override
@@ -311,7 +313,7 @@ public class RetestclassImp implements RetestPre{
         laiChenService.doPostClient(grant_type, client_id, client_secret, new Callback<ClientModel>() {
             @Override
             public void success(ClientModel clientModel, Response response) {
-               Util.toastMsg("获取授权成功");
+//               Util.toastMsg("获取授权成功");
             }
 
             @Override
@@ -335,7 +337,7 @@ public class RetestclassImp implements RetestPre{
                     case 200:
                         LaichModel laichModel= (LaichModel)laichModelResponseData.getData();
                         EventBus.getDefault().post(laichModel);
-                        Util.toastMsg("成功");
+//                        Util.toastMsg("成功");
                         default:
                             Util.toastMsg(laichModelResponseData.getMsg());
                 }

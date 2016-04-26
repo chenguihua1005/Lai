@@ -259,7 +259,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         String[] mon=StartDate.split("-");
         String[] currStart=CurrStart.split("-");
         String[] currEnd=CurrEnd.split("-");
-        tv_write_class.setText(tomonth(mon[1]));
+        tv_write_class.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getClassName());
         tv_write_starm.setText(currStart[1]);
         tv_write_stard.setText(currStart[2]);
         tv_write_endm.setText(currEnd[1]);
@@ -274,15 +274,6 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         retestPre.GetUserMeasuredInfo(retestAuditModelEvent.getRetestAuditModels().get(0).getMobile());
     }
 
-//    @Subscribe(threadMode = ThreadMode.MAIN)
-//    public void onEvent(RetestAuditModelEvent event){
-//        //......
-////        RetestAuditModel model=event.getRetestAuditModels().get(0);
-//        tv_write_nick.setText(event.getRetestAuditModels().get(0).getUserName());
-//        tv_write_phone.setText(event.getRetestAuditModels().get(0).getMobile());
-//
-//
-//    }
     @Override
     public void onClick(View v) {
         switch (v.getId())

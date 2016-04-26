@@ -324,7 +324,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         String[] currStart=CurrStart.split("-");
         String[] currEnd=CurrEnd.split("-");
         retestWrite.setClassId(retestAuditModelEvent.getRetestAuditModels().get(0).getClassId());
-        tv_writest_class.setText(tomonth(mon[1]));
+        tv_writest_class.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getClassName());
         tv_writest_monst.setText(currStart[1]);
         tv_writest_dayst.setText(currStart[2]);
         tv_writest_monen.setText(currEnd[1]);
