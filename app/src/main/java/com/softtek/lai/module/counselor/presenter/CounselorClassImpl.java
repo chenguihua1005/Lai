@@ -15,6 +15,7 @@ import android.widget.ListView;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.counselor.adapter.CounselorClassAdapter;
 import com.softtek.lai.module.counselor.model.ClassIdModel;
 import com.softtek.lai.module.counselor.model.ClassInfoModel;
@@ -74,6 +75,10 @@ public class CounselorClassImpl implements ICounselorClassPresenter {
                         } else {
                             expand_lis.setVisibility(View.GONE);
                             img_mo_message.setVisibility(View.VISIBLE);
+                        }
+                        if(Integer.parseInt(UserInfoModel.getInstance().getUser().getUserrole())== Constants.SR){
+                            lin_create_class.setVisibility(View.GONE);
+                            break;
                         }
                         Calendar calendar = Calendar.getInstance();
                         int year = calendar.get(Calendar.YEAR);

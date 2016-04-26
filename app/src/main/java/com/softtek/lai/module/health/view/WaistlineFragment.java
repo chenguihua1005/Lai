@@ -650,6 +650,6 @@ public class WaistlineFragment extends BaseFragment implements RadioGroup.OnChec
         days.add(formdate(weekdate6));
         days.add(formdate(weekdate7));
         progressDialog.show();
-        healthRecordManager.doGetHealthWeightRecords(date,getDateform(weekdate1)+" "+datetime[1],1);
+        healthRecordManager.doGetHealthwaistlineRecords(date,getDateform(weekdate1)+" "+datetime[1],1);
     }
 }
