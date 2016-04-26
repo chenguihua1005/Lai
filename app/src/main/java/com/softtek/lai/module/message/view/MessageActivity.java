@@ -219,6 +219,7 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.rel_2:
                 Intent intents = new Intent(this, MessageRemoveSrRemindActivity.class);
+                System.out.println("list_remove:"+list_remove);
                 intents.putExtra("list", list_remove);
                 startActivity(intents);
                 break;

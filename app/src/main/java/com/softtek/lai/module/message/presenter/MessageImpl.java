@@ -182,10 +182,17 @@ public class MessageImpl implements IMessagePresenter {
 
                             }
                         } else {
-                            Intent intent = new Intent(context, JoinGameDetailActivity.class);
-                            intent.putExtra("messageDetailInfo", messageDetailInfo);
-                            intent.putExtra("type", "1");
-                            context.startActivity(intent);
+                            String userrole = UserInfoModel.getInstance().getUser().getUserrole();
+                            if (String.valueOf(Constants.INC).equals(userrole)) {
+                                Intent intent = new Intent(context, JoinGameDetailActivity.class);
+                                intent.putExtra("messageDetailInfo", messageDetailInfo);
+                                intent.putExtra("type", "1");
+                                context.startActivity(intent);
+                            }else {
+                                Intent intent = new Intent(context, HomeActviity.class);
+                                context.startActivity(intent);
+                            }
+
                         }
                         ((AppCompatActivity) context).finish();
                         break;
