@@ -200,7 +200,7 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
             {
                 Intent intent = new Intent(this, SPHonorActivity.class);
                 startActivity(intent);
-                Util.toastMsg("荣誉榜页面");
+
             }
             break;
             //当前进度事件跳转
@@ -214,7 +214,7 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
             {
                 Intent intent = new Intent(this, ReviewActivity.class);
                 startActivity(intent);
-                Util.toastMsg("往期回顾");
+
             }
             break;
             //大赛赛况事件跳转
@@ -222,7 +222,7 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
             {
                 Intent intent=new Intent(this,GameActivity.class);
                 startActivity(intent);
-                Util.toastMsg("大赛赛况页面");
+
             }
             break;
             //提示事件跳转
@@ -230,7 +230,7 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
             {
                 Intent intent=new Intent(this,TipsActivity.class);
                 startActivity(intent);
-                Util.toastMsg("提示页面");
+
             }
             break;
             //助教管理跳转事件
@@ -238,7 +238,7 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
             {
                 Intent intent=new Intent(this,AssistantActivity.class);
                 startActivity(intent);
-                Util.toastMsg("助教管理页面");
+
             }
             break;
             case R.id.im_refresh:
