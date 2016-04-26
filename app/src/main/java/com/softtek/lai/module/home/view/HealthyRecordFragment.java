@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
@@ -21,6 +22,13 @@ import com.softtek.lai.module.health.view.HealthyRecordActivity;
 import com.softtek.lai.module.healthrecords.view.HealthEntryActivity;
 import com.softtek.lai.module.historydate.view.HistoryDataActivity;
 import com.softtek.lai.module.login.view.LoginActivity;
+import com.softtek.lai.module.retest.model.LaichModel;
+import com.softtek.lai.module.retest.present.RetestPre;
+import com.softtek.lai.module.retest.present.RetestclassImp;
+import com.softtek.lai.utils.DateUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -59,6 +67,8 @@ public class HealthyRecordFragment extends BaseFragment implements View.OnClickL
     TextView tv_shin;
     @InjectView(R.id.tv_healthhistoty)
     TextView tv_healthhistoty;
+    @InjectView(R.id.tv_healthdate)
+    TextView tv_healthdate;
 
     @InjectView(R.id.lin_is_vr)
     LinearLayout lin_is_vr;
@@ -66,9 +76,33 @@ public class HealthyRecordFragment extends BaseFragment implements View.OnClickL
     LinearLayout ll;
     @InjectView(R.id.but_login)
     Button but_login;
+    @InjectView(R.id.tv_health_weight)
+            TextView tv_health_weight;
+    @InjectView(R.id.tv_health_Pysical)
+            TextView tv_health_Pysical;
+    @InjectView(R.id.tv_health_fat)
+            TextView tv_health_fat;
+    @InjectView(R.id.tv_health_circum)
+            TextView tv_health_circum;
+    @InjectView(R.id.tv_health_waistline)
+            TextView tv_health_waistline;
+    @InjectView(R.id.tv_health_hiplie)
+            TextView tv_health_hiplie;
+    @InjectView(R.id.tv_health_upArmGirth)
+            TextView tv_health_upArmGirth;
+    @InjectView(R.id.tv_health_upLegGirth)
+            TextView tv_health_upLegGirth;
+    @InjectView(R.id.tv_health_doLegGirth)
+            TextView tv_health_doLegGirth;
+    @InjectView(R.id.tv_healthtime)
+            TextView tv_healthtime;
+    RetestPre retestPre;
+    UserInfoModel userInfoModel=UserInfoModel.getInstance();
+    String mobile=userInfoModel.getUser().getMobile();
 
     @Override
     protected void initViews() {
+        EventBus.getDefault().register(this);
         ll_left.setVisibility(View.GONE);
         fl_right.setOnClickListener(this);
         tv_weight.setOnClickListener(this);
@@ -98,8 +132,17 @@ public class HealthyRecordFragment extends BaseFragment implements View.OnClickL
             ll.setVisibility(View.VISIBLE);
             fl_right.setVisibility(View.VISIBLE);
             //获取健康记录
+            retestPre=new RetestclassImp();
+            retestPre.GetUserMeasuredInfo(mobile);
+
         }
 
+    }
+
+    @Override
+    public void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 
     private static final int EDIT_HEALTHY_RECORD=2;
@@ -112,46 +155,55 @@ public class HealthyRecordFragment extends BaseFragment implements View.OnClickL
             case R.id.tv_weight:
                 Intent intent=new Intent(getContext(),HealthyRecordActivity.class);
                 intent.putExtra("id",0);
+                intent.putExtra("flag",1);
                 startActivity(intent);
                 break;
             case R.id.tv_body_fat:
                 Intent intent1=new Intent(getContext(),HealthyRecordActivity.class);
                 intent1.putExtra("id",1);
+                intent1.putExtra("flag",1);
                 startActivity(intent1);
                 break;
             case R.id.tv_fat:
                 Intent intent2=new Intent(getContext(),HealthyRecordActivity.class);
                 intent2.putExtra("id",2);
+                intent2.putExtra("flag",1);
                 startActivity(intent2);
                 break;
             case R.id.tv_bust:
                 Intent intent3=new Intent(getContext(),HealthyRecordActivity.class);
                 intent3.putExtra("id",3);
+                intent3.putExtra("flag",1);
                 startActivity(intent3);
                 break;
             case R.id.tv_waistline:
                 Intent intent4=new Intent(getContext(),HealthyRecordActivity.class);
                 intent4.putExtra("id",4);
+                intent4.putExtra("flag",1);
                 startActivity(intent4);
                 break;
             case R.id.tv_hipline:
                 Intent intent5=new Intent(getContext(),HealthyRecordActivity.class);
                 intent5.putExtra("id",5);
+                intent5.putExtra("flag",1);
                 startActivity(intent5);
                 break;
             case R.id.tv_uphipline:
                 Intent intent6=new Intent(getContext(),HealthyRecordActivity.class);
                 intent6.putExtra("id",6);
+                intent6.putExtra("flag",1);
                 startActivity(intent6);
                 break;
             case R.id.tv_leg:
                 Intent intent7=new Intent(getContext(),HealthyRecordActivity.class);
                 intent7.putExtra("id",7);
+                intent7.putExtra("flag",1);
                 startActivity(intent7);
                 break;
             case R.id.tv_shin:
                 Intent intent8=new Intent(getContext(),HealthyRecordActivity.class);
                 intent8.putExtra("id",8);
+                intent8.putExtra("flag",1);
                 startActivity(intent8);
                 break;
             case R.id.tv_healthhistoty:
@@ -174,5 +226,30 @@ public class HealthyRecordFragment extends BaseFragment implements View.OnClickL
 
             }
         }
+    }
+    @Subscribe
+    public void laiche(LaichModel laichModel){
+//        measureModel=measureModel1;
+        Log.i("username"+laichModel.getCircum());
+//        tv_write_nick.setText(measureModel.getUsername());
+//        tv_write_phone.setText(measureModel.getPhone());
+        tv_health_weight.setText(laichModel.getWeight().equals("")?"":Float.parseFloat(laichModel.getWeight())+"斤");
+        tv_health_Pysical.setText(laichModel.getPysical().equals("")?"":Float.parseFloat(laichModel.getPysical())+"%");
+        tv_health_fat.setText(laichModel.getFat().equals("")?"":Float.parseFloat(laichModel.getFat())+"");
+        tv_health_circum.setText(laichModel.getCircum().equals("")?"":Float.parseFloat(laichModel.getCircum())+"cm");
+        tv_health_waistline.setText(laichModel.getWaistline().equals("")?"":Float.parseFloat(laichModel.getWaistline())+"cm");
+        tv_health_hiplie.setText(laichModel.getHiplie().equals("")?"":Float.parseFloat(laichModel.getHiplie())+"cm");
+        tv_health_upArmGirth.setText(laichModel.getUpArmGirth().equals("")?"":Float.parseFloat(laichModel.getUpArmGirth())+"cm");
+        tv_health_upLegGirth.setText(laichModel.getUpLegGirth().equals("")?"":Float.parseFloat(laichModel.getUpLegGirth())+"cm");
+        tv_health_doLegGirth.setText(laichModel.getDoLegGirth().equals("")?"":Float.parseFloat(laichModel.getDoLegGirth())+"cm");
+        String date=laichModel.getCreateDate();
+        DateUtil util=DateUtil.getInstance();
+        int year=util.getYear(date);
+        int month=util.getMonth(date);
+        int day=util.getDay(date);
+        int hour=util.getHour(date);
+        int minutes=util.getMinute(date);
+        tv_healthdate.setText(year+"年"+month+"月"+day+"日");
+        tv_healthtime.setText(hour+":"+(minutes<10?"0"+minutes:minutes));
     }
 }
