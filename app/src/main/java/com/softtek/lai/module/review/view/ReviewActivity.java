@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.counselor.model.ClassInfoModel;
@@ -67,6 +68,7 @@ public class ReviewActivity extends BaseActivity implements View.OnClickListener
         //3表示已结束
         reviewPresenter.getClassList("3", expand_list, img_mo_message);
         adapter=new ReviewAdapter(this,classInfoModels);
+        expand_list.setAdapter(adapter);
     }
 
     @Override
