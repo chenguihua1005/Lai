@@ -58,7 +58,6 @@ public class NewStudentInputImpl implements INewStudentpresenter {
                 switch (status) {
                     case 200:
                         ((JoinGameDetailActivity) context).finish();
-                        Util.toastMsg("录入成功");
                         break;
                     case 500:
                         Util.toastMsg("手机号码已注册");
@@ -87,7 +86,6 @@ public class NewStudentInputImpl implements INewStudentpresenter {
                     case 200:
                         PhotModel photModel = (PhotModel) upimgResponseData.getData();
                         EventBus.getDefault().post(photModel);
-                        Util.toastMsg("获取成功");
                         break;
                     case 500:
                         Util.toastMsg("上传图片异常");

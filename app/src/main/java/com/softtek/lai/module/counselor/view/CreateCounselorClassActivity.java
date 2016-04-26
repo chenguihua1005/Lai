@@ -273,7 +273,7 @@ public class CreateCounselorClassActivity extends BaseActivity implements View.O
     @Override
     public void onValidationSucceeded() {
         if ("".equals(text_time_value.getText().toString())) {
-            Util.toastMsg("请选择时间段");
+            Util.toastMsg("请选择班级周期");
         } else {
             Calendar rightNow = Calendar.getInstance();
             rightNow.setTime(start_time);
