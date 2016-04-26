@@ -294,6 +294,7 @@ public class  RetestActivity extends BaseActivity implements View.OnClickListene
     }
     @Subscribe
     public void onEvent1(BanjiStudentEvent banjiStudent){
+        banjiStudentModelList.clear();
         banjiStudentModelList=banjiStudent.getBanjiStudentModels();
         studentAdapter.updateData(banjiStudentModelList);
 //        List<Student> students=student.getStudents();
