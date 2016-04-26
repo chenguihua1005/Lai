@@ -21,9 +21,12 @@ import com.softtek.lai.module.lossweightstory.presenter.LogStoryDetailManager;
 import com.softtek.lai.module.studetail.adapter.LogDetailGridAdapter;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
+import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.widgets.CustomGridView;
 import com.squareup.picasso.Picasso;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,6 +63,8 @@ public class LogStoryDetailActivity extends BaseActivity implements View.OnClick
     CheckBox cb_zan;
     @InjectView(R.id.cgv_list_image)
     CustomGridView cgv_list_image;
+    @InjectView(R.id.tv_zan_name)
+    TextView tv_zan_name;
     List<String> images=new ArrayList<>();
 
     private LossWeightLogService service;
@@ -92,6 +97,7 @@ public class LogStoryDetailActivity extends BaseActivity implements View.OnClick
                 "月"+DateUtil.getInstance().getDay(date)+"日");
         tv_totle_lw.setText(log.getAfterWeight()+"斤");
         cb_zan.setText(log.getPriase());
+        tv_zan_name.setText(log.getUsernameSet());
         zanSet();
         //拆分字符串图片列表,并添加到图片集合中
         if(!"".equals(log.getImgCollection())&&!(null==log.getImgCollection())){
@@ -114,12 +120,12 @@ public class LogStoryDetailActivity extends BaseActivity implements View.OnClick
                 finish();
                 break;
             case R.id.cb_zan:
-                UserInfoModel infoModel = UserInfoModel.getInstance();
+                final UserInfoModel infoModel = UserInfoModel.getInstance();
                 log.setPriase(Integer.parseInt(log.getPriase())+1+"");
                 log.setIsClicked(Constants.HAS_ZAN);
-                String before = "".equals(log.getUsernameSet()) ? "" : ",";
-                log.setUsernameSet(before+infoModel.getUser().getNickname());
+                log.setUsernameSet(StringUtil.appendDotAll(log.getUsernameSet(),infoModel.getUser().getNickname(),infoModel.getUser().getMobile()));
                 cb_zan.setText(log.getPriase());
+                tv_zan_name.setText(log.getUsernameSet());
                 zanSet();
                 //向服务器提交
                 UserModel info= UserInfoModel.getInstance().getUser();
@@ -135,9 +141,11 @@ public class LogStoryDetailActivity extends BaseActivity implements View.OnClick
                                 super.failure(error);
                                 int priase=Integer.parseInt(log.getPriase())-1<0?0:Integer.parseInt(log.getPriase())-1;
                                 log.setPriase(priase+"");
-                                log.setUsernameSet(log.getUsernameSet().substring(0, log.getUsernameSet().lastIndexOf(",")));
+                                String del= StringUtils.removeEnd(StringUtils.removeEnd(log.getUsernameSet(),infoModel.getUser().getNickname()),",");
+                                log.setUsernameSet(del);
                                 log.setIsClicked(Constants.NO_ZAN);
                                 cb_zan.setText(priase+"");
+                                tv_zan_name.setText(log.getUsernameSet());
                                 zanSet();
                             }
                         });
@@ -160,6 +168,7 @@ public class LogStoryDetailActivity extends BaseActivity implements View.OnClick
                 "月"+DateUtil.getInstance().getDay(date)+"日");
         tv_totle_lw.setText(log.getAfterWeight()+"斤");
         cb_zan.setText(log.getPriasenum());
+        tv_zan_name.setText(log.getUserNames());
         if(Constants.HAS_ZAN.equals(log.getIfpriasenum())){
             cb_zan.setChecked(true);
             cb_zan.setEnabled(false);

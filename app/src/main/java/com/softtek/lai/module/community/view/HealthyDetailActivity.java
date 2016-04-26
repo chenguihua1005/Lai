@@ -20,9 +20,12 @@ import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.studetail.adapter.LogDetailGridAdapter;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
+import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.widgets.CustomGridView;
 import com.squareup.picasso.Picasso;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -54,6 +57,8 @@ public class HealthyDetailActivity extends BaseActivity implements View.OnClickL
     TextView tv_date;
     @InjectView(R.id.cb_zan)
     CheckBox cb_zan;
+    @InjectView(R.id.tv_zan_name)
+    TextView tv_zan_name;
 
     private CommunityService service;
     private HealthyDynamicModel model;
@@ -83,6 +88,7 @@ public class HealthyDetailActivity extends BaseActivity implements View.OnClickL
                 "月"+DateUtil.getInstance().getDay(date)+"日");
         tv_content.setText(model.getContent());
         cb_zan.setText(model.getPraiseNum());
+        tv_zan_name.setText(model.getUsernameSet());
         if("".equals(UserInfoModel.getInstance().getToken())){
             cb_zan.setChecked(false);
             cb_zan.setEnabled(false);
@@ -136,11 +142,10 @@ public class HealthyDetailActivity extends BaseActivity implements View.OnClickL
                 finish();
                 break;
             case R.id.cb_zan:
-                UserInfoModel infoModel = UserInfoModel.getInstance();
+                final UserInfoModel infoModel = UserInfoModel.getInstance();
                 model.setPraiseNum(Integer.parseInt(model.getPraiseNum()) + 1 + "");
-                String before = "".equals(model.getUsernameSet()) ? "" : ",";
                 model.setIsPraise(Constants.HAS_ZAN);
-                model.setUsernameSet(before + infoModel.getUser().getNickname());
+                model.setUsernameSet(StringUtil.appendDotAll(model.getUsernameSet(),infoModel.getUser().getNickname(),infoModel.getUser().getMobile()));
                 setValue(model);
                 //向服务器提交
                 String token = infoModel.getToken();
@@ -153,7 +158,8 @@ public class HealthyDetailActivity extends BaseActivity implements View.OnClickL
                                 super.failure(error);
                                 int priase = Integer.parseInt(model.getPraiseNum()) - 1 < 0 ? 0 : Integer.parseInt(model.getPraiseNum()) - 1;
                                 model.setPraiseNum(priase + "");
-                                model.setUsernameSet(model.getUsernameSet().substring(0, model.getUsernameSet().lastIndexOf(",")));
+                                String del= StringUtils.removeEnd(StringUtils.removeEnd(model.getUsernameSet(),infoModel.getUser().getNickname()),",");
+                                model.setUsernameSet(del);
                                 model.setIsPraise(Constants.NO_ZAN);
                                 setValue(model);
                             }
@@ -173,6 +179,7 @@ public class HealthyDetailActivity extends BaseActivity implements View.OnClickL
                 "月"+DateUtil.getInstance().getDay(date)+"日");
         tv_name.setText(dynamicModel.getUserName());
         tv_content.setText(dynamicModel.getContent());
+        tv_zan_name.setText(dynamicModel.getUsernameSet());
         //判断是否点过赞
         if(accountId==-1){
             cb_zan.setChecked(false);
