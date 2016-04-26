@@ -15,7 +15,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import butterknife.InjectView;
+
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
@@ -29,6 +31,7 @@ import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.widgets.WheelView;
+
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
@@ -133,7 +136,6 @@ public class CreateCounselorClassActivity extends BaseActivity implements View.O
 
     @Override
     public void onClick(View v) {
-        SoftInputUtil.hidden(this);
         switch (v.getId()) {
             case R.id.img_next:
                 validateLife.validate();
@@ -198,7 +200,7 @@ public class CreateCounselorClassActivity extends BaseActivity implements View.O
         new AlertDialog.Builder(this)
                 .setTitle("请选择起始月")
                 .setView(outerView)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String timeStr = "";
@@ -251,6 +253,13 @@ public class CreateCounselorClassActivity extends BaseActivity implements View.O
                         select_month = "";
                     }
                 })
+                .setNegativeButton("取消",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface arg0, int arg1) {
+                                dialogDissmiss();
+                            }
+                        }).create()
                 .show();
     }
 
@@ -263,7 +272,7 @@ public class CreateCounselorClassActivity extends BaseActivity implements View.O
     @Override
     public void onValidationSucceeded() {
         if ("".equals(text_time_value.getText().toString())) {
-            Util.toastMsg("请选择时间段");
+            Util.toastMsg("请选择班级周期");
         } else {
             Calendar rightNow = Calendar.getInstance();
             rightNow.setTime(start_time);

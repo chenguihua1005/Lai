@@ -373,16 +373,52 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fl_right:
-//                Intent intent=new Intent(getContext(), JoinGameDetailActivity.class);
-//                intent.putExtra("type","1");
-//                startActivity(intent);
-                startActivity(new Intent(getContext(), MessageActivity.class));
+                String userrole = UserInfoModel.getInstance().getUser().getUserrole();
+                if (String.valueOf(Constants.VR).equals(userrole)) {
+                    //提示用户让他注册或者直接进入2个功能的踢馆赛模块
+                    AlertDialog.Builder information_dialog = null;
+                    information_dialog = new AlertDialog.Builder(getContext());
+                    information_dialog.setTitle("您当前处于游客模式，需要登录认证").setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent login = new Intent(getContext(), LoginActivity.class);
+                            login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(login);
+                        }
+                    }).setNegativeButton("稍候", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).create().show();
+                }else {
+                    startActivity(new Intent(getContext(), MessageActivity.class));
+                }
                 break;
             case R.id.iv_email:
-                startActivity(new Intent(getContext(), MessageActivity.class));
-//                Intent intents=new Intent(getContext(), JoinGameDetailActivity.class);
-//                intents.putExtra("type","1");
-//                startActivity(intents);
+                String userroles = UserInfoModel.getInstance().getUser().getUserrole();
+                if (String.valueOf(Constants.VR).equals(userroles)) {
+                    //提示用户让他注册或者直接进入2个功能的踢馆赛模块
+                    AlertDialog.Builder information_dialog = null;
+                    information_dialog = new AlertDialog.Builder(getContext());
+                    information_dialog.setTitle("您当前处于游客模式，需要登录认证").setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent login = new Intent(getContext(), LoginActivity.class);
+                            login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(login);
+                        }
+                    }).setNegativeButton("稍候", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).create().show();
+                }else {
+                    startActivity(new Intent(getContext(), MessageActivity.class));
+                }
                 break;
         }
     }

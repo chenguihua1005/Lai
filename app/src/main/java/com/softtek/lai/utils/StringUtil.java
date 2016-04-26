@@ -31,7 +31,7 @@ public class StringUtil {
         //判断点赞人数是否大于10人
         String[] peoples=buffer.toString().split(",");
         if(peoples.length>10){
-            
+
         }
         Log.i("拼接后的字符="+buffer.toString());
         return buffer.toString();

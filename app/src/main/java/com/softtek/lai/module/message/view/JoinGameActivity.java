@@ -81,7 +81,7 @@ public class JoinGameActivity extends BaseActivity implements View.OnClickListen
     @InjectView(R.id.lin)
     LinearLayout lin;
 
-    private boolean isSelect = false;
+    private boolean isSelect = true;
     private IMessagePresenter messagePresenter;
     MessageDetailInfo messageDetailInfo;
 

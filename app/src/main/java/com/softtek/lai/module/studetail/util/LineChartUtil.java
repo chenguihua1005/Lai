@@ -95,17 +95,15 @@ public class LineChartUtil {
             //添加x 轴数值
             for (int i = 0; i <n; i++) {
                 data.getXVals().add(dates.get(i));
-//                data.getXVals().add(i + "");
             }
 
         }
         else {
             data.getXVals().clear();
             for (int i = 0; i <n; i++) {
-                int f=n;
+                //int f=n;
                 System.out.println("用n"+n);
                 data.getXVals().add(dates.get(i));
-//                data.getXVals().add(i + "");
             }
 
         }

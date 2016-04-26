@@ -151,11 +151,10 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 break;
 
             case R.id.lin_reset_password:
-                new AlertDialog.Builder(getContext()).setMessage("功能开发中，敬请期待").create().show();
-                //startActivity(new Intent(getContext(), ModifyPasswordActivity.class));
+                startActivity(new Intent(getContext(), ModifyPasswordActivity.class));
                 break;
             case R.id.but_login:
-                Intent login=new Intent(getContext(), LoginActivity.class);
+                Intent login = new Intent(getContext(), LoginActivity.class);
                 login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(login);

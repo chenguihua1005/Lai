@@ -143,6 +143,7 @@ public class CounselorClassImpl implements ICounselorClassPresenter {
                         SharedPreferenceService.getInstance().put("classId", classIdResponseData.getData().getClassId());
                         Intent intent = new Intent(context, AssistantListActivity.class);
                         intent.putExtra("classId", classIdResponseData.getData().getClassId());
+                        intent.putExtra("type", "0");
                         context.startActivity(intent);
                         break;
                     default:

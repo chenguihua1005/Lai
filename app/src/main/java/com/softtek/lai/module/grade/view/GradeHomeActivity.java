@@ -218,6 +218,7 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
             case R.id.ll_invite_tutor:
                 Intent intent = new Intent(this, AssistantListActivity.class);
                 intent.putExtra("classId", classId);
+                intent.putExtra("type", "1");
                 startActivity(intent);
                 //邀请助教按钮
                 break;

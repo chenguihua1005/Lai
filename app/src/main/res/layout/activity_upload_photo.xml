@@ -68,6 +68,7 @@
                     android:layout_width="100dp"
                     android:layout_height="90dp"
                     android:scaleType="fitCenter"
+                    android:padding="20dp"
                     android:layout_marginLeft="17dp"
                     android:background="#dadada"
                     android:src="@drawable/takephoto_upload"/>

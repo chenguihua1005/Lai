@@ -74,7 +74,7 @@ public class RemoveSRActivity extends BaseActivity implements View.OnClickListen
     @InjectView(R.id.lin)
     LinearLayout lin;
 
-    private boolean isSelect = false;
+    private boolean isSelect = true;
     private IMessagePresenter messagePresenter;
     private IAssistantPresenter assistantPresenter;
     MessageDetailInfo messageDetailInfo;
@@ -96,14 +96,14 @@ public class RemoveSRActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void initViews() {
         //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
-        tv_title.setText("移除助教");
+        tv_title.setText("体管赛小助手");
 
     }
 
     @Override
     protected void initDatas() {
         messagePresenter = new MessageImpl(this);
-        assistantPresenter=new AssistantImpl(this);
+        assistantPresenter = new AssistantImpl(this);
         Intent intent = getIntent();
         messageDetailInfo = (MessageDetailInfo) intent.getSerializableExtra("messageDetailInfo");
         text_value.setText(messageDetailInfo.getComments());
@@ -112,12 +112,13 @@ public class RemoveSRActivity extends BaseActivity implements View.OnClickListen
             but_no.setVisibility(View.VISIBLE);
             but_yes.setVisibility(View.VISIBLE);
             lin.setVisibility(View.VISIBLE);
-        } else  {
+        } else {
             but_no.setVisibility(View.GONE);
             but_yes.setVisibility(View.GONE);
             lin.setVisibility(View.GONE);
         }
     }
+
     @Override
     protected void onDestroy() {
         EventBus.getDefault().unregister(this);
@@ -127,9 +128,10 @@ public class RemoveSRActivity extends BaseActivity implements View.OnClickListen
     @Subscribe
     public void onEvent(ResponseData listResponseData) {
         System.out.println("此条标记已读");
-        startActivity(new Intent(this,MessageActivity.class));
+        startActivity(new Intent(this, MessageActivity.class));
 
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -155,16 +157,16 @@ public class RemoveSRActivity extends BaseActivity implements View.OnClickListen
                 }
                 break;
             case R.id.text_zqs1:
-               startActivity(new Intent(this,ZQSActivity.class));
+                startActivity(new Intent(this, ZQSActivity.class));
                 break;
             case R.id.but_no:
                 messagePresenter.delNoticeOrMeasureMsg(messageDetailInfo.getMessageId());
                 break;
             case R.id.but_yes:
                 if (isSelect) {
-                    String comments=messageDetailInfo.getComments();
-                    String[] str=comments.split("|");
-                    assistantPresenter.removeAssistantRoleByClass(str[0],str[1],messageDetailInfo.getMessageId(),"message");
+                    String comments = messageDetailInfo.getComments();
+                    String[] str = comments.split("|");
+                    assistantPresenter.removeAssistantRoleByClass(str[0], str[1], messageDetailInfo.getMessageId(), "message");
                 } else {
                     Util.toastMsg(R.string.joinGameQ);
                 }

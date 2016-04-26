@@ -81,7 +81,7 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
 //    @InjectView(R.id.sliding_tabs)
 //    TabLayout sliding_tabs;
 
-    private boolean isShow = false;
+    private boolean isShow = true;
 
     List<AssistantInfoModel> list;
 
@@ -143,6 +143,9 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 System.out.println("position:" + position);
+                isShow = false;
+                lin_class.setVisibility(View.GONE);
+                img_more.setImageResource(R.drawable.more_down);
                 for (int i = 0; i <parent.getChildCount() ; i++) {
                     ImageView imageView = (ImageView) parent.getChildAt(i).findViewById(R.id.img);
                     imageView.setImageDrawable(getResources().getDrawable(R.drawable.img_select));

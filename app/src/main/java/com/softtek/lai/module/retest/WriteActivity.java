@@ -232,15 +232,15 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         Log.i("username"+laichModel.getCircum());
 //        tv_write_nick.setText(measureModel.getUsername());
 //        tv_write_phone.setText(measureModel.getPhone());
-        tv_retestWrite_nowweight.setText(laichModel.getWeight());
-        tv_retestWrite_tizhi.setText(laichModel.getPysical());
-        tv_retestWrite_neizhi.setText(laichModel.getFat());
-        retestWrite.setCircum(laichModel.getCircum());
-        retestWrite.setWaistline(laichModel.getWaistline());
-        retestWrite.setHiplie(laichModel.getHiplie());
-        retestWrite.setUpArmGirth(laichModel.getUpArmGirth());
-        retestWrite.setUpLegGirth(laichModel.getUpLegGirth());
-        retestWrite.setDoLegGirth(laichModel.getDoLegGirth());
+        tv_retestWrite_nowweight.setText(Float.parseFloat(laichModel.getWeight())+"");
+        tv_retestWrite_tizhi.setText(Float.parseFloat(laichModel.getPysical())+"");
+        tv_retestWrite_neizhi.setText(Float.parseFloat(laichModel.getFat())+"");
+        retestWrite.setCircum(Float.parseFloat(laichModel.getCircum())+"");
+        retestWrite.setWaistline(Float.parseFloat(laichModel.getWaistline())+"");
+        retestWrite.setHiplie(Float.parseFloat(laichModel.getHiplie())+"");
+        retestWrite.setUpArmGirth(Float.parseFloat(laichModel.getUpArmGirth())+"");
+        retestWrite.setUpLegGirth(Float.parseFloat(laichModel.getUpLegGirth())+"");
+        retestWrite.setDoLegGirth(Float.parseFloat(laichModel.getDoLegGirth())+"");
     }
     @Subscribe
     public void doGetPhoto(PhotModel photModel) {
@@ -250,7 +250,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
     @Subscribe
     public void doGetDates(RetestAuditModelEvent retestAuditModelEvent){
         Log.i("retestAuditModel"+retestAuditModelEvent.getRetestAuditModels());
-        tv_write_chu_weight.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getInitWeight());
+        tv_write_chu_weight.setText(Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getInitWeight())+"");
         tv_write_nick.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getUserName());
         tv_write_phone.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getMobile());
         String StartDate=retestAuditModelEvent.getRetestAuditModels().get(0).getStartDate();

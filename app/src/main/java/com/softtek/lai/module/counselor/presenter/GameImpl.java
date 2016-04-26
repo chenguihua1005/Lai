@@ -60,7 +60,6 @@ public class GameImpl implements IGamePresenter {
                         break;
                     default:
                         list_game.setVisibility(View.GONE);
-                        Util.toastMsg(listResponseData.getMsg());
                         break;
                 }
             }
