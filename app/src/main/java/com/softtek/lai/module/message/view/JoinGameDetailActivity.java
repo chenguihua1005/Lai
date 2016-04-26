@@ -108,22 +108,22 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
 
     @InjectView(R.id.tv_right)
     TextView tv_right;
-    @Required(order = 1, message = "昵称必填项")
+    @Required(order = 1, message = "请输入姓名")
     @InjectView(R.id.et_nickname)
     EditText et_nickname;
 
-    @Required(order = 2, message = "手机号码必填项")
+    @Required(order = 2, message = "请输入手机号码")
     @Regex(order = 3, patternResId = R.string.phonePattern, messageResId = R.string.phoneValidate)
     @InjectView(R.id.et_phone)
     EditText et_phone;
 
-    @Required(order = 4, message = "参赛班级必填项")
+    @Required(order = 4, message = "请选择参赛班级")
     @InjectView(R.id.tv_class)
     EditText tv_class;
 
     @InjectView(R.id.ll_class)
     FrameLayout ll_class;
-    @Required(order = 5, message = "初始体重必填项")
+    @Required(order = 5, message = "请选择初始体重")
     @InjectView(R.id.tv_weight)
     EditText tv_weight;
 
@@ -141,14 +141,14 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
 
     @InjectView(R.id.ll_neizhi)
     FrameLayout ll_neizhi;
-    @Required(order = 6, message = "生日必填项")
+    @Required(order = 6, message = "请选择生日")
     @InjectView(R.id.tv_birthday)
     EditText tv_birthday;
 
     @InjectView(R.id.ll_birthday)
     FrameLayout ll_birthday;
 
-    @Required(order = 7, message = "性别必填项")
+    @Required(order = 7, message = "请选择性别")
     @InjectView(R.id.tv_sex)
     EditText tv_sex;
 
@@ -194,6 +194,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
     private static final int PHOTO = 1;
 
     private String change_photo = "";
+    private String upload_photo = "";
     private GuwenClassPre guwenClassPre;
     private List<String> pargradeIdlList = new ArrayList<String>();
     private List<String> pargradeNamelList = new ArrayList<String>();
@@ -222,9 +223,9 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
             @Override
             public void onCropperCallback(ImageCropper.CropperResult result, File srcFile, File outFile) {
                 if (result == ImageCropper.CropperResult.success) {
-                    change_photo = outFile.getAbsolutePath();
+                    upload_photo = outFile.getAbsolutePath();
 
-                    File files = new File(change_photo);
+                    File files = new File(upload_photo);
                     Picasso.with(JoinGameDetailActivity.this).load(files).placeholder(R.drawable.img_default).error(R.drawable.img_default).into(img1);
                     //iUpConfirmInfopresenter.upload(file);
                 }
@@ -275,11 +276,11 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         et_nickname.setText(getConfirmInfoModel.getUserName());
         tv_class.setText(getConfirmInfoModel.getClassName());
         et_phone.setText(getConfirmInfoModel.getMobile());
-        tv_weight.setText(getConfirmInfoModel.getWeight()+"斤");
-        if("".equals(getConfirmInfoModel.getPysical())){
+        tv_weight.setText(getConfirmInfoModel.getWeight() + "斤");
+        if ("".equals(getConfirmInfoModel.getPysical())) {
             tv_tizhi.setText(getConfirmInfoModel.getPysical());
-        }else {
-            tv_tizhi.setText(getConfirmInfoModel.getPysical()+"%");
+        } else {
+            tv_tizhi.setText(getConfirmInfoModel.getPysical() + "%");
         }
         tv_neizhi.setText(getConfirmInfoModel.getFat());
         tv_birthday.setText(getConfirmInfoModel.getBirthday());
@@ -370,6 +371,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
             case R.id.img_delete:
                 img1.setImageResource(android.R.color.transparent);
                 change_photo = "";
+                upload_photo = "";
                 break;
             case R.id.img_photoupload:
                 //弹出dialog
@@ -470,7 +472,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         birdialog.setTitle("选择体脂").setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                tv_tizhi.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())+"%");
+                tv_tizhi.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()) + "%");
                 dialog.dismiss();
             }
         }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -591,12 +593,12 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
             coninfoModel.setBirthday(tv_birthday.getText().toString());
             coninfoModel.setGender(tv_sex.getText().toString() == "男" ? 0 : 1);
             coninfoModel.setPhoto(change_photo);
-            String weights=tv_weight.getText().toString().split("斤")[0];
+            String weights = tv_weight.getText().toString().split("斤")[0];
             coninfoModel.setWeight(Double.parseDouble(weights));
             if (tv_tizhi.getText().toString().equals("")) {
                 coninfoModel.setPysical(0.0);
             } else {
-                String tizhi=tv_tizhi.getText().toString().split("%")[0];
+                String tizhi = tv_tizhi.getText().toString().split("%")[0];
                 coninfoModel.setPysical(Double.parseDouble(tizhi));
             }
 
@@ -649,12 +651,12 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
             newstudentsModel.setSentaccid(accoutid);
             newstudentsModel.setNickname(et_nickname.getText().toString());
             String mobile = et_phone.getText().toString();
-            String b = "hbl"+mobile.substring(mobile.length() - 6, mobile.length());
+            String b = "hbl" + mobile.substring(mobile.length() - 6, mobile.length());
             newstudentsModel.setPassword(MD5.md5WithEncoder(b));
             newstudentsModel.setMobile(mobile);
             String classId = pargradeIdlList.get(select_posion);
             newstudentsModel.setClassid(classId);
-            String weights=tv_weight.getText().toString().split("斤")[0];
+            String weights = tv_weight.getText().toString().split("斤")[0];
             newstudentsModel.setWeight(Double.parseDouble(weights));
             newstudentsModel.setBirthday(tv_birthday.getText().toString());
             newstudentsModel.setGender(tv_sex.getText().toString().equals("男") ? 0 : 1);
@@ -662,7 +664,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
             if (tv_tizhi.getText().toString().equals("")) {
                 newstudentsModel.setPysical(0.0);
             } else {
-                String tizhi=tv_tizhi.getText().toString().split("%")[0];
+                String tizhi = tv_tizhi.getText().toString().split("%")[0];
                 newstudentsModel.setPysical(Double.parseDouble(tizhi));
             }
             if (tv_neizhi.getText().toString().equals("")) {
@@ -713,10 +715,10 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void onValidationSucceeded() {
-        if (change_photo.equals("")) {
+        if (upload_photo.equals("")) {
             upload();
         } else {
-            iUpConfirmInfopresenter.upload(change_photo);
+            iUpConfirmInfopresenter.upload(upload_photo);
         }
     }
 
@@ -757,7 +759,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
                                     new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int which) {
-                                            tv_weight.setText(String.valueOf(np.getValue())+"斤"); //set the value to textview
+                                            tv_weight.setText(String.valueOf(np.getValue()) + "斤"); //set the value to textview
                                             tv_weight.setError(null);
                                         }
                                     })
@@ -772,7 +774,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
                     dialog1.show();
                     dialog1.setCanceledOnTouchOutside(false);
                 } else {
-                    tv_weight.setText(String.valueOf(np.getValue())+"斤"); //set the value to textview
+                    tv_weight.setText(String.valueOf(np.getValue()) + "斤"); //set the value to textview
                     tv_weight.setError(null);
                 }
                 dialog.dismiss();
@@ -820,6 +822,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
                 .show();
 
     }
+
     /**
      * 点击屏幕隐藏软键盘
      **/
@@ -834,6 +837,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         }
         return super.dispatchTouchEvent(ev);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

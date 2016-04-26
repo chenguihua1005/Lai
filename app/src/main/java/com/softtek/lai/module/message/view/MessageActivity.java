@@ -94,9 +94,8 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
     private IMessagePresenter messagePresenter;
     private ACache aCache;
     MessageModel messageModel;
-    ArrayList<MessageDetailInfo> list_remove=new ArrayList<MessageDetailInfo>();
-    ArrayList<MessageDetailInfo> list_apply=new ArrayList<MessageDetailInfo>();
-
+    ArrayList<MessageDetailInfo> list_remove = new ArrayList<MessageDetailInfo>();
+    ArrayList<MessageDetailInfo> list_apply = new ArrayList<MessageDetailInfo>();
 
 
     @Override
@@ -130,13 +129,13 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
                 text_value1.setText(messageModel.getSPInviteSR().get(0).getComments());
             }
         } else if (String.valueOf(Constants.SP).equals(userrole)) {
-            ArrayList<MessageDetailInfo> list=messageModel.getSRandPCApply();
-            for (int i = 0; i <list.size() ; i++) {
-                MessageDetailInfo messageDetailInfo=list.get(i);
-                String type=messageDetailInfo.getMsgType();
-                if("0".equals(type)){
+            ArrayList<MessageDetailInfo> list = messageModel.getSRandPCApply();
+            for (int i = 0; i < list.size(); i++) {
+                MessageDetailInfo messageDetailInfo = list.get(i);
+                String type = messageDetailInfo.getMsgType();
+                if ("0".equals(type)) {
                     list_apply.add(messageDetailInfo);
-                }else {
+                } else {
                     list_remove.add(messageDetailInfo);
                 }
             }
@@ -181,11 +180,17 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
     }
 
     @Override
-    protected void initDatas() {
+    public void onResume() {
+        super.onResume();
         messagePresenter = new MessageImpl(this);
         aCache = ACache.get(this, Constants.USER_ACACHE_DATA_DIR);
-        String id=UserInfoModel.getInstance().getUser().getUserid();
+        String id = UserInfoModel.getInstance().getUser().getUserid();
         messagePresenter.getMsgList(id);
+    }
+
+    @Override
+    protected void initDatas() {
+
     }
 
     @Override
