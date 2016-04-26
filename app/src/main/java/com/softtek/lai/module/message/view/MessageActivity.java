@@ -151,7 +151,7 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
                 rel_1.setVisibility(View.GONE);
             } else {
                 rel_1.setVisibility(View.VISIBLE);
-                text_title.setText(getResources().getText(R.string.message1));
+                text_title.setText("助教申请");
                 img.setImageResource(R.drawable.img_assistant_apply);
                 text_value1.setText(list_apply.get(0).getComments());
             }

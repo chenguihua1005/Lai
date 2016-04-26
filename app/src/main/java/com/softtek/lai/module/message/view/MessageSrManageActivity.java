@@ -67,7 +67,7 @@ public class MessageSrManageActivity extends BaseActivity implements View.OnClic
     @InjectView(R.id.lin)
     LinearLayout lin;
 
-    private boolean isSelect = false;
+    private boolean isSelect = true;
     private IMessagePresenter messagePresenter;
     MessageDetailInfo messageDetailInfo;
 

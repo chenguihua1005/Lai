@@ -21,6 +21,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -61,6 +62,7 @@ import com.softtek.lai.module.newmemberentry.view.presenter.INewStudentpresenter
 import com.softtek.lai.module.newmemberentry.view.presenter.NewStudentInputImpl;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.MD5;
+import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.widgets.WheelView;
 import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageCropper;
@@ -191,7 +193,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
     String path = "";
     private static final int PHOTO = 1;
 
-    private String change_photo;
+    private String change_photo = "";
     private GuwenClassPre guwenClassPre;
     private List<String> pargradeIdlList = new ArrayList<String>();
     private List<String> pargradeNamelList = new ArrayList<String>();
@@ -266,7 +268,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         if (!TextUtils.isEmpty(getConfirmInfoModel.getPhoto())) {
             Picasso.with(this).load(path + getConfirmInfoModel.getPhoto()).placeholder(R.drawable.img_default).error(R.drawable.img_default).into(img1);
         } else {
-            Picasso.with(this).load("www").placeholder(R.drawable.img_default).error(R.drawable.img_default).into(img1);
+            img1.setImageResource(android.R.color.transparent);
         }
 
         Log.i("获取照片地址：》》》》》》" + path + getConfirmInfoModel.getPhoto());
@@ -363,7 +365,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
                 startActivityForResult(intent, 108);
                 break;
             case R.id.img_delete:
-                img1.setImageResource(R.drawable.ic_launcher);
+                img1.setImageResource(android.R.color.transparent);
                 change_photo = "";
                 break;
             case R.id.img_photoupload:
@@ -387,7 +389,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
                 if (pargradeNamelList.size() != 0) {
                     show_class_dialog();
                 } else {
-                    Util.toastMsg("未查询到班级列表");
+                    Util.toastMsg("当前没有班级");
                 }
                 break;
             case R.id.ll_weight:
@@ -452,11 +454,13 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
         np1.setMaxValue(99);
+        np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np1.setValue(50);
         np1.setMinValue(0);
         np1.setWrapSelectorWheel(false);
         np2.setMaxValue(9);
         np2.setValue(0);
+        np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np2.setMinValue(0);
         np2.setWrapSelectorWheel(false);
 
@@ -482,10 +486,13 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
         np1.setMaxValue(200);
         np1.setValue(100);
+        np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+
         np1.setMinValue(0);
         np1.setWrapSelectorWheel(false);
         np2.setMaxValue(9);
         np2.setValue(0);
+        np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np2.setMinValue(0);
         np2.setWrapSelectorWheel(false);
 
@@ -511,18 +518,21 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         np1.setMaxValue(myear);
         np1.setValue(myear);
         np1.setMinValue(1900);
+        np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np1.setWrapSelectorWheel(false);
 
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
         np2.setMaxValue(12);
         np2.setValue(mmonth + 1);
         np2.setMinValue(1);
+        np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np2.setWrapSelectorWheel(false);
 
         final NumberPicker np3 = (NumberPicker) view.findViewById(R.id.numberPicker3);
         np3.setMaxValue(31);
         np3.setValue(mday);
         np3.setMinValue(1);
+        np3.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np3.setWrapSelectorWheel(false);
 
         birdialog.setTitle("选择生日(年-月-日)").setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -696,9 +706,9 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void onValidationSucceeded() {
-        if(change_photo.equals("")){
+        if (change_photo.equals("")) {
             upload();
-        }else {
+        } else {
             iUpConfirmInfopresenter.upload(change_photo);
         }
     }
@@ -728,6 +738,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
             np.setValue(150);
         }
         np.setMinValue(20);
+        np.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np.setWrapSelectorWheel(false);
         birdialog.setTitle("选择体重(单位：斤)").setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
@@ -785,16 +796,37 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         new android.app.AlertDialog.Builder(this)
                 .setTitle("请选择班级")
                 .setView(outerView)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         tv_class.setText(pargradeNamelList.get(select_posion));
                     }
+
                 })
+                .setNegativeButton("取消",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface arg0, int arg1) {
+                                dialogDissmiss();
+                            }
+                        }).create()
                 .show();
 
     }
+    /**
+     * 点击屏幕隐藏软键盘
+     **/
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (SoftInputUtil.isShouldHideKeyboard(v, ev)) {
 
+                SoftInputUtil.hideKeyboard(v.getWindowToken(), this);
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
