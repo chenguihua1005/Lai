@@ -57,7 +57,6 @@ public class UpConfirmInfoImpl implements IUpConfirmInfopresenter {
                     case 200:
                         EventBus.getDefault().post(new ConinfoEvent(getConfirmInfoModelResponseData.getData()));
                         System.out.println("getConfirmInfoModelResponseData:" + getConfirmInfoModelResponseData);
-                        Util.toastMsg("读取信息成功");
                         break;
                     case 100:
                         Util.toastMsg("暂无数据");
@@ -87,7 +86,6 @@ public class UpConfirmInfoImpl implements IUpConfirmInfopresenter {
                         Intent intent = new Intent(context, HomeActviity.class);
                         context.startActivity(intent);
                         ((JoinGameDetailActivity) context).finish();
-                        Util.toastMsg("修改成功");
                         break;
                     case 500:
                         Util.toastMsg("修改失败");
@@ -117,7 +115,6 @@ public class UpConfirmInfoImpl implements IUpConfirmInfopresenter {
                     case 200:
                         PhotModel photModel = upimgResponseData.getData();
                         EventBus.getDefault().post(photModel);
-                        Util.toastMsg("获取成功");
                         break;
                     case 500:
                         Util.toastMsg("上传图片异常");

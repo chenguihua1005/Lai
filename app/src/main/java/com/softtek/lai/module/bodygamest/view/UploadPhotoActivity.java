@@ -59,6 +59,8 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     //toolbar标题栏
     @InjectView(R.id.tv_left)
     TextView tv_left;
+    @InjectView(R.id.tv_title)
+    TextView tv_title;
     @InjectView(R.id.imtest)
     ImageView imtest;
     @InjectView(R.id.tv_right)
@@ -123,6 +125,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         progressDialog = new ProgressDialog(this);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setMessage("正在加载内容...");
+        tv_title.setText("上传照片");
         tv_right.setText("分享");
         //监听点击事件
         tv_left.setOnClickListener(this);
@@ -212,7 +215,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        imtest.setImageBitmap(bitmap);
+        //imtest.setImageBitmap(bitmap);
         com.github.snowdream.android.util.Log.i("path:" + path);
     }
 
@@ -314,7 +317,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     @Override
     public void uoploadPhotoSuccess(boolean result, String photo) {
         if(result){
-            Picasso.with(this).load(AddressManager.get("photoHost")+photo).fit().placeholder(R.drawable.takephoto_upload).error(R.drawable.takephoto_upload).into(imtest);
+           // Picasso.with(this).load(AddressManager.get("photoHost")+photo).fit().placeholder(R.drawable.takephoto_upload).error(R.drawable.takephoto_upload).into(imtest);
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {

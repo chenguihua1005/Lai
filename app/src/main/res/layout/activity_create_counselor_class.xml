@@ -37,6 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/createClassTextMarginLeft"
             android:background="@drawable/border_none"
+            android:textCursorDrawable="@drawable/color_cursor"
             android:singleLine="true"
             android:textColor="@color/word"
             android:textSize="@dimen/textSize5" />

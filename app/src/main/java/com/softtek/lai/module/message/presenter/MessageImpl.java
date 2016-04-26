@@ -172,6 +172,7 @@ public class MessageImpl implements IMessagePresenter {
                     case 200:
                         if ("0".equals(acceptType)) {
                             String userrole = UserInfoModel.getInstance().getUser().getUserrole();
+                            System.out.println("userrole-------------:"+userrole);
                             if (String.valueOf(Constants.INC).equals(userrole)) {
                                 context.startActivity(new Intent(context, LoginActivity.class));
 

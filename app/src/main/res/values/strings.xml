@@ -145,7 +145,7 @@
     <string name="fcRemind">复测提醒</string>
     <string name="joinGameP">本人已仔细阅读</string>
     <string name="joinGameR">《康宝莱使用知情书》</string>
-    <string name="joinGameQ">请仔细阅读《康宝莱使用知情书》</string>
+    <string name="joinGameQ">请仔细阅读且勾选《康宝莱使用知情书》</string>
     <string name="old_password">原密码</string>
     <string name="version_name">版本信息</string>
 </resources>

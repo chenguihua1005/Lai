@@ -21,6 +21,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -61,6 +62,7 @@ import com.softtek.lai.module.newmemberentry.view.presenter.INewStudentpresenter
 import com.softtek.lai.module.newmemberentry.view.presenter.NewStudentInputImpl;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.MD5;
+import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.widgets.WheelView;
 import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageCropper;
@@ -191,7 +193,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
     String path = "";
     private static final int PHOTO = 1;
 
-    private String change_photo;
+    private String change_photo = "";
     private GuwenClassPre guwenClassPre;
     private List<String> pargradeIdlList = new ArrayList<String>();
     private List<String> pargradeNamelList = new ArrayList<String>();
@@ -266,16 +268,19 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         if (!TextUtils.isEmpty(getConfirmInfoModel.getPhoto())) {
             Picasso.with(this).load(path + getConfirmInfoModel.getPhoto()).placeholder(R.drawable.img_default).error(R.drawable.img_default).into(img1);
         } else {
-            Picasso.with(this).load("www").placeholder(R.drawable.img_default).error(R.drawable.img_default).into(img1);
+            img1.setImageResource(android.R.color.transparent);
         }
 
         Log.i("获取照片地址：》》》》》》" + path + getConfirmInfoModel.getPhoto());
         et_nickname.setText(getConfirmInfoModel.getUserName());
         tv_class.setText(getConfirmInfoModel.getClassName());
         et_phone.setText(getConfirmInfoModel.getMobile());
-        tv_weight.setText(getConfirmInfoModel.getWeight());
-        tv_tizhi.setText(getConfirmInfoModel.getPysical());
-        tv_neizhi.setText(getConfirmInfoModel.getFat());
+        tv_weight.setText(getConfirmInfoModel.getWeight()+"斤");
+        if("".equals(getConfirmInfoModel.getPysical())){
+            tv_tizhi.setText(getConfirmInfoModel.getPysical());
+        }else {
+            tv_tizhi.setText(getConfirmInfoModel.getPysical()+"%");
+        }
         tv_neizhi.setText(getConfirmInfoModel.getFat());
         tv_birthday.setText(getConfirmInfoModel.getBirthday());
         tv_sex.setText(getConfirmInfoModel.getGender().equals("0") ? "男" : "女");
@@ -315,7 +320,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         UserInfoModel userInfoModel = UserInfoModel.getInstance();
         accoutid = Long.parseLong(userInfoModel.getUser().getUserid());
         addGrade();
-        tv_right.setText("发布");
+        tv_right.setText("保存");
         type = getIntent().getStringExtra("type");
         if ("1".equals(type)) {
             MessageDetailInfo messageDetailInfo = (MessageDetailInfo) getIntent().getSerializableExtra("messageDetailInfo");
@@ -363,7 +368,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
                 startActivityForResult(intent, 108);
                 break;
             case R.id.img_delete:
-                img1.setImageResource(R.drawable.ic_launcher);
+                img1.setImageResource(android.R.color.transparent);
                 change_photo = "";
                 break;
             case R.id.img_photoupload:
@@ -387,7 +392,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
                 if (pargradeNamelList.size() != 0) {
                     show_class_dialog();
                 } else {
-                    Util.toastMsg("未查询到班级列表");
+                    Util.toastMsg("当前没有班级");
                 }
                 break;
             case R.id.ll_weight:
@@ -452,18 +457,20 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
         np1.setMaxValue(99);
+        np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np1.setValue(50);
         np1.setMinValue(0);
         np1.setWrapSelectorWheel(false);
         np2.setMaxValue(9);
         np2.setValue(0);
+        np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np2.setMinValue(0);
         np2.setWrapSelectorWheel(false);
 
         birdialog.setTitle("选择体脂").setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                tv_tizhi.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
+                tv_tizhi.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue())+"%");
                 dialog.dismiss();
             }
         }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -482,10 +489,13 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
         np1.setMaxValue(200);
         np1.setValue(100);
+        np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+
         np1.setMinValue(0);
         np1.setWrapSelectorWheel(false);
         np2.setMaxValue(9);
         np2.setValue(0);
+        np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np2.setMinValue(0);
         np2.setWrapSelectorWheel(false);
 
@@ -511,18 +521,21 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         np1.setMaxValue(myear);
         np1.setValue(myear);
         np1.setMinValue(1900);
+        np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np1.setWrapSelectorWheel(false);
 
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
         np2.setMaxValue(12);
         np2.setValue(mmonth + 1);
         np2.setMinValue(1);
+        np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np2.setWrapSelectorWheel(false);
 
         final NumberPicker np3 = (NumberPicker) view.findViewById(R.id.numberPicker3);
         np3.setMaxValue(31);
         np3.setValue(mday);
         np3.setMinValue(1);
+        np3.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np3.setWrapSelectorWheel(false);
 
         birdialog.setTitle("选择生日(年-月-日)").setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -578,11 +591,13 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
             coninfoModel.setBirthday(tv_birthday.getText().toString());
             coninfoModel.setGender(tv_sex.getText().toString() == "男" ? 0 : 1);
             coninfoModel.setPhoto(change_photo);
-            coninfoModel.setWeight(Double.parseDouble(tv_weight.getText().toString()));
+            String weights=tv_weight.getText().toString().split("斤")[0];
+            coninfoModel.setWeight(Double.parseDouble(weights));
             if (tv_tizhi.getText().toString().equals("")) {
                 coninfoModel.setPysical(0.0);
             } else {
-                coninfoModel.setPysical(Double.parseDouble(tv_tizhi.getText().toString()));
+                String tizhi=tv_tizhi.getText().toString().split("%")[0];
+                coninfoModel.setPysical(Double.parseDouble(tizhi));
             }
 
             if (tv_neizhi.getText().toString().equals("")) {
@@ -634,19 +649,21 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
             newstudentsModel.setSentaccid(accoutid);
             newstudentsModel.setNickname(et_nickname.getText().toString());
             String mobile = et_phone.getText().toString();
-            String b = mobile.substring(mobile.length() - 6, mobile.length());
+            String b = "hbl"+mobile.substring(mobile.length() - 6, mobile.length());
             newstudentsModel.setPassword(MD5.md5WithEncoder(b));
             newstudentsModel.setMobile(mobile);
             String classId = pargradeIdlList.get(select_posion);
             newstudentsModel.setClassid(classId);
-            newstudentsModel.setWeight(Double.parseDouble(tv_weight.getText().toString()));
+            String weights=tv_weight.getText().toString().split("斤")[0];
+            newstudentsModel.setWeight(Double.parseDouble(weights));
             newstudentsModel.setBirthday(tv_birthday.getText().toString());
             newstudentsModel.setGender(tv_sex.getText().toString().equals("男") ? 0 : 1);
             newstudentsModel.setPhoto(change_photo);
             if (tv_tizhi.getText().toString().equals("")) {
                 newstudentsModel.setPysical(0.0);
             } else {
-                newstudentsModel.setPysical(Double.parseDouble(tv_tizhi.getText().toString()));
+                String tizhi=tv_tizhi.getText().toString().split("%")[0];
+                newstudentsModel.setPysical(Double.parseDouble(tizhi));
             }
             if (tv_neizhi.getText().toString().equals("")) {
                 newstudentsModel.setFat(0.0);
@@ -696,9 +713,9 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void onValidationSucceeded() {
-        if(change_photo.equals("")){
+        if (change_photo.equals("")) {
             upload();
-        }else {
+        } else {
             iUpConfirmInfopresenter.upload(change_photo);
         }
     }
@@ -728,6 +745,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
             np.setValue(150);
         }
         np.setMinValue(20);
+        np.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np.setWrapSelectorWheel(false);
         birdialog.setTitle("选择体重(单位：斤)").setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
@@ -739,7 +757,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
                                     new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int which) {
-                                            tv_weight.setText(String.valueOf(np.getValue())); //set the value to textview
+                                            tv_weight.setText(String.valueOf(np.getValue())+"斤"); //set the value to textview
                                             tv_weight.setError(null);
                                         }
                                     })
@@ -754,7 +772,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
                     dialog1.show();
                     dialog1.setCanceledOnTouchOutside(false);
                 } else {
-                    tv_weight.setText(String.valueOf(np.getValue())); //set the value to textview
+                    tv_weight.setText(String.valueOf(np.getValue())+"斤"); //set the value to textview
                     tv_weight.setError(null);
                 }
                 dialog.dismiss();
@@ -785,16 +803,37 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         new android.app.AlertDialog.Builder(this)
                 .setTitle("请选择班级")
                 .setView(outerView)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         tv_class.setText(pargradeNamelList.get(select_posion));
                     }
+
                 })
+                .setNegativeButton("取消",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface arg0, int arg1) {
+                                dialogDissmiss();
+                            }
+                        }).create()
                 .show();
 
     }
+    /**
+     * 点击屏幕隐藏软键盘
+     **/
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (SoftInputUtil.isShouldHideKeyboard(v, ev)) {
 
+                SoftInputUtil.hideKeyboard(v.getWindowToken(), this);
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
