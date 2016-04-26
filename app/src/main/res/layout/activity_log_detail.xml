@@ -139,6 +139,32 @@
                  android:drawablePadding="5dp"
                  android:layout_gravity="right"/>
          </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="15sp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="18dp"
+            android:background="#F1F1F1"
+            android:gravity="center|left">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="2dp"
+                android:layout_gravity="top"
+                android:src="@drawable/love_story"/>
+            <TextView
+                android:id="@+id/tv_zan_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textColor="#7a7a7a"
+                android:textSize="10sp"
+                android:text=""/>
+        </LinearLayout>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"></RelativeLayout>

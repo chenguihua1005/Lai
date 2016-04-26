@@ -12,7 +12,7 @@ public class StringUtil {
 
     /**
      * 在原始字符串后面添加逗号并拼接新的字符串
-     * 若需要追加的字符不存在 则用手机号替代
+     * 若需要追加的字符不存在 则用手机号替代,只显示10人
      * @param orginal
      * @param append
      * @return
@@ -31,7 +31,39 @@ public class StringUtil {
         //判断点赞人数是否大于10人
         String[] peoples=buffer.toString().split(",");
         if(peoples.length>10){
+            StringBuffer res=new StringBuffer();
+            for(int i=0;i<10;i++){
+                if (i==9){
+                    res.append(peoples[i]);
+                }else{
+                    res.append(peoples[i]);
+                    res.append(",");
+                }
+            }
+            res.append("等"+(peoples.length-10)+"人也觉得很赞");
+            return res.toString();
+        }
+        Log.i("拼接后的字符="+buffer.toString());
+        return buffer.toString();
+    }
 
+    /**
+     * 在原始字符串后面添加逗号并拼接新的字符串
+     * 若需要追加的字符不存在 则用手机号替代
+     * @param orginal
+     * @param append
+     * @return
+     */
+    public static String appendDotAll(String orginal,String append,String phone){
+        StringBuffer buffer=new StringBuffer();
+        if(StringUtils.isNotEmpty(orginal)){
+            buffer.append(orginal);
+            buffer.append(",");
+        }
+        if(StringUtils.isEmpty(append)){
+            buffer.append(filterPhonNumber(phone));
+        }else{
+            buffer.append(append);
         }
         Log.i("拼接后的字符="+buffer.toString());
         return buffer.toString();

@@ -130,6 +130,7 @@ public class LossWeightLogActivity extends BaseActivity implements View.OnClickL
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
         pageIndex=1;
+        Log.i("accountid="+accountId);
         memberInfopresenter.getLossWeigthLogList(accountId,1);
     }
 
