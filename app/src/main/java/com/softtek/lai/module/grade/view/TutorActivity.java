@@ -124,6 +124,7 @@ public class TutorActivity extends BaseActivity implements PullToRefreshBase.OnR
             case R.id.tv_right:
                 Intent intent = new Intent(this, AssistantListActivity.class);
                 intent.putExtra("classId", classId);
+                intent.putExtra("type", "1");
                 startActivity(intent);
                 break;
         }

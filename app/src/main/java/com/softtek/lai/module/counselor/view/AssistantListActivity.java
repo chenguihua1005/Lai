@@ -8,6 +8,7 @@ package com.softtek.lai.module.counselor.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -49,6 +50,8 @@ public class AssistantListActivity extends BaseActivity implements View.OnClickL
 
     @InjectView(R.id.tv_right)
     TextView tv_right;
+    @InjectView(R.id.fl_right)
+    FrameLayout fl_right;
 
     @InjectView(R.id.list_assistant)
     ListView list_assistant;
@@ -76,6 +79,13 @@ public class AssistantListActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void initDatas() {
+        String type=getIntent().getStringExtra("type");
+        if("0".equals(type)){
+            tv_right.setText("完成");
+            fl_right.setOnClickListener(this);
+        }else {
+            tv_right.setText("");
+        }
         assistantPresenter = new AssistantImpl(this);
         aCache = ACache.get(this, Constants.USER_ACACHE_DATA_DIR);
         classId = SharedPreferenceService.getInstance().get("classId", "");
@@ -87,7 +97,7 @@ public class AssistantListActivity extends BaseActivity implements View.OnClickL
     public void onClick(View v) {
         SoftInputUtil.hidden(this);
         switch (v.getId()) {
-            case R.id.tv_right:
+            case R.id.fl_right:
                 Intent intent = new Intent(this, GradeHomeActivity.class);
                 intent.putExtra("classId", classId);
                 intent.putExtra("review", 1);

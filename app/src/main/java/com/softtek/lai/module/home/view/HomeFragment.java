@@ -373,16 +373,10 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fl_right:
-//                Intent intent=new Intent(getContext(), JoinGameDetailActivity.class);
-//                intent.putExtra("type","1");
-//                startActivity(intent);
                 startActivity(new Intent(getContext(), MessageActivity.class));
                 break;
             case R.id.iv_email:
                 startActivity(new Intent(getContext(), MessageActivity.class));
-//                Intent intents=new Intent(getContext(), JoinGameDetailActivity.class);
-//                intents.putExtra("type","1");
-//                startActivity(intents);
                 break;
         }
     }
