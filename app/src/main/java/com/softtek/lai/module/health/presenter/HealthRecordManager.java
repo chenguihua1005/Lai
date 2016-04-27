@@ -53,6 +53,12 @@ public class HealthRecordManager {
                     Util.toastMsg(pysicalModelResponseData.getMsg());
                 }
             }
+            @Override
+            public void failure(RetrofitError error) {
+                cb.getHealthPysicalRecords(null);
+                super.failure(error);
+
+            }
         });
     }
 
