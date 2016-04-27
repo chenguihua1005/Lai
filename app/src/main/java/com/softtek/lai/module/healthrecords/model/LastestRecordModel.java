@@ -1,5 +1,9 @@
 package com.softtek.lai.module.healthrecords.model;
 
+import com.softtek.lai.utils.StringUtil;
+
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Created by julie.zhu on 4/19/2016.
  */
@@ -44,7 +48,7 @@ public class LastestRecordModel {
     }
 
     public String getWeight() {
-        return Weight;
+        return StringUtils.isEmpty(Weight)?"0":Weight;
     }
 
     public void setWeight(String weight) {
@@ -52,7 +56,7 @@ public class LastestRecordModel {
     }
 
     public String getPysical() {
-        return Pysical;
+        return StringUtils.isEmpty(Pysical)?"0":Pysical;
     }
 
     public void setPysical(String pysical) {
@@ -60,7 +64,7 @@ public class LastestRecordModel {
     }
 
     public String getFat() {
-        return Fat;
+        return StringUtils.isEmpty(Fat)?"0":Fat;
     }
 
     public void setFat(String fat) {
@@ -68,7 +72,7 @@ public class LastestRecordModel {
     }
 
     public String getCircum() {
-        return Circum;
+        return StringUtils.isEmpty(Circum)?"0":Circum;
     }
 
     public void setCircum(String circum) {
@@ -76,7 +80,7 @@ public class LastestRecordModel {
     }
 
     public String getHiplie() {
-        return Hiplie;
+        return StringUtils.isEmpty(Hiplie)?"0":Hiplie;
     }
 
     public void setHiplie(String hiplie) {
@@ -84,7 +88,7 @@ public class LastestRecordModel {
     }
 
     public String getWaistline() {
-        return Waistline;
+        return StringUtils.isEmpty(Waistline)?"0":Waistline;
     }
 
     public void setWaistline(String waistline) {
@@ -92,7 +96,7 @@ public class LastestRecordModel {
     }
 
     public String getUpArmGirth() {
-        return UpArmGirth;
+        return StringUtils.isEmpty(UpArmGirth)?"0":UpArmGirth;
     }
 
     public void setUpArmGirth(String upArmGirth) {
@@ -100,7 +104,7 @@ public class LastestRecordModel {
     }
 
     public String getUpLegGirth() {
-        return UpLegGirth;
+        return StringUtils.isEmpty(UpLegGirth)?"0":UpLegGirth;
     }
 
     public void setUpLegGirth(String upLegGirth) {
@@ -108,7 +112,7 @@ public class LastestRecordModel {
     }
 
     public String getDoLegGirth() {
-        return DoLegGirth;
+        return StringUtils.isEmpty(DoLegGirth)?"0":DoLegGirth;
     }
 
     public void setDoLegGirth(String doLegGirth) {
