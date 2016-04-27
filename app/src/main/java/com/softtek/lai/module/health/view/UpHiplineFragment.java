@@ -143,7 +143,7 @@ public class UpHiplineFragment extends BaseFragment implements RadioGroup.OnChec
         days.add(formdate(nowdate6));
         days.add(formdate(nowdate7));
         progressDialog.show();
-        healthRecordManager.doGetHealthupArmGirthRecords(date,getDateform(nowdate1)+" "+datetime[1],1);
+        healthRecordManager.doGetHealthupArmGirthRecords(getDateform(nowdate7),getDateform(nowdate1),1);
 //        iHealthyRecord.dodoGetHealthupArmGirthRecords(date,getDateform(nowdate1)+" "+datetime[1],1);
 
 
@@ -340,7 +340,7 @@ public class UpHiplineFragment extends BaseFragment implements RadioGroup.OnChec
                         days.add(formdate(nowdate6));
                         days.add(formdate(nowdate7));
                         progressDialog.show();
-                        healthRecordManager.doGetHealthupArmGirthRecords(getDateform(nowdate7)+" "+datetime[1],getDateform(nowdate1)+" "+datetime[1],1);
+                        healthRecordManager.doGetHealthupArmGirthRecords(getDateform(nowdate7),getDateform(nowdate1),1);
                         n = n + 7;
                         bt_right.setVisibility(View.VISIBLE);
                         break;
@@ -362,7 +362,7 @@ public class UpHiplineFragment extends BaseFragment implements RadioGroup.OnChec
                         days.add(formdate(monthdate3));
                         days.add(formdate(monthdate4));
                         progressDialog.show();
-                        healthRecordManager.doGetHealthupArmGirthRecords(getDateform(monthdate4)+" "+datetime[1],getDateform(monthdate1)+" "+datetime[1],2);
+                        healthRecordManager.doGetHealthupArmGirthRecords(getDateform(monthdate4),getDateform(monthdate1),2);
                         n=n+4;
                         bt_right.setVisibility(View.VISIBLE);
                         break;
@@ -384,7 +384,7 @@ public class UpHiplineFragment extends BaseFragment implements RadioGroup.OnChec
                         days.add(formdate(quarterdate3));
                         days.add(formdate(quarterdate4));
                         progressDialog.show();
-                        healthRecordManager.doGetHealthupArmGirthRecords(getDateform(quarterdate4)+" "+datetime[1],getDateform(quarterdate1)+" "+datetime[1],3);
+                        healthRecordManager.doGetHealthupArmGirthRecords(getDateform(quarterdate4),getDateform(quarterdate1),3);
                         n=n+4;
                         bt_right.setVisibility(View.VISIBLE);
                         break;
@@ -407,7 +407,7 @@ public class UpHiplineFragment extends BaseFragment implements RadioGroup.OnChec
                         days.add(formyeardate(yeardate3));
                         days.add(formyeardate(yeardate4));
                         progressDialog.show();
-                        healthRecordManager.doGetHealthupArmGirthRecords(getDateform(yeardate4)+" "+datetime[1],getDateform(yeardate0)+" "+datetime[1],4);
+                        healthRecordManager.doGetHealthupArmGirthRecords(getDateform(yeardate4),getDateform(yeardate0),4);
                         n=n+4;
                         bt_right.setVisibility(View.VISIBLE);
                         break;
@@ -444,7 +444,7 @@ public class UpHiplineFragment extends BaseFragment implements RadioGroup.OnChec
                         days.add(formdate(nowdate6));
                         days.add(formdate(nowdate7));
                         progressDialog.show();
-                        healthRecordManager.doGetHealthupArmGirthRecords(getDateform(nowdate7)+" "+datetime[1],getDateform(nowdate1)+" "+datetime[1],1);
+                        healthRecordManager.doGetHealthupArmGirthRecords(getDateform(nowdate7),getDateform(nowdate1),1);
                         state=false;
                         if (nowdate7.equals(getPeriodDate(type,0)+""))
                             bt_right.setVisibility(View.GONE);
@@ -469,7 +469,7 @@ public class UpHiplineFragment extends BaseFragment implements RadioGroup.OnChec
                         days.add(formdate(monthdate3));
                         days.add(formdate(monthdate4));
                         progressDialog.show();
-                        healthRecordManager.doGetHealthupArmGirthRecords(getDateform(monthdate4)+" "+datetime[1],getDateform(monthdate1)+" "+datetime[1],2);
+                        healthRecordManager.doGetHealthupArmGirthRecords(getDateform(monthdate4),getDateform(monthdate1),2);
                         state=false;
                         if (monthdate4.equals(getPeriodDate(type,0)+""))
                             bt_right.setVisibility(View.GONE);
@@ -494,7 +494,7 @@ public class UpHiplineFragment extends BaseFragment implements RadioGroup.OnChec
                         days.add(formdate(quarterdate3));
                         days.add(formdate(quarterdate4));
                         progressDialog.show();
-                        healthRecordManager.doGetHealthupArmGirthRecords(getDateform(quarterdate4)+" "+datetime[1],getDateform(quarterdate1)+" "+datetime[1],3);
+                        healthRecordManager.doGetHealthupArmGirthRecords(getDateform(quarterdate4),getDateform(quarterdate1),3);
                         bt_right.setVisibility(View.VISIBLE);
                         state=false;
                         if (quarterdate4.equals(getPeriodDate(type,0)+""))
@@ -520,7 +520,7 @@ public class UpHiplineFragment extends BaseFragment implements RadioGroup.OnChec
                         days.add(formyeardate(yeardate2));
                         days.add(formyeardate(yeardate3));
                         days.add(formyeardate(yeardate4));
-                        healthRecordManager.doGetHealthupArmGirthRecords(getDateform(yeardate4)+" "+datetime[1],getDateform(yeardate0)+" "+datetime[1],4);
+                        healthRecordManager.doGetHealthupArmGirthRecords(getDateform(yeardate4),getDateform(yeardate0),4);
                         bt_right.setVisibility(View.VISIBLE);
                         state=false;
                         if (yeardate4.equals(getPeriodDate(type,0)+""))
@@ -553,7 +553,7 @@ public class UpHiplineFragment extends BaseFragment implements RadioGroup.OnChec
                 days.add(formdate(weekdate6));
                 days.add(formdate(weekdate7));
                 progressDialog.show();
-                healthRecordManager.doGetHealthupArmGirthRecords(date,getDateform(weekdate1)+" "+datetime[1],1);
+                healthRecordManager.doGetHealthupArmGirthRecords(getDateform(weekdate7),getDateform(weekdate1),1);
 
                 break;
             case R.id.month:
@@ -573,7 +573,7 @@ public class UpHiplineFragment extends BaseFragment implements RadioGroup.OnChec
                 days.add(formdate(monthdate3));
                 days.add(formdate(monthdate4));
                 progressDialog.show();
-                healthRecordManager.doGetHealthupArmGirthRecords(getDateform(monthdate4)+" "+datetime[1],getDateform(monthdate1)+" "+datetime[1],2);
+                healthRecordManager.doGetHealthupArmGirthRecords(getDateform(monthdate4),getDateform(monthdate1),2);
                 break;
             case R.id.quarter:
                 dates.clear();
@@ -592,7 +592,7 @@ public class UpHiplineFragment extends BaseFragment implements RadioGroup.OnChec
                 days.add(formdate(quarterdate3));
                 days.add(formdate(quarterdate4));
                 progressDialog.show();
-                healthRecordManager.doGetHealthupArmGirthRecords(getDateform(quarterdate4)+" "+datetime[1],getDateform(quarterdate1)+" "+datetime[1],3);
+                healthRecordManager.doGetHealthupArmGirthRecords(getDateform(quarterdate4),getDateform(quarterdate1),3);
                 break;
             case R.id.year:
                 flag=3;
@@ -612,7 +612,7 @@ public class UpHiplineFragment extends BaseFragment implements RadioGroup.OnChec
                 days.add(formyeardate(yeardate3));
                 days.add(formyeardate(yeardate4));
                 progressDialog.show();
-                healthRecordManager.doGetHealthupArmGirthRecords(getDateform(yeardate4)+" "+datetime[1],getDateform(yeardate0)+" "+datetime[1],4);
+                healthRecordManager.doGetHealthupArmGirthRecords(getDateform(yeardate4),getDateform(yeardate0),4);
                 break;
         }
     }
@@ -650,6 +650,6 @@ public class UpHiplineFragment extends BaseFragment implements RadioGroup.OnChec
         days.add(formdate(weekdate6));
         days.add(formdate(weekdate7));
         progressDialog.show();
-        healthRecordManager.doGetHealthupArmGirthRecords(date,getDateform(weekdate1)+" "+datetime[1],1);
+        healthRecordManager.doGetHealthupArmGirthRecords(getDateform(weekdate7),getDateform(weekdate1),1);
     }
 }
