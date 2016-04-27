@@ -180,15 +180,15 @@ public class HealthEntryActivity extends BaseActivity implements View.OnClickLis
     public void onEvent(RecordEvent recordEvent) {
         dialogDissmiss();
         lastestRecordModel = recordEvent.lastestRecordModel();
-        tv_weight.setText(lastestRecordModel.getWeight());
-        et_pysical.setText(lastestRecordModel.getPysical());
-        et_fat.setText(lastestRecordModel.getFat());
-        tv_circum.setText(lastestRecordModel.getCircum());
-        tv_waistline.setText(lastestRecordModel.getWaistline());
-        tv_hiplie.setText(lastestRecordModel.getHiplie());
-        tv_uparmgirth.setText(lastestRecordModel.getUpArmGirth());
-        tv_upleggirth.setText(lastestRecordModel.getUpLegGirth());
-        tv_doleggirth.setText(lastestRecordModel.getDoLegGirth());
+        tv_weight.setText(Float.parseFloat(lastestRecordModel.getWeight())+"");
+        et_pysical.setText(Float.parseFloat(lastestRecordModel.getPysical())+"");
+        et_fat.setText(Float.parseFloat(lastestRecordModel.getFat())+"");
+        tv_circum.setText(Float.parseFloat(lastestRecordModel.getCircum())+"");
+        tv_waistline.setText(Float.parseFloat(lastestRecordModel.getWaistline())+"");
+        tv_hiplie.setText(Float.parseFloat(lastestRecordModel.getHiplie())+"");
+        tv_uparmgirth.setText(Float.parseFloat(lastestRecordModel.getUpArmGirth())+"");
+        tv_upleggirth.setText(Float.parseFloat(lastestRecordModel.getUpLegGirth())+"");
+        tv_doleggirth.setText(Float.parseFloat(lastestRecordModel.getDoLegGirth())+"");
 
     }
 
