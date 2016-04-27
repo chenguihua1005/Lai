@@ -17,6 +17,7 @@ import com.softtek.lai.module.historydate.model.HistoryData;
 import com.softtek.lai.module.historydate.model.HistoryDataItemModel;
 import com.softtek.lai.module.historydate.model.HistoryDataModel;
 import com.softtek.lai.utils.DateUtil;
+import com.umeng.socialize.utils.Log;
 
 import java.util.List;
 
@@ -80,6 +81,7 @@ public class HistoryDataAdapter extends BaseAdapter{
         });
         holder.cb_selecter.setChecked(model.isChecked());
         HistoryData data=model.getDataModel();
+        Log.i("标志="+data.getSourcetype());
         if("0".equals(data.getSourcetype())){
             //莱秤数据
             holder.icon.setBackground(ContextCompat.getDrawable(context,R.drawable.laichen));
@@ -91,7 +93,7 @@ public class HistoryDataAdapter extends BaseAdapter{
         }
         String date=data.getCreateDate();
         DateUtil util=DateUtil.getInstance();
-        holder.tv_ymd.setText(util.getYear(date)+"年"+util.getMonth(date)+"月"+util.getDay("日"));
+        holder.tv_ymd.setText(util.getYear(date)+"年"+util.getMonth(date)+"月"+util.getDay(date)+"日");
         holder.tv_hm.setText(util.getHour(date)+":"+util.getMinute(date));
         return convertView;
     }
