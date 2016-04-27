@@ -98,7 +98,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:text="100"
                         android:textColor="@color/word10"
                         android:textSize="@dimen/textSize1" />
 
@@ -193,7 +192,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:text="100"
                         android:textColor="@color/word10"
                         android:textSize="@dimen/textSize1" />
 
@@ -264,7 +262,7 @@
                     android:id="@+id/img_fc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/img_honor_10" />
+                    android:src="@drawable/img_honor_100" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -288,7 +286,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:text="10"
                         android:textColor="@color/word11"
                         android:textSize="@dimen/textSize1" />
 
@@ -333,7 +330,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
-            android:text="5人"
+            android:text="0人"
             android:layout_gravity="center"
             android:layout_marginLeft="@dimen/spHonorMarginLeft1"
             android:textSize="@dimen/textSize1" />

@@ -209,9 +209,11 @@ public class AssistantImpl implements IAssistantPresenter {
                 List<AssistantInfoModel> list = listResponseData.getData();
                 switch (status) {
                     case 200:
+                        list_assistant.setVisibility(View.VISIBLE);
                         EventBus.getDefault().post(new AssistantInfoEvent(list));
                         break;
                     default:
+                        list_assistant.setVisibility(View.GONE);
                         Util.toastMsg(listResponseData.getMsg());
                         break;
                 }
