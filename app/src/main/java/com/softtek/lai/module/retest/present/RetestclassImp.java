@@ -337,9 +337,10 @@ public class RetestclassImp implements RetestPre{
                     case 200:
                         LaichModel laichModel= (LaichModel)laichModelResponseData.getData();
                         EventBus.getDefault().post(laichModel);
-//                        Util.toastMsg("成功");
+                        break;
                         default:
                             Util.toastMsg(laichModelResponseData.getMsg());
+                            break;
                 }
 
             }
