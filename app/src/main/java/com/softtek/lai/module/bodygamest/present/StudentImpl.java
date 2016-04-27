@@ -51,10 +51,10 @@ public class StudentImpl implements IStudentPresenter {
             public void success(ResponseData<List<StudentScripInfo>> listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
-                List<StudentScripInfo> list=listResponseData.getData();
+                List<StudentScripInfo> list = listResponseData.getData();
                 switch (status) {
                     case 200:
-                        StudentScoreAdapter adapter=new StudentScoreAdapter(context,list);
+                        StudentScoreAdapter adapter = new StudentScoreAdapter(context, list);
                         list_student_score.setAdapter(adapter);
                         break;
                     default:
@@ -97,8 +97,13 @@ public class StudentImpl implements IStudentPresenter {
         });
     }
 
-    public void hasClass(RequestCallback<ResponseData<HasClass>> callback){
-        String token= UserInfoModel.getInstance().getToken();
-        studentService.hasClass(token,callback);
+    public void hasClass(RequestCallback<ResponseData<HasClass>> callback) {
+        String token = UserInfoModel.getInstance().getToken();
+        studentService.hasClass(token, callback);
+    }
+
+    public void pcIsJoinClass(String accountid, RequestCallback<ResponseData<HasClass>> callback) {
+        String token = UserInfoModel.getInstance().getToken();
+        studentService.pcIsJoinClass(token, accountid, callback);
     }
 }

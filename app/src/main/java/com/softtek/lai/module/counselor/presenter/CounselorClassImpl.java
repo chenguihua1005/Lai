@@ -7,12 +7,14 @@ package com.softtek.lai.module.counselor.presenter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
@@ -21,6 +23,7 @@ import com.softtek.lai.module.counselor.model.ClassIdModel;
 import com.softtek.lai.module.counselor.model.ClassInfoModel;
 import com.softtek.lai.module.counselor.net.CounselorService;
 import com.softtek.lai.module.counselor.view.AssistantListActivity;
+import com.softtek.lai.module.counselor.view.CounselorClassListActivity;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -55,6 +58,7 @@ public class CounselorClassImpl implements ICounselorClassPresenter {
             @Override
             public void success(ResponseData<List<ClassInfoModel>> listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());
+                ((CounselorClassListActivity) context).dialogDissmiss();
                 int status = listResponseData.getStatus();
                 List<ClassInfoModel> list = listResponseData.getData();
                 switch (status) {
@@ -124,6 +128,7 @@ public class CounselorClassImpl implements ICounselorClassPresenter {
 
             @Override
             public void failure(RetrofitError error) {
+                ((CounselorClassListActivity) context).dialogDissmiss();
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }

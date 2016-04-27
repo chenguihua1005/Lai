@@ -34,6 +34,12 @@ public interface StudentService {
 
     //判断这个人是否有班级
     @GET("/BasicData/IsHaveClass")
-    void hasClass(@Header("token")String token,
+    void hasClass(@Header("token") String token,
                   RequestCallback<ResponseData<HasClass>> callback);
+
+    //是否已加入班级
+    @GET("/HerbrClass/PCIsJoinClass")
+    void pcIsJoinClass(@Header("token") String token,
+                       @Query("accountid") String accountid,
+                       RequestCallback<ResponseData<HasClass>> callback);
 }
