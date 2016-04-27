@@ -89,15 +89,18 @@ public class MessageFcRemindActivity extends BaseActivity implements View.OnClic
         String userrole = UserInfoModel.getInstance().getUser().getUserrole();
         if (String.valueOf(Constants.PC).equals(userrole)) {
             Intent intent = new Intent(this, BodyGamePCActivity.class);
+            intent.putExtra("type","0");
             startActivity(intent);
         } else if (String.valueOf(Constants.SR).equals(userrole)) {
             //助教身份跳转复测页面
             Intent intent = new Intent(this, RetestActivity.class);
+            intent.putExtra("type","0");
             startActivity(intent);
 
         } else if (String.valueOf(Constants.SP).equals(userrole)) {
             //顾问身份跳转复测页面
             Intent intent = new Intent(this, RetestActivity.class);
+            intent.putExtra("type","0");
             startActivity(intent);
 
         }

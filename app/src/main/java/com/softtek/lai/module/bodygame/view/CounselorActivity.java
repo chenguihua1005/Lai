@@ -169,6 +169,7 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
             case R.id.ll_counselor_fuce:
             {
                 Intent intent=new Intent(this, RetestActivity.class);
+                intent.putExtra("type","1");
                 startActivity(intent);
 
 

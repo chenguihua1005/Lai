@@ -17,9 +17,11 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -48,6 +50,7 @@ import com.softtek.lai.module.confirmInfo.model.ConinfoModel;
 import com.softtek.lai.module.confirmInfo.model.GetConfirmInfoModel;
 import com.softtek.lai.module.confirmInfo.presenter.IUpConfirmInfopresenter;
 import com.softtek.lai.module.confirmInfo.presenter.UpConfirmInfoImpl;
+import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.lossweightstory.model.UploadImage;
 import com.softtek.lai.module.message.model.MessageDetailInfo;
 import com.softtek.lai.module.message.presenter.IMessagePresenter;
@@ -83,6 +86,7 @@ import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.lifecircle.LifeCircleInject;
+import zilla.libcore.lifecircle.exit.AppManager;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
@@ -290,8 +294,6 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
 
     @Override
     protected void initViews() {
-
-        ll_left.setOnClickListener(this);
         fl_right.setOnClickListener(this);
         ll_class.setOnClickListener(this);
         ll_weight.setOnClickListener(this);
@@ -326,16 +328,17 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         if ("1".equals(type)) {
             MessageDetailInfo messageDetailInfo = (MessageDetailInfo) getIntent().getSerializableExtra("messageDetailInfo");
             classid = messageDetailInfo.getClassId();
-//            classid = "35";
-//            accoutid = 341;
             iUpConfirmInfopresenter.getConfirmInfo(accoutid, Long.parseLong(classid));
             tv_title.setText(R.string.message3);
             et_phone.setEnabled(false);
             ll_class.setEnabled(false);
+            ll_left.setVisibility(View.GONE);
         } else {
             tv_title.setText("新学员录入");
             getConfirmInfoModel = new GetConfirmInfoModel();
             guwenClassPre.doGetGuwenClass(accoutid);//36
+            ll_left.setVisibility(View.VISIBLE);
+            ll_left.setOnClickListener(this);
         }
     }
 
@@ -847,5 +850,14 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
             getConfirmInfoModel = (GetConfirmInfoModel) data.getSerializableExtra("getConfirmInfoModel");
         }
     }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            startActivity(new Intent(this, HomeActviity.class));
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 
 }

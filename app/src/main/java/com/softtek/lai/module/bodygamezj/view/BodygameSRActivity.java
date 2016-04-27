@@ -1,6 +1,7 @@
 package com.softtek.lai.module.bodygamezj.view;
 
 import android.content.Intent;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,6 +21,7 @@ import com.softtek.lai.module.counselor.view.ApplyAssistantActivity;
 import com.softtek.lai.module.counselor.view.CounselorClassListActivity;
 import com.softtek.lai.module.counselor.view.GameActivity;
 import com.softtek.lai.module.counselor.view.SRHonorActivity;
+import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.jingdu.view.JingduActivity;
 import com.softtek.lai.module.retest.view.RetestActivity;
 import com.softtek.lai.module.review.view.ReviewActivity;
@@ -34,7 +36,7 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_bodygame_sr)
-public class BodygameSRActivity extends BaseActivity implements View.OnClickListener{
+public class BodygameSRActivity extends BaseActivity implements View.OnClickListener {
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.tv_title)
@@ -68,8 +70,8 @@ public class BodygameSRActivity extends BaseActivity implements View.OnClickList
     @InjectView(R.id.ll_fuce)
     LinearLayout ll_fuce;
 
-    UserInfoModel userInfoModel=UserInfoModel.getInstance();
-    long loginid=Long.parseLong(userInfoModel.getUser().getUserid());
+    UserInfoModel userInfoModel = UserInfoModel.getInstance();
+    long loginid = Long.parseLong(userInfoModel.getUser().getUserid());
 
 
     private ITiGuanSai iTiGuanSai;
@@ -92,12 +94,13 @@ public class BodygameSRActivity extends BaseActivity implements View.OnClickList
     @Override
     protected void initDatas() {
         tv_title.setText("体管赛（助教版）");
-        iTiGuanSai=new TiGuanSaiImpl();
+        iTiGuanSai = new TiGuanSaiImpl();
         iTiGuanSai.getTiGuanSai();
         iTiGuanSai.doGetFuceNum(loginid);
         dialogShow("数据刷新中...");
         iTiGuanSai.doGetTotal(progressDialog);
     }
+
     @Override
     protected void onDestroy() {
         EventBus.getDefault().unregister(this);
@@ -106,17 +109,24 @@ public class BodygameSRActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void onClick(View view) {
-        switch (view.getId())
-        {
+        switch (view.getId()) {
             case R.id.ll_left:
-                finish();
+                String type = getIntent().getStringExtra("type");
+                if ("0".equals(type)) {
+                    startActivity(new Intent(this, HomeActviity.class));
+                } else {
+                    finish();
+                }
+
                 break;
             case R.id.ll_tips:
-                Intent intent=new Intent(this,TipsActivity.class);
+                Intent intent = new Intent(this, TipsActivity.class);
                 startActivity(intent);
                 break;
             case R.id.ll_fuce:
-                startActivity(new Intent(this, RetestActivity.class));
+                Intent intents = new Intent(this, RetestActivity.class);
+                intents.putExtra("type", "1");
+                startActivity(intents);
                 break;
             case R.id.tv_totalzj:
                 dialogShow("数据刷新中...");
@@ -126,7 +136,7 @@ public class BodygameSRActivity extends BaseActivity implements View.OnClickList
                 startActivity(new Intent(this, ReviewActivity.class));
                 break;
             case R.id.ll_tiguansai:
-                Intent zhujiao=new Intent(this, CounselorClassListActivity.class);
+                Intent zhujiao = new Intent(this, CounselorClassListActivity.class);
                 startActivity(zhujiao);
                 break;
             case R.id.ll_process:
@@ -134,41 +144,55 @@ public class BodygameSRActivity extends BaseActivity implements View.OnClickList
                 break;
             case R.id.ll_saikuang:
                 //大赛赛况
-                startActivity(new Intent(this,GameActivity.class));
+                startActivity(new Intent(this, GameActivity.class));
                 break;
             case R.id.ll_rongyu:
                 //荣誉榜
-                startActivity(new Intent(this,SRHonorActivity.class));
+                startActivity(new Intent(this, SRHonorActivity.class));
                 break;
             case R.id.ll_assistant:
                 //申请助教
-                startActivity(new Intent(this,ApplyAssistantActivity.class));
+                startActivity(new Intent(this, ApplyAssistantActivity.class));
                 break;
         }
     }
+
     @Subscribe
-    public void onEvent(TiGuanSaiModel tiGuanSai){
+    public void onEvent(TiGuanSaiModel tiGuanSai) {
         Picasso.with(this).load(tiGuanSai.getImg_Addr()).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_advzj);
 
-
     }
+
     @Subscribe
-    public void onEvent1(FuceNumModel fuceNum){
-        if (Integer.parseInt(fuceNum.getCount())>10)
-        {
+    public void onEvent1(FuceNumModel fuceNum) {
+        if (Integer.parseInt(fuceNum.getCount()) > 10) {
             tv_fucenumzj.setVisibility(View.VISIBLE);
             tv_fucenumzj.setText("10+");
-        }
-        else if (Integer.parseInt(fuceNum.getCount())!=10&&fuceNum.getCount()!=""){
+        } else if (Integer.parseInt(fuceNum.getCount()) != 10 && fuceNum.getCount() != "") {
             tv_fucenumzj.setVisibility(View.VISIBLE);
             tv_fucenumzj.setText(fuceNum.getCount());
         }
 
     }
+
     @Subscribe
-    public void doGetTotol(List<TotolModel> totolModels){
+    public void doGetTotol(List<TotolModel> totolModels) {
 
         tv_totalpersonzj.setText(totolModels.get(0).getTotal_person());
         tv_total_losszj.setText(totolModels.get(0).getTotal_loss());
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            String type = getIntent().getStringExtra("type");
+            if ("0".equals(type)) {
+                startActivity(new Intent(this, HomeActviity.class));
+            } else {
+                finish();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

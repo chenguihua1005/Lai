@@ -31,7 +31,7 @@ import com.softtek.lai.utils.SoftInputUtil;
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
-@InjectLayout(R.layout.activity_dimension_record)
+@InjectLayout(R.layout.activity_new_dimension_record)
 public class JoinGameDimensionRecordActivity extends BaseActivity implements OnClickListener {
 
     //toolbar布局控件

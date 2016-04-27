@@ -72,6 +72,7 @@
 
         <activity
             android:name=".module.login.view.LoginActivity"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity android:name=".module.guide.GuideActivity">
             <intent-filter>

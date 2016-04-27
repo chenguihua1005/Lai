@@ -15,6 +15,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -34,6 +35,7 @@ import com.softtek.lai.module.bodygame.view.TipsActivity;
 import com.softtek.lai.module.bodygamest.model.HasClass;
 import com.softtek.lai.module.bodygamest.present.StudentImpl;
 import com.softtek.lai.module.counselor.view.GameActivity;
+import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.lossweightstory.view.LossWeightStoryActivity;
 import com.softtek.lai.module.lossweightstory.view.NewStoryActivity;
 import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
@@ -230,7 +232,12 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
                     startActivity(intent2);
                     break;
                 case R.id.ll_left:
-                    finish();
+                    String type = getIntent().getStringExtra("type");
+                    if ("0".equals(type)) {
+                        startActivity(new Intent(this, HomeActviity.class));
+                    } else {
+                        finish();
+                    }
                     break;
                 case R.id.im_refreshst:
                     progressDialog.setCanceledOnTouchOutside(false);
@@ -291,5 +298,18 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
             //retestPre.doGetAudit(loginid,0,"");
             flag=false;
         }
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            String type = getIntent().getStringExtra("type");
+            if ("0".equals(type)) {
+                startActivity(new Intent(this, HomeActviity.class));
+            } else {
+                finish();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

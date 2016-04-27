@@ -6,6 +6,7 @@ import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.bodygamest.eventModel.PhotoListEvent;
 import com.softtek.lai.module.bodygamest.model.DownPhotoModel;
+import com.softtek.lai.module.bodygamest.model.LossModel;
 import com.softtek.lai.module.bodygamest.model.UploadPhotModel;
 import com.softtek.lai.module.bodygamest.net.PhotoListService;
 
@@ -32,7 +33,33 @@ public class PhotoListIml implements PhotoListPre {
 
     public PhotoListIml(PhotoListCallback cb) {
         service = ZillaApi.NormalRestAdapter.create(PhotoListService.class);
-        this.cb=cb;
+        this.cb = cb;
+    }
+
+    @Override
+    public void getLossData(String accountId) {
+        String token = SharedPreferenceService.getInstance().get("token", "");
+        service.getLossData(token, accountId, new Callback<ResponseData<LossModel>>() {
+            @Override
+            public void success(ResponseData<LossModel> listResponseData, Response response) {
+                System.out.println("listResponseData:" + listResponseData);
+                int status = listResponseData.getStatus();
+                switch (status) {
+                    case 200:
+                        EventBus.getDefault().post(listResponseData.getData());
+                        break;
+                    case 500:
+                        Util.toastMsg(listResponseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
+            }
+        });
     }
 
     @Override
@@ -47,10 +74,9 @@ public class PhotoListIml implements PhotoListPre {
 
                     case 200:
                         EventBus.getDefault().post(listResponseData.getData());
-                        Util.toastMsg("获取图片成功");
                         break;
                     case 500:
-                        Util.toastMsg("获取图片失败");
+                        Util.toastMsg(listResponseData.getMsg());
                         break;
                 }
             }
@@ -70,11 +96,10 @@ public class PhotoListIml implements PhotoListPre {
         service.getUserPhotos(token, photoName, new Callback<ResponseData>() {
             @Override
             public void success(ResponseData listResponseData, Response response) {
+                System.out.println("listResponseData:" + listResponseData);
                 int status = listResponseData.getStatus();
                 switch (status) {
-
                     case 200:
-                        System.out.println("listResponseData:"+listResponseData);
                         EventBus.getDefault().post(listResponseData);
                         break;
                     case 500:
@@ -130,11 +155,11 @@ public class PhotoListIml implements PhotoListPre {
                 int status = uploadPhotModelResponseData.getStatus();
                 switch (status) {
                     case 200:
-                        cb.uoploadPhotoSuccess(true,uploadPhotModelResponseData.getData().getImg());
+                        cb.uoploadPhotoSuccess(true, uploadPhotModelResponseData.getData().getImg());
                         Util.toastMsg("上传成功");
                         break;
                     case 500:
-                        cb.uoploadPhotoSuccess(false,null);
+                        cb.uoploadPhotoSuccess(false, null);
                         Util.toastMsg("上传失败");
                         break;
                 }
@@ -143,7 +168,7 @@ public class PhotoListIml implements PhotoListPre {
             @Override
             public void failure(RetrofitError error) {
                 loadingDialog.dismiss();
-                cb.uoploadPhotoSuccess(false,null);
+                cb.uoploadPhotoSuccess(false, null);
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
 
@@ -151,7 +176,7 @@ public class PhotoListIml implements PhotoListPre {
         });
     }
 
-    public interface PhotoListCallback{
-        void uoploadPhotoSuccess(boolean result,String photo);
+    public interface PhotoListCallback {
+        void uoploadPhotoSuccess(boolean result, String photo);
     }
 }

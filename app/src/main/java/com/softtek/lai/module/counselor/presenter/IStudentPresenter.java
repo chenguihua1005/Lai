@@ -19,4 +19,7 @@ public interface IStudentPresenter {
     //发送邀请
     void sendInviterMsg(String inviters, String classId, ImageView img_invite);
 
+    //班级是否可以邀请学员
+    void classInvitePCISOK(String classid,String type);
+
 }

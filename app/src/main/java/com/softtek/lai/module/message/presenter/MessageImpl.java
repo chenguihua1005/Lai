@@ -80,6 +80,7 @@ public class MessageImpl implements IMessagePresenter {
             }
         });
     }
+
     @Override
     public void getMessageRead(final ImageView img_red) {
         String token = UserInfoModel.getInstance().getToken();
@@ -136,7 +137,7 @@ public class MessageImpl implements IMessagePresenter {
     @Override
     public void getMsgList(String accountid) {
         String token = UserInfoModel.getInstance().getToken();
-        messageService.getMsgList(token,accountid, new Callback<ResponseData<MessageModel>>() {
+        messageService.getMsgList(token, accountid, new Callback<ResponseData<MessageModel>>() {
             @Override
             public void success(ResponseData<MessageModel> listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());
@@ -172,7 +173,7 @@ public class MessageImpl implements IMessagePresenter {
                     case 200:
                         if ("0".equals(acceptType)) {
                             String userrole = UserInfoModel.getInstance().getUser().getUserrole();
-                            System.out.println("userrole-------------:"+userrole);
+                            System.out.println("userrole-------------:" + userrole);
                             if (String.valueOf(Constants.INC).equals(userrole)) {
                                 context.startActivity(new Intent(context, LoginActivity.class));
 
@@ -182,17 +183,10 @@ public class MessageImpl implements IMessagePresenter {
 
                             }
                         } else {
-                            String userrole = UserInfoModel.getInstance().getUser().getUserrole();
-                            if (String.valueOf(Constants.INC).equals(userrole)) {
-                                Intent intent = new Intent(context, JoinGameDetailActivity.class);
-                                intent.putExtra("messageDetailInfo", messageDetailInfo);
-                                intent.putExtra("type", "1");
-                                context.startActivity(intent);
-                            }else {
-                                Intent intent = new Intent(context, HomeActviity.class);
-                                context.startActivity(intent);
-                            }
-
+                            Intent intent = new Intent(context, JoinGameDetailActivity.class);
+                            intent.putExtra("messageDetailInfo", messageDetailInfo);
+                            intent.putExtra("type", "1");
+                            context.startActivity(intent);
                         }
                         ((AppCompatActivity) context).finish();
                         break;
@@ -222,9 +216,10 @@ public class MessageImpl implements IMessagePresenter {
                     case 200:
                         if ("1".equals(acceptType)) {
                             Intent intent = new Intent(context, BodygameSRActivity.class);
+                            intent.putExtra("type", "0");
                             context.startActivity(intent);
                             ((AppCompatActivity) context).finish();
-                        }else {
+                        } else {
                             Intent intent = new Intent(context, MessageActivity.class);
                             context.startActivity(intent);
                             ((AppCompatActivity) context).finish();
