@@ -274,19 +274,19 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         np1.setValue(myear);
         np1.setMinValue(1900);
         np1.setWrapSelectorWheel(false);
-
+        np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
         np2.setMaxValue(12);
-        np2.setValue(mmonth+1);
+        np2.setValue(mmonth + 1);
         np2.setMinValue(1);
         np2.setWrapSelectorWheel(false);
-
+        np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         final NumberPicker np3 = (NumberPicker) view.findViewById(R.id.numberPicker3);
         np3.setMaxValue(31);
         np3.setValue(mday);
         np3.setMinValue(1);
         np3.setWrapSelectorWheel(false);
-
+        np3.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         birdialog.setTitle("选择生日(年-月-日)").setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -342,6 +342,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         }
         np.setMinValue(50);
         np.setWrapSelectorWheel(true);
+        np.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         birdialog.setTitle("选择身高(单位：cm)").setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -371,6 +372,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         }
         np.setMinValue(20);
         np.setWrapSelectorWheel(false);
+        np.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         birdialog.setTitle("选择体重(单位：斤)").setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

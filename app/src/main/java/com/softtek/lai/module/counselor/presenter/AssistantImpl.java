@@ -64,8 +64,7 @@ public class AssistantImpl implements IAssistantPresenter {
                 List<AssistantApplyInfoModel> list = listResponseData.getData();
                 switch (status) {
                     case 200:
-                        AssistantApplyAdapter adapter = new AssistantApplyAdapter(context, list);
-                        listView.setAdapter(adapter);
+                        EventBus.getDefault().post(new AssistantApplyEvent(list));
                         break;
                     default:
                         Util.toastMsg(listResponseData.getMsg());
@@ -137,9 +136,9 @@ public class AssistantImpl implements IAssistantPresenter {
     }
 
     @Override
-    public void removeAssistantRoleByClass(String assistantId, String classId,String messageId, final String type) {
+    public void removeAssistantRoleByClass(String assistantId, final String classId, String messageId, final String type) {
         String token = UserInfoModel.getInstance().getToken();
-        counselorService.removeAssistantRoleByClass(token, assistantId, classId,messageId, new Callback<ResponseData>() {
+        counselorService.removeAssistantRoleByClass(token, assistantId, classId, messageId, new Callback<ResponseData>() {
             @Override
             public void success(ResponseData listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());
@@ -150,6 +149,10 @@ public class AssistantImpl implements IAssistantPresenter {
                         if ("message".equals(type)) {
                             context.startActivity(new Intent(context, MessageActivity.class));
                         } else {
+                            Intent intent = new Intent();
+                            //把返回数据存入Intent
+                            intent.putExtra("classId", classId);
+                            ((AssistantDetailActivity) context).setResult(((AssistantDetailActivity) context).RESULT_OK, intent);
                             ((AssistantDetailActivity) context).finish();
                         }
                         break;
@@ -206,9 +209,7 @@ public class AssistantImpl implements IAssistantPresenter {
                 List<AssistantInfoModel> list = listResponseData.getData();
                 switch (status) {
                     case 200:
-                        EventBus.getDefault().post(listResponseData.getData());
-                        AssistantClassListAdapter adapter = new AssistantClassListAdapter(context, list);
-                        list_assistant.setAdapter(adapter);
+                        EventBus.getDefault().post(new AssistantInfoEvent(list));
                         break;
                     default:
                         Util.toastMsg(listResponseData.getMsg());
@@ -235,10 +236,10 @@ public class AssistantImpl implements IAssistantPresenter {
                 List<AssistantClassInfoModel> list = listResponseData.getData();
                 switch (status) {
                     case 200:
-                        AssistantClassAdapter adapter = new AssistantClassAdapter(context, list);
-                        list_class.setAdapter(adapter);
+                        EventBus.getDefault().post(new AssistantClassEvent(list));
                         break;
                     default:
+                        System.out.println("listResponseData.getMsg():" + listResponseData.getMsg());
                         Util.toastMsg(listResponseData.getMsg());
                         break;
                 }
@@ -253,7 +254,7 @@ public class AssistantImpl implements IAssistantPresenter {
     }
 
     @Override
-    public void reviewAssistantApplyList(long applyId, final int status, final LinearLayout lin_buttons, final TextView text_state) {
+    public void reviewAssistantApplyList(long applyId, final int status, final int posion) {
         String token = UserInfoModel.getInstance().getToken();
         counselorService.reviewAssistantApplyList(token, applyId, status, new Callback<ResponseData>() {
             @Override
@@ -264,13 +265,7 @@ public class AssistantImpl implements IAssistantPresenter {
 
                 switch (statusId) {
                     case 200:
-                        lin_buttons.setVisibility(View.GONE);
-                        text_state.setVisibility(View.VISIBLE);
-                        if (status == 1) {
-                            text_state.setText("已通过");
-                        } else {
-                            text_state.setText("已拒绝");
-                        }
+                        EventBus.getDefault().post(new ReviewAssistantApplyEvent(posion));
                         break;
                     default:
                         Util.toastMsg(listResponseData.getMsg());

@@ -27,7 +27,7 @@ public interface IAssistantPresenter {
     void showAllApplyAssistants(String accountId, ListView list);
 
     //审核助教申请
-    void reviewAssistantApplyList(long applyId, int status, LinearLayout lin_buttons, TextView text_state);
+    void reviewAssistantApplyList(long applyId, int status,int posion);
 
     //班级列表（助教）
     void showAllClassList(String managerId, ListView list_class);

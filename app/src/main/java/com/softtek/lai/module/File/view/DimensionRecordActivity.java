@@ -267,6 +267,8 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
         np1.setValue(90);
         np1.setMinValue(50);
         np1.setWrapSelectorWheel(false);
+        np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np2.setMaxValue(9);
         np2.setValue(0);
         np2.setMinValue(0);
@@ -295,6 +297,8 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
         np1.setValue(90);
         np1.setMinValue(50);
         np1.setWrapSelectorWheel(false);
+        np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np2.setMaxValue(9);
         np2.setValue(0);
         np2.setMinValue(0);
@@ -323,6 +327,8 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
         np1.setValue(90);
         np1.setMinValue(50);
         np1.setWrapSelectorWheel(false);
+        np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np2.setMaxValue(9);
         np2.setValue(0);
         np2.setMinValue(0);
@@ -351,6 +357,8 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
         np1.setValue(90);
         np1.setMinValue(50);
         np1.setWrapSelectorWheel(false);
+        np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np2.setMaxValue(9);
         np2.setValue(0);
         np2.setMinValue(0);
@@ -380,6 +388,8 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
         np1.setValue(90);
         np1.setMinValue(50);
         np1.setWrapSelectorWheel(false);
+        np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np2.setMaxValue(9);
         np2.setValue(0);
         np2.setMinValue(0);
@@ -408,6 +418,8 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
         np1.setValue(90);
         np1.setMinValue(50);
         np1.setWrapSelectorWheel(false);
+        np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np2.setMaxValue(9);
         np2.setValue(0);
         np2.setMinValue(0);
