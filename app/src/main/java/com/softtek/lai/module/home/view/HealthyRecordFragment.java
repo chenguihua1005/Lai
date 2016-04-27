@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
@@ -24,21 +25,17 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.health.view.HealthyRecordActivity;
 import com.softtek.lai.module.healthrecords.view.HealthEntryActivity;
 import com.softtek.lai.module.historydate.view.HistoryDataActivity;
+import com.softtek.lai.module.home.presenter.HealthyRecordManager;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.retest.model.LaichModel;
-import com.softtek.lai.module.retest.present.RetestPre;
-import com.softtek.lai.module.retest.present.RetestclassImp;
 import com.softtek.lai.utils.DateUtil;
-import com.softtek.lai.widgets.SuperSwipeRefreshLayout;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.fragment_healthy_record)
-public class HealthyRecordFragment extends BaseFragment implements View.OnClickListener,PullToRefreshScrollView.OnRefreshListener{
+public class HealthyRecordFragment extends BaseFragment implements View.OnClickListener,PullToRefreshScrollView.OnRefreshListener<ScrollView>
+,HealthyRecordManager.HealthyRecordCallback{
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -102,13 +99,12 @@ public class HealthyRecordFragment extends BaseFragment implements View.OnClickL
             TextView tv_healthtime;
     @InjectView(R.id.healthy_refresh)
     PullToRefreshScrollView healthy_refresh;
-    RetestPre retestPre;
-    UserInfoModel userInfoModel=UserInfoModel.getInstance();
-    String mobile=userInfoModel.getUser().getMobile();
+    HealthyRecordManager retestPre;
+    String mobile;
 
     @Override
     protected void initViews() {
-        EventBus.getDefault().register(this);
+        //EventBus.getDefault().register(this);
         ll_left.setVisibility(View.GONE);
         fl_right.setOnClickListener(this);
         tv_weight.setOnClickListener(this);
@@ -122,7 +118,7 @@ public class HealthyRecordFragment extends BaseFragment implements View.OnClickL
         tv_shin.setOnClickListener(this);
         tv_healthhistoty.setOnClickListener(this);
         but_login.setOnClickListener(this);
-        healthy_refresh.setOnClickListener(this);
+        healthy_refresh.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         healthy_refresh.setOnRefreshListener(this);
     }
 
@@ -140,20 +136,22 @@ public class HealthyRecordFragment extends BaseFragment implements View.OnClickL
             ll.setVisibility(View.VISIBLE);
             fl_right.setVisibility(View.VISIBLE);
             //获取健康记录
-            retestPre=new RetestclassImp();
-//            new Handler().postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-//                    healthy_refresh.setRefreshing();
-//                }
-//            }, 300);
+            mobile=UserInfoModel.getInstance().getUser().getMobile();
+            retestPre=new HealthyRecordManager(this);
+            retestPre.GetUserMeasuredInfo(mobile);
+            /*new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    healthy_refresh.setRefreshing();
+                }
+            }, 300);*/
         }
 
     }
 
     @Override
     public void onDestroy() {
-        EventBus.getDefault().unregister(this);
+        //EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
 
@@ -244,10 +242,13 @@ public class HealthyRecordFragment extends BaseFragment implements View.OnClickL
             }
         }
     }
-    @Subscribe
-    public void laiche(LaichModel laichModel){
+    /*@Subscribe
+    public void laiche(LaiChenEvent event){
         healthy_refresh.onRefreshComplete();
-
+        if(event.getModel()==null){
+            return;
+        }
+        LaichModel laichModel=event.getModel();
         tv_health_weight.setText(laichModel.getWeight().equals("")?"":Float.parseFloat(laichModel.getWeight())+"斤");
         tv_health_Pysical.setText(laichModel.getPysical().equals("")?"":Float.parseFloat(laichModel.getPysical())+"%");
         tv_health_fat.setText(laichModel.getFat().equals("")?"":Float.parseFloat(laichModel.getFat())+"");
@@ -266,11 +267,37 @@ public class HealthyRecordFragment extends BaseFragment implements View.OnClickL
         int minutes=util.getMinute(date);
         tv_healthdate.setText(year+"年"+month+"月"+day+"日");
         tv_healthtime.setText(hour+":"+(minutes<10?"0"+minutes:minutes));
+    }*/
+
+    @Override
+    public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
+        Log.i("健康记录开始请求");
+        retestPre.GetUserMeasuredInfo(mobile);
     }
 
     @Override
-    public void onRefresh(PullToRefreshBase refreshView) {
-        retestPre.GetUserMeasuredInfo(mobile);
-
+    public void getModel(LaichModel laichModel) {
+        healthy_refresh.onRefreshComplete();
+        if(laichModel==null){
+            return;
+        }
+        tv_health_weight.setText(laichModel.getWeight().equals("")?"":Float.parseFloat(laichModel.getWeight())+"斤");
+        tv_health_Pysical.setText(laichModel.getPysical().equals("")?"":Float.parseFloat(laichModel.getPysical())+"%");
+        tv_health_fat.setText(laichModel.getFat().equals("")?"":Float.parseFloat(laichModel.getFat())+"");
+        tv_health_circum.setText(laichModel.getCircum().equals("")?"":Float.parseFloat(laichModel.getCircum())+"cm");
+        tv_health_waistline.setText(laichModel.getWaistline().equals("")?"":Float.parseFloat(laichModel.getWaistline())+"cm");
+        tv_health_hiplie.setText(laichModel.getHiplie().equals("")?"":Float.parseFloat(laichModel.getHiplie())+"cm");
+        tv_health_upArmGirth.setText(laichModel.getUpArmGirth().equals("")?"":Float.parseFloat(laichModel.getUpArmGirth())+"cm");
+        tv_health_upLegGirth.setText(laichModel.getUpLegGirth().equals("")?"":Float.parseFloat(laichModel.getUpLegGirth())+"cm");
+        tv_health_doLegGirth.setText(laichModel.getDoLegGirth().equals("")?"":Float.parseFloat(laichModel.getDoLegGirth())+"cm");
+        String date=laichModel.getCreateDate();
+        DateUtil util=DateUtil.getInstance();
+        int year=util.getYear(date);
+        int month=util.getMonth(date);
+        int day=util.getDay(date);
+        int hour=util.getHour(date);
+        int minutes=util.getMinute(date);
+        tv_healthdate.setText(year+"年"+month+"月"+day+"日");
+        tv_healthtime.setText(hour+":"+(minutes<10?"0"+minutes:minutes));
     }
 }

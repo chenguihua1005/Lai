@@ -167,4 +167,22 @@ public class HistoryData implements Parcelable{
         dest.writeString(CreateDate);
         dest.writeString(Sourcetype);
     }
+
+    @Override
+    public String toString() {
+        return "HistoryData{" +
+                "AcInfoId='" + AcInfoId + '\'' +
+                ", Weight='" + Weight + '\'' +
+                ", Pysical='" + Pysical + '\'' +
+                ", Fat='" + Fat + '\'' +
+                ", Circum='" + Circum + '\'' +
+                ", Waistline='" + Waistline + '\'' +
+                ", Hiplie='" + Hiplie + '\'' +
+                ", UpArmGirth='" + UpArmGirth + '\'' +
+                ", UpLegGirth='" + UpLegGirth + '\'' +
+                ", DoLegGirth='" + DoLegGirth + '\'' +
+                ", CreateDate='" + CreateDate + '\'' +
+                ", Sourcetype='" + Sourcetype + '\'' +
+                '}';
+    }
 }

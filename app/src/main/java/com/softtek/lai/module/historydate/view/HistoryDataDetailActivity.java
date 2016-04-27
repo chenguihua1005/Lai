@@ -69,7 +69,6 @@ public class HistoryDataDetailActivity extends BaseActivity implements View.OnCl
         }
         String date=model.getCreateDate();
         DateUtil util=DateUtil.getInstance();
-        util.convertDateStr(date,"yyyy-MM-dd");
         tv_ymd.setText(util.convertDateStr(date,"yyyy-MM-dd"));
         tv_hm.setText(util.convertDateStr(date,"HH:mm:ss"));
         tv_weight.setText(model.getWeight());

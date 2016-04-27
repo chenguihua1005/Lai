@@ -81,14 +81,15 @@ public class EntryHealthImpl implements IEntryHealthpresenter {
                         EventBus.getDefault().post(new RecordEvent(lastestRecordModelResponseData.getData()));
                         break;
                     case 100:
+                        EventBus.getDefault().post(new RecordEvent(null));
                         Util.toastMsg("暂无健康记录数据");
                         break;
                 }
             }
             @Override
             public void failure(RetrofitError error) {
+                EventBus.getDefault().post(new RecordEvent(null));
                     ZillaApi.dealNetError(error);
-                    error.printStackTrace();
             }
         });
     }
