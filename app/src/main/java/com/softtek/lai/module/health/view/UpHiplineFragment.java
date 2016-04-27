@@ -288,7 +288,7 @@ public class UpHiplineFragment extends BaseFragment implements RadioGroup.OnChec
         }
         System.out.println("健康记录上臂围" + healthUpArmGirthModel.getFirstrecordtime());
         int n=healthUpArmGirthModel.getUpArmGirthlist().size();
-        for (int i=healthUpArmGirthModel.getUpArmGirthlist().size()-1;i>-1;i--) {
+        for (int i=0;i<=n-1;i++) {
             dates.add(Float.parseFloat(healthUpArmGirthModel.getUpArmGirthlist().get(i).getUpArmGirth()));
         }
         ceshi.add(dates.get(0));

@@ -14,6 +14,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -64,6 +65,9 @@ public class AssistantDetailActivity extends BaseActivity implements View.OnClic
     @InjectView(R.id.iv_email)
     ImageView iv_email;
 
+    @InjectView(R.id.fl_right)
+    FrameLayout fl_right;
+
     @InjectView(R.id.text_name)
     TextView text_name;
 
@@ -95,6 +99,7 @@ public class AssistantDetailActivity extends BaseActivity implements View.OnClic
         EventBus.getDefault().register(this);
         ll_left.setOnClickListener(this);
         iv_email.setOnClickListener(this);
+        fl_right.setOnClickListener(this);
 
     }
 
@@ -166,6 +171,10 @@ public class AssistantDetailActivity extends BaseActivity implements View.OnClic
                 break;
 
             case R.id.iv_email:
+                System.out.println("iv_email------");
+                showPopupWindow(iv_email);
+                break;
+            case R.id.fl_right:
                 System.out.println("iv_email------");
                 showPopupWindow(iv_email);
                 break;

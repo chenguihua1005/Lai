@@ -583,7 +583,7 @@ public class BodyFatFragment extends BaseFragment implements RadioGroup.OnChecke
         }
         System.out.println("健康记录" + pysicalModel.getFirstrecordtime());
         int n=pysicalModel.getPysicallist().size();
-        for (int i=pysicalModel.getPysicallist().size()-1;i>-1;i--) {
+        for (int i=0;i<=n-1;i++) {
             dates.add(Float.parseFloat(pysicalModel.getPysicallist().get(i).getPysical()));
         }
         chartUtil.addData(dates,n,days);

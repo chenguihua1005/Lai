@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+
 import com.softtek.lai.R;
 import com.softtek.lai.module.counselor.model.AssistantApplyInfoModel;
 import com.softtek.lai.module.counselor.presenter.AssistantImpl;
@@ -81,11 +82,11 @@ public class AssistantApplyAdapter extends BaseAdapter {
         }
         /**设置TextView显示的内容，即我们存放在动态数组中的数据*/
         final AssistantApplyInfoModel assistantApplyInfo = list.get(position);
-        String path= AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
         if ("".equals(assistantApplyInfo.getPhoto())) {
             Picasso.with(context).load("111").error(R.drawable.img_default).into(holder.img);
         } else {
-            Picasso.with(context).load(path+assistantApplyInfo.getPhoto()).error(R.drawable.img_default).into(holder.img);
+            Picasso.with(context).load(path + assistantApplyInfo.getPhoto()).error(R.drawable.img_default).into(holder.img);
         }
 
         holder.text_name.setText(assistantApplyInfo.getUserName().toString());
@@ -94,13 +95,13 @@ public class AssistantApplyAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 System.out.println("applyId:" + assistantApplyInfo.getApplyId());
-                assistantPresenter.reviewAssistantApplyList(assistantApplyInfo.getApplyId(), 1, holder.lin_buttons, holder.text_state);
+                assistantPresenter.reviewAssistantApplyList(assistantApplyInfo.getApplyId(), 1, position);
             }
         });
         holder.img_refuse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                assistantPresenter.reviewAssistantApplyList(assistantApplyInfo.getApplyId(), 0, holder.lin_buttons, holder.text_state);
+                assistantPresenter.reviewAssistantApplyList(assistantApplyInfo.getApplyId(), 0, position);
             }
         });
         return convertView;

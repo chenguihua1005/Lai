@@ -278,7 +278,7 @@ public class WaistlineFragment extends BaseFragment implements RadioGroup.OnChec
         }
         System.out.println("健康记录腰围" + healthWaistlineModel.getFirstrecordtime());
         int n=healthWaistlineModel.getWaistlinelist().size();
-        for (int i=healthWaistlineModel.getWaistlinelist().size()-1;i>-1;i--) {
+        for (int i=0;i<=n-1;i++) {
             dates.add(Float.parseFloat(healthWaistlineModel.getWaistlinelist().get(i).getWaistline()));
         }
         ceshi.add(dates.get(0));

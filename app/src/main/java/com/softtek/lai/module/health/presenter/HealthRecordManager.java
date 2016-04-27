@@ -48,7 +48,10 @@ public class HealthRecordManager {
             public void success(ResponseData<PysicalModel> pysicalModelResponseData, Response response) {
                 Log.i(pysicalModelResponseData.toString());
                 cb.getHealthPysicalRecords(pysicalModelResponseData.getData());
-                Util.toastMsg(pysicalModelResponseData.getMsg());
+                if (pysicalModelResponseData.getStatus()!=200)
+                {
+                    Util.toastMsg(pysicalModelResponseData.getMsg());
+                }
             }
         });
     }

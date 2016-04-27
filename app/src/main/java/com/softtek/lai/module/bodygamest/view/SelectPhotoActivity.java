@@ -112,7 +112,7 @@ public class SelectPhotoActivity extends BaseActivity implements View.OnClickLis
             }
             if (pageIndex == 1) {
                 count = 0;
-                text_count.setText(count + "");
+                text_count.setText("已选择"+count + "张");
                 list_all = list_info;
                 adapter = new SelectPhotoAdapter(this, list_info, new SelectPhotoAdapter.CallBack() {
                     @Override
@@ -122,7 +122,7 @@ public class SelectPhotoActivity extends BaseActivity implements View.OnClickLis
                         } else {
                             count--;
                         }
-                        text_count.setText(count + "");
+                        text_count.setText("已选择"+count + "张");
                     }
                 });
                 pull_refresh_grid.setAdapter(adapter);

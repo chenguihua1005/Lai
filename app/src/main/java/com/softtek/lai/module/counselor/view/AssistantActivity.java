@@ -6,10 +6,13 @@
 package com.softtek.lai.module.counselor.view;
 
 
+import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -28,15 +31,27 @@ import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.counselor.adapter.AssistantApplyAdapter;
+import com.softtek.lai.module.counselor.adapter.AssistantClassAdapter;
+import com.softtek.lai.module.counselor.adapter.AssistantClassListAdapter;
 import com.softtek.lai.module.counselor.adapter.SimpleFragmentPagerAdapter;
+import com.softtek.lai.module.counselor.model.AssistantApplyEvent;
+import com.softtek.lai.module.counselor.model.AssistantApplyInfoModel;
+import com.softtek.lai.module.counselor.model.AssistantClassEvent;
 import com.softtek.lai.module.counselor.model.AssistantClassInfoModel;
+import com.softtek.lai.module.counselor.model.AssistantInfoEvent;
 import com.softtek.lai.module.counselor.model.AssistantInfoModel;
+import com.softtek.lai.module.counselor.model.ReviewAssistantApplyEvent;
 import com.softtek.lai.module.counselor.presenter.AssistantImpl;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.SoftInputUtil;
+import com.umeng.socialize.bean.SocializeConfig;
+import com.umeng.socialize.sso.UMSsoHandler;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -83,7 +98,9 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
 
     private boolean isShow = true;
 
-    List<AssistantInfoModel> list;
+    List<AssistantInfoModel> list_ai;
+    List<AssistantApplyInfoModel> list_aa;
+    List<AssistantClassInfoModel> list_ac;
 
     @InjectView(R.id.rel_all_class_more)
     RelativeLayout rel_all_class_more;
@@ -114,6 +131,7 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
     Fragment assistantListFragment;
     Fragment assistantApplyFragment;
     AssistantClassInfoModel assistantClassInfo;
+    AssistantApplyAdapter assistantApplyAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,24 +164,25 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
                 isShow = false;
                 lin_class.setVisibility(View.GONE);
                 img_more.setImageResource(R.drawable.more_down);
-                for (int i = 0; i <parent.getChildCount() ; i++) {
+                for (int i = 0; i < parent.getChildCount(); i++) {
                     ImageView imageView = (ImageView) parent.getChildAt(i).findViewById(R.id.img);
                     imageView.setImageDrawable(getResources().getDrawable(R.drawable.img_select));
                 }
                 ImageView imageView = (ImageView) view.findViewById(R.id.img);
                 imageView.setImageDrawable(getResources().getDrawable(R.drawable.img_selceted));
-                assistantClassInfo = (AssistantClassInfoModel) list_class.getAdapter().getItem(position);
+                assistantClassInfo = list_ac.get(position);
                 assistantPresenter.showAssistantByClass(userModel.getUserid(), assistantClassInfo.getClassId(), list_assistant);
             }
         });
         list_assistant.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                AssistantInfoModel assistantInfo = list.get(position);
+                AssistantInfoModel assistantInfo = list_ai.get(position);
                 Intent intent = new Intent(AssistantActivity.this, AssistantDetailActivity.class);
                 intent.putExtra("assistantId", assistantInfo.getAccountId().toString());
                 intent.putExtra("classId", assistantInfo.getClassId().toString());
-                startActivity(intent);
+                //startActivity(intent);
+                startActivityForResult(intent, 1);
             }
         });
 
@@ -177,9 +196,35 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
     }
 
     @Subscribe
-    public void onEvent(List<AssistantInfoModel> list) {
-        System.out.println("list:" + list);
-        this.list = list;
+    public void onEvent(ReviewAssistantApplyEvent reviewAssistantApplyEvent) {
+        System.out.println("reviewAssistantApplyEvent:" + reviewAssistantApplyEvent);
+        int p = reviewAssistantApplyEvent.getPosion();
+        list_aa.remove(p);
+        assistantApplyAdapter.notifyDataSetChanged();
+    }
+
+    @Subscribe
+    public void onEvent(AssistantInfoEvent assistantInfoEvent) {
+        System.out.println("assistantInfoEvent:" + assistantInfoEvent);
+        list_ai = assistantInfoEvent.getList();
+        AssistantClassListAdapter adapter = new AssistantClassListAdapter(this, list_ai);
+        list_assistant.setAdapter(adapter);
+    }
+
+    @Subscribe
+    public void onEvent(AssistantClassEvent assistantClassEvent) {
+        System.out.println("assistantClassEvent:" + assistantClassEvent);
+        list_ac = assistantClassEvent.getList();
+        AssistantClassAdapter adapter = new AssistantClassAdapter(this, list_ac);
+        list_class.setAdapter(adapter);
+    }
+
+    @Subscribe
+    public void onEvent(AssistantApplyEvent assistantApplyEvent) {
+        System.out.println("assistantApplyEvent:" + assistantApplyEvent);
+        list_aa = assistantApplyEvent.getLists();
+        assistantApplyAdapter = new AssistantApplyAdapter(this, list_aa);
+        list_apply.setAdapter(assistantApplyAdapter);
     }
 
     @Override
@@ -201,9 +246,10 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void onResume() {
         super.onResume();
-        if (assistantClassInfo != null) {
-            assistantPresenter.showAssistantByClass(userModel.getUserid(), assistantClassInfo.getClassId(), list_assistant);
-        }
+//        System.out.println("assistantClassInfo:"+assistantClassInfo);
+//        if (assistantClassInfo != null) {
+//            assistantPresenter.showAssistantByClass(userModel.getUserid(), assistantClassInfo.getClassId(), list_assistant);
+//        }
 
     }
 
@@ -269,5 +315,16 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
     public void onFragmentInteraction(Uri uri) {
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            String classId = data.getExtras().getString("classId");//得到新Activity 关闭后返回的数据
+            assistantPresenter.showAssistantByClass(userModel.getUserid(), classId, list_assistant);
+        }
+    }
+
 
 }

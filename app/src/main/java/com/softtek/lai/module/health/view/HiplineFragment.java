@@ -271,7 +271,7 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
         }
         System.out.println("健康记录臀围" + healthHiplieModel.getFirstrecordtime());
         int n=healthHiplieModel.getHiplielist().size();
-        for (int i=healthHiplieModel.getHiplielist().size()-1;i>-1;i--) {
+        for (int i=0;i<=n-1;i++) {
             dates.add(Float.parseFloat(healthHiplieModel.getHiplielist().get(i).getHiplie()));
         }
         ceshi.add(dates.get(0));
