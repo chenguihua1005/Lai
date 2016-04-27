@@ -292,7 +292,7 @@ public class LegFragment extends BaseFragment implements RadioGroup.OnCheckedCha
         }
         System.out.println("健康记录大腿围" + healthupLegGirthModel.getFirstrecordtime());
         int n=healthupLegGirthModel.getUpLegGirthlist().size();
-        for (int i=healthupLegGirthModel.getUpLegGirthlist().size()-1;i>-1;i--) {
+        for (int i=0;i<=n-1;i++) {
             dates.add(Float.parseFloat(healthupLegGirthModel.getUpLegGirthlist().get(i).getUpLegGirth()));
         }
         ceshi.add(dates.get(0));

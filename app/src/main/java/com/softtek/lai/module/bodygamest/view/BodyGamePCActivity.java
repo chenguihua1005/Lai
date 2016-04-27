@@ -5,15 +5,9 @@
 
 package com.softtek.lai.module.bodygamest.view;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.View;
@@ -31,27 +25,22 @@ import com.softtek.lai.module.bodygame.model.TiGuanSaiModel;
 import com.softtek.lai.module.bodygame.model.TotolModel;
 import com.softtek.lai.module.bodygame.presenter.ITiGuanSai;
 import com.softtek.lai.module.bodygame.presenter.TiGuanSaiImpl;
-import com.softtek.lai.module.bodygame.view.TipsActivity;
 import com.softtek.lai.module.bodygamest.model.HasClass;
 import com.softtek.lai.module.bodygamest.present.StudentImpl;
 import com.softtek.lai.module.counselor.view.GameActivity;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.lossweightstory.view.LossWeightStoryActivity;
-import com.softtek.lai.module.lossweightstory.view.NewStoryActivity;
 import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
-import com.softtek.lai.module.retest.model.MeasureModel;
-import com.softtek.lai.module.retest.model.RetestAuditModel;
-import com.softtek.lai.module.retest.model.RetestWriteModel;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.module.retest.present.RetestclassImp;
 import com.softtek.lai.module.studentbasedate.view.StudentBaseDateActivity;
+import com.softtek.lai.module.tips.view.TipsActivity;
 import com.softtek.lai.utils.RequestCallback;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.io.FileNotFoundException;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -64,7 +53,7 @@ import zilla.libcore.util.Util;
 public class BodyGamePCActivity extends BaseActivity implements View.OnClickListener {
     private ITiGuanSai tiGuanSai;
     private StudentImpl studentImpl;
-    private FuceNumModel fuceNum;
+
     //标题
     @InjectView(R.id.tv_title)
     TextView tv_title;
@@ -143,7 +132,6 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
 
     }
     public static final int Student_reteset=1;
-    private static final int GET_BODY=2;
     @Override
     protected void initDatas() {
         tv_title.setText("体管赛（学员版）");
@@ -153,7 +141,7 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
         tiGuanSai.doGetTotal(progressDialog);
         studentImpl=new StudentImpl(this);
         retestPre=new RetestclassImp();
-        retestPre.doGetAudit(loginid,0,"");
+
 
     }
     @Subscribe
@@ -203,7 +191,9 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
                     Log.i(hasClassResponseData.toString());
                     if(hasClassResponseData.getStatus()==200){
                         if("1".equals(hasClassResponseData.getData().getIsHave())){
+                            retestPre.doGetAudit(loginid,0,"");
                             doStartActivity(id);
+
                         }else{
                             //学员没有班级
                             new AlertDialog.Builder(BodyGamePCActivity.this).setTitle("提示")

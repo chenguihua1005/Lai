@@ -6,6 +6,7 @@
 package com.softtek.lai.module.bodygame.presenter;
 
 import android.app.ProgressDialog;
+import android.util.Log;
 import android.view.animation.Animation;
 
 import com.softtek.lai.R;
@@ -108,10 +109,10 @@ public class TiGuanSaiImpl implements ITiGuanSai {
                 switch (status)
                 {
                     case 200:
-                        //Util.toastMsg("获取成功");
+                        System.out.println(listResponseData.getMsg());
                         break;
                     default:
-                        //Util.toastMsg("获取失败");
+                        Util.toastMsg(listResponseData.getMsg());
                         break;
                 }
             }
@@ -134,10 +135,10 @@ public class TiGuanSaiImpl implements ITiGuanSai {
                 switch (status)
                 {
                     case 200:
-                        Util.toastMsg("详情获取成功");
+                        System.out.println(listResponseData.getMsg());
                         break;
                     default:
-                        Util.toastMsg("详情获取失败");
+                        Util.toastMsg(listResponseData.getMsg());
                         break;
                 }
             }

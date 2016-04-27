@@ -7,6 +7,7 @@ package com.softtek.lai.module.home.view;
 
 
 import android.content.Intent;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -15,6 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
@@ -26,6 +29,7 @@ import com.softtek.lai.module.retest.model.LaichModel;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.module.retest.present.RetestclassImp;
 import com.softtek.lai.utils.DateUtil;
+import com.softtek.lai.widgets.SuperSwipeRefreshLayout;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -34,7 +38,7 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.fragment_healthy_record)
-public class HealthyRecordFragment extends BaseFragment implements View.OnClickListener{
+public class HealthyRecordFragment extends BaseFragment implements View.OnClickListener,PullToRefreshScrollView.OnRefreshListener{
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -96,6 +100,8 @@ public class HealthyRecordFragment extends BaseFragment implements View.OnClickL
             TextView tv_health_doLegGirth;
     @InjectView(R.id.tv_healthtime)
             TextView tv_healthtime;
+    @InjectView(R.id.healthy_refresh)
+    PullToRefreshScrollView healthy_refresh;
     RetestPre retestPre;
     UserInfoModel userInfoModel=UserInfoModel.getInstance();
     String mobile=userInfoModel.getUser().getMobile();
@@ -116,6 +122,8 @@ public class HealthyRecordFragment extends BaseFragment implements View.OnClickL
         tv_shin.setOnClickListener(this);
         tv_healthhistoty.setOnClickListener(this);
         but_login.setOnClickListener(this);
+        healthy_refresh.setOnClickListener(this);
+        healthy_refresh.setOnRefreshListener(this);
     }
 
     @Override
@@ -133,8 +141,12 @@ public class HealthyRecordFragment extends BaseFragment implements View.OnClickL
             fl_right.setVisibility(View.VISIBLE);
             //获取健康记录
             retestPre=new RetestclassImp();
-            retestPre.GetUserMeasuredInfo(mobile);
-
+//            new Handler().postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    healthy_refresh.setRefreshing();
+//                }
+//            }, 300);
         }
 
     }
@@ -223,16 +235,19 @@ public class HealthyRecordFragment extends BaseFragment implements View.OnClickL
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode==-1){
             if(requestCode==EDIT_HEALTHY_RECORD){
-
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        healthy_refresh.setRefreshing();
+                    }
+                }, 300);
             }
         }
     }
     @Subscribe
     public void laiche(LaichModel laichModel){
-//        measureModel=measureModel1;
-        Log.i("username"+laichModel.getCircum());
-//        tv_write_nick.setText(measureModel.getUsername());
-//        tv_write_phone.setText(measureModel.getPhone());
+        healthy_refresh.onRefreshComplete();
+
         tv_health_weight.setText(laichModel.getWeight().equals("")?"":Float.parseFloat(laichModel.getWeight())+"斤");
         tv_health_Pysical.setText(laichModel.getPysical().equals("")?"":Float.parseFloat(laichModel.getPysical())+"%");
         tv_health_fat.setText(laichModel.getFat().equals("")?"":Float.parseFloat(laichModel.getFat())+"");
@@ -251,5 +266,11 @@ public class HealthyRecordFragment extends BaseFragment implements View.OnClickL
         int minutes=util.getMinute(date);
         tv_healthdate.setText(year+"年"+month+"月"+day+"日");
         tv_healthtime.setText(hour+":"+(minutes<10?"0"+minutes:minutes));
+    }
+
+    @Override
+    public void onRefresh(PullToRefreshBase refreshView) {
+        retestPre.GetUserMeasuredInfo(mobile);
+
     }
 }
