@@ -6,7 +6,6 @@
 package com.softtek.lai.module.review.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,11 +58,9 @@ public class ReviewAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
-        //观察convertView随ListView滚动情况
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.counselor_class_list_item, null);
             holder = new ViewHolder();
-            /**得到各个控件的对象*/
             holder.rel_item = (RelativeLayout) convertView.findViewById(R.id.rel_item);
             holder.lin_state = (LinearLayout) convertView.findViewById(R.id.lin_state);
             holder.text_class_name = (TextView) convertView.findViewById(R.id.text_class_name);
@@ -71,27 +68,13 @@ public class ReviewAdapter extends BaseAdapter {
             holder.text_people_count = (TextView) convertView.findViewById(R.id.text_people_count);
             holder.img_more = (ImageView) convertView.findViewById(R.id.img_more);
 
-            convertView.setTag(holder);//绑定ViewHolder对象
+            convertView.setTag(holder);
         } else {
-            holder = (ViewHolder) convertView.getTag();//取出ViewHolder对象
+            holder = (ViewHolder) convertView.getTag();
         }
-        /**设置TextView显示的内容，即我们存放在动态数组中的数据*/
         ClassInfoModel classInfo = list.get(position);
-        /*if (classInfo.getClassStatus().equals("-1")) {
-            holder.text_state.setText("未开班");
-            holder.text_state.setTextColor(context.getResources().getColor(R.color.grey_font));
-            holder.text_class_name.setTextColor(context.getResources().getColor(R.color.grey_font));
-            holder.text_people_count.setTextColor(context.getResources().getColor(R.color.grey_font));
-            holder.img_more.setVisibility(View.GONE);
-        } else if (classInfo.getClassStatus().equals("0")) {
-            holder.text_state.setText("已开班");
-            holder.text_state.setTextColor(context.getResources().getColor(R.color.mytoolbar_green));
-            holder.text_class_name.setTextColor(context.getResources().getColor(R.color.black));
-            holder.text_people_count.setTextColor(context.getResources().getColor(R.color.black));
-            holder.img_more.setVisibility(View.VISIBLE);
-        } else if (classInfo.getClassStatus().equals("1")) {
-        }*/
         holder.text_state.setText("已结束");
+        holder.img_more.setVisibility(View.VISIBLE);
         holder.text_class_name.setText(classInfo.getClassName().toString());
         String startTimeStr = classInfo.getStartDate().toString();
         String str[] = startTimeStr.split("-");

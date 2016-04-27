@@ -61,7 +61,6 @@ public class DimensionChartFragment extends BaseFragment implements View.OnClick
     private List<Float> upArmGirthDatas=new ArrayList<>();
     private List<Float> upLegGirthDatas=new ArrayList<>();
     private List<Float> doLegGirthDatas=new ArrayList<>();
-    List<String> day=new ArrayList<String>();
 
     /**
      * 设置一些参数
@@ -126,13 +125,7 @@ public class DimensionChartFragment extends BaseFragment implements View.OnClick
         String userId=args.getString("userId");
         String classId=args.getString("classId");
         memberInfopresenter.getLossWeightChatData(userId,classId);
-        day.add("4/15");
-        day.add("4/14");
-        day.add("4/13");
-        day.add("4/12");
-        day.add("4/11");
-        day.add("4/10");
-        day.add("4/09");
+
     }
 
 
@@ -144,13 +137,38 @@ public class DimensionChartFragment extends BaseFragment implements View.OnClick
         upArmGirthDatas.clear();
         upLegGirthDatas.clear();
         doLegGirthDatas.clear();
-        for(StudentLinChartInfoModel model:event.getModels()){
-            circumDatas.add(getFloat(model.getWaistline()));
-            waistlineDatas.add(getFloat(model.getWaistline()));
-            hiplieDatas.add(getFloat(model.getHiplie()));
-            upArmGirthDatas.add(getFloat(model.getUpArmGirth()));
-            upLegGirthDatas.add(getFloat(model.getUpLegGirth()));
-            doLegGirthDatas.add(getFloat(model.getDoLegGirth()));
+        for(int i=0;i<event.getModels().size();i++) {
+            StudentLinChartInfoModel model = event.getModels().get(i);
+            int week = model.getWeekDay();//本次测量周
+            if (i == 0) {
+                /*
+                第一条数据表示该用户本班级开始测量的第一次
+                需要判断插入多少条一开始的空值，因为该用户未必是从班级一开班就开始测的，
+                有可能是从班级中间开始测的
+                 */
+                addEmptyDate(model.getWeekDay() - 1);//先插入几次空数据
+                //在插入第一次数据
+                circumDatas.add(getFloat(model.getWaistline()));
+                waistlineDatas.add(getFloat(model.getWaistline()));
+                hiplieDatas.add(getFloat(model.getHiplie()));
+                upArmGirthDatas.add(getFloat(model.getUpArmGirth()));
+                upLegGirthDatas.add(getFloat(model.getUpLegGirth()));
+                doLegGirthDatas.add(getFloat(model.getDoLegGirth()));
+            } else {
+                //先判断这一次和上一次的差
+                int lastWeek = event.getModels().get(i - 1).getWeekDay();
+                if (week - lastWeek > 0) {
+                    //说明中间有断层则插入沿用上一次数据多少次
+                    addPreviousDate(event.getModels().get(i - 1), week - lastWeek);
+                }
+                circumDatas.add(getFloat(model.getWaistline()));
+                waistlineDatas.add(getFloat(model.getWaistline()));
+                hiplieDatas.add(getFloat(model.getHiplie()));
+                upArmGirthDatas.add(getFloat(model.getUpArmGirth()));
+                upLegGirthDatas.add(getFloat(model.getUpLegGirth()));
+                doLegGirthDatas.add(getFloat(model.getDoLegGirth()));
+
+            }
         }
         chartUtil.addDataSet(circumDatas);
         chartUtil.addDataSet(waistlineDatas);
@@ -162,6 +180,29 @@ public class DimensionChartFragment extends BaseFragment implements View.OnClick
 
     private float getFloat(String str){
         return str==null||"".equals(str)?0f:Float.parseFloat(str);
+    }
+
+    //插入几次空数据
+    private void addEmptyDate(int n){
+        for(int i=0;i<n;i++){
+            circumDatas.add(0f);
+            waistlineDatas.add(0f);
+            hiplieDatas.add(0f);
+            upArmGirthDatas.add(0f);
+            upLegGirthDatas.add(0f);
+            doLegGirthDatas.add(0f);
+        }
+    }
+    //插入上一次数据几次
+    private void addPreviousDate(StudentLinChartInfoModel lastModel,int n){
+        for(int i=0;i<n;i++){
+            circumDatas.add(getFloat(lastModel.getWaistline()));
+            waistlineDatas.add(getFloat(lastModel.getWaistline()));
+            hiplieDatas.add(getFloat(lastModel.getHiplie()));
+            upArmGirthDatas.add(getFloat(lastModel.getUpArmGirth()));
+            upLegGirthDatas.add(getFloat(lastModel.getUpLegGirth()));
+            doLegGirthDatas.add(getFloat(lastModel.getDoLegGirth()));
+        }
     }
 
     @Override

@@ -15,7 +15,6 @@ import com.softtek.lai.module.studetail.model.StudentLinChartInfoModel;
 import com.softtek.lai.module.studetail.presenter.IMemberInfopresenter;
 import com.softtek.lai.module.studetail.presenter.MemberInfoImpl;
 import com.softtek.lai.module.studetail.util.LineChartUtil;
-import com.softtek.lai.utils.DateUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -54,7 +53,6 @@ public class LossWeightChartFragment extends BaseFragment implements RadioGroup.
     private List<Float> lossWeightDatas=new ArrayList<>();
     private List<Float> bodyFatDatas=new ArrayList<>();
     private List<Float> fatDatas=new ArrayList<>();
-    List<String>day=new ArrayList<String>();
 
     private IMemberInfopresenter memberInfopresenter;
 
@@ -126,27 +124,34 @@ public class LossWeightChartFragment extends BaseFragment implements RadioGroup.
         lossWeightDatas.clear();
         bodyFatDatas.clear();
         fatDatas.clear();
-        long start=0;
-        long end=0;
-        long current=0;
-        int week=0;
-        int totleWeek=0;
-        if(!event.getModels().isEmpty()){
-            DateUtil util=DateUtil.getInstance(DateUtil.yyyy_MM_dd);
-            StudentLinChartInfoModel model=event.getModels().get(0);
-            start= util.getValueOfDate(model.getClassStart());
-            end=util.getValueOfDate(model.getClassEnd());
-            current=util.getValueOfDate(model.getCurrentDate());
-            week=model.getCurrentWeekDay();
-        }
-        for(StudentLinChartInfoModel model:event.getModels()){
-            int surplus=12-model.getCurrentWeekDay();
-            if(model.getWeekDay()<model.getCurrentWeekDay()){
+        for(int i=0;i<event.getModels().size();i++){
+            StudentLinChartInfoModel model=event.getModels().get(i);
+            int week=model.getWeekDay();//本次测量周
+            if(i==0){
+                /*
+                第一条数据表示该用户本班级开始测量的第一次
+                需要判断插入多少条一开始的空值，因为该用户未必是从班级一开班就开始测的，
+                有可能是从班级中间开始测的
+                 */
+                addEmptyDate(model.getWeekDay()-1);//先插入几次空数据
+                //在插入第一次数据
+                lossWeightDatas.add(getFloat(model.getWeight()));
+                bodyFatDatas.add(getFloat(model.getPysical()));
+                fatDatas.add(getFloat(model.getFat()));
+            }else{
+                //先判断这一次和上一次的差
+                int lastWeek=event.getModels().get(i-1).getWeekDay();
+                if(week-lastWeek>0){
+                    //说明中间有断层则插入沿用上一次数据多少次
+                    addPreviousDate(event.getModels().get(i-1),week-lastWeek);
+                }
+                lossWeightDatas.add(getFloat(model.getWeight()));
+                bodyFatDatas.add(getFloat(model.getPysical()));
+                fatDatas.add(getFloat(model.getFat()));
 
             }
-            lossWeightDatas.add(getFloat(model.getWeight()));
-            bodyFatDatas.add(getFloat(model.getPysical()));
-            fatDatas.add(getFloat(model.getFat()));
+
+
         }
         chartUtil.addDataSet(lossWeightDatas);
         chartUtil.addDataSet(bodyFatDatas);
@@ -155,8 +160,21 @@ public class LossWeightChartFragment extends BaseFragment implements RadioGroup.
     private float getFloat(String str){
         return str==null||"".equals(str)?0f:Float.parseFloat(str);
     }
-    private void doDeal(List<StudentLinChartInfoModel> models){
-
+    //插入几次空数据
+    private void addEmptyDate(int n){
+        for(int i=0;i<n;i++){
+            lossWeightDatas.add(0f);
+            bodyFatDatas.add(0f);
+            fatDatas.add(0f);
+        }
+    }
+    //插入上一次数据几次
+    private void addPreviousDate(StudentLinChartInfoModel lastModel,int n){
+        for(int i=0;i<n;i++){
+            lossWeightDatas.add(getFloat(lastModel.getWeight()));
+            bodyFatDatas.add(getFloat(lastModel.getPysical()));
+            fatDatas.add(getFloat(lastModel.getFat()));
+        }
     }
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {

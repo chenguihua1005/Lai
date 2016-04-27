@@ -45,7 +45,6 @@ public class ReviewPresenterManager {
             @Override
             public void success(ResponseData<List<ClassInfoModel>> listResponseData, Response response) {
                 int status = listResponseData.getStatus();
-                Log.i("往期回顾="+listResponseData.toString());
                 switch (status) {
                     case 200:
                         if(cb!=null){

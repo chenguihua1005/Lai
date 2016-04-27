@@ -7,7 +7,6 @@ package com.softtek.lai.module.home.view;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -29,8 +28,7 @@ import com.softtek.lai.module.community.view.MineHealthyFragment;
 import com.softtek.lai.module.community.view.RecommendHealthyFragment;
 import com.softtek.lai.module.lossweightstory.model.UploadImage;
 import com.softtek.lai.utils.DisplayUtil;
-import com.sw926.imagefileselector.ImageCropper;
-import com.sw926.imagefileselector.ImageFileSelector;
+import com.sw926.imagefileselector.ImageFileCropSelector;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -58,8 +56,7 @@ public class HealthyFragment extends BaseFragment implements View.OnClickListene
 
     List<Fragment> fragments=new ArrayList<>();
 
-    private ImageFileSelector imageFileSelector;
-    private ImageCropper imageCropper;
+    private ImageFileCropSelector imageFileCropSelector;
 
     @Override
     protected void initViews() {
@@ -91,33 +88,22 @@ public class HealthyFragment extends BaseFragment implements View.OnClickListene
         //int px=Math.min(DisplayUtil.getMobileHeight(getContext()),DisplayUtil.getMobileWidth(getContext()));
         int px=DisplayUtil.dip2px(getContext(),300);
         Log.i("图片尺寸"+px);
-        imageFileSelector=new ImageFileSelector(getContext());
-        imageCropper=new ImageCropper(this);
-        imageCropper.setScale(true);
-        imageCropper.setOutPutAspect(1, 1);
-        imageCropper.setOutPut(px,px);
-        imageFileSelector.setQuality(30);
-        imageFileSelector.setOutPutImageSize(px,px);
-        imageCropper.setCallback(new ImageCropper.ImageCropperCallback() {
-            @Override
-            public void onCropperCallback(ImageCropper.CropperResult result, File srcFile, File outFile) {
-                Intent intent=new Intent(getContext(),EditPersonalDynamicActivity.class);//跳转到发布动态界面
-                UploadImage image=new UploadImage();
-                image.setImage(outFile);
-                image.setUri(Uri.fromFile(outFile));
-                intent.putExtra("uploadImage",image);
-                startActivityForResult(intent,OPEN_SENDER_REQUEST);
-            }
-        });
-        imageFileSelector.setCallback(new ImageFileSelector.Callback() {
+        //*************************
+        imageFileCropSelector=new ImageFileCropSelector(getContext());
+        imageFileCropSelector.setOutPutImageSize(px, px);
+        imageFileCropSelector.setQuality(30);
+        imageFileCropSelector.setScale(true);
+        imageFileCropSelector.setOutPutAspect(1, 1);
+        imageFileCropSelector.setOutPut(px,px);
+        imageFileCropSelector.setCallback(new ImageFileCropSelector.Callback() {
             @Override
             public void onSuccess(String file) {
-                imageCropper.cropImage(new File(file));
-
-                /*UCrop.of(Uri.fromFile(new File(file)), Uri.fromFile(new File(file)))
-                        .withAspectRatio(16, 9)
-                        .withMaxResultSize(maxWidth, maxWidth)
-                        .start(getContext(),HealthyFragment.this);*/
+                Intent intent=new Intent(getContext(),EditPersonalDynamicActivity.class);//跳转到发布动态界面
+                UploadImage image=new UploadImage();
+                image.setImage(new File(file));
+                image.setUri(Uri.fromFile(new File(file)));
+                intent.putExtra("uploadImage",image);
+                startActivityForResult(intent,OPEN_SENDER_REQUEST);
             }
 
             @Override
@@ -125,6 +111,7 @@ public class HealthyFragment extends BaseFragment implements View.OnClickListene
 
             }
         });
+        //**************************
     }
 
     private CharSequence[] items={"拍照","从相册选择照片"};
@@ -140,10 +127,12 @@ public class HealthyFragment extends BaseFragment implements View.OnClickListene
                     public void onClick(DialogInterface dialog, int which) {
                         if(which==0){
                             //拍照
-                            imageFileSelector.takePhoto(HealthyFragment.this);
+                            //imageFileSelector.takePhoto(HealthyFragment.this);
+                            imageFileCropSelector.takePhoto(HealthyFragment.this);
                         }else if(which==1){
                             //照片
-                            imageFileSelector.selectImage(HealthyFragment.this);
+                            //imageFileSelector.selectImage(HealthyFragment.this);
+                            imageFileCropSelector.selectImage(HealthyFragment.this);
                         }
                     }
                 }).create().show();
@@ -154,18 +143,20 @@ public class HealthyFragment extends BaseFragment implements View.OnClickListene
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        imageFileSelector.onActivityResult(requestCode, resultCode, data);
-        imageCropper.onActivityResult(requestCode,resultCode,data);
+        imageFileCropSelector.onActivityResult(requestCode,resultCode,data);
+        imageFileCropSelector.getmImageCropperHelper().onActivityResult(requestCode,resultCode,data);
         Log.i("requestCode=" + requestCode + ";resultCode=" + resultCode);
         if(resultCode== -1){//result_ok
             if(requestCode==OPEN_SENDER_REQUEST){
 
                 tab_content.setCurrentItem(1);
+                TabLayout.Tab reTab=tab.getTabAt(0);
+                TabLayout.Tab mineTab=tab.getTabAt(1);
+                tab.removeAllTabs();
+                tab.addTab(reTab,false);
+                tab.addTab(mineTab,true);
                 ((MineHealthyFragment)fragments.get(1)).updateList();
-            }/*else if(requestCode== UCrop.REQUEST_CROP){
-                *//*final Uri resultUri = UCrop.getOutput(data);
-                Log.i("返回="+resultUri);*//*
-            }*/
+            }
 
         }
     }

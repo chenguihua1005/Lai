@@ -31,10 +31,10 @@
                     android:orientation="vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp">
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp">
 
                     <com.softtek.lai.widgets.CircleImageView
                         android:layout_width="80dp"
@@ -58,7 +58,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text=""
-                            android:textSize="20sp"
+                            android:textSize="18sp"
                             android:textStyle="bold"
                             android:textColor="#333333"
                             android:id="@+id/tv_audit_nick" />
@@ -66,6 +66,7 @@
 
                     </LinearLayout>
                     <LinearLayout
+                        android:layout_marginTop="5dp"
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
@@ -83,7 +84,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:text=""
-                            android:textSize="18sp"
+                            android:textSize="16sp"
                             android:textStyle="bold"
                             android:textColor="#333333"
                             android:id="@+id/tv_audit_phone" />
@@ -98,21 +99,21 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="18sp"
-                            android:text="月班"
+                            android:textSize="16sp"
+                            android:text=""
                             android:textColor="#333333"
                             android:id="@+id/tv_audit_class" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="/"
-                            android:textSize="18sp"
+                            android:textSize="16sp"
                             android:textColor="#333333"
                             />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="18sp"
+                            android:textSize="16sp"
                             android:text="第"
                             android:textColor="#333333"
                             />
@@ -120,21 +121,21 @@
                             android:id="@+id/tv_audit_weekth"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="20dp"
+                            android:textSize="16sp"
                             android:text=""
                             android:textColor="#333333"
                             />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="18sp"
+                            android:textSize="16sp"
                             android:text="周"
                             android:textColor="#333333"
                             />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="18sp"
+                            android:textSize="16sp"
                             android:text="("
                             android:textColor="#333333"
                             />
@@ -142,14 +143,14 @@
                             android:id="@+id/tv_audit_monst"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="18sp"
+                            android:textSize="16sp"
                             android:text=""
                             android:textColor="#333333"
                             />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="18sp"
+                            android:textSize="16sp"
                             android:text="月"
                             android:textColor="#333333"
                             />
@@ -157,14 +158,14 @@
                             android:id="@+id/tv_audit_dayst"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="18sp"
+                            android:textSize="16sp"
                             android:text=""
                             android:textColor="#333333"
                             />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="18sp"
+                            android:textSize="16sp"
                             android:text="-"
                             android:textColor="#333333"
                             />
@@ -172,14 +173,14 @@
                             android:id="@+id/tv_audit_monen"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="18sp"
+                            android:textSize="16sp"
                             android:text=""
                             android:textColor="#333333"
                             />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="18sp"
+                            android:textSize="16sp"
                             android:text="月"
                             android:textColor="#333333"
                             />
@@ -187,14 +188,14 @@
                             android:id="@+id/tv_audit_dayen"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="18sp"
+                            android:textSize="16sp"
                             android:text=""
                             android:textColor="#333333"
                             />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="18sp"
+                            android:textSize="16sp"
                             android:text=")"
                             android:textColor="#333333"
                             />
@@ -211,6 +212,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:padding="15dp">
 
                 <RelativeLayout
@@ -222,7 +225,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="初始体重"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textColor="#333333"
                         android:layout_alignParentLeft="true"
                         android:id="@+id/tv_write" />
@@ -233,7 +236,7 @@
                         android:text=""
                         android:layout_marginRight="5dp"
                         android:windowSoftInputMode="stateHidden|adjustResize"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textColor="#fea300"
                         android:background="@null"
                         android:cursorVisible="false"
@@ -245,7 +248,7 @@
                         android:layout_height="wrap_content"
                         android:text="斤"
                         android:layout_alignParentRight="true"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textColor="#333333"
                         android:id="@+id/textView15" />
                 </RelativeLayout>
@@ -263,6 +266,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:padding="15dp">
 
                 <RelativeLayout
@@ -274,7 +279,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="现在体重"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textColor="#333333"
                         android:layout_alignParentLeft="true"
                         android:id="@+id/textView16" />
@@ -283,7 +288,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textColor="#fea300"
                         android:background="@null"
                         android:cursorVisible="false"
@@ -295,7 +300,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="斤"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textColor="#333333"
                         android:layout_alignParentRight="true"
                         android:id="@+id/textView18" />
@@ -314,6 +319,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:padding="15dp" >
 
                 <RelativeLayout
@@ -325,7 +332,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="体脂（选填）："
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textColor="#333333"
                         android:layout_alignParentLeft="true"
                         android:id="@+id/textView13" />
@@ -334,7 +341,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textColor="#fea300"
                         android:layout_toLeftOf="@+id/textView17"
                         android:id="@+id/tv_retestAudit_tizhi" />
@@ -342,17 +349,11 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=""
-                        android:textSize="18sp"
+                        android:text="%"
+                        android:textColor="#000"
+                        android:textSize="16sp"
                         android:layout_alignParentRight="true"
                         android:id="@+id/textView17" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="%"
-                        android:textSize="18sp"
-                        android:textColor="#333333"
-                        android:layout_alignParentRight="true" />
                 </RelativeLayout>
             </LinearLayout>
             <View
@@ -368,6 +369,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:padding="15dp" >
 
                 <RelativeLayout
@@ -379,7 +382,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="内脂（选填）："
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textColor="#333333"
                         android:layout_alignParentLeft="true"
                         android:id="@+id/textView19" />
@@ -388,7 +391,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textColor="#fea300"
                         android:layout_toLeftOf="@+id/textView21"
                         android:id="@+id/tv_retesrAudit_fat" />
@@ -397,7 +400,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:layout_alignParentRight="true"
                         android:id="@+id/textView21" />
                 </RelativeLayout>
@@ -415,6 +418,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:padding="15dp" >
 
                 <RelativeLayout
@@ -426,7 +431,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="胸围："
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textColor="#333333"
                         android:layout_alignParentLeft="true"
                          />
@@ -435,7 +440,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textColor="#fea300"
                         android:id="@+id/tv_retestAudit_wasit"
                         android:layout_toLeftOf="@+id/tv"
@@ -445,7 +450,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="cm"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textColor="#333333"
                         android:layout_alignParentRight="true"
                         android:id="@+id/tv" />
@@ -463,6 +468,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:padding="15dp" >
 
                 <RelativeLayout
@@ -474,7 +481,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="腰围："
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textColor="#333333"
                         android:layout_alignParentLeft="true"
                          />
@@ -483,7 +490,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textColor="#fea300"
                         android:id="@+id/tv_retestAudit_yaowei"
                         android:layout_toLeftOf="@+id/waistline"
@@ -494,7 +501,7 @@
                         android:layout_height="wrap_content"
                         android:text="cm"
                         android:textColor="#333333"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:layout_alignParentRight="true"
                         android:id="@+id/waistline" />
                 </RelativeLayout>
@@ -511,6 +518,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:padding="15dp" >
 
                 <RelativeLayout
@@ -522,7 +531,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="臀围："
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textColor="#333333"
                         android:id="@+id/tunwei"
                         android:layout_alignParentLeft="true"
@@ -532,7 +541,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textColor="#fea300"
                         android:id="@+id/tv_retestAudit_tunwei"
                         android:layout_toLeftOf="@+id/hiplie"
@@ -542,7 +551,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="cm"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textColor="#333333"
                         android:layout_alignParentRight="true"
                         android:id="@+id/hiplie" />
@@ -560,6 +569,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:padding="15dp" >
 
                 <RelativeLayout
@@ -571,7 +582,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="上臂围："
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textColor="#333333"
                         android:layout_alignParentLeft="true"
                          />
@@ -580,7 +591,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textColor="#fea300"
                         android:id="@+id/tv_retestAudit_upArmGirth"
                         android:layout_toLeftOf="@+id/upArmGirth"
@@ -590,7 +601,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="cm"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textColor="#333333"
                         android:layout_alignParentRight="true"
                         android:id="@+id/upArmGirth" />
@@ -608,6 +619,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:padding="15dp" >
 
                 <RelativeLayout
@@ -619,7 +632,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="大腿围："
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textColor="#333333"
                         android:layout_alignParentLeft="true"
                          />
@@ -628,7 +641,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textColor="#fea300"
                         android:id="@+id/tv_retestAudit_upLegGirth"
                         android:layout_toLeftOf="@+id/upLegGirth"
@@ -638,7 +651,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="cm"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textColor="#333333"
                         android:layout_alignParentRight="true"
                         android:id="@+id/upLegGirth" />
@@ -656,6 +669,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:padding="15dp" >
 
                 <RelativeLayout
@@ -667,7 +682,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="小腿围："
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textColor="#333333"
                         android:layout_alignParentLeft="true"
                         />
@@ -676,7 +691,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textColor="#fea300"
                         android:id="@+id/tv_retestAudit_doLegGirth"
                         android:layout_toLeftOf="@+id/doLegGirth"
@@ -686,7 +701,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="cm"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textColor="#333333"
                         android:layout_alignParentRight="true"
                         android:id="@+id/doLegGirth" />
@@ -703,6 +718,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:padding="15dp" >
 
                 <RelativeLayout
@@ -714,7 +731,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="已上传照片"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textColor="#333333"
                         android:padding="1dp"
                         android:layout_alignParentBottom="true"
@@ -725,7 +742,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
-                        android:textSize="22dp"
+                        android:textSize="16sp"
                         android:layout_alignParentBottom="true"
                         android:layout_toLeftOf="@+id/im_retestwrite_takephoto"
                         android:id="@+id/textView26" />

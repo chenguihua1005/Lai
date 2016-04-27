@@ -232,7 +232,7 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
         String[] mon=StartDate.split("-");
         String[] currStart=CurrStart.split("-");
         String[] currEnd=CurrEnd.split("-");
-        tv_audit_class.setText(tomonth(mon[1]));
+        tv_audit_class.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getClassName());
         tv_audit_monst.setText(currStart[1]);
         tv_audit_dayst.setText(currStart[2]);
         tv_audit_monen.setText(currEnd[1]);
@@ -245,14 +245,14 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
             Picasso.with(this).load("www").placeholder(R.drawable.img_default).error(R.drawable.img_default).into(iv_audit_head);
         }
         tv_audit_now_weight.setText(Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getWeight())+"");
-        tv_retestAudit_tizhi.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getPysical());
-        tv_retesrAudit_fat.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getFat());
-        tv_retestAudit_wasit.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getCircum());
-        tv_retestAudit_yaowei.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getWaistline());
-        tv_retestAudit_tunwei.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getHiplie());
-        tv_retestAudit_upArmGirth.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getUpArmGirth());
-        tv_retestAudit_upLegGirth.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getUpArmGirth());
-        tv_retestAudit_doLegGirth.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getDoLegGirth());
+        tv_retestAudit_tizhi.setText(Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getPysical())+"");
+        tv_retesrAudit_fat.setText(Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getFat())+"");
+        tv_retestAudit_wasit.setText(Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getCircum())+"");
+        tv_retestAudit_yaowei.setText(Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getWaistline())+"");
+        tv_retestAudit_tunwei.setText(Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getHiplie())+"");
+        tv_retestAudit_upArmGirth.setText(Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getUpArmGirth())+"");
+        tv_retestAudit_upLegGirth.setText(Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getUpArmGirth())+"");
+        tv_retestAudit_doLegGirth.setText(Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getDoLegGirth())+"");
         if(!TextUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getImage())) {
             im_retestaudit_showphoto.setVisibility(View.VISIBLE);
             Picasso.with(this).load(retestAuditModelEvent.getRetestAuditModels().get(0).getImage()).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(im_retestaudit_showphoto);

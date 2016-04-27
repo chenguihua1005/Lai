@@ -122,9 +122,13 @@ public class RecommendHealthyFragment extends BaseFragment implements AdapterVie
             pageIndex=--pageIndex<1?1:pageIndex;
             return;
         }
+        if(model.getTotalPage()==null||model.getHealthList()==null){
+            pageIndex=--pageIndex<1?1:pageIndex;
+            return;
+        }
         totalPage=Integer.parseInt(model.getTotalPage());
         List<HealthyCommunityModel> models=model.getHealthList();
-        if(models.isEmpty()){
+        if(models==null||models.isEmpty()){
             pageIndex=--pageIndex<1?1:pageIndex;
             return;
         }

@@ -93,6 +93,8 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     TextView tv_writest_monen;
     @InjectView(R.id.tv_writest_dayen)
     TextView tv_writest_dayen;
+    @InjectView(R.id.tv_right)
+            TextView tv_right;
     UserInfoModel userInfoModel=UserInfoModel.getInstance();
     long loginid=Long.parseLong(userInfoModel.getUser().getUserid());
     String moblie=userInfoModel.getUser().getMobile();
@@ -115,9 +117,9 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     //添加身体维度
     @InjectView(R.id.btn_retest_write_addbodyst)
     Button btn_retest_write_addbodyst;
-    //提交
-    @InjectView(R.id.bt_pingshen)
-    Button bt_pingshen;
+//    //提交
+//    @InjectView(R.id.bt_pingshen)
+//    Button bt_pingshen;
 
 
     @InjectView(R.id.tv_writes_chu_weight)
@@ -163,8 +165,9 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         im_retestwritest_takephoto.setOnClickListener(this);
         im_deletest.setOnClickListener(this);
 //        selectlaichenst.setOnCheckedChangeListener(this);
-        bt_pingshen.setOnClickListener(this);
+//        bt_pingshen.setOnClickListener(this);
         ll_left.setOnClickListener(this);
+        tv_right.setOnClickListener(this);
     }
 
     @Override
@@ -191,6 +194,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     }
     @Override
     protected void initViews() {
+
 
     }
 //2016-03-28
@@ -291,7 +295,12 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
 //                dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
 //                dialog.show();
                 break;
-            case R.id.bt_pingshen:
+//            case R.id.bt_pingshen:
+//                if (isState.equals("true")) {
+//                    validateLife.validate();
+//                }
+//                break;
+            case R.id.tv_right:
                 if (isState.equals("true")) {
                     validateLife.validate();
                 }
@@ -315,7 +324,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         String[] currStart=CurrStart.split("-");
         String[] currEnd=CurrEnd.split("-");
         retestWrite.setClassId(retestAuditModelEvent.getRetestAuditModels().get(0).getClassId());
-        tv_writest_class.setText(tomonth(mon[1]));
+        tv_writest_class.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getClassName());
         tv_writest_monst.setText(currStart[1]);
         tv_writest_dayst.setText(currStart[2]);
         tv_writest_monen.setText(currEnd[1]);
@@ -340,10 +349,11 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
             retestWrite.setUpLegGirth(retestAuditModelEvent.getRetestAuditModels().get(0).getUpLegGirth());
             retestWrite.setDoLegGirth(retestAuditModelEvent.getRetestAuditModels().get(0).getDoLegGirth());
             isState="false";
-            bt_pingshen.setFocusable(false);
-            bt_pingshen.setBackgroundResource(R.drawable.shape_retest_write_boder_disable);
-            bt_pingshen.setTextColor(this.getResources().getColor(R.color.grey));
+//            bt_pingshen.setFocusable(false);
+//            bt_pingshen.setBackgroundResource(R.drawable.shape_retest_write_boder_disable);
+//            bt_pingshen.setTextColor(this.getResources().getColor(R.color.grey));
             btn_retest_write_addbodyst.setText("查看围度记录");
+            tv_right.setFocusable(false);
 
             if(!TextUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getImage())) {
                 im_retestwritest_showphoto.setVisibility(View.VISIBLE);
@@ -356,6 +366,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         }
         else {
             retestPre.GetUserMeasuredInfo(moblie);
+            tv_right.setText("保存");
 
         }
     }
