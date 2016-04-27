@@ -16,6 +16,7 @@ import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.historydate.model.HistoryData;
 import com.softtek.lai.module.historydate.model.HistoryDataItemModel;
 import com.softtek.lai.module.historydate.model.HistoryDataModel;
+import com.softtek.lai.utils.DateUtil;
 
 import java.util.List;
 
@@ -79,15 +80,19 @@ public class HistoryDataAdapter extends BaseAdapter{
         });
         holder.cb_selecter.setChecked(model.isChecked());
         HistoryData data=model.getDataModel();
-        if("1".equals(data.getISGuid())){
+        if("0".equals(data.getSourcetype())){
             //莱秤数据
             holder.icon.setBackground(ContextCompat.getDrawable(context,R.drawable.laichen));
-        }else if("0".equals(data.getISGuid())){
+        }else if("1".equals(data.getSourcetype())){
+            //复测
+            holder.icon.setBackground(ContextCompat.getDrawable(context,R.drawable.history_data_fuce));
+        }else if("2".equals(data.getSourcetype())){
             holder.icon.setBackground(ContextCompat.getDrawable(context,R.drawable.shoudongluru));
         }
-        String[] date=data.getCreateDate().split(" ");
-        holder.tv_ymd.setText(date[0]);
-        holder.tv_hm.setText(date[1]);
+        String date=data.getCreateDate();
+        DateUtil util=DateUtil.getInstance();
+        holder.tv_ymd.setText(util.getYear(date)+"年"+util.getMonth(date)+"月"+util.getDay("日"));
+        holder.tv_hm.setText(util.getHour(date)+":"+util.getMinute(date));
         return convertView;
     }
 
