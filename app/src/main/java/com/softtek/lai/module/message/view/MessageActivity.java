@@ -94,8 +94,8 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
     private IMessagePresenter messagePresenter;
     private ACache aCache;
     MessageModel messageModel;
-    ArrayList<MessageDetailInfo> list_remove = new ArrayList<MessageDetailInfo>();
-    ArrayList<MessageDetailInfo> list_apply = new ArrayList<MessageDetailInfo>();
+    ArrayList<MessageDetailInfo> list_remove;
+    ArrayList<MessageDetailInfo> list_apply;
 
 
     @Override
@@ -118,7 +118,11 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
     public void onEvent(MessageModel messageModel) {
         this.messageModel = messageModel;
         System.out.println("messageModel:" + messageModel);
+        System.out.println("-----------");
         String userrole = UserInfoModel.getInstance().getUser().getUserrole();
+        rel_1.setVisibility(View.GONE);
+        rel_2.setVisibility(View.GONE);
+        rel_fc.setVisibility(View.GONE);
         if (String.valueOf(Constants.SR).equals(userrole)) {
             if (messageModel.getSPInviteSR().size() == 0) {
                 rel_1.setVisibility(View.GONE);
@@ -130,6 +134,8 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
             }
         } else if (String.valueOf(Constants.SP).equals(userrole)) {
             ArrayList<MessageDetailInfo> list = messageModel.getSRandPCApply();
+            list_apply = new ArrayList<MessageDetailInfo>();
+            list_remove = new ArrayList<MessageDetailInfo>();
             for (int i = 0; i < list.size(); i++) {
                 MessageDetailInfo messageDetailInfo = list.get(i);
                 String type = messageDetailInfo.getMsgType();

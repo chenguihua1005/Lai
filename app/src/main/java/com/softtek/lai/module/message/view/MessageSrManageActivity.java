@@ -9,6 +9,7 @@ package com.softtek.lai.module.message.view;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -70,6 +71,7 @@ public class MessageSrManageActivity extends BaseActivity implements View.OnClic
     private boolean isSelect = true;
     private IMessagePresenter messagePresenter;
     MessageDetailInfo messageDetailInfo;
+    String msg_type;
 
 
     @Override
@@ -98,7 +100,7 @@ public class MessageSrManageActivity extends BaseActivity implements View.OnClic
         Intent intent = getIntent();
         messageDetailInfo = (MessageDetailInfo) intent.getSerializableExtra("messageDetailInfo");
         text_value.setText(messageDetailInfo.getComments());
-        String msg_type = messageDetailInfo.getMsgType();
+        msg_type = messageDetailInfo.getMsgType();
         if ("0".equals(msg_type)) {
             but_no.setVisibility(View.VISIBLE);
             but_yes.setVisibility(View.VISIBLE);
@@ -114,7 +116,12 @@ public class MessageSrManageActivity extends BaseActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_left:
-                finish();
+                if ("0".equals(msg_type)) {
+                    finish();
+                } else {
+                    startActivity(new Intent(this, MessageActivity.class));
+                }
+
                 break;
             case R.id.img:
                 if (isSelect) {
@@ -172,5 +179,16 @@ public class MessageSrManageActivity extends BaseActivity implements View.OnClic
     public void onFragmentInteraction(Uri uri) {
 
     }
-
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            if ("0".equals(msg_type)) {
+                finish();
+            } else{
+                startActivity(new Intent(this,MessageActivity.class));
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }
