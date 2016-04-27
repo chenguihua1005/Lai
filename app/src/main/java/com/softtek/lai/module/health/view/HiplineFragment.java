@@ -638,7 +638,7 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
         days.add(formdate(weekdate6));
         days.add(formdate(weekdate7));
         progressDialog.show();
-        healthRecordManager.doGetHealthhiplieRecords(date,getDateform(weekdate1)+" "+datetime[1],1);
+        healthRecordManager.doGetHealthhiplieRecords(getDateform(weekdate7),getDateform(weekdate1),1);
     }
 
 }
