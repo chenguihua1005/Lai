@@ -45,6 +45,7 @@ import com.softtek.lai.module.retest.present.RetestclassImp;
 import com.softtek.lai.module.retest.view.BodyweiduActivity;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
+import com.sw926.imagefileselector.ImageFileCropSelector;
 
 
 import org.greenrobot.eventbus.EventBus;
@@ -162,6 +163,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
     private static final String LAI_CHEN_SWITCH_KEY="laichenSwitch";
     private CharSequence[] items={"拍照","从相册选择照片"};
     String isState="true";
+    private ImageFileCropSelector imageFileCropSelector;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
@@ -199,26 +201,12 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         iv_email.setVisibility(View.INVISIBLE);
         Intent intent=getIntent();
         String accountId=intent.getStringExtra("accountId");
-//        String loginId=intent.getStringExtra("loginId");
         String classId=intent.getStringExtra("classId");
-//
         acountid=accountId;
         classid=classId;
-//        Log.i("dijizhouqi"+Weekth);
-//        retestPre.GetUserMeasuredInfo(Mobile);
-
-       // Picasso.with(this).load(Photo).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_write_head);
-//        Log.i("chuanzhizhizhizhizhi",accountId+loginId+classId);
         acountid=accountId;
         retestWrite=new RetestWriteModel();
-//        retestWrite.setAccountId(accountId);
         retestPre.doGetAudit(Integer.parseInt(accountId),Integer.parseInt(classId),"");
-//        boolean laichenSwitch= SharedPreferenceService.getInstance().get(LAI_CHEN_SWITCH_KEY,false);
-//        selectlaichen.setChecked(laichenSwitch);
-//        if(selectlaichen.isChecked()){
-//            Log.i("上一次莱秤被打开");
-//            retestPre.doGetMeasure("0Pmg0UmrnZBYbcPABC5YB0pSqNXOFnB885ZYInLptG8YvAZsT87oGUPZtU5wbAad-26xsvP8Ov_eoq6Mj9rISg-XZiz2xesbiiqYPWK0AeYquQ8fXwXNpmvL0XwbUkse","18206182086");
-//        }
 
 
 
@@ -228,10 +216,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
 
     @Subscribe
     public void event(LaichModel laichModel){
-//        measureModel=measureModel1;
         Log.i("username"+laichModel.getCircum());
-//        tv_write_nick.setText(measureModel.getUsername());
-//        tv_write_phone.setText(measureModel.getPhone());
         tv_retestWrite_nowweight.setText(Float.parseFloat(laichModel.getWeight())+"");
         tv_retestWrite_tizhi.setText(Float.parseFloat(laichModel.getPysical())+"");
         tv_retestWrite_neizhi.setText(Float.parseFloat(laichModel.getFat())+"");
@@ -299,11 +284,11 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if(which==0){
-                            takecamera();
-
+                            //拍照
+                            imageFileCropSelector.takePhoto(WriteActivity.this);
                         }else if(which==1){
                             //照片
-                            takepic();
+                            imageFileCropSelector.selectImage(WriteActivity.this);
                         }
                     }
                 }).create().show();
