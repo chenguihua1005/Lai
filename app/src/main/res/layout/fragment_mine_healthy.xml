@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-        <include layout="@layout/no_login_tip"
-            />
+    <include layout="@layout/no_login_tip" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/img_mo_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/no_message"
+            android:visibility="gone" />
 
         <com.handmark.pulltorefresh.library.PullToRefreshListView
+            android:id="@+id/ptrlv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/ptrlv"
             android:divider="#00ececec"
             android:dividerHeight="1dp"
             android:listSelector="@android:color/transparent"
@@ -19,4 +30,5 @@
             android:scrollbars="none"
             app:ptrShowIndicator="false"
             />
+    </FrameLayout>
 </FrameLayout>

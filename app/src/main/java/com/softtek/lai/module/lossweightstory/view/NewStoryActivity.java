@@ -27,8 +27,7 @@ import com.softtek.lai.module.lossweightstory.model.UploadImage;
 import com.softtek.lai.module.lossweightstory.presenter.NewStoryManager;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.CustomGridView;
-import com.sw926.imagefileselector.ImageCropper;
-import com.sw926.imagefileselector.ImageFileSelector;
+import com.sw926.imagefileselector.ImageFileCropSelector;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -41,8 +40,7 @@ import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_new_story)
 public class NewStoryActivity extends BaseActivity implements View.OnClickListener,AdapterView.OnItemClickListener
-    ,Validator.ValidationListener,ImageFileSelector.Callback,
-        ImageCropper.ImageCropperCallback{
+    ,Validator.ValidationListener,ImageFileCropSelector.Callback{
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -75,8 +73,7 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
     private PhotoGridViewAdapter adapter;
     private NewStoryManager storyManager;
 
-    private ImageFileSelector imageFileSelector;
-    private ImageCropper imageCropper;
+    private ImageFileCropSelector imageFileCropSelector;
     @Override
     protected void initViews() {
         ll_left.setOnClickListener(this);
@@ -95,15 +92,15 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
         images.add(new UploadImage(null,BitmapFactory.decodeResource(getResources(), R.drawable.camera_sel)));
         adapter=new PhotoGridViewAdapter(images,this);
         cgv.setAdapter(adapter);
-        imageFileSelector=new ImageFileSelector(this);
-        imageFileSelector.setQuality(30);
-        int px= DisplayUtil.dip2px(this, 300);
-        imageFileSelector.setOutPutImageSize(px,px);
-        imageCropper=new ImageCropper(this);
-        imageCropper.setOutPutAspect(1, 1);
-        imageCropper.setScale(true);
-        imageCropper.setCallback(this);
-        imageFileSelector.setCallback(this);
+        int px=DisplayUtil.dip2px(this,300);
+        //*************************
+        imageFileCropSelector=new ImageFileCropSelector(this);
+        imageFileCropSelector.setOutPutImageSize(px, px);
+        imageFileCropSelector.setQuality(30);
+        imageFileCropSelector.setScale(true);
+        imageFileCropSelector.setOutPutAspect(1, 1);
+        imageFileCropSelector.setOutPut(px,px);
+        imageFileCropSelector.setCallback(this);
     }
 
     @Override
@@ -131,10 +128,10 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
                 public void onClick(DialogInterface dialog, int which) {
                     if(which==0){
                         //打开照相机
-                        imageFileSelector.takePhoto(NewStoryActivity.this);
+                        imageFileCropSelector.takePhoto(NewStoryActivity.this);
                     }else if(which==1){
                         //打开图库
-                        imageFileSelector.selectImage(NewStoryActivity.this);
+                        imageFileCropSelector.selectImage(NewStoryActivity.this);
                     }
                 }
             }).create().show();
@@ -150,8 +147,8 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        imageFileSelector.onActivityResult(requestCode, resultCode, data);
-        imageCropper.onActivityResult(requestCode,resultCode,data);
+        imageFileCropSelector.onActivityResult(requestCode,resultCode,data);
+        imageFileCropSelector.getmImageCropperHelper().onActivityResult(requestCode,resultCode,data);
         if(resultCode==RESULT_OK){
             if(requestCode==OPEN_PREVIEW){
                 int position= data.getIntExtra("position", 0);
@@ -222,17 +219,8 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void onSuccess(String file) {
-        imageCropper.cropImage(new File(file));
-    }
-
-    @Override
-    public void onError() {
-
-    }
-
-    @Override
-    public void onCropperCallback(ImageCropper.CropperResult result, File srcFile, File outFile) {
         UploadImage image=new UploadImage();
+        File outFile=new File(file);
         image.setImage(outFile);
         image.setBitmap(BitmapFactory.decodeFile(outFile.getAbsolutePath()));
         images.add(0, image);
@@ -241,4 +229,10 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
         }
         adapter.notifyDataSetChanged();
     }
+
+    @Override
+    public void onError() {
+
+    }
+
 }
