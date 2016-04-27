@@ -19,7 +19,7 @@ public class HistoryData implements Parcelable{
     private String UpLegGirth;
     private String DoLegGirth;
     private String CreateDate;
-    private String ISGuid;
+    private String Sourcetype;
 
     public HistoryData() {
     }
@@ -36,7 +36,7 @@ public class HistoryData implements Parcelable{
         UpLegGirth = in.readString();
         DoLegGirth = in.readString();
         CreateDate = in.readString();
-        ISGuid = in.readString();
+        Sourcetype = in.readString();
     }
 
     public static final Creator<HistoryData> CREATOR = new Creator<HistoryData>() {
@@ -139,12 +139,12 @@ public class HistoryData implements Parcelable{
         CreateDate = createDate;
     }
 
-    public String getISGuid() {
-        return ISGuid;
+    public String getSourcetype() {
+        return Sourcetype;
     }
 
-    public void setISGuid(String ISGuid) {
-        this.ISGuid = ISGuid;
+    public void setSourcetype(String sourcetype) {
+        Sourcetype = sourcetype;
     }
 
     @Override
@@ -165,6 +165,6 @@ public class HistoryData implements Parcelable{
         dest.writeString(UpLegGirth);
         dest.writeString(DoLegGirth);
         dest.writeString(CreateDate);
-        dest.writeString(ISGuid);
+        dest.writeString(Sourcetype);
     }
 }
