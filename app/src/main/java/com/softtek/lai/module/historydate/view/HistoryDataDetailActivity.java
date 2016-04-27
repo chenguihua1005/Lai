@@ -57,10 +57,13 @@ public class HistoryDataDetailActivity extends BaseActivity implements View.OnCl
     @Override
     protected void initDatas() {
         model=getIntent().getParcelableExtra("historyData");
-        if("1".equals(model.getISGuid())){
+        if("0".equals(model.getSourcetype())){
             //莱秤数据
             iv_icon.setBackground(ContextCompat.getDrawable(this,R.drawable.laichen));
-        }else if("0".equals(model.getISGuid())){
+        }else if("1".equals(model.getSourcetype())){
+            //复测
+            iv_icon.setBackground(ContextCompat.getDrawable(this,R.drawable.history_data_fuce));
+        }else if("2".equals(model.getSourcetype())){
             iv_icon.setBackground(ContextCompat.getDrawable(this,R.drawable.shoudongluru));
         }
         String[] date=model.getCreateDate().split(" ");
