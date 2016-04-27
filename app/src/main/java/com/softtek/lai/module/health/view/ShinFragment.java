@@ -295,7 +295,7 @@ public class ShinFragment extends BaseFragment implements RadioGroup.OnCheckedCh
         }
         System.out.println("健康记录体重" + healthdoLegGirthModel.getFirstrecordtime());
         int n=healthdoLegGirthModel.getDoLegGirthlist().size();
-        for (int i=healthdoLegGirthModel.getDoLegGirthlist().size()-1;i>-1;i--) {
+        for (int i=0;i<=n-1;i++) {
             dates.add(Float.parseFloat(healthdoLegGirthModel.getDoLegGirthlist().get(i).getDoLegGirth()));
         }
         ceshi.add(dates.get(0));

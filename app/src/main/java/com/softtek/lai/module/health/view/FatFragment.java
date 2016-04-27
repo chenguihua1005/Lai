@@ -270,7 +270,7 @@ public class FatFragment extends BaseFragment implements RadioGroup.OnCheckedCha
         }
         System.out.println("健康记录内脂" + healthFatModel.getFirstrecordtime());
         int n=healthFatModel.getFatlist().size();
-        for (int i=healthFatModel.getFatlist().size()-1;i>-1;i--) {
+        for (int i=0;i<=n-1;i++) {
             dates.add(Float.parseFloat(healthFatModel.getFatlist().get(i).getFat()));
         }
         ceshi.add(dates.get(0));

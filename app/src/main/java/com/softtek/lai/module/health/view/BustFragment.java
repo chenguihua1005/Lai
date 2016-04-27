@@ -272,7 +272,7 @@ public class BustFragment extends BaseFragment implements RadioGroup.OnCheckedCh
         }
         System.out.println("健康记录胸围" + healthCircrumModel.getFirstrecordtime());
         int n=healthCircrumModel.getCircumlist().size();
-        for (int i=healthCircrumModel.getCircumlist().size()-1;i>-1;i--) {
+        for (int i=0;i<=n-1;i++) {
             dates.add(Float.parseFloat(healthCircrumModel.getCircumlist().get(i).getCircum()));
         }
         ceshi.add(dates.get(0));

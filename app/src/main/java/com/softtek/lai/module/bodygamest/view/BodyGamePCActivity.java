@@ -151,7 +151,7 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
         tiGuanSai.doGetTotal(progressDialog);
         studentImpl=new StudentImpl(this);
         retestPre=new RetestclassImp();
-        retestPre.doGetAudit(loginid,0,"");
+
 
     }
     @Subscribe
@@ -201,7 +201,9 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
                     Log.i(hasClassResponseData.toString());
                     if(hasClassResponseData.getStatus()==200){
                         if("1".equals(hasClassResponseData.getData().getIsHave())){
+                            retestPre.doGetAudit(loginid,0,"");
                             doStartActivity(id);
+
                         }else{
                             //学员没有班级
                             new AlertDialog.Builder(BodyGamePCActivity.this).setTitle("提示")
