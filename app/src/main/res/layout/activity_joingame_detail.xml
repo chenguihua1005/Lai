@@ -4,14 +4,15 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <include layout="@layout/toolbar"
-        android:id="@+id/tool"/>
+    <include
+        android:id="@+id/tool"
+        layout="@layout/toolbar" />
 
     <ScrollView
-        android:layout_below="@+id/tool"
-        android:scrollbars="none"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tool"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -53,7 +54,6 @@
                     android:background="@null"
                     android:gravity="right|center"
                     android:hint="必填项"
-
                     android:singleLine="true"
                     android:textColor="#808080"
                     android:textCursorDrawable="@drawable/color_cursor"
@@ -138,14 +138,14 @@
                     <EditText
                         android:id="@+id/tv_class"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
+                        android:layout_height="match_parent"
                         android:background="@null"
                         android:editable="false"
-                        android:gravity="right"
+                        android:gravity="right|center"
                         android:hint="必填项"
                         android:singleLine="true"
                         android:textColor="#808080"
+                        android:textCursorDrawable="@drawable/color_cursor"
                         android:textSize="15sp" />
 
 
