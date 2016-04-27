@@ -200,6 +200,17 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        String userrole = UserInfoModel.getInstance().getUser().getUserrole();
+        if (String.valueOf(Constants.VR).equals(userrole)) {
+
+        } else {
+            messagePresenter.getMessageRead(img_red);
+        }
+    }
+
+    @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
         //float num = Math.abs(1f * Math.abs(verticalOffset) / 1000);
         //toolbar.setAlpha(num);
@@ -225,13 +236,6 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     public void onRefresh() {
         System.out.println("正在加载......");
         homeInfoPresenter.getHomeInfoData(pull);
-        String userrole = UserInfoModel.getInstance().getUser().getUserrole();
-        if (String.valueOf(Constants.VR).equals(userrole)) {
-
-        } else {
-            messagePresenter.getMessageRead(img_red);
-        }
-
     }
 
     /**

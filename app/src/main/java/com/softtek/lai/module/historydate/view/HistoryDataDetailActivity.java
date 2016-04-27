@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.historydate.model.HistoryData;
+import com.softtek.lai.utils.DateUtil;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -66,9 +67,11 @@ public class HistoryDataDetailActivity extends BaseActivity implements View.OnCl
         }else if("2".equals(model.getSourcetype())){
             iv_icon.setBackground(ContextCompat.getDrawable(this,R.drawable.shoudongluru));
         }
-        String[] date=model.getCreateDate().split(" ");
-        tv_ymd.setText(date[0]);
-        tv_hm.setText(date[1]);
+        String date=model.getCreateDate();
+        DateUtil util=DateUtil.getInstance();
+        util.convertDateStr(date,"yyyy-MM-dd");
+        tv_ymd.setText(util.convertDateStr(date,"yyyy-MM-dd"));
+        tv_hm.setText(util.convertDateStr(date,"HH:mm:ss"));
         tv_weight.setText(model.getWeight());
         tv_body_fat.setText(model.getPysical());
         tv_fat.setText(model.getFat());
