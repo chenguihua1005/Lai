@@ -321,6 +321,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         if ("1".equals(type)) {
             MessageDetailInfo messageDetailInfo = (MessageDetailInfo) getIntent().getSerializableExtra("messageDetailInfo");
             classid = messageDetailInfo.getClassId();
+            dialogShow("加载中");
             iUpConfirmInfopresenter.getConfirmInfo(accoutid, Long.parseLong(classid));
             tv_title.setText(R.string.message3);
             et_phone.setEnabled(false);
@@ -579,6 +580,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
     }
 
     private void upload() {
+        dialogShow("加载中");
         if ("1".equals(type)) {
             coninfoModel = new ConinfoModel();
             //设置classid
@@ -714,6 +716,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         if (upload_photo.equals("")) {
             upload();
         } else {
+            dialogShow("加载中");
             iUpConfirmInfopresenter.upload(upload_photo);
         }
     }
