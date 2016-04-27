@@ -466,7 +466,10 @@
                 android:gravity="center"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:padding="15dp" >
+                android:paddingTop="15dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                >
 
                 <RelativeLayout
                     android:orientation="horizontal"
@@ -505,6 +508,9 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:padding="15dp"
                 android:gravity="center"
                 >
 
@@ -514,11 +520,12 @@
                     android:layout_height="match_parent" >
 
                     <ImageView
-                        android:layout_width="200dp"
-                        android:layout_height="200dp"
-                        android:src="@drawable/retest_write_takephoto"
+                        android:layout_width="150dp"
+                        android:layout_height="100dp"
                         android:layout_centerHorizontal="true"
-                        android:visibility="gone"
+                        android:visibility="visible"
+                        android:background="#c0c0c0"
+                        android:scaleType="fitCenter"
                         android:id="@+id/im_retestwritest_showphoto" />
                 </RelativeLayout>
 
@@ -527,6 +534,7 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
                 android:gravity="center"
                 >
 
@@ -547,8 +555,7 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="10dp"
-                        android:visibility="gone"
+                        android:layout_marginRight="7dp"
                         android:layout_alignBottom="@id/im_stfuce_showphoto"
                         android:src="@drawable/retest_write_deleteim"/>
                 </RelativeLayout>

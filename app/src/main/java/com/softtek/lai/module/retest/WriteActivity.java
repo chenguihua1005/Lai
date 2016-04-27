@@ -283,12 +283,13 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
                 builder.setItems(items, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if(which==0){
-                            //拍照
-                            imageFileCropSelector.takePhoto(WriteActivity.this);
-                        }else if(which==1){
+                        if (which == 0) {
+                            takecamera();
+//                            imageFileSelector.takePhoto(WriteActivity.this);
+                        } else if (which == 1) {
                             //照片
-                            imageFileCropSelector.selectImage(WriteActivity.this);
+                            takepic();
+//                            imageFileSelector.selectImage(WriteActivity.this);
                         }
                     }
                 }).create().show();
@@ -370,7 +371,8 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+//        imageFileCropSelector.onActivityResult(requestCode,resultCode,data);
+//        imageFileCropSelector.getmImageCropperHelper().onActivityResult(requestCode,resultCode,data);
         if(resultCode==RESULT_OK&&requestCode==PHOTO){
             Bitmap bm= BitmapFactory.decodeFile(path.toString());
             im_retestwrite_showphoto.setImageBitmap(bm);
