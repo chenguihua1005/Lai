@@ -193,11 +193,11 @@ public class LossWeightStoryActivity extends BaseActivity implements View.OnClic
         adapter.notifyDataSetChanged();
         String path= AddressManager.get("photoHost");
         try {
-            Picasso.with(this).load(path + logList.getPhoto())
+            Picasso.with(this).load(path + logList.getPhoto()).fit()
                     .placeholder(R.drawable.img_default)
                     .error(R.drawable.img_default)
                     .into(cir_header_image);
-            Picasso.with(this).load(path + logList.getBanner())
+            Picasso.with(this).load(path + logList.getBanner()).fit()
                     .placeholder(R.drawable.default_pic)
                     .error(R.drawable.default_pic)
                     .into(log_banner);

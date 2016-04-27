@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -43,6 +44,8 @@ public class MineHealthyFragment extends BaseFragment  implements  AdapterView.O
     LinearLayout lin_is_vr;
     @InjectView(R.id.but_login)
     Button but_login;
+    @InjectView(R.id.img_mo_message)
+    ImageView img_mo_message;
 
     private CommunityManager community;
     private HealthyCommunityAdapter adapter;
@@ -56,7 +59,7 @@ public class MineHealthyFragment extends BaseFragment  implements  AdapterView.O
         ptrlv.setOnItemClickListener(this);
         ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
         ptrlv.setOnRefreshListener(this);
-
+        ptrlv.setEmptyView(img_mo_message);
     }
 
     @Override
@@ -156,6 +159,7 @@ public class MineHealthyFragment extends BaseFragment  implements  AdapterView.O
         if(pageIndex==1){
             this.communityModels.clear();
         }
+
         this.communityModels.addAll(models);
         adapter.notifyDataSetChanged();
     }

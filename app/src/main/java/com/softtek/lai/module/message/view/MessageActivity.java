@@ -191,6 +191,7 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
         messagePresenter = new MessageImpl(this);
         aCache = ACache.get(this, Constants.USER_ACACHE_DATA_DIR);
         String id = UserInfoModel.getInstance().getUser().getUserid();
+        dialogShow("加载中");
         messagePresenter.getMsgList(id);
     }
 

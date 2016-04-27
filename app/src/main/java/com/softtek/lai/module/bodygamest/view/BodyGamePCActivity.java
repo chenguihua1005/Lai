@@ -208,7 +208,7 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
         final int id=v.getId();
         if(id!=R.id.ll_st_saikuang&&id!=R.id.ll_st_tipst&&id!=R.id.ll_left){
             dialogShow("检查中...");
-            studentImpl.hasClass(new RequestCallback<ResponseData<HasClass>>() {
+            studentImpl.pcIsJoinClass(UserInfoModel.getInstance().getUser().getUserid(),new RequestCallback<ResponseData<HasClass>>() {
                 @Override
                 public void success(ResponseData<HasClass> hasClassResponseData, Response response) {
                     dialogDissmiss();
