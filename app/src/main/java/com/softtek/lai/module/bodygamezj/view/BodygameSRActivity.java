@@ -7,7 +7,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
@@ -16,7 +15,6 @@ import com.softtek.lai.module.bodygame.model.TiGuanSaiModel;
 import com.softtek.lai.module.bodygame.model.TotolModel;
 import com.softtek.lai.module.bodygame.presenter.ITiGuanSai;
 import com.softtek.lai.module.bodygame.presenter.TiGuanSaiImpl;
-import com.softtek.lai.module.bodygame.view.TipsActivity;
 import com.softtek.lai.module.counselor.view.ApplyAssistantActivity;
 import com.softtek.lai.module.counselor.view.CounselorClassListActivity;
 import com.softtek.lai.module.counselor.view.GameActivity;
@@ -25,6 +23,7 @@ import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.jingdu.view.JingduActivity;
 import com.softtek.lai.module.retest.view.RetestActivity;
 import com.softtek.lai.module.review.view.ReviewActivity;
+import com.softtek.lai.module.tips.view.TipsActivity;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;

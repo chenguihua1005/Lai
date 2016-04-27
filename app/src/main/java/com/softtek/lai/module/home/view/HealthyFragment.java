@@ -127,11 +127,9 @@ public class HealthyFragment extends BaseFragment implements View.OnClickListene
                     public void onClick(DialogInterface dialog, int which) {
                         if(which==0){
                             //拍照
-                            //imageFileSelector.takePhoto(HealthyFragment.this);
                             imageFileCropSelector.takePhoto(HealthyFragment.this);
                         }else if(which==1){
                             //照片
-                            //imageFileSelector.selectImage(HealthyFragment.this);
                             imageFileCropSelector.selectImage(HealthyFragment.this);
                         }
                     }
