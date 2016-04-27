@@ -52,6 +52,7 @@ public class UpConfirmInfoImpl implements IUpConfirmInfopresenter {
             @Override
             public void success(ResponseData<GetConfirmInfoModel> getConfirmInfoModelResponseData, Response response) {
                 int status = getConfirmInfoModelResponseData.getStatus();
+                ((JoinGameDetailActivity) context).dialogDissmiss();
                 Log.i("--------获取参赛确认信息--------------getConfirmInfoModelResponseData:" + getConfirmInfoModelResponseData);
                 switch (status) {
                     case 200:
@@ -66,6 +67,7 @@ public class UpConfirmInfoImpl implements IUpConfirmInfopresenter {
 
             @Override
             public void failure(RetrofitError error) {
+                ((JoinGameDetailActivity) context).dialogDissmiss();
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }
@@ -81,6 +83,7 @@ public class UpConfirmInfoImpl implements IUpConfirmInfopresenter {
             @Override
             public void success(ResponseData<ConinfoModel> coninfoModelResponseData, Response response) {
                 int status = coninfoModelResponseData.getStatus();
+                ((JoinGameDetailActivity) context).dialogDissmiss();
                 switch (status) {
                     case 200:
                         Intent intent = new Intent(context, HomeActviity.class);
@@ -95,6 +98,7 @@ public class UpConfirmInfoImpl implements IUpConfirmInfopresenter {
 
             @Override
             public void failure(RetrofitError error) {
+                ((JoinGameDetailActivity) context).dialogDissmiss();
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }

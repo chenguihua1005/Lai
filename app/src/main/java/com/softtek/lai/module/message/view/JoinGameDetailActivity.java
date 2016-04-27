@@ -69,6 +69,7 @@ import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.widgets.WheelView;
 import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageCropper;
+import com.sw926.imagefileselector.ImageFileCropSelector;
 import com.sw926.imagefileselector.ImageFileSelector;
 
 import org.greenrobot.eventbus.EventBus;
@@ -205,6 +206,8 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
 
     private int select_posion = 0;
 
+    private ImageFileCropSelector imageFileCropSelector;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -216,30 +219,20 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         mmonth = ca.get(Calendar.MONTH);//获取月份
         mday = ca.get(Calendar.DATE);//获取日
 
-        imageFileSelector = new ImageFileSelector(this);
-        imageCropper = new ImageCropper(this);
-        imageCropper.setScale(true);
-        imageCropper.setOutPutAspect(1, 1);
-        imageFileSelector.setQuality(100);
-        int px = DisplayUtil.dip2px(this, 100);
-        imageFileSelector.setOutPutImageSize(px, px);
-        imageCropper.setCallback(new ImageCropper.ImageCropperCallback() {
-            @Override
-            public void onCropperCallback(ImageCropper.CropperResult result, File srcFile, File outFile) {
-                if (result == ImageCropper.CropperResult.success) {
-                    upload_photo = outFile.getAbsolutePath();
-
-                    File files = new File(upload_photo);
-                    Picasso.with(JoinGameDetailActivity.this).load(files).placeholder(R.drawable.img_default).error(R.drawable.img_default).into(img1);
-                    //iUpConfirmInfopresenter.upload(file);
-                }
-
-            }
-        });
-        imageFileSelector.setCallback(new ImageFileSelector.Callback() {
+        int px = DisplayUtil.dip2px(this, 300);
+        imageFileCropSelector = new ImageFileCropSelector(this);
+        imageFileCropSelector.setOutPutImageSize(px, px);
+        imageFileCropSelector.setQuality(30);
+        imageFileCropSelector.setScale(true);
+        imageFileCropSelector.setOutPutAspect(1, 1);
+        imageFileCropSelector.setOutPut(px, px);
+        imageFileCropSelector.setCallback(new ImageFileCropSelector.Callback() {
             @Override
             public void onSuccess(String file) {
-                imageCropper.cropImage(new File(file));
+                upload_photo = file;
+
+                File files = new File(upload_photo);
+                Picasso.with(JoinGameDetailActivity.this).load(files).placeholder(R.drawable.img_default).error(R.drawable.img_default).into(img1);
             }
 
             @Override
@@ -328,6 +321,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         if ("1".equals(type)) {
             MessageDetailInfo messageDetailInfo = (MessageDetailInfo) getIntent().getSerializableExtra("messageDetailInfo");
             classid = messageDetailInfo.getClassId();
+            dialogShow("加载中");
             iUpConfirmInfopresenter.getConfirmInfo(accoutid, Long.parseLong(classid));
             tv_title.setText(R.string.message3);
             et_phone.setEnabled(false);
@@ -384,10 +378,10 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {
                             //拍照
-                            imageFileSelector.takePhoto(JoinGameDetailActivity.this);
+                            imageFileCropSelector.takePhoto(JoinGameDetailActivity.this);
                         } else if (which == 1) {
                             //照片
-                            imageFileSelector.selectImage(JoinGameDetailActivity.this);
+                            imageFileCropSelector.selectImage(JoinGameDetailActivity.this);
                         }
                     }
                 }).create().show();
@@ -586,6 +580,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
     }
 
     private void upload() {
+        dialogShow("加载中");
         if ("1".equals(type)) {
             coninfoModel = new ConinfoModel();
             //设置classid
@@ -721,6 +716,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         if (upload_photo.equals("")) {
             upload();
         } else {
+            dialogShow("加载中");
             iUpConfirmInfopresenter.upload(upload_photo);
         }
     }
@@ -844,16 +840,17 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        imageFileSelector.onActivityResult(requestCode, resultCode, data);
-        imageCropper.onActivityResult(requestCode, resultCode, data);
+        imageFileCropSelector.onActivityResult(requestCode, resultCode, data);
+        imageFileCropSelector.getmImageCropperHelper().onActivityResult(requestCode, resultCode, data);
         if (requestCode == 108 && resultCode == RESULT_OK) {
             getConfirmInfoModel = (GetConfirmInfoModel) data.getSerializableExtra("getConfirmInfoModel");
         }
     }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            startActivity(new Intent(this, HomeActviity.class));
+            System.out.println("");
             return true;
         }
         return super.onKeyDown(keyCode, event);

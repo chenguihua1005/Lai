@@ -25,12 +25,16 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame.view.CounselorActivity;
 import com.softtek.lai.module.bodygamecc.view.BodyGameCcActivity;
+import com.softtek.lai.module.bodygamest.model.HasClass;
+import com.softtek.lai.module.bodygamest.present.StudentImpl;
 import com.softtek.lai.module.bodygamest.view.BodyGamePCActivity;
 import com.softtek.lai.module.bodygameyk.view.BodygameYkActivity;
 import com.softtek.lai.module.bodygamezj.view.BodygameSRActivity;
@@ -46,6 +50,7 @@ import com.softtek.lai.module.message.presenter.MessageImpl;
 import com.softtek.lai.module.message.view.JoinGameDetailActivity;
 import com.softtek.lai.module.message.view.MessageActivity;
 import com.softtek.lai.utils.DisplayUtil;
+import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CustomGridView;
 import com.softtek.lai.widgets.RollHeaderView;
 
@@ -56,6 +61,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
@@ -65,10 +72,8 @@ import zilla.libcore.util.Util;
  */
 @InjectLayout(R.layout.fragment_home)
 public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetChangedListener, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener, View.OnClickListener {
-
     @InjectView(R.id.toolbar)
     Toolbar toolbar;
-
     @InjectView(R.id.rhv_adv)
     RollHeaderView rhv_adv;
 
@@ -102,6 +107,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
 
     private IHomeInfoPresenter homeInfoPresenter;
     private IMessagePresenter messagePresenter;
+    private StudentImpl studentImpl;
 
     private List<String> advList = new ArrayList<>();
     private List<HomeInfoModel> records = new ArrayList<>();
@@ -190,6 +196,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         EventBus.getDefault().register(this);
         homeInfoPresenter = new HomeInfoImpl(getContext());
         messagePresenter = new MessageImpl(getContext());
+        studentImpl = new StudentImpl(getContext());
         registerMessageReceiver();
     }
 
@@ -359,16 +366,35 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
             }).create().show();
         } else if (role == Constants.INC) {
             //提示用户让他进行身份认证否则进入2个功能的踢馆赛模块
-            Util.toastMsg("受邀普通顾客");
+            studentImpl.pcIsJoinClass(UserInfoModel.getInstance().getUser().getUserid(),new RequestCallback<ResponseData<HasClass>>() {
+                @Override
+                public void success(ResponseData<HasClass> hasClassResponseData, Response response) {
+                    Log.i(hasClassResponseData.toString());
+                    if (hasClassResponseData.getStatus() == 200) {
+                        if ("1".equals(hasClassResponseData.getData().getIsHave())) {
+                            startActivity(new Intent(getContext(), BodyGamePCActivity.class));
+                        } else {
+                            startActivity(new Intent(getContext(), BodyGameCcActivity.class));
+                        }
+                    } else {
+                        Util.toastMsg(hasClassResponseData.getMsg());
+                    }
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    super.failure(error);
+                }
+            });
         } else if (role == Constants.PC) {
             //直接进入踢馆赛学员版
-            Intent intent=new Intent(getContext(), BodyGamePCActivity.class);
-            intent.putExtra("type","1");
+            Intent intent = new Intent(getContext(), BodyGamePCActivity.class);
+            intent.putExtra("type", "1");
             startActivity(intent);
         } else if (role == Constants.SR) {
             //进入踢馆赛助教版
-            Intent intent=new Intent(getContext(), BodygameSRActivity.class);
-            intent.putExtra("type","1");
+            Intent intent = new Intent(getContext(), BodygameSRActivity.class);
+            intent.putExtra("type", "1");
             startActivity(intent);
         } else if (role == Constants.SP) {
             //进入踢馆赛顾问版
@@ -400,7 +426,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                             dialog.dismiss();
                         }
                     }).create().show();
-                }else {
+                } else {
                     startActivity(new Intent(getContext(), MessageActivity.class));
                 }
                 break;
@@ -424,7 +450,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                             dialog.dismiss();
                         }
                     }).create().show();
-                }else {
+                } else {
                     startActivity(new Intent(getContext(), MessageActivity.class));
                 }
                 break;

@@ -141,6 +141,7 @@ public class MessageImpl implements IMessagePresenter {
             @Override
             public void success(ResponseData<MessageModel> listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());
+                ((MessageActivity) context).dialogDissmiss();
                 int status = listResponseData.getStatus();
                 MessageModel messageModel = listResponseData.getData();
                 switch (status) {
@@ -155,6 +156,7 @@ public class MessageImpl implements IMessagePresenter {
 
             @Override
             public void failure(RetrofitError error) {
+                ((MessageActivity) context).dialogDissmiss();
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }

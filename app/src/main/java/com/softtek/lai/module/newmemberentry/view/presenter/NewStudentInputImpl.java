@@ -54,6 +54,7 @@ public class NewStudentInputImpl implements INewStudentpresenter {
             @Override
             public void success(ResponseData<NewstudentsModel> listResponseData, Response response) {
                 int status = listResponseData.getStatus();
+                ((JoinGameDetailActivity) context).dialogDissmiss();
                 Log.i("listResponseData:" + listResponseData);
                 switch (status) {
                     case 200:
@@ -67,6 +68,7 @@ public class NewStudentInputImpl implements INewStudentpresenter {
 
             @Override
             public void failure(RetrofitError error) {
+                ((JoinGameDetailActivity) context).dialogDissmiss();
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }

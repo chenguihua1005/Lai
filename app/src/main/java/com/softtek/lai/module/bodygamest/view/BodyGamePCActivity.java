@@ -142,6 +142,30 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
         studentImpl=new StudentImpl(this);
         retestPre=new RetestclassImp();
 
+        studentImpl.hasClass(new RequestCallback<ResponseData<HasClass>>() {
+            @Override
+            public void success(ResponseData<HasClass> hasClassResponseData, Response response) {
+                dialogDissmiss();
+                Log.i(hasClassResponseData.toString());
+                if(hasClassResponseData.getStatus()==200){
+                    if("1".equals(hasClassResponseData.getData().getIsHave()))
+                    {
+                        retestPre.doGetAudit(loginid,0,"");
+
+                    }else{
+
+                    }
+                }else{
+
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                super.failure(error);
+            }
+        });
+
 
     }
     @Subscribe
@@ -184,14 +208,14 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
         final int id=v.getId();
         if(id!=R.id.ll_st_saikuang&&id!=R.id.ll_st_tipst&&id!=R.id.ll_left){
             dialogShow("检查中...");
-            studentImpl.hasClass(new RequestCallback<ResponseData<HasClass>>() {
+            studentImpl.pcIsJoinClass(UserInfoModel.getInstance().getUser().getUserid(),new RequestCallback<ResponseData<HasClass>>() {
                 @Override
                 public void success(ResponseData<HasClass> hasClassResponseData, Response response) {
                     dialogDissmiss();
                     Log.i(hasClassResponseData.toString());
                     if(hasClassResponseData.getStatus()==200){
-                        if("1".equals(hasClassResponseData.getData().getIsHave())){
-                            retestPre.doGetAudit(loginid,0,"");
+                        if("1".equals(hasClassResponseData.getData().getIsHave()))
+                        {
                             doStartActivity(id);
 
                         }else{
