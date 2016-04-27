@@ -335,11 +335,12 @@ public class RetestclassImp implements RetestPre{
                 switch (status)
                 {
                     case 200:
-                        LaichModel laichModel= (LaichModel)laichModelResponseData.getData();
+                        LaichModel laichModel= laichModelResponseData.getData();
                         EventBus.getDefault().post(laichModel);
-//                        Util.toastMsg("成功");
-                        default:
-                            Util.toastMsg(laichModelResponseData.getMsg());
+                        break;
+                    default:
+                        Util.toastMsg(laichModelResponseData.getMsg());
+                        break;
                 }
 
             }
@@ -347,7 +348,6 @@ public class RetestclassImp implements RetestPre{
             @Override
             public void failure(RetrofitError error) {
                 ZillaApi.dealNetError(error);
-                error.printStackTrace();
             }
         });
 

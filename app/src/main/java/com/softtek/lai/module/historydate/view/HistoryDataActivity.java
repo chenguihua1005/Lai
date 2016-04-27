@@ -148,14 +148,14 @@ public class HistoryDataActivity extends BaseActivity implements AdapterView.OnI
             pageIndex=--pageIndex<1?1:pageIndex;
             return;
         }
+
         totalPage=Integer.parseInt(model.getTotalPage());
         List<HistoryData> datas=model.getHistoryList();
-        if(datas==null||datas.isEmpty()){
-            pageIndex=--pageIndex<1?1:pageIndex;
-            return;
-        }
         if(pageIndex==1){
             dataItemModels.clear();
+        }
+        if(datas.isEmpty()){
+            pageIndex=--pageIndex<1?1:pageIndex;
         }
         for(HistoryData data:model.getHistoryList()){
             dataItemModels.add(new HistoryDataItemModel(false,false,data));

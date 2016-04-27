@@ -81,7 +81,6 @@ public class HistoryDataAdapter extends BaseAdapter{
         });
         holder.cb_selecter.setChecked(model.isChecked());
         HistoryData data=model.getDataModel();
-        Log.i("标志="+data.getSourcetype());
         if("0".equals(data.getSourcetype())){
             //莱秤数据
             holder.icon.setBackground(ContextCompat.getDrawable(context,R.drawable.laichen));

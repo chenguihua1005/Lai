@@ -11,6 +11,14 @@ public class HistoryDataModel {
     private String TotalPage;
     private List<HistoryData> HistoryList;
 
+    public HistoryDataModel() {
+    }
+
+    public HistoryDataModel(String totalPage, List<HistoryData> historyList) {
+        TotalPage = totalPage;
+        HistoryList = historyList;
+    }
+
     public String getTotalPage() {
         return TotalPage;
     }
@@ -25,5 +33,13 @@ public class HistoryDataModel {
 
     public void setHistoryList(List<HistoryData> historyList) {
         HistoryList = historyList;
+    }
+
+    @Override
+    public String toString() {
+        return "HistoryDataModel{" +
+                "HistoryList=" + HistoryList +
+                ", TotalPage='" + TotalPage + '\'' +
+                '}';
     }
 }

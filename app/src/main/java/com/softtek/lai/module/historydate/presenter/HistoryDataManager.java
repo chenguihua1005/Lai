@@ -3,11 +3,13 @@ package com.softtek.lai.module.historydate.presenter;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.historydate.model.HistoryData;
 import com.softtek.lai.module.historydate.model.HistoryDataModel;
 import com.softtek.lai.module.historydate.model.ID;
 import com.softtek.lai.module.historydate.net.HistoryDataService;
 import com.softtek.lai.utils.RequestCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit.RetrofitError;
@@ -37,9 +39,12 @@ public class HistoryDataManager {
                 new RequestCallback<ResponseData<HistoryDataModel>>() {
                     @Override
                     public void success(ResponseData<HistoryDataModel> historyDataModelResponseData, Response response) {
+                        Log.i("历史数据"+historyDataModelResponseData);
                         if(historyDataModelResponseData.getStatus()==200){
                             cb.historyDataCallback(historyDataModelResponseData.getData());
-                        }else{
+                        }else if(historyDataModelResponseData.getStatus()==100){
+                            cb.historyDataCallback(new HistoryDataModel("0",new ArrayList<HistoryData>()));
+                        }else {
                             cb.historyDataCallback(null);
                         }
                     }

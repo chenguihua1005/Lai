@@ -179,6 +179,9 @@ public class HealthEntryActivity extends BaseActivity implements View.OnClickLis
     @Subscribe
     public void onEvent(RecordEvent recordEvent) {
         dialogDissmiss();
+        if(recordEvent.lastestRecordModel()==null){
+            return;
+        }
         lastestRecordModel = recordEvent.lastestRecordModel();
         tv_weight.setText(Float.parseFloat(lastestRecordModel.getWeight())+"");
         et_pysical.setText(Float.parseFloat(lastestRecordModel.getPysical())+"");
