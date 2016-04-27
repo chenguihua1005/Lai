@@ -322,6 +322,7 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
 
         if (requestCode == 1 && resultCode == RESULT_OK) {
             String classId = data.getExtras().getString("classId");//得到新Activity 关闭后返回的数据
+            System.out.println("classId");
             assistantPresenter.showAssistantByClass(userModel.getUserid(), classId, list_assistant);
         }
     }
