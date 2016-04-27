@@ -272,7 +272,7 @@
         <Button
             android:id="@+id/btn_finish"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="45dp"
             android:background="@drawable/bg_login_btn"
             android:text="完成"
             android:textColor="#FFFFFD"

@@ -1,7 +1,5 @@
-package com.softtek.lai.module.bodygame.view;
+package com.softtek.lai.module.tips.view;
 
-import android.content.DialogInterface;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;

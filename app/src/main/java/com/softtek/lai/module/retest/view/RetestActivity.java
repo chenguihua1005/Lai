@@ -2,6 +2,7 @@ package com.softtek.lai.module.retest.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,6 +17,7 @@ import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.retest.AuditActivity;
 import com.softtek.lai.module.retest.WriteActivity;
 import com.softtek.lai.module.retest.adapter.ClassAdapter;
@@ -349,7 +351,19 @@ public class  RetestActivity extends BaseActivity implements View.OnClickListene
         }
         return month;
     }
-
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            String type = getIntent().getStringExtra("type");
+            if ("0".equals(type)) {
+                startActivity(new Intent(this, HomeActviity.class));
+            } else {
+                finish();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -362,7 +376,12 @@ public class  RetestActivity extends BaseActivity implements View.OnClickListene
             break;
             case R.id.ll_left:
             {
-                finish();
+                String type = getIntent().getStringExtra("type");
+                if ("0".equals(type)) {
+                    startActivity(new Intent(this, HomeActviity.class));
+                } else {
+                    finish();
+                }
             }
             break;
 

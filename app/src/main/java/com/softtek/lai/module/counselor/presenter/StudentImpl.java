@@ -6,6 +6,7 @@
 package com.softtek.lai.module.counselor.presenter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -16,6 +17,8 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.counselor.adapter.InviteStudentAdapter;
 import com.softtek.lai.module.counselor.model.InviteStudentInfoModel;
 import com.softtek.lai.module.counselor.net.CounselorService;
+import com.softtek.lai.module.counselor.view.AssistantListActivity;
+import com.softtek.lai.module.counselor.view.InviteStudentActivity;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -80,6 +83,44 @@ public class StudentImpl implements IStudentPresenter {
                     case 200:
                         InviteStudentAdapter adapter = new InviteStudentAdapter(context, list);
                         list_student.setAdapter(adapter);
+                        break;
+                    default:
+                        Util.toastMsg(listResponseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
+            }
+        });
+    }
+
+    @Override
+    public void classInvitePCISOK(final String classid, final String type) {
+        String token = UserInfoModel.getInstance().getToken();
+        counselorService.classInvitePCISOK(token, classid, new Callback<ResponseData>() {
+            @Override
+            public void success(ResponseData listResponseData, Response response) {
+                Log.e("jarvis", listResponseData.toString());
+                int status = listResponseData.getStatus();
+                switch (status) {
+                    case 200:
+                        if ("0".equals(type)) {
+                            Intent intent = new Intent(context, AssistantListActivity.class);
+                            intent.putExtra("classId", Long.parseLong(classid));
+                            intent.putExtra("type", "1");
+                            context.startActivity(intent);
+                        } else {
+                            Intent intents = new Intent(context, InviteStudentActivity.class);
+                            intents.putExtra("classId", Long.parseLong(classid));
+                            context.startActivity(intents);
+                        }
+                        break;
+                    case 100:
+                        Util.toastMsg("该班级将结束，无法邀请");
                         break;
                     default:
                         Util.toastMsg(listResponseData.getMsg());

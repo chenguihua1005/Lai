@@ -72,6 +72,7 @@
 
         <activity
             android:name=".module.login.view.LoginActivity"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity android:name=".module.guide.GuideActivity">
             <intent-filter>
@@ -157,7 +158,7 @@
         <activity android:name=".module.bodygamest.view.PhotoDetailActivity" />
         <activity android:name=".module.studetail.view.LossWeightLogActivity" />
         <activity android:name=".module.studetail.view.LogDetailActivity" />
-        <activity android:name=".module.bodygame.view.TipsActivity" />
+        <activity android:name=".module.tips.view.TipsActivity" />
         <activity
             android:name="com.umeng.socialize.view.ShareActivity"
             android:configChanges="orientation|keyboard"

@@ -76,7 +76,7 @@ public class CounselorClassImpl implements ICounselorClassPresenter {
                             expand_lis.setVisibility(View.GONE);
                             img_mo_message.setVisibility(View.VISIBLE);
                         }
-                        if(Integer.parseInt(UserInfoModel.getInstance().getUser().getUserrole())== Constants.SR){
+                        if (Integer.parseInt(UserInfoModel.getInstance().getUser().getUserrole()) == Constants.SR) {
                             lin_create_class.setVisibility(View.GONE);
                             break;
                         }

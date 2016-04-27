@@ -26,6 +26,8 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.counselor.presenter.IStudentPresenter;
+import com.softtek.lai.module.counselor.presenter.StudentImpl;
 import com.softtek.lai.module.counselor.view.AssistantListActivity;
 import com.softtek.lai.module.counselor.view.InviteStudentActivity;
 import com.softtek.lai.module.grade.adapter.DynamicAdapter;
@@ -126,6 +128,7 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
 
     private ImageFileSelector imageFileSelector;
     private ImageCropper imageCropper;
+    private IStudentPresenter studentPresenter;
 
     @Override
     protected void initViews() {
@@ -160,6 +163,7 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
         classId = Long.parseLong(getIntent().getStringExtra("classId"));
         Log.i("classId="+classId);
         grade = new GradeImpl(this);
+        studentPresenter=new StudentImpl(this);
         progressDialog.show();
         grade.getGradeInfos(classId, progressDialog);
         adapter = new DynamicAdapter(this, dynamicInfos);
@@ -216,16 +220,11 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
                 startActivity(tutorIntent);
                 break;
             case R.id.ll_invite_tutor:
-                Intent intent = new Intent(this, AssistantListActivity.class);
-                intent.putExtra("classId", classId);
-                intent.putExtra("type", "1");
-                startActivity(intent);
+                studentPresenter.classInvitePCISOK(classId+"","0");
                 //邀请助教按钮
                 break;
             case R.id.ll_invite_student:
-                Intent intents = new Intent(this, InviteStudentActivity.class);
-                intents.putExtra("classId", classId);
-                startActivity(intents);
+                studentPresenter.classInvitePCISOK(classId+"","1");
                 //邀请学员按钮
                 break;
             case R.id.ll_send_dynamic:

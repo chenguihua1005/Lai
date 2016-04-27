@@ -83,8 +83,9 @@ public class SelectPhotoActivity extends BaseActivity implements View.OnClickLis
         pull_refresh_grid.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<GridView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<GridView> refreshView) {
-                pageIndex = 1;
-                photoListPre.getUploadPhoto(id, pageIndex + "");
+//                pageIndex = 1;
+//                photoListPre.getUploadPhoto(id, pageIndex + "");
+                pull_refresh_grid.onRefreshComplete();
             }
 
             @Override
@@ -168,9 +169,9 @@ public class SelectPhotoActivity extends BaseActivity implements View.OnClickLis
                     }
                 }
                 System.out.println("str:" + str);
-                if("".equals(str)){
+                if ("".equals(str)) {
                     Util.toastMsg("您还未选择照片");
-                }else {
+                } else {
                     Intent intent = new Intent();
                     //把返回数据存入Intent
                     intent.putExtra("result", str);

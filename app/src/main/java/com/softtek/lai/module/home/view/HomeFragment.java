@@ -358,10 +358,14 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
             Util.toastMsg("受邀普通顾客");
         } else if (role == Constants.PC) {
             //直接进入踢馆赛学员版
-            startActivity(new Intent(getContext(), BodyGamePCActivity.class));
+            Intent intent=new Intent(getContext(), BodyGamePCActivity.class);
+            intent.putExtra("type","1");
+            startActivity(intent);
         } else if (role == Constants.SR) {
             //进入踢馆赛助教版
-            startActivity(new Intent(getContext(), BodygameSRActivity.class));
+            Intent intent=new Intent(getContext(), BodygameSRActivity.class);
+            intent.putExtra("type","1");
+            startActivity(intent);
         } else if (role == Constants.SP) {
             //进入踢馆赛顾问版
             startActivity(new Intent(getContext(), CounselorActivity.class));

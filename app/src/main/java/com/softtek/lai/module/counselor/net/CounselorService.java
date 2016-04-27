@@ -22,6 +22,11 @@ public interface CounselorService {
                           @Query("ClassId") String classId,
                           Callback<ResponseData<List<AssistantModel>>> callback);
 
+    @GET("/HerbrClass/ClassInvitePCISOK")
+    void classInvitePCISOK(@Header("token") String token,
+                          @Query("ClassId") String classId,
+                          Callback<ResponseData> callback);
+
     @FormUrlEncoded
     @POST("/HerbrClass/SendInviterSR")
     void sendInviterSR(@Header("token") String token,

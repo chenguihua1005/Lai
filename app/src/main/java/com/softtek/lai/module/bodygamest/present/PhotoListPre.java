@@ -10,4 +10,5 @@ public interface PhotoListPre {
     void doUploadPhoto(String AccountId,String filePath, ProgressDialog loadingDialog);
     void getUploadPhoto(String AccountId,String pageIndex);
     void getUserPhotos(String photoName);
+    void getLossData(String accountId);
 }
