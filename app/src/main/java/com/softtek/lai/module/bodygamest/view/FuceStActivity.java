@@ -50,6 +50,7 @@ import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileCropSelector;
 import com.sw926.imagefileselector.ImageFileSelector;
 
+import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -159,15 +160,15 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     @Subscribe
     public void event(LaichModel laichModel){
 
-        tv_retestWrites_nowweight.setText(Float.parseFloat(laichModel.getWeight())+"");
-        tv_retestWritest_tizhi.setText(Float.parseFloat(laichModel.getPysical())+"");
-        tv_retestWritest_neizhi.setText(Float.parseFloat(laichModel.getFat())+"");
-        retestWrite.setCircum(Float.parseFloat(laichModel.getCircum())+"");
-        retestWrite.setWaistline(Float.parseFloat(laichModel.getWaistline())+"");
-        retestWrite.setHiplie(Float.parseFloat(laichModel.getHiplie())+"");
-        retestWrite.setUpArmGirth(Float.parseFloat(laichModel.getUpArmGirth())+"");
-        retestWrite.setUpLegGirth(Float.parseFloat(laichModel.getUpLegGirth())+"");
-        retestWrite.setDoLegGirth(Float.parseFloat(laichModel.getDoLegGirth())+"");
+        tv_retestWrites_nowweight.setText(StringUtils.isEmpty(laichModel.getWeight())?"":Float.parseFloat(laichModel.getWeight())+"");
+        tv_retestWritest_tizhi.setText(StringUtils.isEmpty(laichModel.getPysical())?"":Float.parseFloat(laichModel.getPysical())+"");
+        tv_retestWritest_neizhi.setText(StringUtils.isEmpty(laichModel.getFat())?"":Float.parseFloat(laichModel.getFat())+"");
+        retestWrite.setCircum(StringUtils.isEmpty(laichModel.getCircum())?"":Float.parseFloat(laichModel.getCircum())+"");
+        retestWrite.setWaistline(StringUtils.isEmpty(laichModel.getWaistline())?"":Float.parseFloat(laichModel.getWaistline())+"");
+        retestWrite.setHiplie(StringUtils.isEmpty(laichModel.getHiplie())?"":Float.parseFloat(laichModel.getHiplie())+"");
+        retestWrite.setUpArmGirth(StringUtils.isEmpty(laichModel.getUpArmGirth())?"":Float.parseFloat(laichModel.getUpArmGirth())+"");
+        retestWrite.setUpLegGirth(StringUtils.isEmpty(laichModel.getUpLegGirth())?"":Float.parseFloat(laichModel.getUpLegGirth())+"");
+        retestWrite.setDoLegGirth(StringUtils.isEmpty(laichModel.getDoLegGirth())?"":Float.parseFloat(laichModel.getDoLegGirth())+"");
     }
     @Override
     protected void initViews() {
@@ -219,7 +220,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
             case R.id.ll_fucest_chu_weight:
                 if (isState.equals("true")) {
                     if (retestAuditModel.getIsFirst() == "true") {
-                        show_information("初始体重（斤）", 200, 70, 20, 9, 5, 0, 0);
+                        show_information("初始体重（斤）", 400, 100, 20, 9, 5, 0, 0);
                     } else {
                         Util.toastMsg("您不是第一次参加班级，不能修改初始体重");
                     }
@@ -227,7 +228,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
                 break;
             case R.id.ll_fucest_nowweight:
                 if (isState.equals("true")) {
-                    show_information("现在体重（斤）", 200, 70, 20, 9, 5, 0, 1);
+                    show_information("现在体重（斤）", 400, 100, 20, 9, 5, 0, 1);
                 }
                 break;
             case R.id.ll_fucest_tizhi:
