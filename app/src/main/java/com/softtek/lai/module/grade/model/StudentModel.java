@@ -26,15 +26,15 @@ public class StudentModel{
     //按照学员腰围排序
     private String WaistlineAfter = "0";
     private String Waistlinebefor = "0";
-    private String Lossline;
+    private String lossline;
     private String Photo;
 
     public String getLossline() {
-        return Lossline;
+        return lossline;
     }
 
     public void setLossline(String lossline) {
-        this.Lossline = lossline;
+        this.lossline = lossline;
     }
 
     public String getPhoto() {
@@ -137,7 +137,7 @@ public class StudentModel{
     public String toString() {
         return "StudentModel{" +
                 "AccountId=" + AccountId +
-                ", ClassIdModel=" + ClassId +
+                ", ClassId=" + ClassId +
                 ", OrderNum=" + OrderNum +
                 ", UserName='" + UserName + '\'' +
                 ", LossAfter='" + LossAfter + '\'' +
@@ -147,6 +147,8 @@ public class StudentModel{
                 ", Pysical='" + Pysical + '\'' +
                 ", WaistlineAfter='" + WaistlineAfter + '\'' +
                 ", Waistlinebefor='" + Waistlinebefor + '\'' +
+                ", Lossline='" + lossline + '\'' +
+                ", Photo='" + Photo + '\'' +
                 '}';
     }
 }

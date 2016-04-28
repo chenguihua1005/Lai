@@ -202,7 +202,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
-                            android:text="0.0kg"
+                            android:text="0.0斤"
                             android:textColor="#76BA2A"
                             android:textSize="18dp" />
                     </LinearLayout>
@@ -270,7 +270,7 @@
                                     android:gravity="bottom"
                                     android:paddingBottom="5dp"
                                     android:paddingLeft="4dp"
-                                    android:text="0.0kg"
+                                    android:text="0.0斤"
                                     android:textColor="@color/white"
                                     android:textStyle="bold" />
 
@@ -284,7 +284,7 @@
                                     android:gravity="bottom|right"
                                     android:paddingBottom="5dp"
                                     android:paddingRight="4dp"
-                                    android:text="0.0kg"
+                                    android:text="0.0斤"
                                     android:textColor="@color/white"
                                     android:textStyle="bold" />
 

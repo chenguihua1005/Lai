@@ -19,5 +19,6 @@ public interface TipService {
     //获取健康咨询
     @GET("/HerbTips/GetTipsList")
     void getTipList(@Query("tipstype")String tipType,
+                    @Query("pageIndex")int pageIndex,
                     RequestCallback<ResponseData<AskHealthyResponseModel>> callback);
 }
