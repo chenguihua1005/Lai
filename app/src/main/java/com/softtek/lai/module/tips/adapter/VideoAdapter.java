@@ -57,22 +57,21 @@ public class VideoAdapter extends BaseAdapter{
             holder= (ViewHolder) convertView.getTag();
         }
         AskHealthyModel model=models.get(position);
-        holder.tv_title.setText(model.getImg_Title());
-        //holder.tv_content.setText(model.getImg_Content());
-        if(StringUtils.isNotEmpty(model.getImg_Addr())){
-            Picasso.with(context).load(AddressManager.get("photoHost")+model.getImg_Addr()).fit().placeholder(R.drawable.default_pic)
+        holder.tv_title.setText(model.getTips_Title());
+        /*if(StringUtils.isNotEmpty(model.getTips_Addr())){
+            Picasso.with(context).load(AddressManager.get("photoHost")+model.getTips_Addr()).fit().placeholder(R.drawable.default_pic)
                     .error(R.drawable.default_pic).into(holder.iv_video_image);
-        }
+        }*/
         return convertView;
     }
 
     static class ViewHolder{
-        public TextView tv_title,tv_time;
+        public TextView tv_title/*,tv_time*/;
         public ImageView iv_video_image;
 
         public ViewHolder(View view){
             tv_title= (TextView) view.findViewById(R.id.tv_title);
-            tv_time= (TextView) view.findViewById(R.id.tv_time);
+            //tv_time= (TextView) view.findViewById(R.id.tv_time);
             iv_video_image= (ImageView) view.findViewById(R.id.iv_video_image);
         }
     }

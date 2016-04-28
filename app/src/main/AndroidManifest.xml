@@ -185,13 +185,16 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity android:name=".module.community.view.EditPersonalDynamicActivity" />
         <activity android:name=".module.lossweightstory.view.LogStoryDetailActivity" />
-        <activity android:name=".module.healthrecords.view.HealthEntryActivity"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:name=".module.healthrecords.view.HealthEntryActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".module.community.view.PreviewImageActivity" />
-        <activity android:name=".module.community.view.HealthyDetailActivity"/>
-       <!-- <activity
+        <activity android:name=".module.community.view.HealthyDetailActivity" />
+        <!--
+            <activity
             android:name="com.yalantis.ucrop.UCropActivity"
-            android:screenOrientation="portrait"/>-->
+            android:screenOrientation="portrait"/>
+        -->
         <!-- Rich push 核心功能 since 2.0.6 -->
         <activity
             android:name="cn.jpush.android.ui.PopWinActivity"
@@ -304,7 +307,8 @@
             android:value="f332885d101702ebad1cc671" />
         <!-- </>值来自开发者平台取得的AppKey -->
         <activity android:name=".module.historydate.view.HistoryDataActivity" />
-        <activity android:name=".module.historydate.view.HistoryDataDetailActivity"></activity>
+        <activity android:name=".module.historydate.view.HistoryDataDetailActivity" />
+        <activity android:name=".module.tips.view.VideoViewActivity"></activity>
     </application>
 
 </manifest>

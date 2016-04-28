@@ -65,13 +65,13 @@ public class FatAdapter extends BaseAdapter {
             holder = (PhysicalHolder) convertView.getTag();
         }
         StudentModel studentModel = students.get(position);
-        holder.tv_order.setText(studentModel.getOrderNum()+"");
         int order = studentModel.getOrderNum();
+        holder.tv_order.setText(order+"");
         if (order == 1 || order == 2 || order == 3) {
             holder.tv_order.setTextColor(Color.parseColor("#FDB02B"));
         }
-        holder.tv_py_before.setText("前 " + studentModel.getLossBefor() + "%");
-        holder.tv_py_after.setText("后 " + studentModel.getLossAfter() + "%");
+        holder.tv_py_before.setText("前 " + studentModel.getLossBefor() + "斤");
+        holder.tv_py_after.setText("后 " + studentModel.getLossAfter() + "斤");
         holder.tv_name.setText(studentModel.getUserName());
         holder.tv_physical.setText(studentModel.getPysical());
         if (!"".equals(studentModel.getPhoto()) && null != studentModel.getPhoto()) {

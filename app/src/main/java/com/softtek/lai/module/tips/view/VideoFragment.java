@@ -1,8 +1,13 @@
 package com.softtek.lai.module.tips.view;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Handler;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.github.snowdream.android.util.Log;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
@@ -16,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 /**
@@ -23,7 +29,7 @@ import zilla.libcore.ui.InjectLayout;
  */
 @InjectLayout(R.layout.fragment_healthy_ask)
 public class VideoFragment extends BaseFragment implements
-        PullToRefreshBase.OnRefreshListener2<ListView>,VideoManager.VideoManagerCallback{
+        PullToRefreshBase.OnRefreshListener2<ListView>,VideoManager.VideoManagerCallback,AdapterView.OnItemClickListener{
 
     @InjectView(R.id.ptrlv)
     PullToRefreshListView ptrlv;
@@ -37,6 +43,8 @@ public class VideoFragment extends BaseFragment implements
     @Override
     protected void initViews() {
         ptrlv.setOnRefreshListener(this);
+        ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
+        ptrlv.setOnItemClickListener(this);
     }
 
     @Override
@@ -47,7 +55,8 @@ public class VideoFragment extends BaseFragment implements
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                ptrlv.setRefreshing();
+                if(ptrlv!=null)
+                    ptrlv.setRefreshing();
             }
         },500);
 
@@ -94,5 +103,16 @@ public class VideoFragment extends BaseFragment implements
         }
         modelList.addAll(model.getTipsList());
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        AskHealthyModel model=modelList.get(position-1);
+        Log.i("视频地址="+AddressManager.get("photoHost")+model.getTips_Addr());
+        //"http://flv.bitauto.com/2014/2015/11/16/25f0fc93ee67761b-sd.mp4"
+        Uri uri=Uri.parse(AddressManager.get("photoHost")+model.getTips_Addr());
+        Intent intent=new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(uri,"video/*");
+        startActivity(intent);
     }
 }

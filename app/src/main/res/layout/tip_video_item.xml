@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:src="@drawable/play"/>
-        <TextView
+       <!-- <TextView
             android:id="@+id/tv_time"
             android:layout_width="53dp"
             android:layout_height="26dp"
@@ -28,7 +28,7 @@
             android:background="#7F000000"
             android:textColor="@color/white"
             android:textSize="13sp"
-            android:text="03:22"/>
+            android:text="03:22"/>-->
     </FrameLayout>
     <TextView
         android:id="@+id/tv_title"
