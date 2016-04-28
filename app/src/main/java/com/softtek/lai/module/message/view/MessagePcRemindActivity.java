@@ -71,10 +71,12 @@ public class MessagePcRemindActivity extends BaseActivity implements View.OnClic
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 messageDetailInfo = listPc.get(position);
-                String msg_type=messageDetailInfo.getMsgType();
-                if("0".equals(msg_type)){
+                String msg_type = messageDetailInfo.getMsgType();
+                if ("0".equals(msg_type)) {
+                    dialogShow("加载中");
                     messagePresenter.upReadTime("4", messageDetailInfo.getInviterId(), messageDetailInfo.getSenderId(), messageDetailInfo.getClassId());
-                }else{
+                } else {
+                    dialogShow("加载中");
                     messagePresenter.delNoticeOrMeasureMsg(messageDetailInfo.getMessageId());
                 }
             }
@@ -98,7 +100,7 @@ public class MessagePcRemindActivity extends BaseActivity implements View.OnClic
 
     @Override
     protected void initViews() {
-        tv_title.setText(R.string.message3);
+        tv_title.setText(R.string.message1);
         //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
     }
 

@@ -171,6 +171,7 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
                 ImageView imageView = (ImageView) view.findViewById(R.id.img);
                 imageView.setImageDrawable(getResources().getDrawable(R.drawable.img_selceted));
                 assistantClassInfo = list_ac.get(position);
+                dialogShow("加载中");
                 assistantPresenter.showAssistantByClass(userModel.getUserid(), assistantClassInfo.getClassId(), list_assistant);
             }
         });
@@ -238,7 +239,9 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
 
         userModel = (UserModel) aCache.getAsObject(Constants.USER_ACACHE_KEY);
         String id = userModel.getUserid();
+        dialogShow("加载中");
         assistantPresenter.showAllApplyAssistants(id, list_apply);
+        dialogShow("加载中");
         assistantPresenter.showAllClassList(userModel.getUserid(), list_class);
 
     }
@@ -323,6 +326,7 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
         if (requestCode == 1 && resultCode == RESULT_OK) {
             String classId = data.getExtras().getString("classId");//得到新Activity 关闭后返回的数据
             System.out.println("classId");
+            dialogShow("加载中");
             assistantPresenter.showAssistantByClass(userModel.getUserid(), classId, list_assistant);
         }
     }

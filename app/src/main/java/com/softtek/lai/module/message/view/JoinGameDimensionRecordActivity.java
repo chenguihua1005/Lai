@@ -233,7 +233,7 @@ public class JoinGameDimensionRecordActivity extends BaseActivity implements OnC
         np1.setMaxValue(220);
         np1.setValue(90);
         np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-        np1.setMinValue(50);
+        np1.setMinValue(0);
         np1.setWrapSelectorWheel(false);
         np2.setMaxValue(9);
         np2.setValue(0);
@@ -262,7 +262,7 @@ public class JoinGameDimensionRecordActivity extends BaseActivity implements OnC
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
         np1.setMaxValue(220);
         np1.setValue(90);
-        np1.setMinValue(50);
+        np1.setMinValue(0);
         np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np1.setWrapSelectorWheel(false);
         np2.setMaxValue(9);
@@ -292,7 +292,7 @@ public class JoinGameDimensionRecordActivity extends BaseActivity implements OnC
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
         np1.setMaxValue(220);
         np1.setValue(90);
-        np1.setMinValue(50);
+        np1.setMinValue(0);
         np1.setWrapSelectorWheel(false);
         np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
@@ -322,7 +322,7 @@ public class JoinGameDimensionRecordActivity extends BaseActivity implements OnC
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
         np1.setMaxValue(220);
         np1.setValue(90);
-        np1.setMinValue(50);
+        np1.setMinValue(0);
         np1.setWrapSelectorWheel(false);
         np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
@@ -383,7 +383,7 @@ public class JoinGameDimensionRecordActivity extends BaseActivity implements OnC
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
         np1.setMaxValue(220);
         np1.setValue(90);
-        np1.setMinValue(50);
+        np1.setMinValue(0);
         np1.setWrapSelectorWheel(false);
         np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);

@@ -72,6 +72,7 @@ public class MessageFcRemindActivity extends BaseActivity implements View.OnClic
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 measureRemindInfo = listRemind.get(position);
+                dialogShow("加载中");
                 messagePresenter.delNoticeOrMeasureMsg(measureRemindInfo.getMessageId());
             }
         });

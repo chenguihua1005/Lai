@@ -285,6 +285,7 @@ public class CreateCounselorClassActivity extends BaseActivity implements View.O
             System.out.println("--------end_time-------:" + sdf.format(end_time));
             System.out.println("--------start_time-------:" + sdf.format(start_time));
             UserModel userModel = (UserModel) aCache.getAsObject(Constants.USER_ACACHE_KEY);
+            dialogShow("加载中");
             counselorClassPresenter.createClass(edit_class_name.getText().toString(), sdf.format(start_time), sdf.format(end_time), userModel.getUserid());
         }
     }

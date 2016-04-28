@@ -14,6 +14,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
+import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.counselor.presenter.AssistantImpl;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 import com.softtek.lai.module.message.model.MessageDetailInfo;
@@ -26,13 +27,13 @@ import java.util.ArrayList;
 public class MessageRemoveSrRemindAdapter extends BaseAdapter {
     private LayoutInflater mInflater;//得到一个LayoutInfalter对象用来导入布局
     private ArrayList<MessageDetailInfo> list;
-    private Context context;
+    private BaseActivity context;
     private IAssistantPresenter assistantPresenter;
 
     /**
      * 构造函数
      */
-    public MessageRemoveSrRemindAdapter(Context context, ArrayList<MessageDetailInfo> list) {
+    public MessageRemoveSrRemindAdapter(BaseActivity context, ArrayList<MessageDetailInfo> list) {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
         this.list = list;
@@ -84,7 +85,14 @@ public class MessageRemoveSrRemindAdapter extends BaseAdapter {
             holder.text_time.setText("");
         }
         if(!"".equals(messageDetailInfo.getComments())){
-            holder.text_value.setText(messageDetailInfo.getComments());
+           String msg_type = messageDetailInfo.getMsgType();
+            if ("1".equals(msg_type)) {
+                String comments = messageDetailInfo.getComments();
+                String[] str = comments.split("\\|");
+                holder.text_value.setText(str[2]);
+            } else {
+                holder.text_value.setText(messageDetailInfo.getComments());
+            }
         }else {
             holder.text_value.setText("");
         }
