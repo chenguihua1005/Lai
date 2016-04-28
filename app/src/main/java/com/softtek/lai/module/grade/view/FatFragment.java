@@ -8,7 +8,6 @@ package com.softtek.lai.module.grade.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -17,17 +16,12 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
-import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.grade.adapter.FatAdapter;
-import com.softtek.lai.module.grade.eventModel.LossWeightEvent;
 import com.softtek.lai.module.grade.model.StudentModel;
-import com.softtek.lai.module.grade.presenter.GradeImpl;
+import com.softtek.lai.module.grade.presenter.FatManager;
 import com.softtek.lai.module.grade.presenter.IGrade;
+import com.softtek.lai.module.grade.presenter.StudentListCallback;
 import com.softtek.lai.module.studetail.view.StudentDetailActivity;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,14 +37,13 @@ import zilla.libcore.ui.InjectLayout;
  */
 @InjectLayout(R.layout.fragment_loss_weight)
 public class FatFragment extends BaseFragment implements PullToRefreshBase.OnRefreshListener<ListView>,
-        AdapterView.OnItemClickListener {
+        AdapterView.OnItemClickListener,StudentListCallback {
 
 
     @InjectView(R.id.ptrlv)
     PullToRefreshListView ptrlv;
 
-    private IGrade grade;
-
+    private FatManager manager;
     private List<StudentModel> studentModels = new ArrayList<>();
     private FatAdapter adapter;
 
@@ -83,7 +76,7 @@ public class FatFragment extends BaseFragment implements PullToRefreshBase.OnRef
     protected void initDatas() {
         classId=getArguments().getString("classId");
         review_flag=getArguments().getString("review");
-        grade = new GradeImpl();
+        manager=new FatManager(this);
         adapter = new FatAdapter(getContext(), studentModels);
         ptrlv.setAdapter(adapter);
         ptrlv.setOnRefreshListener(this);
@@ -97,28 +90,9 @@ public class FatFragment extends BaseFragment implements PullToRefreshBase.OnRef
         }, 500);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onUpdateListView(LossWeightEvent event) {
-        this.studentModels.clear();
-        this.studentModels.addAll(event.getStudents());
-        adapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    public void onDestroy() {
-        EventBus.getDefault().unregister(this);
-        super.onDestroy();
-    }
-
     @Override
     public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-        grade.getStudentList(Constants.PHYSIQUE, classId, ptrlv);
+        manager.loadFat(classId);
     }
 
     @Override
@@ -129,5 +103,16 @@ public class FatFragment extends BaseFragment implements PullToRefreshBase.OnRef
         intent.putExtra("classId",studentModel.getClassId());
         intent.putExtra("review",review_flag);
         startActivity(intent);
+    }
+
+    @Override
+    public void updataData(List<StudentModel> models) {
+        ptrlv.onRefreshComplete();
+        if(models==null||models.isEmpty()){
+            return;
+        }
+        this.studentModels.clear();
+        this.studentModels.addAll(models);
+        adapter.notifyDataSetChanged();
     }
 }

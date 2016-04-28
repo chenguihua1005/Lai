@@ -36,7 +36,8 @@ public class TipsActivity extends BaseActivity implements View.OnClickListener,B
 
     private List<Fragment> fragments=new ArrayList<>();
     private TipsFragmentAdapter adapter;
-
+    private HealthyAskFragment askFragment;
+    VideoFragment videoFragment;
     @Override
     protected void initViews() {
         ll_left.setOnClickListener(this);
@@ -45,8 +46,8 @@ public class TipsActivity extends BaseActivity implements View.OnClickListener,B
     @Override
     protected void initDatas() {
         tv_title.setText("TIPS");
-        HealthyAskFragment askFragment=new HealthyAskFragment();
-        VideoFragment videoFragment=new VideoFragment();
+        askFragment=new HealthyAskFragment();
+        videoFragment=new VideoFragment();
         fragments.add(askFragment);
         fragments.add(videoFragment);
         adapter=new TipsFragmentAdapter(getSupportFragmentManager(),fragments);
