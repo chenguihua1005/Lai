@@ -29,7 +29,7 @@ public class RetestWriteModel implements Serializable{
     }
 
     public String getWeight() {
-        return weight;
+        return weight==null?"":weight;
     }
 
     public void setWeight(String weight) {
@@ -37,7 +37,7 @@ public class RetestWriteModel implements Serializable{
     }
 
     public String getPysical() {
-        return pysical;
+        return pysical==null?"":pysical;
     }
 
     public void setPysical(String pysical) {
@@ -45,7 +45,7 @@ public class RetestWriteModel implements Serializable{
     }
 
     public String getFat() {
-        return fat;
+        return fat==null?"":fat;
     }
 
     public void setFat(String fat) {
@@ -53,7 +53,7 @@ public class RetestWriteModel implements Serializable{
     }
 
     public String getCircum() {
-        return circum;
+        return circum==null?"":circum;
     }
 
     public void setCircum(String circum) {
@@ -61,7 +61,7 @@ public class RetestWriteModel implements Serializable{
     }
 
     public String getWaistline() {
-        return waistline;
+        return waistline==null?"":waistline;
     }
 
     public void setWaistline(String waistline) {
@@ -69,7 +69,7 @@ public class RetestWriteModel implements Serializable{
     }
 
     public String getHiplie() {
-        return hiplie;
+        return hiplie==null?"":hiplie;
     }
 
     public void setHiplie(String hiplie) {
@@ -77,7 +77,7 @@ public class RetestWriteModel implements Serializable{
     }
 
     public String getUpArmGirth() {
-        return upArmGirth;
+        return upArmGirth==null?"":upArmGirth;
     }
 
     public void setUpArmGirth(String upArmGirth) {
@@ -85,7 +85,7 @@ public class RetestWriteModel implements Serializable{
     }
 
     public String getUpLegGirth() {
-        return upLegGirth;
+        return upLegGirth==null?"":upLegGirth;
     }
 
     public void setUpLegGirth(String upLegGirth) {
@@ -93,7 +93,7 @@ public class RetestWriteModel implements Serializable{
     }
 
     public String getDoLegGirth() {
-        return doLegGirth;
+        return doLegGirth==null?"":doLegGirth;
     }
 
     public void setDoLegGirth(String doLegGirth) {

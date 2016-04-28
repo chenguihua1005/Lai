@@ -121,7 +121,9 @@ public class ActivityRecordFragment extends BaseFragment implements PullToRefres
     public void updateInfo(List<HomeInfoModel> records){
         infos.clear();
         infos.addAll(records);
-        adapter.notifyDataSetChanged();
+        if(adapter!=null){
+            adapter.notifyDataSetChanged();
+        }
     }
 
 }

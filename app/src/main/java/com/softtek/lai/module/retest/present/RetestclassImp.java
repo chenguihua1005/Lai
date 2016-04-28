@@ -263,7 +263,7 @@ public class RetestclassImp implements RetestPre{
         service.goGetPicture(token, new TypedFile("image/png", new File(filePath)), new Callback<ResponseData<PhotModel>>() {
             @Override
             public void success(ResponseData<PhotModel> photResponseData, Response response) {
-
+                Log.i(">>>>>>>>>>>>>>>>>>>>>>>>>>>>"+photResponseData.getData().getImg());
                 int status=photResponseData.getStatus();
                 switch (status) {
                     case 200:

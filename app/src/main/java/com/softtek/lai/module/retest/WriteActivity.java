@@ -48,6 +48,7 @@ import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileCropSelector;
 
 
+import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -217,15 +218,15 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
     @Subscribe
     public void event(LaichModel laichModel){
         Log.i("username"+laichModel.getCircum());
-        tv_retestWrite_nowweight.setText(Float.parseFloat(laichModel.getWeight())+"");
-        tv_retestWrite_tizhi.setText(Float.parseFloat(laichModel.getPysical())+"");
-        tv_retestWrite_neizhi.setText(Float.parseFloat(laichModel.getFat())+"");
-        retestWrite.setCircum(Float.parseFloat(laichModel.getCircum())+"");
-        retestWrite.setWaistline(Float.parseFloat(laichModel.getWaistline())+"");
-        retestWrite.setHiplie(Float.parseFloat(laichModel.getHiplie())+"");
-        retestWrite.setUpArmGirth(Float.parseFloat(laichModel.getUpArmGirth())+"");
-        retestWrite.setUpLegGirth(Float.parseFloat(laichModel.getUpLegGirth())+"");
-        retestWrite.setDoLegGirth(Float.parseFloat(laichModel.getDoLegGirth())+"");
+        tv_retestWrite_nowweight.setText(StringUtils.isEmpty(laichModel.getWeight())?"":Float.parseFloat(laichModel.getWeight())+"");
+        tv_retestWrite_tizhi.setText(StringUtils.isEmpty(laichModel.getPysical())?"":Float.parseFloat(laichModel.getPysical())+"");
+        tv_retestWrite_neizhi.setText(StringUtils.isEmpty(laichModel.getFat())?"":Float.parseFloat(laichModel.getFat())+"");
+        retestWrite.setCircum(StringUtils.isEmpty(laichModel.getCircum())?"":Float.parseFloat(laichModel.getCircum())+"");
+        retestWrite.setWaistline(StringUtils.isEmpty(laichModel.getWaistline())?"":Float.parseFloat(laichModel.getWaistline())+"");
+        retestWrite.setHiplie(StringUtils.isEmpty(laichModel.getHiplie())?"":Float.parseFloat(laichModel.getHiplie())+"");
+        retestWrite.setUpArmGirth(StringUtils.isEmpty(laichModel.getUpArmGirth())?"":Float.parseFloat(laichModel.getUpArmGirth())+"");
+        retestWrite.setUpLegGirth(StringUtils.isEmpty(laichModel.getUpLegGirth())?"":Float.parseFloat(laichModel.getUpLegGirth())+"");
+        retestWrite.setDoLegGirth(StringUtils.isEmpty(laichModel.getDoLegGirth())?"":Float.parseFloat(laichModel.getDoLegGirth())+"");
     }
     @Subscribe
     public void doGetPhoto(PhotModel photModel) {

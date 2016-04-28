@@ -115,12 +115,12 @@ public class BodyweidustActivity extends BaseActivity implements View.OnClickLis
         {
             btn_retest_save.setVisibility(View.GONE);
         }
-        tv_retest_circum.setText(Float.parseFloat(retestWrite.getCircum())+"");
-        tv_retest_waistline.setText(Float.parseFloat(retestWrite.getWaistline())+"");
-        tv_retest_hiplie.setText(Float.parseFloat(retestWrite.getHiplie())+"");
-        tv_retest_uparmgirth.setText(Float.parseFloat(retestWrite.getUpArmGirth())+"");
-        tv_retest_upleggirth.setText(Float.parseFloat(retestWrite.getUpArmGirth())+"");
-        tv_retest_doleggirth.setText(Float.parseFloat(retestWrite.getDoLegGirth())+"");
+        tv_retest_circum.setText(retestWrite.getCircum().equals("")?"":Float.parseFloat(retestWrite.getCircum())+"");
+        tv_retest_waistline.setText(retestWrite.getWaistline().equals("")?"":Float.parseFloat(retestWrite.getWaistline())+"");
+        tv_retest_hiplie.setText(retestWrite.getHiplie().equals("")?"":Float.parseFloat(retestWrite.getHiplie())+"");
+        tv_retest_uparmgirth.setText(retestWrite.getUpArmGirth().equals("")?"":Float.parseFloat(retestWrite.getUpArmGirth())+"");
+        tv_retest_upleggirth.setText(retestWrite.getUpLegGirth().equals("")?"":Float.parseFloat(retestWrite.getUpLegGirth())+"");
+        tv_retest_doleggirth.setText(retestWrite.getDoLegGirth().equals("")?"":Float.parseFloat(retestWrite.getDoLegGirth())+"");
 
 
     }

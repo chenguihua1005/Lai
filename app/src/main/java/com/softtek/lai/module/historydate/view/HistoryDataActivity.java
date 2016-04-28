@@ -2,6 +2,7 @@ package com.softtek.lai.module.historydate.view;
 
 import android.content.Intent;
 import android.os.Handler;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
@@ -94,6 +95,7 @@ public class HistoryDataActivity extends BaseActivity implements AdapterView.OnI
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ll_left:
+                setResult(RESULT_OK,getIntent());
                 finish();
                 break;
             case R.id.fl_right:
@@ -211,5 +213,15 @@ public class HistoryDataActivity extends BaseActivity implements AdapterView.OnI
                 }
             }, 300);
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            setResult(RESULT_OK,getIntent());
+            finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
