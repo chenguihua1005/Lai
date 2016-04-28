@@ -404,7 +404,7 @@ public class LegFragment extends BaseFragment implements RadioGroup.OnCheckedCha
                         days.add(formyeardate(yeardate1));
                         days.add(formyeardate(yeardate2));
                         days.add(formyeardate(yeardate3));
-                        days.add(formyeardate(yeardate4)+"/t");
+                        days.add(formyeardate(yeardate4)+"     /");
                         progressDialog.show();
                         healthRecordManager.doGetHealthupLegGirthRecords(getDateform(yeardate4),getDateform(yeardate0),4);
                         n=n+4;
@@ -518,7 +518,7 @@ public class LegFragment extends BaseFragment implements RadioGroup.OnCheckedCha
                         days.add(formyeardate(yeardate1));
                         days.add(formyeardate(yeardate2));
                         days.add(formyeardate(yeardate3));
-                        days.add(formyeardate(yeardate4)+"/t");
+                        days.add(formyeardate(yeardate4)+"     /");
                         progressDialog.show();
                         healthRecordManager.doGetHealthupLegGirthRecords(getDateform(yeardate4),getDateform(yeardate0),4);
                         bt_right.setVisibility(View.VISIBLE);
@@ -610,7 +610,7 @@ public class LegFragment extends BaseFragment implements RadioGroup.OnCheckedCha
                 days.add(formyeardate(yeardate1));
                 days.add(formyeardate(yeardate2));
                 days.add(formyeardate(yeardate3));
-                days.add(formyeardate(yeardate4)+"/t");
+                days.add(formyeardate(yeardate4)+"     /");
                 progressDialog.show();
                 healthRecordManager.doGetHealthupLegGirthRecords(getDateform(yeardate4),getDateform(yeardate0),4);
                 break;
