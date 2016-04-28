@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
@@ -34,10 +35,13 @@ import com.softtek.lai.module.bodygamest.model.LossModel;
 import com.softtek.lai.module.bodygamest.present.DownloadManager;
 import com.softtek.lai.module.bodygamest.present.PhotoListIml;
 import com.softtek.lai.module.bodygamest.present.PhotoListPre;
-import com.softtek.lai.module.newmemberentry.view.GetPhotoDialog;
-import com.softtek.lai.widgets.CircleImageView;
+import com.softtek.lai.module.grade.model.BannerModel;
+import com.softtek.lai.module.grade.net.GradeService;
+import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.ShareUtils;
+import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
+import com.sw926.imagefileselector.ImageFileCropSelector;
 import com.umeng.socialize.bean.SocializeConfig;
 import com.umeng.socialize.sso.UMSsoHandler;
 
@@ -51,12 +55,17 @@ import java.util.Calendar;
 import java.util.List;
 
 import butterknife.InjectView;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import retrofit.mime.TypedFile;
+import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_upload_photo)
 public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBase.OnRefreshListener2<ListView>, View.OnClickListener, AdapterView.OnItemClickListener, DownloadManager.DownloadCallBack
-        , PhotoListIml.PhotoListCallback {
+        , PhotoListIml.PhotoListCallback,ImageFileCropSelector.Callback {
     //toolbar标题栏
     @InjectView(R.id.tv_left)
     TextView tv_left;
@@ -98,8 +107,8 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     DownloadManager downloadManager;
     UserInfoModel userInfoModel = UserInfoModel.getInstance();
     String username = userInfoModel.getUser().getNickname();
-
-
+    private ImageFileCropSelector imageFileCropSelector;
+    private GradeService service;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
@@ -145,10 +154,37 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         ptrlvlist.setOnItemClickListener(this);
         ptrlvlist.setOnRefreshListener(this);
 
+        imageFileCropSelector=new ImageFileCropSelector(this);
+        imageFileCropSelector.setOutPutImageSize(DisplayUtil.getMobileWidth(this),DisplayUtil.dip2px(this,195));
+        imageFileCropSelector.setOutPutAspect(4,3);
+        imageFileCropSelector.setOutPut(DisplayUtil.getMobileWidth(this),DisplayUtil.dip2px(this,195));
+        imageFileCropSelector.setCallback(this);
+        im_uploadphoto_banner.setLongClickable(true);
+        im_uploadphoto_banner.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                new AlertDialog.Builder(UploadPhotoActivity.this).setItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case 0:
+                                imageFileCropSelector.takePhoto(UploadPhotoActivity.this);
+                                break;
+                            case 1:
+                                imageFileCropSelector.selectImage(UploadPhotoActivity.this);
+                                break;
+                        }
+                    }
+                }).create().show();
+                return false;
+            }
+        });
+
     }
 
     @Override
     protected void initDatas() {
+        service= ZillaApi.NormalRestAdapter.create(GradeService.class);
         downloadManager = new DownloadManager(this);
         downPhotoModel = new DownPhotoModel();
         logListModel = new LogListModel();
@@ -189,23 +225,6 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
                     }
                 }).create().show();
                 break;
-//                final GetPhotoDialog dialog = new GetPhotoDialog(UploadPhotoActivity.this,
-//                        new GetPhotoDialog.GetPhotoDialogListener() {
-//                            @Override
-//                            public void onClick(View view) {
-//                                switch (view.getId()) {
-//                                    case R.id.imgbtn_camera:
-//                                        takecamera();
-//                                        break;
-//                                    case R.id.imgbtn_pic:
-//                                        takepic();
-//                                        break;
-//                                }
-//                            }
-//                        });
-//                dialog.setTitle("照片上传");
-//                dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
-//                dialog.show();
         }
 
 
@@ -225,7 +244,6 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        //imtest.setImageBitmap(bitmap);
         com.github.snowdream.android.util.Log.i("path:" + path);
     }
 
@@ -237,6 +255,8 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        imageFileCropSelector.onActivityResult(requestCode,resultCode,data);
+        imageFileCropSelector.getmImageCropperHelper().onActivityResult(requestCode,resultCode,data);
         UMSsoHandler ssoHandler = SocializeConfig.getSocializeConfig().getSsoHandler(requestCode);
         if (ssoHandler != null) {
             ssoHandler.authorizeCallBack(requestCode, resultCode, data);
@@ -335,5 +355,32 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
                 }
             }, 300);
         }
+    }
+
+    @Override
+    public void onSuccess(final String file) {
+        String token= UserInfoModel.getInstance().getToken();
+        service.updateClassBanner(token, Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()),
+                "1",
+                new TypedFile("image/*", new File(file)),
+                new Callback<ResponseData<BannerModel>>() {
+                    @Override
+                    public void success(ResponseData<BannerModel> bannerModelResponseData, Response response) {
+                        Log.i("logbanner===="+bannerModelResponseData.getData().getPath());
+                        Picasso.with(UploadPhotoActivity.this).load(AddressManager.get("photoHost")+bannerModelResponseData.getData().getPath()).fit().
+                                placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(im_uploadphoto_banner);
+                        new File(file).delete();
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        ZillaApi.dealNetError(error);
+                    }
+                });
+    }
+
+    @Override
+    public void onError() {
+
     }
 }

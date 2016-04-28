@@ -171,7 +171,7 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
         imageFileCropSelector.setOutPutImageSize(px, px);
         imageFileCropSelector.setQuality(30);
         imageFileCropSelector.setScale(true);
-        imageFileCropSelector.setOutPutAspect(1, 1);
+        imageFileCropSelector.setOutPutAspect(3, 1);
         imageFileCropSelector.setOutPut(DisplayUtil.getMobileWidth(this),DisplayUtil.dip2px(this,130));
         imageFileCropSelector.setCallback(this);
 

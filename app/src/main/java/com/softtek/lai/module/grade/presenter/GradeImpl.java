@@ -12,7 +12,6 @@ import com.github.snowdream.android.util.Log;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.grade.eventModel.LossWeightEvent;
 import com.softtek.lai.module.grade.eventModel.SRInfoEvent;
 import com.softtek.lai.module.grade.model.BannerModel;
 import com.softtek.lai.module.grade.model.BannerUpdateCallBack;
@@ -27,8 +26,6 @@ import com.softtek.lai.utils.RequestCallback;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import retrofit.Callback;
@@ -116,7 +113,7 @@ public class GradeImpl implements IGrade {
                 switch (studentResponseData.getStatus()) {
                     case 200:
                         Log.i(studentResponseData.toString());
-                        EventBus.getDefault().post(new LossWeightEvent(studentResponseData.getData()));
+                        //EventBus.getDefault().post(new LossWeightEvent(studentResponseData.getData()));
                         break;
                     default:
                         Util.toastMsg(studentResponseData.getMsg());
