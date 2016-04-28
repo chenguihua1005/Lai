@@ -5,26 +5,17 @@
 
 package com.softtek.lai.module.grade.model;
 
-import java.io.Serializable;
-
 /**
  * Created by jerry.guan on 3/22/2016.
  * 学员列表model
  */
-public class StudentModel{
+public class WaistModel {
 
     private long AccountId;
     private long ClassId;
     private int OrderNum;
     //按照学员减重
     private String UserName = "";
-    private String LossAfter = "0";
-    private String LossBefor = "0";
-    private String LossWeght = "0";
-    //按照学员减重百分比
-    private String LossPercent = "0";
-    //按照体质排序
-    private String Pysical = "0";
     //按照学员腰围排序
     private String WaistlineAfter = "0";
     private String Waistlinebefor = "0";
@@ -79,46 +70,6 @@ public class StudentModel{
         UserName = userName;
     }
 
-    public String getLossAfter() {
-        return LossAfter;
-    }
-
-    public void setLossAfter(String lossAfter) {
-        LossAfter = lossAfter;
-    }
-
-    public String getLossBefor() {
-        return LossBefor;
-    }
-
-    public void setLossBefor(String lossBefor) {
-        LossBefor = lossBefor;
-    }
-
-    public String getLossWeght() {
-        return LossWeght;
-    }
-
-    public void setLossWeght(String lossWeght) {
-        LossWeght = lossWeght;
-    }
-
-    public String getLossPercent() {
-        return LossPercent;
-    }
-
-    public void setLossPercent(String lossPercent) {
-        LossPercent = lossPercent;
-    }
-
-    public String getPysical() {
-        return Pysical;
-    }
-
-    public void setPysical(String pysical) {
-        Pysical = pysical;
-    }
-
     public String getWaistlineAfter() {
         return WaistlineAfter;
     }
@@ -137,18 +88,15 @@ public class StudentModel{
 
     @Override
     public String toString() {
-        return "StudentModel{" +
+        return "WaistModel{" +
                 "AccountId=" + AccountId +
-                ", ClassIdModel=" + ClassId +
+                ", ClassId=" + ClassId +
                 ", OrderNum=" + OrderNum +
                 ", UserName='" + UserName + '\'' +
-                ", LossAfter='" + LossAfter + '\'' +
-                ", LossBefor='" + LossBefor + '\'' +
-                ", LossWeght='" + LossWeght + '\'' +
-                ", LossPercent='" + LossPercent + '\'' +
-                ", Pysical='" + Pysical + '\'' +
                 ", WaistlineAfter='" + WaistlineAfter + '\'' +
                 ", Waistlinebefor='" + Waistlinebefor + '\'' +
+                ", Lossline='" + Lossline + '\'' +
+                ", Photo='" + Photo + '\'' +
                 '}';
     }
 }

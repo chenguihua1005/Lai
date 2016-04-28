@@ -108,6 +108,7 @@ public class GradeImpl implements IGrade {
     @Override
     public void getStudentList(String orderType, String classId, final PullToRefreshListView lv) {
         String userId=UserInfoModel.getInstance().getUser().getUserid();
+        Log.i("accountid="+userId+";classid="+classId);
         service.getStudentsList(token,Long.parseLong(userId),classId,orderType, new Callback<ResponseData<List<StudentModel>>>() {
             @Override
             public void success(ResponseData<List<StudentModel>> studentResponseData, Response response) {

@@ -21,7 +21,6 @@
             app:ptrShowIndicator="false"
             android:footerDividersEnabled="false"
             android:headerDividersEnabled="false"
-            android:smoothScrollbar="true"
             android:id="@+id/ptrlv">
 
     </com.handmark.pulltorefresh.library.PullToRefreshListView>
