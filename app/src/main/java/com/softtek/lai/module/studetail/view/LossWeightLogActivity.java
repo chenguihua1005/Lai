@@ -116,6 +116,8 @@ public class LossWeightLogActivity extends BaseActivity implements View.OnClickL
         review_flag=getIntent().getIntExtra("review",0);
         if(review_flag==0){
             log_banner.setLongClickable(false);
+        }else{
+            log_banner.setLongClickable(true);
         }
         service= ZillaApi.NormalRestAdapter.create(GradeService.class);
         memberInfopresenter=new MemberInfoImpl(this,this);
@@ -233,7 +235,7 @@ public class LossWeightLogActivity extends BaseActivity implements View.OnClickL
     @Override
     public void onSuccess(final String file) {
         String token= UserInfoModel.getInstance().getToken();
-        service.updateClassBanner(token, Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()),
+        service.updateClassBanner(token, accountId,
                 "1",
                 new TypedFile("image/*", new File(file)),
                 new Callback<ResponseData<BannerModel>>() {
