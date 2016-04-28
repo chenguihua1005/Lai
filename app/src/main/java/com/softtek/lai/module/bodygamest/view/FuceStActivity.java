@@ -22,6 +22,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
@@ -65,7 +66,7 @@ import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_fuce_st)
 public class FuceStActivity extends BaseActivity implements View.OnClickListener,Validator.ValidationListener
-,/*ImageFileCropSelector.Callback,*/ImageFileSelector.Callback{
+,ImageFileSelector.Callback{
     @LifeCircleInject
     ValidateLife validateLife;
 
@@ -100,11 +101,9 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
 
     //保存数据点击
     //初始体重
-    @Required(order = 1,message = "初始体重必填项，请选择")
     @InjectView(R.id.ll_fucest_chu_weight)
     LinearLayout ll_fucest_chu_weight;
     //现在体重
-    @Required(order = 2,message = "现在体重必填项，请选择")
     @InjectView(R.id.ll_fucest_nowweight)
     LinearLayout ll_fucest_nowweight;
     // 体脂
@@ -116,11 +115,14 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     //添加身体维度
     @InjectView(R.id.btn_retest_write_addbodyst)
     Button btn_retest_write_addbodyst;
-
+    //初始体重
+    @Required(order = 1,message = "初始体重必填项，请选择")
     @InjectView(R.id.tv_writes_chu_weight)
-    TextView tv_writes_chu_weight;
+    EditText tv_writes_chu_weight;
+    //现在体重
+    @Required(order = 2,message = "现在体重必填项，请选择")
     @InjectView(R.id.tv_retestWrites_nowweight)
-    TextView tv_retestWrites_nowweight;
+    EditText tv_retestWrites_nowweight;
     @InjectView(R.id.tv_retestWritest_tizhi)
     TextView tv_retestWritest_tizhi;
     @InjectView(R.id.tv_retestWritest_neizhi)
@@ -198,6 +200,8 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
                 DisplayUtil.dip2px(this,100));
         imageFileSelector.setQuality(50);
         imageFileSelector.setCallback(this);
+        tv_writes_chu_weight.setFocusable(false);
+        tv_retestWrites_nowweight.setFocusable(false);
     }
 
     @Override
@@ -207,6 +211,8 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
             //删除照片
             case R.id.im_deletest:
                 retestWrite.setImage("");
+                im_deletest.setVisibility(View.GONE);
+                im_retestwritest_showphoto.setVisibility(View.GONE);
                 im_retestwritest_showphoto.setImageBitmap(null);
                 im_retestwritest_showphoto.setBackgroundColor(Color.parseColor("#c0c0c0"));
                 break;
@@ -220,7 +226,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
             case R.id.ll_fucest_chu_weight:
                 if (isState.equals("true")) {
                     if (retestAuditModel.getIsFirst() == "true") {
-                        show_information("初始体重（斤）", 400, 100, 20, 9, 0, 0, 0);
+                        show_information("初始体重（斤）", 600, 100, 20, 9, 0, 0, 0);
                     } else {
                         Util.toastMsg("您不是第一次参加班级，不能修改初始体重");
                     }
@@ -228,7 +234,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
                 break;
             case R.id.ll_fucest_nowweight:
                 if (isState.equals("true")) {
-                    show_information("现在体重（斤）", 400, 100, 20, 9, 0, 0, 1);
+                    show_information("现在体重（斤）", 600, 100, 20, 9, 0, 0, 1);
                 }
                 break;
             case R.id.ll_fucest_tizhi:
@@ -249,11 +255,11 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             if (which == 0) {
-                                //takecamera();
+//                                takecamera();
                                 imageFileSelector.takePhoto(FuceStActivity.this);
                             } else if (which == 1) {
                                 //照片
-                                //takepic();
+//                                takepic();
                                 imageFileSelector.selectImage(FuceStActivity.this);
                             }
                         }
@@ -274,7 +280,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     @Subscribe
     public void doGetDates(RetestAuditModelEvent retestAuditModelEvent){
         Log.i("retestAuditModel"+retestAuditModelEvent.getRetestAuditModels());
-        tv_writes_chu_weight.setText(Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getInitWeight())+"");
+        tv_writes_chu_weight.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getInitWeight().equals("")?"":Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getInitWeight())+"");
         tv_writest_nick.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getUserName());
         Mobile=retestAuditModelEvent.getRetestAuditModels().get(0).getMobile();
         tv_writest_phone.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getMobile());
@@ -434,6 +440,8 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     public void onValidationSucceeded() {
+        tv_writes_chu_weight.setFocusable(false);
+        tv_retestWrites_nowweight.setFocusable(false);
         retestWrite.setWeight(tv_retestWrites_nowweight.getText()+"");
         retestWrite.setInitWeight(tv_writes_chu_weight.getText()+"");
         retestWrite.setPysical(tv_retestWritest_tizhi.getText()+"");
@@ -452,6 +460,8 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     @Override
     public void onSuccess(String file) {
         Log.i("摘牌回来了");
+        im_retestwritest_showphoto.setVisibility(View.VISIBLE);
+        im_deletest.setVisibility(View.VISIBLE);
         Picasso.with(this).load(new File(file)).fit().into(im_retestwritest_showphoto);
         //im_retestwritest_showphoto.setImageBitmap(BitmapFactory.decodeFile(file));
         retestPre.goGetPicture(file);
@@ -461,4 +471,27 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     public void onError() {
 
     }
+//    public void takecamera() {
+//
+//        path=(Environment.getExternalStorageDirectory().getPath())+"/123.jpg";
+//        File file=new File(path.toString());
+//        Uri uri= Uri.fromFile(file);
+//        Intent intent=new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+//        intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, uri);
+//        startActivityForResult(intent,PHOTO);
+//        Bitmap bitmap= null;
+//        try {
+//            bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//        im_delete.setVisibility(View.VISIBLE);
+//        im_retestwrite_showphoto.setVisibility(View.VISIBLE);
+//        im_retestwrite_showphoto.setImageBitmap(bitmap);
+//        Log.i("path:"+path);
+//    }
+//    public void takepic() {
+//        Intent picture = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//        startActivityForResult(picture, 101);
+//    }
 }

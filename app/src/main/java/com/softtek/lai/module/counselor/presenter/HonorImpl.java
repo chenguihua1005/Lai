@@ -12,6 +12,7 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.counselor.model.HonorInfoModel;
+import com.softtek.lai.module.counselor.model.UserHonorModel;
 import com.softtek.lai.module.counselor.net.CounselorService;
 import org.greenrobot.eventbus.EventBus;
 import retrofit.Callback;
@@ -76,6 +77,37 @@ public class HonorImpl implements IHonorPresenter {
                 Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
                 HonorInfoModel honorInfo = listResponseData.getData();
+                context.dialogDissmiss();
+                switch (status) {
+                    case 200:
+                        EventBus.getDefault().post(listResponseData.getData());
+                        break;
+                    default:
+                        Util.toastMsg(listResponseData.getMsg());
+                        break;
+                }
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                context.dialogDissmiss();
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
+            }
+        });
+    }
+
+    @Override
+    public void getUserHonors() {
+        String token = UserInfoModel.getInstance().getToken();
+        counselorService.getUserHonors(token, new Callback<ResponseData<UserHonorModel>>() {
+
+            @Override
+            public void success(ResponseData<UserHonorModel> listResponseData, Response response) {
+                Log.e("jarvis", listResponseData.toString());
+                int status = listResponseData.getStatus();
+                UserHonorModel userHonorModel = listResponseData.getData();
                 context.dialogDissmiss();
                 switch (status) {
                     case 200:

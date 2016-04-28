@@ -140,7 +140,10 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
     protected void initViews() {
 
     }
-    /** 点击屏幕隐藏软键盘**/
+
+    /**
+     * 点击屏幕隐藏软键盘
+     **/
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
@@ -152,6 +155,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         }
         return super.dispatchTouchEvent(ev);
     }
+
     @Override
     protected void initDatas() {
         ICreateFilepresenter = new CreateFileImpl(this);
@@ -159,7 +163,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         tv_left.setBackground(null);
         tv_right.setText("跳过");
         tv_right.setTextSize(16);
-        tv_right.setPadding(0,0,25,0);
+        tv_right.setPadding(0, 0, 25, 0);
         tv_right.setGravity(Gravity.CENTER);
         file = new FileModel();
         addGrade();
@@ -267,8 +271,8 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
 
 
     public void show_birth_dialog() {
-        final AlertDialog.Builder birdialog=new AlertDialog.Builder(this);
-        View view=getLayoutInflater().inflate(R.layout.birth_dialog,null);
+        final AlertDialog.Builder birdialog = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.birth_dialog, null);
         final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
         np1.setMaxValue(myear);
         np1.setValue(myear);
@@ -291,10 +295,10 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                if (np1.getValue()==myear&&np2.getValue()>(mmonth+1)) {
+                if (np1.getValue() == myear && np2.getValue() > (mmonth + 1)) {
                     show_warn_dialog();
                 }
-                if (np1.getValue() == myear && np2.getValue() == (mmonth+1) && np3.getValue() > mday) {
+                if (np1.getValue() == myear && np2.getValue() == (mmonth + 1) && np3.getValue() > mday) {
                     show_warn_dialog();
                 } else {
                     tv_birth.setText(String.valueOf(np1.getValue()) + "-" + String.valueOf(np2.getValue()) + "-" + String.valueOf(np3.getValue()));
@@ -309,7 +313,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
             }
         }).create().show();
 
-   }
+    }
 
     //生日警告对话框
     public void show_warn_dialog() {
@@ -329,15 +333,15 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
 
     //身高对话框
     public void show_height_dialog() {
-        final AlertDialog.Builder birdialog=new AlertDialog.Builder(this);
-        View view=getLayoutInflater().inflate(R.layout.dialog,null);
+        final AlertDialog.Builder birdialog = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.dialog, null);
         final NumberPicker np = (NumberPicker) view.findViewById(R.id.numberPicker1);
         np.setMaxValue(220);
-        if(tv_sex.getText().toString().equals("男")){
+        if (tv_sex.getText().toString().equals("男")) {
             np.setValue(170);
-        }else if(tv_sex.getText().toString().equals("女")){
+        } else if (tv_sex.getText().toString().equals("女")) {
             np.setValue(155);
-        }else {
+        } else {
             np.setValue(170);
         }
         np.setMinValue(50);
@@ -359,15 +363,15 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
 
     //体重对话框
     public void show_weight_dialog() {
-        final AlertDialog.Builder birdialog=new AlertDialog.Builder(this);
-        View view=getLayoutInflater().inflate(R.layout.dialog,null);
+        final AlertDialog.Builder birdialog = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.dialog, null);
         final NumberPicker np = (NumberPicker) view.findViewById(R.id.numberPicker1);
         np.setMaxValue(220);
-        if(tv_sex.getText().toString().equals("男")){
+        if (tv_sex.getText().toString().equals("男")) {
             np.setValue(150);
-        }else if(tv_sex.getText().toString().equals("女")){
+        } else if (tv_sex.getText().toString().equals("女")) {
             np.setValue(100);
-        }else {
+        } else {
             np.setValue(150);
         }
         np.setMinValue(20);
@@ -410,6 +414,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         }).create().show();
 
     }
+
     private void addGrade() {
         gradeList.add("男");
         gradeList.add("女");
@@ -419,8 +424,8 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
 
 
     public void showGradeDialog() {
-        final AlertDialog.Builder birdialog=new AlertDialog.Builder(this);
-        View view=getLayoutInflater().inflate(R.layout.dialog_select_grade,null);
+        final AlertDialog.Builder birdialog = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.dialog_select_grade, null);
         final WheelView wheel_grade = (WheelView) view.findViewById(R.id.wheel_grade);
         wheel_grade.setOffset(1);
         wheel_grade.setItems(gradeList);
@@ -445,7 +450,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                         select_grade = "";
                     }
                 })
-                .setNegativeButton("取消",new DialogInterface.OnClickListener(){
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                     }
