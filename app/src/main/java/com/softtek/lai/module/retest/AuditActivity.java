@@ -218,6 +218,8 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
 //        typedate
         acountid=accountId;
         retestPre.doGetAudit(Integer.parseInt(accountId),Integer.parseInt(classId),Typedate);
+        tv_audit_chu_weight.setFocusable(false);
+        tv_audit_now_weight.setFocusable(false);
 
     }
     @Subscribe
@@ -244,15 +246,15 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
         else {
             Picasso.with(this).load("www").placeholder(R.drawable.img_default).error(R.drawable.img_default).into(iv_audit_head);
         }
-        tv_audit_now_weight.setText(Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getWeight())+"");
-        tv_retestAudit_tizhi.setText(Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getPysical())+"");
-        tv_retesrAudit_fat.setText(Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getFat())+"");
-        tv_retestAudit_wasit.setText(Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getCircum())+"");
-        tv_retestAudit_yaowei.setText(Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getWaistline())+"");
-        tv_retestAudit_tunwei.setText(Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getHiplie())+"");
-        tv_retestAudit_upArmGirth.setText(Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getUpArmGirth())+"");
-        tv_retestAudit_upLegGirth.setText(Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getUpArmGirth())+"");
-        tv_retestAudit_doLegGirth.setText(Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getDoLegGirth())+"");
+        tv_audit_now_weight.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getWeight().equals("")?"":Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getWeight())+"");
+        tv_retestAudit_tizhi.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getPysical().equals("")?"":Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getPysical())+"");
+        tv_retesrAudit_fat.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getFat().equals("")?"":Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getFat())+"");
+        tv_retestAudit_wasit.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getCircum().equals("")?"":Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getCircum())+"");
+        tv_retestAudit_yaowei.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getWaistline().equals("")?"":Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getWaistline())+"");
+        tv_retestAudit_tunwei.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getHiplie().equals("")?"":Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getHiplie())+"");
+        tv_retestAudit_upArmGirth.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getUpArmGirth().equals("")?"":Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getUpArmGirth())+"");
+        tv_retestAudit_upLegGirth.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getUpArmGirth().equals("")?"":Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getUpArmGirth())+"");
+        tv_retestAudit_doLegGirth.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getDoLegGirth().equals("")?"":Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getDoLegGirth())+"");
         if(!TextUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getImage())) {
             im_retestaudit_showphoto.setVisibility(View.VISIBLE);
             Picasso.with(this).load(retestAuditModelEvent.getRetestAuditModels().get(0).getImage()).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(im_retestaudit_showphoto);
@@ -269,40 +271,42 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
         switch (v.getId())
         {
             case R.id.tv_right:
+                tv_audit_chu_weight.setFocusable(true);
+                tv_audit_now_weight.setFocusable(true);
                 validateLife.validate();
 //                retestAudit.setDoLegGirth(tv_retestAudit_doLegGirth+"");
 
                 break;
             //信息点击事件
             case R.id.ll_audit_chu_weight:
-                show_information("初始体重（斤）",200,70,20,9,5,0,0);
+                show_information("初始体重（斤）",600,100,20,9,0,0,0);
                 break;
             case R.id.ll_retestAudit_nowweight:
-                show_information("现在体重（斤）",200,70,20,9,5,0,1);
+                show_information("现在体重（斤）",600,100,20,9,5,0,1);
                 break;
             case R.id.ll_retestAudit_tizhi:
-                show_information("体脂（%）",100,50,0,9,5,0,2);
+                show_information("体脂（%）",99,50,0,9,5,0,2);
                 break;
             case R.id.ll_retestAudit_wasit:
-                show_information("胸围（CM）",100,50,0,9,5,0,3);
+                show_information("胸围（CM）",200,50,0,9,5,0,3);
                 break;
             case R.id.ll_retestAudit_yaowei:
-                show_information("腰围（CM）",100,50,0,9,5,0,4);
+                show_information("腰围（CM）",200,50,0,9,5,0,4);
                 break;
             case R.id.ll_retestAudit_tunwei:
-                show_information("臀围（CM）",100,50,0,9,5,0,5);
+                show_information("臀围（CM）",200,50,0,9,5,0,5);
                 break;
             case R.id.ll_retestAudit_upArmGirth:
-                show_information("上臂围（CM）",50,25,0,9,5,0,6);
+                show_information("上臂围（CM）",200,25,0,9,5,0,6);
                 break;
             case R.id.ll_retestAudit_upLegGirth:
-                show_information("大腿围（CM）",150,80,0,9,5,0,7);
+                show_information("大腿围（CM）",200,80,0,9,5,0,7);
                 break;
             case R.id.ll_retestAudit_doLegGirth:
-                show_information("小腿围（CM）",100,50,0,9,5,0,8);
+                show_information("小腿围（CM）",200,50,0,9,5,0,8);
                 break;
             case R.id.ll_retesrAudit_fat:
-                show_information("内脂",100,50,0,9,5,0,9);
+                show_information("内脂",200,50,0,9,5,0,9);
                 break;
             case R.id.ll_left:
                 finish();
