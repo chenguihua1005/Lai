@@ -24,8 +24,8 @@ public interface CounselorService {
 
     @GET("/HerbrClass/ClassInvitePCISOK")
     void classInvitePCISOK(@Header("token") String token,
-                          @Query("ClassId") String classId,
-                          Callback<ResponseData> callback);
+                           @Query("ClassId") String classId,
+                           Callback<ResponseData> callback);
 
     @FormUrlEncoded
     @POST("/HerbrClass/SendInviterSR")
@@ -124,4 +124,9 @@ public interface CounselorService {
                           @Field("classId") String classId,
                           @Field("comments") String comments,
                           Callback<ResponseData<ApplySuccessModel>> callback);
+
+
+    @GET("/HerbUser/GetUserHonors")
+    void getUserHonors(@Header("token") String token,
+                       Callback<ResponseData<UserHonorModel>> callback);
 }

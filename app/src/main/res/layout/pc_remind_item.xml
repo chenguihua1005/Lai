@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/messageMarginTop"
                 android:layout_marginTop="@dimen/messageMarginTop"
-                android:text="@string/message3"
+                android:text="@string/message1"
                 android:textColor="@color/word"
                 android:textSize="@dimen/textSize3" />
 

@@ -235,6 +235,7 @@ public class SRHonorActivity extends BaseActivity implements View.OnClickListene
     protected void initDatas() {
         honorPresenter = new HonorImpl(this);
         aCache = ACache.get(this, Constants.USER_ACACHE_DATA_DIR);
+        dialogShow("加载中");
         honorPresenter.getSRHonor();
     }
 

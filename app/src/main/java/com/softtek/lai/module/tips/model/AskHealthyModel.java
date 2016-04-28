@@ -6,49 +6,49 @@ package com.softtek.lai.module.tips.model;
  */
 public class AskHealthyModel {
 
-    private String Img_Id;
-    private String Img_Type;
-    private String Img_Title;
-    private String Img_Content;
-    private String Img_Addr;
+    private String Tips_Id;
+    private String Tips_Type;
+    private String Tips_Title;
+    private String Tips_Content;
+    private String Tips_Addr;
 
-    public String getImg_Id() {
-        return Img_Id;
+    public String getTips_Id() {
+        return Tips_Id;
     }
 
-    public void setImg_Id(String img_Id) {
-        Img_Id = img_Id;
+    public void setTips_Id(String tips_Id) {
+        Tips_Id = tips_Id;
     }
 
-    public String getImg_Type() {
-        return Img_Type;
+    public String getTips_Type() {
+        return Tips_Type;
     }
 
-    public void setImg_Type(String img_Type) {
-        Img_Type = img_Type;
+    public void setTips_Type(String tips_Type) {
+        Tips_Type = tips_Type;
     }
 
-    public String getImg_Title() {
-        return Img_Title;
+    public String getTips_Title() {
+        return Tips_Title;
     }
 
-    public void setImg_Title(String img_Title) {
-        Img_Title = img_Title;
+    public void setTips_Title(String tips_Title) {
+        Tips_Title = tips_Title;
     }
 
-    public String getImg_Content() {
-        return Img_Content;
+    public String getTips_Content() {
+        return Tips_Content;
     }
 
-    public void setImg_Content(String img_Content) {
-        Img_Content = img_Content;
+    public void setTips_Content(String tips_Content) {
+        Tips_Content = tips_Content;
     }
 
-    public String getImg_Addr() {
-        return Img_Addr;
+    public String getTips_Addr() {
+        return Tips_Addr;
     }
 
-    public void setImg_Addr(String img_Addr) {
-        Img_Addr = img_Addr;
+    public void setTips_Addr(String tips_Addr) {
+        Tips_Addr = tips_Addr;
     }
 }

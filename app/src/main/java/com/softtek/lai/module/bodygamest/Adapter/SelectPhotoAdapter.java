@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
+import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygamest.model.DownPhotoModel;
 import com.softtek.lai.module.bodygamest.model.LogListModel;
@@ -41,14 +42,14 @@ import zilla.libcore.util.Util;
 public class SelectPhotoAdapter extends BaseAdapter {
     private LayoutInflater mInflater;//得到一个LayoutInfalter对象用来导入布局
     private List<LogListModel> list;
-    Context context;
+    BaseActivity context;
     private IAssistantPresenter assistantPresenter;
     CallBack callBack;
 
     /**
      * 构造函数
      */
-    public SelectPhotoAdapter(Context context, List<LogListModel> list, CallBack callBack) {
+    public SelectPhotoAdapter(BaseActivity context, List<LogListModel> list, CallBack callBack) {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
         this.list = list;

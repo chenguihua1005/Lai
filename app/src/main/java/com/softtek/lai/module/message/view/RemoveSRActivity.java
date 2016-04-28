@@ -108,7 +108,14 @@ public class RemoveSRActivity extends BaseActivity implements View.OnClickListen
         assistantPresenter = new AssistantImpl(this);
         Intent intent = getIntent();
         messageDetailInfo = (MessageDetailInfo) intent.getSerializableExtra("messageDetailInfo");
-        text_value.setText(messageDetailInfo.getComments());
+        String msg_type = messageDetailInfo.getMsgType();
+        if ("1".equals(msg_type)) {
+            String comments = messageDetailInfo.getComments();
+            String[] str = comments.split("\\|");
+            text_value.setText(str[2]);
+        } else {
+            text_value.setText(messageDetailInfo.getComments());
+        }
         msg_type = messageDetailInfo.getMsgType();
         if ("1".equals(msg_type)) {
             but_no.setVisibility(View.VISIBLE);
@@ -167,12 +174,14 @@ public class RemoveSRActivity extends BaseActivity implements View.OnClickListen
                 startActivity(new Intent(this, ZQSActivity.class));
                 break;
             case R.id.but_no:
+                dialogShow("加载中");
                 messagePresenter.delNoticeOrMeasureMsg(messageDetailInfo.getMessageId());
                 break;
             case R.id.but_yes:
                 if (isSelect) {
                     String comments = messageDetailInfo.getComments();
-                    String[] str = comments.split("|");
+                    String[] str = comments.split("\\|");
+                    dialogShow("加载中");
                     assistantPresenter.removeAssistantRoleByClass(str[0], str[1], messageDetailInfo.getMessageId(), "message");
                 } else {
                     Util.toastMsg(R.string.joinGameQ);

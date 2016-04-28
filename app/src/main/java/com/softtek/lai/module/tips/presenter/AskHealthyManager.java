@@ -26,7 +26,7 @@ public class AskHealthyManager {
     }
 
     public void getAskHealthyList(int pageIndex){
-        tipService.getTipList("0", new RequestCallback<ResponseData<AskHealthyResponseModel>>() {
+        tipService.getTipList("0", pageIndex,new RequestCallback<ResponseData<AskHealthyResponseModel>>() {
             @Override
             public void success(ResponseData<AskHealthyResponseModel> askHealthyModelResponseData, Response response) {
                 if(cb!=null)cb.getHealthyList(askHealthyModelResponseData.getData());

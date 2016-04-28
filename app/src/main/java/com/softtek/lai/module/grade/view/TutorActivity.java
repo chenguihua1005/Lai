@@ -22,6 +22,8 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.counselor.presenter.IStudentPresenter;
+import com.softtek.lai.module.counselor.presenter.StudentImpl;
 import com.softtek.lai.module.counselor.view.AssistantListActivity;
 import com.softtek.lai.module.grade.adapter.TutorAdapter;
 import com.softtek.lai.module.grade.eventModel.SRInfoEvent;
@@ -52,6 +54,7 @@ public class TutorActivity extends BaseActivity implements PullToRefreshBase.OnR
     private IGrade grade;
     private TutorAdapter adapter;
     List<SRInfoModel> infos = new ArrayList<>();
+    private IStudentPresenter studentPresenter;
 
     @Override
     protected void initViews() {
@@ -69,6 +72,7 @@ public class TutorActivity extends BaseActivity implements PullToRefreshBase.OnR
 
     @Override
     protected void initDatas() {
+        studentPresenter=new StudentImpl(this);
         tv_title.setText("助教列表");
         tv_right.setText("邀请助教");
         classId=getIntent().getLongExtra("classId",0);
@@ -122,10 +126,8 @@ public class TutorActivity extends BaseActivity implements PullToRefreshBase.OnR
                 finish();
                 break;
             case R.id.tv_right:
-                Intent intent = new Intent(this, AssistantListActivity.class);
-                intent.putExtra("classId", classId);
-                intent.putExtra("type", "1");
-                startActivity(intent);
+                dialogShow("加载中");
+                studentPresenter.classInvitePCISOK(classId+"","0");
                 break;
         }
     }

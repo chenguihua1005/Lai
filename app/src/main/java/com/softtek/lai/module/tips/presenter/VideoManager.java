@@ -26,7 +26,7 @@ public class VideoManager {
     }
 
     public void getVideoList(int pageIndex){
-        tipService.getTipList("1", new RequestCallback<ResponseData<AskHealthyResponseModel>>() {
+        tipService.getTipList("1",pageIndex, new RequestCallback<ResponseData<AskHealthyResponseModel>>() {
             @Override
             public void success(ResponseData<AskHealthyResponseModel> askHealthyModelResponseData, Response response) {
                 if(cb!=null)cb.getHealthyList(askHealthyModelResponseData.getData());

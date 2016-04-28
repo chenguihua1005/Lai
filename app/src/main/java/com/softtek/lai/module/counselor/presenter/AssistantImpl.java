@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
+import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.counselor.adapter.ApplyAssistantAdapter;
@@ -46,9 +47,9 @@ import java.util.List;
 public class AssistantImpl implements IAssistantPresenter {
 
     private CounselorService counselorService;
-    private Context context;
+    private BaseActivity context;
 
-    public AssistantImpl(Context context) {
+    public AssistantImpl(BaseActivity context) {
         this.context = context;
         counselorService = ZillaApi.NormalRestAdapter.create(CounselorService.class);
     }
@@ -62,6 +63,7 @@ public class AssistantImpl implements IAssistantPresenter {
                 Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
                 List<AssistantApplyInfoModel> list = listResponseData.getData();
+                context.dialogDissmiss();
                 switch (status) {
                     case 200:
                         EventBus.getDefault().post(new AssistantApplyEvent(list));
@@ -74,6 +76,7 @@ public class AssistantImpl implements IAssistantPresenter {
 
             @Override
             public void failure(RetrofitError error) {
+                context.dialogDissmiss();
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }
@@ -89,6 +92,7 @@ public class AssistantImpl implements IAssistantPresenter {
                 Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
                 ApplySuccessModel applySuccessModel = listResponseData.getData();
+                context.dialogDissmiss();
                 switch (status) {
                     case 200:
                         text_apply.setVisibility(View.GONE);
@@ -102,6 +106,7 @@ public class AssistantImpl implements IAssistantPresenter {
 
             @Override
             public void failure(RetrofitError error) {
+                context.dialogDissmiss();
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }
@@ -116,7 +121,7 @@ public class AssistantImpl implements IAssistantPresenter {
             public void success(ResponseData<AssistantDetailInfoModel> listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
-
+                context.dialogDissmiss();
                 switch (status) {
                     case 200:
                         EventBus.getDefault().post(listResponseData.getData());
@@ -129,6 +134,7 @@ public class AssistantImpl implements IAssistantPresenter {
 
             @Override
             public void failure(RetrofitError error) {
+                context.dialogDissmiss();
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }
@@ -143,7 +149,7 @@ public class AssistantImpl implements IAssistantPresenter {
             public void success(ResponseData listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
-
+                context.dialogDissmiss();
                 switch (status) {
                     case 200:
                         if ("message".equals(type)) {
@@ -164,6 +170,7 @@ public class AssistantImpl implements IAssistantPresenter {
 
             @Override
             public void failure(RetrofitError error) {
+                context.dialogDissmiss();
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }
@@ -179,6 +186,7 @@ public class AssistantImpl implements IAssistantPresenter {
                 Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
                 List<ApplyAssistantModel> list = listResponseData.getData();
+                context.dialogDissmiss();
                 switch (status) {
                     case 200:
                         ApplyAssistantAdapter applyAssistantAdapter = new ApplyAssistantAdapter(context, list);
@@ -192,6 +200,7 @@ public class AssistantImpl implements IAssistantPresenter {
 
             @Override
             public void failure(RetrofitError error) {
+                context.dialogDissmiss();
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }
@@ -207,6 +216,7 @@ public class AssistantImpl implements IAssistantPresenter {
                 Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
                 List<AssistantInfoModel> list = listResponseData.getData();
+                context.dialogDissmiss();
                 switch (status) {
                     case 200:
                         list_assistant.setVisibility(View.VISIBLE);
@@ -221,6 +231,7 @@ public class AssistantImpl implements IAssistantPresenter {
 
             @Override
             public void failure(RetrofitError error) {
+                context.dialogDissmiss();
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }
@@ -236,6 +247,7 @@ public class AssistantImpl implements IAssistantPresenter {
                 Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
                 List<AssistantClassInfoModel> list = listResponseData.getData();
+                context.dialogDissmiss();
                 switch (status) {
                     case 200:
                         EventBus.getDefault().post(new AssistantClassEvent(list));
@@ -249,6 +261,7 @@ public class AssistantImpl implements IAssistantPresenter {
 
             @Override
             public void failure(RetrofitError error) {
+                context.dialogDissmiss();
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }
@@ -264,7 +277,7 @@ public class AssistantImpl implements IAssistantPresenter {
                     response) {
                 Log.e("jarvis", listResponseData.toString());
                 int statusId = listResponseData.getStatus();
-
+                context.dialogDissmiss();
                 switch (statusId) {
                     case 200:
                         EventBus.getDefault().post(new ReviewAssistantApplyEvent(posion));
@@ -277,6 +290,7 @@ public class AssistantImpl implements IAssistantPresenter {
 
             @Override
             public void failure(RetrofitError error) {
+                context.dialogDissmiss();
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }
@@ -292,6 +306,7 @@ public class AssistantImpl implements IAssistantPresenter {
                 Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
                 List<AssistantModel> list = listResponseData.getData();
+                context.dialogDissmiss();
                 switch (status) {
                     case 200:
                         AssistantAdapter adapter = new AssistantAdapter(context, list);
@@ -305,6 +320,7 @@ public class AssistantImpl implements IAssistantPresenter {
 
             @Override
             public void failure(RetrofitError error) {
+                context.dialogDissmiss();
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }
@@ -320,7 +336,7 @@ public class AssistantImpl implements IAssistantPresenter {
                     response) {
                 Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
-
+                context.dialogDissmiss();
                 switch (status) {
                     case 200:
                         img_invite.setImageDrawable(context.getResources().getDrawable(R.drawable.img_invited));
@@ -334,6 +350,7 @@ public class AssistantImpl implements IAssistantPresenter {
 
             @Override
             public void failure(RetrofitError error) {
+                context.dialogDissmiss();
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }

@@ -8,15 +8,11 @@ package com.softtek.lai.module.bodygamest.view;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
@@ -26,24 +22,8 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygamest.present.IStudentPresenter;
 import com.softtek.lai.module.bodygamest.present.StudentImpl;
-import com.softtek.lai.module.counselor.adapter.SimpleFragmentPagerAdapter;
-import com.softtek.lai.module.counselor.presenter.AssistantImpl;
-import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
-import com.softtek.lai.module.counselor.view.AssistantApplyFragment;
-import com.softtek.lai.module.counselor.view.AssistantListFragment;
 import com.softtek.lai.module.login.model.UserModel;
-import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
-import com.softtek.lai.module.retest.model.RetestWriteModel;
-import com.softtek.lai.module.retest.present.RetestPre;
-import com.softtek.lai.module.retest.present.RetestclassImp;
 import com.softtek.lai.utils.ACache;
-import com.softtek.lai.utils.SoftInputUtil;
-import com.squareup.picasso.Picasso;
-
-import org.greenrobot.eventbus.Subscribe;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;

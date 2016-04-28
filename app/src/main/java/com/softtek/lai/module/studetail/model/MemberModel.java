@@ -16,10 +16,10 @@ public class MemberModel {
     private String UserName;//用户名
     private String Photo;
     private String AfterImg;//减重前图片
-    private String BeforImg; //减重后图片
+    private String BeforeImg; //减重后图片
     private int LogCount;   //日志篇数
     private String LossAfter;//	减重前重量
-    private String LossBefor;//	减重后重量
+    private String LossBefore;//	减重后重量
     private String LossWeight;//减重斤数
     private String Mobile;
 
@@ -71,12 +71,12 @@ public class MemberModel {
         AfterImg = afterImg;
     }
 
-    public String getBeforImg() {
-        return BeforImg;
+    public String getBeforeImg() {
+        return BeforeImg;
     }
 
-    public void setBeforImg(String beforImg) {
-        BeforImg = beforImg;
+    public void setBeforeImg(String beforImg) {
+        BeforeImg = beforImg;
     }
 
     public int getLogCount() {
@@ -95,12 +95,12 @@ public class MemberModel {
         LossAfter = lossAfter;
     }
 
-    public String getLossBefor() {
-        return LossBefor;
+    public String getLossBefore() {
+        return LossBefore;
     }
 
-    public void setLossBefor(String lossBefor) {
-        LossBefor = lossBefor;
+    public void setLossBefore(String lossBefore) {
+        LossBefore = lossBefore;
     }
 
     public String getLossWeight() {
@@ -123,15 +123,15 @@ public class MemberModel {
     public String toString() {
         return "MemberModel{" +
                 "AccountId=" + AccountId +
-                ", ClassIdModel=" + ClassId +
+                ", ClassId=" + ClassId +
                 ", OrderNum=" + OrderNum +
                 ", UserName='" + UserName + '\'' +
                 ", Photo='" + Photo + '\'' +
                 ", AfterImg='" + AfterImg + '\'' +
-                ", BeforImg='" + BeforImg + '\'' +
+                ", BeforImg='" + BeforeImg + '\'' +
                 ", LogCount=" + LogCount +
                 ", LossAfter='" + LossAfter + '\'' +
-                ", LossBefor='" + LossBefor + '\'' +
+                ", LossBefor='" + LossBefore + '\'' +
                 ", LossWeight='" + LossWeight + '\'' +
                 ", Mobile='" + Mobile + '\'' +
                 '}';

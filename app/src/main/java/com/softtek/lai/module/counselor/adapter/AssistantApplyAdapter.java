@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.*;
 
 import com.softtek.lai.R;
+import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.counselor.model.AssistantApplyInfoModel;
 import com.softtek.lai.module.counselor.presenter.AssistantImpl;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
@@ -28,13 +29,13 @@ import zilla.libcore.file.AddressManager;
 public class AssistantApplyAdapter extends BaseAdapter {
     private LayoutInflater mInflater;//得到一个LayoutInfalter对象用来导入布局
     private List<AssistantApplyInfoModel> list;
-    private Context context;
+    private BaseActivity context;
     private IAssistantPresenter assistantPresenter;
 
     /**
      * 构造函数
      */
-    public AssistantApplyAdapter(Context context, List<AssistantApplyInfoModel> list) {
+    public AssistantApplyAdapter(BaseActivity context, List<AssistantApplyInfoModel> list) {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
         this.list = list;
@@ -95,12 +96,14 @@ public class AssistantApplyAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 System.out.println("applyId:" + assistantApplyInfo.getApplyId());
+                context.dialogShow("加载中");
                 assistantPresenter.reviewAssistantApplyList(assistantApplyInfo.getApplyId(), 1, position);
             }
         });
         holder.img_refuse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                context.dialogShow("加载中");
                 assistantPresenter.reviewAssistantApplyList(assistantApplyInfo.getApplyId(), 0, position);
             }
         });

@@ -67,8 +67,8 @@ public class SelectPhotoActivity extends BaseActivity implements View.OnClickLis
     @InjectView(R.id.pull_refresh_grid)
     PullToRefreshGridView pull_refresh_grid;
     private PhotoListPre photoListPre;
-    private List<LogListModel> list_all;
-    private List<LogListModel> list_info;
+    private List<LogListModel> list_all=new ArrayList<LogListModel>();
+    private List<LogListModel> list_info=new ArrayList<LogListModel>();
     public static int count = 0;
     private int pageIndex = 1;
     private String id;

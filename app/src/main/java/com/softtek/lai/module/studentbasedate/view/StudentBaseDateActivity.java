@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
-import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_stdudent_base_date)

@@ -74,9 +74,12 @@ public class MessageRemoveSrRemindActivity extends BaseActivity implements View.
                 measureRemindInfo = listRemind.get(position);
                 String type = measureRemindInfo.getMsgType();
                 if ("1".equals(type)) {
-                    messagePresenter.upReadTime("1", measureRemindInfo.getInviterId(), measureRemindInfo.getSenderId(), measureRemindInfo.getClassId());
-
+                    String comments = measureRemindInfo.getComments();
+                    String[] str = comments.split("\\|");
+                    dialogShow("加载中");
+                    messagePresenter.upReadTime("1", measureRemindInfo.getMessageId(), "", str[1]);
                 } else {
+                    dialogShow("加载中");
                     messagePresenter.delNoticeOrMeasureMsg(measureRemindInfo.getMessageId());
                 }
             }

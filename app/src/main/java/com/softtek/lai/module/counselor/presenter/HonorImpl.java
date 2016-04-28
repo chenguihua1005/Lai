@@ -7,9 +7,12 @@ package com.softtek.lai.module.counselor.presenter;
 
 import android.content.Context;
 import android.util.Log;
+
+import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.counselor.model.HonorInfoModel;
+import com.softtek.lai.module.counselor.model.UserHonorModel;
 import com.softtek.lai.module.counselor.net.CounselorService;
 import org.greenrobot.eventbus.EventBus;
 import retrofit.Callback;
@@ -25,9 +28,9 @@ import zilla.libcore.util.Util;
 public class HonorImpl implements IHonorPresenter {
 
     private CounselorService counselorService;
-    private Context context;
+    private BaseActivity context;
 
-    public HonorImpl(Context context) {
+    public HonorImpl(BaseActivity context) {
         this.context = context;
         counselorService = ZillaApi.NormalRestAdapter.create(CounselorService.class);
     }
@@ -43,6 +46,7 @@ public class HonorImpl implements IHonorPresenter {
                 Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
                 HonorInfoModel honorInfo = listResponseData.getData();
+                context.dialogDissmiss();
                 switch (status) {
                     case 200:
                         EventBus.getDefault().post(listResponseData.getData());
@@ -56,6 +60,7 @@ public class HonorImpl implements IHonorPresenter {
 
             @Override
             public void failure(RetrofitError error) {
+                context.dialogDissmiss();
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }
@@ -72,6 +77,7 @@ public class HonorImpl implements IHonorPresenter {
                 Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
                 HonorInfoModel honorInfo = listResponseData.getData();
+                context.dialogDissmiss();
                 switch (status) {
                     case 200:
                         EventBus.getDefault().post(listResponseData.getData());
@@ -85,6 +91,38 @@ public class HonorImpl implements IHonorPresenter {
 
             @Override
             public void failure(RetrofitError error) {
+                context.dialogDissmiss();
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
+            }
+        });
+    }
+
+    @Override
+    public void getUserHonors() {
+        String token = UserInfoModel.getInstance().getToken();
+        counselorService.getUserHonors(token, new Callback<ResponseData<UserHonorModel>>() {
+
+            @Override
+            public void success(ResponseData<UserHonorModel> listResponseData, Response response) {
+                Log.e("jarvis", listResponseData.toString());
+                int status = listResponseData.getStatus();
+                UserHonorModel userHonorModel = listResponseData.getData();
+                context.dialogDissmiss();
+                switch (status) {
+                    case 200:
+                        EventBus.getDefault().post(listResponseData.getData());
+                        break;
+                    default:
+                        Util.toastMsg(listResponseData.getMsg());
+                        break;
+                }
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                context.dialogDissmiss();
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }

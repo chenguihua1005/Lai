@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.module.grade.model.StudentModel;
 import com.softtek.lai.widgets.CircleImageView;
@@ -65,6 +66,7 @@ public class WaistAdapter extends BaseAdapter {
             holder = (WaistlineHolder) convertView.getTag();
         }
         StudentModel studentModel = students.get(position);
+        //Log.i("腰围="+studentModel.toString());
         holder.tv_order.setText(studentModel.getOrderNum()+"");
         int order = studentModel.getOrderNum();
         if (order == 1 || order == 2 || order == 3) {

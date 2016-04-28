@@ -42,9 +42,9 @@ import java.util.List;
 public class CounselorClassImpl implements ICounselorClassPresenter {
 
     private CounselorService counselorService;
-    private Context context;
+    private BaseActivity context;
 
-    public CounselorClassImpl(Context context) {
+    public CounselorClassImpl(BaseActivity context) {
         this.context = context;
         counselorService = ZillaApi.NormalRestAdapter.create(CounselorService.class);
     }
@@ -58,7 +58,7 @@ public class CounselorClassImpl implements ICounselorClassPresenter {
             @Override
             public void success(ResponseData<List<ClassInfoModel>> listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());
-                ((CounselorClassListActivity) context).dialogDissmiss();
+                context.dialogDissmiss();
                 int status = listResponseData.getStatus();
                 List<ClassInfoModel> list = listResponseData.getData();
                 switch (status) {
@@ -128,7 +128,7 @@ public class CounselorClassImpl implements ICounselorClassPresenter {
 
             @Override
             public void failure(RetrofitError error) {
-                ((CounselorClassListActivity) context).dialogDissmiss();
+                context.dialogDissmiss();
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }
@@ -143,6 +143,7 @@ public class CounselorClassImpl implements ICounselorClassPresenter {
             public void success(ResponseData<ClassIdModel> classIdResponseData, Response response) {
                 Log.e("jarvis", classIdResponseData.toString());
                 int status = classIdResponseData.getStatus();
+                context.dialogDissmiss();
                 switch (status) {
                     case 200:
                         SharedPreferenceService.getInstance().put("classId", classIdResponseData.getData().getClassId());
@@ -159,6 +160,7 @@ public class CounselorClassImpl implements ICounselorClassPresenter {
 
             @Override
             public void failure(RetrofitError error) {
+                context.dialogDissmiss();
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }

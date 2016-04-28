@@ -14,7 +14,8 @@
 
     <com.softtek.lai.widgets.CustomScrollView
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -263,7 +264,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin"
                     android:layout_marginRight="@dimen/margin"
-                    android:text="@string/studentHonorJZ"
+                    android:text="@string/studentHonorsTAR"
                     android:textSize="@dimen/studentHonorTextSize" />
 
                 <LinearLayout

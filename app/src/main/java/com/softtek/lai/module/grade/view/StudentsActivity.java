@@ -20,6 +20,8 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.counselor.presenter.IStudentPresenter;
+import com.softtek.lai.module.counselor.presenter.StudentImpl;
 import com.softtek.lai.module.counselor.view.InviteStudentActivity;
 import com.softtek.lai.module.grade.adapter.TabContentAdapter;
 import com.softtek.lai.module.login.model.UserModel;
@@ -51,6 +53,7 @@ public class StudentsActivity extends BaseActivity implements BaseFragment.OnFra
     private List<Fragment> fragments = new ArrayList<>();
     private long classId=0;
     private int review_flag=0;
+    private IStudentPresenter studentPresenter;
 
     @Override
     protected void initViews() {
@@ -90,6 +93,7 @@ public class StudentsActivity extends BaseActivity implements BaseFragment.OnFra
 
     @Override
     protected void initDatas() {
+        studentPresenter=new StudentImpl(this);
         tv_title.setText("学员列表");
         UserModel user= UserInfoModel.getInstance().getUser();
         tv_right.setText("邀请学员");
@@ -109,9 +113,8 @@ public class StudentsActivity extends BaseActivity implements BaseFragment.OnFra
                 finish();
                 break;
             case R.id.tv_right:
-                Intent intents = new Intent(this, InviteStudentActivity.class);
-                intents.putExtra("classId", classId);
-                startActivity(intents);
+                dialogShow("加载中");
+                studentPresenter.classInvitePCISOK(classId+"","1");
                 break;
         }
     }

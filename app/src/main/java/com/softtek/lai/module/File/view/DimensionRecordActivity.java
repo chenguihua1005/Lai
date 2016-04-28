@@ -265,7 +265,7 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
         np1.setMaxValue(220);
         np1.setValue(90);
-        np1.setMinValue(50);
+        np1.setMinValue(0);
         np1.setWrapSelectorWheel(false);
         np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
@@ -295,7 +295,7 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
         np1.setMaxValue(220);
         np1.setValue(90);
-        np1.setMinValue(50);
+        np1.setMinValue(0);
         np1.setWrapSelectorWheel(false);
         np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
@@ -325,7 +325,7 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
         np1.setMaxValue(220);
         np1.setValue(90);
-        np1.setMinValue(50);
+        np1.setMinValue(0);
         np1.setWrapSelectorWheel(false);
         np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
@@ -355,7 +355,7 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
         np1.setMaxValue(220);
         np1.setValue(90);
-        np1.setMinValue(50);
+        np1.setMinValue(0);
         np1.setWrapSelectorWheel(false);
         np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
@@ -386,7 +386,7 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
         np1.setMaxValue(220);
         np1.setValue(90);
-        np1.setMinValue(50);
+        np1.setMinValue(0);
         np1.setWrapSelectorWheel(false);
         np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
@@ -416,7 +416,7 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
         np1.setMaxValue(220);
         np1.setValue(90);
-        np1.setMinValue(50);
+        np1.setMinValue(0);
         np1.setWrapSelectorWheel(false);
         np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);

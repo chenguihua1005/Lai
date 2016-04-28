@@ -37,6 +37,7 @@ public class HealthyAskFragment extends BaseFragment implements AskHealthyManage
     @Override
     protected void initViews() {
         ptrlv.setOnRefreshListener(this);
+        ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
     }
 
     @Override
@@ -47,7 +48,8 @@ public class HealthyAskFragment extends BaseFragment implements AskHealthyManage
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                ptrlv.setRefreshing();
+                if(ptrlv!=null)
+                    ptrlv.setRefreshing();
             }
         },500);
 

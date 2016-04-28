@@ -15,4 +15,7 @@ public interface IHonorPresenter {
 
     //获取荣誉榜
     void getSRHonor();
+
+    //SP分享荣誉信息(XX天共减重多少斤)
+    void getUserHonors();
 }

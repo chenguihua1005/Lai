@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
+import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.counselor.model.ApplyAssistantModel;
 import com.softtek.lai.module.counselor.model.ClassInfoModel;
@@ -31,13 +32,13 @@ import java.util.List;
 public class ApplyAssistantAdapter extends BaseAdapter {
     private LayoutInflater mInflater;//得到一个LayoutInfalter对象用来导入布局
     private List<ApplyAssistantModel> list;
-    Context context;
+    BaseActivity context;
     private IAssistantPresenter assistantPresenter;
 
     /**
      * 构造函数
      */
-    public ApplyAssistantAdapter(Context context, List<ApplyAssistantModel> list) {
+    public ApplyAssistantAdapter(BaseActivity context, List<ApplyAssistantModel> list) {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
         this.list = list;
@@ -130,6 +131,7 @@ public class ApplyAssistantAdapter extends BaseAdapter {
                     time = "十二月班";
                 }
                 String comment = name + "申请了" + time + "助教";
+                context.dialogShow("加载中");
                 assistantPresenter.srApplyAssistant(id, applyAssistantModel.getManagerId(), applyAssistantModel.getClassId(), comment, holder.text_apply, holder.text_state);
             }
         });

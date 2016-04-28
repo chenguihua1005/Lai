@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
+import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.counselor.model.AssistantApplyInfoModel;
 import com.softtek.lai.module.counselor.presenter.AssistantImpl;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
@@ -30,13 +31,13 @@ import java.util.List;
 public class MessageFcRemindAdapter extends BaseAdapter {
     private LayoutInflater mInflater;//得到一个LayoutInfalter对象用来导入布局
     private ArrayList<MeasureRemindInfo> list;
-    private Context context;
+    private BaseActivity context;
     private IAssistantPresenter assistantPresenter;
 
     /**
      * 构造函数
      */
-    public MessageFcRemindAdapter(Context context, ArrayList<MeasureRemindInfo> list) {
+    public MessageFcRemindAdapter(BaseActivity context, ArrayList<MeasureRemindInfo> list) {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
         this.list = list;

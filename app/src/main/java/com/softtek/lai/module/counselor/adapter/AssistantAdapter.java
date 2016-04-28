@@ -14,6 +14,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.softtek.lai.R;
+import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.counselor.model.AssistantModel;
 import com.softtek.lai.module.counselor.presenter.AssistantImpl;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
@@ -30,13 +31,13 @@ import java.util.List;
 public class AssistantAdapter extends BaseAdapter {
     private LayoutInflater mInflater;//得到一个LayoutInfalter对象用来导入布局
     private List<AssistantModel> list;
-    private Context context;
+    private BaseActivity context;
     private IAssistantPresenter assistantPresenter;
 
     /**
      * 构造函数
      */
-    public AssistantAdapter(Context context, List<AssistantModel> list) {
+    public AssistantAdapter(BaseActivity context, List<AssistantModel> list) {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
         this.list = list;
@@ -99,6 +100,7 @@ public class AssistantAdapter extends BaseAdapter {
                     assistantPresenter = new AssistantImpl(context);
                     String classId = SharedPreferenceService.getInstance().get("classId", "");
                     System.out.println("classId:" + classId + "    accountId:" + assistant.getAccountId());
+                    context.dialogShow("加载中");
                     assistantPresenter.sendInviterSR(classId, assistant.getAccountId(), holder.img_invite);
                 }
             });
