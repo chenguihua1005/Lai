@@ -7,29 +7,25 @@ package com.softtek.lai.module.bodygamest.view;
 
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
-
-import butterknife.InjectView;
 
 import com.github.snowdream.android.util.Log;
 import com.mobsandgeeks.saripaar.Rule;
@@ -38,7 +34,8 @@ import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.newmemberentry.view.GetPhotoDialog;
+import com.softtek.lai.module.community.view.EditPersonalDynamicActivity;
+import com.softtek.lai.module.lossweightstory.model.UploadImage;
 import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
 import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
 import com.softtek.lai.module.retest.model.LaichModel;
@@ -47,11 +44,11 @@ import com.softtek.lai.module.retest.model.RetestAuditModel;
 import com.softtek.lai.module.retest.model.RetestWriteModel;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.module.retest.present.RetestclassImp;
-import com.softtek.lai.module.retest.view.BodyweiduActivity;
-import com.softtek.lai.utils.FileUtils;
-import com.softtek.lai.utils.SystemUtils;
+import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
+import com.sw926.imagefileselector.ImageFileCropSelector;
+import com.sw926.imagefileselector.ImageFileSelector;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -59,14 +56,15 @@ import org.greenrobot.eventbus.Subscribe;
 import java.io.File;
 import java.io.FileNotFoundException;
 
-import zilla.libcore.file.SharedPreferenceService;
+import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_fuce_st)
-public class FuceStActivity extends BaseActivity implements View.OnClickListener,Validator.ValidationListener{
+public class FuceStActivity extends BaseActivity implements View.OnClickListener,Validator.ValidationListener
+,/*ImageFileCropSelector.Callback,*/ImageFileSelector.Callback{
     @LifeCircleInject
     ValidateLife validateLife;
 
@@ -117,10 +115,6 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     //添加身体维度
     @InjectView(R.id.btn_retest_write_addbodyst)
     Button btn_retest_write_addbodyst;
-//    //提交
-//    @InjectView(R.id.bt_pingshen)
-//    Button bt_pingshen;
-
 
     @InjectView(R.id.tv_writes_chu_weight)
     TextView tv_writes_chu_weight;
@@ -145,30 +139,16 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     String path="";
     private static final int PHOTO=1;
     private static final int GET_BODY=2;
-//    private static final String LAI_CHEN_SWITCH_KEY1="laichenSwitch";
+
     private RetestPre retestPre;
     RetestWriteModel retestWrite;
     MeasureModel measureModel;
     RetestAuditModel retestAuditModel;
     String Mobile;
     String isState="true";
+    private ImageFileCropSelector imageFileCropSelector;
+    private ImageFileSelector imageFileSelector;
     private CharSequence[] items={"拍照","从相册选择照片"};
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        EventBus.getDefault().register(this);
-        super.onCreate(savedInstanceState);
-        btn_retest_write_addbodyst.setOnClickListener(this);
-        ll_fucest_chu_weight.setOnClickListener(this);
-        ll_fucest_nowweight.setOnClickListener(this);
-        ll_fucest_tizhi.setOnClickListener(this);
-        ll_retestWrite_neizhi.setOnClickListener(this);
-        im_retestwritest_takephoto.setOnClickListener(this);
-        im_deletest.setOnClickListener(this);
-//        selectlaichenst.setOnCheckedChangeListener(this);
-//        bt_pingshen.setOnClickListener(this);
-        ll_left.setOnClickListener(this);
-        tv_right.setOnClickListener(this);
-    }
 
     @Override
     protected void onDestroy() {
@@ -178,10 +158,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
 
     @Subscribe
     public void event(LaichModel laichModel){
-//        measureModel=measureModel1;
-        Log.i("username"+laichModel.getCircum());
-//        tv_write_nick.setText(measureModel.getUsername());
-//        tv_write_phone.setText(measureModel.getPhone());
+
         tv_retestWrites_nowweight.setText(Float.parseFloat(laichModel.getWeight())+"");
         tv_retestWritest_tizhi.setText(Float.parseFloat(laichModel.getPysical())+"");
         tv_retestWritest_neizhi.setText(Float.parseFloat(laichModel.getFat())+"");
@@ -194,10 +171,19 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     }
     @Override
     protected void initViews() {
-
+        EventBus.getDefault().register(this);
+        btn_retest_write_addbodyst.setOnClickListener(this);
+        ll_fucest_chu_weight.setOnClickListener(this);
+        ll_fucest_nowweight.setOnClickListener(this);
+        ll_fucest_tizhi.setOnClickListener(this);
+        ll_retestWrite_neizhi.setOnClickListener(this);
+        im_retestwritest_takephoto.setOnClickListener(this);
+        im_deletest.setOnClickListener(this);
+        ll_left.setOnClickListener(this);
+        tv_right.setOnClickListener(this);
 
     }
-//2016-03-28
+    //2016-03-28
     @Override
     protected void initDatas() {
         tv_title.setText("复测录入");
@@ -206,16 +192,11 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         retestWrite=new RetestWriteModel();
         retestAuditModel=new RetestAuditModel();
         measureModel=new MeasureModel();
-        Intent intent=getIntent();
-
-
-//        boolean laichenSwitch= SharedPreferenceService.getInstance().get(LAI_CHEN_SWITCH_KEY1,false);
-//        selectlaichenst.setChecked(laichenSwitch);
-//        if(selectlaichenst.isChecked()){
-//            Log.i("上一次莱秤被打开");
-//            retestPre.doGetMeasure("0Pmg0UmrnZBYbcPABC5YB0pSqNXOFnB885ZYInLptG8YvAZsT87oGUPZtU5wbAad-26xsvP8Ov_eoq6Mj9rISg-XZiz2xesbiiqYPWK0AeYquQ8fXwXNpmvL0XwbUkse","18206182086");
-//        }
-
+        imageFileSelector=new ImageFileSelector(this);
+        imageFileSelector.setOutPutImageSize(DisplayUtil.dip2px(this,200),
+                DisplayUtil.dip2px(this,100));
+        imageFileSelector.setQuality(50);
+        imageFileSelector.setCallback(this);
     }
 
     @Override
@@ -224,13 +205,12 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         {
             //删除照片
             case R.id.im_deletest:
-                im_retestwritest_showphoto.setVisibility(View.GONE);
-                im_deletest.setVisibility(View.GONE);
                 retestWrite.setImage("");
+                im_retestwritest_showphoto.setImageBitmap(null);
+                im_retestwritest_showphoto.setBackgroundColor(Color.parseColor("#c0c0c0"));
                 break;
             case R.id.btn_retest_write_addbodyst:
                 Intent intent=new Intent(this, BodyweidustActivity.class);
-//                intent.putExtra("retestWrite",retestWrite);
                 Log.i("retestWrite="+retestWrite.toString());
                 intent.putExtra("retestWrite",retestWrite);
                 intent.putExtra("isState",isState);
@@ -268,38 +248,18 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             if (which == 0) {
-                                takecamera();
-
+                                //takecamera();
+                                imageFileSelector.takePhoto(FuceStActivity.this);
                             } else if (which == 1) {
                                 //照片
-                                takepic();
+                                //takepic();
+                                imageFileSelector.selectImage(FuceStActivity.this);
                             }
                         }
                     }).create().show();
                 }
-//                final GetPhotoDialog dialog = new GetPhotoDialog(this,
-//                        new GetPhotoDialog.GetPhotoDialogListener() {
-//                            @Override
-//                            public void onClick(View view) {
-//                                switch(view.getId()){
-//                                    case R.id.imgbtn_camera:
-//                                        takecamera();
-//                                        break;
-//                                    case R.id.imgbtn_pic:
-//                                        takepic();
-//                                        break;
-//                                }
-//                            }
-//                        });
-//                dialog.setTitle("照片上传");
-//                dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
-//                dialog.show();
+
                 break;
-//            case R.id.bt_pingshen:
-//                if (isState.equals("true")) {
-//                    validateLife.validate();
-//                }
-//                break;
             case R.id.tv_right:
                 if (isState.equals("true")) {
                     validateLife.validate();
@@ -349,9 +309,6 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
             retestWrite.setUpLegGirth(retestAuditModelEvent.getRetestAuditModels().get(0).getUpLegGirth());
             retestWrite.setDoLegGirth(retestAuditModelEvent.getRetestAuditModels().get(0).getDoLegGirth());
             isState="false";
-//            bt_pingshen.setFocusable(false);
-//            bt_pingshen.setBackgroundResource(R.drawable.shape_retest_write_boder_disable);
-//            bt_pingshen.setTextColor(this.getResources().getColor(R.color.grey));
             btn_retest_write_addbodyst.setText("查看围度记录");
             tv_right.setFocusable(false);
 
@@ -360,8 +317,6 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
                 Picasso.with(this).load(retestAuditModelEvent.getRetestAuditModels().get(0).getPhoto()).placeholder(R.drawable.img_default).error(R.drawable.img_default).into(im_retestwritest_showphoto);
             }
             else {
-//                im_retestwritest_showphoto.setVisibility(View.GONE);
-//                Picasso.with(this).load("www").placeholder(R.drawable.img_default).error(R.drawable.img_default).into(iv_writest_head);
             }
         }
         else {
@@ -375,75 +330,16 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     public void doGetPhotost(PhotModel photModel) {
         System.out.println("照片名称" + photModel.getImg());
         retestWrite.setImage(photModel.getImg()+"");
-        int i;
-        String m="0";
+
     }
 
 
-//    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//        //莱秤
-//        Log.i("莱秤被点击了。。。。。。。。。。。。。。。。。。。。。。");
-//        SharedPreferenceService.getInstance().put(LAI_CHEN_SWITCH_KEY1, isChecked);
-//        if (isChecked) {
-//            retestPre.doGetMeasure("0Pmg0UmrnZBYbcPABC5YB0pSqNXOFnB885ZYInLptG8YvAZsT87oGUPZtU5wbAad-26xsvP8Ov_eoq6Mj9rISg-XZiz2xesbiiqYPWK0AeYquQ8fXwXNpmvL0XwbUkse", "18206182086");
-//        }
-//    }
-
-    public void takecamera() {
-
-        path=(Environment.getExternalStorageDirectory().getPath())+"/123.jpg";
-        File file=new File(path.toString());
-        Uri uri= Uri.fromFile(file);
-        Intent intent=new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, uri);
-        startActivityForResult(intent,PHOTO);
-        Bitmap bitmap= null;
-        try {
-            bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        im_deletest.setVisibility(View.VISIBLE);
-        im_retestwritest_showphoto.setVisibility(View.VISIBLE);
-        im_retestwritest_showphoto.setImageBitmap(bitmap);
-        Log.i("path:"+path);
-    }
-    public void takepic() {
-        Intent picture = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(picture, 101);
-    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode == RESULT_OK && requestCode == PHOTO) {
-            Bitmap bm = BitmapFactory.decodeFile(path.toString());
-            im_retestwritest_showphoto.setImageBitmap(bm);
-            retestPre.goGetPicture(path.toString());
-        }
-        if (requestCode == 101 && resultCode == Activity.RESULT_OK && null != data) {
-            Uri selectedImage = data.getData();
-            String[] filePathColumns = {MediaStore.Images.Media.DATA};
-            Cursor c = this.getContentResolver().query(selectedImage, filePathColumns, null, null, null);
-            c.moveToFirst();
-            int columnIndex = c.getColumnIndex(filePathColumns[0]);
-            String picturePath = c.getString(columnIndex);
-            Bitmap bitmap = null;
-            try {
-                bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(selectedImage));
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            im_deletest.setVisibility(View.VISIBLE);
-            im_retestwritest_showphoto.setVisibility(View.VISIBLE);
-            im_retestwritest_showphoto.setImageBitmap(bitmap);
-            retestPre.goGetPicture(picturePath.toString());
-            Log.i("picturePath------------------------------------------------:" + picturePath);
-            c.close();
-        }
+        imageFileSelector.onActivityResult(requestCode,resultCode,data);
         //身体围度值传递
         if (requestCode == GET_BODY && resultCode == RESULT_OK) {
-            Log.i("》》》》》requestCode：" + requestCode + "resultCode：" + resultCode);
             retestWrite = (RetestWriteModel) data.getSerializableExtra("retestWrite");
             Log.i("新学员录入围度:retestWrite" + retestWrite);
         }
@@ -550,5 +446,18 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     @Override
     public void onValidationFailed(View failedView, Rule<?> failedRule) {
         validateLife.onValidationFailed(failedView, failedRule);
+    }
+
+    @Override
+    public void onSuccess(String file) {
+        Log.i("摘牌回来了");
+        Picasso.with(this).load(new File(file)).fit().into(im_retestwritest_showphoto);
+        //im_retestwritest_showphoto.setImageBitmap(BitmapFactory.decodeFile(file));
+        retestPre.goGetPicture(file);
+    }
+
+    @Override
+    public void onError() {
+
     }
 }

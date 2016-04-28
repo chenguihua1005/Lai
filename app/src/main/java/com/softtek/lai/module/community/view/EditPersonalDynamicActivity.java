@@ -25,8 +25,7 @@ import com.softtek.lai.module.community.presenter.PersionalDynamicManager;
 import com.softtek.lai.module.lossweightstory.model.UploadImage;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.CustomGridView;
-import com.sw926.imagefileselector.ImageCropper;
-import com.sw926.imagefileselector.ImageFileSelector;
+import com.sw926.imagefileselector.ImageFileCropSelector;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -40,8 +39,7 @@ import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_edit_personal_dynamic)
 public class EditPersonalDynamicActivity extends BaseActivity implements View.OnClickListener
-,Validator.ValidationListener,AdapterView.OnItemClickListener,ImageFileSelector.Callback,
-        ImageCropper.ImageCropperCallback{
+,Validator.ValidationListener,AdapterView.OnItemClickListener,ImageFileCropSelector.Callback{
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -64,8 +62,7 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
     private CommunityPhotoGridViewAdapter adapter;
 
     private PersionalDynamicManager manager;
-    private ImageFileSelector imageFileSelector;
-    private ImageCropper imageCropper;
+    private ImageFileCropSelector imageFileCropSelector;
 
     @Override
     protected void initViews() {
@@ -96,15 +93,16 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
         images.add(new UploadImage(null, BitmapFactory.decodeResource(getResources(), R.drawable.shizi)));
         adapter=new CommunityPhotoGridViewAdapter(images,this);
         cgv.setAdapter(adapter);
-        imageFileSelector=new ImageFileSelector(this);
-        imageFileSelector.setQuality(30);
-        int px= DisplayUtil.dip2px(this,300);
-        imageFileSelector.setOutPutImageSize(px,px);
-        imageCropper=new ImageCropper(this);
-        imageCropper.setOutPutAspect(1,1);
-        imageCropper.setScale(true);
-        imageCropper.setCallback(this);
-        imageFileSelector.setCallback(this);
+
+        int px=DisplayUtil.dip2px(this,300);
+        //*************************
+        imageFileCropSelector=new ImageFileCropSelector(this);
+        imageFileCropSelector.setOutPutImageSize(px, px);
+        imageFileCropSelector.setQuality(30);
+        imageFileCropSelector.setScale(true);
+        imageFileCropSelector.setOutPutAspect(1, 1);
+        imageFileCropSelector.setOutPut(px,px);
+        imageFileCropSelector.setCallback(this);
     }
 
     @Override
@@ -183,10 +181,10 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
                 public void onClick(DialogInterface dialog, int which) {
                     if(which==0){
                         //打开照相机
-                        imageFileSelector.takePhoto(EditPersonalDynamicActivity.this);
+                        imageFileCropSelector.takePhoto(EditPersonalDynamicActivity.this);
                     }else if(which==1){
                         //打开图库
-                        imageFileSelector.selectImage(EditPersonalDynamicActivity.this);
+                        imageFileCropSelector.selectImage(EditPersonalDynamicActivity.this);
                     }
                 }
             }).create().show();
@@ -201,8 +199,8 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        imageFileSelector.onActivityResult(requestCode, resultCode, data);
-        imageCropper.onActivityResult(requestCode,resultCode,data);
+        imageFileCropSelector.onActivityResult(requestCode,resultCode,data);
+        imageFileCropSelector.getmImageCropperHelper().onActivityResult(requestCode,resultCode,data);
         if(resultCode==RESULT_OK){
             if(requestCode==OPEN_PREVIEW){
                 int position= data.getIntExtra("position", 0);
@@ -215,22 +213,11 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
 
         }
     }
-    private File dir;
 
     @Override
     public void onSuccess(String file) {
-        dir=new File(file);
-        imageCropper.cropImage(dir);
-    }
-
-    @Override
-    public void onError() {
-
-    }
-
-    @Override
-    public void onCropperCallback(ImageCropper.CropperResult result, File srcFile, File outFile) {
         UploadImage image=new UploadImage();
+        File outFile=new File(file);
         image.setImage(outFile);
         image.setBitmap(BitmapFactory.decodeFile(outFile.getAbsolutePath()));
         images.add(0, image);
@@ -239,4 +226,10 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
         }
         adapter.notifyDataSetChanged();
     }
+
+    @Override
+    public void onError() {
+
+    }
+
 }

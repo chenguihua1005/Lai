@@ -56,12 +56,9 @@ public class RegistPresenterImpl implements IRegistPresenter {
                     Log.i("注册成功");
                     Log.i(userResponseData.toString());
                     int status = userResponseData.getStatus();
-                    Util.toastMsg(userResponseData.getMsg());
                     switch (status) {
                         case 200:
-                            //SharedPreferenceService.getInstance().put("token", userResponseData.getData().getToken());
                             UserInfoModel.getInstance().saveUserCache(userResponseData.getData());
-                            //acache.put(Constants.USER_ACACHE_KEY, userResponseData.getData());
                             context.startActivity(new Intent(context, CreatFlleActivity.class));
                             break;
                         default:

@@ -96,8 +96,6 @@ public class GradeImpl implements IGrade {
                 info.setCreateDate(DateUtil.getInstance(DateUtil.yyyy_MM_dd_HH_mm_ss).getCurrentDate());
                 info.setDyContent(dyContent);
                 EventBus.getDefault().post(info);
-                Util.toastMsg(responseData.getMsg());
-                Log.i(responseData.toString());
             }
 
             @Override
@@ -110,7 +108,6 @@ public class GradeImpl implements IGrade {
     @Override
     public void getStudentList(String orderType, String classId, final PullToRefreshListView lv) {
         String userId=UserInfoModel.getInstance().getUser().getUserid();
-        Log.i("accountid="+userId+";classiD="+classId+";orderType="+orderType);
         service.getStudentsList(token,Long.parseLong(userId),classId,orderType, new Callback<ResponseData<List<StudentModel>>>() {
             @Override
             public void success(ResponseData<List<StudentModel>> studentResponseData, Response response) {
@@ -168,7 +165,6 @@ public class GradeImpl implements IGrade {
                 new Callback<ResponseData<BannerModel>>() {
                     @Override
                     public void success(ResponseData<BannerModel> responseData, Response response) {
-                        Util.toastMsg(responseData.getMsg());
                         if (callBack != null) {
                             callBack.onSuccess(responseData.getData().getPath(), image);
                         }

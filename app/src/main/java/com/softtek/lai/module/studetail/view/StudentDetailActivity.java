@@ -27,6 +27,8 @@ import com.softtek.lai.module.studetail.presenter.IMemberInfopresenter;
 import com.softtek.lai.module.studetail.presenter.MemberInfoImpl;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
+
+import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -133,9 +135,9 @@ public class StudentDetailActivity extends BaseActivity implements View.OnClickL
         tv_name.setText(memberModel.getUserName());
         tv_phone.setText(memberModel.getMobile());
         tv_totle_log.setText(memberModel.getLogCount() + "篇");
-        tv_totle_lw.setText(memberModel.getLossWeight() + "斤");
-        tv_loss_before.setText(memberModel.getLossBefor() + "斤");
-        tv_loss_after.setText(memberModel.getLossAfter() + "斤");
+        tv_totle_lw.setText(StringUtils.isEmpty(memberModel.getLossWeight())?"0":memberModel.getLossWeight() + "斤");
+        tv_loss_before.setText(StringUtils.isEmpty(memberModel.getLossBefor())?"0":memberModel.getLossBefor() + "斤");
+        tv_loss_after.setText(StringUtils.isEmpty(memberModel.getLossAfter())?"0":memberModel.getLossAfter() + "斤");
         if(memberModel.getPhoto()!=null&&memberModel.getPhoto().equals("")){
             Picasso.with(this).load(memberModel.getPhoto()).placeholder(R.drawable.img_default).error(R.drawable.img_default).into(civ_header_image);
         }

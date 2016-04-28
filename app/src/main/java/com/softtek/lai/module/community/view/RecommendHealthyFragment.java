@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.github.snowdream.android.util.Log;
@@ -37,6 +38,8 @@ public class RecommendHealthyFragment extends BaseFragment implements AdapterVie
 
     @InjectView(R.id.ptrlv)
     PullToRefreshListView ptrlv;
+    @InjectView(R.id.img_mo_message)
+    ImageView img_mo_message;
 
     private RecommentHealthyManager community;
     private HealthyCommunityAdapter adapter;
@@ -49,6 +52,7 @@ public class RecommendHealthyFragment extends BaseFragment implements AdapterVie
         ptrlv.setOnRefreshListener(this);
         ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
         ptrlv.setOnItemClickListener(this);
+        ptrlv.setEmptyView(img_mo_message);
     }
     long accountId=0;
     @Override

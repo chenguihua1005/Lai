@@ -48,7 +48,6 @@ public class CreateFileImpl implements ICreateFilepresenter {
                         UserModel model = UserInfoModel.getInstance().getUser();
                         model.setNickname(file.getNickname());
                         UserInfoModel.getInstance().saveUserCache(model);
-                        Util.toastMsg("创建档案成功");
                         Intent intent = new Intent(context, HomeActviity.class);
                         context.startActivity(intent);
                         break;

@@ -28,8 +28,6 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.counselor.presenter.IStudentPresenter;
 import com.softtek.lai.module.counselor.presenter.StudentImpl;
-import com.softtek.lai.module.counselor.view.AssistantListActivity;
-import com.softtek.lai.module.counselor.view.InviteStudentActivity;
 import com.softtek.lai.module.grade.adapter.DynamicAdapter;
 import com.softtek.lai.module.grade.model.BannerUpdateCallBack;
 import com.softtek.lai.module.grade.model.DynamicInfoModel;
@@ -43,8 +41,7 @@ import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
-import com.sw926.imagefileselector.ImageCropper;
-import com.sw926.imagefileselector.ImageFileSelector;
+import com.sw926.imagefileselector.ImageFileCropSelector;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -60,7 +57,7 @@ import zilla.libcore.ui.InjectLayout;
 @InjectLayout(R.layout.activity_grade_home)
 public class GradeHomeActivity extends BaseActivity implements View.OnClickListener, DialogInterface.OnClickListener
         , TextWatcher, BannerUpdateCallBack,GradeImpl.GradeCalllback,PullToRefreshBase.OnRefreshListener2
-,ImageFileSelector.Callback,ImageCropper.ImageCropperCallback{
+,ImageFileCropSelector.Callback{
 
     @InjectView(R.id.tv_title)
     TextView tv_title;
@@ -126,8 +123,7 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
     private long accountId=0;
     private int pageIndex;
 
-    private ImageFileSelector imageFileSelector;
-    private ImageCropper imageCropper;
+    private ImageFileCropSelector imageFileCropSelector;
     private IStudentPresenter studentPresenter;
 
     @Override
@@ -169,16 +165,15 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
         adapter = new DynamicAdapter(this, dynamicInfos);
         lv_dynamic.setAdapter(adapter);
         grade.getClassDynamic(classId,1);
-        imageFileSelector=new ImageFileSelector(this);
-        imageFileSelector.setQuality(30);
+
         int px= DisplayUtil.dip2px(this, 300);
-        imageFileSelector.setOutPutImageSize(px,px);
-        imageCropper=new ImageCropper(this);
-        imageCropper.setOutPutAspect(2, 1);
-        imageCropper.setOutPut(DisplayUtil.getMobileWidth(this),DisplayUtil.dip2px(this,130));
-        imageCropper.setScale(true);
-        imageCropper.setCallback(this);
-        imageFileSelector.setCallback(this);
+        imageFileCropSelector=new ImageFileCropSelector(this);
+        imageFileCropSelector.setOutPutImageSize(px, px);
+        imageFileCropSelector.setQuality(30);
+        imageFileCropSelector.setScale(true);
+        imageFileCropSelector.setOutPutAspect(1, 1);
+        imageFileCropSelector.setOutPut(DisplayUtil.getMobileWidth(this),DisplayUtil.dip2px(this,130));
+        imageFileCropSelector.setCallback(this);
 
     }
 
@@ -197,10 +192,10 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
                     public void onClick(DialogInterface dialog, int which) {
                         if(which==0){
                             //拍照
-                            imageFileSelector.takePhoto(GradeHomeActivity.this);
+                            imageFileCropSelector.takePhoto(GradeHomeActivity.this);
                         }else if(which==1){
                             //照片
-                            imageFileSelector.selectImage(GradeHomeActivity.this);
+                            imageFileCropSelector.selectImage(GradeHomeActivity.this);
                         }
                     }
                 }).create().show();
@@ -370,8 +365,8 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        imageFileSelector.onActivityResult(requestCode, resultCode, data);
-        imageCropper.onActivityResult(requestCode, resultCode, data);
+        imageFileCropSelector.onActivityResult(requestCode,resultCode,data);
+        imageFileCropSelector.getmImageCropperHelper().onActivityResult(requestCode,resultCode,data);
     }
 
     @Override
@@ -422,20 +417,16 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
         grade.getClassDynamic(classId,pageIndex);
     }
 
+
     @Override
     public void onSuccess(String file) {
-        imageCropper.cropImage(new File(file));
+        progressDialog.setMessage("正在上传图片,请稍候...");
+        progressDialog.show();
+        grade.updateClassBanner(classId, "2", new File(file));
     }
 
     @Override
     public void onError() {
 
-    }
-
-    @Override
-    public void onCropperCallback(ImageCropper.CropperResult result, File srcFile, File outFile) {
-        progressDialog.setMessage("正在上传图片,请稍候...");
-        progressDialog.show();
-        grade.updateClassBanner(classId, "2", outFile);
     }
 }
