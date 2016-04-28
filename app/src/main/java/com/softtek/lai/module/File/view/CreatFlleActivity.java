@@ -242,7 +242,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         Log.i("file:--------------" + file);
         file.setNickname(nick);
         file.setBrithday(birthday);
-        file.setGender(gender.equals("女") ? 0 : 1);
+        file.setGender(gender.equals("男") ? 0 : 1);
         file.setHeight(Integer.parseInt(height));
         file.setWeight(Integer.parseInt(weight));
         Log.i("file>>>>>>>>>>>>>>>>>>>" + file);
