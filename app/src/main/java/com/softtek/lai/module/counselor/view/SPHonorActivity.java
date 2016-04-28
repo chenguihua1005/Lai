@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -55,6 +56,11 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
+    @InjectView(R.id.fl_right)
+    FrameLayout fl_right;
+
+    @InjectView(R.id.tv_right)
+    TextView tv_right;
 
     @InjectView(R.id.tv_title)
     TextView tv_title;
@@ -111,6 +117,7 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ll_left.setOnClickListener(this);
+        fl_right.setOnClickListener(this);
         EventBus.getDefault().register(this);
 
 
@@ -217,6 +224,7 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
     protected void initViews() {
         //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
         tv_title.setText(R.string.CounselorF);
+        tv_right.setText("分享");
         list_stars.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -244,6 +252,10 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
         switch (v.getId()) {
             case R.id.ll_left:
                 finish();
+                break;
+
+            case R.id.fl_right:
+
                 break;
 
         }
