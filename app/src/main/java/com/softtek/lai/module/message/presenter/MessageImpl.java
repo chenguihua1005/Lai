@@ -49,9 +49,15 @@ public class MessageImpl implements IMessagePresenter {
 
     private MessageService messageService;
     private BaseActivity context;
+    private Context contexts;
 
     public MessageImpl(BaseActivity context) {
         this.context = context;
+        messageService = ZillaApi.NormalRestAdapter.create(MessageService.class);
+    }
+
+    public MessageImpl(Context contexts) {
+        this.contexts = contexts;
         messageService = ZillaApi.NormalRestAdapter.create(MessageService.class);
     }
 
