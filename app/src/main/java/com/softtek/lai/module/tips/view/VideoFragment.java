@@ -108,8 +108,6 @@ public class VideoFragment extends BaseFragment implements
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         AskHealthyModel model=modelList.get(position-1);
-        Log.i("视频地址="+AddressManager.get("photoHost")+model.getTips_Addr());
-        //"http://flv.bitauto.com/2014/2015/11/16/25f0fc93ee67761b-sd.mp4"
         Uri uri=Uri.parse(AddressManager.get("photoHost")+model.getTips_Addr());
         Intent intent=new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(uri,"video/*");

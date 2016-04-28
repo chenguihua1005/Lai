@@ -89,6 +89,21 @@
         <item name="tabSelectedTextColor">?android:textColorPrimary</item>
         <!--TAB选中文字颜色-->
     </style>
+    <style name="myTabLayout3" parent="Widget.Design.TabLayout">
+        <!--<item name="tabMaxWidth">36dp</item> --><!--TAB最大宽度-->
+        <item name="tabIndicatorColor">#00000000</item>
+        <!--TAB底部滑块颜色-->
+        <item name="tabIndicatorHeight">0dp</item>
+        <!--TAB底部滑块高度-->
+        <item name="tabPaddingStart">2dp</item>
+        <!--TAB左边padding-->
+        <item name="tabBackground">@color/white</item>
+        <!--TAB背景色-->
+        <item name="tabTextAppearance">@style/MyCustomTabTextAppearance1</item>
+        <!--TAB文字样式-->
+        <item name="tabSelectedTextColor">?android:textColorPrimary</item>
+        <!--TAB选中文字颜色-->
+    </style>
 
     <style name="MyCustomTabTextAppearance1" parent="TextAppearance.Design.Tab"> <!--TAB文字样式-->
         <item name="android:textSize">14sp</item>

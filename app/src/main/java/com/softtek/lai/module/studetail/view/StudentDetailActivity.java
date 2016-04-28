@@ -136,17 +136,17 @@ public class StudentDetailActivity extends BaseActivity implements View.OnClickL
         tv_phone.setText(memberModel.getMobile());
         tv_totle_log.setText(memberModel.getLogCount() + "篇");
         Log.i("学员详情="+memberModel.toString());
-        tv_totle_lw.setText(StringUtils.isEmpty(memberModel.getLossWeight())?"0":memberModel.getLossWeight() + "斤");
-        tv_loss_before.setText(StringUtils.isEmpty(memberModel.getLossBefor())?"0":memberModel.getLossBefor() + "斤");
-        tv_loss_after.setText(StringUtils.isEmpty(memberModel.getLossAfter())?"0":memberModel.getLossAfter() + "斤");
-        if(StringUtils.isEmpty(memberModel.getPhoto())){
-            Picasso.with(this).load(memberModel.getPhoto()).placeholder(R.drawable.img_default).error(R.drawable.img_default).into(civ_header_image);
+        tv_totle_lw.setText(StringUtils.isEmpty(memberModel.getLossWeight())?"0.0斤":memberModel.getLossWeight() + "斤");
+        tv_loss_before.setText(StringUtils.isEmpty(memberModel.getLossBefore())?"0.0斤":memberModel.getLossBefore() + "斤");
+        tv_loss_after.setText(StringUtils.isEmpty(memberModel.getLossAfter())?"0.0斤":memberModel.getLossAfter() + "斤");
+        if(!StringUtils.isEmpty(memberModel.getPhoto())){
+            Picasso.with(this).load(memberModel.getPhoto()).fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(civ_header_image);
         }
-        if(StringUtils.isEmpty(memberModel.getBeforImg())){
-            Picasso.with(this).load(memberModel.getBeforImg()).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_loss_before);
+        if(!StringUtils.isEmpty(memberModel.getBeforeImg())){
+            Picasso.with(this).load(memberModel.getBeforeImg()).fit().placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_loss_before);
         }
-        if(StringUtils.isEmpty(memberModel.getAfterImg())){
-            Picasso.with(this).load(memberModel.getAfterImg()).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_loss_after);
+        if(!StringUtils.isEmpty(memberModel.getAfterImg())){
+            Picasso.with(this).load(memberModel.getAfterImg()).fit().placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_loss_after);
         }
     }
 
