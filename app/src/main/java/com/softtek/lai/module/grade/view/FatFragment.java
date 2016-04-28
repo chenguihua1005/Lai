@@ -18,7 +18,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.grade.adapter.LossWeightAdapter;
+import com.softtek.lai.module.grade.adapter.FatAdapter;
 import com.softtek.lai.module.grade.eventModel.LossWeightEvent;
 import com.softtek.lai.module.grade.model.StudentModel;
 import com.softtek.lai.module.grade.presenter.GradeImpl;
@@ -52,7 +52,7 @@ public class FatFragment extends BaseFragment implements PullToRefreshBase.OnRef
     private IGrade grade;
 
     private List<StudentModel> studentModels = new ArrayList<>();
-    private LossWeightAdapter adapter;
+    private FatAdapter adapter;
 
     private static FatFragment fragment=null;
     /**
@@ -84,7 +84,7 @@ public class FatFragment extends BaseFragment implements PullToRefreshBase.OnRef
         classId=getArguments().getString("classId");
         review_flag=getArguments().getString("review");
         grade = new GradeImpl();
-        adapter = new LossWeightAdapter(getContext(), studentModels, Integer.parseInt(Constants.PHYSIQUE));
+        adapter = new FatAdapter(getContext(), studentModels);
         ptrlv.setAdapter(adapter);
         ptrlv.setOnRefreshListener(this);
         //第一次加载自动刷新

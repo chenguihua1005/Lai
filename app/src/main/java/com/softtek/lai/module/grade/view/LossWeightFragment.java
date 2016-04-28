@@ -80,7 +80,7 @@ public class LossWeightFragment extends BaseFragment implements PullToRefreshBas
         classId=getArguments().getString("classId");
         review_flag=getArguments().getString("review");
         grade = new GradeImpl();
-        adapter = new LossWeightAdapter(getContext(), studentModels, Integer.parseInt(Constants.LOSS_WEIGHT));
+        adapter = new LossWeightAdapter(getContext(), studentModels);
         ptrlv.setAdapter(adapter);
         ptrlv.setOnRefreshListener(this);
         //第一次加载自动刷新

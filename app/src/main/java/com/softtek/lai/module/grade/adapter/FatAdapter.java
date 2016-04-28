@@ -25,15 +25,14 @@ import zilla.libcore.file.AddressManager;
 /**
  * Created by jerry.guan on 3/22/2016.
  */
-public class LossWeightAdapter extends BaseAdapter {
+public class FatAdapter extends BaseAdapter {
 
     private LayoutInflater inflater;
 
     private List<StudentModel> students;
     private Context context;
 
-
-    public LossWeightAdapter(Context context, List<StudentModel> studentModels) {
+    public FatAdapter(Context context, List<StudentModel> studentModels) {
         this.context = context;
         inflater = LayoutInflater.from(context);
         this.students = studentModels;
@@ -56,50 +55,49 @@ public class LossWeightAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
+
+        PhysicalHolder holder = null;
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.loss_weight_item, parent, false);
-            holder = new ViewHolder(convertView);
+            convertView = inflater.inflate(R.layout.physical_item, parent, false);
+            holder = new PhysicalHolder(convertView);
             convertView.setTag(holder);
         } else {
-            holder = (ViewHolder) convertView.getTag();
+            holder = (PhysicalHolder) convertView.getTag();
         }
         StudentModel studentModel = students.get(position);
+        holder.tv_order.setText(studentModel.getOrderNum()+"");
         int order = studentModel.getOrderNum();
-        holder.tv_order.setText(order+"");
         if (order == 1 || order == 2 || order == 3) {
             holder.tv_order.setTextColor(Color.parseColor("#FDB02B"));
         }
+        holder.tv_py_before.setText("前 " + studentModel.getLossBefor() + "%");
+        holder.tv_py_after.setText("后 " + studentModel.getLossAfter() + "%");
         holder.tv_name.setText(studentModel.getUserName());
-        holder.tv_lw_before.setText("前 " + studentModel.getLossBefor() + "斤");
-        holder.tv_lw_after.setText("后 " + studentModel.getLossAfter() + "斤");
-        holder.tv_lw_totle.setText(studentModel.getLossWeght());
+        holder.tv_physical.setText(studentModel.getPysical());
         if (!"".equals(studentModel.getPhoto()) && null != studentModel.getPhoto()) {
             Picasso.with(context).load(AddressManager.get("photoHost") + studentModel.getPhoto()).fit().placeholder(R.drawable.img_default)
                     .error(R.drawable.img_default).into(holder.civ_header_image);
         }
         return convertView;
 
+
     }
 
-
-    static class ViewHolder {
+    static class PhysicalHolder {
         TextView tv_order;
         TextView tv_name;
-        TextView tv_lw_before;
-        TextView tv_lw_after;
-        TextView tv_lw_totle;
+        TextView tv_physical;
         CircleImageView civ_header_image;
+        TextView tv_py_before;
+        TextView tv_py_after;
 
-        public ViewHolder(View view) {
+        public PhysicalHolder(View view) {
             tv_order = (TextView) view.findViewById(R.id.tv_order);
             tv_name = (TextView) view.findViewById(R.id.tv_name);
-            tv_lw_before = (TextView) view.findViewById(R.id.tv_lw_before);
-            tv_lw_after = (TextView) view.findViewById(R.id.tv_lw_after);
-            tv_lw_totle = (TextView) view.findViewById(R.id.tv_lw_totle);
+            tv_physical = (TextView) view.findViewById(R.id.tv_pysical);
             civ_header_image = (CircleImageView) view.findViewById(R.id.civ_header_image);
-
+            tv_py_after = (TextView) view.findViewById(R.id.tv_py_after);
+            tv_py_before = (TextView) view.findViewById(R.id.tv_py_before);
         }
     }
-
 }

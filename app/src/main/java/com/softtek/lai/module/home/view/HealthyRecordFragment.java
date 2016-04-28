@@ -107,7 +107,6 @@ public class HealthyRecordFragment extends BaseFragment implements View.OnClickL
 
     @Override
     protected void initViews() {
-        //EventBus.getDefault().register(this);
         ll_left.setVisibility(View.GONE);
         fl_right.setOnClickListener(this);
         tv_weight.setOnClickListener(this);
@@ -142,21 +141,11 @@ public class HealthyRecordFragment extends BaseFragment implements View.OnClickL
             mobile=UserInfoModel.getInstance().getUser().getMobile();
             retestPre=new HealthyRecordManager(this);
             retestPre.GetUserMeasuredInfo(mobile);
-            /*new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    healthy_refresh.setRefreshing();
-                }
-            }, 300);*/
+
         }
 
     }
 
-    @Override
-    public void onDestroy() {
-        //EventBus.getDefault().unregister(this);
-        super.onDestroy();
-    }
 
     private static final int EDIT_HEALTHY_RECORD=2;
     @Override
@@ -220,7 +209,7 @@ public class HealthyRecordFragment extends BaseFragment implements View.OnClickL
                 startActivity(intent8);
                 break;
             case R.id.tv_healthhistoty:
-                startActivity(new Intent(getContext(), HistoryDataActivity.class));
+                startActivityForResult(new Intent(getContext(), HistoryDataActivity.class),2);
                 break;
             case R.id.but_login:
                 Intent i=new Intent(getContext(), LoginActivity.class);

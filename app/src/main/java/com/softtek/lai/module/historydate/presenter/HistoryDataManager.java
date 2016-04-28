@@ -64,10 +64,10 @@ public class HistoryDataManager {
             @Override
             public void success(ResponseData responseData, Response response) {
                 Log.i(responseData.toString());
-                Util.toastMsg(responseData.getMsg());
                 if(responseData.getStatus()==200){
                     cb.deleteResult(true);
                 }else{
+                    Util.toastMsg(responseData.getMsg());
                     cb.deleteResult(false);
                 }
 
