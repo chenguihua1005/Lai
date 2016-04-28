@@ -59,7 +59,7 @@ android:background="#FFFFFF">
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:text="kg"/>
+            android:text="斤"/>
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
@@ -84,7 +84,7 @@ android:background="#FFFFFF">
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:text="kg"/>
+            android:text="斤"/>
     </LinearLayout>
 </LinearLayout>
 <LinearLayout
@@ -108,7 +108,7 @@ android:background="#FFFFFF">
         android:layout_height="match_parent"
         android:gravity="center"
         android:textSize="12sp"
-        android:text="kg"
+        android:text="斤"
         android:layout_marginRight="15dp"/>
 
 </LinearLayout>

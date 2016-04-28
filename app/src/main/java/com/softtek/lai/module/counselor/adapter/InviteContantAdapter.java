@@ -14,6 +14,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.softtek.lai.R;
+import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.counselor.model.ContactListInfoModel;
 import com.softtek.lai.module.counselor.presenter.IStudentPresenter;
 import com.softtek.lai.module.counselor.presenter.StudentImpl;
@@ -30,13 +31,13 @@ import java.util.List;
 public class InviteContantAdapter extends BaseAdapter {
     private LayoutInflater mInflater;//得到一个LayoutInfalter对象用来导入布局
     private List<ContactListInfoModel> list;
-    private Context context;
+    private BaseActivity context;
     private IStudentPresenter studentPresenter;
 
     /**
      * 构造函数
      */
-    public InviteContantAdapter(Context context, List<ContactListInfoModel> list) {
+    public InviteContantAdapter(BaseActivity context, List<ContactListInfoModel> list) {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
         this.list = list;
@@ -94,6 +95,7 @@ public class InviteContantAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 String classId = SharedPreferenceService.getInstance().get("classId", "");
+                context.dialogShow("加载中");
                 studentPresenter.sendInviterMsg(contactListInfo.getMobile().toString(), classId, holder.img_invite);
             }
         });

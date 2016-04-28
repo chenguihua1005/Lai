@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
@@ -47,10 +48,16 @@ import zilla.libcore.util.Util;
 public class MessageImpl implements IMessagePresenter {
 
     private MessageService messageService;
-    private Context context;
+    private BaseActivity context;
+    private Context contexts;
 
-    public MessageImpl(Context context) {
+    public MessageImpl(BaseActivity context) {
         this.context = context;
+        messageService = ZillaApi.NormalRestAdapter.create(MessageService.class);
+    }
+
+    public MessageImpl(Context contexts) {
+        this.contexts = contexts;
         messageService = ZillaApi.NormalRestAdapter.create(MessageService.class);
     }
 
@@ -63,6 +70,7 @@ public class MessageImpl implements IMessagePresenter {
             public void success(ResponseData listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
+                context.dialogDissmiss();
                 switch (status) {
                     case 200:
                         EventBus.getDefault().post(listResponseData);
@@ -75,6 +83,7 @@ public class MessageImpl implements IMessagePresenter {
 
             @Override
             public void failure(RetrofitError error) {
+                context.dialogDissmiss();
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }
@@ -116,6 +125,7 @@ public class MessageImpl implements IMessagePresenter {
             public void success(ResponseData listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
+                context.dialogDissmiss();
                 switch (status) {
                     case 200:
                         EventBus.getDefault().post(listResponseData);
@@ -128,6 +138,7 @@ public class MessageImpl implements IMessagePresenter {
 
             @Override
             public void failure(RetrofitError error) {
+                context.dialogDissmiss();
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }
@@ -141,7 +152,7 @@ public class MessageImpl implements IMessagePresenter {
             @Override
             public void success(ResponseData<MessageModel> listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());
-                ((MessageActivity) context).dialogDissmiss();
+                context.dialogDissmiss();
                 int status = listResponseData.getStatus();
                 MessageModel messageModel = listResponseData.getData();
                 switch (status) {
@@ -156,7 +167,7 @@ public class MessageImpl implements IMessagePresenter {
 
             @Override
             public void failure(RetrofitError error) {
-                ((MessageActivity) context).dialogDissmiss();
+                context.dialogDissmiss();
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }
@@ -171,6 +182,7 @@ public class MessageImpl implements IMessagePresenter {
             public void success(ResponseData listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
+                context.dialogDissmiss();
                 switch (status) {
                     case 200:
                         if ("0".equals(acceptType)) {
@@ -190,7 +202,7 @@ public class MessageImpl implements IMessagePresenter {
                             intent.putExtra("type", "1");
                             context.startActivity(intent);
                         }
-                        ((AppCompatActivity) context).finish();
+                        context.finish();
                         break;
                     default:
                         Util.toastMsg(listResponseData.getMsg());
@@ -200,6 +212,7 @@ public class MessageImpl implements IMessagePresenter {
 
             @Override
             public void failure(RetrofitError error) {
+                context.dialogDissmiss();
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }
@@ -214,17 +227,18 @@ public class MessageImpl implements IMessagePresenter {
             public void success(ResponseData listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
+                context.dialogDissmiss();
                 switch (status) {
                     case 200:
                         if ("1".equals(acceptType)) {
                             Intent intent = new Intent(context, BodygameSRActivity.class);
                             intent.putExtra("type", "0");
                             context.startActivity(intent);
-                            ((AppCompatActivity) context).finish();
+                            context.finish();
                         } else {
                             Intent intent = new Intent(context, MessageActivity.class);
                             context.startActivity(intent);
-                            ((AppCompatActivity) context).finish();
+                            context.finish();
                         }
                         break;
                     default:
@@ -235,6 +249,7 @@ public class MessageImpl implements IMessagePresenter {
 
             @Override
             public void failure(RetrofitError error) {
+                context.dialogDissmiss();
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }

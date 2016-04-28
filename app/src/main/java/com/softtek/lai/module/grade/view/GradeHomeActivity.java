@@ -215,10 +215,12 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
                 startActivity(tutorIntent);
                 break;
             case R.id.ll_invite_tutor:
+                dialogShow("加载中");
                 studentPresenter.classInvitePCISOK(classId+"","0");
                 //邀请助教按钮
                 break;
             case R.id.ll_invite_student:
+                dialogShow("加载中");
                 studentPresenter.classInvitePCISOK(classId+"","1");
                 //邀请学员按钮
                 break;

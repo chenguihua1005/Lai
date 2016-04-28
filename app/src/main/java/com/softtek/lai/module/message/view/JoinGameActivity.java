@@ -104,7 +104,7 @@ public class JoinGameActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void initViews() {
         //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
-        tv_title.setText(R.string.message3);
+        tv_title.setText(R.string.message1);
 
     }
 
@@ -160,10 +160,12 @@ public class JoinGameActivity extends BaseActivity implements View.OnClickListen
                startActivity(new Intent(this,ZQSActivity.class));
                 break;
             case R.id.but_no:
+                dialogShow("加载中");
                 messagePresenter.acceptInviterToClass(messageDetailInfo.getInviterId(),messageDetailInfo.getClassId(),"0",messageDetailInfo);
                 break;
             case R.id.but_yes:
                 if (isSelect) {
+                    dialogShow("加载中");
                     messagePresenter.acceptInviterToClass(messageDetailInfo.getInviterId(),messageDetailInfo.getClassId(),"1",messageDetailInfo);
                 } else {
                     Util.toastMsg(R.string.joinGameQ);

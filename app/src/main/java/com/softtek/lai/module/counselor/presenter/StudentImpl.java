@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.softtek.lai.R;
+import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.counselor.adapter.InviteStudentAdapter;
@@ -35,9 +36,9 @@ import java.util.List;
 public class StudentImpl implements IStudentPresenter {
 
     private CounselorService counselorService;
-    private Context context;
+    private BaseActivity context;
 
-    public StudentImpl(Context context) {
+    public StudentImpl(BaseActivity context) {
         this.context = context;
         counselorService = ZillaApi.NormalRestAdapter.create(CounselorService.class);
     }
@@ -51,6 +52,7 @@ public class StudentImpl implements IStudentPresenter {
             public void success(ResponseData listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
+                context.dialogDissmiss();
                 switch (status) {
                     case 200:
                         img_invite.setImageDrawable(context.getResources().getDrawable(R.drawable.img_invited));
@@ -64,6 +66,7 @@ public class StudentImpl implements IStudentPresenter {
 
             @Override
             public void failure(RetrofitError error) {
+                context.dialogDissmiss();
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }
@@ -79,6 +82,7 @@ public class StudentImpl implements IStudentPresenter {
                 Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
                 List<InviteStudentInfoModel> list = listResponseData.getData();
+                context.dialogDissmiss();
                 switch (status) {
                     case 200:
                         InviteStudentAdapter adapter = new InviteStudentAdapter(context, list);
@@ -92,6 +96,7 @@ public class StudentImpl implements IStudentPresenter {
 
             @Override
             public void failure(RetrofitError error) {
+                context.dialogDissmiss();
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }
@@ -106,6 +111,7 @@ public class StudentImpl implements IStudentPresenter {
             public void success(ResponseData listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
+                context.dialogDissmiss();
                 switch (status) {
                     case 200:
                         if ("0".equals(type)) {
@@ -130,6 +136,7 @@ public class StudentImpl implements IStudentPresenter {
 
             @Override
             public void failure(RetrofitError error) {
+                context.dialogDissmiss();
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }

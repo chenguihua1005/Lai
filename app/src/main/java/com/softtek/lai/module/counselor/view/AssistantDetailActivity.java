@@ -139,6 +139,7 @@ public class AssistantDetailActivity extends BaseActivity implements View.OnClic
         aCache = ACache.get(this, Constants.USER_ACACHE_DATA_DIR);
         assistantId = getIntent().getStringExtra("assistantId");
         classId = getIntent().getStringExtra("classId");
+        dialogShow("加载中");
         ssistantPresenter.showAssistantDetails(assistantId, classId);
     }
 
@@ -149,6 +150,7 @@ public class AssistantDetailActivity extends BaseActivity implements View.OnClic
                 .setPositiveButton(getString(R.string.app_sure), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        dialogShow("加载中");
                         ssistantPresenter.removeAssistantRoleByClass(assistantId, classId, "0", "assistant");
                     }
                 })

@@ -149,7 +149,14 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
                 rel_2.setVisibility(View.GONE);
             } else {
                 rel_2.setVisibility(View.VISIBLE);
-                text_value2.setText(list_remove.get(0).getComments());
+                String msg_type = list_remove.get(0).getMsgType();
+                if ("1".equals(msg_type)) {
+                    String comments = list_remove.get(0).getComments();
+                    String[] str = comments.split("\\|");
+                    text_value2.setText(str[2]);
+                } else {
+                    text_value2.setText(list_remove.get(0).getComments());
+                }
             }
 
             if (list_apply.size() == 0) {

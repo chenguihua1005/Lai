@@ -87,6 +87,7 @@ public class ApplyAssistantActivity extends BaseActivity implements View.OnClick
     protected void initDatas() {
         assistantPresenter = new AssistantImpl(this);
         String id = UserInfoModel.getInstance().getUser().getUserid();
+        dialogShow("加载中");
         assistantPresenter.showSRApplyList(id, list_apply_assistant);
     }
 

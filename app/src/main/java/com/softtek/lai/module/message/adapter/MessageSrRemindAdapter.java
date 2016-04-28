@@ -14,6 +14,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
+import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.counselor.presenter.AssistantImpl;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 import com.softtek.lai.module.message.model.MeasureRemindInfo;
@@ -27,13 +28,13 @@ import java.util.ArrayList;
 public class MessageSrRemindAdapter extends BaseAdapter {
     private LayoutInflater mInflater;//得到一个LayoutInfalter对象用来导入布局
     private ArrayList<MessageDetailInfo> list;
-    private Context context;
+    private BaseActivity context;
     private IAssistantPresenter assistantPresenter;
 
     /**
      * 构造函数
      */
-    public MessageSrRemindAdapter(Context context, ArrayList<MessageDetailInfo> list) {
+    public MessageSrRemindAdapter(BaseActivity context, ArrayList<MessageDetailInfo> list) {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
         this.list = list;
