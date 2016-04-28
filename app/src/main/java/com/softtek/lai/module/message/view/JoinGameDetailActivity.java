@@ -589,7 +589,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
             coninfoModel.setAccountid(accoutid);
             coninfoModel.setNickname(et_nickname.getText().toString());
             coninfoModel.setBirthday(tv_birthday.getText().toString());
-            coninfoModel.setGender(tv_sex.getText().toString() == "男" ? 0 : 1);
+            coninfoModel.setGender(tv_sex.getText().toString().equals("男") ? 0 : 1);
             coninfoModel.setPhoto(change_photo);
             String weights = tv_weight.getText().toString().split("斤")[0];
             coninfoModel.setWeight(Double.parseDouble(weights));
