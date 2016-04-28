@@ -119,7 +119,7 @@ public class BodyweidustActivity extends BaseActivity implements View.OnClickLis
         tv_retest_waistline.setText(retestWrite.getWaistline().equals("")?"":Float.parseFloat(retestWrite.getWaistline())+"");
         tv_retest_hiplie.setText(retestWrite.getHiplie().equals("")?"":Float.parseFloat(retestWrite.getHiplie())+"");
         tv_retest_uparmgirth.setText(retestWrite.getUpArmGirth().equals("")?"":Float.parseFloat(retestWrite.getUpArmGirth())+"");
-        tv_retest_upleggirth.setText(retestWrite.getUpArmGirth().equals("")?"":Float.parseFloat(retestWrite.getUpArmGirth())+"");
+        tv_retest_upleggirth.setText(retestWrite.getUpLegGirth().equals("")?"":Float.parseFloat(retestWrite.getUpLegGirth())+"");
         tv_retest_doleggirth.setText(retestWrite.getDoLegGirth().equals("")?"":Float.parseFloat(retestWrite.getDoLegGirth())+"");
 
 
