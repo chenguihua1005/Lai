@@ -219,7 +219,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
             case R.id.ll_fucest_chu_weight:
                 if (isState.equals("true")) {
                     if (retestAuditModel.getIsFirst() == "true") {
-                        show_information("初始体重（kg）", 200, 70, 20, 9, 5, 0, 0);
+                        show_information("初始体重（斤）", 200, 70, 20, 9, 5, 0, 0);
                     } else {
                         Util.toastMsg("您不是第一次参加班级，不能修改初始体重");
                     }
@@ -227,7 +227,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
                 break;
             case R.id.ll_fucest_nowweight:
                 if (isState.equals("true")) {
-                    show_information("现在体重（kg）", 200, 70, 20, 9, 5, 0, 1);
+                    show_information("现在体重（斤）", 200, 70, 20, 9, 5, 0, 1);
                 }
                 break;
             case R.id.ll_fucest_tizhi:
@@ -237,7 +237,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
                 break;
             case R.id.ll_retestWrite_neizhi:
                 if (isState.equals("true")) {
-                    show_information("内脂（%）", 100, 50, 0, 9, 5, 0, 3);
+                    show_information("内脂", 100, 50, 0, 9, 5, 0, 3);
                 }
                 break;
             //拍照事件
