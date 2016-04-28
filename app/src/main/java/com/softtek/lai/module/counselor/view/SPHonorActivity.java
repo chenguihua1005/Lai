@@ -24,20 +24,24 @@ import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.counselor.adapter.HonorStudentAdapter;
 import com.softtek.lai.module.counselor.model.HonorInfoModel;
 import com.softtek.lai.module.counselor.model.HonorTable1Model;
 import com.softtek.lai.module.counselor.model.HonorTableModel;
+import com.softtek.lai.module.counselor.model.UserHonorModel;
 import com.softtek.lai.module.counselor.presenter.HonorImpl;
 import com.softtek.lai.module.counselor.presenter.IHonorPresenter;
 import com.softtek.lai.module.studetail.view.StudentDetailActivity;
 import com.softtek.lai.utils.ACache;
+import com.softtek.lai.utils.ShareUtils;
 import com.softtek.lai.utils.SoftInputUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
@@ -130,6 +134,16 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
     }
 
     @Subscribe
+    public void onEvent(UserHonorModel userHonorModel) {
+        System.out.println("userHonorModel:" + userHonorModel);
+        ShareUtils shareUtils = new ShareUtils(SPHonorActivity.this);
+        String url = "http://www.baidu.com";
+        String value = "我已累计服务" + userHonorModel.getNum() + "学员，共帮助他们减重" + userHonorModel.getSumLoss() + "斤，快来参加体重管理挑战赛吧！";
+        shareUtils.setShareContent("康宝莱体重管理挑战赛，坚持只为改变！", url, R.drawable.img_default, value, value + url);
+        shareUtils.getController().openShare(SPHonorActivity.this, false);
+    }
+
+    @Subscribe
     public void onEvent(HonorInfoModel honorInfo) {
         System.out.println("honorInfo:" + honorInfo);
         honorTable1 = honorInfo.getTable1();
@@ -149,13 +163,13 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
                     text_fc_mc.setText(rank_num);
                     img_fc.setImageResource(R.drawable.img_honor_10);
                     text_fc_mc.setTextColor(getResources().getColor(R.color.word11));
-                    if(rank_num.equals("3")){
+                    if (rank_num.equals("3")) {
                         text_fc_mc.setVisibility(View.GONE);
                         img_fc.setImageResource(R.drawable.img_honor_3);
-                    }else if(rank_num.equals("2")){
+                    } else if (rank_num.equals("2")) {
                         text_fc_mc.setVisibility(View.GONE);
                         img_fc.setImageResource(R.drawable.img_honor_2);
-                    }else if(rank_num.equals("1")){
+                    } else if (rank_num.equals("1")) {
                         text_fc_mc.setVisibility(View.GONE);
                         img_fc.setImageResource(R.drawable.img_honor_1);
                     }
@@ -164,13 +178,13 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
                     text_fwrs_mc.setText(rank_num);
                     img_fwrs.setImageResource(R.drawable.img_honor_10);
                     text_fwrs_mc.setTextColor(getResources().getColor(R.color.word11));
-                    if(rank_num.equals("3")){
+                    if (rank_num.equals("3")) {
                         text_fwrs_mc.setVisibility(View.GONE);
                         img_fwrs.setImageResource(R.drawable.img_honor_3);
-                    }else if(rank_num.equals("2")){
+                    } else if (rank_num.equals("2")) {
                         text_fwrs_mc.setVisibility(View.GONE);
                         img_fwrs.setImageResource(R.drawable.img_honor_2);
-                    }else if(rank_num.equals("1")){
+                    } else if (rank_num.equals("1")) {
                         text_fwrs_mc.setVisibility(View.GONE);
                         img_fwrs.setImageResource(R.drawable.img_honor_1);
                     }
@@ -182,13 +196,13 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
                     text_jzjs_mc.setText(rank_num);
                     img_jzjs.setImageResource(R.drawable.img_honor_10);
                     text_jzjs_mc.setTextColor(getResources().getColor(R.color.word11));
-                    if(rank_num.equals("3")){
+                    if (rank_num.equals("3")) {
                         text_jzjs_mc.setVisibility(View.GONE);
                         img_jzjs.setImageResource(R.drawable.img_honor_3);
-                    }else if(rank_num.equals("2")){
+                    } else if (rank_num.equals("2")) {
                         text_jzjs_mc.setVisibility(View.GONE);
                         img_jzjs.setImageResource(R.drawable.img_honor_2);
-                    }else if(rank_num.equals("1")){
+                    } else if (rank_num.equals("1")) {
                         text_jzjs_mc.setVisibility(View.GONE);
                         img_jzjs.setImageResource(R.drawable.img_honor_1);
                     }
@@ -255,7 +269,8 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
                 break;
 
             case R.id.fl_right:
-
+                dialogShow("加载中");
+                honorPresenter.getUserHonors();
                 break;
 
         }
