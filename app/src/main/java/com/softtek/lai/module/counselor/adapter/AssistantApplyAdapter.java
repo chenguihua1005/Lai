@@ -85,9 +85,9 @@ public class AssistantApplyAdapter extends BaseAdapter {
         final AssistantApplyInfoModel assistantApplyInfo = list.get(position);
         String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
         if ("".equals(assistantApplyInfo.getPhoto())) {
-            Picasso.with(context).load("111").error(R.drawable.img_default).into(holder.img);
+            Picasso.with(context).load("111").fit().error(R.drawable.img_default).into(holder.img);
         } else {
-            Picasso.with(context).load(path + assistantApplyInfo.getPhoto()).error(R.drawable.img_default).into(holder.img);
+            Picasso.with(context).load(path + assistantApplyInfo.getPhoto()).fit().error(R.drawable.img_default).into(holder.img);
         }
 
         holder.text_name.setText(assistantApplyInfo.getUserName().toString());

@@ -239,17 +239,16 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         String gender = tv_sex.getText().toString();
         String height = tv_height.getText().toString();
         String weight = tv_weight.getText().toString();
-        Log.i("创建档案：" + "nick:" + nick + ";birthday:" + birthday + ";gender:" + gender + ";height:" + height + ";weight:" + weight);
         if (w == true) {
             file = new FileModel();
         }
-        Log.i("file:--------------" + file);
+
         file.setNickname(nick);
         file.setBrithday(birthday);
         file.setGender(gender.equals("男") ? 0 : 1);
         file.setHeight(Integer.parseInt(height));
         file.setWeight(Integer.parseInt(weight));
-        Log.i("file>>>>>>>>>>>>>>>>>>>" + file);
+
         String token = SharedPreferenceService.getInstance().get("token", "");
         ICreateFilepresenter.createFile(token, file);
     }
@@ -265,7 +264,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == GET_BODY_DIMENSION) {
             file = (FileModel) data.getSerializableExtra("file");
-            Log.i("创建档案围度file:" + file);
+
         }
     }
 

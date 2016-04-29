@@ -56,9 +56,9 @@ public class PhotoDetailActivity extends BaseActivity implements View.OnClickLis
         Intent intent=getIntent();
         String img_url=intent.getStringExtra("photo");
         if (!TextUtils.isEmpty(img_url)) {
-            Picasso.with(this).load(img_url).placeholder(R.drawable.lufei).error(R.drawable.lufei).into(img);
+            Picasso.with(this).load(img_url).placeholder(R.drawable.lufei).fit().error(R.drawable.lufei).into(img);
         } else {
-            Picasso.with(this).load("www").placeholder(R.drawable.lufei).error(R.drawable.lufei).into(img);
+            Picasso.with(this).load("www").placeholder(R.drawable.lufei).fit().error(R.drawable.lufei).into(img);
         }
     }
 

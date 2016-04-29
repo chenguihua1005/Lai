@@ -31,18 +31,15 @@ public class GuwenClassImp implements GuwenClassPre {
 
     @Override
     public void doGetGuwenClass(long managerId) {
-        Log.i("service>>>>>>>>>>>>>>>>>>>>>>>>>>" + service);
         String token = SharedPreferenceService.getInstance().get("token", "");
         service.doGetGuwenClass(token, managerId, new Callback<ResponseData<List<PargradeModel>>>() {
             @Override
             public void success(ResponseData<List<PargradeModel>> listResponseData, retrofit.client.Response response) {
                 int status = listResponseData.getStatus();
-                Log.i("listResponseData:"+listResponseData);
                 switch (status) {
                     case 200:
                         EventBus.getDefault().post(new ClassEvent(listResponseData.getData()));
                         System.out.println(listResponseData);
-
                         // Util.toastMsg("列表查询成功");
                         break;
                     case 201:

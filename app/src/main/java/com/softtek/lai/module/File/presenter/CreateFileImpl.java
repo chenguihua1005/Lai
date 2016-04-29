@@ -38,7 +38,6 @@ public class CreateFileImpl implements ICreateFilepresenter {
 
     @Override
     public void createFile(String token, final FileModel file) {
-        Log.i(file.toString());
         service.doFile(token, file, new Callback<ResponseData<FileModel>>() {
             @Override
             public void success(ResponseData<FileModel> fileResponseData, Response response) {

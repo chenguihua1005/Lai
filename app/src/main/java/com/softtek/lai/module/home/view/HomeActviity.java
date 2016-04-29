@@ -20,6 +20,7 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.jpush.JpushSet;
 import com.softtek.lai.module.home.adapter.MainPageAdapter;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
@@ -28,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import cn.jpush.android.api.JPushInterface;
 import zilla.libcore.lifecircle.exit.AppManager;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;

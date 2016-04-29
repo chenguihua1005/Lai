@@ -112,9 +112,9 @@ public class AssistantDetailActivity extends BaseActivity implements View.OnClic
         text_retest.setText(assistantDetailInfo.getMrate().toString());
         text_total.setText(assistantDetailInfo.getTotalWeight().toString());
         if ("".equals(assistantDetailInfo.getPhoto())) {
-            Picasso.with(this).load("111").error(R.drawable.img_default).into(img);
+            Picasso.with(this).load("111").fit().error(R.drawable.img_default).into(img);
         } else {
-            Picasso.with(this).load(assistantDetailInfo.getPhoto()).error(R.drawable.img_default).into(img);
+            Picasso.with(this).load(assistantDetailInfo.getPhoto()).fit().error(R.drawable.img_default).into(img);
         }
     }
 

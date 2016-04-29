@@ -83,7 +83,7 @@ public class InviteContantAdapter extends BaseAdapter {
         /**设置TextView显示的内容，即我们存放在动态数组中的数据*/
         final ContactListInfoModel contactListInfo = list.get(position);
         if ("".equals(contactListInfo.getPhoto())) {
-            Picasso.with(context).load("111").error(R.drawable.img_default).into(holder.img);
+            Picasso.with(context).load("111").fit().error(R.drawable.img_default).into(holder.img);
         } else {
             holder.img.setImageBitmap(contactListInfo.getPhoto());
         }

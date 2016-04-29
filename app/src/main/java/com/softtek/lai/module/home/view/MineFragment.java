@@ -20,11 +20,13 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.jpush.JpushSet;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.utils.ACache;
 
 import butterknife.InjectView;
+import cn.jpush.android.api.JPushInterface;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.fragment_my)
