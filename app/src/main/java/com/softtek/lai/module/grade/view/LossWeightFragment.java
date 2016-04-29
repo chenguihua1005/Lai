@@ -109,7 +109,6 @@ public class LossWeightFragment extends BaseFragment implements PullToRefreshBas
     @Override
     public void updataData(List<StudentModel> models) {
         ptrlv.onRefreshComplete();
-        Log.i("学员数量="+models.size());
         if(models==null||models.isEmpty()){
             return;
         }

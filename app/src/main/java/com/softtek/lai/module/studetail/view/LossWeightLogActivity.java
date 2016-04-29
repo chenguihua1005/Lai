@@ -242,7 +242,6 @@ public class LossWeightLogActivity extends BaseActivity implements View.OnClickL
                 new Callback<ResponseData<BannerModel>>() {
                     @Override
                     public void success(ResponseData<BannerModel> bannerModelResponseData, Response response) {
-                        Log.i("logbanner===="+bannerModelResponseData.getData().getPath());
                         Picasso.with(LossWeightLogActivity.this).load(AddressManager.get("photoHost")+bannerModelResponseData.getData().getPath()).fit().
                                 placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(log_banner);
                         new File(file).delete();
