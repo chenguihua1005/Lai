@@ -23,6 +23,7 @@ import com.softtek.lai.contants.Constants;
 import com.softtek.lai.jpush.JpushSet;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
+import com.softtek.lai.module.mygrades.view.MyGradesActivity;
 import com.softtek.lai.utils.ACache;
 
 import butterknife.InjectView;
@@ -170,13 +171,13 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 break;
 
             case R.id.lin_zx:
-
                 break;
             case R.id.lin_validate_certification:
                 startActivity(new Intent(getContext(), ValidateCertificationActivity.class));
                 break;
             case R.id.lin_setting:
                 startActivity(new Intent(getContext(), SettingsActivity.class));
+                startActivity(new Intent(getContext(), MyGradesActivity.class));
                 break;
         }
     }
