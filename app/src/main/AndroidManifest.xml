@@ -309,6 +309,7 @@
         <activity android:name=".module.historydate.view.HistoryDataActivity" />
         <activity android:name=".module.historydate.view.HistoryDataDetailActivity" />
         <activity android:name=".module.tips.view.VideoViewActivity"></activity>
+        <activity android:name=".module.mygrades.view.MyGradesActivity"></activity>
     </application>
 
 </manifest>
