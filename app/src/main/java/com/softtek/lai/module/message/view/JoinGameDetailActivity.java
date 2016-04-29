@@ -234,7 +234,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
                 img1.setVisibility(View.VISIBLE);
                 img_delete.setVisibility(View.VISIBLE);
                 File files = new File(upload_photo);
-                Picasso.with(JoinGameDetailActivity.this).load(files).placeholder(R.drawable.img_default).error(R.drawable.img_default).into(img1);
+                Picasso.with(JoinGameDetailActivity.this).load(files).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(img1);
             }
 
             @Override
@@ -267,7 +267,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         //String path= AddressManager.get("photoHost","http://172.16.98.167/FileUpload/PostFile/");
         change_photo = getConfirmInfoModel.getPhoto();
         if (!TextUtils.isEmpty(getConfirmInfoModel.getPhoto())) {
-            Picasso.with(this).load(path + getConfirmInfoModel.getPhoto()).placeholder(R.drawable.img_default).error(R.drawable.img_default).into(img1);
+            Picasso.with(this).load(path + getConfirmInfoModel.getPhoto()).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(img1);
         } else {
             img1.setImageResource(android.R.color.transparent);
         }

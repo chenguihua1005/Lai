@@ -86,9 +86,9 @@ public class HonorStudentAdapter extends BaseAdapter {
         final HonorTable1Model honorTable1 = list.get(position);
         String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
         if ("".equals(honorTable1.getPhoto()) || "null".equals(honorTable1.getPhoto()) || honorTable1.getPhoto() == null) {
-            Picasso.with(context).load("111").error(R.drawable.img_default).into(holder.img);
+            Picasso.with(context).load("111").fit().error(R.drawable.img_default).fit().into(holder.img);
         } else {
-            Picasso.with(context).load(path + honorTable1.getPhoto()).error(R.drawable.img_default).into(holder.img);
+            Picasso.with(context).load(path + honorTable1.getPhoto()).fit().error(R.drawable.img_default).into(holder.img);
         }
         //Picasso.with(context).load("111").error(R.drawable.img_default).into(holder.img);
         String rnum = honorTable1.getRnum();

@@ -333,9 +333,9 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
         String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
         //String path= AddressManager.get("photoHost","http://172.16.98.167/FileUpload/PostFile/");
         if (!TextUtils.isEmpty(getConfirmInfoModel.getPhoto())) {
-            Picasso.with(this).load(path + getConfirmInfoModel.getPhoto()).placeholder(R.drawable.img_default).error(R.drawable.img_default).into(img1);
+            Picasso.with(this).load(path + getConfirmInfoModel.getPhoto()).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(img1);
         } else {
-            Picasso.with(this).load("www").placeholder(R.drawable.img_default).error(R.drawable.img_default).into(img1);
+            Picasso.with(this).load("www").placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(img1);
         }
 
         Log.i("获取照片地址：》》》》》》" + path + getConfirmInfoModel.getPhoto());
