@@ -3,6 +3,7 @@ package com.softtek.lai.module.confirmInfo.net;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.confirmInfo.model.ConinfoModel;
 import com.softtek.lai.module.confirmInfo.model.GetConfirmInfoModel;
+import com.softtek.lai.module.message.model.PhotosModel;
 import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
 
 import retrofit.Callback;
@@ -42,6 +43,6 @@ public interface ConfirmInfoService {
     void upimg(
             @Header("token") String token,
             @Part("photo") TypedFile photo,
-            Callback<ResponseData<PhotModel>> callback);
+            Callback<ResponseData<PhotosModel>> callback);
 
 }

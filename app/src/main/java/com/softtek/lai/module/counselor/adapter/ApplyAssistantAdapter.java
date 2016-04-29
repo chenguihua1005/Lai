@@ -130,7 +130,7 @@ public class ApplyAssistantAdapter extends BaseAdapter {
                 } else if ("12".equals(timeStr[1]) || "12".equals(timeStr[1])) {
                     time = "十二月班";
                 }
-                String comment = name + "申请了" + time + "助教";
+                String comment ="申请了" + time + "助教";
                 context.dialogShow("加载中");
                 assistantPresenter.srApplyAssistant(id, applyAssistantModel.getManagerId(), applyAssistantModel.getClassId(), comment, holder.text_apply, holder.text_state);
             }
