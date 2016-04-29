@@ -127,7 +127,15 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
     @Override
     protected void initViews() {
         progressDialog = new ProgressDialog(this);
-        im_refreshst.setOnClickListener(this);
+        im_refreshst.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                progressDialog.setCanceledOnTouchOutside(false);
+                progressDialog.setMessage("数据刷新中...");
+                progressDialog.show();
+                tiGuanSai.doGetTotal(progressDialog);
+            }
+        });
 
 
     }
@@ -205,6 +213,7 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
+
         final int id=v.getId();
         if(id!=R.id.ll_st_saikuang&&id!=R.id.ll_st_tipst&&id!=R.id.ll_left){
             dialogShow("检查中...");
@@ -253,12 +262,7 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
                         finish();
                     }
                     break;
-                case R.id.im_refreshst:
-                    progressDialog.setCanceledOnTouchOutside(false);
-                    progressDialog.setMessage("数据刷新中...");
-                    progressDialog.show();
-                    tiGuanSai.doGetTotal(progressDialog);
-                    break;
+
             }
         }
 

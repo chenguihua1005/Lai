@@ -114,8 +114,9 @@ public class  RetestActivity extends BaseActivity implements View.OnClickListene
                 ll_shousuolist.setVisibility(View.INVISIBLE);
                 ll_classli.setVisibility(View.INVISIBLE);
                 Iv_fold.setImageResource(R.drawable.unfold);
-                String[] clas=banjiModel.getStartDate().split("-");
-                selectclass.setText(tomonth(clas[1]));
+//                String[] clas=banjiModel.getStartDate().split("-");
+//                selectclass.setText(tomonth(clas[1]));
+                selectclass.setText(banjiModel.getClassName());
                 h=false;
                 for(int i=0;i<parent.getChildCount();i++){
                     ImageView iv= (ImageView) parent.getChildAt(i).findViewById(R.id.rbtn_retest);
