@@ -42,4 +42,7 @@ public interface StudentService {
     void pcIsJoinClass(@Header("token") String token,
                        @Query("accountid") String accountid,
                        RequestCallback<ResponseData<HasClass>> callback);
+    //未复测周数提醒
+    @GET("")
+    void GetNotMeasuredRecordByPC();
 }

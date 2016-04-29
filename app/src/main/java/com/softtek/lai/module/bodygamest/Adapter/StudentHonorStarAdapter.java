@@ -53,18 +53,30 @@ public class StudentHonorStarAdapter extends BaseAdapter {
             convertView = mInflater.inflate(R.layout.student_honor_star_item, null);
             holder.text_value = (TextView) convertView.findViewById(R.id.text_value);
             holder.text_value1 = (TextView) convertView.findViewById(R.id.text_value1);
+            holder.img_top = (ImageView) convertView.findViewById(R.id.img_top);
 
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        StudentHonorInfo studentHonorInfo=list.get(position);
-        holder.text_value.setText(studentHonorInfo.getValue().toString());
-        String time=studentHonorInfo.getCreateDate();
-        String[] str1=time.split(" ");
-        String[] str=str1[0].split("-");
-        holder.text_value1.setText(str[0]+"/"+str[1]+"/"+str[2]);
-
+        StudentHonorInfo studentHonorInfo = list.get(position);
+//        if ("3".equals(studentHonorInfo.getHonorType())) {
+//            holder.img_top.setVisibility(View.GONE);
+//        } else {
+//            holder.img_top.setVisibility(View.VISIBLE);
+//            if ("1".equals(studentHonorInfo.getValue())) {
+//                holder.img_top.setImageResource(R.drawable.img_honor_item_1);
+//            } else if ("2".equals(studentHonorInfo.getValue())) {
+//                holder.img_top.setImageResource(R.drawable.img_honor_item_2);
+//            } else {
+//                holder.img_top.setImageResource(R.drawable.img_honor_item_3);
+//            }
+//        }
+        holder.text_value.setText(studentHonorInfo.getValue());
+        String time = studentHonorInfo.getCreateDate();
+        String[] str1 = time.split(" ");
+        String[] str = str1[0].split("-");
+        holder.text_value1.setText(str[0] + "/" + str[1] + "/" + str[2]);
 
 
         return convertView;
@@ -73,5 +85,6 @@ public class StudentHonorStarAdapter extends BaseAdapter {
     private static class ViewHolder {
         private TextView text_value;
         private TextView text_value1;
+        private ImageView img_top;
     }
 }

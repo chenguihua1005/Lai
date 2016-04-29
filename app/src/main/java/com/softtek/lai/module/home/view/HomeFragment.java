@@ -50,6 +50,7 @@ import com.softtek.lai.module.message.presenter.IMessagePresenter;
 import com.softtek.lai.module.message.presenter.MessageImpl;
 import com.softtek.lai.module.message.view.JoinGameDetailActivity;
 import com.softtek.lai.module.message.view.MessageActivity;
+import com.softtek.lai.module.sport.presenter.SportGroupManager;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CustomGridView;
@@ -73,7 +74,7 @@ import zilla.libcore.util.Util;
  * 首页
  */
 @InjectLayout(R.layout.fragment_home)
-public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetChangedListener, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener, View.OnClickListener {
+public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetChangedListener, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener, View.OnClickListener, SportGroupManager.IsJoinRunGroupManagerCallBack {
     @InjectView(R.id.toolbar)
     Toolbar toolbar;
     @InjectView(R.id.rhv_adv)
@@ -117,6 +118,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
      private List<HomeInfoModel> sales = new ArrayList<>();*/
     private List<Fragment> fragments = new ArrayList<>();
     private MessageReceiver mMessageReceiver;
+    private SportGroupManager sportGroupManager;
 
     @Override
     protected void initViews() {
@@ -196,6 +198,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
+        sportGroupManager = new SportGroupManager(this);
         homeInfoPresenter = new HomeInfoImpl(getContext());
         messagePresenter = new MessageImpl(getContext());
         studentImpl = new StudentImpl(getContext());
@@ -268,6 +271,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                 case Constants.LAI_YUNDONG:
                     //startActivity(new Intent(getContext(), StudentActivity.class));
                     new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
+                    //sportGroupManager.isJoinRunGroup(UserInfoModel.getInstance().getUser().getUserid());
                     break;
                 case Constants.OFFICE:
                     new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
@@ -368,7 +372,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
             }).create().show();
         } else if (role == Constants.INC) {
             //提示用户让他进行身份认证否则进入2个功能的踢馆赛模块
-            studentImpl.pcIsJoinClass(UserInfoModel.getInstance().getUser().getUserid(),new RequestCallback<ResponseData<HasClass>>() {
+            studentImpl.pcIsJoinClass(UserInfoModel.getInstance().getUser().getUserid(), new RequestCallback<ResponseData<HasClass>>() {
                 @Override
                 public void success(ResponseData<HasClass> hasClassResponseData, Response response) {
                     Log.i(hasClassResponseData.toString());
@@ -465,6 +469,16 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
         filter.addAction(Constants.MESSAGE_RECEIVED_ACTION);
         getContext().registerReceiver(mMessageReceiver, filter);
+    }
+
+    @Override
+    public void isJoinRunGroup(boolean b) {
+        System.out.println("是否加入了跑团:" + b);
+        if (b) {
+
+        } else {
+
+        }
     }
 
     public class MessageReceiver extends BroadcastReceiver {

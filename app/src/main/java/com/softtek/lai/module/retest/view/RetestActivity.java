@@ -105,17 +105,18 @@ public class  RetestActivity extends BaseActivity implements View.OnClickListene
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 BanjiModel banjiModel=banjiModelList.get(position);
                 banjiStudentModelList.clear();
-                retestPre.doGetBanjiStudent(banjiModel.getClassId());
+                retestPre.doGetBanjiStudent(banjiModel.getClassId(),loginid);
                 ClassId=banjiModel.getClassId();
-                retestPre.doGetBanjiStudent(ClassId);
+                retestPre.doGetBanjiStudent(ClassId,loginid);
                 studentAdapter.notifyDataSetChanged();
                 list_class.setVisibility(View.INVISIBLE);
                 ll_shousuo.setVisibility(View.INVISIBLE);
                 ll_shousuolist.setVisibility(View.INVISIBLE);
                 ll_classli.setVisibility(View.INVISIBLE);
                 Iv_fold.setImageResource(R.drawable.unfold);
-                String[] clas=banjiModel.getStartDate().split("-");
-                selectclass.setText(tomonth(clas[1]));
+//                String[] clas=banjiModel.getStartDate().split("-");
+//                selectclass.setText(tomonth(clas[1]));
+                selectclass.setText(banjiModel.getClassName());
                 h=false;
                 for(int i=0;i<parent.getChildCount();i++){
                     ImageView iv= (ImageView) parent.getChildAt(i).findViewById(R.id.rbtn_retest);
@@ -281,7 +282,7 @@ public class  RetestActivity extends BaseActivity implements View.OnClickListene
         super.onActivityResult(requestCode, resultCode, data);
         //身体围度值传递
         if (requestCode==GET_BODY&&resultCode==RESULT_OK){
-            retestPre.doGetBanjiStudent(ClassId);
+            retestPre.doGetBanjiStudent(ClassId,loginid);
             studentAdapter.notifyDataSetChanged();
 
         }

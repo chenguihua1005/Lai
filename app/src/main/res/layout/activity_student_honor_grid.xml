@@ -63,6 +63,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
                             android:layout_margin="5dp"
+                            android:scrollbars="none"
                             android:layout_marginTop="@dimen/studentHonorMarginTop2"
                             android:layout_toLeftOf="@+id/img2"
                             android:layout_toRightOf="@+id/img">
@@ -207,6 +208,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
                             android:layout_marginTop="@dimen/studentHonorMarginTop2"
+                            android:scrollbars="none"
                             android:layout_toLeftOf="@+id/img3"
                             android:layout_toRightOf="@+id/img4">
 
@@ -294,6 +296,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
                             android:layout_marginTop="@dimen/studentHonorMarginTop2"
+                            android:scrollbars="none"
                             android:layout_toLeftOf="@+id/img6"
                             android:layout_toRightOf="@+id/img5">
 

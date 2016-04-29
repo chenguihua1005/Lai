@@ -474,7 +474,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         np1.setMinValue(0);
         np1.setWrapSelectorWheel(false);
         np2.setMaxValue(9);
-        np2.setValue(0);
+        np2.setValue(5);
         np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np2.setMinValue(0);
         np2.setWrapSelectorWheel(false);
@@ -506,7 +506,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         np1.setMinValue(0);
         np1.setWrapSelectorWheel(false);
         np2.setMaxValue(9);
-        np2.setValue(0);
+        np2.setValue(5);
         np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np2.setMinValue(0);
         np2.setWrapSelectorWheel(false);
