@@ -46,7 +46,6 @@ public class UpConfirmInfoImpl implements IUpConfirmInfopresenter {
     //获取参赛确认信息
     @Override
     public void getConfirmInfo(long accountid, long classid) {
-        Log.i("confirmInfoService>>>>>>>>>>>>>>>>>>>>>>>>>>" + confirmInfoService);
         confirmInfoService = ZillaApi.NormalRestAdapter.create(ConfirmInfoService.class);
         String token = SharedPreferenceService.getInstance().get("token", "");
         confirmInfoService.doGetConfirmInfo(token, accountid, classid, new Callback<ResponseData<GetConfirmInfoModel>>() {
@@ -54,7 +53,6 @@ public class UpConfirmInfoImpl implements IUpConfirmInfopresenter {
             public void success(ResponseData<GetConfirmInfoModel> getConfirmInfoModelResponseData, Response response) {
                 int status = getConfirmInfoModelResponseData.getStatus();
                 ((JoinGameDetailActivity) context).dialogDissmiss();
-                Log.i("--------获取参赛确认信息--------------getConfirmInfoModelResponseData:" + getConfirmInfoModelResponseData);
                 switch (status) {
                     case 200:
                         EventBus.getDefault().post(new ConinfoEvent(getConfirmInfoModelResponseData.getData()));
@@ -78,7 +76,6 @@ public class UpConfirmInfoImpl implements IUpConfirmInfopresenter {
     //修改参赛数据
     @Override
     public void changeUpConfirmInfo(String token, ConinfoModel coninfoModel) {
-        Log.i("ConfirmInfoService>>>>>>>>>>>>>>" + confirmInfoService);
         //String token = SharedPreferenceService.getInstance().get("token", "");
         confirmInfoService.changeUpConfirmInfo(token, coninfoModel, new Callback<ResponseData<ConinfoModel>>() {
             @Override

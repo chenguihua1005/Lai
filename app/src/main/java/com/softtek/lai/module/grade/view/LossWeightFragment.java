@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.github.snowdream.android.util.Log;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
@@ -108,6 +109,7 @@ public class LossWeightFragment extends BaseFragment implements PullToRefreshBas
     @Override
     public void updataData(List<StudentModel> models) {
         ptrlv.onRefreshComplete();
+        Log.i("学员数量="+models.size());
         if(models==null||models.isEmpty()){
             return;
         }

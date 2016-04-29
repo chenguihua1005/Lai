@@ -237,8 +237,6 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
 //        MessageDetailInfo messageDetailInfo = (MessageDetailInfo) intent.getSerializableExtra("messageDetailInfo");
 //        String classid = messageDetailInfo.getClassId();
         String classid = "35";
-        //获取classid
-        Log.i("获取classid:--messageDetailInfo------------------->" + classid);
 
         //参数:---accountid 学员id,classid  班级id
         iUpConfirmInfopresenter.getConfirmInfo(accoutid, Long.parseLong(classid));//130,1-------17,30,32
@@ -517,7 +515,6 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
         img_delete.setVisibility(View.VISIBLE);
         img1.setVisibility(View.VISIBLE);
         img1.setImageBitmap(bitmap);
-        Log.i("path:" + path);
     }
 
     public void takepic() {
@@ -557,7 +554,6 @@ public class CansaiActivity extends BaseActivity implements View.OnClickListener
             img1.setImageBitmap(bitmap);
             dialogShow("正在上传照片，请稍后。。。");
             iUpConfirmInfopresenter.upload(picturePath.toString());
-            Log.i("picturePath------------------------------------------------:" + picturePath);
             c.close();
         }
     }

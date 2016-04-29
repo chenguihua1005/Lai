@@ -46,16 +46,12 @@ public class NewStudentInputImpl implements INewStudentpresenter {
 
     @Override
     public void input(NewstudentsModel newstudentsModel) {
-        Log.i("NewstudentsService>>>>>>>>>>>>>>" + newstudentsService);
         String token = SharedPreferenceService.getInstance().get("token", "");
         newstudentsService.memberentry(token, newstudentsModel, new Callback<ResponseData<NewstudentsModel>>() {
-
-
             @Override
             public void success(ResponseData<NewstudentsModel> listResponseData, Response response) {
                 int status = listResponseData.getStatus();
                 ((JoinGameDetailActivity) context).dialogDissmiss();
-                Log.i("listResponseData:" + listResponseData);
                 switch (status) {
                     case 200:
                         ((JoinGameDetailActivity) context).finish();
@@ -81,7 +77,6 @@ public class NewStudentInputImpl implements INewStudentpresenter {
         newstudentsService.upimg(token, new TypedFile("image/png", new File(upimg)), new Callback<ResponseData<PhotModel>>() {
             @Override
             public void success(ResponseData upimgResponseData, Response response) {
-
                 int status = upimgResponseData.getStatus();
                 switch (status) {
                     case 200:
