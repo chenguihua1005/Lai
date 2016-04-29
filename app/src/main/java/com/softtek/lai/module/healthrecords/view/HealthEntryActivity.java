@@ -2,16 +2,13 @@ package com.softtek.lai.module.healthrecords.view;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
@@ -23,6 +20,7 @@ import com.softtek.lai.module.healthrecords.model.HealthModel;
 import com.softtek.lai.module.healthrecords.model.LastestRecordModel;
 import com.softtek.lai.module.healthrecords.presenter.EntryHealthImpl;
 import com.softtek.lai.module.healthrecords.presenter.IEntryHealthpresenter;
+import com.softtek.lai.utils.StringUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -183,15 +181,15 @@ public class HealthEntryActivity extends BaseActivity implements View.OnClickLis
             return;
         }
         lastestRecordModel = recordEvent.lastestRecordModel();
-        tv_weight.setText(Float.parseFloat(lastestRecordModel.getWeight())+"");
-        et_pysical.setText(Float.parseFloat(lastestRecordModel.getPysical())+"");
-        et_fat.setText(Float.parseFloat(lastestRecordModel.getFat())+"");
-        tv_circum.setText(Float.parseFloat(lastestRecordModel.getCircum())+"");
-        tv_waistline.setText(Float.parseFloat(lastestRecordModel.getWaistline())+"");
-        tv_hiplie.setText(Float.parseFloat(lastestRecordModel.getHiplie())+"");
-        tv_uparmgirth.setText(Float.parseFloat(lastestRecordModel.getUpArmGirth())+"");
-        tv_upleggirth.setText(Float.parseFloat(lastestRecordModel.getUpLegGirth())+"");
-        tv_doleggirth.setText(Float.parseFloat(lastestRecordModel.getDoLegGirth())+"");
+        tv_weight.setText(StringUtil.getValue(lastestRecordModel.getWeight()));
+        et_pysical.setText(StringUtil.getValue(lastestRecordModel.getPysical()));
+        et_fat.setText(StringUtil.getValue(lastestRecordModel.getFat()));
+        tv_circum.setText(StringUtil.getValue(lastestRecordModel.getCircum()));
+        tv_waistline.setText(StringUtil.getValue(lastestRecordModel.getWaistline()));
+        tv_hiplie.setText(StringUtil.getValue(lastestRecordModel.getHiplie()));
+        tv_uparmgirth.setText(StringUtil.getValue(lastestRecordModel.getUpArmGirth()));
+        tv_upleggirth.setText(StringUtil.getValue(lastestRecordModel.getUpLegGirth()));
+        tv_doleggirth.setText(StringUtil.getValue(lastestRecordModel.getDoLegGirth()));
 
     }
 

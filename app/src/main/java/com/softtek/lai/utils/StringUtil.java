@@ -80,5 +80,15 @@ public class StringUtil {
         return before3+"**"+after4;
     }
 
+    /**
+     * 获取数值，转换成小数后一位
+     * 若传入的数值为空则返回空
+     * @param value
+     * @return
+     */
+    public static String getValue(String value){
+        return StringUtils.isEmpty(value)?"":Float.parseFloat(value)+"";
+    }
+
 
 }

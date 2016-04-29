@@ -10,6 +10,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.historydate.model.HistoryData;
 import com.softtek.lai.utils.DateUtil;
+import com.softtek.lai.utils.StringUtil;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -71,16 +72,17 @@ public class HistoryDataDetailActivity extends BaseActivity implements View.OnCl
         DateUtil util=DateUtil.getInstance();
         tv_ymd.setText(util.convertDateStr(date,"yyyy-MM-dd"));
         tv_hm.setText(util.convertDateStr(date,"HH:mm:ss"));
-        tv_weight.setText(model.getWeight());
-        tv_body_fat.setText(model.getPysical());
-        tv_fat.setText(model.getFat());
-        tv_bust.setText(model.getCircum());
-        tv_waistline.setText(model.getWaistline());
-        tv_hipline.setText(model.getHiplie());
-        tv_up_hipline.setText(model.getUpArmGirth());
-        tv_thigh.setText(model.getUpLegGirth());
-        tv_calf.setText(model.getDoLegGirth());
+        tv_weight.setText(StringUtil.getValue(model.getWeight()));
+        tv_body_fat.setText(StringUtil.getValue(model.getPysical()));
+        tv_fat.setText(StringUtil.getValue(model.getFat()));
+        tv_bust.setText(StringUtil.getValue(model.getCircum()));
+        tv_waistline.setText(StringUtil.getValue(model.getWaistline()));
+        tv_hipline.setText(StringUtil.getValue(model.getHiplie()));
+        tv_up_hipline.setText(StringUtil.getValue(model.getUpArmGirth()));
+        tv_thigh.setText(StringUtil.getValue(model.getUpLegGirth()));
+        tv_calf.setText(StringUtil.getValue(model.getDoLegGirth()));
     }
+
 
     @Override
     public void onClick(View v) {
