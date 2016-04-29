@@ -61,6 +61,7 @@ public class MyGradesActivity extends BaseActivity {
     @Override
     protected void initViews() {
         title.setText("我的成绩");
+        tv_right.setText("分享");
     }
 
     @Override
