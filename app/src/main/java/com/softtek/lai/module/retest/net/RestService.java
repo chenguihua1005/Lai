@@ -46,6 +46,7 @@ public interface RestService {
     void doGetBanjiStudent(
             @Header("token")String token,
             @Query("classId")long classId,
+            @Query("id")long id,
             Callback<ResponseData<List<BanjiStudentModel>>>callback
     );
     //复测审核获取数据

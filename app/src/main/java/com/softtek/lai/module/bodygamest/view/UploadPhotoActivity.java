@@ -71,20 +71,20 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     TextView tv_left;
     @InjectView(R.id.tv_title)
     TextView tv_title;
-    @InjectView(R.id.imtest)
-    ImageView imtest;
+//    @InjectView(R.id.imtest)
+//    ImageView imtest;
     @InjectView(R.id.tv_right)
     TextView tv_right;
     @InjectView(R.id.fl_right)
     FrameLayout fl_right;
     @InjectView(R.id.ptrlvlist)
     PullToRefreshListView ptrlvlist;
-    @InjectView(R.id.im_uploadphoto_banner)
-    ImageView im_uploadphoto_banner;
-    @InjectView(R.id.cir_downphoto_head)
-    CircleImageView cir_downphoto_head;
-    @InjectView(R.id.tv_downphoto_nick)
-    TextView tv_downphoto_nick;
+//    @InjectView(R.id.im_uploadphoto_banner)
+//    ImageView im_uploadphoto_banner;
+//    @InjectView(R.id.cir_downphoto_head)
+//    CircleImageView cir_downphoto_head;
+//    @InjectView(R.id.tv_downphoto_nick)
+//    TextView tv_downphoto_nick;
     int pageIndex = 0;
     private List<LogListModel> logListModelList = new ArrayList<LogListModel>();
     private DownPhotoAdapter downPhotoAdapter;
@@ -109,10 +109,16 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     String username = userInfoModel.getUser().getNickname();
     private ImageFileCropSelector imageFileCropSelector;
     private GradeService service;
+    private ImageView im_uploadphoto_banner_list;
+    private CircleImageView cir_downphoto_head_list;
+    private TextView tv_today;
+    private ImageView imtest_list;
+    private TextView tv_downphoto_nick;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -148,19 +154,26 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         tv_right.setText("分享");
         //监听点击事件
         tv_left.setOnClickListener(this);
-        imtest.setOnClickListener(this);
+
         fl_right.setOnClickListener(this);
         ptrlvlist.setMode(PullToRefreshBase.Mode.BOTH);
         ptrlvlist.setOnItemClickListener(this);
         ptrlvlist.setOnRefreshListener(this);
-
+        View view=getLayoutInflater().inflate(R.layout.loadphotolist_header_layout,null,false);
+        im_uploadphoto_banner_list= (ImageView)view.findViewById(R.id.im_uploadphoto_banner_list);
+        tv_today= (TextView) view.findViewById(R.id.tv_today);
+        cir_downphoto_head_list= (CircleImageView) view.findViewById(R.id.cir_downphoto_head_list);
+        imtest_list= (ImageView) view.findViewById(R.id.imtest_list);
+        tv_downphoto_nick= (TextView) view.findViewById(R.id.tv_downphoto_nick);
+        ptrlvlist.getRefreshableView().addHeaderView(view);
+        imtest_list.setOnClickListener(this);
         imageFileCropSelector=new ImageFileCropSelector(this);
         imageFileCropSelector.setOutPutImageSize(DisplayUtil.getMobileWidth(this),DisplayUtil.dip2px(this,195));
         imageFileCropSelector.setOutPutAspect(4,3);
         imageFileCropSelector.setOutPut(DisplayUtil.getMobileWidth(this),DisplayUtil.dip2px(this,195));
         imageFileCropSelector.setCallback(this);
-        im_uploadphoto_banner.setLongClickable(true);
-        im_uploadphoto_banner.setOnLongClickListener(new View.OnLongClickListener() {
+        im_uploadphoto_banner_list.setLongClickable(true);
+        im_uploadphoto_banner_list.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 new AlertDialog.Builder(UploadPhotoActivity.this).setItems(items, new DialogInterface.OnClickListener() {
@@ -210,7 +223,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
                 Intent intent = new Intent(this, SelectPhotoActivity.class);
                 startActivityForResult(intent, 100);
                 break;
-            case R.id.imtest:
+            case R.id.imtest_list:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setItems(items, new DialogInterface.OnClickListener() {
                     @Override
@@ -314,16 +327,20 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         if (downPhotoModel.getUserName() != null) {
 //            tv_downphoto_nick.setText(downPhotoModel.getUserName());
             if (!TextUtils.isEmpty(downPhotoModel.getPhoto())) {
-                Picasso.with(this).load("http://172.16.98.167/UpFiles/" + downPhotoModel.getPhoto()).fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(cir_downphoto_head);
+                Picasso.with(this).load("http://172.16.98.167/UpFiles/" + downPhotoModel.getPhoto()).fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(cir_downphoto_head_list);
             } else {
-                Picasso.with(this).load("www").placeholder(R.drawable.img_default).error(R.drawable.img_default).into(cir_downphoto_head);
+                Picasso.with(this).load("www").placeholder(R.drawable.img_default).error(R.drawable.img_default).into(cir_downphoto_head_list);
             }
 
             if (!TextUtils.isEmpty(downPhotoModel.getBanner())) {
-                Picasso.with(this).load("http://172.16.98.167/UpFiles/" + downPhotoModel.getBanner()).fit().placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(im_uploadphoto_banner);
+                Picasso.with(this).load("http://172.16.98.167/UpFiles/" + downPhotoModel.getBanner()).fit().placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(im_uploadphoto_banner_list);
+                Picasso.with(this).load("http://172.16.98.167/UpFiles/" + downPhotoModel.getBanner()).fit().placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(im_uploadphoto_banner_list);
             } else {
-                Picasso.with(this).load("www").placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(im_uploadphoto_banner);
+                Picasso.with(this).load("www").placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(im_uploadphoto_banner_list);
+                Picasso.with(this).load("www").placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(im_uploadphoto_banner_list);
             }
+
+
         }
 
         if (downPhotoModel == null) {
@@ -368,7 +385,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
                     public void success(ResponseData<BannerModel> bannerModelResponseData, Response response) {
                         Log.i("logbanner===="+bannerModelResponseData.getData().getPath());
                         Picasso.with(UploadPhotoActivity.this).load(AddressManager.get("photoHost")+bannerModelResponseData.getData().getPath()).fit().
-                                placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(im_uploadphoto_banner);
+                                placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(im_uploadphoto_banner_list);
                         new File(file).delete();
                     }
 

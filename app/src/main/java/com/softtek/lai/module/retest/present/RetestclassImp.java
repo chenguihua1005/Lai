@@ -129,10 +129,10 @@ public class RetestclassImp implements RetestPre{
 
 
     @Override
-    public void doGetBanjiStudent(long classId) {
+    public void doGetBanjiStudent(long classId,long id) {
 
         String token=SharedPreferenceService.getInstance().get("token","");
-        service.doGetBanjiStudent(token, classId, new Callback<ResponseData<List<BanjiStudentModel>>>() {
+        service.doGetBanjiStudent(token, classId,id, new Callback<ResponseData<List<BanjiStudentModel>>>() {
             @Override
             public void success(ResponseData<List<BanjiStudentModel>> listResponseData, Response response) {
                 int status=listResponseData.getStatus();
