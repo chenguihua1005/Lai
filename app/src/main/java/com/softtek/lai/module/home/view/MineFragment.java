@@ -177,7 +177,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 break;
             case R.id.lin_setting:
                 startActivity(new Intent(getContext(), SettingsActivity.class));
-                startActivity(new Intent(getContext(), MyGradesActivity.class));
                 break;
         }
     }
