@@ -21,7 +21,7 @@ public interface IHomeInfoPresenter {
     void getHomeInfoData(SwipeRefreshLayout pull);
 
     //分页查询活动等信息flag=0表示更新1表示加载
-    void getContentByPage(int flag, int page, int img_type);
+    void getContentByPage( int page, int img_type);
 
     /*
     3个活动缓存
