@@ -470,7 +470,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
         np1.setMaxValue(99);
         np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-        np1.setValue(0);
+        np1.setValue(50);
         np1.setMinValue(0);
         np1.setWrapSelectorWheel(false);
         np2.setMaxValue(9);
