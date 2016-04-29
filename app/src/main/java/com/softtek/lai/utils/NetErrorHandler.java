@@ -93,8 +93,14 @@ public class NetErrorHandler implements IApiErrorHandler {
                                         builder=null;
                                     }
                                 });
+
+                        builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                            @Override
+                            public void onDismiss(DialogInterface dialog) {
+                                builder=null;
+                            }
+                        });
                         builder.create().show();
-                        //Util.toastMsg("token以过时");
                         break;
                     case 403:
                         Util.toastMsg(zilla.libcore.R.string.net_http_403);
