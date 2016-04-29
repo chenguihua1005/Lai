@@ -71,6 +71,8 @@ public class WaistAdapter extends BaseAdapter {
         int order = studentModel.getOrderNum();
         if (order == 1 || order == 2 || order == 3) {
             holder.tv_order.setTextColor(Color.parseColor("#FDB02B"));
+        }else{
+            holder.tv_order.setTextColor(Color.parseColor("#707070"));
         }
         holder.tv_name.setText(studentModel.getUserName());
         holder.tv_wl_before.setText("前 " + studentModel.getWaistlinebefor() + "cm");

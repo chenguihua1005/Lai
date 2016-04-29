@@ -27,9 +27,12 @@ import com.softtek.lai.module.lossweightstory.model.LossWeightStoryModel;
 import com.softtek.lai.module.lossweightstory.presenter.LossWeightStoryManager;
 import com.softtek.lai.module.studetail.view.LossWeightLogActivity;
 import com.softtek.lai.utils.DisplayUtil;
+import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileCropSelector;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -223,6 +226,19 @@ public class LossWeightStoryActivity extends BaseActivity implements View.OnClic
             pageIndex=--pageIndex<1?1:pageIndex;
             return;
         }
+        String path= AddressManager.get("photoHost");
+        if (StringUtils.isNotEmpty(logList.getPhoto())){
+            Picasso.with(this).load(path + logList.getPhoto()).fit()
+                    .placeholder(R.drawable.img_default)
+                    .error(R.drawable.img_default)
+                    .into(cir_header_image);
+        }
+        if(StringUtils.isNotEmpty(logList.getBanner())){
+            Picasso.with(this).load(path + logList.getBanner()).fit()
+                    .placeholder(R.drawable.default_pic)
+                    .error(R.drawable.default_pic)
+                    .into(log_banner);
+        }
         tv_name.setText(logList.getUserName());
         totalPage=Integer.parseInt(logList.getTotalPage());
         List<LossWeightStoryModel> models=logList.getLogList();
@@ -235,17 +251,6 @@ public class LossWeightStoryActivity extends BaseActivity implements View.OnClic
         }
         lossWeightStoryModels.addAll(models);
         adapter.notifyDataSetChanged();
-        String path= AddressManager.get("photoHost");
-        try {
-            Picasso.with(this).load(path + logList.getPhoto()).fit()
-                    .placeholder(R.drawable.img_default)
-                    .error(R.drawable.img_default)
-                    .into(cir_header_image);
-            Picasso.with(this).load(path + logList.getBanner()).fit()
-                    .placeholder(R.drawable.default_pic)
-                    .error(R.drawable.default_pic)
-                    .into(log_banner);
-        }catch (Exception e){}
 
     }
 
