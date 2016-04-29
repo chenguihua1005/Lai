@@ -25,7 +25,9 @@ import com.softtek.lai.module.bodygame.model.TiGuanSaiModel;
 import com.softtek.lai.module.bodygame.model.TotolModel;
 import com.softtek.lai.module.bodygame.presenter.ITiGuanSai;
 import com.softtek.lai.module.bodygame.presenter.TiGuanSaiImpl;
+import com.softtek.lai.module.bodygamest.model.CountWeekModel;
 import com.softtek.lai.module.bodygamest.model.HasClass;
+import com.softtek.lai.module.bodygamest.present.IStudentPresenter;
 import com.softtek.lai.module.bodygamest.present.StudentImpl;
 import com.softtek.lai.module.counselor.view.GameActivity;
 import com.softtek.lai.module.home.view.HomeActviity;
@@ -96,6 +98,7 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
     @InjectView(R.id.im_refreshst)
             ImageView im_refreshst;
     RetestPre retestPre;
+    IStudentPresenter iStudentPresenter;
     UserInfoModel userInfoModel=UserInfoModel.getInstance();
     long loginid=Long.parseLong(userInfoModel.getUser().getUserid());
     boolean flag=true;
@@ -143,12 +146,15 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
     @Override
     protected void initDatas() {
         tv_title.setText("体管赛（学员版）");
+        iStudentPresenter=new StudentImpl(this);
         tiGuanSai = new TiGuanSaiImpl();
+        iStudentPresenter.GetNotMeasuredRecordByPC(loginid);
         tiGuanSai.getTiGuanSai();
-        tiGuanSai.doGetFuceNum(loginid);
+//        tiGuanSai.doGetFuceNum(loginid);
         tiGuanSai.doGetTotal(progressDialog);
         studentImpl=new StudentImpl(this);
         retestPre=new RetestclassImp();
+
 
         studentImpl.hasClass(new RequestCallback<ResponseData<HasClass>>() {
             @Override
@@ -194,14 +200,14 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
     }
 
     @Subscribe
-    public void onEvent1(FuceNumModel fuceNum) {
+    public void onEvent1(CountWeekModel countWeekModel) {
 
-        if (Integer.parseInt(fuceNum.getCount()) > 10) {
+        if (Integer.parseInt(countWeekModel.getCount()) > 10) {
             tv_st_num.setVisibility(View.VISIBLE);
             tv_st_num.setText("10+");
-        } else if (Integer.parseInt(fuceNum.getCount()) != 0&&fuceNum.getCount()!=""){
+        } else if (Integer.parseInt(countWeekModel.getCount()) != 0&&countWeekModel.getCount()!=""){
             tv_st_num.setVisibility(View.VISIBLE);
-            tv_st_num.setText(fuceNum.getCount());
+            tv_st_num.setText(countWeekModel.getCount());
         }
 
     }
