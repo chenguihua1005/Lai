@@ -174,7 +174,6 @@ public class DimensioninputActivity extends BaseActivity implements OnClickListe
                 intent.putExtra("newstudentsModel", newstudentsModel);
                 setResult(RESULT_OK, intent);
                 finish();
-                Log.i("-------------------newstudentsModel----------------------" + newstudentsModel);
                 break;
         }
     }

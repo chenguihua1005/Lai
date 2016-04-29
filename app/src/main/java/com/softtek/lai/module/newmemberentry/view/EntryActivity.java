@@ -173,9 +173,6 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
     long sentaccid=Long.parseLong(userInfoModel.getUser().getUserid());
     long role=Long.parseLong(userInfoModel.getUser().getUserrole());
 
-//    Log.i("sentaccid----------------------->"+sentaccid);
-//    Log.i("role---------------------------->"+role);
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
@@ -336,7 +333,6 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
         img_delete.setVisibility(View.VISIBLE);
         img1.setVisibility(View.VISIBLE);
         img1.setImageBitmap(bitmap);
-        Log.i("path:" + path);
     }
 
     public void takepic() {
@@ -371,9 +367,7 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
         String fat = et_fat.getText().toString();
         String birthday = et_birthday.getText().toString();
         String gender = et_gender.getText().toString();
-        Log.i("新学员录入：" + "nickname:" + nickname + ";mobile:" + mobile + ";classid:" + classid + ";weight:" + weight + "pysical:" + pysical + "fat:" + fat + "birthday:" + birthday + "gender:" + gender);
         String b = mobile.substring(mobile.length() - 6, mobile.length());
-        Log.i("获取新学员录入手机号码后6位：" + b);
         newstudentsModel = new NewstudentsModel();
         newstudentsModel.setPassword(b);
 
@@ -457,14 +451,12 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
             img1.setVisibility(View.VISIBLE);
             img1.setImageBitmap(bitmap);
             iNewStudentpresenter.upload(picturePath.toString());
-            Log.i("picturePath------------------------------------------------:" + picturePath);
             c.close();
         }
 
         //身体围度值传递
         if (requestCode == GET_BODY && resultCode == RESULT_OK) {
             newstudentsModel = (NewstudentsModel) data.getSerializableExtra("newstudentsModel");
-            Log.i("新学员录入围度:newstudentsModel" + newstudentsModel);
         }
     }
 

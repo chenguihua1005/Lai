@@ -48,7 +48,6 @@ public class EntryHealthImpl implements IEntryHealthpresenter {
             @Override
             public void success(ResponseData healthModelResponseData,Response response) {
                 int status = healthModelResponseData.getStatus();
-                Log.i("healthModelResponseData:"+healthModelResponseData);
                 switch (status) {
                     case 200:
                        if(cb!=null)cb.saveSuccess(true);
