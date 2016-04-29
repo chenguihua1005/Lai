@@ -1,7 +1,9 @@
 package com.softtek.lai.module.lossweightstory.view;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
@@ -15,27 +17,36 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.community.model.HealthyDynamicModel;
+import com.softtek.lai.module.grade.model.BannerModel;
+import com.softtek.lai.module.grade.net.GradeService;
 import com.softtek.lai.module.lossweightstory.adapter.LossWeightStoryAdapter;
 import com.softtek.lai.module.lossweightstory.model.LogList;
-import com.softtek.lai.module.lossweightstory.model.LogStoryModel;
 import com.softtek.lai.module.lossweightstory.model.LossWeightStoryModel;
 import com.softtek.lai.module.lossweightstory.presenter.LossWeightStoryManager;
 import com.softtek.lai.module.studetail.view.LossWeightLogActivity;
+import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
+import com.sw926.imagefileselector.ImageFileCropSelector;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import retrofit.mime.TypedFile;
+import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_loss_weight_story)
 public class LossWeightStoryActivity extends BaseActivity implements View.OnClickListener,AdapterView.OnItemClickListener
-,PullToRefreshBase.OnRefreshListener2<ListView>,LossWeightStoryManager.StoryManagerCallBack{
+,PullToRefreshBase.OnRefreshListener2<ListView>,LossWeightStoryManager.StoryManagerCallBack,ImageFileCropSelector.Callback{
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -53,11 +64,15 @@ public class LossWeightStoryActivity extends BaseActivity implements View.OnClic
     private TextView tv_name;
     private CircleImageView cir_header_image;
 
+    private ImageFileCropSelector imageFileCropSelector;
+
     private LossWeightStoryManager lossWeightStoryManager;
     private List<LossWeightStoryModel> lossWeightStoryModels=new ArrayList<>();
     private LossWeightStoryAdapter adapter;
     int pageIndex=1;
     int totalPage;
+
+    CharSequence[] items={"拍照","从相册上传"};
     @Override
     protected void initViews() {
         ll_left.setOnClickListener(this);
@@ -73,10 +88,36 @@ public class LossWeightStoryActivity extends BaseActivity implements View.OnClic
         ptrlv.setOnItemClickListener(this);
         ptrlv.setOnRefreshListener(this);
         cir_header_image.setOnClickListener(this);
+        imageFileCropSelector=new ImageFileCropSelector(this);
+        imageFileCropSelector.setOutPutImageSize(DisplayUtil.getMobileWidth(this),DisplayUtil.dip2px(this,195));
+        imageFileCropSelector.setOutPutAspect(4,3);
+        imageFileCropSelector.setOutPut(DisplayUtil.getMobileWidth(this),DisplayUtil.dip2px(this,195));
+        imageFileCropSelector.setCallback(this);
+        log_banner.setLongClickable(true);
+        log_banner.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                new AlertDialog.Builder(LossWeightStoryActivity.this).setItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case 0:
+                                imageFileCropSelector.takePhoto(LossWeightStoryActivity.this);
+                                break;
+                            case 1:
+                                imageFileCropSelector.selectImage(LossWeightStoryActivity.this);
+                                break;
+                        }
+                    }
+                }).create().show();
+                return false;
+            }
+        });
     }
 
     @Override
     protected void initDatas() {
+        service=ZillaApi.NormalRestAdapter.create(GradeService.class);
         lossWeightStoryManager=new LossWeightStoryManager(this);
         adapter=new LossWeightStoryAdapter(this,lossWeightStoryModels);
         ptrlv.setAdapter(adapter);
@@ -112,6 +153,8 @@ public class LossWeightStoryActivity extends BaseActivity implements View.OnClic
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        imageFileCropSelector.onActivityResult(requestCode,resultCode,data);
+        imageFileCropSelector.getmImageCropperHelper().onActivityResult(requestCode,resultCode,data);
         if(resultCode==RESULT_OK){
             if(requestCode==SEND_NEW_STORY){
                 new Handler().postDelayed(new Runnable() {
@@ -137,7 +180,7 @@ public class LossWeightStoryActivity extends BaseActivity implements View.OnClic
     private static final int LIST_JUMP=2;
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+        Log.i("position="+position);
         if(position<2){
             return;
         }
@@ -146,6 +189,7 @@ public class LossWeightStoryActivity extends BaseActivity implements View.OnClic
         intent.putExtra("position",position-2);
         startActivityForResult(intent,LIST_JUMP);
     }
+
 
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
@@ -205,4 +249,32 @@ public class LossWeightStoryActivity extends BaseActivity implements View.OnClic
 
     }
 
+    private GradeService service;
+
+    @Override
+    public void onSuccess(final String file) {
+        String token=UserInfoModel.getInstance().getToken();
+        service.updateClassBanner(token, Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()),
+                "1",
+                new TypedFile("image/*", new File(file)),
+                new Callback<ResponseData<BannerModel>>() {
+                    @Override
+                    public void success(ResponseData<BannerModel> bannerModelResponseData, Response response) {
+                        Log.i("logbanner===="+bannerModelResponseData.getData().getPath());
+                        Picasso.with(LossWeightStoryActivity.this).load(AddressManager.get("photoHost")+bannerModelResponseData.getData().getPath()).fit().
+                                placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(log_banner);
+                        new File(file).delete();
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        ZillaApi.dealNetError(error);
+                    }
+                });
+    }
+
+    @Override
+    public void onError() {
+
+    }
 }

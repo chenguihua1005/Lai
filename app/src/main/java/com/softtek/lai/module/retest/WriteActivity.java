@@ -178,8 +178,9 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         ll_retestWrite_tizhi.setOnClickListener(this);
         ll_retestWrite_neizhi.setOnClickListener(this);
         im_delete.setOnClickListener(this);
-        //selectlaichen.setOnClickListener(this);
-//        selectlaichen.setOnCheckedChangeListener(this);
+        tv_write_chu_weight.setFocusable(false);
+        tv_retestWrite_nowweight.setFocusable(false);
+
     }
     @Override
     protected void onDestroy() {
@@ -236,7 +237,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
     @Subscribe
     public void doGetDates(RetestAuditModelEvent retestAuditModelEvent){
         Log.i("retestAuditModel"+retestAuditModelEvent.getRetestAuditModels());
-        tv_write_chu_weight.setText(Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getInitWeight())+"");
+        tv_write_chu_weight.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getInitWeight().equals("")?"":Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getInitWeight())+"");
         tv_write_nick.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getUserName());
         tv_write_phone.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getMobile());
         String StartDate=retestAuditModelEvent.getRetestAuditModels().get(0).getStartDate();
@@ -325,21 +326,26 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
 
             case R.id.ll_retestWrite_chu_weight:
                 if (retestAuditModel.getIsFirst()=="true") {
-                    show_information("初始体重（斤）",200,100,20,9,5,0,0);
+                    tv_write_chu_weight.clearFocus();
+                    show_information("初始体重（斤）",600,100,20,9,0,0,0);
                 }
                 else {
+                    tv_write_chu_weight.clearFocus();
                     Util.toastMsg("该学员非第一次加入不能修改初始体重");
                 }
 
                 break;
+            case R.id.tv_write_chu_weight:
+
+                break;
             case R.id.ll_retestWrite_nowweight:
-                show_information("现在体重（斤）",200,100,20,9,5,0,1);
+                show_information("现在体重（斤）",600,100,20,9,0,0,1);
                 break;
             case R.id.ll_retestWrite_tizhi:
-                show_information("体脂（%）",100,50,0,9,5,0,2);
+                show_information("体脂（%）",99,50,0,9,5,0,2);
                 break;
             case R.id.ll_retestWrite_neizhi:
-                show_information("内脂",100,50,0,9,5,0,3);
+                show_information("内脂",99,50,0,9,5,0,3);
                 break;
 
 
@@ -455,6 +461,8 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onValidationSucceeded() {
+        tv_write_chu_weight.setFocusable(true);
+        tv_retestWrite_nowweight.setFocusable(true);
         retestWrite.setInitWeight(tv_write_chu_weight.getText()+"");
         retestWrite.setWeight(tv_retestWrite_nowweight.getText()+"");
         retestWrite.setPysical(tv_retestWrite_tizhi.getText()+"");

@@ -405,7 +405,7 @@ public class UpHiplineFragment extends BaseFragment implements RadioGroup.OnChec
                         days.add(formyeardate(yeardate1));
                         days.add(formyeardate(yeardate2));
                         days.add(formyeardate(yeardate3));
-                        days.add(formyeardate(yeardate4)+"/t");
+                        days.add(formyeardate(yeardate4)+"     /");
                         progressDialog.show();
                         healthRecordManager.doGetHealthupArmGirthRecords(getDateform(yeardate4),getDateform(yeardate0),4);
                         n=n+4;
@@ -519,7 +519,7 @@ public class UpHiplineFragment extends BaseFragment implements RadioGroup.OnChec
                         days.add(formyeardate(yeardate1));
                         days.add(formyeardate(yeardate2));
                         days.add(formyeardate(yeardate3));
-                        days.add(formyeardate(yeardate4)+"/t");
+                        days.add(formyeardate(yeardate4)+"     /");
                         healthRecordManager.doGetHealthupArmGirthRecords(getDateform(yeardate4),getDateform(yeardate0),4);
                         bt_right.setVisibility(View.VISIBLE);
                         state=false;
@@ -610,7 +610,7 @@ public class UpHiplineFragment extends BaseFragment implements RadioGroup.OnChec
                 days.add(formyeardate(yeardate1));
                 days.add(formyeardate(yeardate2));
                 days.add(formyeardate(yeardate3));
-                days.add(formyeardate(yeardate4)+"/t");
+                days.add(formyeardate(yeardate4)+"     /");
                 progressDialog.show();
                 healthRecordManager.doGetHealthupArmGirthRecords(getDateform(yeardate4),getDateform(yeardate0),4);
                 break;

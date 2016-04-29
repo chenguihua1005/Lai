@@ -171,21 +171,14 @@ public class BodyweidustActivity extends BaseActivity implements View.OnClickLis
             //保存记录......
             case R.id.btn_retest_save:
 
-//                String circum=Double.parseDouble(tv_retest_circum.getText().toString().equals("")?"0":(tv_retest_circum.getText().toString()));
-//                String waistline=Double.parseDouble(tv_retest_waistline.getText().toString().equals("")?"0":tv_retest_waistline.getText().toString());
-//                String hiplie=Double.parseDouble(tv_retest_hiplie.getText().toString().equals("")?"0":tv_retest_hiplie.getText().toString());
-//                String uparmgirth=Double.parseDouble(tv_retest_uparmgirth.getText().toString().equals("")?"0":tv_retest_uparmgirth.getText().toString());
-//                String tupleggirth=Double.parseDouble(tv_retest_upleggirth.getText().toString().equals("")?"0":tv_retest_upleggirth.getText().toString());
-//                String doleggirth=Double.parseDouble(tv_retest_doleggirth.getText().toString().equals("")?"0":tv_retest_doleggirth.getText().toString());
-
 
                 retestWrite=new RetestWriteModel();
-                retestWrite.setCircum(Float.parseFloat(tv_retest_circum.getText().toString())+"");
-                retestWrite.setWaistline(Float.parseFloat(tv_retest_waistline.getText().toString())+"");
-                retestWrite.setHiplie(Float.parseFloat(tv_retest_hiplie.getText().toString())+"");
-                retestWrite.setUpArmGirth(Float.parseFloat(tv_retest_uparmgirth.getText().toString())+"");
-                retestWrite.setUpLegGirth(Float.parseFloat(tv_retest_upleggirth.getText().toString())+"");
-                retestWrite.setDoLegGirth(Float.parseFloat(tv_retest_doleggirth.getText().toString())+"");
+                retestWrite.setCircum(tv_retest_circum.getText().toString()+"");
+                retestWrite.setWaistline(tv_retest_waistline.getText().toString()+"");
+                retestWrite.setHiplie(tv_retest_hiplie.getText().toString()+"");
+                retestWrite.setUpArmGirth(tv_retest_uparmgirth.getText().toString()+"");
+                retestWrite.setUpLegGirth(tv_retest_upleggirth.getText().toString()+"");
+                retestWrite.setDoLegGirth(tv_retest_doleggirth.getText().toString()+"");
                 Intent intent=new Intent();
                 intent.putExtra("retestWrite",retestWrite);
                 setResult(RESULT_OK,intent);
@@ -222,12 +215,13 @@ public class BodyweidustActivity extends BaseActivity implements View.OnClickLis
         View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
         final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
-        np1.setMaxValue(220);
-        np1.setValue(90);
-        np1.setMinValue(50);
+        np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        np1.setMaxValue(200);
+        np1.setValue(50);
+        np1.setMinValue(0);
         np1.setWrapSelectorWheel(false);
         np2.setMaxValue(9);
-        np2.setValue(0);
+        np2.setValue(5);
         np2.setMinValue(0);
         np2.setWrapSelectorWheel(false);
 
@@ -250,12 +244,13 @@ public class BodyweidustActivity extends BaseActivity implements View.OnClickLis
         View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
         final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
-        np1.setMaxValue(220);
-        np1.setValue(90);
-        np1.setMinValue(50);
+        np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        np1.setMaxValue(200);
+        np1.setValue(50);
+        np1.setMinValue(0);
         np1.setWrapSelectorWheel(false);
         np2.setMaxValue(9);
-        np2.setValue(0);
+        np2.setValue(5);
         np2.setMinValue(0);
         np2.setWrapSelectorWheel(false);
 
@@ -278,12 +273,13 @@ public class BodyweidustActivity extends BaseActivity implements View.OnClickLis
         View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
         final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
-        np1.setMaxValue(220);
-        np1.setValue(90);
-        np1.setMinValue(50);
+        np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        np1.setMaxValue(200);
+        np1.setValue(50);
+        np1.setMinValue(0);
         np1.setWrapSelectorWheel(false);
         np2.setMaxValue(9);
-        np2.setValue(0);
+        np2.setValue(5);
         np2.setMinValue(0);
         np2.setWrapSelectorWheel(false);
 
@@ -306,12 +302,13 @@ public class BodyweidustActivity extends BaseActivity implements View.OnClickLis
         View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
         final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
-        np1.setMaxValue(220);
-        np1.setValue(90);
-        np1.setMinValue(50);
+        np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        np1.setMaxValue(200);
+        np1.setValue(50);
+        np1.setMinValue(0);
         np1.setWrapSelectorWheel(false);
         np2.setMaxValue(9);
-        np2.setValue(0);
+        np2.setValue(5);
         np2.setMinValue(0);
         np2.setWrapSelectorWheel(false);
 
@@ -335,12 +332,13 @@ public class BodyweidustActivity extends BaseActivity implements View.OnClickLis
         View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
         final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
-        np1.setMaxValue(220);
-        np1.setValue(90);
-        np1.setMinValue(50);
+        np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        np1.setMaxValue(200);
+        np1.setValue(50);
+        np1.setMinValue(0);
         np1.setWrapSelectorWheel(false);
         np2.setMaxValue(9);
-        np2.setValue(0);
+        np2.setValue(5);
         np2.setMinValue(0);
         np2.setWrapSelectorWheel(false);
 
@@ -363,12 +361,13 @@ public class BodyweidustActivity extends BaseActivity implements View.OnClickLis
         View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
         final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
-        np1.setMaxValue(220);
-        np1.setValue(90);
-        np1.setMinValue(50);
+        np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        np1.setMaxValue(200);
+        np1.setValue(50);
+        np1.setMinValue(0);
         np1.setWrapSelectorWheel(false);
         np2.setMaxValue(9);
-        np2.setValue(0);
+        np2.setValue(5);
         np2.setMinValue(0);
         np2.setWrapSelectorWheel(false);
 
