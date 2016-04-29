@@ -53,6 +53,7 @@ import com.softtek.lai.module.confirmInfo.presenter.UpConfirmInfoImpl;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.lossweightstory.model.UploadImage;
 import com.softtek.lai.module.message.model.MessageDetailInfo;
+import com.softtek.lai.module.message.model.PhotosModel;
 import com.softtek.lai.module.message.presenter.IMessagePresenter;
 import com.softtek.lai.module.message.presenter.MessageImpl;
 import com.softtek.lai.module.newmemberentry.view.EventModel.ClassEvent;
@@ -230,7 +231,8 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
             @Override
             public void onSuccess(String file) {
                 upload_photo = file;
-
+                img1.setVisibility(View.VISIBLE);
+                img_delete.setVisibility(View.VISIBLE);
                 File files = new File(upload_photo);
                 Picasso.with(JoinGameDetailActivity.this).load(files).placeholder(R.drawable.img_default).error(R.drawable.img_default).into(img1);
             }
@@ -249,7 +251,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
     }
 
     @Subscribe
-    public void onEvent(PhotModel photModel) {
+    public void onEvent(PhotosModel photModel) {
         System.out.println("photModel:" + photModel);
         change_photo = photModel.getImg();
         upload();
@@ -263,12 +265,19 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
 
         String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
         //String path= AddressManager.get("photoHost","http://172.16.98.167/FileUpload/PostFile/");
+        change_photo = getConfirmInfoModel.getPhoto();
         if (!TextUtils.isEmpty(getConfirmInfoModel.getPhoto())) {
             Picasso.with(this).load(path + getConfirmInfoModel.getPhoto()).placeholder(R.drawable.img_default).error(R.drawable.img_default).into(img1);
         } else {
             img1.setImageResource(android.R.color.transparent);
         }
-
+        if ("".equals(change_photo)) {
+            img1.setVisibility(View.GONE);
+            img_delete.setVisibility(View.GONE);
+        } else {
+            img1.setVisibility(View.VISIBLE);
+            img_delete.setVisibility(View.VISIBLE);
+        }
         Log.i("获取照片地址：》》》》》》" + path + getConfirmInfoModel.getPhoto());
         et_nickname.setText(getConfirmInfoModel.getUserName());
         tv_class.setText(getConfirmInfoModel.getClassName());
@@ -332,6 +341,8 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
             getConfirmInfoModel = new GetConfirmInfoModel();
             guwenClassPre.doGetGuwenClass(accoutid);//36
             ll_left.setVisibility(View.VISIBLE);
+            img1.setVisibility(View.GONE);
+            img_delete.setVisibility(View.GONE);
             ll_left.setOnClickListener(this);
         }
     }
@@ -369,6 +380,8 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
                 img1.setImageResource(android.R.color.transparent);
                 change_photo = "";
                 upload_photo = "";
+                img1.setVisibility(View.GONE);
+                img_delete.setVisibility(View.GONE);
                 break;
             case R.id.img_photoupload:
                 //弹出dialog
@@ -457,7 +470,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
         np1.setMaxValue(99);
         np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-        np1.setValue(0);
+        np1.setValue(50);
         np1.setMinValue(0);
         np1.setWrapSelectorWheel(false);
         np2.setMaxValue(9);
