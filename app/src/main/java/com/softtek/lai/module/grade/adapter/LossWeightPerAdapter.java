@@ -69,6 +69,8 @@ public class LossWeightPerAdapter extends BaseAdapter {
         holder.tv_order.setText(order + "");
         if (order == 1 || order == 2 || order == 3) {
             holder.tv_order.setTextColor(Color.parseColor("#FDB02B"));
+        }else{
+            holder.tv_order.setTextColor(Color.parseColor("#707070"));
         }
         holder.tv_lw_before.setText("前 " + studentModel.getLossBefor() + "斤");
         holder.tv_lw_after.setText("后 " + studentModel.getLossAfter() + "斤");

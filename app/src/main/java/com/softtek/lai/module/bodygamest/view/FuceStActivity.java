@@ -298,10 +298,10 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         tv_writest_dayen.setText(currEnd[2]);
         tv_writest_classweek.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getWeekth());
         if(!TextUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getPhoto())) {
-            Picasso.with(this).load(retestAuditModelEvent.getRetestAuditModels().get(0).getPhoto()).placeholder(R.drawable.img_default).error(R.drawable.img_default).into(iv_writest_head);
+            Picasso.with(this).load(retestAuditModelEvent.getRetestAuditModels().get(0).getPhoto()).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(iv_writest_head);
         }
         else {
-            Picasso.with(this).load("www").placeholder(R.drawable.img_default).error(R.drawable.img_default).into(iv_writest_head);
+            Picasso.with(this).load("www").placeholder(R.drawable.img_default).error(R.drawable.img_default).fit().into(iv_writest_head);
         }
 
         if (retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("1")||retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("2"))
@@ -321,7 +321,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
 
             if(!TextUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getImage())) {
                 im_retestwritest_showphoto.setVisibility(View.VISIBLE);
-                Picasso.with(this).load(retestAuditModelEvent.getRetestAuditModels().get(0).getPhoto()).placeholder(R.drawable.img_default).error(R.drawable.img_default).into(im_retestwritest_showphoto);
+                Picasso.with(this).load(retestAuditModelEvent.getRetestAuditModels().get(0).getPhoto()).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(im_retestwritest_showphoto);
             }
             else {
             }

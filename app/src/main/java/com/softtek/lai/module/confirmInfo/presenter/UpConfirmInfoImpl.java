@@ -16,6 +16,7 @@ import com.softtek.lai.module.confirmInfo.model.GetConfirmInfoModel;
 import com.softtek.lai.module.confirmInfo.net.ConfirmInfoService;
 import com.softtek.lai.module.confirmInfo.view.CansaiActivity;
 import com.softtek.lai.module.home.view.HomeActviity;
+import com.softtek.lai.module.message.model.PhotosModel;
 import com.softtek.lai.module.message.view.JoinGameDetailActivity;
 import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
 
@@ -45,7 +46,6 @@ public class UpConfirmInfoImpl implements IUpConfirmInfopresenter {
     //获取参赛确认信息
     @Override
     public void getConfirmInfo(long accountid, long classid) {
-        Log.i("confirmInfoService>>>>>>>>>>>>>>>>>>>>>>>>>>" + confirmInfoService);
         confirmInfoService = ZillaApi.NormalRestAdapter.create(ConfirmInfoService.class);
         String token = SharedPreferenceService.getInstance().get("token", "");
         confirmInfoService.doGetConfirmInfo(token, accountid, classid, new Callback<ResponseData<GetConfirmInfoModel>>() {
@@ -53,7 +53,6 @@ public class UpConfirmInfoImpl implements IUpConfirmInfopresenter {
             public void success(ResponseData<GetConfirmInfoModel> getConfirmInfoModelResponseData, Response response) {
                 int status = getConfirmInfoModelResponseData.getStatus();
                 ((JoinGameDetailActivity) context).dialogDissmiss();
-                Log.i("--------获取参赛确认信息--------------getConfirmInfoModelResponseData:" + getConfirmInfoModelResponseData);
                 switch (status) {
                     case 200:
                         EventBus.getDefault().post(new ConinfoEvent(getConfirmInfoModelResponseData.getData()));
@@ -77,7 +76,6 @@ public class UpConfirmInfoImpl implements IUpConfirmInfopresenter {
     //修改参赛数据
     @Override
     public void changeUpConfirmInfo(String token, ConinfoModel coninfoModel) {
-        Log.i("ConfirmInfoService>>>>>>>>>>>>>>" + confirmInfoService);
         //String token = SharedPreferenceService.getInstance().get("token", "");
         confirmInfoService.changeUpConfirmInfo(token, coninfoModel, new Callback<ResponseData<ConinfoModel>>() {
             @Override
@@ -109,15 +107,15 @@ public class UpConfirmInfoImpl implements IUpConfirmInfopresenter {
     @Override
     public void upload(final String upimg) {
         String token = SharedPreferenceService.getInstance().get("token", "");
-        confirmInfoService.upimg(token, new TypedFile("image/png", new File(upimg)), new Callback<ResponseData<PhotModel>>() {
+        confirmInfoService.upimg(token, new TypedFile("image/png", new File(upimg)), new Callback<ResponseData<PhotosModel>>() {
             @Override
-            public void success(ResponseData<PhotModel> upimgResponseData, Response response) {
+            public void success(ResponseData<PhotosModel> upimgResponseData, Response response) {
                 ((JoinGameDetailActivity) context).dialogDissmiss();
                 System.out.println("upimgResponseData:"+upimgResponseData);
                 int status = upimgResponseData.getStatus();
                 switch (status) {
                     case 200:
-                        PhotModel photModel = upimgResponseData.getData();
+                        PhotosModel photModel = upimgResponseData.getData();
                         EventBus.getDefault().post(photModel);
                         break;
                     case 500:

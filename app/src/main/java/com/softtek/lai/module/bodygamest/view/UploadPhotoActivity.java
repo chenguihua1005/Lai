@@ -329,15 +329,19 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
             if (!TextUtils.isEmpty(downPhotoModel.getPhoto())) {
                 Picasso.with(this).load("http://172.16.98.167/UpFiles/" + downPhotoModel.getPhoto()).fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(cir_downphoto_head_list);
             } else {
+
                 Picasso.with(this).load("www").placeholder(R.drawable.img_default).error(R.drawable.img_default).into(cir_downphoto_head_list);
+
             }
 
             if (!TextUtils.isEmpty(downPhotoModel.getBanner())) {
                 Picasso.with(this).load("http://172.16.98.167/UpFiles/" + downPhotoModel.getBanner()).fit().placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(im_uploadphoto_banner_list);
                 Picasso.with(this).load("http://172.16.98.167/UpFiles/" + downPhotoModel.getBanner()).fit().placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(im_uploadphoto_banner_list);
             } else {
+
                 Picasso.with(this).load("www").placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(im_uploadphoto_banner_list);
                 Picasso.with(this).load("www").placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(im_uploadphoto_banner_list);
+
             }
 
 
@@ -385,7 +389,9 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
                     public void success(ResponseData<BannerModel> bannerModelResponseData, Response response) {
                         Log.i("logbanner===="+bannerModelResponseData.getData().getPath());
                         Picasso.with(UploadPhotoActivity.this).load(AddressManager.get("photoHost")+bannerModelResponseData.getData().getPath()).fit().
+
                                 placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(im_uploadphoto_banner_list);
+
                         new File(file).delete();
                     }
 

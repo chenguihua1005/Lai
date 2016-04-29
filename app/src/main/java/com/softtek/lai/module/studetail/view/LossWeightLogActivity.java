@@ -30,6 +30,8 @@ import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileCropSelector;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -203,6 +205,19 @@ public class LossWeightLogActivity extends BaseActivity implements View.OnClickL
             pageIndex=--pageIndex<1?1:pageIndex;
             return;
         }
+        String path= AddressManager.get("photoHost");
+        if(StringUtils.isNotEmpty(logs.getPhoto())){
+            Picasso.with(this).load(path + logs.getPhoto()).fit()
+                    .placeholder(R.drawable.img_default)
+                    .error(R.drawable.img_default)
+                    .into(cir_header_image);
+        }
+        if(StringUtils.isNotEmpty(logs.getBanner())){
+            Picasso.with(this).load(path + logs.getBanner()).fit()
+                    .placeholder(R.drawable.default_pic)
+                    .error(R.drawable.default_pic)
+                    .into(log_banner);
+        }
         totalPage=Integer.parseInt(logs.getTotalPage());
         tv_name.setText(logs.getUserName());
         List<LossWeightLogModel> models=logs.getLogList();
@@ -215,21 +230,7 @@ public class LossWeightLogActivity extends BaseActivity implements View.OnClickL
         }
         this.logs.addAll(models);
         adapter.notifyDataSetChanged();
-        String path= AddressManager.get("photoHost");
-        Log.i("头像路径"+logs.getPhoto());
-        Log.i("banner路径"+logs.getPhoto());
-        if(logs.getPhoto()!=null){
-            Picasso.with(this).load(path + logs.getPhoto()).fit()
-                    .placeholder(R.drawable.img_default)
-                    .error(R.drawable.img_default)
-                    .into(cir_header_image);
-        }
-        if(logs.getBanner()!=null){
-            Picasso.with(this).load(path + logs.getBanner()).fit()
-                    .placeholder(R.drawable.default_pic)
-                    .error(R.drawable.default_pic)
-                    .into(log_banner);
-        }
+
     }
 
     @Override
@@ -241,7 +242,6 @@ public class LossWeightLogActivity extends BaseActivity implements View.OnClickL
                 new Callback<ResponseData<BannerModel>>() {
                     @Override
                     public void success(ResponseData<BannerModel> bannerModelResponseData, Response response) {
-                        Log.i("logbanner===="+bannerModelResponseData.getData().getPath());
                         Picasso.with(LossWeightLogActivity.this).load(AddressManager.get("photoHost")+bannerModelResponseData.getData().getPath()).fit().
                                 placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(log_banner);
                         new File(file).delete();

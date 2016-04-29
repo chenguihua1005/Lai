@@ -149,7 +149,7 @@ public class StudentHonorGridActivity extends BaseActivity implements View.OnCli
                 fc_list.add(studentHonorInfo);
             } else if ("2".equals(honorType)) {
                 ygj_list.add(studentHonorInfo);
-            } else if ("3".equals(honorType)) {
+            } else{
                 star_list.add(studentHonorInfo);
             }
         }
@@ -166,26 +166,6 @@ public class StudentHonorGridActivity extends BaseActivity implements View.OnCli
             img_fc_2.setImageResource(R.drawable.img_student_honor_yin);
             img_fc_3.setImageResource(R.drawable.img_student_honor_jin);
         }
-
-//        StudentHonorInfo studentHonorInfo = new StudentHonorInfo("1", "43", "33", "5");
-//        StudentHonorInfo studentHonorInfo1 = new StudentHonorInfo("1", "43", "33", "10");
-//        StudentHonorInfo studentHonorInfo2 = new StudentHonorInfo("1", "43", "33", "15");
-//        StudentHonorInfo studentHonorInfo3 = new StudentHonorInfo("1", "43", "33", "20");
-//        jz_list.add(studentHonorInfo);
-//        jz_list.add(studentHonorInfo1);
-//        jz_list.add(studentHonorInfo2);
-//        jz_list.add(studentHonorInfo3);
-//        System.out.println("jz_list:" + jz_list);
-//
-//        for (int i = 0; i < 37; i++) {
-//            StudentHonorInfo studentHonorInfos = new StudentHonorInfo("1", "43", "33", "2015年月" + i);
-//            ygj_list.add(studentHonorInfos);
-//        }
-//
-//        for (int i = 0; i < 27; i++) {
-//            StudentHonorInfo studentHonorInfoss = new StudentHonorInfo("1", "43", "33", i + "");
-//            star_list.add(studentHonorInfoss);
-//        }
 
 
         setGridView();

@@ -70,6 +70,7 @@ public class HealthyFragment extends BaseFragment implements View.OnClickListene
         fragments.add(mineHealthyFragment);
         tab_content.setAdapter(new CommunityAdapter(getFragmentManager(),fragments));
         tab.setupWithViewPager(tab_content);
+
     }
 
     @Override
@@ -85,7 +86,6 @@ public class HealthyFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     protected void initDatas() {
-        //int px=Math.min(DisplayUtil.getMobileHeight(getContext()),DisplayUtil.getMobileWidth(getContext()));
         int px=DisplayUtil.dip2px(getContext(),300);
         Log.i("图片尺寸"+px);
         //*************************
