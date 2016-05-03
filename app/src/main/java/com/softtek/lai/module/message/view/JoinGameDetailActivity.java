@@ -51,6 +51,7 @@ import com.softtek.lai.module.confirmInfo.model.GetConfirmInfoModel;
 import com.softtek.lai.module.confirmInfo.presenter.IUpConfirmInfopresenter;
 import com.softtek.lai.module.confirmInfo.presenter.UpConfirmInfoImpl;
 import com.softtek.lai.module.home.view.HomeActviity;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.lossweightstory.model.UploadImage;
 import com.softtek.lai.module.message.model.MessageDetailInfo;
 import com.softtek.lai.module.message.model.PhotosModel;
@@ -656,6 +657,9 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
             }
             System.out.println("coninfoModel:" + coninfoModel);
             String token = UserInfoModel.getInstance().getToken();
+            UserModel user=UserInfoModel.getInstance().getUser();
+            user.setNickname(et_nickname.getText().toString());
+            UserInfoModel.getInstance().saveUserCache(user);
             iUpConfirmInfopresenter.changeUpConfirmInfo(token, coninfoModel);
         } else {
             NewstudentsModel newstudentsModel = new NewstudentsModel();

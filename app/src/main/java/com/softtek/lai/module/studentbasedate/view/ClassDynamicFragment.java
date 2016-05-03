@@ -95,17 +95,12 @@ public class ClassDynamicFragment extends BaseFragment implements PullToRefreshB
 
     private void dealCallbackData(List<DynamicInfoModel> models){
         lv.onRefreshComplete();
-
-        Log.i("返回的动态不为null?"+models);
         if(models==null){
             pageIndex=--pageIndex<1?1:pageIndex;
-            Log.i("当前第"+pageIndex+"页");
             return;
         }
-        Log.i("返回的动态是"+models);
         if(models.isEmpty()){
             pageIndex=--pageIndex<1?1:pageIndex;
-            Log.i("当前第"+pageIndex+"页");
             return;
         }
         if(pageIndex==1){
@@ -113,7 +108,6 @@ public class ClassDynamicFragment extends BaseFragment implements PullToRefreshB
         }
         dynamicInfoModels.addAll(models);
         dynamicAdapter.notifyDataSetChanged();
-        Log.i("当前第"+pageIndex+"页");
     }
 
     public void loadDynamic(long classId){

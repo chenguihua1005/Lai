@@ -245,6 +245,7 @@
             android:id="@+id/list_game"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+            android:scrollbars="none"
             android:layout_marginLeft="15dip"
             android:layout_marginRight="15dip"
             />

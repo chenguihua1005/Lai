@@ -41,6 +41,7 @@ public class LineChartUtil {
                 data.getXVals().add(i + "");
             }
         }
+
         ArrayList<Entry> yVals = new ArrayList<>();
         //添加具体数据
         float max=0;
@@ -78,14 +79,19 @@ public class LineChartUtil {
         //chart.animateY(3000, Easing.EasingOption.EaseInCubic);
         //数据按照X轴动画的效果出现
         //chart.animateX(2000);
-        chart.animateXY(2000,2000);
+        //chart.animateXY(2000,2000);
         data.getDataSets().clear();
-        data.addDataSet(set1);
+        data.getDataSets().add(set1);
+        //data.addDataSet(set1);
         chart.notifyDataSetChanged();
         chart.invalidate();
     }
     public  void addData(List<Float> datas,int n,List<String> dates)
     {
+        if(datas.size()==0)
+        {
+            n=0;
+        }
         LineData data= chart.getData();
         if(data==null||datas==null||datas.size()==0){
             return;

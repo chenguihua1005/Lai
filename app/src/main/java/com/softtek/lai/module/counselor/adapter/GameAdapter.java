@@ -88,7 +88,7 @@ public class GameAdapter extends BaseAdapter {
         if ("".equals(marchInfo.getPhoto()) || "null".equals(marchInfo.getPhoto()) || marchInfo.getPhoto() == null) {
             Picasso.with(context).load("111").fit().error(R.drawable.img_default).into(holder.img);
         } else {
-            Picasso.with(context).load(path+marchInfo.getPhoto()).fit().error(R.drawable.img_default).into(holder.img);
+            Picasso.with(context).load(marchInfo.getPhoto()).fit().error(R.drawable.img_default).into(holder.img);
         }
         //Picasso.with(context).load("111").error(R.drawable.img_default).into(holder.img);
         if ((position + 1) < 4) {
