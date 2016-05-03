@@ -64,7 +64,6 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
 
     private LineChartUtil chartUtil;
     List<Float> dates=new ArrayList<Float>();
-    List<Float> ceshi=new ArrayList<Float>();
     List<String>days=new ArrayList<String>();
     char type='6';
     int n=7;
@@ -134,7 +133,7 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
         days.add(formdate(nowdate6));
         days.add(formdate(nowdate7));
         progressDialog.show();
-        healthRecordManager.doGetHealthhiplieRecords(getDateform(nowdate7),getDateform(nowdate1),1);
+        healthRecordManager.doGetHealthhiplieRecords(getDateform(nowdate1),getDateform(nowdate7),1);
 //        iHealthyRecord.doGetHealthhiplieRecords(date,getDateform(nowdate1)+" "+datetime[1],1);
 
     }
@@ -274,10 +273,7 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
         for (int i=0;i<=n-1;i++) {
             dates.add(Float.parseFloat(healthHiplieModel.getHiplielist().get(i).getHiplie()));
         }
-        ceshi.add(dates.get(0));
-        ceshi.add(dates.get(1));
-        ceshi.add(dates.get(2));
-        ceshi.add(dates.get(3));
+
 
         chartUtil.addData(dates,n,days);
     }
@@ -328,7 +324,7 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
                         days.add(formdate(nowdate6));
                         days.add(formdate(nowdate7));
                         progressDialog.show();
-                        healthRecordManager.doGetHealthhiplieRecords(getDateform(nowdate7),getDateform(nowdate1),1);
+                        healthRecordManager.doGetHealthhiplieRecords(getDateform(nowdate1),getDateform(nowdate7),1);
                         n = n + 7;
                         bt_right.setVisibility(View.VISIBLE);
                         break;
@@ -350,7 +346,7 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
                         days.add(formdate(monthdate3));
                         days.add(formdate(monthdate4));
                         progressDialog.show();
-                        healthRecordManager.doGetHealthhiplieRecords(getDateform(monthdate4),getDateform(monthdate1),2);
+                        healthRecordManager.doGetHealthhiplieRecords(getDateform(monthdate1),getDateform(monthdate4),2);
                         n=n+4;
                         bt_right.setVisibility(View.VISIBLE);
                         break;
@@ -372,7 +368,7 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
                         days.add(formdate(quarterdate3));
                         days.add(formdate(quarterdate4));
                         progressDialog.show();
-                        healthRecordManager.doGetHealthhiplieRecords(getDateform(quarterdate4),getDateform(quarterdate1),3);
+                        healthRecordManager.doGetHealthhiplieRecords(getDateform(quarterdate1),getDateform(quarterdate4),3);
                         n=n+4;
                         bt_right.setVisibility(View.VISIBLE);
                         break;
@@ -395,7 +391,7 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
                         days.add(formyeardate(yeardate3));
                         days.add(formyeardate(yeardate4)+"     /");
                         progressDialog.show();
-                        healthRecordManager.doGetHealthhiplieRecords(getDateform(yeardate4),getDateform(yeardate0),4);
+                        healthRecordManager.doGetHealthhiplieRecords(getDateform(yeardate0),getDateform(yeardate4),4);
                         n=n+4;
                         bt_right.setVisibility(View.VISIBLE);
                         break;
@@ -432,7 +428,7 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
                         days.add(formdate(nowdate6));
                         days.add(formdate(nowdate7));
                         progressDialog.show();
-                        healthRecordManager.doGetHealthhiplieRecords(getDateform(nowdate7),getDateform(nowdate1),1);
+                        healthRecordManager.doGetHealthhiplieRecords(getDateform(nowdate1),getDateform(nowdate7),1);
                         state=false;
                         if (nowdate7.equals(getPeriodDate(type,0)+""))
                             bt_right.setVisibility(View.GONE);
@@ -457,7 +453,7 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
                         days.add(formdate(monthdate3));
                         days.add(formdate(monthdate4));
                         progressDialog.show();
-                        healthRecordManager.doGetHealthhiplieRecords(getDateform(monthdate4),getDateform(monthdate1),2);
+                        healthRecordManager.doGetHealthhiplieRecords(getDateform(monthdate1),getDateform(monthdate4),2);
                         state=false;
                         if (monthdate4.equals(getPeriodDate(type,0)+""))
                             bt_right.setVisibility(View.GONE);
@@ -482,7 +478,7 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
                         days.add(formdate(quarterdate3));
                         days.add(formdate(quarterdate4));
                         progressDialog.show();
-                        healthRecordManager.doGetHealthhiplieRecords(getDateform(quarterdate4),getDateform(quarterdate1),3);
+                        healthRecordManager.doGetHealthhiplieRecords(getDateform(quarterdate1),getDateform(quarterdate4),3);
                         bt_right.setVisibility(View.VISIBLE);
                         state=false;
                         if (quarterdate4.equals(getPeriodDate(type,0)+""))
@@ -509,7 +505,7 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
                         days.add(formyeardate(yeardate3));
                         days.add(formyeardate(yeardate4)+"     /");
                         progressDialog.show();
-                        healthRecordManager.doGetHealthhiplieRecords(getDateform(yeardate4),getDateform(yeardate0),4);
+                        healthRecordManager.doGetHealthhiplieRecords(getDateform(yeardate0),getDateform(yeardate4),4);
                         bt_right.setVisibility(View.VISIBLE);
                         state=false;
                         if (yeardate4.equals(getPeriodDate(type,0)+""))
@@ -542,7 +538,7 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
                 days.add(formdate(weekdate6));
                 days.add(formdate(weekdate7));
                 progressDialog.show();
-                healthRecordManager.doGetHealthhiplieRecords(getDateform(weekdate7),getDateform(weekdate1),1);
+                healthRecordManager.doGetHealthhiplieRecords(getDateform(weekdate1),getDateform(weekdate7),1);
 
                 break;
             case R.id.month:
@@ -562,7 +558,7 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
                 days.add(formdate(monthdate3));
                 days.add(formdate(monthdate4));
                 progressDialog.show();
-                healthRecordManager.doGetHealthhiplieRecords(getDateform(monthdate4),getDateform(monthdate1),2);
+                healthRecordManager.doGetHealthhiplieRecords(getDateform(monthdate1),getDateform(monthdate4),2);
                 break;
             case R.id.quarter:
                 dates.clear();
@@ -581,7 +577,7 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
                 days.add(formdate(quarterdate3));
                 days.add(formdate(quarterdate4));
                 progressDialog.show();
-                healthRecordManager.doGetHealthhiplieRecords(getDateform(quarterdate4),getDateform(quarterdate1),3);
+                healthRecordManager.doGetHealthhiplieRecords(getDateform(quarterdate1),getDateform(quarterdate4),3);
                 break;
             case R.id.year:
                 flag=3;
@@ -601,7 +597,7 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
                 days.add(formyeardate(yeardate3));
                 days.add(formyeardate(yeardate4)+"     /");
                 progressDialog.show();
-                healthRecordManager.doGetHealthhiplieRecords(getDateform(yeardate4),getDateform(yeardate0),4);
+                healthRecordManager.doGetHealthhiplieRecords(getDateform(yeardate0),getDateform(yeardate4),4);
                 break;
         }
     }
@@ -638,7 +634,7 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
         days.add(formdate(weekdate6));
         days.add(formdate(weekdate7));
         progressDialog.show();
-        healthRecordManager.doGetHealthhiplieRecords(getDateform(weekdate7),getDateform(weekdate1),1);
+        healthRecordManager.doGetHealthhiplieRecords(getDateform(weekdate1),getDateform(weekdate7),1);
     }
 
 }
