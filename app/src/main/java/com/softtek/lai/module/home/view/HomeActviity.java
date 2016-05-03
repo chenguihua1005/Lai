@@ -1,9 +1,5 @@
 package com.softtek.lai.module.home.view;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,23 +9,17 @@ import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.View;
 
-import com.softtek.lai.R;
 import com.ggx.jerryguan.widget_lib.SimpleButton;
 import com.github.snowdream.android.util.Log;
+import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
-import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.contants.Constants;
-import com.softtek.lai.jpush.JpushSet;
 import com.softtek.lai.module.home.adapter.MainPageAdapter;
-import com.softtek.lai.module.login.model.UserModel;
-import com.softtek.lai.module.login.view.LoginActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
-import cn.jpush.android.api.JPushInterface;
 import zilla.libcore.lifecircle.exit.AppManager;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
