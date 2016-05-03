@@ -1,4 +1,4 @@
-package com.softtek.lai.module.studetail.view;
+package com.softtek.lai.module.studentbasedate.view;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -33,9 +33,9 @@ import zilla.libcore.ui.InjectLayout;
  *
  */
 @InjectLayout(R.layout.fragment_dimension_chart)
-public class DimensionChartFragment extends BaseFragment implements View.OnClickListener{
+public class DimensionChartFragmentPC extends BaseFragment implements View.OnClickListener{
 
-    private static DimensionChartFragment fragment=null;
+    private static DimensionChartFragmentPC fragment=null;
 
     @InjectView(R.id.chart)
     LineChart chart;
@@ -67,16 +67,10 @@ public class DimensionChartFragment extends BaseFragment implements View.OnClick
      * @param params
      * @return
      */
-    public static DimensionChartFragment newInstance( Map<String,String> params) {
+    public static DimensionChartFragmentPC newInstance() {
         if(fragment==null){
-            fragment=new DimensionChartFragment();
+            fragment=new DimensionChartFragmentPC();
         }
-        Bundle args = new Bundle();
-        Set<String> keys=params.keySet();
-        for(String key:keys){
-            args.putString(key,params.get(key));
-        }
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -121,10 +115,7 @@ public class DimensionChartFragment extends BaseFragment implements View.OnClick
     protected void initDatas() {
         chartUtil=new LineChartUtil(getContext(),chart);
         memberInfopresenter=new MemberInfoImpl(getContext(),null);
-        Bundle args=getArguments();
-        String userId=args.getString("userId");
-        String classId=args.getString("classId");
-        memberInfopresenter.getLossWeightChatData(userId,classId);
+        memberInfopresenter.getLossWeightChartDataPC();
 
     }
 

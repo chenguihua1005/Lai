@@ -26,4 +26,5 @@ public interface IMemberInfopresenter {
     void getLossWeigthLogList(long accountId,int pageIndex);
 
     void doZan(long accountId, long logId, Callback<ResponseData<Zan>> callback);
+    void getLossWeightChartDataPC();
 }
