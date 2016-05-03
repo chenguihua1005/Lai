@@ -58,7 +58,6 @@ public class LossWeightChartFragmentPC extends BaseFragment implements RadioGrou
 
     /**
      * 设置一些参数
-     * @param params
      * @return
      */
     public static LossWeightChartFragmentPC newInstance() {

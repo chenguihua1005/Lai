@@ -1,5 +1,6 @@
 package com.softtek.lai.module.lossweightstory.view;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -11,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.mobsandgeeks.saripaar.Rule;
@@ -62,7 +64,7 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
     EditText et_log_title;
     @Required(order = 3,message = "请填写减重后体重")
     @InjectView(R.id.et_weight_after)
-    EditText et_weight_after;
+    TextView tv_weight_after;
     @Required(order = 4,message = "请填写说明")
     @InjectView(R.id.et_content)
     EditText et_content;
@@ -81,6 +83,7 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
         tv_right.setText("发布");
         fl.setOnClickListener(this);
         cgv.setOnItemClickListener(this);
+        tv_weight_after.setOnClickListener(this);
     }
 
     @Override
@@ -103,6 +106,50 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
         imageFileCropSelector.setCallback(this);
     }
 
+    //体重对话框
+    public void show_weight_dialog() {
+        final AlertDialog.Builder birdialog=new AlertDialog.Builder(this);
+        View view=getLayoutInflater().inflate(R.layout.dialog,null);
+        final NumberPicker np = (NumberPicker) view.findViewById(R.id.numberPicker1);
+        np.setMaxValue(800);
+        np.setValue(150);
+        np.setMinValue(20);
+        np.setWrapSelectorWheel(false);
+        birdialog.setTitle("选择体重(单位：斤)").setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (np.getValue() < 80) {
+                    Dialog dialog1 = new AlertDialog.Builder(NewStoryActivity.this)
+                            .setMessage("体重单位为斤,是否确认数值?")
+                            .setPositiveButton("确定",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int which) {
+                                            tv_weight_after.setText(String.valueOf(np.getValue())); //set the value to textview
+                                        }
+                                    })
+                            .setNegativeButton("取消",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface arg0, int arg1) {
+                                            show_weight_dialog();
+                                        }
+                                    }).create();
+                    dialog1.show();
+                    dialog1.setCanceledOnTouchOutside(false);
+                } else {
+                    tv_weight_after.setText(String.valueOf(np.getValue())); //set the value to textview
+                }
+                dialog.dismiss();
+            }
+        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        }).create().show();
+
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -112,6 +159,9 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
             case R.id.fl_right:
                 //发布日志按钮
                 validateLife.validate();
+                break;
+            case R.id.et_weight_after:
+                show_weight_dialog();
                 break;
 
         }
@@ -200,7 +250,7 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
             LogStoryModel model=new LogStoryModel();
             model.setAccountId(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()));
             model.setLogTitle(et_log_title.getText().toString().trim());
-            model.setAfterWeight(et_weight_after.getText().toString());
+            model.setAfterWeight(tv_weight_after.getText().toString());
             model.setLogContent(et_content.getText().toString().trim());
             model.setStoryPeople(et_sender.getText().toString().trim());
             storyManager.sendLogStory(model);
