@@ -45,6 +45,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
+                    android:id="@+id/tv_update"
                     android:text="12:00"
                     android:textColor="#333333"
                     android:textSize="12sp"
@@ -52,7 +53,7 @@
                     android:layout_height="wrap_content" />
             </LinearLayout>
         </LinearLayout>
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <com.github.mikephil.charting.charts.LineChart
@@ -60,7 +61,34 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp">
             </com.github.mikephil.charting.charts.LineChart>
-        </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true">
+                <Button
+                    android:id="@+id/bt_left"
+                    android:layout_width="30dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/back_arrow_left"
+                    android:layout_centerVertical="true"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true">
+                <Button
+                    android:id="@+id/bt_right"
+                    android:layout_width="30dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/back_arrow_right"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+        </RelativeLayout>
         <LinearLayout
             android:background="@color/white"
             android:layout_width="match_parent"
@@ -76,7 +104,7 @@
                     android:layout_weight="1"
                     android:gravity="center|bottom">
                     <TextView
-                        android:text="12,000"
+                        android:id="@+id/tv_totalnumber"
                         android:textColor="#74b92a"
                         android:textSize="24sp"
                         android:layout_width="wrap_content"
@@ -119,7 +147,7 @@
                     android:layout_weight="1"
                     android:gravity="center|bottom">
                     <TextView
-                        android:text="300"
+                        android:id="@+id/tv_totalmileage"
                         android:textColor="#74b92a"
                         android:textSize="24sp"
                         android:layout_width="wrap_content"
@@ -199,7 +227,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
-                        android:text="2"
+                        android:id="@+id/tv_Rundayrank"
                         android:textColor="#ff9c00"
                         android:textSize="15sp"
                         android:layout_width="wrap_content"
@@ -223,7 +251,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
-                        android:text="32"
+                        android:id="@+id/tv_Rundaypeople"
                         android:textColor="#808080"
                         android:textSize="10sp"
                         android:layout_width="wrap_content"
@@ -262,7 +290,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
-                        android:text="210"
+                        android:id="@+id/tv_Nationaldayrank"
                         android:textColor="#74b92a"
                         android:textSize="15sp"
                         android:layout_width="wrap_content"
@@ -286,7 +314,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
-                        android:text="32"
+                        android:id="@+id/tv_Nationaldaypeople"
                         android:textColor="#808080"
                         android:textSize="10sp"
                         android:layout_width="wrap_content"
@@ -353,7 +381,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
-                        android:text="2"
+                        android:id="@+id/tv_Runweekrank"
                         android:textColor="#ff9c00"
                         android:textSize="15sp"
                         android:layout_width="wrap_content"
@@ -377,7 +405,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
-                        android:text="32"
+                        android:id="@+id/tv_Runweekpeople"
                         android:textColor="#808080"
                         android:textSize="10sp"
                         android:layout_width="wrap_content"
@@ -416,7 +444,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
-                        android:text="210"
+                        android:id="@+id/tv_Nationalweekrank"
                         android:textColor="#74b92a"
                         android:textSize="15sp"
                         android:layout_width="wrap_content"
@@ -440,7 +468,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
-                        android:text="32"
+                        android:id="@+id/tv_Nationalweekpeople"
                         android:textColor="#808080"
                         android:textSize="10sp"
                         android:layout_width="wrap_content"
@@ -472,6 +500,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
+                    android:id="@+id/tv_medalnumber"
                     android:gravity="center|left"
                     android:text="5"
                     android:textColor="#333333"
