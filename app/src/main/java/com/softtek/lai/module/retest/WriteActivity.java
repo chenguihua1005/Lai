@@ -173,7 +173,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         tv_right.setOnClickListener(this);
         im_retestwrite_takephoto.setOnClickListener(this);
         btn_retest_write_addbody.setOnClickListener(this);
-        ll_retestWrite_chu_weight.setOnClickListener(this);
+//        ll_retestWrite_chu_weight.setOnClickListener(this);
         ll_retestWrite_nowweight.setOnClickListener(this);
         ll_retestWrite_tizhi.setOnClickListener(this);
         ll_retestWrite_neizhi.setOnClickListener(this);
@@ -308,17 +308,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
                 break;
             //点击弹框事件
 
-            case R.id.ll_retestWrite_chu_weight:
-                if (retestAuditModel.getIsFirst()=="true") {
-                    tv_write_chu_weight.clearFocus();
-                    show_information("初始体重（斤）",600,100,20,9,0,0,0);
-                }
-                else {
-                    tv_write_chu_weight.clearFocus();
-                    Util.toastMsg("该学员非第一次加入不能修改初始体重");
-                }
 
-                break;
             case R.id.tv_write_chu_weight:
 
                 break;
