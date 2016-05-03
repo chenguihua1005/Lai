@@ -98,21 +98,20 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="26dp"
                 android:text="减重后体重:"/>
-            <EditText
+            <TextView
                 android:id="@+id/et_weight_after"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="4"
                 android:textSize="17sp"
                 android:layout_marginLeft="14dp"
-                android:gravity="bottom"
+                android:gravity="bottom|center"
                 android:inputType="number"
                 android:paddingBottom="10dp"
                 android:singleLine="true"
                 android:textStyle="bold"
                 android:background="@null"
                 android:textColor="#333333"
-                android:text=""
                 />
             <TextView
                 android:layout_width="0dp"
