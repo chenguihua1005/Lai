@@ -295,23 +295,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
                         }
                     }
                 }).create().show();
-//                final GetPhotoDialog dialog = new GetPhotoDialog(this,
-//                        new GetPhotoDialog.GetPhotoDialogListener() {
-//                            @Override
-//                            public void onClick(View view) {
-//                                switch(view.getId()){
-//                                    case R.id.imgbtn_camera:
-//                                        takecamera();
-//                                        break;
-//                                    case R.id.imgbtn_pic:
-//                                        takepic();
-//                                        break;
-//                                }
-//                            }
-//                        });
-//                dialog.setTitle("照片上传");
-//                dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
-//                dialog.show();
+
                 break;
             //添加身体围度
             case R.id.btn_retest_write_addbody:

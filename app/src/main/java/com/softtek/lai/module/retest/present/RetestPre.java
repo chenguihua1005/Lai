@@ -31,8 +31,6 @@ public interface RetestPre {
 
     void goGetPicture(String filePath);
 
-    void doGetMeasure(String accesstoken, String phone);
-    void doPostClient(String grant_type,String client_id,String client_secret);
     void GetUserMeasuredInfo(String phone);
 
 }

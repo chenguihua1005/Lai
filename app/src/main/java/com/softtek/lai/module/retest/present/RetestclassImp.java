@@ -107,13 +107,14 @@ public class RetestclassImp implements RetestPre{
                         Log.i("查询成功");
                         break;
                     default:
-                        final AlertDialog.Builder information_dialog=new AlertDialog.Builder(context);
-                        information_dialog.setTitle("查询").setMessage(listResponseData.getMsg()).setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        }).create().show();
+//                        final AlertDialog.Builder information_dialog=new AlertDialog.Builder(context);
+//                        information_dialog.setTitle("查询").setMessage(listResponseData.getMsg()).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//
+//                            }
+//                        }).create().show();
+                        Util.toastMsg(listResponseData.getMsg());
                         
                 }
             }
@@ -288,42 +289,7 @@ public class RetestclassImp implements RetestPre{
             }
         });
     }
-//laichen
-    @Override
-    public void doGetMeasure(String accesstoken, String phone) {
 
-        laiChenService.doGetMeasure(accesstoken, phone, new Callback<MeasureModel>() {
-            @Override
-            public void success(MeasureModel measureModel, Response response) {
-                EventBus.getDefault().post(measureModel);
-//                Util.toastMsg("获取信息成功"+measureModel.toString());
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                ZillaApi.dealNetError(error);
-                error.printStackTrace();
-            }
-        });
-
-    }
-
-    @Override
-    public void doPostClient(String grant_type, String client_id, String client_secret) {
-        laiChenService.doPostClient(grant_type, client_id, client_secret, new Callback<ClientModel>() {
-            @Override
-            public void success(ClientModel clientModel, Response response) {
-//               Util.toastMsg("获取授权成功");
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                ZillaApi.dealNetError(error);
-                error.printStackTrace();
-
-            }
-        });
-    }
 
     @Override
     public void GetUserMeasuredInfo(String phone) {
