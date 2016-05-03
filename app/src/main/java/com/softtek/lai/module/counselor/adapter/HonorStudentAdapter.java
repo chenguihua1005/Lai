@@ -88,7 +88,7 @@ public class HonorStudentAdapter extends BaseAdapter {
         if ("".equals(honorTable1.getPhoto()) || "null".equals(honorTable1.getPhoto()) || honorTable1.getPhoto() == null) {
             Picasso.with(context).load("111").fit().error(R.drawable.img_default).fit().into(holder.img);
         } else {
-            Picasso.with(context).load(path + honorTable1.getPhoto()).fit().error(R.drawable.img_default).into(holder.img);
+            Picasso.with(context).load(honorTable1.getPhoto()).fit().error(R.drawable.img_default).into(holder.img);
         }
         //Picasso.with(context).load("111").error(R.drawable.img_default).into(holder.img);
         String rnum = honorTable1.getRnum();
@@ -112,7 +112,7 @@ public class HonorStudentAdapter extends BaseAdapter {
 
         holder.text_rnum.setText(honorTable1.getRnum().toString());
         holder.text_user_name.setText(honorTable1.getUserName().toString());
-        holder.text_before_weight.setText("减重：前 " + honorTable1.getBeforeWeight().toString() + "斤");
+        holder.text_before_weight.setText("减重前 " + honorTable1.getBeforeWeight().toString() + "斤");
         holder.text_after_weight.setText("后 " + honorTable1.getAfterWeight().toString() + "斤");
         holder.text_lose_weight.setText(honorTable1.getLoseWeight().toString());
         return convertView;

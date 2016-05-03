@@ -138,6 +138,9 @@
 
     <dimen name="applyAssistantMarginTop">15dip</dimen>
 
+    <dimen name="joinGroupMarginTop">17dip</dimen>
+    <dimen name="joinGroupMarginLeft">14dip</dimen>
+
     <dimen name="margin">15dip</dimen>
     <dimen name="textSize1">15sp</dimen>
     <dimen name="textSize2">12sp</dimen>
