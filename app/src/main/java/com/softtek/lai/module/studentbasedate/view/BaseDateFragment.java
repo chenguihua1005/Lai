@@ -77,8 +77,8 @@ public class BaseDateFragment extends BaseFragment{
             tv_loss_before.setText(model.getLossBefore());
             tv_loss_after.setText(model.getLossAfter());
             try {
-                Picasso.with(getContext()).load(model.getLossBeforePhoto()).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_loss_before);
-                Picasso.with(getContext()).load(model.getLossAfterPhoto()).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_loss_after);
+                Picasso.with(getContext()).load(model.getLossBeforePhoto()).fit().placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_loss_before);
+                Picasso.with(getContext()).load(model.getLossAfterPhoto()).fit().placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_loss_after);
             }catch (Exception e){
 
             }

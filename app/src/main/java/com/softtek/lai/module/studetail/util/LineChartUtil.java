@@ -48,7 +48,11 @@ public class LineChartUtil {
         for (int i = 0; i <data.getXValCount()&&i<datas.size(); i++) {
             float val=datas.get(i);
             //获取数值
-            yVals.add(new Entry(val, i));
+            if(val==0){
+                continue;
+            }else{
+                yVals.add(new Entry(val, i));
+            }
             if(val>max){
                 max=val;
             }
@@ -82,7 +86,6 @@ public class LineChartUtil {
         //chart.animateXY(2000,2000);
         data.getDataSets().clear();
         data.getDataSets().add(set1);
-        //data.addDataSet(set1);
         chart.notifyDataSetChanged();
         chart.invalidate();
     }

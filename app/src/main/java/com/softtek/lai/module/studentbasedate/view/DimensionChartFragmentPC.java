@@ -2,12 +2,14 @@ package com.softtek.lai.module.studentbasedate.view;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.CheckBox;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.LineData;
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.studetail.eventModel.LineChartEvent;
@@ -64,7 +66,6 @@ public class DimensionChartFragmentPC extends BaseFragment implements View.OnCli
 
     /**
      * 设置一些参数
-     * @param params
      * @return
      */
     public static DimensionChartFragmentPC newInstance() {
@@ -173,6 +174,12 @@ public class DimensionChartFragmentPC extends BaseFragment implements View.OnCli
         return str==null||"".equals(str)?0f:Float.parseFloat(str);
     }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        old_radio_id=-1;
+    }
+
     //插入几次空数据
     private void addEmptyDate(int n){
         for(int i=0;i<n;i++){
@@ -202,13 +209,19 @@ public class DimensionChartFragmentPC extends BaseFragment implements View.OnCli
         super.onDestroyView();
     }
 
-    private int old_radio_id=R.id.radio_bust;//默认是第一个按钮
+    private int old_radio_id=-1;//默认是第一个按钮
     private List<CheckBox> checkBoxes=new ArrayList<>();
 
 
 
     @Override
     public void onClick(View v) {
+        if(old_radio_id==-1){
+            Log.i("old_radio_id等于-1？"+true);
+            old_radio_id=R.id.radio_bust;
+        }else{
+            Log.i("old_radio_id等于-1？"+false);
+        }
         int id=v.getId();
         ((CheckBox)v).setTextColor(Color.WHITE);
         if(id==old_radio_id){
@@ -250,21 +263,27 @@ public class DimensionChartFragmentPC extends BaseFragment implements View.OnCli
     private void setOldColor(int id){
         switch (id){
             case R.id.radio_bust:
+                Log.i("设置 颜色为radio_bust");
                 radio_bust.setTextColor(0xFF74BB2A);
                 break;
             case R.id.radio_thign:
+                Log.i("设置 颜色为radio_thign");
                 radio_thign.setTextColor(0xFF74BB2A);
                 break;
             case R.id.radio_shin:
+                Log.i("设置 颜色为radio_shin");
                 radio_shin.setTextColor(0xFF74BB2A);
                 break;
             case R.id.radio_arm:
+                Log.i("设置 颜色为radio_arm");
                 radio_arm.setTextColor(0xFF74BB2A);
                 break;
             case R.id.radio_upper_arm:
+                Log.i("设置 颜色为radio_upper_arm");
                 radio_upper_arm.setTextColor(0xFF74BB2A);
                 break;
             case R.id.radio_waist:
+                Log.i("设置 颜色为radio_waist");
                 radio_waist.setTextColor(0xFF74BB2A);
                 break;
         }
