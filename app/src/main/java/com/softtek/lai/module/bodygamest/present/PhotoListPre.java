@@ -11,4 +11,5 @@ public interface PhotoListPre {
     void getUploadPhoto(String AccountId,String pageIndex);
     void getUserPhotos(String photoName);
     void getLossData(String accountId);
+
 }

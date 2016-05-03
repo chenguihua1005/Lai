@@ -9,22 +9,17 @@ package com.softtek.lai.module.home.view;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
-import com.google.gson.Gson;
-import com.lhh.ptrrv.library.PullToRefreshRecyclerView;
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.home.adapter.DemoLoadMoreView;
-import com.softtek.lai.module.home.adapter.DividerItemDecoration;
-import com.softtek.lai.module.home.adapter.RecyclerViewAdapter;
-import com.softtek.lai.module.home.cache.HomeInfoCache;
+import com.softtek.lai.module.home.adapter.LoadMoreRecyclerViewAdapter;
 import com.softtek.lai.module.home.eventModel.ProductEvent;
-import com.softtek.lai.module.home.eventModel.RefreshEvent;
 import com.softtek.lai.module.home.model.HomeInfoModel;
 import com.softtek.lai.module.home.presenter.HomeInfoImpl;
 import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
-import com.softtek.lai.utils.ACache;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -37,45 +32,59 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.base_fragment)
-public class ProductInfoFragment extends BaseFragment implements PullToRefreshRecyclerView.PagingableListener {
+public class ProductInfoFragment extends BaseFragment  {
 
 
     @InjectView(R.id.ptrrv)
-    PullToRefreshRecyclerView ptrrv;
+    RecyclerView ptrrv;
 
     private List<HomeInfoModel> infos = new ArrayList<>();
 
     private IHomeInfoPresenter homeInfoPresenter;
 
-    int page = 0;
-    //下次加载插入的列表位置
-    private int index = 0;
-    private ACache aCache;
-    private RecyclerViewAdapter adapter;
+    int page = 1;
+
+    private LoadMoreRecyclerViewAdapter adapter;
+    private static final int LOADCOUNT=5;
+    private int lastVisitableItem;
+    private boolean isLoading=false;
 
     @Override
     protected void initViews() {
-        ptrrv.setSwipeEnable(false);
-        DemoLoadMoreView loadMoreView = new DemoLoadMoreView(getContext(), ptrrv.getRecyclerView());
-        loadMoreView.setLoadmoreString("正在加载...");
-        loadMoreView.setLoadMorePadding(100);
-        ptrrv.setLoadMoreFooter(loadMoreView);
         ptrrv.setLayoutManager(new LinearLayoutManager(getContext()));
-        ptrrv.getRecyclerView().addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));
-        ptrrv.setPagingableListener(this);
+        ptrrv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                int count=adapter.getItemCount();
+                if(newState==RecyclerView.SCROLL_STATE_IDLE&&count>LOADCOUNT&&lastVisitableItem+1==count){
+                    if(!isLoading){
+                        isLoading=true;
+                        //加载更多数据
+                        Log.i("开始加载更多");
+                        page++;
+                        homeInfoPresenter.getContentByPage( page, Constants.PRODUCT_INFO);
+                    }
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                LinearLayoutManager llm= (LinearLayoutManager) ptrrv.getLayoutManager();
+                lastVisitableItem=llm.findLastVisibleItemPosition();
+            }
+        });
 
     }
 
 
     @Override
     protected void initDatas() {
-        aCache = ACache.get(getContext(), Constants.HOME_CACHE_DATA_DIR);
-        page = 0;
         homeInfoPresenter = new HomeInfoImpl(getContext());
-        adapter = new RecyclerViewAdapter(getContext(), infos);
+        adapter = new LoadMoreRecyclerViewAdapter(getContext(), infos);
         ptrrv.setAdapter(adapter);
-        ptrrv.onFinishLoading(true, true);
-        //homeInfoPresenter.getContentByPage(0, ++page, Constants.PRODUCT_INFO);
+
     }
 
 
@@ -93,37 +102,20 @@ public class ProductInfoFragment extends BaseFragment implements PullToRefreshRe
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onRefreshView(ProductEvent productEvent) {
-        if (productEvent.flag == 0) {
-            infos.clear();
-            infos.addAll(productEvent.products);
-            System.out.println("这次是更新，目前数据有" + infos.size() + "条");
-        } else {
-            //插入上次数据的末尾
-            infos.addAll(index, productEvent.products);
-            System.out.println("这次是添加插入，目前数据有" + infos.size() + "条");
+        isLoading=false;
+        adapter.notifyItemRemoved(adapter.getItemCount());
+        if(productEvent.products==null||productEvent.products.isEmpty()){
+            page=--page<1?1:page;
+            return;
         }
+        infos.addAll( productEvent.products);
         adapter.notifyDataSetChanged();
-        aCache.put(Constants.HOEM_PRODUCT_KEY, new Gson().toJson(new HomeInfoCache(infos)));
     }
 
-    @Override
-    public void onLoadMoreItems() {
-        System.out.println("加载啦....");
-        homeInfoPresenter.getContentByPage(1, page, Constants.PRODUCT_INFO);
-    }
 
-    @Subscribe
-    public void onRefreshEnd(RefreshEvent event) {
-        System.out.print("加载结束了");
-        if (event.flag == Constants.PRODUCT_INFO) {
-            if (event.result) {
-                page++;
-            }
-            ptrrv.onFinishLoading(true, true);
-        }
-    }
 
     public void updateInfo(List<HomeInfoModel> products){
+        page=1;
         infos.clear();
         infos.addAll(products);
         adapter.notifyDataSetChanged();

@@ -192,7 +192,7 @@ public class QueryActivity extends BaseActivity implements View.OnClickListener 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode==GET_BODY&&resultCode==RESULT_OK){
-            retestPre.doGetBanjiStudent(Long.parseLong(ClassId));
+            retestPre.doGetBanjiStudent(Long.parseLong(ClassId),loginid);
             queryAdapter.notifyDataSetChanged();
 
         }

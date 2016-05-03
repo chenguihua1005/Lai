@@ -99,7 +99,7 @@ public class RollHeaderView extends FrameLayout implements OnPageChangeListener 
             mDotLl.removeAllViews();
             ImageView dotIv;
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(DisplayUtil.dip2px(mContext, 5), DisplayUtil.dip2px(mContext, 5));
-            Log.i("一共有多少个点？" + mUrlList.size());
+            //Log.i("一共有多少个点？" + mUrlList.size());
             for (int i = 0; i < mUrlList.size(); i++) {
                 dotIv = new ImageView(mContext);
                 if (i == 0) {

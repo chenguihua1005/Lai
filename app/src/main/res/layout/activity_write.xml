@@ -534,9 +534,10 @@
                     <ImageView
                         android:layout_width="150dp"
                         android:layout_height="150dp"
-                        android:src="@drawable/retest_write_takephoto"
+                        android:src="@drawable/default_pic"
                         android:layout_centerHorizontal="true"
                         android:visibility="gone"
+                        android:layout_marginBottom="2dp"
                         android:id="@+id/im_retestwrite_showphoto" />
                     <ImageView
                         android:id="@+id/im_delete"

@@ -7,76 +7,9 @@
     android:fitsSystemWindows="true"
     android:background="#ffffff"
     tools:context=".module.bodygamest.view.UploadPhotoActivity">
-<include layout="@layout/toolbar"/>
-   <ScrollView
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       android:layout_below="@+id/toolbar"
-       android:fillViewport="true">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="220dp"
-                >
-                <ImageView
-                    android:id="@+id/im_uploadphoto_banner"
-                    android:layout_width="match_parent"
-                    android:layout_height="195dp"
-                    android:src="@drawable/default_pic"
-                    android:scaleType="centerCrop"/>
-                <TextView
-                    android:id="@+id/tv_downphoto_nick"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=""
-                    android:textSize="22sp"
-                    android:textColor="#333"
-                    android:textStyle="bold"
-                    android:layout_marginRight="114dp"
-                    android:layout_marginBottom="35dp"
-                    android:layout_gravity="right|bottom"/>
+    <include layout="@layout/toolbar"/>
 
-                <com.softtek.lai.widgets.CircleImageView
-                    android:id="@+id/cir_downphoto_head"
-                    android:layout_width="82dp"
-                    android:layout_height="82dp"
-                    android:src="@drawable/img_default"
-                    android:layout_gravity="right|bottom"
-                    android:layout_marginRight="15dp"/>
 
-            </FrameLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:padding="10dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="今天"
-                    android:textSize="20sp"
-                    android:textColor="#333"
-                />
-                <ImageView
-                    android:id="@+id/imtest"
-                    android:layout_width="100dp"
-                    android:layout_height="90dp"
-                    android:scaleType="fitCenter"
-                    android:padding="20dp"
-                    android:layout_marginLeft="17dp"
-                    android:background="#dadada"
-                    android:src="@drawable/takephoto_upload"/>
-            </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#e5e5e5"/>
             <com.handmark.pulltorefresh.library.PullToRefreshListView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -88,13 +21,11 @@
                 app:ptrShowIndicator="false"
                 android:id="@+id/ptrlvlist"
                 android:focusable="false"
+                android:layout_below="@id/toolbar"
                 >
 
             </com.handmark.pulltorefresh.library.PullToRefreshListView>
 
             
-        </LinearLayout>
-        
-    </LinearLayout>
-   </ScrollView>
+
 </RelativeLayout>

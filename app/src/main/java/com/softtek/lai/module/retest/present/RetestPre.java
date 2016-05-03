@@ -21,7 +21,7 @@ public interface RetestPre {
 
     void doGetqueryResult(String str, String accountId, ProgressDialog dialog,Context context);
 
-    void doGetBanjiStudent(long classId);
+    void doGetBanjiStudent(long classId,long id);
 
     void doGetAudit(long accountId, long classId, String typeDate);
 
