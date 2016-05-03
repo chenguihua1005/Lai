@@ -16,7 +16,6 @@ import com.softtek.lai.module.studetail.model.LogList;
 import com.softtek.lai.module.studetail.model.MemberModel;
 import com.softtek.lai.module.studetail.model.StudentLinChartInfoModel;
 import com.softtek.lai.module.studetail.net.MemberInfoService;
-import com.softtek.lai.utils.ACache;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -39,15 +38,33 @@ public class MemberInfoImpl implements IMemberInfopresenter {
     private MemberInfoService service;
     private UserInfoModel infoModel;
     private Context context;
-    private ACache aCache;
     private MemberInfoImplCallback cb;
 
-    public MemberInfoImpl(Context context,MemberInfoImplCallback cb) {
+    @Override
+    public void getLossWeightChartDataPC() {
+        String token=infoModel.getToken();
+        service.getLineChartDataPC(token, new Callback<ResponseData<List<StudentLinChartInfoModel>>>() {
+            @Override
+            public void success(ResponseData<List<StudentLinChartInfoModel>> listResponseData, Response response) {
+                if(listResponseData.getStatus()==200){
+                    EventBus.getDefault().post(new LineChartEvent(listResponseData.getData()));
+                }else{
+                    Util.toastMsg(listResponseData.getMsg());
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                ZillaApi.dealNetError(error);
+            }
+        });
+    }
+
+    public MemberInfoImpl(Context context, MemberInfoImplCallback cb) {
         service = ZillaApi.NormalRestAdapter.create(MemberInfoService.class);
         this.context = context;
         this.cb= cb;
         infoModel=UserInfoModel.getInstance();
-        aCache=ACache.get(context,LOG_CACHE_DIR);
     }
 
     @Override
@@ -69,7 +86,6 @@ public class MemberInfoImpl implements IMemberInfopresenter {
             public void failure(RetrofitError error) {
                 progressDialog.dismiss();
                 ZillaApi.dealNetError(error);
-                error.printStackTrace();
             }
         });
     }
@@ -89,7 +105,6 @@ public class MemberInfoImpl implements IMemberInfopresenter {
 
             @Override
             public void failure(RetrofitError error) {
-                error.printStackTrace();
                 ZillaApi.dealNetError(error);
             }
         });

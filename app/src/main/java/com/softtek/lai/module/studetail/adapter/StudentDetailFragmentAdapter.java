@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class StudentDetailFragmentAdapter extends FragmentPagerAdapter{
 
-    private  String[] title={"减重曲线","减重维度"};
+    private  String[] title={"减重曲线","维度曲线"};
     private List<Fragment> fragmentList;
 
     public StudentDetailFragmentAdapter(FragmentManager fm,List<Fragment> fragments) {

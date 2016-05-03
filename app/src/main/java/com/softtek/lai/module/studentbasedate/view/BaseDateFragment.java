@@ -15,6 +15,8 @@ import com.softtek.lai.module.studetail.view.DimensionChartFragment;
 import com.softtek.lai.module.studetail.view.LossWeightChartFragment;
 import com.squareup.picasso.Picasso;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -85,11 +87,8 @@ public class BaseDateFragment extends BaseFragment{
 
             }
         }
-        Map<String,String> params=new HashMap<>();
-        params.put("userId",accountId+"");
-        params.put("classId",classId+"");
-        LossWeightChartFragment lwcf= LossWeightChartFragment.newInstance(params);
-        DimensionChartFragment dcf=DimensionChartFragment.newInstance(params);
+        LossWeightChartFragmentPC lwcf= LossWeightChartFragmentPC.newInstance();
+        DimensionChartFragmentPC dcf=DimensionChartFragmentPC.newInstance();
         fragments.add(lwcf);
         fragments.add(dcf);
         tabcontent.setAdapter(new StudentDetailFragmentAdapter(getFragmentManager(), fragments));
@@ -103,11 +102,11 @@ public class BaseDateFragment extends BaseFragment{
         tv_totle_lw.setText(model.getLossTotal()+"斤");
         tv_loss_before.setText(model.getLossBefore()+"斤");
         tv_loss_after.setText(model.getLossAfter()+"斤");
-        try {
-            Picasso.with(getContext()).load(model.getLossBeforePhoto()).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_loss_before);
-            Picasso.with(getContext()).load(model.getLossAfterPhoto()).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_loss_after);
-        }catch (Exception e){
-
+        if(StringUtils.isNotEmpty(model.getLossBeforePhoto())){
+            Picasso.with(getContext()).load(model.getLossBeforePhoto()).fit().placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_loss_before);
+        }
+        if(StringUtils.isNotEmpty(model.getLossAfterPhoto())){
+            Picasso.with(getContext()).load(model.getLossAfterPhoto()).fit().placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_loss_after);
         }
     }
 }
