@@ -88,6 +88,10 @@ public class LineChartUtil {
     }
     public  void addData(List<Float> datas,int n,List<String> dates)
     {
+        if(datas.size()==0)
+        {
+            n=0;
+        }
         LineData data= chart.getData();
         if(data==null||datas==null||datas.size()==0){
             return;
