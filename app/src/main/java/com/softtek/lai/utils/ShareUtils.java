@@ -43,8 +43,8 @@ public class ShareUtils {
     }
 
     private void addWXPlatform() {
-        String appId = "wxd282ca7dfe25dd68";
-        String appSecret = "b65fc1262a4c030e44be9e258fa22072";
+        String appId = "wxdef946afe85d49a2";
+        String appSecret = "8f2e4913b794a310dd6662014748c43d";
 // 添加微信平台
         UMWXHandler wxHandler = new UMWXHandler(context, appId, appSecret);
         wxHandler.addToSocialSDK();

@@ -112,7 +112,7 @@ public class HonorStudentAdapter extends BaseAdapter {
 
         holder.text_rnum.setText(honorTable1.getRnum().toString());
         holder.text_user_name.setText(honorTable1.getUserName().toString());
-        holder.text_before_weight.setText("减重：前 " + honorTable1.getBeforeWeight().toString() + "斤");
+        holder.text_before_weight.setText("减重前 " + honorTable1.getBeforeWeight().toString() + "斤");
         holder.text_after_weight.setText("后 " + honorTable1.getAfterWeight().toString() + "斤");
         holder.text_lose_weight.setText(honorTable1.getLoseWeight().toString());
         return convertView;
