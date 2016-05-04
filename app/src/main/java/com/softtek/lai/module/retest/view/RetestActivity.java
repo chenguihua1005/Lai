@@ -280,14 +280,22 @@ public class  RetestActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        //身体围度值传递
+
         if (requestCode==GET_BODY&&resultCode==RESULT_OK){
+//            banjiStudentModelList.clear();
             retestPre.doGetBanjiStudent(ClassId,loginid);
-            studentAdapter.notifyDataSetChanged();
+//            studentAdapter.notifyDataSetChanged();
 
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+//        banjiStudentModelList.clear();
+        retestPre.doGetBanjiStudent(ClassId,loginid);
+//        studentAdapter.notifyDataSetChanged();
+    }
 
     @Subscribe
     public void onEvent(BanJiEvent banji){

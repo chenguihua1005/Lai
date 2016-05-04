@@ -77,7 +77,7 @@ public class StringUtil {
     public static String filterPhonNumber(String phone){
         String before3=phone.substring(0,3);
         String after4=phone.substring(phone.length()-4,phone.length());
-        return before3+"**"+after4;
+        return before3+"****"+after4;
     }
 
     /**

@@ -57,7 +57,7 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
     TextView tv_right;
 
     //信息保存控件
-    @Required(order = 1,message = "初始体重必填项，请选择")
+//    @Required(order = 1,message = "初始体重必填项，请选择")
     @InjectView(R.id.tv_audit_chu_weight)
     EditText tv_audit_chu_weight;
     @Required(order = 2,message = "现在体重必填项，请选择")
@@ -160,7 +160,7 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
         super.onCreate(savedInstanceState);
         tv_right.setOnClickListener(this);
         ll_left.setOnClickListener(this);
-        ll_audit_chu_weight.setOnClickListener(this);
+//        ll_audit_chu_weight.setOnClickListener(this);
         ll_retestAudit_nowweight.setOnClickListener(this);
         ll_retestAudit_tizhi.setOnClickListener(this);
         ll_retestAudit_wasit.setOnClickListener(this);
@@ -278,9 +278,9 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
 
                 break;
             //信息点击事件
-            case R.id.ll_audit_chu_weight:
-                show_information("初始体重（斤）",600,100,20,9,0,0,0);
-                break;
+//            case R.id.ll_audit_chu_weight:
+//                show_information("初始体重（斤）",600,100,20,9,0,0,0);
+//                break;
             case R.id.ll_retestAudit_nowweight:
                 show_information("现在体重（斤）",600,100,20,9,5,0,1);
                 break;
