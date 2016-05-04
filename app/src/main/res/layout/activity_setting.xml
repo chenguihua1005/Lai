@@ -32,13 +32,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:src="@drawable/img_sfrz" />
+                android:src="@drawable/img_sfrz"
+                android:visibility="gone"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/fragmentMineMarginLeft"
                 android:layout_toRightOf="@+id/img1"
                 android:text="@string/version_name"
                 android:textColor="@color/word"
@@ -72,13 +72,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:src="@drawable/img_sfrz" />
+                android:src="@drawable/img_sfrz"
+                android:visibility="gone"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/fragmentMineMarginLeft"
                 android:layout_toRightOf="@+id/img2"
                 android:text="关于我们"
                 android:textColor="@color/word"
