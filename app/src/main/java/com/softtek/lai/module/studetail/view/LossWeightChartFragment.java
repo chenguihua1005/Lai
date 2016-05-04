@@ -154,8 +154,8 @@ public class LossWeightChartFragment extends BaseFragment implements RadioGroup.
 
         }
         chartUtil.addDataSet(lossWeightDatas);
-        chartUtil.addDataSet(bodyFatDatas);
-        chartUtil.addDataSet(fatDatas);
+        /*chartUtil.addDataSet(bodyFatDatas);
+        chartUtil.addDataSet(fatDatas);*/
     }
     private float getFloat(String str){
         return str==null||"".equals(str)?0f:Float.parseFloat(str);

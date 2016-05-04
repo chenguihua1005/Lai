@@ -110,6 +110,7 @@ public class StudentDetailActivity extends BaseActivity implements View.OnClickL
         tv_title.setText("学员详情");
 
         progressDialog.show();
+        Log.i("班级classId="+classId+";学员accountId="+accountId);
         memberInfopresenter.getMemberinfo(String.valueOf(classId),String.valueOf(accountId) , progressDialog);
 
     }

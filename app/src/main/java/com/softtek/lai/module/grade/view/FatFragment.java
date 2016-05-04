@@ -112,7 +112,12 @@ public class FatFragment extends BaseFragment implements PullToRefreshBase.OnRef
             return;
         }
         this.studentModels.clear();
-        this.studentModels.addAll(models);
+        for(int i=0;i<models.size();i++){
+            StudentModel model=models.get(i);
+            if(model.getIsTest()!=0){
+                this.studentModels.add(model);
+            }
+        }
         adapter.notifyDataSetChanged();
     }
 }

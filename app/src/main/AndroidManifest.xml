@@ -311,6 +311,7 @@
         <activity android:name=".module.historydate.view.HistoryDataDetailActivity" />
         <activity android:name=".module.tips.view.VideoViewActivity" />
         <activity android:name=".module.mygrades.view.MyGradesActivity" />
+        <activity android:name=".module.lossweightstory.view.PictureActivity"></activity>
         <activity android:name=".module.laisportmine.view.MyInformationActivity"></activity>
         <activity android:name=".module.jingdu.view.ZhuJiaoJingduActivity"></activity>
         <activity android:name=".module.bodygamest.view.GuideActivity"></activity>
