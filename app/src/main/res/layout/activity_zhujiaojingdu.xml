@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:fitsSystemWindows="true"
+    android:layout_height="match_parent"
+    tools:context="com.softtek.lai.module.jingdu.view.JingduActivity">
+
+    <include layout="@layout/toolbar" />
+
+    <LinearLayout
+        android:background="#ffffff"
+        android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_height="180dp">
+                <com.ggx.jerryguan.widget_lib.Chart
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
+                    android:id="@+id/total_weight">
+                </com.ggx.jerryguan.widget_lib.Chart>
+
+            </LinearLayout>
+            <LinearLayout
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="180dp">
+                <LinearLayout
+                    android:visibility="visible"
+                    android:id="@+id/ll_oneban"
+                    android:gravity="center|left"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp">
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:layout_marginRight="5dp"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/pic_noneban"/>
+                        <ImageView
+                            android:id="@+id/img_oneban"
+                            android:layout_marginRight="5dp"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:scaleType="fitCenter"
+                            android:visibility="invisible"
+                            android:src="@drawable/pic_oneban"/>
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/tv_classname1"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:text="未开班"
+                        android:textColor="#6f6f6f"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tv_oneban"
+                        android:layout_marginRight="2dp"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:textColor="#333333"
+                        android:textSize="18sp"
+                        android:text=""/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:text="斤" />
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:visibility="visible"
+                    android:id="@+id/ll_twoban"
+                    android:gravity="center|left"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp">
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_marginRight="5dp"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/pic_noneban"/>
+                    <ImageView
+                        android:id="@+id/img_twoban"
+                        android:layout_marginRight="5dp"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:scaleType="fitCenter"
+                        android:visibility="invisible"
+                        android:src="@drawable/pic_twoban"/>
+                    </RelativeLayout>
+                    <TextView
+                        android:id="@+id/tv_classname2"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:text="未开班"
+                        android:textColor="#6f6f6f"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_twoban"
+                        android:layout_marginRight="2dp"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:textColor="#333333"
+                        android:textSize="18sp"
+                        android:text="" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:text="斤" />
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:visibility="visible"
+                    android:id="@+id/ll_threeban"
+                    android:gravity="center|left"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_marginRight="5dp"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/pic_noneban"/>
+                    <ImageView
+                        android:id="@+id/img_threeban"
+                        android:layout_marginRight="5dp"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:scaleType="fitCenter"
+                        android:visibility="invisible"
+                        android:src="@drawable/pic_threeban"/>
+                    </RelativeLayout>
+                    <TextView
+                        android:id="@+id/tv_classname3"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:text="未开班"
+                        android:textColor="#6f6f6f"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_threeban"
+                        android:layout_marginRight="2dp"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:textColor="#333333"
+                        android:textSize="18sp"
+                        android:text="" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:text="斤" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        android:background="#f1f1f1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/top">
+        <LinearLayout
+            android:background="#74bb2a"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center|left">
+            <ImageView
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="fitCenter"
+                android:src="@drawable/pic_lossmember"/>
+            <TextView
+                android:textColor="#ffffff"
+                android:textSize="18sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="学员减重TOP 10" />
+        </LinearLayout>
+        <ListView
+            android:id="@+id/list_rank"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#eeeeee" />
+    </LinearLayout>
+</RelativeLayout>

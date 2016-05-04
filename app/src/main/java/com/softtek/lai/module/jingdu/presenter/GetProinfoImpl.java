@@ -9,6 +9,7 @@ import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.jingdu.EventModel.RankEvent;
 import com.softtek.lai.module.jingdu.model.RankModel;
+import com.softtek.lai.module.jingdu.model.SPModel;
 import com.softtek.lai.module.jingdu.net.JingduService;
 import org.greenrobot.eventbus.EventBus;
 import retrofit.Callback;
@@ -38,6 +39,36 @@ public class GetProinfoImpl implements IGetProinfopresenter {
             public void success(ResponseData<RankModel> rankModelResponseData, Response response) {
                 EventBus.getDefault().post(rankModelResponseData.getData());
                 int status=rankModelResponseData.getStatus();
+                switch (status)
+                {
+                    case 200:
+                        Util.toastMsg("获取成功");
+                        break;
+                    case 502:
+                        Util.toastMsg("数据异常");
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
+
+            }
+        });
+    }
+
+    @Override
+    public void getspproinfo() {
+        String token = SharedPreferenceService.getInstance().get("token", "");
+        service.getspproinfo(token, new Callback<ResponseData<SPModel>>() {
+            @Override
+            public void success(ResponseData<SPModel> spModelResponseData, Response response) {
+                EventBus.getDefault().post(spModelResponseData.getData());
+//                LaichModel laichModel= (LaichModel)laichModelResponseData.getData();
+//                EventBus.getDefault().post(laichModel);
+                int status=spModelResponseData.getStatus();
                 switch (status)
                 {
                     case 200:

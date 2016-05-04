@@ -42,7 +42,10 @@ import com.softtek.lai.utils.ShareUtils;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileCropSelector;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.bean.SocializeConfig;
+import com.umeng.socialize.bean.SocializeEntity;
+import com.umeng.socialize.controller.listener.SocializeListeners;
 import com.umeng.socialize.sso.UMSsoHandler;
 
 import org.greenrobot.eventbus.EventBus;
@@ -65,13 +68,13 @@ import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_upload_photo)
 public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBase.OnRefreshListener2<ListView>, View.OnClickListener, AdapterView.OnItemClickListener, DownloadManager.DownloadCallBack
-        , PhotoListIml.PhotoListCallback,ImageFileCropSelector.Callback {
+        , PhotoListIml.PhotoListCallback, ImageFileCropSelector.Callback {
     //toolbar标题栏
     @InjectView(R.id.tv_left)
     TextView tv_left;
     @InjectView(R.id.tv_title)
     TextView tv_title;
-//    @InjectView(R.id.imtest)
+    //    @InjectView(R.id.imtest)
 //    ImageView imtest;
     @InjectView(R.id.tv_right)
     TextView tv_right;
@@ -79,7 +82,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     FrameLayout fl_right;
     @InjectView(R.id.ptrlvlist)
     PullToRefreshListView ptrlvlist;
-//    @InjectView(R.id.im_uploadphoto_banner)
+    //    @InjectView(R.id.im_uploadphoto_banner)
 //    ImageView im_uploadphoto_banner;
 //    @InjectView(R.id.cir_downphoto_head)
 //    CircleImageView cir_downphoto_head;
@@ -114,10 +117,12 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     private TextView tv_today;
     private ImageView imtest_list;
     private TextView tv_downphoto_nick;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
         super.onCreate(savedInstanceState);
+        com.umeng.socialize.utils.Log.LOG = true;
 
     }
 
@@ -140,9 +145,8 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         String path = AddressManager.get("shareHost", "http://172.16.98.167/Share/");
         String url = path + "SharePhotoAblum?AccountId=" + UserInfoModel.getInstance().getUser().getUserid();
         System.out.println("url:" + url);
-        shareUtils.setShareContent("康宝莱体重管理挑战赛，坚持只为改变！", url, R.drawable.img_default, lossModel.getContent(), lossModel.getContent() + url);
-        shareUtils.getController().openShare(UploadPhotoActivity.this, false);
-
+        shareUtils.setShareContent("康宝莱体重管理挑战赛，坚持只为改变！", url, R.drawable.default_pic, lossModel.getContent(), lossModel.getContent() + url);
+        shareUtils.getController().openShare(UploadPhotoActivity.this,false);
     }
 
     @Override
@@ -159,18 +163,18 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         ptrlvlist.setMode(PullToRefreshBase.Mode.BOTH);
         ptrlvlist.setOnItemClickListener(this);
         ptrlvlist.setOnRefreshListener(this);
-        View view=getLayoutInflater().inflate(R.layout.loadphotolist_header_layout,null,false);
-        im_uploadphoto_banner_list= (ImageView)view.findViewById(R.id.im_uploadphoto_banner_list);
-        tv_today= (TextView) view.findViewById(R.id.tv_today);
-        cir_downphoto_head_list= (CircleImageView) view.findViewById(R.id.cir_downphoto_head_list);
-        imtest_list= (ImageView) view.findViewById(R.id.imtest_list);
-        tv_downphoto_nick= (TextView) view.findViewById(R.id.tv_downphoto_nick);
+        View view = getLayoutInflater().inflate(R.layout.loadphotolist_header_layout, null, false);
+        im_uploadphoto_banner_list = (ImageView) view.findViewById(R.id.im_uploadphoto_banner_list);
+        tv_today = (TextView) view.findViewById(R.id.tv_today);
+        cir_downphoto_head_list = (CircleImageView) view.findViewById(R.id.cir_downphoto_head_list);
+        imtest_list = (ImageView) view.findViewById(R.id.imtest_list);
+        tv_downphoto_nick = (TextView) view.findViewById(R.id.tv_downphoto_nick);
         ptrlvlist.getRefreshableView().addHeaderView(view);
         imtest_list.setOnClickListener(this);
-        imageFileCropSelector=new ImageFileCropSelector(this);
-        imageFileCropSelector.setOutPutImageSize(DisplayUtil.getMobileWidth(this),DisplayUtil.dip2px(this,195));
-        imageFileCropSelector.setOutPutAspect(4,3);
-        imageFileCropSelector.setOutPut(DisplayUtil.getMobileWidth(this),DisplayUtil.dip2px(this,195));
+        imageFileCropSelector = new ImageFileCropSelector(this);
+        imageFileCropSelector.setOutPutImageSize(DisplayUtil.getMobileWidth(this), DisplayUtil.dip2px(this, 195));
+        imageFileCropSelector.setOutPutAspect(4, 3);
+        imageFileCropSelector.setOutPut(DisplayUtil.getMobileWidth(this), DisplayUtil.dip2px(this, 195));
         imageFileCropSelector.setCallback(this);
         im_uploadphoto_banner_list.setLongClickable(true);
         im_uploadphoto_banner_list.setOnLongClickListener(new View.OnLongClickListener() {
@@ -179,7 +183,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
                 new AlertDialog.Builder(UploadPhotoActivity.this).setItems(items, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        switch (which){
+                        switch (which) {
                             case 0:
                                 imageFileCropSelector.takePhoto(UploadPhotoActivity.this);
                                 break;
@@ -197,7 +201,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
 
     @Override
     protected void initDatas() {
-        service= ZillaApi.NormalRestAdapter.create(GradeService.class);
+        service = ZillaApi.NormalRestAdapter.create(GradeService.class);
         downloadManager = new DownloadManager(this);
         downPhotoModel = new DownPhotoModel();
         logListModel = new LogListModel();
@@ -278,9 +282,10 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        imageFileCropSelector.onActivityResult(requestCode,resultCode,data);
-        imageFileCropSelector.getmImageCropperHelper().onActivityResult(requestCode,resultCode,data);
+        imageFileCropSelector.onActivityResult(requestCode, resultCode, data);
+        imageFileCropSelector.getmImageCropperHelper().onActivityResult(requestCode, resultCode, data);
         UMSsoHandler ssoHandler = SocializeConfig.getSocializeConfig().getSsoHandler(requestCode);
+        System.out.println("ssoHandler:"+ssoHandler+"   requestCode:"+requestCode+"   resultCode:"+resultCode);
         if (ssoHandler != null) {
             ssoHandler.authorizeCallBack(requestCode, resultCode, data);
         }
@@ -390,15 +395,15 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
 
     @Override
     public void onSuccess(final String file) {
-        String token= UserInfoModel.getInstance().getToken();
+        String token = UserInfoModel.getInstance().getToken();
         service.updateClassBanner(token, Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()),
                 "1",
                 new TypedFile("image/*", new File(file)),
                 new Callback<ResponseData<BannerModel>>() {
                     @Override
                     public void success(ResponseData<BannerModel> bannerModelResponseData, Response response) {
-                        Log.i("logbanner===="+bannerModelResponseData.getData().getPath());
-                        Picasso.with(UploadPhotoActivity.this).load(AddressManager.get("photoHost")+bannerModelResponseData.getData().getPath()).fit().
+                        Log.i("logbanner====" + bannerModelResponseData.getData().getPath());
+                        Picasso.with(UploadPhotoActivity.this).load(AddressManager.get("photoHost") + bannerModelResponseData.getData().getPath()).fit().
 
                                 placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(im_uploadphoto_banner_list);
 

@@ -68,7 +68,7 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="5722d76367e58e3b6f0037ee" />
+            android:value="5728545a67e58ea7cf001701" />
 
         <activity
             android:name=".module.login.view.LoginActivity"
@@ -97,6 +97,7 @@
         <activity android:name=".module.home.view.ValidateCertificationActivity" />
         <activity android:name=".module.home.view.ModifyPasswordActivity" />
         <activity android:name=".module.home.view.SettingsActivity" />
+        <activity android:name=".module.home.view.AboutMeActivity" />
         <activity android:name=".module.File.view.DimensionRecordActivity" />
         <activity
             android:name=".module.retest.WriteActivity"
@@ -311,6 +312,7 @@
         <activity android:name=".module.tips.view.VideoViewActivity" />
         <activity android:name=".module.mygrades.view.MyGradesActivity" />
         <activity android:name=".module.laisportmine.view.MyInformationActivity"></activity>
+        <activity android:name=".module.jingdu.view.ZhuJiaoJingduActivity"></activity>
     </application>
 
 </manifest>

@@ -38,7 +38,6 @@ public class GradesImpl implements IGradesPresenter{
             @Override
             public void success(ResponseData<GradesModel> listResponseData, Response response) {
                 int status=listResponseData.getStatus();
-               // Log.i("listResponseData",""+listResponseData);
                 switch (status)
                 {
                     case 200:
@@ -66,7 +65,8 @@ public class GradesImpl implements IGradesPresenter{
 
             @Override
             public void success(ResponseData<DayRankModel> listResponseData, Response response) {
-                EventBus.getDefault().post(listResponseData.getData());
+                 //Log.i("listResponseData",""+listResponseData);
+                 EventBus.getDefault().post(listResponseData.getData());
                 int status=listResponseData.getStatus();
                 switch (status)
                 {
