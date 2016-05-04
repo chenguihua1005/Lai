@@ -166,7 +166,7 @@ public class ZhuJiaoJingduActivity extends BaseActivity implements View.OnClickL
     @Subscribe
     public void onEvent(SPModel spModel) {
         //SPTable：教练本月(累计减重数量)
-        System.out.println("rankEvent.getRanks()》》》》》》》》》》》》》》" + spModel.getSpTable().get(0).getTotalWeight());
+        //System.out.println("rankEvent.getRanks()》》》》》》》》》》》》》》" + spModel.getSpTable().get(0).getTotalWeight());
 
         //Table1: 教练所有班级的所有学员减重最多的前10名学员
         table1ModelList = spModel.getTable1();
