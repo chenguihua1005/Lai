@@ -122,7 +122,7 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
 
     @Subscribe
     public void onEvent(DayRankModel dayRankModel) {
-        System.out.println("全国排名》》》》》》》》》》》》》》" + dayRankModel.getOrderData().get(0).get_order());
+        System.out.println("日排名》》》》》》》》》》》》》》" + dayRankModel.getOrderData().get(0).get_order());
         String order=dayRankModel.getOrderData().get(0).get_order();
         String totalnumber = dayRankModel.getOrderData().get(0).getStepCount();
         tv_totalnumber.setText(totalnumber);
