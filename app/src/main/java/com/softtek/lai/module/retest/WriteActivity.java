@@ -446,9 +446,9 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         String image=retestWrite.getImage();
         int i;
         retestPre.doPostWrite(Long.parseLong(acountid),loginid,retestWrite,this);
-        Intent intent=new Intent();
-        setResult(RESULT_OK,intent);
-        finish();
+//        Intent intent=new Intent();
+//        setResult(RESULT_OK,intent);
+//        finish();
     }
 
     @Override

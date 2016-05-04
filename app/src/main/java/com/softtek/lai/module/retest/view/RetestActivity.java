@@ -282,7 +282,7 @@ public class  RetestActivity extends BaseActivity implements View.OnClickListene
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode==GET_BODY&&resultCode==RESULT_OK){
-//            banjiStudentModelList.clear();
+            banjiStudentModelList.clear();
             retestPre.doGetBanjiStudent(ClassId,loginid);
 //            studentAdapter.notifyDataSetChanged();
 
@@ -292,7 +292,7 @@ public class  RetestActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onResume() {
         super.onResume();
-//        banjiStudentModelList.clear();
+        banjiStudentModelList.clear();
         retestPre.doGetBanjiStudent(ClassId,loginid);
 //        studentAdapter.notifyDataSetChanged();
     }

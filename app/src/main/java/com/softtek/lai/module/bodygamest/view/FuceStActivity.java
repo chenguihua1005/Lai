@@ -329,8 +329,10 @@ else {
 
                 if (!TextUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getImage())) {
                     im_retestwritest_showphoto.setVisibility(View.VISIBLE);
-                    Picasso.with(this).load(retestAuditModelEvent.getRetestAuditModels().get(0).getPhoto()).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(im_retestwritest_showphoto);
+                    Picasso.with(this).load(retestAuditModelEvent.getRetestAuditModels().get(0).getImage()).placeholder(R.drawable.default_pic).fit().error(R.drawable.default_pic).into(im_retestwritest_showphoto);
                 } else {
+                    im_retestwritest_showphoto.setVisibility(View.GONE);
+                    Picasso.with(this).load("www").placeholder(R.drawable.default_pic).fit().error(R.drawable.default_pic).into(im_retestwritest_showphoto);
                 }
             } else {
                 retestPre.GetUserMeasuredInfo(moblie);
