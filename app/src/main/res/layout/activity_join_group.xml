@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+  ~ Date:2016-03-31
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey4"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context="com.softtek.lai.module.login.view.ForgetActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="@dimen/margin"
+        android:layout_marginTop="@dimen/joinGroupMarginTop"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/rel_dq"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/img_dq"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/img_join_group_selected" />
+
+            <TextView
+                android:id="@+id/text_dq"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/joinGroupMarginLeft"
+                android:text="选择大区"
+                android:textColor="@color/word12"
+                android:textSize="@dimen/textSize1" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rel_xq"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/joinGroupMarginTop">
+
+            <ImageView
+                android:id="@+id/img_xq"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/img_join_group_selected" />
+
+            <TextView
+                android:id="@+id/text_xq"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/joinGroupMarginLeft"
+                android:text="选择小区"
+                android:textColor="@color/word12"
+                android:textSize="@dimen/textSize1" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rel_cs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/joinGroupMarginTop">
+
+            <ImageView
+                android:id="@+id/img_cs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/img_join_group_selected" />
+
+            <TextView
+                android:id="@+id/text_cs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/joinGroupMarginLeft"
+                android:text="选择城市"
+                android:textColor="@color/word12"
+                android:textSize="@dimen/textSize1" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/list_group"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="@dimen/joinGroupMarginTop"
+        android:scrollbars="none" />
+</LinearLayout>

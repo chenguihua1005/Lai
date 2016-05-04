@@ -341,6 +341,7 @@
         android:id="@+id/list_stars"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:scrollbars="none"
         android:layout_marginLeft="@dimen/margin"
         android:layout_marginRight="@dimen/margin" />
 </LinearLayout>

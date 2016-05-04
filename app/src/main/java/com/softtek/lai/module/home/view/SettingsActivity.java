@@ -79,6 +79,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
                 finish();
                 break;
             case R.id.lin_about:
+                startActivity(new Intent(this,AboutMeActivity.class));
                 break;
 
         }

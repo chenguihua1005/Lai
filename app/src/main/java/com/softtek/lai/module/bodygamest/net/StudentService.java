@@ -1,6 +1,8 @@
 package com.softtek.lai.module.bodygamest.net;
 
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.module.bodygame.model.FuceNumModel;
+import com.softtek.lai.module.bodygamest.model.CountWeekModel;
 import com.softtek.lai.module.bodygamest.model.HasClass;
 import com.softtek.lai.module.bodygamest.model.StudentHonorInfo;
 import com.softtek.lai.module.bodygamest.model.StudentScripInfo;
@@ -43,6 +45,11 @@ public interface StudentService {
                        @Query("accountid") String accountid,
                        RequestCallback<ResponseData<HasClass>> callback);
     //未复测周数提醒
-    @GET("")
-    void GetNotMeasuredRecordByPC();
+    @GET("/MeasuredRecordLog/GetNotMeasuredRecordByPC")
+    void GetNotMeasuredRecordByPC(
+            @Header("token")String token,
+            @Query("accountId")long accountId,
+            Callback<ResponseData<CountWeekModel>> callback
+
+    );
 }

@@ -1,6 +1,7 @@
 package com.softtek.lai.module.lossweightstory.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.lossweightstory.model.LossWeightStoryModel;
 import com.softtek.lai.module.lossweightstory.model.Zan;
 import com.softtek.lai.module.lossweightstory.net.LossWeightLogService;
+import com.softtek.lai.module.lossweightstory.view.PictureActivity;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.StringUtil;
@@ -155,6 +157,7 @@ public class LossWeightStoryAdapter extends BaseAdapter{
 
     private void visitableOrGone(ViewHolder holder,String[] imgs,String path) {
         for (int i = 0; i < imgs.length; i++) {
+            final String uri=imgs[i];
             try {
                 switch (i + 1) {
                     case 1:
@@ -167,6 +170,14 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                         holder.img7.setVisibility(View.GONE);
                         holder.img8.setVisibility(View.GONE);
                         holder.img9.setVisibility(View.GONE);
+                        holder.img1.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent in=new Intent(context, PictureActivity.class);
+                                in.putExtra("image_uri",uri);
+                                context.startActivity(in);
+                            }
+                        });
                         Picasso.with(context).load(path+imgs[i]).fit()
                                 .placeholder(R.drawable.default_pic)
                                 .error(R.drawable.default_pic)
@@ -181,6 +192,14 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                         holder.img7.setVisibility(View.GONE);
                         holder.img8.setVisibility(View.GONE);
                         holder.img9.setVisibility(View.GONE);
+                        holder.img2.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent in=new Intent(context, PictureActivity.class);
+                                in.putExtra("image_uri",uri);
+                                context.startActivity(in);
+                            }
+                        });
                         Picasso.with(context).load(path+imgs[i]).fit()
                                 .placeholder(R.drawable.default_pic)
                                 .error(R.drawable.default_pic)
@@ -194,6 +213,14 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                         holder.img7.setVisibility(View.GONE);
                         holder.img8.setVisibility(View.GONE);
                         holder.img9.setVisibility(View.GONE);
+                        holder.img3.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent in=new Intent(context, PictureActivity.class);
+                                in.putExtra("image_uri",uri);
+                                context.startActivity(in);
+                            }
+                        });
                         Picasso.with(context).load(path+imgs[i]).fit()
                                 .placeholder(R.drawable.default_pic)
                                 .error(R.drawable.default_pic)
@@ -206,6 +233,14 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                         holder.img7.setVisibility(View.GONE);
                         holder.img8.setVisibility(View.GONE);
                         holder.img9.setVisibility(View.GONE);
+                        holder.img4.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent in=new Intent(context, PictureActivity.class);
+                                in.putExtra("image_uri",uri);
+                                context.startActivity(in);
+                            }
+                        });
                         Picasso.with(context).load(path+imgs[i]).fit()
                                 .placeholder(R.drawable.default_pic)
                                 .error(R.drawable.default_pic)
@@ -217,6 +252,14 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                         holder.img7.setVisibility(View.GONE);
                         holder.img8.setVisibility(View.GONE);
                         holder.img9.setVisibility(View.GONE);
+                        holder.img5.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent in=new Intent(context, PictureActivity.class);
+                                in.putExtra("image_uri",uri);
+                                context.startActivity(in);
+                            }
+                        });
                         Picasso.with(context).load(path+imgs[i]).fit()
                                 .placeholder(R.drawable.default_pic)
                                 .error(R.drawable.default_pic)
@@ -227,6 +270,14 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                         holder.img7.setVisibility(View.GONE);
                         holder.img8.setVisibility(View.GONE);
                         holder.img9.setVisibility(View.GONE);
+                        holder.img6.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent in=new Intent(context, PictureActivity.class);
+                                in.putExtra("image_uri",uri);
+                                context.startActivity(in);
+                            }
+                        });
                         Picasso.with(context).load(path+imgs[i]).fit()
                                 .placeholder(R.drawable.default_pic)
                                 .error(R.drawable.default_pic)
@@ -236,6 +287,14 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                         holder.img7.setVisibility(View.VISIBLE);
                         holder.img8.setVisibility(View.GONE);
                         holder.img9.setVisibility(View.GONE);
+                        holder.img7.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent in=new Intent(context, PictureActivity.class);
+                                in.putExtra("image_uri",uri);
+                                context.startActivity(in);
+                            }
+                        });
                         Picasso.with(context).load(path+imgs[i]).fit()
                                 .placeholder(R.drawable.default_pic)
                                 .error(R.drawable.default_pic)
@@ -244,6 +303,14 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                     case 8:
                         holder.img8.setVisibility(View.VISIBLE);
                         holder.img9.setVisibility(View.GONE);
+                        holder.img8.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent in=new Intent(context, PictureActivity.class);
+                                in.putExtra("image_uri",uri);
+                                context.startActivity(in);
+                            }
+                        });
                         Picasso.with(context).load(path+imgs[i]).fit()
                                 .placeholder(R.drawable.default_pic)
                                 .error(R.drawable.default_pic)
@@ -251,6 +318,14 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                         break;
                     case 9:
                         holder.img9.setVisibility(View.VISIBLE);
+                        holder.img9.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent in=new Intent(context, PictureActivity.class);
+                                in.putExtra("image_uri",uri);
+                                context.startActivity(in);
+                            }
+                        });
                         Picasso.with(context).load(path+imgs[i]).fit()
                                 .placeholder(R.drawable.default_pic)
                                 .error(R.drawable.default_pic)

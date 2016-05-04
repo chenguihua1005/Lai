@@ -40,7 +40,6 @@
                 android:textStyle="bold"
                 android:textColor="#333333"
                 android:textSize="20sp"
-                android:text=""
                 android:layout_centerInParent="true"
                 android:layout_toRightOf="@id/civ_header_image"
                 android:layout_marginLeft="10dp"/>
@@ -57,7 +56,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="减重斤数:"
+                        android:text="减重后体重:"
+                        android:textSize="12sp"
                         android:layout_marginLeft="10dp"
                         android:textColor="@color/white"/>
                     <TextView
@@ -65,7 +65,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text=""
+                        android:textSize="12sp"
                         android:layout_marginLeft="5dp"
                         android:textColor="@color/white"/>
 
@@ -85,8 +85,6 @@
             android:gravity="center|left"
             android:textStyle="bold"
             android:textSize="18sp"
-            android:ellipsize="end"
-            android:maxLines="2"
             android:textColor="#333333"
             android:text=""/>
         <com.softtek.lai.widgets.CustomGridView

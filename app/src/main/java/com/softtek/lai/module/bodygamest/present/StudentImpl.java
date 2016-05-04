@@ -12,6 +12,7 @@ import android.widget.ListView;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygamest.Adapter.StudentScoreAdapter;
+import com.softtek.lai.module.bodygamest.model.CountWeekModel;
 import com.softtek.lai.module.bodygamest.model.HasClass;
 import com.softtek.lai.module.bodygamest.model.StudentHonorInfo;
 import com.softtek.lai.module.bodygamest.model.StudentScripInfo;
@@ -59,6 +60,33 @@ public class StudentImpl implements IStudentPresenter {
                         break;
                     default:
                         Util.toastMsg(listResponseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
+            }
+        });
+    }
+
+    @Override
+    public void GetNotMeasuredRecordByPC(long accountId) {
+        String token = UserInfoModel.getInstance().getToken();
+        studentService.GetNotMeasuredRecordByPC(token, accountId, new Callback<ResponseData<CountWeekModel>>() {
+
+            @Override
+            public void success(ResponseData<CountWeekModel> countWeekModelResponseData, Response response) {
+                int status = countWeekModelResponseData.getStatus();
+                switch (status) {
+                    case 200:
+                        System.out.println(countWeekModelResponseData);
+                        EventBus.getDefault().post(countWeekModelResponseData.getData());
+                        break;
+                    default:
+                        Util.toastMsg(countWeekModelResponseData.getMsg());
                         break;
                 }
             }

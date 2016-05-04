@@ -31,7 +31,6 @@ import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.jpush.JpushSet;
 import com.softtek.lai.module.bodygame.view.CounselorActivity;
 import com.softtek.lai.module.bodygamecc.view.BodyGameCcActivity;
 import com.softtek.lai.module.bodygamest.model.HasClass;
@@ -48,7 +47,6 @@ import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.message.presenter.IMessagePresenter;
 import com.softtek.lai.module.message.presenter.MessageImpl;
-import com.softtek.lai.module.message.view.JoinGameDetailActivity;
 import com.softtek.lai.module.message.view.MessageActivity;
 import com.softtek.lai.module.sport.presenter.SportGroupManager;
 import com.softtek.lai.utils.DisplayUtil;
@@ -63,7 +61,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
-import cn.jpush.android.api.JPushInterface;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.ui.InjectLayout;
@@ -234,14 +231,21 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
             toolbar.setVisibility(View.GONE);
         }*/
 
-
-        if (verticalOffset >= 0) {
+        ActivityRecordFragment recordFragment=((ActivityRecordFragment) fragments.get(0));
+        if(recordFragment!=null){
+            if(recordFragment.isRecycleFirst()&&verticalOffset>=0){
+                pull.setEnabled(true);
+            }else{
+                pull.setEnabled(false);
+            }
+        }
+        /*if (verticalOffset >= 0) {
             pull.setEnabled(true);
 
         } else {
             pull.setEnabled(false);
 
-        }
+        }*/
     }
 
     @Override

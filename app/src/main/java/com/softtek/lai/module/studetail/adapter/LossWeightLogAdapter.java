@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,6 +19,8 @@ import com.softtek.lai.module.studetail.presenter.IMemberInfopresenter;
 import com.softtek.lai.module.studetail.presenter.MemberInfoImpl;
 import com.softtek.lai.utils.DateUtil;
 import com.squareup.picasso.Picasso;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
@@ -115,7 +116,7 @@ public class LossWeightLogAdapter extends BaseAdapter{
         }
 
         holder.cb_zan.setText(log.getPriase());
-        if(log.getImgCollectionFirst()!=null&&!log.getImgCollectionFirst().equals("")){
+        if(StringUtils.isNotEmpty(log.getImgCollectionFirst())){
             Picasso.with(context).load(AddressManager.get("photoHost")+log.getImgCollectionFirst()).fit().placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(holder.iv_image);
         }
         holder.tv_log_title.setText(log.getLogTitle());

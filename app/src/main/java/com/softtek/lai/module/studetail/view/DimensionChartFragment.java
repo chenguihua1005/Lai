@@ -8,6 +8,7 @@ import android.widget.CheckBox;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.LineData;
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.studetail.eventModel.LineChartEvent;
@@ -148,7 +149,7 @@ public class DimensionChartFragment extends BaseFragment implements View.OnClick
                  */
                 addEmptyDate(model.getWeekDay() - 1);//先插入几次空数据
                 //在插入第一次数据
-                circumDatas.add(getFloat(model.getWaistline()));
+                circumDatas.add(getFloat(model.getCircum()));
                 waistlineDatas.add(getFloat(model.getWaistline()));
                 hiplieDatas.add(getFloat(model.getHiplie()));
                 upArmGirthDatas.add(getFloat(model.getUpArmGirth()));
@@ -161,7 +162,7 @@ public class DimensionChartFragment extends BaseFragment implements View.OnClick
                     //说明中间有断层则插入沿用上一次数据多少次
                     addPreviousDate(event.getModels().get(i - 1), week - lastWeek);
                 }
-                circumDatas.add(getFloat(model.getWaistline()));
+                circumDatas.add(getFloat(model.getCircum()));
                 waistlineDatas.add(getFloat(model.getWaistline()));
                 hiplieDatas.add(getFloat(model.getHiplie()));
                 upArmGirthDatas.add(getFloat(model.getUpArmGirth()));
@@ -171,11 +172,11 @@ public class DimensionChartFragment extends BaseFragment implements View.OnClick
             }
         }
         chartUtil.addDataSet(circumDatas);
-        chartUtil.addDataSet(waistlineDatas);
+        /*chartUtil.addDataSet(waistlineDatas);
         chartUtil.addDataSet(hiplieDatas);
         chartUtil.addDataSet(upLegGirthDatas);
         chartUtil.addDataSet(upArmGirthDatas);
-        chartUtil.addDataSet(doLegGirthDatas);
+        chartUtil.addDataSet(doLegGirthDatas);*/
     }
 
     private float getFloat(String str){
@@ -196,7 +197,7 @@ public class DimensionChartFragment extends BaseFragment implements View.OnClick
     //插入上一次数据几次
     private void addPreviousDate(StudentLinChartInfoModel lastModel,int n){
         for(int i=0;i<n;i++){
-            circumDatas.add(getFloat(lastModel.getWaistline()));
+            circumDatas.add(getFloat(lastModel.getCircum()));
             waistlineDatas.add(getFloat(lastModel.getWaistline()));
             hiplieDatas.add(getFloat(lastModel.getHiplie()));
             upArmGirthDatas.add(getFloat(lastModel.getUpArmGirth()));

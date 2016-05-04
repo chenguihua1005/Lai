@@ -173,7 +173,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         tv_right.setOnClickListener(this);
         im_retestwrite_takephoto.setOnClickListener(this);
         btn_retest_write_addbody.setOnClickListener(this);
-        ll_retestWrite_chu_weight.setOnClickListener(this);
+//        ll_retestWrite_chu_weight.setOnClickListener(this);
         ll_retestWrite_nowweight.setOnClickListener(this);
         ll_retestWrite_tizhi.setOnClickListener(this);
         ll_retestWrite_neizhi.setOnClickListener(this);
@@ -295,23 +295,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
                         }
                     }
                 }).create().show();
-//                final GetPhotoDialog dialog = new GetPhotoDialog(this,
-//                        new GetPhotoDialog.GetPhotoDialogListener() {
-//                            @Override
-//                            public void onClick(View view) {
-//                                switch(view.getId()){
-//                                    case R.id.imgbtn_camera:
-//                                        takecamera();
-//                                        break;
-//                                    case R.id.imgbtn_pic:
-//                                        takepic();
-//                                        break;
-//                                }
-//                            }
-//                        });
-//                dialog.setTitle("照片上传");
-//                dialog.setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
-//                dialog.show();
+
                 break;
             //添加身体围度
             case R.id.btn_retest_write_addbody:
@@ -324,17 +308,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
                 break;
             //点击弹框事件
 
-            case R.id.ll_retestWrite_chu_weight:
-                if (retestAuditModel.getIsFirst()=="true") {
-                    tv_write_chu_weight.clearFocus();
-                    show_information("初始体重（斤）",600,100,20,9,0,0,0);
-                }
-                else {
-                    tv_write_chu_weight.clearFocus();
-                    Util.toastMsg("该学员非第一次加入不能修改初始体重");
-                }
 
-                break;
             case R.id.tv_write_chu_weight:
 
                 break;
@@ -472,9 +446,9 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         String image=retestWrite.getImage();
         int i;
         retestPre.doPostWrite(Long.parseLong(acountid),loginid,retestWrite,this);
-        Intent intent=new Intent();
-        setResult(RESULT_OK,intent);
-        finish();
+//        Intent intent=new Intent();
+//        setResult(RESULT_OK,intent);
+//        finish();
     }
 
     @Override

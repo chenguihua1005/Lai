@@ -139,7 +139,7 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
         ShareUtils shareUtils = new ShareUtils(SPHonorActivity.this);
         String url = "http://www.baidu.com";
         String value = "我已累计服务" + userHonorModel.getNum() + "学员，共帮助他们减重" + userHonorModel.getSumLoss() + "斤，快来参加体重管理挑战赛吧！";
-        shareUtils.setShareContent("康宝莱体重管理挑战赛，坚持只为改变！", url, R.drawable.img_default, value, value + url);
+        shareUtils.setShareContent("康宝莱体重管理挑战赛，坚持只为改变！", url, R.drawable.default_pic, value, value + url);
         shareUtils.getController().openShare(SPHonorActivity.this, false);
     }
 

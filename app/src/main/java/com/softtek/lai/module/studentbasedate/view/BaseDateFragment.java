@@ -11,15 +11,13 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.studentbasedate.model.StudentBaseInfoModel;
 import com.softtek.lai.module.studetail.adapter.StudentDetailFragmentAdapter;
-import com.softtek.lai.module.studetail.view.DimensionChartFragment;
-import com.softtek.lai.module.studetail.view.LossWeightChartFragment;
 import com.squareup.picasso.Picasso;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -79,17 +77,14 @@ public class BaseDateFragment extends BaseFragment{
             tv_loss_before.setText(model.getLossBefore());
             tv_loss_after.setText(model.getLossAfter());
             try {
-                Picasso.with(getContext()).load(model.getLossBeforePhoto()).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_loss_before);
-                Picasso.with(getContext()).load(model.getLossAfterPhoto()).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_loss_after);
+                Picasso.with(getContext()).load(model.getLossBeforePhoto()).fit().placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_loss_before);
+                Picasso.with(getContext()).load(model.getLossAfterPhoto()).fit().placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_loss_after);
             }catch (Exception e){
 
             }
         }
-        Map<String,String> params=new HashMap<>();
-        params.put("userId",accountId+"");
-        params.put("classId",classId+"");
-        LossWeightChartFragment lwcf= LossWeightChartFragment.newInstance(params);
-        DimensionChartFragment dcf=DimensionChartFragment.newInstance(params);
+        LossWeightChartFragmentPC lwcf= LossWeightChartFragmentPC.newInstance();
+        DimensionChartFragmentPC dcf=DimensionChartFragmentPC.newInstance();
         fragments.add(lwcf);
         fragments.add(dcf);
         tabcontent.setAdapter(new StudentDetailFragmentAdapter(getFragmentManager(), fragments));
@@ -102,12 +97,12 @@ public class BaseDateFragment extends BaseFragment{
         classId=model.getClassId();
         tv_totle_lw.setText(model.getLossTotal()+"斤");
         tv_loss_before.setText(model.getLossBefore()+"斤");
-        tv_loss_after.setText(model.getLossAfter()+"斤");
-        try {
-            Picasso.with(getContext()).load(model.getLossBeforePhoto()).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_loss_before);
-            Picasso.with(getContext()).load(model.getLossAfterPhoto()).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_loss_after);
-        }catch (Exception e){
-
+        tv_loss_after.setText(Float.parseFloat(model.getLossAfter())==0?"尚未复测":model.getLossAfter()+"斤");
+        if(StringUtils.isNotEmpty(model.getLossBeforePhoto())){
+            Picasso.with(getContext()).load(model.getLossBeforePhoto()).fit().placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_loss_before);
+        }
+        if(StringUtils.isNotEmpty(model.getLossAfterPhoto())){
+            Picasso.with(getContext()).load(model.getLossAfterPhoto()).fit().placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_loss_after);
         }
     }
 }

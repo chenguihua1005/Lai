@@ -769,6 +769,7 @@
                         android:src="@drawable/default_pic"
                         android:scaleType="fitCenter"
                         android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="2dp"
                         android:id="@+id/im_retestaudit_showphoto" />
 
                 </RelativeLayout>

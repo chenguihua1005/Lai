@@ -56,4 +56,8 @@ public interface MemberInfoService {
                    @Query("logId") long logId,
                    Callback<ResponseData<Zan>> callback);
 
+    @GET("/HerbrClass/GetClassMemberInfoCurvePC")
+    void getLineChartDataPC(@Header(TOKEN)String token,
+                            Callback<ResponseData<List<StudentLinChartInfoModel>>> callback);
+
 }

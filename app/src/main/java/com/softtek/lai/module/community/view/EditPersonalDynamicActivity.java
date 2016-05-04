@@ -25,7 +25,7 @@ import com.softtek.lai.module.community.presenter.PersionalDynamicManager;
 import com.softtek.lai.module.lossweightstory.model.UploadImage;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.CustomGridView;
-import com.sw926.imagefileselector.ImageFileCropSelector;
+import com.sw926.imagefileselector.ImageFileSelector;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -39,7 +39,7 @@ import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_edit_personal_dynamic)
 public class EditPersonalDynamicActivity extends BaseActivity implements View.OnClickListener
-,Validator.ValidationListener,AdapterView.OnItemClickListener,ImageFileCropSelector.Callback{
+,Validator.ValidationListener,AdapterView.OnItemClickListener,ImageFileSelector.Callback{
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -62,7 +62,8 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
     private CommunityPhotoGridViewAdapter adapter;
 
     private PersionalDynamicManager manager;
-    private ImageFileCropSelector imageFileCropSelector;
+
+    private ImageFileSelector imageFileSelector;
 
     @Override
     protected void initViews() {
@@ -96,13 +97,11 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
 
         int px=DisplayUtil.dip2px(this,300);
         //*************************
-        imageFileCropSelector=new ImageFileCropSelector(this);
-        imageFileCropSelector.setOutPutImageSize(px, px);
-        imageFileCropSelector.setQuality(30);
-        imageFileCropSelector.setScale(true);
-        imageFileCropSelector.setOutPutAspect(1, 1);
-        imageFileCropSelector.setOutPut(px,px);
-        imageFileCropSelector.setCallback(this);
+
+        imageFileSelector=new ImageFileSelector(this);
+        imageFileSelector.setOutPutImageSize(px,px);
+        imageFileSelector.setQuality(30);
+        imageFileSelector.setCallback(this);
     }
 
     @Override
@@ -181,10 +180,10 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
                 public void onClick(DialogInterface dialog, int which) {
                     if(which==0){
                         //打开照相机
-                        imageFileCropSelector.takePhoto(EditPersonalDynamicActivity.this);
+                        imageFileSelector.takePhoto(EditPersonalDynamicActivity.this);
                     }else if(which==1){
                         //打开图库
-                        imageFileCropSelector.selectImage(EditPersonalDynamicActivity.this);
+                        imageFileSelector.selectImage(EditPersonalDynamicActivity.this);
                     }
                 }
             }).create().show();
@@ -199,8 +198,7 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        imageFileCropSelector.onActivityResult(requestCode,resultCode,data);
-        imageFileCropSelector.getmImageCropperHelper().onActivityResult(requestCode,resultCode,data);
+        imageFileSelector.onActivityResult(requestCode,resultCode,data);
         if(resultCode==RESULT_OK){
             if(requestCode==OPEN_PREVIEW){
                 int position= data.getIntExtra("position", 0);

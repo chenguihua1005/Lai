@@ -57,6 +57,9 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
@@ -176,7 +179,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     protected void initViews() {
         EventBus.getDefault().register(this);
         btn_retest_write_addbodyst.setOnClickListener(this);
-        ll_fucest_chu_weight.setOnClickListener(this);
+//        ll_fucest_chu_weight.setOnClickListener(this);
         ll_fucest_nowweight.setOnClickListener(this);
         ll_fucest_tizhi.setOnClickListener(this);
         ll_retestWrite_neizhi.setOnClickListener(this);
@@ -223,15 +226,15 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
                 intent.putExtra("isState",isState);
                 startActivityForResult(intent,GET_BODY);
                 break;
-            case R.id.ll_fucest_chu_weight:
-                if (isState.equals("true")) {
-                    if (retestAuditModel.getIsFirst() == "true") {
-                        show_information("初始体重（斤）", 600, 100, 20, 9, 0, 0, 0);
-                    } else {
-                        Util.toastMsg("您不是第一次参加班级，不能修改初始体重");
-                    }
-                }
-                break;
+//            case R.id.ll_fucest_chu_weight:
+//                if (isState.equals("true")) {
+//                    if (retestAuditModel.getIsFirst() == "true") {
+//                        show_information("初始体重（斤）", 600, 100, 20, 9, 0, 0, 0);
+//                    } else {
+//                        Util.toastMsg("您不是第一次参加班级，不能修改初始体重");
+//                    }
+//                }
+//                break;
             case R.id.ll_fucest_nowweight:
                 if (isState.equals("true")) {
                     show_information("现在体重（斤）", 600, 100, 20, 9, 0, 0, 1);
@@ -278,7 +281,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         }
     }
     @Subscribe
-    public void doGetDates(RetestAuditModelEvent retestAuditModelEvent){
+    public void doGetDates(RetestAuditModelEvent retestAuditModelEvent) throws Exception {
         Log.i("retestAuditModel"+retestAuditModelEvent.getRetestAuditModels());
         tv_writes_chu_weight.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getInitWeight().equals("")?"":Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getInitWeight())+"");
         tv_writest_nick.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getUserName());
@@ -303,36 +306,46 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         else {
             Picasso.with(this).load("www").placeholder(R.drawable.img_default).error(R.drawable.img_default).fit().into(iv_writest_head);
         }
-
-        if (retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("1")||retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("2"))
-        {
-            tv_retestWrites_nowweight.setText(Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getWeight())+"");
-            tv_retestWritest_tizhi.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getPysical());
-            tv_retestWritest_neizhi.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getFat());
-            retestWrite.setCircum(retestAuditModelEvent.getRetestAuditModels().get(0).getCircum());
-            retestWrite.setWaistline(retestAuditModelEvent.getRetestAuditModels().get(0).getWaistline());
-            retestWrite.setHiplie(retestAuditModelEvent.getRetestAuditModels().get(0).getHiplie());
-            retestWrite.setUpArmGirth(retestAuditModelEvent.getRetestAuditModels().get(0).getUpArmGirth());
-            retestWrite.setUpLegGirth(retestAuditModelEvent.getRetestAuditModels().get(0).getUpLegGirth());
-            retestWrite.setDoLegGirth(retestAuditModelEvent.getRetestAuditModels().get(0).getDoLegGirth());
-            isState="false";
-            btn_retest_write_addbodyst.setText("查看围度记录");
-            tv_right.setFocusable(false);
-
-            if(!TextUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getImage())) {
-                im_retestwritest_showphoto.setVisibility(View.VISIBLE);
-                Picasso.with(this).load(retestAuditModelEvent.getRetestAuditModels().get(0).getPhoto()).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(im_retestwritest_showphoto);
+        if(!(ConverToDate(retestAuditModelEvent.getRetestAuditModels().get(0).getTypeDate()).getTime()>ConverToDate(retestAuditModelEvent.getRetestAuditModels().get(0).getCurrStart()).getTime()&&
+                ConverToDate(retestAuditModelEvent.getRetestAuditModels().get(0).getTypeDate()).getTime()<ConverToDate(retestAuditModelEvent.getRetestAuditModels().get(0).getCurrEnd()).getTime()))
+            {
+                retestPre.GetUserMeasuredInfo(moblie);
+                tv_right.setText("保存");
             }
-            else {
-            }
-        }
-        else {
-            retestPre.GetUserMeasuredInfo(moblie);
-            tv_right.setText("保存");
+else {
+            if (retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("1") || retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("2")) {
+                tv_retestWrites_nowweight.setText(Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getWeight()) + "");
+                tv_retestWritest_tizhi.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getPysical());
+                tv_retestWritest_neizhi.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getFat());
+                retestWrite.setCircum(retestAuditModelEvent.getRetestAuditModels().get(0).getCircum());
+                retestWrite.setWaistline(retestAuditModelEvent.getRetestAuditModels().get(0).getWaistline());
+                retestWrite.setHiplie(retestAuditModelEvent.getRetestAuditModels().get(0).getHiplie());
+                retestWrite.setUpArmGirth(retestAuditModelEvent.getRetestAuditModels().get(0).getUpArmGirth());
+                retestWrite.setUpLegGirth(retestAuditModelEvent.getRetestAuditModels().get(0).getUpLegGirth());
+                retestWrite.setDoLegGirth(retestAuditModelEvent.getRetestAuditModels().get(0).getDoLegGirth());
+                isState = "false";
+                btn_retest_write_addbodyst.setText("查看围度记录");
+                tv_right.setFocusable(false);
 
+                if (!TextUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getImage())) {
+                    im_retestwritest_showphoto.setVisibility(View.VISIBLE);
+                    Picasso.with(this).load(retestAuditModelEvent.getRetestAuditModels().get(0).getImage()).placeholder(R.drawable.default_pic).fit().error(R.drawable.default_pic).into(im_retestwritest_showphoto);
+                } else {
+                    im_retestwritest_showphoto.setVisibility(View.GONE);
+                    Picasso.with(this).load("www").placeholder(R.drawable.default_pic).fit().error(R.drawable.default_pic).into(im_retestwritest_showphoto);
+                }
+            } else {
+                retestPre.GetUserMeasuredInfo(moblie);
+                tv_right.setText("保存");
+
+            }
         }
     }
-
+    public static Date ConverToDate(String strDate) throws Exception
+    {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        return df.parse(strDate);
+    }
     @Subscribe
     public void doGetPhotost(PhotModel photModel) {
         System.out.println("照片名称" + photModel.getImg());

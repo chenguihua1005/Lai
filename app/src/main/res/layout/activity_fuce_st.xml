@@ -525,6 +525,7 @@
                         android:layout_centerHorizontal="true"
                         android:visibility="gone"
                         android:background="#c0c0c0"
+                        android:layout_marginBottom="2dp"
                         android:id="@+id/im_retestwritest_showphoto" />
                 </RelativeLayout>
 

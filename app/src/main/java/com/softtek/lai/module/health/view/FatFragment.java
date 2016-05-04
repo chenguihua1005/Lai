@@ -67,7 +67,6 @@ public class FatFragment extends BaseFragment implements RadioGroup.OnCheckedCha
 
     private LineChartUtil chartUtil;
     List<Float> dates=new ArrayList<Float>();
-    List<Float> ceshi=new ArrayList<Float>();
     List<String>days=new ArrayList<String>();
     //时间
     Calendar c = Calendar.getInstance();
@@ -148,7 +147,7 @@ public class FatFragment extends BaseFragment implements RadioGroup.OnCheckedCha
         days.add(formdate(nowdate6));
         days.add(formdate(nowdate7));
         progressDialog.show();
-        healthRecordManager.doGetHealthfatRecords(getDateform(nowdate7),getDateform(nowdate1),1);
+        healthRecordManager.doGetHealthfatRecords(getDateform(nowdate1),getDateform(nowdate7),1);
 
     }
 
@@ -273,10 +272,7 @@ public class FatFragment extends BaseFragment implements RadioGroup.OnCheckedCha
         for (int i=0;i<=n-1;i++) {
             dates.add(Float.parseFloat(healthFatModel.getFatlist().get(i).getFat()));
         }
-        ceshi.add(dates.get(0));
-        ceshi.add(dates.get(1));
-        ceshi.add(dates.get(2));
-        ceshi.add(dates.get(3));
+
 
         chartUtil.addData(dates,n,days);
     }
@@ -342,7 +338,7 @@ public class FatFragment extends BaseFragment implements RadioGroup.OnCheckedCha
                         days.add(formdate(nowdate6));
                         days.add(formdate(nowdate7));
                         progressDialog.show();
-                        healthRecordManager.doGetHealthfatRecords(getDateform(nowdate7),getDateform(nowdate1),1);
+                        healthRecordManager.doGetHealthfatRecords(getDateform(nowdate1),getDateform(nowdate7),1);
                         n = n + 7;
                         bt_right.setVisibility(View.VISIBLE);
                         break;
@@ -364,7 +360,7 @@ public class FatFragment extends BaseFragment implements RadioGroup.OnCheckedCha
                         days.add(formdate(monthdate3));
                         days.add(formdate(monthdate4));
                         progressDialog.show();
-                        healthRecordManager.doGetHealthfatRecords(getDateform(monthdate4),getDateform(monthdate1),2);
+                        healthRecordManager.doGetHealthfatRecords(getDateform(monthdate1),getDateform(monthdate4),2);
                         n=n+4;
                         bt_right.setVisibility(View.VISIBLE);
                         break;
@@ -386,7 +382,7 @@ public class FatFragment extends BaseFragment implements RadioGroup.OnCheckedCha
                         days.add(formdate(quarterdate3));
                         days.add(formdate(quarterdate4));
                         progressDialog.show();
-                        healthRecordManager.doGetHealthfatRecords(getDateform(quarterdate4),getDateform(quarterdate1),3);
+                        healthRecordManager.doGetHealthfatRecords(getDateform(quarterdate1),getDateform(quarterdate4),3);
                         n=n+4;
                         bt_right.setVisibility(View.VISIBLE);
                         break;
@@ -409,7 +405,7 @@ public class FatFragment extends BaseFragment implements RadioGroup.OnCheckedCha
                         days.add(formyeardate(yeardate3));
                         days.add(formyeardate(yeardate4)+"     /");
                         progressDialog.show();
-                        healthRecordManager.doGetHealthfatRecords(getDateform(yeardate4),getDateform(yeardate0),4);
+                        healthRecordManager.doGetHealthfatRecords(getDateform(yeardate0),getDateform(yeardate4),4);
                         n=n+4;
                         bt_right.setVisibility(View.VISIBLE);
                         break;
@@ -446,7 +442,7 @@ public class FatFragment extends BaseFragment implements RadioGroup.OnCheckedCha
                         days.add(formdate(nowdate6));
                         days.add(formdate(nowdate7));
                         progressDialog.show();
-                        healthRecordManager.doGetHealthfatRecords(getDateform(nowdate7),getDateform(nowdate1),1);
+                        healthRecordManager.doGetHealthfatRecords(getDateform(nowdate1),getDateform(nowdate7),1);
                         state=false;
                         if (nowdate7.equals(getPeriodDate(type,0)+""))
                             bt_right.setVisibility(View.GONE);
@@ -471,7 +467,7 @@ public class FatFragment extends BaseFragment implements RadioGroup.OnCheckedCha
                         days.add(formdate(monthdate3));
                         days.add(formdate(monthdate4));
                         progressDialog.show();
-                        healthRecordManager.doGetHealthfatRecords(getDateform(monthdate4),getDateform(monthdate1),2);
+                        healthRecordManager.doGetHealthfatRecords(getDateform(monthdate1),getDateform(monthdate4),2);
                         state=false;
                         if (monthdate4.equals(getPeriodDate(type,0)+""))
                             bt_right.setVisibility(View.GONE);
@@ -496,7 +492,7 @@ public class FatFragment extends BaseFragment implements RadioGroup.OnCheckedCha
                         days.add(formdate(quarterdate3));
                         days.add(formdate(quarterdate4));
                         progressDialog.show();
-                        healthRecordManager.doGetHealthfatRecords(getDateform(quarterdate4),getDateform(quarterdate1),3);
+                        healthRecordManager.doGetHealthfatRecords(getDateform(quarterdate1),getDateform(quarterdate4),3);
                         bt_right.setVisibility(View.VISIBLE);
                         state=false;
                         if (quarterdate4.equals(getPeriodDate(type,0)+""))
@@ -523,7 +519,7 @@ public class FatFragment extends BaseFragment implements RadioGroup.OnCheckedCha
                         days.add(formyeardate(yeardate3));
                         days.add(formyeardate(yeardate4)+"     /");
                         progressDialog.show();
-                        healthRecordManager.doGetHealthfatRecords(getDateform(yeardate4),getDateform(yeardate0),4);
+                        healthRecordManager.doGetHealthfatRecords(getDateform(yeardate0),getDateform(yeardate4),4);
                         bt_right.setVisibility(View.VISIBLE);
                         state=false;
                         if (yeardate4.equals(getPeriodDate(type,0)+""))
@@ -556,7 +552,7 @@ public class FatFragment extends BaseFragment implements RadioGroup.OnCheckedCha
                 days.add(formdate(weekdate6));
                 days.add(formdate(weekdate7));
                 progressDialog.show();
-                healthRecordManager.doGetHealthfatRecords(getDateform(weekdate7),getDateform(weekdate1),1);
+                healthRecordManager.doGetHealthfatRecords(getDateform(weekdate1),getDateform(weekdate7),1);
 
                 break;
             case R.id.month:
@@ -576,7 +572,7 @@ public class FatFragment extends BaseFragment implements RadioGroup.OnCheckedCha
                 days.add(formdate(monthdate3));
                 days.add(formdate(monthdate4));
                 progressDialog.show();
-                healthRecordManager.doGetHealthfatRecords(getDateform(monthdate4),getDateform(monthdate1),2);
+                healthRecordManager.doGetHealthfatRecords(getDateform(monthdate1),getDateform(monthdate4),2);
                 break;
             case R.id.quarter:
                 dates.clear();
@@ -595,7 +591,7 @@ public class FatFragment extends BaseFragment implements RadioGroup.OnCheckedCha
                 days.add(formdate(quarterdate3));
                 days.add(formdate(quarterdate4));
                 progressDialog.show();
-                healthRecordManager.doGetHealthfatRecords(getDateform(quarterdate4),getDateform(quarterdate1),3);
+                healthRecordManager.doGetHealthfatRecords(getDateform(quarterdate1),getDateform(quarterdate4),3);
                 break;
             case R.id.year:
                 flag=3;
@@ -615,7 +611,7 @@ public class FatFragment extends BaseFragment implements RadioGroup.OnCheckedCha
                 days.add(formyeardate(yeardate3));
                 days.add(formyeardate(yeardate4)+"     /");
                 progressDialog.show();
-                healthRecordManager.doGetHealthfatRecords(getDateform(yeardate4),getDateform(yeardate0),4);
+                healthRecordManager.doGetHealthfatRecords(getDateform(yeardate0),getDateform(yeardate4),4);
                 break;
         }
     }
@@ -629,7 +625,7 @@ public class FatFragment extends BaseFragment implements RadioGroup.OnCheckedCha
     }
     public void updateFatStatus(){
 
-        week.setChecked(true);
+//        week.setChecked(true);
         flag=0;
         type='6';
         n=7;
@@ -653,6 +649,6 @@ public class FatFragment extends BaseFragment implements RadioGroup.OnCheckedCha
         days.add(formdate(weekdate6));
         days.add(formdate(weekdate7));
         progressDialog.show();
-        healthRecordManager.doGetHealthfatRecords(getDateform(weekdate7),getDateform(weekdate1),1);
+        healthRecordManager.doGetHealthfatRecords(getDateform(weekdate1),getDateform(weekdate7),1);
     }
 }
