@@ -53,25 +53,24 @@ public class StudentHonorStarAdapter extends BaseAdapter {
             convertView = mInflater.inflate(R.layout.student_honor_star_item, null);
             holder.text_value = (TextView) convertView.findViewById(R.id.text_value);
             holder.text_value1 = (TextView) convertView.findViewById(R.id.text_value1);
-            holder.img_top = (ImageView) convertView.findViewById(R.id.img_top);
+            holder.img = (ImageView) convertView.findViewById(R.id.img);
 
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
         StudentHonorInfo studentHonorInfo = list.get(position);
-//        if ("3".equals(studentHonorInfo.getHonorType())) {
-//            holder.img_top.setVisibility(View.GONE);
-//        } else {
-//            holder.img_top.setVisibility(View.VISIBLE);
-//            if ("1".equals(studentHonorInfo.getValue())) {
-//                holder.img_top.setImageResource(R.drawable.img_honor_item_1);
-//            } else if ("2".equals(studentHonorInfo.getValue())) {
-//                holder.img_top.setImageResource(R.drawable.img_honor_item_2);
-//            } else {
-//                holder.img_top.setImageResource(R.drawable.img_honor_item_3);
-//            }
-//        }
+        if ("3".equals(studentHonorInfo.getHonorType())) {
+            holder.img.setImageResource(R.drawable.img_student_honor_star);
+        } else {
+            if ("1".equals(studentHonorInfo.getValue())) {
+                holder.img.setImageResource(R.drawable.img_student_honor_1);
+            } else if ("2".equals(studentHonorInfo.getValue())) {
+                holder.img.setImageResource(R.drawable.img_student_honor_2);
+            } else {
+                holder.img.setImageResource(R.drawable.img_student_honor_3);
+            }
+        }
         holder.text_value.setText(studentHonorInfo.getValue());
         String time = studentHonorInfo.getCreateDate();
         String[] str1 = time.split(" ");
@@ -85,6 +84,6 @@ public class StudentHonorStarAdapter extends BaseAdapter {
     private static class ViewHolder {
         private TextView text_value;
         private TextView text_value1;
-        private ImageView img_top;
+        private ImageView img;
     }
 }

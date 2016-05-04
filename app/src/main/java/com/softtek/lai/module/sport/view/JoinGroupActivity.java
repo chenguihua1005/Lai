@@ -17,8 +17,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mobsandgeeks.saripaar.Rule;
@@ -44,9 +47,9 @@ import zilla.libcore.ui.InjectLayout;
 
 /**
  * Created by jarvis.liu on 3/22/2016.
- * 邀请通讯录学员
+ * 加入跑团
  */
-@InjectLayout(R.layout.activity_invite_contant_list)
+@InjectLayout(R.layout.activity_join_group)
 public class JoinGroupActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener {
 
     @LifeCircleInject
@@ -56,63 +59,63 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
 
+    @InjectView(R.id.fl_right)
+    FrameLayout fl_right;
+
+    @InjectView(R.id.rel_dq)
+    RelativeLayout rel_dq;
+
+    @InjectView(R.id.rel_xq)
+    RelativeLayout rel_xq;
+
+    @InjectView(R.id.rel_cs)
+    RelativeLayout rel_cs;
+
+    @InjectView(R.id.iv_email)
+    ImageView iv_email;
+
+    @InjectView(R.id.img_dq)
+    ImageView img_dq;
+
+    @InjectView(R.id.img_xq)
+    ImageView img_xq;
+
+    @InjectView(R.id.img_cs)
+    ImageView img_cs;
+
     @InjectView(R.id.tv_title)
     TextView tv_title;
 
-    @InjectView(R.id.list_contant)
-    ListView list_contant;
+    @InjectView(R.id.text_dq)
+    TextView text_dq;
 
+    @InjectView(R.id.text_xq)
+    TextView text_xq;
 
-    private IStudentPresenter studentPresenter;
-    private ACache aCache;
-    private UserModel userModel;
-    private AsyncQueryHandler asyncQueryHandler; // 异步查询数据库类对象
+    @InjectView(R.id.text_cs)
+    TextView text_cs;
 
-    private static final String[] PHONES_PROJECTION = new String[]{
-            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Photo.PHOTO_ID, ContactsContract.CommonDataKinds.Phone.CONTACT_ID};
-    private String[] projection = {ContactsContract.CommonDataKinds.Phone._ID,
-            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
-            ContactsContract.CommonDataKinds.Phone.DATA1, "sort_key",
-            ContactsContract.CommonDataKinds.Phone.CONTACT_ID,
-            ContactsContract.CommonDataKinds.Phone.PHOTO_ID,
-            ContactsContract.CommonDataKinds.Phone.LOOKUP_KEY};
-
-
-    private ArrayList<ContactListInfoModel> contactListValue = new ArrayList<ContactListInfoModel>();
-    private ProgressDialog progressDialog;
-
+    @InjectView(R.id.list_group)
+    ListView list_group;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ll_left.setOnClickListener(this);
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.setMessage(getResources().getString(zilla.libcore.R.string.dialog_loading));
-        progressDialog.setMessage("正在加载内容...");
-        progressDialog.show();
-        asyncQueryHandler = new MyAsyncQueryHandler(getContentResolver());
-
-        asyncQueryHandler.startQuery(0, null, ContactsContract.CommonDataKinds.Phone.CONTENT_URI, projection, null, null,
-                "sort_key COLLATE LOCALIZED asc");
-
-        InviteContantAdapter adapter = new InviteContantAdapter(this, contactListValue);
-        list_contant.setAdapter(adapter);
-
-
+        fl_right.setOnClickListener(this);
+        rel_dq.setOnClickListener(this);
+        rel_xq.setOnClickListener(this);
+        rel_cs.setOnClickListener(this);
     }
 
     @Override
     protected void initViews() {
-        //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
-        tv_title.setText(R.string.joinGame);
-
+        tv_title.setText(R.string.gamestH);
+        iv_email.setImageResource(R.drawable.search);
     }
 
     @Override
     protected void initDatas() {
-        studentPresenter = new StudentImpl(this);
-        aCache = ACache.get(this, Constants.USER_ACACHE_DATA_DIR);
 
 
     }
@@ -122,6 +125,19 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.ll_left:
                 finish();
+                break;
+
+            case R.id.fl_right:
+
+                break;
+            case R.id.rel_dq:
+
+                break;
+            case R.id.rel_xq:
+
+                break;
+            case R.id.rel_cs:
+
                 break;
         }
     }
@@ -145,65 +161,6 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void onFragmentInteraction(Uri uri) {
-
-    }
-
-
-    /**
-     * @author jarvis
-     */
-    private class MyAsyncQueryHandler extends AsyncQueryHandler {
-
-        public MyAsyncQueryHandler(ContentResolver cr) {
-            super(cr);
-        }
-
-        @Override
-        protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
-            if (cursor != null && cursor.getCount() > 0) {
-                cursor.moveToFirst(); // 游标移动到第一项
-                //得到手机号码
-
-                for (int i = 0; i < cursor.getCount(); i++) {
-                    cursor.moveToPosition(i);
-                    String name = cursor.getString(1);
-                    String number = cursor.getString(2);
-                    String sortKey = cursor.getString(3);
-                    int contactId = cursor.getInt(4);
-                    Long photoId = cursor.getLong(5);
-                    String lookUpKey = cursor.getString(6);
-
-
-                    Bitmap contactPhoto = null;
-
-
-                    //photoid 大于0 表示联系人有头像 如果没有给此人设置头像则给他一个默认的
-
-                    if (photoId > 0) {
-
-                        Uri uri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, contactId);
-
-                        InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(getContentResolver(), uri);
-
-                        contactPhoto = BitmapFactory.decodeStream(input);
-
-                    } else {
-
-                        contactPhoto = BitmapFactory.decodeResource(getResources(), R.drawable.img_default);
-
-                    }
-
-                    ContactListInfoModel contactListInfo = new ContactListInfoModel(contactPhoto, name, number);
-                    contactListValue.add(contactListInfo);
-
-                }
-                System.out.println("contactListValue:" + contactListValue);
-                progressDialog.dismiss();
-                super.onQueryComplete(token, cookie, cursor);
-            } else {
-                progressDialog.dismiss();
-            }
-        }
 
     }
 
