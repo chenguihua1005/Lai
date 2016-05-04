@@ -89,6 +89,7 @@ public class LineChartUtil {
         chart.notifyDataSetChanged();
         chart.invalidate();
     }
+    //健康记录重构方法
     public  void addData(List<Float> datas,int n,List<String> dates)
     {
         if(datas.size()==0)
@@ -103,6 +104,7 @@ public class LineChartUtil {
         if(data.getXValCount()==0){
             //添加x 轴数值
             for (int i = 0; i <n; i++) {
+
                 data.getXVals().add(dates.get(i));
             }
 

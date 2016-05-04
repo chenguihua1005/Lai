@@ -21,6 +21,7 @@ import com.softtek.lai.module.counselor.view.GameActivity;
 import com.softtek.lai.module.counselor.view.SRHonorActivity;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.jingdu.view.JingduActivity;
+import com.softtek.lai.module.jingdu.view.ZhuJiaoJingduActivity;
 import com.softtek.lai.module.retest.view.RetestActivity;
 import com.softtek.lai.module.review.view.ReviewActivity;
 import com.softtek.lai.module.tips.view.TipsActivity;
@@ -139,7 +140,7 @@ public class BodygameSRActivity extends BaseActivity implements View.OnClickList
                 startActivity(zhujiao);
                 break;
             case R.id.ll_process:
-                startActivity(new Intent(this, JingduActivity.class));
+                startActivity(new Intent(this, ZhuJiaoJingduActivity.class));
                 break;
             case R.id.ll_saikuang:
                 //大赛赛况
