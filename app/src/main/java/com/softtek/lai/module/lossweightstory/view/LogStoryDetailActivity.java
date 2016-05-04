@@ -3,6 +3,7 @@ package com.softtek.lai.module.lossweightstory.view;
 import android.content.Intent;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -36,11 +37,12 @@ import butterknife.InjectView;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_log_detail)
 public class LogStoryDetailActivity extends BaseActivity implements View.OnClickListener,
-        LogStoryDetailManager.LogStoryDetailManagerCallback{
+        LogStoryDetailManager.LogStoryDetailManagerCallback,AdapterView.OnItemClickListener{
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -77,6 +79,7 @@ public class LogStoryDetailActivity extends BaseActivity implements View.OnClick
         ll_left.setOnClickListener(this);
         cb_zan.setOnClickListener(this);
         tv_title.setText("日志详情");
+        cgv_list_image.setOnItemClickListener(this);
     }
 
     @Override
@@ -84,8 +87,8 @@ public class LogStoryDetailActivity extends BaseActivity implements View.OnClick
         service= ZillaApi.NormalRestAdapter.create(LossWeightLogService.class);
         manager=new LogStoryDetailManager(this);
         log= (LossWeightStoryModel) getIntent().getParcelableExtra("log");
-        if(null!=log.getPhoto()&&!"".equals(log.getPhoto())){
-            Picasso.with(this).load(log.getPhoto()).placeholder(R.drawable.img_default)
+        if(StringUtils.isNotEmpty(log.getPhoto())){
+            Picasso.with(this).load(AddressManager.get("photoHost")+log.getPhoto()).fit().placeholder(R.drawable.img_default)
                     .error(R.drawable.img_default).into(civ_header_image);
         }
         tv_name.setText(log.getUserName());
@@ -211,5 +214,13 @@ public class LogStoryDetailActivity extends BaseActivity implements View.OnClick
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        Intent in=new Intent(this, PictureActivity.class);
+        in.putExtra("image_uri",images.get(position));
+        startActivity(in);
     }
 }

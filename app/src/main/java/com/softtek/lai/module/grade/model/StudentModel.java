@@ -15,19 +15,28 @@ public class StudentModel{
     private long ClassId;
     private int OrderNum;
     //按照学员减重
-    private String UserName = "";
-    private String LossAfter = "0";
-    private String LossBefor = "0";
-    private String LossWeght = "0";
+    private String UserName;
+    private String LossAfter;
+    private String LossBefore;
+    private String LossWeght;
     //按照学员减重百分比
-    private String LossPercent = "0";
+    private String LossPercent ;
     //按照体质排序
-    private String Pysical = "0";
+    private String Pysical;
     //按照学员腰围排序
-    private String WaistlineAfter = "0";
-    private String Waistlinebefor = "0";
+    private String WaistlineAfter;
+    private String Waistlinebefore;
     private String lossline;
     private String Photo;
+    private int IsTest;
+
+    public int getIsTest() {
+        return IsTest;
+    }
+
+    public void setIsTest(int isTest) {
+        IsTest = isTest;
+    }
 
     public String getLossline() {
         return lossline;
@@ -85,12 +94,12 @@ public class StudentModel{
         LossAfter = lossAfter;
     }
 
-    public String getLossBefor() {
-        return LossBefor;
+    public String getLossBefore() {
+        return LossBefore;
     }
 
-    public void setLossBefor(String lossBefor) {
-        LossBefor = lossBefor;
+    public void setLossBefore(String lossBefore) {
+        LossBefore = lossBefore;
     }
 
     public String getLossWeght() {
@@ -125,12 +134,12 @@ public class StudentModel{
         WaistlineAfter = waistlineAfter;
     }
 
-    public String getWaistlinebefor() {
-        return Waistlinebefor;
+    public String getWaistlinebefore() {
+        return Waistlinebefore;
     }
 
-    public void setWaistlinebefor(String waistlinebefor) {
-        Waistlinebefor = waistlinebefor;
+    public void setWaistlinebefore(String waistlinebefore) {
+        Waistlinebefore = waistlinebefore;
     }
 
     @Override
@@ -141,12 +150,12 @@ public class StudentModel{
                 ", OrderNum=" + OrderNum +
                 ", UserName='" + UserName + '\'' +
                 ", LossAfter='" + LossAfter + '\'' +
-                ", LossBefor='" + LossBefor + '\'' +
+                ", LossBefor='" + LossBefore + '\'' +
                 ", LossWeght='" + LossWeght + '\'' +
                 ", LossPercent='" + LossPercent + '\'' +
                 ", Pysical='" + Pysical + '\'' +
                 ", WaistlineAfter='" + WaistlineAfter + '\'' +
-                ", Waistlinebefor='" + Waistlinebefor + '\'' +
+                ", Waistlinebefore='" + Waistlinebefore + '\'' +
                 ", Lossline='" + lossline + '\'' +
                 ", Photo='" + Photo + '\'' +
                 '}';

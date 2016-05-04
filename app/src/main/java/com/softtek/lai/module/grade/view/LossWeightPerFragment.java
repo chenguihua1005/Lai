@@ -114,7 +114,12 @@ public class LossWeightPerFragment extends BaseFragment implements PullToRefresh
             return;
         }
         this.studentModels.clear();
-        this.studentModels.addAll(models);
+        for(int i=0;i<models.size();i++){
+            StudentModel model=models.get(i);
+            if(model.getIsTest()!=0){
+                this.studentModels.add(model);
+            }
+        }
         adapter.notifyDataSetChanged();
     }
 }
