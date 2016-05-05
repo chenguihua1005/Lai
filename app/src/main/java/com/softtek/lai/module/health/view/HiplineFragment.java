@@ -89,7 +89,7 @@ public class HiplineFragment extends BaseFragment implements RadioGroup.OnChecke
         chart.setDragEnabled(true);
         chart.setScaleEnabled(true);
         chart.setPinchZoom(true);
-
+        chart.getLegend().setEnabled(false);//去除图例
         YAxis leftAxis = chart.getAxisLeft();
         leftAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
         leftAxis.setAxisMaxValue(100f);
