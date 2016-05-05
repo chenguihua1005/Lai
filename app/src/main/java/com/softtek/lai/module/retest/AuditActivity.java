@@ -448,10 +448,10 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
         retestAudit.setClassId(classid);
 
 //        retestAudit.getCircum(tv_retestAudit_wasit.getText());
-        retestPre.doPostAudit(loginid+"",accountid,Typedate,retestAudit);
-        Intent intent=new Intent();
-        setResult(RESULT_OK,intent);
-        finish();
+        retestPre.doPostAudit(loginid+"",accountid,Typedate,retestAudit,this);
+//        Intent intent=new Intent();
+//        setResult(RESULT_OK,intent);
+//        finish();
 
     }
 

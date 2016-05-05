@@ -95,6 +95,7 @@ public class  RetestActivity extends BaseActivity implements View.OnClickListene
 //        ListView listView=(ListView)findViewById(R.id.list_class);
 
         list_query.setAdapter(studentAdapter);
+        list_query.setVerticalScrollBarEnabled(false);
         ll_classlist.setOnClickListener(this);
         ll_shousuo.setOnClickListener(this);
         ll_left.setOnClickListener(this);
