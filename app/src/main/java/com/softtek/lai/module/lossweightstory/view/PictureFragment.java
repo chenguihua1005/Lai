@@ -1,9 +1,12 @@
 package com.softtek.lai.module.lossweightstory.view;
 
 import android.os.Bundle;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.utils.DisplayUtil;
 import com.squareup.picasso.Picasso;
 
 import butterknife.InjectView;
