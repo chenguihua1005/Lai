@@ -137,7 +137,8 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
     public void onEvent(UserHonorModel userHonorModel) {
         System.out.println("userHonorModel:" + userHonorModel);
         ShareUtils shareUtils = new ShareUtils(SPHonorActivity.this);
-        String url = "http://www.baidu.com";
+        String path = AddressManager.get("shareHost", "http://172.16.98.167/Share/");
+        String url = path + "ShareSPHonor?AccountId=" + UserInfoModel.getInstance().getUser().getUserid();
         String value = "我已累计服务" + userHonorModel.getNum() + "学员，共帮助他们减重" + userHonorModel.getSumLoss() + "斤，快来参加体重管理挑战赛吧！";
         shareUtils.setShareContent("康宝莱体重管理挑战赛，坚持只为改变！", url, R.drawable.default_pic, value, value + url);
         shareUtils.getController().openShare(SPHonorActivity.this, false);

@@ -273,7 +273,7 @@ public class CreateCounselorClassActivity extends BaseActivity implements View.O
     public void onValidationSucceeded() {
         if ("".equals(text_time_value.getText().toString())) {
             Util.toastMsg("请选择班级周期");
-        } else {
+        } else{
             Calendar rightNow = Calendar.getInstance();
             rightNow.setTime(start_time);
             rightNow.add(Calendar.MONTH, 3);//日期加3个月
