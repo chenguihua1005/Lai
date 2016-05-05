@@ -1,61 +1,91 @@
 package com.softtek.lai.module.lossweightstory.view;
 
-import android.graphics.Bitmap;
-import android.os.Handler;
-import android.os.Message;
+import android.net.Uri;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.module.lossweightstory.adapter.PictureFragementAdapter;
+import com.softtek.lai.widgets.DebugViewPage;
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.InjectView;
 import uk.co.senab.photoview.PhotoView;
-import uk.co.senab.photoview.PhotoViewAttacher;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
-@InjectLayout(R.layout.activity_picture)
-public class PictureActivity extends BaseActivity {
+@InjectLayout(R.layout.activity_picture_layout)
+public class PictureActivity extends BaseActivity implements View.OnClickListener,BaseFragment.OnFragmentInteractionListener {
 
-    @InjectView(R.id.iv_image)
-    PhotoView iv_image;
-    PhotoViewAttacher mAttacher;
-    private Bitmap bitmap;
-    Handler handler=new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if(msg.what==1){
-                if(bitmap!=null){
-                    iv_image.setImageBitmap(bitmap);
-                    mAttacher.update();
-                }
-            }
-        }
-    };
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
+    @InjectView(R.id.tv_title)
+    TextView tv_title;
+
+    @InjectView(R.id.vp)
+    DebugViewPage content;
+
+    private List<Fragment> fragments=new ArrayList<>();
+    private List<String> images;
+    private PictureFragementAdapter adapter;
+    private int position=0;
 
     @Override
     protected void initViews() {
+        images=getIntent().getStringArrayListExtra("images");
+        position=getIntent().getIntExtra("position",0);
+        tv_title.setText(position+1+"/"+images.size());
     }
 
     @Override
     protected void initDatas() {
-        mAttacher = new PhotoViewAttacher(iv_image);
-        final String uri=getIntent().getStringExtra("image_uri");
-        new Thread(new Runnable() {
+        if(images!=null){
+            for (int i=0;i<images.size();i++){
+                fragments.add(PictureFragment.getInstance(images.get(i)));
+            }
+        }
+        adapter=new PictureFragementAdapter(getSupportFragmentManager(),fragments);
+        content.setAdapter(adapter);
+        content.setCurrentItem(position);
+        content.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void run() {
-                try {
-                    bitmap=Picasso.with(PictureActivity.this).load(AddressManager.get("photoHost")+uri).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).get();
-                    handler.sendEmptyMessage(1);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
             }
-        }).start();
-        //Picasso.with(this).load(AddressManager.get("photoHost")+uri).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_image);
+
+            @Override
+            public void onPageSelected(int position) {
+                tv_title.setText(position+1+"/"+images.size());
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.ll_left:
+                finish();
+                break;
+        }
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
+
 }

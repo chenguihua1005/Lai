@@ -24,8 +24,12 @@ import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import retrofit.RetrofitError;
@@ -132,7 +136,11 @@ public class HealthyCommunityAdapter extends BaseAdapter{
         Picasso.with(context).load(path+model.getPhoto()).fit()
                 .placeholder(R.drawable.img_default).error(R.drawable.img_default).into(holder.civ_header_image);
         String[] imgs=model.getImgCollection().split(",");
-        visitableOrGone(holder,imgs,path);
+        ArrayList<String> list=new ArrayList<>();
+        for(int i=0;i<imgs.length;i++){
+            list.add(imgs[i]);
+        }
+        visitableOrGone(holder,list,path);
         return convertView;
 
     }
@@ -164,12 +172,12 @@ public class HealthyCommunityAdapter extends BaseAdapter{
         }
     }
 
-    private void visitableOrGone(ViewHolder holder,final String[] imgs,String path) {
-        for (int i = 0; i < imgs.length; i++) {
-            if("".equals(imgs[i])){
+    private void visitableOrGone(ViewHolder holder,final ArrayList<String> imgs,String path) {
+        for (int i = 0; i < imgs.size(); i++) {
+            if("".equals(imgs.get(i))){
                 continue;
             }
-            final String uri=imgs[i];
+            String uri=imgs.get(i);
             try {
                 switch (i + 1) {
                     case 1:
@@ -186,7 +194,8 @@ public class HealthyCommunityAdapter extends BaseAdapter{
                             @Override
                             public void onClick(View v) {
                                 Intent in=new Intent(context, PictureActivity.class);
-                                in.putExtra("image_uri",uri);
+                                in.putStringArrayListExtra("images", imgs);
+                                in.putExtra("position",0);
                                 context.startActivity(in);
                             }
                         });
@@ -208,11 +217,12 @@ public class HealthyCommunityAdapter extends BaseAdapter{
                             @Override
                             public void onClick(View v) {
                                 Intent in=new Intent(context, PictureActivity.class);
-                                in.putExtra("image_uri",uri);
+                                in.putStringArrayListExtra("images", imgs);
+                                in.putExtra("position",1);
                                 context.startActivity(in);
                             }
                         });
-                        Picasso.with(context).load(path+imgs[i]).fit()
+                        Picasso.with(context).load(path+uri).fit()
                                 .placeholder(R.drawable.default_pic)
                                 .error(R.drawable.default_pic)
                                 .into(holder.img2);
@@ -229,11 +239,12 @@ public class HealthyCommunityAdapter extends BaseAdapter{
                             @Override
                             public void onClick(View v) {
                                 Intent in=new Intent(context, PictureActivity.class);
-                                in.putExtra("image_uri",uri);
+                                in.putStringArrayListExtra("images", imgs);
+                                in.putExtra("position",2);
                                 context.startActivity(in);
                             }
                         });
-                        Picasso.with(context).load(path+imgs[i]).fit()
+                        Picasso.with(context).load(path+uri).fit()
                                 .placeholder(R.drawable.default_pic)
                                 .error(R.drawable.default_pic)
                                 .into(holder.img3);
@@ -249,11 +260,12 @@ public class HealthyCommunityAdapter extends BaseAdapter{
                             @Override
                             public void onClick(View v) {
                                 Intent in=new Intent(context, PictureActivity.class);
-                                in.putExtra("image_uri",uri);
+                                in.putStringArrayListExtra("images", imgs);
+                                in.putExtra("position",3);
                                 context.startActivity(in);
                             }
                         });
-                        Picasso.with(context).load(path+imgs[i]).fit()
+                        Picasso.with(context).load(path+uri).fit()
                                 .placeholder(R.drawable.default_pic)
                                 .error(R.drawable.default_pic)
                                 .into(holder.img4);
@@ -268,11 +280,12 @@ public class HealthyCommunityAdapter extends BaseAdapter{
                             @Override
                             public void onClick(View v) {
                                 Intent in=new Intent(context, PictureActivity.class);
-                                in.putExtra("image_uri",uri);
+                                in.putStringArrayListExtra("images",imgs);
+                                in.putExtra("position",4);
                                 context.startActivity(in);
                             }
                         });
-                        Picasso.with(context).load(path+imgs[i]).fit()
+                        Picasso.with(context).load(path+uri).fit()
                                 .placeholder(R.drawable.default_pic)
                                 .error(R.drawable.default_pic)
                                 .into(holder.img5);
@@ -286,11 +299,12 @@ public class HealthyCommunityAdapter extends BaseAdapter{
                             @Override
                             public void onClick(View v) {
                                 Intent in=new Intent(context, PictureActivity.class);
-                                in.putExtra("image_uri",uri);
+                                in.putStringArrayListExtra("images", imgs);
+                                in.putExtra("position",5);
                                 context.startActivity(in);
                             }
                         });
-                        Picasso.with(context).load(path+imgs[i]).fit()
+                        Picasso.with(context).load(path+uri).fit()
                                 .placeholder(R.drawable.default_pic)
                                 .error(R.drawable.default_pic)
                                 .into(holder.img6);
@@ -303,11 +317,12 @@ public class HealthyCommunityAdapter extends BaseAdapter{
                             @Override
                             public void onClick(View v) {
                                 Intent in=new Intent(context, PictureActivity.class);
-                                in.putExtra("image_uri",uri);
+                                in.putStringArrayListExtra("images", imgs);
+                                in.putExtra("position",6);
                                 context.startActivity(in);
                             }
                         });
-                        Picasso.with(context).load(path+imgs[i]).fit()
+                        Picasso.with(context).load(path+uri).fit()
                                 .placeholder(R.drawable.default_pic)
                                 .error(R.drawable.default_pic)
                                 .into(holder.img7);
@@ -319,11 +334,12 @@ public class HealthyCommunityAdapter extends BaseAdapter{
                             @Override
                             public void onClick(View v) {
                                 Intent in=new Intent(context, PictureActivity.class);
-                                in.putExtra("image_uri",uri);
+                                in.putStringArrayListExtra("images", imgs);
+                                in.putExtra("position",7);
                                 context.startActivity(in);
                             }
                         });
-                        Picasso.with(context).load(path+imgs[i]).fit()
+                        Picasso.with(context).load(path+uri).fit()
                                 .placeholder(R.drawable.default_pic)
                                 .error(R.drawable.default_pic)
                                 .into(holder.img8);
@@ -334,11 +350,12 @@ public class HealthyCommunityAdapter extends BaseAdapter{
                             @Override
                             public void onClick(View v) {
                                 Intent in=new Intent(context, PictureActivity.class);
-                                in.putExtra("image_uri",uri);
+                                in.putStringArrayListExtra("images", imgs);
+                                in.putExtra("position",8);
                                 context.startActivity(in);
                             }
                         });
-                        Picasso.with(context).load(path+imgs[i]).fit()
+                        Picasso.with(context).load(path+uri).fit()
                                 .placeholder(R.drawable.default_pic)
                                 .error(R.drawable.default_pic)
                                 .into(holder.img9);

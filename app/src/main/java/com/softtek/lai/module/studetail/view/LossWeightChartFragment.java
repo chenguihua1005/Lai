@@ -88,7 +88,7 @@ public class LossWeightChartFragment extends BaseFragment implements RadioGroup.
         chart.setDragEnabled(true);
         chart.setScaleEnabled(true);
         chart.setPinchZoom(true);
-
+        chart.getLegend().setEnabled(false);//去除图例
         YAxis leftAxis = chart.getAxisLeft();
         leftAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
         leftAxis.setAxisMaxValue(100f);
@@ -143,7 +143,7 @@ public class LossWeightChartFragment extends BaseFragment implements RadioGroup.
                 int lastWeek=event.getModels().get(i-1).getWeekDay();
                 if(week-lastWeek>0){
                     //说明中间有断层则插入沿用上一次数据多少次
-                    addPreviousDate(event.getModels().get(i-1),week-lastWeek);
+                    addEmptyDate(week-lastWeek);
                 }
                 lossWeightDatas.add(getFloat(model.getWeight()));
                 bodyFatDatas.add(getFloat(model.getPysical()));
@@ -154,8 +154,6 @@ public class LossWeightChartFragment extends BaseFragment implements RadioGroup.
 
         }
         chartUtil.addDataSet(lossWeightDatas);
-        /*chartUtil.addDataSet(bodyFatDatas);
-        chartUtil.addDataSet(fatDatas);*/
     }
     private float getFloat(String str){
         return str==null||"".equals(str)?0f:Float.parseFloat(str);
@@ -168,14 +166,7 @@ public class LossWeightChartFragment extends BaseFragment implements RadioGroup.
             fatDatas.add(0f);
         }
     }
-    //插入上一次数据几次
-    private void addPreviousDate(StudentLinChartInfoModel lastModel,int n){
-        for(int i=0;i<n;i++){
-            lossWeightDatas.add(getFloat(lastModel.getWeight()));
-            bodyFatDatas.add(getFloat(lastModel.getPysical()));
-            fatDatas.add(getFloat(lastModel.getFat()));
-        }
-    }
+
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         switch (checkedId){
