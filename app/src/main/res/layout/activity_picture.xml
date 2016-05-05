@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black">
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_centerInParent="true"
-    tools:context="com.softtek.lai.module.lossweightstory.view.PictureActivity">
 
         <uk.co.senab.photoview.PhotoView
             android:id="@+id/iv_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/default_pic"/>
-</ScrollView>
+            android:layout_centerInParent="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/default_pic" />
 </RelativeLayout>
+

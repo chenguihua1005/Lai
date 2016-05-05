@@ -19,6 +19,7 @@
             android:fastScrollEnabled="false"
             android:overScrollMode="never"
             app:ptrShowIndicator="false"
+            android:scrollbars="none"
             android:footerDividersEnabled="false"
             android:headerDividersEnabled="false"
             android:id="@+id/ptrlv">

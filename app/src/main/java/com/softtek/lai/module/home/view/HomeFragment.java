@@ -49,6 +49,7 @@ import com.softtek.lai.module.message.presenter.IMessagePresenter;
 import com.softtek.lai.module.message.presenter.MessageImpl;
 import com.softtek.lai.module.message.view.MessageActivity;
 import com.softtek.lai.module.sport.presenter.SportGroupManager;
+import com.softtek.lai.module.sport.view.JoinGroupActivity;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CustomGridView;
@@ -481,7 +482,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         if (b) {
 
         } else {
-
+            startActivity(new Intent(getContext(),JoinGroupActivity.class));
         }
     }
 

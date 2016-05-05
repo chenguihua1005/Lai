@@ -326,18 +326,19 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         UserInfoModel userInfoModel = UserInfoModel.getInstance();
         accoutid = Long.parseLong(userInfoModel.getUser().getUserid());
         addGrade();
-        tv_right.setText("保存");
         type = getIntent().getStringExtra("type");
         if ("1".equals(type)) {
+            tv_right.setText("完成");
             MessageDetailInfo messageDetailInfo = (MessageDetailInfo) getIntent().getSerializableExtra("messageDetailInfo");
             classid = messageDetailInfo.getClassId();
             dialogShow("加载中");
             iUpConfirmInfopresenter.getConfirmInfo(accoutid, Long.parseLong(classid));
-            tv_title.setText(R.string.message3);
+            tv_title.setText("报名参赛");
             et_phone.setEnabled(false);
             ll_class.setEnabled(false);
             ll_left.setVisibility(View.GONE);
         } else {
+            tv_right.setText("保存");
             tv_title.setText("新学员录入");
             getConfirmInfoModel = new GetConfirmInfoModel();
             guwenClassPre.doGetGuwenClass(accoutid);//36
