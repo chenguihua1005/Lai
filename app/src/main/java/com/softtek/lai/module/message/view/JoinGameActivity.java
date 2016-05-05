@@ -165,8 +165,12 @@ public class JoinGameActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.but_yes:
                 if (isSelect) {
-                    dialogShow("加载中");
-                    messagePresenter.acceptInviterToClass(messageDetailInfo.getInviterId(),messageDetailInfo.getClassId(),"1",messageDetailInfo);
+                    Intent intent=new Intent(this,JoinGameDetailActivity.class);
+                    intent.putExtra("messageDetailInfo", messageDetailInfo);
+                    intent.putExtra("type", "1");
+//                    dialogShow("加载中");
+//                    messagePresenter.acceptInviterToClass(messageDetailInfo.getInviterId(),messageDetailInfo.getClassId(),"1",messageDetailInfo);
+                    startActivity(intent);
                 } else {
                     Util.toastMsg(R.string.joinGameQ);
                 }

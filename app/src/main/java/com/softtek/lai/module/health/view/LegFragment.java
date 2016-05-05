@@ -620,7 +620,7 @@ public class LegFragment extends BaseFragment implements RadioGroup.OnCheckedCha
     }
     public void updateLegStatus(){
 
-//        week.setChecked(true);
+        week.setChecked(true);
         flag=0;
         type='6';
         n=7;

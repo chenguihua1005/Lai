@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -21,6 +22,7 @@ import butterknife.InjectView;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
+import com.mobsandgeeks.saripaar.annotation.TextRule;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.contants.Constants;
@@ -62,6 +64,7 @@ public class CreateCounselorClassActivity extends BaseActivity implements View.O
     TextView tv_title;
 
     @Required(order = 1, messageResId = R.string.className)
+    @TextRule(order = 2,maxLength = 15,message = "班级名称不能超过15个汉字")
     @InjectView(R.id.edit_class_name)
     EditText edit_class_name;
 
@@ -273,7 +276,7 @@ public class CreateCounselorClassActivity extends BaseActivity implements View.O
     public void onValidationSucceeded() {
         if ("".equals(text_time_value.getText().toString())) {
             Util.toastMsg("请选择班级周期");
-        } else {
+        } else{
             Calendar rightNow = Calendar.getInstance();
             rightNow.setTime(start_time);
             rightNow.add(Calendar.MONTH, 3);//日期加3个月
@@ -294,6 +297,19 @@ public class CreateCounselorClassActivity extends BaseActivity implements View.O
     public void onValidationFailed(View failedView, Rule<?> failedRule) {
         validateLife.onValidationFailed(failedView, failedRule);
     }
+    /**
+     * 点击屏幕隐藏软键盘
+     **/
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (SoftInputUtil.isShouldHideKeyboard(v, ev)) {
 
+                SoftInputUtil.hideKeyboard(v.getWindowToken(), this);
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
 
 }
