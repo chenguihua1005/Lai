@@ -8,6 +8,14 @@
     tools:context="com.softtek.lai.module.personalPK.view.PKListActivity">
 
     <include layout="@layout/toolbar"/>
+    <ImageView
+        android:id="@+id/img_mo_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@drawable/no_message"
+        android:visibility="gone" />
+
     <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:layout_below="@id/toolbar"
         android:layout_width="match_parent"
