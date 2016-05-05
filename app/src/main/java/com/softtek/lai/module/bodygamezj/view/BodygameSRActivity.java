@@ -129,7 +129,9 @@ public class BodygameSRActivity extends BaseActivity implements View.OnClickList
                 startActivity(intents);
                 break;
             case R.id.tv_totalzj:
-                dialogShow("数据刷新中...");
+                progressDialog.setCanceledOnTouchOutside(false);
+                progressDialog.setMessage("数据刷新中...");
+                progressDialog.show();
                 iTiGuanSai.doGetTotal(progressDialog);
                 break;
             case R.id.ll_review:

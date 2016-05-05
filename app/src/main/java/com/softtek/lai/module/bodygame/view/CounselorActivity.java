@@ -242,7 +242,9 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
             }
             break;
             case R.id.im_refresh:
-                dialogShow("数据刷新中...");
+                progressDialog.setCanceledOnTouchOutside(false);
+                progressDialog.setMessage("数据刷新中...");
+                progressDialog.show();
                 iTiGuanSai.doGetTotal(progressDialog);
 //                final Animation rotate= AnimationUtils.loadAnimation(this,R.anim.rotate);
 //                im_refresh.startAnimation(rotate);
