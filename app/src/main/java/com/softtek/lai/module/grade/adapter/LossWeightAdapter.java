@@ -75,7 +75,7 @@ public class LossWeightAdapter extends BaseAdapter {
         holder.tv_order.setText(order+"");
 
         holder.tv_name.setText(studentModel.getUserName());
-        holder.tv_lw_before.setText("前 " + studentModel.getLossBefor() + "斤");
+        holder.tv_lw_before.setText("前 " + studentModel.getLossBefore() + "斤");
         holder.tv_lw_after.setText("后 " + studentModel.getLossAfter() + "斤");
         holder.tv_lw_totle.setText(studentModel.getLossWeght());
         if (!"".equals(studentModel.getPhoto()) && null != studentModel.getPhoto()) {

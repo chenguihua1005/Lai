@@ -621,7 +621,7 @@ public class BustFragment extends BaseFragment implements RadioGroup.OnCheckedCh
     }
     public void updateBustStatus(){
 
-        week.setChecked(true);
+//        week.setChecked(true);
         flag=0;
         type='6';
         n=7;

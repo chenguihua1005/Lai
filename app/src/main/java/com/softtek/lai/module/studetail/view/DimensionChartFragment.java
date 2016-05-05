@@ -172,11 +172,11 @@ public class DimensionChartFragment extends BaseFragment implements View.OnClick
             }
         }
         chartUtil.addDataSet(circumDatas);
-        chartUtil.addDataSet(waistlineDatas);
+        /*chartUtil.addDataSet(waistlineDatas);
         chartUtil.addDataSet(hiplieDatas);
         chartUtil.addDataSet(upLegGirthDatas);
         chartUtil.addDataSet(upArmGirthDatas);
-        chartUtil.addDataSet(doLegGirthDatas);
+        chartUtil.addDataSet(doLegGirthDatas);*/
     }
 
     private float getFloat(String str){

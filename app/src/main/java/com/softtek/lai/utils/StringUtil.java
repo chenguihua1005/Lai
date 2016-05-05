@@ -70,7 +70,7 @@ public class StringUtil {
     }
 
     /**
-     * 过滤手机号保留前3位和后4位中间用××
+     * 过滤手机号保留前3位和后4位中间用****
      * @param phone
      * @return
      */

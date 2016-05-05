@@ -621,7 +621,7 @@ public class UpHiplineFragment extends BaseFragment implements RadioGroup.OnChec
     }
     public void updateUpHiplineStatus(){
 
-        week.setChecked(true);
+//        week.setChecked(true);
         flag=0;
         type='6';
         n=7;

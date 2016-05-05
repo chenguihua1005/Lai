@@ -625,7 +625,7 @@ public class FatFragment extends BaseFragment implements RadioGroup.OnCheckedCha
     }
     public void updateFatStatus(){
 
-        week.setChecked(true);
+//        week.setChecked(true);
         flag=0;
         type='6';
         n=7;

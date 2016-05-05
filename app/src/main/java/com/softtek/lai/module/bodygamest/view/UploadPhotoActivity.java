@@ -233,7 +233,9 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {
-                            takecamera();
+//                            getPdfFileIntent();
+                            startActivity(new Intent(UploadPhotoActivity.this,GuideActivity.class));
+//                            takecamera();
 
                         } else if (which == 1) {
                             //照片
@@ -246,7 +248,15 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
 
 
     }
-
+    // android获取一个用于打开PDF文件的intent
+    public static Intent getPdfFileIntent(String param) {
+        Intent intent = new Intent("android.intent.action.VIEW");
+        intent.addCategory("android.intent.category.DEFAULT");
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        Uri uri = Uri.fromFile(new File(param));
+        intent.setDataAndType(uri, "application/pdf");
+        return intent;
+    }
     public void takecamera() {
 
         path = (Environment.getExternalStorageDirectory().getPath()) + "/123.jpg";

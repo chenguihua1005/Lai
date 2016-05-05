@@ -20,6 +20,15 @@ public class StudentBaseInfoModel implements Serializable{
     private String startDate;
     private String userName;
     private String userPhoto;
+    private String IsTest;
+
+    public String getIsTest() {
+        return IsTest;
+    }
+
+    public void setIsTest(String isTest) {
+        IsTest = isTest;
+    }
 
     public long getAccountId() {
         return AccountId;

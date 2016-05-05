@@ -619,7 +619,7 @@ public class ShinFragment extends BaseFragment implements RadioGroup.OnCheckedCh
     }
     public void updateShinStatus(){
 
-        week.setChecked(true);
+//        week.setChecked(true);
         flag=0;
         type='6';
         n=7;

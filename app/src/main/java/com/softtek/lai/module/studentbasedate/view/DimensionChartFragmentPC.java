@@ -163,11 +163,11 @@ public class DimensionChartFragmentPC extends BaseFragment implements View.OnCli
             }
         }
         chartUtil.addDataSet(circumDatas);
-        chartUtil.addDataSet(waistlineDatas);
-        chartUtil.addDataSet(hiplieDatas);
-        chartUtil.addDataSet(upLegGirthDatas);
-        chartUtil.addDataSet(upArmGirthDatas);
-        chartUtil.addDataSet(doLegGirthDatas);
+//        chartUtil.addDataSet(waistlineDatas);
+//        chartUtil.addDataSet(hiplieDatas);
+//        chartUtil.addDataSet(upLegGirthDatas);
+//        chartUtil.addDataSet(upArmGirthDatas);
+//        chartUtil.addDataSet(doLegGirthDatas);
     }
 
     private float getFloat(String str){
