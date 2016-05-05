@@ -43,9 +43,11 @@ import com.softtek.lai.module.retest.model.RetestWriteModel;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.module.retest.present.RetestclassImp;
 import com.softtek.lai.module.retest.view.BodyweiduActivity;
+import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileCropSelector;
+import com.sw926.imagefileselector.ImageFileSelector;
 
 
 import org.apache.commons.lang3.StringUtils;
@@ -65,7 +67,7 @@ import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_write)
 public class WriteActivity extends BaseActivity implements View.OnClickListener,
-        Validator.ValidationListener{
+        Validator.ValidationListener,ImageFileSelector.Callback{
     //标题栏
     @InjectView(R.id.tv_title)
     TextView title;
@@ -154,6 +156,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
     RetestWriteModel retestWrite;
     MeasureModel measureModel;
     RetestAuditModel retestAuditModel;
+    private ImageFileSelector imageFileSelector;
     String path="";
     UserInfoModel userInfoModel=UserInfoModel.getInstance();
     long loginid=Long.parseLong(userInfoModel.getUser().getUserid());
@@ -199,6 +202,11 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         tv_right.setText("保存");
         retestPre=new RetestclassImp();
         measureModel=new MeasureModel();
+        imageFileSelector=new ImageFileSelector(this);
+        imageFileSelector.setOutPutImageSize(DisplayUtil.dip2px(this,200),
+                DisplayUtil.dip2px(this,100));
+        imageFileSelector.setQuality(50);
+        imageFileSelector.setCallback(this);
         retestAuditModel=new RetestAuditModel();
         iv_email.setVisibility(View.INVISIBLE);
         Intent intent=getIntent();
@@ -286,12 +294,12 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {
-                            takecamera();
-//                            imageFileSelector.takePhoto(WriteActivity.this);
+//                            takecamera();
+                            imageFileSelector.takePhoto(WriteActivity.this);
                         } else if (which == 1) {
                             //照片
-                            takepic();
-//                            imageFileSelector.selectImage(WriteActivity.this);
+//                            takepic();
+                            imageFileSelector.selectImage(WriteActivity.this);
                         }
                     }
                 }).create().show();
@@ -326,59 +334,59 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         }
 
     }
-    public void takecamera() {
-
-        path=(Environment.getExternalStorageDirectory().getPath())+"/123.jpg";
-        File file=new File(path.toString());
-        Uri uri= Uri.fromFile(file);
-        Intent intent=new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, uri);
-        startActivityForResult(intent,PHOTO);
-        Bitmap bitmap= null;
-        try {
-            bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        im_delete.setVisibility(View.VISIBLE);
-        im_retestwrite_showphoto.setVisibility(View.VISIBLE);
-        im_retestwrite_showphoto.setImageBitmap(bitmap);
-        Log.i("path:"+path);
-    }
-    public void takepic() {
-        Intent picture = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(picture, 101);
-    }
+//    public void takecamera() {
+//
+//        path=(Environment.getExternalStorageDirectory().getPath())+"/123.jpg";
+//        File file=new File(path.toString());
+//        Uri uri= Uri.fromFile(file);
+//        Intent intent=new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+//        intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, uri);
+//        startActivityForResult(intent,PHOTO);
+//        Bitmap bitmap= null;
+//        try {
+//            bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//        im_delete.setVisibility(View.VISIBLE);
+//        im_retestwrite_showphoto.setVisibility(View.VISIBLE);
+//        im_retestwrite_showphoto.setImageBitmap(bitmap);
+//        Log.i("path:"+path);
+//    }
+//    public void takepic() {
+//        Intent picture = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//        startActivityForResult(picture, 101);
+//    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        imageFileCropSelector.onActivityResult(requestCode,resultCode,data);
+        imageFileSelector.onActivityResult(requestCode,resultCode,data);
 //        imageFileCropSelector.getmImageCropperHelper().onActivityResult(requestCode,resultCode,data);
-        if(resultCode==RESULT_OK&&requestCode==PHOTO){
-            Bitmap bm= BitmapFactory.decodeFile(path.toString());
-            im_retestwrite_showphoto.setImageBitmap(bm);
-            retestPre.goGetPicture(path.toString());
-        }
-        if(requestCode == 101 && resultCode == Activity.RESULT_OK && null != data){
-            Uri selectedImage = data.getData();
-            String[] filePathColumns={MediaStore.Images.Media.DATA};
-            Cursor c = this.getContentResolver().query(selectedImage, filePathColumns, null,null, null);
-            c.moveToFirst();
-            int columnIndex = c.getColumnIndex(filePathColumns[0]);
-            String picturePath= c.getString(columnIndex);
-            Bitmap bitmap= null;
-            try {
-                bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(selectedImage));
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            im_delete.setVisibility(View.VISIBLE);
-            im_retestwrite_showphoto.setVisibility(View.VISIBLE);
-            im_retestwrite_showphoto.setImageBitmap(bitmap);
-            retestPre.goGetPicture(picturePath.toString());
-            Log.i("picturePath------------------------------------------------:"+picturePath);
-            c.close();
-        }
+//        if(resultCode==RESULT_OK&&requestCode==PHOTO){
+//            Bitmap bm= BitmapFactory.decodeFile(path.toString());
+//            im_retestwrite_showphoto.setImageBitmap(bm);
+//            retestPre.goGetPicture(path.toString());
+//        }
+//        if(requestCode == 101 && resultCode == Activity.RESULT_OK && null != data){
+//            Uri selectedImage = data.getData();
+//            String[] filePathColumns={MediaStore.Images.Media.DATA};
+//            Cursor c = this.getContentResolver().query(selectedImage, filePathColumns, null,null, null);
+//            c.moveToFirst();
+//            int columnIndex = c.getColumnIndex(filePathColumns[0]);
+//            String picturePath= c.getString(columnIndex);
+//            Bitmap bitmap= null;
+//            try {
+//                bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(selectedImage));
+//            } catch (FileNotFoundException e) {
+//                e.printStackTrace();
+//            }
+//            im_delete.setVisibility(View.VISIBLE);
+//            im_retestwrite_showphoto.setVisibility(View.VISIBLE);
+//            im_retestwrite_showphoto.setImageBitmap(bitmap);
+//            retestPre.goGetPicture(picturePath.toString());
+//            Log.i("picturePath------------------------------------------------:"+picturePath);
+//            c.close();
+//        }
 
         //身体围度值传递
         if (requestCode==GET_BODY&&resultCode==RESULT_OK){
@@ -507,5 +515,19 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
             month="十二月班";
         }
         return month;
+    }
+
+    @Override
+    public void onSuccess(String file) {
+        im_retestwrite_showphoto.setVisibility(View.VISIBLE);
+        im_delete.setVisibility(View.VISIBLE);
+        Picasso.with(this).load(new File(file)).fit().into(im_retestwrite_showphoto);
+        //im_retestwritest_showphoto.setImageBitmap(BitmapFactory.decodeFile(file));
+        retestPre.goGetPicture(file);
+    }
+
+    @Override
+    public void onError() {
+
     }
 }
