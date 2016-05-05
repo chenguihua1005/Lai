@@ -66,7 +66,7 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
     @InjectView(R.id.et_sender)
     EditText et_sender;
     @Required(order = 2,message = "请填写故事标题")
-    @TextRule(order = 3,maxLength = 20,message = "标题过长")
+    @TextRule(order = 3,maxLength = 20,message = "标题不能超过20个字符")
     @InjectView(R.id.et_log_title)
     EditText et_log_title;
     @Required(order = 4,message = "请填写减重后体重")

@@ -220,7 +220,8 @@ public class LogStoryDetailActivity extends BaseActivity implements View.OnClick
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
         Intent in=new Intent(this, PictureActivity.class);
-        in.putExtra("image_uri",images.get(position));
+        in.putStringArrayListExtra("images", (ArrayList<String>) images);
+        in.putExtra("position",position);
         startActivity(in);
     }
 }

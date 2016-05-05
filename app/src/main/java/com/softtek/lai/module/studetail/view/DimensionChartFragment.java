@@ -2,6 +2,7 @@ package com.softtek.lai.module.studetail.view;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.CheckBox;
 
@@ -95,6 +96,7 @@ public class DimensionChartFragment extends BaseFragment implements View.OnClick
         chart.setDragEnabled(true);
         chart.setScaleEnabled(true);
         chart.setPinchZoom(true);
+        chart.getLegend().setEnabled(false);//去除图例
 
         YAxis leftAxis = chart.getAxisLeft();
         leftAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
@@ -160,7 +162,7 @@ public class DimensionChartFragment extends BaseFragment implements View.OnClick
                 int lastWeek = event.getModels().get(i - 1).getWeekDay();
                 if (week - lastWeek > 0) {
                     //说明中间有断层则插入沿用上一次数据多少次
-                    addPreviousDate(event.getModels().get(i - 1), week - lastWeek);
+                    addEmptyDate(week - lastWeek);
                 }
                 circumDatas.add(getFloat(model.getCircum()));
                 waistlineDatas.add(getFloat(model.getWaistline()));
@@ -172,11 +174,6 @@ public class DimensionChartFragment extends BaseFragment implements View.OnClick
             }
         }
         chartUtil.addDataSet(circumDatas);
-        /*chartUtil.addDataSet(waistlineDatas);
-        chartUtil.addDataSet(hiplieDatas);
-        chartUtil.addDataSet(upLegGirthDatas);
-        chartUtil.addDataSet(upArmGirthDatas);
-        chartUtil.addDataSet(doLegGirthDatas);*/
     }
 
     private float getFloat(String str){
@@ -194,17 +191,7 @@ public class DimensionChartFragment extends BaseFragment implements View.OnClick
             doLegGirthDatas.add(0f);
         }
     }
-    //插入上一次数据几次
-    private void addPreviousDate(StudentLinChartInfoModel lastModel,int n){
-        for(int i=0;i<n;i++){
-            circumDatas.add(getFloat(lastModel.getCircum()));
-            waistlineDatas.add(getFloat(lastModel.getWaistline()));
-            hiplieDatas.add(getFloat(lastModel.getHiplie()));
-            upArmGirthDatas.add(getFloat(lastModel.getUpArmGirth()));
-            upLegGirthDatas.add(getFloat(lastModel.getUpLegGirth()));
-            doLegGirthDatas.add(getFloat(lastModel.getDoLegGirth()));
-        }
-    }
+
 
     @Override
     public void onDestroyView() {
@@ -212,13 +199,20 @@ public class DimensionChartFragment extends BaseFragment implements View.OnClick
         super.onDestroyView();
     }
 
-    private int old_radio_id=R.id.radio_bust;//默认是第一个按钮
+    private int old_radio_id=-1;//默认是第一个按钮
     private List<CheckBox> checkBoxes=new ArrayList<>();
 
-
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        old_radio_id=-1;
+    }
 
     @Override
     public void onClick(View v) {
+        if(old_radio_id==-1){
+            old_radio_id=R.id.radio_bust;
+        }
         int id=v.getId();
         ((CheckBox)v).setTextColor(Color.WHITE);
         if(id==old_radio_id){
