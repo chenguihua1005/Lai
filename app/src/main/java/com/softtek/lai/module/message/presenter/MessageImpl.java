@@ -102,6 +102,9 @@ public class MessageImpl implements IMessagePresenter {
                     case 200:
                         img_red.setVisibility(View.VISIBLE);
                         break;
+                    case 100:
+                        img_red.setVisibility(View.GONE);
+                        break;
                     default:
                         img_red.setVisibility(View.GONE);
                         Util.toastMsg(listResponseData.getMsg());

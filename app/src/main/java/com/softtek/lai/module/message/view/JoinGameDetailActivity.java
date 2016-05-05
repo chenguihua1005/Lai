@@ -312,10 +312,10 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
 
     //性别对话框
     private void addGrade() {
-        gradeList.add("男");
         gradeList.add("女");
-        gradeIDList.add("0");
+        gradeList.add("男");
         gradeIDList.add("1");
+        gradeIDList.add("0");
     }
 
     @Override
@@ -469,10 +469,10 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
         final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
-        np1.setMaxValue(99);
+        np1.setMaxValue(50);
         np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-        np1.setValue(50);
-        np1.setMinValue(0);
+        np1.setValue(25);
+        np1.setMinValue(1);
         np1.setWrapSelectorWheel(false);
         np2.setMaxValue(9);
         np2.setValue(5);
@@ -500,11 +500,11 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
         final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
-        np1.setMaxValue(200);
-        np1.setValue(100);
+        np1.setMaxValue(30);
+        np1.setValue(3);
         np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
-        np1.setMinValue(0);
+        np1.setMinValue(1);
         np1.setWrapSelectorWheel(false);
         np2.setMaxValue(9);
         np2.setValue(5);
@@ -754,15 +754,15 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         final AlertDialog.Builder birdialog = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.dialog, null);
         final NumberPicker np = (NumberPicker) view.findViewById(R.id.numberPicker1);
-        np.setMaxValue(220);
+        np.setMaxValue(400);
         if (tv_sex.getText().toString().equals("男")) {
             np.setValue(150);
         } else if (tv_sex.getText().toString().equals("女")) {
             np.setValue(100);
         } else {
-            np.setValue(150);
+            np.setValue(100);
         }
-        np.setMinValue(20);
+        np.setMinValue(60);
         np.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np.setWrapSelectorWheel(false);
         birdialog.setTitle("选择体重(单位：斤)").setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
