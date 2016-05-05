@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="184dp"
+    android:background="@color/grey">
+
+    <TextView
+        android:layout_width="71dp"
+        android:layout_height="25dp"
+        android:background="@drawable/pk_list_jingxingzhong"
+        android:gravity="center"
+        android:textSize="13sp"
+        android:textColor="@color/white"
+        android:layout_centerInParent="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="19dp"
+        android:text="进行中"/>
+
+    <ImageView
+        android:id="@+id/pk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/pk_list_vs"
+        android:layout_centerInParent="true"/>
+    <FrameLayout
+        android:id="@+id/lfl"
+        android:layout_toLeftOf="@id/pk"
+        android:layout_centerInParent="true"
+        android:layout_marginRight="33dp"
+        android:layout_width="63dp"
+        android:layout_height="63dp">
+        <com.softtek.lai.widgets.CircleImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img_default"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/pk_list_wujiaoxin"
+            android:layout_gravity="bottom|right"/>
+    </FrameLayout>
+    <CheckBox
+        android:id="@+id/cb_zan_left"
+        android:layout_toLeftOf="@id/lfl"
+        android:layout_centerInParent="true"
+        android:layout_marginRight="21dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:button="@null"
+        android:drawableLeft="@drawable/pk_list_zan_selector"
+        android:text="5"
+        android:drawablePadding="5dp"/>
+
+    <FrameLayout
+        android:id="@+id/rfl"
+        android:layout_toRightOf="@id/pk"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="33dp"
+        android:layout_width="63dp"
+        android:layout_height="63dp">
+        <com.softtek.lai.widgets.CircleImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img_default"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/pk_list_wujiaoxin"
+            android:layout_gravity="bottom|left"/>
+    </FrameLayout>
+    <CheckBox
+        android:id="@+id/cb_zan_right"
+        android:layout_toRightOf="@id/rfl"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="21dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:button="@null"
+        android:drawableLeft="@drawable/pk_list_zan_selector"
+        android:text="5"
+        android:drawablePadding="5dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

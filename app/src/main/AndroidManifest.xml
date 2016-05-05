@@ -315,7 +315,8 @@
         <activity android:name=".module.laisportmine.view.MyInformationActivity" />
         <activity android:name=".module.jingdu.view.ZhuJiaoJingduActivity" />
         <activity android:name=".module.bodygamest.view.GuideActivity" />
-        <activity android:name=".module.laisportmine.view.MyNewsActivity"></activity>
+        <activity android:name=".module.laisportmine.view.MyNewsActivity" />
+        <activity android:name=".module.personalPK.view.PKListActivity"></activity>
     </application>
 
 </manifest>

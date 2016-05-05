@@ -43,6 +43,7 @@ public class PictureActivity extends BaseActivity implements View.OnClickListene
         images=getIntent().getStringArrayListExtra("images");
         position=getIntent().getIntExtra("position",0);
         tv_title.setText(position+1+"/"+images.size());
+        ll_left.setOnClickListener(this);
     }
 
     @Override
