@@ -611,7 +611,7 @@ public class WeightFragment extends BaseFragment implements RadioGroup.OnChecked
 
     public void updateStatus(){
 
-//        week.setChecked(true);
+        week.setChecked(true);
         flag=0;
         type='6';
         n=7;
