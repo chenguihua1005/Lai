@@ -42,6 +42,7 @@
             android:layout_marginBottom="10dip"
             android:layout_marginRight="@dimen/margin"
             android:layout_marginTop="10dip"
+            android:lineSpacingExtra="3dip"
             android:textColor="@color/green1"
             android:textSize="@dimen/textSize4" />
     </LinearLayout>

@@ -1,6 +1,7 @@
 package com.softtek.lai.module.tips.view;
 
 import android.os.Handler;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -27,6 +28,8 @@ public class HealthyAskFragment extends BaseFragment implements AskHealthyManage
 
     @InjectView(R.id.ptrlv)
     PullToRefreshListView ptrlv;
+    @InjectView(R.id.img_mo_message)
+    ImageView no_message;
 
     private List<AskHealthyModel> modelList=new ArrayList<>();
     private AskHealthyAdapter adapter;
@@ -38,6 +41,7 @@ public class HealthyAskFragment extends BaseFragment implements AskHealthyManage
     protected void initViews() {
         ptrlv.setOnRefreshListener(this);
         ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
+        ptrlv.setEmptyView(no_message);
     }
 
     @Override

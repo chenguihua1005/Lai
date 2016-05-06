@@ -133,8 +133,6 @@
                 android:layout_gravity="center"
                 android:layout_width="1dp"
                 android:layout_height="60dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginLeft="20dp"
                 android:background="#f1f1f1"/>
             <LinearLayout
                 android:orientation="vertical"
@@ -230,6 +228,8 @@
                         android:id="@+id/tv_Rundayrank"
                         android:textColor="#ff9c00"
                         android:textSize="15sp"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="2dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
@@ -268,8 +268,6 @@
                 android:layout_gravity="center"
                 android:layout_width="1dp"
                 android:layout_height="50dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginLeft="20dp"
                 android:background="#f1f1f1"/>
             <LinearLayout
                 android:gravity="center"
@@ -293,6 +291,8 @@
                         android:id="@+id/tv_Nationaldayrank"
                         android:textColor="#74b92a"
                         android:textSize="15sp"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="2dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
@@ -382,8 +382,10 @@
                         android:layout_height="wrap_content" />
                     <TextView
                         android:id="@+id/tv_Runweekrank"
-                        android:textColor="#ff9c00"
+                        android:textColor="#74b92a"
                         android:textSize="15sp"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="2dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
@@ -422,8 +424,6 @@
                 android:layout_gravity="center"
                 android:layout_width="1dp"
                 android:layout_height="50dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginLeft="20dp"
                 android:background="#f1f1f1"/>
             <LinearLayout
                 android:gravity="center"
@@ -447,6 +447,8 @@
                         android:id="@+id/tv_Nationalweekrank"
                         android:textColor="#74b92a"
                         android:textSize="15sp"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="2dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
@@ -502,7 +504,7 @@
                 <TextView
                     android:id="@+id/tv_medalnumber"
                     android:gravity="center|left"
-                    android:text="5"
+                    android:text=""
                     android:textColor="#333333"
                     android:textSize="15sp"
                     android:layout_width="wrap_content"
@@ -529,6 +531,8 @@
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/ll_honor"
+            android:visibility="visible"
             android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="120dp">
@@ -537,6 +541,8 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content">
                 <LinearLayout
+                    android:id="@+id/ll_honor1"
+                    android:visibility="visible"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:layout_weight="1"
@@ -553,6 +559,8 @@
                         android:layout_height="wrap_content" />
                 </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/ll_honor2"
+                    android:visibility="visible"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:layout_weight="1"
@@ -569,6 +577,8 @@
                         android:layout_height="wrap_content" />
                 </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/ll_honor3"
+                    android:visibility="visible"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:layout_weight="1"

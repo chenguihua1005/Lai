@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.github.snowdream.android.util.Log;
@@ -33,6 +34,8 @@ public class VideoFragment extends BaseFragment implements
 
     @InjectView(R.id.ptrlv)
     PullToRefreshListView ptrlv;
+    @InjectView(R.id.img_mo_message)
+    ImageView no_message;
 
     private List<AskHealthyModel> modelList=new ArrayList<>();
     private VideoManager manager;
@@ -45,6 +48,7 @@ public class VideoFragment extends BaseFragment implements
         ptrlv.setOnRefreshListener(this);
         ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
         ptrlv.setOnItemClickListener(this);
+        ptrlv.setEmptyView(no_message);
     }
 
     @Override

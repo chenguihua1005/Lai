@@ -72,8 +72,8 @@ public class FatAdapter extends BaseAdapter {
         }else{
             holder.tv_order.setTextColor(Color.parseColor("#707070"));
         }
-        holder.tv_py_before.setText("前 " + studentModel.getLossBefore() + "斤");
-        holder.tv_py_after.setText("后 " + studentModel.getLossAfter() + "斤");
+        holder.tv_py_before.setText("前 " + studentModel.getLossBefore() + "%");
+        holder.tv_py_after.setText("后 " + studentModel.getLossAfter() + "%");
         holder.tv_name.setText(studentModel.getUserName());
         holder.tv_physical.setText(studentModel.getPysical());
         if (!"".equals(studentModel.getPhoto()) && null != studentModel.getPhoto()) {

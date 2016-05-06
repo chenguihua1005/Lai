@@ -64,7 +64,6 @@ public class CreateCounselorClassActivity extends BaseActivity implements View.O
     TextView tv_title;
 
     @Required(order = 1, messageResId = R.string.className)
-    @TextRule(order = 2,maxLength = 15,message = "班级名称不能超过15个汉字")
     @InjectView(R.id.edit_class_name)
     EditText edit_class_name;
 
@@ -274,7 +273,10 @@ public class CreateCounselorClassActivity extends BaseActivity implements View.O
 
     @Override
     public void onValidationSucceeded() {
-        if ("".equals(text_time_value.getText().toString())) {
+        String str=edit_class_name.getText().toString().trim();
+        if(length(str)>30){
+            Util.toastMsg("班级名称不能超过15个汉字");
+        }else if ("".equals(text_time_value.getText().toString())) {
             Util.toastMsg("请选择班级周期");
         } else{
             Calendar rightNow = Calendar.getInstance();
@@ -297,6 +299,26 @@ public class CreateCounselorClassActivity extends BaseActivity implements View.O
     public void onValidationFailed(View failedView, Rule<?> failedRule) {
         validateLife.onValidationFailed(failedView, failedRule);
     }
+
+    private boolean isLetter(char c) {
+        int k = 0x80;
+        return c / k == 0 ? true : false;
+    }
+
+    private int length(String s) {
+        if (s == null)
+            return 0;
+        char[] c = s.toCharArray();
+        int len = 0;
+        for (int i = 0; i < c.length; i++) {
+            len++;
+            if (!isLetter(c[i])) {
+                len++;
+            }
+        }
+        return len;
+    }
+
     /**
      * 点击屏幕隐藏软键盘
      **/

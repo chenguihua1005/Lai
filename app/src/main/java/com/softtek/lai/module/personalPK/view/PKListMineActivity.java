@@ -13,6 +13,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.personalPK.adapter.PKListAdapter;
 import com.softtek.lai.module.personalPK.model.PKListModel;
 
@@ -97,7 +98,7 @@ public class PKListMineActivity extends BaseActivity implements View.OnClickList
         }
     }
 
-    public void getModels(){
+    public void getModels(ResponseData<List<PKListModel>> models){
 
     }
 }

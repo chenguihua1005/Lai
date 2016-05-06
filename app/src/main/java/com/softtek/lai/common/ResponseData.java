@@ -12,7 +12,16 @@ public class ResponseData<T> {
 
     private int status;
     private String msg;
+    private int PageCount;
     private T data;
+
+    public int getPageCount() {
+        return PageCount;
+    }
+
+    public void setPageCount(int pageCount) {
+        PageCount = pageCount;
+    }
 
     public int getStatus() {
         return status;

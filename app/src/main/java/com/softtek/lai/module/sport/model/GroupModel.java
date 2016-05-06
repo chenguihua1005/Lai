@@ -15,6 +15,7 @@ public class GroupModel implements Serializable {
     private String RGId;
     private String RGName;
     private String IsHasSonRG;
+    private String RGNum;
 
     @Override
     public String toString() {
@@ -22,6 +23,7 @@ public class GroupModel implements Serializable {
                 "RGId='" + RGId + '\'' +
                 ", RGName='" + RGName + '\'' +
                 ", IsHasSonRG='" + IsHasSonRG + '\'' +
+                ", RGNum='" + RGNum + '\'' +
                 '}';
     }
 
@@ -47,5 +49,13 @@ public class GroupModel implements Serializable {
 
     public void setIsHasSonRG(String isHasSonRG) {
         IsHasSonRG = isHasSonRG;
+    }
+
+    public String getRGNum() {
+        return RGNum;
+    }
+
+    public void setRGNum(String RGNum) {
+        this.RGNum = RGNum;
     }
 }
