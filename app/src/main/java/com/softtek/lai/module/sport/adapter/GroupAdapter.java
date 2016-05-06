@@ -15,10 +15,12 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.counselor.model.AssistantModel;
 import com.softtek.lai.module.counselor.presenter.AssistantImpl;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 import com.softtek.lai.module.sport.model.GroupModel;
+import com.softtek.lai.module.sport.presenter.SportGroupManager;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -81,7 +83,7 @@ public class GroupAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();//取出ViewHolder对象
         }
         /**设置TextView显示的内容，即我们存放在动态数组中的数据*/
-        GroupModel groupModel = list.get(position);
+        final GroupModel groupModel = list.get(position);
         if ("1".equals(groupModel.getIsHasSonRG())) {
             holder.img_more.setVisibility(View.VISIBLE);
             holder.text_join.setVisibility(View.GONE);
@@ -89,12 +91,19 @@ public class GroupAdapter extends BaseAdapter {
             holder.img_more.setVisibility(View.GONE);
             holder.text_join.setVisibility(View.VISIBLE);
         }
-        holder.text_id.setText("ID:" + groupModel.getRGId());
+        holder.text_id.setText("跑团号:" + groupModel.getRGNum());
         holder.text_name.setText(groupModel.getRGName());
         holder.text_join.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                SportGroupManager sportGroupManager = new SportGroupManager();
+                context.dialogShow("加载中");
+                sportGroupManager.joinRunGroup(groupModel.getRGId(), UserInfoModel.getInstance().getUser().getUserid(), new SportGroupManager.JoinRunGroupCallBack() {
+                    @Override
+                    public void joinRunGroup(boolean b) {
+                        context.dialogDissmiss();
+                    }
+                });
             }
         });
         return convertView;

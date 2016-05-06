@@ -32,6 +32,7 @@
     <color name="grey2">#e6e6e6</color>
     <color name="grey3">#CCCCCC</color>
     <color name="grey4">#F7F7F7</color>
+    <color name="grey5">#c9c8ce</color>
     <color name="editorText">#75ba2b</color>
 
 </resources>

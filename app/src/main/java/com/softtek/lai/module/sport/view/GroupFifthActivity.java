@@ -38,7 +38,7 @@ import zilla.libcore.ui.InjectLayout;
  * 加入跑团 二级
  */
 @InjectLayout(R.layout.activity_group)
-public class GroupThirdActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener, SportGroupManager.GetRGListCallBack {
+public class GroupFifthActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener, SportGroupManager.GetRGListCallBack {
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -69,29 +69,10 @@ public class GroupThirdActivity extends BaseActivity implements View.OnClickList
     String id;
     String type;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ll_left.setOnClickListener(this);
-        list_group.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                GroupModel groupModel = group_list.get(position);
-                if ("1".equals(groupModel.getIsHasSonRG())) {
-                    Intent intent = new Intent(GroupThirdActivity.this, GroupFouthActivity.class);
-                    if("0".equals(type)){
-                        intent.putExtra("type", "0");
-                    }else {
-                        intent.putExtra("type", "1");
-                    }
-                    intent.putExtra("select_name", select_name + " > " + groupModel.getRGName());
-                    intent.putExtra("parent_name", groupModel.getRGName());
-                    intent.putExtra("id", groupModel.getRGId());
-                    startActivity(intent);
-                }
-            }
-        });
     }
 
     @Override

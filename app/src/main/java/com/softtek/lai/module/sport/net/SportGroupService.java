@@ -8,8 +8,11 @@ import com.softtek.lai.utils.RequestCallback;
 
 import java.util.List;
 
+import retrofit.http.Field;
+import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.Header;
+import retrofit.http.POST;
 import retrofit.http.Query;
 
 /**
@@ -53,4 +56,18 @@ public interface SportGroupService {
     void getRGListByPId(@Header(TOKEN) String token,
                         @Query("RgId") String rgId,
                         RequestCallback<ResponseData<List<GroupModel>>> callback);
+
+    //模糊查询跑团
+    @GET("/HerbSports/GetRGByNameOrCode")
+    void getRGByNameOrCode(@Header(TOKEN) String token,
+                           @Query("str") String str,
+                           RequestCallback<ResponseData<List<GroupModel>>> callback);
+
+    //用户加入跑团
+    @FormUrlEncoded
+    @POST("/HerbSports/JoinRunGroup")
+    void joinRunGroup(@Header(TOKEN) String token,
+                      @Field("RGId") String rGId,
+                      @Field("RGAccId") String rGAccId,
+                      RequestCallback<ResponseData> callback);
 }

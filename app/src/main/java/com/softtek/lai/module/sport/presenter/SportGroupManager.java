@@ -28,7 +28,17 @@ public class SportGroupManager {
     private IsJoinRunGroupManagerCallBack isJoinRunGroupManagerCallBack;
     private GetGroupListCallBack getGroupListCallBack;
     private GetRGListCallBack getRGListCallBack;
+    private GetRGByNameOrCodeCallBack getRGByNameOrCodeCallBack;
 
+    public SportGroupManager() {
+        token = UserInfoModel.getInstance().getToken();
+        service = ZillaApi.NormalRestAdapter.create(SportGroupService.class);
+    }
+    public SportGroupManager(GetRGByNameOrCodeCallBack getRGByNameOrCodeCallBack) {
+        this.getRGByNameOrCodeCallBack = getRGByNameOrCodeCallBack;
+        token = UserInfoModel.getInstance().getToken();
+        service = ZillaApi.NormalRestAdapter.create(SportGroupService.class);
+    }
     public SportGroupManager(GetRGListCallBack getRGListCallBack) {
         this.getRGListCallBack = getRGListCallBack;
         token = UserInfoModel.getInstance().getToken();
@@ -228,6 +238,71 @@ public class SportGroupManager {
         });
     }
 
+    public void getRGByNameOrCode(String str) {
+        service.getRGByNameOrCode(token, str, new RequestCallback<ResponseData<List<GroupModel>>>() {
+            @Override
+            public void success(ResponseData<List<GroupModel>> listResponseData, Response response) {
+                Log.e("jarvis", listResponseData.toString());
+                int status = listResponseData.getStatus();
+                switch (status) {
+                    case 200:
+                        getRGByNameOrCodeCallBack.getRGByNameOrCode("success", listResponseData.getData());
+                        break;
+                    case 100:
+                        getRGByNameOrCodeCallBack.getRGByNameOrCode("fail", new ArrayList<GroupModel>());
+                        break;
+                    default:
+                        getRGByNameOrCodeCallBack.getRGByNameOrCode("fail", new ArrayList<GroupModel>());
+                        Util.toastMsg(listResponseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                if (getRGByNameOrCodeCallBack != null) {
+                    getRGByNameOrCodeCallBack.getRGByNameOrCode("fail", new ArrayList<GroupModel>());
+                }
+                ZillaApi.dealNetError(error);
+            }
+        });
+    }
+
+    public void joinRunGroup(String rGId,String rGAccId, final JoinRunGroupCallBack joinRunGroupCallBack) {
+        service.joinRunGroup(token, rGId,rGAccId, new RequestCallback<ResponseData>() {
+            @Override
+            public void success(ResponseData listResponseData, Response response) {
+                Log.e("jarvis", listResponseData.toString());
+                int status = listResponseData.getStatus();
+                switch (status) {
+                    case 200:
+                        joinRunGroupCallBack.joinRunGroup(true);
+                        break;
+                    case 100:
+                        joinRunGroupCallBack.joinRunGroup(false);
+                        break;
+                    default:
+                        joinRunGroupCallBack.joinRunGroup(false);
+                        Util.toastMsg(listResponseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                if (joinRunGroupCallBack != null) {
+                    joinRunGroupCallBack.joinRunGroup(false);
+                }
+                ZillaApi.dealNetError(error);
+            }
+        });
+    }
+
+    public interface JoinRunGroupCallBack {
+
+        void joinRunGroup(boolean b);
+    }
+
     public interface IsJoinRunGroupManagerCallBack {
 
         void isJoinRunGroup(boolean b);
@@ -236,6 +311,11 @@ public class SportGroupManager {
     public interface GetRGListCallBack {
 
         void getRGList(String type, List<GroupModel> list);
+    }
+
+    public interface GetRGByNameOrCodeCallBack {
+
+        void getRGByNameOrCode(String type, List<GroupModel> list);
     }
 
     public interface GetGroupListCallBack {

@@ -15,7 +15,7 @@ public class HealthyRecordFragmentAdapter extends FragmentPagerAdapter{
 
     private List<Fragment> fragmentList;
     private String[] titles={"体重","体脂","内脂","胸围",
-            "腰围","臀围","上臀围","大腿围","小腿围"};
+            "腰围","臀围","上臂围","大腿围","小腿围"};
 
     public HealthyRecordFragmentAdapter(FragmentManager fm,List<Fragment> fragments) {
         super(fm);
