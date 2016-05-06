@@ -43,6 +43,7 @@ import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileCropSelector;
 
+import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -265,47 +266,59 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
         List<PeopleModel> srs = gradeModel.getSRInfo();
         for (int i = 0; i < pcs.size(); i++) {
             PeopleModel pc = pcs.get(i);
-            if(pc.getPhoto()==null||"".equals(pc.getPhoto())){
-                break;
-            }
             switch (i) {
                 case 0:
-                    Picasso.with(this).load(pc.getPhoto()).fit()
-                            .placeholder(R.drawable.img_default)
-                            .error(R.drawable.img_default).into(cir_pc_one);
+                    cir_pc_one.setVisibility(View.VISIBLE);
+                    if(StringUtils.isNotEmpty(pc.getPhoto())){
+                        Picasso.with(this).load(pc.getPhoto()).fit()
+                                .placeholder(R.drawable.img_default)
+                                .error(R.drawable.img_default).into(cir_pc_one);
+                    }
                     break;
                 case 1:
-                    Picasso.with(this).load(pc.getPhoto()).fit()
-                            .placeholder(R.drawable.img_default)
-                            .error(R.drawable.img_default).into(cir_pc_two);
+                    cir_pc_two.setVisibility(View.VISIBLE);
+                    if(StringUtils.isNotEmpty(pc.getPhoto())) {
+                        Picasso.with(this).load(pc.getPhoto()).fit()
+                                .placeholder(R.drawable.img_default)
+                                .error(R.drawable.img_default).into(cir_pc_two);
+                    }
                     break;
                 case 2:
-                    Picasso.with(this).load(pc.getPhoto()).fit()
-                            .placeholder(R.drawable.img_default)
-                            .error(R.drawable.img_default).into(cir_pc_three);
+                    cir_pc_three.setVisibility(View.VISIBLE);
+                    if(StringUtils.isNotEmpty(pc.getPhoto())) {
+                        Picasso.with(this).load(pc.getPhoto()).fit()
+                                .placeholder(R.drawable.img_default)
+                                .error(R.drawable.img_default).into(cir_pc_three);
+                    }
                     break;
             }
         }
         for (int i = 0; i < srs.size(); i++) {
             PeopleModel sr = srs.get(i);
-            if(sr.getPhoto()==null||"".equals(sr.getPhoto())){
-                break;
-            }
             switch (i) {
                 case 0:
-                    Picasso.with(this).load(sr.getPhoto()).fit()
-                            .placeholder(R.drawable.img_default)
-                            .error(R.drawable.img_default).into(cir_sr_one);
+                    cir_sr_one.setVisibility(View.VISIBLE);
+                    if(StringUtils.isNotEmpty(sr.getPhoto())) {
+                        Picasso.with(this).load(sr.getPhoto()).fit()
+                                .placeholder(R.drawable.img_default)
+                                .error(R.drawable.img_default).into(cir_sr_one);
+                    }
                     break;
                 case 1:
-                    Picasso.with(this).load(sr.getPhoto()).fit()
-                            .placeholder(R.drawable.img_default)
-                            .error(R.drawable.img_default).into(cir_sr_two);
+                    cir_sr_two.setVisibility(View.VISIBLE);
+                    if(StringUtils.isNotEmpty(sr.getPhoto())) {
+                        Picasso.with(this).load(sr.getPhoto()).fit()
+                                .placeholder(R.drawable.img_default)
+                                .error(R.drawable.img_default).into(cir_sr_two);
+                    }
                     break;
                 case 2:
-                    Picasso.with(this).load(sr.getPhoto()).fit()
-                            .placeholder(R.drawable.img_default)
-                            .error(R.drawable.img_default).into(cir_sr_three);
+                    cir_sr_three.setVisibility(View.VISIBLE );
+                    if(StringUtils.isNotEmpty(sr.getPhoto())) {
+                        Picasso.with(this).load(sr.getPhoto()).fit()
+                                .placeholder(R.drawable.img_default)
+                                .error(R.drawable.img_default).into(cir_sr_three);
+                    }
                     break;
             }
         }

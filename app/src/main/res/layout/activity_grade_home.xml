@@ -34,7 +34,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="220dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:gravity="center"
@@ -42,10 +42,12 @@
 
             <TextView
                 android:id="@+id/tv_title"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="08M小队"
+                android:singleLine="true"
+                android:text="哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈"
+                android:ellipsize="middle"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
 
@@ -54,8 +56,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="2016年10月—2016年12月"
                 android:textColor="@color/white"
+                android:text="2014年3月20-2014年3月20"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -212,7 +214,8 @@
                     android:layout_height="40dp"
                     android:layout_gravity="center"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/img_default"/>
+                    android:src="@drawable/img_default"
+                    android:visibility="gone"/>
 
                 <ImageView
                     android:layout_width="20dp"
@@ -235,7 +238,8 @@
                     android:layout_height="40dp"
                     android:layout_gravity="center"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/img_default"/>
+                    android:src="@drawable/img_default"
+                    android:visibility="gone"/>
 
                 <ImageView
                     android:layout_width="20dp"
@@ -257,6 +261,7 @@
                     android:layout_height="40dp"
                     android:layout_gravity="center"
                     android:scaleType="centerCrop"
+                    android:visibility="gone"
                     android:src="@drawable/img_default"/>
 
                 <ImageView
@@ -327,6 +332,7 @@
                     android:layout_height="40dp"
                     android:layout_gravity="center"
                     android:scaleType="centerCrop"
+                    android:visibility="gone"
                     android:src="@drawable/img_default"/>
 
                 <ImageView
@@ -349,6 +355,7 @@
                     android:layout_height="40dp"
                     android:scaleType="centerCrop"
                     android:layout_gravity="center"
+                    android:visibility="gone"
                     android:src="@drawable/img_default"/>
 
                 <ImageView
@@ -371,6 +378,7 @@
                     android:layout_height="40dp"
                     android:layout_gravity="center"
                     android:scaleType="centerCrop"
+                    android:visibility="gone"
                     android:src="@drawable/img_default"/>
 
                 <ImageView
