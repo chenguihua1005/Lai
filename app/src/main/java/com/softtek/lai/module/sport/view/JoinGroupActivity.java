@@ -156,6 +156,7 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
                 GroupModel groupModel = group_list.get(position);
                 if ("1".equals(groupModel.getIsHasSonRG())) {
                     Intent intent = new Intent(JoinGroupActivity.this, GroupSecActivity.class);
+                    intent.putExtra("type", "0");
                     intent.putExtra("select_name", select_city_name + " > " + groupModel.getRGName());
                     intent.putExtra("parent_name", groupModel.getRGName());
                     intent.putExtra("id", groupModel.getRGId());
@@ -168,7 +169,7 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void initViews() {
         tv_title.setText(R.string.gamestH);
-        iv_email.setImageResource(R.drawable.search);
+        iv_email.setImageResource(R.drawable.img_join_group_search);
     }
 
     @Override
@@ -188,7 +189,7 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
                 break;
 
             case R.id.fl_right:
-
+                startActivity(new Intent(this,GroupSearchActivity.class));
                 break;
             case R.id.rel_dq:
                 showDaQuDialog();

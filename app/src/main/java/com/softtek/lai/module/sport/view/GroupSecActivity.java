@@ -65,12 +65,16 @@ public class GroupSecActivity extends BaseActivity implements View.OnClickListen
     @InjectView(R.id.list_group)
     ListView list_group;
 
+    @InjectView(R.id.lin)
+    LinearLayout lin;
+
     List<GroupModel> group_list = new ArrayList<GroupModel>();
     GroupAdapter adapter;
 
     String select_name;
     String parent_name;
     String id;
+    String type;
 
 
     @Override
@@ -83,6 +87,11 @@ public class GroupSecActivity extends BaseActivity implements View.OnClickListen
                 GroupModel groupModel = group_list.get(position);
                 if ("1".equals(groupModel.getIsHasSonRG())) {
                     Intent intent = new Intent(GroupSecActivity.this, GroupThirdActivity.class);
+                    if("0".equals(type)){
+                        intent.putExtra("type", "0");
+                    }else {
+                        intent.putExtra("type", "1");
+                    }
                     intent.putExtra("select_name", select_name + " > " + groupModel.getRGName());
                     intent.putExtra("parent_name", groupModel.getRGName());
                     intent.putExtra("id", groupModel.getRGId());
@@ -100,12 +109,19 @@ public class GroupSecActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void initDatas() {
         Intent intent = getIntent();
+        type=intent.getStringExtra("type");
+        if("0".equals(type)){
+            lin.setVisibility(View.VISIBLE);
+        }else {
+            lin.setVisibility(View.GONE);
+        }
         select_name = intent.getStringExtra("select_name");
         parent_name = intent.getStringExtra("parent_name");
         id = intent.getStringExtra("id");
         tv_title.setText(parent_name);
         text_name.setText(select_name);
 
+        dialogShow("加载中");
         SportGroupManager sportGroupManager = new SportGroupManager(this);
         sportGroupManager.getRGListByPId(id);
     }
@@ -143,6 +159,7 @@ public class GroupSecActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void getRGList(String type, List<GroupModel> list) {
+        dialogDissmiss();
         if ("success".equals(type)) {
             group_list = list;
             adapter = new GroupAdapter(this, group_list);

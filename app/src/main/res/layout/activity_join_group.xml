@@ -53,7 +53,7 @@
             android:id="@+id/img_xq"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/img_join_group_select" />
+            android:src="@drawable/img_join_group_selected" />
 
         <TextView
             android:id="@+id/text_xq"
@@ -62,7 +62,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/joinGroupMarginLeft"
             android:text="选择小区"
-            android:textColor="@color/word"
+            android:textColor="@color/word12"
             android:textSize="@dimen/textSize1" />
     </RelativeLayout>
 
@@ -78,7 +78,7 @@
             android:id="@+id/img_cs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/img_join_group_select" />
+            android:src="@drawable/img_join_group_selected" />
 
         <TextView
             android:id="@+id/text_cs"
@@ -87,7 +87,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/joinGroupMarginLeft"
             android:text="选择城市"
-            android:textColor="@color/word"
+            android:textColor="@color/word12"
             android:textSize="@dimen/textSize1" />
     </RelativeLayout>
 
