@@ -133,14 +133,27 @@ public class JoinGameDimensionRecordActivity extends BaseActivity implements OnC
         type = intent.getStringExtra("type");
         if ("1".equals(type)) {
             tv_title.setText("修改记录");
-            tv_circum.setText(getConfirmInfoModel.getCircum());
-            tv_waistline.setText(getConfirmInfoModel.getWaistline());
-            tv_hiplie.setText(getConfirmInfoModel.getHiplie());
-            tv_uparmgirth.setText(getConfirmInfoModel.getUpArmGirth());
-            tv_upleggirth.setText(getConfirmInfoModel.getUpLegGirth());
-            tv_doleggirth.setText(getConfirmInfoModel.getDoLegGirth());
+
         } else {
             tv_title.setText("添加记录");
+        }
+        if (!"".equals(getConfirmInfoModel.getCircum())) {
+            tv_circum.setText(Double.parseDouble(getConfirmInfoModel.getCircum()) + "");
+        }
+        if (!"".equals(getConfirmInfoModel.getWaistline())) {
+            tv_waistline.setText(Double.parseDouble(getConfirmInfoModel.getWaistline()) + "");
+        }
+        if (!"".equals(getConfirmInfoModel.getHiplie())) {
+            tv_hiplie.setText(Double.parseDouble(getConfirmInfoModel.getHiplie()) + "");
+        }
+        if (!"".equals(getConfirmInfoModel.getUpArmGirth())) {
+            tv_uparmgirth.setText(Double.parseDouble(getConfirmInfoModel.getUpArmGirth()) + "");
+        }
+        if (!"".equals(getConfirmInfoModel.getUpLegGirth())) {
+            tv_upleggirth.setText(Double.parseDouble(getConfirmInfoModel.getUpLegGirth()) + "");
+        }
+        if (!"".equals(getConfirmInfoModel.getDoLegGirth())) {
+            tv_doleggirth.setText(Double.parseDouble(getConfirmInfoModel.getDoLegGirth()) + "");
         }
     }
 
@@ -230,10 +243,10 @@ public class JoinGameDimensionRecordActivity extends BaseActivity implements OnC
         View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
         final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
-        np1.setMaxValue(220);
+        np1.setMaxValue(200);
         np1.setValue(90);
         np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-        np1.setMinValue(0);
+        np1.setMinValue(50);
         np1.setWrapSelectorWheel(false);
         np2.setMaxValue(9);
         np2.setValue(0);
@@ -260,9 +273,9 @@ public class JoinGameDimensionRecordActivity extends BaseActivity implements OnC
         View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
         final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
-        np1.setMaxValue(220);
-        np1.setValue(90);
-        np1.setMinValue(0);
+        np1.setMaxValue(200);
+        np1.setValue(80);
+        np1.setMinValue(40);
         np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np1.setWrapSelectorWheel(false);
         np2.setMaxValue(9);
@@ -290,9 +303,9 @@ public class JoinGameDimensionRecordActivity extends BaseActivity implements OnC
         View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
         final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
-        np1.setMaxValue(220);
+        np1.setMaxValue(250);
         np1.setValue(90);
-        np1.setMinValue(0);
+        np1.setMinValue(50);
         np1.setWrapSelectorWheel(false);
         np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
@@ -320,9 +333,9 @@ public class JoinGameDimensionRecordActivity extends BaseActivity implements OnC
         View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
         final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
-        np1.setMaxValue(220);
-        np1.setValue(90);
-        np1.setMinValue(0);
+        np1.setMaxValue(70);
+        np1.setValue(50);
+        np1.setMinValue(10);
         np1.setWrapSelectorWheel(false);
         np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
@@ -351,9 +364,9 @@ public class JoinGameDimensionRecordActivity extends BaseActivity implements OnC
         View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
         final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
-        np1.setMaxValue(220);
-        np1.setValue(90);
-        np1.setMinValue(50);
+        np1.setMaxValue(90);
+        np1.setValue(50);
+        np1.setMinValue(10);
         np1.setWrapSelectorWheel(false);
         np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
@@ -381,9 +394,9 @@ public class JoinGameDimensionRecordActivity extends BaseActivity implements OnC
         View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
         final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
-        np1.setMaxValue(220);
-        np1.setValue(90);
-        np1.setMinValue(0);
+        np1.setMaxValue(70);
+        np1.setValue(50);
+        np1.setMinValue(10);
         np1.setWrapSelectorWheel(false);
         np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);

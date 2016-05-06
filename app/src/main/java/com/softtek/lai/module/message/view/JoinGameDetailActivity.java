@@ -312,10 +312,10 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
 
     //性别对话框
     private void addGrade() {
-        gradeList.add("男");
         gradeList.add("女");
-        gradeIDList.add("0");
+        gradeList.add("男");
         gradeIDList.add("1");
+        gradeIDList.add("0");
     }
 
     @Override
@@ -326,18 +326,19 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         UserInfoModel userInfoModel = UserInfoModel.getInstance();
         accoutid = Long.parseLong(userInfoModel.getUser().getUserid());
         addGrade();
-        tv_right.setText("保存");
         type = getIntent().getStringExtra("type");
         if ("1".equals(type)) {
+            tv_right.setText("完成");
             MessageDetailInfo messageDetailInfo = (MessageDetailInfo) getIntent().getSerializableExtra("messageDetailInfo");
             classid = messageDetailInfo.getClassId();
             dialogShow("加载中");
             iUpConfirmInfopresenter.getConfirmInfo(accoutid, Long.parseLong(classid));
-            tv_title.setText(R.string.message3);
+            tv_title.setText("报名参赛");
             et_phone.setEnabled(false);
             ll_class.setEnabled(false);
             ll_left.setVisibility(View.GONE);
         } else {
+            tv_right.setText("保存");
             tv_title.setText("新学员录入");
             getConfirmInfoModel = new GetConfirmInfoModel();
             guwenClassPre.doGetGuwenClass(accoutid);//36
@@ -469,10 +470,10 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
         final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
-        np1.setMaxValue(99);
+        np1.setMaxValue(50);
         np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-        np1.setValue(50);
-        np1.setMinValue(0);
+        np1.setValue(25);
+        np1.setMinValue(1);
         np1.setWrapSelectorWheel(false);
         np2.setMaxValue(9);
         np2.setValue(5);
@@ -500,11 +501,11 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
         final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
-        np1.setMaxValue(200);
-        np1.setValue(100);
+        np1.setMaxValue(30);
+        np1.setValue(2);
         np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
-        np1.setMinValue(0);
+        np1.setMinValue(1);
         np1.setWrapSelectorWheel(false);
         np2.setMaxValue(9);
         np2.setValue(5);
@@ -657,7 +658,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
             }
             System.out.println("coninfoModel:" + coninfoModel);
             String token = UserInfoModel.getInstance().getToken();
-            UserModel user=UserInfoModel.getInstance().getUser();
+            UserModel user = UserInfoModel.getInstance().getUser();
             user.setNickname(et_nickname.getText().toString());
             UserInfoModel.getInstance().saveUserCache(user);
             iUpConfirmInfopresenter.changeUpConfirmInfo(token, coninfoModel);
@@ -754,15 +755,15 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         final AlertDialog.Builder birdialog = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.dialog, null);
         final NumberPicker np = (NumberPicker) view.findViewById(R.id.numberPicker1);
-        np.setMaxValue(220);
+        np.setMaxValue(400);
         if (tv_sex.getText().toString().equals("男")) {
             np.setValue(150);
         } else if (tv_sex.getText().toString().equals("女")) {
             np.setValue(100);
         } else {
-            np.setValue(150);
+            np.setValue(100);
         }
-        np.setMinValue(20);
+        np.setMinValue(60);
         np.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np.setWrapSelectorWheel(false);
         birdialog.setTitle("选择体重(单位：斤)").setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -867,7 +868,11 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            System.out.println("");
+            if ("1".equals(type)) {
+                System.out.println("");
+            } else {
+                finish();
+            }
             return true;
         }
         return super.onKeyDown(keyCode, event);

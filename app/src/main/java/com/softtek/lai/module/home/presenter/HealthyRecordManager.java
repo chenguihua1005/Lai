@@ -38,7 +38,6 @@ public class HealthyRecordManager {
                         break;
                     default:
                         cb.getModel(null);
-                        Util.toastMsg(laichModelResponseData.getMsg());
                         break;
                 }
 

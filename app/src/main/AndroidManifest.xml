@@ -68,7 +68,7 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="5722d76367e58e3b6f0037ee" />
+            android:value="5728545a67e58ea7cf001701" />
 
         <activity
             android:name=".module.login.view.LoginActivity"
@@ -97,6 +97,7 @@
         <activity android:name=".module.home.view.ValidateCertificationActivity" />
         <activity android:name=".module.home.view.ModifyPasswordActivity" />
         <activity android:name=".module.home.view.SettingsActivity" />
+        <activity android:name=".module.home.view.AboutMeActivity" />
         <activity android:name=".module.File.view.DimensionRecordActivity" />
         <activity
             android:name=".module.retest.WriteActivity"
@@ -159,6 +160,12 @@
         <activity android:name=".module.studetail.view.LossWeightLogActivity" />
         <activity android:name=".module.studetail.view.LogDetailActivity" />
         <activity android:name=".module.tips.view.TipsActivity" />
+        <activity android:name=".module.sport.view.JoinGroupActivity" />
+        <activity android:name=".module.sport.view.GroupSecActivity" />
+        <activity android:name=".module.sport.view.GroupThirdActivity" />
+        <activity android:name=".module.sport.view.GroupFouthActivity" />
+        <activity android:name=".module.sport.view.GroupFifthActivity" />
+        <activity android:name=".module.sport.view.GroupSearchActivity" />
         <activity
             android:name="com.umeng.socialize.view.ShareActivity"
             android:configChanges="orientation|keyboard"
@@ -308,9 +315,17 @@
         <!-- </>值来自开发者平台取得的AppKey -->
         <activity android:name=".module.historydate.view.HistoryDataActivity" />
         <activity android:name=".module.historydate.view.HistoryDataDetailActivity" />
-        <activity android:name=".module.tips.view.VideoViewActivity"></activity>
-        <activity android:name=".module.mygrades.view.MyGradesActivity"></activity>
-        <activity android:name=".module.jingdu.view.ZhuJiaoJingduActivity"></activity>
+        <activity android:name=".module.tips.view.VideoViewActivity" />
+        <activity android:name=".module.mygrades.view.MyGradesActivity" />
+        <activity android:name=".module.lossweightstory.view.PictureActivity" />
+        <activity android:name=".module.laisportmine.view.MyInformationActivity" />
+        <activity android:name=".module.jingdu.view.ZhuJiaoJingduActivity" />
+        <activity android:name=".module.bodygamest.view.GuideActivity" />
+        <activity android:name=".module.laisportmine.view.MyNewsActivity" />
+        <activity android:name=".module.personalPK.view.PKListActivity" />
+        <activity android:name=".module.laisportmine.view.MyPublicwelfareActivity" />
+        <activity android:name=".module.personalPK.view.PKListMineActivity" />
+        <activity android:name=".module.personalPK.view.PKDetailActivity"></activity>
     </application>
 
 </manifest>

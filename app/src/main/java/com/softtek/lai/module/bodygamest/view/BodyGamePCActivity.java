@@ -42,7 +42,11 @@ import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.joda.time.DateTime;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -142,6 +146,17 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
 
 
     }
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        iStudentPresenter.GetNotMeasuredRecordByPC(loginid);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        iStudentPresenter.GetNotMeasuredRecordByPC(loginid);
+    }
     public static final int Student_reteset=1;
     @Override
     protected void initDatas() {
@@ -182,14 +197,16 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
 
 
     }
+
     @Subscribe
-    public void doGetDates(RetestAuditModelEvent retestAuditModelEvent){
+    public void doGetDates(RetestAuditModelEvent retestAuditModelEvent)  {
 
-        if (retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("0"))
-        {
-            flag=false;
 
-        }
+            if (retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("0")) {
+                flag = false;
+
+            }
+
     }
     @Subscribe
     public void onEvent(TiGuanSaiModel tiGuanSai) {

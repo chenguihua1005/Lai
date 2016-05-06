@@ -95,6 +95,7 @@ public class  RetestActivity extends BaseActivity implements View.OnClickListene
 //        ListView listView=(ListView)findViewById(R.id.list_class);
 
         list_query.setAdapter(studentAdapter);
+        list_query.setVerticalScrollBarEnabled(false);
         ll_classlist.setOnClickListener(this);
         ll_shousuo.setOnClickListener(this);
         ll_left.setOnClickListener(this);
@@ -258,6 +259,8 @@ public class  RetestActivity extends BaseActivity implements View.OnClickListene
 
     }
 
+
+
     @Override
     protected void initDatas() {
 
@@ -282,7 +285,7 @@ public class  RetestActivity extends BaseActivity implements View.OnClickListene
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode==GET_BODY&&resultCode==RESULT_OK){
-//            banjiStudentModelList.clear();
+            banjiStudentModelList.clear();
             retestPre.doGetBanjiStudent(ClassId,loginid);
 //            studentAdapter.notifyDataSetChanged();
 
@@ -292,7 +295,7 @@ public class  RetestActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onResume() {
         super.onResume();
-//        banjiStudentModelList.clear();
+        banjiStudentModelList.clear();
         retestPre.doGetBanjiStudent(ClassId,loginid);
 //        studentAdapter.notifyDataSetChanged();
     }

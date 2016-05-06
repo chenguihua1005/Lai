@@ -128,10 +128,11 @@
     <string name="gamestB">上传照片</string>
     <string name="gamestD">减重故事</string>
     <string name="gamestE">成绩单</string>
-    <string name="tipsgamestI">Tips</string>
+    <string name="tipsgamestI">TIPS</string>
     <string name="gamestC">复测</string>
     <string name="gamestF">荣誉榜</string>
     <string name="gamestG">大赛赛况</string>
+    <string name="gamestH">加入跑团</string>
     <string name="phoneOr">手机号/资格证号</string>
     <string name="assistantManage">助教管理</string>
     <string name="assistantDetail">助教详情</string>
@@ -149,4 +150,12 @@
     <string name="joinGameQ">请仔细阅读且勾选《康宝莱使用知情书》</string>
     <string name="old_password">原密码</string>
     <string name="version_name">版本信息</string>
+    <string name="version">V1.0.0 版本</string>
+    <string name="aboutMe1">莱聚+，康宝莱专业体重管理与运动社交APP，一起“莱”感受积极健康生活方式的魅力吧！</string>
+    <string name="aboutMe2">管理体重，监测包含脂肪含量在内的17项身体健康指数</string>
+    <string name="aboutMe3">多维数据，常年历史记录，跟踪自身体型、健康变化</string>
+    <string name="aboutMe4">参加体重管理挑战赛，开班减重+教练指导，快乐享“瘦”</string>
+    <string name="aboutMe5">跑步轨迹与步数记录，了解你的运动燃卡量</string>
+    <string name="aboutMe6">加入小康康i跑团，参与丰富活动，发起PK挑战，找到志同道合的小伙伴</string>
+    <string name="aboutMe7">打造健康圈，分享你的心得和进步</string>
 </resources>

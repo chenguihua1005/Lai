@@ -1,6 +1,7 @@
 package com.softtek.lai.module.lossweightstory.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.lossweightstory.model.LossWeightStoryModel;
 import com.softtek.lai.module.lossweightstory.model.Zan;
 import com.softtek.lai.module.lossweightstory.net.LossWeightLogService;
+import com.softtek.lai.module.lossweightstory.view.PictureActivity;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.StringUtil;
@@ -24,6 +26,7 @@ import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit.RetrofitError;
@@ -123,7 +126,12 @@ public class LossWeightStoryAdapter extends BaseAdapter{
         String path= AddressManager.get("photoHost");
         Picasso.with(context).load(path+model.getPhoto()).fit()
                 .placeholder(R.drawable.img_default).error(R.drawable.img_default).into(holder.civ_header_image);
-        visitableOrGone(holder,model.getImgCollection().split(","),path);
+        ArrayList<String> list=new ArrayList<>();
+        String[] imgs=model.getImgCollection().split(",");
+        for(int i=0;i<imgs.length;i++){
+            list.add(imgs[i]);
+        }
+        visitableOrGone(holder,list,path);
         return convertView;
     }
 
@@ -153,113 +161,170 @@ public class LossWeightStoryAdapter extends BaseAdapter{
 
     }
 
-    private void visitableOrGone(ViewHolder holder,String[] imgs,String path) {
-        for (int i = 0; i < imgs.length; i++) {
-            try {
-                switch (i + 1) {
-                    case 1:
-                        holder.img1.setVisibility(View.VISIBLE);
-                        holder.img2.setVisibility(View.GONE);
-                        holder.img3.setVisibility(View.GONE);
-                        holder.img4.setVisibility(View.GONE);
-                        holder.img5.setVisibility(View.GONE);
-                        holder.img6.setVisibility(View.GONE);
-                        holder.img7.setVisibility(View.GONE);
-                        holder.img8.setVisibility(View.GONE);
-                        holder.img9.setVisibility(View.GONE);
-                        Picasso.with(context).load(path+imgs[i]).fit()
-                                .placeholder(R.drawable.default_pic)
-                                .error(R.drawable.default_pic)
-                                .into(holder.img1);
-                        break;
-                    case 2:
-                        holder.img2.setVisibility(View.VISIBLE);
-                        holder.img3.setVisibility(View.GONE);
-                        holder.img4.setVisibility(View.GONE);
-                        holder.img5.setVisibility(View.GONE);
-                        holder.img6.setVisibility(View.GONE);
-                        holder.img7.setVisibility(View.GONE);
-                        holder.img8.setVisibility(View.GONE);
-                        holder.img9.setVisibility(View.GONE);
-                        Picasso.with(context).load(path+imgs[i]).fit()
-                                .placeholder(R.drawable.default_pic)
-                                .error(R.drawable.default_pic)
-                                .into(holder.img2);
-                        break;
-                    case 3:
-                        holder.img3.setVisibility(View.VISIBLE);
-                        holder.img4.setVisibility(View.GONE);
-                        holder.img5.setVisibility(View.GONE);
-                        holder.img6.setVisibility(View.GONE);
-                        holder.img7.setVisibility(View.GONE);
-                        holder.img8.setVisibility(View.GONE);
-                        holder.img9.setVisibility(View.GONE);
-                        Picasso.with(context).load(path+imgs[i]).fit()
-                                .placeholder(R.drawable.default_pic)
-                                .error(R.drawable.default_pic)
-                                .into(holder.img3);
-                        break;
-                    case 4:
-                        holder.img4.setVisibility(View.VISIBLE);
-                        holder.img5.setVisibility(View.GONE);
-                        holder.img6.setVisibility(View.GONE);
-                        holder.img7.setVisibility(View.GONE);
-                        holder.img8.setVisibility(View.GONE);
-                        holder.img9.setVisibility(View.GONE);
-                        Picasso.with(context).load(path+imgs[i]).fit()
-                                .placeholder(R.drawable.default_pic)
-                                .error(R.drawable.default_pic)
-                                .into(holder.img4);
-                        break;
-                    case 5:
-                        holder.img5.setVisibility(View.VISIBLE);
-                        holder.img6.setVisibility(View.GONE);
-                        holder.img7.setVisibility(View.GONE);
-                        holder.img8.setVisibility(View.GONE);
-                        holder.img9.setVisibility(View.GONE);
-                        Picasso.with(context).load(path+imgs[i]).fit()
-                                .placeholder(R.drawable.default_pic)
-                                .error(R.drawable.default_pic)
-                                .into(holder.img5);
-                        break;
-                    case 6:
-                        holder.img6.setVisibility(View.VISIBLE);
-                        holder.img7.setVisibility(View.GONE);
-                        holder.img8.setVisibility(View.GONE);
-                        holder.img9.setVisibility(View.GONE);
-                        Picasso.with(context).load(path+imgs[i]).fit()
-                                .placeholder(R.drawable.default_pic)
-                                .error(R.drawable.default_pic)
-                                .into(holder.img6);
-                        break;
-                    case 7:
-                        holder.img7.setVisibility(View.VISIBLE);
-                        holder.img8.setVisibility(View.GONE);
-                        holder.img9.setVisibility(View.GONE);
-                        Picasso.with(context).load(path+imgs[i]).fit()
-                                .placeholder(R.drawable.default_pic)
-                                .error(R.drawable.default_pic)
-                                .into(holder.img7);
-                        break;
-                    case 8:
-                        holder.img8.setVisibility(View.VISIBLE);
-                        holder.img9.setVisibility(View.GONE);
-                        Picasso.with(context).load(path+imgs[i]).fit()
-                                .placeholder(R.drawable.default_pic)
-                                .error(R.drawable.default_pic)
-                                .into(holder.img8);
-                        break;
-                    case 9:
-                        holder.img9.setVisibility(View.VISIBLE);
-                        Picasso.with(context).load(path+imgs[i]).fit()
-                                .placeholder(R.drawable.default_pic)
-                                .error(R.drawable.default_pic)
-                                .into(holder.img9);
-                        break;
-                }
-            } catch (Exception e) {
-
+    private void visitableOrGone(ViewHolder holder,final ArrayList<String> imgs,String path) {
+        for (int i = 0; i < imgs.size(); i++) {
+            final String uri=imgs.get(i);
+            switch (i + 1) {
+                case 1:
+                    holder.img1.setVisibility(View.VISIBLE);
+                    holder.img2.setVisibility(View.GONE);
+                    holder.img3.setVisibility(View.GONE);
+                    holder.img4.setVisibility(View.GONE);
+                    holder.img5.setVisibility(View.GONE);
+                    holder.img6.setVisibility(View.GONE);
+                    holder.img7.setVisibility(View.GONE);
+                    holder.img8.setVisibility(View.GONE);
+                    holder.img9.setVisibility(View.GONE);
+                    holder.img1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            start(imgs,0);
+                        }
+                    });
+                    Picasso.with(context).load(path+uri).fit()
+                            .placeholder(R.drawable.default_pic)
+                            .error(R.drawable.default_pic)
+                            .into(holder.img1);
+                    break;
+                case 2:
+                    holder.img2.setVisibility(View.VISIBLE);
+                    holder.img3.setVisibility(View.GONE);
+                    holder.img4.setVisibility(View.GONE);
+                    holder.img5.setVisibility(View.GONE);
+                    holder.img6.setVisibility(View.GONE);
+                    holder.img7.setVisibility(View.GONE);
+                    holder.img8.setVisibility(View.GONE);
+                    holder.img9.setVisibility(View.GONE);
+                    holder.img2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            start(imgs,1);
+                        }
+                    });
+                    Picasso.with(context).load(path+uri).fit()
+                            .placeholder(R.drawable.default_pic)
+                            .error(R.drawable.default_pic)
+                            .into(holder.img2);
+                    break;
+                case 3:
+                    holder.img3.setVisibility(View.VISIBLE);
+                    holder.img4.setVisibility(View.GONE);
+                    holder.img5.setVisibility(View.GONE);
+                    holder.img6.setVisibility(View.GONE);
+                    holder.img7.setVisibility(View.GONE);
+                    holder.img8.setVisibility(View.GONE);
+                    holder.img9.setVisibility(View.GONE);
+                    holder.img3.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            start(imgs,2);
+                        }
+                    });
+                    Picasso.with(context).load(path+uri).fit()
+                            .placeholder(R.drawable.default_pic)
+                            .error(R.drawable.default_pic)
+                            .into(holder.img3);
+                    break;
+                case 4:
+                    holder.img4.setVisibility(View.VISIBLE);
+                    holder.img5.setVisibility(View.GONE);
+                    holder.img6.setVisibility(View.GONE);
+                    holder.img7.setVisibility(View.GONE);
+                    holder.img8.setVisibility(View.GONE);
+                    holder.img9.setVisibility(View.GONE);
+                    holder.img4.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            start(imgs,3);
+                        }
+                    });
+                    Picasso.with(context).load(path+uri).fit()
+                            .placeholder(R.drawable.default_pic)
+                            .error(R.drawable.default_pic)
+                            .into(holder.img4);
+                    break;
+                case 5:
+                    holder.img5.setVisibility(View.VISIBLE);
+                    holder.img6.setVisibility(View.GONE);
+                    holder.img7.setVisibility(View.GONE);
+                    holder.img8.setVisibility(View.GONE);
+                    holder.img9.setVisibility(View.GONE);
+                    holder.img5.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            start(imgs,4);
+                        }
+                    });
+                    Picasso.with(context).load(path+uri).fit()
+                            .placeholder(R.drawable.default_pic)
+                            .error(R.drawable.default_pic)
+                            .into(holder.img5);
+                    break;
+                case 6:
+                    holder.img6.setVisibility(View.VISIBLE);
+                    holder.img7.setVisibility(View.GONE);
+                    holder.img8.setVisibility(View.GONE);
+                    holder.img9.setVisibility(View.GONE);
+                    holder.img6.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            start(imgs,5);
+                        }
+                    });
+                    Picasso.with(context).load(path+uri).fit()
+                            .placeholder(R.drawable.default_pic)
+                            .error(R.drawable.default_pic)
+                            .into(holder.img6);
+                    break;
+                case 7:
+                    holder.img7.setVisibility(View.VISIBLE);
+                    holder.img8.setVisibility(View.GONE);
+                    holder.img9.setVisibility(View.GONE);
+                    holder.img7.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            start(imgs,6);
+                        }
+                    });
+                    Picasso.with(context).load(path+uri).fit()
+                            .placeholder(R.drawable.default_pic)
+                            .error(R.drawable.default_pic)
+                            .into(holder.img7);
+                    break;
+                case 8:
+                    holder.img8.setVisibility(View.VISIBLE);
+                    holder.img9.setVisibility(View.GONE);
+                    holder.img8.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            start(imgs,7);
+                        }
+                    });
+                    Picasso.with(context).load(path+uri).fit()
+                            .placeholder(R.drawable.default_pic)
+                            .error(R.drawable.default_pic)
+                            .into(holder.img8);
+                    break;
+                case 9:
+                    holder.img9.setVisibility(View.VISIBLE);
+                    holder.img9.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            start(imgs,8);
+                        }
+                    });
+                    Picasso.with(context).load(path+uri).fit()
+                            .placeholder(R.drawable.default_pic)
+                            .error(R.drawable.default_pic)
+                            .into(holder.img9);
+                    break;
             }
         }
+    }
+    private void start(ArrayList<String> imgs,int position){
+        Intent in=new Intent(context, PictureActivity.class);
+        in.putStringArrayListExtra("images", imgs);
+        in.putExtra("position",position);
+        context.startActivity(in);
     }
 }

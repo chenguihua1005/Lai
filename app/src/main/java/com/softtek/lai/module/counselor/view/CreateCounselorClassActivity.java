@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -21,6 +22,7 @@ import butterknife.InjectView;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
+import com.mobsandgeeks.saripaar.annotation.TextRule;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.contants.Constants;
@@ -271,9 +273,12 @@ public class CreateCounselorClassActivity extends BaseActivity implements View.O
 
     @Override
     public void onValidationSucceeded() {
-        if ("".equals(text_time_value.getText().toString())) {
+        String str=edit_class_name.getText().toString().trim();
+        if(length(str)>30){
+            Util.toastMsg("班级名称不能超过15个汉字");
+        }else if ("".equals(text_time_value.getText().toString())) {
             Util.toastMsg("请选择班级周期");
-        } else {
+        } else{
             Calendar rightNow = Calendar.getInstance();
             rightNow.setTime(start_time);
             rightNow.add(Calendar.MONTH, 3);//日期加3个月
@@ -295,5 +300,38 @@ public class CreateCounselorClassActivity extends BaseActivity implements View.O
         validateLife.onValidationFailed(failedView, failedRule);
     }
 
+    private boolean isLetter(char c) {
+        int k = 0x80;
+        return c / k == 0 ? true : false;
+    }
+
+    private int length(String s) {
+        if (s == null)
+            return 0;
+        char[] c = s.toCharArray();
+        int len = 0;
+        for (int i = 0; i < c.length; i++) {
+            len++;
+            if (!isLetter(c[i])) {
+                len++;
+            }
+        }
+        return len;
+    }
+
+    /**
+     * 点击屏幕隐藏软键盘
+     **/
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (SoftInputUtil.isShouldHideKeyboard(v, ev)) {
+
+                SoftInputUtil.hideKeyboard(v.getWindowToken(), this);
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
 
 }

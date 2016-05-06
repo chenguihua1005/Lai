@@ -25,11 +25,14 @@
     <color name="word9">#c0c0c0</color>
     <color name="word10">#fff27d</color>
     <color name="word11">#da2213</color>
+    <color name="word12">#CCCCCC</color>
+    <color name="word13">#b3b3b3</color>
     <color name="textCursor">#ff346df5</color>
     <color name="grey_bg">#f6f6f6</color>
     <color name="grey2">#e6e6e6</color>
     <color name="grey3">#CCCCCC</color>
     <color name="grey4">#F7F7F7</color>
+    <color name="grey5">#c9c8ce</color>
     <color name="editorText">#75ba2b</color>
 
 </resources>

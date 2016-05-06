@@ -159,6 +159,17 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
         dialogShow("数据刷新中...");
         iTiGuanSai.doGetTotal(progressDialog);
     }
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        iTiGuanSai.doGetFuceNum(loginid);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        iTiGuanSai.doGetFuceNum(loginid);
+    }
 
     @Override
     public void onClick(View v) {
@@ -242,7 +253,9 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
             }
             break;
             case R.id.im_refresh:
-                dialogShow("数据刷新中...");
+                progressDialog.setCanceledOnTouchOutside(false);
+                progressDialog.setMessage("数据刷新中...");
+                progressDialog.show();
                 iTiGuanSai.doGetTotal(progressDialog);
 //                final Animation rotate= AnimationUtils.loadAnimation(this,R.anim.rotate);
 //                im_refresh.startAnimation(rotate);

@@ -3,11 +3,11 @@ package com.softtek.lai.module.community.view;
 import android.content.Intent;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -17,6 +17,7 @@ import com.softtek.lai.module.community.model.DoZan;
 import com.softtek.lai.module.community.model.HealthyDynamicModel;
 import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.module.login.model.UserModel;
+import com.softtek.lai.module.lossweightstory.view.PictureActivity;
 import com.softtek.lai.module.studetail.adapter.LogDetailGridAdapter;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
@@ -39,7 +40,7 @@ import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_healthy_detail)
-public class HealthyDetailActivity extends BaseActivity implements View.OnClickListener {
+public class HealthyDetailActivity extends BaseActivity implements View.OnClickListener ,AdapterView.OnItemClickListener{
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -71,13 +72,14 @@ public class HealthyDetailActivity extends BaseActivity implements View.OnClickL
         tv_title.setText("动态详情");
         ll_left.setOnClickListener(this);
         cb_zan.setOnClickListener(this);
+        list_image.setOnItemClickListener(this);
     }
 
     @Override
     protected void initDatas() {
         service= ZillaApi.NormalRestAdapter.create(CommunityService.class);
         model=getIntent().getParcelableExtra("dynamicModel");
-        if(null!=model.getPhoto()&&"".equals(model.getPhoto())){
+        if(StringUtils.isNotEmpty(model.getPhoto())){
             Picasso.with(this).load(AddressManager.get("photoHost")+model.getPhoto())
                     .fit().error(R.drawable.img_default).into(header_image);
         }
@@ -207,4 +209,11 @@ public class HealthyDetailActivity extends BaseActivity implements View.OnClickL
         return super.onKeyDown(keyCode, event);
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent in=new Intent(this, PictureActivity.class);
+        in.putStringArrayListExtra("images", (ArrayList<String>) images);
+        in.putExtra("position",position);
+        startActivity(in);
+    }
 }

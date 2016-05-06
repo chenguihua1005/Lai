@@ -89,13 +89,14 @@ public class DimensionChartFragmentPC extends BaseFragment implements View.OnCli
         chart.setDragEnabled(true);
         chart.setScaleEnabled(true);
         chart.setPinchZoom(true);
+        chart.getLegend().setEnabled(false);//去除图例
 
         YAxis leftAxis = chart.getAxisLeft();
         leftAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
         leftAxis.setAxisMaxValue(150f);
         leftAxis.setAxisMinValue(0f);
         leftAxis.enableGridDashedLine(10f, 10f, 0f);
-        leftAxis.setDrawZeroLine(false);//不启用0轴的线
+        leftAxis.setDrawZeroLine(true);//不启用0轴的线
         chart.getAxisRight().setEnabled(false);//取消右边的轴线
         chart.setData(new LineData());//设置一个空数据
         radio_bust.setOnClickListener(this);
@@ -150,8 +151,8 @@ public class DimensionChartFragmentPC extends BaseFragment implements View.OnCli
                 //先判断这一次和上一次的差
                 int lastWeek = event.getModels().get(i - 1).getWeekDay();
                 if (week - lastWeek > 0) {
-                    //说明中间有断层则插入沿用上一次数据多少次
-                    addPreviousDate(event.getModels().get(i - 1), week - lastWeek);
+                    //说明中间有断层则插入空数据多少次
+                    addEmptyDate(week - lastWeek);
                 }
                 circumDatas.add(getFloat(model.getCircum()));
                 waistlineDatas.add(getFloat(model.getWaistline()));
@@ -163,11 +164,6 @@ public class DimensionChartFragmentPC extends BaseFragment implements View.OnCli
             }
         }
         chartUtil.addDataSet(circumDatas);
-        chartUtil.addDataSet(waistlineDatas);
-        chartUtil.addDataSet(hiplieDatas);
-        chartUtil.addDataSet(upLegGirthDatas);
-        chartUtil.addDataSet(upArmGirthDatas);
-        chartUtil.addDataSet(doLegGirthDatas);
     }
 
     private float getFloat(String str){
@@ -191,17 +187,7 @@ public class DimensionChartFragmentPC extends BaseFragment implements View.OnCli
             doLegGirthDatas.add(0f);
         }
     }
-    //插入上一次数据几次
-    private void addPreviousDate(StudentLinChartInfoModel lastModel,int n){
-        for(int i=0;i<n;i++){
-            circumDatas.add(getFloat(lastModel.getCircum()));
-            waistlineDatas.add(getFloat(lastModel.getWaistline()));
-            hiplieDatas.add(getFloat(lastModel.getHiplie()));
-            upArmGirthDatas.add(getFloat(lastModel.getUpArmGirth()));
-            upLegGirthDatas.add(getFloat(lastModel.getUpLegGirth()));
-            doLegGirthDatas.add(getFloat(lastModel.getDoLegGirth()));
-        }
-    }
+
 
     @Override
     public void onDestroyView() {
@@ -217,10 +203,7 @@ public class DimensionChartFragmentPC extends BaseFragment implements View.OnCli
     @Override
     public void onClick(View v) {
         if(old_radio_id==-1){
-            Log.i("old_radio_id等于-1？"+true);
             old_radio_id=R.id.radio_bust;
-        }else{
-            Log.i("old_radio_id等于-1？"+false);
         }
         int id=v.getId();
         ((CheckBox)v).setTextColor(Color.WHITE);

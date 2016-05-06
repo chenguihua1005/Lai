@@ -114,7 +114,7 @@ public class SelectPhotoActivity extends BaseActivity implements View.OnClickLis
                 count = 0;
                 text_count.setText("已选择"+count + "张");
                 list_all = list_info;
-                adapter = new SelectPhotoAdapter(this, list_info, new SelectPhotoAdapter.CallBack() {
+                adapter = new SelectPhotoAdapter(this, list_all, new SelectPhotoAdapter.CallBack() {
                     @Override
                     public void getResult(LogListModel logListModel) {
                         if (logListModel.getIsSelect()) {

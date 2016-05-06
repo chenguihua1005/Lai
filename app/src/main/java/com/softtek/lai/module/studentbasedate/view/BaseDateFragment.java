@@ -97,7 +97,7 @@ public class BaseDateFragment extends BaseFragment{
         classId=model.getClassId();
         tv_totle_lw.setText(model.getLossTotal()+"斤");
         tv_loss_before.setText(model.getLossBefore()+"斤");
-        tv_loss_after.setText(model.getLossAfter()+"斤");
+        tv_loss_after.setText(Float.parseFloat(model.getLossAfter())==0?"尚未复测":model.getLossAfter()+"斤");
         if(StringUtils.isNotEmpty(model.getLossBeforePhoto())){
             Picasso.with(getContext()).load(model.getLossBeforePhoto()).fit().placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_loss_before);
         }

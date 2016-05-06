@@ -10,15 +10,22 @@ import android.app.ProgressDialog;
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.content.ContentUris;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mobsandgeeks.saripaar.Rule;
@@ -32,10 +39,17 @@ import com.softtek.lai.module.counselor.model.ContactListInfoModel;
 import com.softtek.lai.module.counselor.presenter.IStudentPresenter;
 import com.softtek.lai.module.counselor.presenter.StudentImpl;
 import com.softtek.lai.module.login.model.UserModel;
+import com.softtek.lai.module.sport.adapter.GroupAdapter;
+import com.softtek.lai.module.sport.model.CityModel;
+import com.softtek.lai.module.sport.model.DxqModel;
+import com.softtek.lai.module.sport.model.GroupModel;
+import com.softtek.lai.module.sport.presenter.SportGroupManager;
 import com.softtek.lai.utils.ACache;
+import com.softtek.lai.widgets.WheelView;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
@@ -44,10 +58,10 @@ import zilla.libcore.ui.InjectLayout;
 
 /**
  * Created by jarvis.liu on 3/22/2016.
- * 邀请通讯录学员
+ * 加入跑团
  */
-@InjectLayout(R.layout.activity_invite_contant_list)
-public class JoinGroupActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener {
+@InjectLayout(R.layout.activity_join_group)
+public class JoinGroupActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener, SportGroupManager.GetGroupListCallBack {
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -56,65 +70,115 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
 
+    @InjectView(R.id.fl_right)
+    FrameLayout fl_right;
+
+    @InjectView(R.id.rel_dq)
+    RelativeLayout rel_dq;
+
+    @InjectView(R.id.rel_xq)
+    RelativeLayout rel_xq;
+
+    @InjectView(R.id.rel_cs)
+    RelativeLayout rel_cs;
+
+    @InjectView(R.id.iv_email)
+    ImageView iv_email;
+
+    @InjectView(R.id.img_dq)
+    ImageView img_dq;
+
+    @InjectView(R.id.img_xq)
+    ImageView img_xq;
+
+    @InjectView(R.id.img_cs)
+    ImageView img_cs;
+
     @InjectView(R.id.tv_title)
     TextView tv_title;
 
-    @InjectView(R.id.list_contant)
-    ListView list_contant;
+    @InjectView(R.id.text_dq)
+    TextView text_dq;
 
+    @InjectView(R.id.text_xq)
+    TextView text_xq;
 
-    private IStudentPresenter studentPresenter;
-    private ACache aCache;
-    private UserModel userModel;
-    private AsyncQueryHandler asyncQueryHandler; // 异步查询数据库类对象
+    @InjectView(R.id.text_cs)
+    TextView text_cs;
 
-    private static final String[] PHONES_PROJECTION = new String[]{
-            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Photo.PHOTO_ID, ContactsContract.CommonDataKinds.Phone.CONTACT_ID};
-    private String[] projection = {ContactsContract.CommonDataKinds.Phone._ID,
-            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
-            ContactsContract.CommonDataKinds.Phone.DATA1, "sort_key",
-            ContactsContract.CommonDataKinds.Phone.CONTACT_ID,
-            ContactsContract.CommonDataKinds.Phone.PHOTO_ID,
-            ContactsContract.CommonDataKinds.Phone.LOOKUP_KEY};
+    @InjectView(R.id.list_group)
+    ListView list_group;
 
+    List<GroupModel> group_list = new ArrayList<GroupModel>();
+    GroupAdapter adapter;
 
-    private ArrayList<ContactListInfoModel> contactListValue = new ArrayList<ContactListInfoModel>();
-    private ProgressDialog progressDialog;
+    SportGroupManager sportGroupManager;
+
+    List<String> dq_name_list;
+    List<String> dq_id_list;
+    String select_dq_name = "";
+    String select_dq_id = "";
+    int select_dq_posion = 0;
+    String select_dq_name_info = "";
+    String select_dq_id_info = "";
+    int select_dq_posion_info = 0;
+
+    List<String> xq_name_list;
+    List<String> xq_id_list;
+    String select_xq_name = "";
+    String select_xq_id = "";
+    int select_xq_posion = 0;
+    String select_xq_name_info = "";
+    String select_xq_id_info = "";
+    int select_xq_posion_info = 0;
+
+    List<String> city_name_list;
+    List<String> city_id_list;
+    String select_city_name = "";
+    String select_city_id = "";
+    int select_city_posion = 0;
+    String select_city_name_info = "";
+    String select_city_id_info = "";
+    int select_city_posion_info = 0;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ll_left.setOnClickListener(this);
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.setMessage(getResources().getString(zilla.libcore.R.string.dialog_loading));
-        progressDialog.setMessage("正在加载内容...");
-        progressDialog.show();
-        asyncQueryHandler = new MyAsyncQueryHandler(getContentResolver());
-
-        asyncQueryHandler.startQuery(0, null, ContactsContract.CommonDataKinds.Phone.CONTENT_URI, projection, null, null,
-                "sort_key COLLATE LOCALIZED asc");
-
-        InviteContantAdapter adapter = new InviteContantAdapter(this, contactListValue);
-        list_contant.setAdapter(adapter);
-
-
+        fl_right.setOnClickListener(this);
+        rel_dq.setOnClickListener(this);
+        rel_xq.setOnClickListener(this);
+        rel_cs.setOnClickListener(this);
+        list_group.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                GroupModel groupModel = group_list.get(position);
+                if ("1".equals(groupModel.getIsHasSonRG())) {
+                    Intent intent = new Intent(JoinGroupActivity.this, GroupSecActivity.class);
+                    intent.putExtra("type", "0");
+                    intent.putExtra("select_name", select_city_name + " > " + groupModel.getRGName());
+                    intent.putExtra("parent_name", groupModel.getRGName());
+                    intent.putExtra("id", groupModel.getRGId());
+                    startActivity(intent);
+                }
+            }
+        });
     }
 
     @Override
     protected void initViews() {
-        //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
-        tv_title.setText(R.string.joinGame);
-
+        tv_title.setText(R.string.gamestH);
+        iv_email.setImageResource(R.drawable.img_join_group_search);
     }
 
     @Override
     protected void initDatas() {
-        studentPresenter = new StudentImpl(this);
-        aCache = ACache.get(this, Constants.USER_ACACHE_DATA_DIR);
-
-
+        sportGroupManager = new SportGroupManager(this);
+        dialogShow("加载中");
+        dq_name_list = new ArrayList<String>();
+        dq_id_list = new ArrayList<String>();
+        sportGroupManager.getBregionList();
     }
 
     @Override
@@ -122,6 +186,27 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.ll_left:
                 finish();
+                break;
+
+            case R.id.fl_right:
+                startActivity(new Intent(this,GroupSearchActivity.class));
+                break;
+            case R.id.rel_dq:
+                showDaQuDialog();
+                break;
+            case R.id.rel_xq:
+                if ("选择大区".equals(text_dq.getText())) {
+
+                } else {
+                    showXiaoQuDialog();
+                }
+                break;
+            case R.id.rel_cs:
+                if ("选择小区".equals(text_xq.getText())) {
+
+                } else {
+                    showCityDialog();
+                }
                 break;
         }
     }
@@ -148,63 +233,250 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
 
     }
 
+    private void resetCity() {
+        text_cs.setTextColor(getResources().getColor(R.color.word));
+        text_cs.setText("选择城市");
+        img_cs.setImageResource(R.drawable.img_join_group_select);
 
-    /**
-     * @author jarvis
-     */
-    private class MyAsyncQueryHandler extends AsyncQueryHandler {
+        city_name_list = new ArrayList<String>();
+        city_id_list = new ArrayList<String>();
+        select_city_name = "";
+        select_city_id = "";
+        select_city_posion = 0;
+        select_city_name_info = "";
+        select_city_id_info = "";
+        select_city_posion_info = 0;
 
-        public MyAsyncQueryHandler(ContentResolver cr) {
-            super(cr);
-        }
+        list_group.setVisibility(View.GONE);
 
-        @Override
-        protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
-            if (cursor != null && cursor.getCount() > 0) {
-                cursor.moveToFirst(); // 游标移动到第一项
-                //得到手机号码
+    }
 
-                for (int i = 0; i < cursor.getCount(); i++) {
-                    cursor.moveToPosition(i);
-                    String name = cursor.getString(1);
-                    String number = cursor.getString(2);
-                    String sortKey = cursor.getString(3);
-                    int contactId = cursor.getInt(4);
-                    Long photoId = cursor.getLong(5);
-                    String lookUpKey = cursor.getString(6);
+    private void resetXQCity() {
+        text_xq.setTextColor(getResources().getColor(R.color.word));
+        text_xq.setText("选择小区");
+        img_xq.setImageResource(R.drawable.img_join_group_select);
+        text_cs.setTextColor(getResources().getColor(R.color.word12));
+        text_cs.setText("选择城市");
+        img_cs.setImageResource(R.drawable.img_join_group_selected);
 
+        xq_name_list = new ArrayList<String>();
+        xq_id_list = new ArrayList<String>();
+        select_xq_name = "";
+        select_xq_id = "";
+        select_xq_posion = 0;
+        select_xq_name_info = "";
+        select_xq_id_info = "";
+        select_xq_posion_info = 0;
 
-                    Bitmap contactPhoto = null;
+        city_name_list = new ArrayList<String>();
+        city_id_list = new ArrayList<String>();
+        select_city_name = "";
+        select_city_id = "";
+        select_city_posion = 0;
+        select_city_name_info = "";
+        select_city_id_info = "";
+        select_city_posion_info = 0;
 
+        list_group.setVisibility(View.GONE);
+    }
 
-                    //photoid 大于0 表示联系人有头像 如果没有给此人设置头像则给他一个默认的
-
-                    if (photoId > 0) {
-
-                        Uri uri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, contactId);
-
-                        InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(getContentResolver(), uri);
-
-                        contactPhoto = BitmapFactory.decodeStream(input);
-
-                    } else {
-
-                        contactPhoto = BitmapFactory.decodeResource(getResources(), R.drawable.img_default);
+    public void showDaQuDialog() {
+        final AlertDialog.Builder birdialog = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.dialog_select, null);
+        final WheelView wheel = (WheelView) view.findViewById(R.id.wheel);
+        select_dq_id_info = "";
+        select_dq_name_info = "";
+        select_dq_posion_info = 0;
+        wheel.setOffset(1);
+        wheel.setItems(dq_name_list);
+        wheel.setSeletion(select_dq_posion);
+        wheel.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
+            @Override
+            public void onSelected(int selectedIndex, String item) {
+                select_dq_id_info = dq_id_list.get(selectedIndex - 1);
+                select_dq_name_info = item;
+                select_dq_posion_info = selectedIndex - 1;
+            }
+        });
+        birdialog.setTitle("选择大区").setView(view)
+                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if ("".equals(select_dq_name_info) && "选择大区".equals(text_dq.getText().toString())) {
+                            select_dq_name = dq_name_list.get(0);
+                            select_dq_id = dq_id_list.get(0);
+                            select_dq_posion = 0;
+                            text_dq.setText(select_dq_name);
+                            resetXQCity();
+                            dialogShow("加载中");
+                            sportGroupManager.getSregionList(select_dq_id);
+                        }
+                        if (!"".equals(select_dq_name_info)) {
+                            select_dq_name = select_dq_name_info;
+                            select_dq_id = select_dq_id_info;
+                            select_dq_posion = select_dq_posion_info;
+                            text_dq.setText(select_dq_name);
+                            resetXQCity();
+                            dialogShow("加载中");
+                            sportGroupManager.getSregionList(select_dq_id);
+                        }
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
                     }
+                }).create()
+                .show();
+    }
 
-                    ContactListInfoModel contactListInfo = new ContactListInfoModel(contactPhoto, name, number);
-                    contactListValue.add(contactListInfo);
+    public void showXiaoQuDialog() {
+        final AlertDialog.Builder birdialog = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.dialog_select, null);
+        final WheelView wheel = (WheelView) view.findViewById(R.id.wheel);
+        select_xq_id_info = "";
+        select_xq_name_info = "";
+        select_xq_posion_info = 0;
+        wheel.setOffset(1);
+        wheel.setItems(xq_name_list);
+        wheel.setSeletion(select_xq_posion);
+        wheel.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
+            @Override
+            public void onSelected(int selectedIndex, String item) {
+                select_xq_id_info = xq_id_list.get(selectedIndex - 1);
+                select_xq_name_info = item;
+                select_xq_posion_info = selectedIndex - 1;
+            }
+        });
+        birdialog.setTitle("选择小区").setView(view)
+                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if ("".equals(select_xq_name_info) && "选择小区".equals(text_xq.getText().toString())) {
+                            select_xq_name = xq_name_list.get(0);
+                            select_xq_id = xq_id_list.get(0);
+                            select_xq_posion = 0;
+                            text_xq.setText(select_xq_name);
+                            resetCity();
+                            dialogShow("加载中");
+                            sportGroupManager.getCityList(select_xq_id);
+                        }
+                        if (!"".equals(select_xq_name_info)) {
+                            select_xq_name = select_xq_name_info;
+                            select_xq_id = select_xq_id_info;
+                            select_xq_posion = select_xq_posion_info;
+                            text_xq.setText(select_xq_name);
+                            resetCity();
+                            dialogShow("加载中");
+                            sportGroupManager.getCityList(select_xq_id);
+                        }
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
-                }
-                System.out.println("contactListValue:" + contactListValue);
-                progressDialog.dismiss();
-                super.onQueryComplete(token, cookie, cursor);
-            } else {
-                progressDialog.dismiss();
+                    }
+                }).create()
+                .show();
+    }
+
+    public void showCityDialog() {
+        final AlertDialog.Builder birdialog = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.dialog_select, null);
+        final WheelView wheel = (WheelView) view.findViewById(R.id.wheel);
+        select_city_id_info = "";
+        select_city_name_info = "";
+        select_city_posion_info = 0;
+        wheel.setOffset(1);
+        wheel.setItems(city_name_list);
+        wheel.setSeletion(select_city_posion);
+        wheel.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
+            @Override
+            public void onSelected(int selectedIndex, String item) {
+                select_city_id_info = city_id_list.get(selectedIndex - 1);
+                select_city_name_info = item;
+                select_city_posion_info = selectedIndex - 1;
+            }
+        });
+        birdialog.setTitle("选择城市").setView(view)
+                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if ("".equals(select_city_name_info) && "选择城市".equals(text_cs.getText().toString())) {
+                            select_city_name = city_name_list.get(0);
+                            select_city_id = city_id_list.get(0);
+                            select_city_posion = 0;
+                            text_cs.setText(select_city_name);
+                            dialogShow("加载中");
+                            sportGroupManager.getRGListByCity(select_city_id);
+                        }
+                        if (!"".equals(select_city_name_info)) {
+                            select_city_name = select_city_name_info;
+                            select_city_id = select_city_id_info;
+                            select_city_posion = select_city_posion_info;
+                            text_cs.setText(select_city_name);
+                            dialogShow("加载中");
+                            sportGroupManager.getRGListByCity(select_city_id);
+                        }
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }).create()
+                .show();
+    }
+
+
+    @Override
+    public void getBregionList(String type, List<DxqModel> list) {
+        dialogDissmiss();
+        if ("success".equals(type)) {
+            for (int i = 0; i < list.size(); i++) {
+                dq_name_list.add(list.get(i).getRegionName());
+                dq_id_list.add(list.get(i).getRegionId());
             }
         }
 
     }
 
+    @Override
+    public void getSregionList(String type, List<DxqModel> list) {
+        dialogDissmiss();
+        if ("success".equals(type)) {
+            for (int i = 0; i < list.size(); i++) {
+                xq_name_list.add(list.get(i).getRegionName());
+                xq_id_list.add(list.get(i).getRegionId());
+            }
+        }
+    }
+
+    @Override
+    public void getCityList(String type, List<CityModel> list) {
+        dialogDissmiss();
+        if ("success".equals(type)) {
+            for (int i = 0; i < list.size(); i++) {
+                city_name_list.add(list.get(i).getCityName());
+                city_id_list.add(list.get(i).getCityId());
+            }
+        }
+    }
+
+    @Override
+    public void getRGListByCity(String type, List<GroupModel> list) {
+        dialogDissmiss();
+        if ("success".equals(type)) {
+            group_list = list;
+            list_group.setVisibility(View.VISIBLE);
+            adapter = new GroupAdapter(this, group_list);
+            list_group.setAdapter(adapter);
+        } else {
+            group_list = new ArrayList<GroupModel>();
+            list_group.setVisibility(View.GONE);
+        }
+    }
 }

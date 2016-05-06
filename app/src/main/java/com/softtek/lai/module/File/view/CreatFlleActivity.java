@@ -59,7 +59,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
     @LifeCircleInject
     ValidateLife validateLife;
 
-    @Required(order = 1, message = "请输入昵称")
+    @Required(order = 1, message = "请输入姓名")
     @InjectView(R.id.et_nickname)
     EditText et_nickname;
 
@@ -335,15 +335,15 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         final AlertDialog.Builder birdialog = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.dialog, null);
         final NumberPicker np = (NumberPicker) view.findViewById(R.id.numberPicker1);
-        np.setMaxValue(220);
+        np.setMaxValue(240);
         if (tv_sex.getText().toString().equals("男")) {
             np.setValue(170);
         } else if (tv_sex.getText().toString().equals("女")) {
             np.setValue(155);
         } else {
-            np.setValue(170);
+            np.setValue(155);
         }
-        np.setMinValue(50);
+        np.setMinValue(100);
         np.setWrapSelectorWheel(true);
         np.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         birdialog.setTitle("选择身高(单位：cm)").setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -365,15 +365,15 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         final AlertDialog.Builder birdialog = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.dialog, null);
         final NumberPicker np = (NumberPicker) view.findViewById(R.id.numberPicker1);
-        np.setMaxValue(220);
+        np.setMaxValue(400);
         if (tv_sex.getText().toString().equals("男")) {
             np.setValue(150);
         } else if (tv_sex.getText().toString().equals("女")) {
             np.setValue(100);
         } else {
-            np.setValue(150);
+            np.setValue(100);
         }
-        np.setMinValue(20);
+        np.setMinValue(60);
         np.setWrapSelectorWheel(false);
         np.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         birdialog.setTitle("选择体重(单位：斤)").setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -415,10 +415,10 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void addGrade() {
-        gradeList.add("男");
         gradeList.add("女");
-        gradeIDList.add("0");
+        gradeList.add("男");
         gradeIDList.add("1");
+        gradeIDList.add("0");
     }
 
 
@@ -446,6 +446,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                             grade_id = gradeIDList.get(0);
                         }
                         tv_sex.setText(select_grade);
+                        tv_sex.setError(null);
                         select_grade = "";
                     }
                 })

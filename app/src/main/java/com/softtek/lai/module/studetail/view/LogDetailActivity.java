@@ -3,6 +3,7 @@ package com.softtek.lai.module.studetail.view;
 import android.content.Intent;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,6 +16,7 @@ import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.lossweightstory.model.LogStoryDetailModel;
 import com.softtek.lai.module.lossweightstory.model.Zan;
 import com.softtek.lai.module.lossweightstory.presenter.LogStoryDetailManager;
+import com.softtek.lai.module.lossweightstory.view.PictureActivity;
 import com.softtek.lai.module.studetail.adapter.LogDetailGridAdapter;
 import com.softtek.lai.module.studetail.adapter.LossWeightLogAdapter;
 import com.softtek.lai.module.studetail.model.LossWeightLogModel;
@@ -25,6 +27,8 @@ import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.widgets.CustomGridView;
 import com.squareup.picasso.Picasso;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -34,10 +38,12 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_log_detail)
-public class LogDetailActivity extends BaseActivity implements View.OnClickListener,LogStoryDetailManager.LogStoryDetailManagerCallback{
+public class LogDetailActivity extends BaseActivity implements View.OnClickListener,LogStoryDetailManager.LogStoryDetailManagerCallback,
+        AdapterView.OnItemClickListener{
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -74,6 +80,7 @@ public class LogDetailActivity extends BaseActivity implements View.OnClickListe
         ll_left.setOnClickListener(this);
         cb_zan.setOnClickListener(this);
         tv_title.setText("日志详情");
+        cgv_list_image.setOnItemClickListener(this);
     }
 
     @Override
@@ -81,8 +88,8 @@ public class LogDetailActivity extends BaseActivity implements View.OnClickListe
         memberInfopresenter=new MemberInfoImpl(this,null);
         manager=new LogStoryDetailManager(this);
         log= (LossWeightLogModel) getIntent().getSerializableExtra("log");
-        if(log.getPhoto()!=null&&!log.getPhoto().equals("")){
-            Picasso.with(this).load(log.getPhoto()).placeholder(R.drawable.img_default)
+        if(StringUtils.isNotEmpty(log.getPhoto())){
+            Picasso.with(this).load(AddressManager.get("photoHost")+log.getPhoto()).fit().placeholder(R.drawable.img_default)
                     .error(R.drawable.img_default).into(civ_header_image);
         }
         tv_name.setText(log.getUserName());
@@ -190,5 +197,13 @@ public class LogDetailActivity extends BaseActivity implements View.OnClickListe
         }
         adapter.notifyDataSetChanged();
 
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent in=new Intent(this, PictureActivity.class);
+        in.putStringArrayListExtra("images", (ArrayList<String>) images);
+        in.putExtra("position",position);
+        startActivity(in);
     }
 }
