@@ -108,7 +108,7 @@ public class BustFragment extends BaseFragment implements RadioGroup.OnCheckedCh
         leftAxis.setDrawZeroLine(true);//不启用0轴的线
 
         chart.getAxisRight().setEnabled(false);//取消右边的轴线
-        
+
         chart.setData(new LineData());//设置一个空数据
         radio_group.setOnCheckedChangeListener(this);
         bt_left.setOnClickListener(this);
