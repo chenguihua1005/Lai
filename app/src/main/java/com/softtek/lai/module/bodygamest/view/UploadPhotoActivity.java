@@ -70,8 +70,8 @@ import zilla.libcore.ui.InjectLayout;
 public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBase.OnRefreshListener2<ListView>, View.OnClickListener, AdapterView.OnItemClickListener, DownloadManager.DownloadCallBack
         , PhotoListIml.PhotoListCallback, ImageFileCropSelector.Callback {
     //toolbar标题栏
-    @InjectView(R.id.tv_left)
-    TextView tv_left;
+    @InjectView(R.id.ll_left)
+    TextView ll_left;
     @InjectView(R.id.tv_title)
     TextView tv_title;
     //    @InjectView(R.id.imtest)
@@ -157,7 +157,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         tv_title.setText("上传照片");
         tv_right.setText("分享");
         //监听点击事件
-        tv_left.setOnClickListener(this);
+        ll_left.setOnClickListener(this);
 
         fl_right.setOnClickListener(this);
         ptrlvlist.setMode(PullToRefreshBase.Mode.BOTH);
@@ -220,7 +220,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tv_left:
+            case R.id.ll_left:
                 finish();
                 break;
             case R.id.fl_right:
@@ -343,7 +343,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         if (downPhotoModel.getUserName() != null) {
 //            tv_downphoto_nick.setText(downPhotoModel.getUserName());
             if (!TextUtils.isEmpty(downPhotoModel.getPhoto())) {
-                Picasso.with(this).load("http://172.16.98.167/UpFiles/" + downPhotoModel.getPhoto()).fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(cir_downphoto_head_list);
+                Picasso.with(this).load(path + downPhotoModel.getPhoto()+"").fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(cir_downphoto_head_list);
             } else {
 
                 Picasso.with(this).load("www").placeholder(R.drawable.img_default).error(R.drawable.img_default).into(cir_downphoto_head_list);

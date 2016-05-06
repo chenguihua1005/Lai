@@ -127,19 +127,20 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
     }
     @Subscribe
     public void onEvent1(FuceNumModel fuceNum){
+        if (Integer.parseInt(fuceNum.getCount())==0||fuceNum.getCount().equals("")) {
+            tv_fucenum.setVisibility(View.GONE);
+        }
+        else
         if (Integer.parseInt(fuceNum.getCount())>10)
         {
             tv_fucenum.setVisibility(View.VISIBLE);
             tv_fucenum.setText("10+");
         }
-        else if (Integer.parseInt(fuceNum.getCount())!=10&&fuceNum.getCount()!=""){
+        else {
             tv_fucenum.setVisibility(View.VISIBLE);
             tv_fucenum.setText(fuceNum.getCount());
         }
-        else {
-            tv_fucenum.setVisibility(View.GONE);
 
-        }
 
     }
     @Subscribe

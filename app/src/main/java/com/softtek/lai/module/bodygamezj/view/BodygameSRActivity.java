@@ -167,13 +167,20 @@ public class BodygameSRActivity extends BaseActivity implements View.OnClickList
 
     @Subscribe
     public void onEvent1(FuceNumModel fuceNum) {
-        if (Integer.parseInt(fuceNum.getCount()) > 10) {
+        if (Integer.parseInt(fuceNum.getCount())==0||fuceNum.getCount().equals("")) {
+            tv_fucenumzj.setVisibility(View.GONE);
+        }
+        else
+        if (Integer.parseInt(fuceNum.getCount())>10)
+        {
             tv_fucenumzj.setVisibility(View.VISIBLE);
             tv_fucenumzj.setText("10+");
-        } else if (Integer.parseInt(fuceNum.getCount()) != 10 && fuceNum.getCount() != "") {
+        }
+        else {
             tv_fucenumzj.setVisibility(View.VISIBLE);
             tv_fucenumzj.setText(fuceNum.getCount());
         }
+        
 
     }
 
