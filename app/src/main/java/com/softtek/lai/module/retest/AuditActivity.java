@@ -147,6 +147,7 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
 
     UserInfoModel userInfoModel=UserInfoModel.getInstance();
     long loginid=Long.parseLong(userInfoModel.getUser().getUserid());
+    String gender="1";
     String accountid;
     private RetestPre retestPre;
     private RetestAuditModel retestAudit;
@@ -228,6 +229,7 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
         tv_audit_chu_weight.setText(Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getInitWeight())+"");
         tv_audit_nick.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getUserName());
         tv_audit_phone.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getMobile());
+        gender=retestAuditModelEvent.getRetestAuditModels().get(0).getGender();
         String StartDate=retestAuditModelEvent.getRetestAuditModels().get(0).getStartDate();
         String CurrStart=retestAuditModelEvent.getRetestAuditModels().get(0).getCurrStart();
         String CurrEnd=retestAuditModelEvent.getRetestAuditModels().get(0).getCurrEnd();
@@ -282,31 +284,37 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
 //                show_information("初始体重（斤）",600,100,20,9,0,0,0);
 //                break;
             case R.id.ll_retestAudit_nowweight:
-                show_information("现在体重（斤）",600,100,20,9,5,0,1);
+                if (gender.equals("1")) {
+                    show_information("现在体重（斤）", 400, 100, 60, 9, 0, 0, 1);
+                }
+                else
+                {
+                    show_information("现在体重（斤）", 400, 150, 60, 9, 0, 0, 1);
+                }
                 break;
             case R.id.ll_retestAudit_tizhi:
-                show_information("体脂（%）",99,50,0,9,5,0,2);
+                show_information("体脂（%）",50,25,1,9,0,0,2);
                 break;
             case R.id.ll_retestAudit_wasit:
-                show_information("胸围（CM）",200,50,0,9,5,0,3);
+                show_information("胸围（CM）",200,90,50,9,0,0,3);
                 break;
             case R.id.ll_retestAudit_yaowei:
-                show_information("腰围（CM）",200,50,0,9,5,0,4);
+                show_information("腰围（CM）",200,80,40,9,0,0,4);
                 break;
             case R.id.ll_retestAudit_tunwei:
-                show_information("臀围（CM）",200,50,0,9,5,0,5);
+                show_information("臀围（CM）",250,90,50,9,0,0,5);
                 break;
             case R.id.ll_retestAudit_upArmGirth:
-                show_information("上臂围（CM）",200,25,0,9,5,0,6);
+                show_information("上臂围（CM）",70,50,10,9,0,0,6);
                 break;
             case R.id.ll_retestAudit_upLegGirth:
-                show_information("大腿围（CM）",200,80,0,9,5,0,7);
+                show_information("大腿围（CM）",90,50,10,9,0,0,7);
                 break;
             case R.id.ll_retestAudit_doLegGirth:
-                show_information("小腿围（CM）",200,50,0,9,5,0,8);
+                show_information("小腿围（CM）",70,50,10,9,0,0,8);
                 break;
             case R.id.ll_retesrAudit_fat:
-                show_information("内脂",200,50,0,9,5,0,9);
+                show_information("内脂",30,2,1,9,0,0,9);
                 break;
             case R.id.ll_left:
                 finish();

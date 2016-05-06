@@ -192,11 +192,11 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
         np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np1.setMaxValue(200);
-        np1.setValue(50);
-        np1.setMinValue(0);
+        np1.setValue(90);
+        np1.setMinValue(50);
         np1.setWrapSelectorWheel(false);
         np2.setMaxValue(9);
-        np2.setValue(5);
+        np2.setValue(0);
         np2.setMinValue(0);
         np2.setWrapSelectorWheel(false);
 
@@ -221,11 +221,11 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
         np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np1.setMaxValue(200);
-        np1.setValue(50);
-        np1.setMinValue(0);
+        np1.setValue(80);
+        np1.setMinValue(40);
         np1.setWrapSelectorWheel(false);
         np2.setMaxValue(9);
-        np2.setValue(5);
+        np2.setValue(0);
         np2.setMinValue(0);
         np2.setWrapSelectorWheel(false);
 
@@ -249,12 +249,12 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
         final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
         np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-        np1.setMaxValue(200);
-        np1.setValue(50);
-        np1.setMinValue(0);
+        np1.setMaxValue(250);
+        np1.setValue(90);
+        np1.setMinValue(50);
         np1.setWrapSelectorWheel(false);
         np2.setMaxValue(9);
-        np2.setValue(5);
+        np2.setValue(0);
         np2.setMinValue(0);
         np2.setWrapSelectorWheel(false);
 
@@ -278,12 +278,12 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
         final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
         np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-        np1.setMaxValue(200);
+        np1.setMaxValue(70);
         np1.setValue(50);
-        np1.setMinValue(0);
+        np1.setMinValue(10);
         np1.setWrapSelectorWheel(false);
         np2.setMaxValue(9);
-        np2.setValue(5);
+        np2.setValue(0);
         np2.setMinValue(0);
         np2.setWrapSelectorWheel(false);
 
@@ -308,12 +308,12 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
         final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
         np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-        np1.setMaxValue(200);
+        np1.setMaxValue(90);
         np1.setValue(50);
-        np1.setMinValue(0);
+        np1.setMinValue(10);
         np1.setWrapSelectorWheel(false);
         np2.setMaxValue(9);
-        np2.setValue(5);
+        np2.setValue(0);
         np2.setMinValue(0);
         np2.setWrapSelectorWheel(false);
 
@@ -337,12 +337,12 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
         final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
         np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-        np1.setMaxValue(200);
+        np1.setMaxValue(70);
         np1.setValue(50);
-        np1.setMinValue(0);
+        np1.setMinValue(10);
         np1.setWrapSelectorWheel(false);
         np2.setMaxValue(9);
-        np2.setValue(5);
+        np2.setValue(0);
         np2.setMinValue(0);
         np2.setWrapSelectorWheel(false);
 

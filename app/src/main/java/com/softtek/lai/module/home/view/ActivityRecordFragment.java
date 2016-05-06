@@ -120,9 +120,13 @@ public class ActivityRecordFragment extends BaseFragment  {
     public boolean isRecycleFirst(){
         boolean result=true;
         if(ptrrv!=null&&adapter!=null){
-            LinearLayoutManager llm= (LinearLayoutManager) ptrrv.getLayoutManager();
-            int first=llm.findFirstVisibleItemPosition();
-            result= first==0?true:false;
+            if(infos.isEmpty()){
+                result=true;
+            }else{
+                LinearLayoutManager llm= (LinearLayoutManager) ptrrv.getLayoutManager();
+                int first=llm.findFirstVisibleItemPosition();
+                result= first==0?true:false;
+            }
 
         }else{
             result=true;
