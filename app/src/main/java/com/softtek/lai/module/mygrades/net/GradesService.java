@@ -1,5 +1,7 @@
 package com.softtek.lai.module.mygrades.net;
 
+import android.widget.ListView;
+
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.mygrades.model.DayRankModel;
 import com.softtek.lai.module.mygrades.model.GradesModel;
@@ -19,17 +21,18 @@ public interface GradesService {
       //2.19.1	我的成绩
     @GET("/StepCount/GetStepCount")
     void getStepCount(@Header("token") String token,
-                      Callback<ResponseData<GradesModel>> callback);
+                        Callback<ResponseData<List<GradesModel>>> callback);
 
     //2.19.3	当日排名
     @GET("/StepCount/GetCurrentDateOrder")
     void getCurrentDateOrder(@Header("token") String token,
-                             @Query("RGId")int RGId,
+                             @Query("RGIdType")int RGIdType,
                              Callback<ResponseData<DayRankModel>> callback);
 
     //2.19.4	当周排名
     @GET("/StepCount/GetCurrentWeekOrder")
     void getCurrentWeekOrder(@Header("token") String token,
+                             @Query("RGId")int RGId,
                              Callback<ResponseData<DayRankModel>> callback);
 
     //2.19.2	勋章详情页

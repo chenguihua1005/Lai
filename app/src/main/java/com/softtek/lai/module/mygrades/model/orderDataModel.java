@@ -2,6 +2,7 @@ package com.softtek.lai.module.mygrades.model;
 
 /**
  * Created by julie.zhu on 5/3/2016.
+ * 日排名
  */
 public class orderDataModel {
     private String AccountId;
