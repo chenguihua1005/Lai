@@ -136,6 +136,10 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
             tv_fucenum.setVisibility(View.VISIBLE);
             tv_fucenum.setText(fuceNum.getCount());
         }
+        else {
+            tv_fucenum.setVisibility(View.GONE);
+
+        }
 
     }
     @Subscribe
