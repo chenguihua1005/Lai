@@ -150,14 +150,15 @@ public class StudentModel{
                 ", OrderNum=" + OrderNum +
                 ", UserName='" + UserName + '\'' +
                 ", LossAfter='" + LossAfter + '\'' +
-                ", LossBefor='" + LossBefore + '\'' +
+                ", LossBefore='" + LossBefore + '\'' +
                 ", LossWeght='" + LossWeght + '\'' +
                 ", LossPercent='" + LossPercent + '\'' +
                 ", Pysical='" + Pysical + '\'' +
                 ", WaistlineAfter='" + WaistlineAfter + '\'' +
                 ", Waistlinebefore='" + Waistlinebefore + '\'' +
-                ", Lossline='" + lossline + '\'' +
+                ", lossline='" + lossline + '\'' +
                 ", Photo='" + Photo + '\'' +
+                ", IsTest=" + IsTest +
                 '}';
     }
 }

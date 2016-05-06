@@ -20,7 +20,6 @@ import android.widget.TextView;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
-import com.mobsandgeeks.saripaar.annotation.TextRule;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
@@ -65,14 +64,12 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
     @Required(order = 1,message = "请填写故事人")
     @InjectView(R.id.et_sender)
     EditText et_sender;
-    @Required(order = 2,message = "请填写故事标题")
-    @TextRule(order = 3,maxLength = 20,message = "标题不能超过20个字符")
     @InjectView(R.id.et_log_title)
     EditText et_log_title;
-    @Required(order = 4,message = "请填写减重后体重")
+    @Required(order = 2,message = "请填写减重后体重")
     @InjectView(R.id.et_weight_after)
     TextView tv_weight_after;
-    @Required(order = 5,message = "请填写说明")
+    @Required(order = 3,message = "请填写说明")
     @InjectView(R.id.et_content)
     EditText et_content;
     @InjectView(R.id.cgv)
@@ -93,6 +90,28 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
         cgv.setOnItemClickListener(this);
         tv_weight_after.setOnClickListener(this);
     }
+
+
+
+    private boolean isLetter(char c) {
+        int k = 0x80;
+        return c / k == 0 ? true : false;
+    }
+
+    public int length(String s) {
+        if (s == null)
+            return 0;
+        char[] c = s.toCharArray();
+        int len = 0;
+        for (int i = 0; i < c.length; i++) {
+            len++;
+            if (!isLetter(c[i])) {
+                len++;
+            }
+        }
+        return len;
+    }
+
 
     @Override
     protected void initDatas() {
@@ -168,7 +187,19 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.fl_right:
                 //发布日志按钮
-                validateLife.validate();
+                String tit=et_log_title.getText().toString();
+                if(StringUtils.isEmpty(tit)){
+                    new AlertDialog.Builder(this)
+                            .setMessage("请填写故事标题")
+                            .create().show();
+                }else if(length(tit)>50){
+                    new AlertDialog.Builder(this)
+                            .setMessage("标题不能超过25个汉字")
+                            .create().show();
+                }else{
+                    validateLife.validate();
+
+                }
                 break;
             case R.id.et_weight_after:
                 show_weight_dialog();

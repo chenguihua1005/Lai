@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.module.personalPK.model.PKListModel;
+import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.widgets.CircleImageView;
 
 import java.util.List;
@@ -19,6 +20,10 @@ import java.util.List;
  * Created by jerry.guan on 5/5/2016.
  */
 public class PKListAdapter extends BaseAdapter{
+
+    private static final int NAIXI=0;
+    private static final int NAIXICAO=1;
+    private static final int CUSTOM=2;
 
     private Context context;
     private List<PKListModel> datas;
@@ -54,6 +59,20 @@ public class PKListAdapter extends BaseAdapter{
             holder= (PKListHolder) convertView.getTag();
         }
         //绑定数据
+        PKListModel model=datas.get(position);
+        holder.cb_zan_left.setText(model.getChP());
+        holder.cb_zan_right.setText(model.getBChp());
+        holder.pk_name1.setText(model.getUserName());
+        holder.pk_name2.setText(model.getBUserName());
+        holder.tv_time.setText(DateUtil.getInstance().convertDateStr(model.getStart(),"yyyy年MM月dd日")+"——"+
+                DateUtil.getInstance().convertDateStr(model.getEnd(),"yyyy年MM月dd日"));
+        if(model.getChipType()==NAIXI){
+            holder.iv_jiangli.setBackgroundResource(R.drawable.pk_naixi);
+        }else if(model.getChipType()==NAIXICAO){
+            holder.iv_jiangli.setBackgroundResource(R.drawable.pk_list_naixicao);
+        }else{
+            //holder.iv_jiangli.setBackgroundResource(R.drawable.pk_list_);
+        }
         return convertView;
     }
 

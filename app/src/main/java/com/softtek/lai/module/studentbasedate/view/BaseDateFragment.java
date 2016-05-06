@@ -95,7 +95,7 @@ public class BaseDateFragment extends BaseFragment{
     public void updateData(StudentBaseInfoModel model){
         accountId=model.getAccountId();
         classId=model.getClassId();
-        tv_totle_lw.setText(model.getLossTotal()+"斤");
+        tv_totle_lw.setText(Float.parseFloat(model.getLossAfter())==0?"0斤":model.getLossTotal()+"斤");
         tv_loss_before.setText(model.getLossBefore()+"斤");
         tv_loss_after.setText(Float.parseFloat(model.getLossAfter())==0?"尚未复测":model.getLossAfter()+"斤");
         if(StringUtils.isNotEmpty(model.getLossBeforePhoto())){
