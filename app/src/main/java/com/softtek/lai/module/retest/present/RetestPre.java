@@ -27,7 +27,7 @@ public interface RetestPre {
 
     void doPostWrite(long accountId, long loginId, RetestWriteModel retestWriteModel,Context context);
 
-    void doPostAudit(String loginId, String accountId, String typeDate, RetestAuditModel retestAuditModel);
+    void doPostAudit(String loginId, String accountId, String typeDate, RetestAuditModel retestAuditModel,Context context);
 
     void goGetPicture(String filePath);
 

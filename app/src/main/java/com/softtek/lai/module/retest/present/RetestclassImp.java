@@ -169,6 +169,7 @@ public class RetestclassImp implements RetestPre{
                 int status = listResponseData.getStatus();
                 switch (status) {
                     case 200:
+
                         EventBus.getDefault().post(new RetestAuditModelEvent(listResponseData.getData()));
                         break;
                     case 500:
@@ -193,10 +194,8 @@ public class RetestclassImp implements RetestPre{
     public void doPostWrite(long accountId, long loginId, RetestWriteModel retestWrite, final Context context) {
         String token=SharedPreferenceService.getInstance().get("token","");
         service.doPostWrite(token, accountId, loginId, retestWrite, new Callback<ResponseData<RetestWriteModel>>() {
-
             @Override
-            public void success(ResponseData retestWriteResponseData, Response response) {
-
+            public void success(ResponseData<RetestWriteModel> retestWriteResponseData, Response response) {
 //                if(retestWriteResponseData!=null){
                     int status=retestWriteResponseData.getStatus();
                     switch (status)
@@ -213,25 +212,23 @@ public class RetestclassImp implements RetestPre{
                         case 302:
                             Util.toastMsg("本周复测记录已存在");
                             break;
-                            default:
-                                Util.toastMsg(retestWriteResponseData.getMsg());
-                                break;
+                        default:
+                            Util.toastMsg(retestWriteResponseData.getMsg());
+                            break;
                     }
-                }
-
-//            }
+//                }
+            }
 
             @Override
             public void failure(RetrofitError error) {
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
-
             }
         });
     }
 //复测审核提交
     @Override
-    public void doPostAudit(String loginId, String accountId, String typeDate, RetestAuditModel retestAudit) {
+    public void doPostAudit(String loginId, String accountId, String typeDate, RetestAuditModel retestAudit,final Context context) {
         String token=SharedPreferenceService.getInstance().get("token","");
         service.doPostAudit(token, loginId, accountId, typeDate, retestAudit, new Callback<ResponseData<RetestAuditModel>>() {
             @Override
@@ -240,6 +237,10 @@ public class RetestclassImp implements RetestPre{
                 switch (status)
                 {
                     case 200:
+                        Intent intent=((AppCompatActivity)context).getIntent();
+                        //intent.putExtra("story",model);
+                        ((AppCompatActivity)context).setResult(-1,intent);
+                        ((AppCompatActivity)context).finish();
                         Log.i("复测数据更新成功");
                         break;
                     case 201:

@@ -98,13 +98,13 @@ public class LegFragment extends BaseFragment implements RadioGroup.OnCheckedCha
         chart.setDragEnabled(true);
         chart.setScaleEnabled(true);
         chart.setPinchZoom(true);
-
+        chart.getLegend().setEnabled(false);//去除图例
         YAxis leftAxis = chart.getAxisLeft();
         leftAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
         leftAxis.setAxisMaxValue(100f);
         leftAxis.setAxisMinValue(0f);
         leftAxis.enableGridDashedLine(10f, 10f, 0f);
-        leftAxis.setDrawZeroLine(false);//不启用0轴的线
+        leftAxis.setDrawZeroLine(true);//不启用0轴的线
         chart.getAxisRight().setEnabled(false);//取消右边的轴线
         chart.setData(new LineData());//设置一个空数据
         radio_group.setOnCheckedChangeListener(this);
