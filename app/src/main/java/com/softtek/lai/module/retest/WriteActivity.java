@@ -158,6 +158,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
     RetestAuditModel retestAuditModel;
     private ImageFileSelector imageFileSelector;
     String path="";
+    String gender="1";
     UserInfoModel userInfoModel=UserInfoModel.getInstance();
     long loginid=Long.parseLong(userInfoModel.getUser().getUserid());
     String acountid;
@@ -248,6 +249,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         tv_write_chu_weight.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getInitWeight().equals("")?"":Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getInitWeight())+"");
         tv_write_nick.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getUserName());
         tv_write_phone.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getMobile());
+        gender=retestAuditModelEvent.getRetestAuditModels().get(0).getGender();
         String StartDate=retestAuditModelEvent.getRetestAuditModels().get(0).getStartDate();
         String CurrStart=retestAuditModelEvent.getRetestAuditModels().get(0).getCurrStart();
         String CurrEnd=retestAuditModelEvent.getRetestAuditModels().get(0).getCurrEnd();
@@ -317,17 +319,22 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
             //点击弹框事件
 
 
-            case R.id.tv_write_chu_weight:
-
-                break;
+//            case R.id.tv_write_chu_weight:
+//                break;
             case R.id.ll_retestWrite_nowweight:
-                show_information("现在体重（斤）",600,100,20,9,0,0,1);
+                if (gender.equals("1")) {
+                    show_information("现在体重（斤）", 400, 100, 60, 9, 0, 0, 1);
+                }
+                else
+                {
+                    show_information("现在体重（斤）", 400, 150, 60, 9, 0, 0, 1);
+                }
                 break;
             case R.id.ll_retestWrite_tizhi:
-                show_information("体脂（%）",99,50,0,9,5,0,2);
+                show_information("体脂（%）",50,25,1,9,0,0,2);
                 break;
             case R.id.ll_retestWrite_neizhi:
-                show_information("内脂",99,50,0,9,5,0,3);
+                show_information("内脂",30,2,1,9,0,0,3);
                 break;
 
 

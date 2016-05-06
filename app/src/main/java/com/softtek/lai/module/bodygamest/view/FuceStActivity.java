@@ -143,6 +143,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     @InjectView(R.id.selectlaichenst)
     CheckBox selectlaichenst;
     String path="";
+    String gender="1";
     private static final int PHOTO=1;
     private static final int GET_BODY=2;
 
@@ -237,8 +238,15 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
 //                break;
             case R.id.ll_fucest_nowweight:
                 if (isState.equals("true")) {
-                    show_information("现在体重（斤）", 600, 100, 20, 9, 0, 0, 1);
+                    if (gender.equals("1")) {
+                        show_information("现在体重（斤）", 400, 100, 20, 9, 0, 0, 1);
+                    }
+                    else
+                    {
+                        show_information("现在体重（斤）", 400, 150, 20, 9, 0, 0, 1);
+                    }
                 }
+
                 break;
             case R.id.ll_fucest_tizhi:
                 if (isState.equals("true")) {
@@ -287,6 +295,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         tv_writest_nick.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getUserName());
         Mobile=retestAuditModelEvent.getRetestAuditModels().get(0).getMobile();
         tv_writest_phone.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getMobile());
+        gender=retestAuditModelEvent.getRetestAuditModels().get(0).getGender();
         String StartDate=retestAuditModelEvent.getRetestAuditModels().get(0).getStartDate();
         String CurrStart=retestAuditModelEvent.getRetestAuditModels().get(0).getCurrStart();
         String CurrEnd=retestAuditModelEvent.getRetestAuditModels().get(0).getCurrEnd();
@@ -306,7 +315,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         else {
             Picasso.with(this).load("www").placeholder(R.drawable.img_default).error(R.drawable.img_default).fit().into(iv_writest_head);
         }
-        if (!retestAuditModelEvent.getRetestAuditModels().get(0).getTypeDate().equals("")) {
+        if (!TextUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getTypeDate())) {
             if (!(ConverToDate(retestAuditModelEvent.getRetestAuditModels().get(0).getTypeDate()).getTime() > ConverToDate(retestAuditModelEvent.getRetestAuditModels().get(0).getCurrStart()).getTime() &&
                     ConverToDate(retestAuditModelEvent.getRetestAuditModels().get(0).getTypeDate()).getTime() < ConverToDate(retestAuditModelEvent.getRetestAuditModels().get(0).getCurrEnd()).getTime())) {
                 retestPre.GetUserMeasuredInfo(moblie);
