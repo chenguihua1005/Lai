@@ -196,7 +196,7 @@ public class RetestclassImp implements RetestPre{
         service.doPostWrite(token, accountId, loginId, retestWrite, new Callback<ResponseData<RetestWriteModel>>() {
             @Override
             public void success(ResponseData<RetestWriteModel> retestWriteResponseData, Response response) {
-//                if(retestWriteResponseData!=null){
+                if(retestWriteResponseData!=null){
                     int status=retestWriteResponseData.getStatus();
                     switch (status)
                     {
@@ -216,7 +216,7 @@ public class RetestclassImp implements RetestPre{
                             Util.toastMsg(retestWriteResponseData.getMsg());
                             break;
                     }
-//                }
+                }
             }
 
             @Override
@@ -233,21 +233,23 @@ public class RetestclassImp implements RetestPre{
         service.doPostAudit(token, loginId, accountId, typeDate, retestAudit, new Callback<ResponseData<RetestAuditModel>>() {
             @Override
             public void success(ResponseData<RetestAuditModel> listResponseData, Response response) {
-                int status=listResponseData.getStatus();
-                switch (status)
-                {
-                    case 200:
-                        Intent intent=((AppCompatActivity)context).getIntent();
-                        //intent.putExtra("story",model);
-                        ((AppCompatActivity)context).setResult(-1,intent);
-                        ((AppCompatActivity)context).finish();
-                        Log.i("复测数据更新成功");
-                        break;
-                    case 201:
-                        Util.toastMsg("复测数据更新失败");
-                        break;
+                if(listResponseData!=null) {
+                    int status = listResponseData.getStatus();
+                    switch (status) {
+                        case 200:
+                            Intent intent = ((AppCompatActivity) context).getIntent();
+                            //intent.putExtra("story",model);
+                            ((AppCompatActivity) context).setResult(-1, intent);
+                            ((AppCompatActivity) context).finish();
+                            Log.i("复测数据更新成功");
+                            break;
+                        case 201:
+                            Util.toastMsg("复测数据更新失败");
+                            break;
+                    }
                 }
             }
+
 
             @Override
             public void failure(RetrofitError error) {

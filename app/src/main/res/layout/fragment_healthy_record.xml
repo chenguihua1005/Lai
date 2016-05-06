@@ -11,7 +11,8 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            >
 
             <include layout="@layout/no_login_tip" />
             <com.handmark.pulltorefresh.library.PullToRefreshScrollView
@@ -22,13 +23,15 @@
                 ptr:ptrMode="both"
                 ptr:ptrShowIndicator="false"
                 android:overScrollMode="never"
-                android:scrollbars="none">
+                android:scrollbars="none"
+                >
             <LinearLayout
                 android:id="@+id/ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="@color/white">
+                android:background="@color/white"
+                >
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -442,7 +445,7 @@
                         android:layout_alignParentLeft="true"
                         android:gravity="center|left"
                         android:paddingLeft="20dp"
-                        android:text="上臀围"
+                        android:text="上臂围"
                         android:textColor="#333333"
                         android:textSize="16sp" />
 
