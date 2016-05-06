@@ -222,11 +222,15 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
         if (Integer.parseInt(countWeekModel.getCount()) > 10) {
             tv_st_num.setVisibility(View.VISIBLE);
             tv_st_num.setText("10+");
-        } else if (Integer.parseInt(countWeekModel.getCount()) != 0&&countWeekModel.getCount()!=""){
+        } else if (Integer.parseInt(countWeekModel.getCount()) != 10&&countWeekModel.getCount()!=""){
             tv_st_num.setVisibility(View.VISIBLE);
             tv_st_num.setText(countWeekModel.getCount());
         }
+        else if (Integer.parseInt(countWeekModel.getCount())==0||countWeekModel.getCount().equals(""))
+        {
+            tv_st_num.setVisibility(View.GONE);
 
+        }
     }
     @Subscribe
     public void doGetTotol(List<TotolModel> totolModels){

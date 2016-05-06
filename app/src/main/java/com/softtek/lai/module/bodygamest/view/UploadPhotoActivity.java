@@ -339,6 +339,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     @Override
     public void getStroyList(DownPhotoModel downPhotoModel) {
         ptrlvlist.onRefreshComplete();
+        String path= AddressManager.get("photoHost");
         if (downPhotoModel.getUserName() != null) {
 //            tv_downphoto_nick.setText(downPhotoModel.getUserName());
             if (!TextUtils.isEmpty(downPhotoModel.getPhoto())) {
@@ -350,12 +351,12 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
             }
 
             if (!TextUtils.isEmpty(downPhotoModel.getBanner())) {
-                Picasso.with(this).load("http://172.16.98.167/UpFiles/" + downPhotoModel.getBanner()).fit().placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(im_uploadphoto_banner_list);
-                Picasso.with(this).load("http://172.16.98.167/UpFiles/" + downPhotoModel.getBanner()).fit().placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(im_uploadphoto_banner_list);
+                Picasso.with(this).load(path + downPhotoModel.getBanner()+"").fit().placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(im_uploadphoto_banner_list);
+
             } else {
 
                 Picasso.with(this).load("www").placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(im_uploadphoto_banner_list);
-                Picasso.with(this).load("www").placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(im_uploadphoto_banner_list);
+
 
             }
 
