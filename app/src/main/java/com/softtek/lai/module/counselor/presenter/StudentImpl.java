@@ -125,9 +125,6 @@ public class StudentImpl implements IStudentPresenter {
                             context.startActivity(intents);
                         }
                         break;
-                    case 100:
-                        Util.toastMsg("该班级将结束，无法邀请");
-                        break;
                     default:
                         Util.toastMsg(listResponseData.getMsg());
                         break;

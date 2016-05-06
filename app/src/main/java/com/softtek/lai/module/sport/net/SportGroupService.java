@@ -39,12 +39,18 @@ public interface SportGroupService {
     //获取城市列表
     @GET("/HerbSports/GetCityList")
     void getCityList(@Header(TOKEN) String token,
-                        @Query("SregionId") String sregionId,
-                        RequestCallback<ResponseData<List<CityModel>>> callback);
+                     @Query("SregionId") String sregionId,
+                     RequestCallback<ResponseData<List<CityModel>>> callback);
 
     //根据城市load跑团
     @GET("/HerbSports/GetRGListByCity")
     void getRGListByCity(@Header(TOKEN) String token,
-                        @Query("CityId") String cityId,
+                         @Query("CityId") String cityId,
+                         RequestCallback<ResponseData<List<GroupModel>>> callback);
+
+    //根据父级id获取跑团
+    @GET("/HerbSports/GetRGListByPId")
+    void getRGListByPId(@Header(TOKEN) String token,
+                        @Query("RgId") String rgId,
                         RequestCallback<ResponseData<List<GroupModel>>> callback);
 }

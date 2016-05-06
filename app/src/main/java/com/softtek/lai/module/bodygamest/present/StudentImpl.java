@@ -82,7 +82,6 @@ public class StudentImpl implements IStudentPresenter {
                 int status = countWeekModelResponseData.getStatus();
                 switch (status) {
                     case 200:
-                        System.out.println(countWeekModelResponseData);
                         EventBus.getDefault().post(countWeekModelResponseData.getData());
                         break;
                     default:

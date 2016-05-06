@@ -27,6 +27,13 @@ public class SportGroupManager {
     private SportGroupService service;
     private IsJoinRunGroupManagerCallBack isJoinRunGroupManagerCallBack;
     private GetGroupListCallBack getGroupListCallBack;
+    private GetRGListCallBack getRGListCallBack;
+
+    public SportGroupManager(GetRGListCallBack getRGListCallBack) {
+        this.getRGListCallBack = getRGListCallBack;
+        token = UserInfoModel.getInstance().getToken();
+        service = ZillaApi.NormalRestAdapter.create(SportGroupService.class);
+    }
 
     public SportGroupManager(IsJoinRunGroupManagerCallBack isJoinRunGroupManagerCallBack) {
         this.isJoinRunGroupManagerCallBack = isJoinRunGroupManagerCallBack;
@@ -80,6 +87,9 @@ public class SportGroupManager {
                     case 200:
                         getGroupListCallBack.getBregionList("success", listResponseData.getData());
                         break;
+                    case 100:
+                        getGroupListCallBack.getBregionList("fail", new ArrayList<DxqModel>());
+                        break;
                     default:
                         getGroupListCallBack.getBregionList("fail", new ArrayList<DxqModel>());
                         Util.toastMsg(listResponseData.getMsg());
@@ -106,6 +116,9 @@ public class SportGroupManager {
                 switch (status) {
                     case 200:
                         getGroupListCallBack.getSregionList("success", listResponseData.getData());
+                        break;
+                    case 100:
+                        getGroupListCallBack.getSregionList("fail", new ArrayList<DxqModel>());
                         break;
                     default:
                         getGroupListCallBack.getSregionList("fail", new ArrayList<DxqModel>());
@@ -134,6 +147,10 @@ public class SportGroupManager {
                     case 200:
                         getGroupListCallBack.getCityList("success", listResponseData.getData());
                         break;
+
+                    case 100:
+                        getGroupListCallBack.getCityList("fail", new ArrayList<CityModel>());
+                        break;
                     default:
                         getGroupListCallBack.getCityList("fail", new ArrayList<CityModel>());
                         Util.toastMsg(listResponseData.getMsg());
@@ -161,6 +178,9 @@ public class SportGroupManager {
                     case 200:
                         getGroupListCallBack.getRGListByCity("success", listResponseData.getData());
                         break;
+                    case 100:
+                        getGroupListCallBack.getRGListByCity("fail", new ArrayList<GroupModel>());
+                        break;
                     default:
                         getGroupListCallBack.getRGListByCity("fail", new ArrayList<GroupModel>());
                         Util.toastMsg(listResponseData.getMsg());
@@ -178,9 +198,44 @@ public class SportGroupManager {
         });
     }
 
+    public void getRGListByPId(String rgId) {
+        service.getRGListByPId(token, rgId, new RequestCallback<ResponseData<List<GroupModel>>>() {
+            @Override
+            public void success(ResponseData<List<GroupModel>> listResponseData, Response response) {
+                Log.e("jarvis", listResponseData.toString());
+                int status = listResponseData.getStatus();
+                switch (status) {
+                    case 200:
+                        getRGListCallBack.getRGList("success", listResponseData.getData());
+                        break;
+                    case 100:
+                        getRGListCallBack.getRGList("fail", new ArrayList<GroupModel>());
+                        break;
+                    default:
+                        getRGListCallBack.getRGList("fail", new ArrayList<GroupModel>());
+                        Util.toastMsg(listResponseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                if (getRGListCallBack != null) {
+                    getRGListCallBack.getRGList("fail", new ArrayList<GroupModel>());
+                }
+                ZillaApi.dealNetError(error);
+            }
+        });
+    }
+
     public interface IsJoinRunGroupManagerCallBack {
 
         void isJoinRunGroup(boolean b);
+    }
+
+    public interface GetRGListCallBack {
+
+        void getRGList(String type, List<GroupModel> list);
     }
 
     public interface GetGroupListCallBack {

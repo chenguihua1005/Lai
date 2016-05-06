@@ -31,6 +31,7 @@ import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.File.view.CreatFlleActivity;
 import com.softtek.lai.module.bodygame.view.CounselorActivity;
 import com.softtek.lai.module.bodygamecc.view.BodyGameCcActivity;
 import com.softtek.lai.module.bodygamest.model.HasClass;
@@ -232,11 +233,11 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
             toolbar.setVisibility(View.GONE);
         }*/
 
-        ActivityRecordFragment recordFragment=((ActivityRecordFragment) fragments.get(0));
-        if(recordFragment!=null){
-            if(recordFragment.isRecycleFirst()&&verticalOffset>=0){
+        ActivityRecordFragment recordFragment = ((ActivityRecordFragment) fragments.get(0));
+        if (recordFragment != null) {
+            if (recordFragment.isRecycleFirst() && verticalOffset >= 0) {
                 pull.setEnabled(true);
-            }else{
+            } else {
                 pull.setEnabled(false);
             }
         }
@@ -482,7 +483,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         if (b) {
 
         } else {
-            startActivity(new Intent(getContext(),JoinGroupActivity.class));
+            startActivity(new Intent(getContext(), JoinGroupActivity.class));
         }
     }
 
