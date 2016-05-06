@@ -1,8 +1,6 @@
 package com.softtek.lai.module.personalPK.view;
 
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
@@ -28,16 +26,13 @@ import zilla.libcore.ui.InjectLayout;
  * 莱运动全国挑战赛列表
  */
 @InjectLayout(R.layout.activity_pklist)
-public class PKListActivity extends BaseActivity implements View.OnClickListener,AdapterView.OnItemClickListener,PullToRefreshBase.OnRefreshListener2<ListView>{
+public class PKListMineActivity extends BaseActivity implements View.OnClickListener,AdapterView.OnItemClickListener,PullToRefreshBase.OnRefreshListener2<ListView>{
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.tv_title)
     TextView tv_title;
-    @InjectView(R.id.iv_email)
-    ImageView iv_email;
-    @InjectView(R.id.fl_right)
-    FrameLayout fl_right;
+
     @InjectView(R.id.img_mo_message)
     ImageView img_mo_message;
 
@@ -51,10 +46,8 @@ public class PKListActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     protected void initViews() {
-        tv_title.setText("PK挑战列表");
-        iv_email.setBackgroundResource(R.drawable.pk_list_mine);
+        tv_title.setText("我的PK挑战列表");
         ll_left.setOnClickListener(this);
-        fl_right.setOnClickListener(this);
         ptrlv.setOnItemClickListener(this);
         ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
         ptrlv.setOnRefreshListener(this);
@@ -73,9 +66,7 @@ public class PKListActivity extends BaseActivity implements View.OnClickListener
             case R.id.ll_left:
                 finish();
                 break;
-            case R.id.fl_right:
-                //我的挑战
-                break;
+
         }
     }
 

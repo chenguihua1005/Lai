@@ -128,7 +128,6 @@ public class PhotoListIml implements PhotoListPre {
 
                     case 200:
                         EventBus.getDefault().post(listResponseData.getData());
-                        Util.toastMsg("获取图片成功");
                         break;
                     case 500:
                         EventBus.getDefault().post(listResponseData.getData());
@@ -156,7 +155,6 @@ public class PhotoListIml implements PhotoListPre {
                 switch (status) {
                     case 200:
                         cb.uoploadPhotoSuccess(true, uploadPhotModelResponseData.getData().getImg());
-                        Util.toastMsg("上传成功");
                         break;
                     case 500:
                         cb.uoploadPhotoSuccess(false, null);

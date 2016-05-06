@@ -161,6 +161,8 @@
         <activity android:name=".module.studetail.view.LogDetailActivity" />
         <activity android:name=".module.tips.view.TipsActivity" />
         <activity android:name=".module.sport.view.JoinGroupActivity" />
+        <activity android:name=".module.sport.view.GroupSecActivity" />
+        <activity android:name=".module.sport.view.GroupThirdActivity" />
         <activity
             android:name="com.umeng.socialize.view.ShareActivity"
             android:configChanges="orientation|keyboard"
@@ -317,8 +319,10 @@
         <activity android:name=".module.jingdu.view.ZhuJiaoJingduActivity" />
         <activity android:name=".module.bodygamest.view.GuideActivity" />
         <activity android:name=".module.laisportmine.view.MyNewsActivity" />
-        <activity android:name=".module.personalPK.view.PKListActivity"></activity>
-        <activity android:name=".module.laisportmine.view.MyPublicwelfareActivity"></activity>
+        <activity android:name=".module.personalPK.view.PKListActivity" />
+        <activity android:name=".module.laisportmine.view.MyPublicwelfareActivity" />
+        <activity android:name=".module.personalPK.view.PKListMineActivity" />
+        <activity android:name=".module.personalPK.view.PKDetailActivity"></activity>
     </application>
 
 </manifest>
