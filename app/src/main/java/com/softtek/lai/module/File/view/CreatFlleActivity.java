@@ -59,7 +59,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
     @LifeCircleInject
     ValidateLife validateLife;
 
-    @Required(order = 1, message = "请输入昵称")
+    @Required(order = 1, message = "请输入姓名")
     @InjectView(R.id.et_nickname)
     EditText et_nickname;
 
@@ -446,6 +446,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                             grade_id = gradeIDList.get(0);
                         }
                         tv_sex.setText(select_grade);
+                        tv_sex.setError(null);
                         select_grade = "";
                     }
                 })

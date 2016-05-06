@@ -16,82 +16,80 @@
         android:id="@+id/toolbar"
         layout="@layout/toolbar" />
 
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/rel_dq"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin"
         android:layout_marginRight="@dimen/margin"
-        android:layout_marginTop="@dimen/joinGroupMarginTop"
-        android:orientation="vertical">
+        android:layout_marginTop="@dimen/joinGroupMarginTop">
 
-        <RelativeLayout
-            android:id="@+id/rel_dq"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/img_dq"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/img_join_group_selected" />
-
-            <TextView
-                android:id="@+id/text_dq"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/joinGroupMarginLeft"
-                android:text="选择大区"
-                android:textColor="@color/word12"
-                android:textSize="@dimen/textSize1" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/rel_xq"
+        <ImageView
+            android:id="@+id/img_dq"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/joinGroupMarginTop">
+            android:src="@drawable/img_join_group_select" />
 
-            <ImageView
-                android:id="@+id/img_xq"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/img_join_group_selected" />
-
-            <TextView
-                android:id="@+id/text_xq"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/joinGroupMarginLeft"
-                android:text="选择小区"
-                android:textColor="@color/word12"
-                android:textSize="@dimen/textSize1" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/rel_cs"
+        <TextView
+            android:id="@+id/text_dq"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/joinGroupMarginTop">
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/joinGroupMarginLeft"
+            android:text="选择大区"
+            android:textColor="@color/word"
+            android:textSize="@dimen/textSize1" />
+    </RelativeLayout>
 
-            <ImageView
-                android:id="@+id/img_cs"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/img_join_group_selected" />
+    <RelativeLayout
+        android:id="@+id/rel_xq"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="@dimen/margin"
+        android:layout_marginTop="@dimen/joinGroupMarginTop1">
 
-            <TextView
-                android:id="@+id/text_cs"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/joinGroupMarginLeft"
-                android:text="选择城市"
-                android:textColor="@color/word12"
-                android:textSize="@dimen/textSize1" />
-        </RelativeLayout>
-    </LinearLayout>
+        <ImageView
+            android:id="@+id/img_xq"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img_join_group_select" />
+
+        <TextView
+            android:id="@+id/text_xq"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/joinGroupMarginLeft"
+            android:text="选择小区"
+            android:textColor="@color/word"
+            android:textSize="@dimen/textSize1" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rel_cs"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="@dimen/margin"
+        android:layout_marginTop="@dimen/joinGroupMarginTop1">
+
+        <ImageView
+            android:id="@+id/img_cs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img_join_group_select" />
+
+        <TextView
+            android:id="@+id/text_cs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/joinGroupMarginLeft"
+            android:text="选择城市"
+            android:textColor="@color/word"
+            android:textSize="@dimen/textSize1" />
+    </RelativeLayout>
 
     <ListView
         android:id="@+id/list_group"
