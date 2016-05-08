@@ -442,10 +442,10 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                     startActivity(new Intent(getContext(), MessageActivity.class));
                 }
                 break;
-            case R.id.iv_email:
+          /*  case R.id.iv_email:
                 String userroles = UserInfoModel.getInstance().getUser().getUserrole();
                 if (String.valueOf(Constants.VR).equals(userroles)) {
-                    //提示用户让他注册或者直接进入2个功能的踢馆赛模块
+                    //提示用户让他登录或者直接进入2个功能的踢馆赛模块
                     AlertDialog.Builder information_dialog = null;
                     information_dialog = new AlertDialog.Builder(getContext());
                     information_dialog.setTitle("您当前处于游客模式，需要登录认证").setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
@@ -465,7 +465,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                 } else {
                     startActivity(new Intent(getContext(), MessageActivity.class));
                 }
-                break;
+                break;*/
         }
     }
 

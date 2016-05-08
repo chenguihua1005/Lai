@@ -1,9 +1,12 @@
 package com.softtek.lai.module.personalPK.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by jerry.guan on 5/5/2016.
  */
-public class PKListModel {
+public class PKListModel implements Parcelable{
 
     private long PKId;
     //发起挑战者
@@ -23,6 +26,36 @@ public class PKListModel {
     private int TStatus;
     private String Start;
     private String End;
+
+    protected PKListModel(Parcel in) {
+        PKId = in.readLong();
+        ChP = in.readInt();
+        Challenged = in.readLong();
+        Mobile = in.readString();
+        UserName = in.readString();
+        Photo = in.readString();
+        BeChallenged = in.readLong();
+        BUserName = in.readString();
+        BMobile = in.readString();
+        BPhoto = in.readString();
+        BChp = in.readInt();
+        ChipType = in.readInt();
+        TStatus = in.readInt();
+        Start = in.readString();
+        End = in.readString();
+    }
+
+    public static final Creator<PKListModel> CREATOR = new Creator<PKListModel>() {
+        @Override
+        public PKListModel createFromParcel(Parcel in) {
+            return new PKListModel(in);
+        }
+
+        @Override
+        public PKListModel[] newArray(int size) {
+            return new PKListModel[size];
+        }
+    };
 
     public int getTStatus() {
         return TStatus;
@@ -163,5 +196,29 @@ public class PKListModel {
                 ", Start='" + Start + '\'' +
                 ", End='" + End + '\'' +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(PKId);
+        dest.writeInt(ChP);
+        dest.writeLong(Challenged);
+        dest.writeString(Mobile);
+        dest.writeString(UserName);
+        dest.writeString(Photo);
+        dest.writeLong(BeChallenged);
+        dest.writeString(BUserName);
+        dest.writeString(BMobile);
+        dest.writeString(BPhoto);
+        dest.writeInt(BChp);
+        dest.writeInt(ChipType);
+        dest.writeInt(TStatus);
+        dest.writeString(Start);
+        dest.writeString(End);
     }
 }

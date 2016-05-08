@@ -13,17 +13,25 @@ import com.softtek.lai.R;
 import com.softtek.lai.module.personalPK.model.PKListModel;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.widgets.CircleImageView;
+import com.squareup.picasso.Picasso;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
+
+import zilla.libcore.file.AddressManager;
 
 /**
  * Created by jerry.guan on 5/5/2016.
  */
 public class PKListAdapter extends BaseAdapter{
 
-    private static final int NAIXI=0;
-    private static final int NAIXICAO=1;
-    private static final int CUSTOM=2;
+    public static final int NAIXI=0;
+    public static final int NAIXICAO=1;
+    public static final int CUSTOM=2;
+    public static final int NOSTART=0;
+    public static final int PROCESSING=1;
+    public static final int Completed=2;
 
     private Context context;
     private List<PKListModel> datas;
@@ -70,8 +78,32 @@ public class PKListAdapter extends BaseAdapter{
             holder.iv_jiangli.setBackgroundResource(R.drawable.pk_naixi);
         }else if(model.getChipType()==NAIXICAO){
             holder.iv_jiangli.setBackgroundResource(R.drawable.pk_list_naixicao);
-        }else{
+        }else if(model.getChipType()==CUSTOM){
             //holder.iv_jiangli.setBackgroundResource(R.drawable.pk_list_);
+        }
+        if(model.getTStatus()==NOSTART){
+            holder.tv_status.setBackgroundResource(R.drawable.pk_list_jingxingzhong);
+            holder.tv_status.setText("未开始");
+        }else if(model.getTStatus()==PROCESSING){
+            holder.tv_status.setBackgroundResource(R.drawable.pk_list_jingxingzhong);
+            holder.tv_status.setText("进行中");
+        }else if(model.getTStatus()==Completed){
+            holder.tv_status.setBackgroundResource(R.drawable.pk_list_jingxingzhong);
+            holder.tv_status.setText("已结束");
+        }
+        //载入头像
+        String path= AddressManager.get("photoHost");
+        if(StringUtils.isNotEmpty(model.getPhoto())){
+            Picasso.with(context).load(path+model.getPhoto()).fit()
+                    .placeholder(R.drawable.img_default)
+                    .error(R.drawable.img_default)
+                    .into(holder.sender1_header);
+        }
+        if(StringUtils.isNotEmpty(model.getBPhoto())){
+            Picasso.with(context).load(path+model.getPhoto()).fit()
+                    .placeholder(R.drawable.img_default)
+                    .error(R.drawable.img_default)
+                    .into(holder.sender2_header);
         }
         return convertView;
     }
