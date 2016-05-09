@@ -248,7 +248,7 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
         else {
             Picasso.with(this).load("www").placeholder(R.drawable.img_default).error(R.drawable.img_default).into(iv_audit_head);
         }
-        tv_audit_now_weight.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getWeight().equals("")?"":Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getWeight())+"");
+        tv_audit_now_weight.setText((retestAuditModelEvent.getRetestAuditModels().get(0).getWeight().equals("")?"":Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getWeight())+"").equals("0.0")?"":(retestAuditModelEvent.getRetestAuditModels().get(0).getWeight().equals("")?"":Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getWeight())+""));
         tv_retestAudit_tizhi.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getPysical().equals("")?"":Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getPysical())+"");
         tv_retesrAudit_fat.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getFat().equals("")?"":Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getFat())+"");
         tv_retestAudit_wasit.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getCircum().equals("")?"":Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getCircum())+"");
