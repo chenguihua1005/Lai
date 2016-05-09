@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.personalPK.adapter.PKListAdapter;
 import com.softtek.lai.module.personalPK.model.PKDetailMold;
 import com.softtek.lai.module.personalPK.model.PKListModel;
@@ -43,10 +44,6 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
     CircleImageView sender1_header;
     @InjectView(R.id.sender2_header)
     CircleImageView sender2_header;
-    @InjectView(R.id.sender1)
-    ImageView sender1;
-    @InjectView(R.id.sender2)
-    ImageView sender2;
     @InjectView(R.id.tv_pk_name1)
     TextView tv_pk_name1;
     @InjectView(R.id.tv_pk_name2)
@@ -95,6 +92,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
         tv_pk_name2.setText(model.getBUserName());
         cb_zan_left.setText(model.getChP()+"");
         cb_zan_right.setText(model.getBChp()+"");
+        btn_cancle_pk.setEnabled(false);//禁用取消PK挑战按钮
         tv_time.setText(DateUtil.getInstance().convertDateStr(model.getStart(),"yyyy年MM月dd日")+"——"+
                 DateUtil.getInstance().convertDateStr(model.getEnd(),"yyyy年MM月dd日"));
         if(model.getTStatus()== PKListAdapter.NOSTART){
@@ -202,6 +200,10 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
         }
         tv_bushu1.setText(model.getChaTotal()+"");
         tv_bushu2.setText(model.getBchaTotal()+"");
-
+        if(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid())==model.getChallenged()){
+            btn_cancle_pk.setEnabled(true);
+        }else{
+            btn_cancle_pk.setEnabled(false);
+        }
     }
 }

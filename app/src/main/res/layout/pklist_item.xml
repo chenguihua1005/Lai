@@ -59,6 +59,7 @@
         android:drawableLeft="@drawable/pk_list_zan_selector"
         android:checked="true"
         android:enabled="false"
+        android:textColor="#ffa200"
         android:text="5"
         android:drawablePadding="5dp"/>
 
@@ -88,6 +89,7 @@
         android:drawableLeft="@drawable/pk_list_zan_selector"
         android:checked="true"
         android:enabled="false"
+        android:textColor="#ffa200"
         android:text="5"
         android:drawablePadding="5dp"/>
 

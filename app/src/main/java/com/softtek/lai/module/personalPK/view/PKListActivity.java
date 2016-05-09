@@ -84,7 +84,7 @@ public class PKListActivity extends BaseActivity implements View.OnClickListener
                 break;
             case R.id.fl_right:
                 //我的挑战
-                startActivity(new Intent(this,PKDetailActivity.class));
+                startActivity(new Intent(this,PKListMineActivity.class));
                 break;
         }
     }

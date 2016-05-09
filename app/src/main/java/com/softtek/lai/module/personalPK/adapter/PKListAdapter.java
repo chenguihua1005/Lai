@@ -111,7 +111,7 @@ public class PKListAdapter extends BaseAdapter{
     static class PKListHolder{
         public TextView tv_status,tv_time,pk_name1,pk_name2;
         public CheckBox cb_zan_right,cb_zan_left;
-        public ImageView iv_jiangli,sender1,sender2;
+        public ImageView iv_jiangli,sender1;
         public CircleImageView sender1_header,sender2_header;
 
         public PKListHolder(View view){
@@ -123,7 +123,6 @@ public class PKListAdapter extends BaseAdapter{
             cb_zan_left= (CheckBox) view.findViewById(R.id.cb_zan_left);
             iv_jiangli= (ImageView) view.findViewById(R.id.iv_jiangli);
             sender1= (ImageView) view.findViewById(R.id.sender1);
-            sender2= (ImageView) view.findViewById(R.id.sender2);
             sender1_header= (CircleImageView) view.findViewById(R.id.sender1_header);
             sender2_header= (CircleImageView) view.findViewById(R.id.sender2_header);
 
