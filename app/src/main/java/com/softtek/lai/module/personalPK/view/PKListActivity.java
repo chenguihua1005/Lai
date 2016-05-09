@@ -68,6 +68,12 @@ public class PKListActivity extends BaseActivity implements View.OnClickListener
         manager=new PKListManager();
         adapter=new PKListAdapter(this,models);
         ptrlv.setAdapter(adapter);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ptrlv.setRefreshing();
+            }
+        }, 300);
     }
 
     @Override
@@ -78,6 +84,7 @@ public class PKListActivity extends BaseActivity implements View.OnClickListener
                 break;
             case R.id.fl_right:
                 //我的挑战
+                startActivity(new Intent(this,PKDetailActivity.class));
                 break;
         }
     }
@@ -135,6 +142,7 @@ public class PKListActivity extends BaseActivity implements View.OnClickListener
     }
 
     public void getModels(ResponseData<List<PKListModel>> model){
+        ptrlv.onRefreshComplete();
         if(model==null){
             pageIndex=--pageIndex<1?1:pageIndex;
             return;
