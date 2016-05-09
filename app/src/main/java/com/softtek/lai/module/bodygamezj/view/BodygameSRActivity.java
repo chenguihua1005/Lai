@@ -180,7 +180,7 @@ public class BodygameSRActivity extends BaseActivity implements View.OnClickList
             tv_fucenumzj.setVisibility(View.VISIBLE);
             tv_fucenumzj.setText(fuceNum.getCount());
         }
-        
+
 
     }
 
