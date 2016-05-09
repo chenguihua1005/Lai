@@ -68,8 +68,8 @@ public class PKListAdapter extends BaseAdapter{
         }
         //绑定数据
         PKListModel model=datas.get(position);
-        holder.cb_zan_left.setText(model.getChP());
-        holder.cb_zan_right.setText(model.getBChp());
+        holder.cb_zan_left.setText(model.getChP()+"");
+        holder.cb_zan_right.setText(model.getBChp()+"");
         holder.pk_name1.setText(model.getUserName());
         holder.pk_name2.setText(model.getBUserName());
         holder.tv_time.setText(DateUtil.getInstance().convertDateStr(model.getStart(),"yyyy年MM月dd日")+"——"+

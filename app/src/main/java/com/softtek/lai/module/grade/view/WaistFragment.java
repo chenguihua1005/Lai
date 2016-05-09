@@ -116,7 +116,7 @@ public class WaistFragment extends BaseFragment implements PullToRefreshBase.OnR
         this.studentModels.clear();
         for(int i=0;i<models.size();i++){
             StudentModel model=models.get(i);
-            if(model.getIsTest()!=0){
+            if(model.getIsTest()!=0&&model.getOrderNum()!=0){
                 this.studentModels.add(model);
             }
         }

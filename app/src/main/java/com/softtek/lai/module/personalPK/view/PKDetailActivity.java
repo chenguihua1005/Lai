@@ -81,8 +81,8 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
         PKListModel model=getIntent().getParcelableExtra("pkmodel");
         tv_pk_name1.setText(model.getUserName());
         tv_pk_name2.setText(model.getBUserName());
-        cb_zan_left.setText(model.getChP());
-        cb_zan_right.setText(model.getBChp());
+        cb_zan_left.setText(model.getChP()+"");
+        cb_zan_right.setText(model.getBChp()+"");
         tv_time.setText(DateUtil.getInstance().convertDateStr(model.getStart(),"yyyy年MM月dd日")+"——"+
                 DateUtil.getInstance().convertDateStr(model.getEnd(),"yyyy年MM月dd日"));
         if(model.getTStatus()== PKListAdapter.NOSTART){
@@ -146,5 +146,34 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
             return;
         }
         //更新数据
+        tv_pk_name1.setText(model.getUserName());
+        tv_pk_name2.setText(model.getBUserName());
+        cb_zan_left.setText(model.getChpcou()+"");
+        cb_zan_right.setText(model.getBchpcou()+"");
+        tv_time.setText(DateUtil.getInstance().convertDateStr(model.getStart(),"yyyy年MM月dd日")+"——"+
+                DateUtil.getInstance().convertDateStr(model.getEnd(),"yyyy年MM月dd日"));
+        if(model.getStatus()== PKListAdapter.NOSTART){
+            tv_status.setBackgroundResource(R.drawable.pk_list_jingxingzhong);
+            tv_status.setText("未开始");
+        }else if(model.getStatus()==PKListAdapter.PROCESSING){
+            tv_status.setBackgroundResource(R.drawable.pk_list_jingxingzhong);
+            tv_status.setText("进行中");
+            tv_is_accept.setText("以应战");
+        }else if(model.getStatus()==PKListAdapter.Completed){
+            tv_status.setBackgroundResource(R.drawable.pk_list_jingxingzhong);
+            tv_status.setText("已结束");
+            tv_is_accept.setText("以应战");
+        }
+        if(model.getChipType()==PKListAdapter.NAIXI){
+            iv_type.setBackgroundResource(R.drawable.pk_naixi);
+            tv_content.setText("");
+        }else if(model.getChipType()==PKListAdapter.NAIXICAO){
+            iv_type.setBackgroundResource(R.drawable.pk_list_naixicao);
+            tv_content.setText("");
+        }else if(model.getChipType()==PKListAdapter.CUSTOM){
+            //iv_type.setBackgroundResource(R.drawable.pk_list_);
+            tv_content.setText("");
+        }
+
     }
 }
