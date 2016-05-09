@@ -79,16 +79,16 @@ public class PKListAdapter extends BaseAdapter{
         }else if(model.getChipType()==NAIXICAO){
             holder.iv_jiangli.setBackgroundResource(R.drawable.pk_list_naixicao);
         }else if(model.getChipType()==CUSTOM){
-            //holder.iv_jiangli.setBackgroundResource(R.drawable.pk_list_);
+            holder.iv_jiangli.setBackgroundResource(R.drawable.pk_chouma);
         }
         if(model.getTStatus()==NOSTART){
-            holder.tv_status.setBackgroundResource(R.drawable.pk_list_jingxingzhong);
+            holder.tv_status.setBackgroundResource(R.drawable.pk_list_weikaishi);
             holder.tv_status.setText("未开始");
         }else if(model.getTStatus()==PROCESSING){
             holder.tv_status.setBackgroundResource(R.drawable.pk_list_jingxingzhong);
             holder.tv_status.setText("进行中");
         }else if(model.getTStatus()==Completed){
-            holder.tv_status.setBackgroundResource(R.drawable.pk_list_jingxingzhong);
+            holder.tv_status.setBackgroundResource(R.drawable.pk_list_yijieshu);
             holder.tv_status.setText("已结束");
         }
         //载入头像
