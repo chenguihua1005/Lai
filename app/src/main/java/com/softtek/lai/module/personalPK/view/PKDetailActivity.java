@@ -140,6 +140,8 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
         }
     }
 
+    //public static final int
+
     public void getPKDetail(PKDetailMold model){
         dialogDissmiss();
         if(model==null){
