@@ -13,6 +13,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:overScrollMode="never"
         android:scrollbars="none">
 
         <LinearLayout
@@ -69,8 +70,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom|right"
-                        android:src="@drawable/pk_list_wujiaoxin"
-                        android:visibility="gone"/>
+                        android:src="@drawable/pk_list_wujiaoxin" />
                 </FrameLayout>
 
                 <CheckBox
@@ -102,13 +102,6 @@
                         android:scaleType="centerCrop"
                         android:src="@drawable/img_default" />
 
-                    <ImageView
-                        android:id="@+id/sender2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom|left"
-                        android:src="@drawable/pk_list_wujiaoxin"
-                        android:visibility="gone"/>
                 </FrameLayout>
 
                 <CheckBox
@@ -210,9 +203,10 @@
                         android:text="0"/>
 
                     <TextView
+                        android:id="@+id/tv_unit1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="米"
+                        android:text="公里"
                         android:textColor="#75ba2b"
                         android:textSize="12sp" />
                 </LinearLayout>
@@ -234,9 +228,10 @@
                         android:textSize="18sp" />
 
                     <TextView
+                        android:id="@+id/tv_unit2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="米"
+                        android:text="公里"
                         android:textColor="#75ba2b"
                         android:textSize="12sp" />
                 </LinearLayout>
@@ -254,6 +249,41 @@
                 android:textColor="#333333"
                 android:textSize="15sp" />
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/white">
+
+                <ImageView
+                    android:id="@+id/iv_target_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="15dp"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_target_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/iv_target_icon"
+                    android:text="目标公里数:"
+                    android:textColor="#6f6f6f"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/tv_target"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="8dp"
+                    android:layout_toRightOf="@id/tv_target_content"
+                    android:textColor="#6f6f6f"
+                    android:textSize="10sp" />
+            </RelativeLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -269,7 +299,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|left"
-                    android:src="@drawable/pk_list_naixicao" />
+                    />
 
                 <TextView
                     android:id="@+id/tv_content"
@@ -298,7 +328,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerInParent="true"
                     android:layout_marginLeft="15dp"
-                    android:src="@drawable/pk_list_time_pic" />
+                    android:src="@drawable/pk_time_icon" />
 
                 <TextView
                     android:id="@+id/tv"

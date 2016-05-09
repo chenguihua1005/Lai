@@ -80,7 +80,7 @@ public class CounselorClassListActivity extends BaseActivity implements View.OnC
 
     @Override
     protected void initViews() {
-        tv_title.setText(R.string.CounselorA);
+        tv_title.setText("班级列表");
 
     }
 
