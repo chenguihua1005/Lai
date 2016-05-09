@@ -9,6 +9,7 @@ package com.softtek.lai.module.bodygamest.view;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -146,6 +147,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     String gender="1";
     private static final int PHOTO=1;
     private static final int GET_BODY=2;
+    private static final int BODY=3;
 
     private RetestPre retestPre;
     RetestWriteModel retestWrite;
@@ -188,6 +190,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         im_deletest.setOnClickListener(this);
         ll_left.setOnClickListener(this);
         tv_right.setOnClickListener(this);
+
 
     }
     //2016-03-28
@@ -250,31 +253,48 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
                 break;
             case R.id.ll_fucest_tizhi:
                 if (isState.equals("true")) {
-                    show_information("体脂（%）", 99, 50, 0, 9, 5, 0, 2);
+                    show_information("体脂（%）", 50, 25, 1, 9, 0, 0, 2);
                 }
                 break;
             case R.id.ll_retestWrite_neizhi:
                 if (isState.equals("true")) {
-                    show_information("内脂", 99, 50, 0, 9, 5, 0, 3);
+                    show_information("内脂", 30, 2, 1, 9, 0, 0, 3);
                 }
                 break;
             //拍照事件
             case R.id.im_retestwritest_takephoto:
+
                 if (isState.equals("true")) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setItems(items, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            if (which == 0) {
+                    SharedPreferences sharedPreferences = this.getSharedPreferences("share", MODE_PRIVATE);
+                    boolean isFirstRun = sharedPreferences.getBoolean("isFirstRun", true);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    if (isFirstRun)
+                    {
+                        Intent intent1=new Intent(this,GuideActivity.class);
+                        startActivityForResult(intent1,BODY);
+
+                        Log.d("debug", "第一次运行");
+                        editor.putBoolean("isFirstRun", false);
+                        editor.commit();
+                    } else
+                    {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                        builder.setItems(items, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (which == 0) {
 //                                takecamera();
-                                imageFileSelector.takePhoto(FuceStActivity.this);
-                            } else if (which == 1) {
-                                //照片
+                                    imageFileSelector.takePhoto(FuceStActivity.this);
+                                } else if (which == 1) {
+                                    //照片
 //                                takepic();
-                                imageFileSelector.selectImage(FuceStActivity.this);
+                                    imageFileSelector.selectImage(FuceStActivity.this);
+                                }
                             }
-                        }
-                    }).create().show();
+                        }).create().show();
+                        Log.d("debug", "不是第一次运行");
+                    }
+
                 }
 
                 break;
@@ -376,6 +396,22 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
             retestWrite = (RetestWriteModel) data.getSerializableExtra("retestWrite");
             Log.i("新学员录入围度:retestWrite" + retestWrite);
         }
+        if (requestCode == BODY && resultCode == RESULT_OK) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setItems(items, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (which == 0) {
+//                                takecamera();
+                        imageFileSelector.takePhoto(FuceStActivity.this);
+                    } else if (which == 1) {
+                        //照片
+//                                takepic();
+                        imageFileSelector.selectImage(FuceStActivity.this);
+                    }
+                }
+            }).create().show();
+        }
     }
     public void show_information(String title, int np1maxvalur, int np1value, int np1minvalue, int np2maxvalue, int np2value, int np2minvalue, final int num) {
         final AlertDialog.Builder information_dialog = new AlertDialog.Builder(this);
@@ -473,7 +509,9 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         retestWrite.setPysical(tv_retestWritest_tizhi.getText()+"");
         retestWrite.setFat(tv_retestWritest_neizhi.getText()+"");
         retestWrite.setAccountId(loginid+"");
+        Log.i(retestWrite.getImage()+"");
         retestPre.doPostWrite(loginid,loginid,retestWrite,this);
+
 
 
     }

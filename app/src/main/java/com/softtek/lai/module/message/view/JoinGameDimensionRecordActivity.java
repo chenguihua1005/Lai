@@ -28,6 +28,8 @@ import com.softtek.lai.module.newmemberentry.view.model.NewstudentsModel;
 import com.softtek.lai.module.retest.model.RetestWriteModel;
 import com.softtek.lai.utils.SoftInputUtil;
 
+import org.apache.commons.lang3.StringUtils;
+
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
@@ -137,22 +139,22 @@ public class JoinGameDimensionRecordActivity extends BaseActivity implements OnC
         } else {
             tv_title.setText("添加记录");
         }
-        if (!"".equals(getConfirmInfoModel.getCircum())) {
+        if (!StringUtils.isEmpty(getConfirmInfoModel.getCircum())) {
             tv_circum.setText(Double.parseDouble(getConfirmInfoModel.getCircum()) + "");
         }
-        if (!"".equals(getConfirmInfoModel.getWaistline())) {
+        if (!StringUtils.isEmpty(getConfirmInfoModel.getWaistline())) {
             tv_waistline.setText(Double.parseDouble(getConfirmInfoModel.getWaistline()) + "");
         }
-        if (!"".equals(getConfirmInfoModel.getHiplie())) {
+        if (!StringUtils.isEmpty(getConfirmInfoModel.getHiplie())) {
             tv_hiplie.setText(Double.parseDouble(getConfirmInfoModel.getHiplie()) + "");
         }
-        if (!"".equals(getConfirmInfoModel.getUpArmGirth())) {
+        if (!StringUtils.isEmpty(getConfirmInfoModel.getUpArmGirth())) {
             tv_uparmgirth.setText(Double.parseDouble(getConfirmInfoModel.getUpArmGirth()) + "");
         }
-        if (!"".equals(getConfirmInfoModel.getUpLegGirth())) {
+        if (!StringUtils.isEmpty(getConfirmInfoModel.getUpLegGirth())) {
             tv_upleggirth.setText(Double.parseDouble(getConfirmInfoModel.getUpLegGirth()) + "");
         }
-        if (!"".equals(getConfirmInfoModel.getDoLegGirth())) {
+        if (!StringUtils.isEmpty(getConfirmInfoModel.getDoLegGirth())) {
             tv_doleggirth.setText(Double.parseDouble(getConfirmInfoModel.getDoLegGirth()) + "");
         }
     }

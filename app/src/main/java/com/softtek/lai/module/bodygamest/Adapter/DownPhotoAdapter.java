@@ -1,6 +1,7 @@
 package com.softtek.lai.module.bodygamest.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,10 +13,14 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.module.bodygamest.model.DownPhotoModel;
 import com.softtek.lai.module.bodygamest.model.LogListModel;
+import com.softtek.lai.module.lossweightstory.view.PictureActivity;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import zilla.libcore.file.AddressManager;
 
 /**
  * Created by lareina.qiao on 3/31/2016.
@@ -62,6 +67,7 @@ public class DownPhotoAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
         ViewHolder viewHolder=null;
         if (convertView==null)
         {
@@ -85,10 +91,20 @@ public class DownPhotoAdapter extends BaseAdapter {
         }
         if(!TextUtils.isEmpty(logListModel.getImgUrl())){
             Picasso.with(context).load(logListModel.getImgUrl()).fit().placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(viewHolder.im_uploadphoto);
+
         }else{
             Picasso.with(context).load("www").placeholder(R.drawable.default_pic).fit().error(R.drawable.default_pic).into(viewHolder.im_uploadphoto);
         }
-
+        String path=logListModel.getImgUrl() ;
+//        Picasso.with(context).load(path+model.getPhoto()).fit()
+//                .placeholder(R.drawable.img_default).error(R.drawable.img_default).into(holder.civ_header_image);
+        ArrayList<String> list=new ArrayList<>();
+        String[] imgs=logListModel.getImgUrl().split("/");
+        list.add(imgs[imgs.length-1]);
+//        for(int i=0;i<imgs.length;i++){
+//            list.add(imgs[i]);
+//        }
+        visitableOrGone(viewHolder,list,path);
         return convertView;
     }
     class ViewHolder{
@@ -103,6 +119,33 @@ public class DownPhotoAdapter extends BaseAdapter {
 
         }
 
+    }
+    private void visitableOrGone(ViewHolder holder, final ArrayList<String> imgs, String path) {
+        for (int i = 0; i < imgs.size(); i++) {
+            final String uri=imgs.get(i);
+            switch (i + 1) {
+                case 1:
+
+                    holder.im_uploadphoto.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            start(imgs,0);
+                        }
+                    });
+                    Picasso.with(context).load(path).fit()
+                            .placeholder(R.drawable.default_pic)
+                            .error(R.drawable.default_pic)
+                            .into(holder.im_uploadphoto);
+                    break;
+
+            }
+        }
+    }
+    private void start(ArrayList<String> imgs,int position){
+        Intent in=new Intent(context, PictureActivity.class);
+        in.putStringArrayListExtra("images", imgs);
+        in.putExtra("position",position);
+        context.startActivity(in);
     }
     public String tomonth(String month){
 
