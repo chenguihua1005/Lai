@@ -326,7 +326,8 @@
         <activity android:name=".module.personalPK.view.PKListActivity" />
         <activity android:name=".module.laisportmine.view.MyPublicwelfareActivity" />
         <activity android:name=".module.personalPK.view.PKListMineActivity" />
-        <activity android:name=".module.personalPK.view.PKDetailActivity"></activity>
+        <activity android:name=".module.personalPK.view.PKDetailActivity" />
+        <activity android:name=".module.personalPK.view.CreatePKActivity"></activity>
     </application>
 
 </manifest>
