@@ -68,6 +68,7 @@ import com.softtek.lai.module.newmemberentry.view.presenter.NewStudentInputImpl;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.MD5;
 import com.softtek.lai.utils.SoftInputUtil;
+import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.WheelView;
 import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageCropper;
@@ -283,23 +284,9 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         et_nickname.setText(getConfirmInfoModel.getUserName());
         tv_class.setText(getConfirmInfoModel.getClassName());
         et_phone.setText(getConfirmInfoModel.getMobile());
-        if ("".equals(getConfirmInfoModel.getWeight()) || Double.parseDouble(getConfirmInfoModel.getWeight()) == 0) {
-            tv_weight.setText("");
-
-        } else {
-            tv_weight.setText(Double.parseDouble(getConfirmInfoModel.getWeight()) + "斤");
-        }
-        if ("".equals(getConfirmInfoModel.getPysical()) || Double.parseDouble(getConfirmInfoModel.getPysical()) == 0) {
-            tv_tizhi.setText("");
-        } else {
-            tv_tizhi.setText(Double.parseDouble(getConfirmInfoModel.getPysical()) + "%");
-        }
-
-        if ("".equals(getConfirmInfoModel.getFat()) || Double.parseDouble(getConfirmInfoModel.getFat()) == 0) {
-            tv_neizhi.setText("");
-        } else {
-            tv_neizhi.setText(Double.parseDouble(getConfirmInfoModel.getFat()) + "");
-        }
+        tv_weight.setText(StringUtil.getValue(getConfirmInfoModel.getWeight()) + "斤");
+        tv_tizhi.setText(StringUtil.getValue(getConfirmInfoModel.getPysical()) + "%");
+        tv_neizhi.setText(StringUtil.getValue(getConfirmInfoModel.getFat()) + "");
         tv_birthday.setText(getConfirmInfoModel.getBirthday());
         tv_sex.setText(getConfirmInfoModel.getGender().equals("0") ? "男" : "女");
     }

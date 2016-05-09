@@ -19,6 +19,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.module.bodygamest.model.StudentScripInfo;
 import com.softtek.lai.module.counselor.model.MarchInfoModel;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
+import com.softtek.lai.utils.StringUtil;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -97,12 +98,11 @@ public class StudentScoreAdapter extends BaseAdapter {
         }else {
             holder.text_rnum.setTextColor(context.getResources().getColor(R.color.word3));
         }
-
         holder.text_rnum.setText(marchInfo.getRowNumber().toString());
         holder.text_user_name.setText(marchInfo.getUserName().toString());
-        holder.text_before_weight.setText("前 " + marchInfo.getBeforeWeight() + "斤");
-        holder.text_after_weight.setText("后 " + marchInfo.getAfterWeight().toString() + "斤");
-        holder.text_lose_weight.setText(marchInfo.getLoss().toString());
+        holder.text_before_weight.setText("前 " + StringUtil.getFloatValue(marchInfo.getBeforeWeight()) + "斤");
+        holder.text_after_weight.setText("后 " + StringUtil.getFloatValue(marchInfo.getAfterWeight()) + "斤");
+        holder.text_lose_weight.setText(StringUtil.getFloatValue(marchInfo.getLoss()));
         if("上升".equals(marchInfo.getChange())){
             holder.img_state.setImageResource(R.drawable.img_score_up);
         }else if("下滑".equals(marchInfo.getChange())){

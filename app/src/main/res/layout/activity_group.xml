@@ -7,6 +7,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/grey4"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:context="com.softtek.lai.module.login.view.ForgetActivity">
@@ -15,277 +16,41 @@
         android:id="@+id/toolbar"
         layout="@layout/toolbar" />
 
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+    <LinearLayout
+        android:id="@+id/lin"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal">
 
-        <LinearLayout
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginBottom="10dip"
+            android:layout_marginLeft="@dimen/margin"
+            android:layout_marginRight="9dip"
+            android:layout_marginTop="10dip"
+            android:text="已选:"
+            android:textColor="@color/green1"
+            android:textSize="@dimen/textSize4" />
 
-            <RelativeLayout
-                android:id="@+id/rel_my_score"
-                android:layout_width="fill_parent"
-                android:layout_height="38dip"
-                android:background="@color/grey">
+        <TextView
+            android:id="@+id/text_name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="10dip"
+            android:layout_marginRight="@dimen/margin"
+            android:layout_marginTop="10dip"
+            android:lineSpacingExtra="3dip"
+            android:textColor="@color/green1"
+            android:textSize="@dimen/textSize4" />
+    </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/margin"
-                    android:text="我的成绩"
-                    android:textSize="@dimen/textSize1" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/margin"
-                    android:src="@drawable/img_group_main_more" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/img_group_main_start_sport" />
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="89dip"
-                        android:layout_weight="1"
-                        android:orientation="horizontal">
-
-                        <LinearLayout
-                            android:layout_width="0dip"
-                            android:layout_height="fill_parent"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="12000"
-                                android:textColor="@color/word14"
-                                android:textSize="@dimen/textSize11" />
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="13dip"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="@color/word3"
-                                    android:textSize="@dimen/textSize2"
-                                    android:text="今日步数" />
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="5dip"
-                                    android:src="@drawable/img_group_main_step" />
-                            </LinearLayout>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dip"
-                            android:layout_height="fill_parent"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:visibility="invisible">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="12000" />
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="今日步数" />
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:src="@drawable/img_group_main_step" />
-                            </LinearLayout>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dip"
-                            android:layout_height="fill_parent"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="12000"
-                                    android:textColor="@color/word14"
-                                    android:textSize="@dimen/textSize11" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="千卡"
-                                    android:textColor="@color/word14" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="13dip"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="@color/word3"
-                                    android:textSize="@dimen/textSize2"
-                                    android:text="消耗热量" />
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="5dip"
-                                    android:src="@drawable/img_group_main_xhrl" />
-                            </LinearLayout>
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="89dip"
-                        android:layout_weight="1"
-                        android:orientation="horizontal">
-
-                        <LinearLayout
-                            android:layout_width="0dip"
-                            android:layout_height="fill_parent"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="12000"
-                                android:textColor="@color/word14"
-                                android:textSize="@dimen/textSize11" />
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="13dip"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="@color/word3"
-                                    android:textSize="@dimen/textSize2"
-                                    android:text="今日排名" />
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="5dip"
-                                    android:src="@drawable/img_group_main_jrpm" />
-                            </LinearLayout>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dip"
-                            android:layout_height="fill_parent"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:visibility="invisible">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="12000" />
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="今日步数" />
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:src="@drawable/img_group_main_step" />
-                            </LinearLayout>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dip"
-                            android:layout_height="fill_parent"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="12000"
-                                android:textColor="@color/word14"
-                                android:textSize="@dimen/textSize11" />
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="13dip"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="@color/word3"
-                                    android:textSize="@dimen/textSize2"
-                                    android:text="获得勋章数" />
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="5dip"
-                                    android:src="@drawable/img_group_main_honor" />
-                            </LinearLayout>
-                        </LinearLayout>
-                    </LinearLayout>
-                </LinearLayout>
-            </RelativeLayout>
-        </LinearLayout>
-    </ScrollView>
+    <ListView
+        android:id="@+id/list_group"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="8dip"
+        android:scrollbars="none" />
 </LinearLayout>
