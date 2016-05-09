@@ -316,8 +316,8 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
             Picasso.with(this).load("www").placeholder(R.drawable.img_default).error(R.drawable.img_default).fit().into(iv_writest_head);
         }
         if (!TextUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getTypeDate())) {
-            if (!(ConverToDate(retestAuditModelEvent.getRetestAuditModels().get(0).getTypeDate()).getTime() > ConverToDate(retestAuditModelEvent.getRetestAuditModels().get(0).getCurrStart()).getTime() &&
-                    ConverToDate(retestAuditModelEvent.getRetestAuditModels().get(0).getTypeDate()).getTime() < ConverToDate(retestAuditModelEvent.getRetestAuditModels().get(0).getCurrEnd()).getTime())) {
+            if (!(ConverToDate(retestAuditModelEvent.getRetestAuditModels().get(0).getTypeDate()).getTime() >= ConverToDate(retestAuditModelEvent.getRetestAuditModels().get(0).getCurrStart()).getTime() &&
+                    ConverToDate(retestAuditModelEvent.getRetestAuditModels().get(0).getTypeDate()).getTime() <= ConverToDate(retestAuditModelEvent.getRetestAuditModels().get(0).getCurrEnd()).getTime())) {
                 retestPre.GetUserMeasuredInfo(moblie);
                 tv_right.setText("保存");
             } else {
