@@ -166,6 +166,7 @@
         <activity android:name=".module.sport.view.GroupFouthActivity" />
         <activity android:name=".module.sport.view.GroupFifthActivity" />
         <activity android:name=".module.sport.view.GroupSearchActivity" />
+        <activity android:name=".module.sport.view.GroupMainActivity" />
         <activity
             android:name="com.umeng.socialize.view.ShareActivity"
             android:configChanges="orientation|keyboard"

@@ -283,13 +283,23 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         et_nickname.setText(getConfirmInfoModel.getUserName());
         tv_class.setText(getConfirmInfoModel.getClassName());
         et_phone.setText(getConfirmInfoModel.getMobile());
-        tv_weight.setText(getConfirmInfoModel.getWeight() + "斤");
-        if ("".equals(getConfirmInfoModel.getPysical())) {
-            tv_tizhi.setText(getConfirmInfoModel.getPysical());
+        if ("".equals(getConfirmInfoModel.getWeight()) || Double.parseDouble(getConfirmInfoModel.getWeight()) == 0) {
+            tv_weight.setText("");
+
         } else {
-            tv_tizhi.setText(getConfirmInfoModel.getPysical() + "%");
+            tv_weight.setText(Double.parseDouble(getConfirmInfoModel.getWeight()) + "斤");
         }
-        tv_neizhi.setText(getConfirmInfoModel.getFat());
+        if ("".equals(getConfirmInfoModel.getPysical()) || Double.parseDouble(getConfirmInfoModel.getPysical()) == 0) {
+            tv_tizhi.setText("");
+        } else {
+            tv_tizhi.setText(Double.parseDouble(getConfirmInfoModel.getPysical()) + "%");
+        }
+
+        if ("".equals(getConfirmInfoModel.getFat()) || Double.parseDouble(getConfirmInfoModel.getFat()) == 0) {
+            tv_neizhi.setText("");
+        } else {
+            tv_neizhi.setText(Double.parseDouble(getConfirmInfoModel.getFat()) + "");
+        }
         tv_birthday.setText(getConfirmInfoModel.getBirthday());
         tv_sex.setText(getConfirmInfoModel.getGender().equals("0") ? "男" : "女");
     }
@@ -476,7 +486,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         np1.setMinValue(1);
         np1.setWrapSelectorWheel(false);
         np2.setMaxValue(9);
-        np2.setValue(5);
+        np2.setValue(0);
         np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np2.setMinValue(0);
         np2.setWrapSelectorWheel(false);
@@ -508,7 +518,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         np1.setMinValue(1);
         np1.setWrapSelectorWheel(false);
         np2.setMaxValue(9);
-        np2.setValue(5);
+        np2.setValue(0);
         np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np2.setMinValue(0);
         np2.setWrapSelectorWheel(false);
@@ -753,30 +763,38 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
     //体重对话框
     public void show_weight_dialog() {
         final AlertDialog.Builder birdialog = new AlertDialog.Builder(this);
-        View view = getLayoutInflater().inflate(R.layout.dialog, null);
-        final NumberPicker np = (NumberPicker) view.findViewById(R.id.numberPicker1);
-        np.setMaxValue(400);
+        View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
+        final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
+        final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
+        np1.setMaxValue(400);
         if (tv_sex.getText().toString().equals("男")) {
-            np.setValue(150);
+            np1.setValue(150);
         } else if (tv_sex.getText().toString().equals("女")) {
-            np.setValue(100);
+            np1.setValue(100);
         } else {
-            np.setValue(100);
+            np1.setValue(100);
         }
-        np.setMinValue(60);
-        np.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-        np.setWrapSelectorWheel(false);
+        np1.setMinValue(60);
+        np1.setWrapSelectorWheel(false);
+        np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+
+        np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        np2.setMaxValue(9);
+        np2.setValue(0);
+        np2.setMinValue(0);
+        np2.setWrapSelectorWheel(false);
+
         birdialog.setTitle("选择体重(单位：斤)").setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (np.getValue() < 80) {
+                if (np1.getValue() < 80) {
                     Dialog dialog1 = new AlertDialog.Builder(JoinGameDetailActivity.this)
                             .setMessage("体重单位为斤,是否确认数值?")
                             .setPositiveButton("确定",
                                     new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int which) {
-                                            tv_weight.setText(String.valueOf(np.getValue()) + "斤"); //set the value to textview
+                                            tv_weight.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()) + "斤");
                                             tv_weight.setError(null);
                                         }
                                     })
@@ -791,7 +809,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
                     dialog1.show();
                     dialog1.setCanceledOnTouchOutside(false);
                 } else {
-                    tv_weight.setText(String.valueOf(np.getValue()) + "斤"); //set the value to textview
+                    tv_weight.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()) + "斤");
                     tv_weight.setError(null);
                 }
                 dialog.dismiss();
@@ -801,8 +819,8 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
             public void onClick(DialogInterface dialog, int which) {
             }
         }).create().show();
-
     }
+
 
     public void show_class_dialog() {
         View outerView = LayoutInflater.from(this).inflate(R.layout.class_view, null);

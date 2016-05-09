@@ -5,6 +5,7 @@
 
 package com.softtek.lai.module.sport.adapter;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.softtek.lai.module.counselor.presenter.AssistantImpl;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 import com.softtek.lai.module.sport.model.GroupModel;
 import com.softtek.lai.module.sport.presenter.SportGroupManager;
+import com.softtek.lai.module.sport.view.GroupMainActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -102,6 +104,10 @@ public class GroupAdapter extends BaseAdapter {
                     @Override
                     public void joinRunGroup(boolean b) {
                         context.dialogDissmiss();
+                        if(b){
+                            Intent intent=new Intent(context, GroupMainActivity.class);
+                            context.startActivity(intent);
+                        }
                     }
                 });
             }
