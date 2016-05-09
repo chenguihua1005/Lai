@@ -277,9 +277,9 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                     intoBodyGamePage(role);
                     break;
                 case Constants.LAI_YUNDONG:
-                    startActivity(new Intent(getContext(), PKListActivity.class));
+                    //startActivity(new Intent(getContext(), PKListActivity.class));
                     //new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
-                    //sportGroupManager.isJoinRunGroup(UserInfoModel.getInstance().getUser().getUserid());
+                    sportGroupManager.isJoinRunGroup(UserInfoModel.getInstance().getUser().getUserid());
                     break;
                 case Constants.OFFICE:
                     new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();

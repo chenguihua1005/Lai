@@ -9,6 +9,7 @@ package com.softtek.lai.module.sport.view;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -20,6 +21,7 @@ import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.sport.adapter.GroupAdapter;
 import com.softtek.lai.module.sport.model.GroupModel;
 import com.softtek.lai.module.sport.presenter.SportGroupManager;
@@ -51,9 +53,6 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
     @InjectView(R.id.tv_title)
     TextView tv_title;
 
-    @InjectView(R.id.list_group)
-    ListView list_group;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +74,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_left:
-                finish();
+                startActivity(new Intent(this, HomeActviity.class));
                 break;
         }
     }
@@ -100,5 +99,13 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            startActivity(new Intent(this, HomeActviity.class));
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

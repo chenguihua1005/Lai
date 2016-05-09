@@ -100,7 +100,7 @@ public class StudentScoreAdapter extends BaseAdapter {
 
         holder.text_rnum.setText(marchInfo.getRowNumber().toString());
         holder.text_user_name.setText(marchInfo.getUserName().toString());
-        holder.text_before_weight.setText("前 " + marchInfo.getBeforeWeight().toString() + "斤");
+        holder.text_before_weight.setText("前 " + marchInfo.getBeforeWeight() + "斤");
         holder.text_after_weight.setText("后 " + marchInfo.getAfterWeight().toString() + "斤");
         holder.text_lose_weight.setText(marchInfo.getLoss().toString());
         if("上升".equals(marchInfo.getChange())){
