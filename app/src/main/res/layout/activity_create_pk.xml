@@ -3,212 +3,359 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:fitsSystemWindows="true"
+    android:orientation="vertical"
     tools:context="com.softtek.lai.module.personalPK.view.CreatePKActivity">
 
-    <include layout="@layout/toolbar"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="39dp"
-        android:textSize="15sp"
-        android:textColor="#333333"
-        android:text="PK挑战规则"
-        android:gravity="left"
-        android:background="#f1f1f1"
-        android:paddingTop="16dp"
-        android:paddingLeft="15dp"/>
+    <include layout="@layout/toolbar" />
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/white">
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="117dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="17dp">
-            <ImageView
-                android:id="@+id/km"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:src="@drawable/pk_km"/>
+        android:layout_height="match_parent"
+        android:overScrollMode="never"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#f1f1f1"
+            android:orientation="vertical">
+
 
             <TextView
-                android:id="@+id/tip1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/km"
-                android:layout_marginLeft="13dp"
-                android:layout_marginTop="2dp"
-                android:textSize="15sp"
+                android:layout_width="match_parent"
+                android:layout_height="39dp"
+                android:background="#f1f1f1"
+                android:gravity="left"
+                android:paddingLeft="15dp"
+                android:paddingTop="16dp"
+                android:text="PK挑战规则"
                 android:textColor="#333333"
-                android:text="目标公里数"/>
+                android:textSize="15sp" />
 
-            <TextView
-                android:id="@+id/tip2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#6f6f6f"
-                android:textSize="12sp"
-                android:layout_below="@id/tip1"
-                android:layout_marginTop="10dp"
-                android:layout_alignLeft="@id/tip1"
-                android:text="先达成所选里程的人即为赢家"/>
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="10dp"
-                android:layout_alignParentRight="true"
-                android:button="@drawable/radio_green_selector"/>
-
-            <RadioGroup
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tip2"
-                android:layout_marginTop="15dp"
-                android:orientation="horizontal"
-                android:layout_alignLeft="@id/tip2">
+                android:background="@color/white"
+                android:orientation="vertical">
 
-                <RadioButton
-                    android:layout_width="64dp"
-                    android:layout_height="29dp"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:text="5公里"
-                    android:textColor="#6f6f6f"
-                    android:textSize="14sp"
-                    android:background="@drawable/radio_green_selector_1"/>
-                <RadioButton
-                    android:layout_width="64dp"
-                    android:layout_height="29dp"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:text="10公里"
-                    android:textColor="#6f6f6f"
-                    android:textSize="14sp"
-                    android:layout_marginLeft="13dp"
-                    android:background="@drawable/radio_green_selector_1"/>
-                <RadioButton
-                    android:layout_width="64dp"
-                    android:layout_height="29dp"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:text="21公里"
-                    android:textColor="#6f6f6f"
-                    android:textSize="14sp"
-                    android:layout_marginLeft="13dp"
-                    android:background="@drawable/radio_green_selector_1"/>
-                <RadioButton
-                    android:layout_width="64dp"
-                    android:layout_height="29dp"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:text="42公里"
-                    android:textColor="#6f6f6f"
-                    android:textSize="14sp"
-                    android:layout_marginLeft="13dp"
-                    android:background="@drawable/radio_green_selector_1"/>
-            </RadioGroup>
-        </RelativeLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#f1f1f1"/>
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="70dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="17dp">
-            <ImageView
-                android:id="@+id/bushu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:src="@drawable/pk_bushu"/>
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="117dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="17dp">
+
+                    <ImageView
+                        android:id="@+id/km"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:src="@drawable/pk_km" />
+
+                    <TextView
+                        android:id="@+id/tip1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="13dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_toRightOf="@id/km"
+                        android:text="目标公里数"
+                        android:textColor="#333333"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/tip2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@id/tip1"
+                        android:layout_below="@id/tip1"
+                        android:layout_marginTop="10dp"
+                        android:text="先达成所选里程的人即为赢家"
+                        android:textColor="#6f6f6f"
+                        android:textSize="12sp" />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="10dp"
+                        android:button="@drawable/radio_green_selector" />
+
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@id/tip2"
+                        android:layout_below="@id/tip2"
+                        android:layout_marginTop="15dp"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:layout_width="64dp"
+                            android:layout_height="29dp"
+                            android:background="@drawable/radio_green_selector_1"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="5公里"
+                            android:textColor="#6f6f6f"
+                            android:textSize="14sp" />
+
+                        <RadioButton
+                            android:layout_width="64dp"
+                            android:layout_height="29dp"
+                            android:layout_marginLeft="13dp"
+                            android:background="@drawable/radio_green_selector_1"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="10公里"
+                            android:textColor="#6f6f6f"
+                            android:textSize="14sp" />
+
+                        <RadioButton
+                            android:layout_width="64dp"
+                            android:layout_height="29dp"
+                            android:layout_marginLeft="13dp"
+                            android:background="@drawable/radio_green_selector_1"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="21公里"
+                            android:textColor="#6f6f6f"
+                            android:textSize="14sp" />
+
+                        <RadioButton
+                            android:layout_width="64dp"
+                            android:layout_height="29dp"
+                            android:layout_marginLeft="13dp"
+                            android:background="@drawable/radio_green_selector_1"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="42公里"
+                            android:textColor="#6f6f6f"
+                            android:textSize="14sp" />
+                    </RadioGroup>
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#f1f1f1" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="70dp"
+                    android:background="@color/white"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="17dp">
+
+                    <ImageView
+                        android:id="@+id/bushu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:src="@drawable/pk_bushu" />
+
+                    <TextView
+                        android:id="@+id/tip3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="13dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_toRightOf="@id/bushu"
+                        android:text="总步数"
+                        android:textColor="#333333"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@id/tip3"
+                        android:layout_below="@id/tip3"
+                        android:layout_marginTop="10dp"
+                        android:text="在PK期限内，达成更多步数的人即为赢家"
+                        android:textColor="#6f6f6f"
+                        android:textSize="12sp" />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="10dp"
+                        android:button="@drawable/radio_green_selector" />
+                </RelativeLayout>
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/tip3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/bushu"
-                android:layout_marginLeft="13dp"
-                android:layout_marginTop="2dp"
-                android:textSize="15sp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="#f1f1f1"
+                android:gravity="left"
+                android:paddingLeft="15dp"
+                android:paddingTop="18dp"
+                android:text="PK挑战筹码"
                 android:textColor="#333333"
-                android:text="目标公里数"/>
+                android:textSize="15sp" />
 
-            <TextView
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#6f6f6f"
-                android:textSize="12sp"
-                android:layout_below="@id/tip3"
-                android:layout_marginTop="10dp"
-                android:layout_alignLeft="@id/tip3"
-                android:text="先达成所选里程的人即为赢家"/>
-            <RadioButton
+                android:layout_height="100dp"
+                android:background="@color/white"
+                android:paddingLeft="15dp">
+
+                <ImageView
+                    android:id="@+id/naixi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginTop="13dp"
+                    android:src="@drawable/pk_naixi" />
+
+                <TextView
+                    android:id="@+id/tip4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="13dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_toRightOf="@id/naixi"
+                    android:text="健康奶昔餐"
+                    android:textColor="#333333"
+                    android:textSize="15sp" />
+
+                <RadioButton
+                    android:id="@+id/rb_naixi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginRight="15dp"
+                    android:button="@drawable/radio_green_selector" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/tip4"
+                    android:layout_below="@id/tip4"
+                    android:layout_marginRight="45dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/naixi1"
+                    android:textColor="#6f6f6f"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="#f1f1f1" />
+
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
+                android:background="@color/white"
+                android:paddingLeft="15dp">
+
+                <ImageView
+                    android:id="@+id/naixicao"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="13dp"
+                    android:layout_alignParentLeft="true"
+                    android:src="@drawable/pk_list_naixicao" />
+
+                <TextView
+                    android:id="@+id/tip5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="13dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_toRightOf="@id/naixicao"
+                    android:text="摇摇奶昔操"
+                    android:textColor="#333333"
+                    android:textSize="15sp" />
+
+                <RadioButton
+                    android:id="@+id/rb_naixicao"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginRight="15dp"
+                    android:button="@drawable/radio_green_selector" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/tip5"
+                    android:layout_below="@id/tip5"
+                    android:layout_marginRight="45dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/naixicao1"
+                    android:textColor="#6f6f6f"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="11dp"
+                android:background="#f1f1f1" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="46dp"
+                android:background="@color/white"
+                android:paddingLeft="15dp">
+
+                <ImageView
+                    android:id="@+id/chouma"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentLeft="true"
+                    android:src="@drawable/pk_chouma" />
+
+                <TextView
+                    android:id="@+id/tip6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="13dp"
+                    android:layout_toRightOf="@id/chouma"
+                    android:layout_centerInParent="true"
+                    android:text="自由输入筹码"
+                    android:textColor="#333333"
+                    android:textSize="15sp" />
+
+                <RadioButton
+                    android:id="@+id/rb_zidingyi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginRight="15dp"
+                    android:button="@drawable/radio_green_selector" />
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="14dp"
+                android:background="#f1f1f1" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:background="@drawable/pk_chouma_editor_boder"
+                android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:layout_marginTop="10dp"
-                android:layout_alignParentRight="true"
-                android:button="@drawable/radio_green_selector"/>
-        </RelativeLayout>
-    </LinearLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:textSize="15sp"
-        android:textColor="#333333"
-        android:text="PK挑战筹码"
-        android:gravity="left"
-        android:background="#f1f1f1"
-        android:paddingTop="18dp"
-        android:paddingLeft="15dp"/>
+                android:hint="@string/pkchoumatip"
+                android:gravity="top"
+                android:textCursorDrawable="@drawable/color_cursor"
+                android:paddingLeft="20dp"
+                android:paddingTop="17dp"
+                android:paddingRight="20dp"
+                android:textSize="12sp"
+                android:textColor="#b3b3b3"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="#f1f1f1" />
 
-    <!--<RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="70dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="17dp">
-        <ImageView
-            android:id="@+id/bushu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:src="@drawable/pk_bushu"/>
-
-        <TextView
-            android:id="@+id/tip3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/bushu"
-            android:layout_marginLeft="13dp"
-            android:layout_marginTop="2dp"
-            android:textSize="15sp"
-            android:textColor="#333333"
-            android:text="目标公里数"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#6f6f6f"
-            android:textSize="12sp"
-            android:layout_below="@id/tip3"
-            android:layout_marginTop="10dp"
-            android:layout_alignLeft="@id/tip3"
-            android:text="先达成所选里程的人即为赢家"/>
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="10dp"
-            android:layout_alignParentRight="true"
-            android:button="@drawable/radio_green_selector"/>
-    </RelativeLayout>-->
-
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

@@ -136,10 +136,9 @@ public class StudentDetailActivity extends BaseActivity implements View.OnClickL
         tv_name.setText(memberModel.getUserName());
         tv_phone.setText(memberModel.getMobile());
         tv_totle_log.setText(memberModel.getLogCount() + "篇");
-        Log.i("学员详情="+memberModel.toString());
-        tv_totle_lw.setText(StringUtils.isEmpty(memberModel.getLossWeight())?"0.0斤":memberModel.getLossWeight() + "斤");
-        tv_loss_before.setText(StringUtils.isEmpty(memberModel.getLossBefore())?"0.0斤":memberModel.getLossBefore() + "斤");
-        tv_loss_after.setText(StringUtils.isEmpty(memberModel.getLossAfter())?"0.0斤":memberModel.getLossAfter() + "斤");
+        tv_totle_lw.setText(StringUtils.isEmpty(memberModel.getLossWeight())?"0.0斤":Float.parseFloat(memberModel.getLossWeight()) + "斤");
+        tv_loss_before.setText(StringUtils.isEmpty(memberModel.getLossBefore())?"0.0斤":Float.parseFloat(memberModel.getLossBefore()) + "斤");
+        tv_loss_after.setText(StringUtils.isEmpty(memberModel.getLossAfter())?"0.0斤":Float.parseFloat(memberModel.getLossAfter()) + "斤");
         if(!StringUtils.isEmpty(memberModel.getPhoto())){
             Picasso.with(this).load(memberModel.getPhoto()).fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(civ_header_image);
         }

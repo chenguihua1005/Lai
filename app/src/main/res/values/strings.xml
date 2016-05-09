@@ -160,4 +160,7 @@
     <string name="aboutMe7">打造健康圈，分享你的心得和进步</string>
     <string name="naixi">健康奶昔餐：PK结束后，输家必须亲手为赢家调制一杯美味奶昔，记得选用对方喜爱的口味和食材哦。</string>
     <string name="naixicao">摇摇奶昔操：PK结束后，输家必须在赢家面前跳一遍完整的摇摇奶昔操，动作可要标准哟！</string>
+    <string name="naixi1">PK结束后，输家必须亲手为赢家调制一杯美味奶昔，记得选用对方喜爱的口味和食材哦。</string>
+    <string name="naixicao1">PK结束后，输家必须在赢家面前跳一遍完整的摇摇奶昔操，动作可要标准哟！</string>
+    <string name="pkchoumatip">来说说你想要获得的礼物吧！当然不要忘记了，它可能是你想要送出去的东西哦！</string>
 </resources>
