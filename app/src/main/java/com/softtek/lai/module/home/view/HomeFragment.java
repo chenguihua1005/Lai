@@ -51,6 +51,7 @@ import com.softtek.lai.module.message.presenter.MessageImpl;
 import com.softtek.lai.module.message.view.MessageActivity;
 import com.softtek.lai.module.personalPK.view.PKListActivity;
 import com.softtek.lai.module.sport.presenter.SportGroupManager;
+import com.softtek.lai.module.sport.view.GroupMainActivity;
 import com.softtek.lai.module.sport.view.JoinGroupActivity;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
@@ -459,7 +460,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     public void isJoinRunGroup(boolean b) {
         System.out.println("是否加入了跑团:" + b);
         if (b) {
-
+            startActivity(new Intent(getContext(), GroupMainActivity.class));
         } else {
             startActivity(new Intent(getContext(), JoinGroupActivity.class));
         }

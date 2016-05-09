@@ -96,7 +96,7 @@ public class AssistantActivity extends BaseActivity implements View.OnClickListe
 //    @InjectView(R.id.sliding_tabs)
 //    TabLayout sliding_tabs;
 
-    private boolean isShow = true;
+    private boolean isShow = false;
 
     List<AssistantInfoModel> list_ai;
     List<AssistantApplyInfoModel> list_aa;

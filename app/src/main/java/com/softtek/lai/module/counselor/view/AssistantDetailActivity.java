@@ -68,6 +68,9 @@ public class AssistantDetailActivity extends BaseActivity implements View.OnClic
     @InjectView(R.id.fl_right)
     FrameLayout fl_right;
 
+    @InjectView(R.id.tv_right)
+    TextView tv_right;
+
     @InjectView(R.id.text_name)
     TextView text_name;
 
@@ -98,7 +101,7 @@ public class AssistantDetailActivity extends BaseActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
         ll_left.setOnClickListener(this);
-        iv_email.setOnClickListener(this);
+        //iv_email.setOnClickListener(this);
         fl_right.setOnClickListener(this);
 
     }
@@ -128,8 +131,9 @@ public class AssistantDetailActivity extends BaseActivity implements View.OnClic
     protected void initViews() {
         //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
         tv_title.setText(R.string.assistantDetail);
-        iv_email.setImageResource(R.drawable.more_title);
-        iv_email.setVisibility(View.VISIBLE);
+        //iv_email.setImageResource(R.drawable.more_title);
+        //iv_email.setVisibility(View.VISIBLE);
+        tv_right.setText("移除助教");
 
     }
 
@@ -145,7 +149,7 @@ public class AssistantDetailActivity extends BaseActivity implements View.OnClic
 
     public void showPopupWindow(View parent) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this)
-                .setTitle(getString(R.string.warning))
+                .setTitle(getString(R.string.login_out_title))
                 .setMessage(getString(R.string.warning_value))
                 .setPositiveButton(getString(R.string.app_sure), new DialogInterface.OnClickListener() {
                     @Override
@@ -173,11 +177,9 @@ public class AssistantDetailActivity extends BaseActivity implements View.OnClic
                 break;
 
             case R.id.iv_email:
-                System.out.println("iv_email------");
                 showPopupWindow(iv_email);
                 break;
             case R.id.fl_right:
-                System.out.println("iv_email------");
                 showPopupWindow(iv_email);
                 break;
         }

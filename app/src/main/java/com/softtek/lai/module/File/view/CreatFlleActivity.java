@@ -246,10 +246,14 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         file.setNickname(nick);
         file.setBrithday(birthday);
         file.setGender(gender.equals("男") ? 0 : 1);
-        file.setHeight(Integer.parseInt(height));
-        file.setWeight(Integer.parseInt(weight));
+
+        String heights = height.split("cm")[0];
+        file.setHeight(Double.parseDouble(heights));
+        String weights = weight.split("斤")[0];
+        file.setWeight(Double.parseDouble(weights));
 
         String token = SharedPreferenceService.getInstance().get("token", "");
+        System.out.println("file:" + file);
         ICreateFilepresenter.createFile(token, file);
     }
 
@@ -329,27 +333,34 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         dialog.setCanceledOnTouchOutside(false);
     }
 
-
     //身高对话框
     public void show_height_dialog() {
         final AlertDialog.Builder birdialog = new AlertDialog.Builder(this);
-        View view = getLayoutInflater().inflate(R.layout.dialog, null);
-        final NumberPicker np = (NumberPicker) view.findViewById(R.id.numberPicker1);
-        np.setMaxValue(240);
+        View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
+        final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
+        final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
+        np1.setMaxValue(240);
         if (tv_sex.getText().toString().equals("男")) {
-            np.setValue(170);
+            np1.setValue(170);
         } else if (tv_sex.getText().toString().equals("女")) {
-            np.setValue(155);
+            np1.setValue(155);
         } else {
-            np.setValue(155);
+            np1.setValue(155);
         }
-        np.setMinValue(100);
-        np.setWrapSelectorWheel(true);
-        np.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        np1.setMinValue(100);
+        np1.setWrapSelectorWheel(true);
+        np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+
+        np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        np2.setMaxValue(9);
+        np2.setValue(0);
+        np2.setMinValue(0);
+        np2.setWrapSelectorWheel(false);
+
         birdialog.setTitle("选择身高(单位：cm)").setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                tv_height.setText(String.valueOf(np.getValue())); //set the value to textview
+                tv_height.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()) + "cm");
                 tv_height.setError(null);
                 dialog.dismiss();
             }
@@ -363,30 +374,38 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
     //体重对话框
     public void show_weight_dialog() {
         final AlertDialog.Builder birdialog = new AlertDialog.Builder(this);
-        View view = getLayoutInflater().inflate(R.layout.dialog, null);
-        final NumberPicker np = (NumberPicker) view.findViewById(R.id.numberPicker1);
-        np.setMaxValue(400);
+        View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
+        final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
+        final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
+        np1.setMaxValue(400);
         if (tv_sex.getText().toString().equals("男")) {
-            np.setValue(150);
+            np1.setValue(150);
         } else if (tv_sex.getText().toString().equals("女")) {
-            np.setValue(100);
+            np1.setValue(100);
         } else {
-            np.setValue(100);
+            np1.setValue(100);
         }
-        np.setMinValue(60);
-        np.setWrapSelectorWheel(false);
-        np.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        np1.setMinValue(60);
+        np1.setWrapSelectorWheel(false);
+        np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+
+        np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        np2.setMaxValue(9);
+        np2.setValue(0);
+        np2.setMinValue(0);
+        np2.setWrapSelectorWheel(false);
+
         birdialog.setTitle("选择体重(单位：斤)").setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (np.getValue() < 80) {
+                if (np1.getValue() < 80) {
                     Dialog dialog1 = new AlertDialog.Builder(CreatFlleActivity.this)
                             .setMessage("体重单位为斤,是否确认数值?")
                             .setPositiveButton("确定",
                                     new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int which) {
-                                            tv_weight.setText(String.valueOf(np.getValue())); //set the value to textview
+                                            tv_weight.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()) + "斤");
                                             tv_weight.setError(null);
                                         }
                                     })
@@ -401,7 +420,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                     dialog1.show();
                     dialog1.setCanceledOnTouchOutside(false);
                 } else {
-                    tv_weight.setText(String.valueOf(np.getValue())); //set the value to textview
+                    tv_weight.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()) + "斤");
                     tv_weight.setError(null);
                 }
                 dialog.dismiss();
@@ -411,7 +430,6 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
             public void onClick(DialogInterface dialog, int which) {
             }
         }).create().show();
-
     }
 
     private void addGrade() {
