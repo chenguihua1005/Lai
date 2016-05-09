@@ -62,7 +62,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="慈善公益"
+                android:text="莱运动PK挑战"
                 android:layout_toRightOf="@+id/im_news_tab1"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
@@ -95,7 +95,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="慈善公益"
+                android:text="活动邀请"
                 android:layout_toRightOf="@+id/im_news_tab2"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
@@ -128,7 +128,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="慈善公益"
+                android:text="系统消息"
                 android:layout_toRightOf="@+id/im_news_tab3"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"

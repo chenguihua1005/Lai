@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -71,7 +72,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         , PhotoListIml.PhotoListCallback, ImageFileCropSelector.Callback {
     //toolbar标题栏
     @InjectView(R.id.ll_left)
-    TextView ll_left;
+    LinearLayout ll_left;
     @InjectView(R.id.tv_title)
     TextView tv_title;
     //    @InjectView(R.id.imtest)
