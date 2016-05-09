@@ -19,6 +19,8 @@ import com.softtek.lai.module.grade.model.StudentModel;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.List;
 
 import zilla.libcore.file.AddressManager;
@@ -78,7 +80,7 @@ public class LossWeightAdapter extends BaseAdapter {
         holder.tv_lw_before.setText("前 " + studentModel.getLossBefore() + "斤");
         holder.tv_lw_after.setText("后 " + studentModel.getLossAfter() + "斤");
         holder.tv_lw_totle.setText(studentModel.getLossWeght());
-        if (!"".equals(studentModel.getPhoto()) && null != studentModel.getPhoto()) {
+        if (StringUtils.isNotEmpty(studentModel.getPhoto())) {
             Picasso.with(context).load(AddressManager.get("photoHost") + studentModel.getPhoto()).fit().placeholder(R.drawable.img_default)
                     .error(R.drawable.img_default).into(holder.civ_header_image);
         }

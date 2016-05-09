@@ -11,6 +11,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.studentbasedate.model.StudentBaseInfoModel;
 import com.softtek.lai.module.studetail.adapter.StudentDetailFragmentAdapter;
+import com.softtek.lai.utils.StringUtil;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringUtils;
@@ -96,8 +97,8 @@ public class BaseDateFragment extends BaseFragment{
         accountId=model.getAccountId();
         classId=model.getClassId();
         tv_totle_lw.setText(Float.parseFloat(model.getLossAfter())==0?"0斤":model.getLossTotal()+"斤");
-        tv_loss_before.setText(model.getLossBefore()+"斤");
-        tv_loss_after.setText(Float.parseFloat(model.getLossAfter())==0?"尚未复测":model.getLossAfter()+"斤");
+        tv_loss_before.setText(StringUtil.getFloatValue(model.getLossBefore())+"斤");
+        tv_loss_after.setText(Float.parseFloat(model.getLossAfter())==0?"尚未复测":Float.parseFloat(model.getLossAfter())+"斤");
         if(StringUtils.isNotEmpty(model.getLossBeforePhoto())){
             Picasso.with(getContext()).load(model.getLossBeforePhoto()).fit().placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_loss_before);
         }

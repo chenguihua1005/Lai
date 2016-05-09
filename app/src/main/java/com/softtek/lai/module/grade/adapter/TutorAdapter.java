@@ -7,24 +7,21 @@ package com.softtek.lai.module.grade.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
-import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.grade.model.SRInfoModel;
 import com.softtek.lai.module.grade.presenter.GradeImpl;
 import com.softtek.lai.module.grade.presenter.IGrade;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
@@ -84,9 +81,9 @@ public class TutorAdapter extends BaseAdapter {
                     .error(R.drawable.img_default).into(holder.circleImageView);
         }
         //Log.i(info.toString());
-        holder.tv_num.setText(info.getNum());
-        holder.tv_reset.setText(info.getRtest().equals("")?"0":info.getRtest()+"%");
-        holder.tv_totleweight.setText(info.getTotalWight().equals("")?"0":info.getTotalWight() + "斤");
+        holder.tv_num.setText(StringUtils.isEmpty(info.getNum())?"":info.getNum());
+        holder.tv_reset.setText(StringUtils.isEmpty(info.getRtest())?"":info.getRtest()+"%");
+        holder.tv_totleweight.setText(StringUtils.isEmpty(info.getTotalWight())?"":info.getTotalWight() + "斤");
         /*if(review_flag==0){
             holder.btn_delete.setVisibility(View.GONE);
         }*/

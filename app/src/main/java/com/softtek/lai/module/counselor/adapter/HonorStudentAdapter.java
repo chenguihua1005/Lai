@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.module.counselor.model.HonorTable1Model;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
+import com.softtek.lai.utils.StringUtil;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -112,9 +113,9 @@ public class HonorStudentAdapter extends BaseAdapter {
 
         holder.text_rnum.setText(honorTable1.getRnum().toString());
         holder.text_user_name.setText(honorTable1.getUserName().toString());
-        holder.text_before_weight.setText("减重前 " + honorTable1.getBeforeWeight().toString() + "斤");
-        holder.text_after_weight.setText("后 " + honorTable1.getAfterWeight().toString() + "斤");
-        holder.text_lose_weight.setText(honorTable1.getLoseWeight().toString());
+        holder.text_before_weight.setText("减重前 " + StringUtil.getFloatValue(honorTable1.getBeforeWeight()) + "斤");
+        holder.text_after_weight.setText("后 " + StringUtil.getFloatValue(honorTable1.getAfterWeight()) + "斤");
+        holder.text_lose_weight.setText(StringUtil.getFloatValue(honorTable1.getLoseWeight()));
         return convertView;
     }
 

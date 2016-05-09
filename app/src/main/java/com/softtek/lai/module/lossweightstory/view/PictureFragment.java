@@ -1,8 +1,7 @@
 package com.softtek.lai.module.lossweightstory.view;
 
 import android.os.Bundle;
-import android.view.ViewGroup;
-import android.widget.RelativeLayout;
+import android.widget.ImageView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
@@ -35,12 +34,17 @@ public class PictureFragment extends BaseFragment{
 
     @Override
     protected void initViews() {
+        //iv_image.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
     }
 
     @Override
     protected void initDatas() {
         String uri=getArguments().getString("image_path");
-        Picasso.with(getContext()).load(AddressManager.get("photoHost")+uri).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_image);
+        Picasso.with(getContext()).load(AddressManager.get("photoHost")+uri)
+                .resize(DisplayUtil.getMobileWidth(getContext()),DisplayUtil.getMobileHeight(getContext()))
+                .placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_image);
     }
+
+
 }

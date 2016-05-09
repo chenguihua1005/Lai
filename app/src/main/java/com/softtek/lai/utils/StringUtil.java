@@ -87,7 +87,10 @@ public class StringUtil {
      * @return
      */
     public static String getValue(String value){
-        return StringUtils.isEmpty(value)?"":Float.parseFloat(value)+"";
+        return StringUtils.isEmpty(value)||Float.parseFloat(value)==0?"":Float.parseFloat(value)+"";
+    }
+    public static String getFloatValue(String value){
+        return StringUtils.isEmpty(value)||Float.parseFloat(value)==0?"0.0":Float.parseFloat(value)+"";
     }
 
 
