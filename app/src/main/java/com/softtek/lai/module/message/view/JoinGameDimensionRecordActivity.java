@@ -27,6 +27,7 @@ import com.softtek.lai.module.confirmInfo.model.GetConfirmInfoModel;
 import com.softtek.lai.module.newmemberentry.view.model.NewstudentsModel;
 import com.softtek.lai.module.retest.model.RetestWriteModel;
 import com.softtek.lai.utils.SoftInputUtil;
+import com.softtek.lai.utils.StringUtil;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -137,36 +138,12 @@ public class JoinGameDimensionRecordActivity extends BaseActivity implements OnC
         } else {
             tv_title.setText("添加记录");
         }
-        if ("".equals(getConfirmInfoModel.getCircum()) || Double.parseDouble(getConfirmInfoModel.getCircum()) == 0) {
-            tv_circum.setText("");
-        } else {
-            tv_circum.setText(Double.parseDouble(getConfirmInfoModel.getCircum()) + "");
-        }
-        if ("".equals(getConfirmInfoModel.getWaistline()) || Double.parseDouble(getConfirmInfoModel.getWaistline()) == 0) {
-            tv_waistline.setText("");
-        } else {
-            tv_waistline.setText(Double.parseDouble(getConfirmInfoModel.getWaistline()) + "");
-        }
-        if ("".equals(getConfirmInfoModel.getHiplie()) || Double.parseDouble(getConfirmInfoModel.getHiplie()) == 0) {
-            tv_hiplie.setText("");
-        } else {
-            tv_hiplie.setText(Double.parseDouble(getConfirmInfoModel.getHiplie()) + "");
-        }
-        if ("".equals(getConfirmInfoModel.getUpArmGirth()) || Double.parseDouble(getConfirmInfoModel.getUpArmGirth()) == 0) {
-            tv_uparmgirth.setText("");
-        } else {
-            tv_uparmgirth.setText(Double.parseDouble(getConfirmInfoModel.getUpArmGirth()) + "");
-        }
-        if ("".equals(getConfirmInfoModel.getUpLegGirth()) || Double.parseDouble(getConfirmInfoModel.getUpLegGirth()) == 0) {
-            tv_upleggirth.setText("");
-        } else {
-            tv_upleggirth.setText(Double.parseDouble(getConfirmInfoModel.getUpLegGirth()) + "");
-        }
-        if ("".equals(getConfirmInfoModel.getDoLegGirth()) || Double.parseDouble(getConfirmInfoModel.getDoLegGirth()) == 0) {
-            tv_doleggirth.setText("");
-        } else {
-            tv_doleggirth.setText(Double.parseDouble(getConfirmInfoModel.getDoLegGirth()) + "");
-        }
+        tv_circum.setText(StringUtil.getValue(getConfirmInfoModel.getCircum()));
+        tv_waistline.setText(StringUtil.getValue(getConfirmInfoModel.getWaistline()));
+        tv_hiplie.setText(StringUtil.getValue(getConfirmInfoModel.getHiplie()));
+        tv_uparmgirth.setText(StringUtil.getValue(getConfirmInfoModel.getUpArmGirth()));
+        tv_upleggirth.setText(StringUtil.getValue(getConfirmInfoModel.getUpLegGirth()));
+        tv_doleggirth.setText(StringUtil.getValue(getConfirmInfoModel.getDoLegGirth()));
     }
 
     @Override

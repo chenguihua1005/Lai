@@ -33,6 +33,7 @@ import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.SoftInputUtil;
+import com.softtek.lai.utils.StringUtil;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
@@ -108,12 +109,11 @@ public class AssistantDetailActivity extends BaseActivity implements View.OnClic
 
     @Subscribe
     public void onEvent(AssistantDetailInfoModel assistantDetailInfo) {
-        System.out.println("assistantDetailInfo:" + assistantDetailInfo);
         text_name.setText(assistantDetailInfo.getUserName().toString());
         text_phone.setText(assistantDetailInfo.getMobile().toString());
         text_count.setText(assistantDetailInfo.getNum().toString());
-        text_retest.setText(assistantDetailInfo.getMrate().toString());
-        text_total.setText(assistantDetailInfo.getTotalWeight().toString());
+        text_retest.setText(StringUtil.getValue(assistantDetailInfo.getMrate()));
+        text_total.setText(StringUtil.getValue(assistantDetailInfo.getTotalWeight()));
         if ("".equals(assistantDetailInfo.getPhoto())) {
             Picasso.with(this).load("111").fit().error(R.drawable.img_default).into(img);
         } else {

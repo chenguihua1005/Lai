@@ -279,7 +279,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                     break;
                 case Constants.LAI_YUNDONG:
                     startActivity(new Intent(getContext(), CreatePKActivity.class));
-                    //new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
+                    //startActivity(new Intent(getContext(), PKListActivity.class));
                     //sportGroupManager.isJoinRunGroup(UserInfoModel.getInstance().getUser().getUserid());
                     break;
                 case Constants.OFFICE:
