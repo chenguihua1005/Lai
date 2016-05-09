@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
@@ -18,16 +19,27 @@ public class SelectTimeActivity extends BaseActivity implements View.OnClickList
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
+    @InjectView(R.id.tv_title)
     TextView tv_title;
     @InjectView(R.id.tv_right)
     TextView tv_right;
     @InjectView(R.id.fl_right)
     FrameLayout fl_right;
+    @InjectView(R.id.rl_start)
+    RelativeLayout rl_start;
+    @InjectView(R.id.rl_end)
+    RelativeLayout rl_end;
+    @InjectView(R.id.tv_start)
+    TextView tv_start;
+    @InjectView(R.id.tv_end)
+    TextView tv_end;
 
     @Override
     protected void initViews() {
         ll_left.setOnClickListener(this);
         fl_right.setOnClickListener(this);
+        rl_start.setOnClickListener(this);
+        rl_end.setOnClickListener(this);
         tv_title.setText("选择PK挑战时间");
         tv_right.setText("保存");
     }
@@ -44,6 +56,12 @@ public class SelectTimeActivity extends BaseActivity implements View.OnClickList
                 finish();
                 break;
             case R.id.fl_right:
+                //保存
+                break;
+            case R.id.rl_start:
+
+                break;
+            case R.id.rl_end:
                 break;
 
         }

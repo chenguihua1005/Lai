@@ -117,4 +117,14 @@ public class Constants {
     public static final String NO_ZAN="0";
     public static final String HAS_ZAN="1";
 
+    /**
+     * 奶昔0，奶昔操1.自定义2
+     */
+    public static final int NAIXI=0;
+    public static final int NAIXICAO=1;
+    public static final int ZIDINGYI=2;
+
+    //pk规则
+    public static final int BUSHU=0;//步数
+    public static final int KM=1;//公里数
 }

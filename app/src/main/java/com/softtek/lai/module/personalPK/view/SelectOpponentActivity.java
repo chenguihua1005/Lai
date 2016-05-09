@@ -1,5 +1,6 @@
 package com.softtek.lai.module.personalPK.view;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.module.personalPK.model.PKCreatModel;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -18,11 +20,14 @@ public class SelectOpponentActivity extends BaseActivity implements View.OnClick
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
+    @InjectView(R.id.tv_title)
     TextView tv_title;
 
 
     @InjectView(R.id.ll_search)
     LinearLayout ll_search;
+
+    PKCreatModel model;
 
     @Override
     protected void initViews() {
@@ -33,7 +38,7 @@ public class SelectOpponentActivity extends BaseActivity implements View.OnClick
 
     @Override
     protected void initDatas() {
-
+        model=getIntent().getParcelableExtra("pkmodel");
     }
 
     @Override
@@ -44,7 +49,9 @@ public class SelectOpponentActivity extends BaseActivity implements View.OnClick
                 break;
             case R.id.ll_search:
                 //跳转至搜索界面
-
+                Intent pk=new Intent(this,SearchActivity.class);
+                pk.putExtra("pkmodel",getIntent().getParcelableExtra("pkmodel"));
+                startActivity(pk);
                 break;
         }
     }
