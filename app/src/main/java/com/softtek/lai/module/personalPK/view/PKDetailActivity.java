@@ -6,12 +6,22 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.module.personalPK.adapter.PKListAdapter;
+import com.softtek.lai.module.personalPK.model.PKDetailMold;
+import com.softtek.lai.module.personalPK.model.PKListModel;
+import com.softtek.lai.module.personalPK.presenter.PKListManager;
+import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.widgets.CircleImageView;
+import com.squareup.picasso.Picasso;
+
+import org.apache.commons.lang3.StringUtils;
 
 import butterknife.InjectView;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_pkdetail)
@@ -54,6 +64,8 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
     @InjectView(R.id.btn_cancle_pk)
     TextView btn_cancle_pk;
 
+    private PKListManager manager;
+
     @Override
     protected void initViews() {
         tv_title.setText("PK挑战详情");
@@ -65,7 +77,52 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
 
     @Override
     protected void initDatas() {
-
+        manager=new PKListManager();
+        PKListModel model=getIntent().getParcelableExtra("pkmodel");
+        tv_pk_name1.setText(model.getUserName());
+        tv_pk_name2.setText(model.getBUserName());
+        cb_zan_left.setText(model.getChP());
+        cb_zan_right.setText(model.getBChp());
+        tv_time.setText(DateUtil.getInstance().convertDateStr(model.getStart(),"yyyy年MM月dd日")+"——"+
+                DateUtil.getInstance().convertDateStr(model.getEnd(),"yyyy年MM月dd日"));
+        if(model.getTStatus()== PKListAdapter.NOSTART){
+            tv_status.setBackgroundResource(R.drawable.pk_list_jingxingzhong);
+            tv_status.setText("未开始");
+        }else if(model.getTStatus()==PKListAdapter.PROCESSING){
+            tv_status.setBackgroundResource(R.drawable.pk_list_jingxingzhong);
+            tv_status.setText("进行中");
+            tv_is_accept.setText("以应战");
+        }else if(model.getTStatus()==PKListAdapter.Completed){
+            tv_status.setBackgroundResource(R.drawable.pk_list_jingxingzhong);
+            tv_status.setText("已结束");
+            tv_is_accept.setText("以应战");
+        }
+        if(model.getChipType()==PKListAdapter.NAIXI){
+            iv_type.setBackgroundResource(R.drawable.pk_naixi);
+            tv_content.setText("");
+        }else if(model.getChipType()==PKListAdapter.NAIXICAO){
+            iv_type.setBackgroundResource(R.drawable.pk_list_naixicao);
+            tv_content.setText("");
+        }else if(model.getChipType()==PKListAdapter.CUSTOM){
+            //iv_type.setBackgroundResource(R.drawable.pk_list_);
+            tv_content.setText("");
+        }
+        //载入头像
+        String path= AddressManager.get("photoHost");
+        if(StringUtils.isNotEmpty(model.getPhoto())){
+            Picasso.with(this).load(path+model.getPhoto()).fit()
+                    .placeholder(R.drawable.img_default)
+                    .error(R.drawable.img_default)
+                    .into(sender1_header);
+        }
+        if(StringUtils.isNotEmpty(model.getBPhoto())){
+            Picasso.with(this).load(path+model.getPhoto()).fit()
+                    .placeholder(R.drawable.img_default)
+                    .error(R.drawable.img_default)
+                    .into(sender2_header);
+        }
+        dialogShow("加载中...");
+        manager.getPKDetail(this,model.getPKId());
     }
 
     @Override
@@ -81,5 +138,13 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
             case R.id.cb_zan_right:
                 break;
         }
+    }
+
+    public void getPKDetail(PKDetailMold model){
+        dialogDissmiss();
+        if(model==null){
+            return;
+        }
+        //更新数据
     }
 }

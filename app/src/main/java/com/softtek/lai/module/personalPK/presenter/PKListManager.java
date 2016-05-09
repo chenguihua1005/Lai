@@ -2,9 +2,12 @@ package com.softtek.lai.module.personalPK.presenter;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.personalPK.model.PKDetailMold;
 import com.softtek.lai.module.personalPK.model.PKListModel;
 import com.softtek.lai.module.personalPK.net.PKService;
+import com.softtek.lai.module.personalPK.view.PKDetailActivity;
 import com.softtek.lai.module.personalPK.view.PKListActivity;
+import com.softtek.lai.module.personalPK.view.PKListMineActivity;
 import com.softtek.lai.utils.RequestCallback;
 
 import java.util.List;
@@ -27,7 +30,10 @@ public class PKListManager {
     }
 
     public void getPKList(final PKListActivity activity, int pageIndex){
-        service.getPKList(pageIndex, new RequestCallback<ResponseData<List<PKListModel>>>() {
+        service.getPKList(
+                token,
+                pageIndex,
+                new RequestCallback<ResponseData<List<PKListModel>>>() {
             @Override
             public void success(ResponseData<List<PKListModel>> listResponseData, Response response) {
                 activity.getModels(listResponseData);
@@ -42,8 +48,11 @@ public class PKListManager {
         });
     }
 
-    public void getPKListByPersonal(final PKListActivity activity, int pageIndex){
-        service.getPKListForPersonal(pageIndex, Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()),
+    public void getPKListByPersonal(final PKListMineActivity activity, int pageIndex){
+        service.getPKListForPersonal(
+                token,
+                pageIndex,
+                Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()),
                 new RequestCallback<ResponseData<List<PKListModel>>>() {
                     @Override
                     public void success(ResponseData<List<PKListModel>> listResponseData, Response response) {
@@ -57,5 +66,24 @@ public class PKListManager {
 
                     }
                 });
+    }
+
+    public void getPKDetail(final PKDetailActivity activity,long pkId){
+        service.getPKDetail(
+                token,
+                pkId,
+                new RequestCallback<ResponseData<PKDetailMold>>() {
+                    @Override
+                    public void success(ResponseData<PKDetailMold> pkDetailMoldResponseData, Response response) {
+                        activity.getPKDetail(pkDetailMoldResponseData.getData());
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        activity.getPKDetail(null);
+                        super.failure(error);
+                    }
+                }
+        );
     }
 }

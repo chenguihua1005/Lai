@@ -35,7 +35,6 @@
                     android:layout_marginTop="18dp"
                     android:background="@drawable/pk_list_jingxingzhong"
                     android:gravity="center"
-                    android:text="进行中"
                     android:textColor="@color/white"
                     android:textSize="13sp" />
 
@@ -85,7 +84,6 @@
                     android:button="@null"
                     android:drawableLeft="@drawable/pk_list_zan_selector"
                     android:drawablePadding="5dp"
-                    android:text="5"
                     android:textColor="#ffa200"
                     android:textSize="10sp" />
 
@@ -124,7 +122,6 @@
                     android:button="@null"
                     android:drawableLeft="@drawable/pk_list_zan_selector"
                     android:drawablePadding="5dp"
-                    android:text="5"
                     android:textColor="#ffa200"
                     android:textSize="10sp" />
                 <TextView
@@ -135,7 +132,6 @@
                     android:layout_marginLeft="17dp"
                     android:layout_marginTop="18dp"
                     android:layout_toRightOf="@id/rfl"
-                    android:text="已应战"
                     android:textColor="#6f6f6f"
                     android:textSize="12sp" />
 
@@ -158,7 +154,6 @@
                     android:layout_centerInParent="true"
                     android:layout_marginTop="18dp"
                     android:gravity="center"
-                    android:text="管国祥"
                     android:textColor="#333333"
                     android:textSize="15sp"
                     android:textStyle="bold" />
@@ -173,7 +168,6 @@
                     android:layout_centerInParent="true"
                     android:layout_marginTop="18dp"
                     android:gravity="center"
-                    android:text="管国祥"
                     android:textColor="#333333"
                     android:textSize="15sp"
                     android:textStyle="bold" />
@@ -195,7 +189,7 @@
                     android:layout_below="@id/view"
                     android:layout_marginTop="17dp"
                     android:gravity="center"
-                    android:text="当前总步数"
+                    android:text="当前公里数"
                     android:textColor="#333333"
                     android:textSize="12sp" />
 
@@ -218,7 +212,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="步"
+                        android:text="米"
                         android:textColor="#75ba2b"
                         android:textSize="12sp" />
                 </LinearLayout>
@@ -242,7 +236,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="步"
+                        android:text="米"
                         android:textColor="#75ba2b"
                         android:textSize="12sp" />
                 </LinearLayout>
@@ -324,7 +318,6 @@
                     android:layout_centerInParent="true"
                     android:layout_marginLeft="8dp"
                     android:layout_toRightOf="@id/tv"
-                    android:text="2015年6月8日—2016年7月9日"
                     android:textColor="#6f6f6f"
                     android:textSize="10sp" />
             </RelativeLayout>

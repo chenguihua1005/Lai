@@ -1,5 +1,6 @@
 package com.softtek.lai.module.personalPK.view;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
@@ -81,16 +82,40 @@ public class PKListActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
+    private static final int PKLIST_JUMP=1;
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         //点击列表跳转至详情
+        PKListModel model=models.get(position-1);
+        Intent intent=new Intent(this,PKDetailActivity.class);
+        intent.putExtra("pkmodel",model);
+        intent.putExtra("position",position-1);
+        startActivityForResult(intent, PKLIST_JUMP);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_OK){
+            if(requestCode==PKLIST_JUMP){
+                int position=data.getIntExtra("position", -1);
+                if(position!=-1){
+                    PKListModel model=models.get(position);
+                    PKListModel returnModel=data.getParcelableExtra("pkmodel");
+                    model.setChP(returnModel.getChP());
+                    model.setBChp(returnModel.getBChp());
+
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        }
     }
 
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
         pageIndex=1;
         //刷新数据
-        manager.getPKList(this,pageIndex);
+        manager.getPKList(this, pageIndex);
     }
 
     @Override
@@ -116,7 +141,7 @@ public class PKListActivity extends BaseActivity implements View.OnClickListener
         }
         totalPage=model.getPageCount();
         List<PKListModel> list=model.getData();
-        if(list!=null&&list.isEmpty()){
+        if(list==null||list.isEmpty()){
             pageIndex=--pageIndex<1?1:pageIndex;
             return;
         }
