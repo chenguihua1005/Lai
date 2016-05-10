@@ -10,9 +10,12 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.personalPK.model.PKCreatModel;
 
 import butterknife.InjectView;
@@ -119,6 +122,7 @@ public class CreatePKActivity extends BaseActivity implements View.OnClickListen
                 Intent pk=new Intent(this,SearchActivity.class);
                 saveValue();
                 pk.putExtra("pkmodel",model);
+                Log.i(model.toString());
                 startActivity(pk);
                 break;
             case R.id.cb_targer_km:
@@ -228,7 +232,11 @@ public class CreatePKActivity extends BaseActivity implements View.OnClickListen
             model.setChipType(Constants.ZIDINGYI);
             model.setChip(et_content.getText().toString());
         }
-
+        //设置发起人信息
+        UserModel user= UserInfoModel.getInstance().getUser();
+        model.setUserName(user.getNickname());
+        model.setUserPhoto(user.getPhoto());
+        model.setChallenged(Long.parseLong(user.getUserid()));
 
     }
 }
