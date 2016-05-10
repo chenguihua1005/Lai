@@ -204,7 +204,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         imageFileSelector=new ImageFileSelector(this);
         imageFileSelector.setOutPutImageSize(DisplayUtil.dip2px(this,600),
                 DisplayUtil.dip2px(this,300));
-        imageFileSelector.setQuality(60);
+        imageFileSelector.setQuality(80);
         imageFileSelector.setCallback(this);
         tv_writes_chu_weight.setFocusable(false);
         tv_retestWrites_nowweight.setFocusable(false);
@@ -231,11 +231,11 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
             case R.id.ll_fucest_nowweight:
                 if (isState.equals("true")) {
                     if (gender.equals("1")) {
-                        show_information("现在体重（斤）", 400, 100, 20, 9, 0, 0, 1);
+                        show_information("现在体重（斤）", 600, 100, 50, 9, 0, 0, 1);
                     }
                     else
                     {
-                        show_information("现在体重（斤）", 400, 150, 20, 9, 0, 0, 1);
+                        show_information("现在体重（斤）", 600, 150, 50, 9, 0, 0, 1);
                     }
                 }
 

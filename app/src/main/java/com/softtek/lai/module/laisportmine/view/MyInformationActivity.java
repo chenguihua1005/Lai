@@ -9,16 +9,23 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.laisportmine.present.MyRunTeamManager;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_my_information)
-public class MyInformationActivity extends BaseActivity implements View.OnClickListener{
+public class MyInformationActivity extends BaseActivity implements View.OnClickListener,MyRunTeamManager.MyRunTeamCallback{
 @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.tv_title)
     TextView tv_title;
+    @InjectView(R.id.tv_runteamname)
+    TextView tv_runteamname;
+    MyRunTeamManager myRunTeamManager;
+    UserInfoModel userInfoModel=UserInfoModel.getInstance();
+    long accountid=Long.parseLong(userInfoModel.getUser().getUserid());
     @Override
     protected void initViews() {
         tv_title.setText("我的资料");
@@ -27,7 +34,8 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void initDatas() {
-
+        myRunTeamManager=new MyRunTeamManager(this);
+        myRunTeamManager.doGetNowRgName(accountid);
     }
 
     @Override
@@ -38,5 +46,10 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
                 finish();
                 break;
         }
+    }
+
+    @Override
+    public void getRunTeamName(String data) {
+        tv_runteamname.setText(data);
     }
 }

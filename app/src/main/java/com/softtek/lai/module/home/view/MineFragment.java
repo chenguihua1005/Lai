@@ -21,6 +21,7 @@ import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.jpush.JpushSet;
+import com.softtek.lai.module.laisportmine.view.MyInformationActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.mygrades.view.MyGradesActivity;
@@ -70,6 +71,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
 
     @InjectView(R.id.text_state)
     TextView text_state;
+    @InjectView(R.id.my)
+    LinearLayout my;
 
     private ACache aCache;
 
@@ -85,6 +88,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         lin_not_vr.setOnClickListener(this);
         lin_is_vr.setOnClickListener(this);
         but_login.setOnClickListener(this);
+        my.setOnClickListener(this);
 
     }
 
@@ -177,6 +181,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 break;
             case R.id.lin_setting:
                 startActivity(new Intent(getContext(), SettingsActivity.class));
+                break;
+            case R.id.my:
+                startActivity(new Intent(getContext(), MyInformationActivity.class));
                 break;
         }
     }
