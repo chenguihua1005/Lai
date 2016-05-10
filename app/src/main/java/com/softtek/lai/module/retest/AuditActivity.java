@@ -285,11 +285,11 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
 //                break;
             case R.id.ll_retestAudit_nowweight:
                 if (gender.equals("1")) {
-                    show_information("现在体重（斤）", 400, 100, 60, 9, 0, 0, 1);
+                    show_information("现在体重（斤）", 600, 100, 50, 9, 0, 0, 1);
                 }
                 else
                 {
-                    show_information("现在体重（斤）", 400, 150, 60, 9, 0, 0, 1);
+                    show_information("现在体重（斤）", 600, 150, 50, 9, 0, 0, 1);
                 }
                 break;
             case R.id.ll_retestAudit_tizhi:

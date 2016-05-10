@@ -86,6 +86,7 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
     private RetestWriteModel retestWrite;
     private RetestPre retestPre;
     MeasureModel measureModel;
+    String img="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +120,7 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
         tv_retest_uparmgirth.setText(retestWrite.getUpArmGirth());
         tv_retest_upleggirth.setText(retestWrite.getUpLegGirth());
         tv_retest_doleggirth.setText(retestWrite.getDoLegGirth());
+        img=retestWrite.getImage();
 
 
 
@@ -165,6 +167,7 @@ public class BodyweiduActivity extends BaseActivity implements View.OnClickListe
                 retestWrite.setUpArmGirth(tv_retest_uparmgirth.getText().toString());
                 retestWrite.setUpLegGirth(tv_retest_upleggirth.getText().toString());
                 retestWrite.setDoLegGirth(tv_retest_doleggirth.getText().toString());
+                retestWrite.setImage(img);
                 Intent intent=new Intent();
                 intent.putExtra("retestWrite",retestWrite);
                 setResult(RESULT_OK,intent);
