@@ -315,6 +315,125 @@
                 android:id="@+id/list_activity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+
+            <RelativeLayout
+                android:id="@+id/rel_my_pk"
+                android:layout_width="fill_parent"
+                android:layout_height="38dip"
+                android:background="@color/grey">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin"
+                    android:text="PK挑战"
+                    android:textSize="@dimen/textSize1" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin"
+                    android:src="@drawable/img_group_main_more" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/lin_have_pk"
+                    android:layout_width="fill_parent"
+                    android:layout_height="220dip"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="12dip"
+                        android:src="@drawable/img_group_main_pk" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="14dip"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@drawable/img_activity_item_time" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="8dip"
+                            android:textSize="@dimen/textSize2"
+                            android:layout_gravity="center"
+                            android:textColor="@color/word3"
+                            android:text="PK挑战时间：" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/textSize2"
+                            android:layout_gravity="center"
+                            android:textColor="@color/word3"
+                            android:text="2016年5月6号-2016年5月6号" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="187dip"
+                        android:layout_height="43dip"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="32dip"
+                        android:background="@drawable/bg_pk_btn"
+                        android:gravity="center"
+                        android:text="发起PK挑战"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/textSize3" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lin_no_pk"
+                    android:layout_width="fill_parent"
+                    android:layout_height="220dip"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="12dip"
+                        android:src="@drawable/img_group_main_pk" />
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dip"
+                        android:gravity="center"
+                        android:textSize="@dimen/textSize2"
+                        android:layout_gravity="center"
+                        android:textColor="@color/word3"
+                        android:text="没有新的PK挑战，你来发起一场吧！" />
+
+                    <TextView
+                        android:layout_width="187dip"
+                        android:layout_height="43dip"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="32dip"
+                        android:background="@drawable/bg_pk_btn"
+                        android:gravity="center"
+                        android:text="发起PK挑战"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/textSize3" />
+                </LinearLayout>
+            </RelativeLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
