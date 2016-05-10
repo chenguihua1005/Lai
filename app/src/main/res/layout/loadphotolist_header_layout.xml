@@ -14,8 +14,9 @@
             android:id="@+id/im_uploadphoto_banner_list"
             android:layout_width="match_parent"
             android:layout_height="195dp"
-            android:src="@drawable/default_pic"
-            android:scaleType="centerCrop"/>
+            android:scaleType="fitCenter"
+            android:background="#c0c0c0"
+            android:src="@drawable/default_pic"/>
         <TextView
             android:id="@+id/tv_downphoto_nick"
             android:layout_width="wrap_content"
