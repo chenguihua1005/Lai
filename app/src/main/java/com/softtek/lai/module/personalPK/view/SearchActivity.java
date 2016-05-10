@@ -1,5 +1,6 @@
 package com.softtek.lai.module.personalPK.view;
 
+import android.content.Intent;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -117,5 +118,8 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         creatModel.setBeUserName(model.getUserName());
         creatModel.setBeChallenged(model.getRGId());
         creatModel.setBeUserPhoto(model.getPhoto());
+        Intent intent=new Intent(this,SelectTimeActivity.class);
+        intent.putExtra("pkmodel", creatModel);
+        startActivity(intent);
     }
 }

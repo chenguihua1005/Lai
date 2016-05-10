@@ -128,7 +128,7 @@ public class CreatePKActivity extends BaseActivity implements View.OnClickListen
                     new AlertDialog.Builder(this).setMessage("请输入自由筹码内容").create().show();
                     return;
                 }
-                Intent pk=new Intent(this,SelectOpponentActivity.class);
+                Intent pk=new Intent(this,SelectTimeActivity.class);
                 saveValue();
                 pk.putExtra("pkmodel",model);
                 Log.i(model.toString());
