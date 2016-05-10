@@ -31,7 +31,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     protected void initViews() {
         ll_left.setOnClickListener(this);
         fl_right.setOnClickListener(this);
-        tv_title.setText("搜索PK挑战对手");
+        tv_title.setText("选择PK挑战对手");
         tv_right.setText("搜索");
     }
 

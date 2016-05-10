@@ -218,12 +218,14 @@
                     android:visibility="gone"/>
 
                 <ImageView
+                    android:id="@+id/sr_first_icon"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="8dp"
                     android:scaleType="fitCenter"
                     android:src="@drawable/first"
+                    android:visibility="gone"
                     />
             </FrameLayout>
 
@@ -242,12 +244,14 @@
                     android:visibility="gone"/>
 
                 <ImageView
+                    android:id="@+id/sr_second_icon"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="8dp"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/second" />
+                    android:src="@drawable/second"
+                    android:visibility="gone"/>
             </FrameLayout>
 
             <FrameLayout
@@ -265,12 +269,14 @@
                     android:src="@drawable/img_default"/>
 
                 <ImageView
+                    android:id="@+id/sr_third_icon"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="8dp"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/third" />
+                    android:src="@drawable/third"
+                    android:visibility="gone"/>
             </FrameLayout>
 
             <LinearLayout
@@ -336,12 +342,14 @@
                     android:src="@drawable/img_default"/>
 
                 <ImageView
+                    android:id="@+id/pc_first_icon"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="8dp"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/first" />
+                    android:src="@drawable/first"
+                    android:visibility="gone"/>
             </FrameLayout>
 
             <FrameLayout
@@ -359,12 +367,14 @@
                     android:src="@drawable/img_default"/>
 
                 <ImageView
+                    android:id="@+id/pc_second_icon"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="8dp"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/second" />
+                    android:src="@drawable/second"
+                    android:visibility="gone"/>
             </FrameLayout>
 
             <FrameLayout
@@ -382,12 +392,14 @@
                     android:src="@drawable/img_default"/>
 
                 <ImageView
+                    android:id="@+id/pc_third_icon"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="8dp"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/third" />
+                    android:src="@drawable/third"
+                    android:visibility="gone"/>
             </FrameLayout>
 
             <LinearLayout
