@@ -72,7 +72,7 @@ import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_upload_photo)
 public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBase.OnRefreshListener2<ListView>, View.OnClickListener, AdapterView.OnItemClickListener, DownloadManager.DownloadCallBack
-        , PhotoListIml.PhotoListCallback, ImageFileCropSelector.Callback {
+        , PhotoListIml.PhotoListCallback, ImageFileCropSelector.Callback,ImageFileSelector.Callback {
     //toolbar标题栏
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -122,6 +122,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     private ImageView imtest_list;
     private TextView tv_downphoto_nick;
     private ImageFileSelector imageFileSelector;
+    boolean flag=true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,6 +162,11 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         progressDialog.setMessage("正在加载内容...");
         tv_title.setText("上传照片");
         tv_right.setText("分享");
+        imageFileSelector=new ImageFileSelector(this);
+        imageFileSelector.setOutPutImageSize(DisplayUtil.dip2px(this,600),
+                DisplayUtil.dip2px(this,400));
+        imageFileSelector.setQuality(80);
+        imageFileSelector.setCallback(this);
         //监听点击事件
         ll_left.setOnClickListener(this);
 
@@ -185,6 +191,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         im_uploadphoto_banner_list.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                flag=true;
                 new AlertDialog.Builder(UploadPhotoActivity.this).setItems(items, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -234,21 +241,20 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
                 startActivityForResult(intent, 100);
                 break;
             case R.id.imtest_list:
-
+                flag=false;
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setItems(items, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {
-//                            getPdfFileIntent();
-//                            imageFileSelector.takePhoto(UploadPhotoActivity.this);
-//                            startActivity(new Intent(UploadPhotoActivity.this,GuideActivity.class));
-                            takecamera();
+                            imageFileSelector.takePhoto(UploadPhotoActivity.this);
+//                            takecamera();
 
                         } else if (which == 1) {
                             //照片
 //                            imageFileSelector.selectImage(UploadPhotoActivity.this);
-                            takepic();
+                            imageFileSelector.selectImage(UploadPhotoActivity.this);
+//                            takepic();
                         }
                     }
                 }).create().show();
@@ -291,8 +297,12 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        imageFileSelector.onActivityResult(requestCode,resultCode,data);
-        imageFileCropSelector.onActivityResult(requestCode, resultCode, data);
+        if (!flag) {
+            imageFileSelector.onActivityResult(requestCode, resultCode, data);
+        }
+        else {
+            imageFileCropSelector.onActivityResult(requestCode, resultCode, data);
+        }
         imageFileCropSelector.getmImageCropperHelper().onActivityResult(requestCode, resultCode, data);
         UMSsoHandler ssoHandler = SocializeConfig.getSocializeConfig().getSsoHandler(requestCode);
         System.out.println("ssoHandler:"+ssoHandler+"   requestCode:"+requestCode+"   resultCode:"+resultCode);
@@ -406,30 +416,39 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
 
     @Override
     public void onSuccess(final String file) {
+
         String token = UserInfoModel.getInstance().getToken();
-        service.updateClassBanner(token, Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()),
-                "1",
-                new TypedFile("image/*", new File(file)),
-                new Callback<ResponseData<BannerModel>>() {
-                    @Override
-                    public void success(ResponseData<BannerModel> bannerModelResponseData, Response response) {
-                        Log.i("logbanner====" + bannerModelResponseData.getData().getPath());
-                        Picasso.with(UploadPhotoActivity.this).load(AddressManager.get("photoHost") + bannerModelResponseData.getData().getPath()).fit().
+        if (!flag) {
+            progressDialog.setMessage("图片正在上传...");
+            progressDialog.show();
+            photoListPre.doUploadPhoto(UserInfoModel.getInstance().getUser().getUserid(), file, progressDialog);
+        }
+        else {
+            service.updateClassBanner(token, Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()),
+                    "1",
+                    new TypedFile("image/*", new File(file)),
+                    new Callback<ResponseData<BannerModel>>() {
+                        @Override
+                        public void success(ResponseData<BannerModel> bannerModelResponseData, Response response) {
+                            Log.i("logbanner====" + bannerModelResponseData.getData().getPath());
+                            Picasso.with(UploadPhotoActivity.this).load(AddressManager.get("photoHost") + bannerModelResponseData.getData().getPath()).fit().
 
-                                placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(im_uploadphoto_banner_list);
+                                    placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(im_uploadphoto_banner_list);
 
-                        new File(file).delete();
-                    }
+                            new File(file).delete();
+                        }
 
-                    @Override
-                    public void failure(RetrofitError error) {
-                        ZillaApi.dealNetError(error);
-                    }
-                });
+                        @Override
+                        public void failure(RetrofitError error) {
+                            ZillaApi.dealNetError(error);
+                        }
+                    });
+        }
     }
 
     @Override
     public void onError() {
 
     }
+
 }
