@@ -284,8 +284,19 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         et_nickname.setText(getConfirmInfoModel.getUserName());
         tv_class.setText(getConfirmInfoModel.getClassName());
         et_phone.setText(getConfirmInfoModel.getMobile());
-        tv_weight.setText(StringUtil.getValue(getConfirmInfoModel.getWeight()) + "斤");
-        tv_tizhi.setText(StringUtil.getValue(getConfirmInfoModel.getPysical()) + "%");
+        String weights = StringUtil.getValue(getConfirmInfoModel.getWeight());
+        if ("".equals(weights)) {
+            tv_weight.setText("");
+        } else {
+            tv_weight.setText(StringUtil.getValue(getConfirmInfoModel.getWeight()) + "斤");
+        }
+        String pysicals = StringUtil.getValue(getConfirmInfoModel.getPysical());
+        if ("".equals(pysicals)) {
+            tv_tizhi.setText("");
+        } else {
+            tv_tizhi.setText(StringUtil.getValue(getConfirmInfoModel.getPysical()) + "%");
+        }
+
         tv_neizhi.setText(StringUtil.getValue(getConfirmInfoModel.getFat()) + "");
         tv_birthday.setText(getConfirmInfoModel.getBirthday());
         tv_sex.setText(getConfirmInfoModel.getGender().equals("0") ? "男" : "女");
@@ -603,8 +614,12 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
             coninfoModel.setBirthday(tv_birthday.getText().toString());
             coninfoModel.setGender(tv_sex.getText().toString().equals("男") ? 0 : 1);
             coninfoModel.setPhoto(change_photo);
-            String weights = tv_weight.getText().toString().split("斤")[0];
-            coninfoModel.setWeight(Double.parseDouble(weights));
+            if(tv_weight.getText().toString().equals("")){
+                coninfoModel.setWeight(0.0);
+            }else {
+                String weights = tv_weight.getText().toString().split("斤")[0];
+                coninfoModel.setWeight(Double.parseDouble(weights));
+            }
             if (tv_tizhi.getText().toString().equals("")) {
                 coninfoModel.setPysical(0.0);
             } else {
@@ -669,8 +684,13 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
             newstudentsModel.setMobile(mobile);
             String classId = pargradeIdlList.get(select_posion);
             newstudentsModel.setClassid(classId);
-            String weights = tv_weight.getText().toString().split("斤")[0];
-            newstudentsModel.setWeight(Double.parseDouble(weights));
+            if(tv_weight.getText().toString().equals("")){
+                newstudentsModel.setWeight(0.0);
+            }else {
+                String weights = tv_weight.getText().toString().split("斤")[0];
+                newstudentsModel.setWeight(Double.parseDouble(weights));
+            }
+
             newstudentsModel.setBirthday(tv_birthday.getText().toString());
             newstudentsModel.setGender(tv_sex.getText().toString().equals("男") ? 0 : 1);
             newstudentsModel.setPhoto(change_photo);

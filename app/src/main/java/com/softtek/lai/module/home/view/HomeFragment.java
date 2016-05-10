@@ -49,7 +49,6 @@ import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.message.presenter.IMessagePresenter;
 import com.softtek.lai.module.message.presenter.MessageImpl;
 import com.softtek.lai.module.message.view.MessageActivity;
-import com.softtek.lai.module.personalPK.view.CreatePKActivity;
 import com.softtek.lai.module.personalPK.view.PKListActivity;
 import com.softtek.lai.module.sport.presenter.SportGroupManager;
 import com.softtek.lai.module.sport.view.GroupMainActivity;
@@ -278,8 +277,8 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                     intoBodyGamePage(role);
                     break;
                 case Constants.LAI_YUNDONG:
-                    startActivity(new Intent(getContext(), CreatePKActivity.class));
                     //startActivity(new Intent(getContext(), PKListActivity.class));
+                     new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
                     //sportGroupManager.isJoinRunGroup(UserInfoModel.getInstance().getUser().getUserid());
                     break;
                 case Constants.OFFICE:

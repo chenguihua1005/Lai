@@ -4,6 +4,8 @@ import java.util.List;
 
 /**
  * Created by julie.zhu on 5/3/2016.
+ * 3.3.3	当日前100排名详情
+ * 3.3.4	当周排前100名详情
  */
 public class DayRankModel {
     private String orderInfo;
