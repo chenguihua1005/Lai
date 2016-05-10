@@ -549,48 +549,57 @@
                     android:layout_width="0dp"
                     android:layout_height="120dp">
                     <ImageView
+                        android:id="@+id/img_honor1"
                         android:layout_width="wrap_content"
                         android:layout_height="60dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/img_medal1"/>
+                        android:scaleType="fitCenter" />
                     <TextView
-                        android:text="连续21天步数1万"
+                        android:id="@+id/tv_str1"
+                        android:layout_marginTop="7dp"
+                        android:textColor="#666666"
+                        android:textSize="10sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/ll_honor2"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="120dp">
                     <ImageView
+                        android:id="@+id/img_honor2"
                         android:layout_width="wrap_content"
                         android:layout_height="60dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/img_medal"/>
+                        android:scaleType="fitCenter" />
                     <TextView
-                        android:text="累计步数1万"
+                        android:id="@+id/tv_str2"
+                        android:layout_marginTop="7dp"
+                        android:textColor="#666666"
+                        android:textSize="10sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/ll_honor3"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="120dp">
                     <ImageView
+                        android:id="@+id/img_honor3"
                         android:layout_width="wrap_content"
                         android:layout_height="60dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/img_medal1"/>
+                        android:scaleType="fitCenter" />
                     <TextView
-                        android:text="连续3天步数1万"
+                        android:id="@+id/tv_str3"
+                        android:layout_marginTop="7dp"
+                        android:textColor="#666666"
+                        android:textSize="10sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </LinearLayout>

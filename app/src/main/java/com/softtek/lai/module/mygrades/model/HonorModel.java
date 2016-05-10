@@ -2,6 +2,7 @@ package com.softtek.lai.module.mygrades.model;
 
 /**
  * Created by julie.zhu on 5/3/2016.
+ * 3.3.2	勋章详情页
  */
 public class HonorModel {
     private String ThreeDays;
@@ -11,9 +12,15 @@ public class HonorModel {
     private String OneHundredDays;
     private String TwoHundredyDays;
     private String OneYearDays;
-    private String Totals;
+    private String Totals;//总步数，步数勋章用该字段自动判断
+    private String DayOrderTotal;//跑团人数
+    private String DayOrder;//当日跑团排名
+    private String ContryDayOrderTotal;//全国总人数
+    private String ContryDayOrder;//当日全国排名
+    private String WeekOrderRG;//跑团当周排名
+    private String WeekOrder;//当周全国排名
 
-    public HonorModel(String threeDays, String sevenDays, String twentyOneDays, String thirtyDays, String oneHundredDays, String twoHundredyDays, String oneYearDays, String totals) {
+    public HonorModel(String threeDays, String sevenDays, String twentyOneDays, String thirtyDays, String oneHundredDays, String twoHundredyDays, String oneYearDays, String totals, String dayOrderTotal, String dayOrder, String contryDayOrderTotal, String contryDayOrder, String weekOrderRG, String weekOrder) {
         ThreeDays = threeDays;
         SevenDays = sevenDays;
         this.twentyOneDays = twentyOneDays;
@@ -22,6 +29,12 @@ public class HonorModel {
         TwoHundredyDays = twoHundredyDays;
         OneYearDays = oneYearDays;
         Totals = totals;
+        DayOrderTotal = dayOrderTotal;
+        DayOrder = dayOrder;
+        ContryDayOrderTotal = contryDayOrderTotal;
+        ContryDayOrder = contryDayOrder;
+        WeekOrderRG = weekOrderRG;
+        WeekOrder = weekOrder;
     }
 
     @Override
@@ -35,6 +48,12 @@ public class HonorModel {
                 ", TwoHundredyDays='" + TwoHundredyDays + '\'' +
                 ", OneYearDays='" + OneYearDays + '\'' +
                 ", Totals='" + Totals + '\'' +
+                ", DayOrderTotal='" + DayOrderTotal + '\'' +
+                ", DayOrder='" + DayOrder + '\'' +
+                ", ContryDayOrderTotal='" + ContryDayOrderTotal + '\'' +
+                ", ContryDayOrder='" + ContryDayOrder + '\'' +
+                ", WeekOrderRG='" + WeekOrderRG + '\'' +
+                ", WeekOrder='" + WeekOrder + '\'' +
                 '}';
     }
 
@@ -100,5 +119,53 @@ public class HonorModel {
 
     public void setTotals(String totals) {
         Totals = totals;
+    }
+
+    public String getDayOrderTotal() {
+        return DayOrderTotal;
+    }
+
+    public void setDayOrderTotal(String dayOrderTotal) {
+        DayOrderTotal = dayOrderTotal;
+    }
+
+    public String getDayOrder() {
+        return DayOrder;
+    }
+
+    public void setDayOrder(String dayOrder) {
+        DayOrder = dayOrder;
+    }
+
+    public String getContryDayOrderTotal() {
+        return ContryDayOrderTotal;
+    }
+
+    public void setContryDayOrderTotal(String contryDayOrderTotal) {
+        ContryDayOrderTotal = contryDayOrderTotal;
+    }
+
+    public String getContryDayOrder() {
+        return ContryDayOrder;
+    }
+
+    public void setContryDayOrder(String contryDayOrder) {
+        ContryDayOrder = contryDayOrder;
+    }
+
+    public String getWeekOrderRG() {
+        return WeekOrderRG;
+    }
+
+    public void setWeekOrderRG(String weekOrderRG) {
+        WeekOrderRG = weekOrderRG;
+    }
+
+    public String getWeekOrder() {
+        return WeekOrder;
+    }
+
+    public void setWeekOrder(String weekOrder) {
+        WeekOrder = weekOrder;
     }
 }

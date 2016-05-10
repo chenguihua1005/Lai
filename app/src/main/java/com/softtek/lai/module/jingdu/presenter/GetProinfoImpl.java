@@ -42,7 +42,7 @@ public class GetProinfoImpl implements IGetProinfopresenter {
                 switch (status)
                 {
                     case 200:
-                        Util.toastMsg("获取成功");
+                        //Util.toastMsg("获取成功");
                         break;
                     case 502:
                         Util.toastMsg("数据异常");
