@@ -182,7 +182,6 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     protected void initViews() {
         EventBus.getDefault().register(this);
         btn_retest_write_addbodyst.setOnClickListener(this);
-//        ll_fucest_chu_weight.setOnClickListener(this);
         ll_fucest_nowweight.setOnClickListener(this);
         ll_fucest_tizhi.setOnClickListener(this);
         ll_retestWrite_neizhi.setOnClickListener(this);
@@ -203,9 +202,9 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         retestAuditModel=new RetestAuditModel();
         measureModel=new MeasureModel();
         imageFileSelector=new ImageFileSelector(this);
-        imageFileSelector.setOutPutImageSize(DisplayUtil.dip2px(this,200),
-                DisplayUtil.dip2px(this,100));
-        imageFileSelector.setQuality(50);
+        imageFileSelector.setOutPutImageSize(DisplayUtil.dip2px(this,600),
+                DisplayUtil.dip2px(this,300));
+        imageFileSelector.setQuality(60);
         imageFileSelector.setCallback(this);
         tv_writes_chu_weight.setFocusable(false);
         tv_retestWrites_nowweight.setFocusable(false);
@@ -221,7 +220,6 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
                 im_deletest.setVisibility(View.GONE);
                 im_retestwritest_showphoto.setVisibility(View.GONE);
                 im_retestwritest_showphoto.setImageBitmap(null);
-                im_retestwritest_showphoto.setBackgroundColor(Color.parseColor("#c0c0c0"));
                 break;
             case R.id.btn_retest_write_addbodyst:
                 Intent intent=new Intent(this, BodyweidustActivity.class);
@@ -230,15 +228,6 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
                 intent.putExtra("isState",isState);
                 startActivityForResult(intent,GET_BODY);
                 break;
-//            case R.id.ll_fucest_chu_weight:
-//                if (isState.equals("true")) {
-//                    if (retestAuditModel.getIsFirst() == "true") {
-//                        show_information("初始体重（斤）", 600, 100, 20, 9, 0, 0, 0);
-//                    } else {
-//                        Util.toastMsg("您不是第一次参加班级，不能修改初始体重");
-//                    }
-//                }
-//                break;
             case R.id.ll_fucest_nowweight:
                 if (isState.equals("true")) {
                     if (gender.equals("1")) {
