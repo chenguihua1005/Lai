@@ -109,6 +109,19 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
     @InjectView(R.id.ll_fooder)
     LinearLayout ll_footer;
 
+    @InjectView(R.id.sr_first_icon)
+    ImageView sr_first_icon;
+    @InjectView(R.id.sr_second_icon)
+    ImageView sr_second_icon;
+    @InjectView(R.id.sr_third_icon)
+    ImageView sr_third_icon;
+    @InjectView(R.id.pc_first_icon)
+    ImageView pc_first_icon;
+    @InjectView(R.id.pc_second_icon)
+    ImageView pc_second_icon;
+    @InjectView(R.id.pc_third_icon)
+    ImageView pc_third_icon;
+
     private EditText et_content;
     private TextView tv_dialog_title;
 
@@ -269,6 +282,7 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
             switch (i) {
                 case 0:
                     cir_pc_one.setVisibility(View.VISIBLE);
+                    pc_first_icon.setVisibility(View.VISIBLE);
                     if(StringUtils.isNotEmpty(pc.getPhoto())){
                         Picasso.with(this).load(pc.getPhoto()).fit()
                                 .placeholder(R.drawable.img_default)
@@ -277,6 +291,7 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
                     break;
                 case 1:
                     cir_pc_two.setVisibility(View.VISIBLE);
+                    pc_second_icon.setVisibility(View.VISIBLE);
                     if(StringUtils.isNotEmpty(pc.getPhoto())) {
                         Picasso.with(this).load(pc.getPhoto()).fit()
                                 .placeholder(R.drawable.img_default)
@@ -285,6 +300,7 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
                     break;
                 case 2:
                     cir_pc_three.setVisibility(View.VISIBLE);
+                    pc_third_icon.setVisibility(View.VISIBLE);
                     if(StringUtils.isNotEmpty(pc.getPhoto())) {
                         Picasso.with(this).load(pc.getPhoto()).fit()
                                 .placeholder(R.drawable.img_default)
@@ -298,6 +314,7 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
             switch (i) {
                 case 0:
                     cir_sr_one.setVisibility(View.VISIBLE);
+                    sr_first_icon.setVisibility(View.VISIBLE);
                     if(StringUtils.isNotEmpty(sr.getPhoto())) {
                         Picasso.with(this).load(sr.getPhoto()).fit()
                                 .placeholder(R.drawable.img_default)
@@ -306,6 +323,7 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
                     break;
                 case 1:
                     cir_sr_two.setVisibility(View.VISIBLE);
+                    sr_second_icon.setVisibility(View.VISIBLE);
                     if(StringUtils.isNotEmpty(sr.getPhoto())) {
                         Picasso.with(this).load(sr.getPhoto()).fit()
                                 .placeholder(R.drawable.img_default)
@@ -314,6 +332,7 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
                     break;
                 case 2:
                     cir_sr_three.setVisibility(View.VISIBLE );
+                    sr_third_icon.setVisibility(View.VISIBLE);
                     if(StringUtils.isNotEmpty(sr.getPhoto())) {
                         Picasso.with(this).load(sr.getPhoto()).fit()
                                 .placeholder(R.drawable.img_default)

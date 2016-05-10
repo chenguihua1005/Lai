@@ -116,7 +116,7 @@ public class CreatePKActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.fl_right:
                 //下一步
-                Intent pk=new Intent(this,SelectOpponentActivity.class);
+                Intent pk=new Intent(this,SearchActivity.class);
                 saveValue();
                 pk.putExtra("pkmodel",model);
                 startActivity(pk);
