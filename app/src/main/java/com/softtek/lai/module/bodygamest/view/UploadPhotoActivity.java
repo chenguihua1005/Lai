@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -42,6 +44,7 @@ import com.softtek.lai.utils.ShareUtils;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileCropSelector;
+import com.sw926.imagefileselector.ImageFileSelector;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.bean.SocializeConfig;
 import com.umeng.socialize.bean.SocializeEntity;
@@ -65,13 +68,14 @@ import retrofit.mime.TypedFile;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_upload_photo)
 public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBase.OnRefreshListener2<ListView>, View.OnClickListener, AdapterView.OnItemClickListener, DownloadManager.DownloadCallBack
         , PhotoListIml.PhotoListCallback, ImageFileCropSelector.Callback {
     //toolbar标题栏
     @InjectView(R.id.ll_left)
-    TextView ll_left;
+    LinearLayout ll_left;
     @InjectView(R.id.tv_title)
     TextView tv_title;
     //    @InjectView(R.id.imtest)
@@ -117,6 +121,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     private TextView tv_today;
     private ImageView imtest_list;
     private TextView tv_downphoto_nick;
+    private ImageFileSelector imageFileSelector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -201,6 +206,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
 
     @Override
     protected void initDatas() {
+
         service = ZillaApi.NormalRestAdapter.create(GradeService.class);
         downloadManager = new DownloadManager(this);
         downPhotoModel = new DownPhotoModel();
@@ -228,17 +234,20 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
                 startActivityForResult(intent, 100);
                 break;
             case R.id.imtest_list:
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setItems(items, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {
 //                            getPdfFileIntent();
-                            startActivity(new Intent(UploadPhotoActivity.this,GuideActivity.class));
-//                            takecamera();
+//                            imageFileSelector.takePhoto(UploadPhotoActivity.this);
+//                            startActivity(new Intent(UploadPhotoActivity.this,GuideActivity.class));
+                            takecamera();
 
                         } else if (which == 1) {
                             //照片
+//                            imageFileSelector.selectImage(UploadPhotoActivity.this);
                             takepic();
                         }
                     }
@@ -282,6 +291,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+//        imageFileSelector.onActivityResult(requestCode,resultCode,data);
         imageFileCropSelector.onActivityResult(requestCode, resultCode, data);
         imageFileCropSelector.getmImageCropperHelper().onActivityResult(requestCode, resultCode, data);
         UMSsoHandler ssoHandler = SocializeConfig.getSocializeConfig().getSsoHandler(requestCode);

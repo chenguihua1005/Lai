@@ -37,6 +37,7 @@ import com.softtek.lai.module.studetail.view.StudentDetailActivity;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.ShareUtils;
 import com.softtek.lai.utils.SoftInputUtil;
+import com.softtek.lai.utils.StringUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -160,7 +161,7 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
 
             if (Integer.parseInt(rank_num) <= 10) {
                 if ("rtest_rank".equals(rowname)) {
-                    text_rtest.setText(num);
+                    text_rtest.setText(StringUtil.getFloatValue(num));
                     text_fc_mc.setText(rank_num);
                     img_fc.setImageResource(R.drawable.img_honor_10);
                     text_fc_mc.setTextColor(getResources().getColor(R.color.word11));
@@ -193,7 +194,7 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
                 } else if ("starnum_rank".equals(rowname)) {
                     text_star.setText(num + "人");
                 } else if ("weight_rank".equals(rowname)) {
-                    text_weight.setText(num);
+                    text_weight.setText(StringUtil.getFloatValue(num));
                     text_jzjs_mc.setText(rank_num);
                     img_jzjs.setImageResource(R.drawable.img_honor_10);
                     text_jzjs_mc.setTextColor(getResources().getColor(R.color.word11));
@@ -212,7 +213,7 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
 
             } else {
                 if ("rtest_rank".equals(rowname)) {
-                    text_rtest.setText(num);
+                    text_rtest.setText(StringUtil.getFloatValue(num));
                     text_fc_mc.setText(rank_num);
                     img_fc.setImageResource(R.drawable.img_honor_100);
                     text_fc_mc.setTextColor(getResources().getColor(R.color.word10));
@@ -224,7 +225,7 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
                 } else if ("starnum_rank".equals(rowname)) {
                     text_star.setText(num + "人");
                 } else if ("weight_rank".equals(rowname)) {
-                    text_weight.setText(num);
+                    text_weight.setText(StringUtil.getFloatValue(num));
                     text_jzjs_mc.setText(rank_num);
                     img_jzjs.setImageResource(R.drawable.img_honor_100);
                     text_jzjs_mc.setTextColor(getResources().getColor(R.color.word10));

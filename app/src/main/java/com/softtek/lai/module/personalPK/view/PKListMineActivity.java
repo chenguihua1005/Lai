@@ -62,6 +62,12 @@ public class PKListMineActivity extends BaseActivity implements View.OnClickList
         manager=new PKListManager();
         adapter=new PKListAdapter(this,models);
         ptrlv.setAdapter(adapter);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ptrlv.setRefreshing();
+            }
+        }, 300);
     }
 
     @Override
@@ -127,6 +133,7 @@ public class PKListMineActivity extends BaseActivity implements View.OnClickList
     }
 
     public void getModels(ResponseData<List<PKListModel>> model){
+        ptrlv.onRefreshComplete();
         if(model==null){
             pageIndex=--pageIndex<1?1:pageIndex;
             return;

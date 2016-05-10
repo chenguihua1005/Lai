@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -32,6 +33,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.File.model.FileModel;
+import com.softtek.lai.module.bodygamest.view.GuideActivity;
 import com.softtek.lai.module.newmemberentry.view.GetPhotoDialog;
 import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
 import com.softtek.lai.module.retest.eventModel.BanJiEvent;
@@ -165,7 +167,8 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
     String classid;
     private static final int PHOTO=1;
     private static final int GET_BODY=2;
-    private static final String LAI_CHEN_SWITCH_KEY="laichenSwitch";
+    private static final int BODY=3;
+    private static final String LAI_CHEN_SWITCH_KEY="guidetake";
     private CharSequence[] items={"拍照","从相册选择照片"};
     String isState="true";
     private ImageFileCropSelector imageFileCropSelector;
@@ -291,20 +294,35 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
                 break;
             //拍照事件
             case R.id.im_retestwrite_takephoto:
-                AlertDialog.Builder builder=new AlertDialog.Builder(this);
-                builder.setItems(items, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (which == 0) {
+                SharedPreferences sharedPreferences = this.getSharedPreferences("share", MODE_PRIVATE);
+                boolean isFirstRun = sharedPreferences.getBoolean("isFirstRun", true);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                if (isFirstRun)
+                {
+                    Intent intent1=new Intent(this,GuideActivity.class);
+                    startActivityForResult(intent1,BODY);
+                    Log.d("debug", "第一次运行");
+                    editor.putBoolean("isFirstRun", false);
+                    editor.commit();
+                } else
+                {
+                    AlertDialog.Builder builder=new AlertDialog.Builder(this);
+                    builder.setItems(items, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (which == 0) {
 //                            takecamera();
-                            imageFileSelector.takePhoto(WriteActivity.this);
-                        } else if (which == 1) {
-                            //照片
+                                imageFileSelector.takePhoto(WriteActivity.this);
+                            } else if (which == 1) {
+                                //照片
 //                            takepic();
-                            imageFileSelector.selectImage(WriteActivity.this);
+                                imageFileSelector.selectImage(WriteActivity.this);
+                            }
                         }
-                    }
-                }).create().show();
+                    }).create().show();
+                    Log.d("debug", "不是第一次运行");
+                }
+
 
                 break;
             //添加身体围度
@@ -400,6 +418,23 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
             Log.i("》》》》》requestCode："+requestCode+"resultCode："+resultCode);
             retestWrite=(RetestWriteModel) data.getSerializableExtra("retestWrite");
             Log.i("新学员录入围度:retestWrite"+retestWrite);
+        }
+        if (requestCode==BODY&&resultCode==RESULT_OK){
+            AlertDialog.Builder builder=new AlertDialog.Builder(this);
+            builder.setItems(items, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (which == 0) {
+//                            takecamera();
+                        imageFileSelector.takePhoto(WriteActivity.this);
+                    } else if (which == 1) {
+                        //照片
+//                            takepic();
+                        imageFileSelector.selectImage(WriteActivity.this);
+                    }
+                }
+            }).create().show();
+            Log.d("debug", "不是第一次运行");
         }
     }
     public void show_information(String title, int np1maxvalur, int np1value, int np1minvalue, int np2maxvalue, int np2value, int np2minvalue, final int num) {

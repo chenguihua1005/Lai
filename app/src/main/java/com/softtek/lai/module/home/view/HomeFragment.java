@@ -49,7 +49,10 @@ import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.message.presenter.IMessagePresenter;
 import com.softtek.lai.module.message.presenter.MessageImpl;
 import com.softtek.lai.module.message.view.MessageActivity;
+import com.softtek.lai.module.personalPK.view.CreatePKActivity;
+import com.softtek.lai.module.personalPK.view.PKListActivity;
 import com.softtek.lai.module.sport.presenter.SportGroupManager;
+import com.softtek.lai.module.sport.view.GroupMainActivity;
 import com.softtek.lai.module.sport.view.JoinGroupActivity;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
@@ -275,8 +278,8 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                     intoBodyGamePage(role);
                     break;
                 case Constants.LAI_YUNDONG:
-                    //startActivity(new Intent(getContext(), StudentActivity.class));
-                    new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
+                    startActivity(new Intent(getContext(), CreatePKActivity.class));
+                    //startActivity(new Intent(getContext(), PKListActivity.class));
                     //sportGroupManager.isJoinRunGroup(UserInfoModel.getInstance().getUser().getUserid());
                     break;
                 case Constants.OFFICE:
@@ -419,30 +422,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fl_right:
-                String userrole = UserInfoModel.getInstance().getUser().getUserrole();
-                if (String.valueOf(Constants.VR).equals(userrole)) {
-                    //提示用户让他注册或者直接进入2个功能的踢馆赛模块
-                    AlertDialog.Builder information_dialog = null;
-                    information_dialog = new AlertDialog.Builder(getContext());
-                    information_dialog.setTitle("您当前处于游客模式，需要登录认证").setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent login = new Intent(getContext(), LoginActivity.class);
-                            login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(login);
-                        }
-                    }).setNegativeButton("稍候", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    }).create().show();
-                } else {
-                    startActivity(new Intent(getContext(), MessageActivity.class));
-                }
-                break;
-          /*  case R.id.iv_email:
+            case R.id.iv_email:
                 String userroles = UserInfoModel.getInstance().getUser().getUserrole();
                 if (String.valueOf(Constants.VR).equals(userroles)) {
                     //提示用户让他登录或者直接进入2个功能的踢馆赛模块
@@ -465,7 +445,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                 } else {
                     startActivity(new Intent(getContext(), MessageActivity.class));
                 }
-                break;*/
+                break;
         }
     }
 
@@ -481,7 +461,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     public void isJoinRunGroup(boolean b) {
         System.out.println("是否加入了跑团:" + b);
         if (b) {
-
+            startActivity(new Intent(getContext(), GroupMainActivity.class));
         } else {
             startActivity(new Intent(getContext(), JoinGroupActivity.class));
         }

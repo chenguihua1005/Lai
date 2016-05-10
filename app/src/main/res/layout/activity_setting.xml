@@ -10,17 +10,38 @@
 
     <include layout="@layout/toolbar" />
 
-    <ImageView
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/default_pic" />
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin"
+            android:src="@drawable/logo" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/margin"
+            android:layout_marginTop="@dimen/margin"
+            android:text="@string/version"
+            android:textColor="#808080"
+            android:textSize="11sp" />
+    </LinearLayout>
 
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/fragmentMineMargin"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:visibility="gone">
 
         <RelativeLayout
             android:layout_width="fill_parent"
@@ -33,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:src="@drawable/img_sfrz"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -73,7 +94,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:src="@drawable/img_sfrz"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
             <TextView
                 android:layout_width="wrap_content"

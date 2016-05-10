@@ -27,6 +27,7 @@ import com.softtek.lai.module.confirmInfo.model.GetConfirmInfoModel;
 import com.softtek.lai.module.newmemberentry.view.model.NewstudentsModel;
 import com.softtek.lai.module.retest.model.RetestWriteModel;
 import com.softtek.lai.utils.SoftInputUtil;
+import com.softtek.lai.utils.StringUtil;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -137,24 +138,12 @@ public class JoinGameDimensionRecordActivity extends BaseActivity implements OnC
         } else {
             tv_title.setText("添加记录");
         }
-        if (!"".equals(getConfirmInfoModel.getCircum())) {
-            tv_circum.setText(Double.parseDouble(getConfirmInfoModel.getCircum()) + "");
-        }
-        if (!"".equals(getConfirmInfoModel.getWaistline())) {
-            tv_waistline.setText(Double.parseDouble(getConfirmInfoModel.getWaistline()) + "");
-        }
-        if (!"".equals(getConfirmInfoModel.getHiplie())) {
-            tv_hiplie.setText(Double.parseDouble(getConfirmInfoModel.getHiplie()) + "");
-        }
-        if (!"".equals(getConfirmInfoModel.getUpArmGirth())) {
-            tv_uparmgirth.setText(Double.parseDouble(getConfirmInfoModel.getUpArmGirth()) + "");
-        }
-        if (!"".equals(getConfirmInfoModel.getUpLegGirth())) {
-            tv_upleggirth.setText(Double.parseDouble(getConfirmInfoModel.getUpLegGirth()) + "");
-        }
-        if (!"".equals(getConfirmInfoModel.getDoLegGirth())) {
-            tv_doleggirth.setText(Double.parseDouble(getConfirmInfoModel.getDoLegGirth()) + "");
-        }
+        tv_circum.setText(StringUtil.getValue(getConfirmInfoModel.getCircum()));
+        tv_waistline.setText(StringUtil.getValue(getConfirmInfoModel.getWaistline()));
+        tv_hiplie.setText(StringUtil.getValue(getConfirmInfoModel.getHiplie()));
+        tv_uparmgirth.setText(StringUtil.getValue(getConfirmInfoModel.getUpArmGirth()));
+        tv_upleggirth.setText(StringUtil.getValue(getConfirmInfoModel.getUpLegGirth()));
+        tv_doleggirth.setText(StringUtil.getValue(getConfirmInfoModel.getDoLegGirth()));
     }
 
     @Override

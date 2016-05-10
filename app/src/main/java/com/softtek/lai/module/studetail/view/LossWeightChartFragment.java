@@ -141,9 +141,9 @@ public class LossWeightChartFragment extends BaseFragment implements RadioGroup.
             }else{
                 //先判断这一次和上一次的差
                 int lastWeek=event.getModels().get(i-1).getWeekDay();
-                if(week-lastWeek>0){
+                if(week-lastWeek>1){
                     //说明中间有断层则插入沿用上一次数据多少次
-                    addEmptyDate(week-lastWeek);
+                    addEmptyDate(week-lastWeek-1);
                 }
                 lossWeightDatas.add(getFloat(model.getWeight()));
                 bodyFatDatas.add(getFloat(model.getPysical()));

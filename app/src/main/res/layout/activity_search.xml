@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.softtek.lai.module.personalPK.view.SelectOpponentActivity">
+    <include layout="@layout/toolbar" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_below="@id/toolbar"
+        android:background="#c9c8ce"
+        android:padding="9dp">
+
+        <EditText
+            android:id="@+id/et_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/pk_chouma_editor_boder"
+            android:textCursorDrawable="@drawable/color_cursor"
+            android:paddingLeft="28dp"
+            android:singleLine="true"
+            android:textSize="14sp"
+            android:textColor="#666666"
+            android:hint="搜索"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/pk_search"
+            android:layout_gravity="center|left"
+            android:layout_marginLeft="10dp"/>
+
+
+    </FrameLayout>
+
+</RelativeLayout>

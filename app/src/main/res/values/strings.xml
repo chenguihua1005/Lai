@@ -29,7 +29,7 @@
     <string name="app_cancel">取消</string>
     <string name="login_out_title">温馨提示</string>
     <string name="warning">警告</string>
-    <string name="warning_value">你确定要移除该班级列表吗？</string>
+    <string name="warning_value">您确定从班级列表中移除该助教吗？</string>
     <string name="login_out_message">确定退出该账号吗？</string>
 
     <string name="title_activity_login">LoginActivity</string>
@@ -158,4 +158,9 @@
     <string name="aboutMe5">跑步轨迹与步数记录，了解你的运动燃卡量</string>
     <string name="aboutMe6">加入小康康i跑团，参与丰富活动，发起PK挑战，找到志同道合的小伙伴</string>
     <string name="aboutMe7">打造健康圈，分享你的心得和进步</string>
+    <string name="naixi">健康奶昔餐：PK结束后，输家必须亲手为赢家调制一杯美味奶昔，记得选用对方喜爱的口味和食材哦。</string>
+    <string name="naixicao">摇摇奶昔操：PK结束后，输家必须在赢家面前跳一遍完整的摇摇奶昔操，动作可要标准哟！</string>
+    <string name="naixi1">PK结束后，输家必须亲手为赢家调制一杯美味奶昔，记得选用对方喜爱的口味和食材哦。</string>
+    <string name="naixicao1">PK结束后，输家必须在赢家面前跳一遍完整的摇摇奶昔操，动作可要标准哟！</string>
+    <string name="pkchoumatip">来说说你想要获得的礼物吧！当然不要忘记了，它可能是你想要送出去的东西哦！</string>
 </resources>

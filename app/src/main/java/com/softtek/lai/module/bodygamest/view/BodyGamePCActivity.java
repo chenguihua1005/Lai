@@ -146,24 +146,43 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
 
 
     }
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        iStudentPresenter.GetNotMeasuredRecordByPC(loginid);
-    }
+//    @Override
+//    protected void onRestart() {
+//        super.onRestart();
+//        iStudentPresenter.GetNotMeasuredRecordByPC(loginid);
+//    }
 
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
-        iStudentPresenter.GetNotMeasuredRecordByPC(loginid);
+        studentImpl.hasClass(new RequestCallback<ResponseData<HasClass>>()
+        {
+            @Override
+            public void success(ResponseData<HasClass> hasClassResponseData, Response response)
+            {
+                dialogDissmiss();
+                Log.i(hasClassResponseData.toString());
+                if (hasClassResponseData.getStatus() == 200)
+                {
+                    if ("1".equals(hasClassResponseData.getData().getIsHave()))
+                    {
+                        retestPre.doGetAudit(loginid, 0, "");
+                        iStudentPresenter.GetNotMeasuredRecordByPC(loginid);
+                    }
+                }
+
+            }
+        });
     }
+
+
     public static final int Student_reteset=1;
     @Override
     protected void initDatas() {
         tv_title.setText("体管赛（学员版）");
         iStudentPresenter=new StudentImpl(this);
         tiGuanSai = new TiGuanSaiImpl();
-        iStudentPresenter.GetNotMeasuredRecordByPC(loginid);
         tiGuanSai.getTiGuanSai();
 //        tiGuanSai.doGetFuceNum(loginid);
         tiGuanSai.doGetTotal(progressDialog);
@@ -180,7 +199,7 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
                     if("1".equals(hasClassResponseData.getData().getIsHave()))
                     {
                         retestPre.doGetAudit(loginid,0,"");
-
+                        iStudentPresenter.GetNotMeasuredRecordByPC(loginid);
                     }else{
 
                     }
