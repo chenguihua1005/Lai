@@ -7,6 +7,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.sport.model.CityModel;
 import com.softtek.lai.module.sport.model.DxqModel;
 import com.softtek.lai.module.sport.model.GroupModel;
+import com.softtek.lai.module.sport.model.SportMainModel;
 import com.softtek.lai.module.sport.net.SportGroupService;
 import com.softtek.lai.utils.RequestCallback;
 
@@ -29,16 +30,25 @@ public class SportGroupManager {
     private GetGroupListCallBack getGroupListCallBack;
     private GetRGListCallBack getRGListCallBack;
     private GetRGByNameOrCodeCallBack getRGByNameOrCodeCallBack;
+    private GetSportIndexCallBack getSportIndexCallBack;
 
     public SportGroupManager() {
         token = UserInfoModel.getInstance().getToken();
         service = ZillaApi.NormalRestAdapter.create(SportGroupService.class);
     }
+
+    public SportGroupManager(GetSportIndexCallBack getSportIndexCallBack) {
+        this.getSportIndexCallBack = getSportIndexCallBack;
+        token = UserInfoModel.getInstance().getToken();
+        service = ZillaApi.NormalRestAdapter.create(SportGroupService.class);
+    }
+
     public SportGroupManager(GetRGByNameOrCodeCallBack getRGByNameOrCodeCallBack) {
         this.getRGByNameOrCodeCallBack = getRGByNameOrCodeCallBack;
         token = UserInfoModel.getInstance().getToken();
         service = ZillaApi.NormalRestAdapter.create(SportGroupService.class);
     }
+
     public SportGroupManager(GetRGListCallBack getRGListCallBack) {
         this.getRGListCallBack = getRGListCallBack;
         token = UserInfoModel.getInstance().getToken();
@@ -268,8 +278,38 @@ public class SportGroupManager {
         });
     }
 
-    public void joinRunGroup(String rGId,String rGAccId, final JoinRunGroupCallBack joinRunGroupCallBack) {
-        service.joinRunGroup(token, rGId,rGAccId, new RequestCallback<ResponseData>() {
+    public void getSportIndex(String str) {
+        service.getSportIndex(token, str, new RequestCallback<ResponseData<SportMainModel>>() {
+            @Override
+            public void success(ResponseData<SportMainModel> listResponseData, Response response) {
+                Log.e("jarvis", listResponseData.toString());
+                int status = listResponseData.getStatus();
+                switch (status) {
+                    case 200:
+                        getSportIndexCallBack.getSportIndex("success", listResponseData.getData());
+                        break;
+                    case 100:
+                        getSportIndexCallBack.getSportIndex("fail", new SportMainModel());
+                        break;
+                    default:
+                        getSportIndexCallBack.getSportIndex("fail", new SportMainModel());
+                        Util.toastMsg(listResponseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                if (getSportIndexCallBack != null) {
+                    getSportIndexCallBack.getSportIndex("fail", new SportMainModel());
+                }
+                ZillaApi.dealNetError(error);
+            }
+        });
+    }
+
+    public void joinRunGroup(String rGId, String rGAccId, final JoinRunGroupCallBack joinRunGroupCallBack) {
+        service.joinRunGroup(token, rGId, rGAccId, new RequestCallback<ResponseData>() {
             @Override
             public void success(ResponseData listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());
@@ -316,6 +356,11 @@ public class SportGroupManager {
     public interface GetRGByNameOrCodeCallBack {
 
         void getRGByNameOrCode(String type, List<GroupModel> list);
+    }
+
+    public interface GetSportIndexCallBack {
+
+        void getSportIndex(String type, SportMainModel sportMainModel);
     }
 
     public interface GetGroupListCallBack {
