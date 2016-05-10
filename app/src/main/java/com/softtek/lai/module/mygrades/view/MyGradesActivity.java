@@ -2,6 +2,7 @@ package com.softtek.lai.module.mygrades.view;
 
 //莱运动-我的成绩页面
 import android.content.DialogInterface;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -31,11 +32,21 @@ import com.softtek.lai.utils.SystemBarTintManager;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.Format;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import butterknife.InjectView;
 import retrofit.Callback;
@@ -133,6 +144,10 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
     int mYear = c.get(Calendar.YEAR);
     int mMonth = c.get(Calendar.MONTH)+1;
     int mDay = c.get(Calendar.DAY_OF_MONTH);
+    int mHour=c.get(Calendar.HOUR);
+    int mMinute=c.get(Calendar.MINUTE);
+    int mSecond=c.get(Calendar.SECOND);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,48 +181,44 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
         chart.getAxisRight().setEnabled(false);//取消右边的轴线
         chart.setData(new LineData());//设置一个空数据
         chart.getLegend().setEnabled(false);//去除图例
-        //chart.setMinimumHeight(200);
-        LineChartUtil chartUtil;
-        List<Float> dates=new ArrayList<Float>();
-        List<String>days=new ArrayList<String>();
-//        dates.add(36f);
-//        dates.add(36f);
-//        dates.add(2000f);
-//        dates.add(50f);
-//        dates.add(70f);
-        dates.add(3776f);
-        dates.add(3600f);
-        dates.add(2000f);
-        dates.add(5007f);
-        dates.add(70f);
-        days.add("5/5");
-        days.add("5/6");
-        days.add("5/7");
-        days.add("5/8");
-        days.add("5/9");
-
-//        days.add("2016-05-04");
-//        days.add("2016-05-05");
-//        days.add("2016-05-06");
-
-        chartUtil=new LineChartUtil(MyGradesActivity.this,chart);
-        chartUtil.addData(dates,5,days);
     }
 
     @Override
     protected void initDatas() {
         iGradesPresenter = new GradesImpl();
         //我的成绩
-        iGradesPresenter.getStepCount();
+        //SqlDateTime overflow. Must be between 1/1/1753 12:00:00 AM and 12/31/9999 11:59:59 PM.
+
+        String a = "2006-08-14";
+        String b = "2016-08-14";
+        DateTime d1 = DateTime.parse(a);
+        DateTime d2 = DateTime.parse(b);
+//        DateFormat df=new SimpleDateFormat("yyyy-MM-dd", Locale.CANADA);
+//        String startdate="2013-12-08";
+//        String enddate="2013-12-08";
+//        try{
+//            Date printDate=df.parse(a);
+//        }catch (ParseException e){
+//            e.printStackTrace();
+//        }
+
+        Log.i("---------------"+d1+"--------"+d2+"-------------");
+
+        try {
+            iGradesPresenter.getStepCount(d1,d2);//yyyy-MM-dd HH:mm:ss
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         gradesService=ZillaApi.NormalRestAdapter.create(GradesService.class);
 //        getCurrentDateOrder(1);
 //        getCurrentDateOrder(0);
 //        getCurrentWeekOrder(1);
 //        getCurrentWeekOrder(0);
-        //勋章详情页
+        //勋章详情页--调用接口
         getStepHonor();
     }
+
 
     //我的成绩
     @Subscribe
@@ -216,27 +227,27 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
 
         List<GradesModel>gradesModels=gradesEvent.getgradesModels();
 
-//        LineChartUtil chartUtil;
-//        List<Float> dates=new ArrayList<Float>();
-//        List<String>days=new ArrayList<String>();
-////        for (GradesModel gl:gradesModels){
-////            System.out.println("日期"+gl.getDate()+"步数"+gl.getTotalCnt());
-////            dates.add(20000f);
-////            dates.add(21000f);
-////            //days.add(gl.getDate());
-////            days.add(mMonth+"/"+mDay);
-////            days.add(5+"/"+10);
-////        }
-//
-//        dates.add(20000f);
-//        dates.add(21000f);
-//        dates.add(20000f);
-//        days.add(5+"/"+7);
-//        days.add(5+"/"+8);
-//        days.add(mMonth+"/"+mDay);
-//
-//        chartUtil=new LineChartUtil(MyGradesActivity.this,chart);
-//        chartUtil.addData(dates,3,days);
+        LineChartUtil chartUtil;
+        List<Float> dates=new ArrayList<Float>();
+        List<String>days=new ArrayList<String>();
+//        for (GradesModel gl:gradesModels){
+//            System.out.println("日期"+gl.getDate()+"步数"+gl.getTotalCnt());
+//            dates.add(20000f);
+//            dates.add(21000f);
+//            //days.add(gl.getDate());
+//            days.add(mMonth+"/"+mDay);
+//            days.add(5+"/"+10);
+//        }
+
+        dates.add(20000f);
+        dates.add(21000f);
+        dates.add(20000f);
+        days.add(5+"/"+7);
+        days.add(5+"/"+8);
+        days.add(mMonth+"/"+mDay);
+
+        chartUtil=new LineChartUtil(MyGradesActivity.this,chart);
+        chartUtil.addData(dates,3,days);
     }
 
     //我的日排名
@@ -350,226 +361,294 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                         tv_Runweekrank.setText(listResponseData.getData().getWeekOrderRG()+"");
                         tv_Runweekpeople.setText(listResponseData.getData().getDayOrderTotal()+"");
 
-                        //三天勋章,1表示获得，0表示未获得，以下以此类推
-//                        int ThreeDays=Integer.parseInt(listResponseData.getData().getThreeDays());
-//                        int SevenDays=Integer.parseInt(listResponseData.getData().getSevenDays());
-//                        int twentyOneDays=Integer.parseInt(listResponseData.getData().getTwentyOneDays());
-//                        int thirtyDays=Integer.parseInt(listResponseData.getData().getThirtyDays());
-//                        int OneHundredDays=Integer.parseInt(listResponseData.getData().getOneHundredDays());
-//                        int TwoHundredyDays=Integer.parseInt(listResponseData.getData().getTwoHundredyDays());
-//                        int OneYearDays=Integer.parseInt(listResponseData.getData().getOneYearDays());
-
-                        int ThreeDays=0;
-                        int SevenDays=1;
-                        int twentyOneDays=0;
-                        int thirtyDays=1;
-                        int OneHundredDays=1;
-                        int TwoHundredyDays=0;
-                        int OneYearDays=0;
-
-
+                        int num;
+                        int Daysnum,Stepsnum,Angelsnum,Pknum;
+                        //连续3天、7天、21天、30天、100天、200天、365天步数1万勋章 1表示获得，0表示未获得
+                        int ThreeDays=Integer.parseInt(listResponseData.getData().getThreeDays());
+                        int SevenDays=Integer.parseInt(listResponseData.getData().getSevenDays());
+                        int twentyOneDays=Integer.parseInt(listResponseData.getData().getTwentyOneDays());
+                        int thirtyDays=Integer.parseInt(listResponseData.getData().getThirtyDays());
+                        int OneHundredDays=Integer.parseInt(listResponseData.getData().getOneHundredDays());
+                        int TwoHundredyDays=Integer.parseInt(listResponseData.getData().getTwoHundredyDays());
+                        int OneYearDays=Integer.parseInt(listResponseData.getData().getOneYearDays());
+                        Daysnum=ThreeDays+SevenDays+twentyOneDays+thirtyDays+OneHundredDays+TwoHundredyDays+OneYearDays;
                         //步数
                         int Totals=Integer.parseInt(listResponseData.getData().getTotals());
-                        //步数勋章数量
-                        int honornum=0;
                         String bushustr="";
-                        //天数勋章数量
-                        //int Daynum=ThreeDays+SevenDays+twentyOneDays+thirtyDays+OneHundredDays+TwoHundredyDays+OneYearDays;
-                        int Daynum=0;
-                        //总勋章数量
-                        int num=4;//Daynum+honornum;
-
                         if (Totals<100000){
-                                honornum=0;
+                            Stepsnum=0;
                         }else if (Totals>=100000&&Totals<500000)
                         {
-                                honornum=1;
-                                bushustr="累计步数10万";
+                            Stepsnum=1;
+                            bushustr="累计步数10万";
                         }else if (Totals>=500000&&Totals<1000000)
                         {
-                                honornum=2;
-                                bushustr="累计步数50万";
+                            Stepsnum=2;
+                            bushustr="累计步数50万";
                         }
                         else if (Totals>=1000000&&Totals<2000000)
                         {
-                                honornum=3;
-                                bushustr="累计步数100万";
+                            Stepsnum=3;
+                            bushustr="累计步数100万";
                         }
                         else if (Totals>=100000&&Totals<5000000)
                         {
-                                honornum=4;
-                                bushustr="累计步数200万";
+                            Stepsnum=4;
+                            bushustr="累计步数200万";
                         }
                         else if (Totals>=5000000&&Totals<10000000)
                         {
-                            honornum=5;
+                            Stepsnum=5;
                             bushustr="累计步数500万";
                         }else if (Totals>=10000000){
                             int i=(Totals-10000000)/10000000;
-                            honornum=6+i;
-                           // bushustr="累计步数1000万";
+                            Stepsnum=6+i;
+                            if (Stepsnum==6){
+
+                            }
+                            bushustr="累计步数1000万";
                         }
 
-                        String medalnumber=String.valueOf(num);
-                        tv_medalnumber.setText(medalnumber);
-                        if (num==0){
-                            ll_honor.setVisibility(View.GONE);
-                        }else if(num==1){
-                            if (honornum==0){
-                                tv_str1.setText("连续3天步数一万");
-                                img_honor1.setImageResource(R.drawable.img_medal1);
-                                ll_honor1.setVisibility(View.VISIBLE);
-                            }else {
-                                tv_str1.setText("累计步数10万");
-                                img_honor1.setImageResource(R.drawable.img_medal);
-                                ll_honor1.setVisibility(View.VISIBLE);
-                            }
-                        }else if(num==2){
-                            if(honornum==0){
-                                tv_str1.setText("连续3天步数一万");
-                                tv_str2.setText("连续7天步数一万");
-                                img_honor1.setImageResource(R.drawable.img_medal1);
-                                img_honor2.setImageResource(R.drawable.img_medal1);
-                                ll_honor1.setVisibility(View.VISIBLE);
-                                ll_honor2.setVisibility(View.VISIBLE);
-                            }else if(honornum==1){
-                                tv_str1.setText("连续3天步数一万");
-                                tv_str2.setText("累计步数10万");
-                                img_honor1.setImageResource(R.drawable.img_medal1);
-                                img_honor2.setImageResource(R.drawable.img_medal);
-                                ll_honor1.setVisibility(View.VISIBLE);
-                                ll_honor2.setVisibility(View.VISIBLE);
-                            }else if(honornum==2){
-                                tv_str1.setText("累计步数10万");
-                                tv_str2.setText("累计步数50万");
-                                img_honor1.setImageResource(R.drawable.img_medal);
-                                img_honor1.setImageResource(R.drawable.img_medal);
-                                ll_honor1.setVisibility(View.VISIBLE);
-                                ll_honor2.setVisibility(View.VISIBLE);
-                            }
-                        }else if(num==3){
-                            if(honornum==0){
-                                tv_str1.setText("连续3天步数一万");
-                                tv_str2.setText("连续7天步数一万");
-                                tv_str3.setText("连续20天步数一万");
-                                img_honor1.setImageResource(R.drawable.img_medal1);
-                                img_honor2.setImageResource(R.drawable.img_medal1);
-                                img_honor3.setImageResource(R.drawable.img_medal1);
-                                ll_honor1.setVisibility(View.VISIBLE);
-                                ll_honor2.setVisibility(View.VISIBLE);
-                                ll_honor3.setVisibility(View.VISIBLE);
-                            }else if(honornum==1){
-                                tv_str1.setText("连续3天步数一万");
-                                tv_str2.setText("累计步数10万");
-                                tv_str3.setText("连续7天步数一万");
-                                img_honor1.setImageResource(R.drawable.img_medal1);
-                                img_honor2.setImageResource(R.drawable.img_medal);
-                                img_honor3.setImageResource(R.drawable.img_medal1);
-                                ll_honor1.setVisibility(View.VISIBLE);
-                                ll_honor2.setVisibility(View.VISIBLE);
-                                ll_honor3.setVisibility(View.VISIBLE);
-                            }else if(honornum==2){
-                                tv_str1.setText("连续3天步数一万");
-                                tv_str2.setText("累计步数10万");
-                                tv_str3.setText("累计步数50万");
-                                img_honor1.setImageResource(R.drawable.img_medal1);
-                                img_honor2.setImageResource(R.drawable.img_medal);
-                                img_honor3.setImageResource(R.drawable.img_medal);
-                                ll_honor1.setVisibility(View.VISIBLE);
-                                ll_honor2.setVisibility(View.VISIBLE);
-                                ll_honor3.setVisibility(View.VISIBLE);
-                            }else if(honornum==3){
-                                tv_str1.setText("累计步数10万");
-                                tv_str2.setText("累计步数50万");
-                                tv_str3.setText("累计步数100万");
-                                img_honor1.setImageResource(R.drawable.img_medal);
-                                img_honor2.setImageResource(R.drawable.img_medal);
-                                img_honor3.setImageResource(R.drawable.img_medal);
-                                ll_honor1.setVisibility(View.VISIBLE);
-                                ll_honor2.setVisibility(View.VISIBLE);
-                                ll_honor3.setVisibility(View.VISIBLE);
-                            }
 
-                        }else if(num>3){//勋章数量大于3
-
-                            // 3天勋章,7天勋章,20天勋章,30天勋章,100天勋章,200天勋章,365天勋章
-                            // Totals 总步数，步数勋章用该字段自动判断,累积步数10万、50万、100万、200万、500万……勋章 500万之后, 为1000万,2000万,3000万 按每多1000万步,增加一个新的勋章
-                            //天数勋章，累计步数勋章
-                            String daystr="";
-//                            if (ThreeDays==1){daystr="连续3天步数一万";}
-//                            if (SevenDays==1){daystr="连续7天步数一万";}
-//                            if (twentyOneDays==1){daystr="连续20天步数一万";}
-//                            if (thirtyDays==1){daystr="连续30天步数一万";}
-//                            if (OneHundredDays==1){daystr="连续100天步数一万";}
-//                            if (TwoHundredyDays==1){daystr="连续200天步数一万";}
-//                            if (OneYearDays==1){daystr="连续365天步数一万";}
-
-
-                            if(ThreeDays ==1){
-                                daystr="连续3天步数一万";
-                                if (SevenDays==1){
-                                    daystr="连续7天步数一万";
-                                    if (twentyOneDays==1){
-                                        daystr="连续20天步数一万";
-                                        if (thirtyDays==1){
-                                            daystr="连续30天步数一万";
-                                            if ( OneHundredDays==1){
-                                                daystr="连续100天步数一万";
-                                                if (TwoHundredyDays ==1){
-                                                    daystr="连续200天步数一万";
-                                                    if (OneYearDays==1){
-                                                        daystr="连续365天步数一万";
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }else{
-
-                            }
-                            System.out.println("---------------------------------"+daystr);
+//                        int honortype=1;
+//                        switch (honortype){
+//                            case 1:
+//                                Util.toastMsg("连续天数勋章");
+//                                break;
+//                            case 2:
+//                                Util.toastMsg("累积步数勋章");
+//                                break;
+//                            case 3:
+//                                Util.toastMsg("天使听见爱勋章");
+//                                break;
+//                            case 4:
+//                                Util.toastMsg("PK勋章");
+//                                break;
+//                        }
 
 
 
 
+//                        int ThreeDays=0;
+//                        int SevenDays=1;
+//                        int twentyOneDays=0;
+//                        int thirtyDays=1;
+//                        int OneHundredDays=1;
+//                        int TwoHundredyDays=0;
+//                        int OneYearDays=0;
 
-                            //显示用户所拥有的最新的3个勋章
-                            //天数勋章Daynum
-                            if (Daynum==0){
-                                tv_str1.setText("累积步数10万");
-                                tv_str2.setText("累计步数50万");
-                                tv_str3.setText("累计步数100万");
-                                img_honor1.setImageResource(R.drawable.img_medal);
-                                img_honor2.setImageResource(R.drawable.img_medal);
-                                img_honor3.setImageResource(R.drawable.img_medal);
-                                ll_honor1.setVisibility(View.VISIBLE);
-                                ll_honor2.setVisibility(View.VISIBLE);
-                                ll_honor3.setVisibility(View.VISIBLE);
-                            }else if (Daynum==1){
-                                tv_str1.setText("连续365天步数一万");
-                                tv_str2.setText("累计步数50万");
-                                tv_str3.setText("累计步数100万");
-                                img_honor1.setImageResource(R.drawable.img_medal);
-                                img_honor2.setImageResource(R.drawable.img_medal);
-                                img_honor3.setImageResource(R.drawable.img_medal);
-                                ll_honor1.setVisibility(View.VISIBLE);
-                                ll_honor2.setVisibility(View.VISIBLE);
-                                ll_honor3.setVisibility(View.VISIBLE);
-                            }else if (Daynum==2) {
 
-                            }else if (Daynum==3) {
+                        //      4)	PK勋章:
+//                        a)	pk 成功1次可获得挑战达人铜牌
+//                        b)	pk 成功50次可获得挑战达人银牌
+//                        c)	pk 成功100次可获得挑战达人金牌
+//                        d)	pk 成功200次可获得挑战明星铜牌
+//                        e)	pk 成功300次可获得挑战明星银牌
+//                        f)	pk 成功500次可获得挑战明星金牌
 
-                            }else if (Daynum==4) {
 
-                            }else if (Daynum==5) {
+//                        //步数
+//                        int Totals=Integer.parseInt(listResponseData.getData().getTotals());
+//                        //步数勋章数量
+//                        int honornum=0;
+//                        String bushustr="";
+//                        //天数勋章数量
+//                        //int Daynum=ThreeDays+SevenDays+twentyOneDays+thirtyDays+OneHundredDays+TwoHundredyDays+OneYearDays;
+//                        int Daynum=0;
+//                        //总勋章数量
+//                        int num=4;//Daynum+honornum;
 
-                            }else if (Daynum==6) {
+//                        if (Totals<100000){
+//                                honornum=0;
+//                        }else if (Totals>=100000&&Totals<500000)
+//                        {
+//                                honornum=1;
+//                                bushustr="累计步数10万";
+//                        }else if (Totals>=500000&&Totals<1000000)
+//                        {
+//                                honornum=2;
+//                                bushustr="累计步数50万";
+//                        }
+//                        else if (Totals>=1000000&&Totals<2000000)
+//                        {
+//                                honornum=3;
+//                                bushustr="累计步数100万";
+//                        }
+//                        else if (Totals>=100000&&Totals<5000000)
+//                        {
+//                                honornum=4;
+//                                bushustr="累计步数200万";
+//                        }
+//                        else if (Totals>=5000000&&Totals<10000000)
+//                        {
+//                            honornum=5;
+//                            bushustr="累计步数500万";
+//                        }else if (Totals>=10000000){
+//                            int i=(Totals-10000000)/10000000;
+//                            honornum=6+i;
+//                           // bushustr="累计步数1000万";
+//                        }
 
-                            }else if (Daynum==7) {
+//                        String medalnumber=String.valueOf(num);
+//                        tv_medalnumber.setText(medalnumber);
+//                        if (num==0){
+//                            ll_honor.setVisibility(View.GONE);
+//                        }else if(num==1){
+//                            if (honornum==0){
+//                                tv_str1.setText("连续3天步数一万");
+//                                img_honor1.setImageResource(R.drawable.img_medal1);
+//                                ll_honor1.setVisibility(View.VISIBLE);
+//                            }else {
+//                                tv_str1.setText("累计步数10万");
+//                                img_honor1.setImageResource(R.drawable.img_medal);
+//                                ll_honor1.setVisibility(View.VISIBLE);
+//                            }
+//                        }else if(num==2){
+//                            if(honornum==0){
+//                                tv_str1.setText("连续3天步数一万");
+//                                tv_str2.setText("连续7天步数一万");
+//                                img_honor1.setImageResource(R.drawable.img_medal1);
+//                                img_honor2.setImageResource(R.drawable.img_medal1);
+//                                ll_honor1.setVisibility(View.VISIBLE);
+//                                ll_honor2.setVisibility(View.VISIBLE);
+//                            }else if(honornum==1){
+//                                tv_str1.setText("连续3天步数一万");
+//                                tv_str2.setText("累计步数10万");
+//                                img_honor1.setImageResource(R.drawable.img_medal1);
+//                                img_honor2.setImageResource(R.drawable.img_medal);
+//                                ll_honor1.setVisibility(View.VISIBLE);
+//                                ll_honor2.setVisibility(View.VISIBLE);
+//                            }else if(honornum==2){
+//                                tv_str1.setText("累计步数10万");
+//                                tv_str2.setText("累计步数50万");
+//                                img_honor1.setImageResource(R.drawable.img_medal);
+//                                img_honor1.setImageResource(R.drawable.img_medal);
+//                                ll_honor1.setVisibility(View.VISIBLE);
+//                                ll_honor2.setVisibility(View.VISIBLE);
+//                            }
+//                        }else if(num==3){
+//                            if(honornum==0){
+//                                tv_str1.setText("连续3天步数一万");
+//                                tv_str2.setText("连续7天步数一万");
+//                                tv_str3.setText("连续20天步数一万");
+//                                img_honor1.setImageResource(R.drawable.img_medal1);
+//                                img_honor2.setImageResource(R.drawable.img_medal1);
+//                                img_honor3.setImageResource(R.drawable.img_medal1);
+//                                ll_honor1.setVisibility(View.VISIBLE);
+//                                ll_honor2.setVisibility(View.VISIBLE);
+//                                ll_honor3.setVisibility(View.VISIBLE);
+//                            }else if(honornum==1){
+//                                tv_str1.setText("连续3天步数一万");
+//                                tv_str2.setText("累计步数10万");
+//                                tv_str3.setText("连续7天步数一万");
+//                                img_honor1.setImageResource(R.drawable.img_medal1);
+//                                img_honor2.setImageResource(R.drawable.img_medal);
+//                                img_honor3.setImageResource(R.drawable.img_medal1);
+//                                ll_honor1.setVisibility(View.VISIBLE);
+//                                ll_honor2.setVisibility(View.VISIBLE);
+//                                ll_honor3.setVisibility(View.VISIBLE);
+//                            }else if(honornum==2){
+//                                tv_str1.setText("连续3天步数一万");
+//                                tv_str2.setText("累计步数10万");
+//                                tv_str3.setText("累计步数50万");
+//                                img_honor1.setImageResource(R.drawable.img_medal1);
+//                                img_honor2.setImageResource(R.drawable.img_medal);
+//                                img_honor3.setImageResource(R.drawable.img_medal);
+//                                ll_honor1.setVisibility(View.VISIBLE);
+//                                ll_honor2.setVisibility(View.VISIBLE);
+//                                ll_honor3.setVisibility(View.VISIBLE);
+//                            }else if(honornum==3){
+//                                tv_str1.setText("累计步数10万");
+//                                tv_str2.setText("累计步数50万");
+//                                tv_str3.setText("累计步数100万");
+//                                img_honor1.setImageResource(R.drawable.img_medal);
+//                                img_honor2.setImageResource(R.drawable.img_medal);
+//                                img_honor3.setImageResource(R.drawable.img_medal);
+//                                ll_honor1.setVisibility(View.VISIBLE);
+//                                ll_honor2.setVisibility(View.VISIBLE);
+//                                ll_honor3.setVisibility(View.VISIBLE);
+//                            }
 
-                            }
-                        }
+//                        }else if(num>3){//勋章数量大于3
+//
+//                            // 3天勋章,7天勋章,20天勋章,30天勋章,100天勋章,200天勋章,365天勋章
+//                            // Totals 总步数，步数勋章用该字段自动判断,累积步数10万、50万、100万、200万、500万……勋章 500万之后, 为1000万,2000万,3000万 按每多1000万步,增加一个新的勋章
+//                            //天数勋章，累计步数勋章
+//                            String daystr="";
+////                            if (ThreeDays==1){daystr="连续3天步数一万";}
+////                            if (SevenDays==1){daystr="连续7天步数一万";}
+////                            if (twentyOneDays==1){daystr="连续20天步数一万";}
+////                            if (thirtyDays==1){daystr="连续30天步数一万";}
+////                            if (OneHundredDays==1){daystr="连续100天步数一万";}
+////                            if (TwoHundredyDays==1){daystr="连续200天步数一万";}
+////                            if (OneYearDays==1){daystr="连续365天步数一万";}
+//
+//
+////                            if(ThreeDays ==1){
+////                                daystr="连续3天步数一万";
+////                                if (SevenDays==1){
+////                                    daystr="连续7天步数一万";
+////                                    if (twentyOneDays==1){
+////                                        daystr="连续20天步数一万";
+////                                        if (thirtyDays==1){
+////                                            daystr="连续30天步数一万";
+////                                            if ( OneHundredDays==1){
+////                                                daystr="连续100天步数一万";
+////                                                if (TwoHundredyDays ==1){
+////                                                    daystr="连续200天步数一万";
+////                                                    if (OneYearDays==1){
+////                                                        daystr="连续365天步数一万";
+////                                                    }
+////                                                }
+////                                            }
+////                                        }
+////                                    }
+////                                }
+////                            }else{
+////
+////                            }
+////                            System.out.println("---------------------------------"+daystr);
+//
+//
+//
+//
+//
+//                            //显示用户所拥有的最新的3个勋章
+//                            //天数勋章Daynum
+//                            if (Daynum==0){
+//                                tv_str1.setText("累积步数10万");
+//                                tv_str2.setText("累计步数50万");
+//                                tv_str3.setText("累计步数100万");
+//                                img_honor1.setImageResource(R.drawable.img_medal);
+//                                img_honor2.setImageResource(R.drawable.img_medal);
+//                                img_honor3.setImageResource(R.drawable.img_medal);
+//                                ll_honor1.setVisibility(View.VISIBLE);
+//                                ll_honor2.setVisibility(View.VISIBLE);
+//                                ll_honor3.setVisibility(View.VISIBLE);
+//                            }else if (Daynum==1){
+//                                tv_str1.setText("连续365天步数一万");
+//                                tv_str2.setText("累计步数50万");
+//                                tv_str3.setText("累计步数100万");
+//                                img_honor1.setImageResource(R.drawable.img_medal);
+//                                img_honor2.setImageResource(R.drawable.img_medal);
+//                                img_honor3.setImageResource(R.drawable.img_medal);
+//                                ll_honor1.setVisibility(View.VISIBLE);
+//                                ll_honor2.setVisibility(View.VISIBLE);
+//                                ll_honor3.setVisibility(View.VISIBLE);
+//                            }else if (Daynum==2) {
+//
+//                            }else if (Daynum==3) {
+//
+//                            }else if (Daynum==4) {
+//
+//                            }else if (Daynum==5) {
+//
+//                            }else if (Daynum==6) {
+//
+//                            }else if (Daynum==7) {
+//
+//                            }
+//                        }
 
                         //Util.toastMsg("我的勋章--查询正确");
                         break;
