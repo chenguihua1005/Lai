@@ -3,6 +3,7 @@ package com.softtek.lai.module.personalPK.net;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.personalPK.model.PKDetailMold;
 import com.softtek.lai.module.personalPK.model.PKListModel;
+import com.softtek.lai.module.personalPK.model.PKObjModel;
 import com.softtek.lai.utils.RequestCallback;
 
 import java.util.List;
@@ -33,4 +34,10 @@ public interface PKService {
     void getPKDetail(@Header("token") String token,
                      @Query("PKId")long pkId,
                      RequestCallback<ResponseData<PKDetailMold>> callback);
+
+    //检索PK对象
+    @GET("/Challenged/GetRGMembers")
+    void searchPKObj(@Header("token")String token,
+                     @Query("Key")String key,
+                     RequestCallback<ResponseData<List<PKObjModel>>> callback);
 }

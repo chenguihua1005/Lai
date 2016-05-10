@@ -49,8 +49,7 @@
 
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone">
+                android:layout_height="wrap_content">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -76,6 +75,7 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/text_step"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="12000"
@@ -145,6 +145,7 @@
                                 android:orientation="horizontal">
 
                                 <TextView
+                                    android:id="@+id/text_rl"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="12000"
@@ -194,6 +195,7 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/text_pm"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="12000"
@@ -258,6 +260,7 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/text_xzs"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="12000"
@@ -315,6 +318,411 @@
                 android:id="@+id/list_activity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+
+            <RelativeLayout
+                android:id="@+id/rel_my_pk"
+                android:layout_width="fill_parent"
+                android:layout_height="38dip"
+                android:background="@color/grey">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin"
+                    android:text="PK挑战"
+                    android:textSize="@dimen/textSize1" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin"
+                    android:src="@drawable/img_group_main_more" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/lin_have_pk"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dip"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:src="@drawable/img_group_main_zan" />
+
+                            <TextView
+                                android:id="@+id/text_pk_left_count"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="5dip"
+                                android:gravity="center"
+                                android:text="5"
+                                android:textColor="#ffa220" />
+                        </LinearLayout>
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <com.softtek.lai.widgets.CircleImageView
+                                android:layout_width="80dip"
+                                android:layout_height="80dip"
+                                android:layout_gravity="center"
+                                android:layout_centerInParent="true"
+                                android:src="@drawable/img_default" />
+                            <ImageView
+                                android:layout_width="80dip"
+                                android:layout_height="80dip"
+                                android:layout_centerInParent="true"
+                                android:src="@drawable/img_group_main_z"/>
+                        </RelativeLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:src="@drawable/img_group_main_vs" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <com.softtek.lai.widgets.CircleImageView
+                                android:layout_width="80dip"
+                                android:layout_height="80dip"
+                                android:layout_gravity="center"
+                                android:src="@drawable/img_default" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="left"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:src="@drawable/img_group_main_zan" />
+
+                            <TextView
+                                android:id="@+id/text_pk_right_count"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="5dip"
+                                android:gravity="center"
+                                android:text="5"
+                                android:textColor="#ffa220" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dip"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:orientation="horizontal"
+                            android:visibility="invisible">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:src="@drawable/img_group_main_zan" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="5dip"
+                                android:gravity="center"
+                                android:text="5"
+                                android:textColor="#ffa220" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="80dip"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="LEE" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:src="@drawable/img_group_main_1" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="80dip"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:text="Lee" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="left"
+                            android:orientation="horizontal"
+                            android:visibility="invisible">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:src="@drawable/img_group_main_zan" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="5dip"
+                                android:gravity="center"
+                                android:text="5"
+                                android:textColor="#ffa220" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="14dip"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@drawable/img_activity_item_time" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="8dip"
+                            android:text="PK挑战时间："
+                            android:textColor="@color/word3"
+                            android:textSize="@dimen/textSize2" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="2016年5月6号-2016年5月6号"
+                            android:textColor="@color/word3"
+                            android:textSize="@dimen/textSize2" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="187dip"
+                        android:layout_height="43dip"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="20dip"
+                        android:layout_marginTop="32dip"
+                        android:background="@drawable/bg_pk_btn"
+                        android:gravity="center"
+                        android:text="发起PK挑战"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/textSize3" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lin_no_pk"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="12dip"
+                        android:src="@drawable/img_group_main_pk" />
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="14dip"
+                        android:gravity="center"
+                        android:text="没有新的PK挑战，你来发起一场吧！"
+                        android:textColor="@color/word3"
+                        android:textSize="@dimen/textSize2" />
+
+                    <TextView
+                        android:layout_width="187dip"
+                        android:layout_height="43dip"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="20dip"
+                        android:layout_marginTop="32dip"
+                        android:background="@drawable/bg_pk_btn"
+                        android:gravity="center"
+                        android:text="发起PK挑战"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/textSize3" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rel_my_csgy"
+                android:layout_width="fill_parent"
+                android:layout_height="38dip"
+                android:background="@color/grey">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin"
+                    android:text="慈善公益"
+                    android:textSize="@dimen/textSize1" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin"
+                android:layout_marginRight="@dimen/margin"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dip">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/img_group_main_csgy" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/text2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="你已为天使听见爱贡献"
+                            android:textColor="@color/word"
+                            android:textSize="@dimen/textSize1" />
+
+                        <TextView
+                            android:id="@+id/text_gxz"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="30"
+                            android:textColor="#ffa220"
+                            android:textSize="@dimen/textSize1" />
+
+                        <TextView
+                            android:id="@+id/text1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="元"
+                            android:textColor="@color/word"
+                            android:textSize="@dimen/textSize1" />
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="30dip"
+                    android:layout_marginTop="24dip"
+                    android:text="每天，康宝莱将为日排名前100的用户，已“天使听见爱”项目捐献一元爱心善款"
+                    android:textColor="@color/word13"
+                    android:textSize="@dimen/textSize12" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

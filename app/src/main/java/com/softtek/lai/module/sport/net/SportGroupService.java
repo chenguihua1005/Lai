@@ -4,6 +4,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.sport.model.CityModel;
 import com.softtek.lai.module.sport.model.DxqModel;
 import com.softtek.lai.module.sport.model.GroupModel;
+import com.softtek.lai.module.sport.model.SportMainModel;
 import com.softtek.lai.utils.RequestCallback;
 
 import java.util.List;
@@ -70,4 +71,10 @@ public interface SportGroupService {
                       @Field("RGId") String rGId,
                       @Field("RGAccId") String rGAccId,
                       RequestCallback<ResponseData> callback);
+
+    //莱运动-首页
+    @GET("/HerbSports/GetSportIndex")
+    void getSportIndex(@Header(TOKEN) String token,
+                       @Query("accountid") String accountid,
+                       RequestCallback<ResponseData<SportMainModel>> callback);
 }

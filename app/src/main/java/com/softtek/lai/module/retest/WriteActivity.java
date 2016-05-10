@@ -207,9 +207,9 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         retestPre=new RetestclassImp();
         measureModel=new MeasureModel();
         imageFileSelector=new ImageFileSelector(this);
-        imageFileSelector.setOutPutImageSize(DisplayUtil.dip2px(this,200),
-                DisplayUtil.dip2px(this,100));
-        imageFileSelector.setQuality(50);
+        imageFileSelector.setOutPutImageSize(DisplayUtil.dip2px(this,600),
+                DisplayUtil.dip2px(this,400));
+        imageFileSelector.setQuality(80);
         imageFileSelector.setCallback(this);
         retestAuditModel=new RetestAuditModel();
         iv_email.setVisibility(View.INVISIBLE);
@@ -341,11 +341,11 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
 //                break;
             case R.id.ll_retestWrite_nowweight:
                 if (gender.equals("1")) {
-                    show_information("现在体重（斤）", 400, 100, 60, 9, 0, 0, 1);
+                    show_information("现在体重（斤）", 600, 100, 50, 9, 0, 0, 1);
                 }
                 else
                 {
-                    show_information("现在体重（斤）", 400, 150, 60, 9, 0, 0, 1);
+                    show_information("现在体重（斤）", 600, 150, 50, 9, 0, 0, 1);
                 }
                 break;
             case R.id.ll_retestWrite_tizhi:

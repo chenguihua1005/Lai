@@ -28,8 +28,10 @@ import com.softtek.lai.module.counselor.model.ApplyAssistantModel;
 import com.softtek.lai.module.counselor.presenter.AssistantImpl;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 import com.softtek.lai.module.lossweightstory.model.LogStoryDetailModel;
+import com.softtek.lai.module.lossweightstory.view.PictureActivity;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +47,7 @@ public class SelectPhotoAdapter extends BaseAdapter {
     BaseActivity context;
     private IAssistantPresenter assistantPresenter;
     CallBack callBack;
+    private ArrayList<String> img_list;
 
     /**
      * 构造函数
@@ -53,6 +56,12 @@ public class SelectPhotoAdapter extends BaseAdapter {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
         this.list = list;
+        img_list = new ArrayList<String>();
+        for (int i = 0; i < list.size(); i++) {
+            String[] url = list.get(i).getImgUrl().split("/");
+            String urls = url[url.length - 1];
+            img_list.add(urls);
+        }
         assistantPresenter = new AssistantImpl(context);
         this.callBack = callBack;
         Log.e("jarvis", list.toString());
@@ -121,9 +130,13 @@ public class SelectPhotoAdapter extends BaseAdapter {
         holder.img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, PhotoDetailActivity.class);
-                intent.putExtra("photo", logListModel.getImgUrl());
-                context.startActivity(intent);
+//                Intent intent = new Intent(context, PhotoDetailActivity.class);
+//                intent.putExtra("photo", logListModel.getImgUrl());
+//                context.startActivity(intent);
+                Intent in = new Intent(context, PictureActivity.class);
+                in.putStringArrayListExtra("images", img_list);
+                in.putExtra("position", position);
+                context.startActivity(in);
             }
         });
         return convertView;

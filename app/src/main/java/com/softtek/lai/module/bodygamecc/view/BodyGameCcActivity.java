@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame.model.TiGuanSaiModel;
 import com.softtek.lai.module.bodygame.model.TotolModel;
 import com.softtek.lai.module.bodygame.presenter.ITiGuanSai;
@@ -55,6 +56,7 @@ public class BodyGameCcActivity extends BaseActivity implements View.OnClickList
     UserInfoModel userInfoModel=UserInfoModel.getInstance();
     long loginid=Long.parseLong(userInfoModel.getUser().getUserid());
     private ProgressDialog progressDialog;
+    String role=userInfoModel.getUser().getUserrole();
     @Override
     protected void initViews() {
         EventBus.getDefault().register(this);
@@ -75,7 +77,12 @@ public class BodyGameCcActivity extends BaseActivity implements View.OnClickList
 
     @Override
     protected void initDatas() {
-        tv_title.setText("体管赛（普通顾客版）");
+        if (role.equals("4")) {
+            tv_title.setText("体管赛（受邀普通顾客版）");
+        }
+        else {
+            tv_title.setText("体管赛（普通顾客版）");
+        }
         iTiGuanSai=new TiGuanSaiImpl();
         iTiGuanSai.doGetTotal(progressDialog);
         iTiGuanSai.getTiGuanSai();
