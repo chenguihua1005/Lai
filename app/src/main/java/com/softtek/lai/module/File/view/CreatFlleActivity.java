@@ -377,7 +377,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
         final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
-        np1.setMaxValue(400);
+        np1.setMaxValue(600);
         if (tv_sex.getText().toString().equals("男")) {
             np1.setValue(150);
         } else if (tv_sex.getText().toString().equals("女")) {
@@ -385,7 +385,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         } else {
             np1.setValue(100);
         }
-        np1.setMinValue(60);
+        np1.setMinValue(50);
         np1.setWrapSelectorWheel(false);
         np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
