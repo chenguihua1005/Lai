@@ -1,6 +1,9 @@
 package com.softtek.lai.module.personalPK.view;
 
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -17,12 +20,13 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.personalPK.model.PKCreatModel;
+import com.softtek.lai.utils.StringUtil;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_create_pk)
-public class CreatePKActivity extends BaseActivity implements View.OnClickListener{
+public class CreatePKActivity extends BaseActivity implements View.OnClickListener,TextWatcher{
 
 
 
@@ -76,6 +80,7 @@ public class CreatePKActivity extends BaseActivity implements View.OnClickListen
         cb_naixi.setOnClickListener(this);
         cb_naixicao.setOnClickListener(this);
         cb_zidingyi.setOnClickListener(this);
+        et_content.addTextChangedListener(this);
         rg_km.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -119,7 +124,11 @@ public class CreatePKActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.fl_right:
                 //下一步
-                Intent pk=new Intent(this,SearchActivity.class);
+                if(cb_zidingyi.isChecked()&&et_content.getText().toString().length()==0){
+                    new AlertDialog.Builder(this).setMessage("请输入自由筹码内容").create().show();
+                    return;
+                }
+                Intent pk=new Intent(this,SelectOpponentActivity.class);
                 saveValue();
                 pk.putExtra("pkmodel",model);
                 Log.i(model.toString());
@@ -237,6 +246,26 @@ public class CreatePKActivity extends BaseActivity implements View.OnClickListen
         model.setUserName(user.getNickname());
         model.setUserPhoto(user.getPhoto());
         model.setChallenged(Long.parseLong(user.getUserid()));
+
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    int length;
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        length=StringUtil.length(s.toString());
+    }
+
+    //限制20个汉字 也就是40个字符
+    @Override
+    public void afterTextChanged(Editable s) {
+        if(length>40){
+            s.delete(s.length()-1,et_content.getSelectionEnd());
+        }
 
     }
 }
