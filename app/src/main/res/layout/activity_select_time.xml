@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:background="#f1f1f1"
+    tools:context=".module.personalPK.view.SelectTimeActivity">
+
+    <include layout="@layout/toolbar"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="132dp"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/pk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/pk_list_vs" />
+
+        <FrameLayout
+            android:id="@+id/lfl"
+            android:layout_width="63dp"
+            android:layout_height="63dp"
+            android:layout_marginRight="33dp"
+            android:layout_marginTop="24dp"
+            android:layout_toLeftOf="@id/pk">
+
+            <com.softtek.lai.widgets.CircleImageView
+                android:id="@+id/sender1_header"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/img_default" />
+
+            <ImageView
+                android:id="@+id/sender1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:src="@drawable/pk_list_wujiaoxin" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/rfl"
+            android:layout_width="63dp"
+            android:layout_height="63dp"
+            android:layout_marginLeft="33dp"
+            android:layout_marginTop="24dp"
+            android:layout_toRightOf="@id/pk">
+
+            <com.softtek.lai.widgets.CircleImageView
+                android:id="@+id/sender2_header"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/img_default" />
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/tv_is_accept"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="17dp"
+            android:layout_marginTop="18dp"
+            android:layout_toRightOf="@id/rfl"
+            android:textColor="#6f6f6f"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/iv_jiangli"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/pk_naixi"
+            android:layout_centerInParent="true"
+            android:layout_below="@id/lfl" />
+
+        <TextView
+            android:id="@+id/tv_pk_name1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/lfl"
+            android:layout_alignRight="@id/lfl"
+            android:layout_below="@id/lfl"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:textColor="#333333"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_pk_name2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/rfl"
+            android:layout_alignRight="@id/rfl"
+            android:layout_below="@id/rfl"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:textColor="#333333"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+    
+    <RelativeLayout
+        android:id="@+id/rl_start"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/ll_selector_grey"
+        android:layout_marginTop="8dp">
+
+        <ImageView
+            android:id="@+id/icon1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/pk_list_time_pic"
+            android:layout_centerInParent="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="15dp"/>
+        <TextView
+            android:layout_toRightOf="@id/icon1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="PK开始时间"
+            android:layout_centerInParent="true"
+            android:textSize="12sp"
+            android:textColor="#6f6f6f"/>
+        <TextView
+            android:id="@+id/tv_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_centerInParent="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:textSize="12sp"
+            android:textColor="#333333"/>
+
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#f1f1f1"/>
+    <RelativeLayout
+        android:id="@+id/rl_end"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/ll_selector_grey">
+        <ImageView
+            android:id="@+id/icon2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/pk_list_time_pic"
+            android:layout_centerInParent="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="15dp"/>
+        <TextView
+            android:layout_toRightOf="@id/icon2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="PK结束时间"
+            android:layout_centerInParent="true"
+            android:textSize="12sp"
+            android:textColor="#6f6f6f"/>
+        <TextView
+            android:id="@+id/tv_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_centerInParent="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:textSize="12sp"
+            android:textColor="#333333"/>
+    </RelativeLayout>
+
+</LinearLayout>

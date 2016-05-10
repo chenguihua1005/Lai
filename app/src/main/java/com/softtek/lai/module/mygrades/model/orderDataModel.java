@@ -2,7 +2,8 @@ package com.softtek.lai.module.mygrades.model;
 
 /**
  * Created by julie.zhu on 5/3/2016.
- * 日排名
+ *  3.3.3	当日前100排名详情
+ * 3.3.4	当周排前100名详情
  */
 public class orderDataModel {
     private String AccountId;

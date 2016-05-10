@@ -24,7 +24,7 @@ import java.util.List;
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
-@InjectLayout(R.layout.activity_explain)
+@InjectLayout(R.layout.activity_takeshow)
 public class GuideActivity extends BaseActivity implements OnPageChangeListener {
 
     @InjectView(R.id.viewpager)
@@ -47,6 +47,14 @@ public class GuideActivity extends BaseActivity implements OnPageChangeListener 
 
     @InjectView(R.id.iv_six)
     ImageView iv_six;
+    @InjectView(R.id.iv_senven)
+    ImageView iv_senven;
+    @InjectView(R.id.iv_eight)
+    ImageView iv_eight;
+    @InjectView(R.id.iv_nine)
+    ImageView iv_nine;
+    @InjectView(R.id.iv_ten)
+    ImageView iv_ten;
 
 
     private PagerAdapter vpAdapter;
@@ -76,6 +84,10 @@ public class GuideActivity extends BaseActivity implements OnPageChangeListener 
         views.add(inflater.inflate(R.layout.guidefourlayout, null));
         views.add(inflater.inflate(R.layout.guidefivelayout, null));
         views.add(inflater.inflate(R.layout.guidesixlayout, null));
+        views.add(inflater.inflate(R.layout.guidesenvenlayout, null));
+        views.add(inflater.inflate(R.layout.guideeightlayout, null));
+        views.add(inflater.inflate(R.layout.guideninelayout, null));
+        views.add(inflater.inflate(R.layout.guidetenlayout, null));
 //        views.add(inflater.inflate(R.layout.guidesix, null));
         vpAdapter = new PagerAdapter(views, this);
         vp.setAdapter(vpAdapter);
@@ -90,7 +102,7 @@ public class GuideActivity extends BaseActivity implements OnPageChangeListener 
     }
 
     private void initDots() {
-        LinearLayout ll = (LinearLayout) findViewById(R.id.ll);
+        LinearLayout ll = (LinearLayout) findViewById(R.id.ll_clude);
 
         dots = new ImageView[views.size()];
         for (int i = 0; i < views.size(); i++) {
