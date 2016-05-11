@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -13,11 +14,16 @@ import android.widget.TextView;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.personalPK.model.PKCreatModel;
 import com.softtek.lai.module.personalPK.model.PKForm;
 import com.softtek.lai.utils.DateUtil;
+import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.widgets.WheelView;
+import com.squareup.picasso.Picasso;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,6 +32,7 @@ import java.util.Date;
 import java.util.List;
 
 import butterknife.InjectView;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_select_time)
@@ -90,7 +97,27 @@ public class SelectTimeActivity extends BaseActivity implements View.OnClickList
         model=getIntent().getParcelableExtra("pkmodel");
         tv_pk_name1.setText(model.getUserName());
         tv_pk_name2.setText(model.getBeUserName());
-
+        if(model.getBeUserName().length()<7){
+            /*RelativeLayout.LayoutParams params=new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DisplayUtil.dip2px(this,132));
+            tv_pk_name2.setLayoutParams();*/
+        }
+        switch (model.getChipType()){
+            case Constants.NAIXI:
+                iv_jiangli.setBackgroundResource(R.drawable.pk_naixi);
+                break;
+            case Constants.NAIXICAO:
+                iv_jiangli.setBackgroundResource(R.drawable.pk_list_naixicao);
+                break;
+            case Constants.ZIDINGYI:
+                iv_jiangli.setBackgroundResource(R.drawable.pk_chouma);
+                break;
+        }
+        if(StringUtils.isNotEmpty(model.getUserPhoto())){
+            Picasso.with(this).load(AddressManager.get("photoHost")+model.getUserPhoto()).fit().into(sender1_header);
+        }
+        if(StringUtils.isNotEmpty(model.getBeUserPhoto())){
+            Picasso.with(this).load(AddressManager.get("photoHost")+model.getBeUserPhoto()).fit().into(sender2_header);
+        }
         form=new PKForm();
         form.setBeChallenged(model.getBeChallenged());
         form.setChallenged(model.getChallenged());
