@@ -78,4 +78,18 @@ public class PKForm {
     public void setTarget(double target) {
         Target = target;
     }
+
+    @Override
+    public String toString() {
+        return "PKForm{" +
+                "Challenged=" + Challenged +
+                ", BeChallenged=" + BeChallenged +
+                ", Start='" + Start + '\'' +
+                ", End='" + End + '\'' +
+                ", ChipType=" + ChipType +
+                ", Chip='" + Chip + '\'' +
+                ", TargetType=" + TargetType +
+                ", Target=" + Target +
+                '}';
+    }
 }

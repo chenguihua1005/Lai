@@ -36,17 +36,18 @@ public class GradesImpl implements IGradesPresenter{
 
     //2.19.1	我的成绩
     @Override
-        public void getStepCount(DateTime start, DateTime end) {
+        public void getStepCount(String start, String end) {
         String token = SharedPreferenceService.getInstance().get("token", "");
         gradesService.getStepCount(token,start,end,new Callback<ResponseData<List<GradesModel>>>() {
             @Override
             public void success(ResponseData<List<GradesModel>> listResponseData, Response response) {
-                EventBus.getDefault().post(new GradesEvent(listResponseData.getData()));
+
                 int status=listResponseData.getStatus();
                 switch (status)
                 {
                     case 200:
-                        Util.toastMsg("我的成绩--查询正确");
+                        EventBus.getDefault().post(new GradesEvent(listResponseData.getData()));
+                       // Util.toastMsg("我的成绩--查询正确");
                         break;
                     case 500:
                         Util.toastMsg("我的成绩--查询出bug");
@@ -63,7 +64,10 @@ public class GradesImpl implements IGradesPresenter{
         });
     }
 
-
+//    @Override
+//    public void getGradeHonor() {
+//
+//    }
 
 
 }

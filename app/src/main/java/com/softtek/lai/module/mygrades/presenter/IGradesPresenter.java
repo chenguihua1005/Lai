@@ -10,8 +10,8 @@ import java.util.Date;
  */
 public interface IGradesPresenter {
     //2.19.1	我的成绩
-    void getStepCount(DateTime start,DateTime end);
+    void getStepCount(String start,String end);
 
-//    //2.19.2	勋章详情页
-//    void getStepHonor();
+//    //3.3.2	成绩勋章信息
+//    void getGradeHonor();
 }

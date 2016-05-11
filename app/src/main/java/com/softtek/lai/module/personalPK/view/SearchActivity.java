@@ -1,5 +1,7 @@
 package com.softtek.lai.module.personalPK.view;
 
+import android.content.Intent;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -7,11 +9,13 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.personalPK.adapter.SearchAdapter;
@@ -26,7 +30,7 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_search)
-public class SearchActivity extends BaseActivity implements View.OnClickListener,TextWatcher,AdapterView.OnItemClickListener{
+public class SearchActivity extends BaseActivity implements View.OnClickListener,TextWatcher,AdapterView.OnItemClickListener,PullToRefreshBase.OnRefreshListener2<ListView>{
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -40,10 +44,15 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     @InjectView(R.id.et_search)
     EditText search;
     @InjectView(R.id.lv)
-    ListView lv;
+    PullToRefreshListView lv;
+    @InjectView(R.id.no_message)
+    ImageView no_message;
+
     List<PKObjModel> modelList=new ArrayList<>();
     SearchAdapter adapter;
     PKListManager manager;
+    int totalPage;
+    int pageIndex=1;
 
     @Override
     protected void initViews() {
@@ -54,6 +63,9 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         tv_right.setText("搜索");
         fl_right.setEnabled(false);
         lv.setOnItemClickListener(this);
+        lv.setOnRefreshListener(this);
+        lv.setMode(PullToRefreshBase.Mode.PULL_FROM_END);
+        lv.setEmptyView(no_message);
     }
 
     @Override
@@ -74,7 +86,8 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
                         .hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
                                 InputMethodManager.HIDE_NOT_ALWAYS);
                 dialogShow("搜索中...");
-                manager.searchPKObj(this,search.getText().toString());
+                pageIndex=1;
+                manager.searchPKObj(this,search.getText().toString(),pageIndex);
                 break;
 
         }
@@ -82,10 +95,12 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
 
     public void loadData(List<PKObjModel> models){
         dialogDissmiss();
-
+        lv.onRefreshComplete();
         if(models==null||models.isEmpty()){
+            lv.setMode(PullToRefreshBase.Mode.DISABLED);
             return;
         }
+        lv.setMode(PullToRefreshBase.Mode.PULL_FROM_END);
         modelList.clear();
         modelList.addAll(models);
         adapter.notifyDataSetChanged();
@@ -112,10 +127,33 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        PKObjModel model=modelList.get(position);
+        PKObjModel model=modelList.get(position-1);
         PKCreatModel creatModel=getIntent().getParcelableExtra("pkmodel");
         creatModel.setBeUserName(model.getUserName());
         creatModel.setBeChallenged(model.getRGId());
         creatModel.setBeUserPhoto(model.getPhoto());
+        Intent intent=new Intent(this,SelectTimeActivity.class);
+        intent.putExtra("pkmodel", creatModel);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+
+    }
+
+    @Override
+    public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+        pageIndex++;
+        if(pageIndex<=totalPage){
+            manager.searchPKObj(this,search.getText().toString(),pageIndex);
+        }else{
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    lv.onRefreshComplete();
+                }
+            }, 200);
+        }
     }
 }

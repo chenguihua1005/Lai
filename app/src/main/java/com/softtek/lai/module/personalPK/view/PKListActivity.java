@@ -111,7 +111,6 @@ public class PKListActivity extends BaseActivity implements View.OnClickListener
                     PKListModel returnModel=data.getParcelableExtra("pkmodel");
                     model.setChP(returnModel.getChP());
                     model.setBChp(returnModel.getBChp());
-
                     adapter.notifyDataSetChanged();
                 }
             }

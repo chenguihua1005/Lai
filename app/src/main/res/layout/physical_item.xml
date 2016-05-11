@@ -13,12 +13,12 @@
 
     <TextView
             android:id="@+id/tv_order"
-            android:layout_width="30dp"
+            android:layout_width="50dp"
             android:layout_height="match_parent"
             android:gravity="center"
             android:textStyle="bold"
             android:textSize="22sp"
-            android:text="1"
+
     />
 
     <com.softtek.lai.widgets.CircleImageView

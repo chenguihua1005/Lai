@@ -22,6 +22,8 @@ import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.personalPK.model.PKCreatModel;
 import com.softtek.lai.utils.StringUtil;
 
+import org.apache.commons.lang3.StringUtils;
+
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
@@ -243,7 +245,7 @@ public class CreatePKActivity extends BaseActivity implements View.OnClickListen
         }
         //设置发起人信息
         UserModel user= UserInfoModel.getInstance().getUser();
-        model.setUserName(user.getNickname());
+        model.setUserName(StringUtils.isEmpty(user.getNickname())?StringUtil.filterPhonNumber(user.getMobile()):user.getNickname());
         model.setUserPhoto(user.getPhoto());
         model.setChallenged(Long.parseLong(user.getUserid()));
 

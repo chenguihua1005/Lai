@@ -41,8 +41,6 @@ public class SelectOpponentActivity extends BaseActivity implements View.OnClick
     SearchAdapter adapter;
     PKListManager manager;
 
-    PKCreatModel model;
-
     @Override
     protected void initViews() {
         ll_left.setOnClickListener(this);
@@ -53,10 +51,11 @@ public class SelectOpponentActivity extends BaseActivity implements View.OnClick
 
     @Override
     protected void initDatas() {
-        model=getIntent().getParcelableExtra("pkmodel");
         manager=new PKListManager();
         adapter=new SearchAdapter(this,modelList);
         lv.setAdapter(adapter);
+        dialogShow("载入跑团成员");
+        manager.getCurrentPaoTuanMember(this);
     }
 
     @Override
@@ -76,7 +75,14 @@ public class SelectOpponentActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+        PKObjModel model=modelList.get(position);
+        PKCreatModel creatModel=getIntent().getParcelableExtra("pkmodel");
+        creatModel.setBeUserName(model.getUserName());
+        creatModel.setBeChallenged(model.getRGId());
+        creatModel.setBeUserPhoto(model.getPhoto());
+        Intent intent=new Intent(this,SelectTimeActivity.class);
+        intent.putExtra("pkmodel",creatModel);
+        startActivity(intent);
     }
 
     public void loadData(List<PKObjModel> models){
