@@ -29,6 +29,7 @@
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:textColor="#333"
+        android:textStyle="bold"
         android:layout_gravity="center_vertical|center_horizontal"
         android:text="1"/>
     <TextView

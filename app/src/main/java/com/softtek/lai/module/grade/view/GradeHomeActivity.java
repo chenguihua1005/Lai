@@ -39,6 +39,7 @@ import com.softtek.lai.module.grade.presenter.IGrade;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.DisplayUtil;
+import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileCropSelector;
@@ -54,6 +55,7 @@ import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_grade_home)
 public class GradeHomeActivity extends BaseActivity implements View.OnClickListener, DialogInterface.OnClickListener
@@ -123,7 +125,7 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
     ImageView pc_third_icon;
 
     private EditText et_content;
-    private TextView tv_dialog_title;
+    //private TextView tv_dialog_title;
 
     private View view;
     List<DynamicInfoModel> dynamicInfos = new ArrayList<>();
@@ -244,8 +246,8 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
                  */
                 view = getLayoutInflater().inflate(R.layout.activity_input_dynamic_alert, null);
                 et_content = (EditText) view.findViewById(R.id.et_content);
-                tv_dialog_title = (TextView) view.findViewById(R.id.tv__dialog_title);
-                //et_content.addTextChangedListener(this);
+                //tv_dialog_title = (TextView) view.findViewById(R.id.tv__dialog_title);
+                et_content.addTextChangedListener(this);
                 AlertDialog.Builder alert = new AlertDialog.Builder(this).setView(view)
                         .setPositiveButton("确认", this)
                         .setNegativeButton("取消", this);
@@ -369,7 +371,8 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
         dialog.dismiss();
         if (which == DialogInterface.BUTTON_POSITIVE) {
             String content = et_content.getText().toString();
-            if ("".equals(content.trim())) {
+            if (StringUtil.length(content)>200) {
+                Util.toastMsg("动态字数不能超过100汉字");
                 return;
             }
             grade.sendDynamic(classId, "dsadas", content, Constants.SP_SEND,accountId );
@@ -385,7 +388,7 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         int surplus = ((100 - s.length()) < 0) ? 0 : 100 - s.length();
         et_content.setSelection(s.length());
-        tv_dialog_title.setText("请输入100字以内的文字(" + surplus + ")");
+        //tv_dialog_title.setText("请输入100字以内的文字(" + surplus + ")");
         this.count = s.length();
     }
 

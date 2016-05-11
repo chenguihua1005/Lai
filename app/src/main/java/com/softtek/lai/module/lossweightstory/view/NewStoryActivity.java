@@ -1,6 +1,5 @@
 package com.softtek.lai.module.lossweightstory.view;
 
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -67,7 +66,7 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
     @InjectView(R.id.et_log_title)
     EditText et_log_title;
 
-    @Required(order = 1,message = "请填写减重后体重")
+    @Required(order = 1,message = "请选择减重后体重")
     @InjectView(R.id.et_weight_after)
     TextView tv_weight_after;
 
@@ -175,7 +174,7 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
                 String tit=et_log_title.getText().toString();
                 if(StringUtils.isEmpty(tit)){
                     new AlertDialog.Builder(this)
-                            .setMessage("请填写故事标题")
+                            .setMessage("请输入标题")
                             .create().show();
                 }else if(length(tit)>30){
                     new AlertDialog.Builder(this)

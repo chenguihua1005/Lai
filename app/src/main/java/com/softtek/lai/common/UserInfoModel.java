@@ -97,6 +97,7 @@ public class UserInfoModel {
         user=new UserModel();
         user.setUserrole(String.valueOf(Constants.VR));
         user.setUserid("-1");
+        user.setGender("1");
         user.setToken(token);
         user.setNickname("游客");
         user.setCertification("");

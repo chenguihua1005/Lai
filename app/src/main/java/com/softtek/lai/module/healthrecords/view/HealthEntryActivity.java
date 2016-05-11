@@ -199,7 +199,13 @@ public class HealthEntryActivity extends BaseActivity implements View.OnClickLis
         final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
         np1.setMaxValue(600);
-        np1.setMinValue(100);
+        String gender=UserInfoModel.getInstance().getUser().getGender();
+        if("0".equals(gender)){//男
+            np1.setValue(150);
+        }else{
+            np1.setValue(100);
+        }
+        np1.setMinValue(50);
         np1.setWrapSelectorWheel(false);
         np2.setMaxValue(9);
         np2.setValue(0);

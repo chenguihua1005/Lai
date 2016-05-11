@@ -27,6 +27,9 @@ public class PKListModel implements Parcelable{
     private String Start;
     private String End;
 
+    public PKListModel() {
+    }
+
     protected PKListModel(Parcel in) {
         PKId = in.readLong();
         ChP = in.readInt();
