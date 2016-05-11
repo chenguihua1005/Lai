@@ -353,6 +353,18 @@
             </RelativeLayout>
 
             <TextView
+                android:id="@+id/tip_pk"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:text="挑战尚未开始,敬请期待"
+                android:textColor="#333333"
+                android:textSize="18sp"
+                android:visibility="gone"/>
+            <TextView
                 android:id="@+id/btn_cancle_pk"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -365,7 +377,19 @@
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:visibility="gone"/>
-
+            <TextView
+                android:id="@+id/btn_restart"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="19dp"
+                android:background="@drawable/bg_next_btn"
+                android:gravity="center"
+                android:text="取消PK挑战"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:visibility="gone"/>
 
 
             <TextView

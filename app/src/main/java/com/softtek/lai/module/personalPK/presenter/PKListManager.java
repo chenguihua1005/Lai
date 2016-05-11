@@ -7,6 +7,7 @@ import com.softtek.lai.module.personalPK.model.PKDetailMold;
 import com.softtek.lai.module.personalPK.model.PKForm;
 import com.softtek.lai.module.personalPK.model.PKListModel;
 import com.softtek.lai.module.personalPK.model.PKObjModel;
+import com.softtek.lai.module.personalPK.model.SavePK;
 import com.softtek.lai.module.personalPK.net.PKService;
 import com.softtek.lai.module.personalPK.view.PKDetailActivity;
 import com.softtek.lai.module.personalPK.view.PKListActivity;
@@ -135,11 +136,20 @@ public class PKListManager {
 
     }
 
-    public void savePK(SelectTimeActivity activity, PKForm form,RequestCallback<ResponseData> callback){
+    public void savePK( PKForm form,RequestCallback<ResponseData<SavePK>> callback){
         service.savePK(
                 token,
                 form,
-               callback
+                callback
+        );
+    }
+
+    public void promiseOrRefuse(long pkId,int status,RequestCallback<ResponseData> callback){
+        service.promiseOrRefuse(
+                token,
+                pkId,
+                status,
+                callback
         );
     }
 }
