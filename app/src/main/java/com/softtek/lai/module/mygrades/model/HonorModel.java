@@ -12,7 +12,10 @@ public class HonorModel {
     private String OneHundredDays;
     private String TwoHundredyDays;
     private String OneYearDays;
-    private String Totals;//总步数，步数勋章用该字段自动判断
+    private String Totals;//总步数，步数勋章用该字段自动判断 [10],		--步数勋章
+    private String Angle; //--天使听见爱
+    private String PK;    // [1, 50]PK勋章
+
     private String DayOrderTotal;//跑团人数
     private String DayOrder;//当日跑团排名
     private String ContryDayOrderTotal;//全国总人数

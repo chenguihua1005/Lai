@@ -323,7 +323,7 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
         View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
         final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
-        np1.setMaxValue(200);
+        np1.setMaxValue(250);
         np1.setValue(90);
         np1.setMinValue(50);
         np1.setWrapSelectorWheel(false);

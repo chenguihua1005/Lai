@@ -10,6 +10,7 @@ import com.softtek.lai.module.personalPK.view.PKDetailActivity;
 import com.softtek.lai.module.personalPK.view.PKListActivity;
 import com.softtek.lai.module.personalPK.view.PKListMineActivity;
 import com.softtek.lai.module.personalPK.view.SearchActivity;
+import com.softtek.lai.module.personalPK.view.SelectOpponentActivity;
 import com.softtek.lai.utils.RequestCallback;
 
 import java.util.List;
@@ -97,6 +98,25 @@ public class PKListManager {
                     @Override
                     public void success(ResponseData<List<PKObjModel>> pkObjModelResponseData, Response response) {
                         activity.loadData(pkObjModelResponseData.getData());
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        activity.loadData(null);
+                        super.failure(error);
+                    }
+                }
+        );
+
+    }
+
+    public void getCurrentPaoTuanMember(final SelectOpponentActivity activity){
+        service.getCurrentPaoTuanMember(
+                token,
+                new RequestCallback<ResponseData<List<PKObjModel>>>() {
+                    @Override
+                    public void success(ResponseData<List<PKObjModel>> listResponseData, Response response) {
+                        activity.loadData(listResponseData.getData());
                     }
 
                     @Override

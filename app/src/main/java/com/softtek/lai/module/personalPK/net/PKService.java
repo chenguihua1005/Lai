@@ -40,4 +40,14 @@ public interface PKService {
     void searchPKObj(@Header("token")String token,
                      @Query("Key")String key,
                      RequestCallback<ResponseData<List<PKObjModel>>> callback);
+
+    //点赞
+    @GET("/Challenged/ChallengedPrasie")
+    void doZan(@Header("token")String token,
+               @Query("PKId")long pkId,
+               @Query("Chall")int chall,
+               RequestCallback<ResponseData> callback);
+    //加载当前用户的跑团成员
+    void getCurrentPaoTuanMember(@Header("token")String token,
+                                 RequestCallback<ResponseData<List<PKObjModel>>> callback);
 }
