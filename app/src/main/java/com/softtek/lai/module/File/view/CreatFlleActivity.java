@@ -348,7 +348,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
             np1.setValue(155);
         }
         np1.setMinValue(100);
-        np1.setWrapSelectorWheel(true);
+        np1.setWrapSelectorWheel(false);
         np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
         np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
