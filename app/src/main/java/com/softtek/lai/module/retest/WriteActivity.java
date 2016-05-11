@@ -2,6 +2,7 @@ package com.softtek.lai.module.retest;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -171,6 +172,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
     private static final String LAI_CHEN_SWITCH_KEY="guidetake";
     private CharSequence[] items={"拍照","从相册选择照片"};
     String isState="true";
+    private ProgressDialog progressDialog;
     private ImageFileCropSelector imageFileCropSelector;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -197,6 +199,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     protected void initViews() {
+        progressDialog = new ProgressDialog(this);
 
     }
 
@@ -493,9 +496,10 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         retestWrite.setFat(tv_retestWrite_neizhi.getText()+"");
         retestWrite.setClassId(classid);
         retestWrite.setAccountId(acountid);
-        String image=retestWrite.getImage();
-        int i;
-        retestPre.doPostWrite(Long.parseLong(acountid),loginid,retestWrite,this);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setMessage("数据刷新中...");
+        progressDialog.show();
+        retestPre.doPostWrite(Long.parseLong(acountid),loginid,retestWrite,this,progressDialog);
 //        Intent intent=new Intent();
 //        setResult(RESULT_OK,intent);
 //        finish();

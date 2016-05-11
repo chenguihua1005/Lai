@@ -51,6 +51,7 @@
     android:layout_height="1dp"
     android:background="#dddddd"/>
     <RelativeLayout
+        android:id="@+id/Re_mynews"
         android:layout_width="match_parent"
         android:layout_height="63dp"
         android:background="#ffffff">
@@ -67,10 +68,12 @@
             android:layout_centerVertical="true"
             />
             <ImageView
+                android:id="@+id/im_news_flag"
                 android:layout_width="8dp"
                 android:layout_height="8dp"
                 android:src="@drawable/red_circle"
                 android:layout_gravity="right"
+                android:visibility="gone"
                 />
         </FrameLayout>
         <TextView
