@@ -363,8 +363,38 @@
                 android:gravity="center"
                 android:text="取消PK挑战"
                 android:textColor="@color/white"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:visibility="gone"/>
 
+
+
+            <TextView
+                android:id="@+id/btn_receive"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="50dp"
+                android:background="@drawable/bg_next_btn"
+                android:gravity="center"
+                android:text="接受"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/btn_refuse"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="19dp"
+                android:background="@drawable/bg_pk_btn_refues"
+                android:gravity="center"
+                android:text="拒绝"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:visibility="gone"/>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="50dp" />

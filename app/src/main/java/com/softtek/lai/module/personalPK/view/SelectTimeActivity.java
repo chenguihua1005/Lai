@@ -3,6 +3,7 @@ package com.softtek.lai.module.personalPK.view;
 
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.DatePicker;
@@ -18,10 +19,15 @@ import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.personalPK.model.PKCreatModel;
+import com.softtek.lai.module.personalPK.model.PKDetailMold;
 import com.softtek.lai.module.personalPK.model.PKForm;
+import com.softtek.lai.module.personalPK.model.PKListModel;
+import com.softtek.lai.module.personalPK.presenter.PKListManager;
 import com.softtek.lai.utils.DateUtil;
+import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
@@ -30,10 +36,13 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.Calendar;
 
 import butterknife.InjectView;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_select_time)
 public class SelectTimeActivity extends BaseActivity implements View.OnClickListener,Validator.ValidationListener{
@@ -79,8 +88,8 @@ public class SelectTimeActivity extends BaseActivity implements View.OnClickList
     int currentDay;
 
     PKForm form;
+    PKListManager manager;
     PKCreatModel model;
-
     @Override
     protected void initViews() {
         ll_left.setOnClickListener(this);
@@ -93,6 +102,7 @@ public class SelectTimeActivity extends BaseActivity implements View.OnClickList
 
     @Override
     protected void initDatas() {
+        manager=new PKListManager();
         model=getIntent().getParcelableExtra("pkmodel");
         tv_pk_name1.setText(model.getUserName());
         tv_pk_name2.setText(model.getBeUserName());
@@ -194,6 +204,46 @@ public class SelectTimeActivity extends BaseActivity implements View.OnClickList
     @Override
     public void onValidationSucceeded() {
         Log.i(form.toString());
+        dialogShow("创建PK中...");
+        manager.savePK(this, form, new RequestCallback<ResponseData>() {
+            @Override
+            public void success(ResponseData responseData, Response response) {
+                dialogDissmiss();
+                Intent intent=new Intent(SelectTimeActivity.this,PKDetailActivity.class);
+                PKDetailMold detailMold=new PKDetailMold();
+                detailMold.setChallenged(form.getChallenged());
+                detailMold.setBeChallenged(form.getBeChallenged());
+                detailMold.setUserName(model.getUserName());
+                detailMold.setBUserName(model.getBeUserName());
+                detailMold.setPhoto(model.getUserPhoto());
+                detailMold.setBPhoto(model.getBeUserPhoto());
+                detailMold.setChipType(model.getChipType());
+                detailMold.setChip(model.getChip());
+                detailMold.setStart(form.getStart());
+                detailMold.setEnd(form.getEnd());
+                detailMold.setStatus(PKDetailActivity.NOCHALLENGE);//设置应战状态：未因战
+                //目标类型
+                detailMold.setTargetType(model.getTargetType());
+                if(detailMold.getTargetType()==1)
+                    detailMold.setTarget(model.getTarget()+"");
+                else
+                    detailMold.setTarget("在PK期限内，达成更多步数的人即为赢家");
+                //点赞数
+                detailMold.setChpcou(0);
+                detailMold.setBchpcou(0);
+                detailMold.setChaTotal(0);
+                detailMold.setBchaTotal(0);
+                intent.putExtra("pkmodel",detailMold);
+                intent.putExtra("pkType",Constants.CREATE_PK);
+                startActivity(intent);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                dialogDissmiss();
+                super.failure(error);
+            }
+        });
     }
 
     @Override

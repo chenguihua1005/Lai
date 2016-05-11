@@ -1,9 +1,12 @@
 package com.softtek.lai.module.personalPK.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by John on 2016/5/8.
  */
-public class PKDetailMold {
+public class PKDetailMold implements Parcelable{
 
     private long PKId;
     private int TargetType;//目标类型
@@ -27,6 +30,52 @@ public class PKDetailMold {
     private String BPhoto;
     private int Bchpcou;
     private long BchaTotal;
+    //是否可以被点咱
+    //0可以1不可以
+    private int BPraiseStatus;
+    private int PraiseStatus;
+    //*******************
+
+
+    public PKDetailMold() {
+    }
+
+    protected PKDetailMold(Parcel in) {
+        PKId = in.readLong();
+        TargetType = in.readInt();
+        Target = in.readString();
+        Start = in.readString();
+        End = in.readString();
+        ChipType = in.readInt();
+        Chip = in.readString();
+        Status = in.readInt();
+        Challenged = in.readLong();
+        UserName = in.readString();
+        Mobile = in.readString();
+        Photo = in.readString();
+        chpcou = in.readInt();
+        chaTotal = in.readLong();
+        BeChallenged = in.readLong();
+        BUserName = in.readString();
+        BMobile = in.readString();
+        BPhoto = in.readString();
+        Bchpcou = in.readInt();
+        BchaTotal = in.readLong();
+        BPraiseStatus=in.readInt();
+        PraiseStatus=in.readInt();
+    }
+
+    public static final Creator<PKDetailMold> CREATOR = new Creator<PKDetailMold>() {
+        @Override
+        public PKDetailMold createFromParcel(Parcel in) {
+            return new PKDetailMold(in);
+        }
+
+        @Override
+        public PKDetailMold[] newArray(int size) {
+            return new PKDetailMold[size];
+        }
+    };
 
     public long getPKId() {
         return PKId;
@@ -186,5 +235,52 @@ public class PKDetailMold {
 
     public void setBchaTotal(long bchaTotal) {
         BchaTotal = bchaTotal;
+    }
+
+    public int getBPraiseStatus() {
+        return BPraiseStatus;
+    }
+
+    public void setBPraiseStatus(int BPraiseStatus) {
+        this.BPraiseStatus = BPraiseStatus;
+    }
+
+    public int getPraiseStatus() {
+        return PraiseStatus;
+    }
+
+    public void setPraiseStatus(int praiseStatus) {
+        PraiseStatus = praiseStatus;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(PKId);
+        dest.writeInt(TargetType);
+        dest.writeString(Target);
+        dest.writeString(Start);
+        dest.writeString(End);
+        dest.writeInt(ChipType);
+        dest.writeString(Chip);
+        dest.writeInt(Status);
+        dest.writeLong(Challenged);
+        dest.writeString(UserName);
+        dest.writeString(Mobile);
+        dest.writeString(Photo);
+        dest.writeInt(chpcou);
+        dest.writeLong(chaTotal);
+        dest.writeLong(BeChallenged);
+        dest.writeString(BUserName);
+        dest.writeString(BMobile);
+        dest.writeString(BPhoto);
+        dest.writeInt(Bchpcou);
+        dest.writeLong(BchaTotal);
+        dest.writeInt(BPraiseStatus);
+        dest.writeInt(PraiseStatus);
     }
 }
