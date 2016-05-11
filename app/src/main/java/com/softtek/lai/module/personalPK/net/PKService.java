@@ -48,6 +48,7 @@ public interface PKService {
                @Query("Chall")int chall,
                RequestCallback<ResponseData> callback);
     //加载当前用户的跑团成员
+    @GET("/Challenged/GetOnwerRGMembers")
     void getCurrentPaoTuanMember(@Header("token")String token,
                                  RequestCallback<ResponseData<List<PKObjModel>>> callback);
 }

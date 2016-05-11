@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -15,6 +16,7 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.personalPK.model.PKCreatModel;
 import com.softtek.lai.module.personalPK.model.PKForm;
 import com.softtek.lai.utils.DateUtil;
+import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.widgets.WheelView;
 
 import java.text.ParseException;
@@ -37,6 +39,7 @@ public class SelectTimeActivity extends BaseActivity implements View.OnClickList
     TextView tv_right;
     @InjectView(R.id.fl_right)
     FrameLayout fl_right;
+
     @InjectView(R.id.rl_start)
     RelativeLayout rl_start;
     @InjectView(R.id.rl_end)
@@ -45,6 +48,16 @@ public class SelectTimeActivity extends BaseActivity implements View.OnClickList
     TextView tv_start;
     @InjectView(R.id.tv_end)
     TextView tv_end;
+    @InjectView(R.id.sender1_header)
+    CircleImageView sender1_header;
+    @InjectView(R.id.sender2_header)
+    CircleImageView sender2_header;
+    @InjectView(R.id.tv_pk_name1)
+    TextView tv_pk_name1;
+    @InjectView(R.id.tv_pk_name2)
+    TextView tv_pk_name2;
+    @InjectView(R.id.iv_jiangli)
+    ImageView iv_jiangli;
 
     List<String> years=new ArrayList<>();
     List<String> days=new ArrayList<>();
@@ -75,6 +88,9 @@ public class SelectTimeActivity extends BaseActivity implements View.OnClickList
     @Override
     protected void initDatas() {
         model=getIntent().getParcelableExtra("pkmodel");
+        tv_pk_name1.setText(model.getUserName());
+        tv_pk_name2.setText(model.getBeUserName());
+
         form=new PKForm();
         form.setBeChallenged(model.getBeChallenged());
         form.setChallenged(model.getChallenged());

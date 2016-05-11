@@ -1,6 +1,5 @@
 package com.softtek.lai.module.lossweightstory.view;
 
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
