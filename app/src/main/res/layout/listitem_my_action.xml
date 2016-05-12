@@ -38,7 +38,7 @@
             android:src="@drawable/publicwelfare_right"
             android:layout_weight="3"/>
     </LinearLayout>
-    <LinearLayout
+    <RelativeLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="80dp"
@@ -46,33 +46,62 @@
         android:layout_marginRight="20dp"
         android:layout_marginBottom="2dp"
         android:background="#e6e6e6">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="活动邀请"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="10dp"
-        android:textSize="16sp"
-        android:textColor="#333333"
-        />
-</LinearLayout>
         <LinearLayout
+            android:id="@+id/ll_action_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_action_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="你有一个新活动喽，快去看看吧"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="10dp"
+            android:textSize="14sp"
+            android:textColor="#333333"
+            />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_lab2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_below="@+id/ll_action_content">
+        <ImageView
+            android:id="@+id/lab2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/action_right_line"
+            />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_action_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll_lab2">
             <TextView
-                android:id="@+id/tv_action_content"
+                android:id="@+id/tv_action_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="你有一个新活动喽，快去看看吧"
+                android:text="爱心马拉松长跑活动"
                 android:layout_marginLeft="10dp"
-                android:textSize="10sp"
+                android:layout_marginTop="15dp"
+                android:textSize="12sp"
                 android:textColor="#333333"
+
                 />
         </LinearLayout>
-    </LinearLayout>
+        <ImageView
+            android:id="@+id/lab"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/action_right"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            />
+
+    </RelativeLayout>
 </LinearLayout>
 </RelativeLayout>

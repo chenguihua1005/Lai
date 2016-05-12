@@ -1,7 +1,9 @@
 package com.softtek.lai.module.laisportmine.view;
 
+import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -12,7 +14,7 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_my_pk_list)
-public class MyPkListActivity extends BaseActivity {
+public class MyPkListActivity extends BaseActivity implements View.OnClickListener{
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.tv_title)
@@ -20,11 +22,22 @@ public class MyPkListActivity extends BaseActivity {
     @Override
     protected void initViews() {
         tv_title.setText("");
+        ll_left.setOnClickListener(this);
 
     }
 
     @Override
     protected void initDatas() {
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId())
+        {
+            case R.id.ll_left:
+                finish();
+                break;
+        }
     }
 }
