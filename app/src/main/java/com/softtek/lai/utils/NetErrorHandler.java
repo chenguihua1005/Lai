@@ -114,6 +114,9 @@ public class NetErrorHandler implements IApiErrorHandler {
                     case 502:
                         Util.toastMsg(zilla.libcore.R.string.net_http_502);
                         break;
+                    case 503:
+                        Util.toastMsg("服务不可用");
+                        break;
                     default:
                         Util.toastMsg(zilla.libcore.R.string.net_http_other);
                         break;
