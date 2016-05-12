@@ -8,7 +8,6 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
@@ -16,9 +15,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.personalPK.adapter.PKListAdapter;
-import com.softtek.lai.module.personalPK.model.PKCreatModel;
 import com.softtek.lai.module.personalPK.model.PKDetailMold;
-import com.softtek.lai.module.personalPK.model.PKListModel;
 import com.softtek.lai.module.personalPK.presenter.PKListManager;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
@@ -124,6 +121,8 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
         cb_zan_right.setText(model.getBchpcou() + "");
         tv_time.setText(DateUtil.getInstance().convertDateStr(model.getStart(), "yyyy年MM月dd日") + "——" +
                 DateUtil.getInstance().convertDateStr(model.getEnd(), "yyyy年MM月dd日"));
+        cb_zan_left.setEnabled(false);
+        cb_zan_right.setEnabled(false);
         if (model.getTStatus() == 0) {
             tv_status.setBackgroundResource(R.drawable.pk_list_weikaishi);
             tv_status.setText("未开始");
@@ -206,18 +205,42 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
                 //取消PK赛
                 break;
             case R.id.cb_zan_left:
+                cb_zan_left.setChecked(true);
+                final int left_zan=Integer.parseInt(cb_zan_left.getText().toString())+1;
+                cb_zan_left.setText(left_zan+"");
+                cb_zan_left.setEnabled(false);
                 manager.doZan(pkId, 0, new RequestCallback<ResponseData>() {
                     @Override
                     public void success(ResponseData responseData, Response response) {
 
                     }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        cb_zan_left.setText(left_zan-1+"");
+                        cb_zan_left.setChecked(false);
+                        cb_zan_left.setEnabled(true);
+                        super.failure(error);
+                    }
                 });
                 break;
             case R.id.cb_zan_right:
+                final int right_zan=Integer.parseInt(cb_zan_left.getText().toString())+1;
+                cb_zan_right.setChecked(true);
+                cb_zan_right.setText(right_zan+"");
+                cb_zan_right.setEnabled(false);
                 manager.doZan(pkId, 1, new RequestCallback<ResponseData>() {
                     @Override
                     public void success(ResponseData responseData, Response response) {
 
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        cb_zan_right.setText(right_zan-1+"");
+                        cb_zan_right.setEnabled(true);
+                        cb_zan_right.setChecked(false);
+                        super.failure(error);
                     }
                 });
                 break;
@@ -282,9 +305,23 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
         tv_pk_name2.setText(model.getBUserName());
         cb_zan_left.setText(model.getChpcou() + "");
         cb_zan_right.setText(model.getBchpcou() + "");
-
         tv_time.setText(DateUtil.getInstance().convertDateStr(model.getStart(), "yyyy年MM月dd日") + "——" +
                 DateUtil.getInstance().convertDateStr(model.getEnd(), "yyyy年MM月dd日"));
+        if(model.getPraiseStatus()==0){//可以点咱
+            cb_zan_left.setEnabled(true);
+            cb_zan_left.setChecked(false);
+        }else{//不可以
+            cb_zan_left.setEnabled(false);
+            cb_zan_left.setChecked(true);
+        }
+        if(model.getBPraiseStatus()==0){//可以点咱
+            cb_zan_right.setEnabled(true);
+            cb_zan_right.setChecked(false);
+        }else{//不可以
+            cb_zan_right.setEnabled(false);
+            cb_zan_right.setChecked(true);
+        }
+
         if (model.getStatus() == NOCHALLENGE) {
             tv_is_accept.setText("未应战");
         } else if (model.getStatus() == CHALLENGING) {
@@ -388,14 +425,25 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
             intent.putExtra("ChP",cb_zan_left.getText().toString());
             intent.putExtra("BChP",cb_zan_right.getText().toString());
             if (model.getStatus() == NOCHALLENGE) {
-                intent.putExtra("status",0);//拒绝表示未应战
+                intent.putExtra("status",0);//未应战
             } else if (model.getStatus() == CHALLENGING) {
-
+                //这里要更具时间判断
+                int eq=DateUtil.getInstance().compare(DateUtil.getInstance().getCurrentDate(),model.getStart());
+                if(eq==-1){
+                    //小于开始日期
+                    intent.putExtra("status",0);//未开始
+                }else{
+                    eq=DateUtil.getInstance().compare(DateUtil.getInstance().getCurrentDate(),model.getEnd());
+                    if(eq==1){
+                        intent.putExtra("status",2);//已结束
+                    }else{
+                        intent.putExtra("status",1);//进行中
+                    }
+                }
 
             } else if (model.getStatus() == REFUSE) {
                 intent.putExtra("status",0);//拒绝表示未应战
             }
-            //intent.putExtra("status",);
             setResult(RESULT_OK,intent);
             finish();
         }else if(type== Constants.MESSAGE_PK){
