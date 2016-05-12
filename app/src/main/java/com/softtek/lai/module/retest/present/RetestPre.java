@@ -25,7 +25,7 @@ public interface RetestPre {
 
     void doGetAudit(long accountId, long classId, String typeDate);
 
-    void doPostWrite(long accountId, long loginId, RetestWriteModel retestWriteModel,Context context);
+    void doPostWrite(long accountId, long loginId, RetestWriteModel retestWriteModel,Context context,ProgressDialog progressDialog);
 
     void doPostAudit(String loginId, String accountId, String typeDate, RetestAuditModel retestAuditModel,Context context);
 

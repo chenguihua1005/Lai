@@ -9,6 +9,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.github.snowdream.android.util.Log;
@@ -20,16 +21,23 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.jpush.JpushSet;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.home.view.ValidateCertificationActivity;
+import com.softtek.lai.module.login.model.PhotoModel;
 import com.softtek.lai.module.login.model.RoleInfo;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.net.LoginService;
+import com.softtek.lai.module.message.model.PhotosModel;
+import com.softtek.lai.module.message.view.JoinGameDetailActivity;
+import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.io.File;
 
 import cn.jpush.android.api.JPushInterface;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import retrofit.mime.TypedFile;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.util.Util;
@@ -94,6 +102,115 @@ public class LoginPresenterImpl implements ILoginPresenter {
                 if (progressDialog != null) {
                     progressDialog.dismiss();
                 }
+            }
+        });
+    }
+
+    @Override
+    public void modifyPicture(String accountId, final String upimg, final ProgressDialog dialog, final ImageView imgV) {
+        String token = SharedPreferenceService.getInstance().get("token", "");
+        service.modifyPicture(token, accountId, new TypedFile("image/png", new File(upimg)), new Callback<ResponseData<PhotoModel>>() {
+            @Override
+            public void success(ResponseData<PhotoModel> responseData, Response response) {
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+                System.out.println("responseData:" + responseData);
+                int status = responseData.getStatus();
+                switch (status) {
+                    case 200:
+                        PhotoModel photoModel = responseData.getData();
+                        File files = new File(upimg);
+                        Picasso.with(context).load(files).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(imgV);
+                        UserModel userModel = UserInfoModel.getInstance().getUser();
+                        userModel.setPhoto(photoModel.getImg());
+                        UserInfoModel.getInstance().saveUserCache(userModel);
+                        break;
+                    default:
+                        Util.toastMsg(responseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
+            }
+        });
+    }
+
+    @Override
+    public void modifyPictures(String accountId, final String upimg, final ProgressDialog dialog) {
+        String token = SharedPreferenceService.getInstance().get("token", "");
+        service.modifyPicture(token, accountId, new TypedFile("image/png", new File(upimg)), new Callback<ResponseData<PhotoModel>>() {
+            @Override
+            public void success(ResponseData<PhotoModel> responseData, Response response) {
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+                System.out.println("responseData:" + responseData);
+                int status = responseData.getStatus();
+                switch (status) {
+                    case 200:
+                        PhotoModel photoModel = responseData.getData();
+                        UserModel userModel = UserInfoModel.getInstance().getUser();
+                        userModel.setPhoto(photoModel.getImg());
+                        UserInfoModel.getInstance().saveUserCache(userModel);
+                        ((AppCompatActivity) context).finish();
+                        break;
+                    default:
+                        Util.toastMsg(responseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
+            }
+        });
+    }
+
+    @Override
+    public void getUpdateName(String accountId, final String userName, final ProgressDialog dialog) {
+        String token = SharedPreferenceService.getInstance().get("token", "");
+        service.getUpdateName(token, accountId,userName, new Callback<ResponseData>() {
+            @Override
+            public void success(ResponseData responseData, Response response) {
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+                System.out.println("responseData:" + responseData);
+                int status = responseData.getStatus();
+                switch (status) {
+                    case 200:
+                        UserModel userModel = UserInfoModel.getInstance().getUser();
+                        System.out.println("userName:"+userName);
+                        userModel.setNickname(userName);
+                        UserInfoModel.getInstance().saveUserCache(userModel);
+                        ((AppCompatActivity) context).finish();
+                        break;
+                    default:
+                        Util.toastMsg(responseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
             }
         });
     }

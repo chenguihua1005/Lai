@@ -24,7 +24,7 @@ import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.personalPK.model.PKCreatModel;
 import com.softtek.lai.module.personalPK.model.PKDetailMold;
 import com.softtek.lai.module.personalPK.model.PKForm;
-import com.softtek.lai.module.personalPK.model.PKListModel;
+import com.softtek.lai.module.personalPK.model.SavePK;
 import com.softtek.lai.module.personalPK.presenter.PKListManager;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
@@ -205,12 +205,17 @@ public class SelectTimeActivity extends BaseActivity implements View.OnClickList
     public void onValidationSucceeded() {
         Log.i(form.toString());
         dialogShow("创建PK中...");
-        manager.savePK(this, form, new RequestCallback<ResponseData>() {
+        manager.savePK(form, new RequestCallback<ResponseData<SavePK>>() {
             @Override
-            public void success(ResponseData responseData, Response response) {
+            public void success(ResponseData<SavePK> savePKResponseData, Response response) {
                 dialogDissmiss();
+                if(savePKResponseData.getStatus()==100){
+                    Util.toastMsg(savePKResponseData.getMsg());
+                    return;
+                }
                 Intent intent=new Intent(SelectTimeActivity.this,PKDetailActivity.class);
                 PKDetailMold detailMold=new PKDetailMold();
+                detailMold.setPKId(savePKResponseData.getData().getPKId());
                 detailMold.setChallenged(form.getChallenged());
                 detailMold.setBeChallenged(form.getBeChallenged());
                 detailMold.setUserName(model.getUserName());

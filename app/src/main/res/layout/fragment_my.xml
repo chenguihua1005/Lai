@@ -28,6 +28,7 @@
                 android:layout_marginTop="@dimen/fragmentMineMargin">
 
                 <RelativeLayout
+                    android:id="@+id/rel_nodify_person"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/white">
@@ -36,6 +37,7 @@
                         android:id="@+id/img"
                         android:layout_width="@dimen/circleImage"
                         android:layout_height="@dimen/circleImage"
+                        android:layout_centerVertical="true"
                         android:layout_margin="@dimen/fragmentMineMargin"
                         android:src="@drawable/img_default" />
 
@@ -50,7 +52,7 @@
                             android:id="@+id/text_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Name"
+                            android:layout_marginTop="10dip"
                             android:textSize="@dimen/fragmentMineTextSize" />
 
                         <LinearLayout
@@ -68,7 +70,6 @@
                                 android:id="@+id/text_zgzh"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="123456"
                                 android:textSize="@dimen/fragmentMineTextSize" />
                         </LinearLayout>
                     </LinearLayout>
@@ -272,24 +273,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/default_pic" />
+
         <TextView
-            android:layout_marginTop="40dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="40dp"
             android:gravity="center|bottom"
-            android:textSize="16sp"
+            android:text="登录后，才能使用更多功能哦"
             android:textColor="#333333"
-            android:text="登录后，才能使用更多功能哦"/>
+            android:textSize="16sp" />
+
         <Button
             android:id="@+id/but_login"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dip"
             android:layout_marginLeft="@dimen/fragmentMineMargin"
             android:layout_marginRight="@dimen/fragmentMineMargin"
-            android:textColor="@color/white"
+            android:layout_marginTop="40dip"
             android:background="@drawable/bg_login_btn"
-            android:text="立即登录" />
+            android:text="立即登录"
+            android:textColor="@color/white" />
     </LinearLayout>
 </LinearLayout>
 

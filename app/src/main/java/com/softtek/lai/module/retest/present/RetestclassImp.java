@@ -191,11 +191,12 @@ public class RetestclassImp implements RetestPre{
 
 //复测写入提交
     @Override
-    public void doPostWrite(long accountId, long loginId, RetestWriteModel retestWrite, final Context context) {
+    public void doPostWrite(long accountId, long loginId, RetestWriteModel retestWrite, final Context context, final ProgressDialog progressDialog) {
         String token=SharedPreferenceService.getInstance().get("token","");
         service.doPostWrite(token, accountId, loginId, retestWrite, new Callback<ResponseData<RetestWriteModel>>() {
             @Override
             public void success(ResponseData<RetestWriteModel> retestWriteResponseData, Response response) {
+                progressDialog.dismiss();
                 if(retestWriteResponseData!=null){
                     int status=retestWriteResponseData.getStatus();
                     switch (status)
@@ -221,6 +222,7 @@ public class RetestclassImp implements RetestPre{
 
             @Override
             public void failure(RetrofitError error) {
+                progressDialog.dismiss();
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }

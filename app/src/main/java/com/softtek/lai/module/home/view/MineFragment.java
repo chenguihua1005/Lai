@@ -11,7 +11,9 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mobsandgeeks.saripaar.Rule;
@@ -21,14 +23,15 @@ import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.jpush.JpushSet;
-import com.softtek.lai.module.laisportmine.view.MyInformationActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.mygrades.view.MyGradesActivity;
 import com.softtek.lai.utils.ACache;
+import com.squareup.picasso.Picasso;
 
 import butterknife.InjectView;
 import cn.jpush.android.api.JPushInterface;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.fragment_my)
@@ -44,6 +47,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
 
     @InjectView(R.id.lin_validate_certification)
     LinearLayout lin_validate_certification;
+
+    @InjectView(R.id.rel_nodify_person)
+    RelativeLayout rel_nodify_person;
 
     @InjectView(R.id.lin_setting)
     LinearLayout lin_setting;
@@ -71,12 +77,14 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
 
     @InjectView(R.id.text_state)
     TextView text_state;
-    @InjectView(R.id.my)
-    LinearLayout my;
+
+    @InjectView(R.id.img)
+    ImageView img;
 
     private ACache aCache;
 
     private UserModel model;
+    String photo;
 
     @Override
     protected void initViews() {
@@ -88,7 +96,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         lin_not_vr.setOnClickListener(this);
         lin_is_vr.setOnClickListener(this);
         but_login.setOnClickListener(this);
-        my.setOnClickListener(this);
+        rel_nodify_person.setOnClickListener(this);
 
     }
 
@@ -104,6 +112,13 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         } else {
             lin_not_vr.setVisibility(View.VISIBLE);
             lin_is_vr.setVisibility(View.GONE);
+        }
+        photo = model.getPhoto();
+        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+        if ("".equals(photo) || "null".equals(photo) || photo == null) {
+            Picasso.with(getContext()).load("111").fit().error(R.drawable.img_default).into(img);
+        } else {
+            Picasso.with(getContext()).load(path + photo).fit().error(R.drawable.img_default).into(img);
         }
 
         if (model.getNickname() == null || "".equals(model.getNickname())) {
@@ -160,6 +175,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
             case R.id.lin_reset_password:
                 startActivity(new Intent(getContext(), ModifyPasswordActivity.class));
                 break;
+            case R.id.rel_nodify_person:
+                startActivity(new Intent(getContext(), ModifyPersonActivity.class));
+                break;
             case R.id.but_login:
                 Intent login = new Intent(getContext(), LoginActivity.class);
                 login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -181,9 +199,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 break;
             case R.id.lin_setting:
                 startActivity(new Intent(getContext(), SettingsActivity.class));
-                break;
-            case R.id.my:
-                startActivity(new Intent(getContext(), MyInformationActivity.class));
                 break;
         }
     }

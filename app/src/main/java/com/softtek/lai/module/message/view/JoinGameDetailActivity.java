@@ -603,147 +603,175 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
     }
 
     private void upload() {
-        dialogShow("加载中");
         if ("1".equals(type)) {
-            coninfoModel = new ConinfoModel();
-            //设置classid
-            coninfoModel.setClassid(classid);
-
-            coninfoModel.setAccountid(accoutid);
-            coninfoModel.setNickname(et_nickname.getText().toString());
-            coninfoModel.setBirthday(tv_birthday.getText().toString());
-            coninfoModel.setGender(tv_sex.getText().toString().equals("男") ? 0 : 1);
-            coninfoModel.setPhoto(change_photo);
-            if(tv_weight.getText().toString().equals("")){
-                coninfoModel.setWeight(0.0);
-            }else {
-                String weights = tv_weight.getText().toString().split("斤")[0];
-                coninfoModel.setWeight(Double.parseDouble(weights));
-            }
-            if (tv_tizhi.getText().toString().equals("")) {
-                coninfoModel.setPysical(0.0);
+            String name = et_nickname.getText().toString();
+            if (length(name) > 12) {
+                Util.toastMsg("姓名不能超过6个汉字");
             } else {
-                String tizhi = tv_tizhi.getText().toString().split("%")[0];
-                coninfoModel.setPysical(Double.parseDouble(tizhi));
-            }
+                coninfoModel = new ConinfoModel();
+                //设置classid
+                coninfoModel.setClassid(classid);
 
-            if (tv_neizhi.getText().toString().equals("")) {
-                coninfoModel.setFat(0.0);
-            } else {
-                coninfoModel.setFat(Double.parseDouble(tv_neizhi.getText().toString()));
-            }
+                coninfoModel.setAccountid(accoutid);
+                coninfoModel.setNickname(name);
+                coninfoModel.setBirthday(tv_birthday.getText().toString());
+                coninfoModel.setGender(tv_sex.getText().toString().equals("男") ? 0 : 1);
+                coninfoModel.setPhoto(change_photo);
+                if (tv_weight.getText().toString().equals("")) {
+                    coninfoModel.setWeight(0.0);
+                } else {
+                    String weights = tv_weight.getText().toString().split("斤")[0];
+                    coninfoModel.setWeight(Double.parseDouble(weights));
+                }
+                if (tv_tizhi.getText().toString().equals("")) {
+                    coninfoModel.setPysical(0.0);
+                } else {
+                    String tizhi = tv_tizhi.getText().toString().split("%")[0];
+                    coninfoModel.setPysical(Double.parseDouble(tizhi));
+                }
 
-            if (getConfirmInfoModel.getCircum().toString().equals("")) {
-                coninfoModel.setCircum(0.0);
-            } else {
-                coninfoModel.setCircum(Double.parseDouble(getConfirmInfoModel.getCircum().toString()));
-            }
+                if (tv_neizhi.getText().toString().equals("")) {
+                    coninfoModel.setFat(0.0);
+                } else {
+                    coninfoModel.setFat(Double.parseDouble(tv_neizhi.getText().toString()));
+                }
 
-            if (getConfirmInfoModel.getWaistline().toString().equals("")) {
-                coninfoModel.setWaistline(0.0);
-            } else {
-                coninfoModel.setWaistline(Double.parseDouble(getConfirmInfoModel.getWaistline().toString()));
-            }
+                if (getConfirmInfoModel.getCircum().toString().equals("")) {
+                    coninfoModel.setCircum(0.0);
+                } else {
+                    coninfoModel.setCircum(Double.parseDouble(getConfirmInfoModel.getCircum().toString()));
+                }
 
-            if (getConfirmInfoModel.getHiplie().toString().equals("")) {
-                coninfoModel.setHiplie(0.0);
-            } else {
-                coninfoModel.setHiplie(Double.parseDouble(getConfirmInfoModel.getHiplie().toString()));
-            }
+                if (getConfirmInfoModel.getWaistline().toString().equals("")) {
+                    coninfoModel.setWaistline(0.0);
+                } else {
+                    coninfoModel.setWaistline(Double.parseDouble(getConfirmInfoModel.getWaistline().toString()));
+                }
 
-            if (getConfirmInfoModel.getUpArmGirth().equals("")) {
-                coninfoModel.setUparmgirth(0.0);
-            } else {
-                coninfoModel.setUparmgirth(Double.parseDouble(getConfirmInfoModel.getUpArmGirth().toString()));
-            }
+                if (getConfirmInfoModel.getHiplie().toString().equals("")) {
+                    coninfoModel.setHiplie(0.0);
+                } else {
+                    coninfoModel.setHiplie(Double.parseDouble(getConfirmInfoModel.getHiplie().toString()));
+                }
 
-            if (getConfirmInfoModel.getUpLegGirth().toString().equals("")) {
-                coninfoModel.setUpleggirth(0.0);
-            } else {
-                coninfoModel.setUpleggirth(Double.parseDouble(getConfirmInfoModel.getUpLegGirth().toString()));
-            }
+                if (getConfirmInfoModel.getUpArmGirth().equals("")) {
+                    coninfoModel.setUparmgirth(0.0);
+                } else {
+                    coninfoModel.setUparmgirth(Double.parseDouble(getConfirmInfoModel.getUpArmGirth().toString()));
+                }
 
-            if (getConfirmInfoModel.getDoLegGirth().toString().equals("")) {
-                coninfoModel.setDoleggirth(0.0);
-            } else {
-                coninfoModel.setDoleggirth(Double.parseDouble(getConfirmInfoModel.getDoLegGirth().toString()));
+                if (getConfirmInfoModel.getUpLegGirth().toString().equals("")) {
+                    coninfoModel.setUpleggirth(0.0);
+                } else {
+                    coninfoModel.setUpleggirth(Double.parseDouble(getConfirmInfoModel.getUpLegGirth().toString()));
+                }
+
+                if (getConfirmInfoModel.getDoLegGirth().toString().equals("")) {
+                    coninfoModel.setDoleggirth(0.0);
+                } else {
+                    coninfoModel.setDoleggirth(Double.parseDouble(getConfirmInfoModel.getDoLegGirth().toString()));
+                }
+                System.out.println("coninfoModel:" + coninfoModel);
+                String token = UserInfoModel.getInstance().getToken();
+                UserModel user = UserInfoModel.getInstance().getUser();
+                user.setNickname(et_nickname.getText().toString());
+                UserInfoModel.getInstance().saveUserCache(user);
+                dialogShow("加载中");
+                iUpConfirmInfopresenter.changeUpConfirmInfo(token, coninfoModel);
             }
-            System.out.println("coninfoModel:" + coninfoModel);
-            String token = UserInfoModel.getInstance().getToken();
-            UserModel user = UserInfoModel.getInstance().getUser();
-            user.setNickname(et_nickname.getText().toString());
-            UserInfoModel.getInstance().saveUserCache(user);
-            iUpConfirmInfopresenter.changeUpConfirmInfo(token, coninfoModel);
         } else {
-            NewstudentsModel newstudentsModel = new NewstudentsModel();
-            newstudentsModel.setSentaccid(accoutid);
-            newstudentsModel.setNickname(et_nickname.getText().toString());
-            String mobile = et_phone.getText().toString();
-            String b = "hbl" + mobile.substring(mobile.length() - 6, mobile.length());
-            newstudentsModel.setPassword(MD5.md5WithEncoder(b));
-            newstudentsModel.setMobile(mobile);
-            String classId = pargradeIdlList.get(select_posion);
-            newstudentsModel.setClassid(classId);
-            if(tv_weight.getText().toString().equals("")){
-                newstudentsModel.setWeight(0.0);
-            }else {
-                String weights = tv_weight.getText().toString().split("斤")[0];
-                newstudentsModel.setWeight(Double.parseDouble(weights));
-            }
+            String name = et_nickname.getText().toString();
+            if (length(name) > 12) {
+                Util.toastMsg("姓名不能超过6个汉字");
+            } else {
+                NewstudentsModel newstudentsModel = new NewstudentsModel();
+                newstudentsModel.setSentaccid(accoutid);
+                newstudentsModel.setNickname(name);
+                String mobile = et_phone.getText().toString();
+                String b = "hbl" + mobile.substring(mobile.length() - 6, mobile.length());
+                newstudentsModel.setPassword(MD5.md5WithEncoder(b));
+                newstudentsModel.setMobile(mobile);
+                String classId = pargradeIdlList.get(select_posion);
+                newstudentsModel.setClassid(classId);
+                if (tv_weight.getText().toString().equals("")) {
+                    newstudentsModel.setWeight(0.0);
+                } else {
+                    String weights = tv_weight.getText().toString().split("斤")[0];
+                    newstudentsModel.setWeight(Double.parseDouble(weights));
+                }
 
-            newstudentsModel.setBirthday(tv_birthday.getText().toString());
-            newstudentsModel.setGender(tv_sex.getText().toString().equals("男") ? 0 : 1);
-            newstudentsModel.setPhoto(change_photo);
-            if (tv_tizhi.getText().toString().equals("")) {
-                newstudentsModel.setPysical(0.0);
-            } else {
-                String tizhi = tv_tizhi.getText().toString().split("%")[0];
-                newstudentsModel.setPysical(Double.parseDouble(tizhi));
-            }
-            if (tv_neizhi.getText().toString().equals("")) {
-                newstudentsModel.setFat(0.0);
-            } else {
-                newstudentsModel.setFat(Double.parseDouble(tv_neizhi.getText().toString()));
-            }
-            if (getConfirmInfoModel.getCircum().toString().equals("")) {
-                newstudentsModel.setCircum(0.0);
-            } else {
-                newstudentsModel.setCircum(Double.parseDouble(getConfirmInfoModel.getCircum().toString()));
-            }
+                newstudentsModel.setBirthday(tv_birthday.getText().toString());
+                newstudentsModel.setGender(tv_sex.getText().toString().equals("男") ? 0 : 1);
+                newstudentsModel.setPhoto(change_photo);
+                if (tv_tizhi.getText().toString().equals("")) {
+                    newstudentsModel.setPysical(0.0);
+                } else {
+                    String tizhi = tv_tizhi.getText().toString().split("%")[0];
+                    newstudentsModel.setPysical(Double.parseDouble(tizhi));
+                }
+                if (tv_neizhi.getText().toString().equals("")) {
+                    newstudentsModel.setFat(0.0);
+                } else {
+                    newstudentsModel.setFat(Double.parseDouble(tv_neizhi.getText().toString()));
+                }
+                if (getConfirmInfoModel.getCircum().toString().equals("")) {
+                    newstudentsModel.setCircum(0.0);
+                } else {
+                    newstudentsModel.setCircum(Double.parseDouble(getConfirmInfoModel.getCircum().toString()));
+                }
 
-            if (getConfirmInfoModel.getWaistline().toString().equals("")) {
-                newstudentsModel.setWaistline(0.0);
-            } else {
-                newstudentsModel.setWaistline(Double.parseDouble(getConfirmInfoModel.getWaistline().toString()));
-            }
+                if (getConfirmInfoModel.getWaistline().toString().equals("")) {
+                    newstudentsModel.setWaistline(0.0);
+                } else {
+                    newstudentsModel.setWaistline(Double.parseDouble(getConfirmInfoModel.getWaistline().toString()));
+                }
 
-            if (getConfirmInfoModel.getHiplie().toString().equals("")) {
-                newstudentsModel.setHiplie(0.0);
-            } else {
-                newstudentsModel.setHiplie(Double.parseDouble(getConfirmInfoModel.getHiplie().toString()));
-            }
+                if (getConfirmInfoModel.getHiplie().toString().equals("")) {
+                    newstudentsModel.setHiplie(0.0);
+                } else {
+                    newstudentsModel.setHiplie(Double.parseDouble(getConfirmInfoModel.getHiplie().toString()));
+                }
 
-            if (getConfirmInfoModel.getUpArmGirth().equals("")) {
-                newstudentsModel.setUparmgirth(0.0);
-            } else {
-                newstudentsModel.setUparmgirth(Double.parseDouble(getConfirmInfoModel.getUpArmGirth().toString()));
-            }
+                if (getConfirmInfoModel.getUpArmGirth().equals("")) {
+                    newstudentsModel.setUparmgirth(0.0);
+                } else {
+                    newstudentsModel.setUparmgirth(Double.parseDouble(getConfirmInfoModel.getUpArmGirth().toString()));
+                }
 
-            if (getConfirmInfoModel.getUpLegGirth().toString().equals("")) {
-                newstudentsModel.setUpleggirth(0.0);
-            } else {
-                newstudentsModel.setUpleggirth(Double.parseDouble(getConfirmInfoModel.getUpLegGirth().toString()));
-            }
+                if (getConfirmInfoModel.getUpLegGirth().toString().equals("")) {
+                    newstudentsModel.setUpleggirth(0.0);
+                } else {
+                    newstudentsModel.setUpleggirth(Double.parseDouble(getConfirmInfoModel.getUpLegGirth().toString()));
+                }
 
-            if (getConfirmInfoModel.getDoLegGirth().toString().equals("")) {
-                newstudentsModel.setDoleggirth(0.0);
-            } else {
-                newstudentsModel.setDoleggirth(Double.parseDouble(getConfirmInfoModel.getDoLegGirth().toString()));
+                if (getConfirmInfoModel.getDoLegGirth().toString().equals("")) {
+                    newstudentsModel.setDoleggirth(0.0);
+                } else {
+                    newstudentsModel.setDoleggirth(Double.parseDouble(getConfirmInfoModel.getDoLegGirth().toString()));
+                }
+                dialogShow("加载中");
+                iNewStudentpresenter.input(newstudentsModel);
             }
-            System.out.println("newstudentsModel:" + newstudentsModel);
-            iNewStudentpresenter.input(newstudentsModel);
-
         }
+    }
+
+    private boolean isLetter(char c) {
+        int k = 0x80;
+        return c / k == 0 ? true : false;
+    }
+
+    private int length(String s) {
+        if (s == null)
+            return 0;
+        char[] c = s.toCharArray();
+        int len = 0;
+        for (int i = 0; i < c.length; i++) {
+            len++;
+            if (!isLetter(c[i])) {
+                len++;
+            }
+        }
+        return len;
     }
 
     @Override
