@@ -11,10 +11,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mobsandgeeks.saripaar.Rule;
@@ -51,7 +53,7 @@ import zilla.libcore.ui.InjectLayout;
  * 跑团首页
  */
 @InjectLayout(R.layout.activity_group_main)
-public class GroupMainActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener, SportGroupManager.GetSportIndexCallBack,MyRunTeamManager.MyRunTeamCallback {
+public class GroupMainActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener, SportGroupManager.GetSportIndexCallBack, MyRunTeamManager.MyRunTeamCallback {
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -100,11 +102,20 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
 
     @InjectView(R.id.text_pk_right_count)
     TextView text_pk_right_count;
+
     @InjectView(R.id.iv_email)
     ImageView iv_email;
+
+    @InjectView(R.id.rel_my_score)
+    RelativeLayout rel_my_score;
+
     MyRunTeamManager myRunTeamManager;
-    UserInfoModel userInfoModel=UserInfoModel.getInstance();
-    long accountid=Long.parseLong(userInfoModel.getUser().getUserid());
+    UserInfoModel userInfoModel = UserInfoModel.getInstance();
+    long accountid = Long.parseLong(userInfoModel.getUser().getUserid());
+
+    PraiseChallengeModel praiseChallengeModel;
+
+    List<RecentlyActiviteModel> recentlyActivite;
 
     @InjectView(R.id.text_pk_left_name)
     TextView text_pk_left_name;
@@ -130,12 +141,51 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
     @InjectView(R.id.lin_no_activity)
     TextView lin_no_activity;
 
+    @InjectView(R.id.lin_start_sport)
+    LinearLayout lin_start_sport;
+
+    @InjectView(R.id.lin_start_sports)
+    LinearLayout lin_start_sports;
+
+    @InjectView(R.id.rel_my_activity)
+    RelativeLayout rel_my_activity;
+
+    @InjectView(R.id.rel_my_pk)
+    RelativeLayout rel_my_pk;
+
+    @InjectView(R.id.lin_pk)
+    LinearLayout lin_pk;
+
+    @InjectView(R.id.text_start_pk)
+    TextView text_start_pk;
+
+    @InjectView(R.id.text_start_pks)
+    TextView text_start_pks;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ll_left.setOnClickListener(this);
         iv_email.setOnClickListener(this);
+        fl_right.setOnClickListener(this);
+        rel_my_score.setOnClickListener(this);
+        lin_start_sports.setOnClickListener(this);
+        lin_start_sport.setOnClickListener(this);
+        rel_my_activity.setOnClickListener(this);
+        rel_my_pk.setOnClickListener(this);
+        lin_pk.setOnClickListener(this);
+        text_start_pk.setOnClickListener(this);
+        text_start_pks.setOnClickListener(this);
+        lin_no_pk.setOnClickListener(this);
+        lin_no_activity.setOnClickListener(this);
+        list_activity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                RecentlyActiviteModel recentlyActiviteModel = recentlyActivite.get(position);
+                String actId=recentlyActiviteModel.getActId();//活动Id
+            }
+        });
     }
 
     @Override
@@ -147,10 +197,10 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
     protected void initDatas() {
         SportGroupManager sportGroupManager = new SportGroupManager(this);
         String userId = UserInfoModel.getInstance().getUser().getUserid();
-        userId = "4";
+        userId = "13";
         sportGroupManager.getSportIndex(userId);
         //判断是否有跑团
-        myRunTeamManager=new MyRunTeamManager(this);
+        myRunTeamManager = new MyRunTeamManager(this);
         myRunTeamManager.doGetNowRgName(accountid);
     }
 
@@ -160,8 +210,34 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
             case R.id.ll_left:
                 startActivity(new Intent(this, HomeActviity.class));
                 break;
+            case R.id.fl_right:
             case R.id.iv_email:
                 startActivity(new Intent(this, MyInformationActivity.class));
+                break;
+            case R.id.rel_my_score://我的成绩
+
+                break;
+            case R.id.lin_start_sport://开始运动
+            case R.id.lin_start_sports://开始运动
+
+                break;
+            case R.id.lin_no_activity://活动
+            case R.id.rel_my_activity://活动
+
+                break;
+
+            case R.id.rel_my_pk://PK挑战
+
+                break;
+
+            case R.id.lin_pk://pk详情
+                String id = praiseChallengeModel.getPKId();//PKId
+                break;
+
+            case R.id.text_start_pk://开始PK
+            case R.id.text_start_pks://开始PK
+            case R.id.lin_no_pk://开始PK
+
                 break;
         }
     }
@@ -230,7 +306,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
 
         tv_title.setText(sportMainModel.getRGName());
 
-        PraiseChallengeModel praiseChallengeModel = sportMainModel.getPraiseChallenge();
+        praiseChallengeModel = sportMainModel.getPraiseChallenge();
 
         if (praiseChallengeModel.getPKId() == null) {
             lin_no_pk.setVisibility(View.VISIBLE);
@@ -280,7 +356,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
             }
             text_pk_time.setText(start_time + " - " + end_time);
         }
-        List<RecentlyActiviteModel> recentlyActivite = sportMainModel.getRecentlyActivite();
+        recentlyActivite = sportMainModel.getRecentlyActivite();
         if (recentlyActivite.size() == 0) {
             lin_no_activity.setVisibility(View.VISIBLE);
             list_activity.setVisibility(View.GONE);
@@ -293,11 +369,10 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
     }
 
     @Override
-    public void getRunTeamName(String data,String flag) {
-        if (!data.equals(""))
-        {
+    public void getRunTeamName(String data, String flag) {
+        if (!data.equals("")) {
             iv_email.setVisibility(View.VISIBLE);
-            iv_email.setImageResource(R.drawable.email);
+            iv_email.setImageResource(R.drawable.img_group_main_my);
         }
 
     }

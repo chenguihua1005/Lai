@@ -94,7 +94,7 @@ public class GroupMainActiuvityAdapter extends BaseAdapter {
         if ("".equals(recentlyActiviteModel.getActimg()) || "null".equals(recentlyActiviteModel.getActimg()) || recentlyActiviteModel.getActimg() == null) {
             Picasso.with(context).load("111").fit().error(R.drawable.img_default).into(holder.img);
         } else {
-            Picasso.with(context).load(path + recentlyActiviteModel.getActimg()).fit().error(R.drawable.img_default).into(holder.img);
+            Picasso.with(context).load(path + recentlyActiviteModel.getActimg()).error(R.drawable.img_default).into(holder.img);
         }
         holder.text_title.setText(recentlyActiviteModel.getActTitle().toString());
         String status=recentlyActiviteModel.getAcStatus();
@@ -121,7 +121,7 @@ public class GroupMainActiuvityAdapter extends BaseAdapter {
         String end_time = "";
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd号 HH:mm");
+        SimpleDateFormat format = new SimpleDateFormat("MM月dd号 HH:mm");
         try {
             Date start_date = sdf.parse(start);
             Date end_date = sdf.parse(end);
