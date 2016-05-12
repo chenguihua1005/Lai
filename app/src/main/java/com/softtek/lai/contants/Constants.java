@@ -127,4 +127,10 @@ public class Constants {
     //pk规则
     public static final int BUSHU=0;//步数
     public static final int KM=1;//公里数
+
+    //跳转至PK详情的数据
+    public static final int CREATE_PK=0;//创建PK
+    public static final int LIST_PK=1;//PK列表
+    public static final int MESSAGE_PK=2;//PK通知
+
 }

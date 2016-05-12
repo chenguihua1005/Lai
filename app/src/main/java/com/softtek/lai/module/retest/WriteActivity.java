@@ -2,6 +2,7 @@ package com.softtek.lai.module.retest;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -171,6 +172,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
     private static final String LAI_CHEN_SWITCH_KEY="guidetake";
     private CharSequence[] items={"拍照","从相册选择照片"};
     String isState="true";
+    private ProgressDialog progressDialog;
     private ImageFileCropSelector imageFileCropSelector;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -197,6 +199,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     protected void initViews() {
+        progressDialog = new ProgressDialog(this);
 
     }
 
@@ -207,9 +210,9 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         retestPre=new RetestclassImp();
         measureModel=new MeasureModel();
         imageFileSelector=new ImageFileSelector(this);
-        imageFileSelector.setOutPutImageSize(DisplayUtil.dip2px(this,200),
-                DisplayUtil.dip2px(this,100));
-        imageFileSelector.setQuality(50);
+        imageFileSelector.setOutPutImageSize(DisplayUtil.dip2px(this,600),
+                DisplayUtil.dip2px(this,400));
+        imageFileSelector.setQuality(80);
         imageFileSelector.setCallback(this);
         retestAuditModel=new RetestAuditModel();
         iv_email.setVisibility(View.INVISIBLE);
@@ -341,11 +344,11 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
 //                break;
             case R.id.ll_retestWrite_nowweight:
                 if (gender.equals("1")) {
-                    show_information("现在体重（斤）", 400, 100, 60, 9, 0, 0, 1);
+                    show_information("现在体重（斤）", 600, 100, 50, 9, 0, 0, 1);
                 }
                 else
                 {
-                    show_information("现在体重（斤）", 400, 150, 60, 9, 0, 0, 1);
+                    show_information("现在体重（斤）", 600, 150, 50, 9, 0, 0, 1);
                 }
                 break;
             case R.id.ll_retestWrite_tizhi:
@@ -493,9 +496,10 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         retestWrite.setFat(tv_retestWrite_neizhi.getText()+"");
         retestWrite.setClassId(classid);
         retestWrite.setAccountId(acountid);
-        String image=retestWrite.getImage();
-        int i;
-        retestPre.doPostWrite(Long.parseLong(acountid),loginid,retestWrite,this);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setMessage("数据刷新中...");
+        progressDialog.show();
+        retestPre.doPostWrite(Long.parseLong(acountid),loginid,retestWrite,this,progressDialog);
 //        Intent intent=new Intent();
 //        setResult(RESULT_OK,intent);
 //        finish();

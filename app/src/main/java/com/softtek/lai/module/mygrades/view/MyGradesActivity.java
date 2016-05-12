@@ -1,8 +1,12 @@
 package com.softtek.lai.module.mygrades.view;
 
 //莱运动-我的成绩页面
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -20,6 +24,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.mygrades.eventModel.DayRankEvent;
 import com.softtek.lai.module.mygrades.eventModel.GradesEvent;
 import com.softtek.lai.module.mygrades.model.DayRankModel;
+import com.softtek.lai.module.mygrades.model.GradeHonorModel;
 import com.softtek.lai.module.mygrades.model.GradesModel;
 import com.softtek.lai.module.mygrades.model.HonorModel;
 import com.softtek.lai.module.mygrades.model.orderDataModel;
@@ -31,11 +36,21 @@ import com.softtek.lai.utils.SystemBarTintManager;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.Format;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import butterknife.InjectView;
 import retrofit.Callback;
@@ -125,7 +140,7 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
     Button bt_left;
     @InjectView(R.id.bt_right)
     Button bt_right;
-
+    LineChartUtil chartUtil;
     private IGradesPresenter iGradesPresenter;
     private GradesService gradesService;
     //获取当前日期
@@ -133,17 +148,89 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
     int mYear = c.get(Calendar.YEAR);
     int mMonth = c.get(Calendar.MONTH)+1;
     int mDay = c.get(Calendar.DAY_OF_MONTH);
+    int mHour=c.get(Calendar.HOUR);
+    int mMinute=c.get(Calendar.MINUTE);
+    int mSecond=c.get(Calendar.SECOND);
+    char type='6';
+    int n=7;
+    boolean state=true;
+    List<String>days=new ArrayList<String>();
+    List<Float> dates=new ArrayList<Float>();
+    String nowdate7,nowdate6,nowdate5,nowdate4,nowdate3,nowdate2,nowdate1;
+
+//    private static final int UPDATE_MY_TV = 1;
+//    Message message = null;
+//    //Handler UI modification
+//    @SuppressLint("HandlerLeak")
+//    private Handler handler = new Handler(){
+//        @Override
+//        public void handleMessage(Message msg) {
+//            switch(msg.what){
+//                case UPDATE_MY_TV:
+//                    String currentTime = (String)msg.obj;
+//                    myTv.setText("Current Time: " + currentTime);
+//                    break;
+//            }
+//        }
+//    };
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        Handler handler = new Handler() {
+//            public void handleMessage(Message msg) {
+//                tv_update.setText((String) msg.obj);
+//            }
+//        };
+//        new Thread(this).start();
+//
+//    public void run() {
+//        try {
+//            while (true) {
+//                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+//                String str = sdf.format(new Date());
+//                handler.sendMessage(handler.obtainMessage(100, str));
+//                Thread.sleep(1000);
+//            }
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+
+//
+//    public void run() {
+//        //Time Controller
+//        //Modify Time After 3000 ms
+//        long startTime = System.currentTimeMillis();
+//            long endTime = System.currentTimeMillis();
+//            if(endTime - startTime > 3000){
+//                startTime = endTime;
+//                SimpleDateFormat formatter =
+//                        new SimpleDateFormat("yyyy年MM月dd日   HH:mm:ss");
+//                Date curDate = new Date(System.currentTimeMillis());
+//                String currentTime = formatter.format(curDate);
+//                message = handler.obtainMessage(UPDATE_MY_TV, currentTime);
+//                handler.sendMessage(message);
+//            }
+//    }.start();
+
+
+        //SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日   HH:mm:ss");
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
+        Date curDate = new Date(System.currentTimeMillis());
+        String currentTime = formatter.format(curDate);
+
+//        String time=mHour+":"+mMinute;
+        tv_update.setText(currentTime);
         EventBus.getDefault().register(this);
     }
 
     @Override
     protected void initViews() {
         title.setText("我的成绩");
-        tv_right.setText("分享");
+     //   tv_right.setText("分享");
+        chartUtil=new LineChartUtil(this,chart);
         ll_left.setOnClickListener(this);
         //初始化统计图
         //取消统计图整体背景色
@@ -157,172 +244,158 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
         chart.setScaleEnabled(true);
         chart.setPinchZoom(true);
 
+
         YAxis leftAxis = chart.getAxisLeft();
         leftAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines 重置所有限行，以避免重叠线,删除所有限制线
-        leftAxis.setAxisMaxValue(100f);
+
+        leftAxis.setAxisMaxValue(100000f);
         leftAxis.setAxisMinValue(0f);
         leftAxis.enableGridDashedLine(10f, 10f, 0f);//使网格虚线
         leftAxis.setDrawZeroLine(true);//不启用0轴的线
         chart.getAxisRight().setEnabled(false);//取消右边的轴线
         chart.setData(new LineData());//设置一个空数据
         chart.getLegend().setEnabled(false);//去除图例
-        //chart.setMinimumHeight(200);
-        LineChartUtil chartUtil;
-        List<Float> dates=new ArrayList<Float>();
-        List<String>days=new ArrayList<String>();
-//        dates.add(36f);
-//        dates.add(36f);
-//        dates.add(2000f);
-//        dates.add(50f);
-//        dates.add(70f);
-        dates.add(3776f);
-        dates.add(3600f);
-        dates.add(2000f);
-        dates.add(5007f);
-        dates.add(70f);
-        days.add("5/5");
-        days.add("5/6");
-        days.add("5/7");
-        days.add("5/8");
-        days.add("5/9");
-
-//        days.add("2016-05-04");
-//        days.add("2016-05-05");
-//        days.add("2016-05-06");
-
-        chartUtil=new LineChartUtil(MyGradesActivity.this,chart);
-        chartUtil.addData(dates,5,days);
+        bt_left.setOnClickListener(this);
+        bt_right.setOnClickListener(this);
     }
 
     @Override
     protected void initDatas() {
         iGradesPresenter = new GradesImpl();
-        //我的成绩
-        iGradesPresenter.getStepCount();
+        //调用我的成绩接口  1/1/1753 12:00:00 AM and 12/31/9999 11:59:59 PM.
+        //date当前日期
+        String date=mYear+"-"+mMonth+"-"+mDay;
+//        iGradesPresenter.getStepCount("2010-05-02",date);//date yyyy-MM-dd HH:mm:ss  12:20:30
 
         gradesService=ZillaApi.NormalRestAdapter.create(GradesService.class);
-//        getCurrentDateOrder(1);
-//        getCurrentDateOrder(0);
-//        getCurrentWeekOrder(1);
-//        getCurrentWeekOrder(0);
-        //勋章详情页
-        getStepHonor();
+
+        //3.3.2	成绩勋章信息
+        getGradeHonor();
+        dates.add(0f);
+        dates.add(0f);
+        dates.add(0f);
+        dates.add(0f);
+        dates.add(0f);
+        dates.add(0f);
+        dates.add(0f);
+        days.clear();
+         nowdate7=getPeriodDate(type,0)+"";
+         nowdate6=getPeriodDate(type,1)+"";
+         nowdate5=getPeriodDate(type,2)+"";
+         nowdate4=getPeriodDate(type,3)+"";
+         nowdate3=getPeriodDate(type,4)+"";
+         nowdate2=getPeriodDate(type,5)+"";
+         nowdate1=getPeriodDate(type,6)+"";
+        days.add(formdate(nowdate1));
+        days.add(formdate(nowdate2));
+        days.add(formdate(nowdate3));
+        days.add(formdate(nowdate4));
+        days.add(formdate(nowdate5));
+        days.add(formdate(nowdate6));
+        days.add(formdate(nowdate7));
+//        healthRecordManager.doGetHealthPysicalRecords(getDateform(nowdate1),getDateform(nowdate7),1);
+        iGradesPresenter.getStepCount(getDateform(nowdate1),getDateform(nowdate7));
+    }
+    public String getDateform(String nowdate)
+    {
+        String date;
+        String sr=nowdate.substring(4,5);
+        date=nowdate.substring(0,4)+"-"+nowdate.substring(4,6)+"-"+nowdate.substring(6,8);
+        return date;
+
+    }
+    public String formdate(String nowdate)
+    {
+        String date;
+        String sr=nowdate.substring(4,5);
+        if (nowdate.substring(4,5).equals("0"))
+        {
+            date=nowdate.substring(5,6)+"/"+nowdate.substring(6,8);
+        }
+        else {
+            date=nowdate.substring(4,6)+"/"+nowdate.substring(6,8);
+
+        }
+        return date;
+
     }
 
     //我的成绩
     @Subscribe
     public void onEvent(GradesEvent gradesEvent) {
-        //System.out.print("------------size()"+gradesEvent.getgradesModels().size());
-
+        System.out.println("------------曲线图size()"+gradesEvent.getgradesModels().size());
         List<GradesModel>gradesModels=gradesEvent.getgradesModels();
-
-//        LineChartUtil chartUtil;
-//        List<Float> dates=new ArrayList<Float>();
-//        List<String>days=new ArrayList<String>();
-////        for (GradesModel gl:gradesModels){
-////            System.out.println("日期"+gl.getDate()+"步数"+gl.getTotalCnt());
-////            dates.add(20000f);
-////            dates.add(21000f);
-////            //days.add(gl.getDate());
-////            days.add(mMonth+"/"+mDay);
-////            days.add(5+"/"+10);
-////        }
 //
-//        dates.add(20000f);
-//        dates.add(21000f);
-//        dates.add(20000f);
-//        days.add(5+"/"+7);
-//        days.add(5+"/"+8);
+//        if(gradesEvent==null){
+//            return;
+//        }
+        System.out.println("健康记录" + gradesEvent.getgradesModels());
+        int n=gradesEvent.getgradesModels().size();
+        for (int i=0;i<=n-1;i++)
+        {
+            if(getDateform(nowdate1).equals(gradesEvent.getgradesModels().get(i).getDate())) {
+                dates.set(0,Float.parseFloat(gradesEvent.getgradesModels().get(i).getTotalCnt()));
+            }
+            if (getDateform(nowdate2).equals(gradesEvent.getgradesModels().get(i).getDate()))
+            {
+                dates.set(1,Float.parseFloat(gradesEvent.getgradesModels().get(i).getTotalCnt()));
+            }
+            if (getDateform(nowdate3).equals(gradesEvent.getgradesModels().get(i).getDate()))
+            {
+                dates.set(2,Float.parseFloat(gradesEvent.getgradesModels().get(i).getTotalCnt()));
+            }
+            if (getDateform(nowdate4).equals(gradesEvent.getgradesModels().get(i).getDate()))
+            {
+                dates.set(3,Float.parseFloat(gradesEvent.getgradesModels().get(i).getTotalCnt()));
+            }
+            if (getDateform(nowdate5).equals(gradesEvent.getgradesModels().get(i).getDate()))
+            {
+                dates.set(4,Float.parseFloat(gradesEvent.getgradesModels().get(i).getTotalCnt()));
+            }
+            if (getDateform(nowdate6).equals(gradesEvent.getgradesModels().get(i).getDate()))
+            {
+                dates.set(5,Float.parseFloat(gradesEvent.getgradesModels().get(i).getTotalCnt()));
+            }
+            if (getDateform(nowdate7).equals(gradesEvent.getgradesModels().get(i).getDate()))
+            {
+                dates.set(6,Float.parseFloat(gradesEvent.getgradesModels().get(i).getTotalCnt()));
+            }
+
+        }
+        chartUtil.addDataf(dates,7,days);
+        dates.clear();
+        dates.add(0f);
+        dates.add(0f);
+        dates.add(0f);
+        dates.add(0f);
+        dates.add(0f);
+        dates.add(0f);
+        dates.add(0f);
+//        for (GradesModel gl:gradesModels){
+//            System.out.println("日期"+gl.getDate()+"步数"+gl.getTotalCnt());
+//            float TotalCnt=Float.parseFloat(gl.getTotalCnt());
+//            dates.add(TotalCnt);
+//            days.add(gl.getDate());
+//        }
+
+//        days.add(5+"/"+10);
 //        days.add(mMonth+"/"+mDay);
-//
+
 //        chartUtil=new LineChartUtil(MyGradesActivity.this,chart);
-//        chartUtil.addData(dates,3,days);
+//        chartUtil.addDataf(dates,4,days);
     }
 
-    //我的日排名
-    public void getCurrentDateOrder(final int RGIdType) {
+    //3.3.2	成绩勋章信息
+    public void getGradeHonor(){
         String token = SharedPreferenceService.getInstance().get("token", "");
-        gradesService.getCurrentDateOrder(token,RGIdType,new Callback<ResponseData<DayRankModel>>() {
-
+        gradesService.getGradeHonor(token, new Callback<ResponseData<GradeHonorModel>>() {
             @Override
-            public void success(ResponseData<DayRankModel> listResponseData, Response response) {
-                //Log.i("listResponseData",""+listResponseData);
-                int status=listResponseData.getStatus();
-                switch (status)
-                {
-                    case 200:
-                        //可空，1：传跑团的排名，则获取跑团内部的排名，0或者不传参数，则返回全国排名
-//                        if (RGIdType==0){
-//                            tv_Nationaldayrank.setText(listResponseData.getData().getOrderInfo()+"");
-//                            tv_Nationaldaypeople.setText(listResponseData.getData().getOrderData().size()+"");
-//                        }else if (RGIdType==1){
-//                            tv_Rundayrank.setText(listResponseData.getData().getOrderInfo()+"");
-//                            tv_Rundaypeople.setText(listResponseData.getData().getOrderData().size()+"");
-//                        }
-                        //Util.toastMsg("我的日排名--查询成功");
-                        break;
-                    case 500:
-                        Util.toastMsg("我的日排名--查询出bug");
-                        break;
-                }
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                ZillaApi.dealNetError(error);
-                error.printStackTrace();
-
-            }
-        });
-    }
-    //我的周排名
-    public void getCurrentWeekOrder(final int RGIdType) {
-        String token = SharedPreferenceService.getInstance().get("token", "");
-        gradesService.getCurrentWeekOrder(token, RGIdType,new Callback<ResponseData<DayRankModel>>() {
-
-            @Override
-            public void success(ResponseData<DayRankModel> listResponseData, Response response) {
-                int status=listResponseData.getStatus();
-                switch (status)
-                {
-                    case 200:
-//                        if (RGIdType==0){
-//                            tv_Nationalweekrank.setText(listResponseData.getData().getOrderInfo()+"");
-//                            tv_Nationalweekpeople.setText(listResponseData.getData().getOrderData().size()+"");
-//                        }else if (RGIdType==1){
-//                            tv_Runweekrank.setText(listResponseData.getData().getOrderInfo()+"");
-//                            tv_Runweekpeople.setText(listResponseData.getData().getOrderData().size()+"");
-//                        }
-                        //Util.toastMsg("我的周排名--查询成功");
-                        break;
-                    case 500:
-                        Util.toastMsg("我的周排名--查询出bug");
-                        break;
-                }
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                ZillaApi.dealNetError(error);
-                error.printStackTrace();
-
-            }
-        });
-    }
-
-    //2.19.2	勋章详情页
-    public void getStepHonor() {
-        String token = SharedPreferenceService.getInstance().get("token", "");
-        gradesService.getStepHonor(token, new Callback<ResponseData<HonorModel>>() {
-
-            @Override
-            public void success(ResponseData<HonorModel> listResponseData, Response response) {
-                int status=listResponseData.getStatus();
-                switch (status)
-                {
+            public void success(ResponseData<GradeHonorModel> gradeHonorModelResponseData, Response response) {
+                int status=gradeHonorModelResponseData.getStatus();
+                switch (status){
                     case 200:
                         //总步数
-                        String totalnumber=listResponseData.getData().getTotals();
+                        String totalnumber=gradeHonorModelResponseData.getData().getTotalStep();
                         if (totalnumber==""){
                             tv_totalnumber.setText("0");
                         }else {
@@ -339,238 +412,331 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                         }
 
                         //全国排名
-                        tv_Nationaldayrank.setText(listResponseData.getData().getContryDayOrder()+"");
-                        tv_Nationaldaypeople.setText(listResponseData.getData().getContryDayOrderTotal()+"");
+                        tv_Nationaldayrank.setText(gradeHonorModelResponseData.getData().getContryDayOrder()+"");
+                        tv_Nationaldaypeople.setText(gradeHonorModelResponseData.getData().getContryDayOrderTotal()+"");
                         //跑团的排名
-                        tv_Rundayrank.setText(listResponseData.getData().getDayOrder()+"");
-                        tv_Rundaypeople.setText(listResponseData.getData().getDayOrderTotal()+"");
+                        tv_Rundayrank.setText(gradeHonorModelResponseData.getData().getDayOrder()+"");
+                        tv_Rundaypeople.setText(gradeHonorModelResponseData.getData().getDayOrderTotal()+"");
 
-                        tv_Nationalweekrank.setText(listResponseData.getData().getWeekOrder()+"");
-                        tv_Nationalweekpeople.setText(listResponseData.getData().getContryDayOrderTotal()+"");
-                        tv_Runweekrank.setText(listResponseData.getData().getWeekOrderRG()+"");
-                        tv_Runweekpeople.setText(listResponseData.getData().getDayOrderTotal()+"");
-
-                        //三天勋章,1表示获得，0表示未获得，以下以此类推
-//                        int ThreeDays=Integer.parseInt(listResponseData.getData().getThreeDays());
-//                        int SevenDays=Integer.parseInt(listResponseData.getData().getSevenDays());
-//                        int twentyOneDays=Integer.parseInt(listResponseData.getData().getTwentyOneDays());
-//                        int thirtyDays=Integer.parseInt(listResponseData.getData().getThirtyDays());
-//                        int OneHundredDays=Integer.parseInt(listResponseData.getData().getOneHundredDays());
-//                        int TwoHundredyDays=Integer.parseInt(listResponseData.getData().getTwoHundredyDays());
-//                        int OneYearDays=Integer.parseInt(listResponseData.getData().getOneYearDays());
-
-                        int ThreeDays=0;
-                        int SevenDays=1;
-                        int twentyOneDays=0;
-                        int thirtyDays=1;
-                        int OneHundredDays=1;
-                        int TwoHundredyDays=0;
-                        int OneYearDays=0;
+                        tv_Nationalweekrank.setText(gradeHonorModelResponseData.getData().getWeekOrder()+"");
+                        tv_Nationalweekpeople.setText(gradeHonorModelResponseData.getData().getContryDayOrderTotal()+"");
+                        tv_Runweekrank.setText(gradeHonorModelResponseData.getData().getWeekOrderRG()+"");
+                        tv_Runweekpeople.setText(gradeHonorModelResponseData.getData().getDayOrderTotal()+"");
 
 
-                        //步数
-                        int Totals=Integer.parseInt(listResponseData.getData().getTotals());
-                        //步数勋章数量
-                        int honornum=0;
-                        String bushustr="";
-                        //天数勋章数量
-                        //int Daynum=ThreeDays+SevenDays+twentyOneDays+thirtyDays+OneHundredDays+TwoHundredyDays+OneYearDays;
-                        int Daynum=0;
-                        //总勋章数量
-                        int num=4;//Daynum+honornum;
+                        tv_medalnumber.setText(gradeHonorModelResponseData.getData().getTotalHonor()+"");
 
-                        if (Totals<100000){
-                                honornum=0;
-                        }else if (Totals>=100000&&Totals<500000)
-                        {
-                                honornum=1;
-                                bushustr="累计步数10万";
-                        }else if (Totals>=500000&&Totals<1000000)
-                        {
-                                honornum=2;
-                                bushustr="累计步数50万";
-                        }
-                        else if (Totals>=1000000&&Totals<2000000)
-                        {
-                                honornum=3;
-                                bushustr="累计步数100万";
-                        }
-                        else if (Totals>=100000&&Totals<5000000)
-                        {
-                                honornum=4;
-                                bushustr="累计步数200万";
-                        }
-                        else if (Totals>=5000000&&Totals<10000000)
-                        {
-                            honornum=5;
-                            bushustr="累计步数500万";
-                        }else if (Totals>=10000000){
-                            int i=(Totals-10000000)/10000000;
-                            honornum=6+i;
-                           // bushustr="累计步数1000万";
-                        }
-
-                        String medalnumber=String.valueOf(num);
-                        tv_medalnumber.setText(medalnumber);
-                        if (num==0){
+                        //我的勋章显示
+                        if (gradeHonorModelResponseData.getData().getLaiHonor().size()==0){
                             ll_honor.setVisibility(View.GONE);
-                        }else if(num==1){
-                            if (honornum==0){
-                                tv_str1.setText("连续3天步数一万");
-                                img_honor1.setImageResource(R.drawable.img_medal1);
-                                ll_honor1.setVisibility(View.VISIBLE);
-                            }else {
-                                tv_str1.setText("累计步数10万");
-                                img_honor1.setImageResource(R.drawable.img_medal);
-                                ll_honor1.setVisibility(View.VISIBLE);
-                            }
-                        }else if(num==2){
-                            if(honornum==0){
-                                tv_str1.setText("连续3天步数一万");
-                                tv_str2.setText("连续7天步数一万");
-                                img_honor1.setImageResource(R.drawable.img_medal1);
-                                img_honor2.setImageResource(R.drawable.img_medal1);
-                                ll_honor1.setVisibility(View.VISIBLE);
-                                ll_honor2.setVisibility(View.VISIBLE);
-                            }else if(honornum==1){
-                                tv_str1.setText("连续3天步数一万");
-                                tv_str2.setText("累计步数10万");
-                                img_honor1.setImageResource(R.drawable.img_medal1);
-                                img_honor2.setImageResource(R.drawable.img_medal);
-                                ll_honor1.setVisibility(View.VISIBLE);
-                                ll_honor2.setVisibility(View.VISIBLE);
-                            }else if(honornum==2){
-                                tv_str1.setText("累计步数10万");
-                                tv_str2.setText("累计步数50万");
-                                img_honor1.setImageResource(R.drawable.img_medal);
-                                img_honor1.setImageResource(R.drawable.img_medal);
-                                ll_honor1.setVisibility(View.VISIBLE);
-                                ll_honor2.setVisibility(View.VISIBLE);
-                            }
-                        }else if(num==3){
-                            if(honornum==0){
-                                tv_str1.setText("连续3天步数一万");
-                                tv_str2.setText("连续7天步数一万");
-                                tv_str3.setText("连续20天步数一万");
-                                img_honor1.setImageResource(R.drawable.img_medal1);
-                                img_honor2.setImageResource(R.drawable.img_medal1);
-                                img_honor3.setImageResource(R.drawable.img_medal1);
-                                ll_honor1.setVisibility(View.VISIBLE);
-                                ll_honor2.setVisibility(View.VISIBLE);
-                                ll_honor3.setVisibility(View.VISIBLE);
-                            }else if(honornum==1){
-                                tv_str1.setText("连续3天步数一万");
-                                tv_str2.setText("累计步数10万");
-                                tv_str3.setText("连续7天步数一万");
-                                img_honor1.setImageResource(R.drawable.img_medal1);
-                                img_honor2.setImageResource(R.drawable.img_medal);
-                                img_honor3.setImageResource(R.drawable.img_medal1);
-                                ll_honor1.setVisibility(View.VISIBLE);
-                                ll_honor2.setVisibility(View.VISIBLE);
-                                ll_honor3.setVisibility(View.VISIBLE);
-                            }else if(honornum==2){
-                                tv_str1.setText("连续3天步数一万");
-                                tv_str2.setText("累计步数10万");
-                                tv_str3.setText("累计步数50万");
-                                img_honor1.setImageResource(R.drawable.img_medal1);
-                                img_honor2.setImageResource(R.drawable.img_medal);
-                                img_honor3.setImageResource(R.drawable.img_medal);
-                                ll_honor1.setVisibility(View.VISIBLE);
-                                ll_honor2.setVisibility(View.VISIBLE);
-                                ll_honor3.setVisibility(View.VISIBLE);
-                            }else if(honornum==3){
-                                tv_str1.setText("累计步数10万");
-                                tv_str2.setText("累计步数50万");
-                                tv_str3.setText("累计步数100万");
-                                img_honor1.setImageResource(R.drawable.img_medal);
-                                img_honor2.setImageResource(R.drawable.img_medal);
-                                img_honor3.setImageResource(R.drawable.img_medal);
-                                ll_honor1.setVisibility(View.VISIBLE);
-                                ll_honor2.setVisibility(View.VISIBLE);
-                                ll_honor3.setVisibility(View.VISIBLE);
-                            }
-
-                        }else if(num>3){//勋章数量大于3
-
-                            // 3天勋章,7天勋章,20天勋章,30天勋章,100天勋章,200天勋章,365天勋章
-                            // Totals 总步数，步数勋章用该字段自动判断,累积步数10万、50万、100万、200万、500万……勋章 500万之后, 为1000万,2000万,3000万 按每多1000万步,增加一个新的勋章
-                            //天数勋章，累计步数勋章
-                            String daystr="";
-//                            if (ThreeDays==1){daystr="连续3天步数一万";}
-//                            if (SevenDays==1){daystr="连续7天步数一万";}
-//                            if (twentyOneDays==1){daystr="连续20天步数一万";}
-//                            if (thirtyDays==1){daystr="连续30天步数一万";}
-//                            if (OneHundredDays==1){daystr="连续100天步数一万";}
-//                            if (TwoHundredyDays==1){daystr="连续200天步数一万";}
-//                            if (OneYearDays==1){daystr="连续365天步数一万";}
-
-
-                            if(ThreeDays ==1){
-                                daystr="连续3天步数一万";
-                                if (SevenDays==1){
-                                    daystr="连续7天步数一万";
-                                    if (twentyOneDays==1){
-                                        daystr="连续20天步数一万";
-                                        if (thirtyDays==1){
-                                            daystr="连续30天步数一万";
-                                            if ( OneHundredDays==1){
-                                                daystr="连续100天步数一万";
-                                                if (TwoHundredyDays ==1){
-                                                    daystr="连续200天步数一万";
-                                                    if (OneYearDays==1){
-                                                        daystr="连续365天步数一万";
-                                                    }
-                                                }
-                                            }
+                        }else {
+                            //判断是否是3个勋章
+                            if (gradeHonorModelResponseData.getData().getLaiHonor().size() == 1) {
+                                //判断第一个勋章是什么类型
+                                switch (gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorType()) {
+                                    case 1:
+                                        //天数
+                                        gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue();
+                                        tv_str1.setText("连续" + gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue() + "天步数一万");
+                                        img_honor1.setImageResource(R.drawable.img_medal1);
+                                        ll_honor1.setVisibility(View.VISIBLE);
+                                        break;
+                                    case 2:
+                                        //步数
+                                        gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue();
+                                        tv_str1.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue() + "万");
+                                        img_honor1.setImageResource(R.drawable.img_medal);
+                                        ll_honor1.setVisibility(View.VISIBLE);
+                                        break;
+                                    case 3:
+                                        //天使听见爱
+                                        tv_str1.setText("天使听见爱");
+                                        img_honor1.setImageResource(R.drawable.img_medal);
+                                        ll_honor1.setVisibility(View.VISIBLE);
+                                        break;
+                                    case 4:
+                                        //PK挑战
+                                        gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue();
+                                        switch (gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue()) {
+                                            case 1:
+                                                tv_str1.setText("挑战达人铜牌");
+                                                break;
+                                            case 50:
+                                                tv_str1.setText("挑战达人银牌");
+                                                break;
+                                            case 100:
+                                                tv_str1.setText("挑战达人金牌");
+                                                break;
+                                            case 200:
+                                                tv_str1.setText("挑战明星铜牌");
+                                                break;
+                                            case 300:
+                                                tv_str1.setText("挑战明星银牌");
+                                                break;
+                                            case 500:
+                                                tv_str1.setText("挑战明星金牌");
+                                                break;
                                         }
-                                    }
+                                        img_honor1.setImageResource(R.drawable.img_medal1);
+                                        ll_honor1.setVisibility(View.VISIBLE);
+                                        break;
+
                                 }
-                            }else{
-
                             }
-                            System.out.println("---------------------------------"+daystr);
+                            if (gradeHonorModelResponseData.getData().getLaiHonor().size() == 2) {
+                                //判断第一，第二个勋章是什么类型
+                                switch (gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorType()) {
+                                    case 1:
+                                        //天数
+                                        gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue();
+                                        tv_str1.setText("连续" + gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue() + "天步数一万");
+                                        img_honor1.setImageResource(R.drawable.img_medal1);
+                                        ll_honor1.setVisibility(View.VISIBLE);
+                                        break;
+                                    case 2:
+                                        //步数
+                                        gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue();
+                                        tv_str1.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue() + "万");
+                                        img_honor1.setImageResource(R.drawable.img_medal);
+                                        ll_honor1.setVisibility(View.VISIBLE);
+                                        break;
+                                    case 3:
+                                        //天使听见爱
+                                        tv_str1.setText("天使听见爱");
+                                        img_honor1.setImageResource(R.drawable.img_medal);
+                                        ll_honor1.setVisibility(View.VISIBLE);
+                                        break;
+                                    case 4:
+                                        //PK挑战
+                                        gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue();
+                                        switch (gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue()) {
+                                            case 1:
+                                                tv_str1.setText("挑战达人铜牌");
+                                                break;
+                                            case 50:
+                                                tv_str1.setText("挑战达人银牌");
+                                                break;
+                                            case 100:
+                                                tv_str1.setText("挑战达人金牌");
+                                                break;
+                                            case 200:
+                                                tv_str1.setText("挑战明星铜牌");
+                                                break;
+                                            case 300:
+                                                tv_str1.setText("挑战明星银牌");
+                                                break;
+                                            case 500:
+                                                tv_str1.setText("挑战明星金牌");
+                                                break;
+                                        }
+                                        img_honor1.setImageResource(R.drawable.img_medal1);
+                                        ll_honor1.setVisibility(View.VISIBLE);
+                                        break;
 
+                                }
+                                switch (gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorType()) {
+                                    case 1:
+                                        //天数
+                                        gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue();
+                                        tv_str2.setText("连续" + gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue() + "天步数一万");
+                                        img_honor2.setImageResource(R.drawable.img_medal1);
+                                        ll_honor2.setVisibility(View.VISIBLE);
+                                        break;
+                                    case 2:
+                                        //步数
+                                        gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue();
+                                        tv_str2.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue() + "万");
+                                        img_honor2.setImageResource(R.drawable.img_medal);
+                                        ll_honor2.setVisibility(View.VISIBLE);
+                                        break;
+                                    case 3:
+                                        //天使听见爱
+                                        gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue();
+                                        tv_str2.setText("天使听见爱");
+                                        img_honor2.setImageResource(R.drawable.img_medal);
+                                        ll_honor2.setVisibility(View.VISIBLE);
+                                        break;
+                                    case 4:
+                                        //PK挑战
+                                        gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue();
+                                        switch (gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue()) {
+                                            case 1:
+                                                tv_str2.setText("挑战达人铜牌");
+                                                break;
+                                            case 50:
+                                                tv_str2.setText("挑战达人银牌");
+                                                break;
+                                            case 100:
+                                                tv_str2.setText("挑战达人金牌");
+                                                break;
+                                            case 200:
+                                                tv_str2.setText("挑战明星铜牌");
+                                                break;
+                                            case 300:
+                                                tv_str2.setText("挑战明星银牌");
+                                                break;
+                                            case 500:
+                                                tv_str2.setText("挑战明星金牌");
+                                                break;
+                                        }
+                                        img_honor2.setImageResource(R.drawable.img_medal1);
+                                        ll_honor2.setVisibility(View.VISIBLE);
+                                        break;
 
+                                }
+                            }
+                            if (gradeHonorModelResponseData.getData().getLaiHonor().size() == 3) {
+                                //判断第一，第二，第三个勋章是什么类型
+                                switch (gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorType()) {
+                                    case 1:
+                                        //天数
+                                        gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue();
+                                        tv_str1.setText("连续" + gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue() + "天步数一万");
+                                        img_honor1.setImageResource(R.drawable.img_medal1);
+                                        ll_honor1.setVisibility(View.VISIBLE);
+                                        break;
+                                    case 2:
+                                        //步数
+                                        gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue();
+                                        tv_str1.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue() + "万");
+                                        img_honor1.setImageResource(R.drawable.img_medal);
+                                        ll_honor1.setVisibility(View.VISIBLE);
+                                        break;
+                                    case 3:
+                                        //天使听见爱
+                                        tv_str1.setText("天使听见爱");
+                                        img_honor1.setImageResource(R.drawable.img_medal);
+                                        ll_honor1.setVisibility(View.VISIBLE);
+                                        break;
+                                    case 4:
+                                        //PK挑战
+                                        gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue();
+                                        switch (gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue()) {
+                                            case 1:
+                                                tv_str1.setText("挑战达人铜牌");
+                                                break;
+                                            case 50:
+                                                tv_str1.setText("挑战达人银牌");
+                                                break;
+                                            case 100:
+                                                tv_str1.setText("挑战达人金牌");
+                                                break;
+                                            case 200:
+                                                tv_str1.setText("挑战明星铜牌");
+                                                break;
+                                            case 300:
+                                                tv_str1.setText("挑战明星银牌");
+                                                break;
+                                            case 500:
+                                                tv_str1.setText("挑战明星金牌");
+                                                break;
+                                        }
+                                        img_honor1.setImageResource(R.drawable.img_medal1);
+                                        ll_honor1.setVisibility(View.VISIBLE);
+                                        break;
 
+                                }
+                                switch (gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorType()) {
+                                    case 1:
+                                        //天数
+                                        gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue();
+                                        tv_str2.setText("连续" + gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue() + "天步数一万");
+                                        img_honor2.setImageResource(R.drawable.img_medal1);
+                                        ll_honor2.setVisibility(View.VISIBLE);
+                                        break;
+                                    case 2:
+                                        //步数
+                                        gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue();
+                                        tv_str2.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue() + "万");
+                                        img_honor2.setImageResource(R.drawable.img_medal);
+                                        ll_honor2.setVisibility(View.VISIBLE);
+                                        break;
+                                    case 3:
+                                        //天使听见爱
+                                        gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue();
+                                        tv_str2.setText("天使听见爱");
+                                        img_honor2.setImageResource(R.drawable.img_medal);
+                                        ll_honor2.setVisibility(View.VISIBLE);
+                                        break;
+                                    case 4:
+                                        //PK挑战
+                                        gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue();
+                                        switch (gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue()) {
+                                            case 1:
+                                                tv_str2.setText("挑战达人铜牌");
+                                                break;
+                                            case 50:
+                                                tv_str2.setText("挑战达人银牌");
+                                                break;
+                                            case 100:
+                                                tv_str2.setText("挑战达人金牌");
+                                                break;
+                                            case 200:
+                                                tv_str2.setText("挑战明星铜牌");
+                                                break;
+                                            case 300:
+                                                tv_str2.setText("挑战明星银牌");
+                                                break;
+                                            case 500:
+                                                tv_str2.setText("挑战明星金牌");
+                                                break;
+                                        }
+                                        img_honor2.setImageResource(R.drawable.img_medal1);
+                                        ll_honor2.setVisibility(View.VISIBLE);
+                                        break;
 
-
-                            //显示用户所拥有的最新的3个勋章
-                            //天数勋章Daynum
-                            if (Daynum==0){
-                                tv_str1.setText("累积步数10万");
-                                tv_str2.setText("累计步数50万");
-                                tv_str3.setText("累计步数100万");
-                                img_honor1.setImageResource(R.drawable.img_medal);
-                                img_honor2.setImageResource(R.drawable.img_medal);
-                                img_honor3.setImageResource(R.drawable.img_medal);
-                                ll_honor1.setVisibility(View.VISIBLE);
-                                ll_honor2.setVisibility(View.VISIBLE);
-                                ll_honor3.setVisibility(View.VISIBLE);
-                            }else if (Daynum==1){
-                                tv_str1.setText("连续365天步数一万");
-                                tv_str2.setText("累计步数50万");
-                                tv_str3.setText("累计步数100万");
-                                img_honor1.setImageResource(R.drawable.img_medal);
-                                img_honor2.setImageResource(R.drawable.img_medal);
-                                img_honor3.setImageResource(R.drawable.img_medal);
-                                ll_honor1.setVisibility(View.VISIBLE);
-                                ll_honor2.setVisibility(View.VISIBLE);
-                                ll_honor3.setVisibility(View.VISIBLE);
-                            }else if (Daynum==2) {
-
-                            }else if (Daynum==3) {
-
-                            }else if (Daynum==4) {
-
-                            }else if (Daynum==5) {
-
-                            }else if (Daynum==6) {
-
-                            }else if (Daynum==7) {
-
+                                }
+                                switch (gradeHonorModelResponseData.getData().getLaiHonor().get(2).getHonorType()) {
+                                    case 1:
+                                        //天数
+                                        gradeHonorModelResponseData.getData().getLaiHonor().get(2).getHonorVlue();
+                                        tv_str3.setText("连续" + gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue() + "天步数一万");
+                                        img_honor3.setImageResource(R.drawable.img_medal1);
+                                        ll_honor3.setVisibility(View.VISIBLE);
+                                        break;
+                                    case 2:
+                                        //步数
+                                        gradeHonorModelResponseData.getData().getLaiHonor().get(2).getHonorVlue();
+                                        tv_str3.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue() + "万");
+                                        img_honor3.setImageResource(R.drawable.img_medal);
+                                        ll_honor3.setVisibility(View.VISIBLE);
+                                        break;
+                                    case 3:
+                                        //天使听见爱
+                                        gradeHonorModelResponseData.getData().getLaiHonor().get(2).getHonorVlue();
+                                        tv_str3.setText("天使听见爱");
+                                        img_honor3.setImageResource(R.drawable.img_medal);
+                                        ll_honor3.setVisibility(View.VISIBLE);
+                                        break;
+                                    case 4:
+                                        //PK挑战
+                                        gradeHonorModelResponseData.getData().getLaiHonor().get(2).getHonorVlue();
+                                        switch (gradeHonorModelResponseData.getData().getLaiHonor().get(2).getHonorVlue()) {
+                                            case 1:
+                                                tv_str3.setText("挑战达人铜牌");
+                                                break;
+                                            case 50:
+                                                tv_str3.setText("挑战达人银牌");
+                                                break;
+                                            case 100:
+                                                tv_str3.setText("挑战达人金牌");
+                                                break;
+                                            case 200:
+                                                tv_str3.setText("挑战明星铜牌");
+                                                break;
+                                            case 300:
+                                                tv_str3.setText("挑战明星银牌");
+                                                break;
+                                            case 500:
+                                                tv_str3.setText("挑战明星金牌");
+                                                break;
+                                        }
+                                        img_honor3.setImageResource(R.drawable.img_medal1);
+                                        ll_honor3.setVisibility(View.VISIBLE);
+                                        break;
+                                }
                             }
                         }
-
                         //Util.toastMsg("我的勋章--查询正确");
                         break;
                     case 500:
@@ -583,7 +749,6 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
             public void failure(RetrofitError error) {
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
-
             }
         });
     }
@@ -594,7 +759,131 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
             case R.id.ll_left:
                 finish();
                 break;
+            case R.id.bt_left:
+
+                        if (state!=true)
+                        {
+                            n=n+7;
+                        }
+                        state=true;
+                        days.clear();
+
+                         nowdate7 = getPeriodDate(type, n) + "";
+                         nowdate6 = getPeriodDate(type, n + 1) + "";
+                         nowdate5 = getPeriodDate(type, n + 2) + "";
+                         nowdate4 = getPeriodDate(type, n + 3) + "";
+                         nowdate3 = getPeriodDate(type, n + 4) + "";
+                         nowdate2 = getPeriodDate(type, n + 5) + "";
+                         nowdate1 = getPeriodDate(type, n + 6) + "";
+                        days.add(formdate(nowdate1));
+                        days.add(formdate(nowdate2));
+                        days.add(formdate(nowdate3));
+                        days.add(formdate(nowdate4));
+                        days.add(formdate(nowdate5));
+                        days.add(formdate(nowdate6));
+                        days.add(formdate(nowdate7));
+                        //progressDialog.show();
+                        iGradesPresenter.getStepCount(getDateform(nowdate1),getDateform(nowdate7));
+                        n = n + 7;
+                        bt_right.setVisibility(View.VISIBLE);
+                        break;
+
+
+
+            case R.id.bt_right:
+                        if (state!=false) {
+                            n = n - 14;
+                        }
+                        else {
+                            n=n-7;
+                        }
+                        days.clear();
+                         nowdate7 = getPeriodDate(type, n) + "";
+                         nowdate6 = getPeriodDate(type, n + 1) + "";
+                         nowdate5 = getPeriodDate(type, n + 2) + "";
+                         nowdate4 = getPeriodDate(type, n + 3) + "";
+                         nowdate3 = getPeriodDate(type, n + 4) + "";
+                         nowdate2 = getPeriodDate(type, n + 5) + "";
+                         nowdate1 = getPeriodDate(type, n + 6) + "";
+                        days.add(formdate(nowdate1));
+                        days.add(formdate(nowdate2));
+                        days.add(formdate(nowdate3));
+                        days.add(formdate(nowdate4));
+                        days.add(formdate(nowdate5));
+                        days.add(formdate(nowdate6));
+                        days.add(formdate(nowdate7));
+                        //progressDialog.show();
+                        iGradesPresenter.getStepCount(getDateform(nowdate1),getDateform(nowdate7));
+                        state=false;
+                        if (nowdate7.equals(getPeriodDate(type,0)+""))
+                            bt_right.setVisibility(View.GONE);
+                        break;
+
+
+
         }
+    }
+    /**
+     * 获取阶段日期
+     * @param  dateType
+     * @author Yangtse
+     */
+    //使用方法 char datetype = '7';
+    public static StringBuilder getPeriodDate(char dateType,int n) {
+        Calendar c = Calendar.getInstance(); // 当时的日期和时间
+        int hour; // 需要更改的小时
+        int day; // 需要更改的天数
+        switch (dateType) {
+            case '0': // 1小时前
+                hour = c.get(Calendar.HOUR_OF_DAY) - 1;
+                c.set(Calendar.HOUR_OF_DAY, hour);
+                // System.out.println(df.format(c.getTime()));
+                break;
+            case '1': // 2小时前
+                hour = c.get(Calendar.HOUR_OF_DAY) - 2;
+                c.set(Calendar.HOUR_OF_DAY, hour);
+                // System.out.println(df.format(c.getTime()));
+                break;
+            case '2': // 3小时前
+                hour = c.get(Calendar.HOUR_OF_DAY) - 3;
+                c.set(Calendar.HOUR_OF_DAY, hour);
+                // System.out.println(df.format(c.getTime()));
+                break;
+            case '3': // 6小时前
+                hour = c.get(Calendar.HOUR_OF_DAY) - 6;
+                c.set(Calendar.HOUR_OF_DAY, hour);
+                // System.out.println(df.format(c.getTime()));
+                break;
+            case '4': // 12小时前
+                hour = c.get(Calendar.HOUR_OF_DAY) - 12;
+                c.set(Calendar.HOUR_OF_DAY, hour);
+                // System.out.println(df.format(c.getTime()));
+                break;
+            case '5': // 一天前
+                day = c.get(Calendar.DAY_OF_MONTH) - 1;
+                c.set(Calendar.DAY_OF_MONTH, day);
+                // System.out.println(df.format(c.getTime()));
+                break;
+            case '6': // 一星期前
+                day = c.get(Calendar.DAY_OF_MONTH) - n;
+                c.set(Calendar.DAY_OF_MONTH, day);
+                // System.out.println(df.format(c.getTime()));
+                break;
+            case '7': // 一个月前
+                day = c.get(Calendar.DAY_OF_MONTH) - 30*n;
+                c.set(Calendar.DAY_OF_MONTH, day);
+                // System.out.println(df.format(c.getTime()));
+                break;
+        }
+        int mYear = c.get(Calendar.YEAR);
+        int mMonth = c.get(Calendar.MONTH);
+        int mDay = c.get(Calendar.DAY_OF_MONTH);
+        StringBuilder strForwardDate = new StringBuilder().append(mYear).append(
+                (mMonth + 1) < 10 ? "0" + (mMonth + 1) : (mMonth + 1)).append(
+                (mDay < 10) ? "0" + mDay : mDay);
+        System.out.println("strDate------->"+strForwardDate+"-"+c.getTimeInMillis());
+        return strForwardDate;
+        //return c.getTimeInMillis();
     }
 
     @Override

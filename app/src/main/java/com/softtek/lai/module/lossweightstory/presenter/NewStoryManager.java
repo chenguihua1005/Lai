@@ -95,7 +95,7 @@ public class NewStoryManager implements Runnable,UploadImageService.UploadImageC
                     //intent.putExtra("story",model);
                     ((AppCompatActivity)context).setResult(-1,intent);
                     ((AppCompatActivity)context).finish();
-                    Util.toastMsg(responseData.getMsg());
+
                 }
 
                 @Override

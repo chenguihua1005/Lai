@@ -80,7 +80,6 @@ public class WheelView extends ScrollView {
         }
 
         initData();
-
     }
 
 

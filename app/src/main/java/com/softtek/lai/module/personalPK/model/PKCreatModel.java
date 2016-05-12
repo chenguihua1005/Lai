@@ -168,4 +168,22 @@ public class PKCreatModel implements Parcelable{
         dest.writeString(userPhoto);
         dest.writeString(beUserPhoto);
     }
+
+    @Override
+    public String toString() {
+        return "PKCreatModel{" +
+                "Challenged=" + Challenged +
+                ", BeChallenged=" + BeChallenged +
+                ", Start='" + Start + '\'' +
+                ", End='" + End + '\'' +
+                ", ChipType=" + ChipType +
+                ", Chip='" + Chip + '\'' +
+                ", TargetType=" + TargetType +
+                ", Target=" + Target +
+                ", userName='" + userName + '\'' +
+                ", beUserName='" + beUserName + '\'' +
+                ", userPhoto='" + userPhoto + '\'' +
+                ", beUserPhoto='" + beUserPhoto + '\'' +
+                '}';
+    }
 }

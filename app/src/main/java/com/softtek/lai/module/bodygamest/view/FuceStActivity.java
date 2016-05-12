@@ -7,6 +7,7 @@ package com.softtek.lai.module.bodygamest.view;
 
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -99,6 +100,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     TextView tv_writest_dayen;
     @InjectView(R.id.tv_right)
             TextView tv_right;
+    private ProgressDialog progressDialog;
     UserInfoModel userInfoModel=UserInfoModel.getInstance();
     long loginid=Long.parseLong(userInfoModel.getUser().getUserid());
     String moblie=userInfoModel.getUser().getMobile();
@@ -181,6 +183,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void initViews() {
         EventBus.getDefault().register(this);
+        progressDialog = new ProgressDialog(this);
         btn_retest_write_addbodyst.setOnClickListener(this);
         ll_fucest_nowweight.setOnClickListener(this);
         ll_fucest_tizhi.setOnClickListener(this);
@@ -204,7 +207,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         imageFileSelector=new ImageFileSelector(this);
         imageFileSelector.setOutPutImageSize(DisplayUtil.dip2px(this,600),
                 DisplayUtil.dip2px(this,300));
-        imageFileSelector.setQuality(60);
+        imageFileSelector.setQuality(80);
         imageFileSelector.setCallback(this);
         tv_writes_chu_weight.setFocusable(false);
         tv_retestWrites_nowweight.setFocusable(false);
@@ -231,11 +234,11 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
             case R.id.ll_fucest_nowweight:
                 if (isState.equals("true")) {
                     if (gender.equals("1")) {
-                        show_information("现在体重（斤）", 400, 100, 20, 9, 0, 0, 1);
+                        show_information("现在体重（斤）", 600, 100, 50, 9, 0, 0, 1);
                     }
                     else
                     {
-                        show_information("现在体重（斤）", 400, 150, 20, 9, 0, 0, 1);
+                        show_information("现在体重（斤）", 600, 150, 50, 9, 0, 0, 1);
                     }
                 }
 
@@ -332,8 +335,8 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
             } else {
                 if (retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("1") || retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("2")) {
                     tv_retestWrites_nowweight.setText(Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getWeight()) + "");
-                    tv_retestWritest_tizhi.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getPysical());
-                    tv_retestWritest_neizhi.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getFat());
+                    tv_retestWritest_tizhi.setText((StringUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getPysical()))?"":Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getPysical())+"");
+                    tv_retestWritest_neizhi.setText((StringUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getPysical()))?"":Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getFat())+"");
                     retestWrite.setCircum(retestAuditModelEvent.getRetestAuditModels().get(0).getCircum());
                     retestWrite.setWaistline(retestAuditModelEvent.getRetestAuditModels().get(0).getWaistline());
                     retestWrite.setHiplie(retestAuditModelEvent.getRetestAuditModels().get(0).getHiplie());
@@ -341,7 +344,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
                     retestWrite.setUpLegGirth(retestAuditModelEvent.getRetestAuditModels().get(0).getUpLegGirth());
                     retestWrite.setDoLegGirth(retestAuditModelEvent.getRetestAuditModels().get(0).getDoLegGirth());
                     isState = "false";
-                    btn_retest_write_addbodyst.setText("查看围度记录");
+                    btn_retest_write_addbodyst.setText("查看身体围度");
                     tv_right.setFocusable(false);
 
                     if (!TextUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getImage())) {
@@ -499,7 +502,10 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         retestWrite.setFat(tv_retestWritest_neizhi.getText()+"");
         retestWrite.setAccountId(loginid+"");
         Log.i(retestWrite.getImage()+"");
-        retestPre.doPostWrite(loginid,loginid,retestWrite,this);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setMessage("正在保存...");
+        progressDialog.show();
+        retestPre.doPostWrite(loginid,loginid,retestWrite,this,progressDialog);
 
 
 

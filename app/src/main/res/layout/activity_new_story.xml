@@ -44,7 +44,6 @@
                 android:paddingBottom="10dp"
                 android:textCursorDrawable="@drawable/color_cursor"
                 android:singleLine="true"
-                android:textStyle="bold"
                 android:background="@null"
                 android:textColor="#333333"
                 android:text=""
@@ -76,7 +75,6 @@
                 android:paddingBottom="10dp"
                 android:textCursorDrawable="@drawable/color_cursor"
                 android:singleLine="true"
-                android:textStyle="bold"
                 android:background="@null"
                 android:textColor="#333333"
                 android:text=""
@@ -109,7 +107,6 @@
                 android:inputType="number"
                 android:paddingBottom="10dp"
                 android:singleLine="true"
-                android:textStyle="bold"
                 android:background="@null"
                 android:textColor="#333333"
                 />

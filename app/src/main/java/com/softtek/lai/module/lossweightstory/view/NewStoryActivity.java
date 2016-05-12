@@ -1,6 +1,5 @@
 package com.softtek.lai.module.lossweightstory.view;
 
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -61,17 +60,20 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
     @InjectView(R.id.fl_right)
     FrameLayout fl;
 
-    @Required(order = 1,message = "请填写故事人")
     @InjectView(R.id.et_sender)
     EditText et_sender;
+
     @InjectView(R.id.et_log_title)
     EditText et_log_title;
-    @Required(order = 2,message = "请填写减重后体重")
+
+    @Required(order = 1,message = "请选择减重后体重")
     @InjectView(R.id.et_weight_after)
     TextView tv_weight_after;
-    @Required(order = 3,message = "请填写说明")
+
+    @Required(order = 2,message = "请输入日志内容")
     @InjectView(R.id.et_content)
     EditText et_content;
+
     @InjectView(R.id.cgv)
     CustomGridView cgv;
 
@@ -132,49 +134,31 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
 
     //体重对话框
     public void show_weight_dialog() {
-        final AlertDialog.Builder birdialog=new AlertDialog.Builder(this);
-        View view=getLayoutInflater().inflate(R.layout.dialog,null);
-        final NumberPicker np = (NumberPicker) view.findViewById(R.id.numberPicker1);
-        np.setMaxValue(600);
+        AlertDialog.Builder birdialog = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.dimension_dialog, null);
+        final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
+        final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
+        np1.setMaxValue(600);
         String gender=UserInfoModel.getInstance().getUser().getGender();
         if("0".equals(gender)){//男
-            np.setValue(150);
+            np1.setValue(150);
         }else{
-            np.setValue(100);
+            np1.setValue(100);
         }
-        np.setMinValue(20);
-        np.setWrapSelectorWheel(false);
+        np1.setMinValue(50);
+        np1.setWrapSelectorWheel(false);
+        np2.setMaxValue(9);
+        np2.setValue(0);
+        np2.setMinValue(0);
+        np2.setWrapSelectorWheel(false);
         birdialog.setTitle("选择体重(单位：斤)").setView(view).setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (np.getValue() < 80) {
-                    Dialog dialog1 = new AlertDialog.Builder(NewStoryActivity.this)
-                            .setMessage("体重单位为斤,是否确认数值?")
-                            .setPositiveButton("确定",
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int which) {
-                                            tv_weight_after.setText(String.valueOf(np.getValue())); //set the value to textview
-                                        }
-                                    })
-                            .setNegativeButton("取消",
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface arg0, int arg1) {
-                                            show_weight_dialog();
-                                        }
-                                    }).create();
-                    dialog1.show();
-                    dialog1.setCanceledOnTouchOutside(false);
-                } else {
-                    tv_weight_after.setText(String.valueOf(np.getValue())); //set the value to textview
-                }
-                dialog.dismiss();
+                tv_weight_after.setText(String.valueOf(np1.getValue()) + "." + String.valueOf(np2.getValue()));
             }
         }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-            }
+            public void onClick(DialogInterface dialog, int which) {}
         }).create().show();
 
     }
@@ -190,11 +174,11 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
                 String tit=et_log_title.getText().toString();
                 if(StringUtils.isEmpty(tit)){
                     new AlertDialog.Builder(this)
-                            .setMessage("请填写故事标题")
+                            .setMessage("请输入标题")
                             .create().show();
-                }else if(length(tit)>50){
+                }else if(length(tit)>30){
                     new AlertDialog.Builder(this)
-                            .setMessage("标题不能超过25个汉字")
+                            .setMessage("标题不能超过15个汉字")
                             .create().show();
                 }else{
                     validateLife.validate();
@@ -301,8 +285,8 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
     @Override
     public void onValidationSucceeded() {
         if(images.size()==1){
-            new AlertDialog.Builder(this).setTitle("验证失败")
-                    .setMessage("请选择至少一张图片上传")
+            new AlertDialog.Builder(this)
+                    .setMessage("请上传照片且不能超过9张")
                     .create().show();
             return;
         }

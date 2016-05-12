@@ -16,6 +16,14 @@ public class DateUtil {
     public static final String yyyy_MM_dd="yyyy-MM-dd";
 
     private static String PATTERN="yyyy-MM-dd HH:mm:ss";
+    /**
+     * 平年
+     */
+    public static int COMMON_YEAR=0;
+    /**
+     * 闰年
+     */
+    public static int LEAP_YEAR=1;
 
     private static DateUtil util;
     private Calendar calendar;
@@ -63,6 +71,25 @@ public class DateUtil {
         return year;
     }
 
+    public int getCurrentYear(){
+        calendar.setTime(new Date());
+        return calendar.get(Calendar.YEAR);
+    }
+    public int getCurrentMonth(){
+        calendar.setTime(new Date());
+        return calendar.get(Calendar.MONTH)+1;
+    }
+    public int getCurrentDay(){
+        calendar.setTime(new Date());
+        return calendar.get(Calendar.DAY_OF_MONTH);
+    }
+    /**
+     * 计算某一年是平年还是闰年
+     *  返回0平年1闰年
+     */
+    public int commonOrLeapYear(int year){
+        return (year%4==0&&year%100!=0)||year%400==0?LEAP_YEAR:COMMON_YEAR;
+    }
     /**
      * 根据日期格式字符串获取月
      */
@@ -99,6 +126,11 @@ public class DateUtil {
             e.printStackTrace();
         }
         return day;
+    }
+
+    public int getDay(Date date){
+        calendar.setTime(date);
+        return calendar.get(Calendar.DAY_OF_MONTH);
     }
 
     /**
@@ -470,6 +502,7 @@ public class DateUtil {
         c.set(Calendar.DAY_OF_MONTH, c.getActualMinimum(Calendar.DAY_OF_MONTH));
         return c.getTime();
     }
+
 
     /**
      * 取得月最后一天

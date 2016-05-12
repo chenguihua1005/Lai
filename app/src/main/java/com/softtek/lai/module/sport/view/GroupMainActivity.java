@@ -24,6 +24,8 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.home.view.HomeActviity;
+import com.softtek.lai.module.laisportmine.present.MyRunTeamManager;
+import com.softtek.lai.module.laisportmine.view.MyInformationActivity;
 import com.softtek.lai.module.sport.adapter.GroupAdapter;
 import com.softtek.lai.module.sport.adapter.GroupMainActiuvityAdapter;
 import com.softtek.lai.module.sport.model.GroupModel;
@@ -49,7 +51,7 @@ import zilla.libcore.ui.InjectLayout;
  * 跑团首页
  */
 @InjectLayout(R.layout.activity_group_main)
-public class GroupMainActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener, SportGroupManager.GetSportIndexCallBack {
+public class GroupMainActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener, SportGroupManager.GetSportIndexCallBack,MyRunTeamManager.MyRunTeamCallback {
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -98,6 +100,11 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
 
     @InjectView(R.id.text_pk_right_count)
     TextView text_pk_right_count;
+    @InjectView(R.id.iv_email)
+    ImageView iv_email;
+    MyRunTeamManager myRunTeamManager;
+    UserInfoModel userInfoModel=UserInfoModel.getInstance();
+    long accountid=Long.parseLong(userInfoModel.getUser().getUserid());
 
     @InjectView(R.id.text_pk_left_name)
     TextView text_pk_left_name;
@@ -128,6 +135,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ll_left.setOnClickListener(this);
+        iv_email.setOnClickListener(this);
     }
 
     @Override
@@ -141,6 +149,9 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
         String userId = UserInfoModel.getInstance().getUser().getUserid();
         userId = "4";
         sportGroupManager.getSportIndex(userId);
+        //判断是否有跑团
+        myRunTeamManager=new MyRunTeamManager(this);
+        myRunTeamManager.doGetNowRgName(accountid);
     }
 
     @Override
@@ -148,6 +159,9 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.ll_left:
                 startActivity(new Intent(this, HomeActviity.class));
+                break;
+            case R.id.iv_email:
+                startActivity(new Intent(this, MyInformationActivity.class));
                 break;
         }
     }
@@ -276,5 +290,15 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
             GroupMainActiuvityAdapter adapter = new GroupMainActiuvityAdapter(this, recentlyActivite);
             list_activity.setAdapter(adapter);
         }
+    }
+
+    @Override
+    public void getRunTeamName(String data,String flag) {
+        if (!data.equals(""))
+        {
+            iv_email.setVisibility(View.VISIBLE);
+            iv_email.setImageResource(R.drawable.email);
+        }
+
     }
 }

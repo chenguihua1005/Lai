@@ -230,6 +230,8 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
         tv_audit_nick.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getUserName());
         tv_audit_phone.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getMobile());
         gender=retestAuditModelEvent.getRetestAuditModels().get(0).getGender();
+        String[] img=retestAuditModelEvent.getRetestAuditModels().get(0).getImage().split("/");
+        retestAudit.setImage(img[img.length-1]);
         String StartDate=retestAuditModelEvent.getRetestAuditModels().get(0).getStartDate();
         String CurrStart=retestAuditModelEvent.getRetestAuditModels().get(0).getCurrStart();
         String CurrEnd=retestAuditModelEvent.getRetestAuditModels().get(0).getCurrEnd();
@@ -285,11 +287,11 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
 //                break;
             case R.id.ll_retestAudit_nowweight:
                 if (gender.equals("1")) {
-                    show_information("现在体重（斤）", 400, 100, 60, 9, 0, 0, 1);
+                    show_information("现在体重（斤）", 600, 100, 50, 9, 0, 0, 1);
                 }
                 else
                 {
-                    show_information("现在体重（斤）", 400, 150, 60, 9, 0, 0, 1);
+                    show_information("现在体重（斤）", 600, 150, 50, 9, 0, 0, 1);
                 }
                 break;
             case R.id.ll_retestAudit_tizhi:
