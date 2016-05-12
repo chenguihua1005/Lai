@@ -143,18 +143,9 @@ public class ForgetActivity extends BaseActivity implements View.OnClickListener
     @Override
     public void onValidationSucceeded() {
         String identify = et_identify.getText().toString();
-        String key = SharedPreferenceService.getInstance().get("identify", "");
-        if (!"".equals(key)) {
-            if (identify.equals(key)) {
-                SharedPreferenceService.getInstance().put("identify", "");
-                String phone = et_phone.getText().toString();
-                passwordPresenter.checkIdentify(phone, identify);
-            } else {
-                Util.toastMsg(R.string.identifyValidateMsg);
-            }
-        } else {
-            Util.toastMsg(R.string.identifyValidateMsg);
-        }
+        String phone = et_phone.getText().toString();
+        passwordPresenter.checkIdentify(phone, identify);
+
     }
 
     @Override

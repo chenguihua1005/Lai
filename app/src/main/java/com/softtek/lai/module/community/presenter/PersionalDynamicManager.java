@@ -92,7 +92,6 @@ public class PersionalDynamicManager implements Runnable,UploadImageService.Uplo
             service.saveDynamic(token, model, new RequestCallback<ResponseData>() {
                 @Override
                 public void success(ResponseData responseData, Response response) {
-                    Util.toastMsg(responseData.getMsg());
                     Log.i("第二阶段上传结束->"+responseData.getMsg());
                     if(progressDialog!=null){
                         progressDialog.dismiss();
