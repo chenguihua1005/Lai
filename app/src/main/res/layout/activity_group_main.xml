@@ -17,7 +17,8 @@
 
     <ScrollView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -153,9 +154,10 @@
                                     android:textSize="@dimen/textSize11" />
 
                                 <TextView
+                                    android:id="@+id/text3"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="千卡"
+                                    android:text="大卡"
                                     android:textColor="@color/word14" />
                             </LinearLayout>
 
@@ -284,6 +286,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="5dip"
+                                    android:layout_gravity="center"
                                     android:src="@drawable/img_group_main_honor" />
                             </LinearLayout>
                         </LinearLayout>
@@ -314,10 +317,26 @@
                     android:src="@drawable/img_group_main_more" />
             </RelativeLayout>
 
-            <com.softtek.lai.widgets.MyListView
-                android:id="@+id/list_activity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+                <com.softtek.lai.widgets.MyListView
+                    android:id="@+id/list_activity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/lin_no_activity"
+                    android:layout_width="fill_parent"
+                    android:layout_height="100dip"
+                    android:layout_centerInParent="true"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:text="未开始任何活动"
+                    android:textSize="20sp" />
+            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/rel_my_pk"
@@ -344,7 +363,8 @@
 
             <RelativeLayout
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@color/white">
 
                 <LinearLayout
                     android:id="@+id/lin_have_pk"
@@ -390,16 +410,18 @@
                             android:orientation="horizontal">
 
                             <com.softtek.lai.widgets.CircleImageView
+                                android:id="@+id/img_left"
                                 android:layout_width="80dip"
                                 android:layout_height="80dip"
-                                android:layout_gravity="center"
                                 android:layout_centerInParent="true"
+                                android:layout_gravity="center"
                                 android:src="@drawable/img_default" />
+
                             <ImageView
                                 android:layout_width="80dip"
                                 android:layout_height="80dip"
                                 android:layout_centerInParent="true"
-                                android:src="@drawable/img_group_main_z"/>
+                                android:src="@drawable/img_group_main_z" />
                         </RelativeLayout>
 
                         <LinearLayout
@@ -425,6 +447,7 @@
                             android:orientation="horizontal">
 
                             <com.softtek.lai.widgets.CircleImageView
+                                android:id="@+id/img_right"
                                 android:layout_width="80dip"
                                 android:layout_height="80dip"
                                 android:layout_gravity="center"
@@ -497,6 +520,7 @@
                             android:orientation="horizontal">
 
                             <TextView
+                                android:id="@+id/text_pk_left_name"
                                 android:layout_width="80dip"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
@@ -512,6 +536,7 @@
                             android:orientation="horizontal">
 
                             <ImageView
+                                android:id="@+id/img_pk_type"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -527,6 +552,7 @@
                             android:orientation="horizontal">
 
                             <TextView
+                                android:id="@+id/text_pk_right_name"
                                 android:layout_width="80dip"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -583,6 +609,7 @@
                             android:textSize="@dimen/textSize2" />
 
                         <TextView
+                            android:id="@+id/text_pk_time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -608,8 +635,10 @@
                     android:id="@+id/lin_no_pk"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/white"
                     android:orientation="vertical"
                     android:visibility="gone">
+                    >
 
                     <ImageView
                         android:layout_width="fill_parent"
@@ -667,13 +696,13 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin"
-                android:layout_marginRight="@dimen/margin"
+                android:background="@color/white"
                 android:orientation="vertical">
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin"
                     android:layout_marginTop="24dip">
 
                     <ImageView
@@ -686,6 +715,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/margin"
                         android:orientation="horizontal">
 
                         <TextView
@@ -717,8 +747,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_marginBottom="30dip"
                     android:layout_marginTop="24dip"
+                    android:gravity="center"
                     android:text="每天，康宝莱将为日排名前100的用户，已“天使听见爱”项目捐献一元爱心善款"
                     android:textColor="@color/word13"
                     android:textSize="@dimen/textSize12" />
