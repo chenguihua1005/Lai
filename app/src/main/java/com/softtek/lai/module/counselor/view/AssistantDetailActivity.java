@@ -39,6 +39,7 @@ import com.squareup.picasso.Picasso;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
@@ -114,10 +115,11 @@ public class AssistantDetailActivity extends BaseActivity implements View.OnClic
         text_count.setText(assistantDetailInfo.getNum().toString());
         text_retest.setText(StringUtil.getValue(assistantDetailInfo.getMrate()));
         text_total.setText(StringUtil.getValue(assistantDetailInfo.getTotalWeight()));
+        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
         if ("".equals(assistantDetailInfo.getPhoto())) {
             Picasso.with(this).load("111").fit().error(R.drawable.img_default).into(img);
         } else {
-            Picasso.with(this).load(assistantDetailInfo.getPhoto()).fit().error(R.drawable.img_default).into(img);
+            Picasso.with(this).load(path+assistantDetailInfo.getPhoto()).fit().error(R.drawable.img_default).into(img);
         }
     }
 

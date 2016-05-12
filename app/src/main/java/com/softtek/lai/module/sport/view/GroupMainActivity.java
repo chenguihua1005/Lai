@@ -27,15 +27,21 @@ import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.laisportmine.present.MyRunTeamManager;
 import com.softtek.lai.module.laisportmine.view.MyInformationActivity;
 import com.softtek.lai.module.sport.adapter.GroupAdapter;
+import com.softtek.lai.module.sport.adapter.GroupMainActiuvityAdapter;
 import com.softtek.lai.module.sport.model.GroupModel;
 import com.softtek.lai.module.sport.model.PraiseChallengeModel;
+import com.softtek.lai.module.sport.model.RecentlyActiviteModel;
 import com.softtek.lai.module.sport.model.SportMainModel;
 import com.softtek.lai.module.sport.presenter.SportGroupManager;
+import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.InjectView;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
@@ -80,6 +86,9 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
     @InjectView(R.id.text2)
     TextView text2;
 
+    @InjectView(R.id.text3)
+    TextView text3;
+
     @InjectView(R.id.lin_have_pk)
     LinearLayout lin_have_pk;
 
@@ -96,6 +105,30 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
     MyRunTeamManager myRunTeamManager;
     UserInfoModel userInfoModel=UserInfoModel.getInstance();
     long accountid=Long.parseLong(userInfoModel.getUser().getUserid());
+
+    @InjectView(R.id.text_pk_left_name)
+    TextView text_pk_left_name;
+
+    @InjectView(R.id.text_pk_right_name)
+    TextView text_pk_right_name;
+
+    @InjectView(R.id.text_pk_time)
+    TextView text_pk_time;
+
+    @InjectView(R.id.img_pk_type)
+    ImageView img_pk_type;
+
+    @InjectView(R.id.img_right)
+    ImageView img_right;
+
+    @InjectView(R.id.img_left)
+    ImageView img_left;
+
+    @InjectView(R.id.list_activity)
+    ListView list_activity;
+
+    @InjectView(R.id.lin_no_activity)
+    TextView lin_no_activity;
 
 
     @Override
@@ -114,7 +147,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
     protected void initDatas() {
         SportGroupManager sportGroupManager = new SportGroupManager(this);
         String userId = UserInfoModel.getInstance().getUser().getUserid();
-        userId = "13";
+        userId = "4";
         sportGroupManager.getSportIndex(userId);
         //判断是否有跑团
         myRunTeamManager=new MyRunTeamManager(this);
@@ -168,49 +201,94 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
     public void getSportIndex(String type, SportMainModel sportMainModel) {
         String TodayStepCnt = sportMainModel.getTodayStepCnt();
         if ("0".equals(TodayStepCnt)) {
-            text_step.setText("-");
+            text_step.setText("--");
         } else {
             text_step.setText(sportMainModel.getTodayStepCnt());
         }
         String todayKaluliCnt = sportMainModel.getTodayKaluliCnt();
         if ("0".equals(todayKaluliCnt)) {
-            text_rl.setText("-");
+            text_rl.setText("--");
+            text3.setVisibility(View.GONE);
         } else {
+            text3.setVisibility(View.VISIBLE);
             text_rl.setText(sportMainModel.getTodayKaluliCnt());
         }
         String todayStepOdr = sportMainModel.getTodayStepOdr();
         if ("0".equals(todayStepOdr)) {
-            text_pm.setText("-");
+            text_pm.setText("--");
         } else {
             text_pm.setText(sportMainModel.getTodayStepOdr());
         }
         String medalCnt = sportMainModel.getMedalCnt();
         if ("0".equals(medalCnt)) {
-            text_xzs.setText("-");
+            text_xzs.setText("--");
         } else {
             text_xzs.setText(sportMainModel.getMedalCnt());
         }
-        String donatenNum = sportMainModel.getDonatenNum();
-        if ("0".equals(donatenNum)) {
-            text2.setText("赶紧来贡献吧");
-            text_gxz.setVisibility(View.GONE);
-            text1.setVisibility(View.GONE);
-        } else {
-            text_gxz.setText(sportMainModel.getDonatenNum());
-        }
+
+        text_gxz.setText(sportMainModel.getDonatenNum());
 
         tv_title.setText(sportMainModel.getRGName());
 
         PraiseChallengeModel praiseChallengeModel = sportMainModel.getPraiseChallenge();
-        if (praiseChallengeModel == null) {
+
+        if (praiseChallengeModel.getPKId() == null) {
             lin_no_pk.setVisibility(View.VISIBLE);
             lin_have_pk.setVisibility(View.GONE);
-        }else {
+        } else {
             lin_no_pk.setVisibility(View.GONE);
             lin_have_pk.setVisibility(View.VISIBLE);
 
             text_pk_left_count.setText(praiseChallengeModel.getPCnt());
             text_pk_right_count.setText(praiseChallengeModel.getBPCnt());
+            text_pk_left_name.setText(praiseChallengeModel.getUserName());
+            text_pk_right_name.setText(praiseChallengeModel.getBUserName());
+            String chipType = praiseChallengeModel.getChipType();
+            if ("0".equals(chipType)) {
+                img_pk_type.setImageResource(R.drawable.img_group_main_1);
+            } else if ("1".equals(chipType)) {
+                img_pk_type.setImageResource(R.drawable.img_group_main_2);
+            } else if ("2".equals(chipType)) {
+                img_pk_type.setImageResource(R.drawable.img_group_main_3);
+            }
+            String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+            if ("".equals(praiseChallengeModel.getUserPhoto()) || "null".equals(praiseChallengeModel.getUserPhoto()) || praiseChallengeModel.getUserPhoto() == null) {
+                Picasso.with(this).load("111").fit().error(R.drawable.img_default).into(img_left);
+            } else {
+                Picasso.with(this).load(path + praiseChallengeModel.getUserPhoto()).fit().error(R.drawable.img_default).into(img_left);
+            }
+            if ("".equals(praiseChallengeModel.getBPhoto()) || "null".equals(praiseChallengeModel.getBPhoto()) || praiseChallengeModel.getBPhoto() == null) {
+                Picasso.with(this).load("111").fit().error(R.drawable.img_default).into(img_right);
+            } else {
+                Picasso.with(this).load(path + praiseChallengeModel.getBPhoto()).fit().error(R.drawable.img_default).into(img_right);
+            }
+            String start = praiseChallengeModel.getStart();
+            String end = praiseChallengeModel.getEnd();
+
+            String start_time = "";
+            String end_time = "";
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd号");
+            try {
+                Date start_date = sdf.parse(start);
+                Date end_date = sdf.parse(end);
+                start_time = format.format(start_date);
+                end_time = format.format(end_date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            text_pk_time.setText(start_time + " - " + end_time);
+        }
+        List<RecentlyActiviteModel> recentlyActivite = sportMainModel.getRecentlyActivite();
+        if (recentlyActivite.size() == 0) {
+            lin_no_activity.setVisibility(View.VISIBLE);
+            list_activity.setVisibility(View.GONE);
+        } else {
+            lin_no_activity.setVisibility(View.GONE);
+            list_activity.setVisibility(View.VISIBLE);
+            GroupMainActiuvityAdapter adapter = new GroupMainActiuvityAdapter(this, recentlyActivite);
+            list_activity.setAdapter(adapter);
         }
     }
 

@@ -85,7 +85,7 @@ public class AssistantAdapter extends BaseAdapter {
         if ("".equals(assistant.getPhoto())) {
             Picasso.with(context).load("111").fit().error(R.drawable.img_default).into(holder.img);
         } else {
-            Picasso.with(context).load(path+assistant.getPhoto()).fit().error(R.drawable.img_default).into(holder.img);
+            Picasso.with(context).load(assistant.getPhoto()).fit().error(R.drawable.img_default).into(holder.img);
         }
         holder.text_phone.setText(assistant.getMobile().toString());
         holder.text_name.setText(assistant.getUserName().toString());

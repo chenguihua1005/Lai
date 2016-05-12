@@ -95,6 +95,9 @@
             android:name=".module.home.view.HomeActviity"
             android:launchMode="singleTask" />
         <activity android:name=".module.home.view.ValidateCertificationActivity" />
+        <activity android:name=".module.home.view.ModifyPersonActivity" />
+        <activity android:name=".module.home.view.ModifyPhotoActivity" />
+        <activity android:name=".module.home.view.ModifyNameActivity" />
         <activity android:name=".module.home.view.ModifyPasswordActivity" />
         <activity android:name=".module.home.view.SettingsActivity" />
         <activity android:name=".module.home.view.AboutMeActivity" />
