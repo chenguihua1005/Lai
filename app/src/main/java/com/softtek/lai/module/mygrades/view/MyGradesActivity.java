@@ -2,7 +2,10 @@ package com.softtek.lai.module.mygrades.view;
 
 //莱运动-我的成绩页面
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -25,6 +28,7 @@ import com.softtek.lai.module.studetail.util.LineChartUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.util.AsyncExecutor;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -141,15 +145,13 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
 
 //    private static final int UPDATE_MY_TV = 1;
 //    Message message = null;
-//    //Handler UI modification
-//    @SuppressLint("HandlerLeak")
-//    private Handler handler = new Handler(){
+//    Handler handler = new Handler(){
 //        @Override
 //        public void handleMessage(Message msg) {
 //            switch(msg.what){
 //                case UPDATE_MY_TV:
 //                    String currentTime = (String)msg.obj;
-//                    myTv.setText("Current Time: " + currentTime);
+//                    tv_update.setText(currentTime);
 //                    break;
 //            }
 //        }
@@ -158,51 +160,24 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        Handler handler = new Handler() {
-//            public void handleMessage(Message msg) {
-//                tv_update.setText((String) msg.obj);
-//            }
-//        };
-//        new Thread(this).start();
-//
-//    public void run() {
-//        try {
-//            while (true) {
-//                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-//                String str = sdf.format(new Date());
-//                handler.sendMessage(handler.obtainMessage(100, str));
-//                Thread.sleep(1000);
-//            }
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
 
-//
-//    public void run() {
-//        //Time Controller
-//        //Modify Time After 3000 ms
-//        long startTime = System.currentTimeMillis();
-//            long endTime = System.currentTimeMillis();
-//            if(endTime - startTime > 3000){
-//                startTime = endTime;
-//                SimpleDateFormat formatter =
-//                        new SimpleDateFormat("yyyy年MM月dd日   HH:mm:ss");
-//                Date curDate = new Date(System.currentTimeMillis());
-//                String currentTime = formatter.format(curDate);
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                Message message=new Message();
+//                message.what=UPDATE_MY_TV;
+//                SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
+//                String currentTime = formatter.format(new Date());
 //                message = handler.obtainMessage(UPDATE_MY_TV, currentTime);
 //                handler.sendMessage(message);
 //            }
-//    }.start();
+//        }).start();
 
-
-        //SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日   HH:mm:ss");
 
         //更新时间当前时间
-        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");//yyyy年MM月dd日   HH:mm:ss
         Date curDate = new Date(System.currentTimeMillis());
         String currentTime = formatter.format(curDate);
-
-//        String time=mHour+":"+mMinute;
         tv_update.setText(currentTime);
         EventBus.getDefault().register(this);
     }
@@ -245,14 +220,9 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
         iGradesPresenter = new GradesImpl();
 //        1.	初始时间是从用户开始参加跑团算起
 //        2.	如果用户退出跑团, 那么就不用记录用户的步数; 所以退出了之前的跑团, 在加入下一个跑团之间, 是没有步数记录的. 不需要显示在折线图中.
-//        3.	折线图画到今天的步数. 更新频率应该与步数上传频率一致
 
-        //android:maxEms="6" android:singleLine="true"android:ellipsize="end" max_length
         //调用我的成绩接口  1/1/1753 12:00:00 AM and 12/31/9999 11:59:59 PM.
         //date当前日期
-        String date=mYear+"-"+mMonth+"-"+mDay;
-//        iGradesPresenter.getStepCount("2010-05-02",date);//date yyyy-MM-dd HH:mm:ss  12:20:30
-
         gradesService=ZillaApi.NormalRestAdapter.create(GradesService.class);
 
         //3.3.2	成绩勋章信息
@@ -265,13 +235,13 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
         dates.add(0f);
         dates.add(0f);
         days.clear();
-         nowdate7=getPeriodDate(type,0)+"";
-         nowdate6=getPeriodDate(type,1)+"";
-         nowdate5=getPeriodDate(type,2)+"";
-         nowdate4=getPeriodDate(type,3)+"";
-         nowdate3=getPeriodDate(type,4)+"";
-         nowdate2=getPeriodDate(type,5)+"";
-         nowdate1=getPeriodDate(type,6)+"";
+        nowdate7=getPeriodDate(type,0)+"";
+        nowdate6=getPeriodDate(type,1)+"";
+        nowdate5=getPeriodDate(type,2)+"";
+        nowdate4=getPeriodDate(type,3)+"";
+        nowdate3=getPeriodDate(type,4)+"";
+        nowdate2=getPeriodDate(type,5)+"";
+        nowdate1=getPeriodDate(type,6)+"";
         days.add(formdate(nowdate1));
         days.add(formdate(nowdate2));
         days.add(formdate(nowdate3));
@@ -279,7 +249,6 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
         days.add(formdate(nowdate5));
         days.add(formdate(nowdate6));
         days.add(formdate(nowdate7));
-//        healthRecordManager.doGetHealthPysicalRecords(getDateform(nowdate1),getDateform(nowdate7),1);
         iGradesPresenter.getStepCount(getDateform(nowdate1),getDateform(nowdate7));
     }
     public String getDateform(String nowdate)
@@ -288,7 +257,6 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
         String sr=nowdate.substring(4,5);
         date=nowdate.substring(0,4)+"-"+nowdate.substring(4,6)+"-"+nowdate.substring(6,8);
         return date;
-
     }
     public String formdate(String nowdate)
     {
@@ -300,10 +268,8 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
         }
         else {
             date=nowdate.substring(4,6)+"/"+nowdate.substring(6,8);
-
         }
         return date;
-
     }
 
     //我的成绩
@@ -376,6 +342,7 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
             public void success(ResponseData<GradeHonorModel> gradeHonorModelResponseData, Response response) {
                 int status=gradeHonorModelResponseData.getStatus();
                 switch (status){
+//                  {"status":500,"msg":"Invalid object name 'HL_LaiHhonor'.","data":{}}
                     case 200:
                         //总步数
                         String totalnumber=gradeHonorModelResponseData.getData().getTotalStep();
@@ -461,24 +428,29 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         switch (gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue()) {
                                             case 1:
                                                 tv_str1.setText("挑战达人铜牌");
+                                                img_honor1.setImageResource(R.drawable.img_medal1);
                                                 break;
                                             case 50:
                                                 tv_str1.setText("挑战达人银牌");
+                                                img_honor1.setImageResource(R.drawable.img_medal1);
                                                 break;
                                             case 100:
                                                 tv_str1.setText("挑战达人金牌");
+                                                img_honor1.setImageResource(R.drawable.img_medal1);
                                                 break;
                                             case 200:
                                                 tv_str1.setText("挑战明星铜牌");
+                                                img_honor1.setImageResource(R.drawable.img_medal1);
                                                 break;
                                             case 300:
                                                 tv_str1.setText("挑战明星银牌");
+                                                img_honor1.setImageResource(R.drawable.img_medal1);
                                                 break;
                                             case 500:
                                                 tv_str1.setText("挑战明星金牌");
+                                                img_honor1.setImageResource(R.drawable.img_medal1);
                                                 break;
                                         }
-                                        img_honor1.setImageResource(R.drawable.img_medal1);
                                         ll_honor1.setVisibility(View.VISIBLE);
                                         break;
 
@@ -504,7 +476,7 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                     case 3:
                                         //天使听见爱
                                         tv_str1.setText("天使听见爱");
-                                        img_honor1.setImageResource(R.drawable.img_medal);
+                                        img_honor1.setImageResource(R.drawable.img_medal1);
                                         ll_honor1.setVisibility(View.VISIBLE);
                                         break;
                                     case 4:
@@ -513,24 +485,29 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         switch (gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue()) {
                                             case 1:
                                                 tv_str1.setText("挑战达人铜牌");
+                                                img_honor1.setImageResource(R.drawable.img_medal1);
                                                 break;
                                             case 50:
                                                 tv_str1.setText("挑战达人银牌");
+                                                img_honor1.setImageResource(R.drawable.img_medal1);
                                                 break;
                                             case 100:
                                                 tv_str1.setText("挑战达人金牌");
+                                                img_honor1.setImageResource(R.drawable.img_medal1);
                                                 break;
                                             case 200:
                                                 tv_str1.setText("挑战明星铜牌");
+                                                img_honor1.setImageResource(R.drawable.img_medal1);
                                                 break;
                                             case 300:
                                                 tv_str1.setText("挑战明星银牌");
+                                                img_honor1.setImageResource(R.drawable.img_medal1);
                                                 break;
                                             case 500:
                                                 tv_str1.setText("挑战明星金牌");
+                                                img_honor1.setImageResource(R.drawable.img_medal1);
                                                 break;
                                         }
-                                        img_honor1.setImageResource(R.drawable.img_medal1);
                                         ll_honor1.setVisibility(View.VISIBLE);
                                         break;
 
@@ -563,24 +540,29 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         switch (gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue()) {
                                             case 1:
                                                 tv_str2.setText("挑战达人铜牌");
+                                                img_honor2.setImageResource(R.drawable.img_medal1);
                                                 break;
                                             case 50:
                                                 tv_str2.setText("挑战达人银牌");
+                                                img_honor2.setImageResource(R.drawable.img_medal1);
                                                 break;
                                             case 100:
                                                 tv_str2.setText("挑战达人金牌");
+                                                img_honor2.setImageResource(R.drawable.img_medal1);
                                                 break;
                                             case 200:
                                                 tv_str2.setText("挑战明星铜牌");
+                                                img_honor2.setImageResource(R.drawable.img_medal1);
                                                 break;
                                             case 300:
                                                 tv_str2.setText("挑战明星银牌");
+                                                img_honor2.setImageResource(R.drawable.img_medal1);
                                                 break;
                                             case 500:
                                                 tv_str2.setText("挑战明星金牌");
+                                                img_honor2.setImageResource(R.drawable.img_medal1);
                                                 break;
                                         }
-                                        img_honor2.setImageResource(R.drawable.img_medal1);
                                         ll_honor2.setVisibility(View.VISIBLE);
                                         break;
 
@@ -615,24 +597,29 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         switch (gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue()) {
                                             case 1:
                                                 tv_str1.setText("挑战达人铜牌");
+                                                img_honor1.setImageResource(R.drawable.img_medal1);
                                                 break;
                                             case 50:
                                                 tv_str1.setText("挑战达人银牌");
+                                                img_honor1.setImageResource(R.drawable.img_medal1);
                                                 break;
                                             case 100:
                                                 tv_str1.setText("挑战达人金牌");
+                                                img_honor1.setImageResource(R.drawable.img_medal1);
                                                 break;
                                             case 200:
                                                 tv_str1.setText("挑战明星铜牌");
+                                                img_honor1.setImageResource(R.drawable.img_medal1);
                                                 break;
                                             case 300:
                                                 tv_str1.setText("挑战明星银牌");
+                                                img_honor1.setImageResource(R.drawable.img_medal1);
                                                 break;
                                             case 500:
                                                 tv_str1.setText("挑战明星金牌");
+                                                img_honor1.setImageResource(R.drawable.img_medal1);
                                                 break;
                                         }
-                                        img_honor1.setImageResource(R.drawable.img_medal1);
                                         ll_honor1.setVisibility(View.VISIBLE);
                                         break;
 
@@ -665,24 +652,29 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         switch (gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue()) {
                                             case 1:
                                                 tv_str2.setText("挑战达人铜牌");
+                                                img_honor2.setImageResource(R.drawable.img_medal1);
                                                 break;
                                             case 50:
                                                 tv_str2.setText("挑战达人银牌");
+                                                img_honor2.setImageResource(R.drawable.img_medal1);
                                                 break;
                                             case 100:
                                                 tv_str2.setText("挑战达人金牌");
+                                                img_honor2.setImageResource(R.drawable.img_medal1);
                                                 break;
                                             case 200:
                                                 tv_str2.setText("挑战明星铜牌");
+                                                img_honor2.setImageResource(R.drawable.img_medal1);
                                                 break;
                                             case 300:
                                                 tv_str2.setText("挑战明星银牌");
+                                                img_honor2.setImageResource(R.drawable.img_medal1);
                                                 break;
                                             case 500:
                                                 tv_str2.setText("挑战明星金牌");
+                                                img_honor2.setImageResource(R.drawable.img_medal1);
                                                 break;
                                         }
-                                        img_honor2.setImageResource(R.drawable.img_medal1);
                                         ll_honor2.setVisibility(View.VISIBLE);
                                         break;
 
@@ -715,24 +707,29 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         switch (gradeHonorModelResponseData.getData().getLaiHonor().get(2).getHonorVlue()) {
                                             case 1:
                                                 tv_str3.setText("挑战达人铜牌");
+                                                img_honor3.setImageResource(R.drawable.img_medal1);
                                                 break;
                                             case 50:
                                                 tv_str3.setText("挑战达人银牌");
+                                                img_honor3.setImageResource(R.drawable.img_medal1);
                                                 break;
                                             case 100:
                                                 tv_str3.setText("挑战达人金牌");
+                                                img_honor3.setImageResource(R.drawable.img_medal1);
                                                 break;
                                             case 200:
                                                 tv_str3.setText("挑战明星铜牌");
+                                                img_honor3.setImageResource(R.drawable.img_medal1);
                                                 break;
                                             case 300:
                                                 tv_str3.setText("挑战明星银牌");
+                                                img_honor3.setImageResource(R.drawable.img_medal1);
                                                 break;
                                             case 500:
                                                 tv_str3.setText("挑战明星金牌");
+                                                img_honor3.setImageResource(R.drawable.img_medal1);
                                                 break;
                                         }
-                                        img_honor3.setImageResource(R.drawable.img_medal1);
                                         ll_honor3.setVisibility(View.VISIBLE);
                                         break;
                                 }
