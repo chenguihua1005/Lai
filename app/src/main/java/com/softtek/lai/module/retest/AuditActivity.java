@@ -257,7 +257,7 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
         tv_retestAudit_yaowei.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getWaistline().equals("")?"":Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getWaistline())+"");
         tv_retestAudit_tunwei.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getHiplie().equals("")?"":Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getHiplie())+"");
         tv_retestAudit_upArmGirth.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getUpArmGirth().equals("")?"":Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getUpArmGirth())+"");
-        tv_retestAudit_upLegGirth.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getUpArmGirth().equals("")?"":Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getUpArmGirth())+"");
+        tv_retestAudit_upLegGirth.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getUpLegGirth().equals("")?"":Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getUpLegGirth())+"");
         tv_retestAudit_doLegGirth.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getDoLegGirth().equals("")?"":Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getDoLegGirth())+"");
         if(!TextUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getImage())) {
             im_retestaudit_showphoto.setVisibility(View.VISIBLE);
