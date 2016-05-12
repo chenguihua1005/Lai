@@ -63,19 +63,19 @@ public class MyActionAdapter extends BaseAdapter {
             viewHolder=(ViewHolder)convertView.getTag();
         }
         ActionModel actionModel=actionModelList.get(position);
-        viewHolder.tv_public_date.setText((actionModel.getSendTime()));
-        viewHolder.tv_public_content.setText(actionModel.getContent());
+        viewHolder.tv_action_date.setText((actionModel.getSendTime()));
+        viewHolder.tv_action_content.setText(actionModel.getContent());
 
         return convertView;
     }
 
 
     class ViewHolder{
-        TextView tv_public_date;
-        TextView tv_public_content;
+        TextView tv_action_date;
+        TextView tv_action_content;
         public ViewHolder(View view){
-            tv_public_date=(TextView)view.findViewById(R.id.tv_public_date);
-            tv_public_content=(TextView)view.findViewById(R.id.tv_public_content);
+            tv_action_date=(TextView)view.findViewById(R.id.tv_action_date);
+            tv_action_content=(TextView)view.findViewById(R.id.tv_action_content);
 
         }
     }
