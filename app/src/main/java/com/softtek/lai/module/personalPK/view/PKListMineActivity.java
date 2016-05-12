@@ -120,12 +120,12 @@ public class PKListMineActivity extends BaseActivity implements View.OnClickList
             if(requestCode==PKLIST_JUMP){
                 int position=data.getIntExtra("position", -1);
                 if(position!=-1){
-                    PKListModel model=models.get(position);
+                   /* PKListModel model=models.get(position);
                     PKListModel returnModel=data.getParcelableExtra("pkmodel");
                     model.setChP(returnModel.getChP());
                     model.setBChp(returnModel.getBChp());
 
-                    adapter.notifyDataSetChanged();
+                    adapter.notifyDataSetChanged();*/
                 }
 
             }
