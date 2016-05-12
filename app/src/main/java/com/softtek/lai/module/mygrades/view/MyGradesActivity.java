@@ -1,56 +1,37 @@
 package com.softtek.lai.module.mygrades.view;
 
 //莱运动-我的成绩页面
-import android.annotation.SuppressLint;
-import android.content.DialogInterface;
-import android.location.Location;
+
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.LineData;
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.mygrades.eventModel.DayRankEvent;
 import com.softtek.lai.module.mygrades.eventModel.GradesEvent;
-import com.softtek.lai.module.mygrades.model.DayRankModel;
 import com.softtek.lai.module.mygrades.model.GradeHonorModel;
 import com.softtek.lai.module.mygrades.model.GradesModel;
-import com.softtek.lai.module.mygrades.model.HonorModel;
-import com.softtek.lai.module.mygrades.model.orderDataModel;
 import com.softtek.lai.module.mygrades.net.GradesService;
 import com.softtek.lai.module.mygrades.presenter.GradesImpl;
 import com.softtek.lai.module.mygrades.presenter.IGradesPresenter;
 import com.softtek.lai.module.studetail.util.LineChartUtil;
-import com.softtek.lai.utils.SystemBarTintManager;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
-import java.text.DateFormat;
 import java.text.DecimalFormat;
-import java.text.Format;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
 
 import butterknife.InjectView;
 import retrofit.Callback;
@@ -174,8 +155,6 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
 //        }
 //    };
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -217,6 +196,8 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
 
 
         //SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日   HH:mm:ss");
+
+        //更新时间当前时间
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
         Date curDate = new Date(System.currentTimeMillis());
         String currentTime = formatter.format(curDate);
@@ -232,22 +213,21 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
      //   tv_right.setText("分享");
         chartUtil=new LineChartUtil(this,chart);
         ll_left.setOnClickListener(this);
+        //2.折线图单位是步
         //初始化统计图
-        //取消统计图整体背景色
-        chart.setDrawGridBackground(false);
+        chart.setDrawGridBackground(false);//取消统计图整体背景色
+        //chart.setBackgroundColor(0xffff9c00);
         //取消描述信息,设置没有数据的时候提示信息
-        chart.setDescription("");
+        chart.setDescription("");//单位：步
         chart.setNoDataTextDescription("暂无数据");
         //启用手势操作
-        chart.setTouchEnabled(true);
+        chart.setTouchEnabled(false);
         chart.setDragEnabled(true);
         chart.setScaleEnabled(true);
         chart.setPinchZoom(true);
 
-
         YAxis leftAxis = chart.getAxisLeft();
         leftAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines 重置所有限行，以避免重叠线,删除所有限制线
-
         leftAxis.setAxisMaxValue(100000f);
         leftAxis.setAxisMinValue(0f);
         leftAxis.enableGridDashedLine(10f, 10f, 0f);//使网格虚线
@@ -257,11 +237,17 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
         chart.getLegend().setEnabled(false);//去除图例
         bt_left.setOnClickListener(this);
         bt_right.setOnClickListener(this);
+
     }
 
     @Override
     protected void initDatas() {
         iGradesPresenter = new GradesImpl();
+//        1.	初始时间是从用户开始参加跑团算起
+//        2.	如果用户退出跑团, 那么就不用记录用户的步数; 所以退出了之前的跑团, 在加入下一个跑团之间, 是没有步数记录的. 不需要显示在折线图中.
+//        3.	折线图画到今天的步数. 更新频率应该与步数上传频率一致
+
+        //android:maxEms="6" android:singleLine="true"android:ellipsize="end" max_length
         //调用我的成绩接口  1/1/1753 12:00:00 AM and 12/31/9999 11:59:59 PM.
         //date当前日期
         String date=mYear+"-"+mMonth+"-"+mDay;
@@ -323,9 +309,9 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
     //我的成绩
     @Subscribe
     public void onEvent(GradesEvent gradesEvent) {
+        System.out.println("------------gradesEvent："+gradesEvent.getgradesModels().size());
         System.out.println("------------曲线图size()"+gradesEvent.getgradesModels().size());
         List<GradesModel>gradesModels=gradesEvent.getgradesModels();
-//
 //        if(gradesEvent==null){
 //            return;
 //        }
@@ -360,7 +346,6 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
             {
                 dates.set(6,Float.parseFloat(gradesEvent.getgradesModels().get(i).getTotalCnt()));
             }
-
         }
         chartUtil.addDataf(dates,7,days);
         dates.clear();
@@ -377,10 +362,8 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
 //            dates.add(TotalCnt);
 //            days.add(gl.getDate());
 //        }
-
 //        days.add(5+"/"+10);
 //        days.add(mMonth+"/"+mDay);
-
 //        chartUtil=new LineChartUtil(MyGradesActivity.this,chart);
 //        chartUtil.addDataf(dates,4,days);
     }
@@ -402,7 +385,7 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                             tv_totalnumber.setText(totalnumber);
                         }
                         //总公里数计算公式: 1公里=1428步
-                        DecimalFormat format = new DecimalFormat("###.##");
+                        DecimalFormat format = new DecimalFormat("###.00");
                         String totalmileage =String.valueOf(Float.parseFloat(totalnumber)/1428);
                         String temp = format.format(Double.parseDouble(totalmileage));
                         if (totalmileage==""){
@@ -411,18 +394,36 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                             tv_totalmileage.setText(temp);
                         }
 
+                        //前三名用橙色,其他名次用绿色android:textColor="#ff9c00"
+                        int Nationaldayrank=Integer.parseInt(gradeHonorModelResponseData.getData().getContryDayOrder());
+                        int Rundayrank=Integer.parseInt(gradeHonorModelResponseData.getData().getDayOrder());
+                        int Nationalweekrank=Integer.parseInt(gradeHonorModelResponseData.getData().getWeekOrder());
+                        int Runweekrank=Integer.parseInt(gradeHonorModelResponseData.getData().getWeekOrderRG());
+                        if(Nationaldayrank==1||Nationaldayrank==2||Nationaldayrank==3){
+                            //0xffff00ff是int类型的数据，分组一下0x|ff|ff00ff，0x是代表颜色整数的标记，ff是表示透明度，ff00ff表示颜色，注意：这里ffff00ff必须是8个的颜色表示，不接受ff00ff这种6个的颜色表示。
+                            tv_Nationaldayrank.setTextColor(0xffff9c00);
+                        }
+                        if(Rundayrank==1||Rundayrank==2||Rundayrank==3){
+                            tv_Rundayrank.setTextColor(0xffff9c00);
+                        }
+                        if(Runweekrank==1||Runweekrank==2||Runweekrank==3){
+                            tv_Runweekrank.setTextColor(0xffff9c00);
+                        }
+                        if(Nationalweekrank==1||Nationalweekrank==2||Nationalweekrank==3){
+                            tv_Nationalweekrank.setTextColor(0xffff9c00);
+                        }
+
                         //全国排名
-                        tv_Nationaldayrank.setText(gradeHonorModelResponseData.getData().getContryDayOrder()+"");
+                        tv_Nationaldayrank.setText(Nationaldayrank+"");
                         tv_Nationaldaypeople.setText(gradeHonorModelResponseData.getData().getContryDayOrderTotal()+"");
                         //跑团的排名
-                        tv_Rundayrank.setText(gradeHonorModelResponseData.getData().getDayOrder()+"");
+                        tv_Rundayrank.setText(Rundayrank+"");
                         tv_Rundaypeople.setText(gradeHonorModelResponseData.getData().getDayOrderTotal()+"");
 
-                        tv_Nationalweekrank.setText(gradeHonorModelResponseData.getData().getWeekOrder()+"");
+                        tv_Nationalweekrank.setText(Nationalweekrank+"");
                         tv_Nationalweekpeople.setText(gradeHonorModelResponseData.getData().getContryDayOrderTotal()+"");
-                        tv_Runweekrank.setText(gradeHonorModelResponseData.getData().getWeekOrderRG()+"");
+                        tv_Runweekrank.setText(Runweekrank+"");
                         tv_Runweekpeople.setText(gradeHonorModelResponseData.getData().getDayOrderTotal()+"");
-
 
                         tv_medalnumber.setText(gradeHonorModelResponseData.getData().getTotalHonor()+"");
 
@@ -760,14 +761,12 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                 finish();
                 break;
             case R.id.bt_left:
-
                         if (state!=true)
                         {
                             n=n+7;
                         }
                         state=true;
                         days.clear();
-
                          nowdate7 = getPeriodDate(type, n) + "";
                          nowdate6 = getPeriodDate(type, n + 1) + "";
                          nowdate5 = getPeriodDate(type, n + 2) + "";
@@ -787,9 +786,6 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                         n = n + 7;
                         bt_right.setVisibility(View.VISIBLE);
                         break;
-
-
-
             case R.id.bt_right:
                         if (state!=false) {
                             n = n - 14;
@@ -818,9 +814,6 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                         if (nowdate7.equals(getPeriodDate(type,0)+""))
                             bt_right.setVisibility(View.GONE);
                         break;
-
-
-
         }
     }
     /**

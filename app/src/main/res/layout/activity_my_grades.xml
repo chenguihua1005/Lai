@@ -226,7 +226,7 @@
                         android:layout_height="wrap_content" />
                     <TextView
                         android:id="@+id/tv_Rundayrank"
-                        android:textColor="#ff9c00"
+                        android:textColor="#74b92a"
                         android:textSize="15sp"
                         android:layout_marginLeft="2dp"
                         android:layout_marginRight="2dp"
