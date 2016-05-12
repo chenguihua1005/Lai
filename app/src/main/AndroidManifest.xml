@@ -338,7 +338,8 @@
             android:name=".module.personalPK.view.SearchActivity"
             android:windowSoftInputMode="stateAlwaysVisible" />
         <activity android:name=".module.personalPK.view.SelectTimeActivity" />
-        <activity android:name=".module.laisportmine.view.MyActionListActivity"></activity>
+        <activity android:name=".module.laisportmine.view.MyActionListActivity" />
+        <activity android:name=".module.laisportmine.view.MyPkListActivity"></activity>
     </application>
 
 </manifest>

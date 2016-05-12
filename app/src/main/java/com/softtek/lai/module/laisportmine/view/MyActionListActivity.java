@@ -16,6 +16,7 @@ import com.softtek.lai.module.laisportmine.adapter.MyPublicWealfareAdapter;
 import com.softtek.lai.module.laisportmine.model.ActionModel;
 import com.softtek.lai.module.laisportmine.model.PublicWewlfModel;
 import com.softtek.lai.module.laisportmine.present.ActionListManager;
+import com.softtek.lai.module.laisportmine.present.UpdateMsgRTimeManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,7 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_my_action_list)
-public class MyActionListActivity extends BaseActivity implements View.OnClickListener,ActionListManager.ActionListCallback{
+public class MyActionListActivity extends BaseActivity implements View.OnClickListener,ActionListManager.ActionListCallback,UpdateMsgRTimeManager.UpdateMsgRTimeCallback{
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.tv_title)
@@ -34,6 +35,7 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
     MyActionAdapter myActionAdapter;
     private List<ActionModel> actionModelLists=new ArrayList<ActionModel>();
     ActionListManager actionListManager;
+    UpdateMsgRTimeManager updateMsgRTimeManager;
     String accountid;
 
     @Override
@@ -51,6 +53,8 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
         list_action.setAdapter(myActionAdapter);
         actionListManager=new ActionListManager(this);
         actionListManager.GetActiveMsg(accountid);
+        updateMsgRTimeManager=new UpdateMsgRTimeManager(this);
+        updateMsgRTimeManager.doUpdateMsgRTime(accountid,"22");
 
     }
 

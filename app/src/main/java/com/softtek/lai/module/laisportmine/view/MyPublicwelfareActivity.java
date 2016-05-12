@@ -14,6 +14,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.laisportmine.adapter.MyPublicWealfareAdapter;
 import com.softtek.lai.module.laisportmine.model.PublicWewlfModel;
 import com.softtek.lai.module.laisportmine.present.MyPublicWewlListManager;
+import com.softtek.lai.module.laisportmine.present.UpdateMsgRTimeManager;
 import com.softtek.lai.module.retest.adapter.ClassAdapter;
 import com.softtek.lai.module.retest.adapter.StudentAdapter;
 import com.softtek.lai.module.retest.model.BanjiModel;
@@ -26,7 +27,7 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_my_publicwelfare)
-public class MyPublicwelfareActivity extends BaseActivity implements View.OnClickListener ,MyPublicWewlListManager.MyPublicWewlListCallback{
+public class MyPublicwelfareActivity extends BaseActivity implements View.OnClickListener ,MyPublicWewlListManager.MyPublicWewlListCallback,UpdateMsgRTimeManager.UpdateMsgRTimeCallback{
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.tv_title)
@@ -36,6 +37,7 @@ public class MyPublicwelfareActivity extends BaseActivity implements View.OnClic
     private List<PublicWewlfModel> publicWewlfModelList=new ArrayList<PublicWewlfModel>();
     private MyPublicWealfareAdapter myPublicWealfareAdapter;
     MyPublicWewlListManager myPublicWewlListManager;
+    UpdateMsgRTimeManager updateMsgRTimeManager;
     String accouid;
 
     @Override
@@ -52,6 +54,8 @@ public class MyPublicwelfareActivity extends BaseActivity implements View.OnClic
         listview_publicwe.setAdapter(myPublicWealfareAdapter);
         myPublicWewlListManager=new MyPublicWewlListManager(this);
         myPublicWewlListManager.doGetDonateMsg(accouid);
+        updateMsgRTimeManager=new UpdateMsgRTimeManager(this);
+        updateMsgRTimeManager.doUpdateMsgRTime(accouid,"21");
 
     }
 
