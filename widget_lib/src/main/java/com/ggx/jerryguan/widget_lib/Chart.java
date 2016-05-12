@@ -55,6 +55,8 @@ public class Chart extends View{
     private RectF mChartRect;
     private Rect mTextRect=new Rect();
 
+    private boolean empty=true;
+
     private AnimatorSet set;
 
     public Chart(Context context) {
@@ -157,6 +159,7 @@ public class Chart extends View{
         if(value.length<3){
             throw new RuntimeException("数值参数小于3个");
         }
+
         float anglePer=360/(value[0]+value[1]+value[2]);
         float angle1=anglePer*value[0];
         float angle2=anglePer*value[1];
@@ -164,6 +167,13 @@ public class Chart extends View{
         sStartAngle=angle1+fStartAngle;
         tStartAngle=angle2+sStartAngle;
         int totleText=(int)(value[0] + value[1] + value[2]);
+        if(value[0]==0&&value[1]==0&&value[2]==0){
+            empty=true;
+            postInvalidate();
+            return;
+        }else{
+            empty=false;
+        }
         ValueAnimator valueAnimator1=ValueAnimator.ofFloat(0, angle1);
         valueAnimator1.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -205,9 +215,11 @@ public class Chart extends View{
 
     @Override
     protected void onDraw(Canvas canvas) {
-        canvas.drawArc(mChartRect,fStartAngle, mFirst, false, mPaintFirst);
-        canvas.drawArc(mChartRect, sStartAngle, mSecond, false, mPaintSecond);
-        canvas.drawArc(mChartRect, tStartAngle, mThird, false, mPaintThird);
+        if(!empty){
+            canvas.drawArc(mChartRect,fStartAngle, mFirst, false, mPaintFirst);
+            canvas.drawArc(mChartRect, sStartAngle, mSecond, false, mPaintSecond);
+            canvas.drawArc(mChartRect, tStartAngle, mThird, false, mPaintThird);
+        }
         canvas.drawText(String.valueOf(text), (getRight() - getLeft()) / 2,
                 (getBottom() - getTop()) / 2, mTextPaint);
         canvas.drawText(tip, (getRight() - getLeft()) / 2,

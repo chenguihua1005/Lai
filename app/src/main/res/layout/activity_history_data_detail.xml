@@ -75,14 +75,14 @@
                 android:textSize="18sp"
                 android:textColor="#ffa100"
                 android:text=""/>
-            <TextView
+            <!--<TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/tv_weight"
                 android:layout_centerInParent="true"
                 android:textSize="18sp"
                 android:textColor="#ffa100"
-                android:text="斤"/>
+                android:text="斤"/>-->
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
@@ -110,14 +110,14 @@
                 android:textColor="#ffa100"
                 android:layout_marginLeft="15dp"
                 android:text=""/>
-            <TextView
+            <!--<TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/tv_body_fat"
                 android:layout_centerInParent="true"
                 android:textSize="18sp"
                 android:textColor="#ffa100"
-                android:text="%"/>
+                android:text="%"/>-->
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
@@ -173,14 +173,14 @@
                 android:textColor="#ffa100"
                 android:layout_marginLeft="15dp"
                 android:text=""/>
-            <TextView
+            <!--<TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/tv_bust"
                 android:layout_centerInParent="true"
                 android:textSize="18sp"
                 android:textColor="#ffa100"
-                android:text="cm"/>
+                android:text="cm"/>-->
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
@@ -208,14 +208,14 @@
                 android:textColor="#ffa100"
                 android:layout_marginLeft="15dp"
                 android:text=""/>
-            <TextView
+            <!--<TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/tv_waistline"
                 android:layout_centerInParent="true"
                 android:textSize="18sp"
                 android:textColor="#ffa100"
-                android:text="cm"/>
+                android:text="cm"/>-->
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
@@ -243,14 +243,14 @@
                 android:textColor="#ffa100"
                 android:layout_marginLeft="15dp"
                 android:text=""/>
-            <TextView
+            <!--<TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/tv_hipline"
                 android:layout_centerInParent="true"
                 android:textSize="18sp"
                 android:textColor="#ffa100"
-                android:text="cm"/>
+                android:text="cm"/>-->
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
@@ -278,14 +278,14 @@
                 android:textColor="#ffa100"
                 android:layout_marginLeft="15dp"
                 android:text=""/>
-            <TextView
+            <!--<TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/tv_up_hipline"
                 android:layout_centerInParent="true"
                 android:textSize="18sp"
                 android:textColor="#ffa100"
-                android:text="cm"/>
+                android:text="cm"/>-->
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
@@ -313,14 +313,14 @@
                 android:textColor="#ffa100"
                 android:layout_marginLeft="15dp"
                 android:text=""/>
-            <TextView
+            <!--<TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/tv_thigh"
                 android:layout_centerInParent="true"
                 android:textSize="18sp"
                 android:textColor="#ffa100"
-                android:text="cm"/>
+                android:text="cm"/>-->
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
@@ -348,14 +348,14 @@
                 android:textColor="#ffa100"
                 android:layout_marginLeft="15dp"
                 android:text=""/>
-            <TextView
+            <!--<TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/tv_calf"
                 android:layout_centerInParent="true"
                 android:textSize="18sp"
                 android:textColor="#ffa100"
-                android:text="cm"/>
+                android:text="cm"/>-->
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
