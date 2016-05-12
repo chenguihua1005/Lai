@@ -93,6 +93,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
 
     private PKListManager manager;
     private long pkId;
+    private PKDetailMold model;
 
     @Override
     protected void initViews() {
@@ -115,7 +116,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
         manager = new PKListManager();
         String path = AddressManager.get("photoHost");
         tStatus=getIntent().getIntExtra("isEnd",0);
-        PKDetailMold model = getIntent().getParcelableExtra("pkmodel");
+        model = getIntent().getParcelableExtra("pkmodel");
         pkId=model.getPKId();
         tv_pk_name1.setText(model.getUserName());
         tv_pk_name2.setText(model.getBUserName());
@@ -123,17 +124,21 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
         cb_zan_right.setText(model.getBchpcou() + "");
         tv_time.setText(DateUtil.getInstance().convertDateStr(model.getStart(), "yyyy年MM月dd日") + "——" +
                 DateUtil.getInstance().convertDateStr(model.getEnd(), "yyyy年MM月dd日"));
-        if (model.getStatus() == NOCHALLENGE) {
+        if (model.getTStatus() == 0) {
             tv_status.setBackgroundResource(R.drawable.pk_list_weikaishi);
             tv_status.setText("未开始");
-            tv_is_accept.setText("未应战");
-
-        } else if (model.getStatus() == CHALLENGING) {
+        } else if (model.getTStatus() == 1) {
             tv_status.setBackgroundResource(R.drawable.pk_list_jingxingzhong);
             tv_status.setText("进行中");
-            tv_is_accept.setText("以应战");
-        } else if (model.getStatus() == REFUSE) {
+        } else if (model.getTStatus() == 2) {
             tv_status.setBackgroundResource(R.drawable.pk_list_yijieshu);
+            tv_status.setText("以结束");
+        }
+        if (model.getStatus() == NOCHALLENGE) {
+            tv_is_accept.setText("未应战");
+        } else if (model.getStatus() == CHALLENGING) {
+            tv_is_accept.setText("已应战");
+        } else if (model.getStatus() == REFUSE) {
             tv_is_accept.setText("拒绝");
         }
         if (model.getChipType() == PKListAdapter.NAIXI) {
@@ -201,8 +206,20 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
                 //取消PK赛
                 break;
             case R.id.cb_zan_left:
+                manager.doZan(pkId, 0, new RequestCallback<ResponseData>() {
+                    @Override
+                    public void success(ResponseData responseData, Response response) {
+
+                    }
+                });
                 break;
             case R.id.cb_zan_right:
+                manager.doZan(pkId, 1, new RequestCallback<ResponseData>() {
+                    @Override
+                    public void success(ResponseData responseData, Response response) {
+
+                    }
+                });
                 break;
             case R.id.btn_receive:
                 //接受挑战
@@ -214,6 +231,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
                                     //应战
                                     tv_status.setText("进行中");
                                     tv_is_accept.setText("以应战");
+                                    model.setStatus(CHALLENGING);
                                     btn_receive.setVisibility(View.GONE);
                                     btn_refuse.setVisibility(View.GONE);
 
@@ -230,8 +248,9 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
                             public void success(ResponseData responseData, Response response) {
                                 if(responseData.getStatus()==200){
                                     //应战
-                                    tv_status.setText("未应战");
+                                    tv_status.setText("未开始");
                                     tv_is_accept.setText("拒绝");
+                                    model.setStatus(REFUSE);
                                     btn_receive.setVisibility(View.GONE);
                                     btn_refuse.setVisibility(View.GONE);
                                     tip_pk.setVisibility(View.VISIBLE);
@@ -257,6 +276,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
         if (model == null) {
             return;
         }
+        this.model=model;
         //更新数据
         tv_pk_name1.setText(model.getUserName());
         tv_pk_name2.setText(model.getBUserName());
@@ -367,6 +387,14 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
             //需要改变一些状态
             intent.putExtra("ChP",cb_zan_left.getText().toString());
             intent.putExtra("BChP",cb_zan_right.getText().toString());
+            if (model.getStatus() == NOCHALLENGE) {
+                intent.putExtra("status",0);//拒绝表示未应战
+            } else if (model.getStatus() == CHALLENGING) {
+
+
+            } else if (model.getStatus() == REFUSE) {
+                intent.putExtra("status",0);//拒绝表示未应战
+            }
             //intent.putExtra("status",);
             setResult(RESULT_OK,intent);
             finish();

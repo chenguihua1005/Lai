@@ -109,7 +109,7 @@ public class PKListActivity extends BaseActivity implements View.OnClickListener
         detailMold.setChip("");
         detailMold.setStart(model.getStart());
         detailMold.setEnd(model.getEnd());
-        detailMold.setStatus(model.getTStatus());
+        detailMold.setTStatus(model.getTStatus());
 
         //点赞数
         detailMold.setChpcou(model.getChP());

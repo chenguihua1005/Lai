@@ -15,7 +15,7 @@ public class PKDetailMold implements Parcelable{
     private String End;
     private int ChipType;//筹码类型
     private String Chip;//自定义筹码内容
-    private int Status;//pk状态
+    private int Status;//pk参与者状态
     //发起挑战者
     private long Challenged;
     private String UserName;
@@ -35,7 +35,7 @@ public class PKDetailMold implements Parcelable{
     private int BPraiseStatus;
     private int PraiseStatus;
     //*******************
-
+    private int TStatus;//比赛本身状态
 
     public PKDetailMold() {
     }
@@ -63,6 +63,7 @@ public class PKDetailMold implements Parcelable{
         BchaTotal = in.readLong();
         BPraiseStatus=in.readInt();
         PraiseStatus=in.readInt();
+        TStatus=in.readInt();
     }
 
     public static final Creator<PKDetailMold> CREATOR = new Creator<PKDetailMold>() {
@@ -253,6 +254,14 @@ public class PKDetailMold implements Parcelable{
         PraiseStatus = praiseStatus;
     }
 
+    public int getTStatus() {
+        return TStatus;
+    }
+
+    public void setTStatus(int TStatus) {
+        this.TStatus = TStatus;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -282,5 +291,6 @@ public class PKDetailMold implements Parcelable{
         dest.writeLong(BchaTotal);
         dest.writeInt(BPraiseStatus);
         dest.writeInt(PraiseStatus);
+        dest.writeInt(TStatus);
     }
 }
