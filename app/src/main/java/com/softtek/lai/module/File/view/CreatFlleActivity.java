@@ -232,29 +232,54 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         return true;
     }
 
+    private boolean isLetter(char c) {
+        int k = 0x80;
+        return c / k == 0 ? true : false;
+    }
+
+    private int length(String s) {
+        if (s == null)
+            return 0;
+        char[] c = s.toCharArray();
+        int len = 0;
+        for (int i = 0; i < c.length; i++) {
+            len++;
+            if (!isLetter(c[i])) {
+                len++;
+            }
+        }
+        return len;
+    }
+
     @Override
     public void onValidationSucceeded() {
-        String nick = et_nickname.getText().toString();
+        String nick = et_nickname.getText().toString().trim();
         String birthday = tv_birth.getText().toString();
         String gender = tv_sex.getText().toString();
         String height = tv_height.getText().toString();
         String weight = tv_weight.getText().toString();
-        if (w == true) {
-            file = new FileModel();
+
+        if (length(nick) > 12) {
+            Util.toastMsg("姓名不能超过6个汉字");
+        } else {
+
+            if (w == true) {
+                file = new FileModel();
+            }
+
+            file.setNickname(nick);
+            file.setBrithday(birthday);
+            file.setGender(gender.equals("男") ? 0 : 1);
+
+            String heights = height.split("cm")[0];
+            file.setHeight(Double.parseDouble(heights));
+            String weights = weight.split("斤")[0];
+            file.setWeight(Double.parseDouble(weights));
+
+            String token = SharedPreferenceService.getInstance().get("token", "");
+            System.out.println("file:" + file);
+            ICreateFilepresenter.createFile(token, file);
         }
-
-        file.setNickname(nick);
-        file.setBrithday(birthday);
-        file.setGender(gender.equals("男") ? 0 : 1);
-
-        String heights = height.split("cm")[0];
-        file.setHeight(Double.parseDouble(heights));
-        String weights = weight.split("斤")[0];
-        file.setWeight(Double.parseDouble(weights));
-
-        String token = SharedPreferenceService.getInstance().get("token", "");
-        System.out.println("file:" + file);
-        ICreateFilepresenter.createFile(token, file);
     }
 
     @Override

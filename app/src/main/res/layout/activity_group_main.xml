@@ -86,7 +86,7 @@
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="13dip"
+                                android:layout_marginTop="11dip"
                                 android:orientation="horizontal">
 
                                 <TextView
@@ -105,6 +105,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/lin_start_sport"
                             android:layout_width="0dip"
                             android:layout_height="fill_parent"
                             android:layout_weight="1"
@@ -164,7 +165,7 @@
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="13dip"
+                                android:layout_marginTop="11dip"
                                 android:orientation="horizontal">
 
                                 <TextView
@@ -207,7 +208,7 @@
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="13dip"
+                                android:layout_marginTop="11dip"
                                 android:orientation="horizontal">
 
                                 <TextView
@@ -226,6 +227,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/lin_start_sports"
                             android:layout_width="0dip"
                             android:layout_height="fill_parent"
                             android:layout_weight="1"
@@ -272,7 +274,7 @@
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="13dip"
+                                android:layout_marginTop="11dip"
                                 android:orientation="horizontal">
 
                                 <TextView
@@ -285,8 +287,8 @@
                                 <ImageView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginLeft="5dip"
                                     android:layout_gravity="center"
+                                    android:layout_marginLeft="5dip"
                                     android:src="@drawable/img_group_main_honor" />
                             </LinearLayout>
                         </LinearLayout>
@@ -373,252 +375,260 @@
                     android:orientation="vertical">
 
                     <LinearLayout
+                        android:id="@+id/lin_pk"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="12dip"
-                        android:orientation="horizontal">
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dip"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:gravity="right"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/img_group_main_zan" />
+
+                                <TextView
+                                    android:id="@+id/text_pk_left_count"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginLeft="5dip"
+                                    android:gravity="center"
+                                    android:text="5"
+                                    android:textColor="#ffa220" />
+                            </LinearLayout>
+
+                            <RelativeLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="horizontal">
+
+                                <com.softtek.lai.widgets.CircleImageView
+                                    android:id="@+id/img_left"
+                                    android:layout_width="80dip"
+                                    android:layout_height="80dip"
+                                    android:layout_centerInParent="true"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/img_default" />
+
+                                <ImageView
+                                    android:layout_width="80dip"
+                                    android:layout_height="80dip"
+                                    android:layout_centerInParent="true"
+                                    android:src="@drawable/img_group_main_z" />
+                            </RelativeLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/img_group_main_vs" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <com.softtek.lai.widgets.CircleImageView
+                                    android:id="@+id/img_right"
+                                    android:layout_width="80dip"
+                                    android:layout_height="80dip"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/img_default" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:gravity="left"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/img_group_main_zan" />
+
+                                <TextView
+                                    android:id="@+id/text_pk_right_count"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginLeft="5dip"
+                                    android:gravity="center"
+                                    android:text="5"
+                                    android:textColor="#ffa220" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dip"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:gravity="right"
+                                android:orientation="horizontal"
+                                android:visibility="invisible">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/img_group_main_zan" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginLeft="5dip"
+                                    android:gravity="center"
+                                    android:text="5"
+                                    android:textColor="#ffa220" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/text_pk_left_name"
+                                    android:layout_width="80dip"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="LEE" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:id="@+id/img_pk_type"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/img_group_main_1" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/text_pk_right_name"
+                                    android:layout_width="80dip"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:text="Lee" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:gravity="left"
+                                android:orientation="horizontal"
+                                android:visibility="invisible">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/img_group_main_zan" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginLeft="5dip"
+                                    android:gravity="center"
+                                    android:text="5"
+                                    android:textColor="#ffa220" />
+                            </LinearLayout>
+                        </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:gravity="right"
+                            android:layout_marginTop="14dip"
                             android:orientation="horizontal">
 
                             <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:src="@drawable/img_group_main_zan" />
+                                android:src="@drawable/img_activity_item_time" />
 
                             <TextView
-                                android:id="@+id/text_pk_left_count"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_marginLeft="5dip"
-                                android:gravity="center"
-                                android:text="5"
-                                android:textColor="#ffa220" />
-                        </LinearLayout>
-
-                        <RelativeLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="horizontal">
-
-                            <com.softtek.lai.widgets.CircleImageView
-                                android:id="@+id/img_left"
-                                android:layout_width="80dip"
-                                android:layout_height="80dip"
-                                android:layout_centerInParent="true"
-                                android:layout_gravity="center"
-                                android:src="@drawable/img_default" />
-
-                            <ImageView
-                                android:layout_width="80dip"
-                                android:layout_height="80dip"
-                                android:layout_centerInParent="true"
-                                android:src="@drawable/img_group_main_z" />
-                        </RelativeLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:src="@drawable/img_group_main_vs" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="horizontal">
-
-                            <com.softtek.lai.widgets.CircleImageView
-                                android:id="@+id/img_right"
-                                android:layout_width="80dip"
-                                android:layout_height="80dip"
-                                android:layout_gravity="center"
-                                android:src="@drawable/img_default" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:gravity="left"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:src="@drawable/img_group_main_zan" />
+                                android:layout_marginLeft="8dip"
+                                android:text="PK挑战时间："
+                                android:textColor="@color/word3"
+                                android:textSize="@dimen/textSize2" />
 
                             <TextView
-                                android:id="@+id/text_pk_right_count"
+                                android:id="@+id/text_pk_time"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_marginLeft="5dip"
-                                android:gravity="center"
-                                android:text="5"
-                                android:textColor="#ffa220" />
+                                android:text="2016年5月6号-2016年5月6号"
+                                android:textColor="@color/word3"
+                                android:textSize="@dimen/textSize2" />
                         </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dip"
-                        android:orientation="horizontal">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:gravity="right"
-                            android:orientation="horizontal"
-                            android:visibility="invisible">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:src="@drawable/img_group_main_zan" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginLeft="5dip"
-                                android:gravity="center"
-                                android:text="5"
-                                android:textColor="#ffa220" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@+id/text_pk_left_name"
-                                android:layout_width="80dip"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:text="LEE" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:id="@+id/img_pk_type"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:src="@drawable/img_group_main_1" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@+id/text_pk_right_name"
-                                android:layout_width="80dip"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:gravity="center"
-                                android:text="Lee" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:gravity="left"
-                            android:orientation="horizontal"
-                            android:visibility="invisible">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:src="@drawable/img_group_main_zan" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginLeft="5dip"
-                                android:gravity="center"
-                                android:text="5"
-                                android:textColor="#ffa220" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="14dip"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:src="@drawable/img_activity_item_time" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="8dip"
-                            android:text="PK挑战时间："
-                            android:textColor="@color/word3"
-                            android:textSize="@dimen/textSize2" />
-
-                        <TextView
-                            android:id="@+id/text_pk_time"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:text="2016年5月6号-2016年5月6号"
-                            android:textColor="@color/word3"
-                            android:textSize="@dimen/textSize2" />
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/text_start_pk"
                         android:layout_width="187dip"
                         android:layout_height="43dip"
                         android:layout_gravity="center"
@@ -638,7 +648,7 @@
                     android:background="@color/white"
                     android:orientation="vertical"
                     android:visibility="gone">
-                    >
+
 
                     <ImageView
                         android:layout_width="fill_parent"
@@ -658,6 +668,7 @@
                         android:textSize="@dimen/textSize2" />
 
                     <TextView
+                        android:id="@+id/text_start_pks"
                         android:layout_width="187dip"
                         android:layout_height="43dip"
                         android:layout_gravity="center"
@@ -751,7 +762,7 @@
                     android:layout_marginBottom="30dip"
                     android:layout_marginTop="24dip"
                     android:gravity="center"
-                    android:text="每天，康宝莱将为日排名前100的用户，已“天使听见爱”项目捐献一元爱心善款"
+                    android:text="每天，康宝莱将为日排名前100的用户，已“天使听见爱”项目捐献一元爱心善款."
                     android:textColor="@color/word13"
                     android:textSize="@dimen/textSize12" />
             </LinearLayout>

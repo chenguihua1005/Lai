@@ -38,6 +38,7 @@ import zilla.libcore.file.AddressManager;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_modify_name)
 public class ModifyNameActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener {
@@ -79,7 +80,7 @@ public class ModifyNameActivity extends BaseActivity implements View.OnClickList
 
     @Override
     protected void initViews() {
-        tv_title.setText("名字");
+        tv_title.setText("姓名");
         tv_right.setText("保存");
     }
 
@@ -129,12 +130,35 @@ public class ModifyNameActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void onValidationSucceeded() {
-        progressDialog.show();
-        presenter.getUpdateName(model.getUserid(), et_name.getText().toString(), progressDialog);
+        String str=et_name.getText().toString().trim();
+        if(length(str)>12) {
+            Util.toastMsg("姓名不能超过6个汉字");
+        }else {
+            progressDialog.show();
+            presenter.getUpdateName(model.getUserid(), et_name.getText().toString(), progressDialog);
+        }
     }
 
     @Override
     public void onValidationFailed(View failedView, Rule<?> failedRule) {
         validateLife.onValidationFailed(failedView, failedRule);
+    }
+    private boolean isLetter(char c) {
+        int k = 0x80;
+        return c / k == 0 ? true : false;
+    }
+
+    private int length(String s) {
+        if (s == null)
+            return 0;
+        char[] c = s.toCharArray();
+        int len = 0;
+        for (int i = 0; i < c.length; i++) {
+            len++;
+            if (!isLetter(c[i])) {
+                len++;
+            }
+        }
+        return len;
     }
 }
