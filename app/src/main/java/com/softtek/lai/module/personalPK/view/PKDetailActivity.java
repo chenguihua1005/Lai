@@ -1,5 +1,7 @@
 package com.softtek.lai.module.personalPK.view;
 
+import android.content.Intent;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.CheckBox;
@@ -10,6 +12,7 @@ import android.widget.Toast;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.personalPK.adapter.PKListAdapter;
@@ -18,12 +21,15 @@ import com.softtek.lai.module.personalPK.model.PKDetailMold;
 import com.softtek.lai.module.personalPK.model.PKListModel;
 import com.softtek.lai.module.personalPK.presenter.PKListManager;
 import com.softtek.lai.utils.DateUtil;
+import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringUtils;
 
 import butterknife.InjectView;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
@@ -78,23 +84,39 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
     TextView btn_receive;
     @InjectView(R.id.btn_refuse)
     TextView btn_refuse;
+    @InjectView(R.id.btn_restart)
+    TextView btn_restart;
+    @InjectView(R.id.tip_pk)
+    TextView tip_pk;
+
+
 
     private PKListManager manager;
+    private long pkId;
 
     @Override
     protected void initViews() {
         tv_title.setText("PK挑战详情");
         ll_left.setOnClickListener(this);
-        btn_cancle_pk.setOnClickListener(this);
         cb_zan_left.setOnClickListener(this);
         cb_zan_right.setOnClickListener(this);
+
+        btn_cancle_pk.setOnClickListener(this);
+        btn_receive.setOnClickListener(this);
+        btn_refuse.setOnClickListener(this);
+        btn_restart.setOnClickListener(this);
     }
+
+    int tStatus=0;
+    int type;
 
     @Override
     protected void initDatas() {
         manager = new PKListManager();
         String path = AddressManager.get("photoHost");
+        tStatus=getIntent().getIntExtra("isEnd",0);
         PKDetailMold model = getIntent().getParcelableExtra("pkmodel");
+        pkId=model.getPKId();
         tv_pk_name1.setText(model.getUserName());
         tv_pk_name2.setText(model.getBUserName());
         cb_zan_left.setText(model.getChpcou() + "");
@@ -112,7 +134,6 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
             tv_is_accept.setText("以应战");
         } else if (model.getStatus() == REFUSE) {
             tv_status.setBackgroundResource(R.drawable.pk_list_yijieshu);
-            tv_status.setText("已结束");
             tv_is_accept.setText("拒绝");
         }
         if (model.getChipType() == PKListAdapter.NAIXI) {
@@ -157,7 +178,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
                     .error(R.drawable.img_default)
                     .into(sender2_header);
         }
-        int type=getIntent().getIntExtra("pkType",0);
+        type=getIntent().getIntExtra("pkType",0);
         if(type== Constants.CREATE_PK){//创建新PK跳转过来
             btn_cancle_pk.setVisibility(View.VISIBLE);
         }else if(type== Constants.LIST_PK){
@@ -174,7 +195,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_left:
-                finish();
+                doBack();
                 break;
             case R.id.btn_cancle_pk:
                 //取消PK赛
@@ -185,10 +206,43 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
                 break;
             case R.id.btn_receive:
                 //接受挑战
+                manager.promiseOrRefuse(pkId,1,
+                        new RequestCallback<ResponseData>() {
+                            @Override
+                            public void success(ResponseData responseData, Response response) {
+                                if(responseData.getStatus()==200){
+                                    //应战
+                                    tv_status.setText("进行中");
+                                    tv_is_accept.setText("以应战");
+                                    btn_receive.setVisibility(View.GONE);
+                                    btn_refuse.setVisibility(View.GONE);
 
+                                }
+                            }
+
+                        });
                 break;
             case R.id.btn_refuse:
                 //拒绝挑战
+                manager.promiseOrRefuse(pkId,-1,
+                        new RequestCallback<ResponseData>() {
+                            @Override
+                            public void success(ResponseData responseData, Response response) {
+                                if(responseData.getStatus()==200){
+                                    //应战
+                                    tv_status.setText("未应战");
+                                    tv_is_accept.setText("拒绝");
+                                    btn_receive.setVisibility(View.GONE);
+                                    btn_refuse.setVisibility(View.GONE);
+                                    tip_pk.setVisibility(View.VISIBLE);
+
+                                }
+                            }
+
+                        });
+                break;
+            case R.id.btn_restart:
+                //重新发起挑战
 
                 break;
         }
@@ -247,10 +301,78 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
         }
         tv_bushu1.setText(model.getChaTotal() + "");
         tv_bushu2.setText(model.getBchaTotal() + "");
-        if (Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()) == model.getChallenged()) {
-            btn_cancle_pk.setEnabled(true);
-        } else {
-            btn_cancle_pk.setEnabled(false);
+        if(tStatus==2){//如果这个PK是已经结束的就什么操作都不需要显示
+            return;
+        }
+        long userId=Long.parseLong(UserInfoModel.getInstance().getUser().getUserid());
+        if ( userId== model.getChallenged()) {
+            //发起方当前PK状态
+            changeStatus(model.getStatus());
+        }else if(userId==model.getBeChallenged()){
+            //接受方逻辑
+            beChangeStatus(model.getStatus());
+        }
+    }
+
+    //发起方状态操作
+    private void changeStatus(int pkStatus){
+        switch (pkStatus){
+            case NOCHALLENGE:
+                btn_cancle_pk.setVisibility(View.VISIBLE);//可以取消PK
+                break;
+            case CHALLENGING:
+                break;
+            case REFUSE:
+                //如果对方拒绝了你的挑战则可以取消PK或者重新发起
+                btn_cancle_pk.setVisibility(View.VISIBLE);//可以取消PK
+                btn_restart.setVisibility(View.VISIBLE);
+                break;
+        }
+    }
+    //接受方逻辑
+    /*
+    接受方只可能有两种状态
+     */
+    private void beChangeStatus(int pkStatus){
+        switch (pkStatus){
+            case NOCHALLENGE:
+                btn_receive.setVisibility(View.VISIBLE);
+                btn_refuse.setVisibility(View.VISIBLE);
+                break;
+            case CHALLENGING:
+                break;
+            case REFUSE:
+                tip_pk.setVisibility(View.VISIBLE);//显示提示信息
+                break;
+        }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_BACK&&event.getAction()==KeyEvent.ACTION_DOWN){
+            //做返回操作
+            doBack();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private void doBack(){
+        if(type== Constants.CREATE_PK){//创建新PK跳转过来,按下返回按钮直接返回PK列表页
+            Intent intent=new Intent(this,PKListActivity.class);
+            startActivity(intent);
+            finish();
+        }else if(type== Constants.LIST_PK){
+            Intent intent=getIntent();
+            //需要改变一些状态
+            intent.putExtra("ChP",cb_zan_left.getText().toString());
+            intent.putExtra("BChP",cb_zan_right.getText().toString());
+            //intent.putExtra("status",);
+            setResult(RESULT_OK,intent);
+            finish();
+        }else if(type== Constants.MESSAGE_PK){
+            //如果是从消息列表过来的话
+            finish();
         }
     }
 }

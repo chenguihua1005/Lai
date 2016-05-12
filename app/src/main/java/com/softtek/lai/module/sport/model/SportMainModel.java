@@ -19,8 +19,8 @@ public class SportMainModel implements Serializable {
     private String DonatenNum;         //捐赠贡献值
     private String MedalCnt;           //勋章数
     private String RGName;           //跑团名
-    private List<RecentlyActiviteModel> recentlyActiviteList;
-    private PraiseChallengeModel praiseChallenge;
+    private List<RecentlyActiviteModel> RecentlyActivite;
+    private PraiseChallengeModel PraiseChallenge;
 
     @Override
     public String toString() {
@@ -31,8 +31,8 @@ public class SportMainModel implements Serializable {
                 ", DonatenNum='" + DonatenNum + '\'' +
                 ", MedalCnt='" + MedalCnt + '\'' +
                 ", RGName='" + RGName + '\'' +
-                ", recentlyActiviteList=" + recentlyActiviteList +
-                ", praiseChallenge=" + praiseChallenge +
+                ", RecentlyActivite=" + RecentlyActivite +
+                ", PraiseChallenge=" + PraiseChallenge +
                 '}';
     }
 
@@ -84,19 +84,19 @@ public class SportMainModel implements Serializable {
         this.RGName = RGName;
     }
 
-    public List<RecentlyActiviteModel> getRecentlyActiviteList() {
-        return recentlyActiviteList;
+    public List<RecentlyActiviteModel> getRecentlyActivite() {
+        return RecentlyActivite;
     }
 
-    public void setRecentlyActiviteList(List<RecentlyActiviteModel> recentlyActiviteList) {
-        this.recentlyActiviteList = recentlyActiviteList;
+    public void setRecentlyActivite(List<RecentlyActiviteModel> recentlyActivite) {
+        RecentlyActivite = recentlyActivite;
     }
 
     public PraiseChallengeModel getPraiseChallenge() {
-        return praiseChallenge;
+        return PraiseChallenge;
     }
 
     public void setPraiseChallenge(PraiseChallengeModel praiseChallenge) {
-        this.praiseChallenge = praiseChallenge;
+        PraiseChallenge = praiseChallenge;
     }
 }

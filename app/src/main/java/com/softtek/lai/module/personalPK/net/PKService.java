@@ -5,6 +5,7 @@ import com.softtek.lai.module.personalPK.model.PKDetailMold;
 import com.softtek.lai.module.personalPK.model.PKForm;
 import com.softtek.lai.module.personalPK.model.PKListModel;
 import com.softtek.lai.module.personalPK.model.PKObjModel;
+import com.softtek.lai.module.personalPK.model.SavePK;
 import com.softtek.lai.utils.RequestCallback;
 
 import java.util.List;
@@ -59,5 +60,11 @@ public interface PKService {
     @POST("/Challenged/SavePK")
     void savePK(@Header("token")String token,
                 @Body PKForm form,
-                RequestCallback<ResponseData> callback);
+                RequestCallback<ResponseData<SavePK>> callback);
+
+    //应战或拒绝
+    void promiseOrRefuse(@Header("token")String token,
+                         @Query("PKId")long pkId,
+                         @Query("status")int status,
+                         RequestCallback<ResponseData> callback);
 }

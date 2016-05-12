@@ -15,7 +15,9 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.personalPK.adapter.PKListAdapter;
+import com.softtek.lai.module.personalPK.model.PKDetailMold;
 import com.softtek.lai.module.personalPK.model.PKListModel;
 import com.softtek.lai.module.personalPK.presenter.PKListManager;
 
@@ -95,7 +97,28 @@ public class PKListActivity extends BaseActivity implements View.OnClickListener
         //点击列表跳转至详情
         PKListModel model=models.get(position-1);
         Intent intent=new Intent(this,PKDetailActivity.class);
-        intent.putExtra("pkmodel",model);
+        PKDetailMold detailMold=new PKDetailMold();
+        detailMold.setPKId(model.getPKId());
+        detailMold.setChallenged(model.getChallenged());
+        detailMold.setBeChallenged(model.getBeChallenged());
+        detailMold.setUserName(model.getUserName());
+        detailMold.setBUserName(model.getBUserName());
+        detailMold.setPhoto(model.getPhoto());
+        detailMold.setBPhoto(model.getBPhoto());
+        detailMold.setChipType(model.getChipType());
+        detailMold.setChip("");
+        detailMold.setStart(model.getStart());
+        detailMold.setEnd(model.getEnd());
+        detailMold.setStatus(model.getTStatus());
+
+        //点赞数
+        detailMold.setChpcou(model.getChP());
+        detailMold.setBchpcou(model.getBChp());
+        detailMold.setChaTotal(0);
+        detailMold.setBchaTotal(0);
+        intent.putExtra("pkmodel", detailMold);
+        intent.putExtra("pkType", Constants.LIST_PK);
+        intent.putExtra("isEnd",model.getTStatus()==2?2:0);
         intent.putExtra("position",position-1);
         startActivityForResult(intent, PKLIST_JUMP);
     }
@@ -108,10 +131,12 @@ public class PKListActivity extends BaseActivity implements View.OnClickListener
                 int position=data.getIntExtra("position", -1);
                 if(position!=-1){
                     PKListModel model=models.get(position);
-                    PKListModel returnModel=data.getParcelableExtra("pkmodel");
-                    model.setChP(returnModel.getChP());
-                    model.setBChp(returnModel.getBChp());
+                    model.setChP(Integer.parseInt(data.getStringExtra("ChP"),0));
+                    model.setBChp(Integer.parseInt(data.getStringExtra("BChP"),0));
+                    //model.setTStatus();
                     adapter.notifyDataSetChanged();
+                    /*PKListModel returnModel=data.getParcelableExtra("pkmodel");
+                    */
                 }
             }
         }

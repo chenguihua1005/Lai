@@ -22,7 +22,7 @@ public class PraiseChallengeModel implements Serializable {
     private String Mobile;
     private String PCnt;
     private String PKId;
-    private String Photo;
+    private String UserPhoto;
     private String Start;
     private String UserName;
 
@@ -106,13 +106,6 @@ public class PraiseChallengeModel implements Serializable {
         this.PKId = PKId;
     }
 
-    public String getPhoto() {
-        return Photo;
-    }
-
-    public void setPhoto(String photo) {
-        Photo = photo;
-    }
 
     public String getStart() {
         return Start;
@@ -143,9 +136,17 @@ public class PraiseChallengeModel implements Serializable {
                 ", Mobile='" + Mobile + '\'' +
                 ", PCnt='" + PCnt + '\'' +
                 ", PKId='" + PKId + '\'' +
-                ", Photo='" + Photo + '\'' +
+                ", UserPhoto='" + UserPhoto + '\'' +
                 ", Start='" + Start + '\'' +
                 ", UserName='" + UserName + '\'' +
                 '}';
+    }
+
+    public String getUserPhoto() {
+        return UserPhoto;
+    }
+
+    public void setUserPhoto(String userPhoto) {
+        UserPhoto = userPhoto;
     }
 }
