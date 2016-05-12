@@ -292,13 +292,13 @@ public class  RetestActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        banjiStudentModelList.clear();
-        retestPre.doGetBanjiStudent(ClassId,loginid);
-//        studentAdapter.notifyDataSetChanged();
-    }
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        banjiStudentModelList.clear();
+//        retestPre.doGetBanjiStudent(ClassId,loginid);
+////        studentAdapter.notifyDataSetChanged();
+//    }
 
     @Subscribe
     public void onEvent(BanJiEvent banji){

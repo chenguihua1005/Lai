@@ -1,8 +1,11 @@
 package com.softtek.lai.module.laisportmine.net;
 
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.module.laisportmine.model.ActionModel;
 import com.softtek.lai.module.laisportmine.model.PublicWewlfModel;
 import com.softtek.lai.module.laisportmine.model.RunTeamModel;
+
+import java.util.List;
 
 import retrofit.Callback;
 import retrofit.http.GET;
@@ -30,9 +33,16 @@ public interface MineService {
     );
     //慈善列表
     @GET("/SportMsg/GetDonateMsg")
-    void GetDonateMsg(
+    void doGetDonateMsg(
             @Header("token")String token,
-            @Query("accountid")long accountid,
-            Callback<ResponseData<PublicWewlfModel>>callback
+            @Query("accountid")String accountid,
+            Callback<ResponseData<List<PublicWewlfModel>>>callback
+    );
+    //活动列表
+    @GET("/SportMsg/GetActiveMsg")
+    void GetActiveMsg(
+            @Header("token")String token,
+            @Query("accountid")String accountid,
+            Callback<ResponseData<List<ActionModel>>>callback
     );
 }

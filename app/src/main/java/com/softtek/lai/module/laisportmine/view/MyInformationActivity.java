@@ -99,9 +99,12 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
         if (flag.equals(""))
         {}
         else
-        if (flag.equals("true"))
+        if (flag.equals("True"))
         {
             im_news_flag.setVisibility(View.VISIBLE);
+        }
+        else {
+            im_news_flag.setVisibility(View.GONE);
         }
     }
     public void doSignOutRG(long accountid)
