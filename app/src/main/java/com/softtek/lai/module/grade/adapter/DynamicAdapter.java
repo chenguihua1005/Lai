@@ -56,7 +56,7 @@ public class DynamicAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         DynamicInfoModel info = dynamicInfoList.get(position);
-        holder.tv_date.setText(DateUtil.getInstance().convertDateStr(info.getCreateDate(),DateUtil.yyyy_MM_dd));
+        holder.tv_date.setText(DateUtil.getInstance().convertDateStr(info.getCreateDate(),"yyyy年MM月dd日"));
         holder.tv_content.setText(info.getDyContent());
         return convertView;
     }

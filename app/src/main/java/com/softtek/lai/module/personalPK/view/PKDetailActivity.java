@@ -1,5 +1,7 @@
 package com.softtek.lai.module.personalPK.view;
 
+import android.content.Intent;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.CheckBox;
@@ -106,6 +108,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
     }
 
     int tStatus=0;
+    int type;
 
     @Override
     protected void initDatas() {
@@ -175,7 +178,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
                     .error(R.drawable.img_default)
                     .into(sender2_header);
         }
-        int type=getIntent().getIntExtra("pkType",0);
+        type=getIntent().getIntExtra("pkType",0);
         if(type== Constants.CREATE_PK){//创建新PK跳转过来
             btn_cancle_pk.setVisibility(View.VISIBLE);
         }else if(type== Constants.LIST_PK){
@@ -192,7 +195,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_left:
-                finish();
+                doBack();
                 break;
             case R.id.btn_cancle_pk:
                 //取消PK赛
@@ -341,6 +344,35 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
             case REFUSE:
                 tip_pk.setVisibility(View.VISIBLE);//显示提示信息
                 break;
+        }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_BACK&&event.getAction()==KeyEvent.ACTION_DOWN){
+            //做返回操作
+            doBack();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private void doBack(){
+        if(type== Constants.CREATE_PK){//创建新PK跳转过来,按下返回按钮直接返回PK列表页
+            Intent intent=new Intent(this,PKListActivity.class);
+            startActivity(intent);
+            finish();
+        }else if(type== Constants.LIST_PK){
+            Intent intent=getIntent();
+            //需要改变一些状态
+            intent.putExtra("ChP",cb_zan_left.getText().toString());
+            intent.putExtra("BChP",cb_zan_right.getText().toString());
+            //intent.putExtra("status",);
+            setResult(RESULT_OK,intent);
+            finish();
+        }else if(type== Constants.MESSAGE_PK){
+            //如果是从消息列表过来的话
+            finish();
         }
     }
 }

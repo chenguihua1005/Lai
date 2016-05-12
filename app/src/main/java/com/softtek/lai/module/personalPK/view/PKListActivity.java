@@ -131,10 +131,12 @@ public class PKListActivity extends BaseActivity implements View.OnClickListener
                 int position=data.getIntExtra("position", -1);
                 if(position!=-1){
                     PKListModel model=models.get(position);
-                    PKListModel returnModel=data.getParcelableExtra("pkmodel");
-                    model.setChP(returnModel.getChP());
-                    model.setBChp(returnModel.getBChp());
+                    model.setChP(Integer.parseInt(data.getStringExtra("ChP"),0));
+                    model.setBChp(Integer.parseInt(data.getStringExtra("BChP"),0));
+                    //model.setTStatus();
                     adapter.notifyDataSetChanged();
+                    /*PKListModel returnModel=data.getParcelableExtra("pkmodel");
+                    */
                 }
             }
         }
