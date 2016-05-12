@@ -72,15 +72,24 @@ public class HistoryDataDetailActivity extends BaseActivity implements View.OnCl
         DateUtil util=DateUtil.getInstance();
         tv_ymd.setText(util.convertDateStr(date,"yyyy-MM-dd"));
         tv_hm.setText(util.convertDateStr(date,"HH:mm:ss"));
-        tv_weight.setText(StringUtil.getValue(model.getWeight()));
-        tv_body_fat.setText(StringUtil.getValue(model.getPysical()));
-        tv_fat.setText(StringUtil.getValue(model.getFat()));
-        tv_bust.setText(StringUtil.getValue(model.getCircum()));
-        tv_waistline.setText(StringUtil.getValue(model.getWaistline()));
-        tv_hipline.setText(StringUtil.getValue(model.getHiplie()));
-        tv_up_hipline.setText(StringUtil.getValue(model.getUpArmGirth()));
-        tv_thigh.setText(StringUtil.getValue(model.getUpLegGirth()));
-        tv_calf.setText(StringUtil.getValue(model.getDoLegGirth()));
+        String weight=StringUtil.getValue(model.getWeight());
+        String pysical=StringUtil.getValue(model.getPysical());
+        String fat=StringUtil.getValue(model.getFat());
+        String circum=StringUtil.getValue(model.getCircum());
+        String waistline=StringUtil.getValue(model.getWaistline());
+        String hipline=StringUtil.getValue(model.getHiplie());
+        String up_hipline=StringUtil.getValue(model.getUpArmGirth());
+        String thigh=StringUtil.getValue(model.getUpLegGirth());
+        String calf=StringUtil.getValue(model.getDoLegGirth());
+        tv_weight.setText(weight.length()==0?"":weight+"斤");
+        tv_body_fat.setText(pysical.length()==0?"":pysical+"%");
+        tv_fat.setText(fat);
+        tv_bust.setText(circum.length()==0?"":circum+"cm");
+        tv_waistline.setText(waistline.length()==0?"":waistline+"cm");
+        tv_hipline.setText(hipline.length()==0?"":hipline+"cm");
+        tv_up_hipline.setText(up_hipline.length()==0?"":up_hipline+"cm");
+        tv_thigh.setText(thigh.length()==0?"":thigh+"cm");
+        tv_calf.setText(calf.length()==0?"":calf+"cm");
     }
 
 
