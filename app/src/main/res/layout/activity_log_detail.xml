@@ -22,7 +22,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:padding="20dp">
+            android:padding="15dp">
 
             <com.softtek.lai.widgets.CircleImageView
                 android:id="@+id/civ_header_image"
@@ -39,10 +39,11 @@
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:textColor="#333333"
-                android:textSize="20sp"
+                android:textSize="16sp"
+                android:text="我是管国祥了"
                 android:layout_centerInParent="true"
                 android:layout_toRightOf="@id/civ_header_image"
-                android:layout_marginLeft="10dp"/>
+                android:layout_marginLeft="10dp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"

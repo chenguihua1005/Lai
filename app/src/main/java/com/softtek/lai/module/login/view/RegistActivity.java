@@ -120,6 +120,8 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
                 registPresenter.getIdentify(phone, Constants.REGIST_IDENTIFY);
                 break;
             case R.id.btn_regist:
+                et_password.setError(null);
+                et_repassword.setError(null);
                 validateLife.validate();
                 break;
             case R.id.tv_protocol:
