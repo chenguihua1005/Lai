@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -40,6 +41,9 @@ public class PictureActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initViews() {
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        tintManager.setStatusBarTintResource(android.R.color.transparent);
         images=getIntent().getStringArrayListExtra("images");
         position=getIntent().getIntExtra("position",0);
         tv_title.setText(position+1+"/"+images.size());
