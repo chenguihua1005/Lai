@@ -21,7 +21,7 @@
             android:src="@drawable/publicwelfare_left"
             android:layout_weight="3"/>
         <TextView
-            android:id="@+id/tv_public_date"
+            android:id="@+id/tv_action_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="2016年3月5日"
@@ -52,7 +52,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="慈善公益"
+        android:text="活动消息"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="10dp"
@@ -67,7 +67,7 @@
                 android:id="@+id/tv_public_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="你今天走了十万步排名45位，康宝莱将为您向“天使听见爱”慈善项目捐赠1元，请继续加油"
+                android:text="你有一个新活动喽，快去看看吧"
                 android:layout_marginLeft="10dp"
                 android:textSize="10sp"
                 android:textColor="#333333"

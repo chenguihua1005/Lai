@@ -99,7 +99,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16sp"
+                            android:textSize="12sp"
                             android:text=""
                             android:textColor="#333333"
                             android:id="@+id/tv_audit_class" />
@@ -107,13 +107,13 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="/"
-                            android:textSize="16sp"
+                            android:textSize="12sp"
                             android:textColor="#333333"
                             />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16sp"
+                            android:textSize="12sp"
                             android:text="第"
                             android:textColor="#333333"
                             />
@@ -121,21 +121,21 @@
                             android:id="@+id/tv_audit_weekth"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16sp"
+                            android:textSize="12sp"
                             android:text=""
                             android:textColor="#333333"
                             />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16sp"
+                            android:textSize="12sp"
                             android:text="周"
                             android:textColor="#333333"
                             />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16sp"
+                            android:textSize="12sp"
                             android:text="("
                             android:textColor="#333333"
                             />
@@ -143,14 +143,14 @@
                             android:id="@+id/tv_audit_monst"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16sp"
+                            android:textSize="12sp"
                             android:text=""
                             android:textColor="#333333"
                             />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16sp"
+                            android:textSize="12sp"
                             android:text="月"
                             android:textColor="#333333"
                             />
@@ -158,14 +158,21 @@
                             android:id="@+id/tv_audit_dayst"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16sp"
+                            android:textSize="12sp"
                             android:text=""
                             android:textColor="#333333"
                             />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16sp"
+                            android:textSize="12sp"
+                            android:text="日"
+                            android:textColor="#333333"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="12sp"
                             android:text="-"
                             android:textColor="#333333"
                             />
@@ -173,14 +180,14 @@
                             android:id="@+id/tv_audit_monen"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16sp"
+                            android:textSize="12sp"
                             android:text=""
                             android:textColor="#333333"
                             />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16sp"
+                            android:textSize="12sp"
                             android:text="月"
                             android:textColor="#333333"
                             />
@@ -188,14 +195,21 @@
                             android:id="@+id/tv_audit_dayen"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16sp"
+                            android:textSize="12sp"
                             android:text=""
                             android:textColor="#333333"
                             />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="16sp"
+                            android:textSize="12sp"
+                            android:text="日"
+                            android:textColor="#333333"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="12sp"
                             android:text=")"
                             android:textColor="#333333"
                             />

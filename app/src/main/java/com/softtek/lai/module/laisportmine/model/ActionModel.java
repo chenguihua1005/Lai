@@ -1,17 +1,19 @@
 package com.softtek.lai.module.laisportmine.model;
 
 /**
- * Created by lareina.qiao on 5/11/2016.
+ * Created by lareina.qiao on 5/12/2016.
  */
-public class PublicWewlfModel {
+public class ActionModel {
     private String MessageId;
+    private String SentAcId;
     private String Content;
     private String SendTime;
 
     @Override
     public String toString() {
-        return "PublicWewlfModel{" +
+        return "ActionModel{" +
                 "MessageId='" + MessageId + '\'' +
+                ", SentAcId='" + SentAcId + '\'' +
                 ", Content='" + Content + '\'' +
                 ", SendTime='" + SendTime + '\'' +
                 '}';
@@ -23,6 +25,14 @@ public class PublicWewlfModel {
 
     public void setMessageId(String messageId) {
         MessageId = messageId;
+    }
+
+    public String getSentAcId() {
+        return SentAcId;
+    }
+
+    public void setSentAcId(String sentAcId) {
+        SentAcId = sentAcId;
     }
 
     public String getContent() {

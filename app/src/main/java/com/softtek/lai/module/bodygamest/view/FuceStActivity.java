@@ -336,7 +336,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
                 if (retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("1") || retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("2")) {
                     tv_retestWrites_nowweight.setText(Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getWeight()) + "");
                     tv_retestWritest_tizhi.setText((StringUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getPysical()))?"":Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getPysical())+"");
-                    tv_retestWritest_neizhi.setText((StringUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getPysical()))?"":Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getFat())+"");
+                    tv_retestWritest_neizhi.setText((StringUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getFat()))?"":Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getFat())+"");
                     retestWrite.setCircum(retestAuditModelEvent.getRetestAuditModels().get(0).getCircum());
                     retestWrite.setWaistline(retestAuditModelEvent.getRetestAuditModels().get(0).getWaistline());
                     retestWrite.setHiplie(retestAuditModelEvent.getRetestAuditModels().get(0).getHiplie());

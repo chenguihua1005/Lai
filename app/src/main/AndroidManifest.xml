@@ -334,9 +334,11 @@
             android:name=".module.personalPK.view.CreatePKActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity android:name=".module.personalPK.view.SelectOpponentActivity" />
-        <activity android:name=".module.personalPK.view.SearchActivity"
-            android:windowSoftInputMode="stateAlwaysVisible"/>
-        <activity android:name=".module.personalPK.view.SelectTimeActivity"></activity>
+        <activity
+            android:name=".module.personalPK.view.SearchActivity"
+            android:windowSoftInputMode="stateAlwaysVisible" />
+        <activity android:name=".module.personalPK.view.SelectTimeActivity" />
+        <activity android:name=".module.laisportmine.view.MyActionListActivity"></activity>
     </application>
 
 </manifest>
