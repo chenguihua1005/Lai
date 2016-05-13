@@ -37,20 +37,20 @@ public class ActManager {
     }
 
     public void activityList(String pageIndex, String accountid) {
-        service.activityList(token, pageIndex, accountid, new RequestCallback<ResponseData<List<ActivityModel>>>() {
+        service.activityList(token, pageIndex, accountid, new RequestCallback<ResponseData<ActivityModel>>() {
             @Override
-            public void success(ResponseData<List<ActivityModel>> listResponseData, Response response) {
+            public void success(ResponseData<ActivityModel> listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
                 switch (status) {
                     case 200:
-                        getactivityListCallBack.activityList("true",listResponseData.getPageCount(),listResponseData.getData());
+                        getactivityListCallBack.activityList("true", listResponseData.getData());
                         break;
                     case 100:
-                        getactivityListCallBack.activityList("false", listResponseData.getPageCount(), listResponseData.getData());
+                        getactivityListCallBack.activityList("false", null);
                         break;
                     default:
-                        getactivityListCallBack.activityList("false", listResponseData.getPageCount(), listResponseData.getData());
+                        getactivityListCallBack.activityList("false", null);
                         Util.toastMsg(listResponseData.getMsg());
                         break;
                 }
@@ -59,7 +59,7 @@ public class ActManager {
             @Override
             public void failure(RetrofitError error) {
                 if (getactivityListCallBack != null) {
-                    getactivityListCallBack.activityList("false", 0, new ArrayList<ActivityModel>());
+                    getactivityListCallBack.activityList("false", null);
                 }
                 ZillaApi.dealNetError(error);
             }
@@ -68,7 +68,7 @@ public class ActManager {
 
     public interface GetactivityListCallBack {
 
-        void activityList(String type,int pageCount,List<ActivityModel> list);
+        void activityList(String type, ActivityModel model);
     }
 
 }

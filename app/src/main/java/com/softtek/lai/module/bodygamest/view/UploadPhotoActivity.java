@@ -151,7 +151,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         String path = AddressManager.get("shareHost", "http://172.16.98.167/Share/");
         String url = path + "SharePhotoAblum?AccountId=" + UserInfoModel.getInstance().getUser().getUserid();
         System.out.println("url:" + url);
-        shareUtils.setShareContent("康宝莱体重管理挑战赛，坚持只为改变！", url, R.drawable.default_pic, lossModel.getContent(), lossModel.getContent() + url);
+        shareUtils.setShareContent("康宝莱体重管理挑战赛，坚持只为改变！", url, R.drawable.img_share_logo, lossModel.getContent(), lossModel.getContent() + url);
         shareUtils.getController().openShare(UploadPhotoActivity.this,false);
     }
 
