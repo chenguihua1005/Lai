@@ -65,6 +65,7 @@ public class MyActionAdapter extends BaseAdapter {
         ActionModel actionModel=actionModelList.get(position);
         viewHolder.tv_action_date.setText((actionModel.getSendTime()));
         viewHolder.tv_action_content.setText(actionModel.getContent());
+        viewHolder.tv_action_name.setText(actionModel.getActTitle());
 
         return convertView;
     }
@@ -73,9 +74,11 @@ public class MyActionAdapter extends BaseAdapter {
     class ViewHolder{
         TextView tv_action_date;
         TextView tv_action_content;
+        TextView tv_action_name;
         public ViewHolder(View view){
             tv_action_date=(TextView)view.findViewById(R.id.tv_action_date);
             tv_action_content=(TextView)view.findViewById(R.id.tv_action_content);
+            tv_action_name= (TextView) view.findViewById(R.id.tv_action_name);
 
         }
     }

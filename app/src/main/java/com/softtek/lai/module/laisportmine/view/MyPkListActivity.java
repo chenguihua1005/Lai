@@ -1,10 +1,12 @@
 package com.softtek.lai.module.laisportmine.view;
 
 import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,7 +25,8 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_my_pk_list)
-public class MyPkListActivity extends BaseActivity implements View.OnClickListener,PkNoticeManager.PkNoticeCallback{
+public class MyPkListActivity extends BaseActivity implements View.OnClickListener,PkNoticeManager.PkNoticeCallback,
+        AdapterView.OnItemLongClickListener{
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.tv_title)
@@ -35,11 +38,13 @@ public class MyPkListActivity extends BaseActivity implements View.OnClickListen
     private PkNoticeManager pkNoticeManager;
     private MyPkNoticeAdapter myPkNoticeAdapter;
     private List<PkNoticeModel>pkNoticeModelList=new ArrayList<PkNoticeModel>();
+    private CharSequence[] items={"删除"};
+    int positions;
     @Override
     protected void initViews() {
         tv_title.setText("PK消息");
         ll_left.setOnClickListener(this);
-
+        listview_pk.setOnItemLongClickListener(this);
     }
 
     @Override
@@ -72,5 +77,22 @@ public class MyPkListActivity extends BaseActivity implements View.OnClickListen
             myPkNoticeAdapter.updateData(pkNoticeModelList);
         }
 
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        positions=position;
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                pkNoticeModelList.remove(positions);
+                myPkNoticeAdapter.notifyDataSetChanged();
+
+
+            }
+        }).create().show();
+        return false;
     }
 }

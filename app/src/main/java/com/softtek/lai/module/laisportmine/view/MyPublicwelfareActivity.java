@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
@@ -80,7 +81,7 @@ public class MyPublicwelfareActivity extends BaseActivity implements View.OnClic
 
     @Override
     public void getMyPublicWewlList(List<PublicWewlfModel> publicWewlfModel) {
-        if (publicWewlfModel==null)
+        if (publicWewlfModel==null||publicWewlfModel.isEmpty())
         {
             ll_public_nomessage.setVisibility(View.VISIBLE);
         }
@@ -105,12 +106,6 @@ public class MyPublicwelfareActivity extends BaseActivity implements View.OnClic
             }
         }).create().show();
 
-
-
-//        listview_publicwe.remove(position);
-
-//        removeDialog(position);
-//        removeItem(position)
         return false;
     }
 }
