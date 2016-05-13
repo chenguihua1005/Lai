@@ -536,7 +536,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.laisportmine.view.MyPkListActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
+        <activity android:name=".module.bodygamest.view.PhotoViewActivity" />
+        <activity android:name=".module.retest.view.AuditShowActivity"></activity>
     </application>
 
 </manifest>

@@ -35,6 +35,7 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.File.model.FileModel;
 import com.softtek.lai.module.bodygamest.view.GuideActivity;
+import com.softtek.lai.module.bodygamest.view.PhotoViewActivity;
 import com.softtek.lai.module.newmemberentry.view.GetPhotoDialog;
 import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
 import com.softtek.lai.module.retest.eventModel.BanJiEvent;
@@ -200,6 +201,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
     @Override
     protected void initViews() {
         progressDialog = new ProgressDialog(this);
+        im_retestwrite_showphoto.setOnClickListener(this);
 
     }
 
@@ -356,6 +358,11 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
                 break;
             case R.id.ll_retestWrite_neizhi:
                 show_information("内脂",30,2,1,9,0,0,3);
+                break;
+            case R.id.im_retestwrite_showphoto:
+                Intent intent1=new Intent(this,PhotoViewActivity.class);
+                intent1.putExtra("img",retestWrite.getImage());
+                startActivity(intent1);
                 break;
 
 

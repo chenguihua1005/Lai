@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+  ~ Date:2016-03-31
+  -->
+
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:duration="1000">
+
+    <scale
+        android:fromXScale="0.01"
+        android:fromYScale="0.01"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:toXScale="1"
+        android:toYScale="1" />
+</set>
