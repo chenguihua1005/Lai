@@ -36,6 +36,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.File.model.FileModel;
 import com.softtek.lai.module.bodygamest.view.GuideActivity;
 import com.softtek.lai.module.bodygamest.view.PhotoViewActivity;
+import com.softtek.lai.module.lossweightstory.view.PictureActivity;
 import com.softtek.lai.module.newmemberentry.view.GetPhotoDialog;
 import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
 import com.softtek.lai.module.retest.eventModel.BanJiEvent;
@@ -61,6 +62,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 import butterknife.InjectView;
 import zilla.libcore.file.SharedPreferenceService;
@@ -360,8 +362,11 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
                 show_information("内脂",30,2,1,9,0,0,3);
                 break;
             case R.id.im_retestwrite_showphoto:
-                Intent intent1=new Intent(this,PhotoViewActivity.class);
-                intent1.putExtra("img",retestWrite.getImage());
+                Intent intent1=new Intent(this,PictureActivity.class);
+                ArrayList<String> imags=new ArrayList<>();
+                imags.add(retestWrite.getImage());
+                intent1.putExtra("images",imags);
+                intent1.putExtra("position",0);
                 startActivity(intent1);
                 break;
 

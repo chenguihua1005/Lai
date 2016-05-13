@@ -26,6 +26,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygamest.view.PhotoViewActivity;
+import com.softtek.lai.module.lossweightstory.view.PictureActivity;
 import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
 import com.softtek.lai.module.retest.model.RetestAuditModel;
 import com.softtek.lai.module.retest.present.RetestPre;
@@ -38,6 +39,7 @@ import com.squareup.picasso.Picasso;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -327,8 +329,11 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
                 finish();
                 break;
             case R.id.im_retestaudit_showphoto:
-                Intent intent1=new Intent(this,AuditShowActivity.class);
-                intent1.putExtra("img",retestAudit.getImage());
+                Intent intent1=new Intent(this,PictureActivity.class);
+                ArrayList<String> imags=new ArrayList<>();
+                imags.add(retestAudit.getImage());
+                intent1.putExtra("images",imags);
+                intent1.putExtra("position",0);
                 startActivity(intent1);
                 break;
 

@@ -40,6 +40,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.community.view.EditPersonalDynamicActivity;
 import com.softtek.lai.module.home.view.ModifyPhotoActivity;
 import com.softtek.lai.module.lossweightstory.model.UploadImage;
+import com.softtek.lai.module.lossweightstory.view.PictureActivity;
 import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
 import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
 import com.softtek.lai.module.retest.model.LaichModel;
@@ -62,6 +63,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import butterknife.InjectView;
@@ -301,8 +303,11 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
                 finish();
                 break;
             case R.id.im_retestwritest_showphoto:
-                Intent intent1=new Intent(this,PhotoViewActivity.class);
-                intent1.putExtra("img",retestWrite.getImage());
+                Intent intent1=new Intent(this,PictureActivity.class);
+                ArrayList<String> imags=new ArrayList<>();
+                imags.add(retestWrite.getImage());
+                intent1.putExtra("images",imags);
+                intent1.putExtra("position",0);
                 startActivity(intent1);
                 break;
         }

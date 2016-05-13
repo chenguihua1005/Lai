@@ -68,8 +68,7 @@ public class  RetestActivity extends BaseActivity implements View.OnClickListene
     LinearLayout ll_shousuolist;
     @InjectView(R.id.ll_shousuo)
     LinearLayout ll_shousuo;
-    @InjectView(R.id.ll_classli)
-    RelativeLayout ll_classli;
+
     //选择班级
     @InjectView(R.id.selectclass)
     TextView selectclass;
@@ -113,7 +112,6 @@ public class  RetestActivity extends BaseActivity implements View.OnClickListene
                 list_class.setVisibility(View.INVISIBLE);
                 ll_shousuo.setVisibility(View.INVISIBLE);
                 ll_shousuolist.setVisibility(View.INVISIBLE);
-                ll_classli.setVisibility(View.INVISIBLE);
                 Iv_fold.setImageResource(R.drawable.unfold);
 //                String[] clas=banjiModel.getStartDate().split("-");
 //                selectclass.setText(tomonth(clas[1]));
@@ -193,7 +191,6 @@ public class  RetestActivity extends BaseActivity implements View.OnClickListene
                         if (h==false) {
                             list_class.setVisibility(View.VISIBLE);
                             ll_classlist.setVisibility(View.VISIBLE);
-                            ll_classli.setVisibility(View.VISIBLE);
                             ll_shousuo.setVisibility(View.VISIBLE);
                             ll_shousuolist.setVisibility(View.VISIBLE);
                             Iv_fold.setImageResource(R.drawable.retract);
@@ -202,7 +199,6 @@ public class  RetestActivity extends BaseActivity implements View.OnClickListene
                         else {
                             list_class.setVisibility(View.INVISIBLE);
                             ll_shousuo.setVisibility(View.INVISIBLE);
-                            ll_classli.setVisibility(View.INVISIBLE);
                             ll_shousuolist.setVisibility(View.INVISIBLE);
                             Iv_fold.setImageResource(R.drawable.unfold);
                             h=false;
@@ -212,7 +208,6 @@ public class  RetestActivity extends BaseActivity implements View.OnClickListene
                     case MotionEvent.ACTION_BUTTON_PRESS:
                         list_class.setVisibility(View.VISIBLE);
                         ll_shousuo.setVisibility(View.VISIBLE);
-                        ll_classli.setVisibility(View.VISIBLE);
                         break;
                     case MotionEvent.ACTION_UP:
 //                        list_class.setVisibility(View.INVISIBLE);
@@ -229,7 +224,6 @@ public class  RetestActivity extends BaseActivity implements View.OnClickListene
                 {
                     list_class.setVisibility(View.VISIBLE);
                     ll_classlist.setVisibility(View.VISIBLE);
-                    ll_classli.setVisibility(View.VISIBLE);
                     ll_shousuo.setVisibility(View.VISIBLE);
                     ll_shousuolist.setVisibility(View.VISIBLE);
                     Iv_fold.setImageResource(R.drawable.retract);
@@ -239,7 +233,6 @@ public class  RetestActivity extends BaseActivity implements View.OnClickListene
                     list_class.setVisibility(View.INVISIBLE);
                     ll_shousuo.setVisibility(View.INVISIBLE);
                     ll_shousuolist.setVisibility(View.INVISIBLE);
-                    ll_classli.setVisibility(View.INVISIBLE);
                     Iv_fold.setImageResource(R.drawable.unfold);
                     h=false;
                 }
