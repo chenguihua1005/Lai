@@ -25,10 +25,12 @@ import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygamest.view.PhotoViewActivity;
 import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
 import com.softtek.lai.module.retest.model.RetestAuditModel;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.module.retest.present.RetestclassImp;
+import com.softtek.lai.module.retest.view.AuditShowActivity;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
@@ -176,6 +178,7 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
     @Override
     protected void initViews() {
         EventBus.getDefault().register(this);
+        im_retestaudit_showphoto.setOnClickListener(this);
 
 
 
@@ -230,8 +233,8 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
         tv_audit_nick.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getUserName());
         tv_audit_phone.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getMobile());
         gender=retestAuditModelEvent.getRetestAuditModels().get(0).getGender();
-        String[] img=retestAuditModelEvent.getRetestAuditModels().get(0).getImage().split("/");
-        retestAudit.setImage(img[img.length-1]);
+//        String[] img=retestAuditModelEvent.getRetestAuditModels().get(0).getImage().split("/");
+//        retestAudit.setImage(img[img.length-1]);
         String StartDate=retestAuditModelEvent.getRetestAuditModels().get(0).getStartDate();
         String CurrStart=retestAuditModelEvent.getRetestAuditModels().get(0).getCurrStart();
         String CurrEnd=retestAuditModelEvent.getRetestAuditModels().get(0).getCurrEnd();
@@ -262,6 +265,8 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
         if(!TextUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getImage())) {
             im_retestaudit_showphoto.setVisibility(View.VISIBLE);
             Picasso.with(this).load(retestAuditModelEvent.getRetestAuditModels().get(0).getImage()).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(im_retestaudit_showphoto);
+            String[] images=retestAuditModelEvent.getRetestAuditModels().get(0).getImage().split("/");
+            retestAudit.setImage(images[images.length-1]);
         }
         else {
             im_retestaudit_showphoto.setVisibility(View.GONE);
@@ -320,6 +325,11 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
                 break;
             case R.id.ll_left:
                 finish();
+                break;
+            case R.id.im_retestaudit_showphoto:
+                Intent intent1=new Intent(this,AuditShowActivity.class);
+                intent1.putExtra("img",retestAudit.getImage());
+                startActivity(intent1);
                 break;
 
         }

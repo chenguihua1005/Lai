@@ -40,6 +40,7 @@ public class MyPublicWewlListManager {
                         cb.getMyPublicWewlList(listResponseData.getData());
                         break;
                     default:
+                        cb.getMyPublicWewlList(null);
                         Log.i("读取失败"+listResponseData.getData());
                         break;
                 }

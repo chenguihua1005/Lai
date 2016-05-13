@@ -18,4 +18,17 @@
         </ListView>
 
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_action_nomessage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:gravity="center"
+        android:visibility="gone"
+        android:background="#ffffff">
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/no_message"/>
+    </LinearLayout>
 </RelativeLayout>
