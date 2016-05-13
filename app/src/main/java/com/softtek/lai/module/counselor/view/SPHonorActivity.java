@@ -17,8 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import butterknife.InjectView;
-
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
@@ -36,18 +34,18 @@ import com.softtek.lai.module.counselor.presenter.IHonorPresenter;
 import com.softtek.lai.module.studetail.view.StudentDetailActivity;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.ShareUtils;
-import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.utils.StringUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.util.List;
+
+import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
-
-import java.util.List;
 
 /**
  * Created by jarvis.liu on 3/22/2016.

@@ -20,7 +20,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import butterknife.InjectView;
+
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
@@ -33,13 +33,14 @@ import com.softtek.lai.module.counselor.presenter.IStudentPresenter;
 import com.softtek.lai.module.counselor.presenter.StudentImpl;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.ACache;
-import com.softtek.lai.utils.SoftInputUtil;
-import zilla.libcore.lifecircle.LifeCircleInject;
-import zilla.libcore.lifecircle.validate.ValidateLife;
-import zilla.libcore.ui.InjectLayout;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+
+import butterknife.InjectView;
+import zilla.libcore.lifecircle.LifeCircleInject;
+import zilla.libcore.lifecircle.validate.ValidateLife;
+import zilla.libcore.ui.InjectLayout;
 
 /**
  * Created by jarvis.liu on 3/22/2016.
@@ -191,12 +192,13 @@ public class InviteContantActivity extends BaseActivity implements View.OnClickL
                         contactPhoto = BitmapFactory.decodeResource(getResources(), R.drawable.img_default);
 
                     }
-
+                    if(number.contains("+86")){
+                        number=number.replace("+86","");
+                    }
                     ContactListInfoModel contactListInfo = new ContactListInfoModel(contactPhoto, name, number);
                     contactListValue.add(contactListInfo);
 
                 }
-                System.out.println("contactListValue:" + contactListValue);
                 progressDialog.dismiss();
                 super.onQueryComplete(token, cookie, cursor);
             } else {
@@ -204,6 +206,25 @@ public class InviteContantActivity extends BaseActivity implements View.OnClickL
             }
         }
 
+    }
+
+    private boolean isLetter(char c) {
+        int k = 0x80;
+        return c / k == 0 ? true : false;
+    }
+
+    private int length(String s) {
+        if (s == null)
+            return 0;
+        char[] c = s.toCharArray();
+        int len = 0;
+        for (int i = 0; i < c.length; i++) {
+            len++;
+            if (!isLetter(c[i])) {
+                len++;
+            }
+        }
+        return len;
     }
 
 }

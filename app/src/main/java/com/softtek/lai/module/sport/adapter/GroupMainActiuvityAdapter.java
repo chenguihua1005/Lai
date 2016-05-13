@@ -101,12 +101,16 @@ public class GroupMainActiuvityAdapter extends BaseAdapter {
         if("1".equals(status)){
             holder.text_state.setText("进行中");
             holder.img_state.setImageResource(R.drawable.img_activity_1);
+            holder.text_state.setTextColor(context.getResources().getColor(R.color.editorText));
         }else if("0".equals(status)){
             holder.text_state.setText("已结束");
             holder.img_state.setImageResource(R.drawable.img_activity_3);
+            holder.text_state.setTextColor(context.getResources().getColor(R.color.word16));
         }else {
             holder.text_state.setText("未开始");
             holder.img_state.setImageResource(R.drawable.img_activity_2);
+            holder.text_state.setTextColor(context.getResources().getColor(R.color.word15));
+
         }
         String type=recentlyActiviteModel.getActiveType();
         if("1".equals(type)){
