@@ -101,6 +101,9 @@ public class CreatePKActivity extends BaseActivity implements View.OnClickListen
                         model.setTarget(42000);
                         break;
                 }
+                cb_targer_km.setChecked(true);
+                cb_target_bushu.setChecked(false);
+                model.setTargetType(Constants.KM);
             }
         });
         tv_title.setText("选择PK挑战规则和筹码");
