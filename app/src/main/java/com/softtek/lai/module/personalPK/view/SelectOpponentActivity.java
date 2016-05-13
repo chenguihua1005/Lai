@@ -83,6 +83,7 @@ public class SelectOpponentActivity extends BaseActivity implements View.OnClick
         Intent intent=new Intent(this,SelectTimeActivity.class);
         intent.putExtra("pkmodel",creatModel);
         startActivity(intent);
+        //overridePendingTransition(R.anim.activity_enter,R.anim.activity_exit);
     }
 
     public void loadData(List<PKObjModel> models){

@@ -38,6 +38,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.community.view.EditPersonalDynamicActivity;
+import com.softtek.lai.module.home.view.ModifyPhotoActivity;
 import com.softtek.lai.module.lossweightstory.model.UploadImage;
 import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
 import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
@@ -192,13 +193,14 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         im_deletest.setOnClickListener(this);
         ll_left.setOnClickListener(this);
         tv_right.setOnClickListener(this);
+        im_retestwritest_showphoto.setOnClickListener(this);
 
 
     }
     //2016-03-28
     @Override
     protected void initDatas() {
-        tv_title.setText("复测录入");
+        tv_title.setText("复测");
         retestPre=new RetestclassImp();
         retestPre.doGetAudit(loginid,0,"");
         retestWrite=new RetestWriteModel();
@@ -298,6 +300,11 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
             case R.id.ll_left:
                 finish();
                 break;
+            case R.id.im_retestwritest_showphoto:
+                Intent intent1=new Intent(this,PhotoViewActivity.class);
+                intent1.putExtra("img",retestWrite.getImage());
+                startActivity(intent1);
+                break;
         }
     }
     @Subscribe
@@ -350,6 +357,8 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
                     if (!TextUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getImage())) {
                         im_retestwritest_showphoto.setVisibility(View.VISIBLE);
                         Picasso.with(this).load(retestAuditModelEvent.getRetestAuditModels().get(0).getImage()).placeholder(R.drawable.default_pic).fit().error(R.drawable.default_pic).into(im_retestwritest_showphoto);
+                        String[] images=retestAuditModelEvent.getRetestAuditModels().get(0).getImage().split("/");
+                        retestWrite.setImage(images[images.length-1]);
                     } else {
                         im_retestwritest_showphoto.setVisibility(View.GONE);
                         Picasso.with(this).load("www").placeholder(R.drawable.default_pic).fit().error(R.drawable.default_pic).into(im_retestwritest_showphoto);

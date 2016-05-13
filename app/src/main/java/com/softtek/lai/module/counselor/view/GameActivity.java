@@ -6,43 +6,28 @@
 package com.softtek.lai.module.counselor.view;
 
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
-import android.net.Uri;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import butterknife.InjectView;
-
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.common.BaseFragment;
-import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.counselor.presenter.GameImpl;
 import com.softtek.lai.module.counselor.presenter.IGamePresenter;
-import com.softtek.lai.module.login.model.UserModel;
-import com.softtek.lai.utils.ACache;
-import com.softtek.lai.utils.SoftInputUtil;
-import com.softtek.lai.widgets.WheelView;
 
+import java.util.Calendar;
+
+import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 
 /**
  * Created by jarvis.liu on 3/22/2016.

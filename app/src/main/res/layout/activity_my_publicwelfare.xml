@@ -17,4 +17,17 @@
             android:divider="@null"></ListView>
 
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_public_nomessage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        android:visibility="gone"
+        android:gravity="center">
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/no_message"/>
+
+    </LinearLayout>
 </RelativeLayout>
