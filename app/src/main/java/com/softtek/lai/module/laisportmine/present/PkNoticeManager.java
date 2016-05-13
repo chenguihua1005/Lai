@@ -39,6 +39,7 @@ public class PkNoticeManager {
                         cb.getPkNotice(listResponseData.getData());
                         break;
                     case 100:
+                        cb.getPkNotice(null);
                         break;
                 }
             }

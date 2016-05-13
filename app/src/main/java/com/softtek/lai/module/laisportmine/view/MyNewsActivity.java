@@ -61,7 +61,7 @@ public class MyNewsActivity extends BaseActivity implements View.OnClickListener
                 startActivity(new Intent(this,MyPublicwelfareActivity.class));
                 break;
             case R.id.Re_pk_lab:
-                startActivity(new Intent(this,MyPublicwelfareActivity.class));
+                startActivity(new Intent(this,MyPkListActivity.class));
                 break;
             case R.id.Re_action_lab:
                 startActivity(new Intent(this,MyActionListActivity.class));

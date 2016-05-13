@@ -32,6 +32,8 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
     TextView tv_title;
     @InjectView(R.id.list_action)
     ListView list_action;
+    @InjectView(R.id.ll_action_nomessage)
+    LinearLayout ll_action_nomessage;
     MyActionAdapter myActionAdapter;
     private List<ActionModel> actionModelLists=new ArrayList<ActionModel>();
     ActionListManager actionListManager;
@@ -71,7 +73,13 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void getActionList(List<ActionModel> actionModelList) {
-        actionModelLists=actionModelList;
-        myActionAdapter.updateData(actionModelList);
+        if (actionModelList==null)
+        {
+            ll_action_nomessage.setVisibility(View.VISIBLE);
+        }
+        else {
+            actionModelLists = actionModelList;
+            myActionAdapter.updateData(actionModelList);
+        }
     }
 }

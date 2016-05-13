@@ -39,6 +39,7 @@ public class ActionListManager {
                         cb.getActionList(listResponseData.getData());
                         break;
                     default:
+                        cb.getActionList(null);
                         Log.i("活动列表"+listResponseData.getData());
                         break;
                 }

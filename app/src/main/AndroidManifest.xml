@@ -73,9 +73,10 @@
         <activity
             android:name=".module.login.view.LoginActivity"
             android:launchMode="singleTask"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.guide.GuideActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+        <activity
+            android:name=".module.guide.GuideActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -85,160 +86,220 @@
         </activity>
         <activity
             android:name=".module.login.view.RegistActivity"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
             android:name=".module.login.view.ForgetActivity"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
             android:name=".module.login.view.ForgetActivity2"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.File.view.CreatFlleActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+        <activity
+            android:name=".module.File.view.CreatFlleActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.home.view.HomeActviity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.home.view.ValidateCertificationActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.home.view.ModifyPersonActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.home.view.ModifyPhotoActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.home.view.ModifyNameActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.home.view.ModifyPasswordActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.home.view.SettingsActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.home.view.AboutMeActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.File.view.DimensionRecordActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.home.view.ValidateCertificationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.home.view.ModifyPersonActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.home.view.ModifyPhotoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.home.view.ModifyNameActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.home.view.ModifyPasswordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.home.view.SettingsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.home.view.AboutMeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.File.view.DimensionRecordActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.retest.WriteActivity"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".module.retest.AuditActivity"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.retest.view.RetestActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.login.view.TermActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.bodygame.view.CounselorActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".module.retest.view.RetestActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.login.view.TermActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.bodygame.view.CounselorActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.grade.view.GradeHomeActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.newmemberentry.view.EntryActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.grade.view.StudentsActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.studetail.view.StudentDetailActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.retest.view.QueryActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.bodygamest.view.BodyGamePCActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.bodygamest.view.StudentHonorActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.bodygamest.view.StudentHonorGridActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.bodygamest.view.StudentScoreActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.jingdu.view.JingduActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.grade.view.TutorActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.counselor.view.CounselorClassListActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.counselor.view.CreateCounselorClassActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.counselor.view.AssistantListActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.counselor.view.AssistantDetailActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.counselor.view.AssistantActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.counselor.view.SPHonorActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.counselor.view.SRHonorActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.counselor.view.InviteContantActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.counselor.view.InviteStudentActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.counselor.view.GameActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.counselor.view.ApplyAssistantActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.newmemberentry.view.DimensioninputActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.newmemberentry.view.EntryActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.grade.view.StudentsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.studetail.view.StudentDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.retest.view.QueryActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.bodygamest.view.BodyGamePCActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.bodygamest.view.StudentHonorActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.bodygamest.view.StudentHonorGridActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.bodygamest.view.StudentScoreActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.jingdu.view.JingduActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.grade.view.TutorActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.counselor.view.CounselorClassListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.counselor.view.CreateCounselorClassActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.counselor.view.AssistantListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.counselor.view.AssistantDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.counselor.view.AssistantActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.counselor.view.SPHonorActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.counselor.view.SRHonorActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.counselor.view.InviteContantActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.counselor.view.InviteStudentActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.counselor.view.GameActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.counselor.view.ApplyAssistantActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.newmemberentry.view.DimensioninputActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.bodygamest.view.FuceStActivity"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.bodygamest.view.UploadPhotoActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.File.view.ExplainActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".module.bodygamest.view.UploadPhotoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.File.view.ExplainActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.message.view.MessageActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.message.view.MessageFcRemindActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.message.view.MessageSrRemindActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.message.view.MessagePcRemindActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.message.view.JoinGameDetailActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.message.view.JoinGameDimensionRecordActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.message.view.ZQSActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.message.view.JoinGameActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.message.view.MessageRemoveSrRemindActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.message.view.RemoveSRActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.message.view.MessageSrManageActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.retest.view.BodyweiduActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.bodygamest.view.BodyweidustActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.bodygamest.view.SelectPhotoActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.bodygamest.view.PhotoDetailActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.studetail.view.LossWeightLogActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.studetail.view.LogDetailActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.tips.view.TipsActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.sport.view.JoinGroupActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.sport.view.GroupSecActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.sport.view.GroupThirdActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.sport.view.GroupFouthActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.sport.view.GroupFifthActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.sport.view.GroupSearchActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.sport.view.GroupMainActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.message.view.MessageFcRemindActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.message.view.MessageSrRemindActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.message.view.MessagePcRemindActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.message.view.JoinGameDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.message.view.JoinGameDimensionRecordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.message.view.ZQSActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.message.view.JoinGameActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.message.view.MessageRemoveSrRemindActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.message.view.RemoveSRActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.message.view.MessageSrManageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.retest.view.BodyweiduActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.bodygamest.view.BodyweidustActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.bodygamest.view.SelectPhotoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.bodygamest.view.PhotoDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.studetail.view.LossWeightLogActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.studetail.view.LogDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.tips.view.TipsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.sport.view.JoinGroupActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.sport.view.GroupSecActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.sport.view.GroupThirdActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.sport.view.GroupFouthActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.sport.view.GroupFifthActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.sport.view.GroupSearchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.sport.view.GroupMainActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.umeng.socialize.view.ShareActivity"
             android:configChanges="orientation|keyboard"
@@ -252,38 +313,50 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name=".module.studentbasedate.view.StudentBaseDateActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.bodygamezj.view.BodygameSRActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.bodygamecc.view.BodyGameCcActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.bodygameyk.view.BodygameYkActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.review.view.ReviewActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.health.view.HealthyRecordActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.confirmInfo.view.CansaiActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.lossweightstory.view.LossWeightStoryActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".module.studentbasedate.view.StudentBaseDateActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.bodygamezj.view.BodygameSRActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.bodygamecc.view.BodyGameCcActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.bodygameyk.view.BodygameYkActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.review.view.ReviewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.health.view.HealthyRecordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.confirmInfo.view.CansaiActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.lossweightstory.view.LossWeightStoryActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.lossweightstory.view.NewStoryActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.community.view.EditPersonalDynamicActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.lossweightstory.view.LogStoryDetailActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name=".module.community.view.EditPersonalDynamicActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.lossweightstory.view.LogStoryDetailActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.healthrecords.view.HealthEntryActivity"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.community.view.PreviewImageActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.community.view.HealthyDetailActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".module.community.view.PreviewImageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.community.view.HealthyDetailActivity"
+            android:screenOrientation="portrait" />
         <!--
             <activity
             android:name="com.yalantis.ucrop.UCropActivity"
@@ -400,47 +473,66 @@
             android:name="JPUSH_APPKEY"
             android:value="b004a008690a103f8b6ebbf7" />
         <!-- </>值来自开发者平台取得的AppKey -->
-        <activity android:name=".module.historydate.view.HistoryDataActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.historydate.view.HistoryDataDetailActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.tips.view.VideoViewActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.mygrades.view.MyGradesActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.lossweightstory.view.PictureActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.laisportmine.view.MyInformationActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.jingdu.view.ZhuJiaoJingduActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.bodygamest.view.GuideActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.laisportmine.view.MyNewsActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.personalPK.view.PKListActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.laisportmine.view.MyPublicwelfareActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.personalPK.view.PKListMineActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.personalPK.view.PKDetailActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".module.historydate.view.HistoryDataActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.historydate.view.HistoryDataDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.tips.view.VideoViewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.mygrades.view.MyGradesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.lossweightstory.view.PictureActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.laisportmine.view.MyInformationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.jingdu.view.ZhuJiaoJingduActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.bodygamest.view.GuideActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.laisportmine.view.MyNewsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.personalPK.view.PKListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.laisportmine.view.MyPublicwelfareActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.personalPK.view.PKListMineActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.personalPK.view.PKDetailActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.personalPK.view.CreatePKActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.personalPK.view.SelectOpponentActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name=".module.personalPK.view.SelectOpponentActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.personalPK.view.SearchActivity"
             android:windowSoftInputMode="stateAlwaysVisible" />
-        <activity android:name=".module.personalPK.view.SelectTimeActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.laisportmine.view.MyActionListActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.laisportmine.view.MyPkListActivity"
-            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".module.personalPK.view.SelectTimeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.laisportmine.view.MyActionListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.laisportmine.view.MyPkListActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".module.bodygamest.view.PhotoViewActivity" />
+        <activity android:name=".module.retest.view.AuditShowActivity"></activity>
     </application>
 
 </manifest>
