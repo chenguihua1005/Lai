@@ -192,9 +192,17 @@ public class InviteContantActivity extends BaseActivity implements View.OnClickL
                         contactPhoto = BitmapFactory.decodeResource(getResources(), R.drawable.img_default);
 
                     }
+                    number = number.trim();
+                    if (number.contains("-")) {
+                        number = number.replace("-", "");
+                    }
+                    if (number.contains(" ")) {
+                        number = number.replace(" ", "");
+                    }
                     if (number.contains("+86")) {
                         number = number.replace("+86", "");
                     }
+
                     ContactListInfoModel contactListInfo = new ContactListInfoModel(contactPhoto, name, number);
                     contactListValue.add(contactListInfo);
 
