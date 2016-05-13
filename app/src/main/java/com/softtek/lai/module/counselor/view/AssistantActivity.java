@@ -6,16 +6,10 @@
 package com.softtek.lai.module.counselor.view;
 
 
-import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -24,15 +18,11 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import butterknife.InjectView;
-
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
-import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.counselor.adapter.AssistantApplyAdapter;
 import com.softtek.lai.module.counselor.adapter.AssistantClassAdapter;
@@ -49,19 +39,17 @@ import com.softtek.lai.module.counselor.presenter.AssistantImpl;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.ACache;
-import com.softtek.lai.utils.SoftInputUtil;
-import com.umeng.socialize.bean.SocializeConfig;
-import com.umeng.socialize.sso.UMSsoHandler;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by jarvis.liu on 3/22/2016.

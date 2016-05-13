@@ -36,7 +36,7 @@
                 android:id="@+id/text_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="集体户外有氧运动"
+                android:text="标题"
                 android:textColor="@color/word"
                 android:textSize="@dimen/textSize1" />
 
@@ -58,7 +58,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dip"
-                    android:text="进行中" />
+                    android:text="状态" />
             </LinearLayout>
 
             <LinearLayout
@@ -89,7 +89,7 @@
                     android:textColor="@color/word3"
                     android:layout_gravity="center"
                     android:textSize="@dimen/textSize10"
-                    android:text="5月6号 14:00 - 5月6号 14:00" />
+                    />
             </LinearLayout>
             <LinearLayout
             android:layout_width="wrap_content"
@@ -118,8 +118,7 @@
                 android:layout_marginLeft="8dip"
                 android:textColor="@color/word3"
                 android:layout_gravity="center"
-                android:textSize="@dimen/textSize10"
-                android:text="个人赛" />
+                android:textSize="@dimen/textSize10"/>
         </LinearLayout>
         </LinearLayout>
     </LinearLayout>

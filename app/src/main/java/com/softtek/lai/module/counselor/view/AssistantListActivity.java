@@ -96,7 +96,6 @@ public class AssistantListActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void onClick(View v) {
-        SoftInputUtil.hidden(this);
         switch (v.getId()) {
             case R.id.fl_right:
                 Intent intent = new Intent(this, GradeHomeActivity.class);

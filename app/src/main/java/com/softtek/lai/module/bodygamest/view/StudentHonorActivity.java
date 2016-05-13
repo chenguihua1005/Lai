@@ -11,9 +11,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnScrollChangeListener;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -31,7 +28,6 @@ import com.softtek.lai.module.bodygamest.model.StudentHonorInfo;
 import com.softtek.lai.module.bodygamest.present.IStudentPresenter;
 import com.softtek.lai.module.bodygamest.present.StudentImpl;
 import com.softtek.lai.utils.ACache;
-import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.widgets.HorizontalListView;
 
 import org.greenrobot.eventbus.EventBus;

@@ -170,6 +170,7 @@
         <activity android:name=".module.sport.view.GroupFifthActivity" />
         <activity android:name=".module.sport.view.GroupSearchActivity" />
         <activity android:name=".module.sport.view.GroupMainActivity" />
+        <activity android:name=".module.act.view.ActActivity" />
         <activity
             android:name="com.umeng.socialize.view.ShareActivity"
             android:configChanges="orientation|keyboard"
@@ -315,7 +316,7 @@
             android:value="developer-default" />
         <meta-data
             android:name="JPUSH_APPKEY"
-            android:value="f332885d101702ebad1cc671" />
+            android:value="b004a008690a103f8b6ebbf7" />
         <!-- </>值来自开发者平台取得的AppKey -->
         <activity android:name=".module.historydate.view.HistoryDataActivity" />
         <activity android:name=".module.historydate.view.HistoryDataDetailActivity" />

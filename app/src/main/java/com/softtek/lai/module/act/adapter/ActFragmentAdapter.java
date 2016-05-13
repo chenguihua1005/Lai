@@ -3,7 +3,7 @@
  * Date:2016-03-31
  */
 
-package com.softtek.lai.module.tips.adapter;
+package com.softtek.lai.module.act.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,12 +15,12 @@ import java.util.List;
  * Created by jarvis on 3/23/2016.
  *
  */
-public class TipsFragmentAdapter extends FragmentPagerAdapter {
+public class ActFragmentAdapter extends FragmentPagerAdapter {
 
-    private String[] titles = {"健康咨询","视频"};
+    private String[] titles = {"简介","战况"};
     private List<Fragment> fragmentList;
 
-    public TipsFragmentAdapter(FragmentManager fm, List<Fragment> fragments) {
+    public ActFragmentAdapter(FragmentManager fm, List<Fragment> fragments) {
         super(fm);
         this.fragmentList=fragments;
 
