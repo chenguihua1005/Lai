@@ -15,6 +15,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.laisportmine.adapter.MyPkNoticeAdapter;
 import com.softtek.lai.module.laisportmine.model.PkNoticeModel;
+import com.softtek.lai.module.laisportmine.present.DelNoticeOrMeasureManager;
 import com.softtek.lai.module.laisportmine.present.PkNoticeManager;
 import com.softtek.lai.utils.StringUtil;
 
@@ -26,7 +27,7 @@ import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_my_pk_list)
 public class MyPkListActivity extends BaseActivity implements View.OnClickListener,PkNoticeManager.PkNoticeCallback,
-        AdapterView.OnItemLongClickListener{
+        AdapterView.OnItemLongClickListener,DelNoticeOrMeasureManager.DelNoticeOrMeasureCallback{
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.tv_title)
@@ -40,6 +41,7 @@ public class MyPkListActivity extends BaseActivity implements View.OnClickListen
     private List<PkNoticeModel>pkNoticeModelList=new ArrayList<PkNoticeModel>();
     private CharSequence[] items={"删除"};
     int positions;
+    DelNoticeOrMeasureManager delNoticeOrMeasureManager;
     @Override
     protected void initViews() {
         tv_title.setText("PK消息");
@@ -53,6 +55,8 @@ public class MyPkListActivity extends BaseActivity implements View.OnClickListen
         listview_pk.setAdapter(myPkNoticeAdapter);
         pkNoticeManager=new PkNoticeManager(this);
         pkNoticeManager.doGetPKINotice();
+        delNoticeOrMeasureManager=new DelNoticeOrMeasureManager(this);
+
 
     }
 
@@ -80,13 +84,13 @@ public class MyPkListActivity extends BaseActivity implements View.OnClickListen
     }
 
     @Override
-    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+    public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         positions=position;
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                delNoticeOrMeasureManager.doDelNoticeOrMeasureMsg(pkNoticeModelList.get(position).getPKId());
                 pkNoticeModelList.remove(positions);
                 myPkNoticeAdapter.notifyDataSetChanged();
 

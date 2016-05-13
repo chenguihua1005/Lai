@@ -18,6 +18,7 @@ import com.softtek.lai.module.laisportmine.adapter.MyPublicWealfareAdapter;
 import com.softtek.lai.module.laisportmine.model.ActionModel;
 import com.softtek.lai.module.laisportmine.model.PublicWewlfModel;
 import com.softtek.lai.module.laisportmine.present.ActionListManager;
+import com.softtek.lai.module.laisportmine.present.DelNoticeOrMeasureManager;
 import com.softtek.lai.module.laisportmine.present.UpdateMsgRTimeManager;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_my_action_list)
 public class MyActionListActivity extends BaseActivity implements View.OnClickListener,ActionListManager.ActionListCallback,UpdateMsgRTimeManager.UpdateMsgRTimeCallback,
-        AdapterView.OnItemLongClickListener{
+        AdapterView.OnItemLongClickListener,DelNoticeOrMeasureManager.DelNoticeOrMeasureCallback{
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.tv_title)
@@ -41,6 +42,7 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
     private List<ActionModel> actionModelLists=new ArrayList<ActionModel>();
     ActionListManager actionListManager;
     UpdateMsgRTimeManager updateMsgRTimeManager;
+    DelNoticeOrMeasureManager delNoticeOrMeasureManager;
     String accountid;
     int positions;
     private CharSequence[] items={"删除"};
@@ -63,6 +65,8 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
         actionListManager.GetActiveMsg(accountid);
         updateMsgRTimeManager=new UpdateMsgRTimeManager(this);
         updateMsgRTimeManager.doUpdateMsgRTime(accountid,"22");
+        delNoticeOrMeasureManager=new DelNoticeOrMeasureManager(this);
+
 
     }
 
@@ -90,13 +94,13 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
     }
 
     @Override
-    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+    public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         positions=position;
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                delNoticeOrMeasureManager.doDelNoticeOrMeasureMsg(actionModelLists.get(position).getMessageId());
                 actionModelLists.remove(positions);
                 myActionAdapter.notifyDataSetChanged();
             }

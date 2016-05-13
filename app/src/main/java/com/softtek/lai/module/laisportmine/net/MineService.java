@@ -60,4 +60,11 @@ public interface MineService {
             @Header("token")String token,
             Callback<ResponseData<List<PkNoticeModel>>>callback
     );
+    //删除通知
+    @POST("/MsgCenter/DelNoticeOrMeasureMsg")
+    void doDelNoticeOrMeasureMsg(
+            @Header("token")String token,
+            @Query("MessageId")String MessageId,
+            Callback<ResponseData>callback
+    );
 }
