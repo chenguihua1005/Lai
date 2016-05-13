@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.LineData;
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -30,6 +31,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.util.AsyncExecutor;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -351,13 +353,17 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                         }else {
                             tv_totalnumber.setText(totalnumber);
                         }
-                        //总公里数计算公式: 1公里=1428步
-                        DecimalFormat format = new DecimalFormat("###.00");
-                        String totalmileage =String.valueOf(Float.parseFloat(totalnumber)/1428);
-                        String temp = format.format(Double.parseDouble(totalmileage));
-                        if (totalmileage==""){
+                        //总公里数计算公式: 1公里=1428步 (单位为公里, 0.01公里, 不足0.01公里时显示0)
+                        DecimalFormat format = new DecimalFormat("##0.00");
+                        Double totalmileage =Double.parseDouble(totalnumber)/1428;
+                        String temp = format.format(totalmileage);
+                        if (totalmileage==0.0){
                             tv_totalmileage.setText("0");
-                        }else {
+                        }
+                        else if (totalmileage<0.01){
+                            tv_totalmileage.setText("0");
+                        }
+                        else {
                             tv_totalmileage.setText(temp);
                         }
 
