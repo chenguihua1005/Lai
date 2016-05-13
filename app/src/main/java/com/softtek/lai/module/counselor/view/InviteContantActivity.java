@@ -193,7 +193,7 @@ public class InviteContantActivity extends BaseActivity implements View.OnClickL
 
                     }
                     if(number.contains("+86")){
-                        number = number.substring(number.length() - 11);
+                        number=number.replace("+86","");
                     }
                     ContactListInfoModel contactListInfo = new ContactListInfoModel(contactPhoto, name, number);
                     contactListValue.add(contactListInfo);
