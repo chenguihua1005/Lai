@@ -45,7 +45,8 @@ public class MyPublicwelfareActivity extends BaseActivity implements View.OnClic
     MyPublicWewlListManager myPublicWewlListManager;
     UpdateMsgRTimeManager updateMsgRTimeManager;
     String accouid;
-    private CharSequence[] items={"删除","从相册选择照片"};
+    int positions;
+    private CharSequence[] items={"删除"};
 
     @Override
     protected void initViews() {
@@ -92,11 +93,13 @@ public class MyPublicwelfareActivity extends BaseActivity implements View.OnClic
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        positions=position;
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-//                    publicWewlfModelList.remove(position);
+                    publicWewlfModelList.remove(positions);
+                    myPublicWealfareAdapter.notifyDataSetChanged();
 
 
             }
@@ -105,7 +108,7 @@ public class MyPublicwelfareActivity extends BaseActivity implements View.OnClic
 
 
 //        listview_publicwe.remove(position);
-//        myPublicWealfareAdapter.notifyDataSetChanged();
+
 //        removeDialog(position);
 //        removeItem(position)
         return false;
