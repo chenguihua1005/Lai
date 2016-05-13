@@ -121,7 +121,6 @@ public class ModifyNameActivity extends BaseActivity implements View.OnClickList
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
             View v = getCurrentFocus();
             if (SoftInputUtil.isShouldHideKeyboard(v, ev)) {
-
                 SoftInputUtil.hideKeyboard(v.getWindowToken(), this);
             }
         }

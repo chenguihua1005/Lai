@@ -114,6 +114,15 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
         String path = AddressManager.get("photoHost");
         tStatus=getIntent().getIntExtra("isEnd",0);
         model = getIntent().getParcelableExtra("pkmodel");
+        type=getIntent().getIntExtra("pkType",0);
+        if(type== Constants.CREATE_PK){//创建新PK跳转过来
+            btn_cancle_pk.setVisibility(View.VISIBLE);
+        }else if(type== Constants.LIST_PK){
+
+        }else if(type== Constants.MESSAGE_PK){
+            btn_receive.setVisibility(View.VISIBLE);
+            btn_refuse.setVisibility(View.VISIBLE);
+        }
         pkId=model.getPKId();
         tv_pk_name1.setText(model.getUserName());
         tv_pk_name2.setText(model.getBUserName());
@@ -133,14 +142,14 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
             tv_status.setBackgroundResource(R.drawable.pk_list_yijieshu);
             tv_status.setText("以结束");
         }
-        if (model.getStatus() == NOCHALLENGE) {
+        /*if (model.getStatus() == NOCHALLENGE) {
             tv_is_accept.setText("未应战");
         } else if (model.getStatus() == CHALLENGING) {
             tv_is_accept.setText("已应战");
         } else if (model.getStatus() == REFUSE) {
             tv_is_accept.setText("拒绝");
-        }
-        if (model.getChipType() == PKListAdapter.NAIXI) {
+        }*/
+        /*if (model.getChipType() == PKListAdapter.NAIXI) {
             iv_type.setBackgroundResource(R.drawable.pk_naixi);
             tv_content.setText(R.string.naixi);
         } else if (model.getChipType() == PKListAdapter.NAIXICAO) {
@@ -148,9 +157,9 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
             tv_content.setText(R.string.naixicao);
         } else if (model.getChipType() == PKListAdapter.CUSTOM) {
             iv_type.setBackgroundResource(R.drawable.pk_chouma);
-        }
+        }*/
         //判断当前是步数比赛还是公里数比赛
-        int targetType = model.getTargetType();
+        /*int targetType = model.getTargetType();
         if (targetType == 1) {//公里
             iv_target_icon.setBackgroundResource(R.drawable.pk_km);
             tv_target_content.setText("目标公里数：");
@@ -167,7 +176,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
             zongbushu.setText("当前步数");
         }
         tv_bushu1.setText(model.getChaTotal() + "");
-        tv_bushu2.setText(model.getBchaTotal() + "");
+        tv_bushu2.setText(model.getBchaTotal() + "");*/
 
         //载入头像
         if (StringUtils.isNotEmpty(model.getPhoto())) {
@@ -182,15 +191,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
                     .error(R.drawable.img_default)
                     .into(sender2_header);
         }
-        type=getIntent().getIntExtra("pkType",0);
-        if(type== Constants.CREATE_PK){//创建新PK跳转过来
-            btn_cancle_pk.setVisibility(View.VISIBLE);
-        }else if(type== Constants.LIST_PK){
 
-        }else if(type== Constants.MESSAGE_PK){
-            btn_receive.setVisibility(View.VISIBLE);
-            btn_refuse.setVisibility(View.VISIBLE);
-        }
         dialogShow("加载中...");
         manager.getPKDetail(this, model.getPKId());
     }
