@@ -14,8 +14,11 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.act.adapter.ActFragmentAdapter;
+import com.softtek.lai.module.act.adapter.GroupListItemAdapter;
 import com.softtek.lai.module.act.model.ActivityModel;
+import com.softtek.lai.module.act.model.ActlistModel;
 import com.softtek.lai.module.act.presenter.ActManager;
 
 import java.util.ArrayList;
@@ -25,25 +28,22 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_act_list)
-public class ActListActivity extends BaseActivity implements View.OnClickListener, BaseFragment.OnFragmentInteractionListener,ActManager.GetactivityListCallBack ,PullToRefreshBase.OnRefreshListener2<ListView>{
+public class ActListActivity extends BaseActivity implements View.OnClickListener, BaseFragment.OnFragmentInteractionListener, ActManager.GetactivityListCallBack, PullToRefreshBase.OnRefreshListener2<ListView> {
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.tv_title)
     TextView tv_title;
-    @InjectView(R.id.ptrlv)
-    PullToRefreshListView ptrlv;
 
+    @InjectView(R.id.act_list)
+    PullToRefreshListView act_list;
 
-    @InjectView(R.id.tab)
-    TabLayout tab;
-    @InjectView(R.id.tab_content)
-    ViewPager tab_content;
+    ActManager actManager;
+    int pageIndex = 1;
+    String userId;
+    int totalPage=1;
 
-    private List<Fragment> fragments = new ArrayList<>();
-    private ActFragmentAdapter adapter;
-
-    private ActDetailsFragment detailFragment;
-    private ActFragment actFragment;
+    GroupListItemAdapter adapter;
+    private List<ActlistModel> list = new ArrayList<ActlistModel>();
 
     @Override
     protected void initViews() {
@@ -52,15 +52,14 @@ public class ActListActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initDatas() {
-        tv_title.setText("活动详情");
-        actFragment = new ActFragment();
-        detailFragment = new ActDetailsFragment();
-        fragments.add(detailFragment);
-        fragments.add(actFragment);
-        adapter = new ActFragmentAdapter(getSupportFragmentManager(), fragments);
-        tab_content.setAdapter(adapter);
-        tab.setupWithViewPager(tab_content);
-        tab.setTabMode(TabLayout.MODE_FIXED);
+        userId = UserInfoModel.getInstance().getUser().getUserid();
+        tv_title.setText("活动列表");
+        adapter = new GroupListItemAdapter(this, list);
+        act_list.setAdapter(adapter);
+
+        actManager = new ActManager(this);
+        dialogShow("加载中");
+        actManager.activityList(pageIndex + "", userId);
     }
 
     @Override
@@ -79,17 +78,49 @@ public class ActListActivity extends BaseActivity implements View.OnClickListene
     }
 
     @Override
-    public void activityList(String type, int pageCount, List<ActivityModel> list) {
+    public void activityList(String type, ActivityModel model) {
+        if ("true".equals(type)) {
+            if (act_list != null) {
+                act_list.onRefreshComplete();
+            }
+            dialogDissmiss();
+            String pages = model.getPageCount();
+            if (!"".equals(pages)) {
+                totalPage = Integer.parseInt(pages);
+            } else {
+                totalPage = 1;
+            }
 
+            if (pageIndex == 1) {
+                list.clear();
+            }
+            list.addAll(model.getActlist());
+            adapter.notifyDataSetChanged();
+        } else {
+            if (pageIndex == 1) {
+                pageIndex = 1;
+            } else {
+                pageIndex--;
+            }
+        }
     }
 
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-
+        pageIndex = 1;
+        actManager.activityList(pageIndex + "", userId);
     }
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-
+        pageIndex++;
+        if (pageIndex <= totalPage) {
+            actManager.activityList(pageIndex + "", userId);
+        } else {
+            pageIndex--;
+            if (act_list != null) {
+                act_list.onRefreshComplete();
+            }
+        }
     }
 }

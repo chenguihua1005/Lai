@@ -29,6 +29,6 @@ public interface ActService {
     void activityList(@Header(TOKEN) String token,
                       @Query("PageIndex") String pageIndex,
                       @Query("Accountid") String accountid,
-                      RequestCallback<ResponseData<List<ActivityModel>>> callback);
+                      RequestCallback<ResponseData<ActivityModel>> callback);
 
 }

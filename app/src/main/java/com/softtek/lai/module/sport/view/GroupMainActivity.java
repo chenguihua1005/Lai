@@ -27,6 +27,7 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.act.view.ActActivity;
+import com.softtek.lai.module.act.view.ActListActivity;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.laisportmine.present.MyRunTeamManager;
 import com.softtek.lai.module.laisportmine.view.MyInformationActivity;
@@ -227,7 +228,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.lin_no_activity://活动
             case R.id.rel_my_activity://活动
-                startActivity(new Intent(this, ActActivity.class));
+                startActivity(new Intent(this, ActListActivity.class));
                 break;
 
             case R.id.rel_my_pk://PK挑战列表

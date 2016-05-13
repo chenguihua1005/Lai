@@ -6,97 +6,37 @@
 package com.softtek.lai.module.act.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by jarvis.liu on 3/22/2016.
  */
 public class ActivityModel implements Serializable {
 
-    private String ClassId;
-    private String ClassName;
-    private String ManagerId;
-    private String StartDate;
-    private String EndDate;
-    private String num;
-    private String CreateDate;
-    private String State;
+    private String PageCount;
+    private List<ActlistModel> Actlist;
 
     @Override
     public String toString() {
-        return "ApplyAssistantModel{" +
-                "ClassId='" + ClassId + '\'' +
-                ", ClassName='" + ClassName + '\'' +
-                ", ManagerId='" + ManagerId + '\'' +
-                ", StartDate='" + StartDate + '\'' +
-                ", EndDate='" + EndDate + '\'' +
-                ", num='" + num + '\'' +
-                ", CreateDate='" + CreateDate + '\'' +
-                ", State='" + State + '\'' +
+        return "ActivityModel{" +
+                "PageCount='" + PageCount + '\'' +
+                ", Actlist=" + Actlist +
                 '}';
     }
 
-    public String getState() {
-        return State;
+    public String getPageCount() {
+        return PageCount;
     }
 
-    public void setState(String state) {
-        State = state;
+    public void setPageCount(String pageCount) {
+        PageCount = pageCount;
     }
 
-    public String getClassId() {
-        return ClassId;
+    public List<ActlistModel> getActlist() {
+        return Actlist;
     }
 
-    public void setClassId(String classId) {
-        ClassId = classId;
+    public void setActlist(List<ActlistModel> actlist) {
+        Actlist = actlist;
     }
-
-    public String getClassName() {
-        return ClassName;
-    }
-
-    public void setClassName(String className) {
-        ClassName = className;
-    }
-
-    public String getManagerId() {
-        return ManagerId;
-    }
-
-    public void setManagerId(String managerId) {
-        ManagerId = managerId;
-    }
-
-    public String getStartDate() {
-        return StartDate;
-    }
-
-    public void setStartDate(String startDate) {
-        StartDate = startDate;
-    }
-
-    public String getEndDate() {
-        return EndDate;
-    }
-
-    public void setEndDate(String endDate) {
-        EndDate = endDate;
-    }
-
-    public String getNum() {
-        return num;
-    }
-
-    public void setNum(String num) {
-        this.num = num;
-    }
-
-    public String getCreateDate() {
-        return CreateDate;
-    }
-
-    public void setCreateDate(String createDate) {
-        CreateDate = createDate;
-    }
-
 }
