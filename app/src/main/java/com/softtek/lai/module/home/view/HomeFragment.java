@@ -264,10 +264,6 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
      */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        //startActivity(new Intent(getContext(), HistoryDataActivity.class));
-        /*if(1==1){
-            return;
-        }*/
         UserInfoModel userInfoModel = UserInfoModel.getInstance();
         int role = Integer.parseInt(userInfoModel.getUser().getUserrole());
         ////判断当前用户是否拥有此按钮权限
@@ -278,20 +274,13 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                     intoBodyGamePage(role);
                     break;
                 case Constants.LAI_YUNDONG:
-                    //startActivity(new Intent(getContext(), CreatePKActivity.class));
                      new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
                     //sportGroupManager.isJoinRunGroup(UserInfoModel.getInstance().getUser().getUserid());
                     break;
                 case Constants.OFFICE:
-                    new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
-                    break;
                 case Constants.LAI_EXCLE:
-                    new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
-                    //startActivity(new Intent(getContext(), CounselorActivity.class));
-                    break;
                 case Constants.LAI_SHOP:
                     new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
-                    //startActivity(new Intent(getContext(), CreatFlleActivity.class));
                     break;
             }
 

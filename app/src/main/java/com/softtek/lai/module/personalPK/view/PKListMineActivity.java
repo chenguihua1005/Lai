@@ -106,7 +106,7 @@ public class PKListMineActivity extends BaseActivity implements View.OnClickList
         detailMold.setBchpcou(model.getBChp());
         detailMold.setChaTotal(0);
         detailMold.setBchaTotal(0);
-        intent.putExtra("pkmodel", model);
+        intent.putExtra("pkmodel", detailMold);
         intent.putExtra("pkType", Constants.LIST_PK);
         intent.putExtra("isEnd",model.getTStatus()==2?2:0);
         intent.putExtra("position",position-1);
@@ -120,12 +120,12 @@ public class PKListMineActivity extends BaseActivity implements View.OnClickList
             if(requestCode==PKLIST_JUMP){
                 int position=data.getIntExtra("position", -1);
                 if(position!=-1){
-                   /* PKListModel model=models.get(position);
-                    PKListModel returnModel=data.getParcelableExtra("pkmodel");
-                    model.setChP(returnModel.getChP());
-                    model.setBChp(returnModel.getBChp());
-
-                    adapter.notifyDataSetChanged();*/
+                    PKListModel model=models.get(position);
+                    model.setChP(Integer.parseInt(data.getStringExtra("ChP")));
+                    model.setBChp(Integer.parseInt(data.getStringExtra("BChP")));
+                    int status=getIntent().getIntExtra("status",0);
+                    model.setTStatus(status);
+                    adapter.notifyDataSetChanged();
                 }
 
             }

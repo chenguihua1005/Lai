@@ -14,6 +14,7 @@
         android:background="#f1f1f1"
     >
         <RelativeLayout
+            android:id="@+id/re_public_lab"
             android:layout_width="match_parent"
             android:layout_height="63dp"
             android:background="#ffffff">
@@ -47,6 +48,7 @@
             android:layout_height="1dp"
             android:background="#f1f1f1"/>
         <RelativeLayout
+            android:id="@+id/Re_pk_lab"
             android:layout_width="match_parent"
             android:layout_height="63dp"
             android:background="#ffffff">
@@ -80,6 +82,7 @@
             android:layout_height="1dp"
             android:background="#f1f1f1"/>
         <RelativeLayout
+            android:id="@+id/Re_action_lab"
             android:layout_width="match_parent"
             android:layout_height="63dp"
             android:background="#ffffff">
@@ -113,6 +116,7 @@
             android:layout_height="1dp"
             android:background="#f1f1f1"/>
         <RelativeLayout
+            android:id="@+id/Re_systemnews_lab"
             android:layout_width="match_parent"
             android:layout_height="63dp"
             android:background="#ffffff">

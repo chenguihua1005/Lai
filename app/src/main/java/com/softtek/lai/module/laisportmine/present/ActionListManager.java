@@ -3,8 +3,8 @@ package com.softtek.lai.module.laisportmine.present;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.laisportmine.model.ActionModel;
 import com.softtek.lai.module.laisportmine.model.PublicWewlfModel;
-import com.softtek.lai.module.laisportmine.model.RunTeamModel;
 import com.softtek.lai.module.laisportmine.net.MineService;
 
 import java.util.List;
@@ -15,39 +15,38 @@ import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 
 /**
- * Created by lareina.qiao on 5/11/2016.
+ * Created by lareina.qiao on 5/12/2016.
  */
-public class MyPublicWewlListManager {
+public class ActionListManager {
     private MineService service;
-    private MyPublicWewlListCallback cb;
+    private ActionListCallback cb;
 
-    public MyPublicWewlListManager(MyPublicWewlListCallback cb) {
+    public ActionListManager(ActionListCallback cb) {
         this.cb=cb;
         service= ZillaApi.NormalRestAdapter.create(MineService.class);
     }
 
-    public void doGetDonateMsg(String accountid) {
+    public void GetActiveMsg(String accountid) {
         String token= UserInfoModel.getInstance().getToken();
-        service.doGetDonateMsg(token, accountid, new Callback<ResponseData<List<PublicWewlfModel>>>() {
-
+        service.GetActiveMsg(token, accountid, new Callback<ResponseData<List<ActionModel>>>() {
             @Override
-            public void success(ResponseData<List<PublicWewlfModel>> listResponseData, Response response) {
+            public void success(ResponseData<List<ActionModel>> listResponseData, Response response) {
                 int status=listResponseData.getStatus();
                 switch (status)
                 {
                     case 200:
-                        Log.i("成功读取"+listResponseData.getData());
-                        cb.getMyPublicWewlList(listResponseData.getData());
+                        Log.i("活动列表"+listResponseData.getData());
+                        cb.getActionList(listResponseData.getData());
                         break;
                     default:
-                        Log.i("读取失败"+listResponseData.getData());
+                        Log.i("活动列表"+listResponseData.getData());
                         break;
                 }
             }
 
             @Override
             public void failure(RetrofitError error) {
-                cb.getMyPublicWewlList(null);
+                cb.getActionList(null);
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }
@@ -56,7 +55,7 @@ public class MyPublicWewlListManager {
 
     }
 
-    public interface MyPublicWewlListCallback{
-        void getMyPublicWewlList(List<PublicWewlfModel> publicWewlfModel);
+    public interface ActionListCallback{
+        void getActionList(List<ActionModel> actionModelList);
     }
 }

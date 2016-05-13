@@ -226,7 +226,8 @@ public class SelectTimeActivity extends BaseActivity implements View.OnClickList
                 detailMold.setChip(model.getChip());
                 detailMold.setStart(form.getStart());
                 detailMold.setEnd(form.getEnd());
-                detailMold.setStatus(PKDetailActivity.NOCHALLENGE);//设置应战状态：未因战
+                detailMold.setStatus(PKDetailActivity.NOCHALLENGE);//设置应战状态：未应战
+                detailMold.setTStatus(0);//未开始状态
                 //目标类型
                 detailMold.setTargetType(model.getTargetType());
                 if(detailMold.getTargetType()==1)

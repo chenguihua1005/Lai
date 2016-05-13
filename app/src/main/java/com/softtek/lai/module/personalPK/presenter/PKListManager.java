@@ -152,4 +152,8 @@ public class PKListManager {
                 callback
         );
     }
+
+    public void doZan(long pkId,int chall,RequestCallback<ResponseData> callback){
+        service.doZan(token,pkId,chall,callback);
+    }
 }

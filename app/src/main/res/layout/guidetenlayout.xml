@@ -16,7 +16,7 @@
         android:layout_width="300dp"
         android:layout_gravity="center"
         android:layout_height="45dp"
-        android:text="继续拍照"
+        android:text="开始拍照"
         android:textSize="18sp"
         android:textColor="#ffffff"
         android:background="@drawable/bg_weidu_btn"

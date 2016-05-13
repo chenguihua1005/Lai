@@ -30,6 +30,8 @@ import com.softtek.lai.module.act.view.ActActivity;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.laisportmine.present.MyRunTeamManager;
 import com.softtek.lai.module.laisportmine.view.MyInformationActivity;
+import com.softtek.lai.module.personalPK.view.CreatePKActivity;
+import com.softtek.lai.module.personalPK.view.PKListActivity;
 import com.softtek.lai.module.sport.adapter.GroupAdapter;
 import com.softtek.lai.module.sport.adapter.GroupMainActiuvityAdapter;
 import com.softtek.lai.module.sport.model.GroupModel;
@@ -228,8 +230,8 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                 startActivity(new Intent(this, ActActivity.class));
                 break;
 
-            case R.id.rel_my_pk://PK挑战
-
+            case R.id.rel_my_pk://PK挑战列表
+                startActivity(new Intent(this, PKListActivity.class));
                 break;
 
             case R.id.lin_pk://pk详情
@@ -239,7 +241,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
             case R.id.text_start_pk://开始PK
             case R.id.text_start_pks://开始PK
             case R.id.lin_no_pk://开始PK
-
+                startActivity(new Intent(this, CreatePKActivity.class));
                 break;
         }
     }

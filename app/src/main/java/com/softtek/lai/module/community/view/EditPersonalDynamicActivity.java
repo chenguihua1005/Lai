@@ -52,7 +52,7 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
     TextView tv_right;
     @InjectView(R.id.fl_right)
     FrameLayout fl_right;
-    @Required(order = 1,message = "请填写内容")
+    @Required(order = 1,message = "请输入内容")
     @InjectView(R.id.et_content)
     EditText et_content;
     @InjectView(R.id.cgv)
