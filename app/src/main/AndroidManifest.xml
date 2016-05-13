@@ -301,6 +301,12 @@
             android:name=".module.sport.view.GroupMainActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".module.act.view.ActListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.act.view.ActActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name="com.umeng.socialize.view.ShareActivity"
             android:configChanges="orientation|keyboard"
             android:launchMode="singleTask"

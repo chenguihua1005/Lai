@@ -3,9 +3,8 @@
  * Date:2016-03-31
  */
 
-package com.softtek.lai.module.sport.adapter;
+package com.softtek.lai.module.act.adapter;
 
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,12 +15,9 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.act.model.ActlistModel;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
-import com.softtek.lai.module.sport.model.GroupModel;
 import com.softtek.lai.module.sport.model.RecentlyActiviteModel;
-import com.softtek.lai.module.sport.presenter.SportGroupManager;
-import com.softtek.lai.module.sport.view.GroupMainActivity;
 import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
@@ -34,16 +30,17 @@ import zilla.libcore.file.AddressManager;
 /**
  * Created by jarvis.liu on 3/22/2016.
  */
-public class GroupMainActiuvityAdapter extends BaseAdapter {
+public class GroupListItemAdapter extends BaseAdapter {
     private LayoutInflater mInflater;//得到一个LayoutInfalter对象用来导入布局
-    private List<RecentlyActiviteModel> list;
+    private List<ActlistModel> list;
+
     private BaseActivity context;
     private IAssistantPresenter assistantPresenter;
 
     /**
      * 构造函数
      */
-    public GroupMainActiuvityAdapter(BaseActivity context, List<RecentlyActiviteModel> list) {
+    public GroupListItemAdapter(BaseActivity context, List<ActlistModel> list) {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
         this.list = list;
@@ -73,7 +70,7 @@ public class GroupMainActiuvityAdapter extends BaseAdapter {
         final ViewHolder holder;
         //观察convertView随ListView滚动情况
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.activity_act_item, null);
+            convertView = mInflater.inflate(R.layout.activity_group_main_activity_item, null);
             holder = new ViewHolder();
             /**得到各个控件的对象*/
             holder.text_title = (TextView) convertView.findViewById(R.id.text_title);
@@ -88,16 +85,16 @@ public class GroupMainActiuvityAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();//取出ViewHolder对象
         }
         /**设置TextView显示的内容，即我们存放在动态数组中的数据*/
-        final RecentlyActiviteModel recentlyActiviteModel = list.get(position);
+        final ActlistModel actlistModel = list.get(position);
 
         String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-        if ("".equals(recentlyActiviteModel.getActimg()) || "null".equals(recentlyActiviteModel.getActimg()) || recentlyActiviteModel.getActimg() == null) {
+        if ("".equals(actlistModel.getActimg()) || "null".equals(actlistModel.getActimg()) || actlistModel.getActimg() == null) {
             Picasso.with(context).load("111").fit().error(R.drawable.img_default).into(holder.img);
         } else {
-            Picasso.with(context).load(path + recentlyActiviteModel.getActimg()).error(R.drawable.img_default).into(holder.img);
+            Picasso.with(context).load(path + actlistModel.getActimg()).error(R.drawable.img_default).into(holder.img);
         }
-        holder.text_title.setText(recentlyActiviteModel.getActTitle().toString());
-        String status=recentlyActiviteModel.getAcStatus();
+        holder.text_title.setText(actlistModel.getActTitle().toString());
+        String status=actlistModel.getAcStatus();
         if("1".equals(status)){
             holder.text_state.setText("进行中");
             holder.img_state.setImageResource(R.drawable.img_activity_1);
@@ -112,14 +109,14 @@ public class GroupMainActiuvityAdapter extends BaseAdapter {
             holder.text_state.setTextColor(context.getResources().getColor(R.color.word15));
 
         }
-        String type=recentlyActiviteModel.getActiveType();
+        String type=actlistModel.getActiveType();
         if("1".equals(type)){
             holder.text_lx.setText("团体赛");
         }else {
             holder.text_lx.setText("个人赛");
         }
-        String start = recentlyActiviteModel.getStart();
-        String end = recentlyActiviteModel.getEnd();
+        String start = actlistModel.getStart();
+        String end = actlistModel.getEnd();
 
         String start_time = "";
         String end_time = "";
