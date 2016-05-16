@@ -107,13 +107,11 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
         btn_restart.setOnClickListener(this);
     }
 
-    int tStatus=0;
     int type;
-
+    int tStatus;
     @Override
     protected void initDatas() {
         manager = new PKListManager();
-        tStatus=getIntent().getIntExtra("isEnd",0);
         model = getIntent().getParcelableExtra("pkmodel");
         type=getIntent().getIntExtra("pkType",0);
         if(type== Constants.CREATE_PK){//创建新PK跳转过来
@@ -133,16 +131,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
                 DateUtil.getInstance().convertDateStr(model.getEnd(), "yyyy年MM月dd日"));
         cb_zan_left.setEnabled(false);
         cb_zan_right.setEnabled(false);
-        if (model.getTStatus() == 0) {
-            tv_status.setBackgroundResource(R.drawable.pk_list_weikaishi);
-            tv_status.setText("未开始");
-        } else if (model.getTStatus() == 1) {
-            tv_status.setBackgroundResource(R.drawable.pk_list_jingxingzhong);
-            tv_status.setText("进行中");
-        } else if (model.getTStatus() == 2) {
-            tv_status.setBackgroundResource(R.drawable.pk_list_yijieshu);
-            tv_status.setText("以结束");
-        }
+
         if (model.getChipType() == PKListAdapter.NAIXI) {
             iv_type.setBackgroundResource(R.drawable.pk_naixi);
             tv_content.setText(R.string.naixi);
@@ -152,24 +141,6 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
         } else if (model.getChipType() == PKListAdapter.CUSTOM) {
             iv_type.setBackgroundResource(R.drawable.pk_chouma);
         }
-       /* //判断当前是步数比赛还是公里数比赛
-        int targetType = model.getTargetType();
-        if (targetType == 1) {//公里
-            iv_target_icon.setBackgroundResource(R.drawable.pk_km);
-            tv_target_content.setText("目标公里数：");
-            tv_target.setText(Integer.parseInt(model.getTarget()) + "公里");
-
-            tv_unit1.setText("公里");
-            tv_unit2.setText("公里");
-            zongbushu.setText("当前公里数");
-        } else {//步数
-            iv_target_icon.setBackgroundResource(R.drawable.pk_bushu);
-            tv_target_content.setText("目标步数：");
-            tv_target.setText(model.getTarget());
-            tv_unit1.setText("步");
-            tv_unit2.setText("步");
-            zongbushu.setText("当前步数");
-        }*/
 
         dialogShow("加载中...");
         manager.getPKDetail(this, model.getPKId());
@@ -265,7 +236,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
                 break;
             case R.id.btn_restart:
                 //重新发起挑战
-
+                
                 break;
         }
     }
@@ -339,6 +310,18 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
         }
         tv_bushu1.setText(model.getChaTotal() + "");
         tv_bushu2.setText(model.getBchaTotal() + "");
+
+        tStatus=pkStatus(model.getStart(),model.getEnd());
+        if(tStatus==PKListAdapter.NOSTART){
+            tv_status.setBackgroundResource(R.drawable.pk_list_weikaishi);
+            tv_status.setText("未开始");
+        }else if(model.getTStatus()==PKListAdapter.PROCESSING){
+            tv_status.setBackgroundResource(R.drawable.pk_list_jingxingzhong);
+            tv_status.setText("进行中");
+        }else if(model.getTStatus()==PKListAdapter.Completed){
+            tv_status.setBackgroundResource(R.drawable.pk_list_yijieshu);
+            tv_status.setText("以结束");
+        }
         //载入头像
         String path = AddressManager.get("photoHost");
         if (StringUtils.isNotEmpty(model.getPhoto())) {
@@ -365,6 +348,23 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
             //接受方逻辑
             beChangeStatus(model.getStatus());
         }
+    }
+
+    private int pkStatus(String startTime,String endTime){
+        int status=DateUtil.getInstance().compare(DateUtil.getInstance().getCurrentDate(),startTime);
+        if(status==-1){
+            return PKListAdapter.NOSTART;
+        }else if(status==0){
+            return PKListAdapter.PROCESSING;
+        }else if(status==1){
+            status=DateUtil.getInstance().compare(DateUtil.getInstance().getCurrentDate(),endTime);
+            if(status==-1||status==0){
+                return PKListAdapter.PROCESSING;
+            }else{
+                return PKListAdapter.Completed;
+            }
+        }
+        return -1;
     }
 
     //发起方状态操作

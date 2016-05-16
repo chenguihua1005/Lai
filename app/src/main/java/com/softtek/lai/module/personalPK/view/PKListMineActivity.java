@@ -78,7 +78,7 @@ public class PKListMineActivity extends BaseActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ll_left:
-                doBack();
+                finish();
                 break;
 
         }
@@ -157,7 +157,7 @@ public class PKListMineActivity extends BaseActivity implements View.OnClickList
         }
     }
 
-    @Override
+    /*@Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode==KeyEvent.KEYCODE_BACK&&event.getAction()==KeyEvent.ACTION_DOWN){
             //做返回操作
@@ -169,7 +169,7 @@ public class PKListMineActivity extends BaseActivity implements View.OnClickList
 
     private void doBack() {
         startActivity(new Intent(this,GroupMainActivity.class));
-    }
+    }*/
 
     public void getModels(ResponseData<List<PKListModel>> model){
         ptrlv.onRefreshComplete();
