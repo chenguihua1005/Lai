@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.module.personalPK.model.PKListModel;
 import com.softtek.lai.utils.DateUtil;
+import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
@@ -70,8 +71,8 @@ public class PKListAdapter extends BaseAdapter{
         PKListModel model=datas.get(position);
         holder.cb_zan_left.setText(model.getChP()+"");
         holder.cb_zan_right.setText(model.getBChp()+"");
-        holder.pk_name1.setText(model.getUserName());
-        holder.pk_name2.setText(model.getBUserName());
+        holder.pk_name1.setText(StringUtil.showName(model.getUserName(),model.getMobile()));
+        holder.pk_name2.setText(StringUtil.showName(model.getBUserName(),model.getBMobile()));
         holder.tv_time.setText(DateUtil.getInstance().convertDateStr(model.getStart(),"yyyy年MM月dd日")+"——"+
                 DateUtil.getInstance().convertDateStr(model.getEnd(),"yyyy年MM月dd日"));
         if(model.getChipType()==NAIXI){
@@ -100,7 +101,7 @@ public class PKListAdapter extends BaseAdapter{
                     .into(holder.sender1_header);
         }
         if(StringUtils.isNotEmpty(model.getBPhoto())){
-            Picasso.with(context).load(path+model.getPhoto()).fit()
+            Picasso.with(context).load(path+model.getBPhoto()).fit()
                     .placeholder(R.drawable.img_default)
                     .error(R.drawable.img_default)
                     .into(holder.sender2_header);

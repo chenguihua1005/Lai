@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true"
+    android:background="#f1f1f1"
     tools:context="com.softtek.lai.module.personalPK.view.PKListActivity">
 
     <include layout="@layout/toolbar"/>
@@ -22,12 +23,12 @@
         android:layout_height="match_parent"
         android:scrollbars="none"
         android:overScrollMode="never"
-        android:dividerHeight="18dp"
+        android:dividerHeight="0dp"
         android:listSelector="@android:color/transparent"
         app:ptrShowIndicator="false"
-        android:footerDividersEnabled="true"
-        android:headerDividersEnabled="true"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false"
         android:id="@+id/ptrlv"
-        android:divider="#f1f1f1"/>
+        android:divider="#00f1f1f1"/>
 
 </RelativeLayout>

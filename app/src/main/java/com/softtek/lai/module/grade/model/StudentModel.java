@@ -30,6 +30,16 @@ public class StudentModel{
     private String Photo;
     private int IsTest;
 
+    private int IsMemberOfAssistant;
+
+    public int getIsMemberOfAssistant() {
+        return IsMemberOfAssistant;
+    }
+
+    public void setIsMemberOfAssistant(int isMemberOfAssistant) {
+        IsMemberOfAssistant = isMemberOfAssistant;
+    }
+
     public int getIsTest() {
         return IsTest;
     }
