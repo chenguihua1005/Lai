@@ -142,14 +142,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
             tv_status.setBackgroundResource(R.drawable.pk_list_yijieshu);
             tv_status.setText("以结束");
         }
-        /*if (model.getStatus() == NOCHALLENGE) {
-            tv_is_accept.setText("未应战");
-        } else if (model.getStatus() == CHALLENGING) {
-            tv_is_accept.setText("已应战");
-        } else if (model.getStatus() == REFUSE) {
-            tv_is_accept.setText("拒绝");
-        }*/
-        /*if (model.getChipType() == PKListAdapter.NAIXI) {
+        if (model.getChipType() == PKListAdapter.NAIXI) {
             iv_type.setBackgroundResource(R.drawable.pk_naixi);
             tv_content.setText(R.string.naixi);
         } else if (model.getChipType() == PKListAdapter.NAIXICAO) {
@@ -157,9 +150,9 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
             tv_content.setText(R.string.naixicao);
         } else if (model.getChipType() == PKListAdapter.CUSTOM) {
             iv_type.setBackgroundResource(R.drawable.pk_chouma);
-        }*/
+        }
         //判断当前是步数比赛还是公里数比赛
-        /*int targetType = model.getTargetType();
+        int targetType = model.getTargetType();
         if (targetType == 1) {//公里
             iv_target_icon.setBackgroundResource(R.drawable.pk_km);
             tv_target_content.setText("目标公里数：");
@@ -175,7 +168,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
             tv_unit2.setText("步");
             zongbushu.setText("当前步数");
         }
-        tv_bushu1.setText(model.getChaTotal() + "");
+        /*tv_bushu1.setText(model.getChaTotal() + "");
         tv_bushu2.setText(model.getBchaTotal() + "");*/
 
         //载入头像
@@ -417,8 +410,8 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
 
     private void doBack(){
         if(type== Constants.CREATE_PK){//创建新PK跳转过来,按下返回按钮直接返回PK列表页
-            Intent intent=new Intent(this,PKListActivity.class);
-            startActivity(intent);
+            /*Intent intent=new Intent(this,PKListActivity.class);
+            startActivity(intent);*/
             finish();
         }else if(type== Constants.LIST_PK){
             Intent intent=getIntent();

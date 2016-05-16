@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
@@ -80,6 +81,11 @@ public class WaistAdapter extends BaseAdapter {
         holder.tv_wl_before.setText("前 " + studentModel.getWaistlinebefore() + "cm");
         holder.tv_wl_after.setText("后 " + studentModel.getWaistlineAfter() + "cm");
         holder.tv_wl_totle.setText(studentModel.getLossline());
+        if(studentModel.getIsMemberOfAssistant()==1){//表示不能点击进入学员详情
+            holder.iv_arrow.setVisibility(View.INVISIBLE);
+        }else if(studentModel.getIsMemberOfAssistant()==0){
+            holder.iv_arrow.setVisibility(View.VISIBLE);
+        }
         if (StringUtils.isNotEmpty(studentModel.getPhoto())) {
             Picasso.with(context).load(AddressManager.get("photoHost") + studentModel.getPhoto()).fit().placeholder(R.drawable.img_default)
                     .error(R.drawable.img_default).into(holder.civ_header_image);
@@ -96,6 +102,7 @@ public class WaistAdapter extends BaseAdapter {
         TextView tv_wl_after;
         TextView tv_wl_totle;
         CircleImageView civ_header_image;
+        ImageView iv_arrow;
 
         public WaistlineHolder(View view) {
             tv_order = (TextView) view.findViewById(R.id.tv_order);
@@ -104,6 +111,7 @@ public class WaistAdapter extends BaseAdapter {
             tv_wl_after = (TextView) view.findViewById(R.id.tv_wl_after);
             tv_wl_totle = (TextView) view.findViewById(R.id.tv_wl_totle);
             civ_header_image = (CircleImageView) view.findViewById(R.id.civ_header_image);
+            iv_arrow= (ImageView) view.findViewById(R.id.iv_arrow);
         }
     }
 
