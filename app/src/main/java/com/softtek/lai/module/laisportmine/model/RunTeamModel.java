@@ -1,17 +1,28 @@
 package com.softtek.lai.module.laisportmine.model;
 
+import java.io.Serializable;
+
 /**
  * Created by lareina.qiao on 5/10/2016.
  */
-public class RunTeamModel {
+public class RunTeamModel implements Serializable {
    private String RgName;
    private String IsHasMsg;
+    private String IsHasAngelMsg;
+    private String IsHasActMsg;
+    private String IsHasChaMsg;
+
+    public RunTeamModel() {
+    }
 
     @Override
     public String toString() {
         return "RunTeamModel{" +
                 "RgName='" + RgName + '\'' +
                 ", IsHasMsg='" + IsHasMsg + '\'' +
+                ", IsHasAngelMsg='" + IsHasAngelMsg + '\'' +
+                ", IsHasActMsg='" + IsHasActMsg + '\'' +
+                ", IsHasChaMsg='" + IsHasChaMsg + '\'' +
                 '}';
     }
 
@@ -29,5 +40,29 @@ public class RunTeamModel {
 
     public void setIsHasMsg(String isHasMsg) {
         IsHasMsg = isHasMsg;
+    }
+
+    public String getIsHasAngelMsg() {
+        return IsHasAngelMsg;
+    }
+
+    public void setIsHasAngelMsg(String isHasAngelMsg) {
+        IsHasAngelMsg = isHasAngelMsg;
+    }
+
+    public String getIsHasActMsg() {
+        return IsHasActMsg;
+    }
+
+    public void setIsHasActMsg(String isHasActMsg) {
+        IsHasActMsg = isHasActMsg;
+    }
+
+    public String getIsHasChaMsg() {
+        return IsHasChaMsg;
+    }
+
+    public void setIsHasChaMsg(String isHasChaMsg) {
+        IsHasChaMsg = isHasChaMsg;
     }
 }

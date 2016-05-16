@@ -173,7 +173,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     @Subscribe
     public void event(LaichModel laichModel){
 
-        tv_retestWrites_nowweight.setText(StringUtils.isEmpty(laichModel.getWeight())?"":Float.parseFloat(laichModel.getWeight())+"");
+        tv_retestWrites_nowweight.setText(StringUtils.isEmpty(laichModel.getWeight())?"":(Float.parseFloat(laichModel.getWeight())+"").equals("0.0")?"":Float.parseFloat(laichModel.getWeight())+"");
         tv_retestWritest_tizhi.setText(StringUtils.isEmpty(laichModel.getPysical())?"":Float.parseFloat(laichModel.getPysical())+"");
         tv_retestWritest_neizhi.setText(StringUtils.isEmpty(laichModel.getFat())?"":Float.parseFloat(laichModel.getFat())+"");
         retestWrite.setCircum(StringUtils.isEmpty(laichModel.getCircum())?"":Float.parseFloat(laichModel.getCircum())+"");
@@ -196,6 +196,8 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         ll_left.setOnClickListener(this);
         tv_right.setOnClickListener(this);
         im_retestwritest_showphoto.setOnClickListener(this);
+        tv_writes_chu_weight.setEnabled(false);
+        tv_retestWrites_nowweight.setEnabled(false);
 
 
     }
@@ -213,8 +215,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
                 DisplayUtil.dip2px(this,300));
         imageFileSelector.setQuality(80);
         imageFileSelector.setCallback(this);
-        tv_writes_chu_weight.setFocusable(false);
-        tv_retestWrites_nowweight.setFocusable(false);
+
     }
 
     @Override
@@ -296,6 +297,8 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
                 break;
             case R.id.tv_right:
                 if (isState.equals("true")) {
+                    tv_writes_chu_weight.setEnabled(true);
+                    tv_retestWrites_nowweight.setEnabled(true);
                     validateLife.validate();
                 }
                 break;
@@ -508,8 +511,6 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     public void onValidationSucceeded() {
-        tv_writes_chu_weight.setFocusable(false);
-        tv_retestWrites_nowweight.setFocusable(false);
         retestWrite.setWeight(tv_retestWrites_nowweight.getText()+"");
         retestWrite.setInitWeight(tv_writes_chu_weight.getText()+"");
         retestWrite.setPysical(tv_retestWritest_tizhi.getText()+"");

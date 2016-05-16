@@ -19,10 +19,13 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.home.view.ValidateCertificationActivity;
+import com.softtek.lai.module.laisportmine.model.RunTeamModel;
 import com.softtek.lai.module.laisportmine.net.MineService;
 import com.softtek.lai.module.laisportmine.present.MyRunTeamManager;
 import com.softtek.lai.module.sport.view.JoinGroupActivity;
 import com.softtek.lai.utils.StringUtil;
+
+import java.io.Serializable;
 
 import butterknife.InjectView;
 import retrofit.Callback;
@@ -51,6 +54,7 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
     UserInfoModel userInfoModel=UserInfoModel.getInstance();
     long accountid=Long.parseLong(userInfoModel.getUser().getUserid());
     private MineService service;
+    RunTeamModel runTeamModels;
     AlertDialog.Builder information_dialog = null;
     @Override
     protected void initViews() {
@@ -62,7 +66,14 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void initDatas() {
+        runTeamModels=new RunTeamModel();
         myRunTeamManager=new MyRunTeamManager(this);
+        myRunTeamManager.doGetNowRgName(accountid);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         myRunTeamManager.doGetNowRgName(accountid);
     }
 
@@ -88,24 +99,29 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
                 }).create().show();
                 break;
             case R.id.Re_mynews:
-                startActivity(new Intent(this,MyNewsActivity.class));
+                Intent intent=new Intent(this,MyNewsActivity.class);
+                Log.i("retestWrite="+runTeamModels.toString());
+                intent.putExtra("runTeamModels", runTeamModels);
+                startActivity(intent);
                 break;
         }
     }
 
     @Override
-    public void getRunTeamName(String data,String flag) {
-        tv_runteamname.setText(data);
-        if (flag.equals(""))
-        {}
-        else
-        if (flag.equals("True"))
+    public void getRunTeamName(RunTeamModel runTeamModel) {
+        runTeamModels=runTeamModel;
+        tv_runteamname.setText(runTeamModels.getRgName());
+        if (!runTeamModels.getIsHasMsg().isEmpty())
         {
-            im_news_flag.setVisibility(View.VISIBLE);
+            if (runTeamModel.getIsHasMsg().equals("True"))
+            {
+                im_news_flag.setVisibility(View.VISIBLE);
+            }
+            else {
+                im_news_flag.setVisibility(View.GONE);
+            }
         }
-        else {
-            im_news_flag.setVisibility(View.GONE);
-        }
+
     }
     public void doSignOutRG(long accountid)
     {
