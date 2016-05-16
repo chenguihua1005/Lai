@@ -363,6 +363,7 @@
                                         android:background="@null"
                                         android:padding="2dp"
                                         android:text="@string/CounselorG"
+                                        android:layout_marginBottom="11dp"
                                         android:textSize="16sp" />
                                 </LinearLayout>
 
@@ -391,6 +392,7 @@
                                 android:background="@null"
                                 android:padding="2dp"
                                 android:text="@string/CounselorH"
+                                android:layout_marginBottom="11dp"
                                 android:textSize="16sp" />
                         </LinearLayout>
 

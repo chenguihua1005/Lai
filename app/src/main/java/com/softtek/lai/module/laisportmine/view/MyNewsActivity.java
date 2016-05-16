@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -13,7 +14,9 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.laisportmine.model.PublicWewlfModel;
+import com.softtek.lai.module.laisportmine.model.RunTeamModel;
 import com.softtek.lai.module.laisportmine.present.MyPublicWewlListManager;
+import com.softtek.lai.module.laisportmine.present.MyRunTeamManager;
 
 import java.util.List;
 
@@ -21,7 +24,7 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_my_news)
-public class MyNewsActivity extends BaseActivity implements View.OnClickListener {
+public class MyNewsActivity extends BaseActivity implements View.OnClickListener,MyRunTeamManager.MyRunTeamCallback {
 
 @InjectView(R.id.tv_title)
     TextView tv_title;
@@ -35,6 +38,16 @@ public class MyNewsActivity extends BaseActivity implements View.OnClickListener
     RelativeLayout Re_action_lab;
     @InjectView(R.id.Re_systemnews_lab)
     RelativeLayout Re_systemnews_lab;
+    @InjectView(R.id.tv_newslis_public)
+            TextView tv_newslis_public;
+    @InjectView(R.id.tv_newslis_pk)
+            TextView tv_newslis_pk;
+    @InjectView(R.id.tv_newslis_action)
+            TextView tv_newslis_action;
+    RunTeamModel runTeamModels;
+    MyRunTeamManager myRunTeamManager;
+    UserInfoModel userInfoModel=UserInfoModel.getInstance();
+    String accountid="";
     @Override
     protected void initViews() {
         tv_title.setText("我的消息");
@@ -47,7 +60,42 @@ public class MyNewsActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     protected void initDatas() {
+        accountid=userInfoModel.getUser().getUserid();
+        myRunTeamManager=new MyRunTeamManager(this);
+        runTeamModels=new RunTeamModel();
+        Intent intent=getIntent();
+        runTeamModels= (RunTeamModel) intent.getSerializableExtra("runTeamModels");
+        if (Integer.parseInt(runTeamModels.getIsHasAngelMsg())>0&&Integer.parseInt(runTeamModels.getIsHasAngelMsg())<=10) {
+            tv_newslis_public.setText(runTeamModels.getIsHasAngelMsg());
+            tv_newslis_public.setVisibility(View.VISIBLE);
+        }
+        else if (10<Integer.parseInt(runTeamModels.getIsHasAngelMsg())){
+            tv_newslis_public.setText("10+");
+            tv_newslis_public.setVisibility(View.VISIBLE);
+        }
+        if (Integer.parseInt(runTeamModels.getIsHasChaMsg())>0&&Integer.parseInt(runTeamModels.getIsHasChaMsg())<=10) {
+            tv_newslis_pk.setText(runTeamModels.getIsHasChaMsg());
+            tv_newslis_pk.setVisibility(View.VISIBLE);
+        }
+        else if (10<Integer.parseInt(runTeamModels.getIsHasChaMsg())){
+            tv_newslis_pk.setText("10+");
+            tv_newslis_pk.setVisibility(View.VISIBLE);
+        }
+        if (Integer.parseInt(runTeamModels.getIsHasActMsg())>0&&Integer.parseInt(runTeamModels.getIsHasActMsg())<=10) {
+            tv_newslis_action.setText(runTeamModels.getIsHasActMsg());
+            tv_newslis_action.setVisibility(View.VISIBLE);
+        }
+        else if (10<Integer.parseInt(runTeamModels.getIsHasActMsg())){
+            tv_newslis_action.setText("10+");
+            tv_newslis_action.setVisibility(View.VISIBLE);
+        }
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        myRunTeamManager.doGetNowRgName(Integer.parseInt(accountid));
     }
 
     @Override
@@ -75,6 +123,42 @@ public class MyNewsActivity extends BaseActivity implements View.OnClickListener
     }
 
 
+    @Override
+    public void getRunTeamName( RunTeamModel runTeamModel) {
+        runTeamModels=runTeamModel;
+        if (Integer.parseInt(runTeamModels.getIsHasAngelMsg())>0&&Integer.parseInt(runTeamModels.getIsHasAngelMsg())<=10) {
+            tv_newslis_public.setText(runTeamModels.getIsHasAngelMsg());
+            tv_newslis_public.setVisibility(View.VISIBLE);
+        }
+        else if (10<Integer.parseInt(runTeamModels.getIsHasAngelMsg())){
+            tv_newslis_public.setText("10+");
+            tv_newslis_public.setVisibility(View.VISIBLE);
+        }
+        else {
+            tv_newslis_public.setVisibility(View.GONE);
+        }
+        if (Integer.parseInt(runTeamModels.getIsHasChaMsg())>0&&Integer.parseInt(runTeamModels.getIsHasChaMsg())<=10) {
+            tv_newslis_pk.setText(runTeamModels.getIsHasChaMsg());
+            tv_newslis_pk.setVisibility(View.VISIBLE);
+        }
+        else if (10<Integer.parseInt(runTeamModels.getIsHasChaMsg())){
+            tv_newslis_pk.setText("10+");
+            tv_newslis_pk.setVisibility(View.VISIBLE);
+        }
+        else {
+            tv_newslis_pk.setVisibility(View.GONE);
+        }
+        if (Integer.parseInt(runTeamModels.getIsHasActMsg())>0&&Integer.parseInt(runTeamModels.getIsHasActMsg())<=10) {
+            tv_newslis_action.setText(runTeamModels.getIsHasActMsg());
+            tv_newslis_action.setVisibility(View.VISIBLE);
+        }
+        else if (10<Integer.parseInt(runTeamModels.getIsHasActMsg())){
+            tv_newslis_action.setText("10+");
+            tv_newslis_action.setVisibility(View.VISIBLE);
+        }
+        else {
+            tv_newslis_action.setVisibility(View.GONE);
+        }
 
-
+    }
 }
