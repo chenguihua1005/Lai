@@ -169,7 +169,6 @@ public class RetestclassImp implements RetestPre{
                 int status = listResponseData.getStatus();
                 switch (status) {
                     case 200:
-
                         EventBus.getDefault().post(new RetestAuditModelEvent(listResponseData.getData()));
                         break;
                     case 500:
