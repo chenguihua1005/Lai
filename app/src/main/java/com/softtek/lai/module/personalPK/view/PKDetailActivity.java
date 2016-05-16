@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -19,6 +20,7 @@ import com.softtek.lai.module.personalPK.model.PKDetailMold;
 import com.softtek.lai.module.personalPK.presenter.PKListManager;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
+import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
@@ -111,7 +113,6 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
     @Override
     protected void initDatas() {
         manager = new PKListManager();
-        String path = AddressManager.get("photoHost");
         tStatus=getIntent().getIntExtra("isEnd",0);
         model = getIntent().getParcelableExtra("pkmodel");
         type=getIntent().getIntExtra("pkType",0);
@@ -124,8 +125,8 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
             btn_refuse.setVisibility(View.VISIBLE);
         }
         pkId=model.getPKId();
-        tv_pk_name1.setText(model.getUserName());
-        tv_pk_name2.setText(model.getBUserName());
+        tv_pk_name1.setText(StringUtil.showName(model.getUserName(),model.getMobile()));
+        tv_pk_name2.setText(StringUtil.showName(model.getBUserName(),model.getBMobile()));
         cb_zan_left.setText(model.getChpcou() + "");
         cb_zan_right.setText(model.getBchpcou() + "");
         tv_time.setText(DateUtil.getInstance().convertDateStr(model.getStart(), "yyyy年MM月dd日") + "——" +
@@ -167,22 +168,6 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
             tv_unit1.setText("步");
             tv_unit2.setText("步");
             zongbushu.setText("当前步数");
-        }
-        /*tv_bushu1.setText(model.getChaTotal() + "");
-        tv_bushu2.setText(model.getBchaTotal() + "");*/
-
-        //载入头像
-        if (StringUtils.isNotEmpty(model.getPhoto())) {
-            Picasso.with(this).load(path + model.getPhoto()).fit()
-                    .placeholder(R.drawable.img_default)
-                    .error(R.drawable.img_default)
-                    .into(sender1_header);
-        }
-        if (StringUtils.isNotEmpty(model.getBPhoto())) {
-            Picasso.with(this).load(path + model.getPhoto()).fit()
-                    .placeholder(R.drawable.img_default)
-                    .error(R.drawable.img_default)
-                    .into(sender2_header);
         }
 
         dialogShow("加载中...");
@@ -294,9 +279,10 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
             return;
         }
         this.model=model;
+        Log.i("PK详情="+model.toString());
         //更新数据
-        tv_pk_name1.setText(model.getUserName());
-        tv_pk_name2.setText(model.getBUserName());
+        tv_pk_name1.setText(StringUtil.showName(model.getUserName(),model.getMobile()));
+        tv_pk_name2.setText(StringUtil.showName(model.getBUserName(),model.getBMobile()));
         cb_zan_left.setText(model.getChpcou() + "");
         cb_zan_right.setText(model.getBchpcou() + "");
         tv_time.setText(DateUtil.getInstance().convertDateStr(model.getStart(), "yyyy年MM月dd日") + "——" +
@@ -323,13 +309,13 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
         } else if (model.getStatus() == REFUSE) {
             tv_is_accept.setText("拒绝");
         }
-        if (model.getChipType() == PKListAdapter.NAIXI) {
+        if (model.getChipType() == Constants.NAIXI) {
             iv_type.setBackgroundResource(R.drawable.pk_naixi);
             tv_content.setText(R.string.naixi);
-        } else if (model.getChipType() == PKListAdapter.NAIXICAO) {
+        } else if (model.getChipType() == Constants.NAIXICAO) {
             iv_type.setBackgroundResource(R.drawable.pk_list_naixicao);
             tv_content.setText(R.string.naixicao);
-        } else if (model.getChipType() == PKListAdapter.CUSTOM) {
+        } else if (model.getChipType() == Constants.ZIDINGYI) {
             iv_type.setBackgroundResource(R.drawable.pk_chouma);
             tv_content.setText(model.getChip());
         }
@@ -352,6 +338,21 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
         }
         tv_bushu1.setText(model.getChaTotal() + "");
         tv_bushu2.setText(model.getBchaTotal() + "");
+        //载入头像
+        String path = AddressManager.get("photoHost");
+        if (StringUtils.isNotEmpty(model.getPhoto())) {
+            Picasso.with(this).load(path + model.getPhoto()).fit()
+                    .placeholder(R.drawable.img_default)
+                    .error(R.drawable.img_default)
+                    .into(sender1_header);
+        }
+        if (StringUtils.isNotEmpty(model.getBPhoto())) {
+            Picasso.with(this).load(path + model.getBPhoto()).fit()
+                    .placeholder(R.drawable.img_default)
+                    .error(R.drawable.img_default)
+                    .into(sender2_header);
+        }
+
         if(tStatus==2){//如果这个PK是已经结束的就什么操作都不需要显示
             return;
         }
@@ -410,8 +411,8 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
 
     private void doBack(){
         if(type== Constants.CREATE_PK){//创建新PK跳转过来,按下返回按钮直接返回PK列表页
-            /*Intent intent=new Intent(this,PKListActivity.class);
-            startActivity(intent);*/
+            Intent intent=new Intent(this,PKListActivity.class);
+            startActivity(intent);
             finish();
         }else if(type== Constants.LIST_PK){
             Intent intent=getIntent();

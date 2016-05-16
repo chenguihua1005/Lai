@@ -1,168 +1,182 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="184dp"
-    android:descendantFocusability="blocksDescendants"
-    android:background="@color/white">
+    android:layout_height="202dp"
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_status"
-        android:layout_width="71dp"
-        android:layout_height="25dp"
-        android:background="@drawable/pk_list_jingxingzhong"
-        android:gravity="center"
-        android:textSize="13sp"
-        android:textColor="@color/white"
-        android:layout_centerInParent="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="19dp"
-        android:text="进行中"/>
-
-    <ImageView
-        android:id="@+id/pk"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/pk_list_vs"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="78dp"
-        android:layout_alignParentTop="true"/>
-    <FrameLayout
-        android:id="@+id/lfl"
-        android:layout_toLeftOf="@id/pk"
-        android:layout_marginTop="47dp"
-        android:layout_marginRight="33dp"
-        android:layout_width="63dp"
-        android:layout_height="63dp">
-        <com.softtek.lai.widgets.CircleImageView
-            android:id="@+id/sender1_header"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/img_default"/>
-        <ImageView
-            android:id="@+id/sender1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/pk_list_wujiaoxin"
-            android:layout_gravity="bottom|right"
-            />
-    </FrameLayout>
-    <CheckBox
-        android:id="@+id/cb_zan_left"
-        android:layout_toLeftOf="@id/lfl"
-        android:layout_alignTop="@id/lfl"
-        android:layout_marginRight="21dp"
-        android:layout_marginTop="25dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:button="@null"
-        android:drawableLeft="@drawable/pk_list_zan_selector"
-        android:checked="true"
-        android:enabled="false"
-        android:textColor="#ffa200"
-        android:text="5"
-        android:drawablePadding="5dp"/>
-
-    <FrameLayout
-        android:id="@+id/rfl"
-        android:layout_toRightOf="@id/pk"
-        android:layout_marginTop="47dp"
-        android:layout_marginLeft="33dp"
-        android:layout_width="63dp"
-        android:layout_height="63dp">
-        <com.softtek.lai.widgets.CircleImageView
-            android:id="@+id/sender2_header"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/img_default"/>
-    </FrameLayout>
-    <CheckBox
-        android:id="@+id/cb_zan_right"
-        android:layout_toRightOf="@id/rfl"
-        android:layout_alignTop="@id/rfl"
-        android:layout_marginTop="25dp"
-        android:layout_marginLeft="21dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:button="@null"
-        android:drawableLeft="@drawable/pk_list_zan_selector"
-        android:checked="true"
-        android:enabled="false"
-        android:textColor="#ffa200"
-        android:text="5"
-        android:drawablePadding="5dp"/>
-
-
-    <ImageView
-        android:id="@+id/iv_jiangli"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/pk_naixi"
-        android:layout_centerInParent="true"
-        android:layout_below="@id/lfl"
-        android:layout_marginTop="12dp"/>
-
-    <TextView
-        android:id="@+id/tv_pk_name1"
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="12sp"
-        android:textColor="#333333"
-        android:textStyle="bold"
-        android:layout_marginTop="18dp"
-        android:gravity="center"
-        android:layout_alignLeft="@id/lfl"
-        android:layout_alignRight="@id/lfl"
-        android:layout_centerInParent="true"
-        android:layout_below="@id/lfl"
-        android:text="管国祥"/>
+        android:layout_height="18dp"
+        android:background="#f1f1f1" />
 
-    <TextView
-        android:id="@+id/tv_pk_name2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="12sp"
-        android:textColor="#333333"
-        android:textStyle="bold"
-        android:layout_marginTop="18dp"
-        android:gravity="center"
-        android:layout_alignLeft="@id/rfl"
-        android:layout_alignRight="@id/rfl"
-        android:layout_centerInParent="true"
-        android:layout_below="@id/rfl"
-        android:text="管国祥"/>
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/lfl"
-        android:layout_marginTop="18dp"
-        android:layout_below="@id/tv_pk_name1">
+        android:layout_width="match_parent"
+        android:layout_height="184dp"
+        android:background="@color/white"
+        android:descendantFocusability="blocksDescendants">
+
+        <TextView
+            android:id="@+id/tv_status"
+            android:layout_width="71dp"
+            android:layout_height="25dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="19dp"
+            android:background="@drawable/pk_list_jingxingzhong"
+            android:gravity="center"
+            android:text="进行中"
+            android:textColor="@color/white"
+            android:textSize="13sp" />
+
+
         <ImageView
-            android:id="@+id/iv"
+            android:id="@+id/pk"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/pk_list_time_pic"/>
+            android:layout_alignParentTop="true"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="78dp"
+            android:src="@drawable/pk_list_vs" />
+
+        <FrameLayout
+            android:id="@+id/lfl"
+            android:layout_width="63dp"
+            android:layout_height="63dp"
+            android:layout_marginRight="33dp"
+            android:layout_marginTop="47dp"
+            android:layout_toLeftOf="@id/pk">
+
+            <com.softtek.lai.widgets.CircleImageView
+                android:id="@+id/sender1_header"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/img_default" />
+
+            <ImageView
+                android:id="@+id/sender1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:src="@drawable/pk_list_wujiaoxin" />
+        </FrameLayout>
+
+        <CheckBox
+            android:id="@+id/cb_zan_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/lfl"
+            android:layout_marginRight="21dp"
+            android:layout_marginTop="25dp"
+            android:layout_toLeftOf="@id/lfl"
+            android:button="@null"
+            android:checked="true"
+            android:drawableLeft="@drawable/pk_list_zan_selector"
+            android:drawablePadding="5dp"
+            android:enabled="false"
+            android:text="5"
+            android:textColor="#ffa200" />
+
+        <FrameLayout
+            android:id="@+id/rfl"
+            android:layout_width="63dp"
+            android:layout_height="63dp"
+            android:layout_marginLeft="33dp"
+            android:layout_marginTop="47dp"
+            android:layout_toRightOf="@id/pk">
+
+            <com.softtek.lai.widgets.CircleImageView
+                android:id="@+id/sender2_header"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/img_default" />
+        </FrameLayout>
+
+        <CheckBox
+            android:id="@+id/cb_zan_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/rfl"
+            android:layout_marginLeft="21dp"
+            android:layout_marginTop="25dp"
+            android:layout_toRightOf="@id/rfl"
+            android:button="@null"
+            android:checked="true"
+            android:drawableLeft="@drawable/pk_list_zan_selector"
+            android:drawablePadding="5dp"
+            android:enabled="false"
+            android:text="5"
+            android:textColor="#ffa200" />
+
+
+        <ImageView
+            android:id="@+id/iv_jiangli"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/lfl"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="12dp" />
 
         <TextView
-            android:id="@+id/tv"
-            android:layout_toRightOf="@id/iv"
-            android:layout_marginLeft="8dp"
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_pk_name1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="10sp"
-            android:textColor="#6f6f6f"
-            android:text="PK挑战时间:"/>
+            android:layout_alignLeft="@id/cb_zan_left"
+            android:layout_alignRight="@id/lfl"
+            android:layout_below="@id/lfl"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="18dp"
+            android:textColor="#333333"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
         <TextView
-            android:id="@+id/tv_time"
-            android:layout_toRightOf="@id/tv"
-            android:layout_marginLeft="8dp"
+            android:id="@+id/tv_pk_name2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/rfl"
+            android:layout_alignRight="@id/cb_zan_right"
+            android:layout_below="@id/rfl"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="18dp"
+            android:textColor="#333333"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="10sp"
-            android:textColor="#6f6f6f"
-            android:text="2015年6月8日—2016年7月9日"/>
+            android:layout_alignLeft="@id/lfl"
+            android:layout_below="@id/tv_pk_name1"
+            android:layout_marginTop="18dp">
+
+            <ImageView
+                android:id="@+id/iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/pk_list_time_pic" />
+
+            <TextView
+                android:id="@+id/tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_toRightOf="@id/iv"
+                android:text="PK挑战时间:"
+                android:textColor="#6f6f6f"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_toRightOf="@id/tv"
+                android:textColor="#6f6f6f"
+                android:textSize="10sp" />
 
 
+        </RelativeLayout>
     </RelativeLayout>
-</RelativeLayout>
+</LinearLayout>

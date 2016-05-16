@@ -100,7 +100,7 @@ public class PKListAdapter extends BaseAdapter{
                     .into(holder.sender1_header);
         }
         if(StringUtils.isNotEmpty(model.getBPhoto())){
-            Picasso.with(context).load(path+model.getPhoto()).fit()
+            Picasso.with(context).load(path+model.getBPhoto()).fit()
                     .placeholder(R.drawable.img_default)
                     .error(R.drawable.img_default)
                     .into(holder.sender2_header);
