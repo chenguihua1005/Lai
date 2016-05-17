@@ -108,7 +108,6 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="15dip"
             android:layout_toLeftOf="@+id/img2"
-            android:text="男"
             android:textColor="@color/word"
             android:textSize="@dimen/textSize1" />
 
