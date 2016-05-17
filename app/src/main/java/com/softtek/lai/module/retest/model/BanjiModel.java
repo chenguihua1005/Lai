@@ -16,16 +16,18 @@ public class BanjiModel {
     private long ManagerId;
     private String StartDate;
     private int Total;
+    private String Rest;
 
     @Override
     public String toString() {
         return "BanjiModel{" +
                 "id=" + id +
-                ", ClassIdModel=" + ClassId +
+                ", ClassId=" + ClassId +
                 ", ClassName='" + ClassName + '\'' +
                 ", ManagerId=" + ManagerId +
                 ", StartDate='" + StartDate + '\'' +
                 ", Total=" + Total +
+                ", Rest='" + Rest + '\'' +
                 '}';
     }
 
@@ -75,6 +77,15 @@ public class BanjiModel {
 
     public void setTotal(int total) {
         Total = total;
+    }
+
+
+    public String getRest() {
+        return Rest;
+    }
+
+    public void setRest(String rest) {
+        Rest = rest;
     }
 
     public BanjiModel(String startDate, String className, int total) {

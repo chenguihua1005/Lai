@@ -230,7 +230,6 @@ public class LoginPresenterImpl implements ILoginPresenter {
                         JpushSet set = new JpushSet(context);
                         set.setAlias(userResponseData.getData().getToken());
                         set.setStyleBasic();
-
                         UserInfoModel.getInstance().saveUserCache(userResponseData.getData());
                         context.startActivity(new Intent(context, HomeActviity.class));
                         ((AppCompatActivity) context).finish();
