@@ -131,11 +131,17 @@ public class ModifyPersonActivity extends BaseActivity implements View.OnClickLi
         } else {
             text_name.setText(model.getNickname());
         }
-        if ("1".equals(model.getGender())) {
-            text_sex.setText("女");
-        } else {
-            text_sex.setText("男");
+
+        if(model.isHasGender()){
+            if ("1".equals(model.getGender())) {
+                text_sex.setText("女");
+            } else {
+                text_sex.setText("男");
+            }
+        }else {
+            text_sex.setText("");
         }
+
     }
 
     @Override

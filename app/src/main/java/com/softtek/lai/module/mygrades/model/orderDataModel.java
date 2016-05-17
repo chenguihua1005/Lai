@@ -5,7 +5,7 @@ package com.softtek.lai.module.mygrades.model;
  *  3.3.3	当日前100排名详情
  * 3.3.4	当周排前100名详情
  */
-public class orderDataModel {
+public class OrderDataModel {
     private String AccountId;
     private String Photo;
     private String _order;
@@ -13,7 +13,7 @@ public class orderDataModel {
     private String stepCount;
     private String userName;
 
-    public orderDataModel(String accountId, String photo, String _order, String mobile, String stepCount, String userName) {
+    public OrderDataModel(String accountId, String photo, String _order, String mobile, String stepCount, String userName) {
         AccountId = accountId;
         Photo = photo;
         this._order = _order;
@@ -24,7 +24,7 @@ public class orderDataModel {
 
     @Override
     public String toString() {
-        return "orderDataModel{" +
+        return "OrderDataModel{" +
                 "AccountId='" + AccountId + '\'' +
                 ", Photo='" + Photo + '\'' +
                 ", _order='" + _order + '\'' +

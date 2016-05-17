@@ -5,8 +5,11 @@
 
 package com.softtek.lai.module.counselor.presenter;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
@@ -24,6 +28,7 @@ import com.softtek.lai.module.counselor.model.ClassInfoModel;
 import com.softtek.lai.module.counselor.net.CounselorService;
 import com.softtek.lai.module.counselor.view.AssistantListActivity;
 import com.softtek.lai.module.counselor.view.CounselorClassListActivity;
+import com.softtek.lai.module.login.view.LoginActivity;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -140,17 +145,28 @@ public class CounselorClassImpl implements ICounselorClassPresenter {
         String token = UserInfoModel.getInstance().getToken();
         counselorService.createClass(token, className, startDate, endDate, managerId, new Callback<ResponseData<ClassIdModel>>() {
             @Override
-            public void success(ResponseData<ClassIdModel> classIdResponseData, Response response) {
+            public void success(final ResponseData<ClassIdModel> classIdResponseData, Response response) {
                 Log.e("jarvis", classIdResponseData.toString());
                 int status = classIdResponseData.getStatus();
                 context.dialogDissmiss();
                 switch (status) {
                     case 200:
-                        SharedPreferenceService.getInstance().put("classId", classIdResponseData.getData().getClassId());
-                        Intent intent = new Intent(context, AssistantListActivity.class);
-                        intent.putExtra("classId", classIdResponseData.getData().getClassId());
-                        intent.putExtra("type", "0");
-                        context.startActivity(intent);
+                        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context)
+                                .setTitle(context.getString(R.string.login_out_title))
+                                .setMessage("创建班级成功！")
+                                .setPositiveButton(context.getString(R.string.app_sure), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        SharedPreferenceService.getInstance().put("classId", classIdResponseData.getData().getClassId());
+                                        Intent intent = new Intent(context, AssistantListActivity.class);
+                                        intent.putExtra("classId", classIdResponseData.getData().getClassId());
+                                        intent.putExtra("type", "0");
+                                        context.startActivity(intent);
+                                    }
+                                });
+                        Dialog dialog = dialogBuilder.create();
+                        dialog.setCancelable(false);
+                        dialog.show();
                         break;
                     default:
                         Util.toastMsg(classIdResponseData.getMsg());

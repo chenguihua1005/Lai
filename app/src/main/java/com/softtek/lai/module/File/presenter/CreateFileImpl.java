@@ -7,6 +7,7 @@ package com.softtek.lai.module.File.presenter;
 
 import android.content.Context;
 import android.content.Intent;
+
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
@@ -46,6 +47,7 @@ public class CreateFileImpl implements ICreateFilepresenter {
                     case 200: {
                         UserModel model = UserInfoModel.getInstance().getUser();
                         model.setNickname(file.getNickname());
+                        model.setGender(file.getGender() + "");
                         UserInfoModel.getInstance().saveUserCache(model);
                         Intent intent = new Intent(context, HomeActviity.class);
                         context.startActivity(intent);
