@@ -31,6 +31,7 @@ import com.softtek.lai.module.act.view.ActListActivity;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.laisportmine.present.MyRunTeamManager;
 import com.softtek.lai.module.laisportmine.view.MyInformationActivity;
+import com.softtek.lai.module.mygrades.view.MyGradesActivity;
 import com.softtek.lai.module.personalPK.view.CreatePKActivity;
 import com.softtek.lai.module.personalPK.view.PKListActivity;
 import com.softtek.lai.module.sport.adapter.GroupAdapter;
@@ -220,7 +221,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                 startActivity(new Intent(this, MyInformationActivity.class));
                 break;
             case R.id.rel_my_score://我的成绩
-
+                startActivity(new Intent(this, MyGradesActivity.class));
                 break;
             case R.id.lin_start_sport://开始运动
             case R.id.lin_start_sports://开始运动
