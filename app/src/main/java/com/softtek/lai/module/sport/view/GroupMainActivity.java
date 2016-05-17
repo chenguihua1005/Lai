@@ -59,7 +59,7 @@ import zilla.libcore.ui.InjectLayout;
  * 跑团首页
  */
 @InjectLayout(R.layout.activity_group_main)
-public class GroupMainActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener, SportGroupManager.GetSportIndexCallBack, MyRunTeamManager.MyRunTeamCallback {
+public class GroupMainActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener, SportGroupManager.GetSportIndexCallBack{
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -196,7 +196,8 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void initViews() {
-
+        iv_email.setImageResource(R.drawable.img_group_main_my);
+        iv_email.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -205,9 +206,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
         String userId = UserInfoModel.getInstance().getUser().getUserid();
         userId = "13";
         sportGroupManager.getSportIndex(userId);
-        //判断是否有跑团
-        myRunTeamManager = new MyRunTeamManager(this);
-        myRunTeamManager.doGetNowRgName(accountid);
+
     }
 
     @Override
@@ -374,12 +373,5 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
-    @Override
-    public void getRunTeamName(String data, String flag) {
-        if (!data.equals("")) {
-            iv_email.setVisibility(View.VISIBLE);
-            iv_email.setImageResource(R.drawable.img_group_main_my);
-        }
 
-    }
 }

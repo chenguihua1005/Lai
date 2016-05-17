@@ -352,8 +352,9 @@
                         android:textColor="#fea300"
                         android:textSize="16sp"
                         android:background="@null"
-                        android:cursorVisible="false"
                         android:enabled="false"
+                        android:editable="false"
+                        android:cursorVisible="false"
                         android:layout_alignParentBottom="true"
                         android:layout_toLeftOf="@+id/textView18"
                         android:id="@+id/tv_retestWrite_nowweight" />
@@ -558,7 +559,7 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginRight="35dp"
                         android:visibility="gone"
                         android:layout_alignBottom="@id/im_retestwrite_showphoto"
                         android:background="@drawable/retest_write_deleteim"/>

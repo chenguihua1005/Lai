@@ -130,7 +130,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         PKObjModel model=modelList.get(position-1);
         PKCreatModel creatModel=getIntent().getParcelableExtra("pkmodel");
         creatModel.setBeUserName(model.getUserName());
-        creatModel.setBeChallenged(model.getRGId());
+        creatModel.setBeChallenged(model.getRGAccId());
         creatModel.setBeUserPhoto(model.getPhoto());
         Intent intent=new Intent(this,SelectTimeActivity.class);
         intent.putExtra("pkmodel", creatModel);

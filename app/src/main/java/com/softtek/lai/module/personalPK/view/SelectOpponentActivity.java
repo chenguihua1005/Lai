@@ -78,12 +78,11 @@ public class SelectOpponentActivity extends BaseActivity implements View.OnClick
         PKObjModel model=modelList.get(position);
         PKCreatModel creatModel=getIntent().getParcelableExtra("pkmodel");
         creatModel.setBeUserName(model.getUserName());
-        creatModel.setBeChallenged(model.getRGId());
+        creatModel.setBeChallenged(model.getRGAccId());
         creatModel.setBeUserPhoto(model.getPhoto());
         Intent intent=new Intent(this,SelectTimeActivity.class);
         intent.putExtra("pkmodel",creatModel);
         startActivity(intent);
-        //overridePendingTransition(R.anim.activity_enter,R.anim.activity_exit);
     }
 
     public void loadData(List<PKObjModel> models){

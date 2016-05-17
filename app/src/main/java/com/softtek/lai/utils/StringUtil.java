@@ -75,9 +75,16 @@ public class StringUtil {
      * @return
      */
     public static String filterPhonNumber(String phone){
+        if(StringUtils.isEmpty(phone)){
+            return "";
+        }
         String before3=phone.substring(0,3);
         String after4=phone.substring(phone.length()-4,phone.length());
         return before3+"****"+after4;
+    }
+
+    public static String showName(String userName,String phone){
+        return StringUtils.isEmpty(userName)?filterPhonNumber(phone):userName;
     }
 
     /**

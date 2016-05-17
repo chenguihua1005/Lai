@@ -1,102 +1,109 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
   ~ Date:2016-03-31
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="horizontal"
-              android:layout_width="match_parent"
-              android:layout_height="70dp"
-              android:gravity="center|left"
-              android:background="#FFFFFF">
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:background="#FFFFFF"
+    android:gravity="center|left"
+    android:orientation="horizontal">
 
     <TextView
-            android:id="@+id/tv_order"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:textSize="22sp"
-            android:text="1"
-    />
+        android:id="@+id/tv_order"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="1"
+        android:textSize="22sp"
+        android:textStyle="bold" />
 
     <com.softtek.lai.widgets.CircleImageView
-            android:id="@+id/civ_header_image"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/img_default"/>
+        android:id="@+id/civ_header_image"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_default" />
+
     <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:orientation="vertical"
-            android:layout_marginLeft="10dp"
-            android:gravity="center|left">
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
+        android:gravity="center|left"
+        android:orientation="vertical">
+
         <TextView
-                android:id="@+id/tv_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:text="JOY"
-                android:textColor="@color/word"
-                android:textSize="16sp"/>
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="JOY"
+            android:textColor="@color/word"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center|left"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_lw_before"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:gravity="center|left">
-            <TextView
-                    android:id="@+id/tv_lw_before"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:text="前 78.5kg"/>
+                android:layout_height="wrap_content"
+                android:text="前 78.5kg"
+                android:textSize="14sp" />
+
             <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="5dp"
-                    android:background="@color/white"/>
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/white" />
+
             <TextView
-                    android:id="@+id/tv_lw_after"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:text="后 60.5kg"/>
+                android:id="@+id/tv_lw_after"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="后 60.5kg"
+                android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>
+
     <LinearLayout
-            android:layout_width="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginRight="20dp"
+        android:gravity="right"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_lw_per"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:gravity="right"
-            android:layout_marginRight="20dp">
+            android:gravity="center"
+            android:text="30"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
         <TextView
-                android:id="@+id/tv_lw_per"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                android:text="30"
-        />
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:textStyle="bold"
-                android:textSize="12sp"
-                android:text="%"
-                android:layout_marginRight="15dp"/>
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="15dp"
+            android:gravity="center"
+            android:text="%"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
         <ImageView
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_gravity="center"
-                android:src="@drawable/arrow"/>
+            android:id="@+id/iv_arrow"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_gravity="center"
+            android:src="@drawable/arrow" />
 
     </LinearLayout>
 
