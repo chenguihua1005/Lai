@@ -7,19 +7,17 @@ package com.softtek.lai;
 import android.app.Application;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.CrashHandler;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.File.model.FilterModel;
 import com.softtek.lai.utils.NetErrorHandler;
+
 import retrofit.RequestInterceptor;
 import zilla.libcore.Zilla;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.db.DBHelper;
 import zilla.libcore.file.PropertiesManager;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by zilla on 9/8/15.
@@ -71,11 +69,6 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
             public void intercept(RequestFacade requestFacade) {
 //                requestFacade.addEncodedPathParam();
                 requestFacade.addHeader("appid", PropertiesManager.get("appid"));
-                /*Log.i("LaiApplication token="+UserInfoModel.getInstance().getToken());
-                if(UserInfoModel.getInstance().getToken()!=null&&
-                        !UserInfoModel.getInstance().getToken().equals("")){
-                    requestFacade.addHeader("token",UserInfoModel.getInstance().getToken());
-                }*/
             }
         });
 

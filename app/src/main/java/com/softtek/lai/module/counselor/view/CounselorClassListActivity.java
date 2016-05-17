@@ -85,10 +85,15 @@ public class CounselorClassListActivity extends BaseActivity implements View.OnC
     }
 
     @Override
-    protected void initDatas() {
+    public void onResume() {
+        super.onResume();
         dialogShow("加载中");
         counselorClassPresenter = new CounselorClassImpl(this);
         counselorClassPresenter.getClassList("0", expand_list, lin_create_class, img_mo_message);
+    }
+
+    @Override
+    protected void initDatas() {
 
     }
 

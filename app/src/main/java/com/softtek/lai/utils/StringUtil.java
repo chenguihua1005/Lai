@@ -100,6 +100,10 @@ public class StringUtil {
         return StringUtils.isEmpty(value)||Float.parseFloat(value)==0?"0.0":Float.parseFloat(value)+"";
     }
 
+    public static float getFloat(String value){
+        return StringUtils.isEmpty(value)?0.0f:Float.parseFloat(value);
+    }
+
 
     private static  boolean isLetter(char c) {
         int k = 0x80;

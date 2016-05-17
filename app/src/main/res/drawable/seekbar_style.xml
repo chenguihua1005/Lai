@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+<!--    <item
+        android:id="@android:id/progress"
+
+        android:drawable="@drawable/img_step_jd">
+        <clip>
+            <corners android:radius="50dp" />
+        </clip>
+    </item>-->
+    <item
+        android:id="@android:id/progress"
+        android:drawable="@drawable/img_step_jd">
+    </item>
+</layer-list>

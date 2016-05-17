@@ -16,7 +16,7 @@ public class ContactListInfoModel implements Serializable {
 
     private String Mobile;     //助教电话
     private String UserName;     //助教名字
-    private Bitmap Photo;
+//    private Bitmap Photo;
 
     public String getMobile() {
         return Mobile;
@@ -34,16 +34,15 @@ public class ContactListInfoModel implements Serializable {
         UserName = userName;
     }
 
-    public Bitmap getPhoto() {
-        return Photo;
-    }
+//    public Bitmap getPhoto() {
+//        return Photo;
+//    }
+//
+//    public void setPhoto(Bitmap photo) {
+//        Photo = photo;
+//    }
 
-    public void setPhoto(Bitmap photo) {
-        Photo = photo;
-    }
-
-    public ContactListInfoModel(Bitmap photo, String userName, String mobile) {
-        Photo = photo;
+    public ContactListInfoModel(String userName, String mobile) {
         UserName = userName;
         Mobile = mobile;
     }
@@ -53,7 +52,6 @@ public class ContactListInfoModel implements Serializable {
         return "ContactListInfoModel{" +
                 "Mobile='" + Mobile + '\'' +
                 ", UserName='" + UserName + '\'' +
-                ", Photo='" + Photo + '\'' +
                 '}';
     }
 }

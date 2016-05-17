@@ -1,6 +1,7 @@
 package com.softtek.lai.module.act.net;
 
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.module.act.model.ActDetailModel;
 import com.softtek.lai.module.act.model.ActivityModel;
 import com.softtek.lai.module.sport.model.CityModel;
 import com.softtek.lai.module.sport.model.DxqModel;
@@ -30,5 +31,11 @@ public interface ActService {
                       @Query("PageIndex") String pageIndex,
                       @Query("Accountid") String accountid,
                       RequestCallback<ResponseData<ActivityModel>> callback);
+
+    //活动详情—简介
+    @GET("/Activity/GetActivityIntro")
+    void getActDetails(@Header(TOKEN) String token,
+                      @Query("Activityid") String activityid,
+                      RequestCallback<ResponseData<ActDetailModel>> callback);
 
 }

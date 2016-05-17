@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.act.model.ActDetailModel;
 import com.softtek.lai.module.act.model.ActivityModel;
 import com.softtek.lai.module.act.net.ActService;
 import com.softtek.lai.module.sport.model.CityModel;
@@ -29,6 +30,13 @@ public class ActManager {
     private String token;
     private ActService service;
     private GetactivityListCallBack getactivityListCallBack;
+    private GetActDetailsCallBack getActDetailsCallBack;
+
+    public ActManager(GetActDetailsCallBack getActDetailsCallBack) {
+        this.getActDetailsCallBack = getActDetailsCallBack;
+        token = UserInfoModel.getInstance().getToken();
+        service = ZillaApi.NormalRestAdapter.create(ActService.class);
+    }
 
     public ActManager(GetactivityListCallBack getactivityListCallBack) {
         this.getactivityListCallBack = getactivityListCallBack;
@@ -64,6 +72,41 @@ public class ActManager {
                 ZillaApi.dealNetError(error);
             }
         });
+    }
+
+    public void getActDetails(String activityid) {
+        service.getActDetails(token, activityid, new RequestCallback<ResponseData<ActDetailModel>>() {
+            @Override
+            public void success(ResponseData<ActDetailModel> listResponseData, Response response) {
+                Log.e("jarvis", listResponseData.toString());
+                int status = listResponseData.getStatus();
+                switch (status) {
+                    case 200:
+                        getActDetailsCallBack.getActDetails("true", listResponseData.getData());
+                        break;
+                    case 100:
+                        getActDetailsCallBack.getActDetails("false", null);
+                        break;
+                    default:
+                        getActDetailsCallBack.getActDetails("false", null);
+                        Util.toastMsg(listResponseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                if (getActDetailsCallBack != null) {
+                    getActDetailsCallBack.getActDetails("false", null);
+                }
+                ZillaApi.dealNetError(error);
+            }
+        });
+    }
+
+    public interface GetActDetailsCallBack {
+
+        void getActDetails(String type, ActDetailModel model);
     }
 
     public interface GetactivityListCallBack {
