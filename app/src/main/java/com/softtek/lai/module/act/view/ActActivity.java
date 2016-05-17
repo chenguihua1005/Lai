@@ -12,9 +12,6 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.act.adapter.ActFragmentAdapter;
-import com.softtek.lai.module.tips.adapter.TipsFragmentAdapter;
-import com.softtek.lai.module.tips.view.HealthyAskFragment;
-import com.softtek.lai.module.tips.view.VideoFragment;
 
 import java.util.ArrayList;
 import java.util.List;

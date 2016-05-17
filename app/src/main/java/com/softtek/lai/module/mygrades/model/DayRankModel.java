@@ -9,9 +9,9 @@ import java.util.List;
  */
 public class DayRankModel {
     private String orderInfo;
-    private List<orderDataModel> orderData;
+    private List<OrderDataModel> orderData;
 
-    public DayRankModel(List<orderDataModel> orderData, String orderInfo) {
+    public DayRankModel(List<OrderDataModel> orderData, String orderInfo) {
         this.orderData = orderData;
         this.orderInfo = orderInfo;
     }
@@ -32,11 +32,11 @@ public class DayRankModel {
         this.orderInfo = orderInfo;
     }
 
-    public List<orderDataModel> getOrderData() {
+    public List<OrderDataModel> getOrderData() {
         return orderData;
     }
 
-    public void setOrderData(List<orderDataModel> orderData) {
+    public void setOrderData(List<OrderDataModel> orderData) {
         this.orderData = orderData;
     }
 }

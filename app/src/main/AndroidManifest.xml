@@ -203,6 +203,9 @@
             android:name=".module.counselor.view.InviteContantActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".module.counselor.view.SearchContantActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".module.counselor.view.InviteStudentActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -538,7 +541,9 @@
             android:name=".module.laisportmine.view.MyPkListActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".module.bodygamest.view.PhotoViewActivity" />
-        <activity android:name=".module.retest.view.AuditShowActivity"></activity>
+        <activity android:name=".module.retest.view.AuditShowActivity" />
+        <activity android:name=".module.mygrades.view.RankingDetailsActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>
