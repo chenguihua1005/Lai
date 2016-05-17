@@ -3,6 +3,7 @@ package com.softtek.lai.module.mygrades.view;
 //莱运动-我的成绩页面
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -59,9 +60,11 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
     @InjectView(R.id.tv_right)
     TextView tv_right;
 
-    //更新时间
-    @InjectView(R.id.tv_update)
-    TextView tv_update;
+    @InjectView(R.id.ll_dayRank)
+    LinearLayout ll_dayRank;
+    @InjectView(R.id.ll_weekRank)
+    LinearLayout ll_weekRank;
+
     //总步数
     @InjectView(R.id.tv_totalnumber)
     TextView tv_totalnumber;
@@ -145,47 +148,17 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
     List<Float> dates=new ArrayList<Float>();
     String nowdate7,nowdate6,nowdate5,nowdate4,nowdate3,nowdate2,nowdate1;
 
-//    private static final int UPDATE_MY_TV = 1;
-//    Message message = null;
-//    Handler handler = new Handler(){
-//        @Override
-//        public void handleMessage(Message msg) {
-//            switch(msg.what){
-//                case UPDATE_MY_TV:
-//                    String currentTime = (String)msg.obj;
-//                    tv_update.setText(currentTime);
-//                    break;
-//            }
-//        }
-//    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                Message message=new Message();
-//                message.what=UPDATE_MY_TV;
-//                SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
-//                String currentTime = formatter.format(new Date());
-//                message = handler.obtainMessage(UPDATE_MY_TV, currentTime);
-//                handler.sendMessage(message);
-//            }
-//        }).start();
-
-
-        //更新时间当前时间
-        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");//yyyy年MM月dd日   HH:mm:ss
-        Date curDate = new Date(System.currentTimeMillis());
-        String currentTime = formatter.format(curDate);
-        tv_update.setText(currentTime);
         EventBus.getDefault().register(this);
     }
 
     @Override
     protected void initViews() {
+        ll_dayRank.setOnClickListener(this);
+        ll_weekRank.setOnClickListener(this);
+
         title.setText("我的成绩");
      //   tv_right.setText("分享");
         chartUtil=new LineChartUtil(this,chart);
@@ -759,9 +732,20 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
+        int flag;
         switch (v.getId()){
             case R.id.ll_left:
                 finish();
+                break;
+            case R.id.ll_dayRank:
+                Intent intent=new Intent(MyGradesActivity.this,RankingDetailsActivity.class);
+                intent.putExtra("flag",0);
+                startActivity(intent);
+                break;
+            case R.id.ll_weekRank:
+                Intent intent1=new Intent(MyGradesActivity.this,RankingDetailsActivity.class);
+                intent1.putExtra("flag",1);
+                startActivity(intent1);
                 break;
             case R.id.bt_left:
                         if (state!=true)
