@@ -23,7 +23,9 @@ import zilla.libcore.ui.InjectLayout;
  * Created by jarvis on 4/27/2016.
  */
 @InjectLayout(R.layout.fragment_act)
-public class ActFragment extends BaseFragment implements AskHealthyManager.AskHealthyManagerCallback{
+public class ActFragment extends BaseFragment implements PullToRefreshBase.OnRefreshListener2<ListView> {
+    @InjectView(R.id.order_list)
+    PullToRefreshListView order_list;
 
     @Override
     protected void initViews() {
@@ -32,11 +34,17 @@ public class ActFragment extends BaseFragment implements AskHealthyManager.AskHe
 
     @Override
     protected void initDatas() {
+        order_list.setMode(PullToRefreshBase.Mode.BOTH);
+        order_list.setOnRefreshListener(this);
+    }
+
+    @Override
+    public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
 
     }
 
     @Override
-    public void getHealthyList(AskHealthyResponseModel model) {
+    public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
 
     }
 }

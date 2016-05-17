@@ -203,6 +203,9 @@
             android:name=".module.counselor.view.InviteContantActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".module.counselor.view.SearchContantActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".module.counselor.view.InviteStudentActivity"
             android:screenOrientation="portrait" />
         <activity

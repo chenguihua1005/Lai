@@ -5,26 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical">
-<!--    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/img_act_group_bg"/>
-        <ImageView
-            android:id="@+id/img_full"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/img_act_group_full"
-            android:visibility="gone"/>
-        <ImageView
-            android:id="@+id/img_jd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:src="@drawable/clip_drawable"/>
-    </RelativeLayout>-->
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="177dip"
@@ -136,6 +117,7 @@
                     android:textColor="@color/word3"
                     android:textSize="@dimen/textSize10" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -168,73 +150,86 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dip"
-        android:background="@color/grey6"
         android:layout_marginLeft="@dimen/margin"
-        android:layout_marginRight="@dimen/margin"/>
+        android:layout_marginRight="@dimen/margin"
+        android:background="@color/grey6" />
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:orientation="vertical">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin"
             android:layout_marginTop="20dip"
             android:text="活动说明"
-            android:textSize="@dimen/textSize1"
-            android:textColor="@color/word"/>
+            android:textColor="@color/word"
+            android:textSize="@dimen/textSize1" />
+
         <TextView
+            android:id="@+id/text_sm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="20dip"
             android:layout_marginLeft="@dimen/margin"
             android:layout_marginRight="@dimen/margin"
-            android:layout_marginBottom="20dip"
             android:layout_marginTop="18dip"
-            android:textSize="@dimen/textSize2"
+            android:lineSpacingExtra="4dip"
             android:textColor="@color/word"
-            android:lineSpacingExtra="4dip" />
+            android:textSize="@dimen/textSize2" />
 
     </LinearLayout>
+
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dip"
-        android:background="@color/grey6"
         android:layout_marginLeft="@dimen/margin"
-        android:layout_marginRight="@dimen/margin"/>
+        android:layout_marginRight="@dimen/margin"
+        android:background="@color/grey6" />
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:orientation="vertical">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin"
             android:layout_marginTop="20dip"
             android:text="比赛规则"
-            android:textSize="@dimen/textSize1"
-            android:textColor="@color/word"/>
+            android:textColor="@color/word"
+            android:textSize="@dimen/textSize1" />
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dip"
             android:layout_marginLeft="@dimen/margin"
-            android:layout_marginRight="@dimen/margin">
+            android:layout_marginRight="@dimen/margin"
+            android:layout_marginTop="18dip">
+
             <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="目标公里数:"
-            android:textSize="@dimen/textSize2"
-            android:textColor="@color/word"/>
-            <TextView
+                android:id="@+id/text_mb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/textSize2"
-                android:textColor="@color/editorText"/>
+                android:text="目标公里数:"
+                android:textColor="@color/word"
+                android:textSize="@dimen/textSize2" />
+
+            <TextView
+                android:id="@+id/text_mb_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/editorText"
+                android:textSize="@dimen/textSize2" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

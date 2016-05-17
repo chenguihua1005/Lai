@@ -1,10 +1,13 @@
 package com.softtek.lai.module.act.view;
 
+import android.content.Intent;
 import android.net.Uri;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -40,7 +43,7 @@ public class ActListActivity extends BaseActivity implements View.OnClickListene
     ActManager actManager;
     int pageIndex = 1;
     String userId;
-    int totalPage=1;
+    int totalPage = 1;
 
     GroupListItemAdapter adapter;
     private List<ActlistModel> list = new ArrayList<ActlistModel>();
@@ -48,6 +51,17 @@ public class ActListActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void initViews() {
         ll_left.setOnClickListener(this);
+        act_list.setMode(PullToRefreshBase.Mode.BOTH);
+        act_list.setOnRefreshListener(this);
+        act_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ActlistModel actlistModel = list.get(position - 1);
+                Intent intent = new Intent(ActListActivity.this, ActActivity.class);
+                intent.putExtra("id", actlistModel.getActId());
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -58,8 +72,15 @@ public class ActListActivity extends BaseActivity implements View.OnClickListene
         act_list.setAdapter(adapter);
 
         actManager = new ActManager(this);
-        dialogShow("加载中");
-        actManager.activityList(pageIndex + "", userId);
+        userId = "13";
+        //actManager.activityList(pageIndex + "", userId);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (act_list != null)
+                    act_list.setRefreshing();
+            }
+        }, 500);
     }
 
     @Override
@@ -83,7 +104,6 @@ public class ActListActivity extends BaseActivity implements View.OnClickListene
             if (act_list != null) {
                 act_list.onRefreshComplete();
             }
-            dialogDissmiss();
             String pages = model.getPageCount();
             if (!"".equals(pages)) {
                 totalPage = Integer.parseInt(pages);
@@ -107,19 +127,27 @@ public class ActListActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+        System.out.println("onPullDownToRefresh");
         pageIndex = 1;
         actManager.activityList(pageIndex + "", userId);
     }
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+        System.out.println("onPullUpToRefresh");
         pageIndex++;
         if (pageIndex <= totalPage) {
             actManager.activityList(pageIndex + "", userId);
         } else {
             pageIndex--;
             if (act_list != null) {
-                act_list.onRefreshComplete();
+                System.out.println("pageIndex:" + pageIndex);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        act_list.onRefreshComplete();
+                    }
+                }, 200);
             }
         }
     }

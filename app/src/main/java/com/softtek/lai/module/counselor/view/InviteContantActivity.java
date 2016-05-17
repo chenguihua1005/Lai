@@ -10,6 +10,7 @@ import android.app.ProgressDialog;
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.content.ContentUris;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,6 +18,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -33,9 +35,12 @@ import com.softtek.lai.module.counselor.presenter.IStudentPresenter;
 import com.softtek.lai.module.counselor.presenter.StudentImpl;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.ACache;
+import com.softtek.lai.utils.HanziToPinyin;
 
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
@@ -56,6 +61,12 @@ public class InviteContantActivity extends BaseActivity implements View.OnClickL
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
 
+    @InjectView(R.id.fl_right)
+    FrameLayout fl_right;
+
+    @InjectView(R.id.tv_right)
+    TextView tv_right;
+
     @InjectView(R.id.tv_title)
     TextView tv_title;
 
@@ -66,6 +77,7 @@ public class InviteContantActivity extends BaseActivity implements View.OnClickL
     private IStudentPresenter studentPresenter;
     private ACache aCache;
     private UserModel userModel;
+    InviteContantAdapter adapter;
     private AsyncQueryHandler asyncQueryHandler; // 异步查询数据库类对象
 
     private static final String[] PHONES_PROJECTION = new String[]{
@@ -78,7 +90,7 @@ public class InviteContantActivity extends BaseActivity implements View.OnClickL
             ContactsContract.CommonDataKinds.Phone.LOOKUP_KEY};
 
 
-    private ArrayList<ContactListInfoModel> contactListValue = new ArrayList<ContactListInfoModel>();
+    private List<ContactListInfoModel> contactListValue = new ArrayList<ContactListInfoModel>();
     private ProgressDialog progressDialog;
 
 
@@ -86,26 +98,44 @@ public class InviteContantActivity extends BaseActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ll_left.setOnClickListener(this);
+        fl_right.setOnClickListener(this);
         progressDialog = new ProgressDialog(this);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setMessage(getResources().getString(zilla.libcore.R.string.dialog_loading));
         progressDialog.setMessage("正在加载内容...");
         progressDialog.show();
         asyncQueryHandler = new MyAsyncQueryHandler(getContentResolver());
-
         asyncQueryHandler.startQuery(0, null, ContactsContract.CommonDataKinds.Phone.CONTENT_URI, projection, null, null,
                 "sort_key COLLATE LOCALIZED asc");
 
-        InviteContantAdapter adapter = new InviteContantAdapter(this, contactListValue);
+        adapter = new InviteContantAdapter(this, contactListValue);
         list_contant.setAdapter(adapter);
-
+//        String str="我萨达DSSDSss";
+//        String pin = getPinYin(str);
+//        String s="w";
+//        System.out.println("ssssss:"+pin.contains(s)+"    pin:"+pin);
 
     }
-
+    public static String getPinYin(String input) {
+        ArrayList<HanziToPinyin.Token> tokens = HanziToPinyin.getInstance().get(input);
+        System.out.println("tokens:"+tokens);
+        StringBuilder sb = new StringBuilder();
+        if (tokens != null && tokens.size() > 0) {
+            for (HanziToPinyin.Token token : tokens) {
+                if (token.type == HanziToPinyin.Token.PINYIN) {
+                    sb.append(token.target);
+                } else {
+                    sb.append(token.source);
+                }
+            }
+        }
+        return sb.toString().toLowerCase();
+    }
     @Override
     protected void initViews() {
         //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
         tv_title.setText(R.string.joinGame);
+        tv_right.setText("搜索");
 
     }
 
@@ -122,6 +152,12 @@ public class InviteContantActivity extends BaseActivity implements View.OnClickL
         switch (v.getId()) {
             case R.id.ll_left:
                 finish();
+                break;
+
+            case R.id.fl_right:
+                Intent intent=new Intent(this,SearchContantActivity.class);
+                intent.putExtra("list",(Serializable)contactListValue);
+                startActivity(intent);
                 break;
         }
     }
@@ -203,11 +239,12 @@ public class InviteContantActivity extends BaseActivity implements View.OnClickL
                         number = number.replace("+86", "");
                     }
 
-                    ContactListInfoModel contactListInfo = new ContactListInfoModel(contactPhoto, name, number);
+                    ContactListInfoModel contactListInfo = new ContactListInfoModel( name, number);
                     contactListValue.add(contactListInfo);
 
                 }
                 progressDialog.dismiss();
+                adapter.notifyDataSetChanged();
                 super.onQueryComplete(token, cookie, cursor);
             } else {
                 progressDialog.dismiss();
@@ -215,24 +252,29 @@ public class InviteContantActivity extends BaseActivity implements View.OnClickL
         }
 
     }
+    private void getFuzzyQueryByName(String key){
 
-    private boolean isLetter(char c) {
-        int k = 0x80;
-        return c / k == 0 ? true : false;
-    }
-
-    private int length(String s) {
-        if (s == null)
-            return 0;
-        char[] c = s.toCharArray();
-        int len = 0;
-        for (int i = 0; i < c.length; i++) {
-            len++;
-            if (!isLetter(c[i])) {
-                len++;
-            }
+        StringBuilder sb = new StringBuilder();
+        ContentResolver cr = getContentResolver();
+        String[] projection = {ContactsContract.PhoneLookup.DISPLAY_NAME,
+                ContactsContract.CommonDataKinds.Phone.NUMBER};
+        Cursor cursor = cr.query(
+                ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                projection,
+                ContactsContract.Contacts.DISPLAY_NAME + " like " + "'%" + key + "%'",
+                null, null);
+        while(cursor.moveToNext()){
+            String name = cursor.getString(
+                    cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+            String number = cursor.getString(
+                    cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+            sb.append(name + " (").append(number + ")").append("\r\n");
         }
-        return len;
+        cursor.close();
+
+        if(!sb.toString().isEmpty()){
+            System.out.println("查询联系人:"+ sb.toString());
+        }
     }
 
 }
