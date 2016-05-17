@@ -32,6 +32,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygamest.Adapter.DownPhotoAdapter;
 import com.softtek.lai.module.bodygamest.model.DownPhotoModel;
+import com.softtek.lai.module.bodygamest.model.GifModel;
 import com.softtek.lai.module.bodygamest.model.LogListModel;
 import com.softtek.lai.module.bodygamest.model.LossModel;
 import com.softtek.lai.module.bodygamest.present.DownloadManager;
@@ -72,7 +73,7 @@ import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_upload_photo)
 public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBase.OnRefreshListener2<ListView>, View.OnClickListener, AdapterView.OnItemClickListener, DownloadManager.DownloadCallBack
-        , PhotoListIml.PhotoListCallback, ImageFileCropSelector.Callback,ImageFileSelector.Callback {
+        , PhotoListIml.PhotoListCallback, ImageFileCropSelector.Callback, ImageFileSelector.Callback {
     //toolbar标题栏
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -122,7 +123,8 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     private ImageView imtest_list;
     private TextView tv_downphoto_nick;
     private ImageFileSelector imageFileSelector;
-    boolean flag=true;
+    boolean flag = true;
+    GifModel gifModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,7 +141,8 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     }
 
     @Subscribe
-    public void onEvent(ResponseData listResponseData) {
+    public void onEvent(GifModel model) {
+        gifModel = model;
         photoListPre.getLossData(UserInfoModel.getInstance().getUser().getUserid());
 
     }
@@ -149,10 +152,11 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         System.out.println("lossModel:" + lossModel);
         ShareUtils shareUtils = new ShareUtils(UploadPhotoActivity.this);
         String path = AddressManager.get("shareHost", "http://172.16.98.167/Share/");
-        String url = path + "SharePhotoAblum?AccountId=" + UserInfoModel.getInstance().getUser().getUserid();
+        String gifName = gifModel.getGifname();
+        String url = path + "SharePhotoAblum?AccountId=" + UserInfoModel.getInstance().getUser().getUserid() + "&ShareImageName=" + gifName;
         System.out.println("url:" + url);
         shareUtils.setShareContent("康宝莱体重管理挑战赛，坚持只为改变！", url, R.drawable.img_share_logo, lossModel.getContent(), lossModel.getContent() + url);
-        shareUtils.getController().openShare(UploadPhotoActivity.this,false);
+        shareUtils.getController().openShare(UploadPhotoActivity.this, false);
     }
 
     @Override
@@ -162,9 +166,9 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         progressDialog.setMessage("正在加载内容...");
         tv_title.setText("上传照片");
         tv_right.setText("分享");
-        imageFileSelector=new ImageFileSelector(this);
-        imageFileSelector.setOutPutImageSize(DisplayUtil.dip2px(this,600),
-                DisplayUtil.dip2px(this,400));
+        imageFileSelector = new ImageFileSelector(this);
+        imageFileSelector.setOutPutImageSize(DisplayUtil.dip2px(this, 600),
+                DisplayUtil.dip2px(this, 400));
         imageFileSelector.setQuality(80);
         imageFileSelector.setCallback(this);
         //监听点击事件
@@ -191,7 +195,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         im_uploadphoto_banner_list.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                flag=true;
+                flag = true;
                 new AlertDialog.Builder(UploadPhotoActivity.this).setItems(items, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -241,7 +245,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
                 startActivityForResult(intent, 100);
                 break;
             case R.id.imtest_list:
-                flag=false;
+                flag = false;
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setItems(items, new DialogInterface.OnClickListener() {
                     @Override
@@ -263,6 +267,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
 
 
     }
+
     // android获取一个用于打开PDF文件的intent
     public static Intent getPdfFileIntent(String param) {
         Intent intent = new Intent("android.intent.action.VIEW");
@@ -272,6 +277,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         intent.setDataAndType(uri, "application/pdf");
         return intent;
     }
+
     public void takecamera() {
 
         path = (Environment.getExternalStorageDirectory().getPath()) + "/123.jpg";
@@ -299,13 +305,12 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         super.onActivityResult(requestCode, resultCode, data);
         if (!flag) {
             imageFileSelector.onActivityResult(requestCode, resultCode, data);
-        }
-        else {
+        } else {
             imageFileCropSelector.onActivityResult(requestCode, resultCode, data);
         }
         imageFileCropSelector.getmImageCropperHelper().onActivityResult(requestCode, resultCode, data);
         UMSsoHandler ssoHandler = SocializeConfig.getSocializeConfig().getSsoHandler(requestCode);
-        System.out.println("ssoHandler:"+ssoHandler+"   requestCode:"+requestCode+"   resultCode:"+resultCode);
+        System.out.println("ssoHandler:" + ssoHandler + "   requestCode:" + requestCode + "   resultCode:" + resultCode);
         if (ssoHandler != null) {
             ssoHandler.authorizeCallBack(requestCode, resultCode, data);
         }
@@ -359,11 +364,11 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     @Override
     public void getStroyList(DownPhotoModel downPhotoModel) {
         ptrlvlist.onRefreshComplete();
-        String path= AddressManager.get("photoHost");
+        String path = AddressManager.get("photoHost");
         if (downPhotoModel.getUserName() != null) {
 //            tv_downphoto_nick.setText(downPhotoModel.getUserName());
             if (!TextUtils.isEmpty(downPhotoModel.getPhoto())) {
-                Picasso.with(this).load(path + downPhotoModel.getPhoto()+"").fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(cir_downphoto_head_list);
+                Picasso.with(this).load(path + downPhotoModel.getPhoto() + "").fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(cir_downphoto_head_list);
             } else {
 
                 Picasso.with(this).load("www").placeholder(R.drawable.img_default).error(R.drawable.img_default).into(cir_downphoto_head_list);
@@ -371,7 +376,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
             }
 
             if (!TextUtils.isEmpty(downPhotoModel.getBanner())) {
-                Picasso.with(this).load(path + downPhotoModel.getBanner()+"").fit().placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(im_uploadphoto_banner_list);
+                Picasso.with(this).load(path + downPhotoModel.getBanner() + "").fit().placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(im_uploadphoto_banner_list);
 
             } else {
 
@@ -422,8 +427,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
             progressDialog.setMessage("图片正在上传...");
             progressDialog.show();
             photoListPre.doUploadPhoto(UserInfoModel.getInstance().getUser().getUserid(), file, progressDialog);
-        }
-        else {
+        } else {
             service.updateClassBanner(token, Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()),
                     "1",
                     new TypedFile("image/*", new File(file)),
