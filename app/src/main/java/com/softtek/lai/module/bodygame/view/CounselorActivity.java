@@ -87,8 +87,7 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
     @InjectView(R.id.tv_total_loss)
     TextView tv_total_loss;
     private ITiGuanSai iTiGuanSai;
-    private TiGuanSaiModel tiGuanSai;
-    private FuceNumModel fuceNumModel;
+
     UserInfoModel userInfoModel=UserInfoModel.getInstance();
     long loginid=Long.parseLong(userInfoModel.getUser().getUserid());
 

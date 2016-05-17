@@ -90,7 +90,6 @@ public class StudentBaseDateActivity extends BaseActivity implements BaseFragmen
     @Override
     public void getClassMemberInfo(StudentBaseInfoModel studentBaseInfoModel) {
         dialogDissmiss();
-        Log.i("加载结束");
         if(studentBaseInfoModel!=null){
             Log.i("基础数据"+studentBaseInfoModel);
             tv_title.setText(studentBaseInfoModel.getClassName());
