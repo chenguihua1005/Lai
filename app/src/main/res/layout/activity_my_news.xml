@@ -35,7 +35,19 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
                 android:textSize="16sp"/>
+            <TextView
+                android:id="@+id/tv_newslis_public"
+                android:layout_width="20dp"
+                android:layout_height="15dp"
+                android:gravity="center"
+                android:textColor="#ffffff"
+                android:textSize="10sp"
+                android:visibility="gone"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/im_news_right"
+                android:background="@drawable/sportnews_bac"/>
             <ImageView
+                android:id="@+id/im_news_right"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/myinfo_right"
@@ -69,7 +81,19 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
                 android:textSize="16sp"/>
+            <TextView
+                android:id="@+id/tv_newslis_pk"
+                android:layout_width="20dp"
+                android:layout_height="15dp"
+                android:gravity="center"
+                android:textColor="#ffffff"
+                android:textSize="10sp"
+                android:visibility="gone"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/im_news_right1"
+                android:background="@drawable/sportnews_bac"/>
             <ImageView
+                android:id="@+id/im_news_right1"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/myinfo_right"
@@ -103,7 +127,19 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
                 android:textSize="16sp"/>
+            <TextView
+                android:id="@+id/tv_newslis_action"
+                android:layout_width="20dp"
+                android:layout_height="15dp"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:textColor="#ffffff"
+                android:textSize="10sp"
+                android:visibility="gone"
+                android:layout_toLeftOf="@+id/im_news_right2"
+                android:background="@drawable/sportnews_bac"/>
             <ImageView
+                android:id="@+id/im_news_right2"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/myinfo_right"
@@ -137,7 +173,19 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
                 android:textSize="16sp"/>
+            <TextView
+                android:id="@+id/tv_newslis_system"
+                android:layout_width="20dp"
+                android:layout_height="15dp"
+                android:gravity="center"
+                android:textColor="#ffffff"
+                android:textSize="10sp"
+                android:visibility="gone"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/im_news_right3"
+                android:background="@drawable/sportnews_bac"/>
             <ImageView
+                android:id="@+id/im_news_right3"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/myinfo_right"

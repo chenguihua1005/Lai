@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
@@ -80,6 +81,11 @@ public class LossWeightAdapter extends BaseAdapter {
         holder.tv_lw_before.setText("前 " + studentModel.getLossBefore() + "斤");
         holder.tv_lw_after.setText("后 " + studentModel.getLossAfter() + "斤");
         holder.tv_lw_totle.setText(studentModel.getLossWeght());
+        if(studentModel.getIsMemberOfAssistant()==1){//表示不能点击进入学员详情
+            holder.iv_arrow.setVisibility(View.INVISIBLE);
+        }else if(studentModel.getIsMemberOfAssistant()==0){
+            holder.iv_arrow.setVisibility(View.VISIBLE);
+        }
         if (StringUtils.isNotEmpty(studentModel.getPhoto())) {
             Picasso.with(context).load(AddressManager.get("photoHost") + studentModel.getPhoto()).fit().placeholder(R.drawable.img_default)
                     .error(R.drawable.img_default).into(holder.civ_header_image);
@@ -95,6 +101,7 @@ public class LossWeightAdapter extends BaseAdapter {
         TextView tv_lw_before;
         TextView tv_lw_after;
         TextView tv_lw_totle;
+        ImageView iv_arrow;
         CircleImageView civ_header_image;
 
         public ViewHolder(View view) {
@@ -103,6 +110,7 @@ public class LossWeightAdapter extends BaseAdapter {
             tv_lw_before = (TextView) view.findViewById(R.id.tv_lw_before);
             tv_lw_after = (TextView) view.findViewById(R.id.tv_lw_after);
             tv_lw_totle = (TextView) view.findViewById(R.id.tv_lw_totle);
+            iv_arrow= (ImageView) view.findViewById(R.id.iv_arrow);
             civ_header_image = (CircleImageView) view.findViewById(R.id.civ_header_image);
 
         }

@@ -81,6 +81,7 @@ public class  RetestActivity extends BaseActivity implements View.OnClickListene
     private StudentAdapter studentAdapter;
     boolean h=false;
     long ClassId;
+//    int postions=-1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,6 +151,9 @@ public class  RetestActivity extends BaseActivity implements View.OnClickListene
                     intent.putExtra("Photo",banjiStudentModel.getPhoto());
                     //第几周期
                     intent.putExtra("Weekth",banjiStudentModel.getWeekth());
+                    //postion
+//                    intent.putExtra("postion",position);
+//                    postions=position;
 
                     startActivityForResult(intent,GET_BODY);
 
@@ -175,6 +179,9 @@ public class  RetestActivity extends BaseActivity implements View.OnClickListene
                     intent.putExtra("Photo",banjiStudentModel.getPhoto());
                     //第几周期
                     intent.putExtra("Weekth",banjiStudentModel.getWeekth());
+                    //postion
+//                    intent.putExtra("postion",position);
+//                    postions=position;
                     Log.i("zhouqizhouqi"+banjiStudentModel.getWeekth());
                     startActivityForResult(intent,GET_BODY);
                 }
@@ -276,11 +283,15 @@ public class  RetestActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode==GET_BODY&&resultCode==RESULT_OK){
+//            Intent intent=getIntent();
+//            int postion=intent.getIntExtra("postion",-1);
+//            if (postions!=-1) {
+//                banjiModelList.remove(postions);
             banjiStudentModelList.clear();
             retestPre.doGetBanjiStudent(ClassId,loginid);
-//            studentAdapter.notifyDataSetChanged();
+            studentAdapter.notifyDataSetChanged();
+//            }
 
         }
     }

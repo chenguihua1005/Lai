@@ -32,6 +32,7 @@ import com.softtek.lai.module.act.view.ActListActivity;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.laisportmine.present.MyRunTeamManager;
 import com.softtek.lai.module.laisportmine.view.MyInformationActivity;
+import com.softtek.lai.module.mygrades.view.MyGradesActivity;
 import com.softtek.lai.module.personalPK.view.CreatePKActivity;
 import com.softtek.lai.module.personalPK.view.PKListActivity;
 import com.softtek.lai.module.sport.adapter.GroupAdapter;
@@ -59,7 +60,7 @@ import zilla.libcore.ui.InjectLayout;
  * 跑团首页
  */
 @InjectLayout(R.layout.activity_group_main)
-public class GroupMainActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener, SportGroupManager.GetSportIndexCallBack, MyRunTeamManager.MyRunTeamCallback {
+public class GroupMainActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener, SportGroupManager.GetSportIndexCallBack{
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -200,7 +201,8 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void initViews() {
-
+        iv_email.setImageResource(R.drawable.img_group_main_my);
+        iv_email.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -209,9 +211,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
         String userId = UserInfoModel.getInstance().getUser().getUserid();
         userId = "13";
         sportGroupManager.getSportIndex(userId);
-        //判断是否有跑团
-        myRunTeamManager = new MyRunTeamManager(this);
-        myRunTeamManager.doGetNowRgName(accountid);
+
     }
 
     @Override
@@ -225,7 +225,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                 startActivity(new Intent(this, MyInformationActivity.class));
                 break;
             case R.id.rel_my_score://我的成绩
-
+                startActivity(new Intent(this, MyGradesActivity.class));
                 break;
             case R.id.lin_start_sport://开始运动
             case R.id.lin_start_sports://开始运动
@@ -378,12 +378,5 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
-    @Override
-    public void getRunTeamName(String data, String flag) {
-        if (!data.equals("")) {
-            iv_email.setVisibility(View.VISIBLE);
-            iv_email.setImageResource(R.drawable.img_group_main_my);
-        }
 
-    }
 }

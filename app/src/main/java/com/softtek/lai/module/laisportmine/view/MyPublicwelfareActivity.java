@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
@@ -15,6 +16,7 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.laisportmine.adapter.MyPublicWealfareAdapter;
 import com.softtek.lai.module.laisportmine.model.PublicWewlfModel;
+import com.softtek.lai.module.laisportmine.present.DelNoticeOrMeasureManager;
 import com.softtek.lai.module.laisportmine.present.MyPublicWewlListManager;
 import com.softtek.lai.module.laisportmine.present.UpdateMsgRTimeManager;
 import com.softtek.lai.module.retest.adapter.ClassAdapter;
@@ -31,7 +33,7 @@ import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_my_publicwelfare)
 public class MyPublicwelfareActivity extends BaseActivity implements View.OnClickListener ,MyPublicWewlListManager.MyPublicWewlListCallback,UpdateMsgRTimeManager.UpdateMsgRTimeCallback,
-        AdapterView.OnItemLongClickListener{
+        AdapterView.OnItemLongClickListener,DelNoticeOrMeasureManager.DelNoticeOrMeasureCallback{
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.tv_title)
@@ -44,6 +46,7 @@ public class MyPublicwelfareActivity extends BaseActivity implements View.OnClic
     private MyPublicWealfareAdapter myPublicWealfareAdapter;
     MyPublicWewlListManager myPublicWewlListManager;
     UpdateMsgRTimeManager updateMsgRTimeManager;
+    DelNoticeOrMeasureManager delNoticeOrMeasureManager;
     String accouid;
     int positions;
     private CharSequence[] items={"删除"};
@@ -65,6 +68,8 @@ public class MyPublicwelfareActivity extends BaseActivity implements View.OnClic
         myPublicWewlListManager.doGetDonateMsg(accouid);
         updateMsgRTimeManager=new UpdateMsgRTimeManager(this);
         updateMsgRTimeManager.doUpdateMsgRTime(accouid,"21");
+        delNoticeOrMeasureManager=new DelNoticeOrMeasureManager(this);
+
 
     }
 
@@ -80,7 +85,7 @@ public class MyPublicwelfareActivity extends BaseActivity implements View.OnClic
 
     @Override
     public void getMyPublicWewlList(List<PublicWewlfModel> publicWewlfModel) {
-        if (publicWewlfModel==null)
+        if (publicWewlfModel==null||publicWewlfModel.isEmpty())
         {
             ll_public_nomessage.setVisibility(View.VISIBLE);
         }
@@ -91,26 +96,19 @@ public class MyPublicwelfareActivity extends BaseActivity implements View.OnClic
     }
 
     @Override
-    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+    public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         positions=position;
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
-                    publicWewlfModelList.remove(positions);
-                    myPublicWealfareAdapter.notifyDataSetChanged();
-
+                delNoticeOrMeasureManager.doDelNoticeOrMeasureMsg(publicWewlfModelList.get(position).getMessageId());
+                publicWewlfModelList.remove(positions);
+                myPublicWealfareAdapter.notifyDataSetChanged();
 
             }
         }).create().show();
 
-
-
-//        listview_publicwe.remove(position);
-
-//        removeDialog(position);
-//        removeItem(position)
         return false;
     }
 }

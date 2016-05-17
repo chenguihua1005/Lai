@@ -293,4 +293,33 @@ public class PKDetailMold implements Parcelable{
         dest.writeInt(PraiseStatus);
         dest.writeInt(TStatus);
     }
+
+    @Override
+    public String toString() {
+        return "PKDetailMold{" +
+                "PKId=" + PKId +
+                ", TargetType=" + TargetType +
+                ", Target='" + Target + '\'' +
+                ", Start='" + Start + '\'' +
+                ", End='" + End + '\'' +
+                ", ChipType=" + ChipType +
+                ", Chip='" + Chip + '\'' +
+                ", Status=" + Status +
+                ", Challenged=" + Challenged +
+                ", UserName='" + UserName + '\'' +
+                ", Mobile='" + Mobile + '\'' +
+                ", Photo='" + Photo + '\'' +
+                ", chpcou=" + chpcou +
+                ", chaTotal=" + chaTotal +
+                ", BeChallenged=" + BeChallenged +
+                ", BUserName='" + BUserName + '\'' +
+                ", BMobile='" + BMobile + '\'' +
+                ", BPhoto='" + BPhoto + '\'' +
+                ", Bchpcou=" + Bchpcou +
+                ", BchaTotal=" + BchaTotal +
+                ", BPraiseStatus=" + BPraiseStatus +
+                ", PraiseStatus=" + PraiseStatus +
+                ", TStatus=" + TStatus +
+                '}';
+    }
 }

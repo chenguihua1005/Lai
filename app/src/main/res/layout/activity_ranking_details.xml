@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context="com.softtek.lai.module.mygrades.view.RankingDetailsActivity">
+    <include layout="@layout/toolbar"
+        android:id="@+id/toolbar"/>
+
+
+    <RelativeLayout
+        android:id="@+id/ll_classlist"
+        android:layout_width="match_parent"
+        android:gravity="center_vertical"
+        android:background="#ffffff"
+        android:layout_height="50dp">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="小康康i跑团"
+                android:textSize="16sp"
+                android:textColor="#333333"
+                android:id="@+id/tv_rungroupname" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/Iv_fold"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/unfold"/>
+        </LinearLayout>
+    </RelativeLayout>
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1px"
+        android:background="#d0cfcf"/>
+    <android.support.design.widget.TabLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tab"
+        style="@style/myTabLayout1"/>
+
+    <com.softtek.lai.widgets.NoSlidingViewPage
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tab_content" />
+
+</LinearLayout>

@@ -15,6 +15,7 @@ import android.provider.MediaStore;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -49,6 +50,7 @@ import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.module.retest.present.RetestclassImp;
 import com.softtek.lai.module.retest.view.BodyweiduActivity;
 import com.softtek.lai.utils.DisplayUtil;
+import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileCropSelector;
@@ -111,13 +113,12 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
     ValidateLife validateLife;
 
     //信息保存
-    @Required(order = 1,message = "初始体重必填项，请选择")
     @InjectView(R.id.tv_write_chu_weight)
     EditText tv_write_chu_weight;
 
 
     //现在体重
-    @Required(order = 2,message = "现在体重必填项，请选择")
+    @Required(order = 1,message = "现在体重必填项，请选择")
     @InjectView(R.id.tv_retestWrite_nowweight)
     EditText tv_retestWrite_nowweight;
     //体脂
@@ -190,8 +191,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         ll_retestWrite_tizhi.setOnClickListener(this);
         ll_retestWrite_neizhi.setOnClickListener(this);
         im_delete.setOnClickListener(this);
-        tv_write_chu_weight.setFocusable(false);
-        tv_retestWrite_nowweight.setFocusable(false);
+        tv_retestWrite_nowweight.setEnabled(false);
 
     }
     @Override
@@ -205,7 +205,9 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         progressDialog = new ProgressDialog(this);
         im_retestwrite_showphoto.setOnClickListener(this);
 
+//        android:enabled="false"
     }
+
 
     @Override
     protected void initDatas() {
@@ -238,7 +240,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
     @Subscribe
     public void event(LaichModel laichModel){
         Log.i("username"+laichModel.getCircum());
-        tv_retestWrite_nowweight.setText(StringUtils.isEmpty(laichModel.getWeight())?"":Float.parseFloat(laichModel.getWeight())+"");
+        tv_retestWrite_nowweight.setText(StringUtils.isEmpty(laichModel.getWeight())?"":((Float.parseFloat(laichModel.getWeight())+"").equals("0.0")?"":Float.parseFloat(laichModel.getWeight())+""));
         tv_retestWrite_tizhi.setText(StringUtils.isEmpty(laichModel.getPysical())?"":Float.parseFloat(laichModel.getPysical())+"");
         tv_retestWrite_neizhi.setText(StringUtils.isEmpty(laichModel.getFat())?"":Float.parseFloat(laichModel.getFat())+"");
         retestWrite.setCircum(StringUtils.isEmpty(laichModel.getCircum())?"":Float.parseFloat(laichModel.getCircum())+"");
@@ -297,6 +299,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
             break;
             //标题栏右提交保存事件
             case R.id.tv_right:
+                tv_retestWrite_nowweight.setEnabled(true);
                 validateLife.validate();
                 break;
             //拍照事件
@@ -495,13 +498,12 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
             }
         }).create().show();
 
-//        information_dialog.setCanceledOnTouchOutside(false);
+
     }
 
     @Override
     public void onValidationSucceeded() {
-        tv_write_chu_weight.setFocusable(true);
-        tv_retestWrite_nowweight.setFocusable(true);
+
         retestWrite.setInitWeight(tv_write_chu_weight.getText()+"");
         retestWrite.setWeight(tv_retestWrite_nowweight.getText()+"");
         retestWrite.setPysical(tv_retestWrite_tizhi.getText()+"");
@@ -515,6 +517,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
 //        Intent intent=new Intent();
 //        setResult(RESULT_OK,intent);
 //        finish();
+
     }
 
     @Override
@@ -588,4 +591,19 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
     public void onError() {
 
     }
+    /**
+     * 点击屏幕隐藏软键盘
+     **/
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (SoftInputUtil.isShouldHideKeyboard(v, ev)) {
+
+                SoftInputUtil.hideKeyboard(v.getWindowToken(), this);
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
 }

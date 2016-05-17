@@ -23,7 +23,8 @@
         android:layout_height="match_parent"
         android:background="#ffffff"
         android:visibility="gone"
-        android:gravity="center">
+        android:gravity="center"
+        android:layout_below="@+id/toolbar">
         <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"

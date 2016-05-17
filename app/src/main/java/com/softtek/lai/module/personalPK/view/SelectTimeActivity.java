@@ -241,6 +241,7 @@ public class SelectTimeActivity extends BaseActivity implements View.OnClickList
                 detailMold.setBchaTotal(0);
                 intent.putExtra("pkmodel",detailMold);
                 intent.putExtra("pkType",Constants.CREATE_PK);
+                intent.putExtra("isEnd",0);
                 startActivity(intent);
             }
 

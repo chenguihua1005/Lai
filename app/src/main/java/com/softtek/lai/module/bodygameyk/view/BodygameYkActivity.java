@@ -1,5 +1,6 @@
 package com.softtek.lai.module.bodygameyk.view;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
@@ -45,10 +46,12 @@ public class BodygameYkActivity extends BaseActivity implements View.OnClickList
     ImageView iv_advyk;
 
     private ITiGuanSai iTiGuanSai;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void initViews() {
         EventBus.getDefault().register(this);
+        progressDialog = new ProgressDialog(this);
         ll_left.setOnClickListener(this);
         ll_tipyk.setOnClickListener(this);
         ll_match.setOnClickListener(this);
@@ -66,7 +69,9 @@ public class BodygameYkActivity extends BaseActivity implements View.OnClickList
         tv_title.setText("体管赛（游客版）");
         iTiGuanSai=new TiGuanSaiImpl();
         iTiGuanSai.getTiGuanSai();
-        dialogShow("数据刷新中...");
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setMessage("数据刷新中...");
+        progressDialog.show();
         iTiGuanSai.doGetTotal(progressDialog);
 
     }
@@ -87,7 +92,9 @@ public class BodygameYkActivity extends BaseActivity implements View.OnClickList
                 startActivity(intents);
                 break;
             case R.id.tv_refreshyk:
-                dialogShow("数据刷新中...");
+                progressDialog.setCanceledOnTouchOutside(false);
+                progressDialog.setMessage("数据刷新中...");
+                progressDialog.show();
                 iTiGuanSai.doGetTotal(progressDialog);
                 break;
         }
