@@ -19,6 +19,7 @@
                 android:text="一月班"
                 android:layout_alignParentLeft="true"
                 android:id="@+id/tv_classname"
+                android:layout_centerVertical="true"
                 android:textSize="18sp"
                 android:textColor="#333">
         </TextView>
@@ -26,26 +27,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=":"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textColor="#333"
+            android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/tv_classname"/>
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textColor="#333"
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@+id/tv_classname"
                 android:id="@+id/tv_title"
+                android:layout_centerVertical="true"
                 android:text="复仇者联盟"/>
         <TextView
                 android:id="@+id/kuo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@+id/tv_title"
                 android:textSize="18sp"
                 android:textColor="#333"
+                android:layout_centerVertical="true"
                 android:text="（"/>
         <TextView
                 android:layout_width="wrap_content"
@@ -53,6 +56,7 @@
                 android:text="3"
                 android:textSize="18sp"
                 android:textColor="#333"
+                android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/kuo"
                 android:id="@+id/tv_personum"
                 />
@@ -61,6 +65,7 @@
                 android:layout_height="wrap_content"
                 android:text="）"
                 android:layout_toRightOf="@+id/tv_personum"
+            android:layout_centerVertical="true"
                 android:textSize="18sp"
                 android:textColor="#333"/>
         <ImageView
@@ -68,6 +73,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
             android:src="@drawable/radiocir"
+            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
         />
     </RelativeLayout>
