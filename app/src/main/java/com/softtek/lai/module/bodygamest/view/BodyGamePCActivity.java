@@ -237,19 +237,23 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
 
     @Subscribe
     public void onEvent1(CountWeekModel countWeekModel) {
-        if (Integer.parseInt(countWeekModel.getCount())==0||countWeekModel.getCount().equals("")) {
-            tv_st_num.setVisibility(View.GONE);
-        }
-        else
-        if (Integer.parseInt(countWeekModel.getCount())>10)
+        if(countWeekModel!=null&&!countWeekModel.toString().isEmpty())
         {
-            tv_st_num.setVisibility(View.VISIBLE);
-            tv_st_num.setText("10+");
+            if (Integer.parseInt(countWeekModel.getCount())>10)
+            {
+                tv_st_num.setVisibility(View.VISIBLE);
+                tv_st_num.setText("10+");
+            }
+            else if (Integer.parseInt(countWeekModel.getCount())<=10&&0<Integer.parseInt(countWeekModel.getCount()))
+            {
+                tv_st_num.setVisibility(View.VISIBLE);
+                tv_st_num.setText(countWeekModel.getCount());
+            }
+            else {
+                tv_st_num.setVisibility(View.GONE);
+            }
         }
-        else {
-            tv_st_num.setVisibility(View.VISIBLE);
-            tv_st_num.setText(countWeekModel.getCount());
-        }
+
 
     }
     @Subscribe
