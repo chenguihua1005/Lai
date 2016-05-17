@@ -236,7 +236,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
                 break;
             case R.id.btn_restart:
                 //重新发起挑战
-                
+
                 break;
         }
     }

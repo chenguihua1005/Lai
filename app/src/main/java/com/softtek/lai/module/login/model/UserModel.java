@@ -5,6 +5,8 @@
 
 package com.softtek.lai.module.login.model;
 
+import com.github.snowdream.android.util.Log;
+
 import java.io.Serializable;
 
 /**
@@ -24,6 +26,8 @@ public class UserModel implements Serializable {
     private String Certification;
     private String CertTime;
     private String Mobile;
+    //*********记录用户是否有性别
+    private boolean hasGender;
 
     public String getMobile() {
         return Mobile;
@@ -90,11 +94,15 @@ public class UserModel implements Serializable {
     }
 
     public String getGender() {
-        return gender;
+        return Integer.parseInt(gender)==2?"0":gender;
     }
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public boolean isHasGender() {
+        return Integer.parseInt(gender)==2?false:true;
     }
 
     public String getWeight() {
