@@ -1,9 +1,15 @@
 package com.softtek.lai.module.bodygamecc.view;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,6 +23,10 @@ import com.softtek.lai.module.bodygame.model.TotolModel;
 import com.softtek.lai.module.bodygame.presenter.ITiGuanSai;
 import com.softtek.lai.module.bodygame.presenter.TiGuanSaiImpl;
 import com.softtek.lai.module.counselor.view.GameActivity;
+import com.softtek.lai.module.login.view.LoginActivity;
+import com.softtek.lai.module.message.presenter.IMessagePresenter;
+import com.softtek.lai.module.message.presenter.MessageImpl;
+import com.softtek.lai.module.message.view.MessageActivity;
 import com.softtek.lai.module.tips.view.TipsActivity;
 import com.squareup.picasso.Picasso;
 
@@ -52,6 +62,15 @@ public class BodyGameCcActivity extends BaseActivity implements View.OnClickList
     //刷新
     @InjectView(R.id.tv_totalcc)
     ImageView tv_totalcc;
+    @InjectView(R.id.iv_email)
+    ImageView iv_email;
+    @InjectView(R.id.img_red)
+    ImageView img_red;
+    @InjectView(R.id.fl_right)
+    FrameLayout fl_right;
+    private IMessagePresenter messagePresenter;
+    private MessageReceiver mMessageReceiver;
+
     private ITiGuanSai iTiGuanSai;
     UserInfoModel userInfoModel=UserInfoModel.getInstance();
     long loginid=Long.parseLong(userInfoModel.getUser().getUserid());
@@ -66,8 +85,43 @@ public class BodyGameCcActivity extends BaseActivity implements View.OnClickList
         ll_match.setOnClickListener(this);
         tv_totalcc.setOnClickListener(this);
 
+        messagePresenter = new MessageImpl(this);
+        registerMessageReceiver();
+        iv_email.setBackgroundResource(R.drawable.email);
+        fl_right.setOnClickListener(this);
+        iv_email.setOnClickListener(this);
+
+
     }
 
+    public void registerMessageReceiver() {
+        mMessageReceiver = new MessageReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
+        filter.addAction(Constants.MESSAGE_RECEIVED_ACTION);
+        registerReceiver(mMessageReceiver, filter);
+    }
+
+    public class MessageReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (Constants.MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {
+                img_red.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        String userrole = UserInfoModel.getInstance().getUser().getUserrole();
+        if (String.valueOf(Constants.VR).equals(userrole)) {
+
+        } else {
+            messagePresenter.getMessageRead(img_red);
+        }
+    }
     @Override
     protected void onDestroy() {
         EventBus.getDefault().unregister(this);
@@ -107,6 +161,32 @@ public class BodyGameCcActivity extends BaseActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId())
         {
+            case R.id.fl_right:
+            case R.id.iv_email:
+                String userroles = UserInfoModel.getInstance().getUser().getUserrole();
+                if (String.valueOf(Constants.VR).equals(userroles)) {
+                    //提示用户让他登录或者直接进入2个功能的踢馆赛模块
+                    AlertDialog.Builder information_dialog = null;
+                    information_dialog = new AlertDialog.Builder(this);
+                    information_dialog.setTitle("您当前处于游客模式，需要登录认证").setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent login = new Intent(BodyGameCcActivity.this, LoginActivity.class);
+                            login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(login);
+                        }
+                    }).setNegativeButton("稍候", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).create().show();
+                } else {
+                    startActivity(new Intent(BodyGameCcActivity.this, MessageActivity.class));
+                }
+                break;
+
             case R.id.ll_left:
                 finish();
                 break;

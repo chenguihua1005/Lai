@@ -9,7 +9,7 @@ public interface PhotoListPre {
     void doGetDownPhoto(String AccountId,int pageIndex, ProgressDialog loadingDialog);
     void doUploadPhoto(String AccountId,String filePath, ProgressDialog loadingDialog);
     void getUploadPhoto(String AccountId,String pageIndex);
-    void getUserPhotos(String photoName);
-    void getLossData(String accountId);
+    void getUserPhotos(String photoName, ProgressDialog loadingDialog);
+    void getLossData(String accountId, ProgressDialog loadingDialog);
 
 }

@@ -204,6 +204,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.counselor.view.SearchContantActivity"
+            android:windowSoftInputMode="stateAlwaysVisible"
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.counselor.view.InviteStudentActivity"

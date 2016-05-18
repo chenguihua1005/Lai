@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -40,6 +41,7 @@ import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.message.model.MessageDetailInfo;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.HanziToPinyin;
+import com.softtek.lai.utils.SoftInputUtil;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -169,13 +171,17 @@ public class SearchContantActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void initViews() {
         //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
-        tv_title.setText("搜索");
+        tv_title.setText("搜索联系人");
 
     }
 
     @Override
     protected void initDatas() {
         studentPresenter = new StudentImpl(this);
+        et_search.setFocusable(true);
+        et_search.setFocusableInTouchMode(true);
+        et_search.requestFocus();
+        et_search.findFocus();
 
     }
 
@@ -189,6 +195,20 @@ public class SearchContantActivity extends BaseActivity implements View.OnClickL
         }
     }
 
+    /**
+     * 点击屏幕隐藏软键盘
+     **/
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (SoftInputUtil.isShouldHideKeyboard(v, ev)) {
+
+                SoftInputUtil.hideKeyboard(v.getWindowToken(), this);
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
 
     @Override
     protected void onStop() {

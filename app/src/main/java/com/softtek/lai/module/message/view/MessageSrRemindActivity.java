@@ -76,7 +76,7 @@ public class MessageSrRemindActivity extends BaseActivity implements View.OnClic
                     messagePresenter.upReadTime("2", messageDetailInfo.getInviterId(), messageDetailInfo.getSenderId(), messageDetailInfo.getClassId());
                 }else {
                     dialogShow("加载中");
-                    messagePresenter.delNoticeOrMeasureMsg(messageDetailInfo.getMessageId());
+                    messagePresenter.upReadTime("1", messageDetailInfo.getMessageId(),"", "");
                 }
 
             }
