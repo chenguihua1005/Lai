@@ -38,12 +38,13 @@ public class PhotoListIml implements PhotoListPre {
     }
 
     @Override
-    public void getLossData(String accountId) {
+    public void getLossData(String accountId, final ProgressDialog loadingDialog) {
         String token = SharedPreferenceService.getInstance().get("token", "");
         service.getLossData(token, accountId, new Callback<ResponseData<LossModel>>() {
             @Override
             public void success(ResponseData<LossModel> listResponseData, Response response) {
                 System.out.println("listResponseData:" + listResponseData);
+                loadingDialog.dismiss();
                 int status = listResponseData.getStatus();
                 switch (status) {
                     case 200:
@@ -57,6 +58,7 @@ public class PhotoListIml implements PhotoListPre {
 
             @Override
             public void failure(RetrofitError error) {
+                loadingDialog.dismiss();
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }
@@ -92,12 +94,13 @@ public class PhotoListIml implements PhotoListPre {
     }
 
     @Override
-    public void getUserPhotos(String photoName) {
+    public void getUserPhotos(String photoName, final ProgressDialog loadingDialog) {
         String token = SharedPreferenceService.getInstance().get("token", "");
         service.getUserPhotos(token, photoName, new Callback<ResponseData<GifModel>>() {
             @Override
             public void success(ResponseData<GifModel> listResponseData, Response response) {
                 System.out.println("listResponseData:" + listResponseData);
+                loadingDialog.dismiss();
                 int status = listResponseData.getStatus();
                 switch (status) {
                     case 200:
@@ -110,7 +113,7 @@ public class PhotoListIml implements PhotoListPre {
 
             @Override
             public void failure(RetrofitError error) {
-
+                loadingDialog.dismiss();
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }

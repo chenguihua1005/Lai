@@ -87,13 +87,8 @@ public class NetErrorHandler implements IApiErrorHandler {
                                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         LaiApplication.getInstance().startActivity(intent);
                                     }
-                                }).setNegativeButton("稍候", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        builder=null;
-                                    }
                                 });
-
+                        builder.setCancelable(false);
                         builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                             @Override
                             public void onDismiss(DialogInterface dialog) {

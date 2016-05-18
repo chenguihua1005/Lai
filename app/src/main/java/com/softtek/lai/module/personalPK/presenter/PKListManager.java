@@ -156,4 +156,12 @@ public class PKListManager {
     public void doZan(long pkId,int chall,RequestCallback<ResponseData> callback){
         service.doZan(token,pkId,chall,callback);
     }
+
+    public void cancelPK(long pkId,RequestCallback<ResponseData> callback){
+        service.cancelPK(token,pkId,callback);
+    }
+
+    public void resetPK(long pkId,RequestCallback<ResponseData> callback){
+        service.resetPK(token,pkId,callback);
+    }
 }

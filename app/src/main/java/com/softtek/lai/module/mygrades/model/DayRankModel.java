@@ -8,20 +8,20 @@ import java.util.List;
  * 3.3.4	当周排前100名详情
  */
 public class DayRankModel {
-    private String orderInfo;
+    private String orderInfo;//当前用户排名
+    private String orderPhoto;//--当前用户头像
+    private String orderName;//	--当前用户姓名
+    private String orderMobile;//--当前用户手机号
+    private String orderSteps;//--当前用户步数
     private List<OrderDataModel> orderData;
 
-    public DayRankModel(List<OrderDataModel> orderData, String orderInfo) {
-        this.orderData = orderData;
+    public DayRankModel(String orderInfo, String orderPhoto, String orderName, String orderMobile, String orderSteps, List<OrderDataModel> orderData) {
         this.orderInfo = orderInfo;
-    }
-
-    @Override
-    public String toString() {
-        return "DayRankModel{" +
-                "orderInfo='" + orderInfo + '\'' +
-                ", orderData=" + orderData +
-                '}';
+        this.orderPhoto = orderPhoto;
+        this.orderName = orderName;
+        this.orderMobile = orderMobile;
+        this.orderSteps = orderSteps;
+        this.orderData = orderData;
     }
 
     public String getOrderInfo() {
@@ -32,11 +32,55 @@ public class DayRankModel {
         this.orderInfo = orderInfo;
     }
 
+    public String getOrderPhoto() {
+        return orderPhoto;
+    }
+
+    public void setOrderPhoto(String orderPhoto) {
+        this.orderPhoto = orderPhoto;
+    }
+
+    public String getOrderName() {
+        return orderName;
+    }
+
+    public void setOrderName(String orderName) {
+        this.orderName = orderName;
+    }
+
+    public String getOrderMobile() {
+        return orderMobile;
+    }
+
+    public void setOrderMobile(String orderMobile) {
+        this.orderMobile = orderMobile;
+    }
+
+    public String getOrderSteps() {
+        return orderSteps;
+    }
+
+    public void setOrderSteps(String orderSteps) {
+        this.orderSteps = orderSteps;
+    }
+
     public List<OrderDataModel> getOrderData() {
         return orderData;
     }
 
     public void setOrderData(List<OrderDataModel> orderData) {
         this.orderData = orderData;
+    }
+
+    @Override
+    public String toString() {
+        return "DayRankModel{" +
+                "orderInfo='" + orderInfo + '\'' +
+                ", orderPhoto='" + orderPhoto + '\'' +
+                ", orderName='" + orderName + '\'' +
+                ", orderMobile='" + orderMobile + '\'' +
+                ", orderSteps='" + orderSteps + '\'' +
+                ", orderData=" + orderData +
+                '}';
     }
 }

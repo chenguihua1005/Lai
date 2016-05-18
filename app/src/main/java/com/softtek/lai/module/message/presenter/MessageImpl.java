@@ -121,9 +121,9 @@ public class MessageImpl implements IMessagePresenter {
     }
 
     @Override
-    public void delNoticeOrMeasureMsg(String messageId) {
+    public void delNoticeOrMeasureMsg(String messageId,String type) {
         String token = UserInfoModel.getInstance().getToken();
-        messageService.delNoticeOrMeasureMsg(token, messageId, new Callback<ResponseData>() {
+        messageService.delNoticeOrMeasureMsg(token, messageId,type, new Callback<ResponseData>() {
             @Override
             public void success(ResponseData listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());

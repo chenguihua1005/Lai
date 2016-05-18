@@ -56,6 +56,7 @@ public interface MessageService {
     @POST("/MsgCenter/DelNoticeOrMeasureMsg")
     void delNoticeOrMeasureMsg(@Header("token") String token,
                        @Query("MessageId") String messageId,
+                       @Query("type") String type,
                        Callback<ResponseData> callback);
 
     @GET("/MessageRead/GetMessageRead")
