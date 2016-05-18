@@ -113,6 +113,9 @@ public class HonorImpl implements IHonorPresenter {
                     case 200:
                         EventBus.getDefault().post(listResponseData.getData());
                         break;
+                    case 100:
+
+                        break;
                     default:
                         Util.toastMsg(listResponseData.getMsg());
                         break;

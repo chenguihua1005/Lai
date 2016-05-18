@@ -75,6 +75,9 @@ public class MessageImpl implements IMessagePresenter {
                     case 200:
                         EventBus.getDefault().post(listResponseData);
                         break;
+                    case 100:
+
+                        break;
                     default:
                         Util.toastMsg(listResponseData.getMsg());
                         break;
@@ -133,6 +136,9 @@ public class MessageImpl implements IMessagePresenter {
                     case 200:
                         EventBus.getDefault().post(listResponseData);
                         break;
+                    case 100:
+
+                        break;
                     default:
                         Util.toastMsg(listResponseData.getMsg());
                         break;
@@ -161,6 +167,9 @@ public class MessageImpl implements IMessagePresenter {
                 switch (status) {
                     case 200:
                         EventBus.getDefault().post(messageModel);
+                        break;
+                    case 100:
+
                         break;
                     default:
                         Util.toastMsg(listResponseData.getMsg());
@@ -207,6 +216,8 @@ public class MessageImpl implements IMessagePresenter {
                         }
                         context.finish();
                         break;
+                    case 100:
+                        break;
                     default:
                         Util.toastMsg(listResponseData.getMsg());
                         break;
@@ -243,6 +254,9 @@ public class MessageImpl implements IMessagePresenter {
                             context.startActivity(intent);
                             context.finish();
                         }
+                        break;
+                    case 100:
+
                         break;
                     default:
                         Util.toastMsg(listResponseData.getMsg());

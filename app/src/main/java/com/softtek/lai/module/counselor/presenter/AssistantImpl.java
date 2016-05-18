@@ -68,6 +68,9 @@ public class AssistantImpl implements IAssistantPresenter {
                     case 200:
                         EventBus.getDefault().post(new AssistantApplyEvent(list));
                         break;
+                    case 100:
+
+                        break;
                     default:
                         Util.toastMsg(listResponseData.getMsg());
                         break;
@@ -98,6 +101,9 @@ public class AssistantImpl implements IAssistantPresenter {
                         text_apply.setVisibility(View.GONE);
                         text_state.setVisibility(View.VISIBLE);
                         break;
+                    case 100:
+
+                        break;
                     default:
                         Util.toastMsg(listResponseData.getMsg());
                         break;
@@ -125,6 +131,9 @@ public class AssistantImpl implements IAssistantPresenter {
                 switch (status) {
                     case 200:
                         EventBus.getDefault().post(listResponseData.getData());
+                        break;
+                    case 100:
+
                         break;
                     default:
                         Util.toastMsg(listResponseData.getMsg());
@@ -162,6 +171,9 @@ public class AssistantImpl implements IAssistantPresenter {
                             ((AssistantDetailActivity) context).finish();
                         }
                         break;
+                    case 100:
+
+                        break;
                     default:
                         Util.toastMsg(listResponseData.getMsg());
                         break;
@@ -191,6 +203,9 @@ public class AssistantImpl implements IAssistantPresenter {
                     case 200:
                         ApplyAssistantAdapter applyAssistantAdapter = new ApplyAssistantAdapter(context, list);
                         list_apply_assistant.setAdapter(applyAssistantAdapter);
+                        break;
+                    case 100:
+
                         break;
                     default:
                         Util.toastMsg(listResponseData.getMsg());
@@ -222,6 +237,9 @@ public class AssistantImpl implements IAssistantPresenter {
                         list_assistant.setVisibility(View.VISIBLE);
                         EventBus.getDefault().post(new AssistantInfoEvent(list));
                         break;
+                    case 100:
+                        list_assistant.setVisibility(View.GONE);
+                        break;
                     default:
                         list_assistant.setVisibility(View.GONE);
                         Util.toastMsg(listResponseData.getMsg());
@@ -252,8 +270,10 @@ public class AssistantImpl implements IAssistantPresenter {
                     case 200:
                         EventBus.getDefault().post(new AssistantClassEvent(list));
                         break;
+                    case 100:
+
+                        break;
                     default:
-                        System.out.println("listResponseData.getMsg():" + listResponseData.getMsg());
                         Util.toastMsg(listResponseData.getMsg());
                         break;
                 }
@@ -281,6 +301,9 @@ public class AssistantImpl implements IAssistantPresenter {
                 switch (statusId) {
                     case 200:
                         EventBus.getDefault().post(new ReviewAssistantApplyEvent(posion));
+                        break;
+                    case 100:
+
                         break;
                     default:
                         Util.toastMsg(listResponseData.getMsg());
@@ -312,6 +335,9 @@ public class AssistantImpl implements IAssistantPresenter {
                         AssistantAdapter adapter = new AssistantAdapter(context, list);
                         list_assistant.setAdapter(adapter);
                         break;
+                    case 100:
+
+                        break;
                     default:
                         Util.toastMsg(listResponseData.getMsg());
                         break;
@@ -340,7 +366,9 @@ public class AssistantImpl implements IAssistantPresenter {
                 switch (status) {
                     case 200:
                         img_invite.setImageDrawable(context.getResources().getDrawable(R.drawable.img_invited));
-                        Util.toastMsg("邀请成功");
+                        break;
+                    case 100:
+
                         break;
                     default:
                         Util.toastMsg(listResponseData.getMsg());
