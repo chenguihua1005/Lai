@@ -1,11 +1,13 @@
 package com.softtek.lai.module.mygrades.view;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.ResponseData;
@@ -37,6 +39,8 @@ import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.fagment_rank_sport)
 public class WeekRankFragment extends BaseFragment {
+//    default_icon_square
+//    default_icon_rect
 
     //我的排名情况
     @InjectView(R.id.img_myheadportrait)
@@ -72,6 +76,12 @@ public class WeekRankFragment extends BaseFragment {
     protected void initDatas() {
         iGradesPresenter = new GradesImpl();
         gradesService= ZillaApi.NormalRestAdapter.create(GradesService.class);
+
+
+        Bundle bundle2 = getArguments();
+        int str=bundle2.getInt("id");
+        Log.i("---------------------Weekstr----------------"+str);
+
         //跑团1，全国0
         getCurrentWeekOrder(1);
         //getCurrentWeekOrder(0);
@@ -101,9 +111,9 @@ public class WeekRankFragment extends BaseFragment {
                     case 200:
                         String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
                         if (dayRankModelResponseData.getData().getOrderPhoto().isEmpty()){
-                           // Picasso.with(getContext()).load(path + dayRankModelResponseData.getData().getOrderPhoto()).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(viewHolder.img_myheadportrait);
+                            Picasso.with(getContext()).load(path + dayRankModelResponseData.getData().getOrderPhoto()).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(img_myheadportrait);
                         }else {
-                           // Picasso.with(getContext()).load("www").placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(viewHolder.img_myheadportrait);
+                            Picasso.with(getContext()).load("www").placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(img_myheadportrait);
                         }
                         if (dayRankModelResponseData.getData().getOrderName().isEmpty()){
                             if (dayRankModelResponseData.getData().getOrderMobile().isEmpty()){
@@ -111,9 +121,9 @@ public class WeekRankFragment extends BaseFragment {
                             }else {
                                 //(姓名如果为空，手机号码前3后4中间4个*的)
                                 String mobile=dayRankModelResponseData.getData().getOrderMobile();
-                                String qian=mobile.substring(0,3);
-                                String hou=mobile.substring(mobile.length()-4,mobile.length());
-                                tv_name.setText(qian+"****"+hou);
+                                String before=mobile.substring(0,3);
+                                String after=mobile.substring(mobile.length()-4,mobile.length());
+                                tv_name.setText(before+"****"+after);
                             }
                         }else {
                             tv_name.setText(dayRankModelResponseData.getData().getOrderName());

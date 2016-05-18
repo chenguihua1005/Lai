@@ -24,8 +24,8 @@ import com.softtek.lai.module.jingdu.model.Table1Model;
 import com.softtek.lai.module.jingdu.presenter.GetProinfoImpl;
 import com.softtek.lai.module.jingdu.presenter.IGetProinfopresenter;
 import com.softtek.lai.utils.ShareUtils;
-import com.umeng.socialize.bean.SocializeConfig;
-import com.umeng.socialize.sso.UMSsoHandler;
+//import com.umeng.socialize.bean.SocializeConfig;
+//import com.umeng.socialize.sso.UMSsoHandler;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -119,7 +119,7 @@ public class ZhuJiaoJingduActivity extends BaseActivity implements View.OnClickL
         rankAdapter = new RankAdapter(this, table1ModelList, paimingModelList);
         list_rank.setAdapter(rankAdapter);
         ll_left.setOnClickListener(this);
-        tv_right.setOnClickListener(this);
+        //tv_right.setOnClickListener(this);
     }
 
     private void initpaiming() {
@@ -233,9 +233,9 @@ public class ZhuJiaoJingduActivity extends BaseActivity implements View.OnClickL
                 break;
             //分享功能逻辑
             case R.id.tv_right:
-                ShareUtils shareUtils = new ShareUtils(ZhuJiaoJingduActivity.this);
-                shareUtils.setShareContent("康宝莱体重管理挑战赛，坚持只为改变！", "http://www.baidu.com", R.drawable.logo, "我已成功在**天减重**斤，快来见证我的改变，和我一起参加体重管理挑战赛吧！", "我已成功在**天减重**斤，快来见证我的改变，和我一起参加体重管理挑战赛吧！");
-                shareUtils.getController().openShare(ZhuJiaoJingduActivity.this, false);
+//                ShareUtils shareUtils = new ShareUtils(ZhuJiaoJingduActivity.this);
+//                shareUtils.setShareContent("康宝莱体重管理挑战赛，坚持只为改变！", "http://www.baidu.com", R.drawable.logo, "我已成功在**天减重**斤，快来见证我的改变，和我一起参加体重管理挑战赛吧！", "我已成功在**天减重**斤，快来见证我的改变，和我一起参加体重管理挑战赛吧！");
+//                shareUtils.getController().openShare(ZhuJiaoJingduActivity.this, false);
                 break;
         }
     }
@@ -244,9 +244,9 @@ public class ZhuJiaoJingduActivity extends BaseActivity implements View.OnClickL
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         System.out.println("resultCode:" + resultCode);
-        UMSsoHandler ssoHandler = SocializeConfig.getSocializeConfig().getSsoHandler(requestCode);
-        if (ssoHandler != null) {
-            ssoHandler.authorizeCallBack(requestCode, resultCode, data);
-        }
+//        UMSsoHandler ssoHandler = SocializeConfig.getSocializeConfig().getSsoHandler(requestCode);
+//        if (ssoHandler != null) {
+//            ssoHandler.authorizeCallBack(requestCode, resultCode, data);
+//        }
     }
 }

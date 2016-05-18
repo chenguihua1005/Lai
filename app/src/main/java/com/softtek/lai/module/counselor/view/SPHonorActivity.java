@@ -9,6 +9,7 @@ package com.softtek.lai.module.counselor.view;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
@@ -35,6 +36,10 @@ import com.softtek.lai.module.studetail.view.StudentDetailActivity;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.ShareUtils;
 import com.softtek.lai.utils.StringUtil;
+import com.softtek.lai.widgets.SelectPicPopupWindow;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -109,9 +114,13 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
     @InjectView(R.id.img_fc)
     ImageView img_fc;
 
+    SelectPicPopupWindow menuWindow;
+
 
     private IHonorPresenter honorPresenter;
     private ACache aCache;
+    String url;
+    String value;
 
     List<HonorTable1Model> honorTable1;
 
@@ -131,16 +140,55 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
         EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
+    private View.OnClickListener itemsOnClick = new View.OnClickListener() {
 
+        public void onClick(View v) {
+            menuWindow.dismiss();
+            switch (v.getId()) {
+                case R.id.lin_weixin:
+                    new ShareAction(SPHonorActivity.this)
+                            .setPlatform(SHARE_MEDIA.WEIXIN)
+                            .withTitle("康宝莱体重管理挑战赛，坚持只为改变！")
+                            .withText(value)
+                            .withTargetUrl(url)
+                            .withMedia(new UMImage(SPHonorActivity.this, R.drawable.img_share_logo))
+                            .share();
+                    break;
+                case R.id.lin_circle:
+                    new ShareAction(SPHonorActivity.this)
+                            .setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)
+                            .withTitle("康宝莱体重管理挑战赛，坚持只为改变！")
+                            .withText(value)
+                            .withTargetUrl(url)
+                            .withMedia(new UMImage(SPHonorActivity.this, R.drawable.img_share_logo))
+                            .share();
+                    break;
+                case R.id.lin_sina:
+                    new ShareAction(SPHonorActivity.this)
+                            .setPlatform(SHARE_MEDIA.SINA)
+                            .withText(value+url)
+                            .withMedia(new UMImage(SPHonorActivity.this, R.drawable.img_share_logo))
+                            .share();
+                    break;
+                default:
+                    break;
+            }
+
+
+        }
+
+    };
     @Subscribe
     public void onEvent(UserHonorModel userHonorModel) {
         System.out.println("userHonorModel:" + userHonorModel);
-        ShareUtils shareUtils = new ShareUtils(SPHonorActivity.this);
         String path = AddressManager.get("shareHost", "http://172.16.98.167/Share/");
-        String url = path + "ShareSPHonor?AccountId=" + UserInfoModel.getInstance().getUser().getUserid();
-        String value = "我已累计服务" + userHonorModel.getNum() + "学员，共帮助他们减重" + userHonorModel.getSumLoss() + "斤，快来参加体重管理挑战赛吧！";
-        shareUtils.setShareContent("康宝莱体重管理挑战赛，坚持只为改变！", url,  R.drawable.img_share_logo, value, value + url);
-        shareUtils.getController().openShare(SPHonorActivity.this, false);
+        url = path + "ShareSPHonor?AccountId=" + UserInfoModel.getInstance().getUser().getUserid();
+        value = "我已累计服务" + userHonorModel.getNum() + "学员，共帮助他们减重" + userHonorModel.getSumLoss() + "斤，快来参加体重管理挑战赛吧！";
+//        shareUtils.setShareContent("康宝莱体重管理挑战赛，坚持只为改变！", url,  R.drawable.img_share_logo, value, value + url);
+//        shareUtils.getController().openShare(SPHonorActivity.this, false);
+        menuWindow = new SelectPicPopupWindow(SPHonorActivity.this, itemsOnClick);
+        //显示窗口
+        menuWindow.showAtLocation(SPHonorActivity.this.findViewById(R.id.lin), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
     }
 
     @Subscribe

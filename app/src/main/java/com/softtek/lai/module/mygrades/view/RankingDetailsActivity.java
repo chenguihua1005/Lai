@@ -5,6 +5,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.AdapterView;
@@ -68,10 +70,18 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
     public RankInfoAdapter rankInfoAdapter;
 
     int biaozhi=0;
+    private FragmentManager manager;
+    private FragmentTransaction transaction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //接收莱运动我的成绩跑团名称
+        Intent intent=getIntent();
+        String RGName=intent.getStringExtra("RGName");
+        Log.i("------RankingDetailsActivity:------"+RGName);
+
 
         init();
         rankInfoAdapter = new RankInfoAdapter(this,rankSelectModelList);
@@ -90,6 +100,8 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
                     tv_rungroupname.setText("跑团排名");
                     rbtn_select.setImageResource(R.drawable.radiocir);
 
+                    biaozhi=0;
+                    Log.i("--------------------------跑团排名"+biaozhi);
                     //18516262463
                     //Fragment可以通过父类activity向activity传递数据，例如现在有以下代码：
 //                    context = getActivity().getApplicationContext();
@@ -120,11 +132,14 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
                     //获取list的值------------
                     tv_rungroupname.setText("全国排名");
                     rbtn_select.setImageResource(R.drawable.radiocir);
-                }
 
+                    biaozhi=1;
+                    Log.i("------------------------------全国排名"+biaozhi);
+                }
             }
         });
     }
+
     private void init() {
         //RGName
         RankSelectModel p1 = new RankSelectModel("跑团排名");
@@ -139,15 +154,40 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
         tv_title.setText("排名详情");
         Rl_list.setOnClickListener(this);
         //根据标志flag，判断是日排名（0）还是周排名（1）
+        manager = getFragmentManager();
+        transaction = manager.beginTransaction();
+
+
+
         DayRankFragment dayRankFragment=new DayRankFragment();
-        WeekRankFragment weekRankFragment=new WeekRankFragment();
+        Bundle bundle1 = new Bundle();
+        bundle1.putInt("id",biaozhi);
+        dayRankFragment.setArguments(bundle1);
+//        transaction.replace(dayRankFragment);
         fragments.add(dayRankFragment);
+
+        WeekRankFragment weekRankFragment=new WeekRankFragment();
+        Bundle bundle2 = new Bundle();
+        bundle2.putInt("id", biaozhi);
+        weekRankFragment.setArguments(bundle2);
+//        transaction.replace(weekRankFragment);
         fragments.add(weekRankFragment);
+
+        transaction.commit();
+
+
+
+
         tab_content.setAdapter(new TabContentAdapter(getSupportFragmentManager(),fragments));
         tab.setupWithViewPager(tab_content);
         Intent intent=getIntent();
         int flag=intent.getIntExtra("flag",0);
         tab_content.setCurrentItem(flag);
+
+tab.setOnClickListener(this);
+
+
+
     }
 
     @Override

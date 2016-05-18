@@ -452,6 +452,11 @@
             android:name="cn.jpush.android.service.AlarmReceiver"
             android:exported="false" />
 
+        <service
+            android:name="com.sina.weibo.sdk.net.DownloadService"
+            android:exported="false">
+        </service>
+
         <!-- User defined.  For test only  用户自定义的广播接收器 -->
         <receiver
             android:name=".jpush.MyReceiver"

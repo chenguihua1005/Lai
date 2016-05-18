@@ -64,6 +64,8 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
     LinearLayout ll_dayRank;
     @InjectView(R.id.ll_weekRank)
     LinearLayout ll_weekRank;
+    @InjectView(R.id.ll_grade)
+    LinearLayout ll_grade;
 
     //总步数
     @InjectView(R.id.tv_totalnumber)
@@ -148,17 +150,23 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
     List<Float> dates=new ArrayList<Float>();
     String nowdate7,nowdate6,nowdate5,nowdate4,nowdate3,nowdate2,nowdate1;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
+//        //接收莱运动首页跑团名称
+//        Intent intent=getIntent();
+//        String RGName=intent.getStringExtra("RGName");
+//        Log.i("MyGradesActivity-----"+RGName);
     }
 
     @Override
     protected void initViews() {
         ll_dayRank.setOnClickListener(this);
         ll_weekRank.setOnClickListener(this);
-
+        ll_grade.setOnClickListener(this);
         title.setText("我的成绩");
      //   tv_right.setText("分享");
         chartUtil=new LineChartUtil(this,chart);
@@ -732,6 +740,11 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
+        //接收莱运动首页跑团名称
+        Intent intent2=getIntent();
+        String RGName=intent2.getStringExtra("RGName");
+        Log.i("-------MyGradesActivity:-----"+RGName);
+
         int flag;
         switch (v.getId()){
             case R.id.ll_left:
@@ -740,12 +753,18 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
             case R.id.ll_dayRank:
                 Intent intent=new Intent(MyGradesActivity.this,RankingDetailsActivity.class);
                 intent.putExtra("flag",0);
+                intent.putExtra("RGName",RGName);
+
                 startActivity(intent);
                 break;
             case R.id.ll_weekRank:
                 Intent intent1=new Intent(MyGradesActivity.this,RankingDetailsActivity.class);
                 intent1.putExtra("flag",1);
+                intent1.putExtra("RGName",RGName);
                 startActivity(intent1);
+                break;
+            //我的勋章跳转
+            case R.id.ll_grade:
                 break;
             case R.id.bt_left:
                         if (state!=true)

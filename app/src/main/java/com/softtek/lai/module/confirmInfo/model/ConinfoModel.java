@@ -20,6 +20,8 @@ public class ConinfoModel {
     private double  uparmgirth;
     private double  upleggirth;
     private double doleggirth;
+    private String UserRole;
+
 
     public ConinfoModel(long accountid, String classid, String nickname, String birthday, int gender, String photo, double weight, double pysical, double fat, double circum, double waistline, double hiplie, double uparmgirth, double upleggirth, double doleggirth) {
         this.accountid = accountid;
@@ -41,6 +43,15 @@ public class ConinfoModel {
     public ConinfoModel() {
 
     }
+
+    public String getUserRole() {
+        return UserRole;
+    }
+
+    public void setUserRole(String userRole) {
+        UserRole = userRole;
+    }
+
     public long getAccountid() {
         return accountid;
     }
@@ -179,6 +190,7 @@ public class ConinfoModel {
                 ", uparmgirth=" + uparmgirth +
                 ", upleggirth=" + upleggirth +
                 ", doleggirth=" + doleggirth +
+                ", UserRole='" + UserRole + '\'' +
                 '}';
     }
 }
