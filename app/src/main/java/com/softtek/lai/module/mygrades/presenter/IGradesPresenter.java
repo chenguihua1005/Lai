@@ -15,9 +15,4 @@ public interface IGradesPresenter {
 //    //3.3.2	成绩勋章信息
 //    void getGradeHonor();
 
-    //2.19.3	当日排名
-    void getCurrentDateOrder(int RGIdType);
-
-    //2.19.4	当周排名
-    void getCurrentWeekOrder(int RGIdType);
 }

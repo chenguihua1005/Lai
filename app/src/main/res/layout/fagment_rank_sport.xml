@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:background="#f1f1f1"
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
@@ -20,10 +20,11 @@
                 android:layout_height="match_parent"
                 android:gravity="center">
                 <ImageView
+                    android:id="@+id/img_myheadportrait"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:scaleType="fitCenter"
-                    android:src="@mipmap/ic_launcher"/>
+                    android:src="@drawable/img_default"/>
             </LinearLayout>
             <LinearLayout
                 android:orientation="vertical"
@@ -32,7 +33,8 @@
                 android:gravity="center"
                 android:layout_height="match_parent">
                 <TextView
-                    android:text="Lee"
+                    android:id="@+id/tv_name"
+                    android:text=""
                     android:textSize="15sp"
                     android:textColor="#333333"
                     android:layout_marginBottom="15dp"
@@ -44,7 +46,7 @@
                     android:layout_height="wrap_content">
                     <TextView
                         android:id="@+id/tv_bushu1"
-                        android:text="5000"
+                        android:text=""
                         android:textSize="15sp"
                         android:textColor="#333333"
                         android:layout_width="wrap_content"
@@ -71,7 +73,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
-                    android:text="6"
+                    android:id="@+id/tv_ranking"
+                    android:text=""
                     android:textSize="18sp"
                     android:textColor="#6f6f6f"
                     android:layout_width="wrap_content"
@@ -89,9 +92,9 @@
             android:layout_height="30dp"
             android:gravity="center"
             android:background="#f1f1f1"
-            android:layout_marginLeft="15dp">
+            android:paddingLeft="15dp">
             <TextView
-                android:text="排名步数每10分钟进行一次更新"
+                android:text="排名步数每30分钟进行一次更新"
                 android:textSize="12sp"
                 android:textColor="#9d9d9d"
                 android:layout_width="match_parent"

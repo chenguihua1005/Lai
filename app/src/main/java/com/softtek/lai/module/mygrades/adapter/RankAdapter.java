@@ -68,7 +68,6 @@ public class RankAdapter extends BaseAdapter{
             Picasso.with(context).load(path + orderDataModelList.get(position).getPhoto()).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(viewHolder.civ_header_image);
         } else {
             Picasso.with(context).load("www").placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(viewHolder.civ_header_image);
-
         }
         if ((position + 1) < 4) {
             viewHolder.rank.setTextColor(Color.parseColor("#FDB02B"));
