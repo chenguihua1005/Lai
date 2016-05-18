@@ -106,7 +106,7 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
     LinearLayout ll_st_tipst;
     //刷新
     @InjectView(R.id.im_refreshst)
-            ImageView im_refreshst;
+    ImageView im_refreshst;
 
     @InjectView(R.id.iv_email)
     ImageView iv_email;
@@ -119,9 +119,9 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
 
     RetestPre retestPre;
     IStudentPresenter iStudentPresenter;
-    UserInfoModel userInfoModel=UserInfoModel.getInstance();
-    long loginid=Long.parseLong(userInfoModel.getUser().getUserid());
-    boolean flag=true;
+    UserInfoModel userInfoModel = UserInfoModel.getInstance();
+    long loginid = Long.parseLong(userInfoModel.getUser().getUserid());
+    boolean flag = true;
     private ProgressDialog progressDialog;
 
     @Override
@@ -193,8 +193,7 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
 //    }
 
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         super.onResume();
         String userrole = UserInfoModel.getInstance().getUser().getUserrole();
         if (String.valueOf(Constants.VR).equals(userrole)) {
@@ -203,17 +202,13 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
             messagePresenter.getMessageRead(img_red);
         }
 
-        studentImpl.hasClass(new RequestCallback<ResponseData<HasClass>>()
-        {
+        studentImpl.hasClass(new RequestCallback<ResponseData<HasClass>>() {
             @Override
-            public void success(ResponseData<HasClass> hasClassResponseData, Response response)
-            {
+            public void success(ResponseData<HasClass> hasClassResponseData, Response response) {
                 dialogDissmiss();
                 Log.i(hasClassResponseData.toString());
-                if (hasClassResponseData.getStatus() == 200)
-                {
-                    if ("1".equals(hasClassResponseData.getData().getIsHave()))
-                    {
+                if (hasClassResponseData.getStatus() == 200) {
+                    if ("1".equals(hasClassResponseData.getData().getIsHave())) {
                         retestPre.doGetAudit(loginid, 0, "");
                         iStudentPresenter.GetNotMeasuredRecordByPC(loginid);
                     }
@@ -224,16 +219,17 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
     }
 
 
-    public static final int Student_reteset=1;
+    public static final int Student_reteset = 1;
+
     @Override
     protected void initDatas() {
         tv_title.setText("体管赛（学员版）");
-        iStudentPresenter=new StudentImpl(this);
+        iStudentPresenter = new StudentImpl(this);
         tiGuanSai = new TiGuanSaiImpl();
         tiGuanSai.getTiGuanSai();
         tiGuanSai.doGetTotal(progressDialog);
-        studentImpl=new StudentImpl(this);
-        retestPre=new RetestclassImp();
+        studentImpl = new StudentImpl(this);
+        retestPre = new RetestclassImp();
 
 
         studentImpl.hasClass(new RequestCallback<ResponseData<HasClass>>() {
@@ -241,15 +237,14 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
             public void success(ResponseData<HasClass> hasClassResponseData, Response response) {
                 dialogDissmiss();
                 Log.i(hasClassResponseData.toString());
-                if(hasClassResponseData.getStatus()==200){
-                    if("1".equals(hasClassResponseData.getData().getIsHave()))
-                    {
-                        retestPre.doGetAudit(loginid,0,"");
+                if (hasClassResponseData.getStatus() == 200) {
+                    if ("1".equals(hasClassResponseData.getData().getIsHave())) {
+                        retestPre.doGetAudit(loginid, 0, "");
                         iStudentPresenter.GetNotMeasuredRecordByPC(loginid);
-                    }else{
+                    } else {
 
                     }
-                }else{
+                } else {
 
                 }
             }
@@ -264,16 +259,17 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
     }
 
     @Subscribe
-    public void doGetDates(RetestAuditModelEvent retestAuditModelEvent)  {
+    public void doGetDates(RetestAuditModelEvent retestAuditModelEvent) {
 
-            if(retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus()!=null) {
-                if (retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("0")) {
-                    flag = false;
+        if (retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus() != null) {
+            if (retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("0")) {
+                flag = false;
 
-                }
             }
+        }
 
     }
+
     @Subscribe
     public void onEvent(TiGuanSaiModel tiGuanSai) {
 
@@ -284,27 +280,23 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
 
     @Subscribe
     public void onEvent1(CountWeekModel countWeekModel) {
-        if(countWeekModel!=null&&!countWeekModel.toString().isEmpty())
-        {
-            if (Integer.parseInt(countWeekModel.getCount())>10)
-            {
+        if (countWeekModel != null && !countWeekModel.toString().isEmpty()) {
+            if (Integer.parseInt(countWeekModel.getCount()) > 10) {
                 tv_st_num.setVisibility(View.VISIBLE);
                 tv_st_num.setText("10+");
-            }
-            else if (Integer.parseInt(countWeekModel.getCount())<=10&&0<Integer.parseInt(countWeekModel.getCount()))
-            {
+            } else if (Integer.parseInt(countWeekModel.getCount()) <= 10 && 0 < Integer.parseInt(countWeekModel.getCount())) {
                 tv_st_num.setVisibility(View.VISIBLE);
                 tv_st_num.setText(countWeekModel.getCount());
-            }
-            else {
+            } else {
                 tv_st_num.setVisibility(View.GONE);
             }
         }
 
 
     }
+
     @Subscribe
-    public void doGetTotol(List<TotolModel> totolModels){
+    public void doGetTotol(List<TotolModel> totolModels) {
         tv_totalpersonst.setText(totolModels.get(0).getTotal_person());
         tv_total_lossst.setText(totolModels.get(0).getTotal_loss());
     }
@@ -312,29 +304,53 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
 
-        final int id=v.getId();
-        if(id!=R.id.ll_st_saikuang&&id!=R.id.ll_st_tipst&&id!=R.id.ll_left){
+        final int id = v.getId();
+        if (id == R.id.fl_right || id == R.id.iv_email) {
+            String userroles = UserInfoModel.getInstance().getUser().getUserrole();
+            if (String.valueOf(Constants.VR).equals(userroles)) {
+                //提示用户让他登录或者直接进入2个功能的踢馆赛模块
+                AlertDialog.Builder information_dialog = null;
+                information_dialog = new AlertDialog.Builder(this);
+                information_dialog.setTitle("您当前处于游客模式，需要登录认证").setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent login = new Intent(BodyGamePCActivity.this, LoginActivity.class);
+                        login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(login);
+                    }
+                }).setNegativeButton("稍候", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).create().show();
+            } else {
+                startActivity(new Intent(BodyGamePCActivity.this, MessageActivity.class));
+            }
+           return;
+        }
+        if (id != R.id.ll_st_saikuang && id != R.id.ll_st_tipst && id != R.id.ll_left) {
             dialogShow("检查中...");
             studentImpl.hasClass(new RequestCallback<ResponseData<HasClass>>() {
                 @Override
                 public void success(ResponseData<HasClass> hasClassResponseData, Response response) {
                     dialogDissmiss();
                     Log.i(hasClassResponseData.toString());
-                    if(hasClassResponseData.getStatus()==200){
-                        if("1".equals(hasClassResponseData.getData().getIsHave()))
-                        {
+                    if (hasClassResponseData.getStatus() == 200) {
+                        if ("1".equals(hasClassResponseData.getData().getIsHave())) {
                             doStartActivity(id);
 
-                        }else if(Integer.parseInt(hasClassResponseData.getData().getIsHave())==0){
+                        } else if (Integer.parseInt(hasClassResponseData.getData().getIsHave()) == 0) {
                             //学员没有班级
                             new AlertDialog.Builder(BodyGamePCActivity.this).setTitle("温馨提示")
                                     .setMessage("您目前还没有参加班级").create().show();
-                        }else if(Integer.parseInt(hasClassResponseData.getData().getIsHave())==2){
+                        } else if (Integer.parseInt(hasClassResponseData.getData().getIsHave()) == 2) {
                             //学员没有班级
                             new AlertDialog.Builder(BodyGamePCActivity.this).setTitle("温馨提示")
                                     .setMessage("班级尚未开始").create().show();
                         }
-                    }else{
+                    } else {
                         Util.toastMsg(hasClassResponseData.getMsg());
                     }
                 }
@@ -345,7 +361,7 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
                     super.failure(error);
                 }
             });
-        }else {
+        } else {
             switch (id) {
                 //大赛赛况
                 case R.id.ll_st_saikuang:
@@ -370,33 +386,8 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
 
     }
 
-    private void doStartActivity(int id){
+    private void doStartActivity(int id) {
         switch (id) {
-            case R.id.fl_right:
-            case R.id.iv_email:
-                String userroles = UserInfoModel.getInstance().getUser().getUserrole();
-                if (String.valueOf(Constants.VR).equals(userroles)) {
-                    //提示用户让他登录或者直接进入2个功能的踢馆赛模块
-                    AlertDialog.Builder information_dialog = null;
-                    information_dialog = new AlertDialog.Builder(this);
-                    information_dialog.setTitle("您当前处于游客模式，需要登录认证").setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent login = new Intent(BodyGamePCActivity.this, LoginActivity.class);
-                            login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(login);
-                        }
-                    }).setNegativeButton("稍候", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    }).create().show();
-                } else {
-                    startActivity(new Intent(BodyGamePCActivity.this, MessageActivity.class));
-                }
-                break;
             //点击跳转事件
             case R.id.ll_st_jibenshuju:
                 startActivity(new Intent(this, StudentBaseDateActivity.class));
@@ -410,11 +401,10 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
             case R.id.ll_st_fuce:
                 //retestPre.doGetAudit(loginid,0,"");
                 if (flag) {
-                    startActivityForResult(new Intent(this,FuceStActivity.class),Student_reteset);
+                    startActivityForResult(new Intent(this, FuceStActivity.class), Student_reteset);
 //                    Intent intent1 = new Intent(this, FuceStActivity.class);
 //                    startActivity(intent1);
-                }
-                else {
+                } else {
                     new AlertDialog.Builder(BodyGamePCActivity.this).setTitle("提示")
                             .setMessage("复测审核中……").create().show();
 
@@ -434,15 +424,17 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
                 break;
         }
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         //学员复测传递
-        if (requestCode==Student_reteset&&resultCode==RESULT_OK){
+        if (requestCode == Student_reteset && resultCode == RESULT_OK) {
             //retestPre.doGetAudit(loginid,0,"");
-            flag=false;
+            flag = false;
         }
     }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
