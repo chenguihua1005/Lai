@@ -2,6 +2,7 @@ package com.softtek.lai.module.bodygamest.net;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.bodygamest.model.DownPhotoModel;
+import com.softtek.lai.module.bodygamest.model.GifModel;
 import com.softtek.lai.module.bodygamest.model.LossModel;
 import com.softtek.lai.module.bodygamest.model.UploadPhotModel;
 import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
@@ -58,7 +59,7 @@ public interface PhotoListService {
     void getUserPhotos(
             @Header("token") String token,
             @Field("PhotoName") String photoName,
-            Callback<ResponseData> callback
+            Callback<ResponseData<GifModel>> callback
     );
 
     @GET("/UploadPhotos/GetLossData")

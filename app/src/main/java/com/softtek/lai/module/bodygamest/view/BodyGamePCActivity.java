@@ -20,7 +20,6 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygame.model.FuceNumModel;
 import com.softtek.lai.module.bodygame.model.TiGuanSaiModel;
 import com.softtek.lai.module.bodygame.model.TotolModel;
 import com.softtek.lai.module.bodygame.presenter.ITiGuanSai;
@@ -42,11 +41,7 @@ import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.joda.time.DateTime;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -184,7 +179,6 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
         iStudentPresenter=new StudentImpl(this);
         tiGuanSai = new TiGuanSaiImpl();
         tiGuanSai.getTiGuanSai();
-//        tiGuanSai.doGetFuceNum(loginid);
         tiGuanSai.doGetTotal(progressDialog);
         studentImpl=new StudentImpl(this);
         retestPre=new RetestclassImp();
@@ -269,7 +263,7 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
         final int id=v.getId();
         if(id!=R.id.ll_st_saikuang&&id!=R.id.ll_st_tipst&&id!=R.id.ll_left){
             dialogShow("检查中...");
-            studentImpl.pcIsJoinClass(UserInfoModel.getInstance().getUser().getUserid(),new RequestCallback<ResponseData<HasClass>>() {
+            studentImpl.hasClass(new RequestCallback<ResponseData<HasClass>>() {
                 @Override
                 public void success(ResponseData<HasClass> hasClassResponseData, Response response) {
                     dialogDissmiss();
@@ -279,10 +273,14 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
                         {
                             doStartActivity(id);
 
-                        }else{
+                        }else if(Integer.parseInt(hasClassResponseData.getData().getIsHave())==0){
                             //学员没有班级
-                            new AlertDialog.Builder(BodyGamePCActivity.this).setTitle("提示")
+                            new AlertDialog.Builder(BodyGamePCActivity.this).setTitle("温馨提示")
                                     .setMessage("您目前还没有参加班级").create().show();
+                        }else if(Integer.parseInt(hasClassResponseData.getData().getIsHave())==2){
+                            //学员没有班级
+                            new AlertDialog.Builder(BodyGamePCActivity.this).setTitle("温馨提示")
+                                    .setMessage("您参加的班级尚未开始").create().show();
                         }
                     }else{
                         Util.toastMsg(hasClassResponseData.getMsg());
