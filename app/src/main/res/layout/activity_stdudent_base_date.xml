@@ -71,8 +71,8 @@
             <ImageView
                 android:id="@+id/banner"
                 android:layout_width="match_parent"
-                android:layout_height="127dp"
-                android:scaleType="centerCrop"
+                android:layout_height="130dp"
+                android:background="#F3F1F2"
                 android:src="@drawable/default_icon_rect"/>
 
             <LinearLayout

@@ -79,7 +79,28 @@ public class WaistAdapter extends BaseAdapter {
         }else{
             holder.tv_order.setTextColor(Color.parseColor("#707070"));
         }
-        if(studentModel.getIsTest()==0){
+        if(studentModel.getIsTest()==1){//如果有复测数据
+            if(studentModel.getIsMemberOfAssistant()==1){//表示不能点击进入学员详情
+                holder.iv_arrow.setVisibility(View.INVISIBLE);
+            }else{
+                holder.iv_arrow.setVisibility(View.VISIBLE);
+            }
+            if(order==0){//表示没有录入数据
+                //显示短杠
+                holder.ll_show1.setVisibility(View.VISIBLE);
+                holder.ll_total_show.setVisibility(View.VISIBLE);
+                holder.no_show.setVisibility(View.VISIBLE);
+                //隐藏内容
+                holder.ll_total_show.setVisibility(View.GONE);
+                holder.ll_show.setVisibility(View.GONE);
+            }else{//有录入数据正常显示数据
+                holder.tv_wl_before.setText("前 " + studentModel.getWaistlinebefore()+ "cm" );
+                holder.tv_wl_after.setText("后 " + studentModel.getWaistlineAfter()+ "cm");
+                holder.tv_wl_totle.setText(studentModel.getLossline());
+            }
+
+        }else{//没有复测数据，则无法
+            holder.iv_arrow.setVisibility(View.INVISIBLE);
             holder.ll_show.setVisibility(View.GONE);
             holder.tv_show.setVisibility(View.VISIBLE);
             holder.tv_wl_totle.setVisibility(View.INVISIBLE);
@@ -87,16 +108,6 @@ public class WaistAdapter extends BaseAdapter {
             holder.ll_content.setBackgroundColor(Color.parseColor("#F9F9F9"));
         }
         holder.tv_name.setText(studentModel.getUserName());
-        holder.tv_wl_before.setText("前 " + (StringUtil.getFloat(studentModel.getWaistlinebefore())==0?"":studentModel.getWaistlinebefore()+ "cm") );
-        holder.tv_wl_after.setText("后 " + (StringUtil.getFloat(studentModel.getWaistlineAfter())==0?"":studentModel.getWaistlineAfter()+ "cm") );
-        holder.tv_wl_totle.setText(studentModel.getLossline());
-        if(studentModel.getIsMemberOfAssistant()==1|| studentModel.getIsTest()==0){//表示不能点击进入学员详情
-            holder.iv_arrow.setVisibility(View.INVISIBLE);
-        }else if(studentModel.getIsMemberOfAssistant()==0&&studentModel.getIsTest()==1){
-            holder.ll_content.setBackgroundColor(Color.parseColor("#FFFFFF"));
-            holder.iv_arrow.setVisibility(View.VISIBLE);
-
-        }
         if (StringUtils.isNotEmpty(studentModel.getPhoto())) {
             Picasso.with(context).load(AddressManager.get("photoHost") + studentModel.getPhoto()).fit().placeholder(R.drawable.img_default)
                     .error(R.drawable.img_default).into(holder.civ_header_image);
@@ -114,7 +125,7 @@ public class WaistAdapter extends BaseAdapter {
         TextView tv_wl_totle;
         CircleImageView civ_header_image;
         ImageView iv_arrow;
-        LinearLayout ll_content,ll_show;
+        LinearLayout ll_content,ll_show,no_show,ll_total_show,ll_show1;
         TextView tv_show,tv_unit;
 
         public WaistlineHolder(View view) {
@@ -129,6 +140,9 @@ public class WaistAdapter extends BaseAdapter {
             ll_show= (LinearLayout) view.findViewById(R.id.ll_show);
             tv_show= (TextView) view.findViewById(R.id.tv_show);
             tv_unit= (TextView) view.findViewById(R.id.tv_unit);
+            no_show= (LinearLayout) view.findViewById(R.id.no_show);
+            ll_total_show= (LinearLayout) view.findViewById(R.id.ll_total_show);
+            ll_show1= (LinearLayout) view.findViewById(R.id.ll_show1);
         }
     }
 

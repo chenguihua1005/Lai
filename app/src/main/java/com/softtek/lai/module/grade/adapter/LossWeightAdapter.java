@@ -72,7 +72,7 @@ public class LossWeightAdapter extends BaseAdapter {
         }
         if (order == 1 || order == 2 || order == 3) {
             holder.tv_order.setTextColor(Color.parseColor("#FDB02B"));
-        }else if(order==0){
+        }else if(order==0){//没有复测
             holder.tv_order.setVisibility(View.INVISIBLE);
             holder.ll_content.setBackgroundColor(Color.parseColor("#F9F9F9"));
             holder.ll_show.setVisibility(View.GONE);
@@ -88,9 +88,9 @@ public class LossWeightAdapter extends BaseAdapter {
         holder.tv_lw_before.setText("前 " + studentModel.getLossBefore() + "斤");
         holder.tv_lw_after.setText("后 " + studentModel.getLossAfter() + "斤");
         holder.tv_lw_totle.setText(studentModel.getLossWeght());
-        if(studentModel.getIsMemberOfAssistant()==1||order==0){//表示不能点击进入学员详情
+        if(studentModel.getIsMemberOfAssistant()==1||studentModel.getIsTest()==0){//表示不能点击进入学员详情
             holder.iv_arrow.setVisibility(View.INVISIBLE);
-        }else if(studentModel.getIsMemberOfAssistant()==0&&order!=0){
+        }else{
             holder.iv_arrow.setVisibility(View.VISIBLE);
         }
         if (StringUtils.isNotEmpty(studentModel.getPhoto())) {

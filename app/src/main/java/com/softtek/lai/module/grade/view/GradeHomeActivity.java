@@ -273,7 +273,7 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
             tv_sr_num.setText(info.getSRNum() + "人");
             if (info.getClassBanner()!=null&&!info.getClassBanner().equals("")){
                 Picasso.with(this).load(info.getClassBanner()).fit().placeholder(R.drawable.default_icon_rect)
-                        .error(R.drawable.default_icon_rect).into(iv_grade_banner);
+                        .error(R.drawable.default_icon_rect).centerCrop().into(iv_grade_banner);
             }
         }
         //加载学员头像

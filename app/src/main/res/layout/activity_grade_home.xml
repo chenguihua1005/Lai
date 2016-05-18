@@ -182,9 +182,10 @@
         <ImageView
             android:id="@+id/iv_banner"
             android:layout_width="match_parent"
-            android:layout_height="130dp"
+            android:layout_height="160dp"
             android:layout_below="@+id/toolbar"
-            android:scaleType="centerCrop"
+            android:scaleType="fitCenter"
+            android:background="#F3F1F2"
             android:src="@drawable/default_icon_rect"/>
         <!-- 助教-->
         <LinearLayout
