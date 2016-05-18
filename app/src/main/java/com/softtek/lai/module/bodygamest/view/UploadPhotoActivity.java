@@ -15,7 +15,9 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -43,6 +45,7 @@ import com.softtek.lai.module.grade.net.GradeService;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.ShareUtils;
 import com.softtek.lai.widgets.CircleImageView;
+import com.softtek.lai.widgets.SelectPicPopupWindow;
 import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileCropSelector;
 import com.sw926.imagefileselector.ImageFileSelector;
@@ -93,6 +96,8 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
 //    CircleImageView cir_downphoto_head;
 //    @InjectView(R.id.tv_downphoto_nick)
 //    TextView tv_downphoto_nick;
+
+    SelectPicPopupWindow menuWindow;
     int pageIndex = 0;
     private List<LogListModel> logListModelList = new ArrayList<LogListModel>();
     private DownPhotoAdapter downPhotoAdapter;
@@ -125,6 +130,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     private ImageFileSelector imageFileSelector;
     boolean flag = true;
     GifModel gifModel;
+    ShareUtils shareUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,7 +158,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     @Subscribe
     public void onEvent(LossModel lossModel) {
         System.out.println("lossModel:" + lossModel);
-        ShareUtils shareUtils = new ShareUtils(UploadPhotoActivity.this);
+        shareUtils = new ShareUtils(UploadPhotoActivity.this);
         String path = AddressManager.get("shareHost", "http://172.16.98.167/Share/");
         String gifName = gifModel.getGifname();
         String url = path + "SharePhotoAblum?AccountId=" + UserInfoModel.getInstance().getUser().getUserid() + "&ShareImageName=" + gifName;
@@ -243,8 +249,11 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
                 finish();
                 break;
             case R.id.fl_right:
-                Intent intent = new Intent(this, SelectPhotoActivity.class);
-                startActivityForResult(intent, 100);
+//                Intent intent = new Intent(this, SelectPhotoActivity.class);
+//                startActivityForResult(intent, 100);
+                menuWindow = new SelectPicPopupWindow(UploadPhotoActivity.this, itemsOnClick);
+                //显示窗口
+                menuWindow.showAtLocation(UploadPhotoActivity.this.findViewById(R.id.rel), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
                 break;
             case R.id.imtest_list:
                 flag = false;
@@ -279,7 +288,35 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         intent.setDataAndType(uri, "application/pdf");
         return intent;
     }
+    //为弹出窗口实现监听类
+    private View.OnClickListener itemsOnClick = new View.OnClickListener(){
 
+        public void onClick(View v) {
+            //menuWindow.dismiss();
+            switch (v.getId()) {
+                case R.id.lin_weixin:
+
+                    break;
+                case R.id.lin_circle:
+
+                    break;
+                case R.id.lin_sina:
+                    shareUtils = new ShareUtils(UploadPhotoActivity.this,"sina");
+                    String path = AddressManager.get("shareHost", "http://172.16.98.167/Share/");
+                    String gifName = gifModel.getGifname();
+                    String url = path + "SharePhotoAblum?AccountId=" + UserInfoModel.getInstance().getUser().getUserid() + "&ShareImageName=" + gifName;
+                    System.out.println("url:" + url);
+                    shareUtils.setShareContent("康宝莱体重管理挑战赛，坚持只为改变！", url, R.drawable.img_share_logo, "", "");
+                    shareUtils.getController().openShare(UploadPhotoActivity.this, false);
+                    break;
+                default:
+                    break;
+            }
+
+
+        }
+
+    };
     public void takecamera() {
 
         path = (Environment.getExternalStorageDirectory().getPath()) + "/123.jpg";

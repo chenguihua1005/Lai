@@ -25,8 +25,19 @@ public class ShareUtils {
         setController(controller);
         addSinaPlatform();
         addWXPlatform();
+        new
         controller.getConfig().setPlatforms(SHARE_MEDIA.WEIXIN,
                 SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.SINA);
+    }
+    public ShareUtils(Context c,String type) {
+        context = c;
+        controller = UMServiceFactory.getUMSocialService("com.umeng.share");
+        setController(controller);
+        addSinaPlatform();
+        addWXPlatform();
+        if("sina".equals(type)){
+
+        }
     }
 
     public UMSocialService getController() {
@@ -46,6 +57,7 @@ public class ShareUtils {
         String appId = "wxdef946afe85d49a2";
         String appSecret = "8f2e4913b794a310dd6662014748c43d";
 // 添加微信平台
+
         UMWXHandler wxHandler = new UMWXHandler(context, appId, appSecret);
         wxHandler.addToSocialSDK();
 // 添加微信朋友圈
