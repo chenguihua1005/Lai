@@ -73,24 +73,32 @@ public class LossWeightPerAdapter extends BaseAdapter {
         holder.tv_order.setText(order + "");
         if (order == 1 || order == 2 || order == 3) {
             holder.tv_order.setTextColor(Color.parseColor("#FDB02B"));
-        }else if(order==0){
+        }else{
+            holder.tv_order.setTextColor(Color.parseColor("#707070"));
+        }
+        if(studentModel.getIsTest()==1){//若有复测
+            holder.tv_order.setVisibility(View.VISIBLE);
+            holder.ll_content.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            holder.ll_show.setVisibility(View.VISIBLE);
+            holder.tv_show.setVisibility(View.GONE);
+            holder.tv_lw_per.setVisibility(View.VISIBLE);
+            holder.tv_unit.setVisibility(View.VISIBLE);
+            holder.tv_name.setText(studentModel.getUserName());
+            holder.tv_lw_before.setText("前 " + studentModel.getLossBefore() + "斤");
+            holder.tv_lw_after.setText("后 " + studentModel.getLossAfter() + "斤");
+            holder.tv_lw_per.setText(studentModel.getLossPercent());
+        }else{//没有复测
             holder.tv_order.setVisibility(View.INVISIBLE);
             holder.ll_content.setBackgroundColor(Color.parseColor("#F9F9F9"));
             holder.ll_show.setVisibility(View.GONE);
             holder.tv_show.setVisibility(View.VISIBLE);
             holder.tv_lw_per.setVisibility(View.INVISIBLE);
             holder.tv_unit.setVisibility(View.INVISIBLE);
-        }else{
-            holder.tv_order.setTextColor(Color.parseColor("#707070"));
         }
-        holder.tv_lw_before.setText("前 " + studentModel.getLossBefore() + "斤");
-        holder.tv_lw_after.setText("后 " + studentModel.getLossAfter() + "斤");
-        holder.tv_name.setText(studentModel.getUserName());
-        holder.tv_lw_per.setText(studentModel.getLossPercent());
-        if(studentModel.getIsMemberOfAssistant()==1||studentModel.getIsTest()==0){//表示不能点击进入学员详情
-            holder.iv_arrow.setVisibility(View.INVISIBLE);
-        }else{
+        if(studentModel.getIsMemberOfAssistant()==0&&studentModel.getIsTest()==1){//表示不能点击进入学员详情
             holder.iv_arrow.setVisibility(View.VISIBLE);
+        }else{
+            holder.iv_arrow.setVisibility(View.INVISIBLE);
         }
         if (StringUtils.isNotEmpty(studentModel.getPhoto())) {
             Picasso.with(context).load(AddressManager.get("photoHost") + studentModel.getPhoto()).fit().placeholder(R.drawable.img_default)

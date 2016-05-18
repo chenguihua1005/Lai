@@ -60,7 +60,7 @@ public class FatAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        PhysicalHolder holder = null;
+        PhysicalHolder holder;
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.physical_item, parent, false);
             holder = new PhysicalHolder(convertView);
@@ -73,32 +73,47 @@ public class FatAdapter extends BaseAdapter {
         holder.tv_order.setText(order+"");
         if (order == 1 || order == 2 || order == 3) {
             holder.tv_order.setTextColor(Color.parseColor("#FDB02B"));
-        }else if(order==0){
-            holder.tv_order.setVisibility(View.INVISIBLE);
         }else{
             holder.tv_order.setTextColor(Color.parseColor("#707070"));
         }
         if(studentModel.getIsTest()==1){//如果有复测数据
-            if(studentModel.getIsMemberOfAssistant()==1){//表示不能点击进入学员详情
-                holder.iv_arrow.setVisibility(View.INVISIBLE);
-            }else{
-                holder.iv_arrow.setVisibility(View.VISIBLE);
-            }
+            holder.ll_content.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            holder.tv_show.setVisibility(View.GONE);
             if(order==0){//表示没有录入数据
-                //显示短杠
+                if(studentModel.getIsMemberOfAssistant()==1){//表示不能点击进入学员详情
+                    holder.iv_arrow1.setVisibility(View.INVISIBLE);
+                }else{
+                    holder.iv_arrow1.setVisibility(View.VISIBLE);
+                }
+                holder.tv_order.setVisibility(View.INVISIBLE);
                 holder.ll_show1.setVisibility(View.VISIBLE);
                 holder.ll_total_show.setVisibility(View.VISIBLE);
                 holder.no_show.setVisibility(View.VISIBLE);
                 //隐藏内容
                 holder.ll_total_show.setVisibility(View.GONE);
                 holder.ll_show.setVisibility(View.GONE);
+
             }else{//有录入数据正常显示数据
-                holder.tv_py_before.setText("前 " + studentModel.getLossBefore()+ "%" );
-                holder.tv_py_after.setText("后 " + studentModel.getLossAfter()+ "%" );
-                holder.tv_physical.setText(studentModel.getPysical());
+                if(studentModel.getIsMemberOfAssistant()==1){//表示不能点击进入学员详情
+                    holder.iv_arrow.setVisibility(View.INVISIBLE);
+                }else{
+                    holder.iv_arrow.setVisibility(View.VISIBLE);
+                }
+                holder.tv_order.setVisibility(View.VISIBLE);
+                holder.ll_show1.setVisibility(View.GONE);
+                holder.ll_total_show.setVisibility(View.GONE);
+                holder.no_show.setVisibility(View.GONE);
+                holder.ll_total_show.setVisibility(View.VISIBLE);
+                holder.ll_show.setVisibility(View.VISIBLE);
             }
 
         }else{//没有复测数据，则无法
+            holder.no_show.setVisibility(View.GONE);
+            //隐藏内容
+            holder.ll_total_show.setVisibility(View.VISIBLE);
+            holder.ll_show1.setVisibility(View.GONE);
+
+            holder.tv_order.setVisibility(View.INVISIBLE);
             holder.iv_arrow.setVisibility(View.INVISIBLE);
             holder.ll_show.setVisibility(View.GONE);
             holder.tv_show.setVisibility(View.VISIBLE);
@@ -107,6 +122,9 @@ public class FatAdapter extends BaseAdapter {
             holder.ll_content.setBackgroundColor(Color.parseColor("#F9F9F9"));
         }
         holder.tv_name.setText(studentModel.getUserName());
+        holder.tv_py_before.setText("前 " + studentModel.getLossBefore()+ "%" );
+        holder.tv_py_after.setText("后 " + studentModel.getLossAfter()+ "%" );
+        holder.tv_physical.setText(studentModel.getPysical());
         if (StringUtils.isNotEmpty(studentModel.getPhoto())) {
             Picasso.with(context).load(AddressManager.get("photoHost") + studentModel.getPhoto()).fit().placeholder(R.drawable.img_default)
                     .error(R.drawable.img_default).into(holder.civ_header_image);
@@ -123,7 +141,7 @@ public class FatAdapter extends BaseAdapter {
         CircleImageView civ_header_image;
         TextView tv_py_before;
         TextView tv_py_after;
-        ImageView iv_arrow;
+        ImageView iv_arrow,iv_arrow1;
         LinearLayout ll_content,ll_show,no_show,ll_total_show,ll_show1;
         TextView tv_show,tv_unit;
 
@@ -142,6 +160,7 @@ public class FatAdapter extends BaseAdapter {
             no_show= (LinearLayout) view.findViewById(R.id.no_show);
             ll_total_show= (LinearLayout) view.findViewById(R.id.ll_total_show);
             ll_show1= (LinearLayout) view.findViewById(R.id.ll_show1);
+            iv_arrow1= (ImageView) view.findViewById(R.id.iv_arrow1);
         }
     }
 }
