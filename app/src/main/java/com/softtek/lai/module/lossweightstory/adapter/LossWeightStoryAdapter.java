@@ -182,8 +182,8 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                         }
                     });
                     Picasso.with(context).load(path+uri).fit()
-                            .placeholder(R.drawable.default_pic)
-                            .error(R.drawable.default_pic)
+                            .placeholder(R.drawable.default_icon_square)
+                            .error(R.drawable.default_icon_square)
                             .into(holder.img1);
                     break;
                 case 2:
@@ -202,8 +202,8 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                         }
                     });
                     Picasso.with(context).load(path+uri).fit()
-                            .placeholder(R.drawable.default_pic)
-                            .error(R.drawable.default_pic)
+                            .placeholder(R.drawable.default_icon_square)
+                            .error(R.drawable.default_icon_square)
                             .into(holder.img2);
                     break;
                 case 3:
@@ -221,8 +221,8 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                         }
                     });
                     Picasso.with(context).load(path+uri).fit()
-                            .placeholder(R.drawable.default_pic)
-                            .error(R.drawable.default_pic)
+                            .placeholder(R.drawable.default_icon_square)
+                            .error(R.drawable.default_icon_square)
                             .into(holder.img3);
                     break;
                 case 4:
@@ -239,8 +239,8 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                         }
                     });
                     Picasso.with(context).load(path+uri).fit()
-                            .placeholder(R.drawable.default_pic)
-                            .error(R.drawable.default_pic)
+                            .placeholder(R.drawable.default_icon_square)
+                            .error(R.drawable.default_icon_square)
                             .into(holder.img4);
                     break;
                 case 5:
@@ -256,8 +256,8 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                         }
                     });
                     Picasso.with(context).load(path+uri).fit()
-                            .placeholder(R.drawable.default_pic)
-                            .error(R.drawable.default_pic)
+                            .placeholder(R.drawable.default_icon_square)
+                            .error(R.drawable.default_icon_square)
                             .into(holder.img5);
                     break;
                 case 6:
@@ -272,8 +272,8 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                         }
                     });
                     Picasso.with(context).load(path+uri).fit()
-                            .placeholder(R.drawable.default_pic)
-                            .error(R.drawable.default_pic)
+                            .placeholder(R.drawable.default_icon_square)
+                            .error(R.drawable.default_icon_square)
                             .into(holder.img6);
                     break;
                 case 7:
@@ -287,8 +287,8 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                         }
                     });
                     Picasso.with(context).load(path+uri).fit()
-                            .placeholder(R.drawable.default_pic)
-                            .error(R.drawable.default_pic)
+                            .placeholder(R.drawable.default_icon_square)
+                            .error(R.drawable.default_icon_square)
                             .into(holder.img7);
                     break;
                 case 8:
@@ -301,8 +301,8 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                         }
                     });
                     Picasso.with(context).load(path+uri).fit()
-                            .placeholder(R.drawable.default_pic)
-                            .error(R.drawable.default_pic)
+                            .placeholder(R.drawable.default_icon_square)
+                            .error(R.drawable.default_icon_square)
                             .into(holder.img8);
                     break;
                 case 9:
@@ -314,8 +314,8 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                         }
                     });
                     Picasso.with(context).load(path+uri).fit()
-                            .placeholder(R.drawable.default_pic)
-                            .error(R.drawable.default_pic)
+                            .placeholder(R.drawable.default_icon_square)
+                            .error(R.drawable.default_icon_square)
                             .into(holder.img9);
                     break;
             }

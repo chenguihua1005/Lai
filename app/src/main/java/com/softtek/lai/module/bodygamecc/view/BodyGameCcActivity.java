@@ -147,14 +147,8 @@ public class BodyGameCcActivity extends BaseActivity implements View.OnClickList
         iv_advcc.setScaleType(ImageView.ScaleType.CENTER_CROP);
         if (!TextUtils.isEmpty(tiGuanSai.getImg_Addr())) {
             iv_advcc.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            Picasso.with(this).load(tiGuanSai.getImg_Addr()).placeholder(R.drawable.default_pic).fit().error(R.drawable.default_pic).into(iv_advcc);
+            Picasso.with(this).load(tiGuanSai.getImg_Addr()).placeholder(R.drawable.default_icon_rect).fit().error(R.drawable.default_icon_rect).into(iv_advcc);
         }
-        else
-        {
-            Picasso.with(this).load("www").placeholder(R.drawable.default_pic).fit().error(R.drawable.default_pic).into(iv_advcc);
-        }
-
-
     }
 
     @Override

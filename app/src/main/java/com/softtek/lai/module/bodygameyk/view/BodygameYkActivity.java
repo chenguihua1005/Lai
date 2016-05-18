@@ -183,7 +183,7 @@ public class BodygameYkActivity extends BaseActivity implements View.OnClickList
     @Subscribe
     public void onEvent(TiGuanSaiModel tiGuanSai){
         iv_advyk.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        Picasso.with(this).load(tiGuanSai.getImg_Addr()).placeholder(R.drawable.default_pic).fit().error(R.drawable.default_pic).into(iv_advyk);
+        Picasso.with(this).load(tiGuanSai.getImg_Addr()).placeholder(R.drawable.default_icon_rect).fit().error(R.drawable.default_icon_rect).into(iv_advyk);
 
 
     }

@@ -27,7 +27,6 @@ import com.softtek.lai.module.counselor.view.CounselorClassListActivity;
 import com.softtek.lai.module.counselor.view.GameActivity;
 import com.softtek.lai.module.counselor.view.SRHonorActivity;
 import com.softtek.lai.module.home.view.HomeActviity;
-import com.softtek.lai.module.jingdu.view.JingduActivity;
 import com.softtek.lai.module.jingdu.view.ZhuJiaoJingduActivity;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.message.presenter.IMessagePresenter;
@@ -244,7 +243,7 @@ public class BodygameSRActivity extends BaseActivity implements View.OnClickList
 
     @Subscribe
     public void onEvent(TiGuanSaiModel tiGuanSai) {
-        Picasso.with(this).load(tiGuanSai.getImg_Addr()).placeholder(R.drawable.default_pic).fit().error(R.drawable.default_pic).into(iv_advzj);
+        Picasso.with(this).load(tiGuanSai.getImg_Addr()).placeholder(R.drawable.default_icon_rect).fit().error(R.drawable.default_icon_rect).into(iv_advzj);
 
     }
 

@@ -1,19 +1,16 @@
 package com.softtek.lai.module.community.adapter;
 
 import android.content.Context;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import com.softtek.lai.R;
 import com.softtek.lai.module.lossweightstory.model.UploadImage;
 import com.softtek.lai.utils.DisplayUtil;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 

@@ -78,8 +78,8 @@ public class BaseDateFragment extends BaseFragment{
             tv_loss_before.setText(model.getLossBefore());
             tv_loss_after.setText(model.getLossAfter());
             try {
-                Picasso.with(getContext()).load(model.getLossBeforePhoto()).fit().placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_loss_before);
-                Picasso.with(getContext()).load(model.getLossAfterPhoto()).fit().placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_loss_after);
+                Picasso.with(getContext()).load(model.getLossBeforePhoto()).fit().placeholder(R.drawable.default_icon_rect).error(R.drawable.default_icon_rect).into(iv_loss_before);
+                Picasso.with(getContext()).load(model.getLossAfterPhoto()).fit().placeholder(R.drawable.default_icon_rect).error(R.drawable.default_icon_rect).into(iv_loss_after);
             }catch (Exception e){
 
             }
@@ -100,10 +100,10 @@ public class BaseDateFragment extends BaseFragment{
         tv_loss_before.setText(StringUtil.getFloatValue(model.getLossBefore())+"斤");
         tv_loss_after.setText(StringUtil.getFloat(model.getLossAfter())==0?"尚未复测":StringUtil.getFloat(model.getLossAfter())+"斤");
         if(StringUtils.isNotEmpty(model.getLossBeforePhoto())){
-            Picasso.with(getContext()).load(model.getLossBeforePhoto()).fit().placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_loss_before);
+            Picasso.with(getContext()).load(model.getLossBeforePhoto()).fit().placeholder(R.drawable.default_icon_rect).error(R.drawable.default_icon_rect).into(iv_loss_before);
         }
         if(StringUtils.isNotEmpty(model.getLossAfterPhoto())){
-            Picasso.with(getContext()).load(model.getLossAfterPhoto()).fit().placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_loss_after);
+            Picasso.with(getContext()).load(model.getLossAfterPhoto()).fit().placeholder(R.drawable.default_icon_rect).error(R.drawable.default_icon_rect).into(iv_loss_after);
         }
     }
 }

@@ -43,7 +43,7 @@ public class PictureFragment extends BaseFragment{
         String uri=getArguments().getString("image_path");
         Picasso.with(getContext()).load(AddressManager.get("photoHost")+uri)
                 .resize(DisplayUtil.getMobileWidth(getContext()),DisplayUtil.getMobileHeight(getContext())).centerInside()
-                .placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_image);
+                .placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square).into(iv_image);
     }
 
 

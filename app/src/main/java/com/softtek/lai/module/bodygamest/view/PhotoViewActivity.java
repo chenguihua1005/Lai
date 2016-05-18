@@ -63,10 +63,10 @@ public class PhotoViewActivity extends BaseActivity implements View.OnClickListe
 
         Intent intent=getIntent();
         photo=intent.getStringExtra("img");
-        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+        String path = AddressManager.get("photoHost");
         Picasso.with(this).load(path + photo)
                 .resize(DisplayUtil.getMobileWidth(this), DisplayUtil.getMobileHeight(this)).centerInside()
-                .placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(retestwritest_image);
+                .placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square).into(retestwritest_image);
         toggleHideyBar();
     }
 

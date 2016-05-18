@@ -30,6 +30,7 @@
                     android:layout_height="match_parent"
                     android:id="@+id/iv_advcc"
                     android:scaleType="centerCrop"
+                    android:src="@drawable/default_icon_rect"
                     />
 
             </LinearLayout>
