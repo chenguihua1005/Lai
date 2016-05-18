@@ -83,10 +83,7 @@ public class LossWeightAdapter extends BaseAdapter {
             holder.tv_show.setVisibility(View.GONE);
             holder.tv_lw_totle.setVisibility(View.VISIBLE);
             holder.tv_unit.setVisibility(View.VISIBLE);
-            holder.tv_name.setText(studentModel.getUserName());
-            holder.tv_lw_before.setText("前 " + studentModel.getLossBefore() + "斤");
-            holder.tv_lw_after.setText("后 " + studentModel.getLossAfter() + "斤");
-            holder.tv_lw_totle.setText(studentModel.getLossWeght());
+
         }else{//没有复测
             holder.tv_order.setVisibility(View.INVISIBLE);
             holder.ll_content.setBackgroundColor(Color.parseColor("#F9F9F9"));
@@ -95,7 +92,10 @@ public class LossWeightAdapter extends BaseAdapter {
             holder.tv_lw_totle.setVisibility(View.INVISIBLE);
             holder.tv_unit.setVisibility(View.INVISIBLE);
         }
-
+        holder.tv_name.setText(studentModel.getUserName());
+        holder.tv_lw_before.setText("前 " + studentModel.getLossBefore() + "斤");
+        holder.tv_lw_after.setText("后 " + studentModel.getLossAfter() + "斤");
+        holder.tv_lw_totle.setText(studentModel.getLossWeght());
         if(studentModel.getIsMemberOfAssistant()==1||studentModel.getIsTest()==0){//表示不能点击进入学员详情
             holder.iv_arrow.setVisibility(View.INVISIBLE);
         }else{

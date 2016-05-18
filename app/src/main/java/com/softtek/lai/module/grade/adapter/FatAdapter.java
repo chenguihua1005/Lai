@@ -109,7 +109,6 @@ public class FatAdapter extends BaseAdapter {
 
         }else{//没有复测数据，则无法
             holder.no_show.setVisibility(View.GONE);
-            //隐藏内容
             holder.ll_total_show.setVisibility(View.VISIBLE);
             holder.ll_show1.setVisibility(View.GONE);
 
