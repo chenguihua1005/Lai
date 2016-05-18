@@ -49,11 +49,9 @@ import com.softtek.lai.widgets.SelectPicPopupWindow;
 import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileCropSelector;
 import com.sw926.imagefileselector.ImageFileSelector;
+import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.umeng.socialize.bean.SocializeConfig;
-import com.umeng.socialize.bean.SocializeEntity;
-import com.umeng.socialize.controller.listener.SocializeListeners;
-import com.umeng.socialize.sso.UMSsoHandler;
+import com.umeng.socialize.media.UMImage;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -131,6 +129,8 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     boolean flag = true;
     GifModel gifModel;
     ShareUtils shareUtils;
+    String url;
+    LossModel lossModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,20 +151,20 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         gifModel = model;
         progressDialog.setMessage("加载中");
         progressDialog.show();
-        photoListPre.getLossData(UserInfoModel.getInstance().getUser().getUserid(),progressDialog);
+        photoListPre.getLossData(UserInfoModel.getInstance().getUser().getUserid(), progressDialog);
 
     }
 
     @Subscribe
-    public void onEvent(LossModel lossModel) {
+    public void onEvent(LossModel model) {
+        lossModel = model;
         System.out.println("lossModel:" + lossModel);
-        shareUtils = new ShareUtils(UploadPhotoActivity.this);
         String path = AddressManager.get("shareHost", "http://172.16.98.167/Share/");
         String gifName = gifModel.getGifname();
-        String url = path + "SharePhotoAblum?AccountId=" + UserInfoModel.getInstance().getUser().getUserid() + "&ShareImageName=" + gifName;
-        System.out.println("url:" + url);
-        shareUtils.setShareContent("康宝莱体重管理挑战赛，坚持只为改变！", url, R.drawable.img_share_logo, lossModel.getContent(), lossModel.getContent() + url);
-        shareUtils.getController().openShare(UploadPhotoActivity.this, false);
+        url = path + "SharePhotoAblum?AccountId=" + UserInfoModel.getInstance().getUser().getUserid() + "&ShareImageName=" + gifName;
+        menuWindow = new SelectPicPopupWindow(UploadPhotoActivity.this, itemsOnClick);
+        //显示窗口
+        menuWindow.showAtLocation(UploadPhotoActivity.this.findViewById(R.id.rel), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
     }
 
     @Override
@@ -249,11 +249,8 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
                 finish();
                 break;
             case R.id.fl_right:
-//                Intent intent = new Intent(this, SelectPhotoActivity.class);
-//                startActivityForResult(intent, 100);
-                menuWindow = new SelectPicPopupWindow(UploadPhotoActivity.this, itemsOnClick);
-                //显示窗口
-                menuWindow.showAtLocation(UploadPhotoActivity.this.findViewById(R.id.rel), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
+                Intent intent = new Intent(this, SelectPhotoActivity.class);
+                startActivityForResult(intent, 100);
                 break;
             case R.id.imtest_list:
                 flag = false;
@@ -288,26 +285,37 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         intent.setDataAndType(uri, "application/pdf");
         return intent;
     }
+
     //为弹出窗口实现监听类
-    private View.OnClickListener itemsOnClick = new View.OnClickListener(){
+    private View.OnClickListener itemsOnClick = new View.OnClickListener() {
 
         public void onClick(View v) {
-            //menuWindow.dismiss();
+            menuWindow.dismiss();
             switch (v.getId()) {
                 case R.id.lin_weixin:
-
+                    new ShareAction(UploadPhotoActivity.this)
+                            .setPlatform(SHARE_MEDIA.WEIXIN)
+                            .withTitle("康宝莱体重管理挑战赛，坚持只为改变！")
+                            .withText(lossModel.getContent())
+                            .withTargetUrl(url)
+                            .withMedia(new UMImage(UploadPhotoActivity.this, R.drawable.img_share_logo))
+                            .share();
                     break;
                 case R.id.lin_circle:
-
+                    new ShareAction(UploadPhotoActivity.this)
+                            .setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)
+                            .withTitle("康宝莱体重管理挑战赛，坚持只为改变！")
+                            .withText(lossModel.getContent())
+                            .withTargetUrl(url)
+                            .withMedia(new UMImage(UploadPhotoActivity.this, R.drawable.img_share_logo))
+                            .share();
                     break;
                 case R.id.lin_sina:
-                    shareUtils = new ShareUtils(UploadPhotoActivity.this,"sina");
-                    String path = AddressManager.get("shareHost", "http://172.16.98.167/Share/");
-                    String gifName = gifModel.getGifname();
-                    String url = path + "SharePhotoAblum?AccountId=" + UserInfoModel.getInstance().getUser().getUserid() + "&ShareImageName=" + gifName;
-                    System.out.println("url:" + url);
-                    shareUtils.setShareContent("康宝莱体重管理挑战赛，坚持只为改变！", url, R.drawable.img_share_logo, "", "");
-                    shareUtils.getController().openShare(UploadPhotoActivity.this, false);
+                    new ShareAction(UploadPhotoActivity.this)
+                            .setPlatform(SHARE_MEDIA.SINA)
+                            .withText(lossModel.getContent()+url)
+                            .withMedia(new UMImage(UploadPhotoActivity.this, R.drawable.img_share_logo))
+                            .share();
                     break;
                 default:
                     break;
@@ -317,6 +325,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         }
 
     };
+
     public void takecamera() {
 
         path = (Environment.getExternalStorageDirectory().getPath()) + "/123.jpg";
@@ -348,18 +357,18 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
             imageFileCropSelector.onActivityResult(requestCode, resultCode, data);
         }
         imageFileCropSelector.getmImageCropperHelper().onActivityResult(requestCode, resultCode, data);
-        UMSsoHandler ssoHandler = SocializeConfig.getSocializeConfig().getSsoHandler(requestCode);
-        System.out.println("ssoHandler:" + ssoHandler + "   requestCode:" + requestCode + "   resultCode:" + resultCode);
-        if (ssoHandler != null) {
-            ssoHandler.authorizeCallBack(requestCode, resultCode, data);
-        }
+//        UMSsoHandler ssoHandler = SocializeConfig.getSocializeConfig().getSsoHandler(requestCode);
+//        System.out.println("ssoHandler:" + ssoHandler + "   requestCode:" + requestCode + "   resultCode:" + resultCode);
+//        if (ssoHandler != null) {
+//            ssoHandler.authorizeCallBack(requestCode, resultCode, data);
+//        }
 
         if (requestCode == 100 && resultCode == RESULT_OK) {
             String result = data.getExtras().getString("result");//得到新Activity 关闭后返回的数据
             if (!"".equals(result)) {
                 progressDialog.setMessage("加载中");
                 progressDialog.show();
-                photoListPre.getUserPhotos(result,progressDialog);
+                photoListPre.getUserPhotos(result, progressDialog);
             }
         }
         if (resultCode == RESULT_OK && requestCode == PHOTO) {

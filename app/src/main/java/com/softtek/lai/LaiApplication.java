@@ -12,6 +12,7 @@ import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.CrashHandler;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.utils.NetErrorHandler;
+import com.umeng.socialize.PlatformConfig;
 
 import retrofit.RequestInterceptor;
 import zilla.libcore.Zilla;
@@ -64,6 +65,8 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
      * Config API info
      */
     private void initApi() {
+        PlatformConfig.setSinaWeibo("4097250846", "f4cb916c401319e78c9fc1b73660e28a");
+        PlatformConfig.setWeixin("wxdef946afe85d49a2", "8f2e4913b794a310dd6662014748c43d");
         ZillaApi.NormalRestAdapter = ZillaApi.getRESTAdapter(new RequestInterceptor() {
             @Override
             public void intercept(RequestFacade requestFacade) {

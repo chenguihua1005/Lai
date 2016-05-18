@@ -9,7 +9,6 @@ import android.text.TextUtils;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.LaiApplication;
-import com.softtek.lai.jpush.JpushSet;
 import com.softtek.lai.module.login.view.LoginActivity;
 
 import java.io.InterruptedIOException;
@@ -26,7 +25,7 @@ import zilla.libcore.util.Util;
  */
 public class NetErrorHandler implements IApiErrorHandler {
 
-    private AlertDialog.Builder builder = null;
+    private AlertDialog.Builder builder=null;
 
     @Override
     public boolean dealCustomError(Context context, @NonNull IApiError object) {
@@ -74,10 +73,7 @@ public class NetErrorHandler implements IApiErrorHandler {
                 int statusCode = error.getResponse().getStatus();
                 switch (statusCode) {
                     case 401:
-                        JpushSet set = new JpushSet(LaiApplication.getInstance().getContext());
-                        set.setAlias("");
-                        set.setStyleBasic();
-                        if (builder != null) {
+                        if(builder!=null){
                             return;
                         }
                         builder=new AlertDialog.Builder(LaiApplication.getInstance().getContext())
@@ -85,23 +81,18 @@ public class NetErrorHandler implements IApiErrorHandler {
                                 .setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        builder = null;
-                                        Intent intent = new Intent(LaiApplication.getInstance(), LoginActivity.class);
+                                        builder=null;
+                                        Intent intent=new Intent(LaiApplication.getInstance(), LoginActivity.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         LaiApplication.getInstance().startActivity(intent);
                                     }
-                                }).setNegativeButton("稍候", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        builder = null;
-                                    }
                                 });
-
+                        builder.setCancelable(false);
                         builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                             @Override
                             public void onDismiss(DialogInterface dialog) {
-                                builder = null;
+                                builder=null;
                             }
                         });
                         builder.create().show();

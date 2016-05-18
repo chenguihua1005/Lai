@@ -40,17 +40,6 @@ import com.softtek.lai.module.studetail.view.StudentDetailActivity;
 import com.softtek.lai.utils.MD5;
 import com.softtek.lai.utils.ShareUtils;
 import com.softtek.lai.utils.SoftInputUtil;
-import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.umeng.socialize.bean.SocializeConfig;
-import com.umeng.socialize.controller.UMServiceFactory;
-import com.umeng.socialize.controller.UMSocialService;
-import com.umeng.socialize.media.SinaShareContent;
-import com.umeng.socialize.media.UMImage;
-import com.umeng.socialize.sso.SinaSsoHandler;
-import com.umeng.socialize.sso.UMSsoHandler;
-import com.umeng.socialize.weixin.controller.UMWXHandler;
-import com.umeng.socialize.weixin.media.CircleShareContent;
-import com.umeng.socialize.weixin.media.WeiXinShareContent;
 
 import butterknife.InjectView;
 import cn.jpush.android.api.JPushInterface;
@@ -64,13 +53,11 @@ import zilla.libcore.util.Util;
 public class LoginActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener {
 
     private ILoginPresenter loginPresenter;
-    private UMSocialService controller;
 
     @LifeCircleInject
     ValidateLife validateLife;
 
     @Required(order = 1, messageResId = R.string.phoneValidateNullLogin)
-    //@Regex(order = 2,patternResId = R.string.phonePattern,messageResId = R.string.phoneValidate)
     @InjectView(R.id.et_phone)
     EditText et_phone;
 
@@ -169,15 +156,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         validateLife.onValidationFailed(failedView, failedRule);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        System.out.println("resultCode:" + resultCode);
-        UMSsoHandler ssoHandler = SocializeConfig.getSocializeConfig().getSsoHandler(requestCode);
-        if (ssoHandler != null) {
-            ssoHandler.authorizeCallBack(requestCode, resultCode, data);
-        }
-    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

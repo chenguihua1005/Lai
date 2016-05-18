@@ -90,6 +90,7 @@ public class UpConfirmInfoImpl implements IUpConfirmInfopresenter {
                         context.startActivity(intent);
                         UserModel userModel = UserInfoModel.getInstance().getUser();
                         userModel.setGender(coninfoModel.getGender() + "");
+                        userModel.setUserrole(coninfoModelResponseData.getData().getUserRole());
                         UserInfoModel.getInstance().saveUserCache(userModel);
                         ((JoinGameDetailActivity) context).finish();
                         break;

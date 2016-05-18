@@ -100,7 +100,7 @@ public class LossWeightPerFragment extends BaseFragment implements PullToRefresh
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         StudentModel studentModel = studentModels.get(position - 1);
-        if(studentModel.getIsMemberOfAssistant()==1){
+        if(studentModel.getIsMemberOfAssistant()==1||studentModel.getOrderNum()==0){
             return;
         }
         Intent intent = new Intent(getContext(), StudentDetailActivity.class);
@@ -117,12 +117,13 @@ public class LossWeightPerFragment extends BaseFragment implements PullToRefresh
             return;
         }
         this.studentModels.clear();
-        for(int i=0;i<models.size();i++){
+        this.studentModels.addAll(models);
+        /*for(int i=0;i<models.size();i++){
             StudentModel model=models.get(i);
             if(model.getIsTest()!=0){
                 this.studentModels.add(model);
             }
-        }
+        }*/
         adapter.notifyDataSetChanged();
     }
 }
