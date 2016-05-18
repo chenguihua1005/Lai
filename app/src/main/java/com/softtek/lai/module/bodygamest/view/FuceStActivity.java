@@ -6,19 +6,10 @@
 package com.softtek.lai.module.bodygamest.view;
 
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
@@ -37,9 +28,6 @@ import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.community.view.EditPersonalDynamicActivity;
-import com.softtek.lai.module.home.view.ModifyPhotoActivity;
-import com.softtek.lai.module.lossweightstory.model.UploadImage;
 import com.softtek.lai.module.lossweightstory.view.PictureActivity;
 import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
 import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
@@ -60,7 +48,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -70,7 +57,6 @@ import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_fuce_st)
 public class FuceStActivity extends BaseActivity implements View.OnClickListener,Validator.ValidationListener
@@ -364,12 +350,12 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
 
                     if (!TextUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getImage())) {
                         im_retestwritest_showphoto.setVisibility(View.VISIBLE);
-                        Picasso.with(this).load(retestAuditModelEvent.getRetestAuditModels().get(0).getImage()).placeholder(R.drawable.default_pic).fit().error(R.drawable.default_pic).into(im_retestwritest_showphoto);
+                        Picasso.with(this).load(retestAuditModelEvent.getRetestAuditModels().get(0).getImage()).placeholder(R.drawable.default_icon_square).fit().error(R.drawable.default_icon_square).into(im_retestwritest_showphoto);
                         String[] images=retestAuditModelEvent.getRetestAuditModels().get(0).getImage().split("/");
                         retestWrite.setImage(images[images.length-1]);
                     } else {
                         im_retestwritest_showphoto.setVisibility(View.GONE);
-                        Picasso.with(this).load("www").placeholder(R.drawable.default_pic).fit().error(R.drawable.default_pic).into(im_retestwritest_showphoto);
+                        Picasso.with(this).load("www").placeholder(R.drawable.default_icon_square).fit().error(R.drawable.default_icon_square).into(im_retestwritest_showphoto);
                     }
                 } else {
                     retestPre.GetUserMeasuredInfo(moblie);

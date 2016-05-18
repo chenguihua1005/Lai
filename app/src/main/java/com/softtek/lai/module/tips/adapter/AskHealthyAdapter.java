@@ -60,8 +60,8 @@ public class AskHealthyAdapter extends BaseAdapter{
         holder.tv_mask.setText(model.getTips_Title());
         holder.tv_content.setText(model.getTips_Content());
         if(StringUtils.isNotEmpty(model.getTips_Addr())){
-            Picasso.with(context).load(AddressManager.get("photoHost")+model.getTips_Addr()).fit().placeholder(R.drawable.default_pic)
-                    .error(R.drawable.default_pic).into(holder.iv_image);
+            Picasso.with(context).load(AddressManager.get("photoHost")+model.getTips_Addr()).fit().placeholder(R.drawable.default_icon_rect)
+                    .error(R.drawable.default_icon_rect).into(holder.iv_image);
         }
         return convertView;
     }

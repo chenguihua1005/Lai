@@ -131,7 +131,7 @@ public class LossWeightLogAdapter extends BaseAdapter{
                     context.startActivity(in);
                 }
             });
-            Picasso.with(context).load(AddressManager.get("photoHost")+log.getImgCollectionFirst()).fit().placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(holder.iv_image);
+            Picasso.with(context).load(AddressManager.get("photoHost")+log.getImgCollectionFirst()).fit().placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square).into(holder.iv_image);
         }
         holder.tv_log_title.setText(log.getLogTitle());
         holder.tv_content.setText(log.getLogContent());

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
                   android:layout_width="match_parent"
                   android:layout_height="150dp">
 
@@ -11,7 +11,8 @@
                 android:id="@+id/iv_image"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop"
+            />
         <TextView
                 android:id="@+id/tv_title"
                 android:layout_width="match_parent"

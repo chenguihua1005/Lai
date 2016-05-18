@@ -12,8 +12,8 @@
             android:layout_width="match_parent"
             android:layout_height="211dp"
             android:scaleType="fitCenter"
-            android:background="#c0c0c0"
-            android:src="@drawable/default_pic"/>
+            android:background="#F2F0F1"
+            android:src="@drawable/default_icon_rect"/>
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -549,7 +549,7 @@
                     <ImageView
                         android:layout_width="150dp"
                         android:layout_height="150dp"
-                        android:src="@drawable/default_pic"
+                        android:src="@drawable/default_icon_square"
                         android:layout_centerHorizontal="true"
                         android:visibility="gone"
                         android:layout_marginBottom="2dp"

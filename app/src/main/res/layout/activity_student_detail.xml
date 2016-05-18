@@ -237,9 +237,9 @@
                                     android:layout_width="0dp"
                                     android:layout_height="100dp"
                                     android:layout_weight="1"
-                                    android:background="#c0c0c0"
+                                    android:background="#F2F0F1"
                                     android:scaleType="fitCenter"
-                                    android:src="@drawable/default_pic" />
+                                    android:src="@drawable/default_icon_rect" />
 
                                 <View
                                     android:layout_width="3dp"
@@ -251,9 +251,9 @@
                                     android:layout_width="0dp"
                                     android:layout_height="100dp"
                                     android:layout_weight="1"
-                                    android:background="#c0c0c0"
+                                    android:background="#F2F0F1"
                                     android:scaleType="fitCenter"
-                                    android:src="@drawable/default_pic" />
+                                    android:src="@drawable/default_icon_rect" />
                             </LinearLayout>
 
                             <RelativeLayout

@@ -1,17 +1,11 @@
 package com.softtek.lai.module.retest;
 
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,14 +19,11 @@ import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygamest.view.PhotoViewActivity;
 import com.softtek.lai.module.lossweightstory.view.PictureActivity;
 import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
 import com.softtek.lai.module.retest.model.RetestAuditModel;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.module.retest.present.RetestclassImp;
-import com.softtek.lai.module.retest.view.AuditShowActivity;
-import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
@@ -40,8 +31,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
@@ -266,7 +255,7 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
         tv_retestAudit_doLegGirth.setText(retestAuditModelEvent.getRetestAuditModels().get(0).getDoLegGirth().equals("")?"":Float.parseFloat(retestAuditModelEvent.getRetestAuditModels().get(0).getDoLegGirth())+"");
         if(!TextUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getImage())) {
             im_retestaudit_showphoto.setVisibility(View.VISIBLE);
-            Picasso.with(this).load(retestAuditModelEvent.getRetestAuditModels().get(0).getImage()).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(im_retestaudit_showphoto);
+            Picasso.with(this).load(retestAuditModelEvent.getRetestAuditModels().get(0).getImage()).placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square).into(im_retestaudit_showphoto);
             String[] images=retestAuditModelEvent.getRetestAuditModels().get(0).getImage().split("/");
             retestAudit.setImage(images[images.length-1]);
         }

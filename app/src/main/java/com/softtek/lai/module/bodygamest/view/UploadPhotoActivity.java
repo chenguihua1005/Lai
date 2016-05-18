@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -23,7 +22,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
@@ -46,10 +44,7 @@ import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileCropSelector;
 import com.sw926.imagefileselector.ImageFileSelector;
-import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.bean.SocializeConfig;
-import com.umeng.socialize.bean.SocializeEntity;
-import com.umeng.socialize.controller.listener.SocializeListeners;
 import com.umeng.socialize.sso.UMSsoHandler;
 
 import org.greenrobot.eventbus.EventBus;
@@ -58,7 +53,6 @@ import org.greenrobot.eventbus.Subscribe;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -69,7 +63,6 @@ import retrofit.mime.TypedFile;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_upload_photo)
 public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBase.OnRefreshListener2<ListView>, View.OnClickListener, AdapterView.OnItemClickListener, DownloadManager.DownloadCallBack
@@ -94,21 +87,13 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
 //    @InjectView(R.id.tv_downphoto_nick)
 //    TextView tv_downphoto_nick;
     int pageIndex = 0;
-    private List<LogListModel> logListModelList = new ArrayList<LogListModel>();
+    private List<LogListModel> logListModelList = new ArrayList<>();
     private DownPhotoAdapter downPhotoAdapter;
     private PhotoListPre photoListPre;
     String path = "";
     private CharSequence[] items = {"拍照", "从相册选择照片"};
     private static final int PHOTO = 1;
-    //时间
-    Calendar c = Calendar.getInstance();
-    //            取得系统日期:
-    int years = c.get(Calendar.YEAR);
-    int month = c.get(Calendar.MONTH) + 1;
-    int day = c.get(Calendar.DAY_OF_MONTH);
-    //取得系统时间：
-    int hour = c.get(Calendar.HOUR_OF_DAY);
-    int minute = c.get(Calendar.MINUTE);
+
     private ProgressDialog progressDialog;
     DownPhotoModel downPhotoModel;
     LogListModel logListModel;
@@ -119,7 +104,6 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     private GradeService service;
     private ImageView im_uploadphoto_banner_list;
     private CircleImageView cir_downphoto_head_list;
-    private TextView tv_today;
     private ImageView imtest_list;
     private TextView tv_downphoto_nick;
     private ImageFileSelector imageFileSelector;
@@ -182,7 +166,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         ptrlvlist.setOnRefreshListener(this);
         View view = getLayoutInflater().inflate(R.layout.loadphotolist_header_layout, null, false);
         im_uploadphoto_banner_list = (ImageView) view.findViewById(R.id.im_uploadphoto_banner_list);
-        tv_today = (TextView) view.findViewById(R.id.tv_today);
+        //tv_today = (TextView) view.findViewById(R.id.tv_today);
         cir_downphoto_head_list = (CircleImageView) view.findViewById(R.id.cir_downphoto_head_list);
         imtest_list = (ImageView) view.findViewById(R.id.imtest_list);
         tv_downphoto_nick = (TextView) view.findViewById(R.id.tv_downphoto_nick);
@@ -380,16 +364,9 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
             }
 
             if (!TextUtils.isEmpty(downPhotoModel.getBanner())) {
-                Picasso.with(this).load(path + downPhotoModel.getBanner() + "").fit().placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(im_uploadphoto_banner_list);
-
-            } else {
-
-                Picasso.with(this).load("www").placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(im_uploadphoto_banner_list);
-
+                Picasso.with(this).load(path + downPhotoModel.getBanner() + "").fit().placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square).into(im_uploadphoto_banner_list);
 
             }
-
-
         }
 
         if (downPhotoModel == null) {
@@ -413,7 +390,6 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     @Override
     public void uoploadPhotoSuccess(boolean result, String photo) {
         if (result) {
-            // Picasso.with(this).load(AddressManager.get("photoHost")+photo).fit().placeholder(R.drawable.takephoto_upload).error(R.drawable.takephoto_upload).into(imtest);
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -438,10 +414,8 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
                     new Callback<ResponseData<BannerModel>>() {
                         @Override
                         public void success(ResponseData<BannerModel> bannerModelResponseData, Response response) {
-                            Log.i("logbanner====" + bannerModelResponseData.getData().getPath());
                             Picasso.with(UploadPhotoActivity.this).load(AddressManager.get("photoHost") + bannerModelResponseData.getData().getPath()).fit().
-
-                                    placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(im_uploadphoto_banner_list);
+                                    placeholder(R.drawable.default_icon_rect).error(R.drawable.default_icon_rect).into(im_uploadphoto_banner_list);
 
                             new File(file).delete();
                         }
