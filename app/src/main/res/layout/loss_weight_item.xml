@@ -50,7 +50,8 @@
                 android:gravity="left|center"
                 android:text="尚未提交复测数据"
                 android:textColor="#6F6F6F"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:visibility="gone"/>
 
             <LinearLayout
                 android:id="@+id/ll_show"
@@ -64,7 +65,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="前 78.5斤"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"/>
 
                 <View
                     android:layout_width="1dp"
@@ -103,6 +104,7 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/tv_unit"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginRight="15dp"
