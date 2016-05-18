@@ -68,7 +68,7 @@ public class AssistantImpl implements IAssistantPresenter {
                     case 200:
                         EventBus.getDefault().post(new AssistantApplyEvent(list));
                         break;
-                    case 100:
+                    case 201:
 
                         break;
                     default:

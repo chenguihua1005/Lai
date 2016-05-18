@@ -79,6 +79,8 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
 //    ImageView imtest;
     @InjectView(R.id.tv_right)
     TextView tv_right;
+    @InjectView(R.id.iv_email)
+    ImageView iv_email;
     @InjectView(R.id.fl_right)
     FrameLayout fl_right;
     @InjectView(R.id.ptrlvlist)
@@ -159,7 +161,9 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setMessage("正在加载内容...");
         tv_title.setText("上传照片");
-        tv_right.setText("分享");
+        iv_email.setVisibility(View.VISIBLE);
+        iv_email.setImageResource(R.drawable.img_share_bt);
+        iv_email.setOnClickListener(this);
         imageFileSelector = new ImageFileSelector(this);
         imageFileSelector.setOutPutImageSize(DisplayUtil.dip2px(this, 600),
                 DisplayUtil.dip2px(this, 400));
@@ -234,6 +238,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
             case R.id.ll_left:
                 finish();
                 break;
+            case R.id.iv_email:
             case R.id.fl_right:
                 Intent intent = new Intent(this, SelectPhotoActivity.class);
                 startActivityForResult(intent, 100);

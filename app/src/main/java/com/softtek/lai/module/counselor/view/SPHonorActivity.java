@@ -113,6 +113,8 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
     ImageView img_jzjs;
     @InjectView(R.id.img_fc)
     ImageView img_fc;
+    @InjectView(R.id.iv_email)
+    ImageView iv_email;
 
     SelectPicPopupWindow menuWindow;
 
@@ -128,6 +130,9 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        iv_email.setVisibility(View.VISIBLE);
+        iv_email.setImageResource(R.drawable.img_share_bt);
+        iv_email.setOnClickListener(this);
         ll_left.setOnClickListener(this);
         fl_right.setOnClickListener(this);
         EventBus.getDefault().register(this);
@@ -140,6 +145,7 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
         EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
+
     private View.OnClickListener itemsOnClick = new View.OnClickListener() {
 
         public void onClick(View v) {
@@ -166,7 +172,7 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
                 case R.id.lin_sina:
                     new ShareAction(SPHonorActivity.this)
                             .setPlatform(SHARE_MEDIA.SINA)
-                            .withText(value+url)
+                            .withText(value + url)
                             .withMedia(new UMImage(SPHonorActivity.this, R.drawable.img_share_logo))
                             .share();
                     break;
@@ -178,6 +184,7 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
         }
 
     };
+
     @Subscribe
     public void onEvent(UserHonorModel userHonorModel) {
         System.out.println("userHonorModel:" + userHonorModel);
@@ -286,7 +293,6 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
     protected void initViews() {
         //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
         tv_title.setText(R.string.CounselorF);
-        tv_right.setText("分享");
         list_stars.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -316,6 +322,7 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
                 finish();
                 break;
 
+            case R.id.iv_email:
             case R.id.fl_right:
                 dialogShow("加载中");
                 honorPresenter.getUserHonors();
