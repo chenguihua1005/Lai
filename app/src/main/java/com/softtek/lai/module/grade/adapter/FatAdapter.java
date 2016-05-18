@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.module.grade.model.StudentModel;
+import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
@@ -75,21 +76,23 @@ public class FatAdapter extends BaseAdapter {
             holder.tv_order.setTextColor(Color.parseColor("#FDB02B"));
         }else if(order==0){
             holder.tv_order.setVisibility(View.INVISIBLE);
-            holder.ll_content.setBackgroundColor(Color.parseColor("#F9F9F9"));
+        }else{
+            holder.tv_order.setTextColor(Color.parseColor("#707070"));
+        }
+        if(studentModel.getIsTest()==0){
             holder.ll_show.setVisibility(View.GONE);
             holder.tv_show.setVisibility(View.VISIBLE);
             holder.tv_physical.setVisibility(View.INVISIBLE);
             holder.tv_unit.setVisibility(View.INVISIBLE);
-        }else{
-            holder.tv_order.setTextColor(Color.parseColor("#707070"));
+            holder.ll_content.setBackgroundColor(Color.parseColor("#F9F9F9"));
         }
-        holder.tv_py_before.setText("前 " + studentModel.getLossBefore() + "%");
-        holder.tv_py_after.setText("后 " + studentModel.getLossAfter() + "%");
+        holder.tv_py_before.setText("前 " + (StringUtil.getFloat(studentModel.getLossBefore())==0?"":studentModel.getLossBefore()+ "%") );
+        holder.tv_py_after.setText("后 " + (StringUtil.getFloat(studentModel.getLossAfter())==0?"":studentModel.getLossAfter()+ "%") );
         holder.tv_name.setText(studentModel.getUserName());
         holder.tv_physical.setText(studentModel.getPysical());
-        if(studentModel.getIsMemberOfAssistant()==1||order==0){//表示不能点击进入学员详情
+        if(studentModel.getIsMemberOfAssistant()==1||studentModel.getIsTest()==0){//表示不能点击进入学员详情
             holder.iv_arrow.setVisibility(View.INVISIBLE);
-        }else if(studentModel.getIsMemberOfAssistant()==0&&order!=0){
+        }else if(studentModel.getIsMemberOfAssistant()==0&&studentModel.getIsTest()==1){
             holder.iv_arrow.setVisibility(View.VISIBLE);
         }
         if (StringUtils.isNotEmpty(studentModel.getPhoto())) {

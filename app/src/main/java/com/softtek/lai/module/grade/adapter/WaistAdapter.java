@@ -15,9 +15,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.module.grade.model.StudentModel;
+import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
@@ -70,29 +70,32 @@ public class WaistAdapter extends BaseAdapter {
             holder = (WaistlineHolder) convertView.getTag();
         }
         StudentModel studentModel = students.get(position);
-        //Log.i("腰围="+studentModel.toString());
         holder.tv_order.setText(studentModel.getOrderNum()+"");
         int order = studentModel.getOrderNum();
         if (order == 1 || order == 2 || order == 3) {
             holder.tv_order.setTextColor(Color.parseColor("#FDB02B"));
         }else if(order==0){
             holder.tv_order.setVisibility(View.INVISIBLE);
-            holder.ll_content.setBackgroundColor(Color.parseColor("#F9F9F9"));
+        }else{
+            holder.tv_order.setTextColor(Color.parseColor("#707070"));
+        }
+        if(studentModel.getIsTest()==0){
             holder.ll_show.setVisibility(View.GONE);
             holder.tv_show.setVisibility(View.VISIBLE);
             holder.tv_wl_totle.setVisibility(View.INVISIBLE);
             holder.tv_unit.setVisibility(View.INVISIBLE);
-        }else{
-            holder.tv_order.setTextColor(Color.parseColor("#707070"));
+            holder.ll_content.setBackgroundColor(Color.parseColor("#F9F9F9"));
         }
         holder.tv_name.setText(studentModel.getUserName());
-        holder.tv_wl_before.setText("前 " + studentModel.getWaistlinebefore() + "cm");
-        holder.tv_wl_after.setText("后 " + studentModel.getWaistlineAfter() + "cm");
+        holder.tv_wl_before.setText("前 " + (StringUtil.getFloat(studentModel.getWaistlinebefore())==0?"":studentModel.getWaistlinebefore()+ "cm") );
+        holder.tv_wl_after.setText("后 " + (StringUtil.getFloat(studentModel.getWaistlineAfter())==0?"":studentModel.getWaistlineAfter()+ "cm") );
         holder.tv_wl_totle.setText(studentModel.getLossline());
-        if(studentModel.getIsMemberOfAssistant()==1||order==0){//表示不能点击进入学员详情
+        if(studentModel.getIsMemberOfAssistant()==1|| studentModel.getIsTest()==0){//表示不能点击进入学员详情
             holder.iv_arrow.setVisibility(View.INVISIBLE);
-        }else if(studentModel.getIsMemberOfAssistant()==0&&order!=0){
+        }else if(studentModel.getIsMemberOfAssistant()==0&&studentModel.getIsTest()==1){
+            holder.ll_content.setBackgroundColor(Color.parseColor("#FFFFFF"));
             holder.iv_arrow.setVisibility(View.VISIBLE);
+
         }
         if (StringUtils.isNotEmpty(studentModel.getPhoto())) {
             Picasso.with(context).load(AddressManager.get("photoHost") + studentModel.getPhoto()).fit().placeholder(R.drawable.img_default)
