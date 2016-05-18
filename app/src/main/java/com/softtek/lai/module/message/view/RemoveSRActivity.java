@@ -145,11 +145,7 @@ public class RemoveSRActivity extends BaseActivity implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_left:
-                if ("1".equals(msg_type)) {
-                    finish();
-                } else {
-                    startActivity(new Intent(this, MessageActivity.class));
-                }
+                finish();
 
                 break;
             case R.id.img:
@@ -175,7 +171,7 @@ public class RemoveSRActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.but_no:
                 dialogShow("加载中");
-                messagePresenter.delNoticeOrMeasureMsg(messageDetailInfo.getMessageId());
+                messagePresenter.delNoticeOrMeasureMsg(messageDetailInfo.getMessageId(),"0");
                 break;
             case R.id.but_yes:
                 if (isSelect) {
@@ -212,17 +208,4 @@ public class RemoveSRActivity extends BaseActivity implements View.OnClickListen
     public void onFragmentInteraction(Uri uri) {
 
     }
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            if ("0".equals(msg_type)) {
-                finish();
-            } else{
-                startActivity(new Intent(this,MessageActivity.class));
-            }
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
 }

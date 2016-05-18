@@ -61,8 +61,10 @@ public class InviteContantActivity extends BaseActivity implements View.OnClickL
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
 
-    @InjectView(R.id.fl_right)
-    FrameLayout fl_right;
+    @InjectView(R.id.fl)
+    FrameLayout fl;
+    @InjectView(R.id.et_search)
+    TextView et_search;
 
     @InjectView(R.id.tv_right)
     TextView tv_right;
@@ -98,7 +100,8 @@ public class InviteContantActivity extends BaseActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ll_left.setOnClickListener(this);
-        fl_right.setOnClickListener(this);
+        fl.setOnClickListener(this);
+        et_search.setOnClickListener(this);
         progressDialog = new ProgressDialog(this);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setMessage(getResources().getString(zilla.libcore.R.string.dialog_loading));
@@ -134,8 +137,7 @@ public class InviteContantActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void initViews() {
         //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
-        tv_title.setText(R.string.joinGame);
-        tv_right.setText("搜索");
+        tv_title.setText(R.string.contactList);
 
     }
 
@@ -154,7 +156,8 @@ public class InviteContantActivity extends BaseActivity implements View.OnClickL
                 finish();
                 break;
 
-            case R.id.fl_right:
+            case R.id.et_search:
+            case R.id.fl:
                 Intent intent=new Intent(this,SearchContantActivity.class);
                 intent.putExtra("list",(Serializable)contactListValue);
                 startActivity(intent);

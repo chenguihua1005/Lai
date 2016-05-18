@@ -143,7 +143,9 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     @Subscribe
     public void onEvent(GifModel model) {
         gifModel = model;
-        photoListPre.getLossData(UserInfoModel.getInstance().getUser().getUserid());
+        progressDialog.setMessage("加载中");
+        progressDialog.show();
+        photoListPre.getLossData(UserInfoModel.getInstance().getUser().getUserid(),progressDialog);
 
     }
 
@@ -318,7 +320,9 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         if (requestCode == 100 && resultCode == RESULT_OK) {
             String result = data.getExtras().getString("result");//得到新Activity 关闭后返回的数据
             if (!"".equals(result)) {
-                photoListPre.getUserPhotos(result);
+                progressDialog.setMessage("加载中");
+                progressDialog.show();
+                photoListPre.getUserPhotos(result,progressDialog);
             }
         }
         if (resultCode == RESULT_OK && requestCode == PHOTO) {

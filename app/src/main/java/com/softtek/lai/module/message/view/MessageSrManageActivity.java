@@ -116,12 +116,7 @@ public class MessageSrManageActivity extends BaseActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_left:
-                if ("0".equals(msg_type)) {
-                    finish();
-                } else {
-                    startActivity(new Intent(this, MessageActivity.class));
-                }
-
+                finish();
                 break;
             case R.id.img:
                 if (isSelect) {
@@ -180,17 +175,5 @@ public class MessageSrManageActivity extends BaseActivity implements View.OnClic
     @Override
     public void onFragmentInteraction(Uri uri) {
 
-    }
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            if ("0".equals(msg_type)) {
-                finish();
-            } else{
-                startActivity(new Intent(this,MessageActivity.class));
-            }
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
     }
 }
