@@ -77,7 +77,7 @@ public class NetErrorHandler implements IApiErrorHandler {
                             return;
                         }
                         builder=new AlertDialog.Builder(LaiApplication.getInstance().getContext())
-                                .setTitle("温馨提示").setMessage("您的账号已过期，请您重新登录")
+                                .setTitle("温馨提示").setMessage("您的帐号已经在其他设备登录，请重新登录后再试。")
                                 .setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
@@ -87,13 +87,8 @@ public class NetErrorHandler implements IApiErrorHandler {
                                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         LaiApplication.getInstance().startActivity(intent);
                                     }
-                                }).setNegativeButton("稍候", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        builder=null;
-                                    }
                                 });
-
+                        builder.setCancelable(false);
                         builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                             @Override
                             public void onDismiss(DialogInterface dialog) {

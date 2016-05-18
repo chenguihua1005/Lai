@@ -104,12 +104,16 @@
         android:layout_marginTop="10dip"
         android:background="@color/mytoolbar_green" />
 
-    <ImageView
+    <TextView
         android:id="@+id/img_next"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="50dip"
         android:layout_marginLeft="@dimen/margin"
         android:layout_marginRight="@dimen/margin"
         android:layout_marginTop="136dip"
-        android:src="@drawable/next" />
+        android:text="创建班级"
+        android:gravity="center"
+        android:textSize="@dimen/textSize3"
+        android:textColor="@color/white"
+        android:background="@drawable/bg_creat_btn"/>
 </LinearLayout>

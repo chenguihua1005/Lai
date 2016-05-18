@@ -21,6 +21,8 @@ import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,7 +90,6 @@ public class StudentBaseDateActivity extends BaseActivity implements BaseFragmen
     @Override
     public void getClassMemberInfo(StudentBaseInfoModel studentBaseInfoModel) {
         dialogDissmiss();
-        Log.i("加载结束");
         if(studentBaseInfoModel!=null){
             Log.i("基础数据"+studentBaseInfoModel);
             tv_title.setText(studentBaseInfoModel.getClassName());
@@ -96,13 +97,13 @@ public class StudentBaseDateActivity extends BaseActivity implements BaseFragmen
             StringBuffer endDate=new StringBuffer();
             String start=studentBaseInfoModel.getStartDate();
             String end=studentBaseInfoModel.getEndDate();
-            if(start!=null&&!"".equals(start)){
+            if(StringUtils.isNotEmpty(start)){
                 strDate.append(DateUtil.getInstance().getYear(start));
                 strDate.append("年");
                 strDate.append(DateUtil.getInstance().getMonth(start));
                 strDate.append("月");
             }
-            if(end!=null&&!"".equals(end)){
+            if(StringUtils.isNotEmpty(end)){
                 endDate.append(DateUtil.getInstance().getYear(end));
                 endDate.append("年");
                 endDate.append(DateUtil.getInstance().getMonth(end));
@@ -110,12 +111,12 @@ public class StudentBaseDateActivity extends BaseActivity implements BaseFragmen
             }
             tv_title_date.setText(strDate.toString()+"-"+endDate.toString());
             tv_name.setText(studentBaseInfoModel.getUserName());
-            if(studentBaseInfoModel.getBanner()!=null&&!"".equals(studentBaseInfoModel.getBanner())){
+            if(StringUtils.isNotEmpty(studentBaseInfoModel.getBanner())){
                 Picasso.with(this).load(studentBaseInfoModel.getBanner()).fit()
                         .placeholder(R.drawable.default_pic)
                         .error(R.drawable.default_pic).into(banner);
             }
-            if(studentBaseInfoModel.getUserPhoto()!=null&&!"".equals(studentBaseInfoModel.getUserPhoto())){
+            if(StringUtils.isNotEmpty(studentBaseInfoModel.getUserPhoto())){
                 Picasso.with(this).load(studentBaseInfoModel.getUserPhoto()).fit()
                         .placeholder(R.drawable.img_default)
                         .error(R.drawable.img_default).into(cir_header_image);

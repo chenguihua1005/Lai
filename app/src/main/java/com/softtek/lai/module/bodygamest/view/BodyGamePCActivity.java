@@ -6,11 +6,16 @@
 package com.softtek.lai.module.bodygamest.view;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,6 +25,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame.model.FuceNumModel;
 import com.softtek.lai.module.bodygame.model.TiGuanSaiModel;
 import com.softtek.lai.module.bodygame.model.TotolModel;
@@ -31,7 +37,11 @@ import com.softtek.lai.module.bodygamest.present.IStudentPresenter;
 import com.softtek.lai.module.bodygamest.present.StudentImpl;
 import com.softtek.lai.module.counselor.view.GameActivity;
 import com.softtek.lai.module.home.view.HomeActviity;
+import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.lossweightstory.view.LossWeightStoryActivity;
+import com.softtek.lai.module.message.presenter.IMessagePresenter;
+import com.softtek.lai.module.message.presenter.MessageImpl;
+import com.softtek.lai.module.message.view.MessageActivity;
 import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.module.retest.present.RetestclassImp;
@@ -42,11 +52,7 @@ import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.joda.time.DateTime;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -101,6 +107,16 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
     //刷新
     @InjectView(R.id.im_refreshst)
             ImageView im_refreshst;
+
+    @InjectView(R.id.iv_email)
+    ImageView iv_email;
+    @InjectView(R.id.img_red)
+    ImageView img_red;
+    @InjectView(R.id.fl_right)
+    FrameLayout fl_right;
+    private IMessagePresenter messagePresenter;
+    private MessageReceiver mMessageReceiver;
+
     RetestPre retestPre;
     IStudentPresenter iStudentPresenter;
     UserInfoModel userInfoModel=UserInfoModel.getInstance();
@@ -123,6 +139,30 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
         ll_st_tipst.setOnClickListener(this);
         ll_left.setOnClickListener(this);
 
+        messagePresenter = new MessageImpl(this);
+        registerMessageReceiver();
+        iv_email.setBackgroundResource(R.drawable.email);
+        fl_right.setOnClickListener(this);
+        iv_email.setOnClickListener(this);
+
+    }
+
+    public void registerMessageReceiver() {
+        mMessageReceiver = new MessageReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
+        filter.addAction(Constants.MESSAGE_RECEIVED_ACTION);
+        registerReceiver(mMessageReceiver, filter);
+    }
+
+    public class MessageReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (Constants.MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {
+                img_red.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     @Override
@@ -156,6 +196,13 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
     public void onResume()
     {
         super.onResume();
+        String userrole = UserInfoModel.getInstance().getUser().getUserrole();
+        if (String.valueOf(Constants.VR).equals(userrole)) {
+
+        } else {
+            messagePresenter.getMessageRead(img_red);
+        }
+
         studentImpl.hasClass(new RequestCallback<ResponseData<HasClass>>()
         {
             @Override
@@ -184,7 +231,6 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
         iStudentPresenter=new StudentImpl(this);
         tiGuanSai = new TiGuanSaiImpl();
         tiGuanSai.getTiGuanSai();
-//        tiGuanSai.doGetFuceNum(loginid);
         tiGuanSai.doGetTotal(progressDialog);
         studentImpl=new StudentImpl(this);
         retestPre=new RetestclassImp();
@@ -220,10 +266,11 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
     @Subscribe
     public void doGetDates(RetestAuditModelEvent retestAuditModelEvent)  {
 
+            if(retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus()!=null) {
+                if (retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("0")) {
+                    flag = false;
 
-            if (retestAuditModelEvent.getRetestAuditModels().get(0).getAMStatus().equals("0")) {
-                flag = false;
-
+                }
             }
 
     }
@@ -268,7 +315,7 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
         final int id=v.getId();
         if(id!=R.id.ll_st_saikuang&&id!=R.id.ll_st_tipst&&id!=R.id.ll_left){
             dialogShow("检查中...");
-            studentImpl.pcIsJoinClass(UserInfoModel.getInstance().getUser().getUserid(),new RequestCallback<ResponseData<HasClass>>() {
+            studentImpl.hasClass(new RequestCallback<ResponseData<HasClass>>() {
                 @Override
                 public void success(ResponseData<HasClass> hasClassResponseData, Response response) {
                     dialogDissmiss();
@@ -278,10 +325,14 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
                         {
                             doStartActivity(id);
 
-                        }else{
+                        }else if(Integer.parseInt(hasClassResponseData.getData().getIsHave())==0){
                             //学员没有班级
-                            new AlertDialog.Builder(BodyGamePCActivity.this).setTitle("提示")
+                            new AlertDialog.Builder(BodyGamePCActivity.this).setTitle("温馨提示")
                                     .setMessage("您目前还没有参加班级").create().show();
+                        }else if(Integer.parseInt(hasClassResponseData.getData().getIsHave())==2){
+                            //学员没有班级
+                            new AlertDialog.Builder(BodyGamePCActivity.this).setTitle("温馨提示")
+                                    .setMessage("班级尚未开始").create().show();
                         }
                     }else{
                         Util.toastMsg(hasClassResponseData.getMsg());
@@ -296,6 +347,32 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
             });
         }else {
             switch (id) {
+                case R.id.fl_right:
+                case R.id.iv_email:
+                    String userroles = UserInfoModel.getInstance().getUser().getUserrole();
+                    if (String.valueOf(Constants.VR).equals(userroles)) {
+                        //提示用户让他登录或者直接进入2个功能的踢馆赛模块
+                        AlertDialog.Builder information_dialog = null;
+                        information_dialog = new AlertDialog.Builder(this);
+                        information_dialog.setTitle("您当前处于游客模式，需要登录认证").setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent login = new Intent(BodyGamePCActivity.this, LoginActivity.class);
+                                login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(login);
+                            }
+                        }).setNegativeButton("稍候", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).create().show();
+                    } else {
+                        startActivity(new Intent(BodyGamePCActivity.this, MessageActivity.class));
+                    }
+                    break;
+
                 //大赛赛况
                 case R.id.ll_st_saikuang:
                     startActivity(new Intent(this, GameActivity.class));

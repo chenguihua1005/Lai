@@ -26,6 +26,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.act.model.ActlistModel;
 import com.softtek.lai.module.act.view.ActActivity;
 import com.softtek.lai.module.act.view.ActListActivity;
 import com.softtek.lai.module.home.view.HomeActviity;
@@ -190,6 +191,10 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 RecentlyActiviteModel recentlyActiviteModel = recentlyActivite.get(position);
                 String actId=recentlyActiviteModel.getActId();//活动Id
+                Intent intent = new Intent(GroupMainActivity.this, ActActivity.class);
+                intent.putExtra("id", actId);
+                startActivity(intent);
+
             }
         });
     }

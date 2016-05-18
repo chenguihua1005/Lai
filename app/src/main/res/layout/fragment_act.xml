@@ -4,4 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:id="@+id/order_list"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:divider="#ececec"
+        android:dividerHeight="1dp"
+        android:listSelector="@android:color/transparent"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        app:ptrShowIndicator="false" />
 </LinearLayout>

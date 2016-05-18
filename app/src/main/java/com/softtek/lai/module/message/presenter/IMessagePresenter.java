@@ -33,7 +33,7 @@ public interface IMessagePresenter {
     void upReadTime(String msgtype, String recevieid, String senderid, String classid);
 
     //删除通知或复测消息
-    void delNoticeOrMeasureMsg(String messageId);
+    void delNoticeOrMeasureMsg(String messageId,String type);
 
     //主页是否有提示消息
     void getMessageRead(ImageView img_red);

@@ -91,7 +91,6 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
 
 
     private PKListManager manager;
-    private long pkId;
     private PKDetailMold model;
 
     @Override
@@ -122,7 +121,6 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
             btn_receive.setVisibility(View.VISIBLE);
             btn_refuse.setVisibility(View.VISIBLE);
         }
-        pkId=model.getPKId();
         tv_pk_name1.setText(StringUtil.showName(model.getUserName(),model.getMobile()));
         tv_pk_name2.setText(StringUtil.showName(model.getBUserName(),model.getBMobile()));
         cb_zan_left.setText(model.getChpcou() + "");
@@ -154,13 +152,24 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
                 break;
             case R.id.btn_cancle_pk:
                 //取消PK赛
+                manager.cancelPK(model.getPKId(), new RequestCallback<ResponseData>() {
+                    @Override
+                    public void success(ResponseData responseData, Response response) {
+
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        super.failure(error);
+                    }
+                });
                 break;
             case R.id.cb_zan_left:
                 cb_zan_left.setChecked(true);
                 final int left_zan=Integer.parseInt(cb_zan_left.getText().toString())+1;
                 cb_zan_left.setText(left_zan+"");
                 cb_zan_left.setEnabled(false);
-                manager.doZan(pkId, 0, new RequestCallback<ResponseData>() {
+                manager.doZan(model.getPKId(), 0, new RequestCallback<ResponseData>() {
                     @Override
                     public void success(ResponseData responseData, Response response) {
 
@@ -180,7 +189,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
                 cb_zan_right.setChecked(true);
                 cb_zan_right.setText(right_zan+"");
                 cb_zan_right.setEnabled(false);
-                manager.doZan(pkId, 1, new RequestCallback<ResponseData>() {
+                manager.doZan(model.getPKId(), 1, new RequestCallback<ResponseData>() {
                     @Override
                     public void success(ResponseData responseData, Response response) {
 
@@ -197,7 +206,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
                 break;
             case R.id.btn_receive:
                 //接受挑战
-                manager.promiseOrRefuse(pkId,1,
+                manager.promiseOrRefuse(model.getPKId(),1,
                         new RequestCallback<ResponseData>() {
                             @Override
                             public void success(ResponseData responseData, Response response) {
@@ -216,7 +225,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
                 break;
             case R.id.btn_refuse:
                 //拒绝挑战
-                manager.promiseOrRefuse(pkId,-1,
+                manager.promiseOrRefuse(model.getPKId(),-1,
                         new RequestCallback<ResponseData>() {
                             @Override
                             public void success(ResponseData responseData, Response response) {
@@ -236,7 +245,17 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
                 break;
             case R.id.btn_restart:
                 //重新发起挑战
-                
+                manager.resetPK(model.getPKId(), new RequestCallback<ResponseData>() {
+                    @Override
+                    public void success(ResponseData responseData, Response response) {
+
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        super.failure(error);
+                    }
+                });
                 break;
         }
     }

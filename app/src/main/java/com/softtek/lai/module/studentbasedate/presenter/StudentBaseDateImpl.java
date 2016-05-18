@@ -5,17 +5,10 @@ import android.content.Context;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.grade.model.DynamicInfoModel;
-import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.studentbasedate.model.StudentBaseInfoModel;
 import com.softtek.lai.module.studentbasedate.net.StudentBaseDateService;
-import com.softtek.lai.module.studetail.model.StudentLinChartInfoModel;
 import com.softtek.lai.utils.RequestCallback;
 
-import java.util.List;
-
-import retrofit.Callback;
-import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 
@@ -44,17 +37,6 @@ public class StudentBaseDateImpl implements IStudentBaseDate{
                 }else{
                     if(cb!=null)cb.getClassMemberInfo(null);
                 }
-            }
-
-        });
-    }
-
-    @Override
-    public void getClassMemberInfoCurvePC() {
-        service.getClassMemberInfoCurvePC(token, new RequestCallback<ResponseData<List<StudentLinChartInfoModel>>>() {
-            @Override
-            public void success(ResponseData<List<StudentLinChartInfoModel>> listResponseData, Response response) {
-                Log.i("学员曲线图："+listResponseData.toString());
             }
 
         });

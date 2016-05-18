@@ -33,7 +33,7 @@
     <string name="login_out_message">确定退出该账号吗？</string>
 
     <string name="title_activity_login">LoginActivity</string>
-    <string name="phoneNum">手机号</string>
+    <string name="phoneNum">手机号码</string>
     <string name="password">密码</string>
     <string name="passwordReg">密码(字母+数字，6~16位)</string>
     <string name="newpasswordReg">新密码(字母+数字，6~16位)</string>
@@ -49,7 +49,7 @@
     <string name="resetpasswordNull">请输入确认密码</string>
     <string name="resetNewpasswordNull">请输入确认新密码</string>
     <string name="phoneValidateNull">请输入手机号码</string>
-    <string name="phoneValidateNullLogin">请输入手机号码/资格证号</string>
+    <string name="phoneValidateNullLogin">请输入手机号码</string>
     <string name="passwordValidateNull">请输入密码</string>
     <string name="phoneValidate">请输入正确的手机号码</string>
     <string name="passwordValidate">密码不符合规则(字母+数字，6~16位)</string>
@@ -134,7 +134,7 @@
     <string name="gamestF">荣誉榜</string>
     <string name="gamestG">大赛赛况</string>
     <string name="gamestH">加入跑团</string>
-    <string name="phoneOr">手机号/资格证号</string>
+    <string name="phoneOr">手机号码</string>
     <string name="assistantManage">助教管理</string>
     <string name="assistantDetail">助教详情</string>
     <string name="applyAssistant">助教申请</string>

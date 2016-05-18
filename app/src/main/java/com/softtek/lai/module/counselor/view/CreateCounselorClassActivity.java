@@ -74,7 +74,7 @@ public class CreateCounselorClassActivity extends BaseActivity implements View.O
     ImageView img_choose;
 
     @InjectView(R.id.img_next)
-    ImageView img_next;
+    TextView img_next;
 
     @InjectView(R.id.lin_time)
     LinearLayout lin_time;

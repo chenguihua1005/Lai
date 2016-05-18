@@ -119,7 +119,7 @@ public class JoinGameActivity extends BaseActivity implements View.OnClickListen
             but_no.setVisibility(View.VISIBLE);
             but_yes.setVisibility(View.VISIBLE);
             lin.setVisibility(View.VISIBLE);
-        } else{
+        } else {
             but_no.setVisibility(View.GONE);
             but_yes.setVisibility(View.GONE);
             lin.setVisibility(View.GONE);
@@ -131,12 +131,7 @@ public class JoinGameActivity extends BaseActivity implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_left:
-                if ("0".equals(msg_type)) {
-                    finish();
-                } else{
-                    startActivity(new Intent(this,MessageActivity.class));
-                }
-
+                finish();
                 break;
             case R.id.img:
                 if (isSelect) {
@@ -157,15 +152,15 @@ public class JoinGameActivity extends BaseActivity implements View.OnClickListen
                 }
                 break;
             case R.id.text_zqs1:
-               startActivity(new Intent(this,ZQSActivity.class));
+                startActivity(new Intent(this, ZQSActivity.class));
                 break;
             case R.id.but_no:
                 dialogShow("加载中");
-                messagePresenter.acceptInviterToClass(messageDetailInfo.getInviterId(),messageDetailInfo.getClassId(),"0",messageDetailInfo);
+                messagePresenter.acceptInviterToClass(messageDetailInfo.getInviterId(), messageDetailInfo.getClassId(), "0", messageDetailInfo);
                 break;
             case R.id.but_yes:
                 if (isSelect) {
-                    Intent intent=new Intent(this,JoinGameDetailActivity.class);
+                    Intent intent = new Intent(this, JoinGameDetailActivity.class);
                     intent.putExtra("messageDetailInfo", messageDetailInfo);
                     intent.putExtra("type", "1");
 //                    dialogShow("加载中");
@@ -199,17 +194,5 @@ public class JoinGameActivity extends BaseActivity implements View.OnClickListen
     @Override
     public void onFragmentInteraction(Uri uri) {
 
-    }
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            if ("0".equals(msg_type)) {
-                finish();
-            } else{
-                startActivity(new Intent(this,MessageActivity.class));
-            }
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
     }
 }

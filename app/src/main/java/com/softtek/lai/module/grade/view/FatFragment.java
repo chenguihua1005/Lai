@@ -99,7 +99,7 @@ public class FatFragment extends BaseFragment implements PullToRefreshBase.OnRef
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         StudentModel studentModel = studentModels.get(position - 1);
-        if(studentModel.getIsMemberOfAssistant()==1){
+        if(studentModel.getIsTest()==0||studentModel.getIsMemberOfAssistant()==1){
             return;
         }
         Intent intent = new Intent(getContext(), StudentDetailActivity.class);
@@ -116,12 +116,13 @@ public class FatFragment extends BaseFragment implements PullToRefreshBase.OnRef
             return;
         }
         this.studentModels.clear();
-        for(int i=0;i<models.size();i++){
+        this.studentModels.addAll(models);
+        /*for(int i=0;i<models.size();i++){
             StudentModel model=models.get(i);
-            if(model.getIsTest()!=0&&model.getOrderNum()!=0){
+            if(model.getIsTest()!=0){
                 this.studentModels.add(model);
             }
-        }
+        }*/
         adapter.notifyDataSetChanged();
     }
 }

@@ -9,6 +9,7 @@ import zilla.libcore.util.Util;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame.view.CounselorActivity;
 import com.softtek.lai.module.confirmInfo.EventModel.ConinfoEvent;
 import com.softtek.lai.module.confirmInfo.model.ConinfoModel;
@@ -16,6 +17,7 @@ import com.softtek.lai.module.confirmInfo.model.GetConfirmInfoModel;
 import com.softtek.lai.module.confirmInfo.net.ConfirmInfoService;
 import com.softtek.lai.module.confirmInfo.view.CansaiActivity;
 import com.softtek.lai.module.home.view.HomeActviity;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.message.model.PhotosModel;
 import com.softtek.lai.module.message.view.JoinGameDetailActivity;
 import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
@@ -75,7 +77,7 @@ public class UpConfirmInfoImpl implements IUpConfirmInfopresenter {
 
     //修改参赛数据
     @Override
-    public void changeUpConfirmInfo(String token, ConinfoModel coninfoModel) {
+    public void changeUpConfirmInfo(String token, final ConinfoModel coninfoModel) {
         //String token = SharedPreferenceService.getInstance().get("token", "");
         confirmInfoService.changeUpConfirmInfo(token, coninfoModel, new Callback<ResponseData<ConinfoModel>>() {
             @Override
@@ -86,6 +88,9 @@ public class UpConfirmInfoImpl implements IUpConfirmInfopresenter {
                     case 200:
                         Intent intent = new Intent(context, HomeActviity.class);
                         context.startActivity(intent);
+                        UserModel userModel = UserInfoModel.getInstance().getUser();
+                        userModel.setGender(coninfoModel.getGender() + "");
+                        UserInfoModel.getInstance().saveUserCache(userModel);
                         ((JoinGameDetailActivity) context).finish();
                         break;
                     case 500:
@@ -111,7 +116,7 @@ public class UpConfirmInfoImpl implements IUpConfirmInfopresenter {
             @Override
             public void success(ResponseData<PhotosModel> upimgResponseData, Response response) {
                 ((JoinGameDetailActivity) context).dialogDissmiss();
-                System.out.println("upimgResponseData:"+upimgResponseData);
+                System.out.println("upimgResponseData:" + upimgResponseData);
                 int status = upimgResponseData.getStatus();
                 switch (status) {
                     case 200:

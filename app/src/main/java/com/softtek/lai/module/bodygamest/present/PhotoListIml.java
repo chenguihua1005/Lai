@@ -6,6 +6,7 @@ import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.bodygamest.eventModel.PhotoListEvent;
 import com.softtek.lai.module.bodygamest.model.DownPhotoModel;
+import com.softtek.lai.module.bodygamest.model.GifModel;
 import com.softtek.lai.module.bodygamest.model.LossModel;
 import com.softtek.lai.module.bodygamest.model.UploadPhotModel;
 import com.softtek.lai.module.bodygamest.net.PhotoListService;
@@ -37,12 +38,13 @@ public class PhotoListIml implements PhotoListPre {
     }
 
     @Override
-    public void getLossData(String accountId) {
+    public void getLossData(String accountId, final ProgressDialog loadingDialog) {
         String token = SharedPreferenceService.getInstance().get("token", "");
         service.getLossData(token, accountId, new Callback<ResponseData<LossModel>>() {
             @Override
             public void success(ResponseData<LossModel> listResponseData, Response response) {
                 System.out.println("listResponseData:" + listResponseData);
+                loadingDialog.dismiss();
                 int status = listResponseData.getStatus();
                 switch (status) {
                     case 200:
@@ -56,6 +58,7 @@ public class PhotoListIml implements PhotoListPre {
 
             @Override
             public void failure(RetrofitError error) {
+                loadingDialog.dismiss();
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }
@@ -91,16 +94,17 @@ public class PhotoListIml implements PhotoListPre {
     }
 
     @Override
-    public void getUserPhotos(String photoName) {
+    public void getUserPhotos(String photoName, final ProgressDialog loadingDialog) {
         String token = SharedPreferenceService.getInstance().get("token", "");
-        service.getUserPhotos(token, photoName, new Callback<ResponseData>() {
+        service.getUserPhotos(token, photoName, new Callback<ResponseData<GifModel>>() {
             @Override
-            public void success(ResponseData listResponseData, Response response) {
+            public void success(ResponseData<GifModel> listResponseData, Response response) {
                 System.out.println("listResponseData:" + listResponseData);
+                loadingDialog.dismiss();
                 int status = listResponseData.getStatus();
                 switch (status) {
                     case 200:
-                        EventBus.getDefault().post(listResponseData);
+                        EventBus.getDefault().post(listResponseData.getData());
                         break;
                     case 500:
                         break;
@@ -109,7 +113,7 @@ public class PhotoListIml implements PhotoListPre {
 
             @Override
             public void failure(RetrofitError error) {
-
+                loadingDialog.dismiss();
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }

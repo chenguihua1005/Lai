@@ -12,9 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.module.grade.model.StudentModel;
 import com.softtek.lai.widgets.CircleImageView;
@@ -72,6 +72,13 @@ public class LossWeightAdapter extends BaseAdapter {
         }
         if (order == 1 || order == 2 || order == 3) {
             holder.tv_order.setTextColor(Color.parseColor("#FDB02B"));
+        }else if(order==0){
+            holder.tv_order.setVisibility(View.INVISIBLE);
+            holder.ll_content.setBackgroundColor(Color.parseColor("#F9F9F9"));
+            holder.ll_show.setVisibility(View.GONE);
+            holder.tv_show.setVisibility(View.VISIBLE);
+            holder.tv_lw_totle.setVisibility(View.INVISIBLE);
+            holder.tv_unit.setVisibility(View.INVISIBLE);
         }else{
             holder.tv_order.setTextColor(Color.parseColor("#707070"));
         }
@@ -81,9 +88,9 @@ public class LossWeightAdapter extends BaseAdapter {
         holder.tv_lw_before.setText("前 " + studentModel.getLossBefore() + "斤");
         holder.tv_lw_after.setText("后 " + studentModel.getLossAfter() + "斤");
         holder.tv_lw_totle.setText(studentModel.getLossWeght());
-        if(studentModel.getIsMemberOfAssistant()==1){//表示不能点击进入学员详情
+        if(studentModel.getIsMemberOfAssistant()==1||order==0){//表示不能点击进入学员详情
             holder.iv_arrow.setVisibility(View.INVISIBLE);
-        }else if(studentModel.getIsMemberOfAssistant()==0){
+        }else if(studentModel.getIsMemberOfAssistant()==0&&order!=0){
             holder.iv_arrow.setVisibility(View.VISIBLE);
         }
         if (StringUtils.isNotEmpty(studentModel.getPhoto())) {
@@ -103,6 +110,8 @@ public class LossWeightAdapter extends BaseAdapter {
         TextView tv_lw_totle;
         ImageView iv_arrow;
         CircleImageView civ_header_image;
+        LinearLayout ll_content,ll_show;
+        TextView tv_show,tv_unit;
 
         public ViewHolder(View view) {
             tv_order = (TextView) view.findViewById(R.id.tv_order);
@@ -112,7 +121,10 @@ public class LossWeightAdapter extends BaseAdapter {
             tv_lw_totle = (TextView) view.findViewById(R.id.tv_lw_totle);
             iv_arrow= (ImageView) view.findViewById(R.id.iv_arrow);
             civ_header_image = (CircleImageView) view.findViewById(R.id.civ_header_image);
-
+            ll_content= (LinearLayout) view.findViewById(R.id.ll_content);
+            ll_show= (LinearLayout) view.findViewById(R.id.ll_show);
+            tv_show= (TextView) view.findViewById(R.id.tv_show);
+            tv_unit= (TextView) view.findViewById(R.id.tv_unit);
         }
     }
 
