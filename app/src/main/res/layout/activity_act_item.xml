@@ -23,7 +23,8 @@
             android:layout_height="128dip"
             android:layout_gravity="center"
             android:layout_marginLeft="@dimen/margin"
-            android:src="@drawable/default_pic" />
+            android:background="#F2F0F1"
+            android:src="@drawable/default_icon_rect" />
 
         <LinearLayout
             android:layout_width="wrap_content"

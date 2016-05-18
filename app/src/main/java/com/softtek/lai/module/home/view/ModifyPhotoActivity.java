@@ -116,7 +116,7 @@ public class ModifyPhotoActivity extends BaseActivity implements View.OnClickLis
         String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
         Picasso.with(this).load(path + photo)
                 .resize(DisplayUtil.getMobileWidth(this), DisplayUtil.getMobileHeight(this)).centerInside()
-                .placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_image);
+                .placeholder(R.drawable.default_icon_rect).error(R.drawable.default_icon_rect).into(iv_image);
     }
 
     @Override

@@ -184,7 +184,8 @@
             android:layout_width="match_parent"
             android:layout_height="130dp"
             android:layout_below="@+id/toolbar"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            android:src="@drawable/default_icon_rect"/>
         <!-- 助教-->
         <LinearLayout
             android:id="@+id/ll_sr"

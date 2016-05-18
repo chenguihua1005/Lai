@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.util.Log;
 import android.widget.Adapter;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class TabContentAdapter extends FragmentPagerAdapter{
 
     @Override
     public Fragment getItem(int position) {
+        Log.i("position------->>",position+"");
         return fragments.get(position);
     }
 

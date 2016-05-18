@@ -214,8 +214,8 @@ public class LossWeightLogActivity extends BaseActivity implements View.OnClickL
         }
         if(StringUtils.isNotEmpty(logs.getBanner())){
             Picasso.with(this).load(path + logs.getBanner()).fit()
-                    .placeholder(R.drawable.default_pic)
-                    .error(R.drawable.default_pic)
+                    .placeholder(R.drawable.default_icon_rect)
+                    .error(R.drawable.default_icon_rect)
                     .into(log_banner);
         }
         totalPage=Integer.parseInt(logs.getTotalPage());
@@ -243,7 +243,7 @@ public class LossWeightLogActivity extends BaseActivity implements View.OnClickL
                     @Override
                     public void success(ResponseData<BannerModel> bannerModelResponseData, Response response) {
                         Picasso.with(LossWeightLogActivity.this).load(AddressManager.get("photoHost")+bannerModelResponseData.getData().getPath()).fit().
-                                placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(log_banner);
+                                placeholder(R.drawable.default_icon_rect).error(R.drawable.default_icon_rect).into(log_banner);
                         new File(file).delete();
                     }
 

@@ -148,7 +148,7 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
     @Subscribe
     public void onEvent(TiGuanSaiModel tiGuanSai) {
         iv_adv.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        Picasso.with(this).load(tiGuanSai.getImg_Addr()).placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_adv);
+        Picasso.with(this).load(tiGuanSai.getImg_Addr()).placeholder(R.drawable.default_icon_rect).error(R.drawable.default_icon_rect).into(iv_adv);
 
 
     }

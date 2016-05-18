@@ -44,7 +44,7 @@
         android:layout_height="100dp"
         android:scaleType="centerCrop"
         android:layout_marginLeft="10dp"
-        android:background="@drawable/default_pic"/>
+        android:background="@drawable/default_icon_square"/>
 
     <RelativeLayout
         android:layout_width="match_parent"

@@ -143,10 +143,10 @@ public class StudentDetailActivity extends BaseActivity implements View.OnClickL
             Picasso.with(this).load(memberModel.getPhoto()).fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(civ_header_image);
         }
         if(!StringUtils.isEmpty(memberModel.getBeforeImg())){
-            Picasso.with(this).load(memberModel.getBeforeImg()).fit().placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_loss_before);
+            Picasso.with(this).load(memberModel.getBeforeImg()).fit().placeholder(R.drawable.default_icon_rect).error(R.drawable.default_icon_rect).into(iv_loss_before);
         }
         if(!StringUtils.isEmpty(memberModel.getAfterImg())){
-            Picasso.with(this).load(memberModel.getAfterImg()).fit().placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(iv_loss_after);
+            Picasso.with(this).load(memberModel.getAfterImg()).fit().placeholder(R.drawable.default_icon_rect).error(R.drawable.default_icon_rect).into(iv_loss_after);
         }
     }
 

@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
-import com.softtek.lai.module.bodygamest.model.DownPhotoModel;
 import com.softtek.lai.module.bodygamest.model.LogListModel;
 import com.softtek.lai.module.lossweightstory.view.PictureActivity;
 import com.squareup.picasso.Picasso;
@@ -20,29 +19,23 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import zilla.libcore.file.AddressManager;
-
 /**
  * Created by lareina.qiao on 3/31/2016.
  */
 public class DownPhotoAdapter extends BaseAdapter {
     private Context context;
     private List<LogListModel> logListModelList;
-    private LayoutInflater inflater;
     //时间
     Calendar c = Calendar.getInstance();
     //            取得系统日期:
     int years = c.get(Calendar.YEAR);
     int month = c.get(Calendar.MONTH) + 1;
     int day = c.get(Calendar.DAY_OF_MONTH);
-    //取得系统时间：
-    int hour = c.get(Calendar.HOUR_OF_DAY);
-    int minute = c.get(Calendar.MINUTE);
+
 
     public DownPhotoAdapter(Context context, List<LogListModel> logListModelList)
     {
         this.context=context;
-        inflater=LayoutInflater.from(context);
         this.logListModelList = logListModelList;
     }
     public void updateData(List<LogListModel> logListModelList){
@@ -90,20 +83,15 @@ public class DownPhotoAdapter extends BaseAdapter {
             viewHolder.tv_uploadphoto_month.setText(tomonth(date[1]));
         }
         if(!TextUtils.isEmpty(logListModel.getImgUrl())){
-            Picasso.with(context).load(logListModel.getImgUrl()).fit().placeholder(R.drawable.default_pic).error(R.drawable.default_pic).into(viewHolder.im_uploadphoto);
+            Picasso.with(context).load(logListModel.getImgUrl()).fit().placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square).into(viewHolder.im_uploadphoto);
 
         }else{
-            Picasso.with(context).load("www").placeholder(R.drawable.default_pic).fit().error(R.drawable.default_pic).into(viewHolder.im_uploadphoto);
+            Picasso.with(context).load("www").placeholder(R.drawable.default_icon_square).fit().error(R.drawable.default_icon_square).into(viewHolder.im_uploadphoto);
         }
         String path=logListModel.getImgUrl() ;
-//        Picasso.with(context).load(path+model.getPhoto()).fit()
-//                .placeholder(R.drawable.img_default).error(R.drawable.img_default).into(holder.civ_header_image);
         ArrayList<String> list=new ArrayList<>();
         String[] imgs=logListModel.getImgUrl().split("/");
         list.add(imgs[imgs.length-1]);
-//        for(int i=0;i<imgs.length;i++){
-//            list.add(imgs[i]);
-//        }
         visitableOrGone(viewHolder,list,path);
         return convertView;
     }
@@ -133,8 +121,8 @@ public class DownPhotoAdapter extends BaseAdapter {
                         }
                     });
                     Picasso.with(context).load(path).fit()
-                            .placeholder(R.drawable.default_pic)
-                            .error(R.drawable.default_pic)
+                            .placeholder(R.drawable.default_icon_square)
+                            .error(R.drawable.default_icon_square)
                             .into(holder.im_uploadphoto);
                     break;
 
