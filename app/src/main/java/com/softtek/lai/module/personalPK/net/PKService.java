@@ -63,8 +63,21 @@ public interface PKService {
                 RequestCallback<ResponseData<SavePK>> callback);
 
     //应战或拒绝
+    @GET("/Challenged/ChallengedRefused")
     void promiseOrRefuse(@Header("token")String token,
                          @Query("PKId")long pkId,
                          @Query("status")int status,
                          RequestCallback<ResponseData> callback);
+
+    //取消pk赛
+    @GET("/Challenged/ChallengedCancel")
+    void cancelPK(@Header("token")String token,
+                  @Query("PKId")long pkId,
+                  RequestCallback<ResponseData> callback);
+
+    //重启pk赛
+    @GET("/Challenged/ChallengedReset")
+    void resetPK(@Header("token")String token,
+                  @Query("PKId")long pkId,
+                  RequestCallback<ResponseData> callback);
 }
