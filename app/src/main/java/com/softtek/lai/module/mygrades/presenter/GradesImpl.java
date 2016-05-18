@@ -64,58 +64,6 @@ public class GradesImpl implements IGradesPresenter{
         });
     }
 
-    @Override
-    public void getCurrentDateOrder(int RGIdType) {
-        String token = SharedPreferenceService.getInstance().get("token", "");
-        gradesService.getCurrentDateOrder(token, RGIdType, new Callback<ResponseData<DayRankModel>>() {
-            @Override
-            public void success(ResponseData<DayRankModel> dayRankModelResponseData, Response response) {
-                int status=dayRankModelResponseData.getStatus();
-                switch (status)
-                {
-                    case 200:
-                        Util.toastMsg("我的日排名--查询正确");
-                        break;
-                    case 500:
-                        Util.toastMsg("我的日排名--查询出bug");
-                        break;
-                }
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                ZillaApi.dealNetError(error);
-                error.printStackTrace();
-            }
-        });
-    }
-
-    @Override
-    public void getCurrentWeekOrder(int RGIdType) {
-        String token = SharedPreferenceService.getInstance().get("token", "");
-        gradesService.getCurrentWeekOrder(token, RGIdType, new Callback<ResponseData<DayRankModel>>() {
-            @Override
-            public void success(ResponseData<DayRankModel> dayRankModelResponseData, Response response) {
-                int status=dayRankModelResponseData.getStatus();
-                switch (status)
-                {
-                    case 200:
-                        Util.toastMsg("我的周排名--查询正确");
-                        break;
-                    case 500:
-                        Util.toastMsg("我的周排名--查询出bug");
-                        break;
-                }
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                ZillaApi.dealNetError(error);
-                error.printStackTrace();
-            }
-        });
-    }
-
 //    @Override
 //    public void getGradeHonor() {
 //

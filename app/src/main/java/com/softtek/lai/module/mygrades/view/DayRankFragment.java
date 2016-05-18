@@ -7,10 +7,15 @@ import android.widget.ListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.module.mygrades.adapter.RankAdapter;
 import com.softtek.lai.module.mygrades.model.DayRankModel;
+import com.softtek.lai.module.mygrades.model.OrderDataModel;
 import com.softtek.lai.module.mygrades.net.GradesService;
 import com.softtek.lai.module.mygrades.presenter.GradesImpl;
 import com.softtek.lai.module.mygrades.presenter.IGradesPresenter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.InjectView;
 import retrofit.Callback;
@@ -30,19 +35,27 @@ public class DayRankFragment extends BaseFragment {
     @InjectView(R.id.list_rank)
     ListView list_rank;
 
+    private DayRankModel dayRankModel;
+
+    private List<OrderDataModel> orderDataModelList = new ArrayList<OrderDataModel>();
+    private OrderDataModel orderDataModel;
+    public RankAdapter rankAdapter;
+
     private IGradesPresenter iGradesPresenter;
     private GradesService gradesService;
 
     @Override
     protected void initViews() {
-
+        rankAdapter = new RankAdapter(getContext(),orderDataModelList);
+        list_rank.setAdapter(rankAdapter);
     }
 
     @Override
     protected void initDatas() {
         iGradesPresenter = new GradesImpl();
         gradesService= ZillaApi.NormalRestAdapter.create(GradesService.class);
-        getCurrentDateOrder(1);
+        getCurrentDateOrder(0);
+        //getCurrentDateOrder(1);
     }
 
     public void getCurrentDateOrder(int RGIdType) {
@@ -54,7 +67,13 @@ public class DayRankFragment extends BaseFragment {
                 switch (status)
                 {
                     case 200:
-                        Util.toastMsg("我的日排名--查询正确");
+                        if (dayRankModelResponseData.getData().getOrderData().isEmpty()){
+                            Util.toastMsg("我的日排名--暂无数据");
+                        }else {
+                            orderDataModelList = dayRankModel.getOrderData();
+                            rankAdapter.updateData(orderDataModelList);
+                        }
+//                        Util.toastMsg("我的日排名--查询正确");
                         break;
                     case 500:
                         Util.toastMsg("我的日排名--查询出bug");
