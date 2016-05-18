@@ -14,7 +14,6 @@ import com.softtek.lai.module.mygrades.model.OrderDataModel;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import zilla.libcore.file.AddressManager;

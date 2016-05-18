@@ -9,6 +9,4 @@ public interface IStudentBaseDate {
     //获取学员信息
     void  getClassMemberInfoPC();
 
-    void  getClassMemberInfoCurvePC();
-
 }
