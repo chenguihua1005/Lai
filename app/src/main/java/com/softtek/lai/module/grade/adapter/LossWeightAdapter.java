@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
@@ -103,6 +104,8 @@ public class LossWeightAdapter extends BaseAdapter {
         TextView tv_lw_totle;
         ImageView iv_arrow;
         CircleImageView civ_header_image;
+        LinearLayout ll_content,ll_show;
+        TextView tv_show;
 
         public ViewHolder(View view) {
             tv_order = (TextView) view.findViewById(R.id.tv_order);
@@ -112,7 +115,9 @@ public class LossWeightAdapter extends BaseAdapter {
             tv_lw_totle = (TextView) view.findViewById(R.id.tv_lw_totle);
             iv_arrow= (ImageView) view.findViewById(R.id.iv_arrow);
             civ_header_image = (CircleImageView) view.findViewById(R.id.civ_header_image);
-
+            ll_content= (LinearLayout) view.findViewById(R.id.ll_context);
+            ll_show= (LinearLayout) view.findViewById(R.id.ll_show);
+            tv_show= (TextView) view.findViewById(R.id.tv_show);
         }
     }
 
