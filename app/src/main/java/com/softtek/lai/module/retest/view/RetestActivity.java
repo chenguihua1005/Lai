@@ -81,7 +81,7 @@ public class  RetestActivity extends BaseActivity implements View.OnClickListene
     private StudentAdapter studentAdapter;
     boolean h=false;
     long ClassId;
-//    int postions=-1;
+    int postions=-1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

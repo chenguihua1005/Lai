@@ -280,7 +280,7 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
                         }else if(Integer.parseInt(hasClassResponseData.getData().getIsHave())==2){
                             //学员没有班级
                             new AlertDialog.Builder(BodyGamePCActivity.this).setTitle("温馨提示")
-                                    .setMessage("您参加的班级尚未开始").create().show();
+                                    .setMessage("班级尚未开始").create().show();
                         }
                     }else{
                         Util.toastMsg(hasClassResponseData.getMsg());
