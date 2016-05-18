@@ -114,7 +114,7 @@ public class StudentBaseDateActivity extends BaseActivity implements BaseFragmen
             if(StringUtils.isNotEmpty(studentBaseInfoModel.getBanner())){
                 Picasso.with(this).load(studentBaseInfoModel.getBanner()).fit()
                         .placeholder(R.drawable.default_icon_rect)
-                        .error(R.drawable.default_icon_rect).into(banner);
+                        .error(R.drawable.default_icon_rect).centerCrop().into(banner);
             }
             if(StringUtils.isNotEmpty(studentBaseInfoModel.getUserPhoto())){
                 Picasso.with(this).load(studentBaseInfoModel.getUserPhoto()).fit()

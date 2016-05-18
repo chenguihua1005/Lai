@@ -99,7 +99,7 @@ public class LossWeightFragment extends BaseFragment implements PullToRefreshBas
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         StudentModel studentModel = studentModels.get(position - 1);
-        if(studentModel.getIsMemberOfAssistant()==1||studentModel.getOrderNum()==0){
+        if(studentModel.getIsMemberOfAssistant()==1||studentModel.getIsTest()==0){//当没有复测或者不是自己的直属就不能看详情
             return;
         }
         Intent intent = new Intent(getContext(), StudentDetailActivity.class);
@@ -115,15 +115,10 @@ public class LossWeightFragment extends BaseFragment implements PullToRefreshBas
         if(models==null||models.isEmpty()){
             return;
         }
-
-        this.studentModels.clear();
+        if(!this.studentModels.isEmpty()){
+            this.studentModels.clear();
+        }
         this.studentModels.addAll(models);
-        /*for(int i=0;i<models.size();i++){
-            StudentModel model=models.get(i);
-            if(model.getIsTest()!=0){
-                this.studentModels.add(model);
-            }
-        }*/
         adapter.notifyDataSetChanged();
     }
 }
