@@ -74,11 +74,11 @@ public class RetestclassImp implements RetestPre{
                    }
                    break;
                    case 201:{
-                       Util.toastMsg("未分配班级");
+                       Log.i("未分配班级");
                    }
                    break;
                    default:
-                       Util.toastMsg(banjiResponseData.getMsg());
+                       Log.i(banjiResponseData.getMsg());
                        break;
                }
            }
