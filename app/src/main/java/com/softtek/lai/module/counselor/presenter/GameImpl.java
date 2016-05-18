@@ -58,6 +58,9 @@ public class GameImpl implements IGamePresenter {
                         GameAdapter adapter = new GameAdapter(context, list);
                         list_game.setAdapter(adapter);
                         break;
+                    case 100:
+
+                        break;
                     default:
                         list_game.setVisibility(View.GONE);
                         break;

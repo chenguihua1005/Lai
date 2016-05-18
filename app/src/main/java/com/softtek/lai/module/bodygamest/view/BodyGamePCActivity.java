@@ -347,32 +347,6 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
             });
         }else {
             switch (id) {
-                case R.id.fl_right:
-                case R.id.iv_email:
-                    String userroles = UserInfoModel.getInstance().getUser().getUserrole();
-                    if (String.valueOf(Constants.VR).equals(userroles)) {
-                        //提示用户让他登录或者直接进入2个功能的踢馆赛模块
-                        AlertDialog.Builder information_dialog = null;
-                        information_dialog = new AlertDialog.Builder(this);
-                        information_dialog.setTitle("您当前处于游客模式，需要登录认证").setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Intent login = new Intent(BodyGamePCActivity.this, LoginActivity.class);
-                                login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(login);
-                            }
-                        }).setNegativeButton("稍候", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        }).create().show();
-                    } else {
-                        startActivity(new Intent(BodyGamePCActivity.this, MessageActivity.class));
-                    }
-                    break;
-
                 //大赛赛况
                 case R.id.ll_st_saikuang:
                     startActivity(new Intent(this, GameActivity.class));
@@ -398,7 +372,31 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
 
     private void doStartActivity(int id){
         switch (id) {
-
+            case R.id.fl_right:
+            case R.id.iv_email:
+                String userroles = UserInfoModel.getInstance().getUser().getUserrole();
+                if (String.valueOf(Constants.VR).equals(userroles)) {
+                    //提示用户让他登录或者直接进入2个功能的踢馆赛模块
+                    AlertDialog.Builder information_dialog = null;
+                    information_dialog = new AlertDialog.Builder(this);
+                    information_dialog.setTitle("您当前处于游客模式，需要登录认证").setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent login = new Intent(BodyGamePCActivity.this, LoginActivity.class);
+                            login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(login);
+                        }
+                    }).setNegativeButton("稍候", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).create().show();
+                } else {
+                    startActivity(new Intent(BodyGamePCActivity.this, MessageActivity.class));
+                }
+                break;
             //点击跳转事件
             case R.id.ll_st_jibenshuju:
                 startActivity(new Intent(this, StudentBaseDateActivity.class));

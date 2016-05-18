@@ -67,6 +67,9 @@ public class CounselorClassImpl implements ICounselorClassPresenter {
                 int status = listResponseData.getStatus();
                 List<ClassInfoModel> list = listResponseData.getData();
                 switch (status) {
+                    case 100:
+
+                        break;
                     case 200:
                         List<ClassInfoModel> lists = new ArrayList<ClassInfoModel>();
                         for (int i = 0; i < list.size(); i++) {
@@ -167,6 +170,8 @@ public class CounselorClassImpl implements ICounselorClassPresenter {
                         Dialog dialog = dialogBuilder.create();
                         dialog.setCancelable(false);
                         dialog.show();
+                        break;
+                    case 100:
                         break;
                     default:
                         Util.toastMsg(classIdResponseData.getMsg());

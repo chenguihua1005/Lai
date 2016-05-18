@@ -58,6 +58,9 @@ public class StudentImpl implements IStudentPresenter {
                         img_invite.setImageDrawable(context.getResources().getDrawable(R.drawable.img_invited));
                         Util.toastMsg("邀请成功");
                         break;
+                    case 100:
+
+                        break;
                     default:
                         Util.toastMsg(listResponseData.getMsg());
                         break;
@@ -87,6 +90,9 @@ public class StudentImpl implements IStudentPresenter {
                     case 200:
                         InviteStudentAdapter adapter = new InviteStudentAdapter(context, list);
                         list_student.setAdapter(adapter);
+                        break;
+                    case 100:
+
                         break;
                     default:
                         Util.toastMsg(listResponseData.getMsg());
@@ -124,6 +130,9 @@ public class StudentImpl implements IStudentPresenter {
                             intents.putExtra("classId", Long.parseLong(classid));
                             context.startActivity(intents);
                         }
+                        break;
+                    case 100:
+
                         break;
                     default:
                         Util.toastMsg(listResponseData.getMsg());
