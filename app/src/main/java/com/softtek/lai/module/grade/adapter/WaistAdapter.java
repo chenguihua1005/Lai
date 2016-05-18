@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.module.grade.model.StudentModel;
-import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
@@ -61,7 +60,7 @@ public class WaistAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        WaistlineHolder holder = null;
+        WaistlineHolder holder;
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.waistline_item, parent, false);
             holder = new WaistlineHolder(convertView);
@@ -74,19 +73,23 @@ public class WaistAdapter extends BaseAdapter {
         int order = studentModel.getOrderNum();
         if (order == 1 || order == 2 || order == 3) {
             holder.tv_order.setTextColor(Color.parseColor("#FDB02B"));
-        }else if(order==0){
-            holder.tv_order.setVisibility(View.INVISIBLE);
         }else{
             holder.tv_order.setTextColor(Color.parseColor("#707070"));
         }
         if(studentModel.getIsTest()==1){//如果有复测数据
-            if(studentModel.getIsMemberOfAssistant()==1){//表示不能点击进入学员详情
-                holder.iv_arrow.setVisibility(View.INVISIBLE);
-            }else{
-                holder.iv_arrow.setVisibility(View.VISIBLE);
-            }
+            holder.ll_content.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            holder.ll_show.setVisibility(View.VISIBLE);
+            holder.tv_show.setVisibility(View.GONE);
+            holder.tv_wl_totle.setVisibility(View.VISIBLE);
+            holder.tv_unit.setVisibility(View.VISIBLE);
             if(order==0){//表示没有录入数据
                 //显示短杠
+                if(studentModel.getIsMemberOfAssistant()==1){//表示不能点击进入学员详情
+                    holder.iv_arrow1.setVisibility(View.INVISIBLE);
+                }else{
+                    holder.iv_arrow1.setVisibility(View.VISIBLE);
+                }
+                holder.tv_order.setVisibility(View.INVISIBLE);
                 holder.ll_show1.setVisibility(View.VISIBLE);
                 holder.ll_total_show.setVisibility(View.VISIBLE);
                 holder.no_show.setVisibility(View.VISIBLE);
@@ -94,12 +97,27 @@ public class WaistAdapter extends BaseAdapter {
                 holder.ll_total_show.setVisibility(View.GONE);
                 holder.ll_show.setVisibility(View.GONE);
             }else{//有录入数据正常显示数据
-                holder.tv_wl_before.setText("前 " + studentModel.getWaistlinebefore()+ "cm" );
-                holder.tv_wl_after.setText("后 " + studentModel.getWaistlineAfter()+ "cm");
-                holder.tv_wl_totle.setText(studentModel.getLossline());
+                if(studentModel.getIsMemberOfAssistant()==1){//表示不能点击进入学员详情
+                    holder.iv_arrow.setVisibility(View.INVISIBLE);
+                }else{
+                    holder.iv_arrow.setVisibility(View.VISIBLE);
+                }
+                holder.tv_order.setVisibility(View.VISIBLE);
+                holder.ll_show1.setVisibility(View.GONE);
+                holder.ll_total_show.setVisibility(View.GONE);
+                holder.no_show.setVisibility(View.GONE);
+                //隐藏内容
+                holder.ll_total_show.setVisibility(View.VISIBLE);
+                holder.ll_show.setVisibility(View.VISIBLE);
+
             }
 
         }else{//没有复测数据，则无法
+            holder.no_show.setVisibility(View.GONE);
+            holder.ll_total_show.setVisibility(View.VISIBLE);
+            holder.ll_show1.setVisibility(View.GONE);
+
+            holder.tv_order.setVisibility(View.INVISIBLE);
             holder.iv_arrow.setVisibility(View.INVISIBLE);
             holder.ll_show.setVisibility(View.GONE);
             holder.tv_show.setVisibility(View.VISIBLE);
@@ -107,6 +125,9 @@ public class WaistAdapter extends BaseAdapter {
             holder.tv_unit.setVisibility(View.INVISIBLE);
             holder.ll_content.setBackgroundColor(Color.parseColor("#F9F9F9"));
         }
+        holder.tv_wl_before.setText("前 " + studentModel.getWaistlinebefore()+ "cm" );
+        holder.tv_wl_after.setText("后 " + studentModel.getWaistlineAfter()+ "cm");
+        holder.tv_wl_totle.setText(studentModel.getLossline());
         holder.tv_name.setText(studentModel.getUserName());
         if (StringUtils.isNotEmpty(studentModel.getPhoto())) {
             Picasso.with(context).load(AddressManager.get("photoHost") + studentModel.getPhoto()).fit().placeholder(R.drawable.img_default)
@@ -124,7 +145,7 @@ public class WaistAdapter extends BaseAdapter {
         TextView tv_wl_after;
         TextView tv_wl_totle;
         CircleImageView civ_header_image;
-        ImageView iv_arrow;
+        ImageView iv_arrow,iv_arrow1;
         LinearLayout ll_content,ll_show,no_show,ll_total_show,ll_show1;
         TextView tv_show,tv_unit;
 
@@ -143,6 +164,7 @@ public class WaistAdapter extends BaseAdapter {
             no_show= (LinearLayout) view.findViewById(R.id.no_show);
             ll_total_show= (LinearLayout) view.findViewById(R.id.ll_total_show);
             ll_show1= (LinearLayout) view.findViewById(R.id.ll_show1);
+            iv_arrow1= (ImageView) view.findViewById(R.id.iv_arrow1);
         }
     }
 
