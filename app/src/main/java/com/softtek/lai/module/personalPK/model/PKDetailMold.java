@@ -34,8 +34,7 @@ public class PKDetailMold implements Parcelable{
     //0可以1不可以
     private int BPraiseStatus;
     private int PraiseStatus;
-    //*******************
-    private int TStatus;//比赛本身状态
+
 
     public PKDetailMold() {
     }
@@ -63,7 +62,6 @@ public class PKDetailMold implements Parcelable{
         BchaTotal = in.readLong();
         BPraiseStatus=in.readInt();
         PraiseStatus=in.readInt();
-        TStatus=in.readInt();
     }
 
     public static final Creator<PKDetailMold> CREATOR = new Creator<PKDetailMold>() {
@@ -254,13 +252,6 @@ public class PKDetailMold implements Parcelable{
         PraiseStatus = praiseStatus;
     }
 
-    public int getTStatus() {
-        return TStatus;
-    }
-
-    public void setTStatus(int TStatus) {
-        this.TStatus = TStatus;
-    }
 
     @Override
     public int describeContents() {
@@ -291,7 +282,6 @@ public class PKDetailMold implements Parcelable{
         dest.writeLong(BchaTotal);
         dest.writeInt(BPraiseStatus);
         dest.writeInt(PraiseStatus);
-        dest.writeInt(TStatus);
     }
 
     @Override
@@ -319,7 +309,6 @@ public class PKDetailMold implements Parcelable{
                 ", BchaTotal=" + BchaTotal +
                 ", BPraiseStatus=" + BPraiseStatus +
                 ", PraiseStatus=" + PraiseStatus +
-                ", TStatus=" + TStatus +
                 '}';
     }
 }

@@ -2,7 +2,6 @@ package com.softtek.lai.module.personalPK.view;
 
 import android.content.Intent;
 import android.os.Handler;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
@@ -18,10 +17,8 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.personalPK.adapter.PKListAdapter;
-import com.softtek.lai.module.personalPK.model.PKDetailMold;
 import com.softtek.lai.module.personalPK.model.PKListModel;
 import com.softtek.lai.module.personalPK.presenter.PKListManager;
-import com.softtek.lai.module.sport.view.GroupMainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,7 +81,7 @@ public class PKListActivity extends BaseActivity implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ll_left:
-                doBack();
+                finish();
                 break;
             case R.id.fl_right:
                 //我的挑战
@@ -114,8 +111,6 @@ public class PKListActivity extends BaseActivity implements View.OnClickListener
                     PKListModel model=models.get(position);
                     model.setChP(Integer.parseInt(data.getStringExtra("ChP")));
                     model.setBChp(Integer.parseInt(data.getStringExtra("BChP")));
-                    int status=getIntent().getIntExtra("status",0);
-                    model.setTStatus(status);
                     adapter.notifyDataSetChanged();
                 }
             }
@@ -143,19 +138,6 @@ public class PKListActivity extends BaseActivity implements View.OnClickListener
                 }
             },200);
         }
-    }
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode==KeyEvent.KEYCODE_BACK&&event.getAction()==KeyEvent.ACTION_DOWN){
-            //做返回操作
-            doBack();
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
-    private void doBack() {
-        startActivity(new Intent(this,GroupMainActivity.class));
     }
 
     public void getModels(ResponseData<List<PKListModel>> model){
