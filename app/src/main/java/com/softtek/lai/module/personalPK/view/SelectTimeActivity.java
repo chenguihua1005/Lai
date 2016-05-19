@@ -22,7 +22,6 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.personalPK.model.PKCreatModel;
-import com.softtek.lai.module.personalPK.model.PKDetailMold;
 import com.softtek.lai.module.personalPK.model.PKForm;
 import com.softtek.lai.module.personalPK.model.SavePK;
 import com.softtek.lai.module.personalPK.presenter.PKListManager;
@@ -214,34 +213,7 @@ public class SelectTimeActivity extends BaseActivity implements View.OnClickList
                     return;
                 }
                 Intent intent=new Intent(SelectTimeActivity.this,PKDetailActivity.class);
-                PKDetailMold detailMold=new PKDetailMold();
-                detailMold.setPKId(savePKResponseData.getData().getPKId());
-                detailMold.setChallenged(form.getChallenged());
-                detailMold.setBeChallenged(form.getBeChallenged());
-                detailMold.setUserName(model.getUserName());
-                detailMold.setBUserName(model.getBeUserName());
-                detailMold.setPhoto(model.getUserPhoto());
-                detailMold.setBPhoto(model.getBeUserPhoto());
-                detailMold.setChipType(model.getChipType());
-                detailMold.setChip(model.getChip());
-                detailMold.setStart(form.getStart());
-                detailMold.setEnd(form.getEnd());
-                detailMold.setStatus(PKDetailActivity.NOCHALLENGE);//设置应战状态：未应战
-                detailMold.setTStatus(0);//未开始状态
-                //目标类型
-                detailMold.setTargetType(model.getTargetType());
-                if(detailMold.getTargetType()==1)
-                    detailMold.setTarget(model.getTarget()+"");
-                else
-                    detailMold.setTarget("在PK期限内，达成更多步数的人即为赢家");
-                //点赞数
-                detailMold.setChpcou(0);
-                detailMold.setBchpcou(0);
-                detailMold.setChaTotal(0);
-                detailMold.setBchaTotal(0);
-                intent.putExtra("pkmodel",detailMold);
                 intent.putExtra("pkType",Constants.CREATE_PK);
-                intent.putExtra("isEnd",0);
                 startActivity(intent);
             }
 

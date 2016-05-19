@@ -89,28 +89,8 @@ public class PKListMineActivity extends BaseActivity implements View.OnClickList
         //点击列表跳转至详情
         PKListModel model=models.get(position-1);
         Intent intent=new Intent(this,PKDetailActivity.class);
-        PKDetailMold detailMold=new PKDetailMold();
-        detailMold.setPKId(model.getPKId());
-        detailMold.setChallenged(model.getChallenged());
-        detailMold.setBeChallenged(model.getBeChallenged());
-        detailMold.setUserName(model.getUserName());
-        detailMold.setBUserName(model.getBUserName());
-        detailMold.setPhoto(model.getPhoto());
-        detailMold.setBPhoto(model.getBPhoto());
-        detailMold.setChipType(model.getChipType());
-        detailMold.setChip("");
-        detailMold.setStart(model.getStart());
-        detailMold.setEnd(model.getEnd());
-        detailMold.setStatus(model.getTStatus());//设置应战状态：未因战
 
-        //点赞数
-        detailMold.setChpcou(model.getChP());
-        detailMold.setBchpcou(model.getBChp());
-        detailMold.setChaTotal(0);
-        detailMold.setBchaTotal(0);
-        intent.putExtra("pkmodel", detailMold);
         intent.putExtra("pkType", Constants.LIST_PK);
-        intent.putExtra("isEnd",model.getTStatus()==2?2:0);
         intent.putExtra("position",position-1);
         startActivityForResult(intent, PKLIST_JUMP);
     }

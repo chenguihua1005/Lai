@@ -18,6 +18,7 @@ import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.personalPK.adapter.PKListAdapter;
 import com.softtek.lai.module.personalPK.model.PKDetailMold;
 import com.softtek.lai.module.personalPK.presenter.PKListManager;
+import com.softtek.lai.module.sport.view.GroupMainActivity;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.StringUtil;
@@ -111,35 +112,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
     @Override
     protected void initDatas() {
         manager = new PKListManager();
-        model = getIntent().getParcelableExtra("pkmodel");
         type=getIntent().getIntExtra("pkType",0);
-        if(type== Constants.CREATE_PK){//创建新PK跳转过来
-            btn_cancle_pk.setVisibility(View.VISIBLE);
-        }else if(type== Constants.LIST_PK){
-
-        }else if(type== Constants.MESSAGE_PK){
-            btn_receive.setVisibility(View.VISIBLE);
-            btn_refuse.setVisibility(View.VISIBLE);
-        }
-        tv_pk_name1.setText(StringUtil.showName(model.getUserName(),model.getMobile()));
-        tv_pk_name2.setText(StringUtil.showName(model.getBUserName(),model.getBMobile()));
-        cb_zan_left.setText(model.getChpcou() + "");
-        cb_zan_right.setText(model.getBchpcou() + "");
-        tv_time.setText(DateUtil.getInstance().convertDateStr(model.getStart(), "yyyy年MM月dd日") + "——" +
-                DateUtil.getInstance().convertDateStr(model.getEnd(), "yyyy年MM月dd日"));
-        cb_zan_left.setEnabled(false);
-        cb_zan_right.setEnabled(false);
-
-        if (model.getChipType() == PKListAdapter.NAIXI) {
-            iv_type.setBackgroundResource(R.drawable.pk_naixi);
-            tv_content.setText(R.string.naixi);
-        } else if (model.getChipType() == PKListAdapter.NAIXICAO) {
-            iv_type.setBackgroundResource(R.drawable.pk_list_naixicao);
-            tv_content.setText(R.string.naixicao);
-        } else if (model.getChipType() == PKListAdapter.CUSTOM) {
-            iv_type.setBackgroundResource(R.drawable.pk_chouma);
-        }
-
         dialogShow("加载中...");
         manager.getPKDetail(this, model.getPKId());
     }
@@ -155,7 +128,11 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
                 manager.cancelPK(model.getPKId(), new RequestCallback<ResponseData>() {
                     @Override
                     public void success(ResponseData responseData, Response response) {
+                        if(responseData.getStatus()==200){
+                            //取消成功
 
+
+                        }
                     }
 
                     @Override
@@ -431,7 +408,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
 
     private void doBack(){
         if(type== Constants.CREATE_PK){//创建新PK跳转过来,按下返回按钮直接返回PK列表页
-            Intent intent=new Intent(this,PKListActivity.class);
+            Intent intent=new Intent(this,GroupMainActivity.class);
             startActivity(intent);
             finish();
         }else if(type== Constants.LIST_PK){
