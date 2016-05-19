@@ -23,7 +23,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="小康康i跑团"
+                android:text="跑团排名"
                 android:textSize="16sp"
                 android:textColor="#333333"
                 android:id="@+id/tv_rungroupname" />

@@ -35,6 +35,7 @@ import zilla.libcore.util.Util;
 
 /**
  * Created by julie.zhu on 5/16/2016.
+ * 周排名选项卡
  */
 
 @InjectLayout(R.layout.fagment_rank_sport)
@@ -82,9 +83,17 @@ public class WeekRankFragment extends BaseFragment {
         int str=bundle2.getInt("id");
         Log.i("---------------------Weekstr----------------"+str);
 
+        //listview str 0跑团，1全国
+        //接口信息：跑团数据1，全国数据0
+        if (str==0){
+            getCurrentWeekOrder(1);
+        }
+        if (str==1){
+            getCurrentWeekOrder(0);
+        }
+
         //跑团1，全国0
-        getCurrentWeekOrder(1);
-        //getCurrentWeekOrder(0);
+
     }
 
     private void initrankdate() {
