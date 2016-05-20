@@ -30,6 +30,7 @@ import com.softtek.lai.module.message.view.MessageActivity;
 import com.softtek.lai.utils.SoftInputUtil;
 
 import butterknife.InjectView;
+import zilla.libcore.file.PropertiesManager;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
@@ -52,6 +53,8 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
 
     @InjectView(R.id.lin_about)
     LinearLayout lin_about;
+    @InjectView(R.id.tv_version)
+    TextView tv_version;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +66,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void initViews() {
         tv_title.setText("系统设置");
+        tv_version.setText("V "+ PropertiesManager.get("appversion"));
         iv_email.setVisibility(View.GONE);
     }
 

@@ -19,6 +19,7 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.utils.SoftInputUtil;
 
 import butterknife.InjectView;
+import zilla.libcore.file.PropertiesManager;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
@@ -35,6 +36,8 @@ public class AboutMeActivity extends BaseActivity implements View.OnClickListene
 
     @InjectView(R.id.tv_title)
     TextView tv_title;
+    @InjectView(R.id.tv_version)
+    TextView tv_version;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +52,7 @@ public class AboutMeActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initDatas() {
-
+        tv_version.setText("V "+PropertiesManager.get("appversion"));
     }
 
     @Override

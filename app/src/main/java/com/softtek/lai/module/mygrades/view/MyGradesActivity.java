@@ -740,10 +740,6 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        //接收莱运动首页跑团名称
-        Intent intent2=getIntent();
-        String RGName=intent2.getStringExtra("RGName");
-        Log.i("-------MyGradesActivity:-----"+RGName);
 
         int flag;
         switch (v.getId()){
@@ -753,14 +749,11 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
             case R.id.ll_dayRank:
                 Intent intent=new Intent(MyGradesActivity.this,RankingDetailsActivity.class);
                 intent.putExtra("flag",0);
-                intent.putExtra("RGName",RGName);
-
                 startActivity(intent);
                 break;
             case R.id.ll_weekRank:
                 Intent intent1=new Intent(MyGradesActivity.this,RankingDetailsActivity.class);
                 intent1.putExtra("flag",1);
-                intent1.putExtra("RGName",RGName);
                 startActivity(intent1);
                 break;
             //我的勋章跳转
