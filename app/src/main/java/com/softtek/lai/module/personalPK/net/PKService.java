@@ -5,6 +5,7 @@ import com.softtek.lai.module.personalPK.model.PKDetailMold;
 import com.softtek.lai.module.personalPK.model.PKForm;
 import com.softtek.lai.module.personalPK.model.PKListModel;
 import com.softtek.lai.module.personalPK.model.PKObjModel;
+import com.softtek.lai.module.personalPK.model.PKObjRequest;
 import com.softtek.lai.module.personalPK.model.SavePK;
 import com.softtek.lai.utils.RequestCallback;
 
@@ -44,7 +45,7 @@ public interface PKService {
     void searchPKObj(@Header("token")String token,
                      @Query("Key")String key,
                      @Query("PageIndex")int pageIndex,
-                     RequestCallback<ResponseData<List<PKObjModel>>> callback);
+                     RequestCallback<ResponseData<PKObjRequest>> callback);
 
     //点赞
     @GET("/Challenged/ChallengedPrasie")

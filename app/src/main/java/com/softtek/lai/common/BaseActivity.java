@@ -87,6 +87,14 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    public void dialogShow() {
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setCanceledOnTouchOutside(false);
+            progressDialog.show();
+        }
+    }
+
     public void dialogDissmiss() {
         if (progressDialog != null) {
             progressDialog.dismiss();

@@ -21,6 +21,7 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.personalPK.adapter.SearchAdapter;
 import com.softtek.lai.module.personalPK.model.PKCreatModel;
 import com.softtek.lai.module.personalPK.model.PKObjModel;
+import com.softtek.lai.module.personalPK.model.PKObjRequest;
 import com.softtek.lai.module.personalPK.presenter.PKListManager;
 
 import java.util.ArrayList;
@@ -93,9 +94,14 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
-    public void loadData(List<PKObjModel> models){
+    public void loadData(PKObjRequest data){
         dialogDissmiss();
         lv.onRefreshComplete();
+        if(data==null){
+            return;
+        }
+        totalPage=data.getPageCount();
+        List<PKObjModel> models=data.getData();
         if(models==null||models.isEmpty()){
             lv.setMode(PullToRefreshBase.Mode.DISABLED);
             return;
