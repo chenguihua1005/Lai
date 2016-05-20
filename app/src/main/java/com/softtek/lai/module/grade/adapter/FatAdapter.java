@@ -77,6 +77,7 @@ public class FatAdapter extends BaseAdapter {
             holder.tv_order.setTextColor(Color.parseColor("#707070"));
         }
         if(studentModel.getIsTest()==1){//如果有复测数据
+            holder.ll_content.setBackgroundColor(Color.parseColor("#FFFFFF"));
             holder.ll_show.setVisibility(View.VISIBLE);
             holder.tv_show.setVisibility(View.GONE);
             holder.tv_physical.setVisibility(View.VISIBLE);

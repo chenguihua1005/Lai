@@ -9,6 +9,8 @@ import android.view.View.OnClickListener;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -81,6 +83,8 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
     TextView tv_unit2;
     @InjectView(R.id.zongbushu)
     TextView zongbushu;
+    @InjectView(R.id.sender1)
+    ImageView sender1;
 
     @InjectView(R.id.btn_cancle_pk)
     TextView btn_cancle_pk;
@@ -92,6 +96,14 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
     TextView btn_refuse;
     @InjectView(R.id.tip_pk)
     TextView tip_pk;
+    @InjectView(R.id.rl_load)
+    RelativeLayout rl_load;
+    @InjectView(R.id.iv_winner1)
+    ImageView iv_winner1;
+    @InjectView(R.id.iv_winner2)
+    ImageView iv_winner2;
+    @InjectView(R.id.sv_pk)
+    ScrollView sv_pk;
 
 
 
@@ -153,6 +165,9 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
                                                 setResult(RESULT_OK,intent);
                                                 finish();
                                             }
+                                        }else if(responseData.getStatus()==100){
+                                            rl_load.setVisibility(View.VISIBLE);
+                                            sv_pk.setVisibility(View.GONE);
                                         }else{
                                             Toast.makeText(PKDetailActivity.this,"取消失败",Toast.LENGTH_SHORT).show();
                                         }
@@ -244,6 +259,9 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
                         if(responseData.getStatus()==200){
                             //重启成功、
                             resetPKBehavior();
+                        }else if(responseData.getStatus()==100){
+                            rl_load.setVisibility(View.VISIBLE);
+                            sv_pk.setVisibility(View.GONE);
                         }
                     }
 
@@ -261,14 +279,24 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
     public static final int CHALLENGING = 1;
     public static final int REFUSE = -1;
 
-    public void getPKDetail(PKDetailMold model) {
+    public void getPKDetail(PKDetailMold model,int resultCode) {
         dialogDissmiss();
-        if (model == null) {
+        if (model == null&&resultCode==-1) {
+            return;
+        }else if(model==null&&resultCode==100){
+            rl_load.setVisibility(View.VISIBLE);
+            sv_pk.setVisibility(View.GONE);
             return;
         }
+        rl_load.setVisibility(View.GONE);
+        sv_pk.setVisibility(View.VISIBLE);
         this.model=model;
         tStatus=pkStatus(model.getStart(),model.getEnd());
-        Log.i("PK详情="+model.toString());
+        if(tStatus==PKListAdapter.Completed){//如果这个PK是已经结束的就什么操作都不需要显示
+            sender1.setVisibility(View.GONE);//隐藏发起者标识
+            //显示胜利者表示
+
+        }
         //更新数据
         tv_pk_name1.setText(StringUtil.showName(model.getUserName(),model.getMobile()));
         tv_pk_name2.setText(StringUtil.showName(model.getBUserName(),model.getBMobile()));

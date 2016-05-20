@@ -83,12 +83,16 @@ public class PKListManager {
                 new RequestCallback<ResponseData<PKDetailMold>>() {
                     @Override
                     public void success(ResponseData<PKDetailMold> pkDetailMoldResponseData, Response response) {
-                        activity.getPKDetail(pkDetailMoldResponseData.getData());
+                        if(pkDetailMoldResponseData.getStatus()==200){
+                            activity.getPKDetail(pkDetailMoldResponseData.getData(),200);
+                        }else if(pkDetailMoldResponseData.getStatus()==100){
+                            activity.getPKDetail(null,100);
+                        }
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
-                        activity.getPKDetail(null);
+                        activity.getPKDetail(null,-1);
                         super.failure(error);
                     }
                 }

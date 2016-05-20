@@ -46,6 +46,7 @@
             android:layout_marginTop="47dp"
             android:layout_toLeftOf="@id/pk">
 
+
             <com.softtek.lai.widgets.CircleImageView
                 android:id="@+id/sender1_header"
                 android:layout_width="match_parent"
