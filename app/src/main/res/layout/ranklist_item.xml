@@ -64,14 +64,21 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@drawable/img_progress_off"/>
-            <ImageView
+            <ProgressBar
+                android:id="@+id/pro_jin"
+                style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:src="@drawable/img_progress_on"/>
+                android:minHeight="10dp"
+                android:progressDrawable="@drawable/img_progress_off"/>
+            <!--<ImageView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:src="@drawable/img_progress_off"/>-->
+            <!--<ImageView-->
+                <!--android:layout_width="200dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:src="@drawable/img_progress_on"/>-->
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>
