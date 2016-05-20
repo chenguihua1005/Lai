@@ -17,7 +17,6 @@
         android:id="@+id/list_student_score"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:scrollbars="none"
-        android:layout_margin="@dimen/studentScoreMargin"/>
+        android:scrollbars="none"/>
 
 </LinearLayout>

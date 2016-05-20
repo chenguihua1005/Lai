@@ -5,11 +5,13 @@
 
 package com.softtek.lai.module.message.presenter;
 
+import android.app.ProgressDialog;
 import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.message.model.MessageDetailInfo;
+import com.softtek.lai.utils.StringUtil;
 
 import retrofit.Callback;
 import retrofit.http.Field;
@@ -37,5 +39,8 @@ public interface IMessagePresenter {
 
     //主页是否有提示消息
     void getMessageRead(ImageView img_red);
+
+    //检测手机是否已存在
+    void phoneIsExist(String mobile,ProgressDialog dialog);
 
 }

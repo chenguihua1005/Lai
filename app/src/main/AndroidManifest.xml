@@ -170,7 +170,7 @@
             android:name=".module.bodygamest.view.StudentHonorGridActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.bodygamest.view.StudentScoreActivity"
+            android:name=".module.bodygamest.view.StudentScoresActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.jingdu.view.JingduActivity"

@@ -63,6 +63,11 @@ public interface MessageService {
     void getMessageRead(@Header("token") String token,
                        Callback<ResponseData> callback);
 
+    @GET("/HerbNewUser/PhoneIsExist")
+    void phoneIsExist(@Header("token") String token,
+                        @Query("mobile") String mobile,
+                       Callback<ResponseData> callback);
+
     @FormUrlEncoded
     @POST("/MsgCenter/UpReadTime")
     void upReadTime(@Header("token") String token,

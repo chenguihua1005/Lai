@@ -8,6 +8,7 @@ package com.softtek.lai.module.message.view;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -204,12 +205,14 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
     private String change_photo = "";
     private String upload_photo = "";
     private GuwenClassPre guwenClassPre;
+    private IMessagePresenter messagePresenter;
     private List<String> pargradeIdlList = new ArrayList<String>();
     private List<String> pargradeNamelList = new ArrayList<String>();
 
     private int select_posion = 0;
 
     private ImageFileCropSelector imageFileCropSelector;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -330,6 +333,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
     protected void initDatas() {
         iNewStudentpresenter = new NewStudentInputImpl(JoinGameDetailActivity.this);
         iUpConfirmInfopresenter = new UpConfirmInfoImpl(JoinGameDetailActivity.this);
+        messagePresenter = new MessageImpl(JoinGameDetailActivity.this);
         guwenClassPre = new GuwenClassImp();
         UserInfoModel userInfoModel = UserInfoModel.getInstance();
         accoutid = Long.parseLong(userInfoModel.getUser().getUserid());
@@ -354,6 +358,26 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
             img1.setVisibility(View.GONE);
             img_delete.setVisibility(View.GONE);
             ll_left.setOnClickListener(this);
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setCanceledOnTouchOutside(false);
+            progressDialog.setMessage("正在检测手机号是否已注册");
+            et_phone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    System.out.println("hasFocus--------");
+                    if (hasFocus) {
+                        // 此处为得到焦点时的处理内容
+                    } else {
+                        // 此处为失去焦点时的处理内容
+                        String phone = et_phone.getText().toString();
+                        System.out.println("phone.length:"+phone.length());
+                        if (phone.length() == 11) {
+                            progressDialog.show();
+                            messagePresenter.phoneIsExist(phone, progressDialog);
+                        }
+                    }
+                }
+            });
         }
     }
 
@@ -369,6 +393,12 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void onClick(View v) {
+        ll_tizhi.setFocusable(true);
+        ll_tizhi.setFocusableInTouchMode(true);
+        ll_tizhi.requestFocus();
+        ll_tizhi.findFocus();
+
+        et_phone.clearFocus();
         switch (v.getId()) {
             case R.id.ll_left:
                 finish();
@@ -410,7 +440,6 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
                 }).create().show();
                 break;
             case R.id.ll_class:
-                System.out.println("ll_class-----------");
                 if (pargradeNamelList.size() != 0) {
                     show_class_dialog();
                 } else {
