@@ -1,7 +1,7 @@
 {
   "vr": {
     "bodyGame":true,
-    "laiYunDong":true,
+    "laiYunDong":false,
     "office":false,
     "laiExcel":false,
     "laiShop":false

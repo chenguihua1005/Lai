@@ -303,7 +303,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.sport.view.GroupMainActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"/>
         <activity
             android:name=".module.act.view.ActListActivity"
             android:screenOrientation="portrait" />

@@ -317,8 +317,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
         tv_title.setText(sportMainModel.getRGName());
 
         praiseChallengeModel = sportMainModel.getPraiseChallenge();
-
-        if (praiseChallengeModel.getPKId() == null) {
+        if (praiseChallengeModel!=null&&praiseChallengeModel.getPKId() == null) {
             lin_no_pk.setVisibility(View.VISIBLE);
             lin_have_pk.setVisibility(View.GONE);
         } else {

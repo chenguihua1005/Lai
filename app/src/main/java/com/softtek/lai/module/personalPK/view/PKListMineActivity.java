@@ -2,7 +2,6 @@ package com.softtek.lai.module.personalPK.view;
 
 import android.content.Intent;
 import android.os.Handler;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -17,10 +16,8 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.personalPK.adapter.PKListAdapter;
-import com.softtek.lai.module.personalPK.model.PKDetailMold;
 import com.softtek.lai.module.personalPK.model.PKListModel;
 import com.softtek.lai.module.personalPK.presenter.PKListManager;
-import com.softtek.lai.module.sport.view.GroupMainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,28 +86,8 @@ public class PKListMineActivity extends BaseActivity implements View.OnClickList
         //点击列表跳转至详情
         PKListModel model=models.get(position-1);
         Intent intent=new Intent(this,PKDetailActivity.class);
-        PKDetailMold detailMold=new PKDetailMold();
-        detailMold.setPKId(model.getPKId());
-        detailMold.setChallenged(model.getChallenged());
-        detailMold.setBeChallenged(model.getBeChallenged());
-        detailMold.setUserName(model.getUserName());
-        detailMold.setBUserName(model.getBUserName());
-        detailMold.setPhoto(model.getPhoto());
-        detailMold.setBPhoto(model.getBPhoto());
-        detailMold.setChipType(model.getChipType());
-        detailMold.setChip("");
-        detailMold.setStart(model.getStart());
-        detailMold.setEnd(model.getEnd());
-        detailMold.setStatus(model.getTStatus());//设置应战状态：未因战
 
-        //点赞数
-        detailMold.setChpcou(model.getChP());
-        detailMold.setBchpcou(model.getBChp());
-        detailMold.setChaTotal(0);
-        detailMold.setBchaTotal(0);
-        intent.putExtra("pkmodel", detailMold);
         intent.putExtra("pkType", Constants.LIST_PK);
-        intent.putExtra("isEnd",model.getTStatus()==2?2:0);
         intent.putExtra("position",position-1);
         startActivityForResult(intent, PKLIST_JUMP);
     }
@@ -125,8 +102,6 @@ public class PKListMineActivity extends BaseActivity implements View.OnClickList
                     PKListModel model=models.get(position);
                     model.setChP(Integer.parseInt(data.getStringExtra("ChP")));
                     model.setBChp(Integer.parseInt(data.getStringExtra("BChP")));
-                    int status=getIntent().getIntExtra("status",0);
-                    model.setTStatus(status);
                     adapter.notifyDataSetChanged();
                 }
 
@@ -157,19 +132,6 @@ public class PKListMineActivity extends BaseActivity implements View.OnClickList
         }
     }
 
-    /*@Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode==KeyEvent.KEYCODE_BACK&&event.getAction()==KeyEvent.ACTION_DOWN){
-            //做返回操作
-            doBack();
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
-    private void doBack() {
-        startActivity(new Intent(this,GroupMainActivity.class));
-    }*/
 
     public void getModels(ResponseData<List<PKListModel>> model){
         ptrlv.onRefreshComplete();
