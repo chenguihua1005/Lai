@@ -15,6 +15,7 @@
         android:layout_height="match_parent">
 
         <ScrollView
+            android:id="@+id/sv_pk"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:overScrollMode="never"
@@ -52,14 +53,17 @@
                         android:layout_centerInParent="true"
                         android:layout_marginTop="78dp"
                         android:src="@drawable/pk_list_vs" />
-
                     <FrameLayout
                         android:id="@+id/lfl"
-                        android:layout_width="63dp"
-                        android:layout_height="63dp"
-                        android:layout_marginRight="33dp"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="25dp"
                         android:layout_marginTop="49dp"
                         android:layout_toLeftOf="@id/pk">
+                    <FrameLayout
+                        android:layout_width="63dp"
+                        android:layout_height="63dp"
+                        android:layout_gravity="center">
 
                         <com.softtek.lai.widgets.CircleImageView
                             android:id="@+id/sender1_header"
@@ -67,15 +71,22 @@
                             android:layout_height="match_parent"
                             android:scaleType="centerCrop"
                             android:src="@drawable/img_default" />
-
+                    </FrameLayout>
+                        <ImageView
+                            android:id="@+id/iv_winner1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/pk_winner"
+                            android:layout_gravity="bottom"
+                            android:visibility="gone"/>
                         <ImageView
                             android:id="@+id/sender1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="bottom|right"
+                            android:layout_marginRight="5dp"
                             android:src="@drawable/pk_list_wujiaoxin" />
                     </FrameLayout>
-
                     <CheckBox
                         android:id="@+id/cb_zan_left"
                         android:layout_width="wrap_content"
@@ -92,18 +103,26 @@
 
                     <FrameLayout
                         android:id="@+id/rfl"
-                        android:layout_width="63dp"
+                        android:layout_width="80dp"
                         android:layout_height="63dp"
-                        android:layout_marginLeft="33dp"
+                        android:layout_marginLeft="25dp"
                         android:layout_marginTop="49dp"
                         android:layout_toRightOf="@id/pk">
 
                         <com.softtek.lai.widgets.CircleImageView
                             android:id="@+id/sender2_header"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_width="63dp"
+                            android:layout_height="63dp"
                             android:scaleType="centerCrop"
+                            android:layout_gravity="center"
                             android:src="@drawable/img_default" />
+                        <ImageView
+                            android:id="@+id/iv_winner2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/pk_winner"
+                            android:layout_gravity="bottom"
+                            android:visibility="gone"/>
 
                     </FrameLayout>
 
@@ -419,13 +438,33 @@
                     android:layout_height="50dp" />
             </LinearLayout>
         </ScrollView>
-        <!--<RelativeLayout
+        <RelativeLayout
             android:id="@+id/rl_load"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white">
+            android:background="#F1F1F1"
+            android:visibility="gone">
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_centerInParent="true"
+                android:gravity="center_vertical|center">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/pk_invalid"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="34dp"
+                    android:gravity="center"
+                    android:text="PK赛已失效"
+                    android:textColor="#666666"
+                    android:textSize="18sp"/>
+            </LinearLayout>
 
-        </RelativeLayout>-->
+        </RelativeLayout>
     </FrameLayout>
 </LinearLayout>
