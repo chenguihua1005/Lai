@@ -66,15 +66,6 @@ public class DayRankFragment extends BaseFragment {
 
     @Override
     protected void initViews() {
-        rankAdapter = new RankAdapter(getContext(),orderDataModelList);
-        list_rank.setAdapter(rankAdapter);
-        manager = getActivity().getFragmentManager();
-        Log.i("----DayRankFragment....................>"+manager.toString());
-
-    }
-
-    @Override
-    protected void initDatas() {
         iGradesPresenter = new GradesImpl();
         gradesService= ZillaApi.NormalRestAdapter.create(GradesService.class);
 
@@ -101,6 +92,18 @@ public class DayRankFragment extends BaseFragment {
         if (str==1){
             getCurrentDateOrder(0);
         }
+
+
+        rankAdapter = new RankAdapter(getContext(),orderDataModelList);
+        list_rank.setAdapter(rankAdapter);
+        manager = getActivity().getFragmentManager();
+        Log.i("----DayRankFragment....................>"+manager.toString());
+
+    }
+
+    @Override
+    protected void initDatas() {
+
 
     }
 
@@ -154,7 +157,7 @@ public class DayRankFragment extends BaseFragment {
                         if (dayRankModelResponseData.getData().getOrderData().isEmpty()){
                             //Util.toastMsg("我的日排名--暂无数据");
                         }else {
-                            orderDataModelList = dayRankModel.getOrderData();
+                            orderDataModelList = dayRankModelResponseData.getData().getOrderData();
                             rankAdapter.updateData(orderDataModelList);
                         }
                          //Util.toastMsg("我的日排名--查询正确");

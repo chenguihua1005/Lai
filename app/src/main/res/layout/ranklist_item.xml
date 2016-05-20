@@ -40,7 +40,6 @@
         android:orientation="vertical"
         android:gravity="center|left"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="20dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
@@ -63,22 +62,40 @@
         </LinearLayout>
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <ProgressBar
-                android:id="@+id/pro_jin"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:minHeight="10dp"
-                android:progressDrawable="@drawable/img_progress_off"/>
-            <!--<ImageView-->
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:layout_gravity="center_vertical">
+            <!--<ProgressBar-->
+                <!--android:id="@+id/pb_jin"-->
+                <!--style="?android:attr/progressBarStyleHorizontal"-->
                 <!--android:layout_width="match_parent"-->
                 <!--android:layout_height="wrap_content"-->
-                <!--android:src="@drawable/img_progress_off"/>-->
-            <!--<ImageView-->
-                <!--android:layout_width="200dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:src="@drawable/img_progress_on"/>-->
+                <!--android:max="100"-->
+                <!--android:progressDrawable="@drawable/progress_barbg"/>-->
+            <ImageView
+                android:layout_width="240dp"
+                android:layout_height="10dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/img_progress_off"
+                android:layout_marginRight="5dp"
+                android:scaleType="fitXY"
+                />
+            <ImageView
+                android:layout_width="200dp"
+                android:layout_height="10dp"
+                android:layout_marginLeft="1dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/img_progress_on"
+                android:scaleType="fitXY"
+                />
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="10dp"
+                android:layout_gravity="center_vertical"
+                android:scaleType="fitXY"
+                android:layout_marginRight="10dp"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/img_progress_off"/>
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

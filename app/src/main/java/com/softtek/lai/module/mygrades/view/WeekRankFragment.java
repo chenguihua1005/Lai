@@ -53,7 +53,6 @@ public class WeekRankFragment extends BaseFragment {
     @InjectView(R.id.tv_ranking)
     TextView tv_ranking;
 
-
     @InjectView(R.id.list_rank)
     ListView list_rank;
 
@@ -68,13 +67,7 @@ public class WeekRankFragment extends BaseFragment {
 
     @Override
     protected void initViews() {
-        initrankdate();
-        rankAdapter = new RankAdapter(getContext(),orderDataModelList);
-        list_rank.setAdapter(rankAdapter);
-    }
 
-    @Override
-    protected void initDatas() {
         iGradesPresenter = new GradesImpl();
         gradesService= ZillaApi.NormalRestAdapter.create(GradesService.class);
 
@@ -93,6 +86,14 @@ public class WeekRankFragment extends BaseFragment {
         }
 
         //跑团1，全国0
+
+        initrankdate();
+        rankAdapter = new RankAdapter(getContext(),orderDataModelList);
+        list_rank.setAdapter(rankAdapter);
+    }
+
+    @Override
+    protected void initDatas() {
 
     }
 
@@ -151,7 +152,7 @@ public class WeekRankFragment extends BaseFragment {
                         if (dayRankModelResponseData.getData().getOrderData().isEmpty()){
                             //Util.toastMsg("我的周排名--暂无数据");
                         }else {
-                            orderDataModelList = dayRankModel.getOrderData();
+                            orderDataModelList = dayRankModelResponseData.getData().getOrderData();
                             rankAdapter.updateData(orderDataModelList);
                         }
 //                        Util.toastMsg("我的周排名--查询正确");
