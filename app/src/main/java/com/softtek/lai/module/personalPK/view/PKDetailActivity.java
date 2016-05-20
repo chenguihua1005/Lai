@@ -14,7 +14,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -125,12 +124,14 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
 
     int type;
     int tStatus;//本次PK状态；未开始 进行中 以结束
+    long pkId;
     @Override
     protected void initDatas() {
         manager = new PKListManager();
         type=getIntent().getIntExtra("pkType",0);
+        pkId=getIntent().getLongExtra("pkId",0);
         dialogShow("加载中...");
-        manager.getPKDetail(this, model.getPKId());
+        manager.getPKDetail(this, pkId);
     }
 
     @Override
@@ -150,9 +151,11 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
                         }).setPositiveButton("取消PK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                dialogShow("取消PK...");
                                 manager.cancelPK(model.getPKId(), new RequestCallback<ResponseData>() {
                                     @Override
                                     public void success(ResponseData responseData, Response response) {
+                                        dialogDissmiss();
                                         if(responseData.getStatus()==200){
                                             //取消成功
                                             //列表进来的返回列表，创建进来的返回运动首页
@@ -172,9 +175,16 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
                                             Toast.makeText(PKDetailActivity.this,"取消失败",Toast.LENGTH_SHORT).show();
                                         }
                                     }
+
+                                    @Override
+                                    public void failure(RetrofitError error) {
+                                        dialogDissmiss();
+                                        super.failure(error);
+                                    }
                                 });
                             }
                         }).create();
+                dialog.show();
 
                 break;
             case R.id.cb_zan_left:
@@ -238,6 +248,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
                         new RequestCallback<ResponseData>() {
                             @Override
                             public void success(ResponseData responseData, Response response) {
+                                dialogDissmiss();
                                 if(responseData.getStatus()==200){
                                     refuseBehavior();
                                 }
@@ -256,6 +267,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
                 manager.resetPK(model.getPKId(), new RequestCallback<ResponseData>() {
                     @Override
                     public void success(ResponseData responseData, Response response) {
+                        dialogDissmiss();
                         if(responseData.getStatus()==200){
                             //重启成功、
                             resetPKBehavior();
@@ -490,7 +502,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
         if(type== Constants.CREATE_PK){//创建新PK跳转过来,按下返回按钮直接返回PK首页
             Intent intent=new Intent(this,GroupMainActivity.class);
             startActivity(intent);
-        }else if(type== Constants.MESSAGE_PK){
+        }else if(type== Constants.MESSAGE_PK||type==Constants.GROUPMAIN_PK){
             //如果是从消息列表过来的话
             finish();
         } else if(type== Constants.LIST_PK){

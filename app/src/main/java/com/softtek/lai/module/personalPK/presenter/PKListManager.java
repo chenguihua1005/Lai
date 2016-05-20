@@ -7,6 +7,7 @@ import com.softtek.lai.module.personalPK.model.PKDetailMold;
 import com.softtek.lai.module.personalPK.model.PKForm;
 import com.softtek.lai.module.personalPK.model.PKListModel;
 import com.softtek.lai.module.personalPK.model.PKObjModel;
+import com.softtek.lai.module.personalPK.model.PKObjRequest;
 import com.softtek.lai.module.personalPK.model.SavePK;
 import com.softtek.lai.module.personalPK.net.PKService;
 import com.softtek.lai.module.personalPK.view.PKDetailActivity;
@@ -44,12 +45,14 @@ public class PKListManager {
                 new RequestCallback<ResponseData<List<PKListModel>>>() {
             @Override
             public void success(ResponseData<List<PKListModel>> listResponseData, Response response) {
-                activity.getModels(listResponseData);
+                if(activity!=null)
+                    activity.getModels(listResponseData);
             }
 
             @Override
             public void failure(RetrofitError error) {
-                activity.getModels(null);
+                if(activity!=null)
+                    activity.getModels(null);
                 super.failure(error);
 
             }
@@ -64,12 +67,14 @@ public class PKListManager {
                 new RequestCallback<ResponseData<List<PKListModel>>>() {
                     @Override
                     public void success(ResponseData<List<PKListModel>> listResponseData, Response response) {
-                        activity.getModels(listResponseData);
+                        if(activity!=null)
+                            activity.getModels(listResponseData);
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
-                        activity.getModels(null);
+                        if(activity!=null)
+                            activity.getModels(null);
                         super.failure(error);
 
                     }
@@ -84,15 +89,18 @@ public class PKListManager {
                     @Override
                     public void success(ResponseData<PKDetailMold> pkDetailMoldResponseData, Response response) {
                         if(pkDetailMoldResponseData.getStatus()==200){
-                            activity.getPKDetail(pkDetailMoldResponseData.getData(),200);
+                            if(activity!=null)
+                                activity.getPKDetail(pkDetailMoldResponseData.getData(),200);
                         }else if(pkDetailMoldResponseData.getStatus()==100){
-                            activity.getPKDetail(null,100);
+                            if(activity!=null)
+                                activity.getPKDetail(null,100);
                         }
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
-                        activity.getPKDetail(null,-1);
+                        if(activity!=null)
+                            activity.getPKDetail(null,-1);
                         super.failure(error);
                     }
                 }
@@ -104,15 +112,17 @@ public class PKListManager {
                 token,
                 key,
                 pageIndex,
-                new RequestCallback<ResponseData<List<PKObjModel>>>() {
+                new RequestCallback<ResponseData<PKObjRequest>>() {
                     @Override
-                    public void success(ResponseData<List<PKObjModel>> pkObjModelResponseData, Response response) {
-                        activity.loadData(pkObjModelResponseData.getData());
+                    public void success(ResponseData<PKObjRequest> pkObjModelResponseData, Response response) {
+                        if(activity!=null)
+                            activity.loadData(pkObjModelResponseData.getData());
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
-                        activity.loadData(null);
+                        if(activity!=null)
+                            activity.loadData(null);
                         super.failure(error);
                     }
                 }
@@ -127,12 +137,14 @@ public class PKListManager {
                     @Override
                     public void success(ResponseData<List<PKObjModel>> listResponseData, Response response) {
                         Log.i(listResponseData.toString());
-                        activity.loadData(listResponseData.getData());
+                        if(activity!=null)
+                            activity.loadData(listResponseData.getData());
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
-                        activity.loadData(null);
+                        if(activity!=null)
+                            activity.loadData(null);
                         super.failure(error);
                     }
                 }

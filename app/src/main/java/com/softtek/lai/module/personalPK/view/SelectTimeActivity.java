@@ -117,10 +117,16 @@ public class SelectTimeActivity extends BaseActivity implements View.OnClickList
                 break;
         }
         if(StringUtils.isNotEmpty(model.getUserPhoto())){
-            Picasso.with(this).load(AddressManager.get("photoHost")+model.getUserPhoto()).fit().into(sender1_header);
+            Picasso.with(this).load(AddressManager.get("photoHost")+model.getUserPhoto())
+                    .fit()
+                    .placeholder(R.drawable.img_default)
+                    .error(R.drawable.img_default).into(sender1_header);
         }
         if(StringUtils.isNotEmpty(model.getBeUserPhoto())){
-            Picasso.with(this).load(AddressManager.get("photoHost")+model.getBeUserPhoto()).fit().into(sender2_header);
+            Picasso.with(this).load(AddressManager.get("photoHost")+model.getBeUserPhoto())
+                    .fit()
+                    .placeholder(R.drawable.img_default)
+                    .error(R.drawable.img_default).into(sender2_header);
         }
         form=new PKForm();
         form.setBeChallenged(model.getBeChallenged());
@@ -214,6 +220,7 @@ public class SelectTimeActivity extends BaseActivity implements View.OnClickList
                 }
                 Intent intent=new Intent(SelectTimeActivity.this,PKDetailActivity.class);
                 intent.putExtra("pkType",Constants.CREATE_PK);
+                intent.putExtra("pkId",savePKResponseData.getData().getPKId());
                 startActivity(intent);
             }
 
