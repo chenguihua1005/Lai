@@ -62,8 +62,8 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.rainim:libzilla:1.0.59'
-    compile 'com.android.support:appcompat-v7:23.1.0'
-    compile 'com.android.support:design:23.1.0'
+    compile 'com.android.support:appcompat-v7:23.3.0'
+    compile 'com.android.support:design:23.3.0'
     compile project(':ruler_lib')
     compile project(':widget_lib')
     compile project(':social_project')
@@ -71,6 +71,6 @@ dependencies {
     compile project(':photoview')
     compile 'com.github.chrisbanes:PullToRefresh:2.1.3'
     compile 'org.greenrobot:eventbus:3.0.0'
-    compile 'homhomlin.lib:ptrrv-library:1.2.0'
     compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'
+    compile 'com.yalantis:ucrop:1.5.0'
 }
