@@ -79,7 +79,6 @@ public class ModifyPhotoActivity extends BaseActivity implements View.OnClickLis
         imageFileCropSelector = new ImageFileCropSelector(this);
         imageFileCropSelector.setOutPutImageSize(px, px);
         imageFileCropSelector.setQuality(30);
-        imageFileCropSelector.setScale(true);
         imageFileCropSelector.setOutPutAspect(1, 1);
         imageFileCropSelector.setOutPut(px, px);
         imageFileCropSelector.setCallback(new ImageFileCropSelector.Callback() {

@@ -3,6 +3,7 @@
   ~ Date:2016-03-31
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.softtek.lai">
 
     <uses-sdk
@@ -65,7 +66,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:icon, android:theme">
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="5728545a67e58ea7cf001701" />
@@ -547,7 +549,7 @@
             android:name=".module.laisportmine.view.MyPkListActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".module.bodygamest.view.PhotoViewActivity" />
-        <activity android:name=".module.retest.view.AuditShowActivity" />
+        <!--<activity android:name=".module.retest.view.AuditActivity" />-->
         <activity
             android:name=".module.mygrades.view.RankingDetailsActivity"
             android:screenOrientation="portrait" />

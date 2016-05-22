@@ -86,7 +86,7 @@ public class LogStoryDetailActivity extends BaseActivity implements View.OnClick
     protected void initDatas() {
         service= ZillaApi.NormalRestAdapter.create(LossWeightLogService.class);
         manager=new LogStoryDetailManager(this);
-        log= (LossWeightStoryModel) getIntent().getParcelableExtra("log");
+        log= getIntent().getParcelableExtra("log");
         if(StringUtils.isNotEmpty(log.getPhoto())){
             Picasso.with(this).load(AddressManager.get("photoHost")+log.getPhoto()).fit().placeholder(R.drawable.img_default)
                     .error(R.drawable.img_default).into(civ_header_image);

@@ -27,7 +27,6 @@ import com.softtek.lai.module.lossweightstory.model.LossWeightStoryModel;
 import com.softtek.lai.module.lossweightstory.presenter.LossWeightStoryManager;
 import com.softtek.lai.module.studetail.view.LossWeightLogActivity;
 import com.softtek.lai.utils.DisplayUtil;
-import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileCropSelector;
@@ -92,7 +91,7 @@ public class LossWeightStoryActivity extends BaseActivity implements View.OnClic
         ptrlv.setOnRefreshListener(this);
         cir_header_image.setOnClickListener(this);
         imageFileCropSelector=new ImageFileCropSelector(this);
-        imageFileCropSelector.setOutPutImageSize(DisplayUtil.getMobileWidth(this),DisplayUtil.dip2px(this,195));
+        //imageFileCropSelector.setOutPutImageSize(DisplayUtil.getMobileWidth(this),DisplayUtil.dip2px(this,195));
         imageFileCropSelector.setOutPutAspect(4,3);
         imageFileCropSelector.setOutPut(DisplayUtil.getMobileWidth(this),DisplayUtil.dip2px(this,195));
         imageFileCropSelector.setCallback(this);

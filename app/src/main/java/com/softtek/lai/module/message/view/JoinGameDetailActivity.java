@@ -6,19 +6,11 @@
 package com.softtek.lai.module.message.view;
 
 
-import android.app.Activity;
 import android.app.Dialog;
-import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
-import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -42,25 +34,17 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.File.model.FileModel;
-import com.softtek.lai.module.File.view.DimensionRecordActivity;
-import com.softtek.lai.module.community.view.EditPersonalDynamicActivity;
 import com.softtek.lai.module.confirmInfo.EventModel.ConinfoEvent;
 import com.softtek.lai.module.confirmInfo.model.ConinfoModel;
 import com.softtek.lai.module.confirmInfo.model.GetConfirmInfoModel;
 import com.softtek.lai.module.confirmInfo.presenter.IUpConfirmInfopresenter;
 import com.softtek.lai.module.confirmInfo.presenter.UpConfirmInfoImpl;
-import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.login.model.UserModel;
-import com.softtek.lai.module.lossweightstory.model.UploadImage;
 import com.softtek.lai.module.message.model.MessageDetailInfo;
 import com.softtek.lai.module.message.model.PhotosModel;
-import com.softtek.lai.module.message.presenter.IMessagePresenter;
-import com.softtek.lai.module.message.presenter.MessageImpl;
 import com.softtek.lai.module.newmemberentry.view.EventModel.ClassEvent;
 import com.softtek.lai.module.newmemberentry.view.model.NewstudentsModel;
 import com.softtek.lai.module.newmemberentry.view.model.PargradeModel;
-import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
 import com.softtek.lai.module.newmemberentry.view.presenter.GuwenClassImp;
 import com.softtek.lai.module.newmemberentry.view.presenter.GuwenClassPre;
 import com.softtek.lai.module.newmemberentry.view.presenter.INewStudentpresenter;
@@ -79,18 +63,13 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
-import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.lifecircle.LifeCircleInject;
-import zilla.libcore.lifecircle.exit.AppManager;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
@@ -226,7 +205,6 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         imageFileCropSelector = new ImageFileCropSelector(this);
         imageFileCropSelector.setOutPutImageSize(px, px);
         imageFileCropSelector.setQuality(30);
-        imageFileCropSelector.setScale(true);
         imageFileCropSelector.setOutPutAspect(1, 1);
         imageFileCropSelector.setOutPut(px, px);
         imageFileCropSelector.setCallback(new ImageFileCropSelector.Callback() {
