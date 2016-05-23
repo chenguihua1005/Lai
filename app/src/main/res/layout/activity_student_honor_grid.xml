@@ -332,8 +332,8 @@
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:layout_marginTop="@dimen/studentHonorMarginTop2"
-                    android:background="@color/white"
-                    android:visibility="gone">
+                    android:layout_marginBottom="@dimen/studentHonorMarginTop2"
+                    android:background="@color/white">
 
                     <RelativeLayout
                         android:layout_width="wrap_content"
@@ -406,7 +406,9 @@
                     android:layout_width="fill_parent"
                     android:layout_height="155dip"
                     android:background="@color/white"
-                    android:layout_marginTop="@dimen/studentHonorMarginTop2">
+                    android:layout_marginBottom="@dimen/studentHonorMarginTop2"
+                    android:layout_marginTop="@dimen/studentHonorMarginTop2"
+                    android:visibility="gone">
                     <TextView
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"

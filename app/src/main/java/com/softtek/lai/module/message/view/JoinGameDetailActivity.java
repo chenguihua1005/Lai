@@ -166,6 +166,10 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
     private ImageCropper imageCropper;
     private INewStudentpresenter iNewStudentpresenter;
 
+    boolean isR;//是否注册
+    boolean isOperation;
+    int current_operation;
+
     //获取当前日期
     Calendar ca;
     int myear;//获取年份
@@ -342,16 +346,19 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
             progressDialog = new ProgressDialog(this);
             progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.setMessage("正在检测手机号是否已注册");
-            et_nickname.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            et_phone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
                     System.out.println("hasFocus--------");
                     if (hasFocus) {
                         // 此处为得到焦点时的处理内容
+
+                    }else {
                         String phone = et_phone.getText().toString();
                         System.out.println("phone.length:" + phone.length());
                         if (phone.length() == 11) {
                             progressDialog.show();
+                            isOperation=true;
                             messagePresenter.phoneIsExist(phone, progressDialog, 0);
                         }
                     }
@@ -372,11 +379,13 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
 
     @Subscribe
     public void onEvent(CheckMobileEvent event) {
+        isOperation=false;
         boolean b = event.isB();
+        isR=b;
         if (b) {
             return;
         } else {
-            switch (event.getId()) {
+            switch (current_operation) {
                 case R.id.btn_Add_bodydimension:
                     Intent intent = new Intent(this, JoinGameDimensionRecordActivity.class);
                     intent.putExtra("getConfirmInfoModel", getConfirmInfoModel);
@@ -437,12 +446,9 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
     }
 
     private void checkPhone(int id) {
-        String phone = et_phone.getText().toString();
-        System.out.println("phone.length:" + phone.length());
-        if (phone.length() == 11) {
-            progressDialog.show();
-            messagePresenter.phoneIsExist(phone, progressDialog, id);
-        } else {
+        if(isR){
+            Util.toastMsg("手机号码已注册");
+        }else {
             switch (id) {
                 case R.id.btn_Add_bodydimension:
                     Intent intent = new Intent(this, JoinGameDimensionRecordActivity.class);
@@ -510,7 +516,18 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         } else if (v.getId() == R.id.fl_right) {
             validateLife.validate();
         } else {
-            checkPhone(v.getId());
+            ll_tizhi.setFocusable(true);
+            ll_tizhi.setFocusableInTouchMode(true);
+            ll_tizhi.requestFocus();
+            ll_tizhi.findFocus();
+
+            et_phone.clearFocus();
+            current_operation=v.getId();
+            if(isOperation){
+
+            }else {
+                checkPhone(v.getId());
+            }
         }
     }
 
