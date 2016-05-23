@@ -417,7 +417,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
             }
 
             if (!TextUtils.isEmpty(downPhotoModel.getBanner())) {
-                Picasso.with(this).load(path + downPhotoModel.getBanner() + "").fit().placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square).into(im_uploadphoto_banner_list);
+                Picasso.with(this).load(path + downPhotoModel.getBanner() + "").fit().centerCrop().placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square).into(im_uploadphoto_banner_list);
 
             }
         }
