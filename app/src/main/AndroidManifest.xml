@@ -172,7 +172,7 @@
             android:name=".module.bodygamest.view.StudentHonorGridActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.bodygamest.view.StudentScoreActivity"
+            android:name=".module.bodygamest.view.StudentScoresActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.jingdu.view.JingduActivity"
@@ -286,25 +286,25 @@
             android:name=".module.tips.view.TipsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.sport.view.JoinGroupActivity"
+            android:name=".module.group.view.JoinGroupActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.sport.view.GroupSecActivity"
+            android:name=".module.group.view.GroupSecActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.sport.view.GroupThirdActivity"
+            android:name=".module.group.view.GroupThirdActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.sport.view.GroupFouthActivity"
+            android:name=".module.group.view.GroupFouthActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.sport.view.GroupFifthActivity"
+            android:name=".module.group.view.GroupFifthActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.sport.view.GroupSearchActivity"
+            android:name=".module.group.view.GroupSearchActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.sport.view.GroupMainActivity"
+            android:name=".module.group.view.GroupMainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
@@ -549,7 +549,6 @@
             android:name=".module.laisportmine.view.MyPkListActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".module.bodygamest.view.PhotoViewActivity" />
-        <!--<activity android:name=".module.retest.view.AuditActivity" />-->
         <activity
             android:name=".module.mygrades.view.RankingDetailsActivity"
             android:screenOrientation="portrait" />
