@@ -14,6 +14,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygamest.Adapter.StudentScoreAdapter;
 import com.softtek.lai.module.bodygamest.model.CountWeekModel;
 import com.softtek.lai.module.bodygamest.model.HasClass;
+import com.softtek.lai.module.bodygamest.model.HonorModel;
 import com.softtek.lai.module.bodygamest.model.StudentHonorInfo;
 import com.softtek.lai.module.bodygamest.model.StudentScripInfo;
 import com.softtek.lai.module.bodygamest.net.StudentService;
@@ -104,9 +105,9 @@ public class StudentImpl implements IStudentPresenter {
     @Override
     public void getStudentHonor() {
         String token = UserInfoModel.getInstance().getToken();
-        studentService.getStudentHonor(token, new Callback<ResponseData<List<StudentHonorInfo>>>() {
+        studentService.getStudentHonor(token, new Callback<ResponseData<HonorModel>>() {
             @Override
-            public void success(ResponseData<List<StudentHonorInfo>> listResponseData, Response response) {
+            public void success(ResponseData<HonorModel> listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
                 switch (status) {

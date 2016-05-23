@@ -41,6 +41,6 @@ public interface IMessagePresenter {
     void getMessageRead(ImageView img_red);
 
     //检测手机是否已存在
-    void phoneIsExist(String mobile,ProgressDialog dialog);
+    void phoneIsExist(String mobile,ProgressDialog dialog,int id);
 
 }

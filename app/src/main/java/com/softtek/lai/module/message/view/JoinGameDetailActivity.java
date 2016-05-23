@@ -41,6 +41,7 @@ import com.softtek.lai.module.confirmInfo.model.GetConfirmInfoModel;
 import com.softtek.lai.module.confirmInfo.presenter.IUpConfirmInfopresenter;
 import com.softtek.lai.module.confirmInfo.presenter.UpConfirmInfoImpl;
 import com.softtek.lai.module.login.model.UserModel;
+import com.softtek.lai.module.message.model.CheckMobileEvent;
 import com.softtek.lai.module.message.model.MessageDetailInfo;
 import com.softtek.lai.module.message.model.PhotosModel;
 import com.softtek.lai.module.message.presenter.IMessagePresenter;
@@ -242,7 +243,6 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         upload();
 
     }
-
     @Subscribe
     public void onEvent(ConinfoEvent coninfoEvent) {
         System.out.println("classEvent.getPargradeModels()>>》》》》》》》》》》》》》》" + coninfoEvent.getConfirmInfoModel());
@@ -341,19 +341,17 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
             progressDialog = new ProgressDialog(this);
             progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.setMessage("正在检测手机号是否已注册");
-            et_phone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            et_nickname.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
                     System.out.println("hasFocus--------");
                     if (hasFocus) {
                         // 此处为得到焦点时的处理内容
-                    } else {
-                        // 此处为失去焦点时的处理内容
                         String phone = et_phone.getText().toString();
                         System.out.println("phone.length:"+phone.length());
                         if (phone.length() == 11) {
                             progressDialog.show();
-                            messagePresenter.phoneIsExist(phone, progressDialog);
+                            messagePresenter.phoneIsExist(phone, progressDialog,0);
                         }
                     }
                 }
@@ -370,15 +368,155 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
             pargradeNamelList.add(cl.getClassName());
         }
     }
+    @Subscribe
+    public void onEvent(CheckMobileEvent event) {
+        boolean b=event.isB();
+        if(b){
+            return;
+        }else {
+            switch (event.getId()) {
+                case R.id.ll_left:
+                    finish();
+                    break;
+                case R.id.fl_right:
+                    validateLife.validate();
+                    break;
+                case R.id.btn_Add_bodydimension:
+                    Intent intent = new Intent(this, JoinGameDimensionRecordActivity.class);
+                    intent.putExtra("getConfirmInfoModel", getConfirmInfoModel);
+                    if ("1".equals(type)) {
+                        intent.putExtra("type", "1");
+                    } else {
+                        intent.putExtra("type", "0");
+                    }
+                    startActivityForResult(intent, 108);
+                    break;
+                case R.id.img_delete:
+                    img1.setImageResource(android.R.color.transparent);
+                    change_photo = "";
+                    upload_photo = "";
+                    img1.setVisibility(View.GONE);
+                    img_delete.setVisibility(View.GONE);
+                    break;
+                case R.id.img_photoupload:
+                    //弹出dialog
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setItems(items, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (which == 0) {
+                                //拍照
+                                imageFileCropSelector.takePhoto(JoinGameDetailActivity.this);
+                            } else if (which == 1) {
+                                //照片
+                                imageFileCropSelector.selectImage(JoinGameDetailActivity.this);
+                            }
+                        }
+                    }).create().show();
+                    break;
+                case R.id.ll_class:
+                    if (pargradeNamelList.size() != 0) {
+                        show_class_dialog();
+                    } else {
+                        Util.toastMsg("当前没有班级");
+                    }
+                    break;
+                case R.id.ll_weight:
+                    show_weight_dialog();
+                    break;
+                case R.id.ll_tizhi:
+                    show_pysical_dialog();
+                    break;
+                case R.id.ll_neizhi:
+                    show_fat_dialog();
+                    break;
+                case R.id.ll_birthday:
+                    show_birth_dialog();
+                    break;
+                case R.id.ll_sex:
+                    showGradeDialog();
+                    break;
+            }
+        }
+    }
 
+    private void checkPhone(int id){
+        String phone = et_phone.getText().toString();
+        System.out.println("phone.length:"+phone.length());
+        if (phone.length() == 11) {
+            progressDialog.show();
+            messagePresenter.phoneIsExist(phone, progressDialog,id);
+        }else {
+            switch (id) {
+                case R.id.ll_left:
+                    finish();
+                    break;
+                case R.id.fl_right:
+                    validateLife.validate();
+                    break;
+                case R.id.btn_Add_bodydimension:
+                    Intent intent = new Intent(this, JoinGameDimensionRecordActivity.class);
+                    intent.putExtra("getConfirmInfoModel", getConfirmInfoModel);
+                    if ("1".equals(type)) {
+                        intent.putExtra("type", "1");
+                    } else {
+                        intent.putExtra("type", "0");
+                    }
+                    startActivityForResult(intent, 108);
+                    break;
+                case R.id.img_delete:
+                    img1.setImageResource(android.R.color.transparent);
+                    change_photo = "";
+                    upload_photo = "";
+                    img1.setVisibility(View.GONE);
+                    img_delete.setVisibility(View.GONE);
+                    break;
+                case R.id.img_photoupload:
+                    //弹出dialog
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setItems(items, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (which == 0) {
+                                //拍照
+                                imageFileCropSelector.takePhoto(JoinGameDetailActivity.this);
+                            } else if (which == 1) {
+                                //照片
+                                imageFileCropSelector.selectImage(JoinGameDetailActivity.this);
+                            }
+                        }
+                    }).create().show();
+                    break;
+                case R.id.ll_class:
+                    if (pargradeNamelList.size() != 0) {
+                        show_class_dialog();
+                    } else {
+                        Util.toastMsg("当前没有班级");
+                    }
+                    break;
+                case R.id.ll_weight:
+                    show_weight_dialog();
+                    break;
+                case R.id.ll_tizhi:
+                    show_pysical_dialog();
+                    break;
+                case R.id.ll_neizhi:
+                    show_fat_dialog();
+                    break;
+                case R.id.ll_birthday:
+                    show_birth_dialog();
+                    break;
+                case R.id.ll_sex:
+                    showGradeDialog();
+                    break;
+            }
+        }
+    }
     @Override
     public void onClick(View v) {
-        ll_tizhi.setFocusable(true);
-        ll_tizhi.setFocusableInTouchMode(true);
-        ll_tizhi.requestFocus();
-        ll_tizhi.findFocus();
-
-        et_phone.clearFocus();
+        if(v.getId()!= R.id.ll_left ||v.getId()!= R.id.fl_right){
+            checkPhone(v.getId());
+        }
         switch (v.getId()) {
             case R.id.ll_left:
                 finish();
@@ -386,63 +524,6 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
             case R.id.fl_right:
                 validateLife.validate();
                 break;
-            case R.id.btn_Add_bodydimension:
-                Intent intent = new Intent(this, JoinGameDimensionRecordActivity.class);
-                intent.putExtra("getConfirmInfoModel", getConfirmInfoModel);
-                if ("1".equals(type)) {
-                    intent.putExtra("type", "1");
-                } else {
-                    intent.putExtra("type", "0");
-                }
-                startActivityForResult(intent, 108);
-                break;
-            case R.id.img_delete:
-                img1.setImageResource(android.R.color.transparent);
-                change_photo = "";
-                upload_photo = "";
-                img1.setVisibility(View.GONE);
-                img_delete.setVisibility(View.GONE);
-                break;
-            case R.id.img_photoupload:
-                //弹出dialog
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setItems(items, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (which == 0) {
-                            //拍照
-                            imageFileCropSelector.takePhoto(JoinGameDetailActivity.this);
-                        } else if (which == 1) {
-                            //照片
-                            imageFileCropSelector.selectImage(JoinGameDetailActivity.this);
-                        }
-                    }
-                }).create().show();
-                break;
-            case R.id.ll_class:
-                if (pargradeNamelList.size() != 0) {
-                    show_class_dialog();
-                } else {
-                    Util.toastMsg("当前没有班级");
-                }
-                break;
-            case R.id.ll_weight:
-                show_weight_dialog();
-                break;
-            case R.id.ll_tizhi:
-                show_pysical_dialog();
-                break;
-            case R.id.ll_neizhi:
-                show_fat_dialog();
-                break;
-            case R.id.ll_birthday:
-                show_birth_dialog();
-                break;
-            case R.id.ll_sex:
-                showGradeDialog();
-                break;
-
-
         }
     }
 

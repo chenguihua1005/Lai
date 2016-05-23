@@ -27,6 +27,7 @@ import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygamest.Adapter.StudentHonorJZAdapter;
 import com.softtek.lai.module.bodygamest.Adapter.StudentHonorStarAdapter;
 import com.softtek.lai.module.bodygamest.Adapter.StudentHonorYGJAdapter;
+import com.softtek.lai.module.bodygamest.model.HonorModel;
 import com.softtek.lai.module.bodygamest.model.StudentHonorInfo;
 import com.softtek.lai.module.bodygamest.present.IStudentPresenter;
 import com.softtek.lai.module.bodygamest.present.StudentImpl;
@@ -138,10 +139,11 @@ public class StudentHonorGridActivity extends BaseActivity implements View.OnCli
     }
 
     @Subscribe
-    public void onEvent(List<StudentHonorInfo> studentHonorList) {
-        System.out.println("studentHonorList:" + studentHonorList);
-        for (int i = 0; i < studentHonorList.size(); i++) {
-            StudentHonorInfo studentHonorInfo = studentHonorList.get(i);
+    public void onEvent(HonorModel honorModel) {
+        System.out.println("honorModel:" + honorModel);
+        List<StudentHonorInfo> table1=honorModel.getTable1();
+        for (int i = 0; i < table1.size(); i++) {
+            StudentHonorInfo studentHonorInfo = table1.get(i);
             String honorType = studentHonorInfo.getHonorType().toString();
             if ("0".equals(honorType)) {
                 jz_list.add(studentHonorInfo);
