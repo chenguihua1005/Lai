@@ -8,7 +8,6 @@ package com.softtek.lai.module.bodygamest.view;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -26,7 +25,6 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.bodygame.model.FuceNumModel;
 import com.softtek.lai.module.bodygame.model.TiGuanSaiModel;
 import com.softtek.lai.module.bodygame.model.TotolModel;
 import com.softtek.lai.module.bodygame.presenter.ITiGuanSai;
@@ -37,7 +35,6 @@ import com.softtek.lai.module.bodygamest.present.IStudentPresenter;
 import com.softtek.lai.module.bodygamest.present.StudentImpl;
 import com.softtek.lai.module.counselor.view.GameActivity;
 import com.softtek.lai.module.home.view.HomeActviity;
-import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.lossweightstory.view.LossWeightStoryActivity;
 import com.softtek.lai.module.message.presenter.IMessagePresenter;
 import com.softtek.lai.module.message.presenter.MessageImpl;
@@ -305,32 +302,8 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
     public void onClick(View v) {
 
         final int id = v.getId();
-        if (id == R.id.fl_right || id == R.id.iv_email) {
-            String userroles = UserInfoModel.getInstance().getUser().getUserrole();
-            if (String.valueOf(Constants.VR).equals(userroles)) {
-                //提示用户让他登录或者直接进入2个功能的踢馆赛模块
-                AlertDialog.Builder information_dialog = null;
-                information_dialog = new AlertDialog.Builder(this);
-                information_dialog.setTitle("您当前处于游客模式，需要登录认证").setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent login = new Intent(BodyGamePCActivity.this, LoginActivity.class);
-                        login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(login);
-                    }
-                }).setNegativeButton("稍候", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                }).create().show();
-            } else {
-                startActivity(new Intent(BodyGamePCActivity.this, MessageActivity.class));
-            }
-           return;
-        }
-        if (id != R.id.ll_st_saikuang && id != R.id.ll_st_tipst && id != R.id.ll_left) {
+        if (id != R.id.ll_st_saikuang && id != R.id.ll_st_tipst && id != R.id.ll_left
+                && id != R.id.fl_right && id != R.id.iv_email && id != R.id.ll_st_rongyu) {
             dialogShow("检查中...");
             studentImpl.hasClass(new RequestCallback<ResponseData<HasClass>>() {
                 @Override
@@ -369,8 +342,7 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
                     break;
                 //提示
                 case R.id.ll_st_tipst:
-                    Intent intent2 = new Intent(this, TipsActivity.class);
-                    startActivity(intent2);
+                    startActivity(new Intent(this, TipsActivity.class));
                     break;
                 case R.id.ll_left:
                     String type = getIntent().getStringExtra("type");
@@ -380,6 +352,38 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
                         finish();
                     }
                     break;
+                case R.id.ll_st_rongyu:
+                    //荣誉榜
+                    dialogShow("检查中...");
+                    studentImpl.hasClass2(new RequestCallback<ResponseData<HasClass>>() {
+                        @Override
+                        public void success(ResponseData<HasClass> hasClassResponseData, Response response) {
+                            dialogDissmiss();
+                            if (hasClassResponseData.getStatus() == 200) {
+                                int ishave=Integer.parseInt(hasClassResponseData.getData().getIsHave());
+                                if(ishave==0){
+                                    //学员没有班级
+                                    new AlertDialog.Builder(BodyGamePCActivity.this).setTitle("温馨提示")
+                                            .setMessage("您目前还没有参加过班级").create().show();
+                                }else{
+                                    startActivity(new Intent(BodyGamePCActivity.this, StudentHonorGridActivity.class));
+                                }
+                            } else {
+                                Util.toastMsg(hasClassResponseData.getMsg());
+                            }
+                        }
+
+                        @Override
+                        public void failure(RetrofitError error) {
+                            dialogDissmiss();
+                            super.failure(error);
+                        }
+                    });
+                    break;
+                case R.id.fl_right:
+                case R.id.iv_email:
+                    startActivity(new Intent(BodyGamePCActivity.this, MessageActivity.class));
+                    break;
 
             }
         }
@@ -388,7 +392,7 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
 
     private void doStartActivity(int id) {
         switch (id) {
-            //点击跳转事件
+            //基本数据
             case R.id.ll_st_jibenshuju:
                 startActivity(new Intent(this, StudentBaseDateActivity.class));
                 break;
@@ -399,11 +403,8 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
                 break;
             //复测
             case R.id.ll_st_fuce:
-                //retestPre.doGetAudit(loginid,0,"");
                 if (flag) {
                     startActivityForResult(new Intent(this, FuceStActivity.class), Student_reteset);
-//                    Intent intent1 = new Intent(this, FuceStActivity.class);
-//                    startActivity(intent1);
                 } else {
                     new AlertDialog.Builder(BodyGamePCActivity.this).setTitle("提示")
                             .setMessage("复测审核中……").create().show();
@@ -418,10 +419,7 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
             case R.id.ll_st_chengjidan:
                 startActivity(new Intent(this, StudentScoresActivity.class));
                 break;
-            //荣誉榜
-            case R.id.ll_st_rongyu:
-                startActivity(new Intent(this, StudentHonorGridActivity.class));
-                break;
+
         }
     }
 
@@ -430,7 +428,6 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
         super.onActivityResult(requestCode, resultCode, data);
         //学员复测传递
         if (requestCode == Student_reteset && resultCode == RESULT_OK) {
-            //retestPre.doGetAudit(loginid,0,"");
             flag = false;
         }
     }

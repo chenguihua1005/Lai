@@ -133,6 +133,10 @@ public class StudentImpl implements IStudentPresenter {
         studentService.hasClass(token, callback);
     }
 
+    public void hasClass2(RequestCallback<ResponseData<HasClass>> callback){
+        String token = UserInfoModel.getInstance().getToken();
+        studentService.hasClass2(token, callback);
+    }
     public void pcIsJoinClass(String accountid, RequestCallback<ResponseData<HasClass>> callback) {
         String token = UserInfoModel.getInstance().getToken();
         studentService.pcIsJoinClass(token, accountid, callback);
