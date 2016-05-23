@@ -1,10 +1,10 @@
-package com.softtek.lai.module.sport.net;
+package com.softtek.lai.module.group.net;
 
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.sport.model.CityModel;
-import com.softtek.lai.module.sport.model.DxqModel;
-import com.softtek.lai.module.sport.model.GroupModel;
-import com.softtek.lai.module.sport.model.SportMainModel;
+import com.softtek.lai.module.group.model.CityModel;
+import com.softtek.lai.module.group.model.DxqModel;
+import com.softtek.lai.module.group.model.GroupModel;
+import com.softtek.lai.module.group.model.SportMainModel;
 import com.softtek.lai.utils.RequestCallback;
 
 import java.util.List;

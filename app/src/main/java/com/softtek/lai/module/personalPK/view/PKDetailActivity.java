@@ -21,7 +21,7 @@ import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.personalPK.adapter.PKListAdapter;
 import com.softtek.lai.module.personalPK.model.PKDetailMold;
 import com.softtek.lai.module.personalPK.presenter.PKListManager;
-import com.softtek.lai.module.sport.view.GroupMainActivity;
+import com.softtek.lai.module.group.view.GroupMainActivity;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.StringUtil;

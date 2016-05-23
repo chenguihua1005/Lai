@@ -38,7 +38,7 @@ public class StudentScoresActivity extends BaseActivity implements View.OnClickL
     private ScoresFragmentAdapter adapter;
 
     private NewScoresFragment newScoresFragment;
-    private ActFragment actFragment;
+    private OldScoresFragment oldScoresFragment;
 
     @Override
     protected void initViews() {
@@ -48,10 +48,10 @@ public class StudentScoresActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void initDatas() {
         tv_title.setText("成绩单");
-        actFragment = new ActFragment();
+        oldScoresFragment = new OldScoresFragment();
         newScoresFragment = new NewScoresFragment();
         fragments.add(newScoresFragment);
-        fragments.add(actFragment);
+        fragments.add(oldScoresFragment);
         adapter = new ScoresFragmentAdapter(getSupportFragmentManager(), fragments);
         tab_content.setAdapter(adapter);
         tab.setupWithViewPager(tab_content);

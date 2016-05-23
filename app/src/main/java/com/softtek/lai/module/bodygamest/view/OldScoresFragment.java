@@ -20,7 +20,7 @@ import zilla.libcore.ui.InjectLayout;
 /**
  * Created by jarvis on 4/27/2016.
  */
-@InjectLayout(R.layout.activity_student_score)
+@InjectLayout(R.layout.activity_history_class)
 public class OldScoresFragment extends BaseFragment implements ScoreManager.GetClassListCallBack {
     @InjectView(R.id.list_student_score)
     ListView list_student_score;

@@ -7,15 +7,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.act.model.ActDetailModel;
 import com.softtek.lai.module.act.model.ActivityModel;
 import com.softtek.lai.module.act.net.ActService;
-import com.softtek.lai.module.sport.model.CityModel;
-import com.softtek.lai.module.sport.model.DxqModel;
-import com.softtek.lai.module.sport.model.GroupModel;
-import com.softtek.lai.module.sport.model.SportMainModel;
-import com.softtek.lai.module.sport.net.SportGroupService;
 import com.softtek.lai.utils.RequestCallback;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import retrofit.RetrofitError;
 import retrofit.client.Response;

@@ -99,6 +99,9 @@ public class StringUtil {
     public static String getFloatValue(String value){
         return StringUtils.isEmpty(value)||Float.parseFloat(value)==0?"0.0":Float.parseFloat(value)+"";
     }
+    public static String getDoubleValue(String value){
+        return StringUtils.isEmpty(value)||Float.parseFloat(value)==0?"0.00":Double.parseDouble(value)+"";
+    }
 
     public static float getFloat(String value){
         return StringUtils.isEmpty(value)?0.0f:Float.parseFloat(value);

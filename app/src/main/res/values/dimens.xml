@@ -156,6 +156,7 @@
     <dimen name="textSize11">24sp</dimen>
     <dimen name="textSize12">9sp</dimen>
     <dimen name="textSize13">22sp</dimen>
+    <dimen name="textSize14">21sp</dimen>
 
     <dimen name="logStoryPic">79dp</dimen>
 </resources>

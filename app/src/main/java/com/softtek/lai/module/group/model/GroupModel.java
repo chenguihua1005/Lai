@@ -3,7 +3,7 @@
  * Date:2016-03-31
  */
 
-package com.softtek.lai.module.sport.model;
+package com.softtek.lai.module.group.model;
 
 import java.io.Serializable;
 

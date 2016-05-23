@@ -3,10 +3,9 @@
  * Date:2016-03-31
  */
 
-package com.softtek.lai.module.sport.view;
+package com.softtek.lai.module.group.view;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,7 +25,6 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.act.model.ActlistModel;
 import com.softtek.lai.module.act.view.ActActivity;
 import com.softtek.lai.module.act.view.ActListActivity;
 import com.softtek.lai.module.home.view.HomeActviity;
@@ -35,13 +33,11 @@ import com.softtek.lai.module.laisportmine.view.MyInformationActivity;
 import com.softtek.lai.module.mygrades.view.MyGradesActivity;
 import com.softtek.lai.module.personalPK.view.CreatePKActivity;
 import com.softtek.lai.module.personalPK.view.PKListActivity;
-import com.softtek.lai.module.sport.adapter.GroupAdapter;
-import com.softtek.lai.module.sport.adapter.GroupMainActiuvityAdapter;
-import com.softtek.lai.module.sport.model.GroupModel;
-import com.softtek.lai.module.sport.model.PraiseChallengeModel;
-import com.softtek.lai.module.sport.model.RecentlyActiviteModel;
-import com.softtek.lai.module.sport.model.SportMainModel;
-import com.softtek.lai.module.sport.presenter.SportGroupManager;
+import com.softtek.lai.module.group.adapter.GroupMainActiuvityAdapter;
+import com.softtek.lai.module.group.model.PraiseChallengeModel;
+import com.softtek.lai.module.group.model.RecentlyActiviteModel;
+import com.softtek.lai.module.group.model.SportMainModel;
+import com.softtek.lai.module.group.presenter.SportGroupManager;
 import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;

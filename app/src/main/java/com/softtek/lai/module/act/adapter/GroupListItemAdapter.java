@@ -17,7 +17,6 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.act.model.ActlistModel;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
-import com.softtek.lai.module.sport.model.RecentlyActiviteModel;
 import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;

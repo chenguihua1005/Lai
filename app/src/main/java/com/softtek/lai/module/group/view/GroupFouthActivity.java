@@ -3,7 +3,7 @@
  * Date:2016-03-31
  */
 
-package com.softtek.lai.module.sport.view;
+package com.softtek.lai.module.group.view;
 
 
 import android.content.Intent;
@@ -21,9 +21,9 @@ import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
-import com.softtek.lai.module.sport.adapter.GroupAdapter;
-import com.softtek.lai.module.sport.model.GroupModel;
-import com.softtek.lai.module.sport.presenter.SportGroupManager;
+import com.softtek.lai.module.group.adapter.GroupAdapter;
+import com.softtek.lai.module.group.model.GroupModel;
+import com.softtek.lai.module.group.presenter.SportGroupManager;
 
 import java.util.ArrayList;
 import java.util.List;

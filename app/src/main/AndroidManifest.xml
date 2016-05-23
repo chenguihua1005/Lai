@@ -173,6 +173,9 @@
             android:name=".module.bodygamest.view.StudentScoresActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".module.sport.view.HistorySportListActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".module.jingdu.view.JingduActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -284,25 +287,25 @@
             android:name=".module.tips.view.TipsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.sport.view.JoinGroupActivity"
+            android:name=".module.group.view.JoinGroupActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.sport.view.GroupSecActivity"
+            android:name=".module.group.view.GroupSecActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.sport.view.GroupThirdActivity"
+            android:name=".module.group.view.GroupThirdActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.sport.view.GroupFouthActivity"
+            android:name=".module.group.view.GroupFouthActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.sport.view.GroupFifthActivity"
+            android:name=".module.group.view.GroupFifthActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.sport.view.GroupSearchActivity"
+            android:name=".module.group.view.GroupSearchActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.sport.view.GroupMainActivity"
+            android:name=".module.group.view.GroupMainActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTask"/>
         <activity
