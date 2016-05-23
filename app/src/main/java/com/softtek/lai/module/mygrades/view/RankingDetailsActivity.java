@@ -123,19 +123,21 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
                     //获取list的值------------
                     tv_rungroupname.setText("跑团排名");
 
-                    biaozhi=0;
+                    //biaozhi=0;
                     DayRankFragment dayRankFragment=new DayRankFragment();
                     Bundle bundle1 = new Bundle();
-                    bundle1.putInt("id",biaozhi);
+                    bundle1.putInt("id",0);
                     dayRankFragment.setArguments(bundle1);
                     fragments.add(dayRankFragment);
                     WeekRankFragment weekRankFragment=new WeekRankFragment();
                     Bundle bundle2 = new Bundle();
-                    bundle2.putInt("id", biaozhi);
+                    bundle2.putInt("id", 0);
                     weekRankFragment.setArguments(bundle2);
                     fragments.add(weekRankFragment);
                     tab_content.setAdapter(new TabContentAdapter(getSupportFragmentManager(),fragments));
                     tab.setupWithViewPager(tab_content);
+                    //tab_content.getCurrentItem();
+
                     //flag判断是我的日排名还是周排名
                     Intent intent=getIntent();
                     int flag=intent.getIntExtra("flag",1);
@@ -150,15 +152,15 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
                     RL_rungroup.setVisibility(View.INVISIBLE);
                     //获取list的值------------
                     tv_rungroupname.setText("全国排名");
-                    biaozhi=1;
+                  //  biaozhi=1;
                     DayRankFragment dayRankFragment=new DayRankFragment();
                     Bundle bundle1 = new Bundle();
-                    bundle1.putInt("id",biaozhi);
+                    bundle1.putInt("id",1);
                     dayRankFragment.setArguments(bundle1);
                     fragments.add(dayRankFragment);
                     WeekRankFragment weekRankFragment=new WeekRankFragment();
                     Bundle bundle2 = new Bundle();
-                    bundle2.putInt("id", biaozhi);
+                    bundle2.putInt("id", 1);
                     weekRankFragment.setArguments(bundle2);
                     fragments.add(weekRankFragment);
 
@@ -219,26 +221,45 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
         tv_title.setText("排名详情");
         Rl_list.setOnClickListener(this);
         //根据标志flag，判断是日排名（0）还是周排名（1），加载fragment
-//        manager = getFragmentManager();
-//        DayRankFragment dayRankFragment=new DayRankFragment();
-//        Bundle bundle1 = new Bundle();
-//        bundle1.putInt("id",biaozhi);
-//        Log.i("------------bundle1...biaozhi:"+biaozhi);
-//        dayRankFragment.setArguments(bundle1);
-//        fragments.add(dayRankFragment);
-//
-//        WeekRankFragment weekRankFragment=new WeekRankFragment();
-//        Bundle bundle2 = new Bundle();
-//        bundle2.putInt("id", biaozhi);
-//        Log.i("------------bundle2...biaozhi:"+biaozhi);
-//        weekRankFragment.setArguments(bundle2);
-//        fragments.add(weekRankFragment);
-//
-//        tab_content.setAdapter(new TabContentAdapter(getSupportFragmentManager(),fragments));
-//        tab.setupWithViewPager(tab_content);
-//        Intent intent=getIntent();
-//        int flag=intent.getIntExtra("flag",0);
-//        tab_content.setCurrentItem(flag);
+        //0跑团排名，1全国排名
+        manager = getFragmentManager();
+        DayRankFragment dayRankFragment=new DayRankFragment();
+        Bundle bundle1 = new Bundle();
+        bundle1.putInt("id",0);
+       // Log.i("-----------------------bundle1...biaozhi:"+biaozhi);
+        dayRankFragment.setArguments(bundle1);
+        fragments.add(dayRankFragment);
+
+        WeekRankFragment weekRankFragment=new WeekRankFragment();
+        Bundle bundle2 = new Bundle();
+        bundle2.putInt("id", 0);
+       // Log.i("----------------------bundle2...biaozhi:"+biaozhi);
+        weekRankFragment.setArguments(bundle2);
+        fragments.add(weekRankFragment);
+
+        tab_content.setAdapter(new TabContentAdapter(getSupportFragmentManager(),fragments));
+//        tab_content.addOnPageChangeListener(this);
+        tab.setupWithViewPager(tab_content);
+        //模式滚动
+        //tab.setTabMode(TabLayout.MODE_SCROLLABLE);
+//        设置屏幕页面限制
+//        tab_content.setOffscreenPageLimit(9);
+        Intent intent=getIntent();
+        int flag=intent.getIntExtra("flag",0);
+        tab_content.setCurrentItem(flag);
+    }
+
+    public void onPageSelected(int position) {
+            Log.i("页面切换到===》"+position);
+            switch (position)
+            {
+                case 0:
+                    ((DayRankFragment)fragments.get(0)).updateDayRankStatus();
+                    break;
+                case 1:
+                    ((WeekRankFragment)fragments.get(1)).updateWeekRankStatus();
+                    break;
+            }
     }
 
     @Override

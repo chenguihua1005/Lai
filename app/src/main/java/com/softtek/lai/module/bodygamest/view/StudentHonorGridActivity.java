@@ -27,7 +27,9 @@ import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygamest.Adapter.StudentHonorJZAdapter;
 import com.softtek.lai.module.bodygamest.Adapter.StudentHonorStarAdapter;
 import com.softtek.lai.module.bodygamest.Adapter.StudentHonorYGJAdapter;
+import com.softtek.lai.module.bodygamest.model.HonorModel;
 import com.softtek.lai.module.bodygamest.model.StudentHonorInfo;
+import com.softtek.lai.module.bodygamest.model.StudentHonorTypeInfo;
 import com.softtek.lai.module.bodygamest.present.IStudentPresenter;
 import com.softtek.lai.module.bodygamest.present.StudentImpl;
 import com.softtek.lai.utils.ACache;
@@ -43,6 +45,7 @@ import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 /**
  * Created by jarvis.liu on 3/22/2016.
@@ -107,6 +110,27 @@ public class StudentHonorGridActivity extends BaseActivity implements View.OnCli
     @InjectView(R.id.lin_star_right)
     LinearLayout lin_star_right;
 
+    @InjectView(R.id.lin_jz_value)
+    LinearLayout lin_jz_value;
+    @InjectView(R.id.lin_jz_sm)
+    LinearLayout lin_jz_sm;
+
+    @InjectView(R.id.lin_fc_value)
+    LinearLayout lin_fc_value;
+    @InjectView(R.id.lin_fc_sm)
+    LinearLayout lin_fc_sm;
+
+    @InjectView(R.id.lin_ygj_value)
+    LinearLayout lin_ygj_value;
+    @InjectView(R.id.lin_ygj_sm)
+    LinearLayout lin_ygj_sm;
+
+    @InjectView(R.id.lin_star_value)
+    LinearLayout lin_star_value;
+    @InjectView(R.id.lin_star_sm)
+    LinearLayout lin_star_sm;
+
+
 
     private IStudentPresenter studentHonorPresenter;
     private ACache aCache;
@@ -138,10 +162,16 @@ public class StudentHonorGridActivity extends BaseActivity implements View.OnCli
     }
 
     @Subscribe
-    public void onEvent(List<StudentHonorInfo> studentHonorList) {
-        System.out.println("studentHonorList:" + studentHonorList);
-        for (int i = 0; i < studentHonorList.size(); i++) {
-            StudentHonorInfo studentHonorInfo = studentHonorList.get(i);
+    public void onEvent(HonorModel honorModel) {
+        System.out.println("honorModel:" + honorModel);
+        List<StudentHonorInfo> table1=honorModel.getTable1();
+        List<StudentHonorTypeInfo> table2=honorModel.getTable2();
+        String type=table2.get(0).getIsHave();
+        if("3".equals(type)){
+            Util.toastMsg("新的班级开始了, 您可以在成绩单的往期成绩中查看之前获得的勋章.");
+        }
+        for (int i = 0; i < table1.size(); i++) {
+            StudentHonorInfo studentHonorInfo = table1.get(i);
             String honorType = studentHonorInfo.getHonorType().toString();
             if ("0".equals(honorType)) {
                 jz_list.add(studentHonorInfo);
@@ -154,8 +184,12 @@ public class StudentHonorGridActivity extends BaseActivity implements View.OnCli
             }
         }
 
-        if (fc_list.size() == 0) {
+        lin_fc_value.setVisibility(View.VISIBLE);
+        lin_fc_sm.setVisibility(View.GONE);
 
+        if (fc_list.size() == 0) {
+            lin_fc_value.setVisibility(View.GONE);
+            lin_fc_sm.setVisibility(View.VISIBLE);
         } else if (fc_list.size() == 1) {
             img_fc_1.setImageResource(R.drawable.img_student_honor_tong);
         } else if (fc_list.size() == 2) {
@@ -170,15 +204,36 @@ public class StudentHonorGridActivity extends BaseActivity implements View.OnCli
 
         setGridView();
 
+        if(jz_list.size()==0){
+            lin_jz_value.setVisibility(View.GONE);
+            lin_jz_sm.setVisibility(View.VISIBLE);
+        }else {
+            lin_jz_value.setVisibility(View.VISIBLE);
+            lin_jz_sm.setVisibility(View.GONE);
+            StudentHonorJZAdapter jz_adapter = new StudentHonorJZAdapter(this, jz_list);
+            list_jz.setAdapter(jz_adapter);
+        }
 
-        StudentHonorJZAdapter jz_adapter = new StudentHonorJZAdapter(this, jz_list);
-        list_jz.setAdapter(jz_adapter);
+        if(ygj_list.size()==0){
+            lin_ygj_value.setVisibility(View.GONE);
+            lin_ygj_sm.setVisibility(View.VISIBLE);
+        }else {
+            lin_ygj_value.setVisibility(View.VISIBLE);
+            lin_ygj_sm.setVisibility(View.GONE);
+            StudentHonorYGJAdapter ygj_adapter = new StudentHonorYGJAdapter(this, ygj_list);
+            list_ygj.setAdapter(ygj_adapter);
+        }
 
-        StudentHonorYGJAdapter ygj_adapter = new StudentHonorYGJAdapter(this, ygj_list);
-        list_ygj.setAdapter(ygj_adapter);
+        if(star_list.size()==0){
+            lin_star_value.setVisibility(View.GONE);
+            lin_star_sm.setVisibility(View.VISIBLE);
+        }else {
+            lin_star_value.setVisibility(View.VISIBLE);
+            lin_star_sm.setVisibility(View.GONE);
+            StudentHonorStarAdapter star_adapter = new StudentHonorStarAdapter(this, star_list);
+            list_star.setAdapter(star_adapter);
+        }
 
-        StudentHonorStarAdapter star_adapter = new StudentHonorStarAdapter(this, star_list);
-        list_star.setAdapter(star_adapter);
     }
 
     /**

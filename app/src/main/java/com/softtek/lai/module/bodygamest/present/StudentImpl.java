@@ -14,7 +14,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygamest.Adapter.StudentScoreAdapter;
 import com.softtek.lai.module.bodygamest.model.CountWeekModel;
 import com.softtek.lai.module.bodygamest.model.HasClass;
-import com.softtek.lai.module.bodygamest.model.StudentHonorInfo;
+import com.softtek.lai.module.bodygamest.model.HonorModel;
 import com.softtek.lai.module.bodygamest.model.StudentScripInfo;
 import com.softtek.lai.module.bodygamest.net.StudentService;
 import com.softtek.lai.utils.RequestCallback;
@@ -27,7 +27,6 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
-import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.util.Util;
 
 /**
@@ -104,9 +103,9 @@ public class StudentImpl implements IStudentPresenter {
     @Override
     public void getStudentHonor() {
         String token = UserInfoModel.getInstance().getToken();
-        studentService.getStudentHonor(token, new Callback<ResponseData<List<StudentHonorInfo>>>() {
+        studentService.getStudentHonor(token, new Callback<ResponseData<HonorModel>>() {
             @Override
-            public void success(ResponseData<List<StudentHonorInfo>> listResponseData, Response response) {
+            public void success(ResponseData<HonorModel> listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
                 switch (status) {
@@ -132,6 +131,10 @@ public class StudentImpl implements IStudentPresenter {
         studentService.hasClass(token, callback);
     }
 
+    public void hasClass2(RequestCallback<ResponseData<HasClass>> callback){
+        String token = UserInfoModel.getInstance().getToken();
+        studentService.hasClass2(token, callback);
+    }
     public void pcIsJoinClass(String accountid, RequestCallback<ResponseData<HasClass>> callback) {
         String token = UserInfoModel.getInstance().getToken();
         studentService.pcIsJoinClass(token, accountid, callback);

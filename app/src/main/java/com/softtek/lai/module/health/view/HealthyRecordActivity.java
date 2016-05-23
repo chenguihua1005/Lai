@@ -39,7 +39,6 @@ public class HealthyRecordActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void initViews() {
-
         ll_left.setOnClickListener(this);
         tv_title.setText("历史数据");
     }

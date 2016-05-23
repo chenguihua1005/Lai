@@ -26,6 +26,7 @@ import com.softtek.lai.module.counselor.net.CounselorService;
 import com.softtek.lai.module.counselor.presenter.IGamePresenter;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.login.view.LoginActivity;
+import com.softtek.lai.module.message.model.CheckMobileEvent;
 import com.softtek.lai.module.message.model.MessageDetailInfo;
 import com.softtek.lai.module.message.model.MessageModel;
 import com.softtek.lai.module.message.net.MessageService;
@@ -275,7 +276,7 @@ public class MessageImpl implements IMessagePresenter {
     }
 
     @Override
-    public void phoneIsExist(String mobile, final ProgressDialog dialog) {
+    public void phoneIsExist(String mobile, final ProgressDialog dialog, final int id) {
         String token = UserInfoModel.getInstance().getToken();
         messageService.phoneIsExist(token, mobile, new Callback<ResponseData>() {
             @Override
@@ -285,10 +286,13 @@ public class MessageImpl implements IMessagePresenter {
                 dialog.dismiss();
                 switch (status) {
                     case 200:
+                        CheckMobileEvent checkMobileEvent=new CheckMobileEvent(id,true);
+                        EventBus.getDefault().post(checkMobileEvent);
                         Util.toastMsg(listResponseData.getMsg());
                         break;
                     case 100:
-
+                        CheckMobileEvent event=new CheckMobileEvent(id,false);
+                        EventBus.getDefault().post(event);
                         break;
                     default:
                         Util.toastMsg(listResponseData.getMsg());
