@@ -40,8 +40,17 @@ public class GuideActivity extends BaseActivity implements Runnable{
         //检查是否存在token
         token= UserInfoModel.getInstance().getToken();
         Log.i("token="+token);
-        new Handler().postDelayed(this,1500);
+        if (StringUtils.isEmpty(token)){
+            checks();
+        }else{
+            new Handler().postDelayed(this,1500);
+        }
     }
+    //执行token不为空的情况
+    private void checks(){
+
+    }
+
 
     @Override
     public void run() {
