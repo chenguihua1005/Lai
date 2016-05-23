@@ -2,6 +2,7 @@ package com.softtek.lai.module.mygrades.view;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -34,6 +35,7 @@ import zilla.libcore.util.Util;
 
 /**
  * Created by julie.zhu on 5/16/2016.
+ * 日排名选项卡
  */
 @InjectLayout(R.layout.fagment_rank_sport)
 public class DayRankFragment extends BaseFragment {
@@ -59,15 +61,11 @@ public class DayRankFragment extends BaseFragment {
 
     private IGradesPresenter iGradesPresenter;
     private GradesService gradesService;
+    private FragmentManager manager;
+
 
     @Override
     protected void initViews() {
-        rankAdapter = new RankAdapter(getContext(),orderDataModelList);
-        list_rank.setAdapter(rankAdapter);
-    }
-
-    @Override
-    protected void initDatas() {
         iGradesPresenter = new GradesImpl();
         gradesService= ZillaApi.NormalRestAdapter.create(GradesService.class);
 
@@ -75,12 +73,47 @@ public class DayRankFragment extends BaseFragment {
         int str=bundle1.getInt("id");
         Log.i("---------------------Daystr----------------"+str);
 
-        //跑团1，全国0
-        getCurrentDateOrder(0);
-        //getCurrentDateOrder(1);
+//        //listview str 0跑团，1全国
+//        //接口信息：跑团数据1，全国数据0
+//        if (str==0){
+//            getCurrentDateOrder(1);
+//        }else  if (str==1){
+//            getCurrentDateOrder(0);
+//        }else {
+//            getCurrentDateOrder(1);
+//        }
+
+
+        //listview str 0跑团，1全国
+        //接口信息：跑团数据1，全国数据0
+        if (str==0){
+            getCurrentDateOrder(1);
+        }
+        if (str==1){
+            getCurrentDateOrder(0);
+        }
+
+
+        rankAdapter = new RankAdapter(getContext(),orderDataModelList);
+        list_rank.setAdapter(rankAdapter);
+        manager = getActivity().getFragmentManager();
+        Log.i("----DayRankFragment....................>"+manager.toString());
+
     }
 
+    @Override
+    protected void initDatas() {
 
+
+    }
+
+    public void updata() {
+
+        //clubName.setText(clubname);
+
+
+
+    }
 
     public void getCurrentDateOrder(int RGIdType) {
         String token = SharedPreferenceService.getInstance().get("token", "");
@@ -124,7 +157,7 @@ public class DayRankFragment extends BaseFragment {
                         if (dayRankModelResponseData.getData().getOrderData().isEmpty()){
                             //Util.toastMsg("我的日排名--暂无数据");
                         }else {
-                            orderDataModelList = dayRankModel.getOrderData();
+                            orderDataModelList = dayRankModelResponseData.getData().getOrderData();
                             rankAdapter.updateData(orderDataModelList);
                         }
                          //Util.toastMsg("我的日排名--查询正确");

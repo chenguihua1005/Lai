@@ -7,72 +7,6 @@
     android:background="#F0F0F2"
     android:fitsSystemWindows="true"
     tools:context="com.softtek.lai.module.grade.view.GradeHomeActivity">
-    <!-- toolbar-->
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/mytoolbar_green"
-        android:fitsSystemWindows="true"
-        android:minHeight="?attr/actionBarSize">
-
-        <LinearLayout
-            android:id="@+id/ll_left"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="left"
-            android:gravity="center">
-
-            <TextView
-                android:id="@+id/tv_left"
-                android:layout_width="10dp"
-                android:layout_height="25dp"
-                android:layout_marginLeft="-18dp"
-                android:background="@drawable/back"
-                android:textColor="#ffffff"
-                />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="220dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tv_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:singleLine="true"
-                android:text="哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈"
-                android:ellipsize="middle"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/tv_title_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="@color/white"
-                android:text="2014年3月20-2014年3月20"
-                android:textSize="14sp" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/tv_editor"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="right"
-            android:layout_marginRight="5dp"
-            android:gravity="center"
-            android:text="编辑图片"
-            android:textColor="@color/white"
-            android:textSize="14sp" />
-    </android.support.v7.widget.Toolbar>
-
     <!-- fooder-->
     <LinearLayout
         android:id="@+id/ll_fooder"
@@ -175,23 +109,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/ll_fooder"
-        android:layout_below="@id/toolbar"
+        android:layout_marginTop="30dp"
         android:background="@color/white"
         android:orientation="vertical">
 
         <ImageView
             android:id="@+id/iv_banner"
             android:layout_width="match_parent"
-            android:layout_height="160dp"
+            android:layout_height="180dp"
             android:layout_below="@+id/toolbar"
-            android:scaleType="fitCenter"
             android:background="#F3F1F2"
             android:src="@drawable/default_icon_rect"/>
         <!-- 助教-->
         <LinearLayout
             android:id="@+id/ll_sr"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:background="@drawable/ll_selector"
             android:orientation="horizontal">
 
@@ -202,7 +135,7 @@
                 android:gravity="center"
                 android:text="助教:"
                 android:textColor="#333333"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <FrameLayout
@@ -295,11 +228,11 @@
                     android:gravity="center"
                     android:text="0人"
                     android:textColor="#333333"
-                    android:textSize="20sp" />
+                    android:textSize="16sp" />
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:scaleType="fitCenter"
                     android:src="@drawable/gradearrow" />
@@ -314,7 +247,7 @@
         <LinearLayout
             android:id="@+id/ll_pc"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:background="@drawable/ll_selector"
             android:orientation="horizontal">
 
@@ -325,7 +258,7 @@
                 android:gravity="center"
                 android:text="学员:"
                 android:textColor="#333333"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <FrameLayout
@@ -418,11 +351,11 @@
                     android:gravity="center"
                     android:text="0人"
                     android:textColor="#333333"
-                    android:textSize="20sp" />
+                    android:textSize="16sp" />
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:scaleType="fitCenter"
                     android:src="@drawable/gradearrow" />
@@ -436,13 +369,13 @@
         <!-- 班级动态-->
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:background="@color/grey1"
             android:gravity="center|left"
             android:paddingLeft="17dp"
+            android:textSize="12sp"
             android:text="班级动态"
-            android:textColor="#333333"
-            android:textStyle="bold" />
+            android:textColor="#333333"/>
 
         <View
             android:layout_width="match_parent"
@@ -460,4 +393,68 @@
             android:fadingEdge="none"
             android:scrollbars="none" />
     </LinearLayout>
+
+    <!-- toolbar-->
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/mytoolbar_green"
+        android:fitsSystemWindows="true"
+        android:minHeight="?attr/actionBarSize">
+
+        <LinearLayout
+            android:id="@+id/ll_left"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="left"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tv_left"
+                android:layout_width="10dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="-18dp"
+                android:background="@drawable/back"
+                android:textColor="#ffffff"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="220dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:singleLine="true"
+                android:ellipsize="middle"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/tv_title_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_editor"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:layout_marginRight="5dp"
+            android:gravity="center"
+            android:text="编辑图片"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+    </android.support.v7.widget.Toolbar>
 </RelativeLayout>

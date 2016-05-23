@@ -78,7 +78,10 @@ public class FatAdapter extends BaseAdapter {
         }
         if(studentModel.getIsTest()==1){//如果有复测数据
             holder.ll_content.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            holder.ll_show.setVisibility(View.VISIBLE);
             holder.tv_show.setVisibility(View.GONE);
+            holder.tv_physical.setVisibility(View.VISIBLE);
+            holder.tv_unit.setVisibility(View.VISIBLE);
             if(order==0){//表示没有录入数据
                 if(studentModel.getIsMemberOfAssistant()==1){//表示不能点击进入学员详情
                     holder.iv_arrow1.setVisibility(View.INVISIBLE);
@@ -105,6 +108,7 @@ public class FatAdapter extends BaseAdapter {
                 holder.no_show.setVisibility(View.GONE);
                 holder.ll_total_show.setVisibility(View.VISIBLE);
                 holder.ll_show.setVisibility(View.VISIBLE);
+
             }
 
         }else{//没有复测数据，则无法

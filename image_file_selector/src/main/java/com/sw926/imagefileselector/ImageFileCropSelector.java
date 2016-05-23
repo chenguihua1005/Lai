@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 
 import java.io.File;
 
@@ -20,6 +20,9 @@ public class ImageFileCropSelector {
     private ImageCaptureHelper mImageTaker;
     private ImageCompressHelper mImageCompressHelper;
     private ImageCropHelper mImageCropperHelper;
+
+    private Fragment mFragment = null;
+    private Activity mActivity = null;
 
     public ImageCropHelper getmImageCropperHelper() {
         return mImageCropperHelper;
@@ -44,7 +47,6 @@ public class ImageFileCropSelector {
         mImageTaker.setCallback(new ImageCaptureHelper.Callback() {
             @Override
             public void onSuccess(String file) {
-                AppLogger.d(TAG, "select image from camera: " + file);
                 handleResult(file, true);
             }
 
@@ -58,10 +60,7 @@ public class ImageFileCropSelector {
         mImageCompressHelper.setCallback(new ImageCompressHelper.CompressCallback() {
             @Override
             public void onCallBack(String outFile) {
-                AppLogger.d(TAG, "compress image output: " + outFile);
-                Log.i("hahahhah","开始压缩啦 啦啦啦啦");
                 if (mCallback != null) {
-                    Log.i("hahahhah","开始压缩啦 啦啦啦啦aaaaa");
                     mCallback.onSuccess(outFile);
                 }
             }
@@ -69,9 +68,8 @@ public class ImageFileCropSelector {
         mImageCropperHelper =new ImageCropHelper();
         mImageCropperHelper.setCallback(new ImageCropHelper.ImageCropperCallback() {
             @Override
-            public void onCropperCallback(ImageCropHelper.CropperResult result, File srcFile, File outFile) {
+            public void onCropperCallback(ImageCropHelper.CropperResult result, File srcFile, File outFile, Uri outUri) {
                 //压缩
-                Log.i("啦啦啦啦","裁剪完后啦啦啦啦啦");
                 mImageCompressHelper.compress(outFile.getAbsolutePath(), true);
             }
         });
@@ -89,9 +87,6 @@ public class ImageFileCropSelector {
         mImageCropperHelper.setOutPutAspect(width, height);
     }
 
-    public void setScale(boolean scale) {
-        mImageCropperHelper.setScale(scale);
-    }
 
 
     /**
@@ -128,7 +123,7 @@ public class ImageFileCropSelector {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         mImagePickHelper.onActivityResult(requestCode, resultCode, data);
         mImageTaker.onActivityResult(requestCode, resultCode, data);
-        //mImageCropperHelper.onActivityResult(resultCode, resultCode, data);
+
     }
 
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -173,7 +168,6 @@ public class ImageFileCropSelector {
             if(mImageCropperHelper !=null){
                 mImageCropperHelper.cropImage(file);
             }
-            //mImageCompressHelper.compress(fileName, deleteSrc);
         } else {
             if (mCallback != null) {
                 mCallback.onSuccess(null);

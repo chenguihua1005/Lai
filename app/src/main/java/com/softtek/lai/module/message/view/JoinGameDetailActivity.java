@@ -6,19 +6,12 @@
 package com.softtek.lai.module.message.view;
 
 
-import android.app.Activity;
 import android.app.Dialog;
-import android.content.ActivityNotFoundException;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
-import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -42,17 +35,12 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.File.model.FileModel;
-import com.softtek.lai.module.File.view.DimensionRecordActivity;
-import com.softtek.lai.module.community.view.EditPersonalDynamicActivity;
 import com.softtek.lai.module.confirmInfo.EventModel.ConinfoEvent;
 import com.softtek.lai.module.confirmInfo.model.ConinfoModel;
 import com.softtek.lai.module.confirmInfo.model.GetConfirmInfoModel;
 import com.softtek.lai.module.confirmInfo.presenter.IUpConfirmInfopresenter;
 import com.softtek.lai.module.confirmInfo.presenter.UpConfirmInfoImpl;
-import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.login.model.UserModel;
-import com.softtek.lai.module.lossweightstory.model.UploadImage;
 import com.softtek.lai.module.message.model.MessageDetailInfo;
 import com.softtek.lai.module.message.model.PhotosModel;
 import com.softtek.lai.module.message.presenter.IMessagePresenter;
@@ -60,7 +48,6 @@ import com.softtek.lai.module.message.presenter.MessageImpl;
 import com.softtek.lai.module.newmemberentry.view.EventModel.ClassEvent;
 import com.softtek.lai.module.newmemberentry.view.model.NewstudentsModel;
 import com.softtek.lai.module.newmemberentry.view.model.PargradeModel;
-import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
 import com.softtek.lai.module.newmemberentry.view.presenter.GuwenClassImp;
 import com.softtek.lai.module.newmemberentry.view.presenter.GuwenClassPre;
 import com.softtek.lai.module.newmemberentry.view.presenter.INewStudentpresenter;
@@ -79,18 +66,13 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
-import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.lifecircle.LifeCircleInject;
-import zilla.libcore.lifecircle.exit.AppManager;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
@@ -204,12 +186,14 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
     private String change_photo = "";
     private String upload_photo = "";
     private GuwenClassPre guwenClassPre;
+    private IMessagePresenter messagePresenter;
     private List<String> pargradeIdlList = new ArrayList<String>();
     private List<String> pargradeNamelList = new ArrayList<String>();
 
     private int select_posion = 0;
 
     private ImageFileCropSelector imageFileCropSelector;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -330,6 +314,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
     protected void initDatas() {
         iNewStudentpresenter = new NewStudentInputImpl(JoinGameDetailActivity.this);
         iUpConfirmInfopresenter = new UpConfirmInfoImpl(JoinGameDetailActivity.this);
+        messagePresenter = new MessageImpl(JoinGameDetailActivity.this);
         guwenClassPre = new GuwenClassImp();
         UserInfoModel userInfoModel = UserInfoModel.getInstance();
         accoutid = Long.parseLong(userInfoModel.getUser().getUserid());
@@ -354,6 +339,26 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
             img1.setVisibility(View.GONE);
             img_delete.setVisibility(View.GONE);
             ll_left.setOnClickListener(this);
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setCanceledOnTouchOutside(false);
+            progressDialog.setMessage("正在检测手机号是否已注册");
+            et_phone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    System.out.println("hasFocus--------");
+                    if (hasFocus) {
+                        // 此处为得到焦点时的处理内容
+                    } else {
+                        // 此处为失去焦点时的处理内容
+                        String phone = et_phone.getText().toString();
+                        System.out.println("phone.length:"+phone.length());
+                        if (phone.length() == 11) {
+                            progressDialog.show();
+                            messagePresenter.phoneIsExist(phone, progressDialog);
+                        }
+                    }
+                }
+            });
         }
     }
 
@@ -369,6 +374,12 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void onClick(View v) {
+        ll_tizhi.setFocusable(true);
+        ll_tizhi.setFocusableInTouchMode(true);
+        ll_tizhi.requestFocus();
+        ll_tizhi.findFocus();
+
+        et_phone.clearFocus();
         switch (v.getId()) {
             case R.id.ll_left:
                 finish();
@@ -410,7 +421,6 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
                 }).create().show();
                 break;
             case R.id.ll_class:
-                System.out.println("ll_class-----------");
                 if (pargradeNamelList.size() != 0) {
                     show_class_dialog();
                 } else {

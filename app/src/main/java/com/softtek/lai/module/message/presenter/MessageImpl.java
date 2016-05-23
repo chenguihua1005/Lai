@@ -5,6 +5,7 @@
 
 package com.softtek.lai.module.message.presenter;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -126,7 +127,7 @@ public class MessageImpl implements IMessagePresenter {
     @Override
     public void delNoticeOrMeasureMsg(String messageId,String type) {
         String token = UserInfoModel.getInstance().getToken();
-        messageService.delNoticeOrMeasureMsg(token, messageId,type, new Callback<ResponseData>() {
+        messageService.delNoticeOrMeasureMsg(token, messageId, type, new Callback<ResponseData>() {
             @Override
             public void success(ResponseData listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());
@@ -267,6 +268,37 @@ public class MessageImpl implements IMessagePresenter {
             @Override
             public void failure(RetrofitError error) {
                 context.dialogDissmiss();
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
+            }
+        });
+    }
+
+    @Override
+    public void phoneIsExist(String mobile, final ProgressDialog dialog) {
+        String token = UserInfoModel.getInstance().getToken();
+        messageService.phoneIsExist(token, mobile, new Callback<ResponseData>() {
+            @Override
+            public void success(ResponseData listResponseData, Response response) {
+                Log.e("jarvis", listResponseData.toString());
+                int status = listResponseData.getStatus();
+                dialog.dismiss();
+                switch (status) {
+                    case 200:
+                        Util.toastMsg(listResponseData.getMsg());
+                        break;
+                    case 100:
+
+                        break;
+                    default:
+                        Util.toastMsg(listResponseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                dialog.dismiss();
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }

@@ -58,6 +58,9 @@ public class StudentImpl implements IStudentPresenter {
                         StudentScoreAdapter adapter = new StudentScoreAdapter(context, list);
                         list_student_score.setAdapter(adapter);
                         break;
+                    case 201:
+
+                        break;
                     default:
                         Util.toastMsg(listResponseData.getMsg());
                         break;

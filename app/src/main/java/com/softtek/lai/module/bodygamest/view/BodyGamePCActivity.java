@@ -416,7 +416,7 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
                 break;
             //成绩单
             case R.id.ll_st_chengjidan:
-                startActivity(new Intent(this, StudentScoreActivity.class));
+                startActivity(new Intent(this, StudentScoresActivity.class));
                 break;
             //荣誉榜
             case R.id.ll_st_rongyu:

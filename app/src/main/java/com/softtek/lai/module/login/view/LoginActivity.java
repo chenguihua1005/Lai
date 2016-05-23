@@ -6,48 +6,32 @@
 package com.softtek.lai.module.login.view;
 
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.IBinder;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewCompat;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
-import com.mobsandgeeks.saripaar.annotation.Regex;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.jpush.JpushSet;
-import com.softtek.lai.module.File.view.CreatFlleActivity;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.login.presenter.ILoginPresenter;
 import com.softtek.lai.module.login.presenter.LoginPresenterImpl;
-import com.softtek.lai.module.studetail.view.StudentDetailActivity;
 import com.softtek.lai.utils.MD5;
-import com.softtek.lai.utils.ShareUtils;
 import com.softtek.lai.utils.SoftInputUtil;
 
 import butterknife.InjectView;
-import cn.jpush.android.api.JPushInterface;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.exit.AppManager;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_login)
 public class LoginActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener {

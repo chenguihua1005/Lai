@@ -3,9 +3,6 @@ package com.softtek.lai.module.laisportmine.view;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -18,14 +15,10 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.home.view.ValidateCertificationActivity;
 import com.softtek.lai.module.laisportmine.model.RunTeamModel;
 import com.softtek.lai.module.laisportmine.net.MineService;
 import com.softtek.lai.module.laisportmine.present.MyRunTeamManager;
-import com.softtek.lai.module.sport.view.JoinGroupActivity;
-import com.softtek.lai.utils.StringUtil;
-
-import java.io.Serializable;
+import com.softtek.lai.module.group.view.JoinGroupActivity;
 
 import butterknife.InjectView;
 import retrofit.Callback;

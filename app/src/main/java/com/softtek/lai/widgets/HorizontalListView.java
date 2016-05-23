@@ -4,14 +4,10 @@ package com.softtek.lai.widgets;
  * Created by jarvis.liu on 4/1/2016.
  */
 
-import java.util.LinkedList;
-import java.util.Queue;
-
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
@@ -20,7 +16,8 @@ import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.Scroller;
 
-import com.ggx.ruler_lib.OnScrollViewChanged;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class HorizontalListView extends AdapterView<ListAdapter> {
 

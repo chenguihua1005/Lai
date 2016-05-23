@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
@@ -82,6 +83,14 @@ public abstract class BaseActivity extends AppCompatActivity {
             progressDialog = new ProgressDialog(this);
             progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.setMessage(value);
+            progressDialog.show();
+        }
+    }
+
+    public void dialogShow() {
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.show();
         }
     }
