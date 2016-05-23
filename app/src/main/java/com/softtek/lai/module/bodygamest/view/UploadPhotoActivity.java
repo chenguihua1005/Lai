@@ -185,9 +185,8 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         ptrlvlist.getRefreshableView().addHeaderView(view);
         imtest_list.setOnClickListener(this);
         imageFileCropSelector = new ImageFileCropSelector(this);
-        imageFileCropSelector.setOutPutImageSize(DisplayUtil.getMobileWidth(this), DisplayUtil.dip2px(this, 195));
-        imageFileCropSelector.setOutPutAspect(4, 3);
-        imageFileCropSelector.setOutPut(DisplayUtil.getMobileWidth(this), DisplayUtil.dip2px(this, 195));
+        imageFileCropSelector.setOutPutAspect(1, 1);
+        imageFileCropSelector.setOutPut(DisplayUtil.getMobileWidth(this), DisplayUtil.getMobileWidth(this));
         imageFileCropSelector.setCallback(this);
         im_uploadphoto_banner_list.setLongClickable(true);
         im_uploadphoto_banner_list.setOnLongClickListener(new View.OnLongClickListener() {

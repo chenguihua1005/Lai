@@ -183,9 +183,9 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
         grade.getClassDynamic(classId,1);
 
         imageFileCropSelector=new ImageFileCropSelector(this);
-        imageFileCropSelector.setQuality(30);
-        imageFileCropSelector.setOutPutAspect(3, 2);
-        imageFileCropSelector.setOutPut(DisplayUtil.getMobileWidth(this),DisplayUtil.dip2px(this,180));
+        imageFileCropSelector.setQuality(80);
+        imageFileCropSelector.setOutPutAspect(1, 1);
+        imageFileCropSelector.setOutPut(DisplayUtil.getMobileWidth(this),DisplayUtil.dip2px(this,190));
         imageFileCropSelector.setCallback(this);
 
     }
@@ -268,8 +268,8 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
                     DateUtil.getInstance(DateUtil.yyyy_MM_dd).getMonth(endDate)+"月");
             tv_pc_num.setText(info.getPCNum() + "人");
             tv_sr_num.setText(info.getSRNum() + "人");
-            if (info.getClassBanner()!=null&&!info.getClassBanner().equals("")){
-                Picasso.with(this).load(info.getClassBanner()).fit().placeholder(R.drawable.default_icon_rect)
+            if (StringUtils.isNotEmpty(info.getClassBanner())){
+                Picasso.with(this).load(info.getClassBanner()).fit().centerCrop().placeholder(R.drawable.default_icon_rect)
                         .error(R.drawable.default_icon_rect).centerCrop().into(iv_grade_banner);
             }
         }
@@ -406,7 +406,7 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void onSuccess(String bannerUrl, File image) {
         progressDialog.dismiss();
-        Picasso.with(this).load(image).fit().placeholder(R.drawable.default_icon_rect)
+        Picasso.with(this).load(image).fit().centerCrop().placeholder(R.drawable.default_icon_rect)
                 .error(R.drawable.default_icon_rect).into(iv_grade_banner);
 
     }

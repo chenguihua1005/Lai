@@ -86,9 +86,8 @@ public class LossWeightLogActivity extends BaseActivity implements View.OnClickL
         ptrlv.setOnItemClickListener(this);
         ptrlv.setOnRefreshListener(this);
         imageFileCropSelector=new ImageFileCropSelector(this);
-        imageFileCropSelector.setOutPutImageSize(DisplayUtil.getMobileWidth(this),DisplayUtil.dip2px(this,195));
-        imageFileCropSelector.setOutPutAspect(4,3);
-        imageFileCropSelector.setOutPut(DisplayUtil.getMobileWidth(this),DisplayUtil.dip2px(this,195));
+        imageFileCropSelector.setOutPutAspect(1,1);
+        imageFileCropSelector.setOutPut(DisplayUtil.getMobileWidth(this),DisplayUtil.getMobileWidth(this));
         imageFileCropSelector.setCallback(this);
         log_banner.setLongClickable(true);
         log_banner.setOnLongClickListener(new View.OnLongClickListener() {
