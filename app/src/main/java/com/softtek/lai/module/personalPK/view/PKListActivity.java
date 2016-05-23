@@ -98,6 +98,7 @@ public class PKListActivity extends BaseActivity implements View.OnClickListener
         Intent intent=new Intent(this,PKDetailActivity.class);
         intent.putExtra("pkType", Constants.LIST_PK);
         intent.putExtra("position",position-1);
+        intent.putExtra("pkId",model.getPKId());
         startActivityForResult(intent, PKLIST_JUMP);
     }
 
@@ -108,9 +109,15 @@ public class PKListActivity extends BaseActivity implements View.OnClickListener
             if(requestCode==PKLIST_JUMP){
                 int position=data.getIntExtra("position", -1);
                 if(position!=-1){
-                    PKListModel model=models.get(position);
-                    model.setChP(Integer.parseInt(data.getStringExtra("ChP")));
-                    model.setBChp(Integer.parseInt(data.getStringExtra("BChP")));
+                    boolean isCancle=data.getBooleanExtra("isCancel",false);
+                    if(isCancle){
+                        //做删除操作
+                        models.remove(position);
+                    }else {
+                        PKListModel model = models.get(position);
+                        model.setChP(Integer.parseInt(data.getStringExtra("ChP")));
+                        model.setBChp(Integer.parseInt(data.getStringExtra("BChP")));
+                    }
                     adapter.notifyDataSetChanged();
                 }
             }

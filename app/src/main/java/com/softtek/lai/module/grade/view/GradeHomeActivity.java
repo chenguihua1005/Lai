@@ -182,13 +182,10 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
         lv_dynamic.setAdapter(adapter);
         grade.getClassDynamic(classId,1);
 
-        int px= DisplayUtil.dip2px(this, 300);
         imageFileCropSelector=new ImageFileCropSelector(this);
-        imageFileCropSelector.setOutPutImageSize(px, px);
         imageFileCropSelector.setQuality(30);
-        imageFileCropSelector.setScale(true);
-        imageFileCropSelector.setOutPutAspect(3, 1);
-        imageFileCropSelector.setOutPut(DisplayUtil.getMobileWidth(this),DisplayUtil.dip2px(this,130));
+        imageFileCropSelector.setOutPutAspect(3, 2);
+        imageFileCropSelector.setOutPut(DisplayUtil.getMobileWidth(this),DisplayUtil.dip2px(this,180));
         imageFileCropSelector.setCallback(this);
 
     }

@@ -10,41 +10,25 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.text.Html;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
-import com.mobsandgeeks.saripaar.annotation.ConfirmPassword;
-import com.mobsandgeeks.saripaar.annotation.Password;
-import com.mobsandgeeks.saripaar.annotation.Regex;
-import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.confirmInfo.model.GetConfirmInfoModel;
-import com.softtek.lai.module.confirmInfo.presenter.IUpConfirmInfopresenter;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.presenter.ILoginPresenter;
-import com.softtek.lai.module.login.presenter.IPasswordPresenter;
 import com.softtek.lai.module.login.presenter.LoginPresenterImpl;
-import com.softtek.lai.module.login.presenter.PasswordPresnter;
 import com.softtek.lai.utils.DisplayUtil;
-import com.softtek.lai.utils.MD5;
 import com.softtek.lai.utils.SoftInputUtil;
 import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileCropSelector;
-
-import java.io.File;
 
 import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
@@ -97,7 +81,6 @@ public class ModifyPersonActivity extends BaseActivity implements View.OnClickLi
         imageFileCropSelector = new ImageFileCropSelector(this);
         imageFileCropSelector.setOutPutImageSize(px, px);
         imageFileCropSelector.setQuality(30);
-        imageFileCropSelector.setScale(true);
         imageFileCropSelector.setOutPutAspect(1, 1);
         imageFileCropSelector.setOutPut(px, px);
         imageFileCropSelector.setCallback(new ImageFileCropSelector.Callback() {

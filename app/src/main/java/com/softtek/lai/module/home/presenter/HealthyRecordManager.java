@@ -34,10 +34,12 @@ public class HealthyRecordManager {
                 {
                     case 200:
                         LaichModel laichModel= laichModelResponseData.getData();
-                       cb.getModel(laichModel);
+                        if(cb!=null)
+                            cb.getModel(laichModel);
                         break;
                     default:
-                        cb.getModel(null);
+                        if(cb!=null)
+                            cb.getModel(null);
                         break;
                 }
 
@@ -45,7 +47,8 @@ public class HealthyRecordManager {
 
             @Override
             public void failure(RetrofitError error) {
-                cb.getModel(null);
+                if(cb!=null)
+                    cb.getModel(null);
                 ZillaApi.dealNetError(error);
             }
         });

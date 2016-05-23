@@ -132,5 +132,6 @@ public class Constants {
     public static final int CREATE_PK=0;//创建PK
     public static final int LIST_PK=1;//PK列表
     public static final int MESSAGE_PK=2;//PK通知
+    public static final int GROUPMAIN_PK=3;//PK通知
 
 }
