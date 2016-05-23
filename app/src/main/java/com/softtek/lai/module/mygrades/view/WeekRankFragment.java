@@ -97,6 +97,17 @@ public class WeekRankFragment extends BaseFragment {
 
     }
 
+    //切换日排名，周排名时更新数据
+    public void updateWeekRankStatus(){
+        Bundle bundle2 = getArguments();
+        int str=bundle2.getInt("id");
+        if (str==0){
+            getCurrentWeekOrder(1);
+        }
+        if (str==1){
+            getCurrentWeekOrder(0);
+        }
+    }
     private void initrankdate() {
         OrderDataModel p1 = new OrderDataModel("1","20898983403","1","18329726809","23435","zhang");
         orderDataModelList.add(p1);
@@ -127,7 +138,7 @@ public class WeekRankFragment extends BaseFragment {
                         }
                         if (dayRankModelResponseData.getData().getOrderName().isEmpty()){
                             if (dayRankModelResponseData.getData().getOrderMobile().isEmpty()){
-                                tv_name.setText("lee");
+                                tv_name.setText("");
                             }else {
                                 //(姓名如果为空，手机号码前3后4中间4个*的)
                                 String mobile=dayRankModelResponseData.getData().getOrderMobile();
