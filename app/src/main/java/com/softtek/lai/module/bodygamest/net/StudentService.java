@@ -4,6 +4,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.bodygame.model.FuceNumModel;
 import com.softtek.lai.module.bodygamest.model.CountWeekModel;
 import com.softtek.lai.module.bodygamest.model.HasClass;
+import com.softtek.lai.module.bodygamest.model.HonorModel;
 import com.softtek.lai.module.bodygamest.model.StudentHonorInfo;
 import com.softtek.lai.module.bodygamest.model.StudentScripInfo;
 import com.softtek.lai.utils.RequestCallback;
@@ -23,7 +24,7 @@ public interface StudentService {
     @GET("/Index/GetStudentHonor")
     void getStudentHonor(
             @Header("token") String token,
-            Callback<ResponseData<List<StudentHonorInfo>>> callback
+            Callback<ResponseData<HonorModel>> callback
     );
 
     //成绩单

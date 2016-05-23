@@ -86,9 +86,8 @@ public class LossWeightLogActivity extends BaseActivity implements View.OnClickL
         ptrlv.setOnItemClickListener(this);
         ptrlv.setOnRefreshListener(this);
         imageFileCropSelector=new ImageFileCropSelector(this);
-        imageFileCropSelector.setOutPutImageSize(DisplayUtil.getMobileWidth(this),DisplayUtil.dip2px(this,195));
-        imageFileCropSelector.setOutPutAspect(4,3);
-        imageFileCropSelector.setOutPut(DisplayUtil.getMobileWidth(this),DisplayUtil.dip2px(this,195));
+        imageFileCropSelector.setOutPutAspect(1,1);
+        imageFileCropSelector.setOutPut(DisplayUtil.getMobileWidth(this),DisplayUtil.getMobileWidth(this));
         imageFileCropSelector.setCallback(this);
         log_banner.setLongClickable(true);
         log_banner.setOnLongClickListener(new View.OnLongClickListener() {
@@ -215,7 +214,7 @@ public class LossWeightLogActivity extends BaseActivity implements View.OnClickL
         if(StringUtils.isNotEmpty(logs.getBanner())){
             Picasso.with(this).load(path + logs.getBanner()).fit()
                     .placeholder(R.drawable.default_icon_rect)
-                    .error(R.drawable.default_icon_rect)
+                    .error(R.drawable.default_icon_rect).centerCrop()
                     .into(log_banner);
         }
         totalPage=Integer.parseInt(logs.getTotalPage());
@@ -243,7 +242,7 @@ public class LossWeightLogActivity extends BaseActivity implements View.OnClickL
                     @Override
                     public void success(ResponseData<BannerModel> bannerModelResponseData, Response response) {
                         Picasso.with(LossWeightLogActivity.this).load(AddressManager.get("photoHost")+bannerModelResponseData.getData().getPath()).fit().
-                                placeholder(R.drawable.default_icon_rect).error(R.drawable.default_icon_rect).into(log_banner);
+                                placeholder(R.drawable.default_icon_rect).error(R.drawable.default_icon_rect).centerCrop().into(log_banner);
                         new File(file).delete();
                     }
 

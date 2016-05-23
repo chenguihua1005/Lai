@@ -185,9 +185,8 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         ptrlvlist.getRefreshableView().addHeaderView(view);
         imtest_list.setOnClickListener(this);
         imageFileCropSelector = new ImageFileCropSelector(this);
-        imageFileCropSelector.setOutPutImageSize(DisplayUtil.getMobileWidth(this), DisplayUtil.dip2px(this, 195));
-        imageFileCropSelector.setOutPutAspect(4, 3);
-        imageFileCropSelector.setOutPut(DisplayUtil.getMobileWidth(this), DisplayUtil.dip2px(this, 195));
+        imageFileCropSelector.setOutPutAspect(1, 1);
+        imageFileCropSelector.setOutPut(DisplayUtil.getMobileWidth(this), DisplayUtil.getMobileWidth(this));
         imageFileCropSelector.setCallback(this);
         im_uploadphoto_banner_list.setLongClickable(true);
         im_uploadphoto_banner_list.setOnLongClickListener(new View.OnLongClickListener() {
@@ -417,7 +416,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
             }
 
             if (!TextUtils.isEmpty(downPhotoModel.getBanner())) {
-                Picasso.with(this).load(path + downPhotoModel.getBanner() + "").fit().placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square).into(im_uploadphoto_banner_list);
+                Picasso.with(this).load(path + downPhotoModel.getBanner() + "").fit().centerCrop().placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square).into(im_uploadphoto_banner_list);
 
             }
         }
