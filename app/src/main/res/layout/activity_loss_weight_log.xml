@@ -18,7 +18,8 @@
         android:overScrollMode="never"
         app:ptrShowIndicator="false"
         android:id="@+id/ptrlv"
-        android:layout_below="@id/toolbar">
+        android:layout_below="@id/toolbar"
+        android:layout_marginTop="-3dp">
 
     </com.handmark.pulltorefresh.library.PullToRefreshListView>
 
