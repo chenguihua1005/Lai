@@ -91,9 +91,9 @@ public class LossWeightStoryActivity extends BaseActivity implements View.OnClic
         ptrlv.setOnRefreshListener(this);
         cir_header_image.setOnClickListener(this);
         imageFileCropSelector=new ImageFileCropSelector(this);
-        //imageFileCropSelector.setOutPutImageSize(DisplayUtil.getMobileWidth(this),DisplayUtil.dip2px(this,195));
-        imageFileCropSelector.setOutPutAspect(4,3);
-        imageFileCropSelector.setOutPut(DisplayUtil.getMobileWidth(this),DisplayUtil.dip2px(this,195));
+        imageFileCropSelector.setOutPutAspect(1,1);
+        int width=DisplayUtil.getMobileWidth(this);
+        imageFileCropSelector.setOutPut(width,width);
         imageFileCropSelector.setCallback(this);
         log_banner.setLongClickable(true);
         log_banner.setOnLongClickListener(new View.OnLongClickListener() {
@@ -233,7 +233,7 @@ public class LossWeightStoryActivity extends BaseActivity implements View.OnClic
                     .into(cir_header_image);
         }
         if(StringUtils.isNotEmpty(logList.getBanner())){
-            Picasso.with(this).load(path + logList.getBanner()).fit()
+            Picasso.with(this).load(path + logList.getBanner()).fit().centerCrop()
                     .placeholder(R.drawable.default_icon_rect)
                     .error(R.drawable.default_icon_rect)
                     .into(log_banner);
@@ -264,8 +264,12 @@ public class LossWeightStoryActivity extends BaseActivity implements View.OnClic
                 new Callback<ResponseData<BannerModel>>() {
                     @Override
                     public void success(ResponseData<BannerModel> bannerModelResponseData, Response response) {
-                        Picasso.with(LossWeightStoryActivity.this).load(AddressManager.get("photoHost")+bannerModelResponseData.getData().getPath()).fit().
-                                placeholder(R.drawable.default_icon_rect).error(R.drawable.default_icon_rect).into(log_banner);
+                        Picasso.with(LossWeightStoryActivity.this)
+                                .load(AddressManager.get("photoHost")+bannerModelResponseData.getData().getPath())
+                                .fit()
+                                .placeholder(R.drawable.default_icon_rect)
+                                .error(R.drawable.default_icon_rect)
+                                .centerCrop().into(log_banner);
                         new File(file).delete();
                     }
 

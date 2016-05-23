@@ -113,7 +113,7 @@ public class StudentBaseDateActivity extends BaseActivity implements BaseFragmen
             tv_name.setText(studentBaseInfoModel.getUserName());
             if(StringUtils.isNotEmpty(studentBaseInfoModel.getBanner())){
                 Picasso.with(this).load(studentBaseInfoModel.getBanner()).fit()
-                        .placeholder(R.drawable.default_icon_rect)
+                        .placeholder(R.drawable.default_icon_rect).centerCrop()
                         .error(R.drawable.default_icon_rect).centerCrop().into(banner);
             }
             if(StringUtils.isNotEmpty(studentBaseInfoModel.getUserPhoto())){
