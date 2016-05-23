@@ -37,6 +37,7 @@
                     android:textSize="@dimen/studentHonorTextSize" />
 
                 <LinearLayout
+                    android:id="@+id/lin_jz_value"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:layout_marginTop="@dimen/studentHonorMarginTop2"
@@ -109,6 +110,25 @@
                         </LinearLayout>
                     </RelativeLayout>
                 </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/lin_jz_sm"
+                    android:layout_width="fill_parent"
+                    android:layout_height="155dip"
+                    android:background="@color/white"
+                    android:layout_marginTop="@dimen/studentHonorMarginTop2"
+                    android:visibility="gone">
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin"
+                        android:layout_marginRight="@dimen/margin"
+                        android:textColor="@color/word"
+                        android:layout_gravity="center"
+                        android:textSize="@dimen/textSize5"
+                        android:text="加油! 只要累计减重达到5斤就能拿到第一枚减重奖章了哦."
+                        />
+                </LinearLayout>
+
             </LinearLayout>
 
             <LinearLayout
@@ -126,6 +146,7 @@
                     android:textSize="@dimen/studentHonorTextSize" />
 
                 <LinearLayout
+                    android:id="@+id/lin_fc_value"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:layout_marginTop="@dimen/studentHonorMarginTop4"
@@ -165,6 +186,24 @@
                             android:src="@drawable/img_student_honor_grey" />
                     </LinearLayout>
                 </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/lin_fc_sm"
+                    android:layout_width="fill_parent"
+                    android:layout_height="155dip"
+                    android:background="@color/white"
+                    android:layout_marginTop="@dimen/studentHonorMarginTop2"
+                    android:visibility="gone">
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin"
+                        android:layout_marginRight="@dimen/margin"
+                        android:textColor="@color/word"
+                        android:layout_gravity="center"
+                        android:textSize="@dimen/textSize5"
+                        android:text="只要去复测就能领取复测奖章咯."
+                        />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -182,6 +221,7 @@
                     android:textSize="@dimen/studentHonorTextSize" />
 
                 <LinearLayout
+                    android:id="@+id/lin_ygj_value"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:layout_marginTop="@dimen/studentHonorMarginTop2"
@@ -253,6 +293,24 @@
                         </LinearLayout>
                     </RelativeLayout>
                 </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/lin_ygj_sm"
+                    android:layout_width="fill_parent"
+                    android:layout_height="155dip"
+                    android:background="@color/white"
+                    android:layout_marginTop="@dimen/studentHonorMarginTop2"
+                    android:visibility="gone">
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin"
+                        android:layout_marginRight="@dimen/margin"
+                        android:textColor="@color/word"
+                        android:layout_gravity="center"
+                        android:textSize="@dimen/textSize5"
+                        android:text="当月减重达到班级第一名才能获得月冠军奖章哦."
+                        />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -270,9 +328,11 @@
                     android:textSize="@dimen/studentHonorTextSize" />
 
                 <LinearLayout
+                    android:id="@+id/lin_star_value"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:layout_marginTop="@dimen/studentHonorMarginTop2"
+                    android:layout_marginBottom="@dimen/studentHonorMarginTop2"
                     android:background="@color/white">
 
                     <RelativeLayout
@@ -340,6 +400,25 @@
 
                         </LinearLayout>
                     </RelativeLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/lin_star_sm"
+                    android:layout_width="fill_parent"
+                    android:layout_height="155dip"
+                    android:background="@color/white"
+                    android:layout_marginBottom="@dimen/studentHonorMarginTop2"
+                    android:layout_marginTop="@dimen/studentHonorMarginTop2"
+                    android:visibility="gone">
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin"
+                        android:layout_marginRight="@dimen/margin"
+                        android:textColor="@color/word"
+                        android:layout_gravity="center"
+                        android:textSize="@dimen/textSize5"
+                        android:text="全国减重达人100强的证明."
+                        />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

@@ -116,7 +116,7 @@
         <ImageView
             android:id="@+id/iv_banner"
             android:layout_width="match_parent"
-            android:layout_height="180dp"
+            android:layout_height="190dp"
             android:layout_below="@+id/toolbar"
             android:background="#F3F1F2"
             android:src="@drawable/default_icon_rect"/>

@@ -107,12 +107,20 @@ public class DayRankFragment extends BaseFragment {
 
     }
 
+    //切换日排名，周排名时更新数据
+    public void updateDayRankStatus(){
+        Bundle bundle1 = getArguments();
+        int str=bundle1.getInt("id");
+        if (str==0){
+            getCurrentDateOrder(1);
+        }
+        if (str==1){
+            getCurrentDateOrder(0);
+        }
+    }
+
     public void updata() {
-
         //clubName.setText(clubname);
-
-
-
     }
 
     public void getCurrentDateOrder(int RGIdType) {

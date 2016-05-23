@@ -4,6 +4,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.bodygame.model.FuceNumModel;
 import com.softtek.lai.module.bodygamest.model.CountWeekModel;
 import com.softtek.lai.module.bodygamest.model.HasClass;
+import com.softtek.lai.module.bodygamest.model.HonorModel;
 import com.softtek.lai.module.bodygamest.model.StudentHonorInfo;
 import com.softtek.lai.module.bodygamest.model.StudentScripInfo;
 import com.softtek.lai.utils.RequestCallback;
@@ -23,7 +24,7 @@ public interface StudentService {
     @GET("/Index/GetStudentHonor")
     void getStudentHonor(
             @Header("token") String token,
-            Callback<ResponseData<List<StudentHonorInfo>>> callback
+            Callback<ResponseData<HonorModel>> callback
     );
 
     //成绩单
@@ -37,6 +38,10 @@ public interface StudentService {
     //判断这个人是否有班级
     @GET("/BasicData/IsHaveClass")
     void hasClass(@Header("token") String token,
+                  RequestCallback<ResponseData<HasClass>> callback);
+    //判断这个人是否有班级2
+    @GET("/BasicData/IsHaveClass_2")
+    void hasClass2(@Header("token") String token,
                   RequestCallback<ResponseData<HasClass>> callback);
 
     //是否已加入班级
