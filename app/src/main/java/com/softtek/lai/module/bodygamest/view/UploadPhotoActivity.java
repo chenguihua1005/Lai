@@ -75,8 +75,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     LinearLayout ll_left;
     @InjectView(R.id.tv_title)
     TextView tv_title;
-    //    @InjectView(R.id.imtest)
-//    ImageView imtest;
+
     @InjectView(R.id.tv_right)
     TextView tv_right;
     @InjectView(R.id.iv_email)
@@ -404,28 +403,21 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     @Override
     public void getStroyList(DownPhotoModel downPhotoModel) {
         ptrlvlist.onRefreshComplete();
-        String path = AddressManager.get("photoHost");
-        if (downPhotoModel.getUserName() != null) {
-//            tv_downphoto_nick.setText(downPhotoModel.getUserName());
-            if (!TextUtils.isEmpty(downPhotoModel.getPhoto())) {
-                Picasso.with(this).load(path + downPhotoModel.getPhoto() + "").fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(cir_downphoto_head_list);
-            } else {
-
-                Picasso.with(this).load("www").placeholder(R.drawable.img_default).error(R.drawable.img_default).into(cir_downphoto_head_list);
-
-            }
-
-            if (!TextUtils.isEmpty(downPhotoModel.getBanner())) {
-                Picasso.with(this).load(path + downPhotoModel.getBanner() + "").fit().centerCrop().placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square).into(im_uploadphoto_banner_list);
-
-            }
-        }
-
         if (downPhotoModel == null) {
             pageIndex = --pageIndex < 1 ? 1 : pageIndex;
             return;
         }
-        com.github.snowdream.android.util.Log.i("列表" + downPhotoModel.toString());
+        String path = AddressManager.get("photoHost");
+        if (downPhotoModel.getUserName() != null) {
+            if (!TextUtils.isEmpty(downPhotoModel.getPhoto())) {
+                Picasso.with(this).load(path + downPhotoModel.getPhoto()).fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(cir_downphoto_head_list);
+            }
+
+            if (!TextUtils.isEmpty(downPhotoModel.getBanner())) {
+                Picasso.with(this).load(path + downPhotoModel.getBanner()).fit().centerCrop().placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square).into(im_uploadphoto_banner_list);
+            }
+        }
+
         List<LogListModel> models = downPhotoModel.getLogList();
         if (models == null || models.isEmpty()) {
             pageIndex = --pageIndex < 1 ? 1 : pageIndex;

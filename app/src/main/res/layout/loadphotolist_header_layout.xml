@@ -8,12 +8,12 @@
         android:layout_height="wrap_content">
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="330dp"
         >
         <ImageView
             android:id="@+id/im_uploadphoto_banner_list"
             android:layout_width="match_parent"
-            android:layout_height="280dp"
+            android:layout_height="310dp"
             android:scaleType="fitCenter"
             android:background="#F2F0F1"
             android:src="@drawable/default_icon_rect"/>
