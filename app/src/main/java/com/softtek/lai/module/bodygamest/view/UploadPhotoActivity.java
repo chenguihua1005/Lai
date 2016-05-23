@@ -146,7 +146,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     public void onEvent(LossModel model) {
         lossModel = model;
         System.out.println("lossModel:" + lossModel);
-        String path = AddressManager.get("shareHost", "http://172.16.98.167/Share/");
+        String path = AddressManager.get("shareHost");
         String gifName = gifModel.getGifname();
         url = path + "SharePhotoAblum?AccountId=" + UserInfoModel.getInstance().getUser().getUserid() + "&ShareImageName=" + gifName;
         menuWindow = new SelectPicPopupWindow(UploadPhotoActivity.this, itemsOnClick);

@@ -249,17 +249,14 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
         tab_content.setCurrentItem(flag);
     }
 
-    @Override
     public void onPageSelected(int position) {
             Log.i("页面切换到===》"+position);
             switch (position)
             {
                 case 0:
-                    Util.toMsg("更新日排名");
                     ((DayRankFragment)fragments.get(0)).updateDayRankStatus();
                     break;
                 case 1:
-                    Util.toMsg("更新周排名");
                     ((WeekRankFragment)fragments.get(1)).updateWeekRankStatus();
                     break;
             }
