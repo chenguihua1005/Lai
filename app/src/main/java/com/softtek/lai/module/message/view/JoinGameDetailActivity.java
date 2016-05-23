@@ -243,6 +243,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         upload();
 
     }
+
     @Subscribe
     public void onEvent(ConinfoEvent coninfoEvent) {
         System.out.println("classEvent.getPargradeModels()>>》》》》》》》》》》》》》》" + coninfoEvent.getConfirmInfoModel());
@@ -348,10 +349,10 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
                     if (hasFocus) {
                         // 此处为得到焦点时的处理内容
                         String phone = et_phone.getText().toString();
-                        System.out.println("phone.length:"+phone.length());
+                        System.out.println("phone.length:" + phone.length());
                         if (phone.length() == 11) {
                             progressDialog.show();
-                            messagePresenter.phoneIsExist(phone, progressDialog,0);
+                            messagePresenter.phoneIsExist(phone, progressDialog, 0);
                         }
                     }
                 }
@@ -368,19 +369,14 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
             pargradeNamelList.add(cl.getClassName());
         }
     }
+
     @Subscribe
     public void onEvent(CheckMobileEvent event) {
-        boolean b=event.isB();
-        if(b){
+        boolean b = event.isB();
+        if (b) {
             return;
-        }else {
+        } else {
             switch (event.getId()) {
-                case R.id.ll_left:
-                    finish();
-                    break;
-                case R.id.fl_right:
-                    validateLife.validate();
-                    break;
                 case R.id.btn_Add_bodydimension:
                     Intent intent = new Intent(this, JoinGameDimensionRecordActivity.class);
                     intent.putExtra("getConfirmInfoModel", getConfirmInfoModel);
@@ -440,20 +436,14 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         }
     }
 
-    private void checkPhone(int id){
+    private void checkPhone(int id) {
         String phone = et_phone.getText().toString();
-        System.out.println("phone.length:"+phone.length());
+        System.out.println("phone.length:" + phone.length());
         if (phone.length() == 11) {
             progressDialog.show();
-            messagePresenter.phoneIsExist(phone, progressDialog,id);
-        }else {
+            messagePresenter.phoneIsExist(phone, progressDialog, id);
+        } else {
             switch (id) {
-                case R.id.ll_left:
-                    finish();
-                    break;
-                case R.id.fl_right:
-                    validateLife.validate();
-                    break;
                 case R.id.btn_Add_bodydimension:
                     Intent intent = new Intent(this, JoinGameDimensionRecordActivity.class);
                     intent.putExtra("getConfirmInfoModel", getConfirmInfoModel);
@@ -512,18 +502,15 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
             }
         }
     }
+
     @Override
     public void onClick(View v) {
-        if(v.getId()!= R.id.ll_left ||v.getId()!= R.id.fl_right){
+        if (v.getId() == R.id.ll_left) {
+            finish();
+        } else if (v.getId() == R.id.fl_right) {
+            validateLife.validate();
+        } else {
             checkPhone(v.getId());
-        }
-        switch (v.getId()) {
-            case R.id.ll_left:
-                finish();
-                break;
-            case R.id.fl_right:
-                validateLife.validate();
-                break;
         }
     }
 
