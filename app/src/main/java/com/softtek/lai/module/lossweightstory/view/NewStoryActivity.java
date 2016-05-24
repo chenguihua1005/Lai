@@ -63,8 +63,8 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
     @InjectView(R.id.et_sender)
     EditText et_sender;
 
-    @InjectView(R.id.et_log_title)
-    EditText et_log_title;
+    /*@InjectView(R.id.et_log_title)
+    EditText et_log_title;*/
 
     @Required(order = 1,message = "请选择减重后体重")
     @InjectView(R.id.et_weight_after)
@@ -171,7 +171,7 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.fl_right:
                 //发布日志按钮
-                String tit=et_log_title.getText().toString();
+                /*String tit=et_log_title.getText().toString();
                 if(StringUtils.isEmpty(tit)){
                     new AlertDialog.Builder(this)
                             .setMessage("请输入标题")
@@ -181,9 +181,9 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
                             .setMessage("标题不能超过15个汉字")
                             .create().show();
                 }else{
-                    validateLife.validate();
 
-                }
+                }*/
+                validateLife.validate();
                 break;
             case R.id.et_weight_after:
                 show_weight_dialog();
@@ -293,7 +293,7 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
         if(storyManager!=null){
             LogStoryModel model=new LogStoryModel();
             model.setAccountId(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()));
-            model.setLogTitle(et_log_title.getText().toString().trim());
+            model.setLogTitle("");
             model.setAfterWeight(tv_weight_after.getText().toString());
             model.setLogContent(et_content.getText().toString().trim());
             model.setStoryPeople(et_sender.getText().toString().trim());

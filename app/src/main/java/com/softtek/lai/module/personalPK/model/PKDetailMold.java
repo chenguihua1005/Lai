@@ -35,7 +35,7 @@ public class PKDetailMold implements Parcelable{
     private int BPraiseStatus;
     private int PraiseStatus;
     private int TStatus;
-    private int WinnerId;
+    private String WinnerId;
 
     public int getTStatus() {
         return TStatus;
@@ -45,11 +45,11 @@ public class PKDetailMold implements Parcelable{
         this.TStatus = TStatus;
     }
 
-    public int getWinnerId() {
+    public String getWinnerId() {
         return WinnerId;
     }
 
-    public void setWinnerId(int winnerId) {
+    public void setWinnerId(String winnerId) {
         WinnerId = winnerId;
     }
 

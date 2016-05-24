@@ -290,6 +290,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
     public static final int CHALLENGING = 1;
     public static final int REFUSE = -1;
 
+
     public void getPKDetail(PKDetailMold model,int resultCode) {
         dialogDissmiss();
         if (model == null&&resultCode==-1) {
@@ -303,7 +304,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
         sv_pk.setVisibility(View.VISIBLE);
         this.model=model;
         if(model.getTStatus()==PKListAdapter.Completed){//如果这个PK是已经结束
-            if (model.getWinnerId()==model.getChallenged()){
+            if (Long.parseLong(model.getWinnerId())==model.getChallenged()){
                 //发起方胜利
                 sender1.setVisibility(View.GONE);//隐藏发起者标识
                 //显示胜利者表示
