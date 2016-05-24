@@ -746,11 +746,13 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
             case R.id.ll_left:
                 finish();
                 break;
+            //进入日排名详情
             case R.id.ll_dayRank:
                 Intent intent=new Intent(MyGradesActivity.this,RankingDetailsActivity.class);
                 intent.putExtra("flag",0);
                 startActivity(intent);
                 break;
+            //进入周排名详情
             case R.id.ll_weekRank:
                 Intent intent1=new Intent(MyGradesActivity.this,RankingDetailsActivity.class);
                 intent1.putExtra("flag",1);

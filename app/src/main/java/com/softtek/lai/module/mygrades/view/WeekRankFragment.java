@@ -79,15 +79,15 @@ public class WeekRankFragment extends BaseFragment {
         //listview str 0跑团，1全国
         //接口信息：跑团数据1，全国数据0
         if (str==0){
-            getCurrentWeekOrder(1);
+            getCurrentWeekOrder(0);
         }
         if (str==1){
-            getCurrentWeekOrder(0);
+            getCurrentWeekOrder(1);
         }
 
         //跑团1，全国0
 
-        initrankdate();
+       // initrankdate();
         rankAdapter = new RankAdapter(getContext(),orderDataModelList);
         list_rank.setAdapter(rankAdapter);
     }
@@ -98,26 +98,26 @@ public class WeekRankFragment extends BaseFragment {
     }
 
     //切换日排名，周排名时更新数据
-    public void updateWeekRankStatus(){
-        Bundle bundle2 = getArguments();
-        int str=bundle2.getInt("id");
-        if (str==0){
+    public void updateWeekRankStatus(int i){
+//        Bundle bundle2 = getArguments();
+//        int str=bundle2.getInt("id");
+        if (i==0){
             getCurrentWeekOrder(1);
         }
-        if (str==1){
+        if (i==1){
             getCurrentWeekOrder(0);
         }
     }
     private void initrankdate() {
-        OrderDataModel p1 = new OrderDataModel("1","20898983403","1","18329726809","23435","zhang");
+        OrderDataModel p1 = new OrderDataModel("1","20898983403","1","18329726809","13890","zhang");
         orderDataModelList.add(p1);
-        OrderDataModel p2 = new OrderDataModel("2","20898983403","2","18329726809","97556","wang");
+        OrderDataModel p2 = new OrderDataModel("2","20898983403","2","18329726809","10430","wang");
         orderDataModelList.add(p2);
-        OrderDataModel p3 = new OrderDataModel("3","20898983403","3","18329726809","86343","li");
+        OrderDataModel p3 = new OrderDataModel("3","20898983403","3","18329726809","9999","li");
         orderDataModelList.add(p3);
-        OrderDataModel p4 = new OrderDataModel("4","20898983403","4","18329726809","45766","cheng");
+        OrderDataModel p4 = new OrderDataModel("4","20898983403","4","18329726809","5982","cheng");
         orderDataModelList.add(p4);
-        OrderDataModel p5 = new OrderDataModel("5","20898983403","5","18329726809","64783","xu");
+        OrderDataModel p5 = new OrderDataModel("5","20898983403","5","18329726809","890","xu");
         orderDataModelList.add(p5);
     }
 

@@ -166,8 +166,8 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
     private ImageCropper imageCropper;
     private INewStudentpresenter iNewStudentpresenter;
 
-    boolean isR;//是否注册
-    boolean isOperation;
+    boolean isR=false;//是否注册
+    boolean isOperation=false;
     int current_operation;
 
     //获取当前日期
@@ -386,6 +386,9 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
             return;
         } else {
             switch (current_operation) {
+                case R.id.fl_right:
+                    validateLife.validate();
+                    break;
                 case R.id.btn_Add_bodydimension:
                     Intent intent = new Intent(this, JoinGameDimensionRecordActivity.class);
                     intent.putExtra("getConfirmInfoModel", getConfirmInfoModel);
@@ -446,10 +449,14 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
     }
 
     private void checkPhone(int id) {
+        System.out.println("isR---:"+isR);
         if(isR){
             Util.toastMsg("手机号码已注册");
         }else {
             switch (id) {
+                case R.id.fl_right:
+                    validateLife.validate();
+                    break;
                 case R.id.btn_Add_bodydimension:
                     Intent intent = new Intent(this, JoinGameDimensionRecordActivity.class);
                     intent.putExtra("getConfirmInfoModel", getConfirmInfoModel);
@@ -513,9 +520,25 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
     public void onClick(View v) {
         if (v.getId() == R.id.ll_left) {
             finish();
-        } else if (v.getId() == R.id.fl_right) {
-            validateLife.validate();
-        } else {
+        } else if(v.getId() == R.id.fl_right){
+            System.out.println("type:"+type);
+           if("0".equals(type)){
+               ll_tizhi.setFocusable(true);
+               ll_tizhi.setFocusableInTouchMode(true);
+               ll_tizhi.requestFocus();
+               ll_tizhi.findFocus();
+
+               et_phone.clearFocus();
+               current_operation=v.getId();
+               if(isOperation){
+
+               }else {
+                   checkPhone(v.getId());
+               }
+           }else {
+               validateLife.validate();
+           }
+        }else {
             ll_tizhi.setFocusable(true);
             ll_tizhi.setFocusableInTouchMode(true);
             ll_tizhi.requestFocus();
