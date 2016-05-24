@@ -20,6 +20,8 @@ import com.softtek.lai.module.personalPK.adapter.PKListAdapter;
 import com.softtek.lai.module.personalPK.model.PKListModel;
 import com.softtek.lai.module.personalPK.presenter.PKListManager;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -115,8 +117,10 @@ public class PKListActivity extends BaseActivity implements View.OnClickListener
                         models.remove(position);
                     }else {
                         PKListModel model = models.get(position);
-                        model.setChP(Integer.parseInt(data.getStringExtra("ChP")));
-                        model.setBChp(Integer.parseInt(data.getStringExtra("BChP")));
+                        String chp=data.getStringExtra("ChP");
+                        String bchp=data.getStringExtra("BChP");
+                        model.setChP(Integer.parseInt(StringUtils.isEmpty(chp)?"0":chp));
+                        model.setBChp(Integer.parseInt(StringUtils.isEmpty(bchp)?"0":bchp));
                     }
                     adapter.notifyDataSetChanged();
                 }

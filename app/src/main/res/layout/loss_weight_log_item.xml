@@ -50,19 +50,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="10dp">
-        <TextView
+        <!--<TextView
             android:id="@+id/tv_log_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:textColor="#333333" />
+            android:textColor="#333333" />-->
         <TextView
             android:id="@+id/tv_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="14sp"
             android:textColor="#333333"
-            android:layout_below="@id/tv_log_title"
             android:ellipsize="end"
             android:maxLines="3"/>
         <CheckBox

@@ -55,8 +55,8 @@ public class LogStoryDetailActivity extends BaseActivity implements View.OnClick
     TextView tv_name;
     @InjectView(R.id.tv_totle_lw)
     TextView tv_totle_lw;
-    @InjectView(R.id.tv_log_title)
-    TextView tv_log_title;
+    /*@InjectView(R.id.tv_log_title)
+    TextView tv_log_title;*/
     @InjectView(R.id.tv_content)
     TextView tv_content;
     @InjectView(R.id.tv_date)
@@ -92,7 +92,7 @@ public class LogStoryDetailActivity extends BaseActivity implements View.OnClick
                     .error(R.drawable.img_default).into(civ_header_image);
         }
         tv_name.setText(log.getUserName());
-        tv_log_title.setText(log.getLogTitle());
+        //tv_log_title.setText(log.getLogTitle());
         tv_content.setText(log.getLogContent());
         String date=log.getCreateDate();
         tv_date.setText(DateUtil.getInstance().getYear(date)+
@@ -163,7 +163,7 @@ public class LogStoryDetailActivity extends BaseActivity implements View.OnClick
             return;
         }
         tv_name.setText(log.getUserName());
-        tv_log_title.setText(log.getLogTitle());
+        //tv_log_title.setText(log.getLogTitle());
         tv_content.setText(log.getLogContent());
         String date=log.getCreateDate();
         tv_date.setText(DateUtil.getInstance().getYear(date)+

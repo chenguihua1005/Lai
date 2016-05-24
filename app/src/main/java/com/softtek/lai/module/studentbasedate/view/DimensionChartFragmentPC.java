@@ -130,8 +130,13 @@ public class DimensionChartFragmentPC extends BaseFragment implements View.OnCli
         upArmGirthDatas.clear();
         upLegGirthDatas.clear();
         doLegGirthDatas.clear();
+        StudentLinChartInfoModel firstmodel=null;
         for(int i=0;i<event.getModels().size();i++) {
             StudentLinChartInfoModel model = event.getModels().get(i);
+            if(model.getAMStatus()==3){
+                firstmodel=model;
+                break;
+            }
             int week = model.getWeekDay();//本次测量周
             if (i == 0) {
                 /*
@@ -163,6 +168,7 @@ public class DimensionChartFragmentPC extends BaseFragment implements View.OnCli
 
             }
         }
+        
         chartUtil.addDataSet(circumDatas);
     }
 

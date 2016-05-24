@@ -22,6 +22,15 @@ public class StudentLinChartInfoModel {
     private String CurrentDate;
     private int CurrentWeekDay;
     private int WeekDay;
+    private int AMStatus;
+
+    public int getAMStatus() {
+        return AMStatus;
+    }
+
+    public void setAMStatus(int AMStatus) {
+        this.AMStatus = AMStatus;
+    }
 
     public String getClassEnd() {
         return ClassEnd;

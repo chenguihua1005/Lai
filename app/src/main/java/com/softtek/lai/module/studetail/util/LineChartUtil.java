@@ -37,7 +37,7 @@ public class LineChartUtil {
 
         if(data.getXValCount()==0){
             //添加x 轴数值
-            for (int i = 1; i <=12; i++) {
+            for (int i = 1; i <=13; i++) {
                 data.getXVals().add(i + "");
             }
         }
