@@ -295,6 +295,8 @@ public class MessageImpl implements IMessagePresenter {
                         EventBus.getDefault().post(event);
                         break;
                     default:
+                        CheckMobileEvent events=new CheckMobileEvent(id,false);
+                        EventBus.getDefault().post(events);
                         Util.toastMsg(listResponseData.getMsg());
                         break;
                 }
@@ -303,6 +305,8 @@ public class MessageImpl implements IMessagePresenter {
             @Override
             public void failure(RetrofitError error) {
                 dialog.dismiss();
+                CheckMobileEvent events=new CheckMobileEvent(id,false);
+                EventBus.getDefault().post(events);
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }

@@ -29,9 +29,9 @@ android {
     signingConfigs {
         release {
             try {
-                storeFile file("lai.jks")
+                storeFile file("laiapp.jks")
                 storePassword properties.getProperty("keystore.pass")
-                keyAlias "lai"
+                keyAlias "laiapp"
                 keyPassword properties.getProperty("key.pass")
             }
             catch (ex) {
@@ -74,4 +74,5 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'
     compile 'com.android.support:multidex:1.0.0'
+    compile 'com.akexorcist:RoundCornerProgressBar:2.0.3'
 }

@@ -34,7 +34,24 @@ public class PKDetailMold implements Parcelable{
     //0可以1不可以
     private int BPraiseStatus;
     private int PraiseStatus;
+    private int TStatus;
+    private String WinnerId;
 
+    public int getTStatus() {
+        return TStatus;
+    }
+
+    public void setTStatus(int TStatus) {
+        this.TStatus = TStatus;
+    }
+
+    public String getWinnerId() {
+        return WinnerId;
+    }
+
+    public void setWinnerId(String winnerId) {
+        WinnerId = winnerId;
+    }
 
     public PKDetailMold() {
     }

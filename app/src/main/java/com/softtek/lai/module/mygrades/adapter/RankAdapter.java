@@ -3,12 +3,14 @@ package com.softtek.lai.module.mygrades.adapter;
 import android.content.Context;
 import android.graphics.Color;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.softtek.lai.R;
 import com.softtek.lai.module.mygrades.model.OrderDataModel;
 import com.softtek.lai.widgets.CircleImageView;
@@ -76,6 +78,18 @@ public class RankAdapter extends BaseAdapter{
         viewHolder.rank.setText(orderDataModelList.get(position).get_order() + "");
         viewHolder.name.setText(orderDataModelList.get(position).getUserName()+"");
         viewHolder.bushu.setText(orderDataModelList.get(position).getStepCount()+"");
+
+        Float step=Float.parseFloat(orderDataModelList.get(0).getStepCount());
+        Float stepper=80/step;
+
+        Log.i("","----->>>steper:"+stepper);
+        if ((position+1)<2){
+            viewHolder.prog.setProgress(80);
+        }else {
+            Float pro=Float.parseFloat(orderDataModelList.get(position).getStepCount())*stepper;
+            viewHolder.prog.setProgress(pro);
+        }
+
         return convertView;
     }
 
@@ -83,12 +97,14 @@ public class RankAdapter extends BaseAdapter{
         TextView rank;
         TextView name;
         TextView bushu;
+        RoundCornerProgressBar prog;
         CircleImageView civ_header_image;
 
         public ViewHolder(View view) {
             rank = (TextView) view.findViewById(R.id.tv_rank);
             name = (TextView) view.findViewById(R.id.tv_name);
             bushu = (TextView) view.findViewById(R.id.tv_bushu);
+            prog=(RoundCornerProgressBar)view.findViewById(R.id.rcpb_prog);
             civ_header_image = (CircleImageView) view.findViewById(R.id.civ_header_image);
         }
     }

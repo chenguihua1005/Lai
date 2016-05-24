@@ -1,5 +1,6 @@
 package com.ggx.jerryguan.widget_lib;
 
+import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -9,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.renderscript.Sampler;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
@@ -29,7 +31,7 @@ public class Chart extends View{
     private float sStartAngle;//第二段弧线的初始角度
     private float tStartAngle;//第三段弧线的初始角度
 
-    private int text=123456;
+    private Float text=123456f;
     private String tip="累计减重";
     private String unit="斤";
     private int mTextUnitSize=(int) TypedValue.applyDimension(
@@ -37,7 +39,7 @@ public class Chart extends View{
     private int mTextTipSize=(int) TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_SP, 12, getResources().getDisplayMetrics());
     private int mTextSize=(int) TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_SP, 24, getResources().getDisplayMetrics());
+            TypedValue.COMPLEX_UNIT_SP, 20, getResources().getDisplayMetrics());
 
     private int mWidth;
     private int mHeight;
@@ -73,13 +75,14 @@ public class Chart extends View{
         super(context, attrs, defStyleAttr);
         init(context,attrs);
     }
+
     private void init(Context context,AttributeSet attrs){
         //获取自定义属性
         TypedArray ta=context.obtainStyledAttributes(attrs,R.styleable.Chart);
         mTextSize=ta.getDimensionPixelOffset(R.styleable.Chart_numSize,mTextSize);
         mTextTipSize=ta.getDimensionPixelOffset(R.styleable.Chart_tipSize,mTextTipSize);
         mTextUnitSize=ta.getDimensionPixelOffset(R.styleable.Chart_unitSize, mTextUnitSize);
-        text=ta.getInt(R.styleable.Chart_totleNum, 0);
+        text=ta.getFloat(R.styleable.Chart_totleNum, 0);
         ta.recycle();
         mCircleStroke=30;
         mPaintFirst =new Paint();
@@ -166,7 +169,7 @@ public class Chart extends View{
         float angle3=anglePer*value[2];
         sStartAngle=angle1+fStartAngle;
         tStartAngle=angle2+sStartAngle;
-        int totleText=(int)(value[0] + value[1] + value[2]);
+        text=value[0] + value[1] + value[2];
         if(value[0]==0&&value[1]==0&&value[2]==0){
             empty=true;
             postInvalidate();
@@ -196,19 +199,19 @@ public class Chart extends View{
             public void onAnimationUpdate(ValueAnimator animation) {
                 float value = (float) animation.getAnimatedValue();
                 mThird = value;
-
-            }
-        });
-        ValueAnimator valueAnimator4=ValueAnimator.ofInt(0,totleText);
-        valueAnimator4.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                int value= (int) animation.getAnimatedValue();
-                text=value;
                 postInvalidate();
             }
         });
-        set.playTogether(valueAnimator1, valueAnimator2,valueAnimator3,valueAnimator4);
+       /* ValueAnimator valueAnimator4=ValueAnimator.ofFloat(0,totleText);
+        valueAnimator4.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                Float value= (Float) animation.getAnimatedValue();
+                text=value;
+                postInvalidate();
+            }
+        });*/
+        set.playTogether(valueAnimator1, valueAnimator2,valueAnimator3/*,valueAnimator4*/);
         set.start();
     }
 

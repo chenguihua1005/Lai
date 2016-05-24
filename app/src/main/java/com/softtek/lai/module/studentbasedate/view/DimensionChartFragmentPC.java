@@ -24,8 +24,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -130,10 +128,15 @@ public class DimensionChartFragmentPC extends BaseFragment implements View.OnCli
         upArmGirthDatas.clear();
         upLegGirthDatas.clear();
         doLegGirthDatas.clear();
+        StudentLinChartInfoModel firstmodel=null;
         for(int i=0;i<event.getModels().size();i++) {
             StudentLinChartInfoModel model = event.getModels().get(i);
+            if(model.getAMStatus()==3){
+                firstmodel=model;
+                continue;
+            }
             int week = model.getWeekDay();//本次测量周
-            if (i == 0) {
+            if (i == 1) {
                 /*
                 第一条数据表示该用户本班级开始测量的第一次
                 需要判断插入多少条一开始的空值，因为该用户未必是从班级一开班就开始测的，
@@ -163,11 +166,27 @@ public class DimensionChartFragmentPC extends BaseFragment implements View.OnCli
 
             }
         }
+        if (firstmodel!=null) {
+            circumDatas.add(0, getFloat(firstmodel.getCircum()));
+            waistlineDatas.add(0, getFloat(firstmodel.getWaistline()));
+            hiplieDatas.add(0, getFloat(firstmodel.getHiplie()));
+            upArmGirthDatas.add(0, getFloat(firstmodel.getUpArmGirth()));
+            upLegGirthDatas.add(0, getFloat(firstmodel.getUpLegGirth()));
+            doLegGirthDatas.add(0, getFloat(firstmodel.getDoLegGirth()));
+        }else{
+            circumDatas.add(0,0f);
+            waistlineDatas.add(0,0f);
+            hiplieDatas.add(0,0f);
+            upArmGirthDatas.add(0,0f);
+            upLegGirthDatas.add(0,0f);
+            doLegGirthDatas.add(0,0f);
+        }
+
         chartUtil.addDataSet(circumDatas);
     }
 
     private float getFloat(String str){
-        return str==null||"".equals(str)?0f:Float.parseFloat(str);
+        return str==null||str.length()==0?0f:Float.parseFloat(str);
     }
 
     @Override
