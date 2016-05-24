@@ -166,8 +166,8 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
     private ImageCropper imageCropper;
     private INewStudentpresenter iNewStudentpresenter;
 
-    boolean isR;//是否注册
-    boolean isOperation;
+    boolean isR=false;//是否注册
+    boolean isOperation=false;
     int current_operation;
 
     //获取当前日期
@@ -520,7 +520,25 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
     public void onClick(View v) {
         if (v.getId() == R.id.ll_left) {
             finish();
-        } else {
+        } else if(v.getId() == R.id.fl_right){
+            System.out.println("type:"+type);
+           if("0".equals(type)){
+               ll_tizhi.setFocusable(true);
+               ll_tizhi.setFocusableInTouchMode(true);
+               ll_tizhi.requestFocus();
+               ll_tizhi.findFocus();
+
+               et_phone.clearFocus();
+               current_operation=v.getId();
+               if(isOperation){
+
+               }else {
+                   checkPhone(v.getId());
+               }
+           }else {
+               validateLife.validate();
+           }
+        }else {
             ll_tizhi.setFocusable(true);
             ll_tizhi.setFocusableInTouchMode(true);
             ll_tizhi.requestFocus();
