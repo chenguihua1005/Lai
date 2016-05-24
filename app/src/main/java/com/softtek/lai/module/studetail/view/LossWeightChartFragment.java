@@ -8,6 +8,7 @@ import android.widget.RadioGroup;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.LineData;
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.studetail.eventModel.LineChartEvent;
@@ -124,10 +125,15 @@ public class LossWeightChartFragment extends BaseFragment implements RadioGroup.
         lossWeightDatas.clear();
         bodyFatDatas.clear();
         fatDatas.clear();
+        StudentLinChartInfoModel firstmodel=null;
         for(int i=0;i<event.getModels().size();i++){
             StudentLinChartInfoModel model=event.getModels().get(i);
+            if(model.getAMStatus()==3){
+                firstmodel=model;
+                continue;
+            }
             int week=model.getWeekDay();//本次测量周
-            if(i==0){
+            if(i==1){
                 /*
                 第一条数据表示该用户本班级开始测量的第一次
                 需要判断插入多少条一开始的空值，因为该用户未必是从班级一开班就开始测的，
@@ -150,13 +156,21 @@ public class LossWeightChartFragment extends BaseFragment implements RadioGroup.
                 fatDatas.add(getFloat(model.getFat()));
 
             }
-
-
         }
+        if(firstmodel!=null){
+            lossWeightDatas.add(0,getFloat(firstmodel.getWeight()));
+            bodyFatDatas.add(0,getFloat(firstmodel.getPysical()));
+            fatDatas.add(0,getFloat(firstmodel.getFat()));
+        }else{
+            lossWeightDatas.add(0,0f);
+            bodyFatDatas.add(0,0f);
+            fatDatas.add(0,0f);
+        }
+        Log.i("减重曲线图大小》》》》"+lossWeightDatas.size());
         chartUtil.addDataSet(lossWeightDatas);
     }
     private float getFloat(String str){
-        return str==null||"".equals(str)?0f:Float.parseFloat(str);
+        return str==null||str.length()==0?0f:Float.parseFloat(str);
     }
     //插入几次空数据
     private void addEmptyDate(int n){
