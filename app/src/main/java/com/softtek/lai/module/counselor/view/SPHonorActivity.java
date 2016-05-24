@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -195,6 +196,7 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
 //        shareUtils.getController().openShare(SPHonorActivity.this, false);
         menuWindow = new SelectPicPopupWindow(SPHonorActivity.this, itemsOnClick);
         //显示窗口
+        menuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         menuWindow.showAtLocation(SPHonorActivity.this.findViewById(R.id.lin), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
     }
 

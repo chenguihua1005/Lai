@@ -70,8 +70,8 @@ public class DayRankFragment extends BaseFragment {
         gradesService= ZillaApi.NormalRestAdapter.create(GradesService.class);
 
         Bundle bundle1 = getArguments();
-        int str=bundle1.getInt("id");
-        Log.i("---------------------Daystr----------------"+str);
+        int i=bundle1.getInt("id");
+        Log.i("---------------------Daystr----------------"+i);
 
 //        //listview str 0跑团，1全国
 //        //接口信息：跑团数据1，全国数据0
@@ -86,11 +86,11 @@ public class DayRankFragment extends BaseFragment {
 
         //listview str 0跑团，1全国
         //接口信息：跑团数据1，全国数据0
-        if (str==0){
-            getCurrentDateOrder(1);
-        }
-        if (str==1){
+        if (i==0){
             getCurrentDateOrder(0);
+        }
+        if (i==1){
+            getCurrentDateOrder(1);
         }
 
 
@@ -108,13 +108,13 @@ public class DayRankFragment extends BaseFragment {
     }
 
     //切换日排名，周排名时更新数据
-    public void updateDayRankStatus(){
-        Bundle bundle1 = getArguments();
-        int str=bundle1.getInt("id");
-        if (str==0){
+    public void updateDayRankStatus(int i){
+//        Bundle bundle1 = getArguments();
+//        int str=bundle1.getInt("id");
+        if (i==0){
             getCurrentDateOrder(1);
         }
-        if (str==1){
+        if (i==1){
             getCurrentDateOrder(0);
         }
     }

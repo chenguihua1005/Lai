@@ -133,7 +133,7 @@ public class LossWeightLogAdapter extends BaseAdapter{
             });
             Picasso.with(context).load(AddressManager.get("photoHost")+log.getImgCollectionFirst()).fit().placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square).into(holder.iv_image);
         }
-        holder.tv_log_title.setText(log.getLogTitle());
+        //holder.tv_log_title.setText(log.getLogTitle());
         holder.tv_content.setText(log.getLogContent());
         String date=log.getCreateDate();
         holder.tv_month.setText(DateUtil.getInstance().getMonth(date)+"月");
@@ -143,14 +143,14 @@ public class LossWeightLogAdapter extends BaseAdapter{
 
     private static class LogHolder{
 
-        public TextView tv_day,tv_month,tv_log_title,tv_content;
+        public TextView tv_day,tv_month/*,tv_log_title*/,tv_content;
         public ImageView iv_image;
         public CheckBox cb_zan;
 
         public LogHolder(View view){
             tv_day= (TextView) view.findViewById(R.id.tv_day);
             tv_month= (TextView) view.findViewById(R.id.tv_month);
-            tv_log_title= (TextView) view.findViewById(R.id.tv_log_title);
+            //tv_log_title= (TextView) view.findViewById(R.id.tv_log_title);
             tv_content= (TextView) view.findViewById(R.id.tv_content);
             iv_image= (ImageView) view.findViewById(R.id.iv_image);
             cb_zan= (CheckBox) view.findViewById(R.id.cb_zan);

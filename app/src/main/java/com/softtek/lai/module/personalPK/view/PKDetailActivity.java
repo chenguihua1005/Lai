@@ -19,10 +19,10 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.group.view.GroupMainActivity;
 import com.softtek.lai.module.personalPK.adapter.PKListAdapter;
 import com.softtek.lai.module.personalPK.model.PKDetailMold;
 import com.softtek.lai.module.personalPK.presenter.PKListManager;
-import com.softtek.lai.module.group.view.GroupMainActivity;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.StringUtil;
@@ -123,7 +123,6 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
     }
 
     int type;
-    int tStatus;//本次PK状态；未开始 进行中 以结束
     long pkId;
     @Override
     protected void initDatas() {
@@ -291,6 +290,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
     public static final int CHALLENGING = 1;
     public static final int REFUSE = -1;
 
+
     public void getPKDetail(PKDetailMold model,int resultCode) {
         dialogDissmiss();
         if (model == null&&resultCode==-1) {
@@ -303,11 +303,25 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
         rl_load.setVisibility(View.GONE);
         sv_pk.setVisibility(View.VISIBLE);
         this.model=model;
-        tStatus=pkStatus(model.getStart(),model.getEnd());
-        if(tStatus==PKListAdapter.Completed){//如果这个PK是已经结束的就什么操作都不需要显示
-            sender1.setVisibility(View.GONE);//隐藏发起者标识
-            //显示胜利者表示
+        if(model.getTStatus()==PKListAdapter.Completed){//如果这个PK是已经结束
+            if (Long.parseLong(model.getWinnerId())==model.getChallenged()){
+                //发起方胜利
+                sender1.setVisibility(View.GONE);//隐藏发起者标识
+                //显示胜利者表示
+                iv_winner1.setVisibility(View.VISIBLE);
+                iv_winner2.setVisibility(View.GONE);
+            }else{
+                //接受方胜利
+                sender1.setVisibility(View.VISIBLE);//显示发起者标识
+                iv_winner2.setVisibility(View.VISIBLE);
+                iv_winner1.setVisibility(View.GONE);
+            }
 
+        }else{
+            sender1.setVisibility(View.VISIBLE);//显示发起者标识
+            //隐藏胜利者标识
+            iv_winner1.setVisibility(View.GONE);
+            iv_winner2.setVisibility(View.GONE);
         }
         //更新数据
         tv_pk_name1.setText(StringUtil.showName(model.getUserName(),model.getMobile()));
@@ -338,13 +352,13 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
         } else if (model.getStatus() == REFUSE) {
             tv_is_accept.setText("拒绝");
         }
-        if(tStatus==PKListAdapter.NOSTART){
+        if(model.getTStatus()==PKListAdapter.NOSTART){
             tv_status.setBackgroundResource(R.drawable.pk_list_weikaishi);
             tv_status.setText("未开始");
-        }else if(tStatus==PKListAdapter.PROCESSING){
+        }else if(model.getTStatus()==PKListAdapter.PROCESSING){
             tv_status.setBackgroundResource(R.drawable.pk_list_jingxingzhong);
             tv_status.setText("进行中");
-        }else if(tStatus==PKListAdapter.Completed){
+        }else if(model.getTStatus()==PKListAdapter.Completed){
             tv_status.setBackgroundResource(R.drawable.pk_list_yijieshu);
             tv_status.setText("以结束");
         }
@@ -393,22 +407,22 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
                     .into(sender2_header);
         }
 
-        if(tStatus==PKListAdapter.Completed){//如果这个PK是已经结束的就什么操作都不需要显示
+        if(model.getTStatus()==PKListAdapter.Completed){//如果这个PK是已经结束的就什么操作都不需要显示
             return;
         }
         long userId=Long.parseLong(UserInfoModel.getInstance().getUser().getUserid());
         if ( userId== model.getChallenged()) {
             //发起方当前PK状态
-            changeStatus(tStatus,model.getStatus());
+            changeStatus(model.getTStatus(),model.getStatus());
         }else if(userId==model.getBeChallenged()){
             //接受方逻辑
-            beChangeStatus(tStatus,model.getStatus());
+            beChangeStatus(model.getTStatus(),model.getStatus());
         }else{//其他用户
-            other(tStatus);
+            other(model.getTStatus());
         }
     }
 
-    private int pkStatus(String startTime,String endTime){
+    /*private int pkStatus(String startTime,String endTime){
         int status=DateUtil.getInstance().compare(DateUtil.getInstance().getCurrentDate(),startTime);
         if(status==-1){
             return PKListAdapter.NOSTART;
@@ -423,7 +437,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
             }
         }
         return -1;
-    }
+    }*/
 
     //发起方状态操作
     private void changeStatus(int pkStatus,int bStatus){

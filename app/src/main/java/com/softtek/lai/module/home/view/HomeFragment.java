@@ -353,12 +353,12 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         } else if (role == Constants.NC) {
             //提示用户让他进行身份认证否则进入2个功能的踢馆赛模块
             information_dialog = new AlertDialog.Builder(getContext());
-            information_dialog.setTitle("参加体管赛需进行身份认证").setPositiveButton("现在认证", new DialogInterface.OnClickListener() {
+            information_dialog.setTitle("您还没有认证身份，如果您想更多了解莱聚+，请先认证身份").setPositiveButton("先去认证", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     startActivity(new Intent(getContext(), ValidateCertificationActivity.class));
                 }
-            }).setNegativeButton("稍候", new DialogInterface.OnClickListener() {
+            }).setNegativeButton("先进去逛逛", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     startActivity(new Intent(getContext(), BodyGameCcActivity.class));

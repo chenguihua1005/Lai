@@ -22,15 +22,12 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.jpush.JpushSet;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
-import com.softtek.lai.module.mygrades.view.MyGradesActivity;
 import com.softtek.lai.utils.ACache;
 import com.squareup.picasso.Picasso;
 
 import butterknife.InjectView;
-import cn.jpush.android.api.JPushInterface;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 

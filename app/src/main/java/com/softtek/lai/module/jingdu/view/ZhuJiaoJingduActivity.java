@@ -18,14 +18,10 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.jingdu.Adapter.RankAdapter;
 import com.softtek.lai.module.jingdu.model.PaimingModel;
-import com.softtek.lai.module.jingdu.model.RankModel;
 import com.softtek.lai.module.jingdu.model.SPModel;
 import com.softtek.lai.module.jingdu.model.Table1Model;
 import com.softtek.lai.module.jingdu.presenter.GetProinfoImpl;
 import com.softtek.lai.module.jingdu.presenter.IGetProinfopresenter;
-import com.softtek.lai.utils.ShareUtils;
-//import com.umeng.socialize.bean.SocializeConfig;
-//import com.umeng.socialize.sso.UMSsoHandler;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -35,6 +31,9 @@ import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
+
+//import com.umeng.socialize.bean.SocializeConfig;
+//import com.umeng.socialize.sso.UMSsoHandler;
 
 @InjectLayout(R.layout.activity_zhujiaojingdu)
 public class ZhuJiaoJingduActivity extends BaseActivity implements View.OnClickListener {
@@ -223,6 +222,7 @@ public class ZhuJiaoJingduActivity extends BaseActivity implements View.OnClickL
             float c = Float.parseFloat(threeban);
             total_weight.setValue(a, b, c);
         }
+
     }
 
     @Override

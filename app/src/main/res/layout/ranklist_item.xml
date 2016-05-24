@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="100dp"
@@ -40,6 +41,7 @@
         android:orientation="vertical"
         android:gravity="center|left"
         android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
@@ -62,40 +64,46 @@
         </LinearLayout>
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_gravity="center_vertical">
-            <!--<ProgressBar-->
-                <!--android:id="@+id/pb_jin"-->
-                <!--style="?android:attr/progressBarStyleHorizontal"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:max="100"-->
-                <!--android:progressDrawable="@drawable/progress_barbg"/>-->
-            <ImageView
-                android:layout_width="240dp"
+
+            <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+                android:id="@+id/rcpb_prog"
+                android:layout_width="match_parent"
                 android:layout_height="10dp"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/img_progress_off"
-                android:layout_marginRight="5dp"
-                android:scaleType="fitXY"
-                />
-            <ImageView
-                android:layout_width="200dp"
-                android:layout_height="10dp"
-                android:layout_marginLeft="1dp"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/img_progress_on"
-                android:scaleType="fitXY"
-                />
-            <ImageView
-                android:layout_width="200dp"
-                android:layout_height="10dp"
-                android:layout_gravity="center_vertical"
-                android:scaleType="fitXY"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/img_pro"/>
+                app:rcProgress="80"
+                app:rcSecondaryProgress="100"
+                app:rcMax="100"
+                app:rcRadius="100dp"
+                app:rcBackgroundPadding="0dp"
+                app:rcReverse="false"
+                app:rcProgressColor="#7bbd35"
+                app:rcSecondaryProgressColor="#f1f0f0"
+                app:rcBackgroundColor="#f1f0f0" />
+            <!--<ImageView-->
+                <!--android:layout_width="240dp"-->
+                <!--android:layout_height="10dp"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:src="@drawable/img_progress_off"-->
+                <!--android:layout_marginRight="5dp"-->
+                <!--android:scaleType="fitXY"-->
+                <!--/>-->
+            <!--<ImageView-->
+                <!--android:layout_width="240dp"-->
+                <!--android:layout_height="10dp"-->
+                <!--android:layout_marginLeft="1dp"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:src="@drawable/img_progress_on"-->
+                <!--android:scaleType="fitXY"-->
+                <!--/>-->
+            <!--<ImageView-->
+                <!--android:layout_width="240dp"-->
+                <!--android:layout_height="10dp"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:scaleType="fitXY"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:src="@drawable/img_pro"/>-->
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

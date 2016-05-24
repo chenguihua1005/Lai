@@ -26,9 +26,9 @@ public class DelNoticeOrMeasureManager {
         service= ZillaApi.NormalRestAdapter.create(MineService.class);
     }
 
-    public void doDelNoticeOrMeasureMsg(String MessageId) {
+    public void doDelNoticeOrMeasureMsg(String MessageId,String type) {
         String token= UserInfoModel.getInstance().getToken();
-        service.doDelNoticeOrMeasureMsg(token, MessageId, new Callback<ResponseData>() {
+        service.doDelNoticeOrMeasureMsg(token, MessageId,type, new Callback<ResponseData>() {
             @Override
             public void success(ResponseData responseData, Response response) {
                 int status=responseData.getStatus();

@@ -7,6 +7,7 @@ import com.softtek.lai.module.mygrades.model.DayRankModel;
 import com.softtek.lai.module.mygrades.model.GradeHonorModel;
 import com.softtek.lai.module.mygrades.model.GradesModel;
 import com.softtek.lai.module.mygrades.model.HonorModel;
+import com.softtek.lai.module.mygrades.model.RunGroupModel;
 
 import org.joda.time.DateTime;
 
@@ -45,8 +46,15 @@ public interface GradesService {
     //2.19.4	当周排名
     @GET("/StepCount/GetCurrentWeekOrder")
     void getCurrentWeekOrder(@Header("token") String token,
-                             @Query("RGId")int RGId,
+                             @Query("RGIdType")int RGIdType,
                              Callback<ResponseData<DayRankModel>> callback);
+
+    //我的跑团
+    @GET("/HerbMyData/GetNowRgName")
+    void doGetNowRgName(
+            @Header("token")String token,
+            @Query("accountid")long accountid,
+            Callback<ResponseData<RunGroupModel>>callback);
 //
 //    //2.19.2	勋章详情页
 //    @GET("/StepCount/GetStepHonor")
