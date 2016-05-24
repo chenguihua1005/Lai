@@ -43,8 +43,8 @@ public class GuideActivity extends BaseActivity implements Runnable{
         if (StringUtils.isEmpty(token)){
             checks();
         }else{
-            new Handler().postDelayed(this,1500);
         }
+        new Handler().postDelayed(this,1500);
     }
     //执行token不为空的情况
     private void checks(){
