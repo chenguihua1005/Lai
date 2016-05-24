@@ -13,10 +13,12 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.laisportmine.adapter.MyPkNoticeAdapter;
 import com.softtek.lai.module.laisportmine.model.PkNoticeModel;
 import com.softtek.lai.module.laisportmine.present.DelNoticeOrMeasureManager;
 import com.softtek.lai.module.laisportmine.present.PkNoticeManager;
+import com.softtek.lai.module.laisportmine.present.UpdateMsgRTimeManager;
 import com.softtek.lai.utils.StringUtil;
 
 import java.util.ArrayList;
@@ -27,7 +29,7 @@ import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_my_pk_list)
 public class MyPkListActivity extends BaseActivity implements View.OnClickListener,PkNoticeManager.PkNoticeCallback,
-        AdapterView.OnItemLongClickListener,DelNoticeOrMeasureManager.DelNoticeOrMeasureCallback{
+        AdapterView.OnItemLongClickListener,DelNoticeOrMeasureManager.DelNoticeOrMeasureCallback,UpdateMsgRTimeManager.UpdateMsgRTimeCallback{
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.tv_title)
@@ -37,10 +39,13 @@ public class MyPkListActivity extends BaseActivity implements View.OnClickListen
     @InjectView(R.id.ll_nomessage)
     LinearLayout ll_nomessage;
     private PkNoticeManager pkNoticeManager;
+    private UserInfoModel userInfoModel;
+    String accountid;
     private MyPkNoticeAdapter myPkNoticeAdapter;
     private List<PkNoticeModel>pkNoticeModelList=new ArrayList<PkNoticeModel>();
     private CharSequence[] items={"删除"};
     int positions;
+    UpdateMsgRTimeManager updateMsgRTimeManager;
     DelNoticeOrMeasureManager delNoticeOrMeasureManager;
     @Override
     protected void initViews() {
@@ -51,10 +56,16 @@ public class MyPkListActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void initDatas() {
+        userInfoModel=UserInfoModel.getInstance();
+        if (!userInfoModel.getUser().getUserid().isEmpty()) {
+            accountid = userInfoModel.getUser().getUserid();
+            pkNoticeManager=new PkNoticeManager(this);
+            pkNoticeManager.doGetPKINotice(accountid);
+            updateMsgRTimeManager=new UpdateMsgRTimeManager(this);
+            updateMsgRTimeManager.doUpdateMsgRTime(accountid,"0");
+        }
         myPkNoticeAdapter=new MyPkNoticeAdapter(this,pkNoticeModelList);
         listview_pk.setAdapter(myPkNoticeAdapter);
-        pkNoticeManager=new PkNoticeManager(this);
-        pkNoticeManager.doGetPKINotice();
         delNoticeOrMeasureManager=new DelNoticeOrMeasureManager(this);
 
 
@@ -72,13 +83,14 @@ public class MyPkListActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void getPkNotice(List<PkNoticeModel> pkNoticeModels) {
-        if (pkNoticeModels==null)
+        if (pkNoticeModels==null||pkNoticeModels.isEmpty())
         {
             ll_nomessage.setVisibility(View.VISIBLE);
         }
         else {
             pkNoticeModelList = pkNoticeModels;
             myPkNoticeAdapter.updateData(pkNoticeModelList);
+            ll_nomessage.setVisibility(View.GONE);
         }
 
     }
@@ -90,7 +102,7 @@ public class MyPkListActivity extends BaseActivity implements View.OnClickListen
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                delNoticeOrMeasureManager.doDelNoticeOrMeasureMsg(pkNoticeModelList.get(position).getPKId());
+                delNoticeOrMeasureManager.doDelNoticeOrMeasureMsg(pkNoticeModelList.get(position).getPKId(),"1");
                 pkNoticeModelList.remove(positions);
                 myPkNoticeAdapter.notifyDataSetChanged();
 

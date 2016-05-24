@@ -24,7 +24,7 @@
         android:layout_below="@+id/toolbar"
         android:gravity="center"
         android:background="#ffffff"
-        android:visibility="gone"
+        android:visibility="visible"
         >
         <ImageView
             android:layout_width="100dp"

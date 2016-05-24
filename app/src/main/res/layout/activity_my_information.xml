@@ -97,6 +97,43 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#dddddd"/>
+        <RelativeLayout
+            android:id="@+id/re_pk_mysport"
+            android:layout_width="match_parent"
+            android:layout_height="63dp"
+            android:background="#ffffff">
+            <ImageView
+                android:id="@+id/im_lab2"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="15dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/runnintman"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="我的运动"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@+id/im_lab2"
+                android:layout_centerVertical="true"
+                android:textColor="#333333"
+                android:textSize="16sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:textSize="16sp"
+                android:textColor="#999999"
+                android:layout_marginRight="15dp"
+                android:text=""/>
+
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#dddddd"/>
         <Button
             android:id="@+id/btn_signout"
             android:layout_width="match_parent"

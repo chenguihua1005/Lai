@@ -26,9 +26,9 @@ public class PkNoticeManager {
         service= ZillaApi.NormalRestAdapter.create(MineService.class);
     }
 
-    public void doGetPKINotice() {
+    public void doGetPKINotice(String accountid) {
         String token= UserInfoModel.getInstance().getToken();
-        service.doGetPKINotice(token, new Callback<ResponseData<List<PkNoticeModel>>>() {
+        service.doGetPKINotice(token,accountid, new Callback<ResponseData<List<PkNoticeModel>>>() {
             @Override
             public void success(ResponseData<List<PkNoticeModel>> listResponseData, Response response) {
                 int status=listResponseData.getStatus();
