@@ -1,5 +1,6 @@
 package com.ggx.jerryguan.widget_lib;
 
+import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -9,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.renderscript.Sampler;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
@@ -73,6 +75,7 @@ public class Chart extends View{
         super(context, attrs, defStyleAttr);
         init(context,attrs);
     }
+
     private void init(Context context,AttributeSet attrs){
         //获取自定义属性
         TypedArray ta=context.obtainStyledAttributes(attrs,R.styleable.Chart);
@@ -166,7 +169,7 @@ public class Chart extends View{
         float angle3=anglePer*value[2];
         sStartAngle=angle1+fStartAngle;
         tStartAngle=angle2+sStartAngle;
-        float totleText=(float)(value[0] + value[1] + value[2]);
+        text=value[0] + value[1] + value[2];
         if(value[0]==0&&value[1]==0&&value[2]==0){
             empty=true;
             postInvalidate();
@@ -196,10 +199,10 @@ public class Chart extends View{
             public void onAnimationUpdate(ValueAnimator animation) {
                 float value = (float) animation.getAnimatedValue();
                 mThird = value;
-
+                postInvalidate();
             }
         });
-        ValueAnimator valueAnimator4=ValueAnimator.ofFloat(0,totleText);
+       /* ValueAnimator valueAnimator4=ValueAnimator.ofFloat(0,totleText);
         valueAnimator4.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -207,8 +210,8 @@ public class Chart extends View{
                 text=value;
                 postInvalidate();
             }
-        });
-        set.playTogether(valueAnimator1, valueAnimator2,valueAnimator3,valueAnimator4);
+        });*/
+        set.playTogether(valueAnimator1, valueAnimator2,valueAnimator3/*,valueAnimator4*/);
         set.start();
     }
 

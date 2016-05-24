@@ -8,7 +8,7 @@
         <attr name="text" format="string"></attr>
     </declare-styleable>
     <declare-styleable name="Chart">
-        <attr name="totleNum" format="integer"/>
+        <attr name="totleNum" format="float"/>
         <attr name="numSize" format="dimension"/>
         <attr name="unitSize" format="dimension"/>
         <attr name="tipSize" format="dimension"/>

@@ -84,7 +84,7 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
     public RankInfoAdapter rankInfoAdapter;
 
     int biaozhi;
-    String ranking;
+    String ranking="当前用户未参加跑团";
     private FragmentManager manager;
     private FragmentTransaction transaction;
 
@@ -100,8 +100,8 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
         gradesService= ZillaApi.NormalRestAdapter.create(GradesService.class);
 
         //接口信息：跑团数据1，全国数据0,当前用户所参加的跑团orderRGName
-        getCurrentDateOrder(1);
-        //getCurrentDateOrder(0);
+//        getCurrentDateOrder(1);
+        getCurrentDateOrder(0);
 
         init();
         rankInfoAdapter = new RankInfoAdapter(this,rankSelectModelList);
