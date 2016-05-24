@@ -125,7 +125,7 @@
                         android:textColor="@color/word"
                         android:layout_gravity="center"
                         android:textSize="@dimen/textSize5"
-                        android:text="加油! 只要累计减重达到5斤就能拿到第一枚减重奖章了哦."
+                        android:text="加油! 只要累计减重达到5斤就能拿到第一枚减重奖章了哦！"
                         />
                 </LinearLayout>
 
@@ -201,7 +201,7 @@
                         android:textColor="@color/word"
                         android:layout_gravity="center"
                         android:textSize="@dimen/textSize5"
-                        android:text="只要去复测就能领取复测奖章咯."
+                        android:text="只要去复测就能领取复测奖章哦！"
                         />
                 </LinearLayout>
             </LinearLayout>
@@ -308,7 +308,7 @@
                         android:textColor="@color/word"
                         android:layout_gravity="center"
                         android:textSize="@dimen/textSize5"
-                        android:text="当月减重达到班级第一名才能获得月冠军奖章哦."
+                        android:text="当月减重达到班级第一名才能获得月冠军奖章哦！"
                         />
                 </LinearLayout>
             </LinearLayout>
@@ -417,7 +417,7 @@
                         android:textColor="@color/word"
                         android:layout_gravity="center"
                         android:textSize="@dimen/textSize5"
-                        android:text="全国减重达人100强的证明."
+                        android:text="全国减重达人100强的证明！"
                         />
                 </LinearLayout>
             </LinearLayout>

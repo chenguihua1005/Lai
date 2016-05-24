@@ -386,6 +386,9 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
             return;
         } else {
             switch (current_operation) {
+                case R.id.fl_right:
+                    validateLife.validate();
+                    break;
                 case R.id.btn_Add_bodydimension:
                     Intent intent = new Intent(this, JoinGameDimensionRecordActivity.class);
                     intent.putExtra("getConfirmInfoModel", getConfirmInfoModel);
@@ -446,10 +449,14 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
     }
 
     private void checkPhone(int id) {
+        System.out.println("isR---:"+isR);
         if(isR){
             Util.toastMsg("手机号码已注册");
         }else {
             switch (id) {
+                case R.id.fl_right:
+                    validateLife.validate();
+                    break;
                 case R.id.btn_Add_bodydimension:
                     Intent intent = new Intent(this, JoinGameDimensionRecordActivity.class);
                     intent.putExtra("getConfirmInfoModel", getConfirmInfoModel);
@@ -513,8 +520,6 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
     public void onClick(View v) {
         if (v.getId() == R.id.ll_left) {
             finish();
-        } else if (v.getId() == R.id.fl_right) {
-            validateLife.validate();
         } else {
             ll_tizhi.setFocusable(true);
             ll_tizhi.setFocusableInTouchMode(true);
