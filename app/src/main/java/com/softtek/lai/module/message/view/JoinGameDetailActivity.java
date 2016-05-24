@@ -449,7 +449,6 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
     }
 
     private void checkPhone(int id) {
-        System.out.println("isR---:"+isR);
         if(isR){
             Util.toastMsg("手机号码已注册");
         }else {
@@ -521,7 +520,6 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         if (v.getId() == R.id.ll_left) {
             finish();
         } else if(v.getId() == R.id.fl_right){
-            System.out.println("type:"+type);
            if("0".equals(type)){
                ll_tizhi.setFocusable(true);
                ll_tizhi.setFocusableInTouchMode(true);

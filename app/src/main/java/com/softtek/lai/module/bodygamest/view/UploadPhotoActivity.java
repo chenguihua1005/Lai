@@ -2,7 +2,6 @@ package com.softtek.lai.module.bodygamest.view;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -17,6 +16,7 @@ import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -152,10 +152,8 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         url = path + "SharePhotoAblum?AccountId=" + UserInfoModel.getInstance().getUser().getUserid() + "&ShareImageName=" + gifName;
         menuWindow = new SelectPicPopupWindow(UploadPhotoActivity.this, itemsOnClick);
         //显示窗口
-        View v=UploadPhotoActivity.this.findViewById(R.id.show);
-        int[] location = new int[2];
-        v.getLocationOnScreen(location);
-        menuWindow.showAtLocation(v, Gravity.NO_GRAVITY, location[0], location[1]-menuWindow.getHeight()); //设置layout在PopupWindow中显示的位置
+        menuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        menuWindow.showAtLocation(UploadPhotoActivity.this.findViewById(R.id.ptrlvlist), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
     }
 
     @Override
