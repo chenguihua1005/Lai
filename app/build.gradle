@@ -29,9 +29,9 @@ android {
     signingConfigs {
         release {
             try {
-                storeFile file("lai.jks")
+                storeFile file("laiapp.jks")
                 storePassword properties.getProperty("keystore.pass")
-                keyAlias "lai"
+                keyAlias "laiapp"
                 keyPassword properties.getProperty("key.pass")
             }
             catch (ex) {

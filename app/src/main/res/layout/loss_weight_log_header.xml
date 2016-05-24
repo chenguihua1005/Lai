@@ -5,12 +5,12 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp">
+        android:layout_height="260dp">
 
         <ImageView
             android:id="@+id/log_header_image"
             android:layout_width="match_parent"
-            android:layout_height="280dp"
+            android:layout_height="230dp"
             android:scaleType="fitCenter"
             android:background="#F2F0F1"
             android:src="@drawable/default_icon_rect" />

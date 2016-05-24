@@ -14,7 +14,6 @@
         android:layout_height="match_parent"
         android:divider="#00ececec"
         android:dividerHeight="1dp"
-        android:listSelector="@android:color/transparent"
         android:scrollbars="none"
         android:overScrollMode="never"
         app:ptrShowIndicator="false"
@@ -22,7 +21,8 @@
         android:footerDividersEnabled="false"
         android:headerDividersEnabled="false"
         android:id="@+id/ptrlv"
-        android:layout_below="@id/toolbar">
+        android:layout_below="@id/toolbar"
+        android:layout_marginTop="-3dp">
 
     </com.handmark.pulltorefresh.library.PullToRefreshListView>
 
