@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import butterknife.OnCheckedChanged;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -50,7 +51,7 @@ import zilla.libcore.util.Util;
  * 我的成绩-排名详情
  */
 @InjectLayout(R.layout.activity_ranking_details)
-public class RankingDetailsActivity extends BaseActivity implements View.OnClickListener,BaseFragment.OnFragmentInteractionListener {
+public class RankingDetailsActivity extends BaseActivity implements View.OnClickListener,BaseFragment.OnFragmentInteractionListener,ViewPager.OnPageChangeListener{
     //toobar
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -99,7 +100,7 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
         gradesService= ZillaApi.NormalRestAdapter.create(GradesService.class);
 
         //接口信息：跑团数据1，全国数据0,当前用户所参加的跑团orderRGName
-        //getCurrentDateOrder(1);
+        getCurrentDateOrder(1);
         //getCurrentDateOrder(0);
 
         init();
@@ -120,28 +121,29 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
                 if (position==0){
                     Iv_fold.setImageResource(R.drawable.unfold);
                     RL_rungroup.setVisibility(View.INVISIBLE);
+                    ((DayRankFragment)fragments.get(0)).updateDayRankStatus(0);
+                    ((WeekRankFragment)fragments.get(1)).updateWeekRankStatus(0);
                     //获取list的值------------
-                    tv_rungroupname.setText("跑团排名");
-
+                    tv_rungroupname.setText(ranking);
                     //biaozhi=0;
-                    DayRankFragment dayRankFragment=new DayRankFragment();
-                    Bundle bundle1 = new Bundle();
-                    bundle1.putInt("id",0);
-                    dayRankFragment.setArguments(bundle1);
-                    fragments.add(dayRankFragment);
-                    WeekRankFragment weekRankFragment=new WeekRankFragment();
-                    Bundle bundle2 = new Bundle();
-                    bundle2.putInt("id", 0);
-                    weekRankFragment.setArguments(bundle2);
-                    fragments.add(weekRankFragment);
-                    tab_content.setAdapter(new TabContentAdapter(getSupportFragmentManager(),fragments));
-                    tab.setupWithViewPager(tab_content);
-                    //tab_content.getCurrentItem();
-
-                    //flag判断是我的日排名还是周排名
-                    Intent intent=getIntent();
-                    int flag=intent.getIntExtra("flag",1);
-                    tab_content.setCurrentItem(flag);
+//                    DayRankFragment dayRankFragment=new DayRankFragment();
+//                    Bundle bundle1 = new Bundle();
+//                    bundle1.putInt("id",0);
+//                    dayRankFragment.setArguments(bundle1);
+//                    fragments.add(dayRankFragment);
+//                    WeekRankFragment weekRankFragment=new WeekRankFragment();
+//                    Bundle bundle2 = new Bundle();
+//                    bundle2.putInt("id", 0);
+//                    weekRankFragment.setArguments(bundle2);
+//                    fragments.add(weekRankFragment);
+//                    tab_content.setAdapter(new TabContentAdapter(getSupportFragmentManager(),fragments));
+//                    tab.setupWithViewPager(tab_content);
+//                    //tab_content.getCurrentItem();
+//
+//                    //flag判断是我的日排名还是周排名
+//                    Intent intent=getIntent();
+//                    int flag=intent.getIntExtra("flag",1);
+//                    tab_content.setCurrentItem(flag);
 
 
                     //18516262463
@@ -152,23 +154,25 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
                     RL_rungroup.setVisibility(View.INVISIBLE);
                     //获取list的值------------
                     tv_rungroupname.setText("全国排名");
+                    ((WeekRankFragment)fragments.get(1)).updateWeekRankStatus(1);
+                    ((DayRankFragment)fragments.get(0)).updateDayRankStatus(1);
                   //  biaozhi=1;
-                    DayRankFragment dayRankFragment=new DayRankFragment();
-                    Bundle bundle1 = new Bundle();
-                    bundle1.putInt("id",1);
-                    dayRankFragment.setArguments(bundle1);
-                    fragments.add(dayRankFragment);
-                    WeekRankFragment weekRankFragment=new WeekRankFragment();
-                    Bundle bundle2 = new Bundle();
-                    bundle2.putInt("id", 1);
-                    weekRankFragment.setArguments(bundle2);
-                    fragments.add(weekRankFragment);
-
-                    tab_content.setAdapter(new TabContentAdapter(getSupportFragmentManager(),fragments));
-                    tab.setupWithViewPager(tab_content);
-                    Intent intent=getIntent();
-                    int flag=intent.getIntExtra("flag",0);
-                    tab_content.setCurrentItem(flag);
+//                    DayRankFragment dayRankFragment=new DayRankFragment();
+//                    Bundle bundle1 = new Bundle();
+//                    bundle1.putInt("id",1);
+//                    dayRankFragment.setArguments(bundle1);
+//                    fragments.add(dayRankFragment);
+//                    WeekRankFragment weekRankFragment=new WeekRankFragment();
+//                    Bundle bundle2 = new Bundle();
+//                    bundle2.putInt("id", 1);
+//                    weekRankFragment.setArguments(bundle2);
+//                    fragments.add(weekRankFragment);
+//
+//                    tab_content.setAdapter(new TabContentAdapter(getSupportFragmentManager(),fragments));
+//                    tab.setupWithViewPager(tab_content);
+//                    Intent intent=getIntent();
+//                    int flag=intent.getIntExtra("flag",0);
+//                    tab_content.setCurrentItem(flag);
                 }
             }
         });
@@ -184,7 +188,7 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
                 {
                     case 200:
                         if (dayRankModelResponseData.getData().getOrderRGName().isEmpty()){
-                            ranking="跑团排名";
+                            ranking="当前用户未参加跑团";
                             tv_rungroupname.setText(ranking);
                             //Util.toastMsg("跑团排名isEmpty");
                         }else {
@@ -209,7 +213,8 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
     private void init() {
         //RGName 跑团名称
         //RankSelectModel p1 = new RankSelectModel(ranking);
-        RankSelectModel p1 = new RankSelectModel("跑团排名");
+
+        RankSelectModel p1 = new RankSelectModel(ranking);
         rankSelectModelList.add(p1);
         RankSelectModel p2 = new RankSelectModel("全国排名");
         rankSelectModelList.add(p2);
@@ -225,20 +230,21 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
         manager = getFragmentManager();
         DayRankFragment dayRankFragment=new DayRankFragment();
         Bundle bundle1 = new Bundle();
-        bundle1.putInt("id",0);
+        bundle1.putInt("id",1);
        // Log.i("-----------------------bundle1...biaozhi:"+biaozhi);
         dayRankFragment.setArguments(bundle1);
         fragments.add(dayRankFragment);
 
         WeekRankFragment weekRankFragment=new WeekRankFragment();
         Bundle bundle2 = new Bundle();
-        bundle2.putInt("id", 0);
+        bundle2.putInt("id", 1);
        // Log.i("----------------------bundle2...biaozhi:"+biaozhi);
         weekRankFragment.setArguments(bundle2);
         fragments.add(weekRankFragment);
 
         tab_content.setAdapter(new TabContentAdapter(getSupportFragmentManager(),fragments));
-//        tab_content.addOnPageChangeListener(this);
+       // tab_content.addOnPageChangeListener(this);
+//        tab_content.setOnPageChangeListener(OnCheckedChanged);
         tab.setupWithViewPager(tab_content);
         //模式滚动
         //tab.setTabMode(TabLayout.MODE_SCROLLABLE);
@@ -249,21 +255,7 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
         tab_content.setCurrentItem(flag);
     }
 
-    @Override
-    public void onPageSelected(int position) {
-            Log.i("页面切换到===》"+position);
-            switch (position)
-            {
-                case 0:
-                    Util.toMsg("更新日排名");
-                    ((DayRankFragment)fragments.get(0)).updateDayRankStatus();
-                    break;
-                case 1:
-                    Util.toMsg("更新周排名");
-                    ((WeekRankFragment)fragments.get(1)).updateWeekRankStatus();
-                    break;
-            }
-    }
+
 
     @Override
     protected void initDatas() {
@@ -290,6 +282,32 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+            Log.i("页面切换到===》"+position);
+            switch (position)
+            {
+                case 0:
+                    Util.toastMsg("更新日排名");
+//                    ((DayRankFragment)fragments.get(0)).updateDayRankStatus();
+                    break;
+                case 1:
+                    Util.toastMsg("更新周排名");
+//                    ((WeekRankFragment)fragments.get(1)).updateWeekRankStatus();
+                    break;
+            }
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
 
     }
 }

@@ -74,4 +74,5 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'
     compile 'com.android.support:multidex:1.0.0'
+    compile 'com.akexorcist:RoundCornerProgressBar:2.0.3'
 }
