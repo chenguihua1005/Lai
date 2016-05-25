@@ -116,11 +116,7 @@ public class ForgetActivity2 extends BaseActivity implements View.OnClickListene
     @Override
     public void onValidationSucceeded() {
         String psd = et_password.getText().toString();
-        if("hbl8888".equals(psd)){
-            Util.toastMsg("抱歉! 当前密码不符合莱聚+密码安全规范, 请换一个再试");
-        }else {
-            passwordPresenter.resetPassword(phone, MD5.md5WithEncoder(psd), identify);
-        }
+        passwordPresenter.resetPassword(phone, MD5.md5WithEncoder(psd), identify);
     }
 
     @Override

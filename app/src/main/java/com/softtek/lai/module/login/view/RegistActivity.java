@@ -169,11 +169,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
         }
         String phoneNum = et_phone.getText().toString();
         String password = et_password.getText().toString();
-        if("hbl888888".equals(password)){
-            Util.toastMsg("抱歉! 当前密码不符合莱聚+密码安全规范, 请换一个再试");
-        }else {
-            registPresenter.doRegist(phoneNum, MD5.md5WithEncoder(password), et_identify);
-        }
+        registPresenter.doRegist(phoneNum, MD5.md5WithEncoder(password), et_identify);
     }
 
     @Override
