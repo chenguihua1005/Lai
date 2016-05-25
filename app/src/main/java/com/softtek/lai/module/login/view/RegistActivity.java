@@ -170,7 +170,6 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
         String phoneNum = et_phone.getText().toString();
         String password = et_password.getText().toString();
         registPresenter.doRegist(phoneNum, MD5.md5WithEncoder(password), et_identify);
-
     }
 
     @Override
