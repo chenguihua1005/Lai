@@ -276,6 +276,7 @@ public class StepService extends Service implements SensorEventListener {
 
     }
 
+    //存入数据库
     private void save() {
         int tempStep = StepDcretor.CURRENT_SETP;
 

@@ -61,6 +61,7 @@ public class GuideActivity extends BaseActivity implements Runnable{
             startActivity(intent);
             finish();
         }else{
+            Log.i(UserInfoModel.getInstance().getUser().getUserid());
             //登陆完后直接去主页
             UserModel model=UserInfoModel.getInstance().getUser();
             if(model==null){

@@ -517,6 +517,8 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
             intent.putExtra("BChP",cb_zan_right.getText().toString());
             setResult(RESULT_OK,intent);
             finish();
+        }else{
+            finish();
         }
     }
 
