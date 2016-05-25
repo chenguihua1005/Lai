@@ -30,6 +30,7 @@ import com.softtek.lai.utils.SoftInputUtil;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_forget2)
 public class ForgetActivity2 extends BaseActivity implements View.OnClickListener, Validator.ValidationListener {
@@ -115,7 +116,11 @@ public class ForgetActivity2 extends BaseActivity implements View.OnClickListene
     @Override
     public void onValidationSucceeded() {
         String psd = et_password.getText().toString();
-        passwordPresenter.resetPassword(phone, MD5.md5WithEncoder(psd), identify);
+        if("hbl8888".equals(psd)){
+            Util.toastMsg("抱歉! 当前密码不符合莱聚+密码安全规范, 请换一个再试");
+        }else {
+            passwordPresenter.resetPassword(phone, MD5.md5WithEncoder(psd), identify);
+        }
     }
 
     @Override

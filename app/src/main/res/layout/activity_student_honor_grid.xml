@@ -3,30 +3,32 @@
   ~ Date:2016-03-31
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/grey"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical">
+    android:fitsSystemWindows="true">
 
-    <include layout="@layout/toolbar" />
+    <include layout="@layout/toolbar"
+        android:id="@+id/tool"/>
 
-    <com.softtek.lai.widgets.CustomScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tool"
         android:scrollbars="none">
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/studentHonorMarginTop1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginTop="15dip"
+                android:layout_weight="1">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -39,7 +41,7 @@
                 <LinearLayout
                     android:id="@+id/lin_jz_value"
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
+                    android:layout_height="155dip"
                     android:layout_marginTop="@dimen/studentHonorMarginTop2"
                     android:background="@color/white">
 
@@ -154,16 +156,17 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/studentHonorMarginTop3"
-                android:orientation="vertical">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="1">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin"
                     android:layout_marginRight="@dimen/margin"
+                    android:layout_marginTop="@dimen/studentHonorMarginTop3"
                     android:text="@string/studentHonorFC"
                     android:textSize="@dimen/studentHonorTextSize" />
 
@@ -172,7 +175,8 @@
                     android:layout_width="fill_parent"
                     android:layout_height="155dip"
                     android:layout_marginTop="@dimen/studentHonorMarginTop4"
-                    android:background="@color/white">
+                    android:background="@color/white"
+                    >
 
                     <LinearLayout
                         android:id="@+id/lin_fc"
@@ -227,7 +231,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="155dip"
                     android:background="@color/white"
-                    android:layout_marginTop="@dimen/studentHonorMarginTop2"
+                    android:layout_marginTop="@dimen/studentHonorMarginTop4"
                     android:visibility="gone">
                     <ImageView
                         android:layout_width="fill_parent"
@@ -251,9 +255,10 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="1">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -267,7 +272,7 @@
                 <LinearLayout
                     android:id="@+id/lin_ygj_value"
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
+                    android:layout_height="155dip"
                     android:layout_marginTop="@dimen/studentHonorMarginTop2"
                     android:background="@color/white">
 
@@ -379,14 +384,17 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/studentHonorMarginTop1"
-                android:orientation="vertical">
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginBottom="15dip"
+                android:layout_weight="1">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/studentHonorMarginTop1"
                     android:layout_marginLeft="@dimen/margin"
                     android:layout_marginRight="@dimen/margin"
                     android:text="@string/studentHonorsTAR"
@@ -395,14 +403,13 @@
                 <LinearLayout
                     android:id="@+id/lin_star_value"
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
+                    android:layout_height="155dip"
                     android:layout_marginTop="@dimen/studentHonorMarginTop2"
-                    android:layout_marginBottom="@dimen/studentHonorMarginTop2"
                     android:background="@color/white">
 
                     <RelativeLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="155dip"
+                        android:layout_height="fill_parent"
                         android:layout_marginLeft="@dimen/margin"
                         android:layout_marginRight="@dimen/margin"
                         android:background="@color/white"
@@ -484,7 +491,6 @@
                     android:layout_width="fill_parent"
                     android:layout_height="155dip"
                     android:background="@color/white"
-                    android:layout_marginBottom="@dimen/studentHonorMarginTop2"
                     android:layout_marginTop="@dimen/studentHonorMarginTop2"
                     android:visibility="gone">
                     <ImageView
@@ -508,5 +514,5 @@
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
-    </com.softtek.lai.widgets.CustomScrollView>
-</LinearLayout>
+    </ScrollView>
+</RelativeLayout>

@@ -803,7 +803,8 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
                 newstudentsModel.setSentaccid(accoutid);
                 newstudentsModel.setNickname(name);
                 String mobile = et_phone.getText().toString();
-                String b = "hbl" + mobile.substring(mobile.length() - 6, mobile.length());
+                String b = "hbl888888";
+//                String b = "hbl" + mobile.substring(mobile.length() - 6, mobile.length());
                 newstudentsModel.setPassword(MD5.md5WithEncoder(b));
                 newstudentsModel.setMobile(mobile);
                 String classId = pargradeIdlList.get(select_posion);
