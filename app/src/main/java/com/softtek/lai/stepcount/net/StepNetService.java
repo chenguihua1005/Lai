@@ -11,7 +11,7 @@ import retrofit.http.POST;
  * Created by jerry.guan on 5/25/2016.
  *
  */
-public interface StepService {
+public interface StepNetService {
 
     @FormUrlEncoded
     @POST("/StepCount/SaveStepCount")
