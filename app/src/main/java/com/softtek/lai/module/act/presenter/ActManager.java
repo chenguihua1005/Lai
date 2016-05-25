@@ -5,6 +5,7 @@ import android.util.Log;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.act.model.ActDetailModel;
+import com.softtek.lai.module.act.model.ActZKModel;
 import com.softtek.lai.module.act.model.ActivityModel;
 import com.softtek.lai.module.act.net.ActService;
 import com.softtek.lai.utils.RequestCallback;
@@ -23,7 +24,13 @@ public class ActManager {
     private ActService service;
     private GetactivityListCallBack getactivityListCallBack;
     private GetActDetailsCallBack getActDetailsCallBack;
+    private GetActivitySituationCallBack getActivitySituationCallBack;
 
+    public ActManager(GetActivitySituationCallBack getActivitySituationCallBack) {
+        this.getActivitySituationCallBack = getActivitySituationCallBack;
+        token = UserInfoModel.getInstance().getToken();
+        service = ZillaApi.NormalRestAdapter.create(ActService.class);
+    }
     public ActManager(GetActDetailsCallBack getActDetailsCallBack) {
         this.getActDetailsCallBack = getActDetailsCallBack;
         token = UserInfoModel.getInstance().getToken();
@@ -34,6 +41,36 @@ public class ActManager {
         this.getactivityListCallBack = getactivityListCallBack;
         token = UserInfoModel.getInstance().getToken();
         service = ZillaApi.NormalRestAdapter.create(ActService.class);
+    }
+
+    public void getActivitySituation(String pageIndex, String accountid,String activityid) {
+        service.getActivitySituation(token, pageIndex, accountid, activityid,new RequestCallback<ResponseData<ActZKModel>>() {
+            @Override
+            public void success(ResponseData<ActZKModel> listResponseData, Response response) {
+                Log.e("jarvis", listResponseData.toString());
+                int status = listResponseData.getStatus();
+                switch (status) {
+                    case 200:
+                        getActivitySituationCallBack.getActivitySituation("true", listResponseData.getData());
+                        break;
+                    case 100:
+                        getActivitySituationCallBack.getActivitySituation("false", null);
+                        break;
+                    default:
+                        getActivitySituationCallBack.getActivitySituation("false", null);
+                        Util.toastMsg(listResponseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                if (getActivitySituationCallBack != null) {
+                    getActivitySituationCallBack.getActivitySituation("false", null);
+                }
+                ZillaApi.dealNetError(error);
+            }
+        });
     }
 
     public void activityList(String pageIndex, String accountid) {
@@ -104,6 +141,11 @@ public class ActManager {
     public interface GetactivityListCallBack {
 
         void activityList(String type, ActivityModel model);
+    }
+
+    public interface GetActivitySituationCallBack {
+
+        void getActivitySituation(String type, ActZKModel model);
     }
 
 }

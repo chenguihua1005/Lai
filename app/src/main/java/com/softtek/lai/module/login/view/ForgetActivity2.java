@@ -30,6 +30,7 @@ import com.softtek.lai.utils.SoftInputUtil;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_forget2)
 public class ForgetActivity2 extends BaseActivity implements View.OnClickListener, Validator.ValidationListener {

@@ -1,5 +1,8 @@
 package com.softtek.lai.stepcount.service;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -10,14 +13,19 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
+import android.os.RemoteException;
+import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
+import com.softtek.lai.R;
+import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.stepcount.model.StepDcretor;
 import com.softtek.lai.utils.JCountDownTimer;
 
@@ -28,8 +36,8 @@ public class StepService extends Service implements SensorEventListener {
     private static int duration = 30000;
     private SensorManager sensorManager;
     private StepDcretor stepDetector;
-//    private NotificationManager nm;
-//    private NotificationCompat.Builder builder;
+    private NotificationManager nm;
+    private NotificationCompat.Builder builder;
     private Messenger messenger = new Messenger(new MessenerHandler());
     private BroadcastReceiver mBatInfoReceiver;
     private WakeLock mWakeLock;
@@ -143,12 +151,12 @@ public class StepService extends Service implements SensorEventListener {
      * 更新通知
      */
     private void updateNotification(String content) {
-        /*builder = new NotificationCompat.Builder(this);
+        builder = new NotificationCompat.Builder(this);
         builder.setPriority(Notification.PRIORITY_MIN);
 
         //Notification.Builder builder = new Notification.Builder(this);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                new Intent(this, MainActivity.class), 0);
+                new Intent(this, HomeActviity.class), 0);
         builder.setContentIntent(contentIntent);
         builder.setSmallIcon(R.mipmap.ic_launcher);
         builder.setTicker("BasePedo");
@@ -161,7 +169,7 @@ public class StepService extends Service implements SensorEventListener {
         startForeground(0, notification);
 
         nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        nm.notify(R.string.app_name, notification);*/
+        nm.notify(R.string.app_name, notification);
     }
 
     @Override
@@ -268,6 +276,7 @@ public class StepService extends Service implements SensorEventListener {
 
     }
 
+    //存入数据库
     private void save() {
         int tempStep = StepDcretor.CURRENT_SETP;
 

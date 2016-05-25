@@ -59,6 +59,7 @@ public class HistorySportListActivity extends BaseActivity implements View.OnCli
     @Override
     protected void initDatas() {
         tv_title.setText("我的运动");
+        sportManager=new SportManager(this);
         sportManager.getMovementList();
     }
 

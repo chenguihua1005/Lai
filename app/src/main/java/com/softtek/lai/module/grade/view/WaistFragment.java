@@ -100,7 +100,7 @@ public class WaistFragment extends BaseFragment implements PullToRefreshBase.OnR
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         StudentModel studentModel = studentModels.get(position - 1);
-        if(studentModel.getIsTest()==0||studentModel.getIsMemberOfAssistant()==1){
+        if(/*studentModel.getIsTest()==0||*/studentModel.getIsMemberOfAssistant()==1){
             return;
         }
         Intent intent = new Intent(getContext(), StudentDetailActivity.class);

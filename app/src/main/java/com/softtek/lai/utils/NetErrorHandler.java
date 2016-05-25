@@ -9,6 +9,7 @@ import android.text.TextUtils;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.LaiApplication;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 
 import java.io.InterruptedIOException;
@@ -73,7 +74,7 @@ public class NetErrorHandler implements IApiErrorHandler {
                 int statusCode = error.getResponse().getStatus();
                 switch (statusCode) {
                     case 401:
-                        if(builder!=null){
+                        if(builder!=null||(LaiApplication.getInstance().getContext() instanceof LoginActivity)){
                             return;
                         }
                         builder=new AlertDialog.Builder(LaiApplication.getInstance().getContext())
@@ -82,6 +83,7 @@ public class NetErrorHandler implements IApiErrorHandler {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         builder=null;
+                                        UserInfoModel.getInstance().loginOut();
                                         Intent intent=new Intent(LaiApplication.getInstance(), LoginActivity.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

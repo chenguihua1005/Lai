@@ -5,9 +5,7 @@
 package com.softtek.lai.module.guide;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
@@ -48,7 +46,9 @@ public class GuideActivity extends BaseActivity implements Runnable{
     }
     //执行token不为空的情况
     private void checks(){
+        //启动计步器服务
 
+        //检查数据库步数数据
     }
 
 
@@ -59,6 +59,7 @@ public class GuideActivity extends BaseActivity implements Runnable{
             startActivity(intent);
             finish();
         }else{
+            Log.i(UserInfoModel.getInstance().getUser().getUserid());
             //登陆完后直接去主页
             UserModel model=UserInfoModel.getInstance().getUser();
             if(model==null){

@@ -11,6 +11,15 @@ public class AskHealthyModel {
     private String Tips_Title;
     private String Tips_Content;
     private String Tips_Addr;
+    private String Tips_Link;
+
+    public String getTips_Link() {
+        return Tips_Link;
+    }
+
+    public void setTips_Link(String tips_Link) {
+        Tips_Link = tips_Link;
+    }
 
     public String getTips_Id() {
         return Tips_Id;

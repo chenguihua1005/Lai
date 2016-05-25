@@ -77,11 +77,11 @@ public class BaseDateFragment extends BaseFragment{
             tv_totle_lw.setText(model.getLossTotal()+"");
             tv_loss_before.setText(model.getLossBefore());
             tv_loss_after.setText(model.getLossAfter());
-            try {
+            if(StringUtils.isNotEmpty(model.getLossBeforePhoto())){
                 Picasso.with(getContext()).load(model.getLossBeforePhoto()).fit().placeholder(R.drawable.default_icon_rect).error(R.drawable.default_icon_rect).into(iv_loss_before);
+            }
+            if(StringUtils.isNotEmpty(model.getLossAfterPhoto())){
                 Picasso.with(getContext()).load(model.getLossAfterPhoto()).fit().placeholder(R.drawable.default_icon_rect).error(R.drawable.default_icon_rect).into(iv_loss_after);
-            }catch (Exception e){
-
             }
         }
         LossWeightChartFragmentPC lwcf= LossWeightChartFragmentPC.newInstance();

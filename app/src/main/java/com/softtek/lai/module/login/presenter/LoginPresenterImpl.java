@@ -5,9 +5,12 @@
 
 package com.softtek.lai.module.login.presenter;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -20,13 +23,16 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.jpush.JpushSet;
 import com.softtek.lai.module.home.view.HomeActviity;
+import com.softtek.lai.module.home.view.ModifyPasswordActivity;
 import com.softtek.lai.module.home.view.ValidateCertificationActivity;
 import com.softtek.lai.module.login.model.PhotoModel;
 import com.softtek.lai.module.login.model.RoleInfo;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.net.LoginService;
+import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.message.model.PhotosModel;
 import com.softtek.lai.module.message.view.JoinGameDetailActivity;
+import com.softtek.lai.utils.MD5;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
@@ -216,11 +222,11 @@ public class LoginPresenterImpl implements ILoginPresenter {
     }
 
     @Override
-    public void doLogin(String userName, String password, final ProgressDialog dialog) {
+    public void doLogin(String userName, final String password, final ProgressDialog dialog) {
 
         service.doLogin(userName, password, new Callback<ResponseData<UserModel>>() {
             @Override
-            public void success(ResponseData<UserModel> userResponseData, Response response) {
+            public void success(final ResponseData<UserModel> userResponseData, Response response) {
                 if (dialog != null) dialog.dismiss();
                 System.out.println(userResponseData);
                 int status = userResponseData.getStatus();
@@ -231,8 +237,30 @@ public class LoginPresenterImpl implements ILoginPresenter {
                         set.setAlias(userResponseData.getData().getMobile());
                         set.setStyleBasic();
                         UserInfoModel.getInstance().saveUserCache(userResponseData.getData());
-                        context.startActivity(new Intent(context, HomeActviity.class));
-                        ((AppCompatActivity) context).finish();
+                        final String token=userResponseData.getData().getToken();
+                        if(MD5.md5WithEncoder("000000").equals(password)){
+                            UserInfoModel.getInstance().setToken("");
+                            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context)
+                                    .setTitle(context.getString(R.string.login_out_title))
+                                    .setMessage("您正在使用默认密码, 为了您的账户安全, 需要设置一个新密码.")
+                                    .setPositiveButton("立即修改", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+
+                                            Intent intent=new Intent(context, ModifyPasswordActivity.class);
+                                            intent.putExtra("type","1");
+                                            intent.putExtra("token",token);
+                                            context.startActivity(intent);
+                                            ((AppCompatActivity) context).finish();
+                                        }
+                                    });
+                            Dialog dialog=dialogBuilder.create();
+                            dialog.setCancelable(false);
+                            dialog.show();
+                        }else {
+                            context.startActivity(new Intent(context, HomeActviity.class));
+                            ((AppCompatActivity) context).finish();
+                        }
                         break;
                     default:
                         Util.toastMsg(userResponseData.getMsg());
