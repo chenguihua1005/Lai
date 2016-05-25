@@ -65,7 +65,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="220dp"
+            android:layout_height="210dp"
             android:background="@color/white">
 
             <ImageView
@@ -98,7 +98,6 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_marginLeft="18dp"
-                    android:layout_marginBottom="10dp"
                     android:scaleType="fitCenter"
                     android:src="@drawable/img_default" />
             </LinearLayout>
@@ -110,7 +109,7 @@
             android:id="@+id/tab"/>
 
         <android.support.v4.view.ViewPager
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/tab_content"/>

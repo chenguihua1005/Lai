@@ -7,7 +7,6 @@ package com.softtek.lai.module.jingdu.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,8 +22,6 @@ import com.softtek.lai.module.jingdu.model.SPModel;
 import com.softtek.lai.module.jingdu.model.Table1Model;
 import com.softtek.lai.module.jingdu.presenter.GetProinfoImpl;
 import com.softtek.lai.module.jingdu.presenter.IGetProinfopresenter;
-//import com.umeng.socialize.bean.SocializeConfig;
-//import com.umeng.socialize.sso.UMSsoHandler;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -34,6 +31,9 @@ import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
+
+//import com.umeng.socialize.bean.SocializeConfig;
+//import com.umeng.socialize.sso.UMSsoHandler;
 
 @InjectLayout(R.layout.activity_zhujiaojingdu)
 public class ZhuJiaoJingduActivity extends BaseActivity implements View.OnClickListener {
@@ -222,7 +222,6 @@ public class ZhuJiaoJingduActivity extends BaseActivity implements View.OnClickL
             float c = Float.parseFloat(threeban);
             total_weight.setValue(a, b, c);
         }
-
 
     }
 

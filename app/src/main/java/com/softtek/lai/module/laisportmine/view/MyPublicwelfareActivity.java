@@ -102,7 +102,7 @@ public class MyPublicwelfareActivity extends BaseActivity implements View.OnClic
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                delNoticeOrMeasureManager.doDelNoticeOrMeasureMsg(publicWewlfModelList.get(position).getMessageId());
+                delNoticeOrMeasureManager.doDelNoticeOrMeasureMsg(publicWewlfModelList.get(position).getMessageId(),"1");
                 publicWewlfModelList.remove(positions);
                 myPublicWealfareAdapter.notifyDataSetChanged();
 

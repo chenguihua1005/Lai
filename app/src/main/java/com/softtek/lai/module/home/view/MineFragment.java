@@ -22,15 +22,12 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.jpush.JpushSet;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
-import com.softtek.lai.module.mygrades.view.MyGradesActivity;
 import com.softtek.lai.utils.ACache;
 import com.squareup.picasso.Picasso;
 
 import butterknife.InjectView;
-import cn.jpush.android.api.JPushInterface;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
@@ -198,8 +195,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 startActivity(new Intent(getContext(), ValidateCertificationActivity.class));
                 break;
             case R.id.lin_setting:
-//                startActivity(new Intent(getContext(), SettingsActivity.class));
-                startActivity(new Intent(getContext(), MyGradesActivity.class));
+                startActivity(new Intent(getContext(), SettingsActivity.class));
                 break;
         }
     }

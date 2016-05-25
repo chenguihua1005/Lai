@@ -1,6 +1,7 @@
 package com.softtek.lai.module.laisportmine.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +12,12 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.laisportmine.model.ActionModel;
 import com.softtek.lai.module.laisportmine.model.PkNoticeModel;
+import com.softtek.lai.widgets.CircleImageView;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import zilla.libcore.file.AddressManager;
 
 /**
  * Created by lareina.qiao on 5/12/2016.
@@ -65,14 +70,42 @@ public class MyPkNoticeAdapter extends BaseAdapter {
             viewHolder=(ViewHolder)convertView.getTag();
         }
         PkNoticeModel pkNoticeModel=pkNoticeModelList.get(position);
-        if (userInfoModel.getUser().getNickname().equals(pkNoticeModel.getChallenged())) {
-            viewHolder.tv_pk_person1.setText("你");
-            viewHolder.tv_pk_person2.setText(pkNoticeModel.getBChallenged());
+        String path = AddressManager.get("photoHost");
+        if (pkNoticeModel.getMsgType().equals("1"))
+        {
+            viewHolder.tv_pk_title.setText(pkNoticeModel.getBUserName()+"向你发了一次挑战");
+            if (!TextUtils.isEmpty(pkNoticeModel.getPhoto())) {
+                Picasso.with(context).load(path + pkNoticeModel.getPhoto()).fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(viewHolder.im_pk_head);
+            }
+
         }
-        else {
-            viewHolder.tv_pk_person1.setText(pkNoticeModel.getChallenged());
-            viewHolder.tv_pk_person2.setText("你");
+        else if (pkNoticeModel.getMsgType().equals("2"))
+        {
+            viewHolder.tv_pk_title.setText(pkNoticeModel.getBUserName()+"接受了你的挑战");
+            if (!TextUtils.isEmpty(pkNoticeModel.getBPhoto())) {
+                Picasso.with(context).load(path + pkNoticeModel.getBPhoto()).fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(viewHolder.im_pk_head);
+            }
         }
+        else if (pkNoticeModel.getMsgType().equals("3"))
+        {
+            viewHolder.tv_pk_title.setText(pkNoticeModel.getBUserName()+"拒绝了你的挑战");
+            if (!TextUtils.isEmpty(pkNoticeModel.getBPhoto())) {
+                Picasso.with(context).load(path + pkNoticeModel.getBPhoto()).fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(viewHolder.im_pk_head);
+            }
+        }
+        else if (pkNoticeModel.getMsgType().equals("4"))
+        {
+            viewHolder.tv_pk_title.setText(pkNoticeModel.getUserName()+"取消了挑战");
+            if (!TextUtils.isEmpty(pkNoticeModel.getPhoto())) {
+                Picasso.with(context).load(path + pkNoticeModel.getPhoto()).fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(viewHolder.im_pk_head);
+            }
+        }
+        else if (pkNoticeModel.getMsgType().equals("5"))
+        {
+            viewHolder.tv_pk_title.setText(pkNoticeModel.getChip());
+        }
+
+
 
         return convertView;
     }
@@ -81,9 +114,13 @@ public class MyPkNoticeAdapter extends BaseAdapter {
     class ViewHolder{
         TextView tv_pk_person1;
         TextView tv_pk_person2;
+        TextView tv_pk_title;
+        CircleImageView im_pk_head;
         public ViewHolder(View view){
             tv_pk_person1=(TextView)view.findViewById(R.id.tv_pk_person1);
             tv_pk_person2=(TextView)view.findViewById(R.id.tv_pk_person2);
+            tv_pk_title= (TextView) view.findViewById(R.id.tv_pk_title);
+            im_pk_head=(CircleImageView)view.findViewById(R.id.im_pk_head);
 
         }
     }
