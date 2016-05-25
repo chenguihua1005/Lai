@@ -7,6 +7,7 @@
 
 
     <RelativeLayout
+        android:id="@+id/rel"
         android:layout_width="fill_parent"
         android:layout_height="75dip"
         android:orientation="horizontal">
@@ -17,7 +18,13 @@
             android:layout_height="45dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/margin">
-
+            <com.softtek.lai.widgets.CircleImageView
+                android:id="@+id/img_person"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@drawable/img_default"
+                android:visibility="gone"/>
             <ImageView
                 android:id="@+id/img_group"
                 android:layout_width="wrap_content"
@@ -51,8 +58,7 @@
                 <TextView
                     android:id="@+id/text_value"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="5公里" />
+                    android:layout_height="wrap_content" />
 
                 <TextView
                     android:id="@+id/text_full"
@@ -61,7 +67,6 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:gravity="bottom"
-                    android:text="达标"
                     android:textColor="@color/editorText"
                     android:textSize="@dimen/textSize6" />
             </RelativeLayout>
@@ -69,12 +74,16 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dip">
-
+                android:layout_marginTop="5dip"
+                >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/img_act_group_bg"/>
                 <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
                     android:id="@+id/rcpb_prog"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="245dip"
+                    android:layout_height="21dip"
                     app:rcBackgroundColor="#f1f0f0"
                     app:rcBackgroundPadding="0dp"
                     app:rcMax="100"

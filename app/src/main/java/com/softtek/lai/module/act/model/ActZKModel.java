@@ -16,6 +16,7 @@ public class ActZKModel implements Serializable {
     private ActZKPersonModel ActDetial;
     private String ActType;
     private String PageCount;
+    private List<ActDetiallistModel> ActDetiallist;
 
     @Override
     public String toString() {
@@ -34,8 +35,6 @@ public class ActZKModel implements Serializable {
     public void setPageCount(String pageCount) {
         PageCount = pageCount;
     }
-
-    private List<ActDetiallistModel> ActDetiallist;
 
     public ActZKPersonModel getActDetial() {
         return ActDetial;
