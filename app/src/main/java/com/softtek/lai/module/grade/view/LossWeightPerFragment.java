@@ -100,7 +100,7 @@ public class LossWeightPerFragment extends BaseFragment implements PullToRefresh
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         StudentModel studentModel = studentModels.get(position - 1);
-        if(studentModel.getIsMemberOfAssistant()==1||studentModel.getIsTest()==0){
+        if(studentModel.getIsMemberOfAssistant()==1/*||studentModel.getIsTest()==0*/){
             return;
         }
         Intent intent = new Intent(getContext(), StudentDetailActivity.class);

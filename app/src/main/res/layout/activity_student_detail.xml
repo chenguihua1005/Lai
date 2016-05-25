@@ -22,21 +22,21 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="160dp"
+                android:layout_height="120dp"
                 android:background="@color/white"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:id="@+id/ll"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="40dp"
                     android:layout_alignParentBottom="true"
                     android:orientation="horizontal"
                     android:background="@drawable/ll_selector_grey">
 
                     <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="left|center"
                         android:layout_marginLeft="40dp"
                         android:scaleType="fitCenter"
@@ -67,10 +67,10 @@
                             android:gravity="center"
                             android:text="0篇"
                             android:textColor="#76BA2A"
-                            android:textSize="18sp" />
+                            android:textSize="16sp" />
 
                         <ImageView
-                            android:layout_width="20dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="20dp"
                             android:layout_gravity="center"
                             android:scaleType="fitCenter"
@@ -92,8 +92,8 @@
                     android:orientation="horizontal">
 
                     <LinearLayout
-                        android:layout_width="100dp"
-                        android:layout_height="match_parent"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
                         android:gravity="center"
                         android:orientation="vertical"
                         android:padding="15dp">
@@ -124,7 +124,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="#333333"
-                                android:textSize="20sp"
+                                android:textSize="18sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
 
@@ -136,9 +136,8 @@
                             android:orientation="horizontal">
 
                             <ImageView
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                android:scaleType="fitCenter"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:src="@drawable/img_phone" />
 
                             <TextView
@@ -146,8 +145,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:gravity="left|center"
-                                android:text=""
-                                android:textSize="20sp"
+                                android:textSize="16sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
                     </LinearLayout>
@@ -162,7 +160,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="10dp"
                 android:background="@color/white"
                 android:orientation="vertical"
                 android:paddingLeft="16dp"
@@ -170,7 +168,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="50dp"
                     android:gravity="left|center"
                     android:orientation="horizontal">
 
@@ -194,7 +192,7 @@
                             android:layout_height="wrap_content"
                             android:text="共减重"
                             android:textColor="#76BA2A"
-                            android:textSize="18dp" />
+                            android:textSize="16dp" />
 
                         <TextView
                             android:id="@+id/tv_totle_lw"
@@ -203,7 +201,7 @@
                             android:layout_marginLeft="15dp"
                             android:text="0.0斤"
                             android:textColor="#76BA2A"
-                            android:textSize="18dp" />
+                            android:textSize="16dp" />
                     </LinearLayout>
 
                     <View
@@ -270,6 +268,7 @@
                                     android:paddingBottom="5dp"
                                     android:paddingLeft="4dp"
                                     android:text="0.0斤"
+                                    android:textSize="12sp"
                                     android:textColor="@color/white"
                                     android:textStyle="bold" />
 
@@ -284,6 +283,7 @@
                                     android:paddingBottom="5dp"
                                     android:paddingRight="4dp"
                                     android:text="0.0斤"
+                                    android:textSize="12sp"
                                     android:textColor="@color/white"
                                     android:textStyle="bold" />
 
@@ -306,7 +306,7 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="60dp"
+                            android:layout_height="50dp"
                             android:orientation="horizontal">
 
                             <TextView
@@ -334,7 +334,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="10dp"
                 android:background="@color/white"
                 android:orientation="vertical">
 
