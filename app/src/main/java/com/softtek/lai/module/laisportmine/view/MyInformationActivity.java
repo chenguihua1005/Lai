@@ -102,6 +102,7 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
                 startActivity(intent);
                 break;
             case R.id.re_pk_mysport:
+                startActivity(new Intent(this,MyPkListActivity.class));
                 break;
         }
     }
@@ -109,7 +110,9 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
     @Override
     public void getRunTeamName(RunTeamModel runTeamModel) {
         runTeamModels=runTeamModel;
-        tv_runteamname.setText(runTeamModels.getRgName());
+        if (!runTeamModel.getRgName().isEmpty()) {
+            tv_runteamname.setText(runTeamModels.getRgName());
+        }
         if (!runTeamModels.getIsHasMsg().isEmpty())
         {
             if (runTeamModel.getIsHasMsg().equals("True"))

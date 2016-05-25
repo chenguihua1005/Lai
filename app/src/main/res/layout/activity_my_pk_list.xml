@@ -9,11 +9,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar">
+        android:layout_below="@+id/toolbar"
+        android:background="#f1f1f1">
         <ListView
             android:id="@+id/listview_pk"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:scrollbars="none"
+            android:divider="@null">
 
         </ListView>
     </LinearLayout>
@@ -24,7 +27,7 @@
         android:layout_below="@+id/toolbar"
         android:gravity="center"
         android:background="#ffffff"
-        android:visibility="visible"
+        android:visibility="gone"
         >
         <ImageView
             android:layout_width="100dp"
