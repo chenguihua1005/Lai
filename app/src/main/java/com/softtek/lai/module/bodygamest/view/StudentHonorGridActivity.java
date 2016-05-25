@@ -175,7 +175,7 @@ public class StudentHonorGridActivity extends BaseActivity implements View.OnCli
         List<StudentHonorTypeInfo> table2=honorModel.getTable2();
         String type=table2.get(0).getIsHave();
         if("3".equals(type)){
-            Util.toastMsg("新的班级开始了, 您可以在成绩单的往期成绩中查看之前获得的勋章.");
+            Util.toastMsg("新的班级开始了, 您可以在成绩单的往期成绩中查看之前获得的勋章");
         }
         for (int i = 0; i < table1.size(); i++) {
             StudentHonorInfo studentHonorInfo = table1.get(i);
