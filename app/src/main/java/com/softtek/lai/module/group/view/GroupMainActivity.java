@@ -38,6 +38,7 @@ import com.softtek.lai.module.group.model.PraiseChallengeModel;
 import com.softtek.lai.module.group.model.RecentlyActiviteModel;
 import com.softtek.lai.module.group.model.SportMainModel;
 import com.softtek.lai.module.group.presenter.SportGroupManager;
+import com.softtek.lai.module.sport.view.StartSportActivity;
 import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
@@ -225,7 +226,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.lin_start_sport://开始运动
             case R.id.lin_start_sports://开始运动
-
+                startActivity(new Intent(GroupMainActivity.this, StartSportActivity.class));
                 break;
             case R.id.lin_no_activity://活动
             case R.id.rel_my_activity://活动

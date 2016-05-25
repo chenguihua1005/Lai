@@ -100,7 +100,7 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                delNoticeOrMeasureManager.doDelNoticeOrMeasureMsg(actionModelLists.get(position).getMessageId());
+                delNoticeOrMeasureManager.doDelNoticeOrMeasureMsg(actionModelLists.get(position).getMessageId(),"1");
                 actionModelLists.remove(positions);
                 myActionAdapter.notifyDataSetChanged();
             }

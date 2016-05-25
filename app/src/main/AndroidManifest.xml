@@ -500,6 +500,12 @@
             android:name=".module.tips.view.VideoViewActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".module.sport.view.StartSportActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.sport.view.HistorySportListActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".module.mygrades.view.MyGradesActivity"
             android:screenOrientation="portrait" />
         <activity

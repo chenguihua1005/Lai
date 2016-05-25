@@ -43,6 +43,9 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
     //消息点击进入
     @InjectView(R.id.Re_mynews)
     RelativeLayout Re_mynews;
+    //我的运动点击
+    @InjectView(R.id.re_pk_mysport)
+    RelativeLayout re_pk_mysport;
     MyRunTeamManager myRunTeamManager;
     UserInfoModel userInfoModel=UserInfoModel.getInstance();
     long accountid=Long.parseLong(userInfoModel.getUser().getUserid());
@@ -55,6 +58,7 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
         ll_left.setOnClickListener(this);
         btn_signout.setOnClickListener(this);
         Re_mynews.setOnClickListener(this);
+        re_pk_mysport.setOnClickListener(this);
     }
 
     @Override
@@ -96,6 +100,8 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
                 Log.i("retestWrite="+runTeamModels.toString());
                 intent.putExtra("runTeamModels", runTeamModels);
                 startActivity(intent);
+                break;
+            case R.id.re_pk_mysport:
                 break;
         }
     }

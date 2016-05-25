@@ -55,9 +55,10 @@ public interface MineService {
             Callback<ResponseData<List<ActionModel>>>callback
     );
     //PK通知
-    @GET("/Challenged/GetPKINotice")
+    @GET("/SportMsg/GetChallMsg")
     void doGetPKINotice(
             @Header("token")String token,
+            @Query("accountid")String accountid,
             Callback<ResponseData<List<PkNoticeModel>>>callback
     );
     //删除通知
@@ -65,6 +66,7 @@ public interface MineService {
     void doDelNoticeOrMeasureMsg(
             @Header("token")String token,
             @Query("MessageId")String MessageId,
+            @Query("type")String type,
             Callback<ResponseData>callback
     );
 }
