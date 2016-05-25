@@ -60,7 +60,7 @@
             android:paddingRight="20dp"
             android:paddingTop="10dp"
             android:gravity="center"
-            android:text="臂围曲线"
+            android:text="臀围曲线"
             android:textColor="#74BB2A"
             android:textSize="12sp" />
 
