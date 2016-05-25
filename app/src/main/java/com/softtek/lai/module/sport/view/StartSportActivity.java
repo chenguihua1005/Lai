@@ -30,10 +30,6 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
     @InjectView(R.id.text_total_distance)
     TextView text_total_distance;
 
-
-    SportManager sportManager;
-
-    HistorySportAdapter adapter;
     private List<HistorySportModel> list = new ArrayList<HistorySportModel>();
 
     @Override
@@ -45,7 +41,6 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
     @Override
     protected void initDatas() {
         tv_title.setText("运动");
-        sportManager.getMovementList();
     }
 
     @Override

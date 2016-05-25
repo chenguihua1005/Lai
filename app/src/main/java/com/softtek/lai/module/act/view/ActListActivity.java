@@ -117,6 +117,9 @@ public class ActListActivity extends BaseActivity implements View.OnClickListene
             list.addAll(model.getActlist());
             adapter.notifyDataSetChanged();
         } else {
+            if (act_list != null) {
+                act_list.onRefreshComplete();
+            }
             if (pageIndex == 1) {
                 pageIndex = 1;
             } else {
