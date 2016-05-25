@@ -226,6 +226,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.lin_start_sport://开始运动
             case R.id.lin_start_sports://开始运动
+                System.out.println("----------");
                 startActivity(new Intent(GroupMainActivity.this, StartSportActivity.class));
                 break;
             case R.id.lin_no_activity://活动

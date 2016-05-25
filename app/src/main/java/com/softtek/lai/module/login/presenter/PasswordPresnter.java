@@ -12,6 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.login.net.LoginService;
 import com.softtek.lai.module.login.view.ForgetActivity2;
 import com.softtek.lai.module.login.view.LoginActivity;
@@ -57,8 +59,7 @@ public class PasswordPresnter implements IPasswordPresenter {
     }
 
     @Override
-    public void changePsd(String newpsd, String psd) {
-        String token = SharedPreferenceService.getInstance().get("token", "");
+    public void changePsd(String newpsd, String psd, final String token, final String type) {
         service.changePsd(token, newpsd, psd, new Callback<ResponseData>() {
             @Override
             public void success(ResponseData responseData, Response response) {
@@ -66,7 +67,11 @@ public class PasswordPresnter implements IPasswordPresenter {
                 int status = responseData.getStatus();
                 switch (status) {
                     case 200:
+                        UserInfoModel.getInstance().setToken(token);
                         Util.toastMsg(R.string.psdResetY);
+                        if("1".equals(type)){
+                            context.startActivity(new Intent(context, HomeActviity.class));
+                        }
                         ((AppCompatActivity) context).finish();
                         break;
                     default:
