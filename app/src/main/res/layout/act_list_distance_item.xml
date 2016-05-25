@@ -59,24 +59,32 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="达标"
-                    android:gravity="bottom"
                     android:layout_centerVertical="true"
-                    android:textSize="@dimen/textSize6"
-                    android:textColor="@color/editorText"/>
+                    android:gravity="bottom"
+                    android:text="达标"
+                    android:textColor="@color/editorText"
+                    android:textSize="@dimen/textSize6" />
             </RelativeLayout>
+
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dip">
-                <ImageView
-                    android:layout_width="wrap_content"
+
+                <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+                    android:id="@+id/rcpb_prog"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/img_act_group_bg"/>
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/img_act_group_full"/>
+                    app:rcBackgroundColor="#f1f0f0"
+                    app:rcBackgroundPadding="0dp"
+                    app:rcMax="100"
+                    app:rcProgress="80"
+                    app:rcProgressColor="#7bbd35"
+                    android:layout_centerInParent="true"
+                    app:rcRadius="100dp"
+                    app:rcReverse="false"
+                    app:rcSecondaryProgress="100"
+                    app:rcSecondaryProgressColor="#f1f0f0" />
             </RelativeLayout>
         </LinearLayout>
     </RelativeLayout>

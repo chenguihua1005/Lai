@@ -54,6 +54,9 @@ public class ModifyPersonActivity extends BaseActivity implements View.OnClickLi
     @InjectView(R.id.text_sex)
     TextView text_sex;
 
+    @InjectView(R.id.text_phone)
+    TextView text_phone;
+
     @InjectView(R.id.rel_modofy_photo)
     RelativeLayout rel_modofy_photo;
 
@@ -114,7 +117,7 @@ public class ModifyPersonActivity extends BaseActivity implements View.OnClickLi
         } else {
             text_name.setText(model.getNickname());
         }
-
+        text_phone.setText(model.getMobile());
         if(model.isHasGender()){
             if ("1".equals(model.getGender())) {
                 text_sex.setText("女");

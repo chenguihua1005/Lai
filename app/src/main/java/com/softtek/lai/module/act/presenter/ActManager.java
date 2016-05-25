@@ -5,6 +5,7 @@ import android.util.Log;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.act.model.ActDetailModel;
+import com.softtek.lai.module.act.model.ActZKModel;
 import com.softtek.lai.module.act.model.ActivityModel;
 import com.softtek.lai.module.act.net.ActService;
 import com.softtek.lai.utils.RequestCallback;
@@ -104,6 +105,11 @@ public class ActManager {
     public interface GetactivityListCallBack {
 
         void activityList(String type, ActivityModel model);
+    }
+
+    public interface GetActivitySituationCallBack {
+
+        void getActivitySituation(String type, ActZKModel model);
     }
 
 }

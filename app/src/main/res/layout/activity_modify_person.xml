@@ -84,7 +84,42 @@
             android:layout_marginRight="@dimen/margin"
             android:src="@drawable/img_modify_person_more" />
     </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="44dip"
+        android:layout_marginTop="1dip"
+        android:background="@color/white">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin"
+            android:text="手机号码"
+            android:textColor="@color/word"
+            android:textSize="@dimen/textSize1" />
+
+        <TextView
+            android:id="@+id/text_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dip"
+            android:layout_toLeftOf="@+id/img4"
+            android:textColor="@color/word"
+            android:textSize="@dimen/textSize1" />
+
+        <ImageView
+            android:id="@+id/img4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin"
+            android:src="@drawable/img_modify_person_more"
+            android:visibility="gone" />
+    </RelativeLayout>
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="44dip"
