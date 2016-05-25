@@ -57,8 +57,8 @@ public class AskHealthyAdapter extends BaseAdapter{
             holder= (ViewHolder) convertView.getTag();
         }
         AskHealthyModel model=models.get(position);
-        holder.tv_mask.setText(model.getTips_Title());
-        holder.tv_content.setText(model.getTips_Content());
+        holder.tv_mask.setText(model.getTips_Type());
+        holder.tv_content.setText(model.getTips_Title());
         if(StringUtils.isNotEmpty(model.getTips_Addr())){
             Picasso.with(context).load(AddressManager.get("photoHost")+model.getTips_Addr()).fit().placeholder(R.drawable.default_icon_rect)
                     .error(R.drawable.default_icon_rect).into(holder.iv_image);

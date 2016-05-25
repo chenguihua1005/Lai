@@ -17,9 +17,10 @@
         android:id="@+id/ptrlv"
         android:divider="#ececec"
         android:dividerHeight="1dp"
-        android:listSelector="@android:color/transparent"
         android:overScrollMode="never"
         android:scrollbars="none"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false"
         app:ptrShowIndicator="false"
         />
 </RelativeLayout>

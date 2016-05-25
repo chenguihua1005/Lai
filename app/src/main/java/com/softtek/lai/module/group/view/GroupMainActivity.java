@@ -25,6 +25,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.act.view.ActActivity;
 import com.softtek.lai.module.act.view.ActListActivity;
 import com.softtek.lai.module.home.view.HomeActviity;
@@ -32,6 +33,7 @@ import com.softtek.lai.module.laisportmine.present.MyRunTeamManager;
 import com.softtek.lai.module.laisportmine.view.MyInformationActivity;
 import com.softtek.lai.module.mygrades.view.MyGradesActivity;
 import com.softtek.lai.module.personalPK.view.CreatePKActivity;
+import com.softtek.lai.module.personalPK.view.PKDetailActivity;
 import com.softtek.lai.module.personalPK.view.PKListActivity;
 import com.softtek.lai.module.group.adapter.GroupMainActiuvityAdapter;
 import com.softtek.lai.module.group.model.PraiseChallengeModel;
@@ -239,7 +241,13 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                 break;
 
             case R.id.lin_pk://pk详情
-                String id = praiseChallengeModel.getPKId();//PKId
+                if(praiseChallengeModel!=null){
+                    String id = praiseChallengeModel.getPKId();//PKId
+                    Intent intent=new Intent(this, PKDetailActivity.class);
+                    intent.putExtra("pkId",Long.parseLong(id));
+                    intent.putExtra("pkType", Constants.GROUPMAIN_PK);
+                    startActivity(intent);
+                }
                 break;
 
             case R.id.text_start_pk://开始PK

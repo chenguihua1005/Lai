@@ -354,7 +354,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
         if (model.getStatus() == NOCHALLENGE) {
             tv_is_accept.setText("未应战");
         } else if (model.getStatus() == CHALLENGING) {
-            tv_is_accept.setText("以应战");
+            tv_is_accept.setText("已应战");
         } else if (model.getStatus() == REFUSE) {
             tv_is_accept.setText("拒绝");
         }
@@ -366,7 +366,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
             tv_status.setText("进行中");
         }else if(model.getTStatus()==PKListAdapter.Completed){
             tv_status.setBackgroundResource(R.drawable.pk_list_yijieshu);
-            tv_status.setText("以结束");
+            tv_status.setText("已结束");
         }
         if (model.getChipType() == Constants.NAIXI) {
             iv_type.setBackgroundResource(R.drawable.pk_naixi);

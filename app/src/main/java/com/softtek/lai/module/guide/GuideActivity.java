@@ -5,9 +5,7 @@
 package com.softtek.lai.module.guide;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;

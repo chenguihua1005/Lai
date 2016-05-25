@@ -68,7 +68,6 @@ public class PasswordPresnter implements IPasswordPresenter {
                 switch (status) {
                     case 200:
                         UserInfoModel.getInstance().setToken(token);
-                        Util.toastMsg(R.string.psdResetY);
                         if("1".equals(type)){
                             context.startActivity(new Intent(context, HomeActviity.class));
                         }

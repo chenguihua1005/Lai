@@ -1,6 +1,8 @@
 package com.softtek.lai.module.tips.view;
 
 import android.os.Handler;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -24,7 +26,7 @@ import zilla.libcore.ui.InjectLayout;
  */
 @InjectLayout(R.layout.fragment_healthy_ask)
 public class HealthyAskFragment extends BaseFragment implements AskHealthyManager.AskHealthyManagerCallback,
-        PullToRefreshBase.OnRefreshListener2<ListView>{
+        PullToRefreshBase.OnRefreshListener2<ListView>,AdapterView.OnItemClickListener{
 
     @InjectView(R.id.ptrlv)
     PullToRefreshListView ptrlv;
@@ -42,6 +44,7 @@ public class HealthyAskFragment extends BaseFragment implements AskHealthyManage
         ptrlv.setOnRefreshListener(this);
         ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
         ptrlv.setEmptyView(no_message);
+        ptrlv.setOnItemClickListener(this);
     }
 
     @Override
@@ -98,5 +101,10 @@ public class HealthyAskFragment extends BaseFragment implements AskHealthyManage
                 }
             }, 200);
         }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
     }
 }
