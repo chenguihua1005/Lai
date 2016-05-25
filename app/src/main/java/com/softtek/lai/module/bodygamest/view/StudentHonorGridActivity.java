@@ -11,11 +11,13 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mobsandgeeks.saripaar.Rule;
@@ -113,22 +115,26 @@ public class StudentHonorGridActivity extends BaseActivity implements View.OnCli
     @InjectView(R.id.lin_jz_value)
     LinearLayout lin_jz_value;
     @InjectView(R.id.lin_jz_sm)
-    LinearLayout lin_jz_sm;
+    RelativeLayout lin_jz_sm;
+    @InjectView(R.id.text_jz)
+    TextView text_jz;
 
     @InjectView(R.id.lin_fc_value)
-    LinearLayout lin_fc_value;
+    RelativeLayout lin_fc_value;
     @InjectView(R.id.lin_fc_sm)
-    LinearLayout lin_fc_sm;
+    RelativeLayout lin_fc_sm;
+    @InjectView(R.id.text_fc)
+    TextView text_fc;
 
     @InjectView(R.id.lin_ygj_value)
     LinearLayout lin_ygj_value;
     @InjectView(R.id.lin_ygj_sm)
-    LinearLayout lin_ygj_sm;
+    RelativeLayout lin_ygj_sm;
 
     @InjectView(R.id.lin_star_value)
     LinearLayout lin_star_value;
     @InjectView(R.id.lin_star_sm)
-    LinearLayout lin_star_sm;
+    RelativeLayout lin_star_sm;
 
 
 
