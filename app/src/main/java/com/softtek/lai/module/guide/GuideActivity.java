@@ -48,7 +48,8 @@ public class GuideActivity extends BaseActivity implements Runnable{
     }
     //执行token不为空的情况
     private void checks(){
-
+        //检查数据库步数数据
+        //启动计步器服务
     }
 
 

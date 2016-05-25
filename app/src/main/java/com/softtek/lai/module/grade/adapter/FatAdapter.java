@@ -117,7 +117,11 @@ public class FatAdapter extends BaseAdapter {
             holder.ll_show1.setVisibility(View.GONE);
 
             holder.tv_order.setVisibility(View.INVISIBLE);
-            holder.iv_arrow.setVisibility(View.INVISIBLE);
+            if(studentModel.getIsMemberOfAssistant()==1){//表示不能点击进入学员详情
+                holder.iv_arrow.setVisibility(View.INVISIBLE);
+            }else{
+                holder.iv_arrow.setVisibility(View.VISIBLE);
+            }
             holder.ll_show.setVisibility(View.GONE);
             holder.tv_show.setVisibility(View.VISIBLE);
             holder.tv_physical.setVisibility(View.INVISIBLE);

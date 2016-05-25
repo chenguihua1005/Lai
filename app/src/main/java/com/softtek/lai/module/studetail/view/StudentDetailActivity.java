@@ -5,7 +5,6 @@
 
 package com.softtek.lai.module.studetail.view;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.TabLayout;
@@ -15,9 +14,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import butterknife.InjectView;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
@@ -25,6 +22,7 @@ import com.softtek.lai.module.studetail.adapter.StudentDetailFragmentAdapter;
 import com.softtek.lai.module.studetail.model.MemberModel;
 import com.softtek.lai.module.studetail.presenter.IMemberInfopresenter;
 import com.softtek.lai.module.studetail.presenter.MemberInfoImpl;
+import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
@@ -38,6 +36,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_student_detail)
@@ -73,7 +72,6 @@ public class StudentDetailActivity extends BaseActivity implements View.OnClickL
     @InjectView(R.id.ll)
     LinearLayout ll_log;
 
-    private ProgressDialog progressDialog;
     private IMemberInfopresenter memberInfopresenter;
     private List<Fragment> fragmentList=new ArrayList<>();
     private long accountId=0;
@@ -83,9 +81,6 @@ public class StudentDetailActivity extends BaseActivity implements View.OnClickL
     protected void initViews() {
         ll_left.setOnClickListener(this);
         ll_log.setOnClickListener(this);
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.setMessage("正在加载内容...");
         accountId=getIntent().getLongExtra("userId",0);
         classId=getIntent().getLongExtra("classId",0);
         review_flag=getIntent().getStringExtra("review");
@@ -108,9 +103,7 @@ public class StudentDetailActivity extends BaseActivity implements View.OnClickL
         EventBus.getDefault().register(this);
         memberInfopresenter = new MemberInfoImpl(this,null);
         tv_title.setText("学员详情");
-
-        progressDialog.show();
-        Log.i("班级classId="+classId+";学员accountId="+accountId);
+        dialogShow("正在读取学员数据...");
         memberInfopresenter.getMemberinfo(String.valueOf(classId),String.valueOf(accountId) , progressDialog);
 
     }
@@ -136,9 +129,9 @@ public class StudentDetailActivity extends BaseActivity implements View.OnClickL
         tv_name.setText(memberModel.getUserName());
         tv_phone.setText(memberModel.getMobile());
         tv_totle_log.setText(memberModel.getLogCount() + "篇");
-        tv_totle_lw.setText(StringUtils.isEmpty(memberModel.getLossWeight())?"0.0斤":Float.parseFloat(memberModel.getLossWeight()) + "斤");
-        tv_loss_before.setText(StringUtils.isEmpty(memberModel.getLossBefore())?"0.0斤":Float.parseFloat(memberModel.getLossBefore()) + "斤");
-        tv_loss_after.setText(StringUtils.isEmpty(memberModel.getLossAfter())?"0.0斤":Float.parseFloat(memberModel.getLossAfter()) + "斤");
+        tv_totle_lw.setText(Float.parseFloat(StringUtils.isEmpty(memberModel.getLossAfter())?"0":memberModel.getLossAfter())==0?"0斤":Float.parseFloat(memberModel.getLossWeight())+"斤");
+        tv_loss_before.setText(StringUtil.getFloatValue(memberModel.getLossBefore())+"斤");
+        tv_loss_after.setText(StringUtil.getFloat(memberModel.getLossAfter())==0?"尚未复测":StringUtil.getFloat(memberModel.getLossAfter())+"斤");
         if(!StringUtils.isEmpty(memberModel.getPhoto())){
             Picasso.with(this).load(memberModel.getPhoto()).fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(civ_header_image);
         }

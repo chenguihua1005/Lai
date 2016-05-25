@@ -230,6 +230,9 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
                                 dialogDissmiss();
                                 if(responseData.getStatus()==200){
                                     agreeBehavior();
+                                }else{
+                                    rl_load.setVisibility(View.VISIBLE);
+                                    sv_pk.setVisibility(View.GONE);
                                 }
                             }
 
@@ -250,6 +253,9 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
                                 dialogDissmiss();
                                 if(responseData.getStatus()==200){
                                     refuseBehavior();
+                                }else{
+                                    rl_load.setVisibility(View.VISIBLE);
+                                    sv_pk.setVisibility(View.GONE);
                                 }
                             }
 
@@ -422,22 +428,6 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
         }
     }
 
-    /*private int pkStatus(String startTime,String endTime){
-        int status=DateUtil.getInstance().compare(DateUtil.getInstance().getCurrentDate(),startTime);
-        if(status==-1){
-            return PKListAdapter.NOSTART;
-        }else if(status==0){
-            return PKListAdapter.PROCESSING;
-        }else if(status==1){
-            status=DateUtil.getInstance().compare(DateUtil.getInstance().getCurrentDate(),endTime);
-            if(status==-1||status==0){
-                return PKListAdapter.PROCESSING;
-            }else{
-                return PKListAdapter.Completed;
-            }
-        }
-        return -1;
-    }*/
 
     //发起方状态操作
     private void changeStatus(int pkStatus,int bStatus){
