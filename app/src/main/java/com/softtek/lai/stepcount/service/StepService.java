@@ -1,5 +1,6 @@
 package com.softtek.lai.stepcount.service;
 
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -16,6 +17,7 @@ import android.os.Build;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
+import android.os.SystemClock;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
@@ -33,8 +35,13 @@ import java.util.Calendar;
 import zilla.libcore.db.ZillaDB;
 
 public class StepService extends Service implements SensorEventListener {
+
+    public static final String UPLOAD_STEP="com.softtek.lai.StepService";
+
     //默认为30秒进行一次存储
     private static int duration = 30000;
+    //默认30分钟上传一次
+    private static int durationUpload=30*60*1000;
     private SensorManager sensorManager;
     private StepDcretor stepDetector;
     private NotificationManager nm;
@@ -60,14 +67,20 @@ public class StepService extends Service implements SensorEventListener {
         startTimeCount();
         initTodayData();
         updateNotification("今日步数：" + StepDcretor.CURRENT_SETP + " 步");
+        //启动定时上传功能
+        AlarmManager manager= (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        PendingIntent pi = PendingIntent.getBroadcast(this,0,new Intent(UPLOAD_STEP),0);
+        manager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                SystemClock.elapsedRealtime(),
+                durationUpload,
+                pi);
     }
 
     private void initTodayData() {
         //获取当天的步数用于展示
         String userId=UserInfoModel.getInstance().getUser().getUserid();
         //查询到今日的步数记录
-        UserStep step= StepUtil.getInstance().getCurrentStep(userId);
-        StepDcretor.CURRENT_SETP=(step==null?0:step.getStepCount());
+        StepDcretor.CURRENT_SETP= StepUtil.getInstance().getCurrentStep(userId);
     }
 
     private void initBroadcastReceiver() {
@@ -183,11 +196,11 @@ public class StepService extends Service implements SensorEventListener {
         if (countSensor != null) {
             stepSensor = 0;
             Log.v("base", "countSensor");
-            sensorManager.registerListener(StepService.this, countSensor, SensorManager.SENSOR_DELAY_UI);
+            sensorManager.registerListener(this, countSensor, SensorManager.SENSOR_DELAY_UI);
         } else if (detectorSensor != null) {
             stepSensor = 1;
             Log.v("base", "detector");
-            sensorManager.registerListener(StepService.this, detectorSensor, SensorManager.SENSOR_DELAY_UI);
+            sensorManager.registerListener(this, detectorSensor, SensorManager.SENSOR_DELAY_UI);
         } else {
             Log.v("xf", "Count sensor not available!");
             addBasePedoListener();
@@ -214,7 +227,6 @@ public class StepService extends Service implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        //   i++;
         if (stepSensor == 0) {
             StepDcretor.CURRENT_SETP = (int) event.values[0];
         } else if (stepSensor == 1) {

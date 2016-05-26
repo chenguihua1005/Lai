@@ -64,9 +64,9 @@ public class StepDcretor implements SensorEventListener {
      * 0-准备计时   1-计时中  2-准备为正常计步计时  3-正常计步中
      */
     private int CountTimeState = 0;
-    public static long CURRENT_SETP = 0;
+    public static int CURRENT_SETP = 0;
     public static int TEMP_STEP = 0;
-    private long lastStep = -1;
+    private int lastStep = -1;
     // 加速计的三个维度数值
     public static float[] gravity = new float[3];
     public static float[] linear_acceleration = new float[3];

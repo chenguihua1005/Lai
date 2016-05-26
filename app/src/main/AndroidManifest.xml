@@ -538,7 +538,14 @@
         <activity
             android:name=".module.mygrades.view.RankingDetailsActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".module.tips.view.AskDetailActivity"></activity>
+        <activity android:name=".module.tips.view.AskDetailActivity" />
+
+        <service android:name=".stepcount.service.StepService" />
+        <receiver android:name=".stepcount.service.DelayReceive">
+            <intent-filter>
+                <action android:name="com.softtek.lai.StepService"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
