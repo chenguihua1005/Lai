@@ -24,7 +24,6 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
-import com.softtek.lai.utils.ACache;
 import com.squareup.picasso.Picasso;
 
 import butterknife.InjectView;
@@ -36,8 +35,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     @InjectView(R.id.tv_title)
     TextView title;
 
-    @InjectView(R.id.tv_left)
-    TextView tv_left;
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
 
     @InjectView(R.id.but_login_out)
     Button but_login_out;
@@ -78,14 +77,12 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     @InjectView(R.id.img)
     ImageView img;
 
-    private ACache aCache;
-
     private UserModel model;
     String photo;
 
     @Override
     protected void initViews() {
-        tv_left.setVisibility(View.GONE);
+        ll_left.setVisibility(View.GONE);
         but_login_out.setOnClickListener(this);
         lin_validate_certification.setOnClickListener(this);
         lin_setting.setOnClickListener(this);
@@ -138,7 +135,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
 
     @Override
     protected void initDatas() {
-        aCache = ACache.get(getContext(), Constants.USER_ACACHE_DATA_DIR);
         title.setText("我的");
 
     }
