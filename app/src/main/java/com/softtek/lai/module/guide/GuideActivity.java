@@ -11,21 +11,18 @@ import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.group.net.SportGroupService;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 
 import org.apache.commons.lang3.StringUtils;
 
-import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_guide)
 public class GuideActivity extends BaseActivity implements Runnable{
 
     private  String token=null;
-    private SportGroupService service;
 
     @Override
     protected void initViews() {
@@ -34,7 +31,6 @@ public class GuideActivity extends BaseActivity implements Runnable{
 
     @Override
     protected void initDatas() {
-        service= ZillaApi.NormalRestAdapter.create(SportGroupService.class);
         //检查是否存在token
         token= UserInfoModel.getInstance().getToken();
         Log.i("token="+token);
