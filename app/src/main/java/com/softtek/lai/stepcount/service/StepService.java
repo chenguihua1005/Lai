@@ -13,23 +13,24 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Build;
-import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.Message;
-import android.os.Messenger;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
-import android.os.RemoteException;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
 import com.softtek.lai.R;
-import com.softtek.lai.module.home.view.HomeActviity;
+import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.group.view.GroupMainActivity;
+import com.softtek.lai.stepcount.StepUtil;
 import com.softtek.lai.stepcount.model.StepDcretor;
+import com.softtek.lai.stepcount.model.UserStep;
+import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.JCountDownTimer;
 
 import java.util.Calendar;
+
+import zilla.libcore.db.ZillaDB;
 
 public class StepService extends Service implements SensorEventListener {
     //默认为30秒进行一次存储
@@ -38,7 +39,6 @@ public class StepService extends Service implements SensorEventListener {
     private StepDcretor stepDetector;
     private NotificationManager nm;
     private NotificationCompat.Builder builder;
-    private Messenger messenger = new Messenger(new MessenerHandler());
     private BroadcastReceiver mBatInfoReceiver;
     private WakeLock mWakeLock;
     private TimeCount time;
@@ -47,28 +47,6 @@ public class StepService extends Service implements SensorEventListener {
     //计步传感器类型 0-counter 1-detector
     private static int stepSensor = -1;
 
-
-    private static class MessenerHandler extends Handler {
-        @Override
-        public void handleMessage(Message msg) {
-            /*switch (msg.what) {
-                case Constant.MSG_FROM_CLIENT:
-                    try {
-                        Messenger messenger = msg.replyTo;
-                        Message replyMsg = Message.obtain(null, Constant.MSG_FROM_SERVER);
-                        Bundle bundle = new Bundle();
-                        bundle.putInt("step", StepDcretor.CURRENT_SETP);
-                        replyMsg.setData(bundle);
-                        messenger.send(replyMsg);
-                    } catch (RemoteException e) {
-                        e.printStackTrace();
-                    }
-                    break;
-                default:
-                    super.handleMessage(msg);
-            }*/
-        }
-    }
 
     @Override
     public void onCreate() {
@@ -81,21 +59,15 @@ public class StepService extends Service implements SensorEventListener {
         }).start();
         startTimeCount();
         initTodayData();
-
         updateNotification("今日步数：" + StepDcretor.CURRENT_SETP + " 步");
     }
 
     private void initTodayData() {
-        /*DbUtils.createDb(this, "basepedo");
-        //获取当天的数据，用于展示
-        List<StepData> list = DbUtils.getQueryByWhere(StepData.class, "today", new String[]{CURRENTDATE});
-        if (list.size() == 0 || list.isEmpty()) {
-            StepDcretor.CURRENT_SETP = 0;
-        } else if (list.size() == 1) {
-            StepDcretor.CURRENT_SETP = Integer.parseInt(list.get(0).getStep());
-        } else {
-            Log.v("xf", "出错了！");
-        }*/
+        //获取当天的步数用于展示
+        String userId=UserInfoModel.getInstance().getUser().getUserid();
+        //查询到今日的步数记录
+        UserStep step= StepUtil.getInstance().getCurrentStep(userId);
+        StepDcretor.CURRENT_SETP=(step==null?0:step.getStepCount());
     }
 
     private void initBroadcastReceiver() {
@@ -151,31 +123,32 @@ public class StepService extends Service implements SensorEventListener {
      * 更新通知
      */
     private void updateNotification(String content) {
-        builder = new NotificationCompat.Builder(this);
-        builder.setPriority(Notification.PRIORITY_MIN);
 
         //Notification.Builder builder = new Notification.Builder(this);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                new Intent(this, HomeActviity.class), 0);
-        builder.setContentIntent(contentIntent);
-        builder.setSmallIcon(R.mipmap.ic_launcher);
-        builder.setTicker("BasePedo");
-        builder.setContentTitle("BasePedo");
-        //设置不可清除
-        builder.setOngoing(true);
-        builder.setContentText(content);
+                new Intent(this, GroupMainActivity.class), 0);
+        builder = new NotificationCompat.Builder(this);
+        builder.setPriority(Notification.PRIORITY_MIN)
+                .setContentIntent(contentIntent)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setTicker(getString(R.string.app_name))
+                .setContentTitle(getString(R.string.app_name))
+                .setOngoing(true)//设置不可清除
+                .setContentText(content);
         Notification notification = builder.build();
 
         startForeground(0, notification);
 
+        //获取通知管理器
         nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        //发送通知
         nm.notify(R.string.app_name, notification);
     }
 
     @Override
     public IBinder onBind(Intent intent) {
 
-        return messenger.getBinder();
+        return null;
     }
 
 
@@ -278,8 +251,12 @@ public class StepService extends Service implements SensorEventListener {
 
     //存入数据库
     private void save() {
-        int tempStep = StepDcretor.CURRENT_SETP;
-
+        long tempStep = StepDcretor.CURRENT_SETP;
+        UserStep step=new UserStep();
+        step.setAccountId(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()));
+        step.setRecordTime(DateUtil.getInstance("yyyy-MM-dd").getCurrentDate());
+        step.setStepCount(tempStep);
+        ZillaDB.getInstance().save(step);
     }
 
 
@@ -323,4 +300,5 @@ public class StepService extends Service implements SensorEventListener {
 
         return (mWakeLock);
     }
+
 }
