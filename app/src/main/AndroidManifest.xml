@@ -294,6 +294,9 @@
             android:name=".module.act.view.ActActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".module.act.view.ActGroupPersonActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name="com.umeng.socialize.view.ShareActivity"
             android:configChanges="orientation|keyboard"
             android:launchMode="singleTask"

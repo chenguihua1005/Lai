@@ -136,16 +136,11 @@ public class ActDetailsFragment extends BaseFragment implements ActManager.GetAc
             if ("1".equals(targetType)) {
                 text_mb.setText("目标公里数： ");
                 text_gz.setText("目标公里数");
-                int distance = Integer.parseInt(model.getTarget()) / 1428;
-                if (distance <= 0.01) {
-                    distance = 0;
-                }
-                java.text.DecimalFormat df = new java.text.DecimalFormat("####0.00");
-                text_mb_value.setText(df.format(distance) + "公里");
+                text_mb_value.setText(model.getTarget() + "公里");
             } else {
                 text_mb.setText("目标步数： ");
                 text_gz.setText("目标步数");
-                text_mb_value.setText(model.getTarget());
+                text_mb_value.setText(model.getTarget()+"步");
             }
         }
     }

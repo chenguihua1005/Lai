@@ -3,6 +3,7 @@ package com.softtek.lai.module.act.net;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.act.model.ActDetailModel;
 import com.softtek.lai.module.act.model.ActZKModel;
+import com.softtek.lai.module.act.model.ActZKPModel;
 import com.softtek.lai.module.act.model.ActivityModel;
 import com.softtek.lai.utils.RequestCallback;
 
@@ -37,5 +38,13 @@ public interface ActService {
                       @Query("Accountid") String accountid,
                       @Query("Activityid") String activityid,
                       RequestCallback<ResponseData<ActZKModel>> callback);
+
+    //活动详情—战况
+    @GET("/Activity/GetActRGStepOrder")
+    void getActRGStepOrder(@Header(TOKEN) String token,
+                      @Query("PageIndex") String pageIndex,
+                      @Query("Rgid") String rgid,
+                      @Query("Activityid") String activityid,
+                      RequestCallback<ResponseData<ActZKPModel>> callback);
 
 }
