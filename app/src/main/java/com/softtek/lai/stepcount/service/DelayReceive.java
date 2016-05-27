@@ -7,7 +7,7 @@ import android.content.Intent;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.stepcount.StepUtil;
+import com.softtek.lai.stepcount.db.StepUtil;
 import com.softtek.lai.stepcount.model.UserStep;
 import com.softtek.lai.stepcount.net.StepNetService;
 import com.softtek.lai.utils.DateUtil;

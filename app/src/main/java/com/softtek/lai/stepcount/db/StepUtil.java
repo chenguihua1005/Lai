@@ -1,10 +1,14 @@
-package com.softtek.lai.stepcount;
+package com.softtek.lai.stepcount.db;
+
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
 import com.softtek.lai.stepcount.model.UserStep;
 import com.softtek.lai.utils.DateUtil;
 
 import java.util.List;
 
+import zilla.libcore.db.DBHelper;
 import zilla.libcore.db.ZillaDB;
 
 /**
@@ -13,16 +17,21 @@ import zilla.libcore.db.ZillaDB;
 public class StepUtil {
 
     private static StepUtil util;
-
+    private DBHelper dbHelper;
     //获取数据库中当前最新步数
     public int getCurrentStep(String accountId){
-        String selection="accountId=? and recordTime=?";
         String[] condition={accountId, DateUtil.getInstance("yyyy-MM-dd").getCurrentDate()};
-        List<UserStep> userStepList= ZillaDB.getInstance().query(UserStep.class,selection,condition,null);
-        int stepCount=0;
-        for (UserStep step:userStepList){
-            stepCount+=step.getStepCount();
+        SQLiteDatabase db= dbHelper.getReadableDatabase();
+        String sql="select max(stepCount) from user_step where accountId=? and recordTime=? group by recordTime,accountId";
+        Cursor cursor=db.rawQuery(sql,condition);
+        if(cursor.moveToFirst()){
+            //cursor.getInt()
         }
+        //List<UserStep> userStepList= ZillaDB.getInstance().query(UserStep.class,selection,condition,"",null);
+        int stepCount=0;
+        /*for (UserStep step:userStepList){
+            stepCount+=step.getStepCount();
+        }*/
         return stepCount;
     }
 
@@ -39,7 +48,9 @@ public class StepUtil {
 
 
 
-    private StepUtil(){}
+    private StepUtil(){
+        dbHelper=DBHelper.getInstance();
+    }
 
     public static StepUtil getInstance(){
         if(util==null){
