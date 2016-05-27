@@ -5,6 +5,7 @@ import com.softtek.lai.module.mygrades.model.DayRankModel;
 import com.softtek.lai.module.mygrades.model.GradeHonorModel;
 import com.softtek.lai.module.mygrades.model.GradesModel;
 import com.softtek.lai.module.mygrades.model.RunGroupModel;
+import com.softtek.lai.module.mygrades.model.XunZhangModel;
 
 import java.util.List;
 
@@ -49,11 +50,11 @@ public interface GradesService {
             @Header("token")String token,
             @Query("accountid")long accountid,
             Callback<ResponseData<RunGroupModel>>callback);
-//
-//    //2.19.2	勋章详情页
-//    @GET("/StepCount/GetStepHonor")
-//    void getStepHonor(@Header("token") String token,
-//                      Callback<ResponseData<HonorModel>> callback);
+
+    //2.19.2	勋章详情页
+    @GET("/StepCount/GetStepHonor")
+    void doGetXunZhang(@Header("token") String token,
+                      Callback<ResponseData<XunZhangModel>> callback);
 
 
 }

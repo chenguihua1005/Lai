@@ -3,6 +3,7 @@ package com.softtek.lai.module.laisportmine.view;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -111,18 +112,17 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void getRunTeamName(RunTeamModel runTeamModel) {
-        runTeamModels=runTeamModel;
-        if (!runTeamModel.getRgName().isEmpty()) {
-            tv_runteamname.setText(runTeamModels.getRgName());
-        }
-        if (!runTeamModels.getIsHasMsg().isEmpty())
-        {
-            if (runTeamModel.getIsHasMsg().equals("True"))
-            {
-                im_news_flag.setVisibility(View.VISIBLE);
+        if (!TextUtils.isEmpty(runTeamModel.toString())) {
+            runTeamModels = runTeamModel;
+            if (!runTeamModel.getRgName().isEmpty()) {
+                tv_runteamname.setText(runTeamModels.getRgName());
             }
-            else {
-                im_news_flag.setVisibility(View.GONE);
+            if (!runTeamModels.getIsHasMsg().isEmpty()) {
+                if (runTeamModel.getIsHasMsg().equals("True")) {
+                    im_news_flag.setVisibility(View.VISIBLE);
+                } else {
+                    im_news_flag.setVisibility(View.GONE);
+                }
             }
         }
 
