@@ -53,6 +53,12 @@ public class ActFragment extends BaseFragment implements PullToRefreshBase.OnRef
     @InjectView(R.id.rel_group)
     RelativeLayout rel_group;
 
+    @InjectView(R.id.rel_head)
+    RelativeLayout rel_head;
+
+    @InjectView(R.id.img_mo_message)
+    ImageView img_mo_message;
+
     ActManager actManager;
     int pageIndex = 1;
     int totalPage = 1;
@@ -60,7 +66,6 @@ public class ActFragment extends BaseFragment implements PullToRefreshBase.OnRef
     String id;
     ActZKAdapter adapter;
     private List<ActDetiallistModel> list = new ArrayList<ActDetiallistModel>();
-    String m_type="0";
     @Override
     protected void initViews() {
         zk_list.setMode(PullToRefreshBase.Mode.BOTH);
@@ -109,7 +114,7 @@ public class ActFragment extends BaseFragment implements PullToRefreshBase.OnRef
     }
     private void setHeadView(ActZKModel model){
         ActZKPersonModel actZKPersonModel=model.getActDetial();
-//        String m_type=model.getActType();
+       String m_type=model.getActType();
         int step;
         if (TextUtils.isEmpty(actZKPersonModel.getActDTotal())) {
             step = 0;
@@ -143,12 +148,12 @@ public class ActFragment extends BaseFragment implements PullToRefreshBase.OnRef
         }else if("1".equals(m_type)){
             rel_group.setVisibility(View.VISIBLE);
             img_person.setVisibility(View.GONE);
-            distance = step / 1428;
-            if (distance <= 0.01) {
-                distance = 0;
-            }
-            java.text.DecimalFormat   df   =new   java.text.DecimalFormat("####0.00");
-            text_value.setText(df.format(distance) + "公里");
+//            distance = step / 1428;
+//            if (distance <= 0.01) {
+//                distance = 0;
+//            }
+//            java.text.DecimalFormat   df   =new   java.text.DecimalFormat("####0.00");
+            text_value.setText(actZKPersonModel.getActDTotal() + "公里");
         }else if("2".equals(m_type)){
             rel_group.setVisibility(View.GONE);
             img_person.setVisibility(View.VISIBLE);
@@ -156,12 +161,12 @@ public class ActFragment extends BaseFragment implements PullToRefreshBase.OnRef
         }else {
             rel_group.setVisibility(View.GONE);
             img_person.setVisibility(View.VISIBLE);
-            distance = step / 1428;
-            if (distance <= 0.01) {
-                distance = 0;
-            }
-            java.text.DecimalFormat   df   =new   java.text.DecimalFormat("####0.00");
-            text_value.setText(df.format(distance) + "公里");
+//            distance = step / 1428;
+//            if (distance <= 0.01) {
+//                distance = 0;
+//            }
+//            java.text.DecimalFormat   df   =new   java.text.DecimalFormat("####0.00");
+            text_value.setText(actZKPersonModel.getActDTotal() + "公里");
         }
         text_name.setText(actZKPersonModel.getActDName());
         text_order.setText("第"+actZKPersonModel.getActDOrder()+"名");
@@ -181,8 +186,7 @@ public class ActFragment extends BaseFragment implements PullToRefreshBase.OnRef
 
             if (pageIndex == 1) {
                 list=model.getActDetiallist();
-//                adapter = new ActZKAdapter(getContext(), list,model.getActType(),100);
-                adapter = new ActZKAdapter(getContext(), list,m_type,100);
+                adapter = new ActZKAdapter(getContext(), list,model.getActType(),Integer.parseInt(model.getTarget()));
                 zk_list.setAdapter(adapter);
                 setHeadView(model);
             }else {
@@ -190,6 +194,9 @@ public class ActFragment extends BaseFragment implements PullToRefreshBase.OnRef
                 adapter.notifyDataSetChanged();
             }
         } else {
+            rel_head.setVisibility(View.GONE);
+            zk_list.setVisibility(View.GONE);
+            img_mo_message.setVisibility(View.VISIBLE);
             if (zk_list != null) {
                 zk_list.onRefreshComplete();
             }
