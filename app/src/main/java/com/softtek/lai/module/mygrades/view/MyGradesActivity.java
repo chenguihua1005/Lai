@@ -737,6 +737,7 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                 break;
             //我的勋章跳转
             case R.id.ll_grade:
+                startActivity(new Intent(this,MyXuZhangActivity.class));
                 break;
             case R.id.bt_left:
                         if (state!=true)

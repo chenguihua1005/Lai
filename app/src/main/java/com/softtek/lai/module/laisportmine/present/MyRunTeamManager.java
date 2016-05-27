@@ -52,7 +52,6 @@ public class MyRunTeamManager {
             public void failure(RetrofitError error) {
                 cb.getRunTeamName(null);
                 ZillaApi.dealNetError(error);
-                error.printStackTrace();
             }
         });
 
