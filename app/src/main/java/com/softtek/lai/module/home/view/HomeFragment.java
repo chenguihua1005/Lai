@@ -23,6 +23,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
@@ -98,8 +99,8 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     TextView tv_title;
     @InjectView(R.id.tv_right)
     TextView tv_right;
-    @InjectView(R.id.tv_left)
-    TextView tv_left;
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
     @InjectView(R.id.iv_email)
     ImageView iv_email;
     @InjectView(R.id.img_red)
@@ -121,7 +122,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
 
     @Override
     protected void initViews() {
-        tv_left.setVisibility(View.INVISIBLE);
+        ll_left.setVisibility(View.INVISIBLE);
         iv_email.setBackgroundResource(R.drawable.email);
         fl_right.setOnClickListener(this);
         iv_email.setOnClickListener(this);
@@ -271,8 +272,8 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                     intoBodyGamePage(role);
                     break;
                 case Constants.LAI_YUNDONG:
-                     //new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
-                    sportGroupManager.isJoinRunGroup(UserInfoModel.getInstance().getUser().getUserid());
+                    new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
+                    //sportGroupManager.isJoinRunGroup(UserInfoModel.getInstance().getUser().getUserid());
                     break;
                 case Constants.OFFICE:
                 case Constants.LAI_EXCLE:

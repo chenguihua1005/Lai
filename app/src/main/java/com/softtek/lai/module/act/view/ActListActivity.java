@@ -41,8 +41,8 @@ public class ActListActivity extends BaseActivity implements View.OnClickListene
     PullToRefreshListView act_list;
 
     ActManager actManager;
-    int pageIndex = 1;
     String userId;
+    int pageIndex = 1;
     int totalPage = 1;
 
     GroupListItemAdapter adapter;
@@ -66,14 +66,13 @@ public class ActListActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initDatas() {
-        userId = UserInfoModel.getInstance().getUser().getUserid();
         tv_title.setText("活动列表");
+        userId = UserInfoModel.getInstance().getUser().getUserid();
         adapter = new GroupListItemAdapter(this, list);
         act_list.setAdapter(adapter);
 
         actManager = new ActManager(this);
-        userId = "13";
-        //actManager.activityList(pageIndex + "", userId);
+        actManager.activityList(pageIndex + "", userId);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -117,6 +116,9 @@ public class ActListActivity extends BaseActivity implements View.OnClickListene
             list.addAll(model.getActlist());
             adapter.notifyDataSetChanged();
         } else {
+            if (act_list != null) {
+                act_list.onRefreshComplete();
+            }
             if (pageIndex == 1) {
                 pageIndex = 1;
             } else {

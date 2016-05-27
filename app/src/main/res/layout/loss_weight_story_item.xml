@@ -41,7 +41,7 @@
                 android:ellipsize="end"
                 android:gravity="center|left"
                 android:maxLines="2"
-                android:text="dsadadasd" />
+                android:text="dsadadasddsadadasddsadadasddsadadasddsadadasddsadadasddsadadasddsadadasddsadadasddsadadasddsadadasddsadadasddsadadasddsadadasddsadadasddsadadasddsadadasddsadadasddsadadasddsadadasddsadadasddsadadasddsadadasddsadadasddsadadasddsadadasddsadadasddsadadasd" />
             <GridLayout
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
@@ -116,7 +116,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp">
+                android:layout_marginTop="5dp">
 
                 <TextView
                     android:id="@+id/tv_date"
@@ -146,8 +146,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="15sp"
-                android:layout_marginBottom="18dp"
+                android:layout_marginTop="5sp"
                 android:background="#F1F1F1"
                 android:gravity="center|left">
                 <ImageView

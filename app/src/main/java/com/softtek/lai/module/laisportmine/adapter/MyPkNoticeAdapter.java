@@ -73,7 +73,7 @@ public class MyPkNoticeAdapter extends BaseAdapter {
         String path = AddressManager.get("photoHost");
         if (pkNoticeModel.getMsgType().equals("1"))
         {
-            viewHolder.tv_pk_title.setText(pkNoticeModel.getBUserName()+"向你发了一次挑战");
+            viewHolder.tv_pk_title.setText(pkNoticeModel.getUserName()+"向你发了一次挑战");
             if (!TextUtils.isEmpty(pkNoticeModel.getPhoto())) {
                 Picasso.with(context).load(path + pkNoticeModel.getPhoto()).fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(viewHolder.im_pk_head);
             }
@@ -105,22 +105,31 @@ public class MyPkNoticeAdapter extends BaseAdapter {
             viewHolder.tv_pk_title.setText(pkNoticeModel.getChip());
         }
 
-
-
+        viewHolder.tv_pk_person1.setText(pkNoticeModel.getComments());
+        String date[]=pkNoticeModel.getCreateTime().split("-");
+        String date1[]=date[2].split(" ");
+        String date2=date[1].substring(0,1);
+        if (date[1].substring(0,1).equals("0"))
+        {
+            viewHolder.tv_pk_date.setText(date[1].substring(1,2)+"-"+date1[0]);
+        }
+        else {
+            viewHolder.tv_pk_date.setText(date[1] + "-" + date1[0]);
+        }
         return convertView;
     }
 
 
     class ViewHolder{
         TextView tv_pk_person1;
-        TextView tv_pk_person2;
         TextView tv_pk_title;
+        TextView tv_pk_date;
         CircleImageView im_pk_head;
         public ViewHolder(View view){
             tv_pk_person1=(TextView)view.findViewById(R.id.tv_pk_person1);
-            tv_pk_person2=(TextView)view.findViewById(R.id.tv_pk_person2);
             tv_pk_title= (TextView) view.findViewById(R.id.tv_pk_title);
             im_pk_head=(CircleImageView)view.findViewById(R.id.im_pk_head);
+            tv_pk_date= (TextView) view.findViewById(R.id.tv_pk_date);
 
         }
     }

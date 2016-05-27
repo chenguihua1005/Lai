@@ -3,30 +3,32 @@
   ~ Date:2016-03-31
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/grey"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical">
+    android:fitsSystemWindows="true">
 
-    <include layout="@layout/toolbar" />
+    <include layout="@layout/toolbar"
+        android:id="@+id/tool"/>
 
-    <com.softtek.lai.widgets.CustomScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tool"
         android:scrollbars="none">
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/studentHonorMarginTop1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginTop="15dip"
+                android:layout_weight="1">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -39,7 +41,7 @@
                 <LinearLayout
                     android:id="@+id/lin_jz_value"
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
+                    android:layout_height="155dip"
                     android:layout_marginTop="@dimen/studentHonorMarginTop2"
                     android:background="@color/white">
 
@@ -65,6 +67,7 @@
                             android:layout_centerInParent="true"
                             android:layout_margin="5dp"
                             android:scrollbars="none"
+                            android:fadingEdge="none"
                             android:layout_marginTop="@dimen/studentHonorMarginTop2"
                             android:layout_toLeftOf="@+id/img2"
                             android:layout_toRightOf="@+id/img">
@@ -108,54 +111,77 @@
 
 
                         </LinearLayout>
+                        <TextView
+                            android:id="@+id/text_jz"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin"
+                            android:layout_marginRight="@dimen/margin"
+                            android:textColor="@color/word5"
+                            android:layout_gravity="center"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginBottom="5dip"
+                            android:layout_centerHorizontal="true"
+                            android:textSize="@dimen/textSize12"
+                            android:text="加油! 你离下一枚减重奖章只差5斤了哦"/>
                     </RelativeLayout>
                 </LinearLayout>
-                <LinearLayout
+                <RelativeLayout
                     android:id="@+id/lin_jz_sm"
                     android:layout_width="fill_parent"
                     android:layout_height="155dip"
                     android:background="@color/white"
                     android:layout_marginTop="@dimen/studentHonorMarginTop2"
                     android:visibility="gone">
-                    <TextView
+                    <ImageView
                         android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/img_student_no_jz"
+                        android:layout_centerInParent="true"/>
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/margin"
                         android:layout_marginRight="@dimen/margin"
-                        android:textColor="@color/word"
+                        android:textColor="@color/word5"
                         android:layout_gravity="center"
-                        android:textSize="@dimen/textSize5"
-                        android:text="加油! 只要累计减重达到5斤就能拿到第一枚减重奖章了哦！"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="5dip"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="@dimen/textSize12"
+                        android:text="加油! 只要累计减重达到5斤就能拿到第一枚减重奖章了哦"
                         />
-                </LinearLayout>
+                </RelativeLayout>
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/studentHonorMarginTop3"
-                android:orientation="vertical">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="1">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin"
                     android:layout_marginRight="@dimen/margin"
+                    android:layout_marginTop="@dimen/studentHonorMarginTop3"
                     android:text="@string/studentHonorFC"
                     android:textSize="@dimen/studentHonorTextSize" />
 
-                <LinearLayout
+                <RelativeLayout
                     android:id="@+id/lin_fc_value"
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
+                    android:layout_height="155dip"
                     android:layout_marginTop="@dimen/studentHonorMarginTop4"
-                    android:background="@color/white">
+                    android:background="@color/white"
+                    >
 
                     <LinearLayout
                         android:id="@+id/lin_fc"
                         android:layout_width="fill_parent"
-                        android:layout_height="155dip"
+                        android:layout_height="fill_parent"
                         android:layout_marginLeft="@dimen/margin"
                         android:layout_marginRight="@dimen/margin"
                         android:background="@color/white"
@@ -185,31 +211,54 @@
                             android:layout_weight="1"
                             android:src="@drawable/img_student_honor_grey" />
                     </LinearLayout>
-                </LinearLayout>
-                <LinearLayout
+                    <TextView
+                        android:id="@+id/text_fc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin"
+                        android:layout_marginRight="@dimen/margin"
+                        android:textColor="@color/word5"
+                        android:layout_gravity="center"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="5dip"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="@dimen/textSize12"
+                        android:text="保持每月复测的好习惯就能get新奖章哦"
+                        />
+                </RelativeLayout>
+                <RelativeLayout
                     android:id="@+id/lin_fc_sm"
                     android:layout_width="fill_parent"
                     android:layout_height="155dip"
                     android:background="@color/white"
-                    android:layout_marginTop="@dimen/studentHonorMarginTop2"
+                    android:layout_marginTop="@dimen/studentHonorMarginTop4"
                     android:visibility="gone">
-                    <TextView
+                    <ImageView
                         android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/img_student_no_fc"
+                        android:layout_centerInParent="true"/>
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/margin"
                         android:layout_marginRight="@dimen/margin"
-                        android:textColor="@color/word"
+                        android:textColor="@color/word5"
                         android:layout_gravity="center"
-                        android:textSize="@dimen/textSize5"
-                        android:text="只要去复测就能领取复测奖章哦！"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="5dip"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="@dimen/textSize12"
+                        android:text="只要去复测就能领取第一枚复测奖章"
                         />
-                </LinearLayout>
+                </RelativeLayout>
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="1">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -223,7 +272,7 @@
                 <LinearLayout
                     android:id="@+id/lin_ygj_value"
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
+                    android:layout_height="155dip"
                     android:layout_marginTop="@dimen/studentHonorMarginTop2"
                     android:background="@color/white">
 
@@ -291,53 +340,76 @@
 
 
                         </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin"
+                            android:layout_marginRight="@dimen/margin"
+                            android:textColor="@color/word5"
+                            android:layout_gravity="center"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginBottom="5dip"
+                            android:layout_centerHorizontal="true"
+                            android:textSize="@dimen/textSize12"
+                            android:text="每月班级减重成绩第一名优等生独享荣誉"
+                            />
                     </RelativeLayout>
                 </LinearLayout>
-                <LinearLayout
+                <RelativeLayout
                     android:id="@+id/lin_ygj_sm"
                     android:layout_width="fill_parent"
                     android:layout_height="155dip"
                     android:background="@color/white"
                     android:layout_marginTop="@dimen/studentHonorMarginTop2"
                     android:visibility="gone">
-                    <TextView
+                    <ImageView
                         android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/img_student_no_ygj"
+                        android:layout_centerInParent="true"/>
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/margin"
                         android:layout_marginRight="@dimen/margin"
-                        android:textColor="@color/word"
+                        android:textColor="@color/word5"
                         android:layout_gravity="center"
-                        android:textSize="@dimen/textSize5"
-                        android:text="当月减重达到班级第一名才能获得月冠军奖章哦！"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="5dip"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="@dimen/textSize12"
+                        android:text="每月班级减重成绩第一名优等生独享荣誉"
                         />
-                </LinearLayout>
+                </RelativeLayout>
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/studentHonorMarginTop1"
-                android:orientation="vertical">
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginBottom="15dip"
+                android:layout_weight="1">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/studentHonorMarginTop1"
                     android:layout_marginLeft="@dimen/margin"
                     android:layout_marginRight="@dimen/margin"
-                    android:text="@string/studentHonorsTAR"
+                    android:text="全国减重明星"
                     android:textSize="@dimen/studentHonorTextSize" />
 
                 <LinearLayout
                     android:id="@+id/lin_star_value"
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
+                    android:layout_height="155dip"
                     android:layout_marginTop="@dimen/studentHonorMarginTop2"
-                    android:layout_marginBottom="@dimen/studentHonorMarginTop2"
                     android:background="@color/white">
 
                     <RelativeLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="155dip"
+                        android:layout_height="fill_parent"
                         android:layout_marginLeft="@dimen/margin"
                         android:layout_marginRight="@dimen/margin"
                         android:background="@color/white"
@@ -399,28 +471,48 @@
 
 
                         </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin"
+                            android:layout_marginRight="@dimen/margin"
+                            android:textColor="@color/word5"
+                            android:layout_gravity="center"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginBottom="5dip"
+                            android:layout_centerHorizontal="true"
+                            android:textSize="@dimen/textSize12"
+                            android:text="每月全国减重Top100尊享殊荣"
+                            />
                     </RelativeLayout>
                 </LinearLayout>
-                <LinearLayout
+                <RelativeLayout
                     android:id="@+id/lin_star_sm"
                     android:layout_width="fill_parent"
                     android:layout_height="155dip"
                     android:background="@color/white"
-                    android:layout_marginBottom="@dimen/studentHonorMarginTop2"
                     android:layout_marginTop="@dimen/studentHonorMarginTop2"
                     android:visibility="gone">
-                    <TextView
+                    <ImageView
                         android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/img_student_no_star"
+                        android:layout_centerInParent="true"/>
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/margin"
                         android:layout_marginRight="@dimen/margin"
-                        android:textColor="@color/word"
+                        android:textColor="@color/word5"
                         android:layout_gravity="center"
-                        android:textSize="@dimen/textSize5"
-                        android:text="全国减重达人100强的证明！"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="5dip"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="@dimen/textSize12"
+                        android:text="每月全国减重Top100尊享殊荣"
                         />
-                </LinearLayout>
+                </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
-    </com.softtek.lai.widgets.CustomScrollView>
-</LinearLayout>
+    </ScrollView>
+</RelativeLayout>

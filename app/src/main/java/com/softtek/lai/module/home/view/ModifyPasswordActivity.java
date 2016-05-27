@@ -5,8 +5,10 @@
 
 package com.softtek.lai.module.home.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
+import com.google.gson.annotations.Until;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.ConfirmPassword;
@@ -24,6 +27,7 @@ import com.mobsandgeeks.saripaar.annotation.Regex;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.login.presenter.IPasswordPresenter;
 import com.softtek.lai.module.login.presenter.PasswordPresnter;
 import com.softtek.lai.utils.MD5;
@@ -33,6 +37,7 @@ import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_modify_password)
 public class ModifyPasswordActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener {
@@ -73,11 +78,11 @@ public class ModifyPasswordActivity extends BaseActivity implements View.OnClick
 
     private String old_psd;
     private String new_psd;
+    String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ll_left.setOnClickListener(this);
         btn_submit.setOnClickListener(this);
     }
 
@@ -89,10 +94,14 @@ public class ModifyPasswordActivity extends BaseActivity implements View.OnClick
 
     @Override
     protected void initDatas() {
+        String type=getIntent().getStringExtra("type");
+        token= getIntent().getStringExtra("token");
+        if("1".equals(type)){
+            ll_left.setVisibility(View.GONE);
+        }else {
+            ll_left.setOnClickListener(this);
+        }
         passwordPresenter = new PasswordPresnter(this);
-        phone = getIntent().getStringExtra("phone");
-        identify = getIntent().getStringExtra("identify");
-        Log.i("phone:" + phone + ";identify:" + identify);
     }
 
     @Override
@@ -128,7 +137,13 @@ public class ModifyPasswordActivity extends BaseActivity implements View.OnClick
         old_psd = et_old_password.getText().toString();
         new_psd = et_password.getText().toString();
         System.out.println("old_psd:"+old_psd+"   new_psd:"+new_psd);
-        passwordPresenter.changePsd(MD5.md5WithEncoder(new_psd), MD5.md5WithEncoder(old_psd));
+
+        String type=getIntent().getStringExtra("type");
+        if("1".equals(type)){
+            passwordPresenter.changePsd(MD5.md5WithEncoder(new_psd), MD5.md5WithEncoder(old_psd),token,"1");
+        }else {
+            passwordPresenter.changePsd(MD5.md5WithEncoder(new_psd), MD5.md5WithEncoder(old_psd),token,"2");
+        }
     }
 
     @Override
@@ -142,4 +157,18 @@ public class ModifyPasswordActivity extends BaseActivity implements View.OnClick
         }
 
     }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            String type=getIntent().getStringExtra("type");
+            if("1".equals(type)){
+
+            }else {
+                finish();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 }

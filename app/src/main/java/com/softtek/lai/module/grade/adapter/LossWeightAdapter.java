@@ -96,7 +96,7 @@ public class LossWeightAdapter extends BaseAdapter {
         holder.tv_lw_before.setText("前 " + studentModel.getLossBefore() + "斤");
         holder.tv_lw_after.setText("后 " + studentModel.getLossAfter() + "斤");
         holder.tv_lw_totle.setText(studentModel.getLossWeght());
-        if(studentModel.getIsMemberOfAssistant()==1||studentModel.getIsTest()==0){//表示不能点击进入学员详情
+        if(studentModel.getIsMemberOfAssistant()==1){//表示不能点击进入学员详情
             holder.iv_arrow.setVisibility(View.INVISIBLE);
         }else{
             holder.iv_arrow.setVisibility(View.VISIBLE);

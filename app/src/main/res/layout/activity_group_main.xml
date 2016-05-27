@@ -50,12 +50,9 @@
 
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@drawable/img_group_main_start_sport">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/img_group_main_start_sport" />
 
                 <LinearLayout
                     android:layout_width="fill_parent"
@@ -110,18 +107,19 @@
                             android:layout_width="0dip"
                             android:layout_height="fill_parent"
                             android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:visibility="invisible">
+                            android:orientation="vertical">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="12000" />
+                                android:text="12000"
+                                android:visibility="invisible"/>
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:orientation="horizontal">
+                                android:orientation="horizontal"
+                                android:visibility="invisible">
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -231,18 +229,19 @@
                             android:layout_width="0dip"
                             android:layout_height="fill_parent"
                             android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:visibility="invisible">
+                            android:orientation="vertical">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="12000" />
+                                android:text="12000"
+                                android:visibility="invisible" />
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:orientation="horizontal">
+                                android:orientation="horizontal"
+                                android:visibility="invisible">
 
                                 <TextView
                                     android:layout_width="wrap_content"

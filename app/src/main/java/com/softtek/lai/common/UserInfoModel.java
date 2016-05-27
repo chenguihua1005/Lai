@@ -186,8 +186,9 @@ public class UserInfoModel {
         return token;
     }
 
-    private void setToken(String token) {
+    public void setToken(String token) {
         this.token = token;
+        SharedPreferenceService.getInstance().put("token", token);
     }
 
     public Role getRole() {
