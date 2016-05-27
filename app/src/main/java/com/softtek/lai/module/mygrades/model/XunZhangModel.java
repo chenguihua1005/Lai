@@ -1,0 +1,93 @@
+package com.softtek.lai.module.mygrades.model;
+
+/**
+ * Created by lareina.qiao on 5/27/2016.
+ */
+public class XunZhangModel {
+    private String ThreeDays;
+    private String SevenDays;
+    private String twentyOneDays;
+    private String thirtyDays;
+    private String OneHundredDays;
+    private String TwoHundredyDays;
+    private String OneYearDays;
+    private String Angle;
+
+    @Override
+    public String toString() {
+        return "XunZhangModel{" +
+                "ThreeDays='" + ThreeDays + '\'' +
+                ", SevenDays='" + SevenDays + '\'' +
+                ", twentyOneDays='" + twentyOneDays + '\'' +
+                ", thirtyDays='" + thirtyDays + '\'' +
+                ", OneHundredDays='" + OneHundredDays + '\'' +
+                ", TwoHundredyDays='" + TwoHundredyDays + '\'' +
+                ", OneYearDays='" + OneYearDays + '\'' +
+                ", Angle='" + Angle + '\'' +
+                '}';
+    }
+
+    public String getThreeDays() {
+        return ThreeDays;
+    }
+
+    public void setThreeDays(String threeDays) {
+        ThreeDays = threeDays;
+    }
+
+    public String getSevenDays() {
+        return SevenDays;
+    }
+
+    public void setSevenDays(String sevenDays) {
+        SevenDays = sevenDays;
+    }
+
+    public String getTwentyOneDays() {
+        return twentyOneDays;
+    }
+
+    public void setTwentyOneDays(String twentyOneDays) {
+        this.twentyOneDays = twentyOneDays;
+    }
+
+    public String getThirtyDays() {
+        return thirtyDays;
+    }
+
+    public void setThirtyDays(String thirtyDays) {
+        this.thirtyDays = thirtyDays;
+    }
+
+    public String getOneHundredDays() {
+        return OneHundredDays;
+    }
+
+    public void setOneHundredDays(String oneHundredDays) {
+        OneHundredDays = oneHundredDays;
+    }
+
+    public String getTwoHundredyDays() {
+        return TwoHundredyDays;
+    }
+
+    public void setTwoHundredyDays(String twoHundredyDays) {
+        TwoHundredyDays = twoHundredyDays;
+    }
+
+    public String getOneYearDays() {
+        return OneYearDays;
+    }
+
+    public void setOneYearDays(String oneYearDays) {
+        OneYearDays = oneYearDays;
+    }
+
+    public String getAngle() {
+        return Angle;
+    }
+
+    public void setAngle(String angle) {
+        Angle = angle;
+    }
+}

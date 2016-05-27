@@ -541,11 +541,14 @@
         <activity android:name=".module.tips.view.AskDetailActivity" />
 
         <service android:name=".stepcount.service.StepService" />
+
         <receiver android:name=".stepcount.service.DelayReceive">
             <intent-filter>
-                <action android:name="com.softtek.lai.StepService"/>
+                <action android:name="com.softtek.lai.StepService" />
             </intent-filter>
         </receiver>
+
+        <activity android:name=".module.mygrades.view.MyXuZhangActivity"></activity>
     </application>
 
 </manifest>
