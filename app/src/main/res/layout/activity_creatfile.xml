@@ -9,8 +9,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -42,14 +42,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="40dp"
+                android:layout_gravity="center"
                 android:background="@null"
                 android:gravity="right|center"
                 android:hint="必填项"
-
                 android:singleLine="true"
                 android:textCursorDrawable="@drawable/color_cursor"
                 android:textColor="#808080"
-                android:textSize="15dp" />
+                android:textSize="15sp" />
 
         </LinearLayout>
 
