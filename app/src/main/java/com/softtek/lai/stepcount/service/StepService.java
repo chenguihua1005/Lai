@@ -30,6 +30,8 @@ import com.softtek.lai.stepcount.model.UserStep;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.JCountDownTimer;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Calendar;
 
 import zilla.libcore.db.ZillaDB;
@@ -81,6 +83,7 @@ public class StepService extends Service implements SensorEventListener {
         String userId=UserInfoModel.getInstance().getUser().getUserid();
         //查询到今日的步数记录
         StepDcretor.CURRENT_SETP= StepUtil.getInstance().getCurrentStep(userId);
+        Log.i("xf", " 数据库中的步数>>"+StepDcretor.CURRENT_SETP);
     }
 
     private void initBroadcastReceiver() {
@@ -102,7 +105,6 @@ public class StepService extends Service implements SensorEventListener {
             @Override
             public void onReceive(final Context context, final Intent intent) {
                 String action = intent.getAction();
-
                 if (Intent.ACTION_SCREEN_ON.equals(action)) {
                     Log.d("xf", "screen on");
                 } else if (Intent.ACTION_SCREEN_OFF.equals(action)) {
@@ -184,8 +186,10 @@ public class StepService extends Service implements SensorEventListener {
         //android4.4以后可以使用计步传感器
         int VERSION_CODES = Build.VERSION.SDK_INT;
         if (VERSION_CODES >= 19) {
+            Log.i("xf", " 选用安卓自带的计步器功能");
             addCountStepListener();
         } else {
+            Log.i("xf", " 选用重力加速度传感器");
             addBasePedoListener();
         }
     }
@@ -275,10 +279,13 @@ public class StepService extends Service implements SensorEventListener {
     @Override
     public void onDestroy() {
         //取消前台进程
+        Log.i("test","计步服务销毁");
         stopForeground(true);
         unregisterReceiver(mBatInfoReceiver);
-        Intent intent = new Intent(this, StepService.class);
-        startService(intent);
+        if(StringUtils.isNotEmpty(UserInfoModel.getInstance().getToken())){
+            Intent intent = new Intent(this, StepService.class);
+            startService(intent);
+        }
         super.onDestroy();
     }
 

@@ -68,6 +68,7 @@ public class ActListActivity extends BaseActivity implements View.OnClickListene
     protected void initDatas() {
         tv_title.setText("活动列表");
         userId = UserInfoModel.getInstance().getUser().getUserid();
+        userId = "5";
         adapter = new GroupListItemAdapter(this, list);
         act_list.setAdapter(adapter);
 
