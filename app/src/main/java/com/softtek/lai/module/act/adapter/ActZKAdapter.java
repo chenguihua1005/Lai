@@ -161,27 +161,21 @@ public class ActZKAdapter extends BaseAdapter {
 
             }
 
-//            Resources res = context.getResources();
-//            Bitmap bitmap = BitmapFactory.decodeResource(res, R.drawable.progressbar_indeterminate11);
-//            holder.progressBar1.setProgressDrawable(new BitmapDrawable(BitmapHelper.createRepeater(100, bitmap)));//screenWidth为屏幕宽度（或显示图片的imageview宽度）
-
         } else if ("1".equals(type)) {
             holder.img_full.setVisibility(View.VISIBLE);
-            distance = step / 1428;
-            if (distance <= 0.01) {
-                distance = 0;
-            }
-            java.text.DecimalFormat df = new java.text.DecimalFormat("####0.00");
-            holder.text_value.setText(df.format(distance) + "公里");
-            int f = (int) ((distance / target_distance) * 100);
+            holder.text_value.setText(step + "公里");
+            int f = (int) ((step / target_distance) * 100);
             if (f >= 100) {
                 holder.rcpb_prog.setProgress(100);
                 holder.rcpb_prog.setVisibility(View.GONE);
                 holder.text_full.setText("达标");
                 holder.img_full.setImageResource(R.drawable.img_act_group_full);
             } else {
+                holder.text_full.setText("");
+                holder.img_full.setImageResource(R.drawable.img_act_group_bg);
                 holder.rcpb_prog.setVisibility(View.VISIBLE);
                 holder.rcpb_prog.setProgress(f);
+
             }
         } else if ("2".equals(type)) {
             holder.img_full.setVisibility(View.GONE);
@@ -201,19 +195,17 @@ public class ActZKAdapter extends BaseAdapter {
             }
         } else if ("3".equals(type)) {
             holder.img_full.setVisibility(View.VISIBLE);
-            distance = step / 1428;
-            if (distance <= 0.01) {
-                distance = 0;
-            }
-            java.text.DecimalFormat df = new java.text.DecimalFormat("#.00");
-            holder.text_value.setText(df.format(distance) + "公里");
-            int f = (int) ((distance / target_distance) * 100);
+            holder.img_full.setVisibility(View.VISIBLE);
+            holder.text_value.setText(step + "公里");
+            int f = (int) ((step / target_distance) * 100);
             if (f >= 100) {
                 holder.rcpb_prog.setProgress(100);
                 holder.rcpb_prog.setVisibility(View.GONE);
                 holder.text_full.setText("达标");
                 holder.img_full.setImageResource(R.drawable.img_act_group_full);
             } else {
+                holder.text_full.setText("");
+                holder.img_full.setImageResource(R.drawable.img_act_group_bg);
                 holder.rcpb_prog.setVisibility(View.VISIBLE);
                 holder.rcpb_prog.setProgress(f);
 
