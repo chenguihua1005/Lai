@@ -40,7 +40,7 @@ public class DelayReceive extends BroadcastReceiver{
         String userId= UserInfoModel.getInstance().getUser().getUserid();
         List<UserStep> steps= StepUtil.getInstance().checkOldStep(userId);
         if(!steps.isEmpty()){//如果有旧数据
-            //提交旧数据
+            //提交旧数据需要做优化
             StringBuilder buffer=new StringBuilder();
             String currentDate= DateUtil.getInstance("yyyy-MM-dd").getCurrentDate();
             for(UserStep step:steps){
