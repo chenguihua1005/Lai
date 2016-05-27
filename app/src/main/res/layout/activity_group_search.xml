@@ -35,6 +35,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_toLeftOf="@+id/text_search"
                 android:layout_marginRight="8dip"
+                android:gravity="center_vertical"
                 android:background="@drawable/bg_search_btn"
                 android:layout_centerVertical="true">
                <ImageView

@@ -15,10 +15,12 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.historydate.view.HistoryDataActivity;
 import com.softtek.lai.module.laisportmine.model.RunTeamModel;
 import com.softtek.lai.module.laisportmine.net.MineService;
 import com.softtek.lai.module.laisportmine.present.MyRunTeamManager;
 import com.softtek.lai.module.group.view.JoinGroupActivity;
+import com.softtek.lai.module.sport.view.HistorySportListActivity;
 
 import butterknife.InjectView;
 import retrofit.Callback;
@@ -102,7 +104,7 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
                 startActivity(intent);
                 break;
             case R.id.re_pk_mysport:
-                startActivity(new Intent(this,MyPkListActivity.class));
+                startActivity(new Intent(this,HistorySportListActivity.class));
                 break;
         }
     }
