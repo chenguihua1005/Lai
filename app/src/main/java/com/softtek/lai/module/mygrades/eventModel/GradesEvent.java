@@ -1,6 +1,5 @@
 package com.softtek.lai.module.mygrades.eventModel;
 
-import com.softtek.lai.module.mygrades.model.DayRankModel;
 import com.softtek.lai.module.mygrades.model.GradesModel;
 
 import java.util.List;

@@ -1,10 +1,5 @@
 package com.softtek.lai.module.mygrades.presenter;
 
-import org.joda.time.DateTime;
-import org.joda.time.field.ScaledDurationField;
-
-import java.util.Date;
-
 /**
  * Created by julie.zhu on 5/3/2016.
  */
