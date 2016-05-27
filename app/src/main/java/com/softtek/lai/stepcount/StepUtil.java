@@ -32,9 +32,9 @@ public class StepUtil {
      */
     public List<UserStep> checkOldStep(String accountId){
         String selection="accountId=? and recordTime<=?";
-        String orderBy="desc";
+        String orderBy="recordTime asc";
         String[] condition={accountId, DateUtil.getInstance("yyyy-MM-dd").getCurrentDate()};
-        return ZillaDB.getInstance().query(UserStep.class,selection,condition,null);
+        return ZillaDB.getInstance().query(UserStep.class,selection,condition,orderBy,null);
     }
 
 

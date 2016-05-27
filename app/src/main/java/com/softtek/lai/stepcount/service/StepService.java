@@ -105,7 +105,6 @@ public class StepService extends Service implements SensorEventListener {
             @Override
             public void onReceive(final Context context, final Intent intent) {
                 String action = intent.getAction();
-
                 if (Intent.ACTION_SCREEN_ON.equals(action)) {
                     Log.d("xf", "screen on");
                 } else if (Intent.ACTION_SCREEN_OFF.equals(action)) {
@@ -280,6 +279,7 @@ public class StepService extends Service implements SensorEventListener {
     @Override
     public void onDestroy() {
         //取消前台进程
+        Log.i("test","计步服务销毁");
         stopForeground(true);
         unregisterReceiver(mBatInfoReceiver);
         if(StringUtils.isNotEmpty(UserInfoModel.getInstance().getToken())){

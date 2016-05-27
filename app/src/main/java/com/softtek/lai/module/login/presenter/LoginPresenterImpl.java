@@ -243,8 +243,8 @@ public class LoginPresenterImpl implements ILoginPresenter {
                         UserModel model=userResponseData.getData();
                         set.setAlias(model.getMobile());
                         set.setStyleBasic();
-                        UserInfoModel.getInstance().saveUserCache(userResponseData.getData());
-                        stepDeal(context,model.getUserid(), StringUtils.isEmpty(model.getTodayStepCnt())?0:Long.parseLong(model.getTodayStepCnt()));
+                        UserInfoModel.getInstance().saveUserCache(model);
+                        //stepDeal(context,model.getUserid(), StringUtils.isEmpty(model.getTodayStepCnt())?0:Long.parseLong(model.getTodayStepCnt()));
                         final String token=userResponseData.getData().getToken();
                         if(MD5.md5WithEncoder("000000").equals(password)){
                             UserInfoModel.getInstance().setToken("");

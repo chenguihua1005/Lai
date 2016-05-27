@@ -10,11 +10,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
@@ -101,11 +103,10 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
     //标题
     @InjectView(R.id.tv_title)
     TextView tv_title;
-    @InjectView(R.id.tv_left)
-    TextView tv_left;
+
     //跳过按钮
-//    @InjectView(R.id.tv_right)
-//    TextView tv_right;
+    @InjectView(R.id.iv_left)
+    ImageView iv_left;
 
     //存储用户表单数据
     private FileModel file;
@@ -128,12 +129,11 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         ll_weight.setOnTouchListener(this);
         btn_finish.setOnClickListener(this);
         btn_Add_bodydimension.setOnClickListener(this);
-       // tv_right.setOnClickListener(this);
     }
 
     @Override
     protected void initViews() {
-
+        iv_left.setVisibility(View.GONE);
     }
 
     /**
@@ -155,11 +155,6 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
     protected void initDatas() {
         ICreateFilepresenter = new CreateFileImpl(this);
         tv_title.setText("我的档案");
-        tv_left.setBackground(null);
-//        tv_right.setText("跳过");
-//        tv_right.setTextSize(16);
-//        tv_right.setPadding(0, 0, 25, 0);
-//        tv_right.setGravity(Gravity.CENTER);
         file = new FileModel();
         addGrade();
     }
@@ -495,5 +490,15 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                 }).create()
                 .show();
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 
 }
