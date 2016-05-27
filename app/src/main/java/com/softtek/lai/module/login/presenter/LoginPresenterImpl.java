@@ -13,33 +13,24 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.github.snowdream.android.util.Log;
-import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
-import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.jpush.JpushSet;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.home.view.ModifyPasswordActivity;
-import com.softtek.lai.module.home.view.ValidateCertificationActivity;
 import com.softtek.lai.module.login.model.PhotoModel;
 import com.softtek.lai.module.login.model.RoleInfo;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.net.LoginService;
-import com.softtek.lai.module.login.view.LoginActivity;
-import com.softtek.lai.module.message.model.PhotosModel;
-import com.softtek.lai.module.message.view.JoinGameDetailActivity;
-import com.softtek.lai.stepcount.StepUtil;
+import com.softtek.lai.stepcount.db.StepUtil;
 import com.softtek.lai.stepcount.model.UserStep;
 import com.softtek.lai.stepcount.service.StepService;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.MD5;
 import com.squareup.picasso.Picasso;
 
-import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
@@ -288,16 +279,14 @@ public class LoginPresenterImpl implements ILoginPresenter {
         long currentStep= StepUtil.getInstance().getCurrentStep(userId);
         if(step>currentStep){
             //删除当天旧数据
-            String currentDate= DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate();
-            String whereCause="accountId=? and recordTime=?";
-            String[] whereArgs={userId,currentDate};
-            ZillaDB.getInstance().delete(UserStep.class,whereCause,whereArgs);
+            String currentDate=DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate();
+            StepUtil.getInstance().deleteOldDate(currentDate,userId);
             //新增新数据
             UserStep userStep=new UserStep();
             userStep.setAccountId(Long.parseLong(userId));
             userStep.setRecordTime(currentDate);
             userStep.setStepCount(step);
-            ZillaDB.getInstance().save(userStep);
+            StepUtil.getInstance().saveStep(userStep);
         }
         //启动计步器服务
         context.startService(new Intent(context, StepService.class));

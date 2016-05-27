@@ -24,7 +24,8 @@ import android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.group.view.GroupMainActivity;
-import com.softtek.lai.stepcount.StepUtil;
+import com.softtek.lai.module.login.model.UserModel;
+import com.softtek.lai.stepcount.db.StepUtil;
 import com.softtek.lai.stepcount.model.StepDcretor;
 import com.softtek.lai.stepcount.model.UserStep;
 import com.softtek.lai.utils.DateUtil;
@@ -43,7 +44,7 @@ public class StepService extends Service implements SensorEventListener {
     //默认为30秒进行一次存储
     private static int duration = 30000;
     //默认30分钟上传一次
-    private static int durationUpload=30*60*1000;
+    private static int durationUpload=2*60*1000;
     private SensorManager sensorManager;
     private StepDcretor stepDetector;
     private NotificationManager nm;
@@ -268,18 +269,22 @@ public class StepService extends Service implements SensorEventListener {
     //存入数据库
     private void save() {
         long tempStep = StepDcretor.CURRENT_SETP;
-        UserStep step=new UserStep();
-        step.setAccountId(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()));
-        step.setRecordTime(DateUtil.getInstance("yyyy-MM-dd").getCurrentDate());
-        step.setStepCount(tempStep);
-        ZillaDB.getInstance().save(step);
+        UserModel model=UserInfoModel.getInstance().getUser();
+        if(model!=null&&StringUtils.isNotEmpty(model.getUserid())){
+            UserStep step=new UserStep();
+            step.setAccountId(Long.parseLong(model.getUserid()));
+            step.setRecordTime(DateUtil.getInstance("yyyy-MM-dd").getCurrentDate());
+            step.setStepCount(tempStep);
+            StepUtil.getInstance().saveStep(step);
+        }
+        StepUtil.getInstance().queryAll();
     }
 
 
     @Override
     public void onDestroy() {
         //取消前台进程
-        Log.i("test","计步服务销毁");
+        Log.i("test","计步服务结束");
         stopForeground(true);
         unregisterReceiver(mBatInfoReceiver);
         if(StringUtils.isNotEmpty(UserInfoModel.getInstance().getToken())){
