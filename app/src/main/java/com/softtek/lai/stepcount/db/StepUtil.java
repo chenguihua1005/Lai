@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import zilla.libcore.db.DBHelper;
+import zilla.libcore.db.ZillaDB;
 
 /**
  * Created by jerry.guan on 5/26/2016.
@@ -93,14 +94,19 @@ public class StepUtil {
      * 保存步数
      */
     public  long saveStep(UserStep step){
-        SQLiteDatabase db= dbHelper.getReadableDatabase();
+//        ZillaDB.getInstance().save(step);
+        SQLiteDatabase db= dbHelper.getWritableDatabase();
         ContentValues values=new ContentValues();
         values.put("accountId",step.getAccountId()+"");
         values.put("recordTime",step.getRecordTime());
         values.put("stepCount",step.getStepCount());
-        db.beginTransaction();
-        long i=db.insert("user_step",null,values);
-        db.endTransaction();
+//        db.beginTransaction();
+//        long i=db.insert("user_step",null,values);
+//        db.execSQL("insert into user_step (accountId,stepCount,recordTime) values(1,40,'2016-05-27')");
+//        db.endTransaction();
+
+        long i = db.insertWithOnConflict("user_step", "", values,
+                SQLiteDatabase.CONFLICT_NONE);//主键冲突策略，替换掉以往的数据
         db.close();
         if(i!=-1){
             Log.i("步数保存成功");
