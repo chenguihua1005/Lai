@@ -1,6 +1,8 @@
 package com.softtek.lai.module.tips.view;
 
+import android.content.Intent;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -105,6 +107,10 @@ public class HealthyAskFragment extends BaseFragment implements AskHealthyManage
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+        //new AlertDialog.Builder(getContext()).setMessage("功能开发中，敬请期待").create().show();
+        AskHealthyModel model=modelList.get(position-1);
+        Intent intent=new Intent(getContext(),AskDetailActivity.class);
+        intent.putExtra("ask",model);
+        startActivity(intent);
     }
 }

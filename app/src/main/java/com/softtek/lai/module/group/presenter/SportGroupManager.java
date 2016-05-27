@@ -8,6 +8,7 @@ import com.softtek.lai.module.group.model.CityModel;
 import com.softtek.lai.module.group.model.DxqModel;
 import com.softtek.lai.module.group.model.GroupModel;
 import com.softtek.lai.module.group.model.SportMainModel;
+import com.softtek.lai.module.group.model.StepResponseModel;
 import com.softtek.lai.module.group.net.SportGroupService;
 import com.softtek.lai.utils.RequestCallback;
 
@@ -68,11 +69,11 @@ public class SportGroupManager {
     }
 
     public void isJoinRunGroup(String accoundId) {
-        service.isJoinRunGroup(token, accoundId, new RequestCallback<ResponseData>() {
+        service.isJoinRunGroup(token, accoundId, new RequestCallback<ResponseData<StepResponseModel>>() {
             @Override
-            public void success(ResponseData listResponseData, Response response) {
-                Log.e("jarvis", listResponseData.toString());
-                int status = listResponseData.getStatus();
+            public void success(ResponseData<StepResponseModel> stepResponseModelResponseData, Response response) {
+                Log.e("jarvis", stepResponseModelResponseData.toString());
+                int status = stepResponseModelResponseData.getStatus();
                 switch (status) {
                     case 200:
                         isJoinRunGroupManagerCallBack.isJoinRunGroup(true);
@@ -82,7 +83,7 @@ public class SportGroupManager {
                         break;
                     default:
                         isJoinRunGroupManagerCallBack.isJoinRunGroup(false);
-                        Util.toastMsg(listResponseData.getMsg());
+                        Util.toastMsg(stepResponseModelResponseData.getMsg());
                         break;
                 }
             }
@@ -94,6 +95,7 @@ public class SportGroupManager {
                 }
                 ZillaApi.dealNetError(error);
             }
+
         });
     }
 

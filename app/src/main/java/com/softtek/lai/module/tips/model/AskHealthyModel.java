@@ -1,10 +1,13 @@
 package com.softtek.lai.module.tips.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by jerry.guan on 4/27/2016.
  * 健康咨询
  */
-public class AskHealthyModel {
+public class AskHealthyModel implements Parcelable{
 
     private String Tips_Id;
     private String Tips_Type;
@@ -12,6 +15,27 @@ public class AskHealthyModel {
     private String Tips_Content;
     private String Tips_Addr;
     private String Tips_Link;
+
+    protected AskHealthyModel(Parcel in) {
+        Tips_Id = in.readString();
+        Tips_Type = in.readString();
+        Tips_Title = in.readString();
+        Tips_Content = in.readString();
+        Tips_Addr = in.readString();
+        Tips_Link = in.readString();
+    }
+
+    public static final Creator<AskHealthyModel> CREATOR = new Creator<AskHealthyModel>() {
+        @Override
+        public AskHealthyModel createFromParcel(Parcel in) {
+            return new AskHealthyModel(in);
+        }
+
+        @Override
+        public AskHealthyModel[] newArray(int size) {
+            return new AskHealthyModel[size];
+        }
+    };
 
     public String getTips_Link() {
         return Tips_Link;
@@ -59,5 +83,20 @@ public class AskHealthyModel {
 
     public void setTips_Addr(String tips_Addr) {
         Tips_Addr = tips_Addr;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(Tips_Id);
+        dest.writeString(Tips_Type);
+        dest.writeString(Tips_Title);
+        dest.writeString(Tips_Content);
+        dest.writeString(Tips_Addr);
+        dest.writeString(Tips_Link);
     }
 }
