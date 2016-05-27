@@ -85,7 +85,7 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
         ZillaApi.setmIApiErrorHandler(new NetErrorHandler());
     }
 
-    
+    public static final String CREATE_STEP="create tabel user_step(id int primary key not null, )";
 
     @Override
     public void onCreate(SQLiteDatabase db) {

@@ -7,10 +7,8 @@ import zilla.libcore.db.Table;
  * Created by jerry.guan on 5/23/2016.
  * 保存用户步数的对象
  */
-@Table("t_user_step")
 public class UserStep {
 
-    @Id
     private int id;
 
     private long accountId;
