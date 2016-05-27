@@ -29,7 +29,6 @@ import com.softtek.lai.module.home.presenter.HealthyRecordManager;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.retest.model.LaichModel;
 import com.softtek.lai.utils.DateUtil;
-import com.softtek.lai.utils.StringUtil;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -42,8 +41,6 @@ public class HealthyRecordFragment extends BaseFragment implements View.OnClickL
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
-    @InjectView(R.id.tv_left)
-    TextView tv_left;
     @InjectView(R.id.tv_title)
     TextView tv_title;
     @InjectView(R.id.iv_email)

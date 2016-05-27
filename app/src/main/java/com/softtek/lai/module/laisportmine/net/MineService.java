@@ -69,4 +69,11 @@ public interface MineService {
             @Query("type")String type,
             Callback<ResponseData>callback
     );
+    //删除pk通知
+    @POST("/SportMsg/DelPKMsg")
+    void doDelPKMsg(
+            @Header("token")String token,
+            @Query("MessageId")String MessageId,
+            Callback<ResponseData>callback
+    );
 }

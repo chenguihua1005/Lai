@@ -10,7 +10,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +26,6 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.File.model.FileModel;
 import com.softtek.lai.module.File.presenter.CreateFileImpl;
 import com.softtek.lai.module.File.presenter.ICreateFilepresenter;
-import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.widgets.WheelView;
 
@@ -106,8 +104,8 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
     @InjectView(R.id.tv_left)
     TextView tv_left;
     //跳过按钮
-    @InjectView(R.id.tv_right)
-    TextView tv_right;
+//    @InjectView(R.id.tv_right)
+//    TextView tv_right;
 
     //存储用户表单数据
     private FileModel file;
@@ -130,7 +128,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         ll_weight.setOnTouchListener(this);
         btn_finish.setOnClickListener(this);
         btn_Add_bodydimension.setOnClickListener(this);
-        tv_right.setOnClickListener(this);
+       // tv_right.setOnClickListener(this);
     }
 
     @Override
@@ -158,10 +156,10 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         ICreateFilepresenter = new CreateFileImpl(this);
         tv_title.setText("我的档案");
         tv_left.setBackground(null);
-        tv_right.setText("跳过");
-        tv_right.setTextSize(16);
-        tv_right.setPadding(0, 0, 25, 0);
-        tv_right.setGravity(Gravity.CENTER);
+//        tv_right.setText("跳过");
+//        tv_right.setTextSize(16);
+//        tv_right.setPadding(0, 0, 25, 0);
+//        tv_right.setGravity(Gravity.CENTER);
         file = new FileModel();
         addGrade();
     }
@@ -178,11 +176,11 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                 startActivityForResult(intent, GET_BODY_DIMENSION);
                 w = false;
                 break;
-            case R.id.tv_right:
-                Intent intent1 = new Intent(CreatFlleActivity.this, HomeActviity.class);
-                startActivity(intent1);
-                finish();
-                break;
+//            case R.id.tv_right:
+//                Intent intent1 = new Intent(CreatFlleActivity.this, HomeActviity.class);
+//                startActivity(intent1);
+//                finish();
+//                break;
         }
     }
 
@@ -219,11 +217,11 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                 case R.id.tv_weight:
                     show_weight_dialog();
                     break;
-                case R.id.tv_right:
-                    Intent intent1 = new Intent(CreatFlleActivity.this, HomeActviity.class);
-                    startActivity(intent1);
-                    finish();
-                    break;
+//                case R.id.tv_right:
+//                    Intent intent1 = new Intent(CreatFlleActivity.this, HomeActviity.class);
+//                    startActivity(intent1);
+//                    finish();
+//                    break;
             }
         }
         return true;

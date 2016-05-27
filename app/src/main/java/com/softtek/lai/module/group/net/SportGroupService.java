@@ -5,6 +5,7 @@ import com.softtek.lai.module.group.model.CityModel;
 import com.softtek.lai.module.group.model.DxqModel;
 import com.softtek.lai.module.group.model.GroupModel;
 import com.softtek.lai.module.group.model.SportMainModel;
+import com.softtek.lai.module.group.model.StepResponseModel;
 import com.softtek.lai.utils.RequestCallback;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public interface SportGroupService {
     @GET("/HerbSports/IsJoinRunGroup")
     void isJoinRunGroup(@Header(TOKEN) String token,
                         @Query("accountid") String accountid,
-                        RequestCallback<ResponseData> callback);
+                        RequestCallback<ResponseData<StepResponseModel>> callback);
 
     //获取大区列表
     @GET("/HerbSports/GetBregionList")

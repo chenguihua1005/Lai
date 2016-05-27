@@ -32,9 +32,14 @@ import com.softtek.lai.module.login.net.LoginService;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.message.model.PhotosModel;
 import com.softtek.lai.module.message.view.JoinGameDetailActivity;
+import com.softtek.lai.stepcount.StepUtil;
+import com.softtek.lai.stepcount.model.UserStep;
+import com.softtek.lai.stepcount.service.StepService;
+import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.MD5;
 import com.squareup.picasso.Picasso;
 
+import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
@@ -45,6 +50,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import retrofit.mime.TypedFile;
 import zilla.libcore.api.ZillaApi;
+import zilla.libcore.db.ZillaDB;
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.util.Util;
 
@@ -234,9 +240,11 @@ public class LoginPresenterImpl implements ILoginPresenter {
                     case 200:
                         JPushInterface.init(context);
                         JpushSet set = new JpushSet(context);
-                        set.setAlias(userResponseData.getData().getMobile());
+                        UserModel model=userResponseData.getData();
+                        set.setAlias(model.getMobile());
                         set.setStyleBasic();
                         UserInfoModel.getInstance().saveUserCache(userResponseData.getData());
+                        stepDeal(context,model.getUserid(), StringUtils.isEmpty(model.getTodayStepCnt())?0:Long.parseLong(model.getTodayStepCnt()));
                         final String token=userResponseData.getData().getToken();
                         if(MD5.md5WithEncoder("000000").equals(password)){
                             UserInfoModel.getInstance().setToken("");
@@ -276,5 +284,22 @@ public class LoginPresenterImpl implements ILoginPresenter {
         });
     }
 
-
+    private void stepDeal(Context context,String userId,long step){
+        long currentStep= StepUtil.getInstance().getCurrentStep(userId);
+        if(step>currentStep){
+            //删除当天旧数据
+            String currentDate= DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate();
+            String whereCause="accountId=? and recordTime=?";
+            String[] whereArgs={userId,currentDate};
+            ZillaDB.getInstance().delete(UserStep.class,whereCause,whereArgs);
+            //新增新数据
+            UserStep userStep=new UserStep();
+            userStep.setAccountId(Long.parseLong(userId));
+            userStep.setRecordTime(currentDate);
+            userStep.setStepCount(step);
+            ZillaDB.getInstance().save(userStep);
+        }
+        //启动计步器服务
+        context.startService(new Intent(context, StepService.class));
+    }
 }

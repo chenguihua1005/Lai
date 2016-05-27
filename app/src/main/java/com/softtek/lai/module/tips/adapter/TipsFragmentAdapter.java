@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class TipsFragmentAdapter extends FragmentPagerAdapter {
 
-    private String[] titles = {"健康咨询","视频"};
+    private String[] titles = {"健康资讯","视频"};
     private List<Fragment> fragmentList;
 
     public TipsFragmentAdapter(FragmentManager fm, List<Fragment> fragments) {

@@ -1,17 +1,11 @@
 package com.softtek.lai.module.mygrades.net;
 
-import android.widget.ListView;
-
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.mygrades.model.DayRankModel;
 import com.softtek.lai.module.mygrades.model.GradeHonorModel;
 import com.softtek.lai.module.mygrades.model.GradesModel;
-import com.softtek.lai.module.mygrades.model.HonorModel;
 import com.softtek.lai.module.mygrades.model.RunGroupModel;
 
-import org.joda.time.DateTime;
-
-import java.util.Date;
 import java.util.List;
 
 import retrofit.Callback;

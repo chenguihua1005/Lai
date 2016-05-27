@@ -1,12 +1,11 @@
 package com.softtek.lai.module.mygrades.view;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,30 +21,23 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.laisportmine.model.RunTeamModel;
-import com.softtek.lai.module.mygrades.adapter.RankAdapter;
 import com.softtek.lai.module.mygrades.adapter.RankInfoAdapter;
 import com.softtek.lai.module.mygrades.adapter.TabContentAdapter;
 import com.softtek.lai.module.mygrades.model.DayRankModel;
-import com.softtek.lai.module.mygrades.model.OrderDataModel;
 import com.softtek.lai.module.mygrades.model.RankSelectModel;
 import com.softtek.lai.module.mygrades.model.RunGroupModel;
 import com.softtek.lai.module.mygrades.net.GradesService;
 import com.softtek.lai.module.mygrades.presenter.GradesImpl;
 import com.softtek.lai.module.mygrades.presenter.IGradesPresenter;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
-import butterknife.OnCheckedChanged;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
-import zilla.libcore.file.AddressManager;
-import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
@@ -86,9 +78,7 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
     private RankSelectModel rankSelectModel;
     public RankInfoAdapter rankInfoAdapter;
 
-    int biaozhi;
     private FragmentManager manager;
-    private FragmentTransaction transaction;
 
     private DayRankModel dayRankModel;
 
@@ -104,14 +94,15 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
         iGradesPresenter = new GradesImpl();
         gradesService= ZillaApi.NormalRestAdapter.create(GradesService.class);
 
+        //当前用户所参加的跑团
         UserInfoModel userInfoModel = UserInfoModel.getInstance();
         accoutid = Long.parseLong(userInfoModel.getUser().getUserid());
-        //当前用户所参加的跑团
         doGetNowRgName(accoutid);
-
         init();
+
         rankInfoAdapter = new RankInfoAdapter(this,rankSelectModelList);
         list_group.setAdapter(rankInfoAdapter);
+
         list_group.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -127,12 +118,9 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
                 if (position==0){
                     Iv_fold.setImageResource(R.drawable.unfold);
                     RL_rungroup.setVisibility(View.INVISIBLE);
-                    ((DayRankFragment)fragments.get(0)).updateDayRankStatus(0);
-                    ((WeekRankFragment)fragments.get(1)).updateWeekRankStatus(0);
-
-                    //获取list的值------------
+                    ((DayRankFragment)fragments.get(0)).updateDayRankStatus(1);
+                    ((WeekRankFragment)fragments.get(1)).updateWeekRankStatus(1);
                     tv_rungroupname.setText(rungroupname);
-
                     //biaozhi=0;
 //                    DayRankFragment dayRankFragment=new DayRankFragment();
 //                    Bundle bundle1 = new Bundle();
@@ -160,10 +148,9 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
                 if (position==1){
                     Iv_fold.setImageResource(R.drawable.unfold);
                     RL_rungroup.setVisibility(View.INVISIBLE);
-                    //获取list的值------------
                     tv_rungroupname.setText("全国排名");
-                    ((WeekRankFragment)fragments.get(1)).updateWeekRankStatus(1);
-                    ((DayRankFragment)fragments.get(0)).updateDayRankStatus(1);
+                    ((DayRankFragment)fragments.get(0)).updateDayRankStatus(0);
+                    ((WeekRankFragment)fragments.get(1)).updateWeekRankStatus(0);
                   //  biaozhi=1;
 //                    DayRankFragment dayRankFragment=new DayRankFragment();
 //                    Bundle bundle1 = new Bundle();
@@ -216,38 +203,6 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
         });
     }
 
-//    public void getCurrentDateOrder(int RGIdType) {
-//        String token = SharedPreferenceService.getInstance().get("token", "");
-//        gradesService.getCurrentDateOrder(token, RGIdType, new Callback<ResponseData<DayRankModel>>() {
-//            @Override
-//            public void success(ResponseData<DayRankModel> dayRankModelResponseData, Response response) {
-//                int status=dayRankModelResponseData.getStatus();
-//                switch (status)
-//                {
-//                    case 200:
-//                        if (dayRankModelResponseData.getData().getOrderRGName().isEmpty()){
-//                            ranking="当前用户未参加跑团";
-//                            tv_rungroupname.setText(ranking);
-//                            //Util.toastMsg("跑团排名isEmpty");
-//                        }else {
-//                            ranking=dayRankModelResponseData.getData().getOrderRGName();
-//                            tv_rungroupname.setText(ranking);
-//                        }
-//                        //Util.toastMsg("我的日排名--查询正确");
-//                        break;
-//                    case 500:
-//                        Util.toastMsg("我的日排名--查询出bug");
-//                        break;
-//                }
-//            }
-//            @Override
-//            public void failure(RetrofitError error) {
-//                ZillaApi.dealNetError(error);
-//                error.printStackTrace();
-//            }
-//        });
-//    }
-
     private void init() {
         RankSelectModel p1 = new RankSelectModel("跑团排名");
         rankSelectModelList.add(p1);
@@ -260,33 +215,25 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
         ll_left.setOnClickListener(this);
         tv_title.setText("排名详情");
         Rl_list.setOnClickListener(this);
-        //根据标志flag，判断是日排名（0）还是周排名（1），加载fragment
-        //0跑团排名，1全国排名
+        //1跑团排名，0全国排名,默认是跑团排名
         manager = getFragmentManager();
         DayRankFragment dayRankFragment=new DayRankFragment();
         Bundle bundle1 = new Bundle();
         bundle1.putInt("id",1);
-       // Log.i("-----------------------bundle1...biaozhi:"+biaozhi);
         dayRankFragment.setArguments(bundle1);
         fragments.add(dayRankFragment);
 
         WeekRankFragment weekRankFragment=new WeekRankFragment();
         Bundle bundle2 = new Bundle();
         bundle2.putInt("id", 1);
-       // Log.i("----------------------bundle2...biaozhi:"+biaozhi);
         weekRankFragment.setArguments(bundle2);
         fragments.add(weekRankFragment);
 
         tab_content.setAdapter(new TabContentAdapter(getSupportFragmentManager(),fragments));
-       // tab_content.addOnPageChangeListener(this);
-//        tab_content.setOnPageChangeListener(OnCheckedChanged);
         tab.setupWithViewPager(tab_content);
-        //模式滚动
-        //tab.setTabMode(TabLayout.MODE_SCROLLABLE);
-//        设置屏幕页面限制
-//        tab_content.setOffscreenPageLimit(9);
+        //根据标志flag，判断是日排名（0）还是周排名（1），加载fragment
         Intent intent=getIntent();
-        int flag=intent.getIntExtra("flag",0);
+        int flag=intent.getIntExtra("flag",1);
         tab_content.setCurrentItem(flag);
     }
 

@@ -91,7 +91,7 @@
                     android:editable="false"
                     android:gravity="right"
                     android:layout_gravity="center"
-                    android:hint="必填项"
+                    android:hint="一旦填写,则无法修改"
                     android:singleLine="true"
                     android:textColor="#808080"
                     android:textSize="15sp" />
@@ -141,7 +141,7 @@
                     android:background="@null"
                     android:editable="false"
                     android:gravity="right"
-                    android:hint="必填项"
+                    android:hint="一旦填写,则无法修改"
                     android:singleLine="true"
                     android:textColor="#808080"
                     android:textSize="15sp" />
@@ -241,7 +241,7 @@
                     android:background="@null"
                     android:editable="false"
                     android:gravity="right"
-                    android:hint="必填项"
+                    android:hint="一旦填写,则无法修改"
                     android:singleLine="true"
                     android:textColor="#808080"
                     android:textSize="15sp" />
