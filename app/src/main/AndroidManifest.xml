@@ -538,7 +538,8 @@
         <activity
             android:name=".module.mygrades.view.RankingDetailsActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".module.tips.view.AskDetailActivity" />
+        <activity android:name=".module.tips.view.AskDetailActivity"
+            android:screenOrientation="portrait"/>
 
         <service android:name=".stepcount.service.StepService" />
         <receiver android:name=".stepcount.service.DelayReceive">

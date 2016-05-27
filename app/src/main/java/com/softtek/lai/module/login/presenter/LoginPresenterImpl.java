@@ -279,16 +279,14 @@ public class LoginPresenterImpl implements ILoginPresenter {
         long currentStep= StepUtil.getInstance().getCurrentStep(userId);
         if(step>currentStep){
             //删除当天旧数据
-            String currentDate= DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate();
-            String whereCause="accountId=? and recordTime=?";
-            String[] whereArgs={userId,currentDate};
-            ZillaDB.getInstance().delete(UserStep.class,whereCause,whereArgs);
+            String currentDate=DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate();
+            StepUtil.getInstance().deleteOldDate(currentDate,userId);
             //新增新数据
             UserStep userStep=new UserStep();
             userStep.setAccountId(Long.parseLong(userId));
             userStep.setRecordTime(currentDate);
             userStep.setStepCount(step);
-            ZillaDB.getInstance().save(userStep);
+            StepUtil.getInstance().saveStep(userStep);
         }
         //启动计步器服务
         context.startService(new Intent(context, StepService.class));

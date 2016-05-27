@@ -48,4 +48,14 @@ public class UserStep {
     public void setRecordTime(String recordTime) {
         this.recordTime = recordTime;
     }
+
+    @Override
+    public String toString() {
+        return "UserStep{" +
+                "id=" + id +
+                ", accountId=" + accountId +
+                ", stepCount=" + stepCount +
+                ", recordTime='" + recordTime + '\'' +
+                '}';
+    }
 }
