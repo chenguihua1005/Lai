@@ -13,25 +13,21 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.github.snowdream.android.util.Log;
-import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
-import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.jpush.JpushSet;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.home.view.ModifyPasswordActivity;
-import com.softtek.lai.module.home.view.ValidateCertificationActivity;
 import com.softtek.lai.module.login.model.PhotoModel;
 import com.softtek.lai.module.login.model.RoleInfo;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.net.LoginService;
-import com.softtek.lai.module.login.view.LoginActivity;
-import com.softtek.lai.module.message.model.PhotosModel;
-import com.softtek.lai.module.message.view.JoinGameDetailActivity;
+import com.softtek.lai.stepcount.db.StepUtil;
+import com.softtek.lai.stepcount.model.UserStep;
+import com.softtek.lai.stepcount.service.StepService;
+import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.MD5;
 import com.squareup.picasso.Picasso;
 
@@ -45,6 +41,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import retrofit.mime.TypedFile;
 import zilla.libcore.api.ZillaApi;
+import zilla.libcore.db.ZillaDB;
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.util.Util;
 
@@ -234,9 +231,11 @@ public class LoginPresenterImpl implements ILoginPresenter {
                     case 200:
                         JPushInterface.init(context);
                         JpushSet set = new JpushSet(context);
-                        set.setAlias(userResponseData.getData().getMobile());
+                        UserModel model=userResponseData.getData();
+                        set.setAlias(model.getMobile());
                         set.setStyleBasic();
-                        UserInfoModel.getInstance().saveUserCache(userResponseData.getData());
+                        UserInfoModel.getInstance().saveUserCache(model);
+                        //stepDeal(context,model.getUserid(), StringUtils.isEmpty(model.getTodayStepCnt())?0:Long.parseLong(model.getTodayStepCnt()));
                         final String token=userResponseData.getData().getToken();
                         if(MD5.md5WithEncoder("000000").equals(password)){
                             UserInfoModel.getInstance().setToken("");
@@ -276,5 +275,20 @@ public class LoginPresenterImpl implements ILoginPresenter {
         });
     }
 
-
+    private void stepDeal(Context context,String userId,long step){
+        long currentStep= StepUtil.getInstance().getCurrentStep(userId);
+        if(step>currentStep){
+            //删除当天旧数据
+            String currentDate=DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate();
+            StepUtil.getInstance().deleteOldDate(currentDate,userId);
+            //新增新数据
+            UserStep userStep=new UserStep();
+            userStep.setAccountId(Long.parseLong(userId));
+            userStep.setRecordTime(currentDate);
+            userStep.setStepCount(step);
+            StepUtil.getInstance().saveStep(userStep);
+        }
+        //启动计步器服务
+        context.startService(new Intent(context, StepService.class));
+    }
 }

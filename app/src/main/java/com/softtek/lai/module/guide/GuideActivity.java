@@ -15,8 +15,9 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.group.model.StepResponseModel;
 import com.softtek.lai.module.group.net.SportGroupService;
 import com.softtek.lai.module.home.view.HomeActviity;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
-import com.softtek.lai.stepcount.StepUtil;
+import com.softtek.lai.stepcount.db.StepUtil;
 import com.softtek.lai.stepcount.model.UserStep;
 import com.softtek.lai.stepcount.service.StepService;
 import com.softtek.lai.utils.DateUtil;
@@ -27,7 +28,6 @@ import org.apache.commons.lang3.StringUtils;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
-import zilla.libcore.db.ZillaDB;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_guide)
@@ -53,7 +53,6 @@ public class GuideActivity extends BaseActivity implements Runnable{
     //执行token不为空的情况
     private void checks(){
         final String userId=UserInfoModel.getInstance().getUser().getUserid();
-        Log.i("开始检查是否加入跑团××××××××××××××××××××××××××××××");
         service.isJoinRunGroup(token, userId,
                 new RequestCallback<ResponseData<StepResponseModel>>() {
                     @Override
@@ -64,15 +63,13 @@ public class GuideActivity extends BaseActivity implements Runnable{
                             if(step>currentStep){
                                 //删除当天旧数据
                                 String currentDate=DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate();
-                                String whereCause="accountId=? and recordTime=?";
-                                String[] whereArgs={userId,currentDate};
-                                ZillaDB.getInstance().delete(UserStep.class,whereCause,whereArgs);
+                                StepUtil.getInstance().deleteOldDate(currentDate,userId);
                                 //新增新数据
                                 UserStep userStep=new UserStep();
                                 userStep.setAccountId(Long.parseLong(userId));
                                 userStep.setRecordTime(currentDate);
                                 userStep.setStepCount(step);
-                                ZillaDB.getInstance().save(userStep);
+                                StepUtil.getInstance().saveStep(userStep);
                             }
                             //启动计步器服务
                             startService(new Intent(GuideActivity.this, StepService.class));
@@ -105,6 +102,18 @@ public class GuideActivity extends BaseActivity implements Runnable{
             finish();
         }else{
             checks();
+            /*UserModel model=UserInfoModel.getInstance().getUser();
+            if(model==null){
+                UserInfoModel.getInstance().loginOut();//本地退出
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }else{
+                //进入首页
+                Intent intent = new Intent(this, HomeActviity.class);
+                startActivity(intent);
+                finish();
+            }*/
         }
     }
 }

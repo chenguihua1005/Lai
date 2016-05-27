@@ -8,7 +8,7 @@
     android:background="#FFFFFF">
     <TextView
         android:id="@+id/tv_rank"
-        android:layout_width="35dp"
+        android:layout_width="45dp"
         android:layout_height="match_parent"
         android:gravity="center"
         android:textColor="#ffc200"
@@ -16,10 +16,9 @@
         android:textSize="22sp"
         android:text="1" />
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="85dp"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginLeft="10dp"
         android:gravity="center">
         <com.softtek.lai.widgets.CircleImageView
             android:id="@+id/civ_header_image"
@@ -41,7 +40,7 @@
         android:orientation="vertical"
         android:gravity="center|left"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginRight="20dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
