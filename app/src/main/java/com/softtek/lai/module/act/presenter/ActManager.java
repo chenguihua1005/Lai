@@ -81,6 +81,7 @@ public class ActManager {
                 int status = listResponseData.getStatus();
                 switch (status) {
                     case 200:
+
                         getactivityListCallBack.activityList("true", listResponseData.getData());
                         break;
                     case 100:

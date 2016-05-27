@@ -85,6 +85,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     FrameLayout fl_right;
     @InjectView(R.id.ptrlvlist)
     PullToRefreshListView ptrlvlist;
+    String result;
     //    @InjectView(R.id.im_uploadphoto_banner)
 //    ImageView im_uploadphoto_banner;
 //    @InjectView(R.id.cir_downphoto_head)
@@ -281,6 +282,14 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     private View.OnClickListener itemsOnClick = new View.OnClickListener() {
 
         public void onClick(View v) {
+            String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+            String str_url="";
+            if(result.contains(",")){
+                str_url=result.split(",")[0];
+            }else {
+                str_url=result;
+            }
+            System.out.println("path:"+path+str_url);
             menuWindow.dismiss();
             switch (v.getId()) {
                 case R.id.lin_weixin:
@@ -289,7 +298,8 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
                             .withTitle("康宝莱体重管理挑战赛，坚持只为改变！")
                             .withText(lossModel.getContent())
                             .withTargetUrl(url)
-                            .withMedia(new UMImage(UploadPhotoActivity.this, R.drawable.img_share_logo))
+                            .withMedia(new UMImage(UploadPhotoActivity.this,path+str_url))
+//                            .withMedia(new UMImage(UploadPhotoActivity.this, R.drawable.img_share_logo))
                             .share();
                     break;
                 case R.id.lin_circle:
@@ -298,14 +308,14 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
                             .withTitle("康宝莱体重管理挑战赛，坚持只为改变！")
                             .withText(lossModel.getContent())
                             .withTargetUrl(url)
-                            .withMedia(new UMImage(UploadPhotoActivity.this, R.drawable.img_share_logo))
+                            .withMedia(new UMImage(UploadPhotoActivity.this,path+str_url))
                             .share();
                     break;
                 case R.id.lin_sina:
                     new ShareAction(UploadPhotoActivity.this)
                             .setPlatform(SHARE_MEDIA.SINA)
                             .withText(lossModel.getContent() + url)
-                            .withMedia(new UMImage(UploadPhotoActivity.this, R.drawable.img_share_logo))
+                            .withMedia(new UMImage(UploadPhotoActivity.this,path+str_url))
                             .share();
                     break;
                 default:
@@ -355,7 +365,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
 //        }
 
         if (requestCode == 100 && resultCode == RESULT_OK) {
-            String result = data.getExtras().getString("result");//得到新Activity 关闭后返回的数据
+            result = data.getExtras().getString("result");//得到新Activity 关闭后返回的数据
             if (!"".equals(result)) {
                 progressDialog.setMessage("加载中");
                 progressDialog.show();
