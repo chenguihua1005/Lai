@@ -41,17 +41,22 @@ public class DelayReceive extends BroadcastReceiver{
         List<UserStep> steps= StepUtil.getInstance().checkOldStep(userId);
         if(!steps.isEmpty()){//如果有旧数据
             //提交旧数据需要做优化
+            List<UserStep> result=new ArrayList<>();
             StringBuilder buffer=new StringBuilder();
             String currentDate= DateUtil.getInstance("yyyy-MM-dd").getCurrentDate();
+            //筛选分组
             for(UserStep step:steps){
-                if(currentDate.equals(step.getRecordTime())){
+                int i=currentDate.compareTo(step.getRecordTime());
+                if(i==0||i==1){
                     oldStep.add(step);
                 }
+
                 buffer.append(step.getRecordTime());
                 buffer.append(",");
                 buffer.append(step.getStepCount());
                 buffer.append(";");
             }
+
             //提交数据
             submitStep(Long.parseLong(userId),buffer.substring(0,buffer.lastIndexOf(";")));
         }

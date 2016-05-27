@@ -85,6 +85,8 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
         ZillaApi.setmIApiErrorHandler(new NetErrorHandler());
     }
 
+    
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         Log.i("onCreate(SQLiteDatabase db)");
