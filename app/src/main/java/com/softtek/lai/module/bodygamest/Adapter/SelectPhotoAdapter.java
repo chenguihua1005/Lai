@@ -104,9 +104,9 @@ public class SelectPhotoAdapter extends BaseAdapter {
         /**设置TextView显示的内容，即我们存放在动态数组中的数据*/
         final LogListModel logListModel = list.get(position);
         if (!TextUtils.isEmpty(logListModel.getImgUrl())) {
-            Picasso.with(context).load(logListModel.getImgUrl()).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(holder.img);
+            Picasso.with(context).load(logListModel.getImgUrl()).placeholder(R.drawable.default_icon_square).fit().error(R.drawable.default_icon_square).into(holder.img);
         } else {
-            Picasso.with(context).load("www").placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(holder.img);
+            Picasso.with(context).load("www").placeholder(R.drawable.default_icon_square).fit().error(R.drawable.default_icon_square).into(holder.img);
         }
         holder.lin.setOnClickListener(new View.OnClickListener() {
             @Override
