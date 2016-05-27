@@ -53,7 +53,6 @@ public class GuideActivity extends BaseActivity implements Runnable{
     //执行token不为空的情况
     private void checks(){
         final String userId=UserInfoModel.getInstance().getUser().getUserid();
-        Log.i("开始检查是否加入跑团××××××××××××××××××××××××××××××");
         service.isJoinRunGroup(token, userId,
                 new RequestCallback<ResponseData<StepResponseModel>>() {
                     @Override

@@ -30,6 +30,8 @@ import com.softtek.lai.stepcount.model.UserStep;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.JCountDownTimer;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Calendar;
 
 import zilla.libcore.db.ZillaDB;
@@ -277,8 +279,10 @@ public class StepService extends Service implements SensorEventListener {
         //取消前台进程
         stopForeground(true);
         unregisterReceiver(mBatInfoReceiver);
-        Intent intent = new Intent(this, StepService.class);
-        startService(intent);
+        if(StringUtils.isNotEmpty(UserInfoModel.getInstance().getToken())){
+            Intent intent = new Intent(this, StepService.class);
+            startService(intent);
+        }
         super.onDestroy();
     }
 
