@@ -92,7 +92,8 @@ public class VideoFragment extends BaseFragment implements
 
     @Override
     public void getHealthyList(AskHealthyResponseModel model) {
-        ptrlv.onRefreshComplete();
+        if(ptrlv!=null)
+            ptrlv.onRefreshComplete();
         if(model==null||(model.getTotalPage()==null||model.getTipsList()==null)){
             pageIndex=--pageIndex<1?1:pageIndex;
             return;
