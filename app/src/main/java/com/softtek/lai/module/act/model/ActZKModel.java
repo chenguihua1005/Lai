@@ -16,6 +16,7 @@ public class ActZKModel implements Serializable {
     private ActZKPersonModel ActDetial;
     private String ActType;
     private String PageCount;
+    private String Target;
     private List<ActDetiallistModel> ActDetiallist;
 
     @Override
@@ -24,8 +25,17 @@ public class ActZKModel implements Serializable {
                 "ActDetial=" + ActDetial +
                 ", ActType='" + ActType + '\'' +
                 ", PageCount='" + PageCount + '\'' +
+                ", Target='" + Target + '\'' +
                 ", ActDetiallist=" + ActDetiallist +
                 '}';
+    }
+
+    public String getTarget() {
+        return Target;
+    }
+
+    public void setTarget(String target) {
+        Target = target;
     }
 
     public String getPageCount() {

@@ -1,17 +1,16 @@
 package com.softtek.lai.module.mygrades.view;
 
-import android.app.Activity;
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.mygrades.adapter.RankAdapter;
 import com.softtek.lai.module.mygrades.model.DayRankModel;
 import com.softtek.lai.module.mygrades.model.OrderDataModel;
@@ -62,27 +61,18 @@ public class DayRankFragment extends BaseFragment {
     private IGradesPresenter iGradesPresenter;
     private GradesService gradesService;
     private FragmentManager manager;
-
+    int accoutid;
 
     @Override
     protected void initViews() {
+        UserInfoModel userInfoModel = UserInfoModel.getInstance();
+        accoutid = Integer.parseInt(userInfoModel.getUser().getUserid());
+
         iGradesPresenter = new GradesImpl();
         gradesService= ZillaApi.NormalRestAdapter.create(GradesService.class);
 
         Bundle bundle1 = getArguments();
         int i=bundle1.getInt("id");
-        Log.i("---------------------Daystr----------------"+i);
-
-//        //listview str 0跑团，1全国
-//        //接口信息：跑团数据1，全国数据0
-//        if (str==0){
-//            getCurrentDateOrder(1);
-//        }else  if (str==1){
-//            getCurrentDateOrder(0);
-//        }else {
-//            getCurrentDateOrder(1);
-//        }
-
 
         //listview str 0跑团，1全国
         //接口信息：跑团数据1，全国数据0
@@ -93,34 +83,72 @@ public class DayRankFragment extends BaseFragment {
             getCurrentDateOrder(1);
         }
 
-
+        //initrankdate();
         rankAdapter = new RankAdapter(getContext(),orderDataModelList);
         list_rank.setAdapter(rankAdapter);
         manager = getActivity().getFragmentManager();
-        Log.i("----DayRankFragment....................>"+manager.toString());
+    }
+    // handler类接收数据
+//    Handler handler = new Handler() {
+//        public void handleMessage(Message msg) {
+//            if (msg.what == 1) {
+//                getCurrentDateOrder(22);
+//                System.out.println("receive....");
+//            }
+//        };
+//    };
+//    // 线程类
+//    class ThreadShow implements Runnable {
+//        @Override
+//        public void run() {
+//            while (true) {
+//                try {
+//                    //半小时刷新一次
+//                    Thread.sleep(1000);//1800000
+//                    Message msg = new Message();
+//                    msg.what = 1;
+//                    handler.sendMessage(msg);
+//                    System.out.println("send...");
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                    System.out.println("thread error...");
+//                }
+//            }
+//        }
+//    }
 
+    private void initrankdate() {
+        OrderDataModel p1 = new OrderDataModel("1","20898983403","1","跑团5.1号","18206182087","13890","julie");
+        orderDataModelList.add(p1);
+        OrderDataModel p2 = new OrderDataModel("2","20898983403","2","跑团5.2号","18329726809","10430","wang");
+        orderDataModelList.add(p2);
+        OrderDataModel p3 = new OrderDataModel("3","20898983403","3","跑团5.1.1号","18329726809","9999","li");
+        orderDataModelList.add(p3);
+        OrderDataModel p4 = new OrderDataModel("4","20898983403","4","跑团5.1.2号","18329726809","5982","cheng");
+        orderDataModelList.add(p4);
+        OrderDataModel p5 = new OrderDataModel("5","20898983403","5","跑团1.2.1号","18329726809","890","xu");
+        orderDataModelList.add(p5);
     }
 
     @Override
     protected void initDatas() {
-
-
+//        new Thread(new ThreadShow()).start();
     }
 
     //切换日排名，周排名时更新数据
     public void updateDayRankStatus(int i){
-//        Bundle bundle1 = getArguments();
-//        int str=bundle1.getInt("id");
-        if (i==0){
+        if (i==1){
             getCurrentDateOrder(1);
         }
-        if (i==1){
+        if (i==0){
             getCurrentDateOrder(0);
         }
+        rankAdapter.updateData(orderDataModelList);
     }
 
-    public void updata() {
-        //clubName.setText(clubname);
+    public void updateData(List<OrderDataModel> orderDataModelList) {
+        this.orderDataModelList = orderDataModelList;
+        notifyAll();
     }
 
     public void getCurrentDateOrder(int RGIdType) {
@@ -133,14 +161,16 @@ public class DayRankFragment extends BaseFragment {
                 {
                     case 200:
                         String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-                        if (dayRankModelResponseData.getData().getOrderPhoto().isEmpty()){
-                             Picasso.with(getContext()).load(path + dayRankModelResponseData.getData().getOrderPhoto()).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(img_myheadportrait);
-                        }else {
-                             Picasso.with(getContext()).load("www").placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(img_myheadportrait);
+                        if(!TextUtils.isEmpty(dayRankModelResponseData.getData().getOrderPhoto())) {
+                            Picasso.with(getContext()).load(path+dayRankModelResponseData.getData().getOrderPhoto()).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(img_myheadportrait);
                         }
+                        else {
+                            Picasso.with(getContext()).load("www").placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(img_myheadportrait);
+                        }
+
                         if (dayRankModelResponseData.getData().getOrderName().isEmpty()){
                             if (dayRankModelResponseData.getData().getOrderMobile().isEmpty()){
-                                tv_name.setText("lee");
+                                tv_name.setText("");
                             }else {
                                 //(姓名如果为空，手机号码前3后4中间4个*的)
                                 String mobile=dayRankModelResponseData.getData().getOrderMobile();

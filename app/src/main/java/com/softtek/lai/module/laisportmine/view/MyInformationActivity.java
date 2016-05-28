@@ -3,6 +3,7 @@ package com.softtek.lai.module.laisportmine.view;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -15,10 +16,12 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.historydate.view.HistoryDataActivity;
 import com.softtek.lai.module.laisportmine.model.RunTeamModel;
 import com.softtek.lai.module.laisportmine.net.MineService;
 import com.softtek.lai.module.laisportmine.present.MyRunTeamManager;
 import com.softtek.lai.module.group.view.JoinGroupActivity;
+import com.softtek.lai.module.sport.view.HistorySportListActivity;
 
 import butterknife.InjectView;
 import retrofit.Callback;
@@ -102,25 +105,24 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
                 startActivity(intent);
                 break;
             case R.id.re_pk_mysport:
-                startActivity(new Intent(this,MyPkListActivity.class));
+                startActivity(new Intent(this,HistorySportListActivity.class));
                 break;
         }
     }
 
     @Override
     public void getRunTeamName(RunTeamModel runTeamModel) {
-        runTeamModels=runTeamModel;
-        if (!runTeamModel.getRgName().isEmpty()) {
-            tv_runteamname.setText(runTeamModels.getRgName());
-        }
-        if (!runTeamModels.getIsHasMsg().isEmpty())
-        {
-            if (runTeamModel.getIsHasMsg().equals("True"))
-            {
-                im_news_flag.setVisibility(View.VISIBLE);
+        if (!TextUtils.isEmpty(runTeamModel.toString())) {
+            runTeamModels = runTeamModel;
+            if (!runTeamModel.getRgName().isEmpty()) {
+                tv_runteamname.setText(runTeamModels.getRgName());
             }
-            else {
-                im_news_flag.setVisibility(View.GONE);
+            if (!runTeamModels.getIsHasMsg().isEmpty()) {
+                if (runTeamModel.getIsHasMsg().equals("True")) {
+                    im_news_flag.setVisibility(View.VISIBLE);
+                } else {
+                    im_news_flag.setVisibility(View.GONE);
+                }
             }
         }
 

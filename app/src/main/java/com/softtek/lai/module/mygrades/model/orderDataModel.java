@@ -9,14 +9,16 @@ public class OrderDataModel {
     private String AccountId;
     private String Photo;
     private String _order;
+    private String accoutid;
     private String mobile;
     private String stepCount;
     private String userName;
 
-    public OrderDataModel(String accountId, String photo, String _order, String mobile, String stepCount, String userName) {
+    public OrderDataModel(String accountId, String photo, String _order, String accoutid, String mobile, String stepCount, String userName) {
         AccountId = accountId;
         Photo = photo;
         this._order = _order;
+        this.accoutid = accoutid;
         this.mobile = mobile;
         this.stepCount = stepCount;
         this.userName = userName;
@@ -28,6 +30,7 @@ public class OrderDataModel {
                 "AccountId='" + AccountId + '\'' +
                 ", Photo='" + Photo + '\'' +
                 ", _order='" + _order + '\'' +
+                ", accoutid='" + accoutid + '\'' +
                 ", mobile='" + mobile + '\'' +
                 ", stepCount='" + stepCount + '\'' +
                 ", userName='" + userName + '\'' +
@@ -56,6 +59,14 @@ public class OrderDataModel {
 
     public void set_order(String _order) {
         this._order = _order;
+    }
+
+    public String getAccoutid() {
+        return accoutid;
+    }
+
+    public void setAccoutid(String accoutid) {
+        this.accoutid = accoutid;
     }
 
     public String getMobile() {

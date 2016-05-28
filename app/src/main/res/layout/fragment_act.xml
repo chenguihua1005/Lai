@@ -1,17 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <com.handmark.pulltorefresh.library.PullToRefreshListView
-        android:id="@+id/zk_list"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:id="@+id/rel_head"
         android:layout_width="fill_parent"
+        android:layout_height="101dip"
+        android:background="@color/white"
+        android:orientation="horizontal">
+        <RelativeLayout
+            android:id="@+id/rel"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin">
+            <RelativeLayout
+                android:id="@+id/rel_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/img_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/img_group_bj_1"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"/>
+            </RelativeLayout>
+            <com.softtek.lai.widgets.CircleImageView
+                android:id="@+id/img_person"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/lin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="26dip"
+            android:layout_toRightOf="@+id/rel"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/text_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/word"
+                android:textSize="@dimen/textSize1" />
+
+            <TextView
+                android:id="@+id/text_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="27dip"
+                android:textColor="@color/word"
+                android:textSize="@dimen/textSize1" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/text_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="70dip"
+            android:layout_marginRight="85dip"
+            android:textColor="@color/word3"
+            android:textSize="@dimen/textSize3" />
+    </RelativeLayout>
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/zk_list"
         android:divider="#ececec"
         android:dividerHeight="1dp"
+        android:layout_below="@+id/rel_head"
         android:listSelector="@android:color/transparent"
         android:overScrollMode="never"
         android:scrollbars="none"
-        app:ptrShowIndicator="false" />
-</LinearLayout>
+        app:ptrShowIndicator="false"
+        />
+    <ImageView
+        android:id="@+id/img_mo_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@drawable/no_message"
+        android:visibility="gone"/>
+</RelativeLayout>

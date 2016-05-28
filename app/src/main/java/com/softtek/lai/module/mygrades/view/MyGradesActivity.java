@@ -2,11 +2,9 @@ package com.softtek.lai.module.mygrades.view;
 
 //莱运动-我的成绩页面
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -16,7 +14,6 @@ import android.widget.TextView;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.LineData;
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -30,14 +27,10 @@ import com.softtek.lai.module.studetail.util.LineChartUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.util.AsyncExecutor;
 
-import java.math.BigDecimal;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -124,8 +117,6 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
     @InjectView(R.id.tv_str3)
     TextView tv_str3;
 
-
-
     @InjectView(R.id.chart)
     LineChart chart;
     @InjectView(R.id.bt_left)
@@ -135,14 +126,7 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
     LineChartUtil chartUtil;
     private IGradesPresenter iGradesPresenter;
     private GradesService gradesService;
-    //获取当前日期
-    Calendar c = Calendar.getInstance();
-    int mYear = c.get(Calendar.YEAR);
-    int mMonth = c.get(Calendar.MONTH)+1;
-    int mDay = c.get(Calendar.DAY_OF_MONTH);
-    int mHour=c.get(Calendar.HOUR);
-    int mMinute=c.get(Calendar.MINUTE);
-    int mSecond=c.get(Calendar.SECOND);
+
     char type='6';
     int n=7;
     boolean state=true;
@@ -150,16 +134,10 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
     List<Float> dates=new ArrayList<Float>();
     String nowdate7,nowdate6,nowdate5,nowdate4,nowdate3,nowdate2,nowdate1;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
-//        //接收莱运动首页跑团名称
-//        Intent intent=getIntent();
-//        String RGName=intent.getStringExtra("RGName");
-//        Log.i("MyGradesActivity-----"+RGName);
     }
 
     @Override
@@ -325,7 +303,6 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
             public void success(ResponseData<GradeHonorModel> gradeHonorModelResponseData, Response response) {
                 int status=gradeHonorModelResponseData.getStatus();
                 switch (status){
-//                  {"status":500,"msg":"Invalid object name 'HL_LaiHhonor'.","data":{}}
                     case 200:
                         //总步数
                         String totalnumber=gradeHonorModelResponseData.getData().getTotalStep();
@@ -760,6 +737,7 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                 break;
             //我的勋章跳转
             case R.id.ll_grade:
+                startActivity(new Intent(this,MyXuZhangActivity.class));
                 break;
             case R.id.bt_left:
                         if (state!=true)

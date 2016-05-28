@@ -64,9 +64,8 @@ public class RankAdapter extends BaseAdapter{
             viewHolder = (ViewHolder) convertView.getTag();
         }
         OrderDataModel orderDataModel = orderDataModelList.get(position);
-        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
         if (!TextUtils.isEmpty(orderDataModelList.get(position).getPhoto())) {
-            Picasso.with(context).load(path + orderDataModelList.get(position).getPhoto()).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(viewHolder.civ_header_image);
+            Picasso.with(context).load(AddressManager.get("photoHost") + orderDataModel.getPhoto()).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(viewHolder.civ_header_image);
         } else {
             Picasso.with(context).load("www").placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(viewHolder.civ_header_image);
         }
@@ -76,7 +75,15 @@ public class RankAdapter extends BaseAdapter{
             viewHolder.rank.setTextColor(context.getResources().getColor(R.color.word3));
         }
         viewHolder.rank.setText(orderDataModelList.get(position).get_order() + "");
-        viewHolder.name.setText(orderDataModelList.get(position).getUserName()+"");
+        //(姓名如果为空，手机号码前3后4中间4个*的)
+        if (orderDataModelList.get(position).getUserName().isEmpty()){
+            String mobile=orderDataModelList.get(position).getMobile();
+            String qian=mobile.substring(0,3);
+            String hou=mobile.substring(mobile.length()-4,mobile.length());
+            viewHolder.name.setText(qian+"****"+hou);
+        }else {
+            viewHolder.name.setText(orderDataModelList.get(position).getUserName()+"");
+        }
         viewHolder.bushu.setText(orderDataModelList.get(position).getStepCount()+"");
 
         Float step=Float.parseFloat(orderDataModelList.get(0).getStepCount());
@@ -84,9 +91,10 @@ public class RankAdapter extends BaseAdapter{
 
         Log.i("","----->>>steper:"+stepper);
         if ((position+1)<2){
-            viewHolder.prog.setProgress(80);
+            viewHolder.prog.setProgress(85);
         }else {
             Float pro=Float.parseFloat(orderDataModelList.get(position).getStepCount())*stepper;
+            Log.i("",">>>>>>>>>pro:"+pro);
             viewHolder.prog.setProgress(pro);
         }
 

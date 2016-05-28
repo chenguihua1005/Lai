@@ -26,6 +26,8 @@ public class UserModel implements Serializable {
     private String Certification;
     private String CertTime;
     private String Mobile;
+    private String IsJoin;//是否加入跑团
+    private String TodayStepCnt;//当天最新步数
     //*********记录用户是否有性别
     private boolean hasGender;
 
@@ -119,6 +121,22 @@ public class UserModel implements Serializable {
 
     public void setHeight(String height) {
         this.height = height;
+    }
+
+    public String getIsJoin() {
+        return IsJoin;
+    }
+
+    public void setIsJoin(String isJoin) {
+        IsJoin = isJoin;
+    }
+
+    public String getTodayStepCnt() {
+        return TodayStepCnt;
+    }
+
+    public void setTodayStepCnt(String todayStepCnt) {
+        TodayStepCnt = todayStepCnt;
     }
 
     @Override

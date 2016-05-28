@@ -10,14 +10,24 @@
         android:layout_width="fill_parent"
         android:layout_height="101dip"
         android:orientation="horizontal">
-
-        <ImageView
-            android:id="@+id/img"
+        <RelativeLayout
+            android:id="@+id/rel"
             android:layout_width="65dp"
             android:layout_height="65dp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/margin"
-            android:src="@drawable/img_default" />
+            android:layout_marginLeft="@dimen/margin">
+            <ImageView
+                android:id="@+id/img_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/img_default" />
+            <com.softtek.lai.widgets.CircleImageView
+                android:id="@+id/img_person"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/img_default"
+                android:visibility="gone"/>
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/lin"
@@ -25,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="26dip"
-            android:layout_toRightOf="@+id/img"
+            android:layout_toRightOf="@+id/rel"
             android:orientation="vertical">
 
             <TextView

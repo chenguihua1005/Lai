@@ -6,6 +6,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.act.model.ActDetailModel;
 import com.softtek.lai.module.act.model.ActZKModel;
+import com.softtek.lai.module.act.model.ActZKPModel;
 import com.softtek.lai.module.act.model.ActivityModel;
 import com.softtek.lai.module.act.net.ActService;
 import com.softtek.lai.utils.RequestCallback;
@@ -25,6 +26,13 @@ public class ActManager {
     private GetactivityListCallBack getactivityListCallBack;
     private GetActDetailsCallBack getActDetailsCallBack;
     private GetActivitySituationCallBack getActivitySituationCallBack;
+    private GetActRGStepOrderCallBack getActRGStepOrderCallBack;
+
+    public ActManager(GetActRGStepOrderCallBack getActRGStepOrderCallBack) {
+        this.getActRGStepOrderCallBack = getActRGStepOrderCallBack;
+        token = UserInfoModel.getInstance().getToken();
+        service = ZillaApi.NormalRestAdapter.create(ActService.class);
+    }
 
     public ActManager(GetActivitySituationCallBack getActivitySituationCallBack) {
         this.getActivitySituationCallBack = getActivitySituationCallBack;
@@ -81,6 +89,7 @@ public class ActManager {
                 int status = listResponseData.getStatus();
                 switch (status) {
                     case 200:
+
                         getactivityListCallBack.activityList("true", listResponseData.getData());
                         break;
                     case 100:
@@ -97,6 +106,37 @@ public class ActManager {
             public void failure(RetrofitError error) {
                 if (getactivityListCallBack != null) {
                     getactivityListCallBack.activityList("false", null);
+                }
+                ZillaApi.dealNetError(error);
+            }
+        });
+    }
+
+    public void getActRGStepOrder(String pageIndex,String rgid,String activityid) {
+        service.getActRGStepOrder(token, pageIndex,rgid,activityid, new RequestCallback<ResponseData<ActZKPModel>>() {
+            @Override
+            public void success(ResponseData<ActZKPModel> listResponseData, Response response) {
+                Log.e("jarvis", listResponseData.toString());
+                int status = listResponseData.getStatus();
+                switch (status) {
+                    case 200:
+
+                        getActRGStepOrderCallBack.getActRGStepOrder("true", listResponseData.getData());
+                        break;
+                    case 100:
+                        getActRGStepOrderCallBack.getActRGStepOrder("false", null);
+                        break;
+                    default:
+                        getActRGStepOrderCallBack.getActRGStepOrder("false", null);
+                        Util.toastMsg(listResponseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                if (getActRGStepOrderCallBack != null) {
+                    getActRGStepOrderCallBack.getActRGStepOrder("false", null);
                 }
                 ZillaApi.dealNetError(error);
             }
@@ -146,6 +186,11 @@ public class ActManager {
     public interface GetActivitySituationCallBack {
 
         void getActivitySituation(String type, ActZKModel model);
+    }
+
+    public interface GetActRGStepOrderCallBack {
+
+        void getActRGStepOrder(String type, ActZKPModel model);
     }
 
 }

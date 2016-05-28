@@ -7,7 +7,7 @@ import zilla.libcore.db.Table;
  * Created by jerry.guan on 5/23/2016.
  * 保存用户步数的对象
  */
-@Table("t_user_step")
+@Table("user_step")
 public class UserStep {
 
     @Id
@@ -49,5 +49,15 @@ public class UserStep {
 
     public void setRecordTime(String recordTime) {
         this.recordTime = recordTime;
+    }
+
+    @Override
+    public String toString() {
+        return "UserStep{" +
+                "id=" + id +
+                ", accountId=" + accountId +
+                ", stepCount=" + stepCount +
+                ", recordTime='" + recordTime + '\'' +
+                '}';
     }
 }

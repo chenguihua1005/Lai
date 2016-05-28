@@ -1,23 +1,20 @@
 package com.softtek.lai.module.mygrades.view;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.mygrades.adapter.RankAdapter;
 import com.softtek.lai.module.mygrades.model.DayRankModel;
 import com.softtek.lai.module.mygrades.model.OrderDataModel;
 import com.softtek.lai.module.mygrades.net.GradesService;
 import com.softtek.lai.module.mygrades.presenter.GradesImpl;
 import com.softtek.lai.module.mygrades.presenter.IGradesPresenter;
-import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -64,19 +61,17 @@ public class WeekRankFragment extends BaseFragment {
 
     private IGradesPresenter iGradesPresenter;
     private GradesService gradesService;
-
+    int accoutid;
     @Override
     protected void initViews() {
+        UserInfoModel userInfoModel = UserInfoModel.getInstance();
+        accoutid = Integer.parseInt(userInfoModel.getUser().getUserid());
 
         iGradesPresenter = new GradesImpl();
         gradesService= ZillaApi.NormalRestAdapter.create(GradesService.class);
 
-
         Bundle bundle2 = getArguments();
         int str=bundle2.getInt("id");
-        Log.i("---------------------Weekstr----------------"+str);
-
-        //listview str 0跑团，1全国
         //接口信息：跑团数据1，全国数据0
         if (str==0){
             getCurrentWeekOrder(0);
@@ -84,10 +79,6 @@ public class WeekRankFragment extends BaseFragment {
         if (str==1){
             getCurrentWeekOrder(1);
         }
-
-        //跑团1，全国0
-
-       // initrankdate();
         rankAdapter = new RankAdapter(getContext(),orderDataModelList);
         list_rank.setAdapter(rankAdapter);
     }
@@ -99,25 +90,32 @@ public class WeekRankFragment extends BaseFragment {
 
     //切换日排名，周排名时更新数据
     public void updateWeekRankStatus(int i){
-//        Bundle bundle2 = getArguments();
-//        int str=bundle2.getInt("id");
         if (i==0){
-            getCurrentWeekOrder(1);
+            getCurrentWeekOrder(0);
+//            initrankdate();
         }
         if (i==1){
-            getCurrentWeekOrder(0);
+            getCurrentWeekOrder(1);
         }
+        rankAdapter.updateData(orderDataModelList);
     }
+
+    public void updateData(List<OrderDataModel> orderDataModelList) {
+        this.orderDataModelList = orderDataModelList;
+        //notifyDataSetChanged();
+        notifyAll();
+    }
+
     private void initrankdate() {
-        OrderDataModel p1 = new OrderDataModel("1","20898983403","1","18329726809","13890","zhang");
+        OrderDataModel p1 = new OrderDataModel("1","20898983403","1","跑团1.1号","18329726809","13890","zhang");
         orderDataModelList.add(p1);
-        OrderDataModel p2 = new OrderDataModel("2","20898983403","2","18329726809","10430","wang");
+        OrderDataModel p2 = new OrderDataModel("2","20898983403","2","跑团1.2号","18329726809","10430","wang");
         orderDataModelList.add(p2);
-        OrderDataModel p3 = new OrderDataModel("3","20898983403","3","18329726809","9999","li");
+        OrderDataModel p3 = new OrderDataModel("3","20898983403","3","跑团1.1.1号","18329726809","9999","li");
         orderDataModelList.add(p3);
-        OrderDataModel p4 = new OrderDataModel("4","20898983403","4","18329726809","5982","cheng");
+        OrderDataModel p4 = new OrderDataModel("4","20898983403","4","跑团1.1.2号","18329726809","5982","cheng");
         orderDataModelList.add(p4);
-        OrderDataModel p5 = new OrderDataModel("5","20898983403","5","18329726809","890","xu");
+        OrderDataModel p5 = new OrderDataModel("5","20898983403","5","跑团1.2.1号","18329726809","890","xu");
         orderDataModelList.add(p5);
     }
 
@@ -161,7 +159,7 @@ public class WeekRankFragment extends BaseFragment {
                          }
 
                         if (dayRankModelResponseData.getData().getOrderData().isEmpty()){
-                            //Util.toastMsg("我的周排名--暂无数据");
+//                            Util.toastMsg("我的周排名--暂无数据");
                         }else {
                             orderDataModelList = dayRankModelResponseData.getData().getOrderData();
                             rankAdapter.updateData(orderDataModelList);

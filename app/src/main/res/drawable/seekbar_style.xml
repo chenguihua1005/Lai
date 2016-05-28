@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-<!--    <item
-        android:id="@android:id/progress"
-
-        android:drawable="@drawable/img_step_jd">
+    <item android:id="@android:id/progress">
         <clip>
-            <corners android:radius="50dp" />
+            <shape>
+                <corners android:radius="10dip" />
+                <gradient
+                    android:startColor="#7bbd35"
+                    android:centerColor="#7bbd35"
+                    android:centerY="0.75"
+                    android:endColor="#7bbd35"
+                    android:angle="0"
+                    />
+            </shape>
         </clip>
-    </item>-->
-    <item
-        android:id="@android:id/progress"
-        android:drawable="@drawable/img_step_jd">
     </item>
 </layer-list>
