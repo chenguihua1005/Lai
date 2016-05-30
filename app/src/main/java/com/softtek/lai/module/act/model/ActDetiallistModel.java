@@ -18,6 +18,14 @@ public class ActDetiallistModel implements Serializable {
     private String ActDTotal;
     private String ActId;
 
+    public ActDetiallistModel(String actDImg, String actDName, String actDOrder, String actDTotal, String actId) {
+        ActDImg = actDImg;
+        ActDName = actDName;
+        ActDOrder = actDOrder;
+        ActDTotal = actDTotal;
+        ActId = actId;
+    }
+
     @Override
     public String toString() {
         return "ActZKPersonModel{" +
