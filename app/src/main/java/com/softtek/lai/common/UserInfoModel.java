@@ -72,7 +72,7 @@ public class UserInfoModel {
         //清除token
         SharedPreferenceService.getInstance().put("token", "");
         //清除本地用户
-        aCache.put(Constants.USER_ACACHE_KEY, new UserModel());
+        aCache.remove(Constants.USER_ACACHE_KEY);
     }
 
     /**

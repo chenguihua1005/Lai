@@ -14,6 +14,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -309,6 +310,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
         rl_load.setVisibility(View.GONE);
         sv_pk.setVisibility(View.VISIBLE);
         this.model=model;
+        Log.i("PKDetail???"+model.toString());
         if(model.getTStatus()==PKListAdapter.Completed){//如果这个PK是已经结束
             if (Long.parseLong(model.getWinnerId())==model.getChallenged()){
                 //发起方胜利

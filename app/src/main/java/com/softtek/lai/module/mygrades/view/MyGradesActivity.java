@@ -4,7 +4,6 @@ package com.softtek.lai.module.mygrades.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -368,14 +367,40 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                 switch (gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorType()) {
                                     case 1:
                                         //天数
-                                        gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue();
-                                        tv_str1.setText("连续" + gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue() + "天步数一万");
-                                        img_honor1.setImageResource(R.drawable.img_medal1);
+                                        switch (gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue()) {
+                                            case 3:
+                                                tv_str1.setText("连续3天步数一万");
+                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                break;
+                                            case 7:
+                                                tv_str1.setText("连续7天步数一万");
+                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                break;
+                                            case 21:
+                                                tv_str1.setText("连续21天步数一万");
+                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                break;
+                                            case 30:
+                                                tv_str1.setText("连续30天步数一万");
+                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                break;
+                                            case 100:
+                                                tv_str1.setText("连续100天步数一万");
+                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                break;
+                                            case 200:
+                                                tv_str1.setText("连续200天步数一万");
+                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                break;
+                                            case 365:
+                                                tv_str1.setText("连续365天步数一万");
+                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                break;
+                                        }
                                         ll_honor1.setVisibility(View.VISIBLE);
                                         break;
                                     case 2:
                                         //步数
-                                        gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue();
                                         tv_str1.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue() + "万");
                                         img_honor1.setImageResource(R.drawable.img_medal);
                                         ll_honor1.setVisibility(View.VISIBLE);
@@ -383,12 +408,11 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                     case 3:
                                         //天使听见爱
                                         tv_str1.setText("天使听见爱");
-                                        img_honor1.setImageResource(R.drawable.img_medal);
+                                        img_honor1.setImageResource(R.drawable.img_group_main_csgy);
                                         ll_honor1.setVisibility(View.VISIBLE);
                                         break;
                                     case 4:
                                         //PK挑战
-                                        gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue();
                                         switch (gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue()) {
                                             case 1:
                                                 tv_str1.setText("挑战达人铜牌");
@@ -425,14 +449,40 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                 switch (gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorType()) {
                                     case 1:
                                         //天数
-                                        gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue();
-                                        tv_str1.setText("连续" + gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue() + "天步数一万");
-                                        img_honor1.setImageResource(R.drawable.img_medal1);
+                                        switch ( gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue()) {
+                                            case 3:
+                                                tv_str1.setText("连续3天步数一万");
+                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                break;
+                                            case 7:
+                                                tv_str1.setText("连续7天步数一万");
+                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                break;
+                                            case 21:
+                                                tv_str1.setText("连续21天步数一万");
+                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                break;
+                                            case 30:
+                                                tv_str1.setText("连续30天步数一万");
+                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                break;
+                                            case 100:
+                                                tv_str1.setText("连续100天步数一万");
+                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                break;
+                                            case 200:
+                                                tv_str1.setText("连续200天步数一万");
+                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                break;
+                                            case 365:
+                                                tv_str1.setText("连续365天步数一万");
+                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                break;
+                                        }
                                         ll_honor1.setVisibility(View.VISIBLE);
                                         break;
                                     case 2:
                                         //步数
-                                        gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue();
                                         tv_str1.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue() + "万");
                                         img_honor1.setImageResource(R.drawable.img_medal);
                                         ll_honor1.setVisibility(View.VISIBLE);
@@ -440,12 +490,11 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                     case 3:
                                         //天使听见爱
                                         tv_str1.setText("天使听见爱");
-                                        img_honor1.setImageResource(R.drawable.img_medal1);
+                                        img_honor1.setImageResource(R.drawable.img_group_main_csgy);
                                         ll_honor1.setVisibility(View.VISIBLE);
                                         break;
                                     case 4:
                                         //PK挑战
-                                        gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue();
                                         switch (gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue()) {
                                             case 1:
                                                 tv_str1.setText("挑战达人铜牌");
@@ -479,28 +528,52 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                 switch (gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorType()) {
                                     case 1:
                                         //天数
-                                        gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue();
-                                        tv_str2.setText("连续" + gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue() + "天步数一万");
-                                        img_honor2.setImageResource(R.drawable.img_medal1);
+                                        switch ( gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue()) {
+                                            case 3:
+                                                tv_str2.setText("连续3天步数一万");
+                                                img_honor2.setImageResource(R.drawable.img_medal1);
+                                                break;
+                                            case 7:
+                                                tv_str2.setText("连续7天步数一万");
+                                                img_honor2.setImageResource(R.drawable.img_medal1);
+                                                break;
+                                            case 21:
+                                                tv_str2.setText("连续21天步数一万");
+                                                img_honor2.setImageResource(R.drawable.img_medal1);
+                                                break;
+                                            case 30:
+                                                tv_str2.setText("连续30天步数一万");
+                                                img_honor2.setImageResource(R.drawable.img_medal1);
+                                                break;
+                                            case 100:
+                                                tv_str2.setText("连续100天步数一万");
+                                                img_honor2.setImageResource(R.drawable.img_medal1);
+                                                break;
+                                            case 200:
+                                                tv_str2.setText("连续200天步数一万");
+                                                img_honor2.setImageResource(R.drawable.img_medal1);
+                                                break;
+                                            case 365:
+                                                tv_str2.setText("连续365天步数一万");
+                                                img_honor2.setImageResource(R.drawable.img_medal1);
+                                                break;
+                                        }
                                         ll_honor2.setVisibility(View.VISIBLE);
                                         break;
                                     case 2:
                                         //步数
-                                        gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue();
                                         tv_str2.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue() + "万");
                                         img_honor2.setImageResource(R.drawable.img_medal);
                                         ll_honor2.setVisibility(View.VISIBLE);
                                         break;
                                     case 3:
                                         //天使听见爱
-                                        gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue();
                                         tv_str2.setText("天使听见爱");
-                                        img_honor2.setImageResource(R.drawable.img_medal);
+                                        img_honor2.setImageResource(R.drawable.img_group_main_csgy);
                                         ll_honor2.setVisibility(View.VISIBLE);
                                         break;
                                     case 4:
                                         //PK挑战
-                                        gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue();
                                         switch (gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue()) {
                                             case 1:
                                                 tv_str2.setText("挑战达人铜牌");
@@ -537,14 +610,40 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                 switch (gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorType()) {
                                     case 1:
                                         //天数
-                                        gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue();
-                                        tv_str1.setText("连续" + gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue() + "天步数一万");
-                                        img_honor1.setImageResource(R.drawable.img_medal1);
+                                        switch ( gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue()) {
+                                            case 3:
+                                                tv_str1.setText("连续3天步数一万");
+                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                break;
+                                            case 7:
+                                                tv_str1.setText("连续7天步数一万");
+                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                break;
+                                            case 21:
+                                                tv_str1.setText("连续21天步数一万");
+                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                break;
+                                            case 30:
+                                                tv_str1.setText("连续30天步数一万");
+                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                break;
+                                            case 100:
+                                                tv_str1.setText("连续100天步数一万");
+                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                break;
+                                            case 200:
+                                                tv_str1.setText("连续200天步数一万");
+                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                break;
+                                            case 365:
+                                                tv_str1.setText("连续365天步数一万");
+                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                break;
+                                        }
                                         ll_honor1.setVisibility(View.VISIBLE);
                                         break;
                                     case 2:
                                         //步数
-                                        gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue();
                                         tv_str1.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue() + "万");
                                         img_honor1.setImageResource(R.drawable.img_medal);
                                         ll_honor1.setVisibility(View.VISIBLE);
@@ -552,12 +651,11 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                     case 3:
                                         //天使听见爱
                                         tv_str1.setText("天使听见爱");
-                                        img_honor1.setImageResource(R.drawable.img_medal);
+                                        img_honor1.setImageResource(R.drawable.img_group_main_csgy);
                                         ll_honor1.setVisibility(View.VISIBLE);
                                         break;
                                     case 4:
                                         //PK挑战
-                                        gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue();
                                         switch (gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue()) {
                                             case 1:
                                                 tv_str1.setText("挑战达人铜牌");
@@ -591,28 +689,52 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                 switch (gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorType()) {
                                     case 1:
                                         //天数
-                                        gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue();
-                                        tv_str2.setText("连续" + gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue() + "天步数一万");
-                                        img_honor2.setImageResource(R.drawable.img_medal1);
+                                        switch ( gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue()) {
+                                            case 3:
+                                                tv_str2.setText("连续3天步数一万");
+                                                img_honor2.setImageResource(R.drawable.img_medal1);
+                                                break;
+                                            case 7:
+                                                tv_str2.setText("连续7天步数一万");
+                                                img_honor2.setImageResource(R.drawable.img_medal1);
+                                                break;
+                                            case 21:
+                                                tv_str2.setText("连续21天步数一万");
+                                                img_honor2.setImageResource(R.drawable.img_medal1);
+                                                break;
+                                            case 30:
+                                                tv_str2.setText("连续30天步数一万");
+                                                img_honor2.setImageResource(R.drawable.img_medal1);
+                                                break;
+                                            case 100:
+                                                tv_str2.setText("连续100天步数一万");
+                                                img_honor2.setImageResource(R.drawable.img_medal1);
+                                                break;
+                                            case 200:
+                                                tv_str2.setText("连续200天步数一万");
+                                                img_honor2.setImageResource(R.drawable.img_medal1);
+                                                break;
+                                            case 365:
+                                                tv_str2.setText("连续365天步数一万");
+                                                img_honor2.setImageResource(R.drawable.img_medal1);
+                                                break;
+                                        }
                                         ll_honor2.setVisibility(View.VISIBLE);
                                         break;
                                     case 2:
                                         //步数
-                                        gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue();
                                         tv_str2.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue() + "万");
                                         img_honor2.setImageResource(R.drawable.img_medal);
                                         ll_honor2.setVisibility(View.VISIBLE);
                                         break;
                                     case 3:
                                         //天使听见爱
-                                        gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue();
                                         tv_str2.setText("天使听见爱");
-                                        img_honor2.setImageResource(R.drawable.img_medal);
+                                        img_honor2.setImageResource(R.drawable.img_group_main_csgy);
                                         ll_honor2.setVisibility(View.VISIBLE);
                                         break;
                                     case 4:
                                         //PK挑战
-                                        gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue();
                                         switch (gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue()) {
                                             case 1:
                                                 tv_str2.setText("挑战达人铜牌");
@@ -646,28 +768,52 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                 switch (gradeHonorModelResponseData.getData().getLaiHonor().get(2).getHonorType()) {
                                     case 1:
                                         //天数
-                                        gradeHonorModelResponseData.getData().getLaiHonor().get(2).getHonorVlue();
-                                        tv_str3.setText("连续" + gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue() + "天步数一万");
-                                        img_honor3.setImageResource(R.drawable.img_medal1);
+                                        switch ( gradeHonorModelResponseData.getData().getLaiHonor().get(2).getHonorVlue()) {
+                                            case 3:
+                                                tv_str3.setText("连续3天步数一万");
+                                                img_honor3.setImageResource(R.drawable.img_medal1);
+                                                break;
+                                            case 7:
+                                                tv_str3.setText("连续7天步数一万");
+                                                img_honor3.setImageResource(R.drawable.img_medal1);
+                                                break;
+                                            case 21:
+                                                tv_str3.setText("连续21天步数一万");
+                                                img_honor3.setImageResource(R.drawable.img_medal1);
+                                                break;
+                                            case 30:
+                                                tv_str3.setText("连续30天步数一万");
+                                                img_honor3.setImageResource(R.drawable.img_medal1);
+                                                break;
+                                            case 100:
+                                                tv_str3.setText("连续100天步数一万");
+                                                img_honor3.setImageResource(R.drawable.img_medal1);
+                                                break;
+                                            case 200:
+                                                tv_str3.setText("连续200天步数一万");
+                                                img_honor3.setImageResource(R.drawable.img_medal1);
+                                                break;
+                                            case 365:
+                                                tv_str3.setText("连续365天步数一万");
+                                                img_honor3.setImageResource(R.drawable.img_medal1);
+                                                break;
+                                        }
                                         ll_honor3.setVisibility(View.VISIBLE);
                                         break;
                                     case 2:
                                         //步数
-                                        gradeHonorModelResponseData.getData().getLaiHonor().get(2).getHonorVlue();
                                         tv_str3.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue() + "万");
                                         img_honor3.setImageResource(R.drawable.img_medal);
                                         ll_honor3.setVisibility(View.VISIBLE);
                                         break;
                                     case 3:
                                         //天使听见爱
-                                        gradeHonorModelResponseData.getData().getLaiHonor().get(2).getHonorVlue();
                                         tv_str3.setText("天使听见爱");
-                                        img_honor3.setImageResource(R.drawable.img_medal);
+                                        img_honor3.setImageResource(R.drawable.img_group_main_csgy);
                                         ll_honor3.setVisibility(View.VISIBLE);
                                         break;
                                     case 4:
                                         //PK挑战
-                                        gradeHonorModelResponseData.getData().getLaiHonor().get(2).getHonorVlue();
                                         switch (gradeHonorModelResponseData.getData().getLaiHonor().get(2).getHonorVlue()) {
                                             case 1:
                                                 tv_str3.setText("挑战达人铜牌");

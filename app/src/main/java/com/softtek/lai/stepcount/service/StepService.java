@@ -52,10 +52,6 @@ public class StepService extends Service implements SensorEventListener {
     private TimeCount time;
 
 
-    //计步传感器类型 0-counter 1-detector
-    private static int stepSensor = -1;
-
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -109,7 +105,7 @@ public class StepService extends Service implements SensorEventListener {
                 } else if (Intent.ACTION_SCREEN_OFF.equals(action)) {
                     Log.d("xf", "screen off");
                     //改为60秒一存储
-                    duration = 60000;
+                    //duration = 60000;
                 } else if (Intent.ACTION_USER_PRESENT.equals(action)) {
                     Log.d("xf", "screen unlock");
                     save();
@@ -137,8 +133,6 @@ public class StepService extends Service implements SensorEventListener {
      * 更新通知
      */
     private void updateNotification(String content) {
-
-        //Notification.Builder builder = new Notification.Builder(this);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
                 new Intent(this, GroupMainActivity.class), 0);
         builder = new NotificationCompat.Builder(this);
@@ -192,20 +186,20 @@ public class StepService extends Service implements SensorEventListener {
             addBasePedoListener();
         }
     }
-
+    private Sensor detectorSensor;
+    private Sensor countSensor;
     private void addCountStepListener() {
-        Sensor detectorSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
-        Sensor countSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
-        if (countSensor != null) {
-            stepSensor = 0;
-            Log.i("tag","使用countSensor");
+        detectorSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
+        //countSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+        /*if (countSensor != null) {
+            Log.i("base", "countSensor");
             sensorManager.registerListener(this, countSensor, SensorManager.SENSOR_DELAY_UI);
-        } else if (detectorSensor != null) {
-            stepSensor = 1;
-            Log.i("tag","使用detectorSensor");
+        }else */if (detectorSensor != null) {
+            Log.i("base", "detector");
             sensorManager.registerListener(this, detectorSensor, SensorManager.SENSOR_DELAY_UI);
-        } else {
-            Log.i("tag","系统传感器不可用，使用重力加速度");
+        }
+        if(countSensor == null&&detectorSensor == null) {
+            Log.i("base", "Count sensor not available!");
             addBasePedoListener();
         }
     }
@@ -216,7 +210,6 @@ public class StepService extends Service implements SensorEventListener {
         // 此方法用来注册，只有注册过才会生效，参数：SensorEventListener的实例，Sensor的实例，更新速率
         Sensor sensor = sensorManager
                 .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        // sensorManager.unregisterListener(stepDetector);
         sensorManager.registerListener(stepDetector, sensor,
                 SensorManager.SENSOR_DELAY_UI);
         stepDetector.setOnSensorChangeListener(new StepDcretor.OnSensorChangeListener() {
@@ -230,10 +223,16 @@ public class StepService extends Service implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        if (stepSensor == 0) {
+        /*if (event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
+            for(float value:event.values){
+                com.github.snowdream.android.util.Log.i("传感器获取的步数数据为>>>"+value);
+            }
+            int step=(int) event.values[0];
             StepDcretor.CURRENT_SETP = (int) event.values[0];
-        } else if (stepSensor == 1) {
-            StepDcretor.CURRENT_SETP++;
+        } else*/ if (event.sensor.getType() == Sensor.TYPE_STEP_DETECTOR) {
+            if (event.values[0]==1.0) {
+                StepDcretor.CURRENT_SETP++;
+            }
         }
         updateNotification("今日步数：" + StepDcretor.CURRENT_SETP + " 步");
     }
@@ -268,14 +267,13 @@ public class StepService extends Service implements SensorEventListener {
     private void save() {
         long tempStep = StepDcretor.CURRENT_SETP;
         UserModel model=UserInfoModel.getInstance().getUser();
-        if(model!=null&&StringUtils.isNotEmpty(model.getUserid())){
+        if(model!=null){
             UserStep step=new UserStep();
             step.setAccountId(Long.parseLong(model.getUserid()));
-            step.setRecordTime(DateUtil.getInstance("yyyy-MM-dd").getCurrentDate());
+            step.setRecordTime(DateUtil.getInstance("yyyy-MM-dd HH:mm:ss").getCurrentDate());
             step.setStepCount(tempStep);
             StepUtil.getInstance().saveStep(step);
         }
-        StepUtil.getInstance().queryAll();
     }
 
 
@@ -285,7 +283,15 @@ public class StepService extends Service implements SensorEventListener {
         Log.i("test","计步服务结束");
         stopForeground(true);
         unregisterReceiver(mBatInfoReceiver);
-        if(StringUtils.isNotEmpty(UserInfoModel.getInstance().getToken())){
+        if (countSensor != null) {
+            Log.i("base", "注销countSensor");
+            sensorManager.unregisterListener(this, countSensor);
+        }
+        if (detectorSensor != null) {
+            Log.i("base", "注销detector");
+            sensorManager.unregisterListener(this, detectorSensor);
+        }
+        if(UserInfoModel.getInstance().getUser()!=null){
             Intent intent = new Intent(this, StepService.class);
             startService(intent);
         }

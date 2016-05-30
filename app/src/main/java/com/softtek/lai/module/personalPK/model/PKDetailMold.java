@@ -326,6 +326,8 @@ public class PKDetailMold implements Parcelable{
                 ", BchaTotal=" + BchaTotal +
                 ", BPraiseStatus=" + BPraiseStatus +
                 ", PraiseStatus=" + PraiseStatus +
+                ", TStatus=" + TStatus +
+                ", WinnerId='" + WinnerId + '\'' +
                 '}';
     }
 }

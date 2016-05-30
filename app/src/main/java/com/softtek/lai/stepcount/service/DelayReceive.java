@@ -13,6 +13,8 @@ import com.softtek.lai.stepcount.net.StepNetService;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.List;
 
 import retrofit.client.Response;
@@ -29,35 +31,37 @@ public class DelayReceive extends BroadcastReceiver{
     @Override
     public void onReceive(Context context, Intent intent) {
         //做上传工作
+        if(UserInfoModel.getInstance().getUser()==null){
+            return;
+        }
         Log.i("步数数据开始上传.......................................");
+        String userId=UserInfoModel.getInstance().getUser().getUserid();
         service= ZillaApi.NormalRestAdapter.create(StepNetService.class);
          /*
-        处理上传任务，获取迄今为止的所有步数数据
+        处理上传任务
          */
-        String userId= UserInfoModel.getInstance().getUser().getUserid();
-        List<UserStep> steps= StepUtil.getInstance().checkOldStep(userId);
-        if(!steps.isEmpty()){//如果有旧数据
+        String dateStar=DateUtil.weeHours(0);
+        String dateEnd=DateUtil.weeHours(1);
+        List<UserStep> steps= StepUtil.getInstance().getCurrentData(userId,dateStar,dateEnd);
+        if(!steps.isEmpty()){//if have datas
+            UserStep stepStart=steps.get(0);
+            UserStep stepEnd=steps.get(steps.size()-1);
             StringBuilder buffer=new StringBuilder();
-            String currentDate= DateUtil.getInstance("yyyy-MM-dd").getCurrentDate();
-            //筛选分组
-            for(UserStep step:steps){
-                buffer.append(step.getRecordTime());
-                buffer.append(",");
-                buffer.append(step.getStepCount());
-                buffer.append(";");
-            }
+            buffer.append(stepEnd.getRecordTime().split(" ")[0]);
+            buffer.append(",");
+            long step=stepEnd.getStepCount()-stepStart.getStepCount();
+            buffer.append(step);
             //提交数据
-            submitStep(Long.parseLong(userId),buffer.substring(0,buffer.lastIndexOf(";")),currentDate);
+            submitStep(Long.parseLong(userId),buffer.toString());
         }
     }
 
-    private void submitStep(final long accountId, String step, final String currentDate){
+    private void submitStep(final long accountId, String step){
         Log.i("步数>>"+step);
         service.synStepCount(UserInfoModel.getInstance().getToken(),accountId, step, new RequestCallback<ResponseData>() {
             @Override
             public void success(ResponseData responseData, Response response) {
-                //提交成功删除除了当前天的数据
-                StepUtil.getInstance().deleteOldDate(accountId+"",currentDate);
+
             }
         });
     }

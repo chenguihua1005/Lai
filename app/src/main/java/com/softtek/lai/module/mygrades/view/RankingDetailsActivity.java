@@ -188,7 +188,6 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
                         tv_rungroupname.setText(runTeamModelResponseData.getData().getRgName());
                         break;
                     case 100:
-//                        cb.getRunTeamName(null);
                         break;
                     default:
                         Log.i(runTeamModelResponseData.getMsg());

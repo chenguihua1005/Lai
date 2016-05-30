@@ -73,6 +73,27 @@ public class ActFragment extends BaseFragment implements PullToRefreshBase.OnRef
     protected void initViews() {
         zk_list.setMode(PullToRefreshBase.Mode.BOTH);
         zk_list.setOnRefreshListener(this);
+        rel_head.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String type=actZKModel.getActType();
+                ActZKPersonModel models=actZKModel.getActDetial();
+                ActDetiallistModel model=new ActDetiallistModel(models.getActDImg(),models.getActDName(),models.getActDOrder(),models.getActDTotal(),models.getActId());
+                if("0".equals(type)){
+                    Intent intent=new Intent(getActivity(),ActGroupPersonActivity.class);
+                    intent.putExtra("actDetiallistModel",model);
+                    intent.putExtra("id",id);
+                    intent.putExtra("type","0");
+                    startActivity(intent);
+                }else if("1".equals(type)){
+                    Intent intent=new Intent(getActivity(),ActGroupPersonActivity.class);
+                    intent.putExtra("actDetiallistModel",model);
+                    intent.putExtra("id",id);
+                    intent.putExtra("type","1");
+                    startActivity(intent);
+                }
+            }
+        });
         zk_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long ids) {
@@ -100,7 +121,6 @@ public class ActFragment extends BaseFragment implements PullToRefreshBase.OnRef
         actManager = new ActManager(this);
         userId = UserInfoModel.getInstance().getUser().getUserid();
         id = getActivity().getIntent().getStringExtra("id");
-        userId = "5";
 //        new Handler().postDelayed(new Runnable() {
 //            @Override
 //            public void run() {
@@ -191,6 +211,9 @@ public class ActFragment extends BaseFragment implements PullToRefreshBase.OnRef
     @Override
     public void getActivitySituation(String type, ActZKModel model) {
         if ("true".equals(type)) {
+            rel_head.setVisibility(View.VISIBLE);
+            zk_list.setVisibility(View.VISIBLE);
+            img_mo_message.setVisibility(View.GONE);
             actZKModel=model;
             if (zk_list != null) {
                 zk_list.onRefreshComplete();
@@ -212,9 +235,11 @@ public class ActFragment extends BaseFragment implements PullToRefreshBase.OnRef
                 adapter.notifyDataSetChanged();
             }
         } else {
-            rel_head.setVisibility(View.GONE);
-            zk_list.setVisibility(View.GONE);
-            img_mo_message.setVisibility(View.VISIBLE);
+            if (pageIndex == 1) {
+                rel_head.setVisibility(View.GONE);
+                zk_list.setVisibility(View.GONE);
+                img_mo_message.setVisibility(View.VISIBLE);
+            }
             if (zk_list != null) {
                 zk_list.onRefreshComplete();
             }

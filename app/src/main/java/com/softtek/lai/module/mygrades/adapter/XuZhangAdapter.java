@@ -18,6 +18,7 @@ import com.softtek.lai.module.mygrades.model.XunZhangModel;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import zilla.libcore.file.AddressManager;
@@ -29,25 +30,30 @@ public class XuZhangAdapter extends BaseAdapter{
 
     private Context context;
     private List<XunZhangModel> xunZhangModelList1;
-
-    public XuZhangAdapter(Context context, List<XunZhangModel> xunZhangModelList1) {
+    List<Integer> images1=new ArrayList<Integer>();
+    List<String> content1=new ArrayList<String>();
+    public XuZhangAdapter(Context context, List<XunZhangModel> xunZhangModelList1,List<Integer> images1,List<String> content1) {
         this.context = context;
+        this.images1=images1;
+        this.content1=content1;
         this.xunZhangModelList1 = xunZhangModelList1;
     }
 
-    public void updateData(List<XunZhangModel> xunZhangModelList) {
+    public void updateData(List<XunZhangModel> xunZhangModelList,List<Integer> images1,List<String> content1) {
         this.xunZhangModelList1 = xunZhangModelList;
+        this.images1=images1;
+        this.content1=content1;
         notifyDataSetChanged();
     }
 
     @Override
     public int getCount() {
-        return xunZhangModelList1.size();
+        return images1.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return xunZhangModelList1.get(position);
+        return images1.get(position);
     }
 
     @Override
@@ -66,26 +72,9 @@ public class XuZhangAdapter extends BaseAdapter{
             viewHolder = (ViewHolder) convertView.getTag();
         }
         XunZhangModel xunZhangModel = xunZhangModelList1.get(position);
-        if (xunZhangModelList1.get(position).getThirtyDays().equals("1")) {
+        viewHolder.tab_bushu.setText(content1.get(position));
+        viewHolder.lab2.setImageResource(images1.get(position));
 
-            viewHolder.tab_bushu.setText("连续3天一万步");
-            viewHolder.lab2.setImageResource(R.drawable.three);
-        }
-        if (xunZhangModelList1.get(position).getSevenDays().equals("1")) {
-
-            viewHolder.tab_bushu.setText("连续7天一万步");
-            viewHolder.lab2.setImageResource(R.drawable.senven);
-        }
-        if (xunZhangModelList1.get(position).getTwentyOneDays().equals("1")) {
-
-            viewHolder.tab_bushu.setText("连续20天一万步");
-            viewHolder.lab2.setImageResource(R.drawable.twenty_one);
-        }
-        if (xunZhangModelList1.get(position).getThirtyDays().equals("1")) {
-
-            viewHolder.tab_bushu.setText("连续30天一万步");
-            viewHolder.lab2.setImageResource(R.drawable.thirty);
-        }
         return convertView;
     }
 

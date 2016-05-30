@@ -31,6 +31,7 @@ import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.MD5;
 import com.squareup.picasso.Picasso;
 
+import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
@@ -41,7 +42,6 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import retrofit.mime.TypedFile;
 import zilla.libcore.api.ZillaApi;
-import zilla.libcore.db.ZillaDB;
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.util.Util;
 
@@ -235,7 +235,7 @@ public class LoginPresenterImpl implements ILoginPresenter {
                         set.setAlias(model.getMobile());
                         set.setStyleBasic();
                         UserInfoModel.getInstance().saveUserCache(model);
-                        //stepDeal(context,model.getUserid(), StringUtils.isEmpty(model.getTodayStepCnt())?0:Long.parseLong(model.getTodayStepCnt()));
+                        stepDeal(context,model.getUserid(), StringUtils.isEmpty(model.getTodayStepCnt())?0:Long.parseLong(model.getTodayStepCnt()));
                         final String token=userResponseData.getData().getToken();
                         if(MD5.md5WithEncoder("000000").equals(password)){
                             UserInfoModel.getInstance().setToken("");
@@ -279,15 +279,16 @@ public class LoginPresenterImpl implements ILoginPresenter {
         long currentStep= StepUtil.getInstance().getCurrentStep(userId);
         if(step>currentStep){
             //删除当天旧数据
-            String currentDate=DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate();
-            StepUtil.getInstance().deleteOldDate(currentDate,userId);
             //新增新数据
             UserStep userStep=new UserStep();
             userStep.setAccountId(Long.parseLong(userId));
-            userStep.setRecordTime(currentDate);
+            userStep.setRecordTime(DateUtil.getInstance().getCurrentDate());
             userStep.setStepCount(step);
             StepUtil.getInstance().saveStep(userStep);
         }
+        //删除旧数据
+        String currentDate=DateUtil.weeHours(0);
+        StepUtil.getInstance().deleteOldDate(currentDate,userId);
         //启动计步器服务
         context.startService(new Intent(context, StepService.class));
     }
