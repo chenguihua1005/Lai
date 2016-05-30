@@ -65,7 +65,7 @@ public class RankAdapter extends BaseAdapter{
         }
         OrderDataModel orderDataModel = orderDataModelList.get(position);
         if (!TextUtils.isEmpty(orderDataModelList.get(position).getPhoto())) {
-            Picasso.with(context).load(AddressManager.get("photoHost") + orderDataModel.getPhoto()).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(viewHolder.civ_header_image);
+            Picasso.with(context).load(AddressManager.get("photoHost")+ orderDataModel.getPhoto()).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(viewHolder.civ_header_image);
         } else {
             Picasso.with(context).load("www").placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(viewHolder.civ_header_image);
         }
