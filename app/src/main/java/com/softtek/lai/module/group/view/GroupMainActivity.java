@@ -41,6 +41,7 @@ import com.softtek.lai.module.group.model.RecentlyActiviteModel;
 import com.softtek.lai.module.group.model.SportMainModel;
 import com.softtek.lai.module.group.presenter.SportGroupManager;
 import com.softtek.lai.module.sport.view.StartSportActivity;
+import com.softtek.lai.utils.StringUtil;
 import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
@@ -334,8 +335,8 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
 
                 text_pk_left_count.setText(praiseChallengeModel.getPCnt());
                 text_pk_right_count.setText(praiseChallengeModel.getBPCnt());
-                text_pk_left_name.setText(praiseChallengeModel.getUserName());
-                text_pk_right_name.setText(praiseChallengeModel.getBUserName());
+                text_pk_left_name.setText(StringUtil.showName(praiseChallengeModel.getUserName(),praiseChallengeModel.getMobile()));
+                text_pk_right_name.setText(StringUtil.showName(praiseChallengeModel.getBUserName(),praiseChallengeModel.getBMobile()));
                 String chipType = praiseChallengeModel.getChipType();
                 if ("0".equals(chipType)) {
                     img_pk_type.setImageResource(R.drawable.img_group_main_1);
