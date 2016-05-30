@@ -3,7 +3,7 @@ package com.softtek.lai.module.mygrades.view;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.widget.ImageView;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -17,6 +17,7 @@ import com.softtek.lai.module.mygrades.model.OrderDataModel;
 import com.softtek.lai.module.mygrades.net.GradesService;
 import com.softtek.lai.module.mygrades.presenter.GradesImpl;
 import com.softtek.lai.module.mygrades.presenter.IGradesPresenter;
+import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public class DayRankFragment extends BaseFragment {
 
     //我的排名情况
     @InjectView(R.id.img_myheadportrait)
-    ImageView img_myheadportrait;
+    CircleImageView img_myheadportrait;
     @InjectView(R.id.tv_name)
     TextView tv_name;
     @InjectView(R.id.tv_bushu1)
@@ -67,15 +68,13 @@ public class DayRankFragment extends BaseFragment {
     protected void initViews() {
         UserInfoModel userInfoModel = UserInfoModel.getInstance();
         accoutid = Integer.parseInt(userInfoModel.getUser().getUserid());
-
+        Log.i("",">>>>>>>>>>我的accountid："+accoutid);
         iGradesPresenter = new GradesImpl();
         gradesService= ZillaApi.NormalRestAdapter.create(GradesService.class);
 
         Bundle bundle1 = getArguments();
         int i=bundle1.getInt("id");
 
-        //listview str 0跑团，1全国
-        //接口信息：跑团数据1，全国数据0
         if (i==0){
             getCurrentDateOrder(0);
         }
@@ -83,7 +82,6 @@ public class DayRankFragment extends BaseFragment {
             getCurrentDateOrder(1);
         }
 
-        //initrankdate();
         rankAdapter = new RankAdapter(getContext(),orderDataModelList);
         list_rank.setAdapter(rankAdapter);
         manager = getActivity().getFragmentManager();
@@ -92,7 +90,8 @@ public class DayRankFragment extends BaseFragment {
 //    Handler handler = new Handler() {
 //        public void handleMessage(Message msg) {
 //            if (msg.what == 1) {
-//                getCurrentDateOrder(22);
+//                getCurrentDateOrder(0);
+//                getCurrentDateOrder(1);
 //                System.out.println("receive....");
 //            }
 //        };
@@ -104,7 +103,7 @@ public class DayRankFragment extends BaseFragment {
 //            while (true) {
 //                try {
 //                    //半小时刷新一次
-//                    Thread.sleep(1000);//1800000
+//                    Thread.sleep(5000);//1800000
 //                    Message msg = new Message();
 //                    msg.what = 1;
 //                    handler.sendMessage(msg);
@@ -117,19 +116,6 @@ public class DayRankFragment extends BaseFragment {
 //        }
 //    }
 
-    private void initrankdate() {
-        OrderDataModel p1 = new OrderDataModel("1","20898983403","1","跑团5.1号","18206182087","13890","julie");
-        orderDataModelList.add(p1);
-        OrderDataModel p2 = new OrderDataModel("2","20898983403","2","跑团5.2号","18329726809","10430","wang");
-        orderDataModelList.add(p2);
-        OrderDataModel p3 = new OrderDataModel("3","20898983403","3","跑团5.1.1号","18329726809","9999","li");
-        orderDataModelList.add(p3);
-        OrderDataModel p4 = new OrderDataModel("4","20898983403","4","跑团5.1.2号","18329726809","5982","cheng");
-        orderDataModelList.add(p4);
-        OrderDataModel p5 = new OrderDataModel("5","20898983403","5","跑团1.2.1号","18329726809","890","xu");
-        orderDataModelList.add(p5);
-    }
-
     @Override
     protected void initDatas() {
 //        new Thread(new ThreadShow()).start();
@@ -138,12 +124,16 @@ public class DayRankFragment extends BaseFragment {
     //切换日排名，周排名时更新数据
     public void updateDayRankStatus(int i){
         if (i==1){
+            orderDataModelList.clear();
             getCurrentDateOrder(1);
+            rankAdapter.updateData(orderDataModelList);
         }
         if (i==0){
+            orderDataModelList.clear();
             getCurrentDateOrder(0);
+            rankAdapter.updateData(orderDataModelList);
         }
-        rankAdapter.updateData(orderDataModelList);
+
     }
 
     public void updateData(List<OrderDataModel> orderDataModelList) {
@@ -218,6 +208,5 @@ public class DayRankFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
-
     }
 }

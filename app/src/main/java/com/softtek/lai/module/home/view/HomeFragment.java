@@ -273,7 +273,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                     break;
                 case Constants.LAI_YUNDONG:
                     //new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
-                   String isJoin=userInfoModel.getUser().getIsJoin();
+                    String isJoin=userInfoModel.getUser().getIsJoin();
                     if (StringUtils.isEmpty(isJoin)||"0".equals(isJoin)) {
                         startActivity(new Intent(getContext(), JoinGroupActivity.class));
                     } else {

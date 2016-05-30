@@ -59,7 +59,7 @@ import zilla.libcore.ui.InjectLayout;
  * 跑团首页
  */
 @InjectLayout(R.layout.activity_group_main)
-public class GroupMainActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener, SportGroupManager.GetSportIndexCallBack{
+public class GroupMainActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener, SportGroupManager.GetSportIndexCallBack {
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -189,7 +189,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 RecentlyActiviteModel recentlyActiviteModel = recentlyActivite.get(position);
-                String actId=recentlyActiviteModel.getActId();//活动Id
+                String actId = recentlyActiviteModel.getActId();//活动Id
                 Intent intent = new Intent(GroupMainActivity.this, ActActivity.class);
                 intent.putExtra("id", actId);
                 startActivity(intent);
@@ -208,7 +208,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
     protected void initDatas() {
         SportGroupManager sportGroupManager = new SportGroupManager(this);
         String userId = UserInfoModel.getInstance().getUser().getUserid();
-        userId = "13";
+        dialogShow("加载中...");
         sportGroupManager.getSportIndex(userId);
 
     }
@@ -241,10 +241,10 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                 break;
 
             case R.id.lin_pk://pk详情
-                if(praiseChallengeModel!=null){
+                if (praiseChallengeModel != null) {
                     String id = praiseChallengeModel.getPKId();//PKId
-                    Intent intent=new Intent(this, PKDetailActivity.class);
-                    intent.putExtra("pkId",Long.parseLong(id));
+                    Intent intent = new Intent(this, PKDetailActivity.class);
+                    intent.putExtra("pkId", Long.parseLong(id));
                     intent.putExtra("pkType", Constants.GROUPMAIN_PK);
                     startActivity(intent);
                 }
@@ -291,97 +291,98 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void getSportIndex(String type, SportMainModel sportMainModel) {
-        String TodayStepCnt = sportMainModel.getTodayStepCnt();
-        if ("0".equals(TodayStepCnt)) {
-            text_step.setText("--");
-        } else {
-            text_step.setText(sportMainModel.getTodayStepCnt());
-        }
-        String todayKaluliCnt = sportMainModel.getTodayKaluliCnt();
-        if ("0".equals(todayKaluliCnt)) {
-            text_rl.setText("--");
-            text3.setVisibility(View.GONE);
-        } else {
-            text3.setVisibility(View.VISIBLE);
-            text_rl.setText(sportMainModel.getTodayKaluliCnt());
-        }
-        String todayStepOdr = sportMainModel.getTodayStepOdr();
-        if ("0".equals(todayStepOdr)) {
-            text_pm.setText("--");
-        } else {
-            text_pm.setText(sportMainModel.getTodayStepOdr());
-        }
-        String medalCnt = sportMainModel.getMedalCnt();
-        if ("0".equals(medalCnt)) {
-            text_xzs.setText("--");
-        } else {
-            text_xzs.setText(sportMainModel.getMedalCnt());
-        }
-
-        text_gxz.setText(sportMainModel.getDonatenNum());
-
-        tv_title.setText(sportMainModel.getRGName());
-
-        praiseChallengeModel = sportMainModel.getPraiseChallenge();
-        if (praiseChallengeModel!=null&&praiseChallengeModel.getPKId() == null) {
-            lin_no_pk.setVisibility(View.VISIBLE);
-            lin_have_pk.setVisibility(View.GONE);
-        } else {
-            lin_no_pk.setVisibility(View.GONE);
-            lin_have_pk.setVisibility(View.VISIBLE);
-
-            text_pk_left_count.setText(praiseChallengeModel.getPCnt());
-            text_pk_right_count.setText(praiseChallengeModel.getBPCnt());
-            text_pk_left_name.setText(praiseChallengeModel.getUserName());
-            text_pk_right_name.setText(praiseChallengeModel.getBUserName());
-            String chipType = praiseChallengeModel.getChipType();
-            if ("0".equals(chipType)) {
-                img_pk_type.setImageResource(R.drawable.img_group_main_1);
-            } else if ("1".equals(chipType)) {
-                img_pk_type.setImageResource(R.drawable.img_group_main_2);
-            } else if ("2".equals(chipType)) {
-                img_pk_type.setImageResource(R.drawable.img_group_main_3);
-            }
-            String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-            if ("".equals(praiseChallengeModel.getUserPhoto()) || "null".equals(praiseChallengeModel.getUserPhoto()) || praiseChallengeModel.getUserPhoto() == null) {
-                Picasso.with(this).load("111").fit().error(R.drawable.img_default).into(img_left);
+        dialogDissmiss();
+        if ("success".equals(type)) {
+            String TodayStepCnt = sportMainModel.getTodayStepCnt();
+            if ("0".equals(TodayStepCnt)) {
+                text_step.setText("--");
             } else {
-                Picasso.with(this).load(path + praiseChallengeModel.getUserPhoto()).fit().error(R.drawable.img_default).into(img_left);
+                text_step.setText(sportMainModel.getTodayStepCnt());
             }
-            if ("".equals(praiseChallengeModel.getBPhoto()) || "null".equals(praiseChallengeModel.getBPhoto()) || praiseChallengeModel.getBPhoto() == null) {
-                Picasso.with(this).load("111").fit().error(R.drawable.img_default).into(img_right);
+            String todayKaluliCnt = sportMainModel.getTodayKaluliCnt();
+            if ("0".equals(todayKaluliCnt)) {
+                text_rl.setText("--");
+                text3.setVisibility(View.GONE);
             } else {
-                Picasso.with(this).load(path + praiseChallengeModel.getBPhoto()).fit().error(R.drawable.img_default).into(img_right);
+                text3.setVisibility(View.VISIBLE);
+                text_rl.setText(sportMainModel.getTodayKaluliCnt());
             }
-            String start = praiseChallengeModel.getStart();
-            String end = praiseChallengeModel.getEnd();
-
-            String start_time = "";
-            String end_time = "";
-
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd号");
-            try {
-                Date start_date = sdf.parse(start);
-                Date end_date = sdf.parse(end);
-                start_time = format.format(start_date);
-                end_time = format.format(end_date);
-            } catch (ParseException e) {
-                e.printStackTrace();
+            String todayStepOdr = sportMainModel.getTodayStepOdr();
+            if ("0".equals(todayStepOdr)) {
+                text_pm.setText("--");
+            } else {
+                text_pm.setText(sportMainModel.getTodayStepOdr());
             }
-            text_pk_time.setText(start_time + " - " + end_time);
-        }
-        recentlyActivite = sportMainModel.getRecentlyActivite();
-        if (recentlyActivite.size() == 0) {
-            lin_no_activity.setVisibility(View.VISIBLE);
-            list_activity.setVisibility(View.GONE);
-        } else {
-            lin_no_activity.setVisibility(View.GONE);
-            list_activity.setVisibility(View.VISIBLE);
-            GroupMainActiuvityAdapter adapter = new GroupMainActiuvityAdapter(this, recentlyActivite);
-            list_activity.setAdapter(adapter);
+            String medalCnt = sportMainModel.getMedalCnt();
+            if ("0".equals(medalCnt)) {
+                text_xzs.setText("--");
+            } else {
+                text_xzs.setText(sportMainModel.getMedalCnt());
+            }
+
+            text_gxz.setText(sportMainModel.getDonatenNum());
+
+            tv_title.setText(sportMainModel.getRGName());
+
+            praiseChallengeModel = sportMainModel.getPraiseChallenge();
+            if (praiseChallengeModel != null && praiseChallengeModel.getPKId() == null) {
+                lin_no_pk.setVisibility(View.VISIBLE);
+                lin_have_pk.setVisibility(View.GONE);
+            } else {
+                lin_no_pk.setVisibility(View.GONE);
+                lin_have_pk.setVisibility(View.VISIBLE);
+
+                text_pk_left_count.setText(praiseChallengeModel.getPCnt());
+                text_pk_right_count.setText(praiseChallengeModel.getBPCnt());
+                text_pk_left_name.setText(praiseChallengeModel.getUserName());
+                text_pk_right_name.setText(praiseChallengeModel.getBUserName());
+                String chipType = praiseChallengeModel.getChipType();
+                if ("0".equals(chipType)) {
+                    img_pk_type.setImageResource(R.drawable.img_group_main_1);
+                } else if ("1".equals(chipType)) {
+                    img_pk_type.setImageResource(R.drawable.img_group_main_2);
+                } else if ("2".equals(chipType)) {
+                    img_pk_type.setImageResource(R.drawable.img_group_main_3);
+                }
+                String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+                if ("".equals(praiseChallengeModel.getUserPhoto()) || "null".equals(praiseChallengeModel.getUserPhoto()) || praiseChallengeModel.getUserPhoto() == null) {
+                    Picasso.with(this).load("111").fit().error(R.drawable.img_default).into(img_left);
+                } else {
+                    Picasso.with(this).load(path + praiseChallengeModel.getUserPhoto()).fit().error(R.drawable.img_default).into(img_left);
+                }
+                if ("".equals(praiseChallengeModel.getBPhoto()) || "null".equals(praiseChallengeModel.getBPhoto()) || praiseChallengeModel.getBPhoto() == null) {
+                    Picasso.with(this).load("111").fit().error(R.drawable.img_default).into(img_right);
+                } else {
+                    Picasso.with(this).load(path + praiseChallengeModel.getBPhoto()).fit().error(R.drawable.img_default).into(img_right);
+                }
+                String start = praiseChallengeModel.getStart();
+                String end = praiseChallengeModel.getEnd();
+
+                String start_time = "";
+                String end_time = "";
+
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd号");
+                try {
+                    Date start_date = sdf.parse(start);
+                    Date end_date = sdf.parse(end);
+                    start_time = format.format(start_date);
+                    end_time = format.format(end_date);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                text_pk_time.setText(start_time + " - " + end_time);
+            }
+            recentlyActivite = sportMainModel.getRecentlyActivite();
+            if (recentlyActivite.size() == 0) {
+                lin_no_activity.setVisibility(View.VISIBLE);
+                list_activity.setVisibility(View.GONE);
+            } else {
+                lin_no_activity.setVisibility(View.GONE);
+                list_activity.setVisibility(View.VISIBLE);
+                GroupMainActiuvityAdapter adapter = new GroupMainActiuvityAdapter(this, recentlyActivite);
+                list_activity.setAdapter(adapter);
+            }
         }
     }
-
-
 }
