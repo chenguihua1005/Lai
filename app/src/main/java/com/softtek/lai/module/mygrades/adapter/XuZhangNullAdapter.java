@@ -59,8 +59,8 @@ public class XuZhangNullAdapter extends BaseAdapter{
         XunZhangModel xunZhangModel = xunZhangModelList.get(position);
         if (xunZhangModelList.get(position).getThirtyDays().equals("0")) {
 
-            viewHolder.tab_bushu.setText("连续3天一万步");
-            viewHolder.lab2.setImageResource(R.drawable.three);
+            viewHolder.tab_bushu1.setText("连续3天一万步");
+            viewHolder.lab1.setImageResource(R.drawable.three);
         }
         if (xunZhangModelList.get(position).getSevenDays().equals("0")) {
 
@@ -69,8 +69,8 @@ public class XuZhangNullAdapter extends BaseAdapter{
         }
         if (xunZhangModelList.get(position).getTwentyOneDays().equals("0")) {
 
-            viewHolder.tab_bushu.setText("连续20天一万步");
-            viewHolder.lab2.setImageResource(R.drawable.twenty_one);
+            viewHolder.tab_bushu3.setText("连续20天一万步");
+            viewHolder.lab3.setImageResource(R.drawable.twenty_one);
         }
         if (xunZhangModelList.get(position).getThirtyDays().equals("0")) {
 
@@ -83,12 +83,20 @@ public class XuZhangNullAdapter extends BaseAdapter{
 
     class ViewHolder {
         ImageView lab2;
+        ImageView lab1;
+        ImageView lab3;
         TextView tab_bushu;
+        TextView tab_bushu1;
+        TextView tab_bushu3;
 
 
         public ViewHolder(View view) {
             lab2 = (ImageView) view.findViewById(R.id.lab2);
+            lab1 = (ImageView) view.findViewById(R.id.lab1);
+            lab3 = (ImageView) view.findViewById(R.id.lab3);
             tab_bushu = (TextView) view.findViewById(R.id.tab_bushu);
+            tab_bushu1 = (TextView) view.findViewById(R.id.tab_bushu1);
+            tab_bushu3 = (TextView) view.findViewById(R.id.tab_bushu3);
 
         }
     }
