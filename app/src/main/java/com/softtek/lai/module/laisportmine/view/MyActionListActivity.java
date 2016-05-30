@@ -29,7 +29,7 @@ import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_my_action_list)
 public class MyActionListActivity extends BaseActivity implements View.OnClickListener,ActionListManager.ActionListCallback,UpdateMsgRTimeManager.UpdateMsgRTimeCallback,
-        AdapterView.OnItemLongClickListener,DelNoticeOrMeasureManager.DelNoticeOrMeasureCallback{
+        AdapterView.OnItemLongClickListener,DelNoticeOrMeasureManager.DelNoticeOrMeasureCallback,AdapterView.OnItemClickListener{
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.tv_title)
@@ -52,6 +52,7 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
         tv_title.setText("活动邀请");
         ll_left.setOnClickListener(this);
         list_action.setOnItemLongClickListener(this);
+        list_action.setOnItemClickListener(this);
 
     }
 
@@ -77,6 +78,7 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
             case R.id.ll_left:
             finish();
             break;
+
         }
 
     }
@@ -106,5 +108,10 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
             }
         }).create().show();
         return false;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
     }
 }
