@@ -1,7 +1,7 @@
 package com.softtek.lai.module.mygrades.view;
 
 import android.os.Bundle;
-import android.widget.ImageView;
+import android.text.TextUtils;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -15,6 +15,7 @@ import com.softtek.lai.module.mygrades.model.OrderDataModel;
 import com.softtek.lai.module.mygrades.net.GradesService;
 import com.softtek.lai.module.mygrades.presenter.GradesImpl;
 import com.softtek.lai.module.mygrades.presenter.IGradesPresenter;
+import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class WeekRankFragment extends BaseFragment {
 
     //我的排名情况
     @InjectView(R.id.img_myheadportrait)
-    ImageView img_myheadportrait;
+    CircleImageView img_myheadportrait;
     @InjectView(R.id.tv_name)
     TextView tv_name;
     @InjectView(R.id.tv_bushu1)
@@ -88,35 +89,23 @@ public class WeekRankFragment extends BaseFragment {
 
     }
 
-    //切换日排名，周排名时更新数据
+    //切换排名时,更新数据
     public void updateWeekRankStatus(int i){
         if (i==0){
+            orderDataModelList.clear();
             getCurrentWeekOrder(0);
-//            initrankdate();
+            rankAdapter.updateData(orderDataModelList);
         }
         if (i==1){
-            getCurrentWeekOrder(1);
+            orderDataModelList.clear();
+            getCurrentWeekOrder(1);//18362889960  15000224800
+            rankAdapter.updateData(orderDataModelList);
         }
-        rankAdapter.updateData(orderDataModelList);
     }
 
     public void updateData(List<OrderDataModel> orderDataModelList) {
         this.orderDataModelList = orderDataModelList;
-        //notifyDataSetChanged();
         notifyAll();
-    }
-
-    private void initrankdate() {
-        OrderDataModel p1 = new OrderDataModel("1","20898983403","1","跑团1.1号","18329726809","13890","zhang");
-        orderDataModelList.add(p1);
-        OrderDataModel p2 = new OrderDataModel("2","20898983403","2","跑团1.2号","18329726809","10430","wang");
-        orderDataModelList.add(p2);
-        OrderDataModel p3 = new OrderDataModel("3","20898983403","3","跑团1.1.1号","18329726809","9999","li");
-        orderDataModelList.add(p3);
-        OrderDataModel p4 = new OrderDataModel("4","20898983403","4","跑团1.1.2号","18329726809","5982","cheng");
-        orderDataModelList.add(p4);
-        OrderDataModel p5 = new OrderDataModel("5","20898983403","5","跑团1.2.1号","18329726809","890","xu");
-        orderDataModelList.add(p5);
     }
 
     public void getCurrentWeekOrder(int RGIdType) {
@@ -129,9 +118,10 @@ public class WeekRankFragment extends BaseFragment {
                 {
                     case 200:
                         String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-                        if (dayRankModelResponseData.getData().getOrderPhoto().isEmpty()){
-                            Picasso.with(getContext()).load(path + dayRankModelResponseData.getData().getOrderPhoto()).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(img_myheadportrait);
-                        }else {
+                        if(!TextUtils.isEmpty(dayRankModelResponseData.getData().getOrderPhoto())) {
+                            Picasso.with(getContext()).load(path+dayRankModelResponseData.getData().getOrderPhoto()).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(img_myheadportrait);
+                        }
+                        else {
                             Picasso.with(getContext()).load("www").placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(img_myheadportrait);
                         }
                         if (dayRankModelResponseData.getData().getOrderName().isEmpty()){
