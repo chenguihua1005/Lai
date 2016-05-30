@@ -272,13 +272,13 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                     intoBodyGamePage(role);
                     break;
                 case Constants.LAI_YUNDONG:
-                    new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
-                   /* String isJoin=userInfoModel.getUser().getIsJoin();
+                    //new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
+                   String isJoin=userInfoModel.getUser().getIsJoin();
                     if (StringUtils.isEmpty(isJoin)||"0".equals(isJoin)) {
                         startActivity(new Intent(getContext(), JoinGroupActivity.class));
                     } else {
                         startActivity(new Intent(getContext(), GroupMainActivity.class));
-                    }*/
+                    }
                     break;
                 case Constants.OFFICE:
                 case Constants.LAI_EXCLE:
