@@ -3,17 +3,13 @@ package com.softtek.lai.module.sport.view;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
-import com.softtek.lai.module.sport.adapter.HistorySportAdapter;
 import com.softtek.lai.module.sport.model.HistorySportModel;
-import com.softtek.lai.module.sport.presenter.SportManager;
 
 import java.util.ArrayList;
 import java.util.List;

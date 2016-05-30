@@ -93,18 +93,12 @@ public class StepUtil {
     /**
      * 保存步数
      */
-    public  long saveStep(UserStep step){
-//        ZillaDB.getInstance().save(step);
+    public long saveStep(UserStep step){
         SQLiteDatabase db= dbHelper.getWritableDatabase();
         ContentValues values=new ContentValues();
         values.put("accountId",step.getAccountId()+"");
         values.put("recordTime",step.getRecordTime());
         values.put("stepCount",step.getStepCount());
-//        db.beginTransaction();
-//        long i=db.insert("user_step",null,values);
-//        db.execSQL("insert into user_step (accountId,stepCount,recordTime) values(1,40,'2016-05-27')");
-//        db.endTransaction();
-
         long i = db.insertWithOnConflict("user_step", "", values,
                 SQLiteDatabase.CONFLICT_NONE);//主键冲突策略，替换掉以往的数据
         db.close();

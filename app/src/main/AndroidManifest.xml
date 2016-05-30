@@ -541,8 +541,9 @@
         <activity
             android:name=".module.mygrades.view.RankingDetailsActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".module.tips.view.AskDetailActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".module.tips.view.AskDetailActivity"
+            android:screenOrientation="portrait" />
 
         <service android:name=".stepcount.service.StepService" />
 
@@ -552,7 +553,10 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".module.mygrades.view.MyXuZhangActivity"></activity>
+        <activity android:name=".module.mygrades.view.MyXuZhangActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.sport.view.RunActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

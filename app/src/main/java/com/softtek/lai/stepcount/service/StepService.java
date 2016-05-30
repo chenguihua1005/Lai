@@ -35,8 +35,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.Calendar;
 
-import zilla.libcore.db.ZillaDB;
-
 public class StepService extends Service implements SensorEventListener {
 
     public static final String UPLOAD_STEP="com.softtek.lai.StepService";
@@ -200,14 +198,14 @@ public class StepService extends Service implements SensorEventListener {
         Sensor countSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
         if (countSensor != null) {
             stepSensor = 0;
-            Log.v("base", "countSensor");
+            Log.i("tag","使用countSensor");
             sensorManager.registerListener(this, countSensor, SensorManager.SENSOR_DELAY_UI);
         } else if (detectorSensor != null) {
             stepSensor = 1;
-            Log.v("base", "detector");
+            Log.i("tag","使用detectorSensor");
             sensorManager.registerListener(this, detectorSensor, SensorManager.SENSOR_DELAY_UI);
         } else {
-            Log.v("xf", "Count sensor not available!");
+            Log.i("tag","系统传感器不可用，使用重力加速度");
             addBasePedoListener();
         }
     }
