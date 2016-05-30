@@ -1,8 +1,10 @@
 package com.softtek.lai.module.act.view;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -65,11 +67,32 @@ public class ActFragment extends BaseFragment implements PullToRefreshBase.OnRef
     String userId;
     String id;
     ActZKAdapter adapter;
+    ActZKModel actZKModel;
     private List<ActDetiallistModel> list = new ArrayList<ActDetiallistModel>();
     @Override
     protected void initViews() {
         zk_list.setMode(PullToRefreshBase.Mode.BOTH);
         zk_list.setOnRefreshListener(this);
+        zk_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long ids) {
+                ActDetiallistModel actDetiallistModel=list.get(position-1);
+                String type=actZKModel.getActType();
+                if("0".equals(type)){
+                    Intent intent=new Intent(getActivity(),ActGroupPersonActivity.class);
+                    intent.putExtra("actDetiallistModel",actDetiallistModel);
+                    intent.putExtra("id",id);
+                    intent.putExtra("type","0");
+                    startActivity(intent);
+                }else if("1".equals(type)){
+                    Intent intent=new Intent(getActivity(),ActGroupPersonActivity.class);
+                    intent.putExtra("actDetiallistModel",actDetiallistModel);
+                    intent.putExtra("id",id);
+                    intent.putExtra("type","1");
+                    startActivity(intent);
+                }
+            }
+        });
     }
 
     @Override
@@ -115,12 +138,6 @@ public class ActFragment extends BaseFragment implements PullToRefreshBase.OnRef
     private void setHeadView(ActZKModel model){
         ActZKPersonModel actZKPersonModel=model.getActDetial();
        String m_type=model.getActType();
-        int step;
-        if (TextUtils.isEmpty(actZKPersonModel.getActDTotal())) {
-            step = 0;
-        } else {
-            step = Integer.parseInt(actZKPersonModel.getActDTotal());
-        }
         String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
         if ("1".equals(m_type) || "0".equals(m_type)) {
             rel_group.setVisibility(View.VISIBLE);
@@ -174,6 +191,7 @@ public class ActFragment extends BaseFragment implements PullToRefreshBase.OnRef
     @Override
     public void getActivitySituation(String type, ActZKModel model) {
         if ("true".equals(type)) {
+            actZKModel=model;
             if (zk_list != null) {
                 zk_list.onRefreshComplete();
             }

@@ -135,13 +135,13 @@ public class ActZKAdapter extends BaseAdapter {
                 Picasso.with(context).load("www").placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(holder.img_person);
             }
         }
-        int step;
+        float step;
         float distance;
         String order = actDetiallistModel.getActDOrder();
         if (TextUtils.isEmpty(actDetiallistModel.getActDTotal())) {
             step = 0;
         } else {
-            step = Integer.parseInt(actDetiallistModel.getActDTotal());
+            step = Float.parseFloat(actDetiallistModel.getActDTotal());
         }
         if ("0".equals(type)) {
             holder.img_full.setVisibility(View.GONE);
@@ -151,7 +151,7 @@ public class ActZKAdapter extends BaseAdapter {
                 target_step = Integer.parseInt(list.get(0).getActDTotal());
             }
 
-            holder.text_value.setText(step + "步");
+            holder.text_value.setText(actDetiallistModel.getActDTotal() + "步");
 
             if ("1".equals(order)) {
                 holder.rcpb_prog.setProgress(85);
@@ -163,7 +163,7 @@ public class ActZKAdapter extends BaseAdapter {
 
         } else if ("1".equals(type)) {
             holder.img_full.setVisibility(View.VISIBLE);
-            holder.text_value.setText(step + "公里");
+            holder.text_value.setText(actDetiallistModel.getActDTotal() + "公里");
             int f = (int) ((step / target_distance) * 100);
             if (f >= 100) {
                 holder.rcpb_prog.setProgress(100);
@@ -185,7 +185,7 @@ public class ActZKAdapter extends BaseAdapter {
                 target_step = Integer.parseInt(list.get(0).getActDTotal());
             }
 
-            holder.text_value.setText(step + "步");
+            holder.text_value.setText(actDetiallistModel.getActDTotal() + "步");
 
             if ("1".equals(order)) {
                 holder.rcpb_prog.setProgress(85);
@@ -196,7 +196,7 @@ public class ActZKAdapter extends BaseAdapter {
         } else if ("3".equals(type)) {
             holder.img_full.setVisibility(View.VISIBLE);
             holder.img_full.setVisibility(View.VISIBLE);
-            holder.text_value.setText(step + "公里");
+            holder.text_value.setText(actDetiallistModel.getActDTotal() + "公里");
             int f = (int) ((step / target_distance) * 100);
             if (f >= 100) {
                 holder.rcpb_prog.setProgress(100);
