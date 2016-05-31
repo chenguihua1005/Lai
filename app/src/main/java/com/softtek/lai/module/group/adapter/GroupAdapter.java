@@ -21,6 +21,7 @@ import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 import com.softtek.lai.module.group.model.GroupModel;
 import com.softtek.lai.module.group.presenter.SportGroupManager;
 import com.softtek.lai.module.group.view.GroupMainActivity;
+import com.softtek.lai.module.login.model.UserModel;
 
 import java.util.List;
 
@@ -99,7 +100,9 @@ public class GroupAdapter extends BaseAdapter {
                     public void joinRunGroup(boolean b) {
                         context.dialogDissmiss();
                         if(b){
-
+                            UserModel model=UserInfoModel.getInstance().getUser();
+                            model.setIsJoin("1");
+                            UserInfoModel.getInstance().saveUserCache(model);
                             Intent intent=new Intent(context, GroupMainActivity.class);
                             context.startActivity(intent);
                         }

@@ -12,22 +12,16 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
-import android.view.animation.AnimationUtils;
 import android.view.animation.ScaleAnimation;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
-import com.softtek.lai.module.login.view.LoginActivity;
-import com.softtek.lai.module.sport.adapter.HistorySportAdapter;
 import com.softtek.lai.module.sport.model.HistorySportModel;
-import com.softtek.lai.module.sport.presenter.SportManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -169,7 +163,7 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
                     public void run() {
                         if (recLen <= 0) {
                             timer.cancel();
-                            startActivity(new Intent(StartSportActivity.this, HistorySportListActivity.class));
+                            startActivity(new Intent(StartSportActivity.this, RunSportActivity.class));
                             overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
                             new Handler().postDelayed(new Runnable() {
                                 @Override
