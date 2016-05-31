@@ -9,6 +9,7 @@ public class ActionModel {
     private String Content;
     private String SendTime;
     private String ActTitle;
+    private String ActId;
 
     @Override
     public String toString() {
@@ -18,6 +19,7 @@ public class ActionModel {
                 ", Content='" + Content + '\'' +
                 ", SendTime='" + SendTime + '\'' +
                 ", ActTitle='" + ActTitle + '\'' +
+                ", ActId='" + ActId + '\'' +
                 '}';
     }
 
@@ -59,5 +61,13 @@ public class ActionModel {
 
     public void setActTitle(String actTitle) {
         ActTitle = actTitle;
+    }
+
+    public String getActId() {
+        return ActId;
+    }
+
+    public void setActId(String actId) {
+        ActId = actId;
     }
 }

@@ -99,6 +99,7 @@ public class GroupAdapter extends BaseAdapter {
                     public void joinRunGroup(boolean b) {
                         context.dialogDissmiss();
                         if(b){
+
                             Intent intent=new Intent(context, GroupMainActivity.class);
                             context.startActivity(intent);
                         }

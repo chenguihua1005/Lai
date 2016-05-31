@@ -116,7 +116,7 @@ public class MyPkListActivity extends BaseActivity implements View.OnClickListen
 
             }
         }).create().show();
-        return false;
+        return true;
     }
 
     @Override
