@@ -12,15 +12,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import butterknife.InjectView;
-import com.github.snowdream.android.util.Log;
+
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.File.adapter.ViewPagerAdapter;
-import zilla.libcore.ui.InjectLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.InjectView;
+import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_explain)
 public class ExplainActivity extends BaseActivity implements OnPageChangeListener {
