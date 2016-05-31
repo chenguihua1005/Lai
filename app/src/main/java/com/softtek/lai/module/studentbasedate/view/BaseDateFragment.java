@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -40,6 +41,8 @@ public class BaseDateFragment extends BaseFragment{
     ImageView iv_loss_before;
     @InjectView(R.id.iv_loss_after)
     ImageView iv_loss_after;
+    @InjectView(R.id.tv_loss_after_tip)
+    TextView tv_loss_after_tip;
     @InjectView(R.id.tablayout)
     TabLayout tabLayout;
     @InjectView(R.id.tabcontent)
@@ -98,7 +101,13 @@ public class BaseDateFragment extends BaseFragment{
         classId=model.getClassId();
         tv_totle_lw.setText(Float.parseFloat(StringUtils.isEmpty(model.getLossAfter())?"0":model.getLossAfter())==0?"0斤":model.getLossTotal()+"斤");
         tv_loss_before.setText(StringUtil.getFloatValue(model.getLossBefore())+"斤");
-        tv_loss_after.setText(StringUtil.getFloat(model.getLossAfter())==0?"尚未复测":StringUtil.getFloat(model.getLossAfter())+"斤");
+        float lossAfter=StringUtil.getFloat(model.getLossAfter());
+        tv_loss_after.setText(lossAfter==0?"尚未复测":StringUtil.getFloat(model.getLossAfter())+"斤");
+        if(lossAfter==0){
+            tv_loss_after_tip.setVisibility(View.GONE);
+        }else{
+            tv_loss_after_tip.setVisibility(View.VISIBLE);
+        }
         if(StringUtils.isNotEmpty(model.getLossBeforePhoto())){
             Picasso.with(getContext()).load(model.getLossBeforePhoto()).fit().placeholder(R.drawable.default_icon_rect).error(R.drawable.default_icon_rect).into(iv_loss_before);
         }

@@ -114,7 +114,9 @@ public class MineHealthyFragment extends BaseFragment  implements  AdapterView.O
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    ptrlv.onRefreshComplete();
+                    if(ptrlv!=null){
+                        ptrlv.onRefreshComplete();
+                    }
 
                 }
             },300);
@@ -180,7 +182,9 @@ public class MineHealthyFragment extends BaseFragment  implements  AdapterView.O
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                ptrlv.setRefreshing();
+                if(ptrlv!=null){
+                    ptrlv.setRefreshing();
+                }
             }
         }, 300);
     }

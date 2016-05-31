@@ -96,15 +96,15 @@ public class PhotoListIml implements PhotoListPre {
     @Override
     public void getUserPhotos(String photoName, final ProgressDialog loadingDialog) {
         String token = SharedPreferenceService.getInstance().get("token", "");
-        service.getUserPhotos(token, photoName, new Callback<ResponseData<GifModel>>() {
+        service.getUserPhotos(token, photoName, new Callback<ResponseData>() {
             @Override
-            public void success(ResponseData<GifModel> listResponseData, Response response) {
+            public void success(ResponseData listResponseData, Response response) {
                 System.out.println("listResponseData:" + listResponseData);
                 loadingDialog.dismiss();
                 int status = listResponseData.getStatus();
                 switch (status) {
                     case 200:
-                        EventBus.getDefault().post(listResponseData.getData());
+                        EventBus.getDefault().post(listResponseData);
                         break;
                     case 500:
                         break;

@@ -46,8 +46,8 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
-    @InjectView(R.id.tv_left)
-    TextView tv_left;
+    @InjectView(R.id.tv_title)
+    TextView tv_title;
     @InjectView(R.id.tv_right)
     TextView tv_right;
     @InjectView(R.id.fl_right)
@@ -67,13 +67,8 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
 
     @Override
     protected void initViews() {
-        tv_left.setText("取消");
-        tv_left.setBackground(null);
-        LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        tv_left.setLayoutParams(params);
-        tv_right.setText("发送");
+        tv_right.setText("发布");
+        tv_title.setText("发布动态");
         ll_left.setOnClickListener(this);
         fl_right.setOnClickListener(this);
         cgv.setOnItemClickListener(this);

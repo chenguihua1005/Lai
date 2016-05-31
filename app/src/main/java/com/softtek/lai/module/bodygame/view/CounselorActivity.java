@@ -28,6 +28,7 @@ import com.softtek.lai.module.counselor.view.CounselorClassListActivity;
 import com.softtek.lai.module.counselor.view.GameActivity;
 import com.softtek.lai.module.counselor.view.SPHonorActivity;
 import com.softtek.lai.module.jingdu.view.JingduActivity;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.message.presenter.IMessagePresenter;
 import com.softtek.lai.module.message.presenter.MessageImpl;
@@ -219,6 +220,10 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void onResume() {
         super.onResume();
+        UserModel model=UserInfoModel.getInstance().getUser();
+        if(model==null){
+            return;
+        }
         iTiGuanSai.doGetFuceNum(loginid);
         String userrole = UserInfoModel.getInstance().getUser().getUserrole();
         if (String.valueOf(Constants.VR).equals(userrole)) {

@@ -5,13 +5,16 @@
     android:layout_height="match_parent"
     tools:context="com.softtek.lai.module.sport.view.RunSportActivity">
 
+    <include layout="@layout/toolbar"/>
     <com.amap.api.maps2d.MapView
         android:id="@+id/map"
+        android:layout_below="@id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
 
     <RelativeLayout
+        android:layout_below="@id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -19,8 +22,70 @@
             android:id="@+id/iv_gps"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/gps_empty"/>
+        <TextView
+            android:id="@+id/iv_vag_speed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="15dp"
+            android:text="平均速度：5km/h"
             android:src="@drawable/gps_empty"/>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="267dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/panal"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:layout_marginTop="17dp">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/pause"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="45dp"
+                    android:src="@drawable/end"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="40dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <ImageView
+                android:layout_marginLeft="45dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/sport_caluli"/>
+            <TextView
+                android:id="@+id/tv_calorie"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"
+                android:textColor="#333333"
+                android:text="00:30:26"/>
+        </LinearLayout>
     </RelativeLayout>
 
 </RelativeLayout>

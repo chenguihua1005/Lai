@@ -102,8 +102,8 @@ public class GuideActivity extends BaseActivity implements Runnable{
             startActivity(intent);
             finish();
         }else{
-            checks();
-            /*UserModel model=UserInfoModel.getInstance().getUser();
+            //checks();
+            UserModel model=UserInfoModel.getInstance().getUser();
             if(model==null){
                 UserInfoModel.getInstance().loginOut();//本地退出
                 Intent intent = new Intent(this, LoginActivity.class);
@@ -114,7 +114,7 @@ public class GuideActivity extends BaseActivity implements Runnable{
                 Intent intent = new Intent(this, HomeActviity.class);
                 startActivity(intent);
                 finish();
-            }*/
+            }
         }
     }
 }

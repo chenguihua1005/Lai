@@ -31,7 +31,6 @@ import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.MD5;
 import com.squareup.picasso.Picasso;
 
-import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
@@ -235,7 +234,7 @@ public class LoginPresenterImpl implements ILoginPresenter {
                         set.setAlias(model.getMobile());
                         set.setStyleBasic();
                         UserInfoModel.getInstance().saveUserCache(model);
-                        stepDeal(context,model.getUserid(), StringUtils.isEmpty(model.getTodayStepCnt())?0:Long.parseLong(model.getTodayStepCnt()));
+                        //stepDeal(context,model.getUserid(), StringUtils.isEmpty(model.getTodayStepCnt())?0:Long.parseLong(model.getTodayStepCnt()));
                         final String token=userResponseData.getData().getToken();
                         if(MD5.md5WithEncoder("000000").equals(password)){
                             UserInfoModel.getInstance().setToken("");
