@@ -50,7 +50,6 @@ public class RunSportActivity extends BaseActivity implements LocationSource,AMa
     protected void initViews() {
         aMap=mapView.getMap();
         aMap.setMapType(AMap.MAP_TYPE_NORMAL);
-        //aMap.animateCamera(CameraUpdateFactory.zoomOut());
         //我的位置样式
         MyLocationStyle locationStyle=new MyLocationStyle();
         locationStyle.myLocationIcon(BitmapDescriptorFactory
