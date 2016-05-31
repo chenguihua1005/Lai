@@ -99,7 +99,10 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         super.onResume();
         System.out.println("onResume------");
         model = UserInfoModel.getInstance().getUser();
-        String userrole = model.getUserrole();
+        if(model==null){
+            return;
+        }
+        String userrole =model.getUserrole();
         if (String.valueOf(Constants.VR).equals(userrole)) {
             lin_not_vr.setVisibility(View.GONE);
             lin_is_vr.setVisibility(View.VISIBLE);

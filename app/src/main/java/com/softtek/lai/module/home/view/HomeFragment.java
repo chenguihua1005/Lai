@@ -47,6 +47,7 @@ import com.softtek.lai.module.home.eventModel.HomeEvent;
 import com.softtek.lai.module.home.model.HomeInfoModel;
 import com.softtek.lai.module.home.presenter.HomeInfoImpl;
 import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.message.presenter.IMessagePresenter;
 import com.softtek.lai.module.message.presenter.MessageImpl;
@@ -214,6 +215,10 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     @Override
     public void onResume() {
         super.onResume();
+        UserModel model=UserInfoModel.getInstance().getUser();
+        if(model==null){
+            return;
+        }
         String userrole = UserInfoModel.getInstance().getUser().getUserrole();
         if (String.valueOf(Constants.VR).equals(userrole)) {
 
@@ -272,13 +277,13 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                     intoBodyGamePage(role);
                     break;
                 case Constants.LAI_YUNDONG:
-                    //new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
-                    String isJoin=userInfoModel.getUser().getIsJoin();
+                    new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
+                    /*String isJoin=userInfoModel.getUser().getIsJoin();
                     if (StringUtils.isEmpty(isJoin)||"0".equals(isJoin)) {
                         startActivity(new Intent(getContext(), JoinGroupActivity.class));
                     } else {
                         startActivity(new Intent(getContext(), GroupMainActivity.class));
-                    }
+                    }*/
                     break;
                 case Constants.OFFICE:
                 case Constants.LAI_EXCLE:

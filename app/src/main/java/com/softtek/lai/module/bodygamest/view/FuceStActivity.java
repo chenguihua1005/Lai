@@ -194,7 +194,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         retestAuditModel=new RetestAuditModel();
         measureModel=new MeasureModel();
         imageFileCropSelector=new ImageFileCropSelector(this);
-        imageFileCropSelector.setQuality(80);
+        imageFileCropSelector.setQuality(50);
         imageFileCropSelector.setOutPutAspect(1,1);
         int px=Math.min(DisplayUtil.getMobileHeight(this),DisplayUtil.getMobileWidth(this));
         imageFileCropSelector.setOutPut(px,px);

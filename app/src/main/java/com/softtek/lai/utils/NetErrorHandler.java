@@ -97,6 +97,7 @@ public class NetErrorHandler implements IApiErrorHandler {
                                 builder=null;
                             }
                         });
+
                         builder.create().show();
                         break;
                     case 403:

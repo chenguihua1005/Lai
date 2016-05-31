@@ -193,7 +193,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         imageFileSelector.setQuality(80);
         imageFileSelector.setCallback(this);*/
         imageFileCropSelector=new ImageFileCropSelector(this);
-        imageFileCropSelector.setQuality(80);
+        imageFileCropSelector.setQuality(50);
         imageFileCropSelector.setOutPutAspect(1,1);
         int px=Math.min(DisplayUtil.getMobileHeight(this),DisplayUtil.getMobileWidth(this));
         imageFileCropSelector.setOutPut(px,px);

@@ -130,6 +130,7 @@
                         android:background="@drawable/vs_right"
                         android:orientation="horizontal">
                         <TextView
+                            android:id="@+id/tv_loss_after_tip"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="减重后"
