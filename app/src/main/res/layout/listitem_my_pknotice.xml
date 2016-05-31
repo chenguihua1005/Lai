@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="2dp"
             android:layout_toRightOf="@+id/ll_pk_head">
             <RelativeLayout
                 android:id="@+id/ll_action_content"
@@ -47,11 +47,11 @@
                 android:id="@+id/tv_pk_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
+                android:text="12306182086接收了你的挑战"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="8dp"
-                android:layout_marginLeft="15dp"
-                android:textSize="16sp"
+                android:layout_marginLeft="5dp"
+                android:textSize="12sp"
                 android:textColor="#bababa"
                 />
                 <TextView
@@ -64,7 +64,7 @@
                     android:layout_marginRight="40dp"
                     android:layout_alignParentRight="true"
                     android:gravity="right"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
                     android:textColor="#bababa"
                     />
             </RelativeLayout>
@@ -88,7 +88,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="5dp"
                 android:textSize="14sp"
                 android:layout_marginRight="36dp"
                 android:textColor="#333333"
