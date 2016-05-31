@@ -43,7 +43,10 @@ public class GuwenClassImp implements GuwenClassPre {
                         // Util.toastMsg("列表查询成功");
                         break;
                     case 201:
-                        Util.toastMsg("未查询到结果");
+                        
+                        break;
+                    default:
+                        Util.toastMsg(listResponseData.getMsg());
                         break;
                 }
             }
