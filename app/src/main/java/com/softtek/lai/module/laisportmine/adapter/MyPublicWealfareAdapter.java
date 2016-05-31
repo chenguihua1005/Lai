@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.module.laisportmine.model.PublicWewlfModel;
 import com.softtek.lai.module.retest.model.BanjiModel;
+import com.softtek.lai.utils.DateUtil;
 
 import java.util.List;
 
@@ -63,7 +64,8 @@ public class MyPublicWealfareAdapter extends BaseAdapter {
             viewHolder=(ViewHolder)convertView.getTag();
         }
         PublicWewlfModel publicWewlfModel=publicWewlfModelList.get(position);
-        viewHolder.tv_public_date.setText((publicWewlfModel.getSendTime()));
+        String date=DateUtil.getInstance().convertDateStr(publicWewlfModel.getSendTime(),"yyyy年MM月dd日");
+        viewHolder.tv_public_date.setText(date);
         viewHolder.tv_public_content.setText(publicWewlfModel.getContent());
 
         return convertView;

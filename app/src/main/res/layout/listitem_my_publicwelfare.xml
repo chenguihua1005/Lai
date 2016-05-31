@@ -67,9 +67,10 @@
                 android:id="@+id/tv_public_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="你今天走了十万步排名45位，康宝莱将为您向“天使听见爱”慈善项目捐赠1元，请继续加油"
+                android:text=""
                 android:layout_marginLeft="10dp"
-                android:textSize="10sp"
+                android:layout_marginRight="10dp"
+                android:textSize="12sp"
                 android:textColor="#333333"
                 />
         </LinearLayout>

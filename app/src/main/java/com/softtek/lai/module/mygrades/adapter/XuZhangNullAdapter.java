@@ -24,19 +24,20 @@ public class XuZhangNullAdapter extends BaseAdapter{
     private List<XunZhangModel> xunZhangModelList;
     List<String> content=new ArrayList<String>();
     List<Integer> images=new ArrayList<Integer>();
-    private int account;
+    List<String> imgagecontent=new ArrayList<String>();
+    private int account=0;
 
-    public XuZhangNullAdapter(Context context, List<XunZhangModel> xunZhangModelList,int account,List<Integer> images,List<String> content) {
+    public XuZhangNullAdapter(Context context, List<XunZhangModel> xunZhangModelList,List<Integer> images,List<String> content,List<String> imgagecontent) {
         this.context = context;
         this.xunZhangModelList = xunZhangModelList;
+        this.imgagecontent=imgagecontent;
         this.images=images;
-        this.account=account;
         this.content=content;
     }
 
-    public void updateData(List<XunZhangModel> xunZhangModelList,List<Integer> images,List<String> content) {
+    public void updateData(List<XunZhangModel> xunZhangModelList,List<Integer> images,List<String> content,List<String> imgagecontent) {
         this.xunZhangModelList = xunZhangModelList;
-        this.images=images;
+        this.imgagecontent=imgagecontent;
         this.content=content;
         notifyDataSetChanged();
     }
@@ -66,125 +67,13 @@ public class XuZhangNullAdapter extends BaseAdapter{
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        XunZhangModel xunZhangModel = xunZhangModelList.get(position);
+//        XunZhangModel xunZhangModel = xunZhangModelList.get(position);
         viewHolder.tab_bushu.setText(content.get(position));
         viewHolder.lab2.setImageResource(images.get(position));
-
-//        switch (position)
-//        {
-//            case 0:
-//                if (xunZhangModelList.get(position).getThreeDays().equals("0")) {
-//
-//                    viewHolder.tab_bushu.setText("连续3天一万步");
-//                    viewHolder.lab2.setImageResource(R.drawable.three);
-//
-//                }
-//                else if (xunZhangModelList.get(position).getSevenDays().equals("0"))
-//                {
-//                    viewHolder.tab_bushu.setText("连续7天一万步");
-//                    viewHolder.lab2.setImageResource(R.drawable.senven);
-//                }
-//                else if (xunZhangModelList.get(position).getTwentyOneDays().equals("0"))
-//                {
-//                    viewHolder.tab_bushu.setText("连续21天一万步");
-//                    viewHolder.lab2.setImageResource(R.drawable.twenty_one);
-//                }
-//                else if (xunZhangModelList.get(position).getThirtyDays().equals("0"))
-//                {
-//                    viewHolder.tab_bushu.setText("连续30天一万步");
-//                    viewHolder.lab2.setImageResource(R.drawable.thirty);
-//                }
-//                else if (xunZhangModelList.get(position).getOneHundredDays().equals("0"))
-//                {
-//                    viewHolder.tab_bushu.setText("连续100天一万步");
-//                    viewHolder.lab2.setImageResource(R.drawable.one_hundred);
-//                }
-//                else if (xunZhangModelList.get(position).getTwoHundredyDays().equals("0"))
-//                {
-//                    viewHolder.tab_bushu.setText("连续200天一万步");
-//                    viewHolder.lab2.setImageResource(R.drawable.day200);
-//                }
-//                else if (xunZhangModelList.get(position).getOneYearDays().equals("0"))
-//                {
-//                    viewHolder.tab_bushu.setText("连续365天一万步");
-//                    viewHolder.lab2.setImageResource(R.drawable.day365);
-//                }
-//                break;
-//            case 1:
-//
-//                if (xunZhangModelList.get(position).getSevenDays().equals("0")) {
-//
-//                    viewHolder.tab_bushu.setText("连续7天一万步");
-//                    viewHolder.lab2.setImageResource(R.drawable.senven);
-//                }
-//                else if (xunZhangModelList.get(position).getTwentyOneDays().equals("0"))
-//                {
-//                    viewHolder.tab_bushu.setText("连续21天一万步");
-//                    viewHolder.lab2.setImageResource(R.drawable.twenty_one);
-//                }
-//                else if (xunZhangModelList.get(position).getThirtyDays().equals("0"))
-//                {
-//                    viewHolder.tab_bushu.setText("连续30天一万步");
-//                    viewHolder.lab2.setImageResource(R.drawable.thirty);
-//                }
-//                else if (xunZhangModelList.get(position).getOneHundredDays().equals("0"))
-//                {
-//                    viewHolder.tab_bushu.setText("连续100天一万步");
-//                    viewHolder.lab2.setImageResource(R.drawable.one_hundred);
-//                }
-//                else if (xunZhangModelList.get(position).getTwoHundredyDays().equals("0"))
-//                {
-//                    viewHolder.tab_bushu.setText("连续200天一万步");
-//                    viewHolder.lab2.setImageResource(R.drawable.day200);
-//                }
-//                else if (xunZhangModelList.get(position).getOneYearDays().equals("0"))
-//                {
-//                    viewHolder.tab_bushu.setText("连续365天一万步");
-//                    viewHolder.lab2.setImageResource(R.drawable.day365);
-//                }
-//                break;
-//            case 2:
-//                if (xunZhangModelList.get(position).getTwentyOneDays().equals("0")) {
-//
-//                    viewHolder.tab_bushu.setText("连续20天一万步");
-//                    viewHolder.lab2.setImageResource(R.drawable.twenty_one);
-//                }
-//                break;
-//            case 3:
-//                if (xunZhangModelList.get(position).getThirtyDays().equals("0")) {
-//
-//                    viewHolder.tab_bushu.setText("连续30天一万步");
-//                    viewHolder.lab2.setImageResource(R.drawable.thirty);
-//                }
-//                break;
-//            case 4:
-//                if (xunZhangModelList.get(position).getOneHundredDays().equals("0")) {
-//
-//                    viewHolder.tab_bushu.setText("连续100天一万步");
-//                    viewHolder.lab2.setImageResource(R.drawable.senven);
-//                }
-//                else {
-//                    viewHolder.re_lay.setVisibility(View.GONE);
-//                }
-//                break;
-//            case 5:
-//                if (xunZhangModelList.get(position).getTwoHundredyDays().equals("0")) {
-//
-//                    viewHolder.tab_bushu.setText("连续200天一万步");
-//                    viewHolder.lab2.setImageResource(R.drawable.senven);
-//                }
-//                break;
-//            case 6:
-//                if (xunZhangModelList.get(position).getOneYearDays().equals("0")) {
-//
-//                    viewHolder.tab_bushu.setText("连续365天一万步");
-//                    viewHolder.lab2.setImageResource(R.drawable.senven);
-//                }
-//                break;
-//        }
-
-
-
+        if (position==(images.size()-imgagecontent.size()+account))
+        {
+            viewHolder.tv_ima_content.setText(imgagecontent.get(account++));
+        }
 
 
         return convertView;
@@ -193,13 +82,15 @@ public class XuZhangNullAdapter extends BaseAdapter{
     class ViewHolder {
         ImageView lab2;
         TextView tab_bushu;
-        RelativeLayout re_lay;
+        TextView tv_ima_content;
+
 
 
         public ViewHolder(View view) {
             lab2 = (ImageView) view.findViewById(R.id.lab2);
             tab_bushu = (TextView) view.findViewById(R.id.tab_bushu);
-            re_lay= (RelativeLayout) view.findViewById(R.id.re_lay);
+            tv_ima_content = (TextView) view.findViewById(R.id.tv_ima_content);
+
 
         }
     }
