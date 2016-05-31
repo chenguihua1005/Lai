@@ -39,8 +39,12 @@ public class MyXuZhangActivity extends BaseActivity implements XunZhangListManag
     XunZhangListManager xunZhangListManager;
     List<Integer> images=new ArrayList<Integer>();
     List<Integer> images1=new ArrayList<Integer>();
+    List<Integer> pknull=new ArrayList<Integer>();
+    List<Integer> pkimage=new ArrayList<Integer>();
     List<String> content=new ArrayList<String>();
     List<String> content1=new ArrayList<String>();
+    List<String> imgagecontent=new ArrayList<String>();
+    List<String> imgagecontent1=new ArrayList<String>();
     private List<XunZhangModel> xunZhangModelList=new ArrayList<XunZhangModel>();
     private List<XunZhangModel> xunZhangModelList1=new ArrayList<XunZhangModel>();
 
@@ -60,27 +64,60 @@ public class MyXuZhangActivity extends BaseActivity implements XunZhangListManag
         xunZhangListManager=new XunZhangListManager(this);
         xunZhangListManager.doGetXunZhang();
         MyGridView gridview1 = (MyGridView) findViewById(R.id.grid_view1);
-        xuZhangAdapter=new XuZhangAdapter(this,xunZhangModelList,images1,content1);
+        xuZhangAdapter=new XuZhangAdapter(this,xunZhangModelList,images1,content1,imgagecontent1);
         gridview1.setAdapter(xuZhangAdapter);
         MyGridView gridview2 = (MyGridView) findViewById(R.id.grid_view2);
-        xuZhangNullAdapter=new XuZhangNullAdapter(this,xunZhangModelList1,14,images,content);
+        xuZhangNullAdapter=new XuZhangNullAdapter(this,xunZhangModelList1,images,content,imgagecontent);
         gridview2.setAdapter(xuZhangNullAdapter);
 
 
-//        GridView gridView=(GridView)findViewById(R.id.gridview);
-//        gridView.setAdapter(new ImageAdapter(this));
-//        GridView gridView2=(GridView)findViewById(R.id.gridview2);
-//        gridView2.setAdapter(new ImageAdapter(this));
-        //单击GridView元素的响应
-//        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view,
-//                                    int position, long id) {
-//                //弹出单击的GridView元素的位置
-//                Toast.makeText(MyXuZhangActivity.this,mThumbIds[position], Toast.LENGTH_SHORT).show();
-//            }
-//        });
+
+    }
+    private void pkxunzhangList(int n)
+    {
+        switch (n)
+
+        {
+            case 0:
+                pknull.add(R.drawable.darenjin,R.drawable.darenyin);
+                pknull.add(R.drawable.darentong,R.drawable.starjin);
+                pknull.add(R.drawable.staryin,R.drawable.startong);
+                break;
+            case 1:
+                pknull.add(R.drawable.darenyin);
+                pknull.add(R.drawable.darentong,R.drawable.starjin);
+                pknull.add(R.drawable.staryin,R.drawable.startong);
+                pkimage.add(R.drawable.darenjin);
+                break;
+            case 2:
+                pknull.add(R.drawable.darentong,R.drawable.starjin);
+                pknull.add(R.drawable.staryin,R.drawable.startong);
+                pkimage.add(R.drawable.darenjin,R.drawable.darenyin);
+                break;
+            case 3:
+                pknull.add(R.drawable.starjin);
+                pknull.add(R.drawable.staryin,R.drawable.startong);
+                pkimage.add(R.drawable.darenjin,R.drawable.darenyin);
+                pkimage.add(R.drawable.darentong);
+                break;
+            case 4:
+                pknull.add(R.drawable.staryin,R.drawable.startong);
+                pkimage.add(R.drawable.darenjin,R.drawable.darenyin);
+                pkimage.add(R.drawable.darentong,R.drawable.starjin);
+                break;
+            case 5:
+                pknull.add(R.drawable.startong);
+                pkimage.add(R.drawable.darenjin,R.drawable.darenyin);
+                pkimage.add(R.drawable.darentong,R.drawable.starjin);
+                pkimage.add(R.drawable.staryin);
+                break;
+            case 6:
+                pkimage.add(R.drawable.darenjin,R.drawable.darenyin);
+                pkimage.add(R.drawable.darentong,R.drawable.starjin);
+                pkimage.add(R.drawable.staryin,R.drawable.startong);
+                break;
+        }
+
 
     }
 
@@ -90,7 +127,7 @@ public class MyXuZhangActivity extends BaseActivity implements XunZhangListManag
 //            for (int i=0;i<14;i++)
 //            {
 ////                xunZhangModelList1.add(xunZhangModel);
-            int i=0,n=0;
+            int i=0,n=0,count=0,acount=0;
             //3天
                 if (xunZhangModel.getThreeDays().equals("0")) {
                     images.add(i,R.drawable.three);
@@ -206,83 +243,262 @@ public class MyXuZhangActivity extends BaseActivity implements XunZhangListManag
                 xunZhangModelList.add(xunZhangModel);
                 n++;
             }
-            if (xunZhangModel.getPK().size()==0)
-            {
-                images.add(i,R.drawable.darentong);
-                content.add(i++,"pk挑战成功1次");
-                xunZhangModelList1.add(xunZhangModel);
-                images.add(i,R.drawable.darenyin);
-                content.add(i++,"pk挑战成功50次");
-                xunZhangModelList1.add(xunZhangModel);
-                images.add(i,R.drawable.darenjin);
-                content.add(i++,"pk挑战成功100次");
-                xunZhangModelList1.add(xunZhangModel);
-                images.add(i,R.drawable.startong);
-                content.add(i++,"pk挑战成功200次");
-                xunZhangModelList1.add(xunZhangModel);
-                images.add(i,R.drawable.staryin);
-                content.add(i++,"pk挑战成功300次");
-                xunZhangModelList1.add(xunZhangModel);
-                images.add(i,R.drawable.starjin);
-                content.add(i++,"pk挑战成功500次");
-                xunZhangModelList1.add(xunZhangModel);
+
+               switch (xunZhangModel.getPK().size())
+               {
+                   //未获得任何pk勋章
+                   case 0:
+
+                            images.add(i,R.drawable.darentong);
+                            content.add(i++,"pk挑战成功1次");
+                            images.add(i,R.drawable.darenyin);
+                            content.add(i++,"pk挑战成功50次");
+                            images.add(i,R.drawable.darenjin);
+                            content.add(i++,"pk挑战成功100次");
+                            images.add(i,R.drawable.startong);
+                            content.add(i++,"pk挑战成功200次");
+                            images.add(i,R.drawable.staryin);
+                            content.add(i++,"pk挑战成功300次");
+                            images.add(i,R.drawable.starjin);
+                            content.add(i++,"pk挑战成功500次");
+                            xunZhangModelList1.add(xunZhangModel);
+
+                       break;
+                   //获得任何1个pk勋章
+                   case 1:
+                       images1.add(n,R.drawable.darentong);
+                       content1.add(n++,"pk挑战成功1次");
+                       images.add(i,R.drawable.darenyin);
+                       content.add(i++,"pk挑战成功50次");
+                       images.add(i,R.drawable.darenjin);
+                       content.add(i++,"pk挑战成功100次");
+                       images.add(i,R.drawable.startong);
+                       content.add(i++,"pk挑战成功200次");
+                       images.add(i,R.drawable.staryin);
+                       content.add(i++,"pk挑战成功300次");
+                       images.add(i,R.drawable.starjin);
+                       content.add(i++,"pk挑战成功500次");
+                       xunZhangModelList1.add(xunZhangModel);
+                       break;
+                   //未获得任何2个pk勋章
+                   case 2:
+                       images1.add(n,R.drawable.darentong);
+                       content1.add(n++,"pk挑战成功1次");
+                       images1.add(n,R.drawable.darenyin);
+                       content1.add(n++,"pk挑战成功50次");
+                       images.add(i,R.drawable.darenjin);
+                       content.add(i++,"pk挑战成功100次");
+                       images.add(i,R.drawable.startong);
+                       content.add(i++,"pk挑战成功200次");
+                       images.add(i,R.drawable.staryin);
+                       content.add(i++,"pk挑战成功300次");
+                       images.add(i,R.drawable.starjin);
+                       content.add(i++,"pk挑战成功500次");
+                       xunZhangModelList1.add(xunZhangModel);
+                       break;
+                   //未获得任何3个pk勋章
+                   case 3:
+                       images1.add(n,R.drawable.darentong);
+                       content1.add(n++,"pk挑战成功1次");
+                       images1.add(n,R.drawable.darenyin);
+                       content1.add(n++,"pk挑战成功50次");
+                       images1.add(n,R.drawable.darenjin);
+                       content1.add(n++,"pk挑战成功100次");
+                       images.add(i,R.drawable.startong);
+                       content.add(i++,"pk挑战成功200次");
+                       images.add(i,R.drawable.staryin);
+                       content.add(i++,"pk挑战成功300次");
+                       images.add(i,R.drawable.starjin);
+                       content.add(i++,"pk挑战成功500次");
+                       xunZhangModelList1.add(xunZhangModel);
+                       break;
+                   //未获得任何4个pk勋章
+                   case 4:
+                       images1.add(n,R.drawable.darentong);
+                       content1.add(n++,"pk挑战成功1次");
+                       images1.add(n,R.drawable.darenyin);
+                       content1.add(n++,"pk挑战成功50次");
+                       images1.add(n,R.drawable.darenjin);
+                       content1.add(n++,"pk挑战成功100次");
+                       images1.add(n,R.drawable.startong);
+                       content1.add(n++,"pk挑战成功200次");
+                       images.add(i,R.drawable.staryin);
+                       content.add(i++,"pk挑战成功300次");
+                       images.add(i,R.drawable.starjin);
+                       content.add(i++,"pk挑战成功500次");
+                       xunZhangModelList1.add(xunZhangModel);
+                       break;
+                   //未获得任何5个pk勋章
+                   case 5:
+                       images1.add(n,R.drawable.darentong);
+                       content1.add(n++,"pk挑战成功1次");
+                       images1.add(n,R.drawable.darenyin);
+                       content1.add(n++,"pk挑战成功50次");
+                       images1.add(n,R.drawable.darenjin);
+                       content1.add(n++,"pk挑战成功100次");
+                       images1.add(n,R.drawable.startong);
+                       content1.add(n++,"pk挑战成功200次");
+                       images1.add(n,R.drawable.staryin);
+                       content1.add(n++,"pk挑战成功300次");
+                       images.add(i,R.drawable.starjin);
+                       content.add(i++,"pk挑战成功500次");
+                       xunZhangModelList1.add(xunZhangModel);
+                       break;
+                   //未获得任何6个pk勋章
+                   case 6:
+                       images1.add(n,R.drawable.darentong);
+                       content1.add(n++,"pk挑战成功1次");
+                       images1.add(n,R.drawable.darenyin);
+                       content1.add(n++,"pk挑战成功50次");
+                       images1.add(n,R.drawable.darenjin);
+                       content1.add(n++,"pk挑战成功100次");
+                       images1.add(n,R.drawable.startong);
+                       content1.add(n++,"pk挑战成功200次");
+                       images1.add(n,R.drawable.staryin);
+                       content1.add(n++,"pk挑战成功300次");
+                       images1.add(n,R.drawable.starjin);
+                       content1.add(n++,"pk挑战成功500次");
+                       xunZhangModelList1.add(xunZhangModel);
+                       break;
+
             }
-            if (xunZhangModel.getTotals().size()==0)
+            if (xunZhangModel.getTotals().size()<6)
             {
-                images.add(i,R.drawable.ten);
-                content.add(i++,"累计步数10万步");
-                xunZhangModelList1.add(xunZhangModel);
-                images.add(i,R.drawable.fifty);
-                content.add(i++,"累计步数50万步");
-                xunZhangModelList1.add(xunZhangModel);
-                images.add(i,R.drawable.one_hundred);
-                content.add(i++,"累计步数100万步");
-                xunZhangModelList1.add(xunZhangModel);
-                images.add(i,R.drawable.one_hundred);
-                content.add(i++,"累计步数500万步");
-                xunZhangModelList1.add(xunZhangModel);
-                images.add(i,R.drawable.one_hundred);
-                content.add(i++,"累计步数1000万步");
-                xunZhangModelList1.add(xunZhangModel);
+                switch (xunZhangModel.getTotals().size())
+                {
+                    case 0:
+                        images.add(i,R.drawable.ten);
+                        content.add(i++,"累计步数10万步");
+                        imgagecontent.add(count++,"10万");
+
+                        images.add(i,R.drawable.fifty);
+                        content.add(i++,"累计步数50万步");
+                        imgagecontent.add(count++,"50万");
+
+                        images.add(i,R.drawable.one_hundred);
+                        content.add(i++,"累计步数100万步");
+                        imgagecontent.add(count++,"100万");
+
+                        images.add(i,R.drawable.one_hundred);
+                        content.add(i++,"累计步数500万步");
+                        imgagecontent.add(count++,"500万");
+
+                        images.add(i,R.drawable.one_hundred);
+                        content.add(i++,"累计步数1000万步");
+                        imgagecontent.add(count++,"1000万");
+                        break;
+                    //获得任何1个pk勋章
+                    case 1:
+                        images1.add(n,R.drawable.ten);
+                        content1.add(n++,"累计步数10万步");
+                        imgagecontent1.add(acount++,"10万");
+                        images.add(i,R.drawable.ten);
+                        content.add(i++,"累计步数50万步");
+                        imgagecontent.add(count++,"50万");
+                        images.add(i,R.drawable.ten);
+                        content.add(i++,"累计步数100万步");
+                        imgagecontent.add(count++,"100万");
+                        images.add(i,R.drawable.ten);
+                        content.add(i++,"累计步数500万步");
+                        imgagecontent.add(count++,"500万");
+                        images.add(i,R.drawable.ten);
+                        content.add(i++,"累计步数1000万步");
+                        imgagecontent.add(count++,"1000万");
+                        xunZhangModelList1.add(xunZhangModel);
+                        break;
+                    //未获得任何2个pk勋章
+                    case 2:
+                        images1.add(n,R.drawable.ten);
+                        content1.add(n++,"累计步数10万步");
+                        imgagecontent1.add(acount++,"10万");
+                        images1.add(n,R.drawable.ten);
+                        content1.add(n++,"累计步数50万步");
+                        imgagecontent1.add(acount++,"50万");
+                        images.add(i,R.drawable.ten);
+                        content.add(i++,"累计步数100万步");
+                        imgagecontent.add(count++,"100万");
+                        images.add(i,R.drawable.ten);
+                        content.add(i++,"累计步数500万步");
+                        imgagecontent.add(count++,"500万");
+                        images.add(i,R.drawable.ten);
+                        content.add(i++,"累计步数1000万步");
+                        imgagecontent.add(count++,"1000万");
+                        xunZhangModelList1.add(xunZhangModel);
+                        break;
+                    //未获得任何3个pk勋章
+                    case 3:
+                        images1.add(n,R.drawable.ten);
+                        content1.add(n++,"累计步数10万步");
+                        imgagecontent1.add(acount++,"10万");
+                        images1.add(n,R.drawable.ten);
+                        content1.add(n++,"累计步数50万步");
+                        imgagecontent1.add(acount++,"50万");
+                        images1.add(n,R.drawable.ten);
+                        content1.add(n++,"累计步数100万步");
+                        imgagecontent1.add(acount++,"100万");
+                        images.add(i,R.drawable.ten);
+                        content.add(i++,"累计步数500万步");
+                        imgagecontent.add(count++,"500万");
+                        images.add(i,R.drawable.ten);
+                        content.add(i++,"累计步数1000万步");
+                        imgagecontent.add(count++,"1000万");
+                        xunZhangModelList1.add(xunZhangModel);
+                        break;
+                    //未获得任何4个pk勋章
+                    case 4:
+                        images1.add(n,R.drawable.ten);
+                        content1.add(n++,"累计步数10万步");
+                        imgagecontent1.add(acount++,"10万");
+                        images1.add(n,R.drawable.ten);
+                        content1.add(n++,"累计步数50万步");
+                        imgagecontent1.add(acount++,"50万");
+                        images1.add(n,R.drawable.ten);
+                        content1.add(n++,"累计步数100万步");
+                        imgagecontent1.add(acount++,"100万");
+                        images1.add(n,R.drawable.ten);
+                        content1.add(n++,"累计步数500万步");
+                        imgagecontent1.add(acount++,"500万");
+                        images.add(i,R.drawable.ten);
+                        content.add(i++,"累计步数1000万步");
+                        imgagecontent.add(count++,"1000万");
+                        xunZhangModelList1.add(xunZhangModel);
+                        break;
+                    //未获得任何5个pk勋章
+                    case 5:
+                        images1.add(n,R.drawable.ten);
+                        content1.add(n++,"累计步数10万步");
+                        imgagecontent1.add(acount++,"10万");
+                        images1.add(n,R.drawable.ten);
+                        content1.add(n++,"累计步数50万步");
+                        imgagecontent1.add(acount++,"50万");
+                        images1.add(n,R.drawable.ten);
+                        content1.add(n++,"累计步数100万步");
+                        imgagecontent1.add(acount++,"100万");
+                        images1.add(n,R.drawable.ten);
+                        content1.add(n++,"累计步数500万步");
+                        imgagecontent1.add(acount++,"500万");
+                        images1.add(i,R.drawable.ten);
+                        content1.add(i++,"累计步数1000万步");
+                        imgagecontent1.add(acount++,"1000万");
+                        xunZhangModelList1.add(xunZhangModel);
+                        break;
+
+                }
+            }
+            else {
+
             }
 
-            for (int totalcount=0;totalcount<xunZhangModel.getTotals().size();totalcount++)
-            {
-                if (!xunZhangModel.getTotals().get(totalcount).equals("10"))
-                {
-                    images.add(i,R.drawable.ten);
-                    content.add(i,"累计步数10万");
-                    xunZhangModelList1.add(xunZhangModel);
-                    i++;
-                }
-                else {
-                    images1.add(n,R.drawable.ten);
-                    content1.add(n,"累计步数10万");
-                    xunZhangModelList.add(xunZhangModel);
-                    n++;
-                }
-                if (!xunZhangModel.getTotals().get(totalcount).equals("50"))
-                {
-                    images.add(i,R.drawable.fifty);
-                    content.add(i,"累计步数50万");
-                    xunZhangModelList1.add(xunZhangModel);
-                    i++;
-                }
-                else {
-                    images1.add(n,R.drawable.fifty);
-                    content1.add(n,"累计步数50万");
-                    xunZhangModelList.add(xunZhangModel);
-                    n++;
-                }
-            }
+
+
 
 //            }
 
 
-            xuZhangAdapter.updateData(xunZhangModelList,images1,content1);
+            xuZhangAdapter.updateData(xunZhangModelList,images1,content1,imgagecontent1);
 //            MyGridView gridview1 = (MyGridView) findViewById(R.id.grid_view1);
 //            gridview1.setAdapter(new ImageAdapter(this));
-            xuZhangNullAdapter.updateData(xunZhangModelList1,images,content);
+            xuZhangNullAdapter.updateData(xunZhangModelList1,images,content,imgagecontent);
         }
 
     }
