@@ -267,7 +267,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.group.view.JoinGroupActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".module.group.view.GroupSecActivity"
             android:screenOrientation="portrait" />
