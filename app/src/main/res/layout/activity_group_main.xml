@@ -404,7 +404,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
-                                    android:layout_marginLeft="5dip"
+                                    android:layout_marginLeft="3dip"
                                     android:gravity="center"
                                     android:text="5"
                                     android:textColor="#ffa220" />
@@ -435,7 +435,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:layout_weight="1"
+                                android:layout_weight="0.8"
                                 android:gravity="center"
                                 android:orientation="horizontal">
 
@@ -480,7 +480,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
-                                    android:layout_marginLeft="5dip"
+                                    android:layout_marginLeft="3dip"
                                     android:gravity="center"
                                     android:text="5"
                                     android:textColor="#ffa220" />
@@ -509,6 +509,7 @@
                                     android:src="@drawable/img_group_main_zan" />
 
                                 <TextView
+                                    android:id="@+id/text_left_1"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
@@ -583,6 +584,7 @@
                                     android:src="@drawable/img_group_main_zan" />
 
                                 <TextView
+                                    android:id="@+id/text_right_2"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"

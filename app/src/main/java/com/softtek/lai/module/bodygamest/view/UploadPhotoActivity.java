@@ -116,7 +116,6 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     private TextView tv_downphoto_nick;
     private ImageFileSelector imageFileSelector;
     boolean flag = true;
-    GifModel gifModel;
     ShareUtils shareUtils;
     String url;
     LossModel lossModel;
@@ -136,8 +135,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     }
 
     @Subscribe
-    public void onEvent(GifModel model) {
-        gifModel = model;
+    public void onEvent(ResponseData responseData) {
         progressDialog.setMessage("加载中");
         progressDialog.show();
         photoListPre.getLossData(UserInfoModel.getInstance().getUser().getUserid(), progressDialog);
@@ -149,8 +147,8 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         lossModel = model;
         System.out.println("lossModel:" + lossModel);
         String path = AddressManager.get("shareHost");
-        String gifName = gifModel.getGifname();
-        url = path + "SharePhotoAblum?AccountId=" + UserInfoModel.getInstance().getUser().getUserid() + "&ShareImageName=" + gifName;
+        url = path + "SharePhotoAblum?AccountId=" + UserInfoModel.getInstance().getUser().getUserid();
+        System.out.println("url:"+url);
         menuWindow = new SelectPicPopupWindow(UploadPhotoActivity.this, itemsOnClick);
         //显示窗口
         menuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
