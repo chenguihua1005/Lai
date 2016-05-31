@@ -19,13 +19,11 @@
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:gravity="center">
-                <ImageView
+                <com.softtek.lai.widgets.CircleImageView
                     android:id="@+id/img_myheadportrait"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
-                    android:scaleType="fitCenter"
-                    />
-
+                    android:scaleType="fitCenter" />
             </LinearLayout>
             <LinearLayout
                 android:orientation="vertical"
