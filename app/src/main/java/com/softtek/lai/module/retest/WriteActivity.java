@@ -39,7 +39,6 @@ import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileCropSelector;
-import com.sw926.imagefileselector.ImageFileSelector;
 
 import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
@@ -55,7 +54,7 @@ import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_write)
 public class WriteActivity extends BaseActivity implements View.OnClickListener,
-        Validator.ValidationListener,ImageFileSelector.Callback{
+        Validator.ValidationListener/*,ImageFileSelector.Callback*/{
     //标题栏
     @InjectView(R.id.tv_title)
     TextView title;
@@ -135,28 +134,22 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
     //结束日期
     @InjectView(R.id.tv_write_endd)
     TextView tv_write_endd;
-//    //莱秤开关
-//    @InjectView(R.id.selectlaichen)
-//    CheckBox selectlaichen;
 
     private RetestPre retestPre;
     RetestWriteModel retestWrite;
     MeasureModel measureModel;
     RetestAuditModel retestAuditModel;
-    private ImageFileSelector imageFileSelector;
-    String path="";
     String gender="1";
     UserInfoModel userInfoModel=UserInfoModel.getInstance();
     long loginid=Long.parseLong(userInfoModel.getUser().getUserid());
     String acountid;
     String classid;
-    private static final int PHOTO=1;
     private static final int GET_BODY=2;
     private static final int BODY=3;
-    private static final String LAI_CHEN_SWITCH_KEY="guidetake";
     private CharSequence[] items={"拍照","从相册选择照片"};
     String isState="true";
     private ProgressDialog progressDialog;
+    //private ImageFileSelector imageFileSelector;
     private ImageFileCropSelector imageFileCropSelector;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,7 +159,6 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         tv_right.setOnClickListener(this);
         im_retestwrite_takephoto.setOnClickListener(this);
         btn_retest_write_addbody.setOnClickListener(this);
-//        ll_retestWrite_chu_weight.setOnClickListener(this);
         ll_retestWrite_nowweight.setOnClickListener(this);
         ll_retestWrite_tizhi.setOnClickListener(this);
         ll_retestWrite_neizhi.setOnClickListener(this);
@@ -195,11 +187,30 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         tv_right.setText("保存");
         retestPre=new RetestclassImp();
         measureModel=new MeasureModel();
-        imageFileSelector=new ImageFileSelector(this);
+        /*imageFileSelector=new ImageFileSelector(this);
         imageFileSelector.setOutPutImageSize(DisplayUtil.dip2px(this,600),
                 DisplayUtil.dip2px(this,400));
         imageFileSelector.setQuality(80);
-        imageFileSelector.setCallback(this);
+        imageFileSelector.setCallback(this);*/
+        imageFileCropSelector=new ImageFileCropSelector(this);
+        imageFileCropSelector.setQuality(80);
+        imageFileCropSelector.setOutPutAspect(1,1);
+        int px=Math.min(DisplayUtil.getMobileHeight(this),DisplayUtil.getMobileWidth(this));
+        imageFileCropSelector.setOutPut(px,px);
+        imageFileCropSelector.setCallback(new ImageFileCropSelector.Callback() {
+            @Override
+            public void onSuccess(String file) {
+                im_retestwrite_showphoto.setVisibility(View.VISIBLE);
+                im_delete.setVisibility(View.VISIBLE);
+                Picasso.with(WriteActivity.this).load(new File(file)).fit().into(im_retestwrite_showphoto);
+                retestPre.goGetPicture(file);
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
         retestAuditModel=new RetestAuditModel();
         iv_email.setVisibility(View.INVISIBLE);
         Intent intent=getIntent();
@@ -301,12 +312,9 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             if (which == 0) {
-//                            takecamera();
-                                imageFileSelector.takePhoto(WriteActivity.this);
+                                imageFileCropSelector.takePhoto(WriteActivity.this);
                             } else if (which == 1) {
-                                //照片
-//                            takepic();
-                                imageFileSelector.selectImage(WriteActivity.this);
+                                imageFileCropSelector.selectImage(WriteActivity.this);
                             }
                         }
                     }).create().show();
@@ -318,17 +326,10 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
             //添加身体围度
             case R.id.btn_retest_write_addbody:
                 Intent intent=new Intent(WriteActivity.this, BodyweiduActivity.class);
-//                intent.putExtra("retestWrite",retestWrite);
-                Log.i("retestWrite="+retestWrite.toString());
                 intent.putExtra("retestWrite",retestWrite);
                 intent.putExtra("isState",isState);
                 startActivityForResult(intent,GET_BODY);
                 break;
-            //点击弹框事件
-
-
-//            case R.id.tv_write_chu_weight:
-//                break;
             case R.id.ll_retestWrite_nowweight:
                 if (gender.equals("1")) {
                     show_information("现在体重（斤）", 600, 100, 50, 9, 0, 0, 1);
@@ -357,60 +358,11 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         }
 
     }
-//    public void takecamera() {
-//
-//        path=(Environment.getExternalStorageDirectory().getPath())+"/123.jpg";
-//        File file=new File(path.toString());
-//        Uri uri= Uri.fromFile(file);
-//        Intent intent=new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-//        intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, uri);
-//        startActivityForResult(intent,PHOTO);
-//        Bitmap bitmap= null;
-//        try {
-//            bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//        im_delete.setVisibility(View.VISIBLE);
-//        im_retestwrite_showphoto.setVisibility(View.VISIBLE);
-//        im_retestwrite_showphoto.setImageBitmap(bitmap);
-//        Log.i("path:"+path);
-//    }
-//    public void takepic() {
-//        Intent picture = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//        startActivityForResult(picture, 101);
-//    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        imageFileSelector.onActivityResult(requestCode,resultCode,data);
-//        imageFileCropSelector.getmImageCropperHelper().onActivityResult(requestCode,resultCode,data);
-//        if(resultCode==RESULT_OK&&requestCode==PHOTO){
-//            Bitmap bm= BitmapFactory.decodeFile(path.toString());
-//            im_retestwrite_showphoto.setImageBitmap(bm);
-//            retestPre.goGetPicture(path.toString());
-//        }
-//        if(requestCode == 101 && resultCode == Activity.RESULT_OK && null != data){
-//            Uri selectedImage = data.getData();
-//            String[] filePathColumns={MediaStore.Images.Media.DATA};
-//            Cursor c = this.getContentResolver().query(selectedImage, filePathColumns, null,null, null);
-//            c.moveToFirst();
-//            int columnIndex = c.getColumnIndex(filePathColumns[0]);
-//            String picturePath= c.getString(columnIndex);
-//            Bitmap bitmap= null;
-//            try {
-//                bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(selectedImage));
-//            } catch (FileNotFoundException e) {
-//                e.printStackTrace();
-//            }
-//            im_delete.setVisibility(View.VISIBLE);
-//            im_retestwrite_showphoto.setVisibility(View.VISIBLE);
-//            im_retestwrite_showphoto.setImageBitmap(bitmap);
-//            retestPre.goGetPicture(picturePath.toString());
-//            Log.i("picturePath------------------------------------------------:"+picturePath);
-//            c.close();
-//        }
-
+        imageFileCropSelector.onActivityResult(requestCode,resultCode,data);
+        imageFileCropSelector.getmImageCropperHelper().onActivityResult(requestCode,resultCode,data);
         //身体围度值传递
         if (requestCode==GET_BODY&&resultCode==RESULT_OK){
             Log.i("》》》》》requestCode："+requestCode+"resultCode："+resultCode);
@@ -423,12 +375,10 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (which == 0) {
-//                            takecamera();
-                        imageFileSelector.takePhoto(WriteActivity.this);
+                        imageFileCropSelector.takePhoto(WriteActivity.this);
                     } else if (which == 1) {
                         //照片
-//                            takepic();
-                        imageFileSelector.selectImage(WriteActivity.this);
+                        imageFileCropSelector.selectImage(WriteActivity.this);
                     }
                 }
             }).create().show();
@@ -494,9 +444,6 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         progressDialog.setMessage("数据刷新中...");
         progressDialog.show();
         retestPre.doPostWrite(Long.parseLong(acountid),loginid,retestWrite,this,progressDialog);
-//        Intent intent=new Intent();
-//        setResult(RESULT_OK,intent);
-//        finish();
 
     }
 
@@ -517,7 +464,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
 //
 //
 //    }
-    public String tomonth(String month){
+    /*public String tomonth(String month){
         if (month.equals("01")){
             month="一月班";
         }
@@ -556,21 +503,20 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
             month="十二月班";
         }
         return month;
-    }
+    }*/
 
-    @Override
+    /*@Override
     public void onSuccess(String file) {
         im_retestwrite_showphoto.setVisibility(View.VISIBLE);
         im_delete.setVisibility(View.VISIBLE);
         Picasso.with(this).load(new File(file)).fit().into(im_retestwrite_showphoto);
-        //im_retestwritest_showphoto.setImageBitmap(BitmapFactory.decodeFile(file));
         retestPre.goGetPicture(file);
     }
 
     @Override
     public void onError() {
 
-    }
+    }*/
     /**
      * 点击屏幕隐藏软键盘
      **/
