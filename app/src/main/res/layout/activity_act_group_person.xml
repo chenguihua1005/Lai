@@ -19,7 +19,7 @@
             android:layout_width="65dp"
             android:layout_height="65dp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/margin">
+            android:layout_marginLeft="40dip">
             <RelativeLayout
                 android:id="@+id/rel_group"
                 android:layout_width="wrap_content"
@@ -69,8 +69,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="70dip"
-            android:layout_marginRight="85dip"
+            android:layout_marginLeft="60dip"
+            android:layout_marginRight="55dip"
             android:textColor="@color/word3"
             android:textSize="@dimen/textSize3" />
     </RelativeLayout>

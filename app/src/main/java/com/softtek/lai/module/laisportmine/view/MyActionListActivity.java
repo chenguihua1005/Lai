@@ -1,6 +1,7 @@
 package com.softtek.lai.module.laisportmine.view;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +14,8 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.group.view.GroupMainActivity;
 import com.softtek.lai.module.laisportmine.adapter.MyActionAdapter;
 import com.softtek.lai.module.laisportmine.adapter.MyPublicWealfareAdapter;
 import com.softtek.lai.module.laisportmine.model.ActionModel;
@@ -20,6 +23,7 @@ import com.softtek.lai.module.laisportmine.model.PublicWewlfModel;
 import com.softtek.lai.module.laisportmine.present.ActionListManager;
 import com.softtek.lai.module.laisportmine.present.DelNoticeOrMeasureManager;
 import com.softtek.lai.module.laisportmine.present.UpdateMsgRTimeManager;
+import com.softtek.lai.module.personalPK.view.PKDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +33,7 @@ import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_my_action_list)
 public class MyActionListActivity extends BaseActivity implements View.OnClickListener,ActionListManager.ActionListCallback,UpdateMsgRTimeManager.UpdateMsgRTimeCallback,
-        AdapterView.OnItemLongClickListener,DelNoticeOrMeasureManager.DelNoticeOrMeasureCallback{
+        AdapterView.OnItemLongClickListener,DelNoticeOrMeasureManager.DelNoticeOrMeasureCallback,AdapterView.OnItemClickListener{
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.tv_title)
@@ -52,6 +56,7 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
         tv_title.setText("活动邀请");
         ll_left.setOnClickListener(this);
         list_action.setOnItemLongClickListener(this);
+        list_action.setOnItemClickListener(this);
 
     }
 
@@ -77,6 +82,7 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
             case R.id.ll_left:
             finish();
             break;
+
         }
 
     }
@@ -106,5 +112,12 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
             }
         }).create().show();
         return false;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent intent=new Intent(this, GroupMainActivity.class);
+        intent.putExtra("id",Long.parseLong(actionModelLists.get(position).getMessageId()));
+        startActivity(intent);
     }
 }

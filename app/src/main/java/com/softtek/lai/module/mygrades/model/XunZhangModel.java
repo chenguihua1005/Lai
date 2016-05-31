@@ -1,5 +1,8 @@
 package com.softtek.lai.module.mygrades.model;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Created by lareina.qiao on 5/27/2016.
  */
@@ -12,6 +15,8 @@ public class XunZhangModel {
     private String TwoHundredyDays;
     private String OneYearDays;
     private String Angle;
+    private List<String> Totals;
+    private List<String> PK;
 
     @Override
     public String toString() {
@@ -24,6 +29,8 @@ public class XunZhangModel {
                 ", TwoHundredyDays='" + TwoHundredyDays + '\'' +
                 ", OneYearDays='" + OneYearDays + '\'' +
                 ", Angle='" + Angle + '\'' +
+                ", Totals=" + Totals +
+                ", PK=" + PK +
                 '}';
     }
 
@@ -89,5 +96,21 @@ public class XunZhangModel {
 
     public void setAngle(String angle) {
         Angle = angle;
+    }
+
+    public List<String> getTotals() {
+        return Totals;
+    }
+
+    public void setTotals(List<String> totals) {
+        Totals = totals;
+    }
+
+    public List<String> getPK() {
+        return PK;
+    }
+
+    public void setPK(List<String> PK) {
+        this.PK = PK;
     }
 }

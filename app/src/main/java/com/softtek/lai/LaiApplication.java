@@ -88,7 +88,7 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
     public static final String CREATE_STEP="create table user_step(" +
             "id integer primary key autoincrement," +
             "accountId text," +
-            "stepCount int," +
+            "stepCount bigint," +
             "recordTime text )";
 
     @Override

@@ -160,6 +160,9 @@ public class ActGroupPersonActivity extends BaseActivity implements View.OnClick
     @Override
     public void getActRGStepOrder(String type, ActZKPModel model) {
         if ("true".equals(type)) {
+            rel_head.setVisibility(View.VISIBLE);
+            zk_list.setVisibility(View.VISIBLE);
+            img_mo_message.setVisibility(View.GONE);
             if (zk_list != null) {
                 zk_list.onRefreshComplete();
             }
@@ -179,9 +182,11 @@ public class ActGroupPersonActivity extends BaseActivity implements View.OnClick
                 adapter.notifyDataSetChanged();
             }
         } else {
-            rel_head.setVisibility(View.GONE);
-            zk_list.setVisibility(View.GONE);
-            img_mo_message.setVisibility(View.VISIBLE);
+            if (pageIndex == 1) {
+                rel_head.setVisibility(View.GONE);
+                zk_list.setVisibility(View.GONE);
+                img_mo_message.setVisibility(View.VISIBLE);
+            }
             if (zk_list != null) {
                 zk_list.onRefreshComplete();
             }
