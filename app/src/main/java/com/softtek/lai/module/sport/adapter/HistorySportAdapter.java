@@ -89,9 +89,26 @@ public class HistorySportAdapter extends BaseAdapter {
 
         if ("0".equals(historySportModel.getMType())) {
             holder.text_type.setText("跑步");
+        }else {
+            holder.text_type.setText("未知");
         }
-        holder.text_value.setText(StringUtil.getDoubleValue(historySportModel.getTotal()));
+        holder.text_value.setText(historySportModel.getKilometre());
         holder.text_during.setText(historySportModel.getTimeLength());
+        holder.text_kll.setText(historySportModel.getCalories()+"大卡");
+        String start = historySportModel.getCreatetime();
+
+        String start_time = "";
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat format = new SimpleDateFormat("MM-dd HH:mm:ss");
+        try {
+            Date start_date = sdf.parse(start);
+            start_time = format.format(start_date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        holder.text_time.setText(start_time);
+
         return convertView;
     }
 

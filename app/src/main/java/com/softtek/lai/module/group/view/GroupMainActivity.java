@@ -110,6 +110,12 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
     @InjectView(R.id.text_pk_right_count)
     TextView text_pk_right_count;
 
+    @InjectView(R.id.text_left_1)
+    TextView text_left_1;
+
+    @InjectView(R.id.text_right_2)
+    TextView text_right_2;
+
     @InjectView(R.id.iv_email)
     ImageView iv_email;
 
@@ -335,6 +341,8 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
 
                 text_pk_left_count.setText(praiseChallengeModel.getPCnt());
                 text_pk_right_count.setText(praiseChallengeModel.getBPCnt());
+                text_left_1.setText(praiseChallengeModel.getPCnt());
+                text_right_2.setText(praiseChallengeModel.getBPCnt());
                 text_pk_left_name.setText(StringUtil.showName(praiseChallengeModel.getUserName(),praiseChallengeModel.getMobile()));
                 text_pk_right_name.setText(StringUtil.showName(praiseChallengeModel.getBUserName(),praiseChallengeModel.getBMobile()));
                 String chipType = praiseChallengeModel.getChipType();
