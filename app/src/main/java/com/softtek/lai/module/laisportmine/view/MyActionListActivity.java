@@ -1,6 +1,7 @@
 package com.softtek.lai.module.laisportmine.view;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +14,9 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.act.view.ActActivity;
+import com.softtek.lai.module.group.view.GroupMainActivity;
 import com.softtek.lai.module.laisportmine.adapter.MyActionAdapter;
 import com.softtek.lai.module.laisportmine.adapter.MyPublicWealfareAdapter;
 import com.softtek.lai.module.laisportmine.model.ActionModel;
@@ -20,6 +24,7 @@ import com.softtek.lai.module.laisportmine.model.PublicWewlfModel;
 import com.softtek.lai.module.laisportmine.present.ActionListManager;
 import com.softtek.lai.module.laisportmine.present.DelNoticeOrMeasureManager;
 import com.softtek.lai.module.laisportmine.present.UpdateMsgRTimeManager;
+import com.softtek.lai.module.personalPK.view.PKDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,11 +112,13 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
                 myActionAdapter.notifyDataSetChanged();
             }
         }).create().show();
-        return false;
+        return true;
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+        Intent intent=new Intent(this, ActActivity.class);
+        intent.putExtra("id",actionModelLists.get(position).getActId());
+        startActivity(intent);
     }
 }

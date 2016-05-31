@@ -17,10 +17,12 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.historydate.view.HistoryDataActivity;
+import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.laisportmine.model.RunTeamModel;
 import com.softtek.lai.module.laisportmine.net.MineService;
 import com.softtek.lai.module.laisportmine.present.MyRunTeamManager;
 import com.softtek.lai.module.group.view.JoinGroupActivity;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.sport.view.HistorySportListActivity;
 
 import butterknife.InjectView;
@@ -138,7 +140,10 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
                 switch (status)
                 {
                     case 200:
-                        Intent intent=new Intent(MyInformationActivity.this,JoinGroupActivity.class);
+                        UserModel model=UserInfoModel.getInstance().getUser();
+                        model.setIsJoin("0");
+                        UserInfoModel.getInstance().saveUserCache(model);
+                        Intent intent=new Intent(MyInformationActivity.this,HomeActviity.class);
                         startActivity(intent);
                         break;
                     case 100:

@@ -53,6 +53,10 @@ public class GuideActivity extends BaseActivity implements Runnable{
     //执行token不为空的情况
     private void checks(){
         final String userId=UserInfoModel.getInstance().getUser().getUserid();
+        //删除旧数据
+        String currentDate=DateUtil.weeHours(0);
+        StepUtil.getInstance().deleteOldDate(currentDate,userId);
+        //检查组别
         service.isJoinRunGroup(token, userId,
                 new RequestCallback<ResponseData<StepResponseModel>>() {
                     @Override
@@ -61,13 +65,10 @@ public class GuideActivity extends BaseActivity implements Runnable{
                             long step=data.getData().getTodayStepCnt();
                             long currentStep=StepUtil.getInstance().getCurrentStep(userId);
                             if(step>currentStep){
-                                //删除当天旧数据
-                                String currentDate=DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate();
-                                StepUtil.getInstance().deleteOldDate(currentDate,userId);
                                 //新增新数据
                                 UserStep userStep=new UserStep();
                                 userStep.setAccountId(Long.parseLong(userId));
-                                userStep.setRecordTime(currentDate);
+                                userStep.setRecordTime(DateUtil.getInstance().getCurrentDate());
                                 userStep.setStepCount(step);
                                 StepUtil.getInstance().saveStep(userStep);
                             }
@@ -101,8 +102,8 @@ public class GuideActivity extends BaseActivity implements Runnable{
             startActivity(intent);
             finish();
         }else{
-            //checks();
-            UserModel model=UserInfoModel.getInstance().getUser();
+            checks();
+            /*UserModel model=UserInfoModel.getInstance().getUser();
             if(model==null){
                 UserInfoModel.getInstance().loginOut();//本地退出
                 Intent intent = new Intent(this, LoginActivity.class);
@@ -113,7 +114,7 @@ public class GuideActivity extends BaseActivity implements Runnable{
                 Intent intent = new Intent(this, HomeActviity.class);
                 startActivity(intent);
                 finish();
-            }
+            }*/
         }
     }
 }
