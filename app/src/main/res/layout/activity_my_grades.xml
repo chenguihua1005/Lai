@@ -5,642 +5,735 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context="com.softtek.lai.module.mygrades.view.MyGradesActivity">
-    <include layout="@layout/toolbar"
-        android:id="@+id/toolbar"/>
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
     <ScrollView
-        android:layout_marginTop="50dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp">
+
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
             <LinearLayout
-                android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
+                android:background="@color/white"
+                android:gravity="center_vertical"
                 android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:gravity="center_vertical">
+                android:paddingRight="15dp">
+
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1">
+
                     <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:text="运动步数"
                         android:textColor="#333333"
-                        android:textSize="15sp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:textSize="15sp" />
                 </LinearLayout>
             </LinearLayout>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/chart"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp">
-                </com.github.mikephil.charting.charts.LineChart>
+                    android:layout_height="200dp"></com.github.mikephil.charting.charts.LineChart>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true">
+
                     <Button
                         android:id="@+id/bt_left"
                         android:layout_width="30dp"
                         android:layout_height="40dp"
-                        android:background="@drawable/back_arrow_left"
-                        android:layout_centerVertical="true"/>
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/back_arrow_left" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true">
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true">
+
                     <Button
                         android:id="@+id/bt_right"
                         android:layout_width="30dp"
                         android:layout_height="40dp"
-                        android:background="@drawable/back_arrow_right"
-                        android:layout_centerVertical="true"
                         android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/back_arrow_right"
                         android:visibility="gone" />
                 </LinearLayout>
 
             </RelativeLayout>
+
             <LinearLayout
-                android:background="@color/white"
                 android:layout_width="match_parent"
-                android:layout_height="90dp">
+                android:layout_height="90dp"
+                android:background="@color/white">
+
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="0dp"
+                    android:layout_height="90dp"
                     android:layout_weight="1"
-                    android:layout_height="90dp">
+                    android:orientation="vertical">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
                         android:gravity="center|bottom">
+
                         <TextView
                             android:id="@+id/tv_totalnumber"
-                            android:textColor="#74b92a"
-                            android:textSize="24sp"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:textColor="#74b92a"
+                            android:textSize="24sp" />
+
                         <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:text="步"
                             android:textColor="#74b92a"
-                            android:textSize="12sp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:textSize="12sp" />
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
                         android:gravity="center">
+
                         <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:text="总步数"
                             android:textColor="#666666"
-                            android:textSize="12sp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:textSize="12sp" />
                     </LinearLayout>
                 </LinearLayout>
+
                 <View
-                    android:layout_gravity="center"
                     android:layout_width="1dp"
                     android:layout_height="60dp"
-                    android:background="#f1f1f1"/>
+                    android:layout_gravity="center"
+                    android:background="#f1f1f1" />
+
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="0dp"
+                    android:layout_height="90dp"
                     android:layout_weight="1"
-                    android:layout_height="90dp">
+                    android:orientation="vertical">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
                         android:gravity="center|bottom">
+
                         <TextView
                             android:id="@+id/tv_totalmileage"
-                            android:textColor="#74b92a"
-                            android:textSize="24sp"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:textColor="#74b92a"
+                            android:textSize="24sp" />
+
                         <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:text="公里"
                             android:textColor="#74b92a"
-                            android:textSize="12sp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:textSize="12sp" />
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
                         android:gravity="center">
+
                         <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:text="总公里数"
                             android:textColor="#666666"
-                            android:textSize="12sp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:textSize="12sp" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/ll_dayRank"
-                android:orientation="horizontal"
-                android:background="#f1f1f1"
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
-                android:gravity="center">
+                android:background="#f1f1f1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
-                    android:layout_height="wrap_content">
+                    android:layout_weight="1">
+
                     <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:gravity="center|left"
                         android:text="我的日排名"
                         android:textColor="#333333"
-                        android:textSize="15sp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:textSize="15sp" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center|right"
+                    android:layout_height="wrap_content"
                     android:layout_marginRight="15dp"
-                    android:layout_height="wrap_content">
+                    android:layout_weight="1"
+                    android:gravity="center|right">
+
                     <ImageView
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/arrow"/>
+                        android:src="@drawable/arrow" />
                 </LinearLayout>
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="72dp"
                 android:background="@color/white">
+
                 <LinearLayout
-                    android:gravity="center"
-                    android:orientation="vertical"
                     android:layout_width="0dp"
+                    android:layout_height="72dp"
                     android:layout_weight="1"
-                    android:layout_height="72dp">
+                    android:gravity="center"
+                    android:orientation="vertical">
+
                     <LinearLayout
-                        android:gravity="center|bottom"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_weight="1">
+                        android:layout_weight="1"
+                        android:gravity="center|bottom">
+
                         <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:text="跑团第"
                             android:textColor="#808080"
-                            android:textSize="15sp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:textSize="15sp" />
+
                         <TextView
                             android:id="@+id/tv_Rundayrank"
-                            android:textColor="#74b92a"
-                            android:textSize="15sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_marginLeft="2dp"
                             android:layout_marginRight="2dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:textColor="#74b92a"
+                            android:textSize="15sp" />
+
                         <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:text="名"
                             android:textColor="#808080"
-                            android:textSize="15sp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:textSize="15sp" />
                     </LinearLayout>
-                    <LinearLayout
-                        android:gravity="center"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1">
-                        <TextView
-                            android:text="共"
-                            android:textColor="#808080"
-                            android:textSize="10sp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                        <TextView
-                            android:id="@+id/tv_Rundaypeople"
-                            android:textColor="#808080"
-                            android:textSize="10sp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                        <TextView
-                            android:text="人"
-                            android:textColor="#808080"
-                            android:textSize="10sp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                    </LinearLayout>
-                </LinearLayout>
-                <View
-                    android:layout_gravity="center"
-                    android:layout_width="1dp"
-                    android:layout_height="50dp"
-                    android:background="#f1f1f1"/>
-                <LinearLayout
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="72dp">
 
                     <LinearLayout
-                        android:gravity="center|bottom"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_weight="1">
+                        android:layout_weight="1"
+                        android:gravity="center">
+
                         <TextView
-                            android:text="全国第"
-                            android:textColor="#808080"
-                            android:textSize="15sp"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                        <TextView
-                            android:id="@+id/tv_Nationaldayrank"
-                            android:textColor="#74b92a"
-                            android:textSize="15sp"
-                            android:layout_marginLeft="2dp"
-                            android:layout_marginRight="2dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                        <TextView
-                            android:text="名"
-                            android:textColor="#808080"
-                            android:textSize="15sp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:gravity="center"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1">
-                        <TextView
+                            android:layout_height="wrap_content"
                             android:text="共"
                             android:textColor="#808080"
-                            android:textSize="10sp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:textSize="10sp" />
+
                         <TextView
-                            android:id="@+id/tv_Nationaldaypeople"
+                            android:id="@+id/tv_Rundaypeople"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:textColor="#808080"
-                            android:textSize="10sp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:textSize="10sp" />
+
                         <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:text="人"
                             android:textColor="#808080"
-                            android:textSize="10sp"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:background="#f1f1f1" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="72dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center|bottom">
+
+                        <TextView
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:text="全国第"
+                            android:textColor="#808080"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/tv_Nationaldayrank"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="2dp"
+                            android:layout_marginRight="2dp"
+                            android:textColor="#74b92a"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="名"
+                            android:textColor="#808080"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="共"
+                            android:textColor="#808080"
+                            android:textSize="10sp" />
+
+                        <TextView
+                            android:id="@+id/tv_Nationaldaypeople"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#808080"
+                            android:textSize="10sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="人"
+                            android:textColor="#808080"
+                            android:textSize="10sp" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/ll_weekRank"
-                android:orientation="horizontal"
-                android:background="#f1f1f1"
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
-                android:gravity="center">
+                android:background="#f1f1f1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
-                    android:layout_height="wrap_content">
+                    android:layout_weight="1">
+
                     <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:text="我的周排名"
                         android:textColor="#333333"
-                        android:textSize="15sp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:textSize="15sp" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center|right"
+                    android:layout_height="wrap_content"
                     android:layout_marginRight="15dp"
-                    android:layout_height="wrap_content">
+                    android:layout_weight="1"
+                    android:gravity="center|right">
+
                     <ImageView
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/arrow"/>
+                        android:src="@drawable/arrow" />
                 </LinearLayout>
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="72dp"
                 android:background="@color/white">
+
                 <LinearLayout
-                    android:gravity="center"
-                    android:orientation="vertical"
                     android:layout_width="0dp"
+                    android:layout_height="72dp"
                     android:layout_weight="1"
-                    android:layout_height="72dp">
-                    <LinearLayout
-                        android:gravity="center|bottom"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1">
-                        <TextView
-                            android:text="跑团第"
-                            android:textColor="#808080"
-                            android:textSize="15sp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                        <TextView
-                            android:id="@+id/tv_Runweekrank"
-                            android:textColor="#74b92a"
-                            android:textSize="15sp"
-                            android:layout_marginLeft="2dp"
-                            android:layout_marginRight="2dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                        <TextView
-                            android:text="名"
-                            android:textColor="#808080"
-                            android:textSize="15sp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:gravity="center"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1">
-                        <TextView
-                            android:text="共"
-                            android:textColor="#808080"
-                            android:textSize="10sp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                        <TextView
-                            android:id="@+id/tv_Runweekpeople"
-                            android:textColor="#808080"
-                            android:textSize="10sp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                        <TextView
-                            android:text="人"
-                            android:textColor="#808080"
-                            android:textSize="10sp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                    </LinearLayout>
-                </LinearLayout>
-                <View
-                    android:layout_gravity="center"
-                    android:layout_width="1dp"
-                    android:layout_height="50dp"
-                    android:background="#f1f1f1"/>
-                <LinearLayout
                     android:gravity="center"
-                    android:orientation="vertical"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="72dp">
+                    android:orientation="vertical">
 
                     <LinearLayout
-                        android:gravity="center|bottom"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_weight="1">
+                        android:layout_weight="1"
+                        android:gravity="center|bottom">
+
                         <TextView
-                            android:text="全国第"
-                            android:textColor="#808080"
-                            android:textSize="15sp"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:text="跑团第"
+                            android:textColor="#808080"
+                            android:textSize="15sp" />
+
                         <TextView
-                            android:id="@+id/tv_Nationalweekrank"
-                            android:textColor="#74b92a"
-                            android:textSize="15sp"
+                            android:id="@+id/tv_Runweekrank"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_marginLeft="2dp"
                             android:layout_marginRight="2dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:textColor="#74b92a"
+                            android:textSize="15sp" />
+
                         <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:text="名"
                             android:textColor="#808080"
-                            android:textSize="15sp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:textSize="15sp" />
                     </LinearLayout>
+
                     <LinearLayout
-                        android:gravity="center"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_weight="1">
+                        android:layout_weight="1"
+                        android:gravity="center">
+
                         <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:text="共"
                             android:textColor="#808080"
-                            android:textSize="10sp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:textSize="10sp" />
+
                         <TextView
-                            android:id="@+id/tv_Nationalweekpeople"
+                            android:id="@+id/tv_Runweekpeople"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:textColor="#808080"
-                            android:textSize="10sp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:textSize="10sp" />
+
                         <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:text="人"
                             android:textColor="#808080"
-                            android:textSize="10sp"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:background="#f1f1f1" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="72dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center|bottom">
+
+                        <TextView
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:text="全国第"
+                            android:textColor="#808080"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/tv_Nationalweekrank"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="2dp"
+                            android:layout_marginRight="2dp"
+                            android:textColor="#74b92a"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="名"
+                            android:textColor="#808080"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="共"
+                            android:textColor="#808080"
+                            android:textSize="10sp" />
+
+                        <TextView
+                            android:id="@+id/tv_Nationalweekpeople"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#808080"
+                            android:textSize="10sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="人"
+                            android:textColor="#808080"
+                            android:textSize="10sp" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/ll_grade"
-                android:orientation="horizontal"
-                android:background="#f1f1f1"
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
-                android:gravity="center">
+                android:background="#f1f1f1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
-                    android:layout_height="wrap_content">
+                    android:layout_weight="1">
+
                     <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:text="我的勋章（"
                         android:textColor="#333333"
-                        android:textSize="15sp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:textSize="15sp" />
+
                     <TextView
                         android:id="@+id/tv_medalnumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:gravity="center|left"
                         android:text=""
                         android:textColor="#333333"
-                        android:textSize="15sp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:textSize="15sp" />
+
                     <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:gravity="center|left"
                         android:text="）"
                         android:textColor="#333333"
-                        android:textSize="15sp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:textSize="15sp" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center|right"
+                    android:layout_height="wrap_content"
                     android:layout_marginRight="15dp"
-                    android:layout_height="wrap_content">
+                    android:layout_weight="1"
+                    android:gravity="center|right">
+
                     <ImageView
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/arrow"/>
+                        android:src="@drawable/arrow" />
                 </LinearLayout>
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/ll_honor"
-                android:visibility="visible"
-                android:background="@color/white"
                 android:layout_width="match_parent"
-                android:layout_height="120dp">
+                android:layout_height="120dp"
+                android:background="@color/white"
+                android:visibility="visible">
+
                 <RelativeLayout
-                    android:gravity="center"
-                    android:layout_weight="1"
                     android:layout_width="0dp"
-                    android:layout_height="120dp">
+                    android:layout_height="120dp"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
                     <LinearLayout
-                        android:orientation="vertical"
+                        android:id="@+id/ll_honor1"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/ll_honor1"
-                        android:visibility="visible"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+
                         <ImageView
                             android:id="@+id/img_honor1"
                             android:layout_width="wrap_content"
                             android:layout_height="60dp"
-                            android:scaleType="fitCenter"
-                            android:src="@drawable/img_medal"/>
+                            android:scaleType="fitCenter" />
+
                         <TextView
                             android:id="@+id/tv_str1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_marginTop="7dp"
                             android:textColor="#666666"
-                            android:textSize="10sp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:textSize="10sp" />
                     </LinearLayout>
 
                     <LinearLayout
-                        android:visibility="visible"
-                        android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical"
                         android:paddingTop="40dp"
-                        android:gravity="center">
+                        android:visibility="visible">
+
                         <TextView
-                            android:textColor="#000"
-                            android:textSize="12sp"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:textColor="#000"
+                            android:textSize="12sp" />
                     </LinearLayout>
                 </RelativeLayout>
+
                 <RelativeLayout
-                    android:gravity="center"
-                    android:layout_weight="1"
                     android:layout_width="0dp"
-                    android:layout_height="120dp">
+                    android:layout_height="120dp"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
                     <LinearLayout
-                        android:orientation="vertical"
+                        android:id="@+id/ll_honor2"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/ll_honor2"
-                        android:visibility="visible"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+
                         <ImageView
                             android:id="@+id/img_honor2"
                             android:layout_width="wrap_content"
                             android:layout_height="60dp"
-                            android:scaleType="fitCenter"
-                            android:src="@drawable/img_medal"/>
+                            android:scaleType="fitCenter" />
+
                         <TextView
                             android:id="@+id/tv_str2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_marginTop="7dp"
                             android:textColor="#666666"
-                            android:textSize="10sp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:textSize="10sp" />
                     </LinearLayout>
 
                     <LinearLayout
-                        android:visibility="visible"
-                        android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical"
                         android:paddingTop="40dp"
-                        android:gravity="center">
+                        android:visibility="visible">
+
                         <TextView
-                            android:textColor="#000"
-                            android:textSize="12sp"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:textColor="#000"
+                            android:textSize="12sp" />
                     </LinearLayout>
                 </RelativeLayout>
+
                 <RelativeLayout
-                    android:gravity="center"
-                    android:layout_weight="1"
                     android:layout_width="0dp"
-                    android:layout_height="120dp">
+                    android:layout_height="120dp"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
                     <LinearLayout
-                        android:orientation="vertical"
+                        android:id="@+id/ll_honor3"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/ll_honor3"
-                        android:visibility="visible"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+
                         <ImageView
                             android:id="@+id/img_honor3"
                             android:layout_width="wrap_content"
                             android:layout_height="60dp"
-                            android:scaleType="fitCenter"
-                            android:src="@drawable/img_medal"/>
+                            android:scaleType="fitCenter" />
+
                         <TextView
                             android:id="@+id/tv_str3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_marginTop="7dp"
                             android:textColor="#666666"
-                            android:textSize="10sp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:textSize="10sp" />
                     </LinearLayout>
 
                     <LinearLayout
-                        android:visibility="visible"
-                        android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical"
                         android:paddingTop="40dp"
-                        android:gravity="center">
+                        android:visibility="visible">
+
                         <TextView
-                            android:textColor="#000"
-                            android:textSize="12sp"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:textColor="#000"
+                            android:textSize="12sp" />
                     </LinearLayout>
                 </RelativeLayout>
             </LinearLayout>
