@@ -23,6 +23,7 @@ import com.softtek.lai.module.act.view.ActActivity;
 import com.softtek.lai.module.sport.adapter.HistorySportAdapter;
 import com.softtek.lai.module.sport.model.HistorySportModel;
 import com.softtek.lai.module.sport.presenter.SportManager;
+import com.softtek.lai.utils.WheatherUtil;
 
 import java.util.ArrayList;
 import java.util.List;
