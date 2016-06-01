@@ -559,7 +559,8 @@
         </receiver>
 
         <activity android:name=".module.mygrades.view.MyXuZhangActivity" />
-        <activity android:name=".module.sport.view.RunSportActivity"></activity>
+        <activity android:name=".module.sport.view.RunSportActivity"
+            android:hardwareAccelerated="true"></activity>
 
 
         <!-- 定位需要的服务 使用2.0的定位需要加上这个 -->

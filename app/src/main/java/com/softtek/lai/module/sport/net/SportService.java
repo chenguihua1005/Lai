@@ -4,13 +4,16 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.act.model.ActDetailModel;
 import com.softtek.lai.module.act.model.ActivityModel;
 import com.softtek.lai.module.sport.model.HistorySportModel;
+import com.softtek.lai.module.sport.model.SportData;
 import com.softtek.lai.module.sport.model.TotalSportModel;
 import com.softtek.lai.utils.RequestCallback;
 
 import java.util.List;
 
+import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.Header;
+import retrofit.http.POST;
 import retrofit.http.Query;
 
 /**
@@ -29,5 +32,10 @@ public interface SportService {
     @GET("/StepCount/GetHistoryTotalMovement")
     void getHistoryTotalMovement(@Header(TOKEN) String token,
                          RequestCallback<ResponseData<TotalSportModel>> callback);
+
+    @POST("/StepCount/SaveMovement")
+    void submitSportData(@Header(TOKEN) String token,
+                         @Body SportData data,
+                         RequestCallback<ResponseData> callback);
 
 }

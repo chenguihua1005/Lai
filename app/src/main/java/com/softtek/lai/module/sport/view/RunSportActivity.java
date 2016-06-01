@@ -3,7 +3,7 @@ package com.softtek.lai.module.sport.view;
 import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.animation.ValueAnimator;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
@@ -15,17 +15,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.OvershootInterpolator;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
@@ -39,11 +37,11 @@ import com.amap.api.maps2d.MapView;
 import com.amap.api.maps2d.model.BitmapDescriptorFactory;
 import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.MyLocationStyle;
-import com.amap.api.maps2d.model.Polyline;
 import com.amap.api.maps2d.model.PolylineOptions;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.JCountDownTimer;
 
 import java.util.ArrayList;
@@ -100,7 +98,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
     RunSportCountDown countDown;
 
     AMap aMap;
-    Polyline polyline;//画线专用
+    //Polyline polyline;//画线专用
     PolylineOptions polylineOptions;
     //定位服务类。此类提供单次定位、持续定位、地理围栏、最后位置相关功能
     private AMapLocationClient aMapLocationClient;
@@ -148,9 +146,9 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
         //设置是否强制刷新WIFI，默认为强制刷新
         aMapLocationClientOption.setWifiActiveScan(true);
         //设置是否允许模拟位置,默认为false，不允许模拟位置
-        aMapLocationClientOption.setMockEnable(false);
+        aMapLocationClientOption.setMockEnable(true);
         //设置定位间隔,单位毫秒,默认为2000ms
-        aMapLocationClientOption.setInterval(5000);
+        aMapLocationClientOption.setInterval(2000);
         //给定位客户端对象设置定位参数
         aMapLocationClient.setLocationOption(aMapLocationClientOption);
         //启动定位
@@ -161,18 +159,20 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
         polylineOptions.width(10);
         polylineOptions.color(Color.RED);
         polylineOptions.zIndex(3);
-        polyline = aMap.addPolyline(polylineOptions);
+        //polyline = aMap.addPolyline(polylineOptions);
     }
     LocationManager locationManager;
     @Override
     protected void initDatas() {
         tv_title.setText("运动");
+        wapper=new LinearLayoutWapper(ll_panel);
         locationManager= (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             locationManager.addGpsStatusListener(this);
         }
-       /* countDown=new RunSportCountDown(1000,1000);
-        countDown.start();*/
+
+        countDown=new RunSportCountDown(60000,1000);
+        countDown.start();
     }
 
     @Override
@@ -209,7 +209,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
                 //当坐标改变之后开始添加标记 画线
                 Log.i("获取位置");
                 LatLng latLng=new LatLng(aMapLocation.getLatitude(),aMapLocation.getLongitude());
-                aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,aMap.getMaxZoomLevel()-2));
+                aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16.3f));
                 if(coordinates.isEmpty()){
                     coordinates.add(latLng);
                     polylineOptions.add(latLng);
@@ -222,15 +222,11 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
                 }
 
                 aMap.addPolyline(polylineOptions);
-                aMap.invalidate();
             } else {
-                /*Toast.makeText(this,"定位失败, ErrCode:"
-                        + aMapLocation.getErrorCode() + ", errInfo:"
-                        + aMapLocation.getErrorInfo(),Toast.LENGTH_SHORT).show();*/
                 //显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
-                Log.i("ggx","定位失败, ErrCode:"
+                /*Log.i("ggx","定位失败, ErrCode:"
                         + aMapLocation.getErrorCode() + ", errInfo:"
-                        + aMapLocation.getErrorInfo());
+                        + aMapLocation.getErrorInfo());*/
             }
         }
     }
@@ -247,7 +243,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
     int second;
     int minute;
     int hour;
-
+    private LinearLayoutWapper wapper;
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -274,43 +270,43 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
                }
                 break;
             case R.id.iv_stop:
-
+                
                 break;
             case R.id.cb_control:
                 //面板控制动画
-                int height=ll_panel.getHeight();
+                int stp= DisplayUtil.dip2px(this,270);
+                int enp=DisplayUtil.dip2px(this,100);
                 if(cb_control.isChecked()){
-                    cb_control.setChecked(true);
                     //收起
-                    ValueAnimator valueAnimator=ValueAnimator.ofInt(height,250);
-                    valueAnimator.setRepeatCount(0);
-                    valueAnimator.setDuration(500);
-                    valueAnimator.setInterpolator(new FastOutLinearInInterpolator());
-                    valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    ObjectAnimator animator=ObjectAnimator.ofInt(wapper,"translateY",stp,enp)
+                            .setDuration(400);
+                    animator.setInterpolator(new OvershootInterpolator());
+                    animator.addListener(new AnimatorListenerAdapter() {
                         @Override
-                        public void onAnimationUpdate(ValueAnimator animation) {
-                            int value= (int) animation.getAnimatedValue();
-                            ViewGroup.LayoutParams params=ll_panel.getLayoutParams();
-                            params.height=value;
-                            ll_panel.setLayoutParams(params);
-
+                        public void onAnimationEnd(Animator animation) {
+                            cb_control.setChecked(true);
+                            ll_content1.setVisibility(View.GONE);
+                            ll_content2.setVisibility(View.GONE);
                         }
+
                     });
-                    valueAnimator.addListener(new AnimatorListenerAdapter() {
+                    animator.start();
+
+                }else{
+                    //展开
+                    ObjectAnimator animator=ObjectAnimator.ofInt(wapper,"translateY",enp,stp)
+                            .setDuration(400);
+                    animator.setInterpolator(new DecelerateInterpolator(0.5f));
+                    animator.addListener(new AnimatorListenerAdapter() {
                         @Override
                         public void onAnimationStart(Animator animation) {
-                            ll_content1.setVisibility(View.GONE);
-                            ll_content2.setVisibility(View.INVISIBLE);
+                            cb_control.setChecked(false);
+                            ll_content1.setVisibility(View.VISIBLE);
+                            ll_content2.setVisibility(View.VISIBLE);
                         }
-
                     });
-                    valueAnimator.start();
-                }else{
-                    cb_control.setChecked(false);
-                    //展开
+                    animator.start();
                 }
-
-                //ObjectAnimator.ofInt(ll_panel,"")
                 break;
         }
     }
@@ -357,6 +353,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
         }
     }
 
+    long time=0;
     private class RunSportCountDown extends JCountDownTimer{
 
         /**
@@ -372,32 +369,30 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
 
         @Override
         public void onTick(long millisUntilFinished) {
-
+            Log.i("定时到了"+(60-millisUntilFinished/1000));
+            second= (int) (60-millisUntilFinished/1000);
+            time++;
+            String show=(hour<10?"0"+hour:String.valueOf(hour))
+                    +":"+(minute<10?"0"+minute:String.valueOf(minute))
+                    +":"+(second<10?"0"+second:String.valueOf(second));
+            if(tv_clock!=null)
+                tv_clock.setText(show);
         }
 
 
         @Override
         public void onFinish() {
             //当倒计时结束刷新时间
-            second++;
-            if(second==60){
-                second=0;
-                minute++;
-                if(minute==60){
-                    minute=0;
-                    hour++;
-                    if(hour==60){
-                        hour=0;
-                    }
+            minute++;
+            if(minute==60){
+                minute=0;
+                hour++;
+                if(hour==60){
+                    hour=0;
                 }
             }
-            String time=(hour<10?"0"+hour:String.valueOf(hour))
-                    +":"+(minute<10?"0"+minute:String.valueOf(minute))
-                    +":"+(second<10?"0"+second:String.valueOf(second));
-            if(tv_clock!=null)
-                tv_clock.setText(time);
             //重新启动
-            countDown=new RunSportCountDown(6000,1000);
+            countDown=new RunSportCountDown(60000,1000);
             countDown.start();
         }
     }
@@ -436,5 +431,20 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
             }
         });
         dialog.show();
+    }
+
+    private class LinearLayoutWapper{
+        private View target;
+
+        public LinearLayoutWapper(View target){
+            this.target=target;
+        }
+
+        public void setTranslateY(int value){
+            ViewGroup.LayoutParams params=target.getLayoutParams();
+            params.height=value;
+            target.setLayoutParams(params);
+        }
+
     }
 }
