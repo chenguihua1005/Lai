@@ -150,7 +150,14 @@ public class SelectTimeActivity extends BaseActivity implements View.OnClickList
                 break;
             case R.id.fl_right:
                 //保存
-                validateLife.validate();
+                //判断开始时间和结束时间的大小
+                String start=tv_start.getText().toString();
+                String end=tv_end.getText().toString();
+                if(DateUtil.getInstance("yyyy年MM月dd日").isGt(start,end)){
+                    new AlertDialog.Builder(this).setMessage("开始日期不能大于结束时期").create().show();
+                }else{
+                    validateLife.validate();
+                }
                 break;
             case R.id.rl_start:
                 showDateDialog(true);

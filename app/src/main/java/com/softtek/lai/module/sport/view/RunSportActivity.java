@@ -2,6 +2,7 @@ package com.softtek.lai.module.sport.view;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.GpsSatellite;
@@ -11,6 +12,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -90,6 +93,12 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
     private List<LatLng> coordinates = new ArrayList<>();//坐标集合
 
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mapView.onCreate(savedInstanceState);
+    }
+
+    @Override
     protected void initViews() {
         ll_left.setOnClickListener(this);
         iv_pause.setOnClickListener(this);
@@ -104,7 +113,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
         locationStyle.strokeColor(Color.BLACK);// 设置圆形的边框颜色
         aMap.setMyLocationStyle(locationStyle);
         aMap.setLocationSource(this);//设置定位监听
-        aMap.getUiSettings().setMyLocationButtonEnabled(true);//设置默认定位按钮是否显示
+        aMap.getUiSettings().setMyLocationButtonEnabled(false);//设置默认定位按钮是否显示
         aMap.getUiSettings().setLogoPosition(-1);
         aMap.setMyLocationEnabled(true);
 
@@ -143,7 +152,6 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
         locationManager= (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             locationManager.addGpsStatusListener(this);
-            return;
         }
         countDown=new RunSportCountDown(1000,1000);
         countDown.start();
@@ -181,9 +189,9 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
             listener.onLocationChanged(aMapLocation);
             if (aMapLocation.getErrorCode() == 0) {
                 //当坐标改变之后开始添加标记 画线
+                Log.i("获取位置");
                 LatLng latLng=new LatLng(aMapLocation.getLatitude(),aMapLocation.getLongitude());
-                aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,aMap.getMaxZoomLevel()-2)
-                ,2000,null);
+                aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,aMap.getMaxZoomLevel()-2));
                 if(coordinates.isEmpty()){
                     coordinates.add(latLng);
                     polylineOptions.add(latLng);
@@ -226,7 +234,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ll_left:
-
+                doBack();
                 break;
             case R.id.iv_pause:
                 iv_pause.setEnabled(false);
@@ -261,7 +269,8 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
         }
         GpsStatus status = locationManager.getGpsStatus(null); //取当前状态
         if (status == null) {//卫星数量为0
-            iv_gps.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.gps_empty));
+            if (iv_gps!=null)
+                iv_gps.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.gps_empty));
         } else if (event == GpsStatus.GPS_EVENT_SATELLITE_STATUS) {
             int maxSatellites = status.getMaxSatellites();
             Iterator<GpsSatellite> it = status.getSatellites().iterator();
@@ -270,14 +279,27 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
                 count++;
             }
             if (count >= maxSatellites / 2) {//如果卫星数量大于最大卫星数量的一半则表示很强
-                iv_gps.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.gps_three));
+                if(iv_gps!=null)
+                    iv_gps.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.gps_three));
             } else if (count >= maxSatellites / 4) {
-                iv_gps.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.gps_two));
+                if(iv_gps!=null)
+                    iv_gps.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.gps_two));
             } else if (count >= 1) {
-                iv_gps.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.gps_one));
+                if(iv_gps!=null)
+                    iv_gps.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.gps_one));
             } else {
-                iv_gps.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.gps_empty));
+                if(iv_gps!=null)
+                    iv_gps.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.gps_empty));
             }
+        }else if(event==GpsStatus.GPS_EVENT_STARTED)
+        {
+            //定位启动
+            if(iv_gps!=null)
+                iv_gps.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.gps_one));
+        }
+        else if(event==GpsStatus.GPS_EVENT_STOPPED)
+        {
+            //定位结束
         }
     }
 
@@ -324,5 +346,41 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
             countDown=new RunSportCountDown(1000,1000);
             countDown.start();
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN){
+            doBack();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private void doBack(){
+        if(countDown!=null){
+            countDown.pause();
+        }
+        AlertDialog dialog=new AlertDialog.Builder(this).setMessage("退出将自动丢失本次跑步数据")
+                .setPositiveButton("放弃", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(countDown!=null)countDown.cancel();
+                        finish();
+                    }
+                })
+                .setNegativeButton("继续", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(countDown!=null)countDown.reStart();
+                    }
+                }).create();
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                if(countDown!=null)countDown.reStart();
+            }
+        });
+        dialog.show();
     }
 }
