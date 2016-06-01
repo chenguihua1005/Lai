@@ -4,6 +4,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.act.model.ActDetailModel;
 import com.softtek.lai.module.act.model.ActivityModel;
 import com.softtek.lai.module.sport.model.HistorySportModel;
+import com.softtek.lai.module.sport.model.TotalSportModel;
 import com.softtek.lai.utils.RequestCallback;
 
 import java.util.List;
@@ -23,5 +24,10 @@ public interface SportService {
     @GET("/StepCount/GetMovementList")
     void getMovementList(@Header(TOKEN) String token,
                          RequestCallback<ResponseData<List<HistorySportModel>>> callback);
+
+    //运动历史统计
+    @GET("/StepCount/GetHistoryTotalMovement")
+    void getHistoryTotalMovement(@Header(TOKEN) String token,
+                         RequestCallback<ResponseData<TotalSportModel>> callback);
 
 }
