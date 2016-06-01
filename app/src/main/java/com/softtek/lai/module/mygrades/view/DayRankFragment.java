@@ -127,11 +127,13 @@ public class DayRankFragment extends BaseFragment {
             orderDataModelList.clear();
             getCurrentDateOrder(1);
             rankAdapter.updateData(orderDataModelList);
+            Log.i("","orderDataModelList----------------->:"+orderDataModelList.toString());
         }
         if (i==0){
             orderDataModelList.clear();
             getCurrentDateOrder(0);
             rankAdapter.updateData(orderDataModelList);
+            Log.i("","orderDataModelList----------------->:"+orderDataModelList.toString());
         }
 
     }

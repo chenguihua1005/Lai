@@ -98,7 +98,7 @@ public class WeekRankFragment extends BaseFragment {
         }
         if (i==1){
             orderDataModelList.clear();
-            getCurrentWeekOrder(1);//18362889960  15000224800
+            getCurrentWeekOrder(1);
             rankAdapter.updateData(orderDataModelList);
         }
     }
