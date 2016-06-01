@@ -77,13 +77,13 @@ public class NetErrorHandler implements IApiErrorHandler {
                         if(builder!=null||(LaiApplication.getInstance().getContext() instanceof LoginActivity)){
                             return;
                         }
-                        UserInfoModel.getInstance().loginOut();
                         builder=new AlertDialog.Builder(LaiApplication.getInstance().getContext())
                                 .setTitle("温馨提示").setMessage("您的帐号已经在其他设备登录，请重新登录后再试。")
                                 .setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         builder=null;
+                                        UserInfoModel.getInstance().loginOut();
                                         Intent intent=new Intent(LaiApplication.getInstance(), LoginActivity.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -97,6 +97,7 @@ public class NetErrorHandler implements IApiErrorHandler {
                                 builder=null;
                             }
                         });
+
                         builder.create().show();
                         break;
                     case 403:

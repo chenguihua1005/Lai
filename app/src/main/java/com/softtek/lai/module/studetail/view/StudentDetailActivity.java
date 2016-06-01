@@ -71,6 +71,8 @@ public class StudentDetailActivity extends BaseActivity implements View.OnClickL
     ViewPager tabContent;
     @InjectView(R.id.ll)
     LinearLayout ll_log;
+    @InjectView(R.id.tv_loss_after_tip)
+    TextView tv_loss_after_tip;
 
     private IMemberInfopresenter memberInfopresenter;
     private List<Fragment> fragmentList=new ArrayList<>();
@@ -131,7 +133,13 @@ public class StudentDetailActivity extends BaseActivity implements View.OnClickL
         tv_totle_log.setText(memberModel.getLogCount() + "篇");
         tv_totle_lw.setText(Float.parseFloat(StringUtils.isEmpty(memberModel.getLossAfter())?"0":memberModel.getLossAfter())==0?"0斤":Float.parseFloat(memberModel.getLossWeight())+"斤");
         tv_loss_before.setText(StringUtil.getFloatValue(memberModel.getLossBefore())+"斤");
-        tv_loss_after.setText(StringUtil.getFloat(memberModel.getLossAfter())==0?"尚未复测":StringUtil.getFloat(memberModel.getLossAfter())+"斤");
+        float lossAfter=StringUtil.getFloat(memberModel.getLossAfter());
+        tv_loss_after.setText(lossAfter==0?"尚未复测":StringUtil.getFloat(memberModel.getLossAfter())+"斤");
+        if(lossAfter==0){
+            tv_loss_after_tip.setVisibility(View.GONE);
+        }else{
+            tv_loss_after_tip.setVisibility(View.VISIBLE);
+        }
         if(!StringUtils.isEmpty(memberModel.getPhoto())){
             Picasso.with(this).load(memberModel.getPhoto()).fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(civ_header_image);
         }

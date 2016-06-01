@@ -16,6 +16,7 @@ import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.SoftInputUtil;
 
 import butterknife.InjectView;
@@ -52,7 +53,7 @@ public class AboutMeActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initDatas() {
-        tv_version.setText("V "+PropertiesManager.get("appversion"));
+        tv_version.setText("V "+ DisplayUtil.getAppVersionName(this));
     }
 
     @Override

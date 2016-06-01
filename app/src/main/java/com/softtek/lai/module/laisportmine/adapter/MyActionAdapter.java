@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.module.laisportmine.model.ActionModel;
 import com.softtek.lai.module.laisportmine.model.PublicWewlfModel;
+import com.softtek.lai.utils.DateUtil;
 
 import java.util.List;
 
@@ -63,7 +64,8 @@ public class MyActionAdapter extends BaseAdapter {
             viewHolder=(ViewHolder)convertView.getTag();
         }
         ActionModel actionModel=actionModelList.get(position);
-        viewHolder.tv_action_date.setText((actionModel.getSendTime()));
+        String date= DateUtil.getInstance().convertDateStr(actionModel.getSendTime(),"yyyy年MM月dd日");
+        viewHolder.tv_action_date.setText(date);
         viewHolder.tv_action_content.setText(actionModel.getContent());
         viewHolder.tv_action_name.setText(actionModel.getActTitle());
 

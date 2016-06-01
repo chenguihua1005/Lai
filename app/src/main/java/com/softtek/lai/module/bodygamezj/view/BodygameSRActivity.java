@@ -28,6 +28,7 @@ import com.softtek.lai.module.counselor.view.GameActivity;
 import com.softtek.lai.module.counselor.view.SRHonorActivity;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.jingdu.view.ZhuJiaoJingduActivity;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.message.presenter.IMessagePresenter;
 import com.softtek.lai.module.message.presenter.MessageImpl;
@@ -149,6 +150,10 @@ public class BodygameSRActivity extends BaseActivity implements View.OnClickList
     @Override
     public void onResume() {
         super.onResume();
+        UserModel model=UserInfoModel.getInstance().getUser();
+        if(model==null){
+            return;
+        }
         String userrole = UserInfoModel.getInstance().getUser().getUserrole();
         if (String.valueOf(Constants.VR).equals(userrole)) {
 
