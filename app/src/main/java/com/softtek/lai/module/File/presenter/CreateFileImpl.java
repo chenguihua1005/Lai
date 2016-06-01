@@ -8,7 +8,6 @@ package com.softtek.lai.module.File.presenter;
 import android.content.Context;
 import android.content.Intent;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.File.model.FileModel;
@@ -55,10 +54,10 @@ public class CreateFileImpl implements ICreateFilepresenter {
                     }
 
                     case 100:
-                        Util.toastMsg("创建档案失败");
+                        Util.toastMsg(fileResponseData.getMsg());
                         break;
                     case 101:
-                        Util.toastMsg("该昵称不合法");
+                        Util.toastMsg(fileResponseData.getMsg());
                 }
 
             }

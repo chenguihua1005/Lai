@@ -18,7 +18,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
@@ -39,8 +38,6 @@ import com.softtek.lai.module.bodygamest.present.StudentImpl;
 import com.softtek.lai.module.bodygamest.view.BodyGamePCActivity;
 import com.softtek.lai.module.bodygameyk.view.BodygameYkActivity;
 import com.softtek.lai.module.bodygamezj.view.BodygameSRActivity;
-import com.softtek.lai.module.group.view.GroupMainActivity;
-import com.softtek.lai.module.group.view.JoinGroupActivity;
 import com.softtek.lai.module.home.adapter.FragementAdapter;
 import com.softtek.lai.module.home.adapter.ModelAdapter;
 import com.softtek.lai.module.home.eventModel.HomeEvent;
@@ -52,12 +49,12 @@ import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.message.presenter.IMessagePresenter;
 import com.softtek.lai.module.message.presenter.MessageImpl;
 import com.softtek.lai.module.message.view.MessageActivity;
+import com.softtek.lai.module.sport.view.RunSportActivity;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CustomGridView;
 import com.softtek.lai.widgets.RollHeaderView;
 
-import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -76,8 +73,7 @@ import zilla.libcore.util.Util;
  */
 @InjectLayout(R.layout.fragment_home)
 public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetChangedListener, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener, View.OnClickListener/*, SportGroupManager.IsJoinRunGroupManagerCallBack*/ {
-    @InjectView(R.id.toolbar)
-    Toolbar toolbar;
+
     @InjectView(R.id.rhv_adv)
     RollHeaderView rhv_adv;
 
@@ -267,6 +263,10 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
      */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        startActivity(new Intent(getContext(), RunSportActivity.class));
+        if(1==1){
+            return;
+        }
         UserInfoModel userInfoModel = UserInfoModel.getInstance();
         int role = Integer.parseInt(userInfoModel.getUser().getUserrole());
         ////判断当前用户是否拥有此按钮权限
@@ -299,7 +299,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                 case Constants.VR:
                     //游客若没有此功能，可能是未登录，提示请先登录
                     information_dialog = new AlertDialog.Builder(getContext());
-                    information_dialog.setTitle("您当前是游客身份，请先登录后再试").setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
+                    information_dialog.setTitle("您当前是游客身份，请登录后再试").setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             startActivity(new Intent(getContext(), LoginActivity.class));
@@ -347,7 +347,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         if (role == Constants.VR) {
             //提示用户让他注册或者直接进入2个功能的踢馆赛模块
             information_dialog = new AlertDialog.Builder(getContext());
-            information_dialog.setTitle("您当前处于游客身份，需要登录认证").setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
+            information_dialog.setTitle("您当前是游客身份，请登录后再试").setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     Intent login = new Intent(getContext(), LoginActivity.class);
@@ -425,7 +425,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                     //提示用户让他登录或者直接进入2个功能的踢馆赛模块
                     AlertDialog.Builder information_dialog = null;
                     information_dialog = new AlertDialog.Builder(getContext());
-                    information_dialog.setTitle("您当前处于游客身份，需要登录认证").setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
+                    information_dialog.setTitle("您当前是游客身份，请登录后再试").setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Intent login = new Intent(getContext(), LoginActivity.class);

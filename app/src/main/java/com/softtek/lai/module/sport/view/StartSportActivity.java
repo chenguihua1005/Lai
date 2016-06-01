@@ -13,22 +13,16 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
-import android.view.animation.AnimationUtils;
 import android.view.animation.ScaleAnimation;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
-import com.softtek.lai.module.login.view.LoginActivity;
-import com.softtek.lai.module.sport.adapter.HistorySportAdapter;
 import com.softtek.lai.module.sport.model.HistorySportModel;
-import com.softtek.lai.module.sport.presenter.SportManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,9 +30,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import butterknife.InjectView;
-import zilla.libcore.lifecircle.exit.AppManager;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_start_sport)
 public class StartSportActivity extends BaseActivity implements View.OnClickListener, BaseFragment.OnFragmentInteractionListener {
