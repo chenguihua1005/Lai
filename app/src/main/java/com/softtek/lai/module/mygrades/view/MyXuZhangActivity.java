@@ -11,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +35,12 @@ public class MyXuZhangActivity extends BaseActivity implements XunZhangListManag
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
+    @InjectView(R.id.tv_title)
+            TextView tv_title;
+    @InjectView(R.id.scroll_content)
+    ScrollView scroll_content;
+    @InjectView(R.id.tv_huode)
+            TextView tv_huode;
     XuZhangAdapter xuZhangAdapter;
     XuZhangNullAdapter xuZhangNullAdapter;
     XunZhangListManager xunZhangListManager;
@@ -48,15 +55,16 @@ public class MyXuZhangActivity extends BaseActivity implements XunZhangListManag
     private List<XunZhangModel> xunZhangModelList=new ArrayList<XunZhangModel>();
     private List<XunZhangModel> xunZhangModelList1=new ArrayList<XunZhangModel>();
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
-    }
 
     @Override
     protected void initViews() {
+        tv_title.setText("我的勋章");
         ll_left.setOnClickListener(this);
+        tv_huode.setFocusable(true);
+        tv_huode.setFocusableInTouchMode(true);
+        tv_huode.requestFocus();
+        tv_huode.findFocus();
     }
 
     @Override
@@ -496,15 +504,20 @@ public class MyXuZhangActivity extends BaseActivity implements XunZhangListManag
 
 
             xuZhangAdapter.updateData(xunZhangModelList,images1,content1,imgagecontent1);
-//            MyGridView gridview1 = (MyGridView) findViewById(R.id.grid_view1);
-//            gridview1.setAdapter(new ImageAdapter(this));
             xuZhangNullAdapter.updateData(xunZhangModelList1,images,content,imgagecontent);
+
         }
 
     }
 
     @Override
     public void onClick(View v) {
+        switch (v.getId())
+        {
+            case R.id.ll_left:
+                finish();
+                break;
+        }
 
     }
 

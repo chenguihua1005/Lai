@@ -160,7 +160,7 @@ public class LineChartUtil {
         //chart.animateY(3000, Easing.EasingOption.EaseInCubic);
         //数据按照X轴动画的效果出现
         //chart.animateX(2000);
-        chart.animateXY(2000,2000);
+        //chart.animateXY(2000,2000);
         data.getDataSets().clear();
         data.addDataSet(set1);
         chart.notifyDataSetChanged();
@@ -237,7 +237,7 @@ public class LineChartUtil {
         //chart.animateY(3000, Easing.EasingOption.EaseInCubic);
         //数据按照X轴动画的效果出现
         //chart.animateX(2000);
-        chart.animateXY(2000,2000);
+        //chart.animateXY(2000,2000);
         data.getDataSets().clear();
         data.addDataSet(set1);
         chart.notifyDataSetChanged();
