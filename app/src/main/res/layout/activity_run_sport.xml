@@ -11,12 +11,13 @@
     <LinearLayout
         android:id="@+id/ll_panel"
         android:layout_width="match_parent"
-        android:layout_height="275dp"
+        android:layout_height="270dp"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/panal"
+        android:background="@color/white"
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/ll_content1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -40,7 +41,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="30dp"
             android:orientation="horizontal">
 
             <RelativeLayout
@@ -113,6 +114,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_content2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
@@ -169,7 +171,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@id/iv_calorie"
-                    android:text="333"
                     android:textColor="#333333"
                     android:textSize="22sp" />
 
@@ -190,7 +191,7 @@
         android:id="@+id/map"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/toolbar"
+        android:layout_above="@id/ll_panel"
         android:layout_below="@id/toolbar" />
 
     <ImageView
@@ -224,8 +225,20 @@
             android:id="@+id/tv_avg_speed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="320km/h"
+            android:text="0km/h"
             android:textColor="@color/white"
             android:textSize="9sp" />
     </LinearLayout>
+    <CheckBox
+        android:id="@+id/cb_control"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:button="@null"
+        android:background="@null"
+        android:drawableLeft="@drawable/arrow_up_down"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="4dp"
+        android:layout_above="@id/ll_panel"
+        android:checked="false"/>
 </RelativeLayout>

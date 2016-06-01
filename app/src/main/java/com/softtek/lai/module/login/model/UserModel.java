@@ -28,6 +28,7 @@ public class UserModel implements Serializable {
     private String Mobile;
     private String IsJoin;//是否加入跑团
     private String TodayStepCnt;//当天最新步数
+    private String IsCreatInfo;//该用户是否创建过档案
     //*********记录用户是否有性别
     private boolean hasGender;
 
@@ -94,7 +95,7 @@ public class UserModel implements Serializable {
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
-
+    //默认行为不可改
     public String getGender() {
         return Integer.parseInt(gender)==2?"0":gender;
     }
@@ -139,6 +140,14 @@ public class UserModel implements Serializable {
         TodayStepCnt = todayStepCnt;
     }
 
+    public String getIsCreatInfo() {
+        return IsCreatInfo;
+    }
+
+    public void setIsCreatInfo(String isCreatInfo) {
+        IsCreatInfo = isCreatInfo;
+    }
+
     @Override
     public String toString() {
         return "UserModel{" +
@@ -153,6 +162,10 @@ public class UserModel implements Serializable {
                 ", Certification='" + Certification + '\'' +
                 ", CertTime='" + CertTime + '\'' +
                 ", Mobile='" + Mobile + '\'' +
+                ", IsJoin='" + IsJoin + '\'' +
+                ", TodayStepCnt='" + TodayStepCnt + '\'' +
+                ", IsCreatInfo='" + IsCreatInfo + '\'' +
+                ", hasGender=" + hasGender +
                 '}';
     }
 }

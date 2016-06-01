@@ -37,7 +37,7 @@ public class CreateFileImpl implements ICreateFilepresenter {
 
 
     @Override
-    public void createFile(String token, final FileModel file) {
+    public void createFile(final String token, final FileModel file) {
         service.doFile(token, file, new Callback<ResponseData<FileModel>>() {
             @Override
             public void success(ResponseData<FileModel> fileResponseData, Response response) {
@@ -47,6 +47,7 @@ public class CreateFileImpl implements ICreateFilepresenter {
                         UserModel model = UserInfoModel.getInstance().getUser();
                         model.setNickname(file.getNickname());
                         model.setGender(file.getGender() + "");
+                        model.setToken(token);
                         UserInfoModel.getInstance().saveUserCache(model);
                         Intent intent = new Intent(context, HomeActviity.class);
                         context.startActivity(intent);
@@ -70,7 +71,4 @@ public class CreateFileImpl implements ICreateFilepresenter {
     }
 
 
-//    public interface ICreateFileView {
-//        void toActivity();
-//    }
 }

@@ -1,6 +1,9 @@
 package com.softtek.lai.module.sport.view;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
@@ -12,11 +15,17 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
@@ -77,11 +86,18 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
     TextView tv_avg_speed;
     @InjectView(R.id.iv_gps)
     ImageView iv_gps;
+    @InjectView(R.id.cb_control)
+    CheckBox cb_control;
+    @InjectView(R.id.ll_panel)
+    LinearLayout ll_panel;
+
+    @InjectView(R.id.ll_content1)
+    LinearLayout ll_content1;
+    @InjectView(R.id.ll_content2)
+    LinearLayout ll_content2;
 
     //倒计时
     RunSportCountDown countDown;
-
-
 
     AMap aMap;
     Polyline polyline;//画线专用
@@ -103,6 +119,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
         ll_left.setOnClickListener(this);
         iv_pause.setOnClickListener(this);
         iv_stop.setOnClickListener(this);
+        cb_control.setOnClickListener(this);
         aMap = mapView.getMap();
         aMap.setMapType(AMap.MAP_TYPE_NORMAL);
         //我的位置样式
@@ -114,7 +131,8 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
         aMap.setMyLocationStyle(locationStyle);
         aMap.setLocationSource(this);//设置定位监听
         aMap.getUiSettings().setMyLocationButtonEnabled(false);//设置默认定位按钮是否显示
-        aMap.getUiSettings().setLogoPosition(-1);
+        aMap.getUiSettings().setZoomControlsEnabled(false);//隐藏缩放控制按钮
+        aMap.getUiSettings().setLogoPosition(2);
         aMap.setMyLocationEnabled(true);
 
         aMapLocationClient = new AMapLocationClient(this);
@@ -132,7 +150,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
         //设置是否允许模拟位置,默认为false，不允许模拟位置
         aMapLocationClientOption.setMockEnable(false);
         //设置定位间隔,单位毫秒,默认为2000ms
-        aMapLocationClientOption.setInterval(2000);
+        aMapLocationClientOption.setInterval(5000);
         //给定位客户端对象设置定位参数
         aMapLocationClient.setLocationOption(aMapLocationClientOption);
         //启动定位
@@ -153,8 +171,8 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             locationManager.addGpsStatusListener(this);
         }
-        countDown=new RunSportCountDown(1000,1000);
-        countDown.start();
+       /* countDown=new RunSportCountDown(1000,1000);
+        countDown.start();*/
     }
 
     @Override
@@ -258,6 +276,42 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
             case R.id.iv_stop:
 
                 break;
+            case R.id.cb_control:
+                //面板控制动画
+                int height=ll_panel.getHeight();
+                if(cb_control.isChecked()){
+                    cb_control.setChecked(true);
+                    //收起
+                    ValueAnimator valueAnimator=ValueAnimator.ofInt(height,250);
+                    valueAnimator.setRepeatCount(0);
+                    valueAnimator.setDuration(500);
+                    valueAnimator.setInterpolator(new FastOutLinearInInterpolator());
+                    valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator animation) {
+                            int value= (int) animation.getAnimatedValue();
+                            ViewGroup.LayoutParams params=ll_panel.getLayoutParams();
+                            params.height=value;
+                            ll_panel.setLayoutParams(params);
+
+                        }
+                    });
+                    valueAnimator.addListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                            ll_content1.setVisibility(View.GONE);
+                            ll_content2.setVisibility(View.INVISIBLE);
+                        }
+
+                    });
+                    valueAnimator.start();
+                }else{
+                    cb_control.setChecked(false);
+                    //展开
+                }
+
+                //ObjectAnimator.ofInt(ll_panel,"")
+                break;
         }
     }
     //GPS状态监听
@@ -343,7 +397,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
             if(tv_clock!=null)
                 tv_clock.setText(time);
             //重新启动
-            countDown=new RunSportCountDown(1000,1000);
+            countDown=new RunSportCountDown(6000,1000);
             countDown.start();
         }
     }
