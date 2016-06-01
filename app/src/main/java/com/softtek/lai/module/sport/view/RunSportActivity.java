@@ -270,7 +270,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
                }
                 break;
             case R.id.iv_stop:
-                
+
                 break;
             case R.id.cb_control:
                 //面板控制动画
@@ -369,7 +369,6 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
 
         @Override
         public void onTick(long millisUntilFinished) {
-            Log.i("定时到了"+(60-millisUntilFinished/1000));
             second= (int) (60-millisUntilFinished/1000);
             time++;
             String show=(hour<10?"0"+hour:String.valueOf(hour))
@@ -410,7 +409,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
         if(countDown!=null){
             countDown.pause();
         }
-        AlertDialog dialog=new AlertDialog.Builder(this).setMessage("退出将自动丢失本次跑步数据")
+        AlertDialog dialog=new AlertDialog.Builder(this).setMessage("返回将丢失本次跑步数据")
                 .setPositiveButton("放弃", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

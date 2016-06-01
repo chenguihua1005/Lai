@@ -1,8 +1,6 @@
 package com.softtek.lai.module.sport.net;
 
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.module.act.model.ActDetailModel;
-import com.softtek.lai.module.act.model.ActivityModel;
 import com.softtek.lai.module.sport.model.HistorySportModel;
 import com.softtek.lai.module.sport.model.SportData;
 import com.softtek.lai.module.sport.model.TotalSportModel;
@@ -14,7 +12,6 @@ import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.Header;
 import retrofit.http.POST;
-import retrofit.http.Query;
 
 /**
  * Created by jerry.guan on 4/8/2016.
