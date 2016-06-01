@@ -68,6 +68,12 @@ public interface MessageService {
                         @Query("mobile") String mobile,
                        Callback<ResponseData> callback);
 
+    @GET("/MsgCenter/AccIsJoinClass")
+    void accIsJoinClass(@Header("token") String token,
+                        @Query("accountid") String accountid,
+                        @Query("classid") String classid,
+                       Callback<ResponseData> callback);
+
     @FormUrlEncoded
     @POST("/MsgCenter/UpReadTime")
     void upReadTime(@Header("token") String token,

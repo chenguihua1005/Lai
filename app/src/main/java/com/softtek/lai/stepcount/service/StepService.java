@@ -195,7 +195,8 @@ public class StepService extends Service implements SensorEventListener {
         /*if (countSensor != null) {
             Log.i("base", "countSensor");
             sensorManager.registerListener(this, countSensor, SensorManager.SENSOR_DELAY_UI);
-        }else */if (detectorSensor != null) {
+        }else */
+        if (detectorSensor != null) {
             Log.i("base", "detector");
             sensorManager.registerListener(this, detectorSensor, SensorManager.SENSOR_DELAY_UI);
         }
@@ -230,7 +231,8 @@ public class StepService extends Service implements SensorEventListener {
             }
             int step=(int) event.values[0];
             StepDcretor.CURRENT_SETP = (int) event.values[0];
-        } else*/ if (event.sensor.getType() == Sensor.TYPE_STEP_DETECTOR) {
+        } else*/
+        if (event.sensor.getType() == Sensor.TYPE_STEP_DETECTOR) {
             if (event.values[0]==1.0) {
                 StepDcretor.CURRENT_SETP++;
             }

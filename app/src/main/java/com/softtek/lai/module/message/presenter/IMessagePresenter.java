@@ -43,4 +43,7 @@ public interface IMessagePresenter {
     //检测手机是否已存在
     void phoneIsExist(String mobile,ProgressDialog dialog,int id);
 
+    //此班级周期内学员是否已加入班级
+    void accIsJoinClass(String accountid,String classid);
+
 }

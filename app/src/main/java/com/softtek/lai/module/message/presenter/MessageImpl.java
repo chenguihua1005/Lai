@@ -26,6 +26,7 @@ import com.softtek.lai.module.counselor.net.CounselorService;
 import com.softtek.lai.module.counselor.presenter.IGamePresenter;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.login.view.LoginActivity;
+import com.softtek.lai.module.message.model.CheckClassEvent;
 import com.softtek.lai.module.message.model.CheckMobileEvent;
 import com.softtek.lai.module.message.model.MessageDetailInfo;
 import com.softtek.lai.module.message.model.MessageModel;
@@ -63,6 +64,34 @@ public class MessageImpl implements IMessagePresenter {
         messageService = ZillaApi.NormalRestAdapter.create(MessageService.class);
     }
 
+
+    @Override
+    public void accIsJoinClass(String accountid,String classid) {
+        String token = UserInfoModel.getInstance().getToken();
+        messageService.accIsJoinClass(token, accountid, classid,new Callback<ResponseData>() {
+            @Override
+            public void success(ResponseData listResponseData, Response response) {
+                Log.e("jarvis", listResponseData.toString());
+                int status = listResponseData.getStatus();
+                context.dialogDissmiss();
+                switch (status) {
+                    case 200:
+                        EventBus.getDefault().post(new CheckClassEvent(true));
+                        break;
+                    default:
+                        Util.toastMsg(listResponseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                context.dialogDissmiss();
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
+            }
+        });
+    }
 
     @Override
     public void upReadTime(String msgtype, String recevieid, String senderid, String classid) {
