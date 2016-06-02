@@ -12,13 +12,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
@@ -28,6 +32,9 @@ import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.bodygamest.model.LossModel;
+import com.softtek.lai.module.bodygamest.present.PhotoListIml;
+import com.softtek.lai.module.bodygamest.present.PhotoListPre;
 import com.softtek.lai.module.lossweightstory.view.PictureActivity;
 import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
 import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
@@ -39,8 +46,12 @@ import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.module.retest.present.RetestclassImp;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.CircleImageView;
+import com.softtek.lai.widgets.SelectPicPopupWindow;
 import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileCropSelector;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
 
 import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
@@ -53,15 +64,20 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import butterknife.InjectView;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_fuce_st)
 public class FuceStActivity extends BaseActivity implements View.OnClickListener,Validator.ValidationListener {
     @LifeCircleInject
     ValidateLife validateLife;
-
+    @InjectView(R.id.fl_right)
+    FrameLayout fl_right;
+    @InjectView(R.id.rel)
+    RelativeLayout rel;
     //toolbar
     @InjectView(R.id.tv_title)
     TextView tv_title;
@@ -146,6 +162,11 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     String isState="true";
     private ImageFileCropSelector imageFileCropSelector;
     private CharSequence[] items={"拍照","从相册选择照片"};
+    private PhotoListPre photoListPre;
+    LossModel lossModel;
+    SelectPicPopupWindow menuWindow;
+    Boolean savestate=false;
+    String url;
 
     @Override
     protected void onDestroy() {
@@ -169,6 +190,8 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void initViews() {
         EventBus.getDefault().register(this);
+        fl_right.setOnClickListener(this);
+        photoListPre = new PhotoListIml();
         progressDialog = new ProgressDialog(this);
         btn_retest_write_addbodyst.setOnClickListener(this);
         ll_fucest_nowweight.setOnClickListener(this);
@@ -184,9 +207,26 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
 
 
     }
+    @Subscribe
+    public void onEvent(LossModel model) {
+        if (UserInfoModel.getInstance().getUser() == null) {
+            return;
+        }
+        lossModel = model;
+        System.out.println("lossModel:" + lossModel);
+        String path = AddressManager.get("shareHost");
+        url = path + "ShareTranscript?AccountId=" + UserInfoModel.getInstance().getUser().getUserid();
+        System.out.println("url:" + url);
+        menuWindow = new SelectPicPopupWindow(FuceStActivity.this, itemsOnClick);
+        //显示窗口
+        menuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        menuWindow.showAtLocation(FuceStActivity.this.findViewById(R.id.rel), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
+    }
+
     //2016-03-28
     @Override
     protected void initDatas() {
+        tv_right.setText("分享");
         tv_title.setText("复测");
         retestPre=new RetestclassImp();
         retestPre.doGetAudit(loginid,0,"");
@@ -215,11 +255,59 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         });
 
     }
+    //为弹出窗口实现监听类
+    private View.OnClickListener itemsOnClick = new View.OnClickListener() {
+
+        public void onClick(View v) {
+            menuWindow.dismiss();
+            switch (v.getId()) {
+                case R.id.lin_weixin:
+                    new ShareAction(FuceStActivity.this)
+                            .setPlatform(SHARE_MEDIA.WEIXIN)
+                            .withTitle("康宝莱体重管理挑战赛，坚持只为改变！")
+                            .withText(lossModel.getContent())
+                            .withTargetUrl(lossModel.getContent())
+                            .withMedia(new UMImage(FuceStActivity.this, R.drawable.img_share_logo))
+                            .share();
+                    break;
+                case R.id.lin_circle:
+                    new ShareAction(FuceStActivity.this)
+                            .setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)
+                            .withTitle("康宝莱体重管理挑战赛，坚持只为改变！")
+                            .withText(lossModel.getContent())
+                            .withTargetUrl(lossModel.getContent())
+                            .withMedia(new UMImage(FuceStActivity.this, R.drawable.img_share_logo))
+                            .share();
+                    break;
+                case R.id.lin_sina:
+                    new ShareAction(FuceStActivity.this)
+                            .setPlatform(SHARE_MEDIA.SINA)
+                            .withText(lossModel.getContent() + url)
+                            .withMedia(new UMImage(FuceStActivity.this, R.drawable.img_share_logo))
+                            .share();
+                    break;
+                default:
+                    break;
+            }
+
+
+        }
+
+    };
 
     @Override
     public void onClick(View view) {
         switch (view.getId())
         {
+            case R.id.fl_right:
+                if (UserInfoModel.getInstance().getUser() == null) {
+                    return;
+                }
+                progressDialog.setMessage("加载中");
+                progressDialog.show();
+                photoListPre.getLossData(UserInfoModel.getInstance().getUser().getUserid(), progressDialog);
+                break;
+
             //删除照片
             case R.id.im_deletest:
                 retestWrite.setImage("");
@@ -297,6 +385,10 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
                     tv_retestWrites_nowweight.setEnabled(true);
                     validateLife.validate();
                 }
+                if (savestate.equals("true"))
+                {
+                    Util.toastMsg("分享");
+                }
                 break;
             case R.id.ll_left:
                 finish();
@@ -356,7 +448,8 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
                     retestWrite.setDoLegGirth(retestAuditModelEvent.getRetestAuditModels().get(0).getDoLegGirth());
                     isState = "false";
                     btn_retest_write_addbodyst.setText("查看身体围度");
-                    tv_right.setFocusable(false);
+                    savestate=true;
+                    tv_right.setText("分享");
 
                     if (!TextUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getImage())) {
                         im_retestwritest_showphoto.setVisibility(View.VISIBLE);

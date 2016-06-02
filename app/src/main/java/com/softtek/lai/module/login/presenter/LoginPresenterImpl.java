@@ -18,6 +18,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.jpush.JpushSet;
+import com.softtek.lai.module.File.view.CreatFlleActivity;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.home.view.ModifyPasswordActivity;
 import com.softtek.lai.module.login.model.PhotoModel;
@@ -236,7 +237,13 @@ public class LoginPresenterImpl implements ILoginPresenter {
                         UserInfoModel.getInstance().saveUserCache(model);
                         //stepDeal(context,model.getUserid(), StringUtils.isEmpty(model.getTodayStepCnt())?0:Long.parseLong(model.getTodayStepCnt()));
                         final String token=userResponseData.getData().getToken();
-                        if(MD5.md5WithEncoder("000000").equals(password)){
+                        if("0".equals(model.getIsCreatInfo())&&!model.isHasGender()){
+                            //如果没有创建档案且性别不是2才算没创建档案
+                            UserInfoModel.getInstance().setToken("");
+                            Intent intent=new Intent(context, CreatFlleActivity.class);
+                            intent.putExtra("token",token);
+                            context.startActivity(intent);
+                        }else if(MD5.md5WithEncoder("000000").equals(password)){
                             UserInfoModel.getInstance().setToken("");
                             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context)
                                     .setTitle(context.getString(R.string.login_out_title))

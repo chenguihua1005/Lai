@@ -45,8 +45,6 @@ import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_creatfile)
 public class CreatFlleActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, View.OnTouchListener {
-    private String SexData[] = {"男", "女"};//性别数据
-    //private int gender = 0;
     private List<String> gradeList = new ArrayList<String>();
     private List<String> gradeIDList = new ArrayList<String>();
     private String select_grade = "";
@@ -171,11 +169,6 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                 startActivityForResult(intent, GET_BODY_DIMENSION);
                 w = false;
                 break;
-//            case R.id.tv_right:
-//                Intent intent1 = new Intent(CreatFlleActivity.this, HomeActviity.class);
-//                startActivity(intent1);
-//                finish();
-//                break;
         }
     }
 
@@ -266,8 +259,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
             String weights = weight.split("斤")[0];
             file.setWeight(Double.parseDouble(weights));
 
-            String token = SharedPreferenceService.getInstance().get("token", "");
-            System.out.println("file:" + file);
+            String token=getIntent().getStringExtra("token");
             ICreateFilepresenter.createFile(token, file);
         }
     }
