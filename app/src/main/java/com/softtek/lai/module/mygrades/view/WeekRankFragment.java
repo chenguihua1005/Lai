@@ -63,24 +63,25 @@ public class WeekRankFragment extends BaseFragment {
     private IGradesPresenter iGradesPresenter;
     private GradesService gradesService;
     int accoutid;
+
     @Override
     protected void initViews() {
         UserInfoModel userInfoModel = UserInfoModel.getInstance();
         accoutid = Integer.parseInt(userInfoModel.getUser().getUserid());
 
         iGradesPresenter = new GradesImpl();
-        gradesService= ZillaApi.NormalRestAdapter.create(GradesService.class);
+        gradesService = ZillaApi.NormalRestAdapter.create(GradesService.class);
 
         Bundle bundle2 = getArguments();
-        int str=bundle2.getInt("id");
+        int str = bundle2.getInt("id");
         //接口信息：跑团数据1，全国数据0
-        if (str==0){
+        if (str == 0) {
             getCurrentWeekOrder(0);
         }
-        if (str==1){
+        if (str == 1) {
             getCurrentWeekOrder(1);
         }
-        rankAdapter = new RankAdapter(getContext(),orderDataModelList);
+        rankAdapter = new RankAdapter(getContext(), orderDataModelList);
         list_rank.setAdapter(rankAdapter);
     }
 
@@ -90,15 +91,15 @@ public class WeekRankFragment extends BaseFragment {
     }
 
     //切换排名时,更新数据
-    public void updateWeekRankStatus(int i){
-        if (i==0){
+    public void updateWeekRankStatus(int i) {
+        if (i == 0) {
             orderDataModelList.clear();
             getCurrentWeekOrder(0);
             rankAdapter.updateData(orderDataModelList);
         }
-        if (i==1){
+        if (i == 1) {
             orderDataModelList.clear();
-            getCurrentWeekOrder(1);//18362889960  15000224800
+            getCurrentWeekOrder(1);
             rankAdapter.updateData(orderDataModelList);
         }
     }
@@ -113,44 +114,42 @@ public class WeekRankFragment extends BaseFragment {
         gradesService.getCurrentWeekOrder(token, RGIdType, new Callback<ResponseData<DayRankModel>>() {
             @Override
             public void success(ResponseData<DayRankModel> dayRankModelResponseData, Response response) {
-                int status=dayRankModelResponseData.getStatus();
-                switch (status)
-                {
+                int status = dayRankModelResponseData.getStatus();
+                switch (status) {
                     case 200:
                         String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-                        if(!TextUtils.isEmpty(dayRankModelResponseData.getData().getOrderPhoto())) {
-                            Picasso.with(getContext()).load(path+dayRankModelResponseData.getData().getOrderPhoto()).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(img_myheadportrait);
-                        }
-                        else {
+                        if (!TextUtils.isEmpty(dayRankModelResponseData.getData().getOrderPhoto())) {
+                            Picasso.with(getContext()).load(path + dayRankModelResponseData.getData().getOrderPhoto()).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(img_myheadportrait);
+                        } else {
                             Picasso.with(getContext()).load("www").placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(img_myheadportrait);
                         }
-                        if (dayRankModelResponseData.getData().getOrderName().isEmpty()){
-                            if (dayRankModelResponseData.getData().getOrderMobile().isEmpty()){
+                        if (dayRankModelResponseData.getData().getOrderName().isEmpty()) {
+                            if (dayRankModelResponseData.getData().getOrderMobile().isEmpty()) {
                                 tv_name.setText("");
-                            }else {
+                            } else {
                                 //(姓名如果为空，手机号码前3后4中间4个*的)
-                                String mobile=dayRankModelResponseData.getData().getOrderMobile();
-                                String before=mobile.substring(0,3);
-                                String after=mobile.substring(mobile.length()-4,mobile.length());
-                                tv_name.setText(before+"****"+after);
+                                String mobile = dayRankModelResponseData.getData().getOrderMobile();
+                                String before = mobile.substring(0, 3);
+                                String after = mobile.substring(mobile.length() - 4, mobile.length());
+                                tv_name.setText(before + "****" + after);
                             }
-                        }else {
+                        } else {
                             tv_name.setText(dayRankModelResponseData.getData().getOrderName());
                         }
-                        if (dayRankModelResponseData.getData().getOrderSteps().isEmpty()){
+                        if (dayRankModelResponseData.getData().getOrderSteps().isEmpty()) {
                             tv_bushu1.setText("0");
-                        }else {
+                        } else {
                             tv_bushu1.setText(dayRankModelResponseData.getData().getOrderSteps());
                         }
-                         if (dayRankModelResponseData.getData().getOrderInfo().isEmpty()){
-                             tv_ranking.setText("0");
-                         }else {
-                             tv_ranking.setText(dayRankModelResponseData.getData().getOrderInfo());
-                         }
+                        if (dayRankModelResponseData.getData().getOrderInfo().isEmpty()) {
+                            tv_ranking.setText("0");
+                        } else {
+                            tv_ranking.setText(dayRankModelResponseData.getData().getOrderInfo());
+                        }
 
-                        if (dayRankModelResponseData.getData().getOrderData().isEmpty()){
+                        if (dayRankModelResponseData.getData().getOrderData().isEmpty()) {
 //                            Util.toastMsg("我的周排名--暂无数据");
-                        }else {
+                        } else {
                             orderDataModelList = dayRankModelResponseData.getData().getOrderData();
                             rankAdapter.updateData(orderDataModelList);
                         }
