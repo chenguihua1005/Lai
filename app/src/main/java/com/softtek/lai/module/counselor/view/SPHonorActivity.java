@@ -192,7 +192,7 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
             return;
         }
         System.out.println("userHonorModel:" + userHonorModel);
-        String path = AddressManager.get("shareHost", "http://172.16.98.167/Share/");
+        String path = AddressManager.get("shareHost");
         url = path + "ShareSPHonor?AccountId=" + UserInfoModel.getInstance().getUser().getUserid();
         value = "我已累计服务" + userHonorModel.getNum() + "学员，共帮助他们减重" + userHonorModel.getSumLoss() + "斤，快来参加体重管理挑战赛吧！";
 //        shareUtils.setShareContent("康宝莱体重管理挑战赛，坚持只为改变！", url,  R.drawable.img_share_logo, value, value + url);
