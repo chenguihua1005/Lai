@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:id="@+id/lin"
     tools:context="com.softtek.lai.module.mygrades.view.MyGradesActivity">
 
     <include
