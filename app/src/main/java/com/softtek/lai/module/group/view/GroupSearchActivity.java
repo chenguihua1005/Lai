@@ -76,7 +76,6 @@ public class GroupSearchActivity extends BaseActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         ll_left.setOnClickListener(this);
         text_search.setOnClickListener(this);
-        list_group.setEmptyView(img_mo_message);
         edit_search.setFilters(new InputFilter[]{new InputFilter.LengthFilter(6)});
 
         list_group.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -115,7 +114,7 @@ public class GroupSearchActivity extends BaseActivity implements View.OnClickLis
             case R.id.text_search:
                 String str = edit_search.getText().toString().trim();
                 if ("".equals(str)) {
-                    Util.toastMsg("请输入关键字再试");
+                    Util.toastMsg("请输入跑团号或跑团名称再试");
                 } else {
                     dialogShow("加载中");
                     sportGroupManager.getRGByNameOrCode(str);
@@ -149,6 +148,7 @@ public class GroupSearchActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void getRGByNameOrCode(String type, List<GroupModel> list) {
         dialogDissmiss();
+        list_group.setEmptyView(img_mo_message);
         group_list = list;
         adapter = new GroupAdapter(this, group_list);
         list_group.setAdapter(adapter);

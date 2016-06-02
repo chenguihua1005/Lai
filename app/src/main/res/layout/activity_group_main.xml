@@ -763,7 +763,7 @@
                     android:layout_marginBottom="30dip"
                     android:layout_marginTop="24dip"
                     android:gravity="center"
-                    android:text="每天，康宝莱将为日排名前100的用户，已“天使听见爱”项目捐献一元爱心善款。"
+                    android:text="每天，康宝莱将为日排名前100名的用户，向“天使听见爱”项目捐献一元爱心善款。"
                     android:textColor="@color/word13"
                     android:textSize="@dimen/textSize12" />
             </LinearLayout>
