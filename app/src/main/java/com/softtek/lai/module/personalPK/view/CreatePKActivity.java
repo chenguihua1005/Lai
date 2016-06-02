@@ -89,16 +89,16 @@ public class CreatePKActivity extends BaseActivity implements View.OnClickListen
                 changeColor(checkedId);
                 switch (checkedId){
                     case R.id.five_km:
-                        model.setTarget(5000);
+                        model.setTarget(5);
                         break;
                     case R.id.ten_km:
-                        model.setTarget(10000);
+                        model.setTarget(10);
                         break;
                     case R.id.twenty_one_km:
-                        model.setTarget(21000);
+                        model.setTarget(21);
                         break;
                     case R.id.forty_two_km:
-                        model.setTarget(42000);
+                        model.setTarget(42);
                         break;
                 }
                 cb_targer_km.setChecked(true);
@@ -219,16 +219,16 @@ public class CreatePKActivity extends BaseActivity implements View.OnClickListen
             int id=rg_km.getCheckedRadioButtonId();
             switch (id){
                 case R.id.five_km:
-                    model.setTarget(5000);
+                    model.setTarget(5);
                     break;
                 case R.id.ten_km:
-                    model.setTarget(10000);
+                    model.setTarget(10);
                     break;
                 case R.id.twenty_one_km:
-                    model.setTarget(21000);
+                    model.setTarget(21);
                     break;
                 case R.id.forty_two_km:
-                    model.setTarget(42000);
+                    model.setTarget(42);
                     break;
             }
         }else{

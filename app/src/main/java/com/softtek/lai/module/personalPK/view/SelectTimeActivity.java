@@ -213,7 +213,7 @@ public class SelectTimeActivity extends BaseActivity implements View.OnClickList
         String start=tv_start.getText().toString();
         String end=tv_end.getText().toString();
         if(DateUtil.getInstance("yyyy年MM月dd日").isGt(start,end)){
-            new AlertDialog.Builder(this).setMessage("开始日期不能大于结束时期").create().show();
+            new AlertDialog.Builder(this).setMessage("PK结束时间不能小于PK开始时间").create().show();
             return;
         }
         Log.i(form.toString());
