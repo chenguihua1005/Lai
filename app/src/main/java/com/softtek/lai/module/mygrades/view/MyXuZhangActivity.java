@@ -1,6 +1,8 @@
 package com.softtek.lai.module.mygrades.view;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -41,6 +43,9 @@ public class MyXuZhangActivity extends BaseActivity implements XunZhangListManag
     ScrollView scroll_content;
     @InjectView(R.id.tv_huode)
             TextView tv_huode;
+    @InjectView(R.id.grid_view1)
+            GridView grid_view1;
+
     XuZhangAdapter xuZhangAdapter;
     XuZhangNullAdapter xuZhangNullAdapter;
     XunZhangListManager xunZhangListManager;
@@ -65,15 +70,16 @@ public class MyXuZhangActivity extends BaseActivity implements XunZhangListManag
         tv_huode.setFocusableInTouchMode(true);
         tv_huode.requestFocus();
         tv_huode.findFocus();
+        grid_view1.setSelector(new ColorDrawable(Color.TRANSPARENT));
     }
 
     @Override
     protected void initDatas() {
         xunZhangListManager=new XunZhangListManager(this);
         xunZhangListManager.doGetXunZhang();
-        MyGridView gridview1 = (MyGridView) findViewById(R.id.grid_view1);
+//        MyGridView gridview1 = (MyGridView) findViewById(R.id.grid_view1);
         xuZhangAdapter=new XuZhangAdapter(this,xunZhangModelList,images1,content1,imgagecontent1);
-        gridview1.setAdapter(xuZhangAdapter);
+        grid_view1.setAdapter(xuZhangAdapter);
         MyGridView gridview2 = (MyGridView) findViewById(R.id.grid_view2);
         xuZhangNullAdapter=new XuZhangNullAdapter(this,xunZhangModelList1,images,content,imgagecontent);
         gridview2.setAdapter(xuZhangNullAdapter);
