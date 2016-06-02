@@ -30,9 +30,6 @@ import zilla.libcore.ui.InjectLayout;
 @InjectLayout(R.layout.activity_create_pk)
 public class CreatePKActivity extends BaseActivity implements View.OnClickListener,TextWatcher{
 
-
-
-
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.tv_title)
@@ -115,6 +112,7 @@ public class CreatePKActivity extends BaseActivity implements View.OnClickListen
         model=new PKCreatModel();
         cb_targer_km.setChecked(true);
         cb_naixi.setChecked(true);
+        et_content.setEnabled(false);
         model.setTargetType(Constants.KM);
         model.setChipType(Constants.NAIXI);
         model.setChip("");
@@ -159,6 +157,7 @@ public class CreatePKActivity extends BaseActivity implements View.OnClickListen
                 }
                 break;
             case R.id.rb_naixi:
+                et_content.setEnabled(false);
                 cb_naixi.setChecked(true);
                 cb_naixicao.setChecked(false);
                 cb_zidingyi.setChecked(false);
@@ -166,6 +165,7 @@ public class CreatePKActivity extends BaseActivity implements View.OnClickListen
                 model.setChip("");
                 break;
             case R.id.rb_naixicao:
+                et_content.setEnabled(false);
                 cb_naixicao.setChecked(true);
                 cb_naixi.setChecked(false);
                 cb_zidingyi.setChecked(false);
@@ -176,6 +176,8 @@ public class CreatePKActivity extends BaseActivity implements View.OnClickListen
                 cb_zidingyi.setChecked(true);
                 cb_naixi.setChecked(false);
                 cb_naixicao.setChecked(false);
+                et_content.setEnabled(true);
+                et_content.requestFocus();
                 model.setChipType(Constants.ZIDINGYI);
                 model.setChip(et_content.getText().toString());
                 break;

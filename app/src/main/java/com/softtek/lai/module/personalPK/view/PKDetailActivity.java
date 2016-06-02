@@ -14,7 +14,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -339,7 +338,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
         } else if (model.getStatus() == CHALLENGING) {
             tv_is_accept.setText("已应战");
         } else if (model.getStatus() == REFUSE) {
-            tv_is_accept.setText("拒绝");
+            tv_is_accept.setText("已拒绝");
         }
         if(model.getTStatus()==PKListAdapter.NOSTART){
             tv_status.setBackgroundResource(R.drawable.pk_list_weikaishi);
@@ -544,7 +543,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
     //同意行为
     private void agreeBehavior(){
         //隐藏拒绝按钮，隐藏同意按钮
-        tv_is_accept.setText("以应战");
+        tv_is_accept.setText("已应战");
         btn_refuse.setVisibility(View.GONE);
         btn_receive.setVisibility(View.GONE);
         //显示旁观者提示
