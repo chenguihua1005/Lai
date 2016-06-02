@@ -51,6 +51,10 @@
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="5728545a67e58ea7cf001701" />
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="5370fc581269dd6249df6e2e72b0dd65">
+        </meta-data>
 
         <activity
             android:name=".module.login.view.LoginActivity"
@@ -555,12 +559,10 @@
         </receiver>
 
         <activity android:name=".module.mygrades.view.MyXuZhangActivity" />
-        <activity android:name=".module.sport.view.RunSportActivity"></activity>
+        <activity android:name=".module.sport.view.RunSportActivity"
+            android:hardwareAccelerated="true"></activity>
 
-        <meta-data
-            android:name="com.amap.api.v2.apikey"
-            android:value="5370fc581269dd6249df6e2e72b0dd65">
-        </meta-data>
+
         <!-- 定位需要的服务 使用2.0的定位需要加上这个 -->
         <service android:name="com.amap.api.location.APSService"></service>
     </application>

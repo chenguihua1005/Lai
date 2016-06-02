@@ -19,13 +19,17 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.sport.model.HistorySportModel;
+import com.softtek.lai.module.sport.model.ResultModel;
 import com.softtek.lai.module.sport.model.TotalSportModel;
 import com.softtek.lai.module.sport.presenter.SportManager;
+import com.softtek.lai.utils.WheatherUtil;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -85,6 +89,37 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
         tv_title.setText("运动");
         SportManager manager = new SportManager(this);
         manager.getHistoryTotalMovement();
+//        new Thread(){
+//            @Override
+//            public void run()
+//            {
+//                //把网络访问的代码放在这里
+//                WheatherUtil util=new WheatherUtil();
+//                String request = util.request("http://apis.baidu.com/apistore/aqiservice/aqi?city=乌鲁木齐");
+//                //request=convert(request);
+//                System.out.println("request:"+request);
+//                Gson gson = new Gson();
+//                ResultModel resultModel = gson.fromJson(request, ResultModel.class);
+//                System.out.println("resultModel:"+resultModel);
+//                System.out.println("level:"+resultModel.getRetData().getLevel());
+//            }
+//        }.start();
+    }
+
+    public static String convert(String utfString) {
+        StringBuilder sb = new StringBuilder();
+        int i = -1;
+        int pos = 0;
+
+        while ((i = utfString.indexOf("\\u", pos)) != -1) {
+            sb.append(utfString.substring(pos, i));
+            if (i + 5 < utfString.length()) {
+                pos = i + 6;
+                sb.append((char) Integer.parseInt(utfString.substring(i + 2, i + 6), 16));
+            }
+        }
+
+        return sb.toString();
     }
 
     @Override
@@ -186,7 +221,9 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
                                 }
                             }, 500);
                         } else {
-                            text_djs.setText(recLen + "");
+                            if (text_djs != null) {
+                                text_djs.setText(recLen + "");
+                            }
                             startSacaleBigAnimation();
                             recLen--;
                         }

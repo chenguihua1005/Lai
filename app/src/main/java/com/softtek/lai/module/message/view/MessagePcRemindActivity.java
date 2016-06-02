@@ -79,10 +79,8 @@ public class MessagePcRemindActivity extends BaseActivity implements View.OnClic
                 messageDetailInfo = listPc.get(position);
                 String msg_type = messageDetailInfo.getMsgType();
                 if ("0".equals(msg_type)) {
-                    dialogShow("加载中");
                     messagePresenter.upReadTime("4", messageDetailInfo.getInviterId(), messageDetailInfo.getSenderId(), messageDetailInfo.getClassId());
                 } else {
-                    dialogShow("加载中");
                     messagePresenter.upReadTime("1", messageDetailInfo.getMessageId(),"", "");
                 }
             }

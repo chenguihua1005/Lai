@@ -51,8 +51,12 @@ public class RegistPresenterImpl implements IRegistPresenter {
                 int status = userResponseData.getStatus();
                 switch (status) {
                     case 200:
-                        UserInfoModel.getInstance().saveUserCache(userResponseData.getData());
-                        context.startActivity(new Intent(context, CreatFlleActivity.class));
+                        UserModel model=userResponseData.getData();
+                        UserInfoModel.getInstance().saveUserCache(model);
+                        UserInfoModel.getInstance().setToken("");
+                        Intent intent=new Intent(context, CreatFlleActivity.class);
+                        intent.putExtra("token",model.getToken());
+                        context.startActivity(intent);
                         break;
                     default:
                         Util.toastMsg(userResponseData.getMsg());

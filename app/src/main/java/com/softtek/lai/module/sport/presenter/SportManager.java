@@ -1,15 +1,16 @@
 package com.softtek.lai.module.sport.presenter;
 
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.act.model.ActDetailModel;
-import com.softtek.lai.module.act.model.ActivityModel;
-import com.softtek.lai.module.act.net.ActService;
 import com.softtek.lai.module.sport.model.HistorySportModel;
+import com.softtek.lai.module.sport.model.SportData;
 import com.softtek.lai.module.sport.model.TotalSportModel;
 import com.softtek.lai.module.sport.net.SportService;
+import com.softtek.lai.module.sport.view.StartSportActivity;
 import com.softtek.lai.utils.RequestCallback;
 
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ import zilla.libcore.util.Util;
 
 /**
  * Created by jarvis.liu on 4/8/2016.
+ *
  */
 public class SportManager {
 
@@ -116,6 +118,19 @@ public class SportManager {
                 ZillaApi.dealNetError(error);
             }
         });
+    }
+
+    public void submitSportData(final AppCompatActivity activity, SportData data){
+        service.submitSportData(UserInfoModel.getInstance().getToken(),
+                data,
+                new RequestCallback<ResponseData>() {
+                    @Override
+                    public void success(ResponseData responseData, Response response) {
+                        if(activity!=null)
+                            activity.startActivity(new Intent(activity, StartSportActivity.class));
+                            activity.finish();
+                    }
+                });
     }
 
     public interface GetMovementListCallBack {
