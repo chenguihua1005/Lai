@@ -37,6 +37,10 @@ public class PhotoListIml implements PhotoListPre {
         this.cb = cb;
     }
 
+    public PhotoListIml() {
+        service = ZillaApi.NormalRestAdapter.create(PhotoListService.class);
+    }
+
     @Override
     public void getLossData(String accountId, final ProgressDialog loadingDialog) {
         String token = SharedPreferenceService.getInstance().get("token", "");

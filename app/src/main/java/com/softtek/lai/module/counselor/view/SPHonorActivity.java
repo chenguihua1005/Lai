@@ -188,6 +188,9 @@ public class SPHonorActivity extends BaseActivity implements View.OnClickListene
 
     @Subscribe
     public void onEvent(UserHonorModel userHonorModel) {
+        if (UserInfoModel.getInstance().getUser()==null){
+            return;
+        }
         System.out.println("userHonorModel:" + userHonorModel);
         String path = AddressManager.get("shareHost", "http://172.16.98.167/Share/");
         url = path + "ShareSPHonor?AccountId=" + UserInfoModel.getInstance().getUser().getUserid();
