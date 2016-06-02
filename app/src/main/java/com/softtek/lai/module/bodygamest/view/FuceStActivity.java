@@ -103,6 +103,8 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     TextView tv_writest_dayen;
     @InjectView(R.id.tv_right)
             TextView tv_right;
+    @InjectView(R.id.iv_email)
+    ImageView iv_email;
     private ProgressDialog progressDialog;
     UserInfoModel userInfoModel=UserInfoModel.getInstance();
     long loginid=Long.parseLong(userInfoModel.getUser().getUserid());
@@ -165,7 +167,6 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     private PhotoListPre photoListPre;
     LossModel lossModel;
     SelectPicPopupWindow menuWindow;
-    Boolean savestate=false;
     String url;
 
     @Override
@@ -200,7 +201,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         im_retestwritest_takephoto.setOnClickListener(this);
         im_deletest.setOnClickListener(this);
         ll_left.setOnClickListener(this);
-        tv_right.setOnClickListener(this);
+//        tv_right.setOnClickListener(this);
         im_retestwritest_showphoto.setOnClickListener(this);
         tv_writes_chu_weight.setEnabled(false);
         tv_retestWrites_nowweight.setEnabled(false);
@@ -226,7 +227,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     //2016-03-28
     @Override
     protected void initDatas() {
-        tv_right.setText("分享");
+
         tv_title.setText("复测");
         retestPre=new RetestclassImp();
         retestPre.doGetAudit(loginid,0,"");
@@ -300,12 +301,21 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         switch (view.getId())
         {
             case R.id.fl_right:
-                if (UserInfoModel.getInstance().getUser() == null) {
-                    return;
+                if (isState.equals("true")) {
+                    tv_writes_chu_weight.setEnabled(true);
+                    tv_retestWrites_nowweight.setEnabled(true);
+                    validateLife.validate();
                 }
-                progressDialog.setMessage("加载中");
-                progressDialog.show();
-                photoListPre.getLossData(UserInfoModel.getInstance().getUser().getUserid(), progressDialog);
+                else {
+
+                    if (UserInfoModel.getInstance().getUser() == null) {
+                        return;
+                    }
+                    progressDialog.setMessage("加载中");
+                    progressDialog.show();
+                    photoListPre.getLossData(UserInfoModel.getInstance().getUser().getUserid(), progressDialog);
+                }
+
                 break;
 
             //删除照片
@@ -379,17 +389,10 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
                 }
 
                 break;
-            case R.id.tv_right:
-                if (isState.equals("true")) {
-                    tv_writes_chu_weight.setEnabled(true);
-                    tv_retestWrites_nowweight.setEnabled(true);
-                    validateLife.validate();
-                }
-                if (savestate.equals("true"))
-                {
-                    Util.toastMsg("分享");
-                }
-                break;
+//            case R.id.tv_right:
+//
+//                break;
+
             case R.id.ll_left:
                 finish();
                 break;
@@ -448,8 +451,9 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
                     retestWrite.setDoLegGirth(retestAuditModelEvent.getRetestAuditModels().get(0).getDoLegGirth());
                     isState = "false";
                     btn_retest_write_addbodyst.setText("查看身体围度");
-                    savestate=true;
-                    tv_right.setText("分享");
+                    tv_right.setText("");
+                    tv_right.setFocusable(false);
+                    iv_email.setImageResource(R.drawable.img_share_bt);
 
                     if (!TextUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getImage())) {
                         im_retestwritest_showphoto.setVisibility(View.VISIBLE);
