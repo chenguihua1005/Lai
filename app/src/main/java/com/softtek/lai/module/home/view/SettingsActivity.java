@@ -27,6 +27,7 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.login.presenter.IPasswordPresenter;
 import com.softtek.lai.module.login.presenter.PasswordPresnter;
 import com.softtek.lai.module.message.view.MessageActivity;
+import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.SoftInputUtil;
 
 import butterknife.InjectView;
@@ -66,7 +67,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void initViews() {
         tv_title.setText("系统设置");
-        tv_version.setText("V "+ PropertiesManager.get("appversion"));
+        tv_version.setText("V "+  DisplayUtil.getAppVersionName(this));
         iv_email.setVisibility(View.GONE);
     }
 

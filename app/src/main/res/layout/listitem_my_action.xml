@@ -49,16 +49,17 @@
         <LinearLayout
             android:id="@+id/ll_action_content"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp">
         <TextView
             android:id="@+id/tv_action_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="你有一个新活动喽，快去看看吧"
+            android:text=""
             android:layout_marginTop="15dp"
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="10dp"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:textColor="#333333"
             />
         </LinearLayout>
@@ -79,16 +80,17 @@
             android:id="@+id/ll_action_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
             android:layout_below="@+id/ll_lab2">
             <TextView
                 android:id="@+id/tv_action_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="爱心马拉松长跑活动"
+                android:text=""
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="15dp"
-                android:textSize="12sp"
-                android:textColor="#333333"
+                android:textSize="14sp"
+                android:textColor="#999999"
 
                 />
         </LinearLayout>

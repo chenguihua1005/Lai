@@ -6,6 +6,7 @@
 package com.softtek.lai.module.sport.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by jarvis.liu on 3/22/2016.
@@ -19,6 +20,8 @@ public class HistorySportModel implements Serializable {
     private String Trajectory;
     private String total;
     private String createtime;
+    private String Kilometre;
+    private String calories;
 
     @Override
     public String toString() {
@@ -30,15 +33,9 @@ public class HistorySportModel implements Serializable {
                 ", Trajectory='" + Trajectory + '\'' +
                 ", total='" + total + '\'' +
                 ", createtime='" + createtime + '\'' +
+                ", Kilometre='" + Kilometre + '\'' +
+                ", calories='" + calories + '\'' +
                 '}';
-    }
-
-    public String getCreatetime() {
-        return createtime;
-    }
-
-    public void setCreatetime(String createtime) {
-        this.createtime = createtime;
     }
 
     public String getAccountId() {
@@ -87,5 +84,29 @@ public class HistorySportModel implements Serializable {
 
     public void setTotal(String total) {
         this.total = total;
+    }
+
+    public String getCreatetime() {
+        return createtime;
+    }
+
+    public void setCreatetime(String createtime) {
+        this.createtime = createtime;
+    }
+
+    public String getKilometre() {
+        return Kilometre;
+    }
+
+    public void setKilometre(String kilometre) {
+        Kilometre = kilometre;
+    }
+
+    public String getCalories() {
+        return calories;
+    }
+
+    public void setCalories(String calories) {
+        this.calories = calories;
     }
 }

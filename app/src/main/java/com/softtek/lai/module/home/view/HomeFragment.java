@@ -18,7 +18,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
@@ -47,10 +46,12 @@ import com.softtek.lai.module.home.eventModel.HomeEvent;
 import com.softtek.lai.module.home.model.HomeInfoModel;
 import com.softtek.lai.module.home.presenter.HomeInfoImpl;
 import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.message.presenter.IMessagePresenter;
 import com.softtek.lai.module.message.presenter.MessageImpl;
 import com.softtek.lai.module.message.view.MessageActivity;
+import com.softtek.lai.module.sport.view.RunSportActivity;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CustomGridView;
@@ -75,8 +76,7 @@ import zilla.libcore.util.Util;
  */
 @InjectLayout(R.layout.fragment_home)
 public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetChangedListener, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener, View.OnClickListener/*, SportGroupManager.IsJoinRunGroupManagerCallBack*/ {
-    @InjectView(R.id.toolbar)
-    Toolbar toolbar;
+
     @InjectView(R.id.rhv_adv)
     RollHeaderView rhv_adv;
 
@@ -214,6 +214,10 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     @Override
     public void onResume() {
         super.onResume();
+        UserModel model=UserInfoModel.getInstance().getUser();
+        if(model==null){
+            return;
+        }
         String userrole = UserInfoModel.getInstance().getUser().getUserrole();
         if (String.valueOf(Constants.VR).equals(userrole)) {
 
@@ -262,6 +266,10 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
      */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//        startActivity(new Intent(getContext(), RunSportActivity.class));
+//        if(1==1){
+//            return;
+//        }
         UserInfoModel userInfoModel = UserInfoModel.getInstance();
         int role = Integer.parseInt(userInfoModel.getUser().getUserrole());
         ////判断当前用户是否拥有此按钮权限
@@ -274,9 +282,9 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                 case Constants.LAI_YUNDONG:
                     //new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
                     String isJoin=userInfoModel.getUser().getIsJoin();
-                    if (StringUtils.isEmpty(isJoin)||"0".equals(isJoin)) {
+                    if (StringUtils.isEmpty(isJoin)||"0".equals(isJoin))
                         startActivity(new Intent(getContext(), JoinGroupActivity.class));
-                    } else {
+                    else {
                         startActivity(new Intent(getContext(), GroupMainActivity.class));
                     }
                     break;
@@ -294,12 +302,12 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                 case Constants.VR:
                     //游客若没有此功能，可能是未登录，提示请先登录
                     information_dialog = new AlertDialog.Builder(getContext());
-                    information_dialog.setTitle("您当前处于游客模式，请先登录后再试").setPositiveButton("登录", new DialogInterface.OnClickListener() {
+                    information_dialog.setTitle("您当前是游客身份，请登录后再试").setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             startActivity(new Intent(getContext(), LoginActivity.class));
                         }
-                    }).setNegativeButton("稍候", new DialogInterface.OnClickListener() {
+                    }).setNegativeButton("稍后", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                         }
@@ -315,7 +323,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                             //跳转到身份认证界面
                             startActivity(new Intent(getContext(), ValidateCertificationActivity.class));
                         }
-                    }).setNegativeButton("稍候", new DialogInterface.OnClickListener() {
+                    }).setNegativeButton("稍后", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                         }
@@ -342,7 +350,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         if (role == Constants.VR) {
             //提示用户让他注册或者直接进入2个功能的踢馆赛模块
             information_dialog = new AlertDialog.Builder(getContext());
-            information_dialog.setTitle("您当前处于游客模式，需要登录认证").setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
+            information_dialog.setTitle("您当前是游客身份，请登录后再试").setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     Intent login = new Intent(getContext(), LoginActivity.class);
@@ -350,7 +358,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                     login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(login);
                 }
-            }).setNegativeButton("稍候", new DialogInterface.OnClickListener() {
+            }).setNegativeButton("稍后", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     startActivity(new Intent(getContext(), BodygameYkActivity.class));
@@ -420,7 +428,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                     //提示用户让他登录或者直接进入2个功能的踢馆赛模块
                     AlertDialog.Builder information_dialog = null;
                     information_dialog = new AlertDialog.Builder(getContext());
-                    information_dialog.setTitle("您当前处于游客模式，需要登录认证").setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
+                    information_dialog.setTitle("您当前是游客身份，请登录后再试").setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Intent login = new Intent(getContext(), LoginActivity.class);
@@ -428,7 +436,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                             login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(login);
                         }
-                    }).setNegativeButton("稍候", new DialogInterface.OnClickListener() {
+                    }).setNegativeButton("稍后", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();

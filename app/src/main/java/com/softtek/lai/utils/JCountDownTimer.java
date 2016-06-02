@@ -11,6 +11,7 @@ import android.os.SystemClock;
 
 /**
  * Created by John on 2016/3/30.
+ * 重新实现了CountDownTimer可以拥有暂停 和 继续的功能
  */
 public abstract class JCountDownTimer {
 

@@ -381,7 +381,7 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         break;
                                     case 2:
                                         //步数
-                                        tv_str1.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue() / 10000 + "万");
+                                        tv_str1.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue() + "万");
                                         img_honor1.setImageResource(R.drawable.img_medal);
                                         ll_honor1.setVisibility(View.VISIBLE);
                                         break;
@@ -465,7 +465,7 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         break;
                                     case 2:
                                         //步数
-                                        tv_str1.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue() / 10000 + "万");
+                                        tv_str1.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue()  + "万");
                                         img_honor1.setImageResource(R.drawable.img_medal);
                                         ll_honor1.setVisibility(View.VISIBLE);
                                         break;
@@ -546,7 +546,7 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         break;
                                     case 2:
                                         //步数
-                                        tv_str2.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue() / 10000 + "万");
+                                        tv_str2.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue()  + "万");
                                         img_honor2.setImageResource(R.drawable.img_medal);
                                         ll_honor2.setVisibility(View.VISIBLE);
                                         break;
@@ -630,7 +630,7 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         break;
                                     case 2:
                                         //步数
-                                        tv_str1.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue() / 10000 + "万");
+                                        tv_str1.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue()  + "万");
                                         img_honor1.setImageResource(R.drawable.img_medal);
                                         ll_honor1.setVisibility(View.VISIBLE);
                                         break;
@@ -711,7 +711,7 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         break;
                                     case 2:
                                         //步数
-                                        tv_str2.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue() / 10000 + "万");
+                                        tv_str2.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue()  + "万");
                                         img_honor2.setImageResource(R.drawable.img_medal);
                                         ll_honor2.setVisibility(View.VISIBLE);
                                         break;
@@ -792,7 +792,7 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         break;
                                     case 2:
                                         //步数
-                                        tv_str3.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(2).getHonorVlue() / 10000 + "万");
+                                        tv_str3.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(2).getHonorVlue()  + "万");
                                         img_honor3.setImageResource(R.drawable.img_medal);
                                         ll_honor3.setVisibility(View.VISIBLE);
                                         break;

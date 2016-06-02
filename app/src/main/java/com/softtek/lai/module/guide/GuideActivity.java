@@ -15,6 +15,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.group.model.StepResponseModel;
 import com.softtek.lai.module.group.net.SportGroupService;
 import com.softtek.lai.module.home.view.HomeActviity;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.stepcount.db.StepUtil;
 import com.softtek.lai.stepcount.model.UserStep;
@@ -101,8 +102,8 @@ public class GuideActivity extends BaseActivity implements Runnable{
             startActivity(intent);
             finish();
         }else{
-            checks();
-            /*UserModel model=UserInfoModel.getInstance().getUser();
+            //checks();
+            UserModel model=UserInfoModel.getInstance().getUser();
             if(model==null){
                 UserInfoModel.getInstance().loginOut();//本地退出
                 Intent intent = new Intent(this, LoginActivity.class);
@@ -113,7 +114,7 @@ public class GuideActivity extends BaseActivity implements Runnable{
                 Intent intent = new Intent(this, HomeActviity.class);
                 startActivity(intent);
                 finish();
-            }*/
+            }
         }
     }
 }

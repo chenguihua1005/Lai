@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -22,6 +23,8 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.sport.model.HistorySportModel;
+import com.softtek.lai.module.sport.model.TotalSportModel;
+import com.softtek.lai.module.sport.presenter.SportManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,13 +35,19 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_start_sport)
-public class StartSportActivity extends BaseActivity implements View.OnClickListener, BaseFragment.OnFragmentInteractionListener {
+public class StartSportActivity extends BaseActivity implements View.OnClickListener, BaseFragment.OnFragmentInteractionListener, SportManager.GetHistoryTotalMovementCallBack {
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.tv_title)
     TextView tv_title;
     @InjectView(R.id.text_total_distance)
     TextView text_total_distance;
+
+    @InjectView(R.id.text_total_count)
+    TextView text_total_count;
+
+    @InjectView(R.id.text_total_time)
+    TextView text_total_time;
 
     @InjectView(R.id.rel_start)
     RelativeLayout rel_start;
@@ -74,12 +83,17 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
     @Override
     protected void initDatas() {
         tv_title.setText("运动");
+        SportManager manager = new SportManager(this);
+        manager.getHistoryTotalMovement();
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_left:
+                if (timer != null) {
+                    timer.cancel();
+                }
                 finish();
                 break;
             case R.id.rel_start1:
@@ -163,8 +177,8 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
                     public void run() {
                         if (recLen <= 0) {
                             timer.cancel();
-                            startActivity(new Intent(StartSportActivity.this, RunSportActivity.class));
-                            overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+                            startActivity(new Intent(StartSportActivity.this, HistorySportListActivity.class));
+                            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
@@ -222,5 +236,27 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            if (timer != null) {
+                timer.cancel();
+            }
+            finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+
+    }
+
+    @Override
+    public void getHistoryTotalMovement(String type, TotalSportModel model) {
+        if ("true".equals(type)) {
+            text_total_distance.setText(model.getTotalKilometer());
+            text_total_time.setText(model.getTotalTime());
+            text_total_count.setText(model.getCount());
+        }
     }
 }

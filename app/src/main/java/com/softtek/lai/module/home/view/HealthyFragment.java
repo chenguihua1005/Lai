@@ -144,12 +144,13 @@ public class HealthyFragment extends BaseFragment implements View.OnClickListene
             if(requestCode==OPEN_SENDER_REQUEST){
 
                 tab_content.setCurrentItem(1);
-                TabLayout.Tab reTab=tab.getTabAt(0);
-                TabLayout.Tab mineTab=tab.getTabAt(1);
-                tab.removeAllTabs();
-                tab.addTab(reTab,false);
-                tab.addTab(mineTab,true);
+//                TabLayout.Tab reTab=tab.getTabAt(0);
+//                TabLayout.Tab mineTab=tab.getTabAt(1);
+//                tab.removeAllTabs();
+//                tab.addTab(reTab,false);
+//                tab.addTab(mineTab,true);
                 ((MineHealthyFragment)fragments.get(1)).updateList();
+
             }
 
         }

@@ -41,7 +41,6 @@ import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 import com.sw926.imagefileselector.ImageFileCropSelector;
-import com.sw926.imagefileselector.ImageFileSelector;
 
 import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
@@ -59,8 +58,7 @@ import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_fuce_st)
-public class FuceStActivity extends BaseActivity implements View.OnClickListener,Validator.ValidationListener
-,ImageFileSelector.Callback{
+public class FuceStActivity extends BaseActivity implements View.OnClickListener,Validator.ValidationListener {
     @LifeCircleInject
     ValidateLife validateLife;
 
@@ -130,13 +128,13 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     ImageView im_retestwritest_showphoto;
     //delete
     @InjectView(R.id.im_deletest)
-            ImageView im_deletest;
+    ImageView im_deletest;
     //laichen
     @InjectView(R.id.selectlaichenst)
     CheckBox selectlaichenst;
-    String path="";
+
     String gender="1";
-    private static final int PHOTO=1;
+
     private static final int GET_BODY=2;
     private static final int BODY=3;
 
@@ -147,7 +145,6 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     String Mobile;
     String isState="true";
     private ImageFileCropSelector imageFileCropSelector;
-    private ImageFileSelector imageFileSelector;
     private CharSequence[] items={"拍照","从相册选择照片"};
 
     @Override
@@ -196,11 +193,26 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         retestWrite=new RetestWriteModel();
         retestAuditModel=new RetestAuditModel();
         measureModel=new MeasureModel();
-        imageFileSelector=new ImageFileSelector(this);
-        imageFileSelector.setOutPutImageSize(DisplayUtil.dip2px(this,600),
-                DisplayUtil.dip2px(this,300));
-        imageFileSelector.setQuality(80);
-        imageFileSelector.setCallback(this);
+        imageFileCropSelector=new ImageFileCropSelector(this);
+        imageFileCropSelector.setQuality(50);
+        imageFileCropSelector.setOutPutAspect(1,1);
+        int px=Math.min(DisplayUtil.getMobileHeight(this),DisplayUtil.getMobileWidth(this));
+        imageFileCropSelector.setOutPut(px,px);
+        imageFileCropSelector.setCallback(new ImageFileCropSelector.Callback() {
+            @Override
+            public void onSuccess(String file) {
+                Log.i("摘牌回来了");
+                im_retestwritest_showphoto.setVisibility(View.VISIBLE);
+                im_deletest.setVisibility(View.VISIBLE);
+                Picasso.with(FuceStActivity.this).load(new File(file)).fit().into(im_retestwritest_showphoto);
+                retestPre.goGetPicture(file);
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
 
     }
 
@@ -266,12 +278,10 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 if (which == 0) {
-//                                takecamera();
-                                    imageFileSelector.takePhoto(FuceStActivity.this);
+                                    imageFileCropSelector.takePhoto(FuceStActivity.this);
                                 } else if (which == 1) {
                                     //照片
-//                                takepic();
-                                    imageFileSelector.selectImage(FuceStActivity.this);
+                                    imageFileCropSelector.selectImage(FuceStActivity.this);
                                 }
                             }
                         }).create().show();
@@ -385,7 +395,8 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        imageFileSelector.onActivityResult(requestCode,resultCode,data);
+        imageFileCropSelector.onActivityResult(requestCode,resultCode,data);
+        imageFileCropSelector.getmImageCropperHelper().onActivityResult(requestCode,resultCode,data);
         //身体围度值传递
         if (requestCode == GET_BODY && resultCode == RESULT_OK) {
             retestWrite = (RetestWriteModel) data.getSerializableExtra("retestWrite");
@@ -397,12 +408,10 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (which == 0) {
-//                                takecamera();
-                        imageFileSelector.takePhoto(FuceStActivity.this);
+                        imageFileCropSelector.takePhoto(FuceStActivity.this);
                     } else if (which == 1) {
                         //照片
-//                                takepic();
-                        imageFileSelector.selectImage(FuceStActivity.this);
+                        imageFileCropSelector.selectImage(FuceStActivity.this);
                     }
                 }
             }).create().show();
@@ -454,46 +463,6 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
 
         
     }
-    public String tomonth(String month){
-        if (month.equals("01")){
-            month="一月班";
-        }
-        else if (month.equals("02")){
-            month="二月班";
-        }else if (month.equals("03"))
-        {
-            month="三月班";
-        }else if (month.equals("04"))
-        {
-            month="四月班";
-
-        }else if (month.equals("05"))
-        {
-            month="五月班";
-        }else if (month.equals("06"))
-        {
-            month="六月班";
-        }else if (month.equals("07"))
-        {
-            month="七月班";
-        } else if (month.equals("08"))
-        {
-            month="八月班";
-        }else if (month.equals("09"))
-        {
-            month="九月班";
-        }else if (month.equals("10"))
-        {
-            month="十月班";
-        }else if (month.equals("11"))
-        {
-            month="十一月班";
-        }else
-        {
-            month="十二月班";
-        }
-        return month;
-    }
 
     @Override
     public void onValidationSucceeded() {
@@ -517,41 +486,5 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         validateLife.onValidationFailed(failedView, failedRule);
     }
 
-    @Override
-    public void onSuccess(String file) {
-        Log.i("摘牌回来了");
-        im_retestwritest_showphoto.setVisibility(View.VISIBLE);
-        im_deletest.setVisibility(View.VISIBLE);
-        Picasso.with(this).load(new File(file)).fit().into(im_retestwritest_showphoto);
-        //im_retestwritest_showphoto.setImageBitmap(BitmapFactory.decodeFile(file));
-        retestPre.goGetPicture(file);
-    }
 
-    @Override
-    public void onError() {
-
-    }
-//    public void takecamera() {
-//
-//        path=(Environment.getExternalStorageDirectory().getPath())+"/123.jpg";
-//        File file=new File(path.toString());
-//        Uri uri= Uri.fromFile(file);
-//        Intent intent=new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-//        intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, uri);
-//        startActivityForResult(intent,PHOTO);
-//        Bitmap bitmap= null;
-//        try {
-//            bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//        im_delete.setVisibility(View.VISIBLE);
-//        im_retestwrite_showphoto.setVisibility(View.VISIBLE);
-//        im_retestwrite_showphoto.setImageBitmap(bitmap);
-//        Log.i("path:"+path);
-//    }
-//    public void takepic() {
-//        Intent picture = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//        startActivityForResult(picture, 101);
-//    }
 }

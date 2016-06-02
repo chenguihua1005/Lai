@@ -1,14 +1,11 @@
 package com.softtek.lai.module.community.presenter;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.community.model.HealthyCommunityModel;
 import com.softtek.lai.module.community.model.HealthyRecommendModel;
 import com.softtek.lai.module.community.net.CommunityService;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.utils.RequestCallback;
-
-import java.util.List;
 
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -31,7 +28,11 @@ public class CommunityManager{
 
     public void getHealthyMine(int pageIndex) {
         String token= UserInfoModel.getInstance().getToken();
-        int accountId=Integer.parseInt(UserInfoModel.getInstance().getUser().getUserid());
+        UserModel model=UserInfoModel.getInstance().getUser();
+        if(model==null){
+            return;
+        }
+        int accountId=Integer.parseInt(model.getUserid());
         service.getHealthyMine(token,accountId,pageIndex, new RequestCallback<ResponseData<HealthyRecommendModel>>() {
             @Override
             public void success(ResponseData<HealthyRecommendModel> listResponseData, Response response) {

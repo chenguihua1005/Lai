@@ -7,6 +7,8 @@ package com.softtek.lai.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.util.DisplayMetrics;
 
 /**
@@ -90,5 +92,16 @@ public class DisplayUtil {
     public static int sp2px(Context context, float spValue) {
         final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
         return (int) (spValue * fontScale + 0.5f);
+    }
+
+    public static String getAppVersionName(Context context){
+        PackageManager pm=context.getPackageManager();
+        try {
+            PackageInfo packageInfo=pm.getPackageInfo(context.getPackageName(),0);
+            return packageInfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 }

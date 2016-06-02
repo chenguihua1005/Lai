@@ -154,7 +154,11 @@ public class ActZKAdapter extends BaseAdapter {
             holder.text_value.setText(actDetiallistModel.getActDTotal() + "步");
 
             if ("1".equals(order)) {
-                holder.rcpb_prog.setProgress(85);
+                if(target_step==0){
+                    holder.rcpb_prog.setProgress(0);
+                }else {
+                    holder.rcpb_prog.setProgress(85);
+                }
             } else {
                 System.out.println("(float) (step * 0.8 / target_step):" + (int) ((step * 0.85 / target_step) * 100));
                 holder.rcpb_prog.setProgress((int) ((step * 0.8 / target_step) * 100));
@@ -186,9 +190,12 @@ public class ActZKAdapter extends BaseAdapter {
             }
 
             holder.text_value.setText(actDetiallistModel.getActDTotal() + "步");
-
             if ("1".equals(order)) {
-                holder.rcpb_prog.setProgress(85);
+                if(target_step==0){
+                    holder.rcpb_prog.setProgress(0);
+                }else {
+                    holder.rcpb_prog.setProgress(85);
+                }
             } else {
                 holder.rcpb_prog.setProgress((int) ((step * 0.85 / target_step) * 100));
 

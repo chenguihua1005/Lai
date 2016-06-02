@@ -59,7 +59,7 @@ public interface PhotoListService {
     void getUserPhotos(
             @Header("token") String token,
             @Field("PhotoName") String photoName,
-            Callback<ResponseData<GifModel>> callback
+            Callback<ResponseData> callback
     );
 
     @GET("/UploadPhotos/GetLossData")

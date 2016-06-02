@@ -311,26 +311,6 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
         sv_pk.setVisibility(View.VISIBLE);
         this.model=model;
         Log.i("PKDetail???"+model.toString());
-        if(model.getTStatus()==PKListAdapter.Completed){//如果这个PK是已经结束
-            if (Long.parseLong(model.getWinnerId())==model.getChallenged()){
-                //发起方胜利
-                sender1.setVisibility(View.GONE);//隐藏发起者标识
-                //显示胜利者表示
-                iv_winner1.setVisibility(View.VISIBLE);
-                iv_winner2.setVisibility(View.GONE);
-            }else{
-                //接受方胜利
-                sender1.setVisibility(View.VISIBLE);//显示发起者标识
-                iv_winner2.setVisibility(View.VISIBLE);
-                iv_winner1.setVisibility(View.GONE);
-            }
-
-        }else{
-            sender1.setVisibility(View.VISIBLE);//显示发起者标识
-            //隐藏胜利者标识
-            iv_winner1.setVisibility(View.GONE);
-            iv_winner2.setVisibility(View.GONE);
-        }
         //更新数据
         tv_pk_name1.setText(StringUtil.showName(model.getUserName(),model.getMobile()));
         tv_pk_name2.setText(StringUtil.showName(model.getBUserName(),model.getBMobile()));
@@ -414,9 +394,28 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
                     .error(R.drawable.img_default)
                     .into(sender2_header);
         }
-
         if(model.getTStatus()==PKListAdapter.Completed){//如果这个PK是已经结束的就什么操作都不需要显示
+            if(StringUtils.isEmpty(model.getWinnerId())){
+                return;
+            }
+            if (Long.parseLong(model.getWinnerId())==model.getChallenged()){
+                //发起方胜利
+                sender1.setVisibility(View.GONE);//隐藏发起者标识
+                //显示胜利者表示
+                iv_winner1.setVisibility(View.VISIBLE);
+                iv_winner2.setVisibility(View.GONE);
+            }else{
+                //接受方胜利
+                sender1.setVisibility(View.VISIBLE);//显示发起者标识
+                iv_winner2.setVisibility(View.VISIBLE);
+                iv_winner1.setVisibility(View.GONE);
+            }
             return;
+        }else{
+            sender1.setVisibility(View.VISIBLE);//显示发起者标识
+            //隐藏胜利者标识
+            iv_winner1.setVisibility(View.GONE);
+            iv_winner2.setVisibility(View.GONE);
         }
         long userId=Long.parseLong(UserInfoModel.getInstance().getUser().getUserid());
         if ( userId== model.getChallenged()) {

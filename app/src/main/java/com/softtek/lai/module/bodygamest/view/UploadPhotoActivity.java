@@ -5,11 +5,8 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
@@ -32,7 +29,6 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygamest.Adapter.DownPhotoAdapter;
 import com.softtek.lai.module.bodygamest.model.DownPhotoModel;
-import com.softtek.lai.module.bodygamest.model.GifModel;
 import com.softtek.lai.module.bodygamest.model.LogListModel;
 import com.softtek.lai.module.bodygamest.model.LossModel;
 import com.softtek.lai.module.bodygamest.present.DownloadManager;
@@ -41,7 +37,6 @@ import com.softtek.lai.module.bodygamest.present.PhotoListPre;
 import com.softtek.lai.module.grade.model.BannerModel;
 import com.softtek.lai.module.grade.net.GradeService;
 import com.softtek.lai.utils.DisplayUtil;
-import com.softtek.lai.utils.ShareUtils;
 import com.softtek.lai.widgets.CircleImageView;
 import com.softtek.lai.widgets.SelectPicPopupWindow;
 import com.squareup.picasso.Picasso;
@@ -55,7 +50,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,12 +80,6 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     @InjectView(R.id.ptrlvlist)
     PullToRefreshListView ptrlvlist;
     String result;
-    //    @InjectView(R.id.im_uploadphoto_banner)
-//    ImageView im_uploadphoto_banner;
-//    @InjectView(R.id.cir_downphoto_head)
-//    CircleImageView cir_downphoto_head;
-//    @InjectView(R.id.tv_downphoto_nick)
-//    TextView tv_downphoto_nick;
 
     SelectPicPopupWindow menuWindow;
     int pageIndex = 0;
@@ -114,10 +102,9 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     private CircleImageView cir_downphoto_head_list;
     private ImageView imtest_list;
     private TextView tv_downphoto_nick;
-    private ImageFileSelector imageFileSelector;
+    //private ImageFileSelector imageFileSelector;
     boolean flag = true;
-    GifModel gifModel;
-    ShareUtils shareUtils;
+
     String url;
     LossModel lossModel;
 
@@ -136,8 +123,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     }
 
     @Subscribe
-    public void onEvent(GifModel model) {
-        gifModel = model;
+    public void onEvent(ResponseData responseData) {
         progressDialog.setMessage("加载中");
         progressDialog.show();
         photoListPre.getLossData(UserInfoModel.getInstance().getUser().getUserid(), progressDialog);
@@ -149,8 +135,8 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         lossModel = model;
         System.out.println("lossModel:" + lossModel);
         String path = AddressManager.get("shareHost");
-        String gifName = gifModel.getGifname();
-        url = path + "SharePhotoAblum?AccountId=" + UserInfoModel.getInstance().getUser().getUserid() + "&ShareImageName=" + gifName;
+        url = path + "SharePhotoAblum?AccountId=" + UserInfoModel.getInstance().getUser().getUserid();
+        System.out.println("url:"+url);
         menuWindow = new SelectPicPopupWindow(UploadPhotoActivity.this, itemsOnClick);
         //显示窗口
         menuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
@@ -166,11 +152,11 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         iv_email.setVisibility(View.VISIBLE);
         iv_email.setImageResource(R.drawable.img_share_bt);
         iv_email.setOnClickListener(this);
-        imageFileSelector = new ImageFileSelector(this);
+        /*imageFileSelector = new ImageFileSelector(this);
         imageFileSelector.setOutPutImageSize(DisplayUtil.dip2px(this, 600),
                 DisplayUtil.dip2px(this, 400));
         imageFileSelector.setQuality(80);
-        imageFileSelector.setCallback(this);
+        imageFileSelector.setCallback(this);*/
         //监听点击事件
         ll_left.setOnClickListener(this);
 
@@ -180,7 +166,6 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         ptrlvlist.setOnRefreshListener(this);
         View view = getLayoutInflater().inflate(R.layout.loadphotolist_header_layout, null, false);
         im_uploadphoto_banner_list = (ImageView) view.findViewById(R.id.im_uploadphoto_banner_list);
-        //tv_today = (TextView) view.findViewById(R.id.tv_today);
         cir_downphoto_head_list = (CircleImageView) view.findViewById(R.id.cir_downphoto_head_list);
         imtest_list = (ImageView) view.findViewById(R.id.imtest_list);
         tv_downphoto_nick = (TextView) view.findViewById(R.id.tv_downphoto_nick);
@@ -188,7 +173,8 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         imtest_list.setOnClickListener(this);
         imageFileCropSelector = new ImageFileCropSelector(this);
         imageFileCropSelector.setOutPutAspect(1, 1);
-        imageFileCropSelector.setOutPut(DisplayUtil.getMobileWidth(this), DisplayUtil.getMobileWidth(this));
+        int px=Math.min(DisplayUtil.getMobileWidth(this),DisplayUtil.getMobileHeight(this));
+        imageFileCropSelector.setOutPut(px,px);
         imageFileCropSelector.setCallback(this);
         im_uploadphoto_banner_list.setLongClickable(true);
         im_uploadphoto_banner_list.setOnLongClickListener(new View.OnLongClickListener() {
@@ -251,14 +237,12 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {
-                            imageFileSelector.takePhoto(UploadPhotoActivity.this);
-//                            takecamera();
-
+                            //imageFileSelector.takePhoto(UploadPhotoActivity.this);
+                            imageFileCropSelector.takePhoto(UploadPhotoActivity.this);
                         } else if (which == 1) {
                             //照片
-//                            imageFileSelector.selectImage(UploadPhotoActivity.this);
-                            imageFileSelector.selectImage(UploadPhotoActivity.this);
-//                            takepic();
+                            //imageFileSelector.selectImage(UploadPhotoActivity.this);
+                            imageFileCropSelector.selectImage(UploadPhotoActivity.this);
                         }
                     }
                 }).create().show();
@@ -299,7 +283,6 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
                             .withText(lossModel.getContent())
                             .withTargetUrl(url)
                             .withMedia(new UMImage(UploadPhotoActivity.this,path+str_url))
-//                            .withMedia(new UMImage(UploadPhotoActivity.this, R.drawable.img_share_logo))
                             .share();
                     break;
                 case R.id.lin_circle:
@@ -327,37 +310,16 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
 
     };
 
-    public void takecamera() {
-
-        path = (Environment.getExternalStorageDirectory().getPath()) + "/123.jpg";
-        File file = new File(path.toString());
-        Uri uri = Uri.fromFile(file);
-        Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, uri);
-        startActivityForResult(intent, PHOTO);
-        Bitmap bitmap = null;
-        try {
-            bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        com.github.snowdream.android.util.Log.i("path:" + path);
-    }
-
-    public void takepic() {
-        Intent picture = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(picture, 101);
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (!flag) {
+        /*if (!flag) {
             imageFileSelector.onActivityResult(requestCode, resultCode, data);
-        } else {
-            imageFileCropSelector.onActivityResult(requestCode, resultCode, data);
-        }
+        } else {*/
+        imageFileCropSelector.onActivityResult(requestCode, resultCode, data);
         imageFileCropSelector.getmImageCropperHelper().onActivityResult(requestCode, resultCode, data);
+        /*}*/
 //        UMSsoHandler ssoHandler = SocializeConfig.getSocializeConfig().getSsoHandler(requestCode);
 //        System.out.println("ssoHandler:" + ssoHandler + "   requestCode:" + requestCode + "   resultCode:" + resultCode);
 //        if (ssoHandler != null) {

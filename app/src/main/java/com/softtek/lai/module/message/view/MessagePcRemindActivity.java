@@ -22,8 +22,10 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.message.adapter.MessageFcRemindAdapter;
 import com.softtek.lai.module.message.adapter.MessagePcRemindAdapter;
+import com.softtek.lai.module.message.model.CheckClassEvent;
 import com.softtek.lai.module.message.model.MeasureRemindInfo;
 import com.softtek.lai.module.message.model.MessageDetailInfo;
 import com.softtek.lai.module.message.model.MessageModel;
@@ -61,12 +63,16 @@ public class MessagePcRemindActivity extends BaseActivity implements View.OnClic
     ArrayList<MessageDetailInfo> listPc;
     private IMessagePresenter messagePresenter;
     MessageDetailInfo messageDetailInfo;
-
+    UserModel model;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ll_left.setOnClickListener(this);
         EventBus.getDefault().register(this);
+        model=UserInfoModel.getInstance().getUser();
+        if(model==null){
+            return;
+        }
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -91,11 +97,23 @@ public class MessagePcRemindActivity extends BaseActivity implements View.OnClic
 
     @Subscribe
     public void onEvent(ResponseData listResponseData) {
-        System.out.println("此条标记已读");
+        String msg_type = messageDetailInfo.getMsgType();
+        if ("0".equals(msg_type)) {
+            dialogShow("加载中");
+            messagePresenter.accIsJoinClass(model.getUserid(),messageDetailInfo.getClassId());
+        } else {
+            Intent intent = new Intent(MessagePcRemindActivity.this, JoinGameActivity.class);
+            intent.putExtra("messageDetailInfo", messageDetailInfo);
+            startActivity(intent);
+        }
+
+    }
+
+    @Subscribe
+    public void onEvent(CheckClassEvent event) {
         Intent intent = new Intent(MessagePcRemindActivity.this, JoinGameActivity.class);
         intent.putExtra("messageDetailInfo", messageDetailInfo);
         startActivity(intent);
-
     }
 
     @Override

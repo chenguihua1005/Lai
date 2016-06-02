@@ -1,8 +1,20 @@
 package com.softtek.lai.module.sport.view;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.GpsSatellite;
+import android.location.GpsStatus;
+import android.location.LocationManager;
 import android.os.Bundle;
-import android.widget.Toast;
+import android.os.Handler;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
@@ -20,8 +32,10 @@ import com.amap.api.maps2d.model.PolylineOptions;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.utils.JCountDownTimer;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -30,12 +44,41 @@ import zilla.libcore.ui.InjectLayout;
 /**
  * 开始跑步地图界面
  * @author jerry.guan
- * @date 2016/5/30
+ *  2016/5/30
  */
 @InjectLayout(R.layout.activity_run_sport)
-public class RunSportActivity extends BaseActivity implements LocationSource,AMapLocationListener {
+public class RunSportActivity extends BaseActivity implements LocationSource, AMapLocationListener
+        , View.OnClickListener,GpsStatus.Listener {
+
+    @InjectView(R.id.ll_left)
+    LinearLayout ll_left;
+    @InjectView(R.id.tv_title)
+    TextView tv_title;
     @InjectView(R.id.map)
     MapView mapView;
+    @InjectView(R.id.iv_pause)
+    ImageView iv_pause;
+    @InjectView(R.id.iv_stop)
+    ImageView iv_stop;
+    @InjectView(R.id.tv_clock)
+    TextView tv_clock;
+    @InjectView(R.id.tv_calorie)
+    TextView tv_calorie;
+    @InjectView(R.id.tv_step)
+    TextView tv_step;
+    @InjectView(R.id.tv_distance)
+    TextView tv_distance;
+
+    //平均速度和GPS信号量
+    @InjectView(R.id.tv_avg_speed)
+    TextView tv_avg_speed;
+    @InjectView(R.id.iv_gps)
+    ImageView iv_gps;
+
+    //倒计时
+    RunSportCountDown countDown;
+
+
 
     AMap aMap;
     Polyline polyline;//画线专用
@@ -44,15 +87,17 @@ public class RunSportActivity extends BaseActivity implements LocationSource,AMa
     private AMapLocationClient aMapLocationClient;
     private AMapLocationClientOption aMapLocationClientOption;
     private OnLocationChangedListener listener;
-    private List<LatLng> coordinates=new ArrayList<>();//坐标集合
+    private List<LatLng> coordinates = new ArrayList<>();//坐标集合
 
     @Override
     protected void initViews() {
-        aMap=mapView.getMap();
+        ll_left.setOnClickListener(this);
+        iv_pause.setOnClickListener(this);
+        iv_stop.setOnClickListener(this);
+        aMap = mapView.getMap();
         aMap.setMapType(AMap.MAP_TYPE_NORMAL);
-        //aMap.animateCamera(CameraUpdateFactory.zoomOut());
         //我的位置样式
-        MyLocationStyle locationStyle=new MyLocationStyle();
+        MyLocationStyle locationStyle = new MyLocationStyle();
         locationStyle.myLocationIcon(BitmapDescriptorFactory
                 .fromResource(R.drawable.location_marker));
         locationStyle.strokeWidth(1f);//圆形的边框宽度
@@ -63,10 +108,10 @@ public class RunSportActivity extends BaseActivity implements LocationSource,AMa
         aMap.getUiSettings().setLogoPosition(-1);
         aMap.setMyLocationEnabled(true);
 
-        aMapLocationClient=new AMapLocationClient(this);
+        aMapLocationClient = new AMapLocationClient(this);
         aMapLocationClient.setLocationListener(this);
         //初始化定位参数
-        aMapLocationClientOption=new AMapLocationClientOption();
+        aMapLocationClientOption = new AMapLocationClientOption();
         //设置定位模式为高精度模式
         aMapLocationClientOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
         //设置是否返回地址信息（默认返回地址信息）
@@ -85,23 +130,31 @@ public class RunSportActivity extends BaseActivity implements LocationSource,AMa
         aMapLocationClient.startLocation();
 
         //初始化polyline
-        polylineOptions=new PolylineOptions();
+        polylineOptions = new PolylineOptions();
         polylineOptions.width(10);
         polylineOptions.color(Color.RED);
         polylineOptions.zIndex(3);
-        polyline=aMap.addPolyline(polylineOptions);
+        polyline = aMap.addPolyline(polylineOptions);
     }
-
+    LocationManager locationManager;
     @Override
     protected void initDatas() {
-
+        tv_title.setText("运动");
+        locationManager= (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            locationManager.addGpsStatusListener(this);
+            return;
+        }
+        countDown=new RunSportCountDown(1000,1000);
+        countDown.start();
     }
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
+        if(countDown!=null)countDown.cancel();
         mapView.onDestroy();
+        super.onDestroy();
     }
     @Override
     public void onResume() {
@@ -129,8 +182,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource,AMa
             if (aMapLocation.getErrorCode() == 0) {
                 //当坐标改变之后开始添加标记 画线
                 LatLng latLng=new LatLng(aMapLocation.getLatitude(),aMapLocation.getLongitude());
-                //aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,aMap.getMaxZoomLevel()));
-                aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,aMap.getMaxZoomLevel())
+                aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,aMap.getMaxZoomLevel()-2)
                 ,2000,null);
                 if(coordinates.isEmpty()){
                     coordinates.add(latLng);
@@ -146,9 +198,9 @@ public class RunSportActivity extends BaseActivity implements LocationSource,AMa
                 aMap.addPolyline(polylineOptions);
                 aMap.invalidate();
             } else {
-                Toast.makeText(this,"定位失败, ErrCode:"
+                /*Toast.makeText(this,"定位失败, ErrCode:"
                         + aMapLocation.getErrorCode() + ", errInfo:"
-                        + aMapLocation.getErrorInfo(),Toast.LENGTH_SHORT).show();
+                        + aMapLocation.getErrorInfo(),Toast.LENGTH_SHORT).show();*/
                 //显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
                 Log.i("ggx","定位失败, ErrCode:"
                         + aMapLocation.getErrorCode() + ", errInfo:"
@@ -165,5 +217,112 @@ public class RunSportActivity extends BaseActivity implements LocationSource,AMa
     @Override
     public void deactivate() {
 
+    }
+    int second;
+    int minute;
+    int hour;
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.ll_left:
+
+                break;
+            case R.id.iv_pause:
+                iv_pause.setEnabled(false);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        iv_pause.setEnabled(true);
+                    }
+                },500);
+               if(countDown!=null){
+                   if(countDown.isPaused()){
+                       countDown.reStart();
+                       iv_pause.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.pause));
+
+                   }else if(countDown.isRunning()){
+                       countDown.pause();
+                       iv_pause.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.go_on));
+                   }
+               }
+                break;
+            case R.id.iv_stop:
+
+                break;
+        }
+    }
+    //GPS状态监听
+    @Override
+    public void onGpsStatusChanged(int event) {
+        if(locationManager==null){
+            iv_gps.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.gps_empty));
+            return;
+        }
+        GpsStatus status = locationManager.getGpsStatus(null); //取当前状态
+        if (status == null) {//卫星数量为0
+            iv_gps.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.gps_empty));
+        } else if (event == GpsStatus.GPS_EVENT_SATELLITE_STATUS) {
+            int maxSatellites = status.getMaxSatellites();
+            Iterator<GpsSatellite> it = status.getSatellites().iterator();
+            int count = 0;
+            while (it.hasNext() && count <= maxSatellites) {
+                count++;
+            }
+            if (count >= maxSatellites / 2) {//如果卫星数量大于最大卫星数量的一半则表示很强
+                iv_gps.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.gps_three));
+            } else if (count >= maxSatellites / 4) {
+                iv_gps.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.gps_two));
+            } else if (count >= 1) {
+                iv_gps.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.gps_one));
+            } else {
+                iv_gps.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.gps_empty));
+            }
+        }
+    }
+
+    private class RunSportCountDown extends JCountDownTimer{
+
+        /**
+         * @param millisInFuture    The number of millis in the future from the call
+         *                          to {@link #start()} until the countdown is done and {@link #onFinish()}
+         *                          is called.
+         * @param countDownInterval The interval along the way to receive
+         *                          {@link #onTick(long)} callbacks.
+         */
+        public RunSportCountDown(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+
+        }
+
+
+        @Override
+        public void onFinish() {
+            //当倒计时结束刷新时间
+            second++;
+            if(second==60){
+                second=0;
+                minute++;
+                if(minute==60){
+                    minute=0;
+                    hour++;
+                    if(hour==60){
+                        hour=0;
+                    }
+                }
+            }
+            String time=(hour<10?"0"+hour:String.valueOf(hour))
+                    +":"+(minute<10?"0"+minute:String.valueOf(minute))
+                    +":"+(second<10?"0"+second:String.valueOf(second));
+            if(tv_clock!=null)
+                tv_clock.setText(time);
+            //重新启动
+            countDown=new RunSportCountDown(1000,1000);
+            countDown.start();
+        }
     }
 }

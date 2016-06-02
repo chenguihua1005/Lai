@@ -24,12 +24,27 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_below="@+id/ll_action_content">
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/lab2"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_gravity="center_horizontal|center_vertical"
+
             />
+                <TextView
+                    android:id="@+id/tv_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000000"
+                    android:textSize="10sp"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_marginBottom="4dp"
+                    android:textStyle="bold"
+                    android:text=""/>
+            </FrameLayout>
             <TextView
                 android:id="@+id/tab_bushu"
                 android:layout_width="match_parent"

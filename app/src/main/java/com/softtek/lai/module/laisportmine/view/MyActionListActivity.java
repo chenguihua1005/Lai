@@ -15,6 +15,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.act.view.ActActivity;
 import com.softtek.lai.module.group.view.GroupMainActivity;
 import com.softtek.lai.module.laisportmine.adapter.MyActionAdapter;
 import com.softtek.lai.module.laisportmine.adapter.MyPublicWealfareAdapter;
@@ -111,13 +112,13 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
                 myActionAdapter.notifyDataSetChanged();
             }
         }).create().show();
-        return false;
+        return true;
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent intent=new Intent(this, GroupMainActivity.class);
-        intent.putExtra("id",Long.parseLong(actionModelLists.get(position).getMessageId()));
+        Intent intent=new Intent(this, ActActivity.class);
+        intent.putExtra("id",actionModelLists.get(position).getActId());
         startActivity(intent);
     }
 }
