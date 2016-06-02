@@ -1,7 +1,5 @@
 package com.softtek.lai.module.sport.presenter;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.softtek.lai.common.ResponseData;
@@ -10,7 +8,7 @@ import com.softtek.lai.module.sport.model.HistorySportModel;
 import com.softtek.lai.module.sport.model.SportData;
 import com.softtek.lai.module.sport.model.TotalSportModel;
 import com.softtek.lai.module.sport.net.SportService;
-import com.softtek.lai.module.sport.view.StartSportActivity;
+import com.softtek.lai.module.sport.view.RunSportActivity;
 import com.softtek.lai.utils.RequestCallback;
 
 import java.util.ArrayList;
@@ -34,6 +32,10 @@ public class SportManager {
 
     public SportManager(GetMovementListCallBack getMovementListCallBack) {
         this.getMovementListCallBack = getMovementListCallBack;
+        token = UserInfoModel.getInstance().getToken();
+        service = ZillaApi.NormalRestAdapter.create(SportService.class);
+    }
+    public SportManager(){
         token = UserInfoModel.getInstance().getToken();
         service = ZillaApi.NormalRestAdapter.create(SportService.class);
     }
@@ -120,15 +122,23 @@ public class SportManager {
         });
     }
 
-    public void submitSportData(final AppCompatActivity activity, SportData data){
+    public void submitSportData(final RunSportActivity activity, SportData data){
         service.submitSportData(UserInfoModel.getInstance().getToken(),
                 data,
                 new RequestCallback<ResponseData>() {
                     @Override
                     public void success(ResponseData responseData, Response response) {
-                        if(activity!=null)
-                            activity.startActivity(new Intent(activity, StartSportActivity.class));
-                            activity.finish();
+                        if(activity!=null) {
+                            activity.doSubmitResult(responseData.getStatus());
+                        }
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        if(activity!=null) {
+                            activity.doSubmitResult(-1);
+                        }
+                        super.failure(error);
                     }
                 });
     }

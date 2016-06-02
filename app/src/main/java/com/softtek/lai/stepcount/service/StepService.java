@@ -18,12 +18,12 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.os.SystemClock;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.group.view.GroupMainActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.mygrades.view.MyGradesActivity;
 import com.softtek.lai.stepcount.db.StepUtil;
@@ -32,13 +32,12 @@ import com.softtek.lai.stepcount.model.UserStep;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.JCountDownTimer;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.util.Calendar;
 
 public class StepService extends Service implements SensorEventListener {
 
     public static final String UPLOAD_STEP="com.softtek.lai.StepService";
+    public static final String STEP="com.softtek.lai.StepService.StepCount";
 
     //默认为30秒进行一次存储
     private static int duration = 30000;
@@ -52,10 +51,12 @@ public class StepService extends Service implements SensorEventListener {
     private WakeLock mWakeLock;
     private TimeCount time;
 
+    private LocalBroadcastManager localBroadcastManager;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        localBroadcastManager=LocalBroadcastManager.getInstance(this);
         initBroadcastReceiver();
         new Thread(new Runnable() {
             public void run() {
@@ -152,6 +153,12 @@ public class StepService extends Service implements SensorEventListener {
         nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         //发送通知
         nm.notify(R.string.app_name, notification);
+        //发送广播
+        if(localBroadcastManager!=null) {
+            Intent stepIntent=new Intent(STEP);
+            stepIntent.putExtra("step",StepDcretor.CURRENT_SETP);
+            localBroadcastManager.sendBroadcast(stepIntent);
+        }
     }
 
     @Override
