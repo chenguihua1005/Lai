@@ -28,7 +28,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:background="@drawable/img_start_sport_bg"
-        android:text="平均速度:5km/h"
+        android:text="平均速度:0km/h"
         android:gravity="center"
         android:textColor="@color/white"
         android:textSize="@dimen/textSize12"
