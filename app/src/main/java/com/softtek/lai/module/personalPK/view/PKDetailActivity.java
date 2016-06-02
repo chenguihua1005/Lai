@@ -14,6 +14,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
@@ -30,6 +31,8 @@ import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringUtils;
+
+import java.text.DecimalFormat;
 
 import butterknife.InjectView;
 import retrofit.RetrofitError;
@@ -367,6 +370,12 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
             tv_unit1.setText("公里");
             tv_unit2.setText("公里");
             zongbushu.setText("当前公里数");
+            //1公里是1428步
+            double gongli=1.0*model.getChaTotal()/1428;
+            double bgongli=1.0*model.getBchaTotal()/1428;
+            DecimalFormat format=new DecimalFormat("#0.00");
+            tv_bushu1.setText(format.format(gongli));
+            tv_bushu2.setText(format.format(bgongli));
         } else {//步数
             iv_target_icon.setBackgroundResource(R.drawable.pk_bushu);
             tv_target_content.setText("目标步数：");
@@ -374,9 +383,9 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
             tv_unit1.setText("步");
             tv_unit2.setText("步");
             zongbushu.setText("当前步数");
+            tv_bushu1.setText(model.getChaTotal() + "");
+            tv_bushu2.setText(model.getBchaTotal() + "");
         }
-        tv_bushu1.setText(model.getChaTotal() + "");
-        tv_bushu2.setText(model.getBchaTotal() + "");
 
         //载入头像
         String path = AddressManager.get("photoHost");

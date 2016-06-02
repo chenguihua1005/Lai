@@ -212,7 +212,7 @@
                             android:id="@+id/tv_bushu1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="0.00"
+
                             android:textColor="#75ba2b"
                             android:textSize="18sp" />
 
@@ -237,7 +237,7 @@
                             android:id="@+id/tv_bushu2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="0.00"
+
                             android:textColor="#75ba2b"
                             android:textSize="18sp" />
 
