@@ -335,6 +335,7 @@
                     android:layout_centerInParent="true"
                     android:background="@color/white"
                     android:gravity="center"
+                    android:textColor="@color/words"
                     android:text="未开始任何活动"
                     android:textSize="20sp" />
             </RelativeLayout>
@@ -733,7 +734,7 @@
                             android:id="@+id/text2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="你已为天使听见爱贡献"
+                            android:text="你已为“天使听见爱”贡献"
                             android:textColor="@color/word"
                             android:textSize="@dimen/textSize1" />
 
@@ -762,7 +763,7 @@
                     android:layout_marginBottom="30dip"
                     android:layout_marginTop="24dip"
                     android:gravity="center"
-                    android:text="每天，康宝莱将为日排名前100的用户，已“天使听见爱”项目捐献一元爱心善款."
+                    android:text="每天，康宝莱将为日排名前100的用户，已“天使听见爱”项目捐献一元爱心善款。"
                     android:textColor="@color/word13"
                     android:textSize="@dimen/textSize12" />
             </LinearLayout>

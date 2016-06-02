@@ -45,6 +45,8 @@ public class MyXuZhangActivity extends BaseActivity implements XunZhangListManag
             TextView tv_huode;
     @InjectView(R.id.grid_view1)
             GridView grid_view1;
+    @InjectView(R.id.grid_view2)
+            GridView grid_view2;
 
     XuZhangAdapter xuZhangAdapter;
     XuZhangNullAdapter xuZhangNullAdapter;
@@ -70,7 +72,9 @@ public class MyXuZhangActivity extends BaseActivity implements XunZhangListManag
         tv_huode.setFocusableInTouchMode(true);
         tv_huode.requestFocus();
         tv_huode.findFocus();
+        //设置girdview无点击效果
         grid_view1.setSelector(new ColorDrawable(Color.TRANSPARENT));
+        grid_view2.setSelector(new ColorDrawable(Color.TRANSPARENT));
     }
 
     @Override
@@ -80,9 +84,9 @@ public class MyXuZhangActivity extends BaseActivity implements XunZhangListManag
 //        MyGridView gridview1 = (MyGridView) findViewById(R.id.grid_view1);
         xuZhangAdapter=new XuZhangAdapter(this,xunZhangModelList,images1,content1,imgagecontent1);
         grid_view1.setAdapter(xuZhangAdapter);
-        MyGridView gridview2 = (MyGridView) findViewById(R.id.grid_view2);
+//        MyGridView gridview2 = (MyGridView) findViewById(R.id.grid_view2);
         xuZhangNullAdapter=new XuZhangNullAdapter(this,xunZhangModelList1,images,content,imgagecontent);
-        gridview2.setAdapter(xuZhangNullAdapter);
+        grid_view2.setAdapter(xuZhangNullAdapter);
 
 
 

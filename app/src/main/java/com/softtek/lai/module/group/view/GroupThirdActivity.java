@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -58,6 +59,10 @@ public class GroupThirdActivity extends BaseActivity implements View.OnClickList
     @InjectView(R.id.list_group)
     ListView list_group;
 
+    @InjectView(R.id.img_mo_message)
+    ImageView img_mo_message;
+
+
     @InjectView(R.id.lin)
     LinearLayout lin;
 
@@ -74,6 +79,7 @@ public class GroupThirdActivity extends BaseActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ll_left.setOnClickListener(this);
+        list_group.setEmptyView(img_mo_message);
         list_group.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

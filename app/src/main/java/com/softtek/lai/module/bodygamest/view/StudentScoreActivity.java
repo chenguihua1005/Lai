@@ -56,6 +56,9 @@ public class StudentScoreActivity extends BaseActivity implements View.OnClickLi
     @InjectView(R.id.iv_email)
     ImageView iv_email;
 
+    @InjectView(R.id.img_mo_message)
+    ImageView img_mo_message;
+
     @InjectView(R.id.list_student_score)
     ListView list_student_score;
     private IStudentPresenter studentPresenter;
@@ -80,6 +83,7 @@ public class StudentScoreActivity extends BaseActivity implements View.OnClickLi
         iv_email.setVisibility(View.VISIBLE);
         iv_email.setImageResource(R.drawable.img_share_bt);
         iv_email.setOnClickListener(this);
+        list_student_score.setEmptyView(img_mo_message);
         progressDialog = new ProgressDialog(this);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setMessage("正在加载内容...");
@@ -117,6 +121,7 @@ public class StudentScoreActivity extends BaseActivity implements View.OnClickLi
             case R.id.ll_left:
                 finish();
                 break;
+            case R.id.iv_email:
             case R.id.fl_right:
                 if (UserInfoModel.getInstance().getUser() == null) {
                     return;
@@ -140,7 +145,7 @@ public class StudentScoreActivity extends BaseActivity implements View.OnClickLi
                             .setPlatform(SHARE_MEDIA.WEIXIN)
                             .withTitle("康宝莱体重管理挑战赛，坚持只为改变！")
                             .withText(lossModel.getContent())
-                            .withTargetUrl(lossModel.getContent())
+                            .withTargetUrl(url)
                             .withMedia(new UMImage(StudentScoreActivity.this, R.drawable.img_share_logo))
                             .share();
                     break;
@@ -149,7 +154,7 @@ public class StudentScoreActivity extends BaseActivity implements View.OnClickLi
                             .setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)
                             .withTitle("康宝莱体重管理挑战赛，坚持只为改变！")
                             .withText(lossModel.getContent())
-                            .withTargetUrl(lossModel.getContent())
+                            .withTargetUrl(url)
                             .withMedia(new UMImage(StudentScoreActivity.this, R.drawable.img_share_logo))
                             .share();
                     break;

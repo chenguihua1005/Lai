@@ -216,7 +216,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         lossModel = model;
         System.out.println("lossModel:" + lossModel);
         String path = AddressManager.get("shareHost");
-        url = path + "ShareTranscript?AccountId=" + UserInfoModel.getInstance().getUser().getUserid();
+        url = path + "ShareMeasuredRecord?AccountId=" + UserInfoModel.getInstance().getUser().getUserid();
         System.out.println("url:" + url);
         menuWindow = new SelectPicPopupWindow(FuceStActivity.this, itemsOnClick);
         //显示窗口
@@ -267,7 +267,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
                             .setPlatform(SHARE_MEDIA.WEIXIN)
                             .withTitle("康宝莱体重管理挑战赛，坚持只为改变！")
                             .withText(lossModel.getContent())
-                            .withTargetUrl(lossModel.getContent())
+                            .withTargetUrl(url)
                             .withMedia(new UMImage(FuceStActivity.this, R.drawable.img_share_logo))
                             .share();
                     break;
@@ -276,7 +276,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
                             .setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)
                             .withTitle("康宝莱体重管理挑战赛，坚持只为改变！")
                             .withText(lossModel.getContent())
-                            .withTargetUrl(lossModel.getContent())
+                            .withTargetUrl(url)
                             .withMedia(new UMImage(FuceStActivity.this, R.drawable.img_share_logo))
                             .share();
                     break;
@@ -300,6 +300,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
     public void onClick(View view) {
         switch (view.getId())
         {
+            case R.id.iv_email:
             case R.id.fl_right:
                 if (isState.equals("true")) {
                     tv_writes_chu_weight.setEnabled(true);
@@ -454,6 +455,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
                     tv_right.setText("");
                     tv_right.setFocusable(false);
                     iv_email.setImageResource(R.drawable.img_share_bt);
+                    iv_email.setOnClickListener(this);
 
                     if (!TextUtils.isEmpty(retestAuditModelEvent.getRetestAuditModels().get(0).getImage())) {
                         im_retestwritest_showphoto.setVisibility(View.VISIBLE);

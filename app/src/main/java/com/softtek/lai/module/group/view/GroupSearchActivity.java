@@ -14,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -56,6 +57,9 @@ public class GroupSearchActivity extends BaseActivity implements View.OnClickLis
     @InjectView(R.id.text_search)
     TextView text_search;
 
+    @InjectView(R.id.img_mo_message)
+    ImageView img_mo_message;
+
     @InjectView(R.id.edit_search)
     EditText edit_search;
 
@@ -72,6 +76,7 @@ public class GroupSearchActivity extends BaseActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         ll_left.setOnClickListener(this);
         text_search.setOnClickListener(this);
+        list_group.setEmptyView(img_mo_message);
         edit_search.setFilters(new InputFilter[]{new InputFilter.LengthFilter(6)});
 
         list_group.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -144,11 +149,9 @@ public class GroupSearchActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void getRGByNameOrCode(String type, List<GroupModel> list) {
         dialogDissmiss();
-        if ("success".equals(type)) {
-            group_list = list;
-            adapter = new GroupAdapter(this, group_list);
-            list_group.setAdapter(adapter);
-        }
+        group_list = list;
+        adapter = new GroupAdapter(this, group_list);
+        list_group.setAdapter(adapter);
     }
 
     /**

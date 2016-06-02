@@ -84,6 +84,7 @@ public class ActGroupPersonActivity extends BaseActivity implements View.OnClick
     protected void initViews() {
         zk_list.setMode(PullToRefreshBase.Mode.BOTH);
         zk_list.setOnRefreshListener(this);
+        zk_list.setEmptyView(img_mo_message);
         ll_left.setOnClickListener(this);
     }
 
@@ -162,7 +163,6 @@ public class ActGroupPersonActivity extends BaseActivity implements View.OnClick
         if ("true".equals(type)) {
             rel_head.setVisibility(View.VISIBLE);
             zk_list.setVisibility(View.VISIBLE);
-            img_mo_message.setVisibility(View.GONE);
             if (zk_list != null) {
                 zk_list.onRefreshComplete();
             }
@@ -185,7 +185,6 @@ public class ActGroupPersonActivity extends BaseActivity implements View.OnClick
             if (pageIndex == 1) {
                 rel_head.setVisibility(View.GONE);
                 zk_list.setVisibility(View.GONE);
-                img_mo_message.setVisibility(View.VISIBLE);
             }
             if (zk_list != null) {
                 zk_list.onRefreshComplete();
