@@ -12,7 +12,6 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.File.view.CreatFlleActivity;
 import com.softtek.lai.module.group.model.StepResponseModel;
 import com.softtek.lai.module.group.net.SportGroupService;
 import com.softtek.lai.module.home.view.HomeActviity;
