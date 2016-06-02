@@ -151,13 +151,8 @@ public class SelectTimeActivity extends BaseActivity implements View.OnClickList
             case R.id.fl_right:
                 //保存
                 //判断开始时间和结束时间的大小
-                String start=tv_start.getText().toString();
-                String end=tv_end.getText().toString();
-                if(DateUtil.getInstance("yyyy年MM月dd日").isGt(start,end)){
-                    new AlertDialog.Builder(this).setMessage("开始日期不能大于结束时期").create().show();
-                }else{
-                    validateLife.validate();
-                }
+                validateLife.validate();
+
                 break;
             case R.id.rl_start:
                 showDateDialog(true);
@@ -215,6 +210,12 @@ public class SelectTimeActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void onValidationSucceeded() {
+        String start=tv_start.getText().toString();
+        String end=tv_end.getText().toString();
+        if(DateUtil.getInstance("yyyy年MM月dd日").isGt(start,end)){
+            new AlertDialog.Builder(this).setMessage("开始日期不能大于结束时期").create().show();
+            return;
+        }
         Log.i(form.toString());
         dialogShow("创建PK中...");
         manager.savePK(form, new RequestCallback<ResponseData<SavePK>>() {
