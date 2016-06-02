@@ -73,7 +73,7 @@ public class PKListAdapter extends BaseAdapter{
         holder.cb_zan_right.setText(model.getBChp()+"");
         holder.pk_name1.setText(StringUtil.showName(model.getUserName(),model.getMobile()));
         holder.pk_name2.setText(StringUtil.showName(model.getBUserName(),model.getBMobile()));
-        holder.tv_time.setText(DateUtil.getInstance().convertDateStr(model.getStart(),"yyyy年MM月dd日")+"——"+
+        holder.tv_time.setText(DateUtil.getInstance().convertDateStr(model.getStart(),"yyyy年MM月dd日")+" — "+
                 DateUtil.getInstance().convertDateStr(model.getEnd(),"yyyy年MM月dd日"));
         if(model.getChipType()==NAIXI){
             holder.iv_jiangli.setBackgroundResource(R.drawable.pk_naixi);

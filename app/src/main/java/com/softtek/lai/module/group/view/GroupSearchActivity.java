@@ -14,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -55,6 +56,9 @@ public class GroupSearchActivity extends BaseActivity implements View.OnClickLis
 
     @InjectView(R.id.text_search)
     TextView text_search;
+
+    @InjectView(R.id.img_mo_message)
+    ImageView img_mo_message;
 
     @InjectView(R.id.edit_search)
     EditText edit_search;
@@ -110,7 +114,7 @@ public class GroupSearchActivity extends BaseActivity implements View.OnClickLis
             case R.id.text_search:
                 String str = edit_search.getText().toString().trim();
                 if ("".equals(str)) {
-                    Util.toastMsg("请输入关键字再试");
+                    Util.toastMsg("请输入跑团号或跑团名称再试");
                 } else {
                     dialogShow("加载中");
                     sportGroupManager.getRGByNameOrCode(str);
@@ -144,11 +148,10 @@ public class GroupSearchActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void getRGByNameOrCode(String type, List<GroupModel> list) {
         dialogDissmiss();
-        if ("success".equals(type)) {
-            group_list = list;
-            adapter = new GroupAdapter(this, group_list);
-            list_group.setAdapter(adapter);
-        }
+        list_group.setEmptyView(img_mo_message);
+        group_list = list;
+        adapter = new GroupAdapter(this, group_list);
+        list_group.setAdapter(adapter);
     }
 
     /**

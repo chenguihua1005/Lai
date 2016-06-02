@@ -51,7 +51,7 @@
                     android:background="@drawable/border_none"
                     android:textCursorDrawable="@drawable/color_cursor"
                     android:singleLine="true"
-                    android:hint="搜索"
+                    android:hint="跑团号/跑团名称"
                     android:layout_gravity="center"
                     android:textColor="@color/word"
                     android:textSize="@dimen/textSize4"
@@ -70,11 +70,22 @@
                 android:background="@drawable/bg_login_btn"/>
         </RelativeLayout>
     </LinearLayout>
-
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
     <ListView
         android:id="@+id/list_group"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_marginTop="8dip"
-        android:scrollbars="none" />
+        android:scrollbars="none"
+        />
+        <ImageView
+            android:id="@+id/img_mo_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/no_message"
+            android:visibility="gone" />
+    </RelativeLayout>
 </LinearLayout>

@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -37,6 +38,9 @@ public class ActListActivity extends BaseActivity implements View.OnClickListene
     @InjectView(R.id.tv_title)
     TextView tv_title;
 
+    @InjectView(R.id.img_mo_message)
+    ImageView img_mo_message;
+
     @InjectView(R.id.act_list)
     PullToRefreshListView act_list;
 
@@ -53,6 +57,7 @@ public class ActListActivity extends BaseActivity implements View.OnClickListene
         ll_left.setOnClickListener(this);
         act_list.setMode(PullToRefreshBase.Mode.BOTH);
         act_list.setOnRefreshListener(this);
+        act_list.setEmptyView(img_mo_message);
         act_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

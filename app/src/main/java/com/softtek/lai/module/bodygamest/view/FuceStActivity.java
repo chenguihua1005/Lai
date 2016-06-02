@@ -216,7 +216,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         lossModel = model;
         System.out.println("lossModel:" + lossModel);
         String path = AddressManager.get("shareHost");
-        url = path + "ShareMeasuredRecord?AccountId=" + UserInfoModel.getInstance().getUser().getUserid();
+        url = path + "ShareTranscript?AccountId=" + UserInfoModel.getInstance().getUser().getUserid();
         System.out.println("url:" + url);
         menuWindow = new SelectPicPopupWindow(FuceStActivity.this, itemsOnClick);
         //显示窗口

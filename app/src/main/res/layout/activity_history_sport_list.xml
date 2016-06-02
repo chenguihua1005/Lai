@@ -9,9 +9,22 @@
 
     <include layout="@layout/toolbar" />
 
-    <ListView
-        android:id="@+id/sport_list"
+    <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="fill_parent">
+
+        <ListView
+            android:id="@+id/sport_list"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:id="@+id/img_mo_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/no_message"
+            android:visibility="gone" />
+    </RelativeLayout>
 
 </LinearLayout>

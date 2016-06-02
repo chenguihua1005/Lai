@@ -5,8 +5,11 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.GpsSatellite;
@@ -42,6 +45,10 @@ import com.amap.api.maps2d.model.PolylineOptions;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.sport.model.SportData;
+import com.softtek.lai.module.sport.presenter.SportManager;
+import com.softtek.lai.stepcount.model.StepDcretor;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.JCountDownTimer;
 
@@ -98,7 +105,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
 
     //倒计时
     RunSportCountDown countDown;
-
+    private SportManager manager;
     AMap aMap;
     //Polyline polyline;//画线专用
     PolylineOptions polylineOptions;
@@ -163,9 +170,18 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
         polylineOptions.zIndex(3);
     }
     LocationManager locationManager;
+    StepReceive receive;
+    int startStep=0;
     @Override
     protected void initDatas() {
         tv_title.setText("运动");
+        manager=new SportManager();
+        startStep=StepDcretor.CURRENT_SETP;
+        //注册步数接收器
+        receive=new StepReceive();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("com.softtek.lai.StepService.StepCount");
+        registerReceiver(receive,filter);
         locationManager= (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             locationManager.addGpsStatusListener(this);
@@ -179,7 +195,8 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
     protected void onDestroy() {
         //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
         if(countDown!=null)countDown.cancel();
-        aMapLocationClient.unRegisterLocationListener(this);
+        if(aMapLocationClient!=null)aMapLocationClient.unRegisterLocationListener(this);
+        if(receive!=null)unregisterReceiver(receive);
         mapView.onDestroy();
         super.onDestroy();
     }
@@ -202,6 +219,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
         mapView.onSaveInstanceState(outState);
     }
 
+    double previousDistance;//旧的距离
     @Override
     public void onLocationChanged(AMapLocation aMapLocation) {
         if(listener!=null&&aMapLocation!=null) {
@@ -226,8 +244,10 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
                 LatLng latLng1=coordinates.get(coordinates.size()-1);
                 double distance=distanceOfTwoPoints(latLng.latitude,latLng.longitude,latLng1.latitude,latLng1.longitude);
                 double speed=distance/(time*1f/3600);
-                tv_avg_speed.setText(new DecimalFormat("#0.00").format(speed)+"km/h");
-
+                DecimalFormat format=new DecimalFormat("#0.00");
+                tv_avg_speed.setText(format.format(speed)+"km/h");
+                tv_distance.setText(format.format((distance+ previousDistance)/(1000*1.0)));
+                previousDistance +=distance;
             } else {
                 //显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
                 /*Log.i("ggx","定位失败, ErrCode:"
@@ -273,7 +293,38 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
                }
                 break;
             case R.id.iv_stop:
-
+                if(countDown!=null)countDown.cancel();
+                AlertDialog dialog=new AlertDialog.Builder(this).setMessage("确认结束运动并提交本次数据")
+                        .setPositiveButton("稍后", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if(countDown!=null)countDown.reStart();
+                            }
+                        })
+                        .setNegativeButton("提交", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if(countDown!=null)countDown.cancel();
+                                SportData data=new SportData();
+                                data.setAccountId(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()));
+                                data.setCalories(tv_calorie.getText().toString());
+                                data.setKilometre(tv_distance.getText().toString());
+                                data.setMType(0);
+                                data.setSpeed(tv_avg_speed.getText().toString());
+                                data.setTimeLength(time+"");
+                                data.setTotal(Integer.parseInt(tv_step.getText().toString()));
+                                data.setTrajectory("{}");
+                                dialogShow("正在提交");
+                                manager.submitSportData(RunSportActivity.this,data);
+                            }
+                        }).create();
+                dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        if(countDown!=null)countDown.reStart();
+                    }
+                });
+                dialog.show();
                 break;
             case R.id.cb_control:
                 //面板控制动画
@@ -368,7 +419,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
         }
     }
 
-    long time=0;
+    long time=0;//总耗时
     private class RunSportCountDown extends JCountDownTimer{
 
         /**
@@ -391,14 +442,18 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
             String show=(hour<10?"0"+hour:String.valueOf(hour))
                     +":"+(minutes<10?"0"+minutes:String.valueOf(minutes))
                     +":"+(second<10?"0"+second:String.valueOf(second));
+            int currentStep=StepDcretor.CURRENT_SETP-startStep;
             if(tv_clock!=null)
                 tv_clock.setText(show);
+            if(tv_step!=null)
+                tv_step.setText(String.valueOf(currentStep));
+            if(tv_calorie!=null)
+                tv_calorie.setText(String.valueOf(currentStep/35));//一大卡为35步
         }
 
 
         @Override
         public void onFinish() {
-
             //重新启动
             countDown=new RunSportCountDown(60000,1000);
             countDown.start();
@@ -414,6 +469,12 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
         return super.onKeyDown(keyCode, event);
     }
 
+    public void doSubmitResult(int resultCode){
+        dialogDissmiss();
+        if(resultCode==200){
+            finish();
+        }
+    }
     private void doBack(){
         if(countDown!=null){
             countDown.pause();
@@ -465,6 +526,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
      * @param lng2
      * @return 距离：单位为米
      */
+    private static final double EARTH_RADIUS = 6378137;
     public  double distanceOfTwoPoints(double lat1,double lng1,
                                              double lat2,double lng2) {
         double radLat1 = rad(lat1);
@@ -478,9 +540,21 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
         s = Math.round(s * 10000) / 10000;
         return s;
     }
-    private static final double EARTH_RADIUS = 6378137;
     private  double rad(double d) {
         return d * Math.PI / 180.0;
     }
 
+    //注册步数接收器
+    private class StepReceive extends BroadcastReceiver{
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int tempStep=intent.getIntExtra("step",0);
+            int step=(tempStep-startStep)<=0?0:(tempStep-startStep);
+            int calori=step/35;
+            tv_step.setText(step+"");
+            tv_calorie.setText(calori+"");
+
+        }
+    }
 }
