@@ -28,7 +28,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:background="@drawable/img_start_sport_bg"
-        android:text="平均速度:5km/h"
+        android:text="平均速度:0km/h"
         android:gravity="center"
         android:textColor="@color/white"
         android:textSize="@dimen/textSize12"
@@ -39,7 +39,7 @@
         android:id="@+id/text_total_distance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="26.05"
+        android:text="0"
         android:textSize="75sp"
         android:layout_centerHorizontal="true"
         android:textColor="@color/white"
@@ -73,7 +73,7 @@
                     android:id="@+id/text_total_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="131.55"
+                    android:text="0"
                     android:textColor="@color/white"
                     android:textSize="25sp"/>
                 <TextView
@@ -117,7 +117,7 @@
                     android:id="@+id/text_total_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="5"
+                    android:text="0"
                     android:textColor="@color/white"
                     android:textSize="25sp"/>
                 <TextView

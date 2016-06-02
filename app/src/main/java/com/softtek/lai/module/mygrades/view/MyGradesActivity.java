@@ -4,7 +4,9 @@ package com.softtek.lai.module.mygrades.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -24,6 +26,10 @@ import com.softtek.lai.module.mygrades.net.GradesService;
 import com.softtek.lai.module.mygrades.presenter.GradesImpl;
 import com.softtek.lai.module.mygrades.presenter.IGradesPresenter;
 import com.softtek.lai.module.studetail.util.LineChartUtil;
+import com.softtek.lai.widgets.SelectPicPopupWindow;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -138,6 +144,7 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
     List<String> days = new ArrayList<String>();
     List<Float> dates = new ArrayList<Float>();
     String nowdate7, nowdate6, nowdate5, nowdate4, nowdate3, nowdate2, nowdate1;
+    SelectPicPopupWindow menuWindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -887,7 +894,10 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                 break;
             //分享
             case R.id.fl_right:
-                Util.toastMsg("分享");
+//                menuWindow = new SelectPicPopupWindow(MyGradesActivity.this, itemsOnClick);
+//                //显示窗口
+//                menuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+//                menuWindow.showAtLocation(MyGradesActivity.this.findViewById(R.id.lin), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
                 break;
             case R.id.bt_left:
                 if (state != true) {
@@ -943,6 +953,47 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                 break;
         }
     }
+
+
+    //微信分享，朋友圈分享，微博分享
+//    private View.OnClickListener itemsOnClick = new View.OnClickListener() {
+//        public void onClick(View v) {
+//            menuWindow.dismiss();
+//            switch (v.getId()) {
+//                case R.id.lin_weixin:
+//                    new ShareAction(MyGradesActivity.this)
+//                            .setPlatform(SHARE_MEDIA.WEIXIN)
+//                            .withTitle("康宝莱体重管理挑战赛，坚持只为改变！")
+//                            .withText("康宝莱体重管理挑战赛，坚持只为改变！")
+//                            .withTargetUrl("http://www.baidu.com")
+//                            .withMedia(new UMImage(MyGradesActivity.this, R.drawable.img_share_logo))
+//                            .share();
+//                    break;
+//                case R.id.lin_circle:
+//                    new ShareAction(MyGradesActivity.this)
+//                            .setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)
+//                            .withTitle("康宝莱体重管理挑战赛，坚持只为改变！")
+//                            .withText("康宝莱体重管理挑战赛，坚持只为改变！")
+//                            .withTargetUrl("http://www.baidu.com")
+//                            .withMedia(new UMImage(MyGradesActivity.this, R.drawable.img_share_logo))
+//                            .share();
+//                    break;
+//                case R.id.lin_sina:
+//                    new ShareAction(MyGradesActivity.this)
+//                            .setPlatform(SHARE_MEDIA.SINA)
+//                            .withText("康宝莱体重管理挑战赛，坚持只为改变！"+"http://www.baidu.com")
+//                            .withMedia(new UMImage(MyGradesActivity.this, R.drawable.img_share_logo))
+//                            .share();
+//                    break;
+//                default:
+//                    break;
+//            }
+//
+//
+//        }
+//
+//    };
+
 
     /**
      * 获取阶段日期

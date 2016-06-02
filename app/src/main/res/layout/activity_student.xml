@@ -151,8 +151,8 @@
                                     android:orientation="vertical">
 
                                     <ImageView
-                                        android:layout_width="30dp"
-                                        android:layout_height="30dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
                                         android:background="@drawable/basedate" />
 
                                     <TextView
@@ -173,7 +173,7 @@
                             android:id="@+id/ll_st_chengjidan"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_marginRight="2.5dp"
+                            android:layout_marginRight="1.5dp"
                             android:layout_weight="1">
 
                             <FrameLayout
@@ -188,8 +188,8 @@
                                     android:orientation="vertical">
 
                                     <ImageView
-                                        android:layout_width="30dp"
-                                        android:layout_height="30dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
                                         android:src="@drawable/scorecard" />
 
                                     <TextView
@@ -211,15 +211,15 @@
                             android:id="@+id/ll_st_review"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_marginLeft="2.5dp"
+                            android:layout_marginLeft="1.5dp"
                             android:layout_weight="1"
                             android:background="#F4F4F4"
                             android:gravity="center|bottom"
                             android:orientation="vertical">
 
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:src="@drawable/bt_review" />
 
                             <TextView
@@ -246,15 +246,14 @@
                             android:id="@+id/ll_st_shangchuan"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_marginLeft="2.5dp"
                             android:layout_weight="1"
                             android:background="#F4F4F4"
                             android:gravity="center|bottom"
                             android:orientation="vertical">
 
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:src="@drawable/uploadphoto" />
 
                             <TextView
@@ -288,8 +287,8 @@
                                     android:orientation="vertical">
 
                                     <ImageView
-                                        android:layout_width="30dp"
-                                        android:layout_height="30dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
                                         android:src="@drawable/bt_counselor_fuce" />
 
                                     <TextView
@@ -322,15 +321,15 @@
                             android:id="@+id/ll_st_jianzhong"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_marginLeft="2.5dp"
+                            android:layout_marginLeft="1.5dp"
                             android:layout_weight="1"
                             android:background="#F4F4F4"
                             android:gravity="center|bottom"
                             android:orientation="vertical">
 
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:src="@drawable/lossweight" />
 
                             <TextView
@@ -359,16 +358,15 @@
                         <LinearLayout
                             android:id="@+id/ll_st_saikuang"
                             android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="2.5dp"
+                            android:layout_height="80dp"
                             android:layout_weight="1"
                             android:background="#F4F4F4"
                             android:gravity="center|bottom"
                             android:orientation="vertical">
 
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:src="@drawable/bt_match" />
 
                             <TextView
@@ -386,16 +384,16 @@
                         <LinearLayout
                             android:id="@+id/ll_st_rongyu"
                             android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="2.5dp"
+                            android:layout_height="80dp"
+                            android:layout_marginLeft="1.5dp"
                             android:layout_weight="1"
                             android:background="#F4F4F4"
                             android:gravity="center|bottom"
                             android:orientation="vertical">
 
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:src="@drawable/bt_honor" />
 
                             <TextView
@@ -413,7 +411,7 @@
                         <LinearLayout
                             android:id="@+id/ll_st_tipst"
                             android:layout_width="0dp"
-                            android:layout_height="match_parent"
+                            android:layout_height="80dp"
                             android:layout_marginLeft="2.5dp"
                             android:layout_weight="1"
                             android:background="#F4F4F4"
@@ -421,8 +419,8 @@
                             android:orientation="vertical">
 
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:src="@drawable/btn_tip" />
 
                             <TextView

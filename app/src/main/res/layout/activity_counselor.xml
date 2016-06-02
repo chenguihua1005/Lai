@@ -155,8 +155,8 @@
                                         android:background="#F4F4F4"
                                 >
                                     <ImageView
-                                            android:layout_width="30dp"
-                                            android:layout_height="30dp"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
                                             android:background="@drawable/bt_tiguansai"/>
                                     <TextView
                                             android:id="@+id/bt_tiguansai"
@@ -165,7 +165,8 @@
                                             android:text="@string/CounselorA"
                                             android:textSize="16sp"
                                             android:padding="2dp"
-                                            android:layout_marginBottom="11dp"
+                                            android:layout_marginTop="2dp"
+                                            android:layout_marginBottom="9dp"
                                             android:background="@null"
                                     />
                                 </LinearLayout>
@@ -183,8 +184,8 @@
                                 android:layout_marginRight="2.5dp"
                                 android:layout_height="match_parent">
                             <ImageView
-                                    android:layout_width="30dp"
-                                    android:layout_height="30dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
                                     android:src="@drawable/bt_review"/>
                             <TextView
                                     android:id="@+id/bt_review"
@@ -192,7 +193,8 @@
                                     android:layout_height="wrap_content"
                                     android:text="@string/CounselorB"
                                     android:textSize="16sp"
-                                    android:layout_marginBottom="11dp"
+                                    android:layout_marginTop="2dp"
+                                    android:layout_marginBottom="9dp"
                                     android:padding="2dp"
                                     android:background="@null"/>
                         </LinearLayout>
@@ -206,8 +208,8 @@
                                 android:background="#F4F4F4"
                                 android:layout_height="match_parent">
                             <ImageView
-                                    android:layout_width="30dp"
-                                    android:layout_height="30dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
                                     android:src="@drawable/bt_new_student"/>
                             <TextView
                                     android:id="@+id/bt_new_student"
@@ -215,7 +217,8 @@
                                     android:layout_height="wrap_content"
                                     android:text="@string/CounselorC"
                                     android:textSize="16sp"
-                                    android:layout_marginBottom="11dp"
+                                    android:layout_marginTop="2dp"
+                                    android:layout_marginBottom="9dp"
                                     android:padding="2dp"
                                     android:background="@null"/>
                         </LinearLayout>
@@ -246,8 +249,8 @@
                                         android:background="#F4F4F4"
                                         android:gravity="center|bottom">
                                     <ImageView
-                                            android:layout_width="30dp"
-                                            android:layout_height="30dp"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
                                             android:src="@drawable/bt_counselor_fuce"/>
 
                                     <TextView
@@ -256,7 +259,8 @@
                                             android:layout_height="wrap_content"
                                             android:text="@string/CounselorD"
                                             android:textSize="16sp"
-                                            android:layout_marginBottom="11dp"
+                                            android:layout_marginTop="2dp"
+                                            android:layout_marginBottom="9dp"
                                             android:padding="2dp"
                                             android:background="@null"/>
                                 </LinearLayout>
@@ -286,8 +290,8 @@
                                 android:background="#F4F4F4"
                                 android:layout_height="match_parent">
                             <ImageView
-                                    android:layout_width="30dp"
-                                    android:layout_height="30dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
                                     android:src="@drawable/bt_process"/>
 
                             <TextView
@@ -296,7 +300,8 @@
                                     android:layout_height="wrap_content"
                                     android:text="@string/CounselorE"
                                     android:textSize="16sp"
-                                    android:layout_marginBottom="11dp"
+                                    android:layout_marginTop="2dp"
+                                    android:layout_marginBottom="9dp"
                                     android:padding="2dp"
                                     android:background="@null"/>
                         </LinearLayout>
@@ -310,8 +315,8 @@
                                 android:gravity="center|bottom"
                                 android:layout_height="match_parent">
                             <ImageView
-                                    android:layout_width="30dp"
-                                    android:layout_height="30dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
                                     android:src="@drawable/bt_honor"/>
 
                             <TextView
@@ -321,7 +326,8 @@
                                     android:text="@string/CounselorF"
                                     android:textSize="16sp"
                                     android:padding="2dp"
-                                    android:layout_marginBottom="11dp"
+                                    android:layout_marginTop="2dp"
+                                    android:layout_marginBottom="9dp"
                                     android:background="@null"/>
                         </LinearLayout>
                     </LinearLayout>
@@ -351,8 +357,8 @@
                                         android:background="#F4F4F4"
                                         android:gravity="center|bottom">
                                     <ImageView
-                                            android:layout_width="30dp"
-                                            android:layout_height="30dp"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
                                             android:src="@drawable/bt_match"/>
 
                                     <TextView
@@ -361,7 +367,8 @@
                                             android:layout_height="wrap_content"
                                             android:text="@string/CounselorG"
                                             android:textSize="16sp"
-                                            android:layout_marginBottom="11dp"
+                                            android:layout_marginTop="2dp"
+                                            android:layout_marginBottom="9dp"
                                             android:padding="2dp"
                                             android:background="@null"/>
                                 </LinearLayout>
@@ -380,8 +387,8 @@
                                 android:layout_marginRight="2.5dp"
                                 android:layout_height="match_parent">
                             <ImageView
-                                    android:layout_width="30dp"
-                                    android:layout_height="30dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
                                     android:src="@drawable/btn_tip"/>
 
                             <TextView
@@ -390,7 +397,8 @@
                                     android:layout_height="wrap_content"
                                     android:text="@string/CounselorH"
                                     android:textSize="16sp"
-                                    android:layout_marginBottom="11dp"
+                                    android:layout_marginTop="2dp"
+                                    android:layout_marginBottom="9dp"
                                     android:padding="2dp"
                                     android:background="@null"/>
                         </LinearLayout>
@@ -404,8 +412,8 @@
                                 android:background="#F4F4F4"
                                 android:layout_height="match_parent">
                             <ImageView
-                                    android:layout_width="30dp"
-                                    android:layout_height="30dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
                                     android:src="@drawable/btn_assistant"/>
 
                             <TextView
@@ -414,7 +422,8 @@
                                     android:layout_height="wrap_content"
                                     android:text="@string/CounselorI"
                                     android:textSize="16sp"
-                                    android:layout_marginBottom="11dp"
+                                    android:layout_marginTop="2dp"
+                                    android:layout_marginBottom="9dp"
                                     android:padding="2dp"
                                     android:background="@null"/>
                         </LinearLayout>
