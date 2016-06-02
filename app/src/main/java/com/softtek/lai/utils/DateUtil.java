@@ -271,7 +271,7 @@ public class DateUtil {
      */
     public boolean isGt(String date1,String date2){
         if(date1==null||date2==null||"".equals(date1)||"".equals(date2)){
-            throw new RuntimeException("日期字符串不合法");
+            return false;
         }
         SimpleDateFormat sdf=new SimpleDateFormat(PATTERN);
         try {

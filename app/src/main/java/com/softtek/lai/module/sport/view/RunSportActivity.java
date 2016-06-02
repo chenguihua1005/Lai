@@ -3,9 +3,13 @@ package com.softtek.lai.module.sport.view;
 import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.GpsSatellite;
@@ -19,7 +23,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.DecelerateInterpolator;
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -41,9 +45,14 @@ import com.amap.api.maps2d.model.PolylineOptions;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.sport.model.SportData;
+import com.softtek.lai.module.sport.presenter.SportManager;
+import com.softtek.lai.stepcount.model.StepDcretor;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.JCountDownTimer;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -96,7 +105,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
 
     //倒计时
     RunSportCountDown countDown;
-
+    private SportManager manager;
     AMap aMap;
     //Polyline polyline;//画线专用
     PolylineOptions polylineOptions;
@@ -148,7 +157,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
         //设置是否允许模拟位置,默认为false，不允许模拟位置
         aMapLocationClientOption.setMockEnable(true);
         //设置定位间隔,单位毫秒,默认为2000ms
-        aMapLocationClientOption.setInterval(2000);
+        aMapLocationClientOption.setInterval(5000);
         //给定位客户端对象设置定位参数
         aMapLocationClient.setLocationOption(aMapLocationClientOption);
         //启动定位
@@ -159,13 +168,20 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
         polylineOptions.width(10);
         polylineOptions.color(Color.RED);
         polylineOptions.zIndex(3);
-        //polyline = aMap.addPolyline(polylineOptions);
     }
     LocationManager locationManager;
+    StepReceive receive;
+    int startStep=0;
     @Override
     protected void initDatas() {
         tv_title.setText("运动");
-        wapper=new LinearLayoutWapper(ll_panel);
+        manager=new SportManager();
+        startStep=StepDcretor.CURRENT_SETP;
+        //注册步数接收器
+        receive=new StepReceive();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("com.softtek.lai.StepService.StepCount");
+        registerReceiver(receive,filter);
         locationManager= (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             locationManager.addGpsStatusListener(this);
@@ -179,6 +195,8 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
     protected void onDestroy() {
         //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
         if(countDown!=null)countDown.cancel();
+        if(aMapLocationClient!=null)aMapLocationClient.unRegisterLocationListener(this);
+        if(receive!=null)unregisterReceiver(receive);
         mapView.onDestroy();
         super.onDestroy();
     }
@@ -201,6 +219,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
         mapView.onSaveInstanceState(outState);
     }
 
+    double previousDistance;//旧的距离
     @Override
     public void onLocationChanged(AMapLocation aMapLocation) {
         if(listener!=null&&aMapLocation!=null) {
@@ -220,8 +239,15 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
                         polylineOptions.add(latLng);
                     }
                 }
-
                 aMap.addPolyline(polylineOptions);
+                //计算平均速度
+                LatLng latLng1=coordinates.get(coordinates.size()-1);
+                double distance=distanceOfTwoPoints(latLng.latitude,latLng.longitude,latLng1.latitude,latLng1.longitude);
+                double speed=distance/(time*1f/3600);
+                DecimalFormat format=new DecimalFormat("#0.00");
+                tv_avg_speed.setText(format.format(speed)+"km/h");
+                tv_distance.setText(format.format((distance+ previousDistance)/(1000*1.0)));
+                previousDistance +=distance;
             } else {
                 //显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
                 /*Log.i("ggx","定位失败, ErrCode:"
@@ -240,10 +266,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
     public void deactivate() {
 
     }
-    int second;
-    int minute;
-    int hour;
-    private LinearLayoutWapper wapper;
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -270,16 +293,53 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
                }
                 break;
             case R.id.iv_stop:
-
+                if(countDown!=null)countDown.cancel();
+                AlertDialog dialog=new AlertDialog.Builder(this).setMessage("确认结束运动并提交本次数据")
+                        .setPositiveButton("稍后", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if(countDown!=null)countDown.reStart();
+                            }
+                        })
+                        .setNegativeButton("提交", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if(countDown!=null)countDown.cancel();
+                                SportData data=new SportData();
+                                data.setAccountId(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()));
+                                data.setCalories(tv_calorie.getText().toString());
+                                data.setKilometre(tv_distance.getText().toString());
+                                data.setMType(0);
+                                data.setSpeed(tv_avg_speed.getText().toString());
+                                data.setTimeLength(time+"");
+                                data.setTotal(Integer.parseInt(tv_step.getText().toString()));
+                                data.setTrajectory("{}");
+                                dialogShow("正在提交");
+                                manager.submitSportData(RunSportActivity.this,data);
+                            }
+                        }).create();
+                dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        if(countDown!=null)countDown.reStart();
+                    }
+                });
+                dialog.show();
                 break;
             case R.id.cb_control:
                 //面板控制动画
                 int stp= DisplayUtil.dip2px(this,270);
                 int enp=DisplayUtil.dip2px(this,100);
+                int stmp=DisplayUtil.dip2px(this,250);
+                int edmp=DisplayUtil.dip2px(this,420);
                 if(cb_control.isChecked()){
                     //收起
-                    ObjectAnimator animator=ObjectAnimator.ofInt(wapper,"translateY",stp,enp)
-                            .setDuration(400);
+                    AnimatorSet set=new AnimatorSet();
+                    ObjectAnimator mapAn=ObjectAnimator.ofInt(new LayoutWapper(mapView),"translateY",stmp,edmp);
+                    mapAn.setDuration(100);
+                    mapAn.setInterpolator(new AccelerateInterpolator());
+                    ObjectAnimator animator=ObjectAnimator.ofInt(new LayoutWapper(ll_panel),"translateY",stp,enp)
+                            .setDuration(150);
                     animator.setInterpolator(new OvershootInterpolator());
                     animator.addListener(new AnimatorListenerAdapter() {
                         @Override
@@ -290,13 +350,18 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
                         }
 
                     });
-                    animator.start();
+                    set.playSequentially(animator,mapAn);
+                    set.start();
 
                 }else{
                     //展开
-                    ObjectAnimator animator=ObjectAnimator.ofInt(wapper,"translateY",enp,stp)
-                            .setDuration(400);
-                    animator.setInterpolator(new DecelerateInterpolator(0.5f));
+                    AnimatorSet set=new AnimatorSet();
+                    ObjectAnimator mapAn=ObjectAnimator.ofInt(new LayoutWapper(mapView),"translateY",edmp,stmp);
+                    mapAn.setDuration(100);
+                    mapAn.setInterpolator(new OvershootInterpolator());
+                    ObjectAnimator animator=ObjectAnimator.ofInt(new LayoutWapper(ll_panel),"translateY",enp,stp)
+                            .setDuration(300);
+                    animator.setInterpolator(new OvershootInterpolator());
                     animator.addListener(new AnimatorListenerAdapter() {
                         @Override
                         public void onAnimationStart(Animator animation) {
@@ -305,7 +370,8 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
                             ll_content2.setVisibility(View.VISIBLE);
                         }
                     });
-                    animator.start();
+                    set.playSequentially(animator,mapAn);
+                    set.start();
                 }
                 break;
         }
@@ -353,7 +419,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
         }
     }
 
-    long time=0;
+    long time=0;//总耗时
     private class RunSportCountDown extends JCountDownTimer{
 
         /**
@@ -369,27 +435,25 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
 
         @Override
         public void onTick(long millisUntilFinished) {
-            second= (int) (60-millisUntilFinished/1000);
             time++;
+            int minutes= (int) (time/60);
+            int hour= (int) (time/3600);
+            int second= (int) (time%60);
             String show=(hour<10?"0"+hour:String.valueOf(hour))
-                    +":"+(minute<10?"0"+minute:String.valueOf(minute))
+                    +":"+(minutes<10?"0"+minutes:String.valueOf(minutes))
                     +":"+(second<10?"0"+second:String.valueOf(second));
+            int currentStep=StepDcretor.CURRENT_SETP-startStep;
             if(tv_clock!=null)
                 tv_clock.setText(show);
+            if(tv_step!=null)
+                tv_step.setText(String.valueOf(currentStep));
+            if(tv_calorie!=null)
+                tv_calorie.setText(String.valueOf(currentStep/35));//一大卡为35步
         }
 
 
         @Override
         public void onFinish() {
-            //当倒计时结束刷新时间
-            minute++;
-            if(minute==60){
-                minute=0;
-                hour++;
-                if(hour==60){
-                    hour=0;
-                }
-            }
             //重新启动
             countDown=new RunSportCountDown(60000,1000);
             countDown.start();
@@ -405,6 +469,12 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
         return super.onKeyDown(keyCode, event);
     }
 
+    public void doSubmitResult(int resultCode){
+        dialogDissmiss();
+        if(resultCode==200){
+            finish();
+        }
+    }
     private void doBack(){
         if(countDown!=null){
             countDown.pause();
@@ -432,10 +502,10 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
         dialog.show();
     }
 
-    private class LinearLayoutWapper{
+    private class LayoutWapper{
         private View target;
 
-        public LinearLayoutWapper(View target){
+        public LayoutWapper(View target){
             this.target=target;
         }
 
@@ -445,5 +515,46 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
             target.setLayoutParams(params);
         }
 
+    }
+
+    /**
+     * 根据两点间经纬度坐标（double值），计算两点间距离，
+     *
+     * @param lat1
+     * @param lng1
+     * @param lat2
+     * @param lng2
+     * @return 距离：单位为米
+     */
+    private static final double EARTH_RADIUS = 6378137;
+    public  double distanceOfTwoPoints(double lat1,double lng1,
+                                             double lat2,double lng2) {
+        double radLat1 = rad(lat1);
+        double radLat2 = rad(lat2);
+        double a = radLat1 - radLat2;
+        double b = rad(lng1) - rad(lng2);
+        double s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2)
+                + Math.cos(radLat1) * Math.cos(radLat2)
+                * Math.pow(Math.sin(b / 2), 2)));
+        s = s * EARTH_RADIUS;
+        s = Math.round(s * 10000) / 10000;
+        return s;
+    }
+    private  double rad(double d) {
+        return d * Math.PI / 180.0;
+    }
+
+    //注册步数接收器
+    private class StepReceive extends BroadcastReceiver{
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int tempStep=intent.getIntExtra("step",0);
+            int step=(tempStep-startStep)<=0?0:(tempStep-startStep);
+            int calori=step/35;
+            tv_step.setText(step+"");
+            tv_calorie.setText(calori+"");
+
+        }
     }
 }

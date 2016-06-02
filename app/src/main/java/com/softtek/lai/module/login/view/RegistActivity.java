@@ -203,7 +203,6 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
 
         @Override
         public void onTick(long millisUntilFinished) {
-            Log.i("倒计时工作中-----" + millisUntilFinished / 1000);
             tv_get_identify.setText("(" + millisUntilFinished / 1000 + "s)后重新获取");
         }
 

@@ -54,7 +54,7 @@ public class MyPkListActivity extends BaseActivity implements View.OnClickListen
     MyPkDelPKMsgManager myPkDelPKMsgManager;
     @Override
     protected void initViews() {
-        tv_title.setText("俱乐部助手");
+        tv_title.setText("莱运动PK挑战");
         ll_left.setOnClickListener(this);
         listview_pk.setOnItemLongClickListener(this);
         listview_pk.setOnItemClickListener(this);

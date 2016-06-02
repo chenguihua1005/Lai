@@ -266,7 +266,10 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
      */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+//        startActivity(new Intent(getContext(), RunSportActivity.class));
+//        if(1==1){
+//            return;
+//        }
         UserInfoModel userInfoModel = UserInfoModel.getInstance();
         int role = Integer.parseInt(userInfoModel.getUser().getUserrole());
         ////判断当前用户是否拥有此按钮权限
@@ -277,13 +280,13 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                     intoBodyGamePage(role);
                     break;
                 case Constants.LAI_YUNDONG:
-                    new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
-                    /*String isJoin=userInfoModel.getUser().getIsJoin();
+                    //new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
+                    String isJoin=userInfoModel.getUser().getIsJoin();
                     if (StringUtils.isEmpty(isJoin)||"0".equals(isJoin)) {
                         startActivity(new Intent(getContext(), JoinGroupActivity.class));
                     } else {
                         startActivity(new Intent(getContext(), GroupMainActivity.class));
-                    }*/
+                    }
                     break;
                 case Constants.OFFICE:
                 case Constants.LAI_EXCLE:

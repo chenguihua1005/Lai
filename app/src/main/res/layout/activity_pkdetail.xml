@@ -84,7 +84,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="bottom|right"
-                            android:layout_marginRight="5dp"
+                            android:layout_marginRight="10dp"
                             android:src="@drawable/pk_list_wujiaoxin" />
                     </FrameLayout>
                     <CheckBox
@@ -92,14 +92,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignTop="@id/lfl"
-                        android:layout_marginRight="21dp"
+                        android:layout_marginRight="15dp"
                         android:layout_marginTop="25dp"
                         android:layout_toLeftOf="@id/lfl"
                         android:button="@null"
                         android:drawableLeft="@drawable/pk_list_zan_selector"
                         android:drawablePadding="5dp"
                         android:textColor="#ffa200"
-                        android:textSize="10sp" />
+                        android:textSize="10sp"
+                        />
 
                     <FrameLayout
                         android:id="@+id/rfl"
@@ -131,7 +132,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignTop="@id/rfl"
-                        android:layout_marginLeft="21dp"
+                        android:layout_marginLeft="15dp"
                         android:layout_marginTop="25dp"
                         android:layout_toRightOf="@id/rfl"
                         android:button="@null"
@@ -211,7 +212,7 @@
                             android:id="@+id/tv_bushu1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="0"
+                            android:text="0.00"
                             android:textColor="#75ba2b"
                             android:textSize="18sp" />
 
@@ -236,7 +237,7 @@
                             android:id="@+id/tv_bushu2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="0"
+                            android:text="0.00"
                             android:textColor="#75ba2b"
                             android:textSize="18sp" />
 
@@ -258,7 +259,7 @@
                     android:background="#f1f1f1"
                     android:paddingLeft="15dp"
                     android:paddingTop="15dp"
-                    android:text="PK挑战筹码与时间"
+                    android:text="PK挑战规则、筹码与时间"
                     android:textColor="#333333"
                     android:textSize="15sp" />
 
@@ -284,7 +285,7 @@
                         android:layout_toRightOf="@id/iv_target_icon"
                         android:text="目标公里数:"
                         android:textColor="#6f6f6f"
-                        android:textSize="10sp" />
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/tv_target"
@@ -294,7 +295,7 @@
                         android:layout_marginLeft="8dp"
                         android:layout_toRightOf="@id/tv_target_content"
                         android:textColor="#6f6f6f"
-                        android:textSize="10sp" />
+                        android:textSize="12sp" />
                 </RelativeLayout>
 
                 <LinearLayout
@@ -318,7 +319,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:text=""
                         android:textColor="#6f6f6f"
                         android:textSize="12sp" />
                 </LinearLayout>
@@ -351,7 +351,7 @@
                         android:layout_toRightOf="@id/iv"
                         android:text="PK挑战时间:"
                         android:textColor="#6f6f6f"
-                        android:textSize="10sp" />
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/tv_time"
@@ -361,7 +361,7 @@
                         android:layout_marginLeft="8dp"
                         android:layout_toRightOf="@id/tv"
                         android:textColor="#6f6f6f"
-                        android:textSize="10sp" />
+                        android:textSize="12sp" />
                 </RelativeLayout>
 
                 <TextView

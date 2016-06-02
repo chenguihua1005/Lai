@@ -78,6 +78,9 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
     @InjectView(R.id.img_cs)
     ImageView img_cs;
 
+    @InjectView(R.id.img_mo_message)
+    ImageView img_mo_message;
+
     @InjectView(R.id.tv_title)
     TextView tv_title;
 
@@ -134,6 +137,7 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
         rel_dq.setOnClickListener(this);
         rel_xq.setOnClickListener(this);
         rel_cs.setOnClickListener(this);
+        list_group.setVisibility(View.GONE);
         list_group.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -231,6 +235,7 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
         select_city_id_info = "";
         select_city_posion_info = 0;
 
+        img_mo_message.setVisibility(View.GONE);
         list_group.setVisibility(View.GONE);
 
     }
@@ -261,6 +266,7 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
         select_city_id_info = "";
         select_city_posion_info = 0;
 
+        img_mo_message.setVisibility(View.GONE);
         list_group.setVisibility(View.GONE);
     }
 
@@ -455,12 +461,18 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
         dialogDissmiss();
         if ("success".equals(type)) {
             group_list = list;
+            if(group_list.size()>0){
+                img_mo_message.setVisibility(View.GONE);
+            }else {
+                img_mo_message.setVisibility(View.VISIBLE);
+            }
             list_group.setVisibility(View.VISIBLE);
             adapter = new GroupAdapter(this, group_list);
             list_group.setAdapter(adapter);
         } else {
             group_list = new ArrayList<GroupModel>();
             list_group.setVisibility(View.GONE);
+            img_mo_message.setVisibility(View.VISIBLE);
         }
     }
 }

@@ -90,11 +90,22 @@
             android:textColor="@color/word12"
             android:textSize="@dimen/textSize1" />
     </RelativeLayout>
-
-    <ListView
-        android:id="@+id/list_group"
+    <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_marginTop="@dimen/joinGroupMarginTop"
-        android:scrollbars="none" />
+        android:layout_height="fill_parent">
+        <ListView
+            android:id="@+id/list_group"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="@dimen/joinGroupMarginTop"
+            android:scrollbars="none"/>
+        <ImageView
+            android:id="@+id/img_mo_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/no_message"
+            android:visibility="gone" />
+    </RelativeLayout>
+
 </LinearLayout>

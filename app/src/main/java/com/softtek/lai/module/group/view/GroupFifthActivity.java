@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -57,6 +58,9 @@ public class GroupFifthActivity extends BaseActivity implements View.OnClickList
     @InjectView(R.id.list_group)
     ListView list_group;
 
+    @InjectView(R.id.img_mo_message)
+    ImageView img_mo_message;
+
     @InjectView(R.id.lin)
     LinearLayout lin;
 
@@ -72,6 +76,7 @@ public class GroupFifthActivity extends BaseActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ll_left.setOnClickListener(this);
+        list_group.setEmptyView(img_mo_message);
     }
 
     @Override
@@ -82,10 +87,10 @@ public class GroupFifthActivity extends BaseActivity implements View.OnClickList
     @Override
     protected void initDatas() {
         Intent intent = getIntent();
-        type=intent.getStringExtra("type");
-        if("0".equals(type)){
+        type = intent.getStringExtra("type");
+        if ("0".equals(type)) {
             lin.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             lin.setVisibility(View.GONE);
         }
 

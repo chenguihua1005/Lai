@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -41,6 +42,9 @@ public class HistorySportListActivity extends BaseActivity implements View.OnCli
     @InjectView(R.id.sport_list)
     ListView sport_list;
 
+    @InjectView(R.id.img_mo_message)
+    ImageView img_mo_message;
+
     SportManager sportManager;
 
     HistorySportAdapter adapter;
@@ -49,6 +53,7 @@ public class HistorySportListActivity extends BaseActivity implements View.OnCli
     @Override
     protected void initViews() {
         ll_left.setOnClickListener(this);
+        sport_list.setEmptyView(img_mo_message);
         sport_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
