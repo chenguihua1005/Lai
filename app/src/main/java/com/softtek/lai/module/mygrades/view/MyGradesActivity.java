@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -58,6 +59,11 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
     LinearLayout ll_weekRank;
     @InjectView(R.id.ll_grade)
     LinearLayout ll_grade;
+    //分享功能
+    @InjectView(R.id.fl_right)
+    FrameLayout fl_right;
+    @InjectView(R.id.iv_email)
+    ImageView iv_email;
 
     //总步数
     @InjectView(R.id.tv_totalnumber)
@@ -146,6 +152,9 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
         ll_grade.setOnClickListener(this);
         title.setText("我的成绩");
 //        tv_right.setText("分享");
+        iv_email.setImageResource(R.drawable.img_share_bt);
+        fl_right.setOnClickListener(this);
+
         chartUtil = new LineChartUtil(this, chart);
         ll_left.setOnClickListener(this);
         //初始化统计图
@@ -875,6 +884,10 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
             //我的勋章跳转
             case R.id.ll_grade:
                 startActivity(new Intent(this, MyXuZhangActivity.class));
+                break;
+            //分享
+            case R.id.fl_right:
+                Util.toastMsg("分享");
                 break;
             case R.id.bt_left:
                 if (state != true) {
