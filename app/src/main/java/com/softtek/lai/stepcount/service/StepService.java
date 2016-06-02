@@ -45,8 +45,6 @@ public class StepService extends Service implements SensorEventListener {
     private static int durationUpload=2*60*1000;
     private SensorManager sensorManager;
     private StepDcretor stepDetector;
-    private NotificationManager nm;
-    private NotificationCompat.Builder builder;
     private BroadcastReceiver mBatInfoReceiver;
     private WakeLock mWakeLock;
     private TimeCount time;
@@ -66,13 +64,7 @@ public class StepService extends Service implements SensorEventListener {
         startTimeCount();
         initTodayData();
         updateNotification("今日步数：" + StepDcretor.CURRENT_SETP + " 步");
-        //启动定时上传功能
-        AlarmManager manager= (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        PendingIntent pi = PendingIntent.getBroadcast(this,0,new Intent(UPLOAD_STEP),0);
-        manager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                SystemClock.elapsedRealtime(),
-                durationUpload,
-                pi);
+
     }
 
     private void initTodayData() {
@@ -137,7 +129,8 @@ public class StepService extends Service implements SensorEventListener {
     private void updateNotification(String content) {
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
                 new Intent(this, MyGradesActivity.class), 0);
-        builder = new NotificationCompat.Builder(this);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         builder.setPriority(Notification.PRIORITY_MIN)
                 .setContentIntent(contentIntent)
                 .setSmallIcon(R.mipmap.ic_launcher)
@@ -150,7 +143,7 @@ public class StepService extends Service implements SensorEventListener {
         startForeground(0, notification);
 
         //获取通知管理器
-        nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         //发送通知
         nm.notify(R.string.app_name, notification);
         //发送广播
@@ -171,6 +164,12 @@ public class StepService extends Service implements SensorEventListener {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        //启动定时上传功能
+        AlarmManager manager= (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        PendingIntent pi = PendingIntent.getBroadcast(this,0,new Intent(UPLOAD_STEP),0);
+        manager.set(AlarmManager.RTC_WAKEUP,
+                SystemClock.currentThreadTimeMillis()+durationUpload,
+                pi);
         return START_STICKY;
     }
 
@@ -293,6 +292,7 @@ public class StepService extends Service implements SensorEventListener {
         Log.i("test","计步服务结束");
         stopForeground(true);
         unregisterReceiver(mBatInfoReceiver);
+        //if(manager!=null&&pi!=null)manager.cancel(pi);
         if (countSensor != null) {
             Log.i("base", "注销countSensor");
             sensorManager.unregisterListener(this, countSensor);
@@ -304,6 +304,8 @@ public class StepService extends Service implements SensorEventListener {
         if(UserInfoModel.getInstance().getUser()!=null){
             Intent intent = new Intent(this, StepService.class);
             startService(intent);
+        }else{
+            com.github.snowdream.android.util.Log.i("计步器服务不再执行");
         }
         super.onDestroy();
     }

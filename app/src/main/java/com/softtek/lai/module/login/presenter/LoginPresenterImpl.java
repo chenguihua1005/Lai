@@ -296,6 +296,6 @@ public class LoginPresenterImpl implements ILoginPresenter {
         String currentDate=DateUtil.weeHours(0);
         StepUtil.getInstance().deleteOldDate(currentDate,userId);
         //启动计步器服务
-        context.startService(new Intent(context, StepService.class));
+        context.startService(new Intent(context.getApplicationContext(), StepService.class));
     }
 }

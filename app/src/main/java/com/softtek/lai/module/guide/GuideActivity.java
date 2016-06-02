@@ -73,7 +73,7 @@ public class GuideActivity extends BaseActivity implements Runnable{
                                 StepUtil.getInstance().saveStep(userStep);
                             }
                             //启动计步器服务
-                            startService(new Intent(GuideActivity.this, StepService.class));
+                            startService(new Intent(getApplicationContext(), StepService.class));
 
                         }
                         //进入首页
