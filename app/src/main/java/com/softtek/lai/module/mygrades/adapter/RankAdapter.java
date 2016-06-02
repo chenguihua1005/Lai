@@ -3,7 +3,6 @@ package com.softtek.lai.module.mygrades.adapter;
 import android.content.Context;
 import android.graphics.Color;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,12 +88,14 @@ public class RankAdapter extends BaseAdapter{
         Float step=Float.parseFloat(orderDataModelList.get(0).getStepCount());
         Float stepper=80/step;
 
-        Log.i("","----->>>steper:"+stepper);
         if ((position+1)<2){
-            viewHolder.prog.setProgress(85);
+            if(Integer.parseInt(orderDataModelList.get(0).getStepCount())==0){
+                viewHolder.prog.setProgress(0);
+            }else {
+                viewHolder.prog.setProgress(85);
+            }
         }else {
             Float pro=Float.parseFloat(orderDataModelList.get(position).getStepCount())*stepper;
-            Log.i("",">>>>>>>>>pro:"+pro);
             viewHolder.prog.setProgress(pro);
         }
 

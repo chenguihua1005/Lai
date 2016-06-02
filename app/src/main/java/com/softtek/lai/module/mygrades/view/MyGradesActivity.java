@@ -42,7 +42,7 @@ import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_my_grades)
-public class MyGradesActivity extends BaseActivity implements View.OnClickListener{
+public class MyGradesActivity extends BaseActivity implements View.OnClickListener {
 
     //标题栏
     @InjectView(R.id.tv_title)
@@ -126,12 +126,12 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
     private IGradesPresenter iGradesPresenter;
     private GradesService gradesService;
 
-    char type='6';
-    int n=7;
-    boolean state=true;
-    List<String>days=new ArrayList<String>();
-    List<Float> dates=new ArrayList<Float>();
-    String nowdate7,nowdate6,nowdate5,nowdate4,nowdate3,nowdate2,nowdate1;
+    char type = '6';
+    int n = 7;
+    boolean state = true;
+    List<String> days = new ArrayList<String>();
+    List<Float> dates = new ArrayList<Float>();
+    String nowdate7, nowdate6, nowdate5, nowdate4, nowdate3, nowdate2, nowdate1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,13 +145,11 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
         ll_weekRank.setOnClickListener(this);
         ll_grade.setOnClickListener(this);
         title.setText("我的成绩");
-     //   tv_right.setText("分享");
-        chartUtil=new LineChartUtil(this,chart);
+//        tv_right.setText("分享");
+        chartUtil = new LineChartUtil(this, chart);
         ll_left.setOnClickListener(this);
-        //2.折线图单位是步
         //初始化统计图
         chart.setDrawGridBackground(false);//取消统计图整体背景色
-        //chart.setBackgroundColor(0xffff9c00);
         //取消描述信息,设置没有数据的时候提示信息
         chart.setDescription("");//单位：步
         chart.setNoDataTextDescription("暂无数据");
@@ -160,7 +158,6 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
         chart.setDragEnabled(true);
         chart.setScaleEnabled(true);
         chart.setPinchZoom(true);
-
         YAxis leftAxis = chart.getAxisLeft();
         leftAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines 重置所有限行，以避免重叠线,删除所有限制线
         leftAxis.setAxisMaxValue(100000f);
@@ -172,19 +169,12 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
         chart.getLegend().setEnabled(false);//去除图例
         bt_left.setOnClickListener(this);
         bt_right.setOnClickListener(this);
-
     }
 
     @Override
     protected void initDatas() {
         iGradesPresenter = new GradesImpl();
-//        1.	初始时间是从用户开始参加跑团算起
-//        2.	如果用户退出跑团, 那么就不用记录用户的步数; 所以退出了之前的跑团, 在加入下一个跑团之间, 是没有步数记录的. 不需要显示在折线图中.
-
-        //调用我的成绩接口  1/1/1753 12:00:00 AM and 12/31/9999 11:59:59 PM.
-        //date当前日期
-        gradesService=ZillaApi.NormalRestAdapter.create(GradesService.class);
-
+        gradesService = ZillaApi.NormalRestAdapter.create(GradesService.class);
         //3.3.2	成绩勋章信息
         getGradeHonor();
         dates.add(0f);
@@ -195,13 +185,13 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
         dates.add(0f);
         dates.add(0f);
         days.clear();
-        nowdate7=getPeriodDate(type,0)+"";
-        nowdate6=getPeriodDate(type,1)+"";
-        nowdate5=getPeriodDate(type,2)+"";
-        nowdate4=getPeriodDate(type,3)+"";
-        nowdate3=getPeriodDate(type,4)+"";
-        nowdate2=getPeriodDate(type,5)+"";
-        nowdate1=getPeriodDate(type,6)+"";
+        nowdate7 = getPeriodDate(type, 0) + "";
+        nowdate6 = getPeriodDate(type, 1) + "";
+        nowdate5 = getPeriodDate(type, 2) + "";
+        nowdate4 = getPeriodDate(type, 3) + "";
+        nowdate3 = getPeriodDate(type, 4) + "";
+        nowdate2 = getPeriodDate(type, 5) + "";
+        nowdate1 = getPeriodDate(type, 6) + "";
         days.add(formdate(nowdate1));
         days.add(formdate(nowdate2));
         days.add(formdate(nowdate3));
@@ -209,25 +199,23 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
         days.add(formdate(nowdate5));
         days.add(formdate(nowdate6));
         days.add(formdate(nowdate7));
-        iGradesPresenter.getStepCount(getDateform(nowdate1),getDateform(nowdate7));
+        iGradesPresenter.getStepCount(getDateform(nowdate1), getDateform(nowdate7));
     }
-    public String getDateform(String nowdate)
-    {
+
+    public String getDateform(String nowdate) {
         String date;
-        String sr=nowdate.substring(4,5);
-        date=nowdate.substring(0,4)+"-"+nowdate.substring(4,6)+"-"+nowdate.substring(6,8);
+        String sr = nowdate.substring(4, 5);
+        date = nowdate.substring(0, 4) + "-" + nowdate.substring(4, 6) + "-" + nowdate.substring(6, 8);
         return date;
     }
-    public String formdate(String nowdate)
-    {
+
+    public String formdate(String nowdate) {
         String date;
-        String sr=nowdate.substring(4,5);
-        if (nowdate.substring(4,5).equals("0"))
-        {
-            date=nowdate.substring(5,6)+"/"+nowdate.substring(6,8);
-        }
-        else {
-            date=nowdate.substring(4,6)+"/"+nowdate.substring(6,8);
+        String sr = nowdate.substring(4, 5);
+        if (nowdate.substring(4, 5).equals("0")) {
+            date = nowdate.substring(5, 6) + "/" + nowdate.substring(6, 8);
+        } else {
+            date = nowdate.substring(4, 6) + "/" + nowdate.substring(6, 8);
         }
         return date;
     }
@@ -235,45 +223,38 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
     //我的成绩
     @Subscribe
     public void onEvent(GradesEvent gradesEvent) {
-        System.out.println("------------gradesEvent："+gradesEvent.getgradesModels().size());
-        System.out.println("------------曲线图size()"+gradesEvent.getgradesModels().size());
-        List<GradesModel>gradesModels=gradesEvent.getgradesModels();
+        System.out.println("------------gradesEvent：" + gradesEvent.getgradesModels().size());
+        System.out.println("------------曲线图size()" + gradesEvent.getgradesModels().size());
+        List<GradesModel> gradesModels = gradesEvent.getgradesModels();
 //        if(gradesEvent==null){
 //            return;
 //        }
         System.out.println("健康记录" + gradesEvent.getgradesModels());
-        int n=gradesEvent.getgradesModels().size();
-        for (int i=0;i<=n-1;i++)
-        {
-            if(getDateform(nowdate1).equals(gradesEvent.getgradesModels().get(i).getDate())) {
-                dates.set(0,Float.parseFloat(gradesEvent.getgradesModels().get(i).getTotalCnt()));
+        int n = gradesEvent.getgradesModels().size();
+        for (int i = 0; i <= n - 1; i++) {
+            if (getDateform(nowdate1).equals(gradesEvent.getgradesModels().get(i).getDate())) {
+                dates.set(0, Float.parseFloat(gradesEvent.getgradesModels().get(i).getTotalCnt()));
             }
-            if (getDateform(nowdate2).equals(gradesEvent.getgradesModels().get(i).getDate()))
-            {
-                dates.set(1,Float.parseFloat(gradesEvent.getgradesModels().get(i).getTotalCnt()));
+            if (getDateform(nowdate2).equals(gradesEvent.getgradesModels().get(i).getDate())) {
+                dates.set(1, Float.parseFloat(gradesEvent.getgradesModels().get(i).getTotalCnt()));
             }
-            if (getDateform(nowdate3).equals(gradesEvent.getgradesModels().get(i).getDate()))
-            {
-                dates.set(2,Float.parseFloat(gradesEvent.getgradesModels().get(i).getTotalCnt()));
+            if (getDateform(nowdate3).equals(gradesEvent.getgradesModels().get(i).getDate())) {
+                dates.set(2, Float.parseFloat(gradesEvent.getgradesModels().get(i).getTotalCnt()));
             }
-            if (getDateform(nowdate4).equals(gradesEvent.getgradesModels().get(i).getDate()))
-            {
-                dates.set(3,Float.parseFloat(gradesEvent.getgradesModels().get(i).getTotalCnt()));
+            if (getDateform(nowdate4).equals(gradesEvent.getgradesModels().get(i).getDate())) {
+                dates.set(3, Float.parseFloat(gradesEvent.getgradesModels().get(i).getTotalCnt()));
             }
-            if (getDateform(nowdate5).equals(gradesEvent.getgradesModels().get(i).getDate()))
-            {
-                dates.set(4,Float.parseFloat(gradesEvent.getgradesModels().get(i).getTotalCnt()));
+            if (getDateform(nowdate5).equals(gradesEvent.getgradesModels().get(i).getDate())) {
+                dates.set(4, Float.parseFloat(gradesEvent.getgradesModels().get(i).getTotalCnt()));
             }
-            if (getDateform(nowdate6).equals(gradesEvent.getgradesModels().get(i).getDate()))
-            {
-                dates.set(5,Float.parseFloat(gradesEvent.getgradesModels().get(i).getTotalCnt()));
+            if (getDateform(nowdate6).equals(gradesEvent.getgradesModels().get(i).getDate())) {
+                dates.set(5, Float.parseFloat(gradesEvent.getgradesModels().get(i).getTotalCnt()));
             }
-            if (getDateform(nowdate7).equals(gradesEvent.getgradesModels().get(i).getDate()))
-            {
-                dates.set(6,Float.parseFloat(gradesEvent.getgradesModels().get(i).getTotalCnt()));
+            if (getDateform(nowdate7).equals(gradesEvent.getgradesModels().get(i).getDate())) {
+                dates.set(6, Float.parseFloat(gradesEvent.getgradesModels().get(i).getTotalCnt()));
             }
         }
-        chartUtil.addDataf(dates,7,days);
+        chartUtil.addDataf(dates, 7, days);
         dates.clear();
         dates.add(0f);
         dates.add(0f);
@@ -295,79 +276,78 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
     }
 
     //3.3.2	成绩勋章信息
-    public void getGradeHonor(){
+    public void getGradeHonor() {
         String token = SharedPreferenceService.getInstance().get("token", "");
         gradesService.getGradeHonor(token, new Callback<ResponseData<GradeHonorModel>>() {
             @Override
             public void success(ResponseData<GradeHonorModel> gradeHonorModelResponseData, Response response) {
-                int status=gradeHonorModelResponseData.getStatus();
-                switch (status){
+                int status = gradeHonorModelResponseData.getStatus();
+                switch (status) {
                     case 200:
                         //总步数
-                        String totalnumber=gradeHonorModelResponseData.getData().getTotalStep();
-                        if (totalnumber==""){
+                        String totalnumber = gradeHonorModelResponseData.getData().getTotalStep();
+                        if (totalnumber == "") {
                             tv_totalnumber.setText("0");
-                        }else {
+                        } else {
                             tv_totalnumber.setText(totalnumber);
                         }
                         //总公里数计算公式: 1公里=1428步 (单位为公里, 0.01公里, 不足0.01公里时显示0)
                         DecimalFormat format = new DecimalFormat("##0.00");
-                        Double totalmileage =Double.parseDouble(totalnumber)/1428;
+                        Double totalmileage = Double.parseDouble(totalnumber) / 1428;
                         String temp = format.format(totalmileage);
-                        if (totalmileage==0.0){
+                        if (totalmileage == 0.0) {
                             tv_totalmileage.setText("0");
-                        }
-                        else if (totalmileage<0.01){
+                        } else if (totalmileage < 0.01) {
                             tv_totalmileage.setText("0");
-                        }
-                        else {
+                        } else {
                             tv_totalmileage.setText(temp);
                         }
 
                         //前三名用橙色,其他名次用绿色android:textColor="#ff9c00"
-                        int Nationaldayrank=Integer.parseInt(gradeHonorModelResponseData.getData().getContryDayOrder());
-                        int Rundayrank=Integer.parseInt(gradeHonorModelResponseData.getData().getDayOrder());
-                        int Nationalweekrank=Integer.parseInt(gradeHonorModelResponseData.getData().getWeekOrder());
-                        int Runweekrank=Integer.parseInt(gradeHonorModelResponseData.getData().getWeekOrderRG());
-                        if(Nationaldayrank==1||Nationaldayrank==2||Nationaldayrank==3){
+                        int Nationaldayrank = Integer.parseInt(gradeHonorModelResponseData.getData().getContryDayOrder());
+                        int Rundayrank = Integer.parseInt(gradeHonorModelResponseData.getData().getDayOrder());
+                        int Nationalweekrank = Integer.parseInt(gradeHonorModelResponseData.getData().getWeekOrder());
+                        int Runweekrank = Integer.parseInt(gradeHonorModelResponseData.getData().getWeekOrderRG());
+                        if (Nationaldayrank == 1 || Nationaldayrank == 2 || Nationaldayrank == 3) {
                             //0xffff00ff是int类型的数据，分组一下0x|ff|ff00ff，0x是代表颜色整数的标记，ff是表示透明度，ff00ff表示颜色，注意：这里ffff00ff必须是8个的颜色表示，不接受ff00ff这种6个的颜色表示。
                             tv_Nationaldayrank.setTextColor(0xffff9c00);
                         }
-                        if(Rundayrank==1||Rundayrank==2||Rundayrank==3){
+                        if (Rundayrank == 1 || Rundayrank == 2 || Rundayrank == 3) {
                             tv_Rundayrank.setTextColor(0xffff9c00);
                         }
-                        if(Runweekrank==1||Runweekrank==2||Runweekrank==3){
+                        if (Runweekrank == 1 || Runweekrank == 2 || Runweekrank == 3) {
                             tv_Runweekrank.setTextColor(0xffff9c00);
                         }
-                        if(Nationalweekrank==1||Nationalweekrank==2||Nationalweekrank==3){
+                        if (Nationalweekrank == 1 || Nationalweekrank == 2 || Nationalweekrank == 3) {
                             tv_Nationalweekrank.setTextColor(0xffff9c00);
                         }
 
                         //全国排名
-                        tv_Nationaldayrank.setText(Nationaldayrank+"");
-                        tv_Nationaldaypeople.setText(gradeHonorModelResponseData.getData().getContryDayOrderTotal()+"");
+                        tv_Nationaldayrank.setText(Nationaldayrank + "");
+                        tv_Nationaldaypeople.setText(gradeHonorModelResponseData.getData().getContryDayOrderTotal() + "");
                         //跑团的排名
-                        tv_Rundayrank.setText(Rundayrank+"");
-                        tv_Rundaypeople.setText(gradeHonorModelResponseData.getData().getDayOrderTotal()+"");
+                        tv_Rundayrank.setText(Rundayrank + "");
+                        tv_Rundaypeople.setText(gradeHonorModelResponseData.getData().getDayOrderTotal() + "");
 
-                        tv_Nationalweekrank.setText(Nationalweekrank+"");
-                        tv_Nationalweekpeople.setText(gradeHonorModelResponseData.getData().getContryDayOrderTotal()+"");
-                        tv_Runweekrank.setText(Runweekrank+"");
-                        tv_Runweekpeople.setText(gradeHonorModelResponseData.getData().getDayOrderTotal()+"");
+                        tv_Nationalweekrank.setText(Nationalweekrank + "");
+                        tv_Nationalweekpeople.setText(gradeHonorModelResponseData.getData().getContryDayOrderTotal() + "");
+                        tv_Runweekrank.setText(Runweekrank + "");
+                        tv_Runweekpeople.setText(gradeHonorModelResponseData.getData().getDayOrderTotal() + "");
 
-                        tv_medalnumber.setText(gradeHonorModelResponseData.getData().getTotalHonor()+"");
+                        tv_medalnumber.setText(gradeHonorModelResponseData.getData().getTotalHonor() + "");
 
                         //我的勋章显示
-                        if (gradeHonorModelResponseData.getData().getLaiHonor().size()==0){
+                        if (gradeHonorModelResponseData.getData().getLaiHonor().size() == 0) {
                             ll_honor.setVisibility(View.GONE);
-                        }else {
+                        } else {
                             //判断是否是3个勋章
                             if (gradeHonorModelResponseData.getData().getLaiHonor().size() == 1) {
                                 //判断第一个勋章是什么类型
                                 switch (gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorType()) {
                                     case 1:
                                         //天数
-                                        switch (gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue()) {
+                                        int value = gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue();
+                                        switch ((value >= 3 && value < 7) ? 3 : (value >= 7 && value < 21) ? 7 : (value >= 21 && value < 30) ? 21 : (value >= 30 && value < 100) ? 30 : (value >= 100 && value < 200) ? 100 : (value >= 200 && value < 365) ? 200 : (value >= 365) ? 365 : 365) {
                                             case 3:
                                                 tv_str1.setText("连续3天步数一万");
                                                 img_honor1.setImageResource(R.drawable.img_medal1);
@@ -413,7 +393,8 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         break;
                                     case 4:
                                         //PK挑战
-                                        switch (gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue()) {
+                                        int pkvalue = gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue();
+                                        switch ((pkvalue >= 1 && pkvalue < 50) ? 1 : (pkvalue >= 50 && pkvalue < 100) ? 50 : (pkvalue >= 100 && pkvalue < 200) ? 100 : (pkvalue >= 200 && pkvalue < 300) ? 200 : (pkvalue >= 300 && pkvalue < 500) ? 300 : (pkvalue >= 500) ? 500 : 500) {
                                             case 1:
                                                 tv_str1.setText("挑战达人铜牌");
                                                 img_honor1.setImageResource(R.drawable.img_medal1);
@@ -449,7 +430,8 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                 switch (gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorType()) {
                                     case 1:
                                         //天数
-                                        switch ( gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue()) {
+                                        int value = gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue();
+                                        switch ((value >= 3 && value < 7) ? 3 : (value >= 7 && value < 21) ? 7 : (value >= 21 && value < 30) ? 21 : (value >= 30 && value < 100) ? 30 : (value >= 100 && value < 200) ? 100 : (value >= 200 && value < 365) ? 200 : (value >= 365) ? 365 : 365) {
                                             case 3:
                                                 tv_str1.setText("连续3天步数一万");
                                                 img_honor1.setImageResource(R.drawable.img_medal1);
@@ -483,7 +465,7 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         break;
                                     case 2:
                                         //步数
-                                        tv_str1.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue() + "万");
+                                        tv_str1.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue()  + "万");
                                         img_honor1.setImageResource(R.drawable.img_medal);
                                         ll_honor1.setVisibility(View.VISIBLE);
                                         break;
@@ -495,7 +477,8 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         break;
                                     case 4:
                                         //PK挑战
-                                        switch (gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue()) {
+                                        int pkvalue = gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue();
+                                        switch ((pkvalue >= 1 && pkvalue < 50) ? 1 : (pkvalue >= 50 && pkvalue < 100) ? 50 : (pkvalue >= 100 && pkvalue < 200) ? 100 : (pkvalue >= 200 && pkvalue < 300) ? 200 : (pkvalue >= 300 && pkvalue < 500) ? 300 : (pkvalue >= 500) ? 500 : 500) {
                                             case 1:
                                                 tv_str1.setText("挑战达人铜牌");
                                                 img_honor1.setImageResource(R.drawable.img_medal1);
@@ -528,7 +511,8 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                 switch (gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorType()) {
                                     case 1:
                                         //天数
-                                        switch ( gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue()) {
+                                        int value = gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue();
+                                        switch ((value >= 3 && value < 7) ? 3 : (value >= 7 && value < 21) ? 7 : (value >= 21 && value < 30) ? 21 : (value >= 30 && value < 100) ? 30 : (value >= 100 && value < 200) ? 100 : (value >= 200 && value < 365) ? 200 : (value >= 365) ? 365 : 365) {
                                             case 3:
                                                 tv_str2.setText("连续3天步数一万");
                                                 img_honor2.setImageResource(R.drawable.img_medal1);
@@ -562,7 +546,7 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         break;
                                     case 2:
                                         //步数
-                                        tv_str2.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue() + "万");
+                                        tv_str2.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue()  + "万");
                                         img_honor2.setImageResource(R.drawable.img_medal);
                                         ll_honor2.setVisibility(View.VISIBLE);
                                         break;
@@ -574,7 +558,8 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         break;
                                     case 4:
                                         //PK挑战
-                                        switch (gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue()) {
+                                        int pkvalue = gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue();
+                                        switch ((pkvalue >= 1 && pkvalue < 50) ? 1 : (pkvalue >= 50 && pkvalue < 100) ? 50 : (pkvalue >= 100 && pkvalue < 200) ? 100 : (pkvalue >= 200 && pkvalue < 300) ? 200 : (pkvalue >= 300 && pkvalue < 500) ? 300 : (pkvalue >= 500) ? 500 : 500) {
                                             case 1:
                                                 tv_str2.setText("挑战达人铜牌");
                                                 img_honor2.setImageResource(R.drawable.img_medal1);
@@ -610,7 +595,8 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                 switch (gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorType()) {
                                     case 1:
                                         //天数
-                                        switch ( gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue()) {
+                                        int value = gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue();
+                                        switch ((value >= 3 && value < 7) ? 3 : (value >= 7 && value < 21) ? 7 : (value >= 21 && value < 30) ? 21 : (value >= 30 && value < 100) ? 30 : (value >= 100 && value < 200) ? 100 : (value >= 200 && value < 365) ? 200 : (value >= 365) ? 365 : 365) {
                                             case 3:
                                                 tv_str1.setText("连续3天步数一万");
                                                 img_honor1.setImageResource(R.drawable.img_medal1);
@@ -644,7 +630,7 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         break;
                                     case 2:
                                         //步数
-                                        tv_str1.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue() + "万");
+                                        tv_str1.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue()  + "万");
                                         img_honor1.setImageResource(R.drawable.img_medal);
                                         ll_honor1.setVisibility(View.VISIBLE);
                                         break;
@@ -656,7 +642,8 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         break;
                                     case 4:
                                         //PK挑战
-                                        switch (gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue()) {
+                                        int pkvalue = gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue();
+                                        switch ((pkvalue >= 1 && pkvalue < 50) ? 1 : (pkvalue >= 50 && pkvalue < 100) ? 50 : (pkvalue >= 100 && pkvalue < 200) ? 100 : (pkvalue >= 200 && pkvalue < 300) ? 200 : (pkvalue >= 300 && pkvalue < 500) ? 300 : (pkvalue >= 500) ? 500 : 500) {
                                             case 1:
                                                 tv_str1.setText("挑战达人铜牌");
                                                 img_honor1.setImageResource(R.drawable.img_medal1);
@@ -689,7 +676,8 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                 switch (gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorType()) {
                                     case 1:
                                         //天数
-                                        switch ( gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue()) {
+                                        int value = gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue();
+                                        switch ((value >= 3 && value < 7) ? 3 : (value >= 7 && value < 21) ? 7 : (value >= 21 && value < 30) ? 21 : (value >= 30 && value < 100) ? 30 : (value >= 100 && value < 200) ? 100 : (value >= 200 && value < 365) ? 200 : (value >= 365) ? 365 : 365) {
                                             case 3:
                                                 tv_str2.setText("连续3天步数一万");
                                                 img_honor2.setImageResource(R.drawable.img_medal1);
@@ -723,7 +711,7 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         break;
                                     case 2:
                                         //步数
-                                        tv_str2.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue() + "万");
+                                        tv_str2.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue()  + "万");
                                         img_honor2.setImageResource(R.drawable.img_medal);
                                         ll_honor2.setVisibility(View.VISIBLE);
                                         break;
@@ -735,7 +723,8 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         break;
                                     case 4:
                                         //PK挑战
-                                        switch (gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue()) {
+                                        int pkvalue = gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue();
+                                        switch ((pkvalue >= 1 && pkvalue < 50) ? 1 : (pkvalue >= 50 && pkvalue < 100) ? 50 : (pkvalue >= 100 && pkvalue < 200) ? 100 : (pkvalue >= 200 && pkvalue < 300) ? 200 : (pkvalue >= 300 && pkvalue < 500) ? 300 : (pkvalue >= 500) ? 500 : 500) {
                                             case 1:
                                                 tv_str2.setText("挑战达人铜牌");
                                                 img_honor2.setImageResource(R.drawable.img_medal1);
@@ -768,7 +757,8 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                 switch (gradeHonorModelResponseData.getData().getLaiHonor().get(2).getHonorType()) {
                                     case 1:
                                         //天数
-                                        switch ( gradeHonorModelResponseData.getData().getLaiHonor().get(2).getHonorVlue()) {
+                                        int value = gradeHonorModelResponseData.getData().getLaiHonor().get(2).getHonorVlue();
+                                        switch ((value >= 3 && value < 7) ? 3 : (value >= 7 && value < 21) ? 7 : (value >= 21 && value < 30) ? 21 : (value >= 30 && value < 100) ? 30 : (value >= 100 && value < 200) ? 100 : (value >= 200 && value < 365) ? 200 : (value >= 365) ? 365 : 365) {
                                             case 3:
                                                 tv_str3.setText("连续3天步数一万");
                                                 img_honor3.setImageResource(R.drawable.img_medal1);
@@ -802,7 +792,7 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         break;
                                     case 2:
                                         //步数
-                                        tv_str3.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue() + "万");
+                                        tv_str3.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(2).getHonorVlue()  + "万");
                                         img_honor3.setImageResource(R.drawable.img_medal);
                                         ll_honor3.setVisibility(View.VISIBLE);
                                         break;
@@ -814,7 +804,8 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         break;
                                     case 4:
                                         //PK挑战
-                                        switch (gradeHonorModelResponseData.getData().getLaiHonor().get(2).getHonorVlue()) {
+                                        int pkvalue = gradeHonorModelResponseData.getData().getLaiHonor().get(2).getHonorVlue();
+                                        switch ((pkvalue >= 1 && pkvalue < 50) ? 1 : (pkvalue >= 50 && pkvalue < 100) ? 50 : (pkvalue >= 100 && pkvalue < 200) ? 100 : (pkvalue >= 200 && pkvalue < 300) ? 200 : (pkvalue >= 300 && pkvalue < 500) ? 300 : (pkvalue >= 500) ? 500 : 500) {
                                             case 1:
                                                 tv_str3.setText("挑战达人铜牌");
                                                 img_honor3.setImageResource(R.drawable.img_medal1);
@@ -865,89 +856,89 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
     public void onClick(View v) {
 
         int flag;
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.ll_left:
                 finish();
                 break;
             //进入日排名详情
             case R.id.ll_dayRank:
-                Intent intent=new Intent(MyGradesActivity.this,RankingDetailsActivity.class);
-                intent.putExtra("flag",0);
+                Intent intent = new Intent(MyGradesActivity.this, RankingDetailsActivity.class);
+                intent.putExtra("flag", 0);
                 startActivity(intent);
                 break;
             //进入周排名详情
             case R.id.ll_weekRank:
-                Intent intent1=new Intent(MyGradesActivity.this,RankingDetailsActivity.class);
-                intent1.putExtra("flag",1);
+                Intent intent1 = new Intent(MyGradesActivity.this, RankingDetailsActivity.class);
+                intent1.putExtra("flag", 1);
                 startActivity(intent1);
                 break;
             //我的勋章跳转
             case R.id.ll_grade:
-                startActivity(new Intent(this,MyXuZhangActivity.class));
+                startActivity(new Intent(this, MyXuZhangActivity.class));
                 break;
             case R.id.bt_left:
-                        if (state!=true)
-                        {
-                            n=n+7;
-                        }
-                        state=true;
-                        days.clear();
-                         nowdate7 = getPeriodDate(type, n) + "";
-                         nowdate6 = getPeriodDate(type, n + 1) + "";
-                         nowdate5 = getPeriodDate(type, n + 2) + "";
-                         nowdate4 = getPeriodDate(type, n + 3) + "";
-                         nowdate3 = getPeriodDate(type, n + 4) + "";
-                         nowdate2 = getPeriodDate(type, n + 5) + "";
-                         nowdate1 = getPeriodDate(type, n + 6) + "";
-                        days.add(formdate(nowdate1));
-                        days.add(formdate(nowdate2));
-                        days.add(formdate(nowdate3));
-                        days.add(formdate(nowdate4));
-                        days.add(formdate(nowdate5));
-                        days.add(formdate(nowdate6));
-                        days.add(formdate(nowdate7));
-                        //progressDialog.show();
-                        iGradesPresenter.getStepCount(getDateform(nowdate1),getDateform(nowdate7));
-                        n = n + 7;
-                        bt_right.setVisibility(View.VISIBLE);
-                        break;
+                if (state != true) {
+                    n = n + 7;
+                }
+                state = true;
+                days.clear();
+                nowdate7 = getPeriodDate(type, n) + "";
+                nowdate6 = getPeriodDate(type, n + 1) + "";
+                nowdate5 = getPeriodDate(type, n + 2) + "";
+                nowdate4 = getPeriodDate(type, n + 3) + "";
+                nowdate3 = getPeriodDate(type, n + 4) + "";
+                nowdate2 = getPeriodDate(type, n + 5) + "";
+                nowdate1 = getPeriodDate(type, n + 6) + "";
+                days.add(formdate(nowdate1));
+                days.add(formdate(nowdate2));
+                days.add(formdate(nowdate3));
+                days.add(formdate(nowdate4));
+                days.add(formdate(nowdate5));
+                days.add(formdate(nowdate6));
+                days.add(formdate(nowdate7));
+                //progressDialog.show();
+                iGradesPresenter.getStepCount(getDateform(nowdate1), getDateform(nowdate7));
+                n = n + 7;
+                bt_right.setVisibility(View.VISIBLE);
+                break;
             case R.id.bt_right:
-                        if (state!=false) {
-                            n = n - 14;
-                        }
-                        else {
-                            n=n-7;
-                        }
-                        days.clear();
-                         nowdate7 = getPeriodDate(type, n) + "";
-                         nowdate6 = getPeriodDate(type, n + 1) + "";
-                         nowdate5 = getPeriodDate(type, n + 2) + "";
-                         nowdate4 = getPeriodDate(type, n + 3) + "";
-                         nowdate3 = getPeriodDate(type, n + 4) + "";
-                         nowdate2 = getPeriodDate(type, n + 5) + "";
-                         nowdate1 = getPeriodDate(type, n + 6) + "";
-                        days.add(formdate(nowdate1));
-                        days.add(formdate(nowdate2));
-                        days.add(formdate(nowdate3));
-                        days.add(formdate(nowdate4));
-                        days.add(formdate(nowdate5));
-                        days.add(formdate(nowdate6));
-                        days.add(formdate(nowdate7));
-                        //progressDialog.show();
-                        iGradesPresenter.getStepCount(getDateform(nowdate1),getDateform(nowdate7));
-                        state=false;
-                        if (nowdate7.equals(getPeriodDate(type,0)+""))
-                            bt_right.setVisibility(View.GONE);
-                        break;
+                if (state != false) {
+                    n = n - 14;
+                } else {
+                    n = n - 7;
+                }
+                days.clear();
+                nowdate7 = getPeriodDate(type, n) + "";
+                nowdate6 = getPeriodDate(type, n + 1) + "";
+                nowdate5 = getPeriodDate(type, n + 2) + "";
+                nowdate4 = getPeriodDate(type, n + 3) + "";
+                nowdate3 = getPeriodDate(type, n + 4) + "";
+                nowdate2 = getPeriodDate(type, n + 5) + "";
+                nowdate1 = getPeriodDate(type, n + 6) + "";
+                days.add(formdate(nowdate1));
+                days.add(formdate(nowdate2));
+                days.add(formdate(nowdate3));
+                days.add(formdate(nowdate4));
+                days.add(formdate(nowdate5));
+                days.add(formdate(nowdate6));
+                days.add(formdate(nowdate7));
+                //progressDialog.show();
+                iGradesPresenter.getStepCount(getDateform(nowdate1), getDateform(nowdate7));
+                state = false;
+                if (nowdate7.equals(getPeriodDate(type, 0) + ""))
+                    bt_right.setVisibility(View.GONE);
+                break;
         }
     }
+
     /**
      * 获取阶段日期
-     * @param  dateType
+     *
+     * @param dateType
      * @author Yangtse
      */
     //使用方法 char datetype = '7';
-    public static StringBuilder getPeriodDate(char dateType,int n) {
+    public static StringBuilder getPeriodDate(char dateType, int n) {
         Calendar c = Calendar.getInstance(); // 当时的日期和时间
         int hour; // 需要更改的小时
         int day; // 需要更改的天数
@@ -988,7 +979,7 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                 // System.out.println(df.format(c.getTime()));
                 break;
             case '7': // 一个月前
-                day = c.get(Calendar.DAY_OF_MONTH) - 30*n;
+                day = c.get(Calendar.DAY_OF_MONTH) - 30 * n;
                 c.set(Calendar.DAY_OF_MONTH, day);
                 // System.out.println(df.format(c.getTime()));
                 break;
@@ -999,7 +990,7 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
         StringBuilder strForwardDate = new StringBuilder().append(mYear).append(
                 (mMonth + 1) < 10 ? "0" + (mMonth + 1) : (mMonth + 1)).append(
                 (mDay < 10) ? "0" + mDay : mDay);
-        System.out.println("strDate------->"+strForwardDate+"-"+c.getTimeInMillis());
+        System.out.println("strDate------->" + strForwardDate + "-" + c.getTimeInMillis());
         return strForwardDate;
         //return c.getTimeInMillis();
     }
