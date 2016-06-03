@@ -90,7 +90,7 @@ public class MyPkNoticeAdapter extends BaseAdapter {
         {
             viewHolder.tv_pk_title.setText(pkNoticeModel.getUserName()+"拒绝了你的挑战");
             if (!TextUtils.isEmpty(pkNoticeModel.getPhoto())) {
-                Picasso.with(context).load(path + pkNoticeModel.getBPhoto()).fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(viewHolder.im_pk_head);
+                Picasso.with(context).load(path + pkNoticeModel.getPhoto()).fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(viewHolder.im_pk_head);
             }
         }
         else if (pkNoticeModel.getMsgType().equals("4"))
