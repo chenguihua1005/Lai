@@ -2,7 +2,7 @@
  * Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
  * Date:2016-03-31
  */
-package com.softtek.lai.module.guide;
+package com.softtek.lai.module.welcome;
 
 import android.content.Intent;
 import android.os.Handler;
@@ -31,7 +31,7 @@ import zilla.libcore.api.ZillaApi;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_guide)
-public class GuideActivity extends BaseActivity implements Runnable{
+public class WelcomeActivity extends BaseActivity implements Runnable{
 
     private  String token=null;
     private SportGroupService service;
@@ -77,7 +77,7 @@ public class GuideActivity extends BaseActivity implements Runnable{
 
                         }
                         //进入首页
-                        Intent intent = new Intent(GuideActivity.this, HomeActviity.class);
+                        Intent intent = new Intent(WelcomeActivity.this, HomeActviity.class);
                         startActivity(intent);
                         finish();
                     }
@@ -86,7 +86,7 @@ public class GuideActivity extends BaseActivity implements Runnable{
                     public void failure(RetrofitError error) {
                         //有异常返回登录也重新登录
                         UserInfoModel.getInstance().loginOut();//本地退出
-                        Intent intent = new Intent(GuideActivity.this, LoginActivity.class);
+                        Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
                         startActivity(intent);
                         finish();
                     }
@@ -98,12 +98,12 @@ public class GuideActivity extends BaseActivity implements Runnable{
     @Override
     public void run() {
         if(StringUtils.isEmpty(token)){
-            Intent intent = new Intent(GuideActivity.this, LoginActivity.class);
+            Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
         }else{
-            //checks();
-            UserModel model=UserInfoModel.getInstance().getUser();
+            checks();
+            /*UserModel model=UserInfoModel.getInstance().getUser();
             if(model==null){
                 UserInfoModel.getInstance().loginOut();//本地退出
                 Intent intent = new Intent(this, LoginActivity.class);
@@ -114,7 +114,7 @@ public class GuideActivity extends BaseActivity implements Runnable{
                 Intent intent = new Intent(this, HomeActviity.class);
                 startActivity(intent);
                 finish();
-            }
+            }*/
         }
     }
 }
