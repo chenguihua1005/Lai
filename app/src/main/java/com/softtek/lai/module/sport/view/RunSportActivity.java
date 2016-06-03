@@ -47,7 +47,9 @@ import com.google.gson.Gson;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.sport.model.LatLon;
 import com.softtek.lai.module.sport.model.SportData;
+import com.softtek.lai.module.sport.model.Trajectory;
 import com.softtek.lai.module.sport.presenter.SportManager;
 import com.softtek.lai.stepcount.model.StepDcretor;
 import com.softtek.lai.utils.DisplayUtil;
@@ -114,7 +116,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
     private AMapLocationClient aMapLocationClient;
     private AMapLocationClientOption aMapLocationClientOption;
     private OnLocationChangedListener listener;
-    private List<LatLng> coordinates = new ArrayList<>();//坐标集合
+    private List<LatLon> coordinates = new ArrayList<>();//坐标集合
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -231,19 +233,19 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
                 LatLng latLng=new LatLng(aMapLocation.getLatitude(),aMapLocation.getLongitude());
                 aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16.3f));
                 if(coordinates.isEmpty()){
-                    coordinates.add(latLng);
+                    coordinates.add(new LatLon(latLng.longitude,latLng.latitude));
                     polylineOptions.add(latLng);
                 }else {
-                    LatLng latLng1=coordinates.get(coordinates.size()-1);
-                    if(latLng1.latitude!=latLng.latitude||latLng1.longitude!=latLng.longitude){
-                        coordinates.add(latLng);
+                    LatLon latlon=coordinates.get(coordinates.size()-1);
+                    if(latlon.getLatitude()!=latLng.latitude||latlon.getLongitude()!=latLng.longitude){
+                        coordinates.add(new LatLon(latLng.longitude,latLng.latitude));
                         polylineOptions.add(latLng);
                     }
                 }
                 aMap.addPolyline(polylineOptions);
                 //计算平均速度
-                LatLng latLng1=coordinates.get(coordinates.size()-1);
-                double distance=distanceOfTwoPoints(latLng.latitude,latLng.longitude,latLng1.latitude,latLng1.longitude);
+                LatLon latlon=coordinates.get(coordinates.size()-1);
+                double distance=distanceOfTwoPoints(latLng.latitude,latLng.longitude,latlon.getLatitude(),latlon.getLongitude());
                 double totalDistance=distance+previousDistance;//总距离（单位:米）
                 double speed=(totalDistance/1000)/(time*1f/3600);
                 DecimalFormat format=new DecimalFormat("#0.00");
@@ -315,7 +317,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
                                 data.setSpeed(tv_avg_speed.getText().toString());
                                 data.setTimeLength(time+"");
                                 data.setTotal(Integer.parseInt(tv_step.getText().toString()));
-                                data.setTrajectory(new Gson().toJson(coordinates));
+                                data.setTrajectory(new Gson().toJson(new Trajectory(coordinates)));
                                 dialogShow("正在提交");
                                 manager.submitSportData(RunSportActivity.this,data);
                             }

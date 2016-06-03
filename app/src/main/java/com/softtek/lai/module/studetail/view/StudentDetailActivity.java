@@ -138,7 +138,7 @@ public class StudentDetailActivity extends BaseActivity implements View.OnClickL
         }else{
             tv_total_loss_tip.setText("共减重");
         }
-        tv_totle_lw.setText(Float.parseFloat(StringUtils.isEmpty(memberModel.getLossAfter())?"0":memberModel.getLossAfter())==0?"0斤":Float.parseFloat(memberModel.getLossWeight())+"斤");
+        tv_totle_lw.setText(Float.parseFloat(StringUtils.isEmpty(memberModel.getLossAfter())?"0":memberModel.getLossAfter())==0?"0斤":Math.abs(Float.parseFloat(memberModel.getLossWeight()))+"斤");
         tv_loss_before.setText(StringUtil.getFloatValue(memberModel.getLossBefore())+"斤");
         float lossAfter=StringUtil.getFloat(memberModel.getLossAfter());
         tv_loss_after.setText(lossAfter==0?"尚未复测":StringUtil.getFloat(memberModel.getLossAfter())+"斤");

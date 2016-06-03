@@ -106,7 +106,7 @@ public class BaseDateFragment extends BaseFragment{
         }else{
             tv_total_loss_tip.setText("共减重");
         }
-        tv_totle_lw.setText(Float.parseFloat(StringUtils.isEmpty(model.getLossAfter())?"0":model.getLossAfter())==0?"0斤":model.getLossTotal()+"斤");
+        tv_totle_lw.setText(Float.parseFloat(StringUtils.isEmpty(model.getLossAfter())?"0":model.getLossAfter())==0?"0斤":Math.abs(model.getLossTotal())+"斤");
         tv_loss_before.setText(StringUtil.getFloatValue(model.getLossBefore())+"斤");
         float lossAfter=StringUtil.getFloat(model.getLossAfter());
         tv_loss_after.setText(lossAfter==0?"尚未复测":StringUtil.getFloat(model.getLossAfter())+"斤");
