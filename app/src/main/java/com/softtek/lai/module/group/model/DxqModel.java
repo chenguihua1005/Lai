@@ -14,13 +14,23 @@ public class DxqModel implements Serializable {
 
     private String RegionId;
     private String RegionName;
+    private String IsHeadOffice;
 
     @Override
     public String toString() {
         return "DxqModel{" +
                 "RegionId='" + RegionId + '\'' +
                 ", RegionName='" + RegionName + '\'' +
+                ", IsHeadOffice='" + IsHeadOffice + '\'' +
                 '}';
+    }
+
+    public String getIsHeadOffice() {
+        return IsHeadOffice;
+    }
+
+    public void setIsHeadOffice(String isHeadOffice) {
+        IsHeadOffice = isHeadOffice;
     }
 
     public String getRegionId() {
