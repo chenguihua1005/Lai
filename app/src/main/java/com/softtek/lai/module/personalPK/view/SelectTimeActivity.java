@@ -63,10 +63,10 @@ public class SelectTimeActivity extends BaseActivity implements View.OnClickList
     @InjectView(R.id.rl_end)
     RelativeLayout rl_end;
 
-    @Required(order = 1,message = "请选择开始日期")
+    @Required(order = 1,message = "请选择PK开始日期")
     @InjectView(R.id.tv_start)
     TextView tv_start;
-    @Required(order = 2,message = "请选择结束日期")
+    @Required(order = 2,message = "请选择PK结束日期")
     @InjectView(R.id.tv_end)
     TextView tv_end;
 

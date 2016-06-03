@@ -126,11 +126,13 @@ public class StepService extends Service implements SensorEventListener {
     /**
      * 更新通知
      */
+    private NotificationCompat.Builder builder;
+    private NotificationManager nm;
     private void updateNotification(String content) {
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
                 new Intent(this, MyGradesActivity.class), 0);
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        builder = new NotificationCompat.Builder(this);
         builder.setPriority(Notification.PRIORITY_MIN)
                 .setContentIntent(contentIntent)
                 .setSmallIcon(R.mipmap.ic_launcher)
@@ -143,7 +145,7 @@ public class StepService extends Service implements SensorEventListener {
         startForeground(0, notification);
 
         //获取通知管理器
-        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         //发送通知
         nm.notify(R.string.app_name, notification);
         //发送广播
