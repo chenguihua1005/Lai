@@ -34,14 +34,15 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
-import com.amap.api.maps2d.AMap;
-import com.amap.api.maps2d.CameraUpdateFactory;
-import com.amap.api.maps2d.LocationSource;
-import com.amap.api.maps2d.MapView;
-import com.amap.api.maps2d.model.BitmapDescriptorFactory;
-import com.amap.api.maps2d.model.LatLng;
-import com.amap.api.maps2d.model.MyLocationStyle;
-import com.amap.api.maps2d.model.PolylineOptions;
+import com.amap.api.maps.AMap;
+import com.amap.api.maps.AMapUtils;
+import com.amap.api.maps.CameraUpdateFactory;
+import com.amap.api.maps.LocationSource;
+import com.amap.api.maps.MapView;
+import com.amap.api.maps.model.BitmapDescriptorFactory;
+import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps.model.MyLocationStyle;
+import com.amap.api.maps.model.PolylineOptions;
 import com.github.snowdream.android.util.Log;
 import com.google.gson.Gson;
 import com.softtek.lai.R;
@@ -175,6 +176,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
     LocationManager locationManager;
     StepReceive receive;
     int startStep=0;
+    long aDay=60*60*24*1000;
     @Override
     protected void initDatas() {
         tv_title.setText("运动");
@@ -190,7 +192,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
             locationManager.addGpsStatusListener(this);
         }
 
-        countDown=new RunSportCountDown(60000,1000);
+        countDown=new RunSportCountDown(aDay,1000);
         countDown.start();
     }
 
@@ -231,7 +233,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
                 //当坐标改变之后开始添加标记 画线
                 Log.i("获取位置");
                 LatLng latLng=new LatLng(aMapLocation.getLatitude(),aMapLocation.getLongitude());
-                aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16.3f));
+                aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f));
                 if(coordinates.isEmpty()){
                     coordinates.add(new LatLon(latLng.longitude,latLng.latitude));
                     polylineOptions.add(latLng);
@@ -245,13 +247,12 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
                 aMap.addPolyline(polylineOptions);
                 //计算平均速度
                 LatLon latlon=coordinates.get(coordinates.size()-1);
-                double distance=distanceOfTwoPoints(latLng.latitude,latLng.longitude,latlon.getLatitude(),latlon.getLongitude());
-                double totalDistance=distance+previousDistance;//总距离（单位:米）
-                double speed=(totalDistance/1000)/(time*1f/3600);
-                DecimalFormat format=new DecimalFormat("#0.00");
-                tv_avg_speed.setText(format.format(speed)+"km/h");
-                tv_distance.setText(format.format((totalDistance)/(1000*1.0)));
+                double distance= AMapUtils.calculateLineDistance(latLng,new LatLng(latlon.getLatitude(),latlon.getLongitude()));
                 previousDistance +=distance;
+                DecimalFormat format=new DecimalFormat("#0.00");
+                double speed=(previousDistance/1000)/(time*1f/3600);
+                tv_avg_speed.setText(format.format(speed)+"km/h");
+                tv_distance.setText(format.format((previousDistance)/(1000*1.0)));
             } else {
                 //显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
                 /*Log.i("ggx","定位失败, ErrCode:"
@@ -299,13 +300,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
             case R.id.iv_stop:
                 if(countDown!=null)countDown.cancel();
                 AlertDialog dialog=new AlertDialog.Builder(this).setMessage("确认结束运动并提交本次数据")
-                        .setPositiveButton("稍后", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                if(countDown!=null)countDown.reStart();
-                            }
-                        })
-                        .setNegativeButton("提交", new DialogInterface.OnClickListener() {
+                        .setPositiveButton("提交", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 if(countDown!=null)countDown.cancel();
@@ -315,11 +310,19 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
                                 data.setKilometre(tv_distance.getText().toString());
                                 data.setMType(0);
                                 data.setSpeed(tv_avg_speed.getText().toString());
-                                data.setTimeLength(time+"");
+                                data.setTimeLength(tv_clock.getText().toString()+";"+time);
                                 data.setTotal(Integer.parseInt(tv_step.getText().toString()));
                                 data.setTrajectory(new Gson().toJson(new Trajectory(coordinates)));
                                 dialogShow("正在提交");
+                                //Log.i("保存数据为"+data.toString());
                                 manager.submitSportData(RunSportActivity.this,data);
+                            }
+                        })
+                        .setNegativeButton("稍后", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if(countDown!=null)countDown.reStart();
+
                             }
                         }).create();
                 dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -344,6 +347,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
                     mapAn.setInterpolator(new AccelerateInterpolator());
                     ObjectAnimator animator=ObjectAnimator.ofInt(new LayoutWapper(ll_panel),"translateY",stp,enp)
                             .setDuration(150);
+                    animator.setStartDelay(100);
                     animator.setInterpolator(new OvershootInterpolator());
                     animator.addListener(new AnimatorListenerAdapter() {
                         @Override
@@ -354,7 +358,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
                         }
 
                     });
-                    set.playSequentially(animator,mapAn);
+                    set.playTogether(animator,mapAn);
                     set.start();
 
                 }else{
@@ -459,15 +463,25 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
         @Override
         public void onFinish() {
             //重新启动
-            countDown=new RunSportCountDown(60000,1000);
+            countDown=new RunSportCountDown(aDay,1000);
             countDown.start();
         }
     }
 
+    boolean flag=true;
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN){
-            doBack();
+            if(flag){
+                flag=false;
+                doBack();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        flag=true;
+                    }
+                },500);
+            }
             return true;
         }
         return super.onKeyDown(keyCode, event);
@@ -519,33 +533,6 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
             target.setLayoutParams(params);
         }
 
-    }
-
-    /**
-     * 根据两点间经纬度坐标（double值），计算两点间距离，
-     *
-     * @param lat1
-     * @param lng1
-     * @param lat2
-     * @param lng2
-     * @return 距离：单位为米
-     */
-    private static final double EARTH_RADIUS = 6378137;
-    public  double distanceOfTwoPoints(double lat1,double lng1,
-                                             double lat2,double lng2) {
-        double radLat1 = rad(lat1);
-        double radLat2 = rad(lat2);
-        double a = radLat1 - radLat2;
-        double b = rad(lng1) - rad(lng2);
-        double s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2)
-                + Math.cos(radLat1) * Math.cos(radLat2)
-                * Math.pow(Math.sin(b / 2), 2)));
-        s = s * EARTH_RADIUS;
-        s = Math.round(s * 10000) / 10000;
-        return s;
-    }
-    private  double rad(double d) {
-        return d * Math.PI / 180.0;
     }
 
     //注册步数接收器
