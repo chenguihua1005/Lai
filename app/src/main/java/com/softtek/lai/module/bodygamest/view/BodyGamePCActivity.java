@@ -112,6 +112,8 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
     ImageView img_red;
     @InjectView(R.id.fl_right)
     FrameLayout fl_right;
+    @InjectView(R.id.ll_st_review)
+    LinearLayout ll_st_review;
     private IMessagePresenter messagePresenter;
     private MessageReceiver mMessageReceiver;
 
@@ -136,6 +138,7 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
         ll_st_saikuang.setOnClickListener(this);
         ll_st_tipst.setOnClickListener(this);
         ll_left.setOnClickListener(this);
+        ll_st_review.setOnClickListener(this);
 
         messagePresenter = new MessageImpl(this);
         registerMessageReceiver();
@@ -423,6 +426,10 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
             //成绩单
             case R.id.ll_st_chengjidan:
                 startActivity(new Intent(this, StudentScoreActivity.class));
+                break;
+            //往期回顾
+            case R.id.ll_st_review:
+                new AlertDialog.Builder(this).setMessage("功能开发中敬请期待").create().show();
                 break;
 
         }
