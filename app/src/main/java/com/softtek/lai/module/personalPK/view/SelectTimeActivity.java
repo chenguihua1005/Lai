@@ -63,10 +63,10 @@ public class SelectTimeActivity extends BaseActivity implements View.OnClickList
     @InjectView(R.id.rl_end)
     RelativeLayout rl_end;
 
-    @Required(order = 1,message = "请选择开始日期")
+    @Required(order = 1,message = "请选择PK开始日期")
     @InjectView(R.id.tv_start)
     TextView tv_start;
-    @Required(order = 2,message = "请选择结束日期")
+    @Required(order = 2,message = "请选择PK结束日期")
     @InjectView(R.id.tv_end)
     TextView tv_end;
 
@@ -175,16 +175,22 @@ public class SelectTimeActivity extends BaseActivity implements View.OnClickList
                     String date=year+"年"+(month<10?("0"+month):month)+"月"+(dayOfMonth<10?("0"+dayOfMonth):dayOfMonth)+"日";
                     if(year<currentYear||(year==currentYear&&monthOfYear+1<currentMonth)||
                             (year==currentYear&&monthOfYear+1==currentMonth&&dayOfMonth<=currentDay)){
-                        showTip("PK时间必须大于当前时间");
+                        String tip;
+                        if(flag){
+                            tip="PK开始时间必须大于当前时间";
+                        }else{
+                            tip="PK结束时间必须大于当前时间";
+                        }
+                        showTip(tip);
                     }else{
                         //输出当前日期
                         count=0;
                         if(flag){
                             tv_start.setText(date);
-                            form.setStart(DateUtil.getInstance("yyyy年MM月dd日").convertDateStr(date,"yyyy-MM-dd HH:mm:ss"));
+                            form.setStart(DateUtil.getInstance("yyyy年MM月dd日").convertDateStr(date,"yyyy-MM-dd"));
                         }else{
                             tv_end.setText(date);
-                            form.setEnd(DateUtil.getInstance("yyyy年MM月dd日").convertDateStr(date,"yyyy-MM-dd HH:mm:ss"));
+                            form.setEnd(DateUtil.getInstance("yyyy年MM月dd日").convertDateStr(date,"yyyy-MM-dd"));
                         }
                     }
                 }

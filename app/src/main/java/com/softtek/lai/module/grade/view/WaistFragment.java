@@ -34,7 +34,7 @@ import zilla.libcore.ui.InjectLayout;
  * Created by jerry.guan on 3/21/2016.
  * 腰围变化
  */
-@InjectLayout(R.layout.fragment_loss_weight)
+@InjectLayout(R.layout.fragment_loss_weight_per)
 public class WaistFragment extends BaseFragment implements PullToRefreshBase.OnRefreshListener<ListView>,
         AdapterView.OnItemClickListener,StudentListCallback {
 

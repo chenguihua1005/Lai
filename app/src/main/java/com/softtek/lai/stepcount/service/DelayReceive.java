@@ -13,8 +13,6 @@ import com.softtek.lai.stepcount.net.StepNetService;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.RequestCallback;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.util.List;
 
 import retrofit.client.Response;
@@ -34,7 +32,6 @@ public class DelayReceive extends BroadcastReceiver{
         if(UserInfoModel.getInstance().getUser()==null){
             return;
         }
-        Log.i("步数数据开始上传.......................................");
         String userId=UserInfoModel.getInstance().getUser().getUserid();
         service= ZillaApi.NormalRestAdapter.create(StepNetService.class);
          /*
@@ -57,7 +54,8 @@ public class DelayReceive extends BroadcastReceiver{
         context.startService(new Intent(context,StepService.class));
     }
 
-    private void submitStep(final long accountId, String step){
+    private void submitStep(long accountId, String step){
+        Log.i("步数数据开始上传.......................................");
         Log.i("步数>>"+step);
         service.synStepCount(UserInfoModel.getInstance().getToken(),accountId, step, new RequestCallback<ResponseData>() {
             @Override

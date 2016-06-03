@@ -36,7 +36,7 @@ import zilla.libcore.ui.InjectLayout;
  * Created by jerry.guan on 3/21/2016.
  * 体脂率
  */
-@InjectLayout(R.layout.fragment_loss_weight)
+@InjectLayout(R.layout.fragment_loss_weight_per)
 public class FatFragment extends BaseFragment implements PullToRefreshBase.OnRefreshListener<ListView>,
         AdapterView.OnItemClickListener,StudentListCallback {
 

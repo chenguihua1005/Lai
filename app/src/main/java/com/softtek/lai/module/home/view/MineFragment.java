@@ -24,6 +24,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
+import com.softtek.lai.stepcount.service.StepService;
 import com.squareup.picasso.Picasso;
 
 import butterknife.InjectView;
@@ -204,6 +205,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
 
     private void clearData() {
         UserInfoModel.getInstance().loginOut();
+        //getContext().stopService(new Intent(getContext(), StepService.class));
     }
 
     @Override

@@ -107,12 +107,12 @@ public class CounselorClassImpl implements ICounselorClassPresenter {
                         for (int i = 0; i < lists.size(); i++) {
                             ClassInfoModel classInfo = lists.get(i);
                             String str[] = classInfo.getStartDate().toString().split("-");
-                            if (str[1].equals(monthOfYear + "") || str[1].equals("0" + monthOfYear)) {
-                                System.out.println("当前月已开班" + str[1]);
-                                count++;
-                            } else {
-                                System.out.println("当前月未开班" + str[1]);
-                            }
+//                            if (str[1].equals(monthOfYear + "") || str[1].equals("0" + monthOfYear)) {
+//                                System.out.println("当前月已开班" + str[1]);
+//                                count++;
+//                            } else {
+//                                System.out.println("当前月未开班" + str[1]);
+//                            }
                             if (str[1].equals(nextMonth + "") || str[1].equals("0" + (nextMonth))) {
                                 System.out.println("次月已开班" + str[1]);
                                 count++;
@@ -121,7 +121,7 @@ public class CounselorClassImpl implements ICounselorClassPresenter {
                             }
                         }
                         System.out.println("count:" + count);
-                        if (count == 2) {
+                        if (count == 1) {
                             lin_create_class.setVisibility(View.GONE);
                         } else {
                             lin_create_class.setVisibility(View.VISIBLE);

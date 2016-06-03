@@ -93,28 +93,6 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
         tv_weight_after.setOnClickListener(this);
     }
 
-
-
-    private boolean isLetter(char c) {
-        int k = 0x80;
-        return c / k == 0 ? true : false;
-    }
-
-    public int length(String s) {
-        if (s == null)
-            return 0;
-        char[] c = s.toCharArray();
-        int len = 0;
-        for (int i = 0; i < c.length; i++) {
-            len++;
-            if (!isLetter(c[i])) {
-                len++;
-            }
-        }
-        return len;
-    }
-
-
     @Override
     protected void initDatas() {
         storyManager=new NewStoryManager(images,this);

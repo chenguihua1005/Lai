@@ -85,7 +85,7 @@ public class NetErrorHandler implements IApiErrorHandler {
                                     public void onClick(DialogInterface dialog, int which) {
                                         builder=null;
                                         UserInfoModel.getInstance().loginOut();
-                                        LaiApplication.getInstance().stopService(new Intent(LaiApplication.getInstance().getApplicationContext(), StepService.class));
+                                        //LaiApplication.getInstance().stopService(new Intent(LaiApplication.getInstance().getApplicationContext(), StepService.class));
                                         Intent intent=new Intent(LaiApplication.getInstance(), LoginActivity.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
