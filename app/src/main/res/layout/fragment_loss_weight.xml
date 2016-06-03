@@ -4,9 +4,8 @@
   ~ Date:2016-03-31
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -26,4 +25,14 @@
 
     </com.handmark.pulltorefresh.library.PullToRefreshListView>
 
-</LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="#666666"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:text="[注：负数表示增重]"
+        android:layout_marginBottom="4dp"
+        android:layout_marginRight="5dp"/>
+</RelativeLayout>

@@ -75,7 +75,7 @@ import zilla.libcore.util.Util;
  * 首页
  */
 @InjectLayout(R.layout.fragment_home)
-public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetChangedListener, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener, View.OnClickListener/*, SportGroupManager.IsJoinRunGroupManagerCallBack*/ {
+public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetChangedListener, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener, View.OnClickListener {
 
     @InjectView(R.id.rhv_adv)
     RollHeaderView rhv_adv;
@@ -118,7 +118,6 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
      private List<HomeInfoModel> sales = new ArrayList<>();*/
     private List<Fragment> fragments = new ArrayList<>();
     private MessageReceiver mMessageReceiver;
-   // private SportGroupManager sportGroupManager;
 
     @Override
     protected void initViews() {
@@ -198,7 +197,6 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
-        //sportGroupManager = new SportGroupManager(this);
         homeInfoPresenter = new HomeInfoImpl(getContext());
         messagePresenter = new MessageImpl(getContext());
         studentImpl = new StudentImpl(getContext());
@@ -457,16 +455,6 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         getContext().registerReceiver(mMessageReceiver, filter);
     }
 
-    /*@Override
-    public void isJoinRunGroup(boolean b) {
-        System.out.println("是否加入了跑团:" + b);
-        if (b) {
-            startActivity(new Intent(getContext(), GroupMainActivity.class));
-        } else {
-            startActivity(new Intent(getContext(), JoinGroupActivity.class));
-        }
-    }
-*/
     public class MessageReceiver extends BroadcastReceiver {
 
         @Override

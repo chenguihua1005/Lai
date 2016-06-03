@@ -244,10 +244,11 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
                 //计算平均速度
                 LatLng latLng1=coordinates.get(coordinates.size()-1);
                 double distance=distanceOfTwoPoints(latLng.latitude,latLng.longitude,latLng1.latitude,latLng1.longitude);
-                double speed=distance/(time*1f/3600);
+                double totalDistance=distance+previousDistance;//总距离（单位:米）
+                double speed=(totalDistance/1000)/(time*1f/3600);
                 DecimalFormat format=new DecimalFormat("#0.00");
                 tv_avg_speed.setText(format.format(speed)+"km/h");
-                tv_distance.setText(format.format((distance+ previousDistance)/(1000*1.0)));
+                tv_distance.setText(format.format((totalDistance)/(1000*1.0)));
                 previousDistance +=distance;
             } else {
                 //显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。

@@ -73,6 +73,8 @@ public class StudentDetailActivity extends BaseActivity implements View.OnClickL
     LinearLayout ll_log;
     @InjectView(R.id.tv_loss_after_tip)
     TextView tv_loss_after_tip;
+    @InjectView(R.id.tv_total_loss_tip)
+    TextView tv_total_loss_tip;
 
     private IMemberInfopresenter memberInfopresenter;
     private List<Fragment> fragmentList=new ArrayList<>();
@@ -131,6 +133,11 @@ public class StudentDetailActivity extends BaseActivity implements View.OnClickL
         tv_name.setText(memberModel.getUserName());
         tv_phone.setText(memberModel.getMobile());
         tv_totle_log.setText(memberModel.getLogCount() + "篇");
+        if(StringUtils.isNotEmpty(memberModel.getLossWeight())&&Float.parseFloat(memberModel.getLossWeight())<0){
+            tv_total_loss_tip.setText("共增重");
+        }else{
+            tv_total_loss_tip.setText("共减重");
+        }
         tv_totle_lw.setText(Float.parseFloat(StringUtils.isEmpty(memberModel.getLossAfter())?"0":memberModel.getLossAfter())==0?"0斤":Float.parseFloat(memberModel.getLossWeight())+"斤");
         tv_loss_before.setText(StringUtil.getFloatValue(memberModel.getLossBefore())+"斤");
         float lossAfter=StringUtil.getFloat(memberModel.getLossAfter());

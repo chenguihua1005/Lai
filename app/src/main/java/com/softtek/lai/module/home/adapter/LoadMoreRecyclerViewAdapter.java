@@ -58,7 +58,7 @@ public class LoadMoreRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
         //绑定数据
         if(holder instanceof ViewHolder){
             HomeInfoModel info = infos.get(position);
-            Picasso.with(mContext).load(info.getImg_Addr()).placeholder(R.drawable.default_icon_rect).error(R.drawable.default_icon_rect).into(((ViewHolder)holder).iv_image);
+            Picasso.with(mContext).load(info.getImg_Addr()).fit().placeholder(R.drawable.default_icon_rect).error(R.drawable.default_icon_rect).into(((ViewHolder)holder).iv_image);
             ((ViewHolder)holder).tv_title.setText(info.getImg_Title());
         }
 

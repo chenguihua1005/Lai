@@ -308,6 +308,7 @@ public class StepService extends Service implements SensorEventListener {
             Intent intent = new Intent(this, StepService.class);
             startService(intent);
         }else{
+            nm.cancelAll();
             com.github.snowdream.android.util.Log.i("计步器服务不再执行");
         }
         super.onDestroy();
