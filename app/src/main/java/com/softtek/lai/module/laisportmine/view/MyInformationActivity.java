@@ -114,7 +114,7 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void getRunTeamName(RunTeamModel runTeamModel) {
-        if (!TextUtils.isEmpty(runTeamModel.toString())) {
+        if (runTeamModel!=null) {
             runTeamModels = runTeamModel;
             if (!runTeamModel.getRgName().isEmpty()) {
                 tv_runteamname.setText(runTeamModels.getRgName());

@@ -125,40 +125,35 @@ public class MyNewsActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     public void getRunTeamName( RunTeamModel runTeamModel) {
-        runTeamModels=runTeamModel;
-        if (Integer.parseInt(runTeamModels.getIsHasAngelMsg())>0&&Integer.parseInt(runTeamModels.getIsHasAngelMsg())<=10) {
-            tv_newslis_public.setText(runTeamModels.getIsHasAngelMsg());
-            tv_newslis_public.setVisibility(View.VISIBLE);
+        if (runTeamModel!=null) {
+            runTeamModels = runTeamModel;
+            if (Integer.parseInt(runTeamModels.getIsHasAngelMsg()) > 0 && Integer.parseInt(runTeamModels.getIsHasAngelMsg()) <= 10) {
+                tv_newslis_public.setText(runTeamModels.getIsHasAngelMsg());
+                tv_newslis_public.setVisibility(View.VISIBLE);
+            } else if (10 < Integer.parseInt(runTeamModels.getIsHasAngelMsg())) {
+                tv_newslis_public.setText("10+");
+                tv_newslis_public.setVisibility(View.VISIBLE);
+            } else {
+                tv_newslis_public.setVisibility(View.GONE);
+            }
+            if (Integer.parseInt(runTeamModels.getIsHasChaMsg()) > 0 && Integer.parseInt(runTeamModels.getIsHasChaMsg()) <= 10) {
+                tv_newslis_pk.setText(runTeamModels.getIsHasChaMsg());
+                tv_newslis_pk.setVisibility(View.VISIBLE);
+            } else if (10 < Integer.parseInt(runTeamModels.getIsHasChaMsg())) {
+                tv_newslis_pk.setText("10+");
+                tv_newslis_pk.setVisibility(View.VISIBLE);
+            } else {
+                tv_newslis_pk.setVisibility(View.GONE);
+            }
+            if (Integer.parseInt(runTeamModels.getIsHasActMsg()) > 0 && Integer.parseInt(runTeamModels.getIsHasActMsg()) <= 10) {
+                tv_newslis_action.setText(runTeamModels.getIsHasActMsg());
+                tv_newslis_action.setVisibility(View.VISIBLE);
+            } else if (10 < Integer.parseInt(runTeamModels.getIsHasActMsg())) {
+                tv_newslis_action.setText("10+");
+                tv_newslis_action.setVisibility(View.VISIBLE);
+            } else {
+                tv_newslis_action.setVisibility(View.GONE);
+            }
         }
-        else if (10<Integer.parseInt(runTeamModels.getIsHasAngelMsg())){
-            tv_newslis_public.setText("10+");
-            tv_newslis_public.setVisibility(View.VISIBLE);
-        }
-        else {
-            tv_newslis_public.setVisibility(View.GONE);
-        }
-        if (Integer.parseInt(runTeamModels.getIsHasChaMsg())>0&&Integer.parseInt(runTeamModels.getIsHasChaMsg())<=10) {
-            tv_newslis_pk.setText(runTeamModels.getIsHasChaMsg());
-            tv_newslis_pk.setVisibility(View.VISIBLE);
-        }
-        else if (10<Integer.parseInt(runTeamModels.getIsHasChaMsg())){
-            tv_newslis_pk.setText("10+");
-            tv_newslis_pk.setVisibility(View.VISIBLE);
-        }
-        else {
-            tv_newslis_pk.setVisibility(View.GONE);
-        }
-        if (Integer.parseInt(runTeamModels.getIsHasActMsg())>0&&Integer.parseInt(runTeamModels.getIsHasActMsg())<=10) {
-            tv_newslis_action.setText(runTeamModels.getIsHasActMsg());
-            tv_newslis_action.setVisibility(View.VISIBLE);
-        }
-        else if (10<Integer.parseInt(runTeamModels.getIsHasActMsg())){
-            tv_newslis_action.setText("10+");
-            tv_newslis_action.setVisibility(View.VISIBLE);
-        }
-        else {
-            tv_newslis_action.setVisibility(View.GONE);
-        }
-
     }
 }
