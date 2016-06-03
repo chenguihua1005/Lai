@@ -102,18 +102,11 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
 
         rankInfoAdapter = new RankInfoAdapter(this, rankSelectModelList);
         list_group.setAdapter(rankInfoAdapter);
-
         list_group.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //选择图标显示设置
-                for (int i = 0; i < 2; i++) {
-                    ImageView iv = (ImageView) parent.getChildAt(i).findViewById(R.id.rbtn_select);
-                    iv.setImageResource(R.drawable.radiocir);
-                }
-                ImageView iv = (ImageView) view.findViewById(R.id.rbtn_select);
-                iv.setImageResource(R.drawable.radiosel);
-
+                ImageView iv1 = (ImageView) parent.getChildAt(0).findViewById(R.id.rbtn_select);
+                ImageView iv2 = (ImageView) parent.getChildAt(1).findViewById(R.id.rbtn_select);
                 //跑团排名
                 if (position == 0) {
                     Iv_fold.setImageResource(R.drawable.unfold);
@@ -121,28 +114,8 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
                     ((DayRankFragment) fragments.get(0)).updateDayRankStatus(1);
                     ((WeekRankFragment) fragments.get(1)).updateWeekRankStatus(1);
                     tv_rungroupname.setText(rungroupname);
-                    //biaozhi=0;
-//                    DayRankFragment dayRankFragment=new DayRankFragment();
-//                    Bundle bundle1 = new Bundle();
-//                    bundle1.putInt("id",0);
-//                    dayRankFragment.setArguments(bundle1);
-//                    fragments.add(dayRankFragment);
-//                    WeekRankFragment weekRankFragment=new WeekRankFragment();
-//                    Bundle bundle2 = new Bundle();
-//                    bundle2.putInt("id", 0);
-//                    weekRankFragment.setArguments(bundle2);
-//                    fragments.add(weekRankFragment);
-//                    tab_content.setAdapter(new TabContentAdapter(getSupportFragmentManager(),fragments));
-//                    tab.setupWithViewPager(tab_content);
-//                    //tab_content.getCurrentItem();
-//
-//                    //flag判断是我的日排名还是周排名
-//                    Intent intent=getIntent();
-//                    int flag=intent.getIntExtra("flag",1);
-//                    tab_content.setCurrentItem(flag);
-
-
-                    //18516262463
+                    iv1.setImageResource(R.drawable.radiosel);
+                    iv2.setImageResource(R.drawable.radiocir);
                 }
                 //全国排名
                 if (position == 1) {
@@ -151,23 +124,8 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
                     tv_rungroupname.setText("全国排名");
                     ((DayRankFragment) fragments.get(0)).updateDayRankStatus(0);
                     ((WeekRankFragment) fragments.get(1)).updateWeekRankStatus(0);
-                    //  biaozhi=1;
-//                    DayRankFragment dayRankFragment=new DayRankFragment();
-//                    Bundle bundle1 = new Bundle();
-//                    bundle1.putInt("id",1);
-//                    dayRankFragment.setArguments(bundle1);
-//                    fragments.add(dayRankFragment);
-//                    WeekRankFragment weekRankFragment=new WeekRankFragment();
-//                    Bundle bundle2 = new Bundle();
-//                    bundle2.putInt("id", 1);
-//                    weekRankFragment.setArguments(bundle2);
-//                    fragments.add(weekRankFragment);
-//
-//                    tab_content.setAdapter(new TabContentAdapter(getSupportFragmentManager(),fragments));
-//                    tab.setupWithViewPager(tab_content);
-//                    Intent intent=getIntent();
-//                    int flag=intent.getIntExtra("flag",0);
-//                    tab_content.setCurrentItem(flag);
+                    iv1.setImageResource(R.drawable.radiocir);
+                    iv2.setImageResource(R.drawable.radiosel);
                 }
             }
         });

@@ -205,7 +205,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
 
     private void clearData() {
         UserInfoModel.getInstance().loginOut();
-        getContext().stopService(new Intent(getContext(), StepService.class));
+        //getContext().stopService(new Intent(getContext(), StepService.class));
     }
 
     @Override

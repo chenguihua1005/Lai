@@ -169,8 +169,9 @@ public class StepService extends Service implements SensorEventListener {
         //启动定时上传功能
         AlarmManager manager= (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         PendingIntent pi = PendingIntent.getBroadcast(this,0,new Intent(UPLOAD_STEP),0);
-        manager.set(AlarmManager.RTC_WAKEUP,
-                SystemClock.currentThreadTimeMillis()+durationUpload,
+        long triggerAtTime=SystemClock.elapsedRealtime()+durationUpload;
+        manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                triggerAtTime,
                 pi);
         return START_STICKY;
     }
@@ -307,6 +308,7 @@ public class StepService extends Service implements SensorEventListener {
             Intent intent = new Intent(this, StepService.class);
             startService(intent);
         }else{
+            nm.cancelAll();
             com.github.snowdream.android.util.Log.i("计步器服务不再执行");
         }
         super.onDestroy();

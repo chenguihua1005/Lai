@@ -15,6 +15,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.group.model.StepResponseModel;
 import com.softtek.lai.module.group.net.SportGroupService;
 import com.softtek.lai.module.home.view.HomeActviity;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.stepcount.db.StepUtil;
 import com.softtek.lai.stepcount.model.UserStep;
@@ -62,6 +63,7 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
                     public void success(ResponseData<StepResponseModel> data, Response response) {
                         if(data.getStatus()==200){//加入了跑团
                             long step=data.getData().getTodayStepCnt();
+                            Log.i("服务器上的步数为="+step);
                             long currentStep=StepUtil.getInstance().getCurrentStep(userId);
                             if(step>currentStep){
                                 //新增新数据

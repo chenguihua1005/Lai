@@ -318,17 +318,17 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
         cb_zan_right.setText(model.getBchpcou() + "");
         tv_time.setText(DateUtil.getInstance().convertDateStr(model.getStart(), "yyyy年MM月dd日") + " — " +
                 DateUtil.getInstance().convertDateStr(model.getEnd(), "yyyy年MM月dd日"));
-        if(model.getPraiseStatus()==0){//可以点咱
+        if(model.getPraiseStatus()==0){//可已点咱
             cb_zan_left.setEnabled(true);
             cb_zan_left.setChecked(false);
-        }else{//不可以
+        }else{//不可已
             cb_zan_left.setEnabled(false);
             cb_zan_left.setChecked(true);
         }
-        if(model.getBPraiseStatus()==0){//可以点咱
+        if(model.getBPraiseStatus()==0){//可已点咱
             cb_zan_right.setEnabled(true);
             cb_zan_right.setChecked(false);
-        }else{//不可以
+        }else{//不可已
             cb_zan_right.setEnabled(false);
             cb_zan_right.setChecked(true);
         }
@@ -365,7 +365,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
         if (targetType == 1) {//公里
             iv_target_icon.setBackgroundResource(R.drawable.pk_km);
             tv_target_content.setText("目标公里数：");
-            tv_target.setText(model.getTarget() + "公里");
+            tv_target.setText((int)Double.parseDouble(model.getTarget()) + "公里");
             tv_unit1.setText("公里");
             tv_unit2.setText("公里");
             zongbushu.setText("当前公里数");
@@ -455,7 +455,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
                 tip_pk.setVisibility(View.VISIBLE);
                 tip_pk.setText("PK已开始，要加油哦！");
                 break;
-            case PKListAdapter.Completed://以结束
+            case PKListAdapter.Completed://已结束
                 break;
         }
     }
@@ -480,7 +480,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
                 tip_pk.setVisibility(View.VISIBLE);
                 tip_pk.setText("PK已开始，要加油哦！");
                 break;
-            case PKListAdapter.Completed://以结束
+            case PKListAdapter.Completed://已结束
                 break;
         }
     }

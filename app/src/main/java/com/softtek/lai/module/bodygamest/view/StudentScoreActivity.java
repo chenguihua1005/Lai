@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -123,12 +124,11 @@ public class StudentScoreActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.iv_email:
             case R.id.fl_right:
-                if (UserInfoModel.getInstance().getUser() == null) {
-                    return;
-                }
+                new AlertDialog.Builder(this).setMessage("功能开发中敬请期待").create().show();
+                /*
                 progressDialog.setMessage("加载中");
                 progressDialog.show();
-                photoListPre.getLossData(UserInfoModel.getInstance().getUser().getUserid(), progressDialog);
+                photoListPre.getLossData(UserInfoModel.getInstance().getUser().getUserid(), progressDialog);*/
                 break;
         }
 

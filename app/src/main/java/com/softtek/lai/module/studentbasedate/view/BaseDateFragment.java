@@ -47,6 +47,8 @@ public class BaseDateFragment extends BaseFragment{
     TabLayout tabLayout;
     @InjectView(R.id.tabcontent)
     ViewPager tabcontent;
+    @InjectView(R.id.tv_total_loss_tip)
+    TextView tv_total_loss_tip;
 
     List<Fragment> fragments=new ArrayList<>();
 
@@ -77,9 +79,9 @@ public class BaseDateFragment extends BaseFragment{
             StudentBaseInfoModel model= (StudentBaseInfoModel) bundle.getSerializable("obj");
             accountId=model.getAccountId();
             classId=model.getClassId();
-            tv_totle_lw.setText(model.getLossTotal()+"");
+            /*tv_totle_lw.setText(model.getLossTotal()+"");
             tv_loss_before.setText(model.getLossBefore());
-            tv_loss_after.setText(model.getLossAfter());
+            tv_loss_after.setText(model.getLossAfter());*/
             if(StringUtils.isNotEmpty(model.getLossBeforePhoto())){
                 Picasso.with(getContext()).load(model.getLossBeforePhoto()).fit().placeholder(R.drawable.default_icon_rect).error(R.drawable.default_icon_rect).into(iv_loss_before);
             }
@@ -99,7 +101,12 @@ public class BaseDateFragment extends BaseFragment{
     public void updateData(StudentBaseInfoModel model){
         accountId=model.getAccountId();
         classId=model.getClassId();
-        tv_totle_lw.setText(Float.parseFloat(StringUtils.isEmpty(model.getLossAfter())?"0":model.getLossAfter())==0?"0斤":model.getLossTotal()+"斤");
+        if(model.getLossTotal()<0){
+            tv_total_loss_tip.setText("共增重");
+        }else{
+            tv_total_loss_tip.setText("共减重");
+        }
+        tv_totle_lw.setText(Float.parseFloat(StringUtils.isEmpty(model.getLossAfter())?"0":model.getLossAfter())==0?"0斤":Math.abs(model.getLossTotal())+"斤");
         tv_loss_before.setText(StringUtil.getFloatValue(model.getLossBefore())+"斤");
         float lossAfter=StringUtil.getFloat(model.getLossAfter());
         tv_loss_after.setText(lossAfter==0?"尚未复测":StringUtil.getFloat(model.getLossAfter())+"斤");
