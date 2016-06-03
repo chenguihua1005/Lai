@@ -24,6 +24,7 @@ import android.util.Log;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.group.view.GroupMainActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.mygrades.view.MyGradesActivity;
 import com.softtek.lai.stepcount.db.StepUtil;
@@ -130,7 +131,7 @@ public class StepService extends Service implements SensorEventListener {
     private NotificationManager nm;
     private void updateNotification(String content) {
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                new Intent(this, MyGradesActivity.class), 0);
+                new Intent(this, GroupMainActivity.class), 0);
 
         builder = new NotificationCompat.Builder(this);
         builder.setPriority(Notification.PRIORITY_MIN)
