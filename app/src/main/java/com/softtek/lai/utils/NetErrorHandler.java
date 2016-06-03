@@ -11,6 +11,7 @@ import com.github.snowdream.android.util.Log;
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.login.view.LoginActivity;
+import com.softtek.lai.stepcount.service.StepService;
 
 import java.io.InterruptedIOException;
 import java.net.SocketTimeoutException;
@@ -84,6 +85,7 @@ public class NetErrorHandler implements IApiErrorHandler {
                                     public void onClick(DialogInterface dialog, int which) {
                                         builder=null;
                                         UserInfoModel.getInstance().loginOut();
+                                        LaiApplication.getInstance().stopService(new Intent(LaiApplication.getInstance().getApplicationContext(), StepService.class));
                                         Intent intent=new Intent(LaiApplication.getInstance(), LoginActivity.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

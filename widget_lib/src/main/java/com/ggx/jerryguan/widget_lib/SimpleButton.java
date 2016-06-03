@@ -98,7 +98,7 @@ public class SimpleButton extends View {
 			dstRect.right = dstRect.left + bitmapWidth;
 			
 			//System.out.println("top:"+dstRect.top+" bottom:"+dstRect.bottom+" left:"+dstRect.left+" right:"+dstRect.right);
-			System.out.println("高:"+(dstRect.bottom-dstRect.top)+" 宽:"+(dstRect.left-dstRect.right));
+			//System.out.println("高:"+(dstRect.bottom-dstRect.top)+" 宽:"+(dstRect.left-dstRect.right));
 		}
 	}
 	

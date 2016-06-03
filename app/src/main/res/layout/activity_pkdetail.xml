@@ -55,9 +55,9 @@
                         android:src="@drawable/pk_list_vs" />
                     <FrameLayout
                         android:id="@+id/lfl"
-                        android:layout_width="80dp"
+                        android:layout_width="90dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="25dp"
+                        android:layout_marginRight="15dp"
                         android:layout_marginTop="49dp"
                         android:layout_toLeftOf="@id/pk">
                     <FrameLayout
@@ -92,7 +92,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignTop="@id/lfl"
-                        android:layout_marginRight="15dp"
                         android:layout_marginTop="25dp"
                         android:layout_toLeftOf="@id/lfl"
                         android:button="@null"
@@ -104,9 +103,9 @@
 
                     <FrameLayout
                         android:id="@+id/rfl"
-                        android:layout_width="80dp"
-                        android:layout_height="63dp"
-                        android:layout_marginLeft="25dp"
+                        android:layout_width="90dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
                         android:layout_marginTop="49dp"
                         android:layout_toRightOf="@id/pk">
 
@@ -132,14 +131,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignTop="@id/rfl"
-                        android:layout_marginLeft="15dp"
                         android:layout_marginTop="25dp"
                         android:layout_toRightOf="@id/rfl"
                         android:button="@null"
                         android:drawableLeft="@drawable/pk_list_zan_selector"
                         android:drawablePadding="5dp"
                         android:textColor="#ffa200"
-                        android:textSize="10sp" />
+                        android:textSize="10sp"
+                        />
 
                     <TextView
                         android:id="@+id/tv_is_accept"
@@ -156,28 +155,27 @@
                         android:id="@+id/tv_pk_name1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-
                         android:layout_alignRight="@id/lfl"
+                        android:layout_alignLeft="@id/lfl"
                         android:layout_below="@id/lfl"
                         android:layout_centerInParent="true"
                         android:layout_marginTop="18dp"
-                        android:gravity="right"
+                        android:gravity="center"
                         android:textColor="#333333"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
+                        android:textSize="14sp"/>
 
                     <TextView
                         android:id="@+id/tv_pk_name2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignLeft="@id/rfl"
-
+                        android:layout_alignRight="@id/rfl"
                         android:layout_below="@id/rfl"
                         android:layout_centerInParent="true"
                         android:layout_marginTop="18dp"
                         android:textColor="#333333"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
+                        android:gravity="center"
+                        android:textSize="14sp" />
 
                     <View
                         android:id="@+id/view"
@@ -212,7 +210,7 @@
                             android:id="@+id/tv_bushu1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="0.00"
+
                             android:textColor="#75ba2b"
                             android:textSize="18sp" />
 
@@ -237,7 +235,7 @@
                             android:id="@+id/tv_bushu2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="0.00"
+
                             android:textColor="#75ba2b"
                             android:textSize="18sp" />
 
