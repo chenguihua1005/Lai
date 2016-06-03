@@ -20,6 +20,7 @@ import com.softtek.lai.module.act.model.ActDetiallistModel;
 import com.softtek.lai.module.act.model.ActZKModel;
 import com.softtek.lai.module.act.model.ActZKPersonModel;
 import com.softtek.lai.module.act.presenter.ActManager;
+import com.softtek.lai.utils.StringUtil;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ import zilla.libcore.ui.InjectLayout;
  * Created by jarvis on 4/27/2016.
  */
 @InjectLayout(R.layout.fragment_act)
-public class ActFragment extends BaseFragment implements PullToRefreshBase.OnRefreshListener2<ListView> ,ActManager.GetActivitySituationCallBack {
+public class ActFragment extends BaseFragment implements PullToRefreshBase.OnRefreshListener2<ListView>, ActManager.GetActivitySituationCallBack {
     @InjectView(R.id.zk_list)
     PullToRefreshListView zk_list;
 
@@ -69,6 +70,7 @@ public class ActFragment extends BaseFragment implements PullToRefreshBase.OnRef
     ActZKAdapter adapter;
     ActZKModel actZKModel;
     private List<ActDetiallistModel> list = new ArrayList<ActDetiallistModel>();
+
     @Override
     protected void initViews() {
         zk_list.setMode(PullToRefreshBase.Mode.BOTH);
@@ -77,20 +79,20 @@ public class ActFragment extends BaseFragment implements PullToRefreshBase.OnRef
         rel_head.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String type=actZKModel.getActType();
-                ActZKPersonModel models=actZKModel.getActDetial();
-                ActDetiallistModel model=new ActDetiallistModel(models.getActDImg(),models.getActDName(),models.getActDOrder(),models.getActDTotal(),models.getActId());
-                if("0".equals(type)){
-                    Intent intent=new Intent(getActivity(),ActGroupPersonActivity.class);
-                    intent.putExtra("actDetiallistModel",model);
-                    intent.putExtra("id",id);
-                    intent.putExtra("type","0");
+                String type = actZKModel.getActType();
+                ActZKPersonModel models = actZKModel.getActDetial();
+                ActDetiallistModel model = new ActDetiallistModel(models.getActDImg(), models.getActDName(), models.getActDOrder(), models.getActDTotal(), models.getActId());
+                if ("0".equals(type)) {
+                    Intent intent = new Intent(getActivity(), ActGroupPersonActivity.class);
+                    intent.putExtra("actDetiallistModel", model);
+                    intent.putExtra("id", id);
+                    intent.putExtra("type", "0");
                     startActivity(intent);
-                }else if("1".equals(type)){
-                    Intent intent=new Intent(getActivity(),ActGroupPersonActivity.class);
-                    intent.putExtra("actDetiallistModel",model);
-                    intent.putExtra("id",id);
-                    intent.putExtra("type","1");
+                } else if ("1".equals(type)) {
+                    Intent intent = new Intent(getActivity(), ActGroupPersonActivity.class);
+                    intent.putExtra("actDetiallistModel", model);
+                    intent.putExtra("id", id);
+                    intent.putExtra("type", "1");
                     startActivity(intent);
                 }
             }
@@ -98,19 +100,19 @@ public class ActFragment extends BaseFragment implements PullToRefreshBase.OnRef
         zk_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long ids) {
-                ActDetiallistModel actDetiallistModel=list.get(position-1);
-                String type=actZKModel.getActType();
-                if("0".equals(type)){
-                    Intent intent=new Intent(getActivity(),ActGroupPersonActivity.class);
-                    intent.putExtra("actDetiallistModel",actDetiallistModel);
-                    intent.putExtra("id",id);
-                    intent.putExtra("type","0");
+                ActDetiallistModel actDetiallistModel = list.get(position - 1);
+                String type = actZKModel.getActType();
+                if ("0".equals(type)) {
+                    Intent intent = new Intent(getActivity(), ActGroupPersonActivity.class);
+                    intent.putExtra("actDetiallistModel", actDetiallistModel);
+                    intent.putExtra("id", id);
+                    intent.putExtra("type", "0");
                     startActivity(intent);
-                }else if("1".equals(type)){
-                    Intent intent=new Intent(getActivity(),ActGroupPersonActivity.class);
-                    intent.putExtra("actDetiallistModel",actDetiallistModel);
-                    intent.putExtra("id",id);
-                    intent.putExtra("type","1");
+                } else if ("1".equals(type)) {
+                    Intent intent = new Intent(getActivity(), ActGroupPersonActivity.class);
+                    intent.putExtra("actDetiallistModel", actDetiallistModel);
+                    intent.putExtra("id", id);
+                    intent.putExtra("type", "1");
                     startActivity(intent);
                 }
             }
@@ -129,20 +131,20 @@ public class ActFragment extends BaseFragment implements PullToRefreshBase.OnRef
 //                    zk_list.setRefreshing();
 //            }
 //        }, 500);
-        actManager.getActivitySituation(pageIndex+"",userId,id);
+        actManager.getActivitySituation(pageIndex + "", userId, id);
     }
 
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
         pageIndex = 1;
-        actManager.getActivitySituation(pageIndex+"",userId,id);
+        actManager.getActivitySituation(pageIndex + "", userId, id);
     }
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
         pageIndex++;
         if (pageIndex <= totalPage) {
-            actManager.getActivitySituation(pageIndex+"",userId,id);
+            actManager.getActivitySituation(pageIndex + "", userId, id);
         } else {
             pageIndex--;
             if (zk_list != null) {
@@ -156,9 +158,10 @@ public class ActFragment extends BaseFragment implements PullToRefreshBase.OnRef
             }
         }
     }
-    private void setHeadView(ActZKModel model){
-        ActZKPersonModel actZKPersonModel=model.getActDetial();
-       String m_type=model.getActType();
+
+    private void setHeadView(ActZKModel model) {
+        ActZKPersonModel actZKPersonModel = model.getActDetial();
+        String m_type = model.getActType();
         String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
         if ("1".equals(m_type) || "0".equals(m_type)) {
             rel_group.setVisibility(View.VISIBLE);
@@ -179,11 +182,11 @@ public class ActFragment extends BaseFragment implements PullToRefreshBase.OnRef
         }
 
         float distance;
-        if("0".equals(m_type)){
+        if ("0".equals(m_type)) {
             rel_group.setVisibility(View.VISIBLE);
             img_person.setVisibility(View.GONE);
-            text_value.setText(actZKPersonModel.getActDTotal()+"步");
-        }else if("1".equals(m_type)){
+            text_value.setText(actZKPersonModel.getActDTotal() + "步");
+        } else if ("1".equals(m_type)) {
             rel_group.setVisibility(View.VISIBLE);
             img_person.setVisibility(View.GONE);
 //            distance = step / 1428;
@@ -192,11 +195,11 @@ public class ActFragment extends BaseFragment implements PullToRefreshBase.OnRef
 //            }
 //            java.text.DecimalFormat   df   =new   java.text.DecimalFormat("####0.00");
             text_value.setText(actZKPersonModel.getActDTotal() + "公里");
-        }else if("2".equals(m_type)){
+        } else if ("2".equals(m_type)) {
             rel_group.setVisibility(View.GONE);
             img_person.setVisibility(View.VISIBLE);
-            text_value.setText(actZKPersonModel.getActDTotal()+"步");
-        }else {
+            text_value.setText(actZKPersonModel.getActDTotal() + "步");
+        } else {
             rel_group.setVisibility(View.GONE);
             img_person.setVisibility(View.VISIBLE);
 //            distance = step / 1428;
@@ -207,14 +210,15 @@ public class ActFragment extends BaseFragment implements PullToRefreshBase.OnRef
             text_value.setText(actZKPersonModel.getActDTotal() + "公里");
         }
         text_name.setText(actZKPersonModel.getActDName());
-        text_order.setText("第"+actZKPersonModel.getActDOrder()+"名");
+        text_order.setText("第" + actZKPersonModel.getActDOrder() + "名");
     }
+
     @Override
     public void getActivitySituation(String type, ActZKModel model) {
         if ("true".equals(type)) {
             rel_head.setVisibility(View.VISIBLE);
             zk_list.setVisibility(View.VISIBLE);
-            actZKModel=model;
+            actZKModel = model;
             if (zk_list != null) {
                 zk_list.onRefreshComplete();
             }
@@ -226,11 +230,16 @@ public class ActFragment extends BaseFragment implements PullToRefreshBase.OnRef
             }
 
             if (pageIndex == 1) {
-                list=model.getActDetiallist();
-                adapter = new ActZKAdapter(getContext(), list,model.getActType(),Integer.parseInt(model.getTarget()));
+                list = model.getActDetiallist();
+                String target = model.getTarget();
+                int target_value = 0;
+                if (!"".equals(target)) {
+                    target_value = Integer.parseInt(model.getTarget());
+                }
+                adapter = new ActZKAdapter(getContext(), list, model.getActType(), target_value);
                 zk_list.setAdapter(adapter);
                 setHeadView(model);
-            }else {
+            } else {
                 list.addAll(model.getActDetiallist());
                 adapter.notifyDataSetChanged();
             }
