@@ -69,6 +69,7 @@ public class MessagePcRemindAdapter extends BaseAdapter {
             /**得到各个控件的对象*/
             holder.text_time = (TextView) convertView.findViewById(R.id.text_time);
             holder.text_value = (TextView) convertView.findViewById(R.id.text_value);
+            holder.text_title = (TextView) convertView.findViewById(R.id.text_title);
 
             convertView.setTag(holder);//绑定ViewHolder对象
         } else {
@@ -77,6 +78,12 @@ public class MessagePcRemindAdapter extends BaseAdapter {
         /**设置TextView显示的内容，即我们存放在动态数组中的数据*/
         MessageDetailInfo messageDetailInfo = list.get(position);
         String time = messageDetailInfo.getSendTime();
+        String msg_type = messageDetailInfo.getMsgType();
+        if ("0".equals(msg_type)) {
+            holder.text_title.setText(R.string.message3);
+        } else {
+            holder.text_title.setText(R.string.message1);
+        }
 
         if (!"".equals(time)) {
             String[] str1 = time.split(" ");
@@ -100,6 +107,7 @@ public class MessagePcRemindAdapter extends BaseAdapter {
     public class ViewHolder {
         public TextView text_time;
         public TextView text_value;
+        public TextView text_title;
     }
 }
 

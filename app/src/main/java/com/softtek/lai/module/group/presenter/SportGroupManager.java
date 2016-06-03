@@ -9,6 +9,7 @@ import com.softtek.lai.module.group.model.DxqModel;
 import com.softtek.lai.module.group.model.GroupModel;
 import com.softtek.lai.module.group.model.SportMainModel;
 import com.softtek.lai.module.group.model.StepResponseModel;
+import com.softtek.lai.module.group.model.TotalGroupModel;
 import com.softtek.lai.module.group.net.SportGroupService;
 import com.softtek.lai.utils.RequestCallback;
 
@@ -184,6 +185,36 @@ public class SportGroupManager {
             public void failure(RetrofitError error) {
                 if (getGroupListCallBack != null) {
                     getGroupListCallBack.getCityList("fail", new ArrayList<CityModel>());
+                }
+                ZillaApi.dealNetError(error);
+            }
+        });
+    }
+
+    public void getHQRGlist(String bregionId) {
+        service.getHQRGlist(token, bregionId, new RequestCallback<ResponseData<List<GroupModel>>>() {
+            @Override
+            public void success(ResponseData<List<GroupModel>> listResponseData, Response response) {
+                Log.e("jarvis", listResponseData.toString());
+                int status = listResponseData.getStatus();
+                switch (status) {
+                    case 200:
+                        getGroupListCallBack.getRGListByCity("success", listResponseData.getData());
+                        break;
+                    case 100:
+                        getGroupListCallBack.getRGListByCity("fail", new ArrayList<GroupModel>());
+                        break;
+                    default:
+                        getGroupListCallBack.getRGListByCity("fail", new ArrayList<GroupModel>());
+                        Util.toastMsg(listResponseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                if (getGroupListCallBack != null) {
+                    getGroupListCallBack.getRGListByCity("fail", new ArrayList<GroupModel>());
                 }
                 ZillaApi.dealNetError(error);
             }
@@ -374,5 +405,7 @@ public class SportGroupManager {
         void getCityList(String type, List<CityModel> list);
 
         void getRGListByCity(String type, List<GroupModel> list);
+
+        void getHQRGlist(String type, List<GroupModel> list);
     }
 }

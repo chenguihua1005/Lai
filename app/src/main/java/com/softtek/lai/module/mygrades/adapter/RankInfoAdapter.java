@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
@@ -57,13 +58,19 @@ public class RankInfoAdapter extends BaseAdapter {
         }
         RankSelectModel rankSelectModel = rankSelectModelList.get(position);
         viewHolder.name.setText(rankSelectModelList.get(position).getName()+"");
+        if (position==0){
+            viewHolder.rbtn_select.setImageResource(R.drawable.radiosel);
+        }
         return convertView;
     }
 
     class ViewHolder {
         TextView name;
+        ImageView rbtn_select;
+
         public ViewHolder(View view) {
             name = (TextView) view.findViewById(R.id.tv_name);
+            rbtn_select=(ImageView)view.findViewById(R.id.rbtn_select);
         }
     }
 }

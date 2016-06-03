@@ -6,7 +6,10 @@
 package com.softtek.lai.module.jingdu.view;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -28,6 +31,9 @@ import com.softtek.lai.module.jingdu.presenter.IGetProinfopresenter;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,6 +103,9 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
     @InjectView(R.id.total_weight)
     Chart total_weight;
 
+    @InjectView(R.id.top)
+    LinearLayout top;
+
     private List<Table1Model> table1ModelList = new ArrayList<Table1Model>();
     private List<PaimingModel> paimingModelList = new ArrayList<PaimingModel>();
     private IGetProinfopresenter iGetProinfopresenter;
@@ -127,7 +136,7 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
         rankAdapter = new RankAdapter(this, table1ModelList, paimingModelList);
         list_rank.setAdapter(rankAdapter);
         ll_left.setOnClickListener(this);
-        //tv_right.setOnClickListener(this);
+        tv_right.setOnClickListener(this);
     }
 
     private void initpaiming() {
@@ -168,7 +177,7 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void initDatas() {
         tv_title.setText("当期进度");
-        //tv_right.setText("分享");
+        tv_right.setText("分享");
     }
 
     @Subscribe
@@ -245,6 +254,8 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
                 break;
             //分享功能逻辑
             case R.id.tv_right:
+                Bitmap b1 = getViewBitmap(ll_twoban);
+                savePic(b1, "/sdcard/screen_test_1.png");
 //                ShareUtils shareUtils = new ShareUtils(JingduActivity.this);
 //                shareUtils.setShareContent("康宝莱体重管理挑战赛，坚持只为改变！", "http://www.baidu.com", R.drawable.logo, "我已成功在**天减重**斤，快来见证我的改变，和我一起参加体重管理挑战赛吧！", "我已成功在**天减重**斤，快来见证我的改变，和我一起参加体重管理挑战赛吧！");
 //                shareUtils.getController().openShare(JingduActivity.this, false);
@@ -261,4 +272,58 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
 //            ssoHandler.authorizeCallBack(requestCode, resultCode, data);
 //        }
     }
+
+    // 保存到sdcard
+    public static void savePic(Bitmap b, String strFileName) {
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(strFileName);
+            if (null != fos) {
+                b.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                fos.flush();
+                fos.close();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 把View对象转换成bitmap
+     */
+    public static Bitmap getViewBitmap(View v) {
+        v.clearFocus();
+        v.setPressed(false);
+
+        boolean willNotCache = v.willNotCacheDrawing();
+        v.setWillNotCacheDrawing(false);
+
+        // Reset the drawing cache background color to fully transparent
+        // for the duration of this operation
+        int color = v.getDrawingCacheBackgroundColor();
+        v.setDrawingCacheBackgroundColor(0);
+
+        if (color != 0) {
+            v.destroyDrawingCache();
+        }
+        v.buildDrawingCache();
+        Bitmap cacheBitmap = v.getDrawingCache();
+        if (cacheBitmap == null) {
+            Log.e("TTTTTTTTActivity", "failed getViewBitmap(" + v + ")",
+                    new RuntimeException());
+            return null;
+        }
+
+        Bitmap bitmap = Bitmap.createBitmap(cacheBitmap);
+
+        // Restore the view
+        v.destroyDrawingCache();
+        v.setWillNotCacheDrawing(willNotCache);
+        v.setDrawingCacheBackgroundColor(color);
+
+        return bitmap;
+    }
+
 }
