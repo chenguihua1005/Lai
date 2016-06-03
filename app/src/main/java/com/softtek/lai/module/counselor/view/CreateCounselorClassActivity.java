@@ -122,17 +122,26 @@ public class CreateCounselorClassActivity extends BaseActivity implements View.O
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int monthOfYear = calendar.get(Calendar.MONTH) + 1;
-        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
-        yearList.add(year + "");
 
-        monthList.add(monthOfYear + "");
+//        yearList.add(year + "");
+//
+//        monthList.add(monthOfYear + "");
+//        if (monthOfYear == 12) {
+//            monthList.add(1 + "");
+//            yearList.add(year + 1 + "");
+//        } else {
+//            monthList.add(monthOfYear + 1 + "");
+//        }
+
         if (monthOfYear == 12) {
             monthList.add(1 + "");
             yearList.add(year + 1 + "");
         } else {
             monthList.add(monthOfYear + 1 + "");
+            yearList.add(year + "");
         }
+
 
     }
 
