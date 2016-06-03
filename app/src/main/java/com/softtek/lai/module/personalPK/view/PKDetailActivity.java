@@ -365,7 +365,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
         if (targetType == 1) {//公里
             iv_target_icon.setBackgroundResource(R.drawable.pk_km);
             tv_target_content.setText("目标公里数：");
-            tv_target.setText(model.getTarget() + "公里");
+            tv_target.setText((int)Double.parseDouble(model.getTarget()) + "公里");
             tv_unit1.setText("公里");
             tv_unit2.setText("公里");
             zongbushu.setText("当前公里数");

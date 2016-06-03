@@ -15,6 +15,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.group.model.StepResponseModel;
 import com.softtek.lai.module.group.net.SportGroupService;
 import com.softtek.lai.module.home.view.HomeActviity;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.stepcount.db.StepUtil;
 import com.softtek.lai.stepcount.model.UserStep;

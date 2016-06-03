@@ -62,7 +62,7 @@ public class DelayReceive extends BroadcastReceiver{
         service.synStepCount(UserInfoModel.getInstance().getToken(),accountId, step, new RequestCallback<ResponseData>() {
             @Override
             public void success(ResponseData responseData, Response response) {
-
+                Log.i(responseData.getMsg());
             }
         });
     }
