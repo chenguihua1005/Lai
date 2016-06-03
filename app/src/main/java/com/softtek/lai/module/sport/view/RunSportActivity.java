@@ -346,8 +346,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
                     mapAn.setDuration(100);
                     mapAn.setInterpolator(new AccelerateInterpolator());
                     ObjectAnimator animator=ObjectAnimator.ofInt(new LayoutWapper(ll_panel),"translateY",stp,enp)
-                            .setDuration(150);
-                    animator.setStartDelay(100);
+                            .setDuration(200);
                     animator.setInterpolator(new OvershootInterpolator());
                     animator.addListener(new AnimatorListenerAdapter() {
                         @Override
@@ -358,7 +357,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
                         }
 
                     });
-                    set.playTogether(animator,mapAn);
+                    set.playSequentially(mapAn,animator);
                     set.start();
 
                 }else{
