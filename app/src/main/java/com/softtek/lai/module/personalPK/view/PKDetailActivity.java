@@ -31,6 +31,8 @@ import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.text.DecimalFormat;
+
 import butterknife.InjectView;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -336,7 +338,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
         } else if (model.getStatus() == CHALLENGING) {
             tv_is_accept.setText("已应战");
         } else if (model.getStatus() == REFUSE) {
-            tv_is_accept.setText("拒绝");
+            tv_is_accept.setText("已拒绝");
         }
         if(model.getTStatus()==PKListAdapter.NOSTART){
             tv_status.setBackgroundResource(R.drawable.pk_list_weikaishi);
@@ -367,6 +369,12 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
             tv_unit1.setText("公里");
             tv_unit2.setText("公里");
             zongbushu.setText("当前公里数");
+            //1公里是1428步
+            double gongli=1.0*model.getChaTotal()/1428;
+            double bgongli=1.0*model.getBchaTotal()/1428;
+            DecimalFormat format=new DecimalFormat("#0.00");
+            tv_bushu1.setText(format.format(gongli));
+            tv_bushu2.setText(format.format(bgongli));
         } else {//步数
             iv_target_icon.setBackgroundResource(R.drawable.pk_bushu);
             tv_target_content.setText("目标步数：");
@@ -374,9 +382,9 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
             tv_unit1.setText("步");
             tv_unit2.setText("步");
             zongbushu.setText("当前步数");
+            tv_bushu1.setText(model.getChaTotal() + "");
+            tv_bushu2.setText(model.getBchaTotal() + "");
         }
-        tv_bushu1.setText(model.getChaTotal() + "");
-        tv_bushu2.setText(model.getBchaTotal() + "");
 
         //载入头像
         String path = AddressManager.get("photoHost");
@@ -535,7 +543,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
     //同意行为
     private void agreeBehavior(){
         //隐藏拒绝按钮，隐藏同意按钮
-        tv_is_accept.setText("以应战");
+        tv_is_accept.setText("已应战");
         btn_refuse.setVisibility(View.GONE);
         btn_receive.setVisibility(View.GONE);
         //显示旁观者提示

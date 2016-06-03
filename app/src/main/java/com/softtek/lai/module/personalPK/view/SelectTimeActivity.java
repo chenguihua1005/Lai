@@ -63,10 +63,10 @@ public class SelectTimeActivity extends BaseActivity implements View.OnClickList
     @InjectView(R.id.rl_end)
     RelativeLayout rl_end;
 
-    @Required(order = 1,message = "请选择开始日期")
+    @Required(order = 1,message = "请选择PK开始日期")
     @InjectView(R.id.tv_start)
     TextView tv_start;
-    @Required(order = 1,message = "请选择结束日期")
+    @Required(order = 2,message = "请选择PK结束日期")
     @InjectView(R.id.tv_end)
     TextView tv_end;
 
@@ -149,10 +149,8 @@ public class SelectTimeActivity extends BaseActivity implements View.OnClickList
                 finish();
                 break;
             case R.id.fl_right:
-                //保存
                 //判断开始时间和结束时间的大小
                 validateLife.validate();
-
                 break;
             case R.id.rl_start:
                 showDateDialog(true);
@@ -173,16 +171,14 @@ public class SelectTimeActivity extends BaseActivity implements View.OnClickList
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 if(count==0){
                     count=1;
-                    if(year<currentYear){
-                        showTip("日期不能小于当前年份");
-                    }else if(year==currentYear&&monthOfYear+1<currentMonth){
-                        showTip("日期不能小于当前月份");
-                    }else if(year==currentYear&&monthOfYear+1==currentMonth&&dayOfMonth<=currentDay){
-                        showTip("日期不能小于等于当前日期");
+                    int month=monthOfYear+1;
+                    String date=year+"年"+(month<10?("0"+month):month)+"月"+(dayOfMonth<10?("0"+dayOfMonth):dayOfMonth)+"日";
+                    if(year<currentYear||(year==currentYear&&monthOfYear+1<currentMonth)||
+                            (year==currentYear&&monthOfYear+1==currentMonth&&dayOfMonth<=currentDay)){
+                        showTip("PK时间必须大于当前时间");
                     }else{
                         //输出当前日期
                         count=0;
-                        String date=year+"年"+(monthOfYear+1)+"月"+dayOfMonth+"日";
                         if(flag){
                             tv_start.setText(date);
                             form.setStart(DateUtil.getInstance("yyyy年MM月dd日").convertDateStr(date,"yyyy-MM-dd HH:mm:ss"));

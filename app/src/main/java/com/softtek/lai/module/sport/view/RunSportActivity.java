@@ -43,6 +43,7 @@ import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.MyLocationStyle;
 import com.amap.api.maps2d.model.PolylineOptions;
 import com.github.snowdream.android.util.Log;
+import com.google.gson.Gson;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
@@ -313,7 +314,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
                                 data.setSpeed(tv_avg_speed.getText().toString());
                                 data.setTimeLength(time+"");
                                 data.setTotal(Integer.parseInt(tv_step.getText().toString()));
-                                data.setTrajectory("{}");
+                                data.setTrajectory(new Gson().toJson(coordinates));
                                 dialogShow("正在提交");
                                 manager.submitSportData(RunSportActivity.this,data);
                             }

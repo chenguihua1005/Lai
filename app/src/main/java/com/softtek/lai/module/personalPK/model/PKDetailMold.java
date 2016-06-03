@@ -10,7 +10,7 @@ public class PKDetailMold implements Parcelable{
 
     private long PKId;
     private int TargetType;//目标类型
-    private String Target;//目标
+    private int Target;//目标
     private String Start;
     private String End;
     private int ChipType;//筹码类型
@@ -59,7 +59,7 @@ public class PKDetailMold implements Parcelable{
     protected PKDetailMold(Parcel in) {
         PKId = in.readLong();
         TargetType = in.readInt();
-        Target = in.readString();
+        Target = in.readInt();
         Start = in.readString();
         End = in.readString();
         ChipType = in.readInt();
@@ -109,11 +109,11 @@ public class PKDetailMold implements Parcelable{
         TargetType = targetType;
     }
 
-    public String getTarget() {
+    public int getTarget() {
         return Target;
     }
 
-    public void setTarget(String target) {
+    public void setTarget(int target) {
         Target = target;
     }
 
@@ -279,7 +279,7 @@ public class PKDetailMold implements Parcelable{
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(PKId);
         dest.writeInt(TargetType);
-        dest.writeString(Target);
+        dest.writeInt(Target);
         dest.writeString(Start);
         dest.writeString(End);
         dest.writeInt(ChipType);

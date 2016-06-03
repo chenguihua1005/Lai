@@ -343,8 +343,8 @@
                                     android:layout_marginRight="10dp"
                                     android:gravity="center|bottom">
                                     <ImageView
-                                        android:layout_width="30dp"
-                                        android:layout_height="30dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
                                         android:src="@drawable/bt_match"/>
 
                                     <TextView
@@ -372,8 +372,8 @@
                             android:layout_margin="2dp"
                             android:layout_height="match_parent">
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:src="@drawable/btn_tip"/>
 
                             <TextView

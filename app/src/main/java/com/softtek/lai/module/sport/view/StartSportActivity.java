@@ -212,7 +212,7 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
                     public void run() {
                         if (recLen <= 0) {
                             timer.cancel();
-                            startActivity(new Intent(StartSportActivity.this, HistorySportListActivity.class));
+                            startActivity(new Intent(StartSportActivity.this, RunSportActivity.class));
                             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                             new Handler().postDelayed(new Runnable() {
                                 @Override

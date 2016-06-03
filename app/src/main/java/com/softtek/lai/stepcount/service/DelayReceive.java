@@ -54,6 +54,7 @@ public class DelayReceive extends BroadcastReceiver{
             //提交数据
             submitStep(Long.parseLong(userId),buffer.toString());
         }
+        context.startService(new Intent(context,StepService.class));
     }
 
     private void submitStep(final long accountId, String step){
