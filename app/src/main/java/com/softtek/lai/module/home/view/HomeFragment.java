@@ -51,7 +51,6 @@ import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.message.presenter.IMessagePresenter;
 import com.softtek.lai.module.message.presenter.MessageImpl;
 import com.softtek.lai.module.message.view.MessageActivity;
-import com.softtek.lai.module.sport.view.RunSportActivity;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CustomGridView;
@@ -75,7 +74,7 @@ import zilla.libcore.util.Util;
  * 首页
  */
 @InjectLayout(R.layout.fragment_home)
-public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetChangedListener, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener, View.OnClickListener/*, SportGroupManager.IsJoinRunGroupManagerCallBack*/ {
+public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetChangedListener, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener, View.OnClickListener {
 
     @InjectView(R.id.rhv_adv)
     RollHeaderView rhv_adv;
@@ -118,7 +117,6 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
      private List<HomeInfoModel> sales = new ArrayList<>();*/
     private List<Fragment> fragments = new ArrayList<>();
     private MessageReceiver mMessageReceiver;
-   // private SportGroupManager sportGroupManager;
 
     @Override
     protected void initViews() {
@@ -198,7 +196,6 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
-        //sportGroupManager = new SportGroupManager(this);
         homeInfoPresenter = new HomeInfoImpl(getContext());
         messagePresenter = new MessageImpl(getContext());
         studentImpl = new StudentImpl(getContext());
@@ -266,10 +263,6 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
      */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//        startActivity(new Intent(getContext(), RunSportActivity.class));
-//        if(1==1){
-//            return;
-//        }
         UserInfoModel userInfoModel = UserInfoModel.getInstance();
         int role = Integer.parseInt(userInfoModel.getUser().getUserrole());
         ////判断当前用户是否拥有此按钮权限
@@ -455,18 +448,9 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
         filter.addAction(Constants.MESSAGE_RECEIVED_ACTION);
         getContext().registerReceiver(mMessageReceiver, filter);
+
     }
 
-    /*@Override
-    public void isJoinRunGroup(boolean b) {
-        System.out.println("是否加入了跑团:" + b);
-        if (b) {
-            startActivity(new Intent(getContext(), GroupMainActivity.class));
-        } else {
-            startActivity(new Intent(getContext(), JoinGroupActivity.class));
-        }
-    }
-*/
     public class MessageReceiver extends BroadcastReceiver {
 
         @Override

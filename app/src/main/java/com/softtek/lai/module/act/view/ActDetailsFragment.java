@@ -138,9 +138,9 @@ public class ActDetailsFragment extends BaseFragment implements ActManager.GetAc
                 text_gz.setText("目标公里数");
                 text_mb_value.setText(model.getTarget() + "公里");
             } else {
-                text_mb.setText("目标步数： ");
+                text_mb.setText("");
                 text_gz.setText("目标步数");
-                text_mb_value.setText(model.getTarget()+"步");
+                text_mb_value.setText("总步数");
             }
         }
     }

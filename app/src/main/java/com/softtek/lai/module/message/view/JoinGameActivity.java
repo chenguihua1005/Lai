@@ -104,8 +104,6 @@ public class JoinGameActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void initViews() {
         //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
-        tv_title.setText(R.string.message1);
-
     }
 
     @Override
@@ -119,10 +117,12 @@ public class JoinGameActivity extends BaseActivity implements View.OnClickListen
             but_no.setVisibility(View.VISIBLE);
             but_yes.setVisibility(View.VISIBLE);
             lin.setVisibility(View.VISIBLE);
+            tv_title.setText(R.string.message3);
         } else {
             but_no.setVisibility(View.GONE);
             but_yes.setVisibility(View.GONE);
             lin.setVisibility(View.GONE);
+            tv_title.setText(R.string.message1);
         }
 
     }

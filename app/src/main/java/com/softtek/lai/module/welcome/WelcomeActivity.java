@@ -63,6 +63,7 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
                     public void success(ResponseData<StepResponseModel> data, Response response) {
                         if(data.getStatus()==200){//加入了跑团
                             long step=data.getData().getTodayStepCnt();
+                            Log.i("服务器上的步数为="+step);
                             long currentStep=StepUtil.getInstance().getCurrentStep(userId);
                             if(step>currentStep){
                                 //新增新数据

@@ -200,16 +200,16 @@ public class StepService extends Service implements SensorEventListener {
     private Sensor countSensor;
     private void addCountStepListener() {
         detectorSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
-        //countSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
-        /*if (countSensor != null) {
+        countSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+        if (countSensor != null) {
             Log.i("base", "countSensor");
             sensorManager.registerListener(this, countSensor, SensorManager.SENSOR_DELAY_UI);
-        }else */
+        }else
         if (detectorSensor != null) {
             Log.i("base", "detector");
             sensorManager.registerListener(this, detectorSensor, SensorManager.SENSOR_DELAY_UI);
-        }
-        if(countSensor == null&&detectorSensor == null) {
+        }else
+        {
             Log.i("base", "Count sensor not available!");
             addBasePedoListener();
         }
@@ -234,13 +234,13 @@ public class StepService extends Service implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        /*if (event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
+        if (event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
             for(float value:event.values){
                 com.github.snowdream.android.util.Log.i("传感器获取的步数数据为>>>"+value);
             }
             int step=(int) event.values[0];
             StepDcretor.CURRENT_SETP = (int) event.values[0];
-        } else*/
+        } else
         if (event.sensor.getType() == Sensor.TYPE_STEP_DETECTOR) {
             if (event.values[0]==1.0) {
                 StepDcretor.CURRENT_SETP++;
@@ -295,7 +295,6 @@ public class StepService extends Service implements SensorEventListener {
         Log.i("test","计步服务结束");
         stopForeground(true);
         unregisterReceiver(mBatInfoReceiver);
-        //if(manager!=null&&pi!=null)manager.cancel(pi);
         if (countSensor != null) {
             Log.i("base", "注销countSensor");
             sensorManager.unregisterListener(this, countSensor);
@@ -308,6 +307,7 @@ public class StepService extends Service implements SensorEventListener {
             Intent intent = new Intent(this, StepService.class);
             startService(intent);
         }else{
+            nm.cancelAll();
             com.github.snowdream.android.util.Log.i("计步器服务不再执行");
         }
         super.onDestroy();

@@ -128,6 +128,7 @@ public class SportManager {
                 new RequestCallback<ResponseData>() {
                     @Override
                     public void success(ResponseData responseData, Response response) {
+                        com.github.snowdream.android.util.Log.i(responseData.toString());
                         if(activity!=null) {
                             activity.doSubmitResult(responseData.getStatus());
                         }

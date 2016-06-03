@@ -29,6 +29,7 @@ import com.softtek.lai.module.group.adapter.GroupAdapter;
 import com.softtek.lai.module.group.model.CityModel;
 import com.softtek.lai.module.group.model.DxqModel;
 import com.softtek.lai.module.group.model.GroupModel;
+import com.softtek.lai.module.group.model.TotalGroupModel;
 import com.softtek.lai.module.group.presenter.SportGroupManager;
 import com.softtek.lai.widgets.WheelView;
 
@@ -103,9 +104,13 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
 
     List<String> dq_name_list;
     List<String> dq_id_list;
+    List<String> dq_is_head_list;
     String select_dq_name = "";
     String select_dq_id = "";
     int select_dq_posion = 0;
+    String select_is_head="";
+
+    String select_is_head_info = "";
     String select_dq_name_info = "";
     String select_dq_id_info = "";
     int select_dq_posion_info = 0;
@@ -127,6 +132,7 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
     String select_city_name_info = "";
     String select_city_id_info = "";
     int select_city_posion_info = 0;
+
 
 
     @Override
@@ -166,6 +172,7 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
         dialogShow("加载中");
         dq_name_list = new ArrayList<String>();
         dq_id_list = new ArrayList<String>();
+        dq_is_head_list = new ArrayList<String>();
         sportGroupManager.getBregionList();
     }
 
@@ -268,6 +275,10 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
 
         img_mo_message.setVisibility(View.GONE);
         list_group.setVisibility(View.GONE);
+
+        rel_xq.setVisibility(View.VISIBLE);
+        rel_cs.setVisibility(View.VISIBLE);
+
     }
 
     public void showDaQuDialog() {
@@ -276,6 +287,7 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
         final WheelView wheel = (WheelView) view.findViewById(R.id.wheel);
         select_dq_id_info = "";
         select_dq_name_info = "";
+        select_is_head_info = "";
         select_dq_posion_info = 0;
         wheel.setOffset(1);
         wheel.setItems(dq_name_list);
@@ -284,6 +296,7 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
             @Override
             public void onSelected(int selectedIndex, String item) {
                 select_dq_id_info = dq_id_list.get(selectedIndex - 1);
+                select_is_head_info=dq_is_head_list.get(selectedIndex - 1);
                 select_dq_name_info = item;
                 select_dq_posion_info = selectedIndex - 1;
             }
@@ -295,20 +308,36 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
                         if ("".equals(select_dq_name_info) && "选择大区".equals(text_dq.getText().toString())) {
                             select_dq_name = dq_name_list.get(0);
                             select_dq_id = dq_id_list.get(0);
+                            select_is_head = dq_is_head_list.get(0);
                             select_dq_posion = 0;
                             text_dq.setText(select_dq_name);
                             resetXQCity();
                             dialogShow("加载中");
-                            sportGroupManager.getSregionList(select_dq_id);
+                           // sportGroupManager.getSregionList(select_dq_id);
+                            if("1".equals(select_is_head)){
+                                sportGroupManager.getHQRGlist(select_dq_id);
+                                rel_xq.setVisibility(View.GONE);
+                                rel_cs.setVisibility(View.GONE);
+                            }else {
+                                sportGroupManager.getSregionList(select_dq_id);
+                            }
                         }
                         if (!"".equals(select_dq_name_info)) {
                             select_dq_name = select_dq_name_info;
                             select_dq_id = select_dq_id_info;
+                            select_is_head = select_is_head_info;
                             select_dq_posion = select_dq_posion_info;
                             text_dq.setText(select_dq_name);
                             resetXQCity();
                             dialogShow("加载中");
-                            sportGroupManager.getSregionList(select_dq_id);
+                           // sportGroupManager.getSregionList(select_dq_id);
+                            if("1".equals(select_is_head)){
+                                sportGroupManager.getHQRGlist(select_dq_id);
+                                rel_xq.setVisibility(View.GONE);
+                                rel_cs.setVisibility(View.GONE);
+                            }else {
+                                sportGroupManager.getSregionList(select_dq_id);
+                            }
                         }
                     }
                 })
@@ -429,6 +458,7 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
             for (int i = 0; i < list.size(); i++) {
                 dq_name_list.add(list.get(i).getRegionName());
                 dq_id_list.add(list.get(i).getRegionId());
+                dq_is_head_list.add(list.get(i).getIsHeadOffice());
             }
         }
 
@@ -458,6 +488,26 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void getRGListByCity(String type, List<GroupModel> list) {
+        dialogDissmiss();
+        if ("success".equals(type)) {
+            group_list = list;
+            if(group_list.size()>0){
+                img_mo_message.setVisibility(View.GONE);
+            }else {
+                img_mo_message.setVisibility(View.VISIBLE);
+            }
+            list_group.setVisibility(View.VISIBLE);
+            adapter = new GroupAdapter(this, group_list);
+            list_group.setAdapter(adapter);
+        } else {
+            group_list = new ArrayList<GroupModel>();
+            list_group.setVisibility(View.GONE);
+            img_mo_message.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void getHQRGlist(String type, List<GroupModel> list) {
         dialogDissmiss();
         if ("success".equals(type)) {
             group_list = list;

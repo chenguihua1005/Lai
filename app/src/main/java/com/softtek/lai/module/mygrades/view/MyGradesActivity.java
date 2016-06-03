@@ -1,12 +1,8 @@
 package com.softtek.lai.module.mygrades.view;
 
-//莱运动-我的成绩页面
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -27,9 +23,6 @@ import com.softtek.lai.module.mygrades.presenter.GradesImpl;
 import com.softtek.lai.module.mygrades.presenter.IGradesPresenter;
 import com.softtek.lai.module.studetail.util.LineChartUtil;
 import com.softtek.lai.widgets.SelectPicPopupWindow;
-import com.umeng.socialize.ShareAction;
-import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.umeng.socialize.media.UMImage;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -48,6 +41,10 @@ import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
+/**
+ * Created by julie.zhu on 5/16/2016.
+ * 莱运动-我的成绩页面
+ */
 @InjectLayout(R.layout.activity_my_grades)
 public class MyGradesActivity extends BaseActivity implements View.OnClickListener {
 
@@ -56,8 +53,11 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
     TextView title;
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
-    @InjectView(R.id.tv_right)
-    TextView tv_right;
+    //分享功能
+    @InjectView(R.id.fl_right)
+    FrameLayout fl_right;
+    @InjectView(R.id.iv_email)
+    ImageView iv_email;
 
     @InjectView(R.id.ll_dayRank)
     LinearLayout ll_dayRank;
@@ -65,11 +65,6 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
     LinearLayout ll_weekRank;
     @InjectView(R.id.ll_grade)
     LinearLayout ll_grade;
-    //分享功能
-    @InjectView(R.id.fl_right)
-    FrameLayout fl_right;
-    @InjectView(R.id.iv_email)
-    ImageView iv_email;
 
     //总步数
     @InjectView(R.id.tv_totalnumber)
@@ -104,7 +99,6 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
     //勋章数量
     @InjectView(R.id.tv_medalnumber)
     TextView tv_medalnumber;
-
     @InjectView(R.id.ll_honor)
     LinearLayout ll_honor;
     @InjectView(R.id.ll_honor1)
@@ -113,7 +107,6 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
     LinearLayout ll_honor2;
     @InjectView(R.id.ll_honor3)
     LinearLayout ll_honor3;
-
     @InjectView(R.id.img_honor1)
     ImageView img_honor1;
     @InjectView(R.id.img_honor2)
@@ -127,13 +120,14 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
     TextView tv_str2;
     @InjectView(R.id.tv_str3)
     TextView tv_str3;
-
+    //折线图
     @InjectView(R.id.chart)
     LineChart chart;
     @InjectView(R.id.bt_left)
     Button bt_left;
     @InjectView(R.id.bt_right)
     Button bt_right;
+
     LineChartUtil chartUtil;
     private IGradesPresenter iGradesPresenter;
     private GradesService gradesService;
@@ -154,20 +148,19 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void initViews() {
+        title.setText("我的成绩");
+        iv_email.setImageResource(R.drawable.img_share_bt);
+
         ll_dayRank.setOnClickListener(this);
         ll_weekRank.setOnClickListener(this);
         ll_grade.setOnClickListener(this);
-        title.setText("我的成绩");
-//        tv_right.setText("分享");
-        iv_email.setImageResource(R.drawable.img_share_bt);
+        ll_left.setOnClickListener(this);
         fl_right.setOnClickListener(this);
 
-        chartUtil = new LineChartUtil(this, chart);
-        ll_left.setOnClickListener(this);
         //初始化统计图
+        chartUtil = new LineChartUtil(this, chart);
         chart.setDrawGridBackground(false);//取消统计图整体背景色
-        //取消描述信息,设置没有数据的时候提示信息
-        chart.setDescription("");//单位：步
+        chart.setDescription("");//取消描述信息,设置没有数据的时候提示信息（单位：步）
         chart.setNoDataTextDescription("暂无数据");
         //启用手势操作
         chart.setTouchEnabled(false);
@@ -193,6 +186,7 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
         gradesService = ZillaApi.NormalRestAdapter.create(GradesService.class);
         //3.3.2	成绩勋章信息
         getGradeHonor();
+
         dates.add(0f);
         dates.add(0f);
         dates.add(0f);
@@ -236,16 +230,13 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
         return date;
     }
 
-    //我的成绩
+    //我的成绩曲线图
     @Subscribe
     public void onEvent(GradesEvent gradesEvent) {
         System.out.println("------------gradesEvent：" + gradesEvent.getgradesModels().size());
         System.out.println("------------曲线图size()" + gradesEvent.getgradesModels().size());
         List<GradesModel> gradesModels = gradesEvent.getgradesModels();
-//        if(gradesEvent==null){
-//            return;
-//        }
-        System.out.println("健康记录" + gradesEvent.getgradesModels());
+
         int n = gradesEvent.getgradesModels().size();
         for (int i = 0; i <= n - 1; i++) {
             if (getDateform(nowdate1).equals(gradesEvent.getgradesModels().get(i).getDate())) {
@@ -291,7 +282,7 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
 //        chartUtil.addDataf(dates,4,days);
     }
 
-    //3.3.2	成绩勋章信息
+    //成绩勋章信息
     public void getGradeHonor() {
         String token = SharedPreferenceService.getInstance().get("token", "");
         gradesService.getGradeHonor(token, new Callback<ResponseData<GradeHonorModel>>() {
@@ -481,7 +472,7 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         break;
                                     case 2:
                                         //步数
-                                        tv_str1.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue()  + "万");
+                                        tv_str1.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue() + "万");
                                         img_honor1.setImageResource(R.drawable.img_medal);
                                         ll_honor1.setVisibility(View.VISIBLE);
                                         break;
@@ -562,7 +553,7 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         break;
                                     case 2:
                                         //步数
-                                        tv_str2.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue()  + "万");
+                                        tv_str2.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue() + "万");
                                         img_honor2.setImageResource(R.drawable.img_medal);
                                         ll_honor2.setVisibility(View.VISIBLE);
                                         break;
@@ -646,7 +637,7 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         break;
                                     case 2:
                                         //步数
-                                        tv_str1.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue()  + "万");
+                                        tv_str1.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue() + "万");
                                         img_honor1.setImageResource(R.drawable.img_medal);
                                         ll_honor1.setVisibility(View.VISIBLE);
                                         break;
@@ -727,7 +718,7 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         break;
                                     case 2:
                                         //步数
-                                        tv_str2.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue()  + "万");
+                                        tv_str2.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue() + "万");
                                         img_honor2.setImageResource(R.drawable.img_medal);
                                         ll_honor2.setVisibility(View.VISIBLE);
                                         break;
@@ -808,7 +799,7 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         break;
                                     case 2:
                                         //步数
-                                        tv_str3.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(2).getHonorVlue()  + "万");
+                                        tv_str3.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(2).getHonorVlue() + "万");
                                         img_honor3.setImageResource(R.drawable.img_medal);
                                         ll_honor3.setVisibility(View.VISIBLE);
                                         break;
@@ -954,8 +945,10 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
         }
     }
 
-
-    //微信分享，朋友圈分享，微博分享
+    /*微信分享,朋友圈分享,微博分享*/
+//    String path = AddressManager.get("shareHost");
+//    url = path + "ShareSPHonor?AccountId=" + UserInfoModel.getInstance().getUser().getUserid();
+//    value = "康宝莱体重管理挑战赛，坚持只为改变！";
 //    private View.OnClickListener itemsOnClick = new View.OnClickListener() {
 //        public void onClick(View v) {
 //            menuWindow.dismiss();
@@ -964,8 +957,8 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
 //                    new ShareAction(MyGradesActivity.this)
 //                            .setPlatform(SHARE_MEDIA.WEIXIN)
 //                            .withTitle("康宝莱体重管理挑战赛，坚持只为改变！")
-//                            .withText("康宝莱体重管理挑战赛，坚持只为改变！")
-//                            .withTargetUrl("http://www.baidu.com")
+//                            .withText(value)
+//                            .withTargetUrl(url)
 //                            .withMedia(new UMImage(MyGradesActivity.this, R.drawable.img_share_logo))
 //                            .share();
 //                    break;
@@ -973,27 +966,23 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
 //                    new ShareAction(MyGradesActivity.this)
 //                            .setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)
 //                            .withTitle("康宝莱体重管理挑战赛，坚持只为改变！")
-//                            .withText("康宝莱体重管理挑战赛，坚持只为改变！")
-//                            .withTargetUrl("http://www.baidu.com")
+//                            .withText(value)
+//                            .withTargetUrl(url)
 //                            .withMedia(new UMImage(MyGradesActivity.this, R.drawable.img_share_logo))
 //                            .share();
 //                    break;
 //                case R.id.lin_sina:
 //                    new ShareAction(MyGradesActivity.this)
 //                            .setPlatform(SHARE_MEDIA.SINA)
-//                            .withText("康宝莱体重管理挑战赛，坚持只为改变！"+"http://www.baidu.com")
+//                            .withText(value+url)
 //                            .withMedia(new UMImage(MyGradesActivity.this, R.drawable.img_share_logo))
 //                            .share();
 //                    break;
 //                default:
 //                    break;
 //            }
-//
-//
 //        }
-//
 //    };
-
 
     /**
      * 获取阶段日期
@@ -1056,7 +1045,6 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                 (mDay < 10) ? "0" + mDay : mDay);
         System.out.println("strDate------->" + strForwardDate + "-" + c.getTimeInMillis());
         return strForwardDate;
-        //return c.getTimeInMillis();
     }
 
     @Override

@@ -54,34 +54,26 @@ public class DayRankFragment extends BaseFragment {
     ListView list_rank;
 
     private DayRankModel dayRankModel;
-
-    private List<OrderDataModel> orderDataModelList = new ArrayList<OrderDataModel>();
     private OrderDataModel orderDataModel;
+    private List<OrderDataModel> orderDataModelList = new ArrayList<OrderDataModel>();
     public RankAdapter rankAdapter;
 
     private IGradesPresenter iGradesPresenter;
     private GradesService gradesService;
     private FragmentManager manager;
-    int accoutid;
 
     @Override
     protected void initViews() {
-        UserInfoModel userInfoModel = UserInfoModel.getInstance();
-        accoutid = Integer.parseInt(userInfoModel.getUser().getUserid());
-        Log.i("", ">>>>>>>>>>我的accountid：" + accoutid);
         iGradesPresenter = new GradesImpl();
         gradesService = ZillaApi.NormalRestAdapter.create(GradesService.class);
-
         Bundle bundle1 = getArguments();
         int i = bundle1.getInt("id");
-
         if (i == 0) {
             getCurrentDateOrder(0);
         }
         if (i == 1) {
             getCurrentDateOrder(1);
         }
-
         rankAdapter = new RankAdapter(getContext(), orderDataModelList);
         list_rank.setAdapter(rankAdapter);
         manager = getActivity().getFragmentManager();
@@ -127,17 +119,15 @@ public class DayRankFragment extends BaseFragment {
             orderDataModelList.clear();
             getCurrentDateOrder(1);
             rankAdapter.updateData(orderDataModelList);
-            Log.i("", "orderDataModelList----------------->:" + orderDataModelList.toString());
         }
         if (i == 0) {
             orderDataModelList.clear();
             getCurrentDateOrder(0);
             rankAdapter.updateData(orderDataModelList);
-            Log.i("", "orderDataModelList----------------->:" + orderDataModelList.toString());
         }
-
     }
 
+    //更新list数据
     public void updateData(List<OrderDataModel> orderDataModelList) {
         this.orderDataModelList = orderDataModelList;
         notifyAll();
@@ -203,7 +193,6 @@ public class DayRankFragment extends BaseFragment {
             }
         });
     }
-
 
     @Override
     public void onStart() {

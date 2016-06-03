@@ -172,7 +172,7 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
                 rel_1.setVisibility(View.GONE);
             } else {
                 rel_1.setVisibility(View.VISIBLE);
-                text_title.setText(getResources().getText(R.string.message3));
+                text_title.setText(getResources().getText(R.string.message1));
                 text_value1.setText(messageModel.getPCJoin().get(0).getComments());
                 img.setImageResource(R.drawable.img_game_invite);
             }
