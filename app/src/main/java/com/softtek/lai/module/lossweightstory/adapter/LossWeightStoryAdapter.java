@@ -19,6 +19,7 @@ import com.softtek.lai.module.lossweightstory.model.Zan;
 import com.softtek.lai.module.lossweightstory.net.LossWeightLogService;
 import com.softtek.lai.module.lossweightstory.view.PictureActivity;
 import com.softtek.lai.utils.DateUtil;
+import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.CircleImageView;
@@ -42,10 +43,12 @@ public class LossWeightStoryAdapter extends BaseAdapter{
     private Context context;
     private List<LossWeightStoryModel> lossWeightStoryModels;
     private LossWeightLogService service;
+    private int px;
     public LossWeightStoryAdapter(Context context, List<LossWeightStoryModel> lossWeightStoryModels) {
         this.context = context;
         this.lossWeightStoryModels = lossWeightStoryModels;
         service= ZillaApi.NormalRestAdapter.create(LossWeightLogService.class);
+        px= DisplayUtil.dip2px(context,79);
     }
 
     @Override
@@ -181,7 +184,7 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                             start(imgs,0);
                         }
                     });
-                    Picasso.with(context).load(path+uri).fit()
+                    Picasso.with(context).load(path+uri).resize(px,px).centerCrop()
                             .placeholder(R.drawable.default_icon_square)
                             .error(R.drawable.default_icon_square)
                             .into(holder.img1);
@@ -201,7 +204,7 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                             start(imgs,1);
                         }
                     });
-                    Picasso.with(context).load(path+uri).fit()
+                    Picasso.with(context).load(path+uri).resize(px,px).centerCrop()
                             .placeholder(R.drawable.default_icon_square)
                             .error(R.drawable.default_icon_square)
                             .into(holder.img2);
@@ -220,7 +223,7 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                             start(imgs,2);
                         }
                     });
-                    Picasso.with(context).load(path+uri).fit()
+                    Picasso.with(context).load(path+uri).resize(px,px).centerCrop()
                             .placeholder(R.drawable.default_icon_square)
                             .error(R.drawable.default_icon_square)
                             .into(holder.img3);
@@ -238,7 +241,7 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                             start(imgs,3);
                         }
                     });
-                    Picasso.with(context).load(path+uri).fit()
+                    Picasso.with(context).load(path+uri).resize(px,px).centerCrop()
                             .placeholder(R.drawable.default_icon_square)
                             .error(R.drawable.default_icon_square)
                             .into(holder.img4);
@@ -255,7 +258,7 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                             start(imgs,4);
                         }
                     });
-                    Picasso.with(context).load(path+uri).fit()
+                    Picasso.with(context).load(path+uri).resize(px,px).centerCrop()
                             .placeholder(R.drawable.default_icon_square)
                             .error(R.drawable.default_icon_square)
                             .into(holder.img5);
@@ -271,7 +274,7 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                             start(imgs,5);
                         }
                     });
-                    Picasso.with(context).load(path+uri).fit()
+                    Picasso.with(context).load(path+uri).resize(px,px).centerCrop()
                             .placeholder(R.drawable.default_icon_square)
                             .error(R.drawable.default_icon_square)
                             .into(holder.img6);
@@ -286,7 +289,7 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                             start(imgs,6);
                         }
                     });
-                    Picasso.with(context).load(path+uri).fit()
+                    Picasso.with(context).load(path+uri).resize(px,px).centerCrop()
                             .placeholder(R.drawable.default_icon_square)
                             .error(R.drawable.default_icon_square)
                             .into(holder.img7);
@@ -300,7 +303,7 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                             start(imgs,7);
                         }
                     });
-                    Picasso.with(context).load(path+uri).fit()
+                    Picasso.with(context).load(path+uri).resize(px,px).centerCrop()
                             .placeholder(R.drawable.default_icon_square)
                             .error(R.drawable.default_icon_square)
                             .into(holder.img8);
@@ -313,7 +316,7 @@ public class LossWeightStoryAdapter extends BaseAdapter{
                             start(imgs,8);
                         }
                     });
-                    Picasso.with(context).load(path+uri).fit()
+                    Picasso.with(context).load(path+uri).resize(px,px).centerCrop()
                             .placeholder(R.drawable.default_icon_square)
                             .error(R.drawable.default_icon_square)
                             .into(holder.img9);
