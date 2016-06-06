@@ -11,9 +11,11 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
@@ -26,10 +28,12 @@ import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygamest.Adapter.StudentHonorJZAdapter;
 import com.softtek.lai.module.bodygamest.Adapter.StudentHonorStarAdapter;
 import com.softtek.lai.module.bodygamest.Adapter.StudentHonorYGJAdapter;
+import com.softtek.lai.module.bodygamest.model.HnumsModel;
 import com.softtek.lai.module.bodygamest.model.HonorModel;
 import com.softtek.lai.module.bodygamest.model.StudentHonorInfo;
 import com.softtek.lai.module.bodygamest.model.StudentHonorTypeInfo;
@@ -37,6 +41,10 @@ import com.softtek.lai.module.bodygamest.present.IStudentPresenter;
 import com.softtek.lai.module.bodygamest.present.StudentImpl;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.widgets.HorizontalListView;
+import com.softtek.lai.widgets.SelectPicPopupWindow;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -45,6 +53,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
@@ -84,6 +93,8 @@ public class StudentHonorGridActivity extends BaseActivity implements View.OnCli
 
     @InjectView(R.id.list_ygj)
     GridView list_ygj;
+    @InjectView(R.id.rel)
+    RelativeLayout rel;
 
     @InjectView(R.id.hs_jz)
     HorizontalScrollView hs_jz;
@@ -137,6 +148,14 @@ public class StudentHonorGridActivity extends BaseActivity implements View.OnCli
     @InjectView(R.id.lin_star_sm)
     RelativeLayout lin_star_sm;
 
+    @InjectView(R.id.iv_email)
+    ImageView iv_email;
+    @InjectView(R.id.fl_right)
+    FrameLayout fl_right;
+
+    String url;
+    String value;
+    SelectPicPopupWindow menuWindow;
 
 
     private IStudentPresenter studentHonorPresenter;
@@ -159,6 +178,11 @@ public class StudentHonorGridActivity extends BaseActivity implements View.OnCli
         lin_ygj_right.setOnClickListener(this);
         lin_star_left.setOnClickListener(this);
         lin_star_right.setOnClickListener(this);
+        iv_email.setVisibility(View.VISIBLE);
+        iv_email.setImageResource(R.drawable.img_share_bt);
+        iv_email.setOnClickListener(this);
+        fl_right.setOnClickListener(this);
+
         EventBus.getDefault().register(this);
     }
 
@@ -169,12 +193,67 @@ public class StudentHonorGridActivity extends BaseActivity implements View.OnCli
     }
 
     @Subscribe
+    public void onEvent(HnumsModel hnumsModel) {
+        if (UserInfoModel.getInstance().getUser() == null) {
+            return;
+        }
+        String path = AddressManager.get("shareHost");
+        url = path + "ShareStudent?id=" + UserInfoModel.getInstance().getUser().getUserid();
+        System.out.println("url:" + url);
+        value = "我已获得" + hnumsModel.getHnums() + "勋章，快来和我一起参加体重管理挑战赛吧！";
+
+        menuWindow = new SelectPicPopupWindow(StudentHonorGridActivity.this, itemsOnClick);
+        //显示窗口
+        menuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        menuWindow.showAtLocation(StudentHonorGridActivity.this.findViewById(R.id.rel), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
+    }
+
+    private View.OnClickListener itemsOnClick = new View.OnClickListener() {
+
+        public void onClick(View v) {
+            menuWindow.dismiss();
+            switch (v.getId()) {
+                case R.id.lin_weixin:
+                    new ShareAction(StudentHonorGridActivity.this)
+                            .setPlatform(SHARE_MEDIA.WEIXIN)
+                            .withTitle("康宝莱体重管理挑战赛，坚持只为改变！")
+                            .withText(value)
+                            .withTargetUrl(url)
+                            .withMedia(new UMImage(StudentHonorGridActivity.this, R.drawable.img_share_logo))
+                            .share();
+                    break;
+                case R.id.lin_circle:
+                    new ShareAction(StudentHonorGridActivity.this)
+                            .setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)
+                            .withTitle("康宝莱体重管理挑战赛，坚持只为改变！")
+                            .withText(value)
+                            .withTargetUrl(url)
+                            .withMedia(new UMImage(StudentHonorGridActivity.this, R.drawable.img_share_logo))
+                            .share();
+                    break;
+                case R.id.lin_sina:
+                    new ShareAction(StudentHonorGridActivity.this)
+                            .setPlatform(SHARE_MEDIA.SINA)
+                            .withText(value + url)
+                            .withMedia(new UMImage(StudentHonorGridActivity.this, R.drawable.img_share_logo))
+                            .share();
+                    break;
+                default:
+                    break;
+            }
+
+
+        }
+
+    };
+
+    @Subscribe
     public void onEvent(HonorModel honorModel) {
         System.out.println("honorModel:" + honorModel);
-        List<StudentHonorInfo> table1=honorModel.getTable1();
-        List<StudentHonorTypeInfo> table2=honorModel.getTable2();
-        String type=table2.get(0).getIsHave();
-        if("3".equals(type)){
+        List<StudentHonorInfo> table1 = honorModel.getTable1();
+        List<StudentHonorTypeInfo> table2 = honorModel.getTable2();
+        String type = table2.get(0).getIsHave();
+        if ("3".equals(type)) {
             Util.toastMsg("新的班级开始了, 您可以在成绩单的往期成绩中查看之前获得的勋章");
         }
         for (int i = 0; i < table1.size(); i++) {
@@ -186,55 +265,55 @@ public class StudentHonorGridActivity extends BaseActivity implements View.OnCli
                 fc_list.add(studentHonorInfo);
             } else if ("2".equals(honorType)) {
                 ygj_list.add(studentHonorInfo);
-            } else{
+            } else {
                 star_list.add(studentHonorInfo);
             }
         }
 
         lin_fc_value.setVisibility(View.VISIBLE);
         lin_fc_sm.setVisibility(View.GONE);
-
         if (fc_list.size() == 0) {
             lin_fc_value.setVisibility(View.GONE);
             lin_fc_sm.setVisibility(View.VISIBLE);
-        } else if (fc_list.size() == 1) {
-            img_fc_1.setImageResource(R.drawable.img_student_honor_tong);
-        } else if (fc_list.size() == 2) {
-            img_fc_1.setImageResource(R.drawable.img_student_honor_tong);
-            img_fc_2.setImageResource(R.drawable.img_student_honor_yin);
-        } else if (fc_list.size() == 3) {
-            img_fc_1.setImageResource(R.drawable.img_student_honor_tong);
-            img_fc_2.setImageResource(R.drawable.img_student_honor_yin);
-            img_fc_3.setImageResource(R.drawable.img_student_honor_jin);
+        } else {
+            String value = fc_list.get(0).getValue();
+            if ("1".equals(value)) {
+                img_fc_1.setImageResource(R.drawable.img_student_honor_tong);
+            } else if ("2".equals(value)) {
+                img_fc_1.setImageResource(R.drawable.img_student_honor_tong);
+                img_fc_2.setImageResource(R.drawable.img_student_honor_yin);
+            } else if ("3".equals(value)) {
+                img_fc_1.setImageResource(R.drawable.img_student_honor_tong);
+                img_fc_2.setImageResource(R.drawable.img_student_honor_yin);
+                img_fc_3.setImageResource(R.drawable.img_student_honor_jin);
+            }
         }
-
-
         setGridView();
 
-        if(jz_list.size()==0){
+        if (jz_list.size() == 0) {
             lin_jz_value.setVisibility(View.GONE);
             lin_jz_sm.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             lin_jz_value.setVisibility(View.VISIBLE);
             lin_jz_sm.setVisibility(View.GONE);
             StudentHonorJZAdapter jz_adapter = new StudentHonorJZAdapter(this, jz_list);
             list_jz.setAdapter(jz_adapter);
         }
 
-        if(ygj_list.size()==0){
+        if (ygj_list.size() == 0) {
             lin_ygj_value.setVisibility(View.GONE);
             lin_ygj_sm.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             lin_ygj_value.setVisibility(View.VISIBLE);
             lin_ygj_sm.setVisibility(View.GONE);
             StudentHonorYGJAdapter ygj_adapter = new StudentHonorYGJAdapter(this, ygj_list);
             list_ygj.setAdapter(ygj_adapter);
         }
 
-        if(star_list.size()==0){
+        if (star_list.size() == 0) {
             lin_star_value.setVisibility(View.GONE);
             lin_star_sm.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             lin_star_value.setVisibility(View.VISIBLE);
             lin_star_sm.setVisibility(View.GONE);
             StudentHonorStarAdapter star_adapter = new StudentHonorStarAdapter(this, star_list);
@@ -323,12 +402,19 @@ public class StudentHonorGridActivity extends BaseActivity implements View.OnCli
     protected void initDatas() {
         studentHonorPresenter = new StudentImpl(this);
         aCache = ACache.get(this, Constants.USER_ACACHE_DATA_DIR);
+        dialogShow("加载中");
         studentHonorPresenter.getStudentHonor();
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.iv_email:
+            case R.id.fl_right:
+                dialogShow("加载中");
+                studentHonorPresenter.getStudentHonours();
+                break;
+
             case R.id.ll_left:
                 finish();
                 break;

@@ -6,19 +6,26 @@
 package com.softtek.lai.module.jingdu.presenter;
 
 import com.github.snowdream.android.util.Log;
+import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.module.counselor.net.CounselorService;
 import com.softtek.lai.module.jingdu.EventModel.RankEvent;
 import com.softtek.lai.module.jingdu.model.RankModel;
 import com.softtek.lai.module.jingdu.model.SPModel;
 import com.softtek.lai.module.jingdu.net.JingduService;
+import com.softtek.lai.module.message.model.PhotosModel;
+import com.softtek.lai.module.message.view.JoinGameDetailActivity;
+
 import org.greenrobot.eventbus.EventBus;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import retrofit.mime.TypedFile;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.util.Util;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -26,9 +33,43 @@ import java.util.List;
  */
 public class GetProinfoImpl implements IGetProinfopresenter {
     private JingduService service;
-
+    private BaseActivity context;
     public GetProinfoImpl() {
         service = ZillaApi.NormalRestAdapter.create(JingduService.class);
+    }
+
+    public GetProinfoImpl(BaseActivity context) {
+        this.context = context;
+        service = ZillaApi.NormalRestAdapter.create(JingduService.class);
+    }
+    //上传图片文件
+    @Override
+    public void upload(final String upimg) {
+        String token = SharedPreferenceService.getInstance().get("token", "");
+        service.upimg(token, new TypedFile("image/png", new File(upimg)), new Callback<ResponseData<PhotosModel>>() {
+            @Override
+            public void success(ResponseData<PhotosModel> upimgResponseData, Response response) {
+                context.dialogDissmiss();
+                System.out.println("upimgResponseData:" + upimgResponseData);
+                int status = upimgResponseData.getStatus();
+                switch (status) {
+                    case 200:
+                        PhotosModel photModel = upimgResponseData.getData();
+                        EventBus.getDefault().post(photModel);
+                        break;
+                    case 500:
+                        Util.toastMsg(upimgResponseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                context.dialogDissmiss();
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
+            }
+        });
     }
 
     @Override

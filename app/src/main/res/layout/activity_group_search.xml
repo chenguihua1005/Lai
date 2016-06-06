@@ -55,6 +55,7 @@
                     android:layout_gravity="center"
                     android:textColor="@color/word"
                     android:textSize="@dimen/textSize4"
+                    android:layout_marginRight="8dip"
                     android:layout_marginLeft="8dip"/>
 
             </LinearLayout>
@@ -62,7 +63,7 @@
                 android:id="@+id/text_search"
                 android:layout_width="50dip"
                 android:layout_height="28dip"
-                android:text="提交"
+                android:text="搜索"
                 android:textSize="@dimen/textSize4"
                 android:textColor="@color/white"
                 android:layout_alignParentRight="true"

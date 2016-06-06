@@ -1,6 +1,7 @@
 package com.softtek.lai.module.bodygamest.view;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
@@ -28,8 +30,11 @@ import com.softtek.lai.module.bodygamest.present.StudentImpl;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.widgets.SelectPicPopupWindow;
 import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.utils.Log;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -97,6 +102,7 @@ public class StudentScoreActivity extends BaseActivity implements View.OnClickLi
         studentPresenter = new StudentImpl(this);
         userModel = UserInfoModel.getInstance().getUser();
         String id = userModel.getUserid();
+        dialogShow("加载中");
         studentPresenter.getTranscrip(id, list_student_score);
     }
 
@@ -124,11 +130,10 @@ public class StudentScoreActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.iv_email:
             case R.id.fl_right:
-                new AlertDialog.Builder(this).setMessage("功能开发中敬请期待").create().show();
-                /*
+                //new AlertDialog.Builder(this).setMessage("功能开发中敬请期待").create().show();
                 progressDialog.setMessage("加载中");
                 progressDialog.show();
-                photoListPre.getLossData(UserInfoModel.getInstance().getUser().getUserid(), progressDialog);*/
+                photoListPre.getLossData(UserInfoModel.getInstance().getUser().getUserid(), progressDialog);
                 break;
         }
 

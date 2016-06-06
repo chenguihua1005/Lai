@@ -9,8 +9,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -19,12 +23,21 @@ import android.widget.TextView;
 import com.ggx.jerryguan.widget_lib.Chart;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.counselor.model.UserHonorModel;
+import com.softtek.lai.module.counselor.presenter.HonorImpl;
+import com.softtek.lai.module.counselor.presenter.IHonorPresenter;
 import com.softtek.lai.module.jingdu.Adapter.RankAdapter;
 import com.softtek.lai.module.jingdu.model.PaimingModel;
 import com.softtek.lai.module.jingdu.model.RankModel;
 import com.softtek.lai.module.jingdu.model.Table1Model;
 import com.softtek.lai.module.jingdu.presenter.GetProinfoImpl;
 import com.softtek.lai.module.jingdu.presenter.IGetProinfopresenter;
+import com.softtek.lai.module.message.model.PhotosModel;
+import com.softtek.lai.widgets.SelectPicPopupWindow;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
 //import com.umeng.socialize.bean.SocializeConfig;
 //import com.umeng.socialize.sso.UMSsoHandler;
 
@@ -38,6 +51,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_jingdu)
@@ -48,9 +62,6 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
 
     @InjectView(R.id.tv_title)
     TextView tv_title;
-
-    @InjectView(R.id.tv_right)
-    TextView tv_right;
 
     @InjectView(R.id.list_rank)
     ListView list_rank;
@@ -106,9 +117,20 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
     @InjectView(R.id.top)
     LinearLayout top;
 
+    @InjectView(R.id.iv_email)
+    ImageView iv_email;
+    @InjectView(R.id.fl_right)
+    FrameLayout fl_right;
+
+    String url;
+    String value;
+    SelectPicPopupWindow menuWindow;
+
+    private IHonorPresenter honorPresenter;
     private List<Table1Model> table1ModelList = new ArrayList<Table1Model>();
     private List<PaimingModel> paimingModelList = new ArrayList<PaimingModel>();
     private IGetProinfopresenter iGetProinfopresenter;
+    UserHonorModel userHonorModel;
 
     private RankModel rank;
     public RankAdapter rankAdapter;
@@ -136,7 +158,12 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
         rankAdapter = new RankAdapter(this, table1ModelList, paimingModelList);
         list_rank.setAdapter(rankAdapter);
         ll_left.setOnClickListener(this);
-        tv_right.setOnClickListener(this);
+
+        iv_email.setVisibility(View.VISIBLE);
+        iv_email.setImageResource(R.drawable.img_share_bt);
+        iv_email.setOnClickListener(this);
+        fl_right.setOnClickListener(this);
+
     }
 
     private void initpaiming() {
@@ -170,16 +197,76 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     protected void initViews() {
-        iGetProinfopresenter = new GetProinfoImpl();
+        iGetProinfopresenter = new GetProinfoImpl(this);
         iGetProinfopresenter.getproinfo();
     }
 
+    @Subscribe
+    public void onEvent(UserHonorModel model) {
+        userHonorModel=model;
+        dialogShow("加载中");
+        iGetProinfopresenter.upload( "/sdcard/screen_test_1.png");
+
+    }
     @Override
     protected void initDatas() {
         tv_title.setText("当期进度");
-        tv_right.setText("分享");
+        honorPresenter = new HonorImpl(this);
     }
+    @Subscribe
+    public void onEvent(PhotosModel photModel) {
+        System.out.println(photModel);
+        if (UserInfoModel.getInstance().getUser() == null) {
+            return;
+        }
+        String path = AddressManager.get("shareHost");
+        url = path + "ShareSPCurrentPro?AccountId=" + UserInfoModel.getInstance().getUser().getUserid()+"&Image="+photModel.getImg();
+        System.out.println("url:" + url);
+        value = "我在" + userHonorModel.getDays() + "天里已累计服务"+userHonorModel.getNum()+"学员，共帮助他们减重"+userHonorModel.getSumLoss()+"斤，快来参加体重管理挑战赛吧！";
 
+        menuWindow = new SelectPicPopupWindow(JingduActivity.this, itemsOnClick);
+        //显示窗口
+        menuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        menuWindow.showAtLocation(JingduActivity.this.findViewById(R.id.rel), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
+    }
+    private View.OnClickListener itemsOnClick = new View.OnClickListener() {
+
+        public void onClick(View v) {
+            menuWindow.dismiss();
+            switch (v.getId()) {
+                case R.id.lin_weixin:
+                    new ShareAction(JingduActivity.this)
+                            .setPlatform(SHARE_MEDIA.WEIXIN)
+                            .withTitle("康宝莱体重管理挑战赛，坚持只为改变！")
+                            .withText(value)
+                            .withTargetUrl(url)
+                            .withMedia(new UMImage(JingduActivity.this, R.drawable.img_share_logo))
+                            .share();
+                    break;
+                case R.id.lin_circle:
+                    new ShareAction(JingduActivity.this)
+                            .setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)
+                            .withTitle("康宝莱体重管理挑战赛，坚持只为改变！")
+                            .withText(value)
+                            .withTargetUrl(url)
+                            .withMedia(new UMImage(JingduActivity.this, R.drawable.img_share_logo))
+                            .share();
+                    break;
+                case R.id.lin_sina:
+                    new ShareAction(JingduActivity.this)
+                            .setPlatform(SHARE_MEDIA.SINA)
+                            .withText(value + url)
+                            .withMedia(new UMImage(JingduActivity.this, R.drawable.img_share_logo))
+                            .share();
+                    break;
+                default:
+                    break;
+            }
+
+
+        }
+
+    };
     @Subscribe
     public void onEvent(RankModel rank) {
         //Table：教练本月总开班数量，新增学员数量(累计减重数量)
@@ -244,6 +331,13 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
             float c = Float.parseFloat(threeban);
             total_weight.setValue(a, b, c);
         }
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                Bitmap b1 = getViewBitmap(top);
+//                savePic(b1, "/sdcard/screen_test_1.png");
+//            }
+//        }, 200);
     }
 
     @Override
@@ -253,13 +347,15 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
                 finish();
                 break;
             //分享功能逻辑
-            case R.id.tv_right:
-                Bitmap b1 = getViewBitmap(ll_twoban);
+            case R.id.iv_email:
+            case R.id.fl_right:
+                dialogShow("加载中");
+                Bitmap b1 = getViewBitmap(top);
                 savePic(b1, "/sdcard/screen_test_1.png");
-//                ShareUtils shareUtils = new ShareUtils(JingduActivity.this);
-//                shareUtils.setShareContent("康宝莱体重管理挑战赛，坚持只为改变！", "http://www.baidu.com", R.drawable.logo, "我已成功在**天减重**斤，快来见证我的改变，和我一起参加体重管理挑战赛吧！", "我已成功在**天减重**斤，快来见证我的改变，和我一起参加体重管理挑战赛吧！");
-//                shareUtils.getController().openShare(JingduActivity.this, false);
+                honorPresenter.getUserHonors();
+                //iGetProinfopresenter.upload("/sdcard/screen_test_1.png");
                 break;
+
         }
     }
 

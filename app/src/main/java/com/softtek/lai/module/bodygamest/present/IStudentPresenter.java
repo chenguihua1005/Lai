@@ -15,8 +15,12 @@ public interface IStudentPresenter {
     //荣誉榜
     void getStudentHonor();
 
+
+    void getStudentHonours();    //获取学员奖章个数
+
     //成绩单
-    void getTranscrip(String userid,ListView list_student_score);
+    void getTranscrip(String userid, ListView list_student_score);
+
     //未复测周数
     void GetNotMeasuredRecordByPC(long accountId);
 }
