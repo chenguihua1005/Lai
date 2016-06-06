@@ -49,6 +49,10 @@ public class StepService extends Service implements SensorEventListener {
     private BroadcastReceiver mBatInfoReceiver;
     private WakeLock mWakeLock;
     private TimeCount time;
+    private int currentStep;//今日步数用于显示使用
+    private int oldStep;//记录服务器上的步数
+    private int firstStep=0;//启动应用服务的时候的第一次步数
+
 
     private LocalBroadcastManager localBroadcastManager;
 
@@ -64,16 +68,14 @@ public class StepService extends Service implements SensorEventListener {
         }).start();
         startTimeCount();
         initTodayData();
-        updateNotification("今日步数：" + StepDcretor.CURRENT_SETP + " 步");
-
     }
 
     private void initTodayData() {
         //获取当天的步数用于展示
         String userId=UserInfoModel.getInstance().getUser().getUserid();
         //查询到今日的步数记录
-        StepDcretor.CURRENT_SETP= StepUtil.getInstance().getCurrentStep(userId);
-        Log.i("xf", " 数据库中的步数>>"+StepDcretor.CURRENT_SETP);
+        oldStep= StepUtil.getInstance().getCurrentStep(userId);
+        updateNotification("今日步数：" + oldStep + " 步");
     }
 
     private void initBroadcastReceiver() {
@@ -152,7 +154,7 @@ public class StepService extends Service implements SensorEventListener {
         //发送广播
         if(localBroadcastManager!=null) {
             Intent stepIntent=new Intent(STEP);
-            stepIntent.putExtra("step",StepDcretor.CURRENT_SETP);
+            stepIntent.putExtra("step",currentStep);
             localBroadcastManager.sendBroadcast(stepIntent);
         }
     }
@@ -169,7 +171,9 @@ public class StepService extends Service implements SensorEventListener {
     public int onStartCommand(Intent intent, int flags, int startId) {
         //启动定时上传功能
         AlarmManager manager= (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        PendingIntent pi = PendingIntent.getBroadcast(this,0,new Intent(UPLOAD_STEP),0);
+        Intent upIntent=new Intent(UPLOAD_STEP);
+        upIntent.putExtra("step",oldStep);
+        PendingIntent pi = PendingIntent.getBroadcast(this,0,upIntent,0);
         long triggerAtTime=SystemClock.elapsedRealtime()+durationUpload;
         manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
                 triggerAtTime,
@@ -200,17 +204,15 @@ public class StepService extends Service implements SensorEventListener {
     private Sensor detectorSensor;
     private Sensor countSensor;
     private void addCountStepListener() {
-        detectorSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
+        //detectorSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
         countSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
         if (countSensor != null) {
             Log.i("base", "countSensor");
             sensorManager.registerListener(this, countSensor, SensorManager.SENSOR_DELAY_UI);
-        }else
-        if (detectorSensor != null) {
+        }/*else if (detectorSensor != null) {
             Log.i("base", "detector");
             sensorManager.registerListener(this, detectorSensor, SensorManager.SENSOR_DELAY_UI);
-        }else
-        {
+        }*/else {
             Log.i("base", "Count sensor not available!");
             addBasePedoListener();
         }
@@ -218,8 +220,6 @@ public class StepService extends Service implements SensorEventListener {
 
     private void addBasePedoListener() {
         stepDetector = new StepDcretor(this);
-        // 获得传感器的类型，这里获得的类型是加速度传感器
-        // 此方法用来注册，只有注册过才会生效，参数：SensorEventListener的实例，Sensor的实例，更新速率
         Sensor sensor = sensorManager
                 .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         sensorManager.registerListener(stepDetector, sensor,
@@ -227,8 +227,9 @@ public class StepService extends Service implements SensorEventListener {
         stepDetector.setOnSensorChangeListener(new StepDcretor.OnSensorChangeListener() {
 
                     @Override
-                    public void onChange() {
-                        updateNotification("今日步数：" + StepDcretor.CURRENT_SETP + " 步");
+                    public void onChange(int step) {
+                        currentStep=step;
+                        updateNotification("今日步数：" + (currentStep+oldStep)+ " 步");
                     }
                 });
     }
@@ -236,18 +237,16 @@ public class StepService extends Service implements SensorEventListener {
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
-            for(float value:event.values){
-                com.github.snowdream.android.util.Log.i("传感器获取的步数数据为>>>"+value);
+            int stepTemp = (int) event.values[0];
+            if(firstStep==0){
+                firstStep=stepTemp;
             }
-            int step=(int) event.values[0];
-            StepDcretor.CURRENT_SETP = (int) event.values[0];
-        } else
-        if (event.sensor.getType() == Sensor.TYPE_STEP_DETECTOR) {
-            if (event.values[0]==1.0) {
-                StepDcretor.CURRENT_SETP++;
-            }
-        }
-        updateNotification("今日步数：" + StepDcretor.CURRENT_SETP + " 步");
+            currentStep=stepTemp-firstStep;
+            updateNotification("今日步数：" + (currentStep+oldStep) + " 步");
+        }/* else if (event.sensor.getType() == Sensor.TYPE_STEP_DETECTOR) {
+                originalStep++;
+        }*/
+
     }
 
     @Override
@@ -278,13 +277,12 @@ public class StepService extends Service implements SensorEventListener {
 
     //存入数据库
     private void save() {
-        long tempStep = StepDcretor.CURRENT_SETP;
         UserModel model=UserInfoModel.getInstance().getUser();
-        if(model!=null){
+        if(model!=null||(currentStep+oldStep)==oldStep){
             UserStep step=new UserStep();
             step.setAccountId(Long.parseLong(model.getUserid()));
             step.setRecordTime(DateUtil.getInstance("yyyy-MM-dd HH:mm:ss").getCurrentDate());
-            step.setStepCount(tempStep);
+            step.setStepCount(currentStep+oldStep);
             StepUtil.getInstance().saveStep(step);
         }
     }

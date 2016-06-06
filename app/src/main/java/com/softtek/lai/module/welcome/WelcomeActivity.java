@@ -25,6 +25,8 @@ import com.softtek.lai.utils.RequestCallback;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.List;
+
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
@@ -62,17 +64,45 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
                     @Override
                     public void success(ResponseData<StepResponseModel> data, Response response) {
                         if(data.getStatus()==200){//加入了跑团
-                            long step=data.getData().getTodayStepCnt();
+                            int step=data.getData().getTodayStepCnt();
                             Log.i("服务器上的步数为="+step);
-                            long currentStep=StepUtil.getInstance().getCurrentStep(userId);
-                            if(step>currentStep){
-                                //新增新数据
+                            String dateStar=DateUtil.weeHours(0);
+                            String dateEnd=DateUtil.weeHours(1);
+                            List<UserStep> steps=StepUtil.getInstance().getCurrentData(userId,dateStar,dateEnd);
+                            if(!steps.isEmpty()){
+                                UserStep stepStart=steps.get(0);
+                                UserStep stepEnd=steps.get(steps.size()-1);
+                                int currentStep= (int) (stepEnd.getStepCount()-stepStart.getStepCount());
+                                if(step>currentStep){
+                                    //如果服务器上的步数大于本地
+                                    UserStep userStep=new UserStep();
+                                    userStep.setAccountId(Long.parseLong(userId));
+                                    userStep.setRecordTime(DateUtil.getInstance().getCurrentDate());
+                                    userStep.setStepCount(step+stepStart.getStepCount());
+                                    StepUtil.getInstance().saveStep(userStep);
+                                }
+                                //如果不大于则 不需要操作什么
+                            }else{
+                                //本地没有数据
+                                //需要给本地插入一条 数据
                                 UserStep userStep=new UserStep();
                                 userStep.setAccountId(Long.parseLong(userId));
                                 userStep.setRecordTime(DateUtil.getInstance().getCurrentDate());
-                                userStep.setStepCount(step);
+                                userStep.setStepCount(0);
                                 StepUtil.getInstance().saveStep(userStep);
+                                if(step>0){
+                                    //如果服务器上的数据大于0则写入本地
+                                    UserStep serverStep=new UserStep();
+                                    serverStep.setAccountId(Long.parseLong(userId));
+                                    serverStep.setRecordTime(DateUtil.getInstance().getCurrentDate());
+                                    serverStep.setStepCount(step);
+                                    StepUtil.getInstance().saveStep(serverStep);
+                                }
+
                             }
+                            //删除旧数据
+                            String currentDate=DateUtil.weeHours(0);
+                            StepUtil.getInstance().deleteOldDate(currentDate,userId);
                             //启动计步器服务
                             startService(new Intent(getApplicationContext(), StepService.class));
 

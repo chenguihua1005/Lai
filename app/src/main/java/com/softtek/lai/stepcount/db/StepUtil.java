@@ -21,7 +21,7 @@ public class StepUtil {
 
     private static StepUtil util;
     private DBHelper dbHelper;
-    //获取数据库中当天最新步数\
+    //获取数据库中当天最新步数,取首位相减
     public int getCurrentStep(String accountId){
         String dateStar=DateUtil.weeHours(0);
         String dateEnd=DateUtil.weeHours(1);
@@ -75,21 +75,28 @@ public class StepUtil {
      * 删除某用户当天之前的所有数据
      */
     public void deleteOldDate(String currentDate,String userId){
-        String cause="accountId=? and recordTime<?";
-        String[] condition={userId,currentDate};
-        SQLiteDatabase db= dbHelper.getReadableDatabase();
+        //String cause="accountId=? and recordTime<?";
+        String cause="recordTime<?";
+        String[] hasOldCon={currentDate};
+        //String[] condition={userId,currentDate};
+        SQLiteDatabase db= dbHelper.getWritableDatabase();
+        Cursor cursor=db.query("user_step",null,cause,hasOldCon,null,null,null);
         try {
-            int i = db.delete("user_step", cause, condition);
-            if(i==0){
-                Log.i("删除失败");
-            }else{
-                Log.i("删除成功");
+            if (cursor.moveToFirst()) {
+                int i = db.delete("user_step", cause, hasOldCon);
+                if (i == 0) {
+                    Log.i("删除失败");
+                } else {
+                    Log.i("删除成功");
+                }
             }
         }catch (Exception e){
             e.printStackTrace();
         }finally {
+            cursor.close();
             db.close();
         }
+
     }
 
     /**

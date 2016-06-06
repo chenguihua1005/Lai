@@ -181,7 +181,6 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
     protected void initDatas() {
         tv_title.setText("运动");
         manager=new SportManager();
-        startStep=StepDcretor.CURRENT_SETP;
         //注册步数接收器
         receive=new StepReceive();
         IntentFilter filter = new IntentFilter();
@@ -449,13 +448,8 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
             String show=(hour<10?"0"+hour:String.valueOf(hour))
                     +":"+(minutes<10?"0"+minutes:String.valueOf(minutes))
                     +":"+(second<10?"0"+second:String.valueOf(second));
-            int currentStep=StepDcretor.CURRENT_SETP-startStep;
             if(tv_clock!=null)
                 tv_clock.setText(show);
-            if(tv_step!=null)
-                tv_step.setText(String.valueOf(currentStep));
-            if(tv_calorie!=null)
-                tv_calorie.setText(String.valueOf(currentStep/35));//一大卡为35步
         }
 
 
@@ -540,6 +534,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
         @Override
         public void onReceive(Context context, Intent intent) {
             int tempStep=intent.getIntExtra("step",0);
+            if(startStep==0)startStep=tempStep;
             int step=(tempStep-startStep)<=0?0:(tempStep-startStep);
             int calori=step/35;
             tv_step.setText(step+"");
