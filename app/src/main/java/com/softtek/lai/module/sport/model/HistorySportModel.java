@@ -21,6 +21,7 @@ public class HistorySportModel implements Serializable {
     private String createtime;
     private String Kilometre;
     private String calories;
+    private String speed;
 
     @Override
     public String toString() {
@@ -107,5 +108,13 @@ public class HistorySportModel implements Serializable {
 
     public void setCalories(String calories) {
         this.calories = calories;
+    }
+
+    public String getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(String speed) {
+        this.speed = speed;
     }
 }

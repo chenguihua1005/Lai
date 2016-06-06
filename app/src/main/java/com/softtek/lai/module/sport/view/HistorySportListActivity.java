@@ -2,7 +2,6 @@ package com.softtek.lai.module.sport.view;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -10,21 +9,12 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
-import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.act.adapter.GroupListItemAdapter;
-import com.softtek.lai.module.act.model.ActivityModel;
-import com.softtek.lai.module.act.model.ActlistModel;
-import com.softtek.lai.module.act.presenter.ActManager;
-import com.softtek.lai.module.act.view.ActActivity;
 import com.softtek.lai.module.sport.adapter.HistorySportAdapter;
 import com.softtek.lai.module.sport.model.HistorySportModel;
 import com.softtek.lai.module.sport.presenter.SportManager;
-import com.softtek.lai.utils.WheatherUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +38,7 @@ public class HistorySportListActivity extends BaseActivity implements View.OnCli
     SportManager sportManager;
 
     HistorySportAdapter adapter;
-    private List<HistorySportModel> list = new ArrayList<HistorySportModel>();
+    private List<HistorySportModel> list = new ArrayList<>();
 
     @Override
     protected void initViews() {
@@ -57,7 +47,9 @@ public class HistorySportListActivity extends BaseActivity implements View.OnCli
         sport_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                Intent intent=new Intent(HistorySportListActivity.this,HistorySportActivity.class);
+                intent.putExtra("history",list.get(position));
+                startActivity(intent);
             }
         });
     }
@@ -87,7 +79,8 @@ public class HistorySportListActivity extends BaseActivity implements View.OnCli
     @Override
     public void getMovementList(String type, List<HistorySportModel> list) {
         if("true".equals(type)){
-            adapter = new HistorySportAdapter(this, list);
+            this.list=list;
+            adapter = new HistorySportAdapter(this, this.list);
             sport_list.setAdapter(adapter);
         }
     }

@@ -41,6 +41,8 @@ import com.amap.api.maps.LocationSource;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps.model.Marker;
+import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
 import com.amap.api.maps.model.PolylineOptions;
 import com.github.snowdream.android.util.Log;
@@ -136,7 +138,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
         //我的位置样式
         MyLocationStyle locationStyle = new MyLocationStyle();
         locationStyle.myLocationIcon(BitmapDescriptorFactory
-                .fromResource(R.drawable.location_marker));
+                .fromResource(R.drawable.location_mark_end));
         locationStyle.strokeWidth(1f);//圆形的边框宽度
         locationStyle.strokeColor(Color.BLACK);// 设置圆形的边框颜色
         aMap.setMyLocationStyle(locationStyle);
@@ -169,9 +171,10 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
 
         //初始化polyline
         polylineOptions = new PolylineOptions();
-        polylineOptions.width(10);
+        polylineOptions.width(15);
         polylineOptions.color(Color.RED);
         polylineOptions.zIndex(3);
+
     }
     LocationManager locationManager;
     StepReceive receive;
@@ -224,6 +227,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
     }
 
     double previousDistance;//旧的距离
+    boolean isFirst=true;
     @Override
     public void onLocationChanged(AMapLocation aMapLocation) {
         if(listener!=null&&aMapLocation!=null) {
@@ -232,6 +236,11 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
                 //当坐标改变之后开始添加标记 画线
                 Log.i("获取位置");
                 LatLng latLng=new LatLng(aMapLocation.getLatitude(),aMapLocation.getLongitude());
+                if(isFirst){
+                    isFirst=false;
+                    aMap.addMarker(new MarkerOptions().position(latLng).icon(
+                            BitmapDescriptorFactory.fromResource(R.drawable.location_mark_start)));
+                }
                 aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f));
                 if(coordinates.isEmpty()){
                     coordinates.add(new LatLon(latLng.longitude,latLng.latitude));

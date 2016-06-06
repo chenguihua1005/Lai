@@ -26,7 +26,6 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.group.view.GroupMainActivity;
 import com.softtek.lai.module.login.model.UserModel;
-import com.softtek.lai.module.mygrades.view.MyGradesActivity;
 import com.softtek.lai.stepcount.db.StepUtil;
 import com.softtek.lai.stepcount.model.StepDcretor;
 import com.softtek.lai.stepcount.model.UserStep;
