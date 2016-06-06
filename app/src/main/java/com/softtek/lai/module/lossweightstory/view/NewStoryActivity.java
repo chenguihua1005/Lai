@@ -2,6 +2,7 @@ package com.softtek.lai.module.lossweightstory.view;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
@@ -249,7 +250,12 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //清楚本地编辑的图片
-                        //FileUtils.deleteDir(dir);
+                        for(UploadImage image:images){
+                            Bitmap bit=image.getBitmap();
+                            if(bit!=null&&!bit.isRecycled()){
+                                bit.recycle();
+                            }
+                        }
                         finish();
 
                     }
