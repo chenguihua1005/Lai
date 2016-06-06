@@ -9,11 +9,13 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.ListView;
 
+import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygamest.Adapter.StudentScoreAdapter;
 import com.softtek.lai.module.bodygamest.model.CountWeekModel;
 import com.softtek.lai.module.bodygamest.model.HasClass;
+import com.softtek.lai.module.bodygamest.model.HnumsModel;
 import com.softtek.lai.module.bodygamest.model.HonorModel;
 import com.softtek.lai.module.bodygamest.model.StudentScripInfo;
 import com.softtek.lai.module.bodygamest.net.StudentService;
@@ -36,12 +38,47 @@ public class StudentImpl implements IStudentPresenter {
 
     private StudentService studentService;
     private Context context;
+    private BaseActivity base;
 
     public StudentImpl(Context context) {
         this.context = context;
         studentService = ZillaApi.NormalRestAdapter.create(StudentService.class);
     }
 
+    public StudentImpl(BaseActivity context) {
+        this.base = context;
+        studentService = ZillaApi.NormalRestAdapter.create(StudentService.class);
+    }
+
+
+    @Override
+    public void getStudentHonours() {
+        String token = UserInfoModel.getInstance().getToken();
+        studentService.getStudentHonours(token,new Callback<ResponseData<HnumsModel>>() {
+            @Override
+            public void success(ResponseData<HnumsModel> listResponseData, Response response) {
+                Log.e("jarvis", listResponseData.toString());
+                int status = listResponseData.getStatus();
+                base.dialogDissmiss();
+                HnumsModel model = listResponseData.getData();
+                switch (status) {
+                    case 200:
+                        EventBus.getDefault().post(listResponseData.getData());
+                        break;
+                    default:
+                        Util.toastMsg(listResponseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                base.dialogDissmiss();
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
+            }
+        });
+    }
 
     @Override
     public void getTranscrip(String classid, final ListView list_student_score) {
@@ -51,10 +88,11 @@ public class StudentImpl implements IStudentPresenter {
             public void success(ResponseData<List<StudentScripInfo>> listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
+                base.dialogDissmiss();
                 List<StudentScripInfo> list = listResponseData.getData();
                 switch (status) {
                     case 200:
-                        StudentScoreAdapter adapter = new StudentScoreAdapter(context, list);
+                        StudentScoreAdapter adapter = new StudentScoreAdapter(base, list);
                         list_student_score.setAdapter(adapter);
                         break;
                     case 201:
@@ -68,6 +106,7 @@ public class StudentImpl implements IStudentPresenter {
 
             @Override
             public void failure(RetrofitError error) {
+                base.dialogDissmiss();
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }
@@ -108,6 +147,7 @@ public class StudentImpl implements IStudentPresenter {
             public void success(ResponseData<HonorModel> listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
+                base.dialogDissmiss();
                 switch (status) {
                     case 200:
                         EventBus.getDefault().post(listResponseData.getData());
@@ -120,6 +160,7 @@ public class StudentImpl implements IStudentPresenter {
 
             @Override
             public void failure(RetrofitError error) {
+                base.dialogDissmiss();
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }

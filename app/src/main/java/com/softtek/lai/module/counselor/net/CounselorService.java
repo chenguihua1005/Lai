@@ -129,4 +129,8 @@ public interface CounselorService {
     @GET("/HerbUser/GetUserHonors")
     void getUserHonors(@Header("token") String token,
                        Callback<ResponseData<UserHonorModel>> callback);
+
+    @GET("/HerbUser/GetShareSRHonor")
+    void getShareSRHonor(@Header("token") String token,
+                       Callback<ResponseData<ShareSRHonorModel>> callback);
 }

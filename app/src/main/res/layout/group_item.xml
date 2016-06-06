@@ -12,10 +12,11 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="56dip"
+        android:layout_height="wrap_content"
         android:background="@color/white">
 
         <RelativeLayout
+            android:id="@id/rel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -40,11 +41,13 @@
         </RelativeLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/margin"
-            android:layout_toRightOf="@+id/img"
+            android:layout_toLeftOf="@id/rel"
+            android:layout_marginTop="10dip"
+            android:layout_marginBottom="10dip"
             android:orientation="vertical">
 
             <TextView
@@ -72,5 +75,4 @@
 
         </LinearLayout>
     </RelativeLayout>
-    s
 </RelativeLayout>

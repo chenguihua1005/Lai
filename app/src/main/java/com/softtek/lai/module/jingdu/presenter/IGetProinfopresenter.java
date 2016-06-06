@@ -14,4 +14,6 @@ public interface IGetProinfopresenter {
 
     //获取助教进度
     void getspproinfo();
+
+    void upload(String upimg);
 }

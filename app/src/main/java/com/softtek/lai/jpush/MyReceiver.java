@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.message.view.MessageActivity;
 
@@ -50,7 +51,7 @@ public class MyReceiver extends BroadcastReceiver {
             Log.d(TAG, "[MyReceiver] 用户点击打开了通知");
 
             //打开自定义的Activity
-            Intent i = new Intent(context, MessageActivity.class);
+            Intent i = new Intent(context, HomeActviity.class);
             i.putExtras(bundle);
             //i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
