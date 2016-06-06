@@ -57,8 +57,8 @@ public class MyXuZhangActivity extends BaseActivity implements XunZhangListManag
     List<Integer> pkimage=new ArrayList<Integer>();
     List<String> content=new ArrayList<String>();
     List<String> content1=new ArrayList<String>();
-    List<String> imgagecontent=new ArrayList<String>();
-    List<String> imgagecontent1=new ArrayList<String>();
+//    List<String> imgagecontent=new ArrayList<String>();
+//    List<String> imgagecontent1=new ArrayList<String>();
     private List<XunZhangModel> xunZhangModelList=new ArrayList<XunZhangModel>();
     private List<XunZhangModel> xunZhangModelList1=new ArrayList<XunZhangModel>();
 
@@ -81,208 +81,146 @@ public class MyXuZhangActivity extends BaseActivity implements XunZhangListManag
     protected void initDatas() {
         xunZhangListManager=new XunZhangListManager(this);
         xunZhangListManager.doGetXunZhang();
-//        MyGridView gridview1 = (MyGridView) findViewById(R.id.grid_view1);
-        xuZhangAdapter=new XuZhangAdapter(this,xunZhangModelList,images1,content1,imgagecontent1);
+        xuZhangAdapter=new XuZhangAdapter(this,images1,content1);
         grid_view1.setAdapter(xuZhangAdapter);
-//        MyGridView gridview2 = (MyGridView) findViewById(R.id.grid_view2);
-        xuZhangNullAdapter=new XuZhangNullAdapter(this,xunZhangModelList1,images,content,imgagecontent);
+        xuZhangNullAdapter=new XuZhangNullAdapter(this,images,content);
         grid_view2.setAdapter(xuZhangNullAdapter);
 
 
 
     }
-    private void pkxunzhangList(int n)
-    {
-        switch (n)
-
-        {
-            case 0:
-                pknull.add(R.drawable.darenjin,R.drawable.darenyin);
-                pknull.add(R.drawable.darentong,R.drawable.starjin);
-                pknull.add(R.drawable.staryin,R.drawable.startong);
-                break;
-            case 1:
-                pknull.add(R.drawable.darenyin);
-                pknull.add(R.drawable.darentong,R.drawable.starjin);
-                pknull.add(R.drawable.staryin,R.drawable.startong);
-                pkimage.add(R.drawable.darenjin);
-                break;
-            case 2:
-                pknull.add(R.drawable.darentong,R.drawable.starjin);
-                pknull.add(R.drawable.staryin,R.drawable.startong);
-                pkimage.add(R.drawable.darenjin,R.drawable.darenyin);
-                break;
-            case 3:
-                pknull.add(R.drawable.starjin);
-                pknull.add(R.drawable.staryin,R.drawable.startong);
-                pkimage.add(R.drawable.darenjin,R.drawable.darenyin);
-                pkimage.add(R.drawable.darentong);
-                break;
-            case 4:
-                pknull.add(R.drawable.staryin,R.drawable.startong);
-                pkimage.add(R.drawable.darenjin,R.drawable.darenyin);
-                pkimage.add(R.drawable.darentong,R.drawable.starjin);
-                break;
-            case 5:
-                pknull.add(R.drawable.startong);
-                pkimage.add(R.drawable.darenjin,R.drawable.darenyin);
-                pkimage.add(R.drawable.darentong,R.drawable.starjin);
-                pkimage.add(R.drawable.staryin);
-                break;
-            case 6:
-                pkimage.add(R.drawable.darenjin,R.drawable.darenyin);
-                pkimage.add(R.drawable.darentong,R.drawable.starjin);
-                pkimage.add(R.drawable.staryin,R.drawable.startong);
-                break;
-        }
 
 
-    }
 
+
+//勋章接口回调
     @Override
     public void getXunZhangList(XunZhangModel xunZhangModel) {
         if (!xunZhangModel.toString().isEmpty()) {
-//            for (int i=0;i<14;i++)
-//            {
-////                xunZhangModelList1.add(xunZhangModel);
+            //images是存放未获得勋章，content存放未获得勋章文字内容
+            //images1是存放获得勋章，content1存放获得勋章文字内容
             int i=0,n=0,count=0,acount=0;
-            //3天
+            //3天勋章是否获得
                 if (xunZhangModel.getThreeDays().equals("0")) {
-                    images.add(i,R.drawable.three);
+                    images.add(i,R.drawable.three);//3天勋章图片
                     content.add(i,"连续3天1万步");
-                    xunZhangModelList1.add(xunZhangModel);
                     i++;
                 }
             else {
-                    images1.add(n,R.drawable.three);
+                    images1.add(n,R.drawable.three);//3天勋章图片
                     content1.add(n,"连续3天1万步");
-                    xunZhangModelList.add(xunZhangModel);
                     n++;
                 }
-            //7天
+            //7天勋章是否获得
                 if (xunZhangModel.getSevenDays().equals("0"))
                 {
-                    mThumbIds[i] = new Integer(R.drawable.three);
-                    images.add(i,R.drawable.senven);
+
+                    images.add(i,R.drawable.senven);//7天勋章图片
                     content.add(i,"连续7天1万步");
-                    xunZhangModelList1.add(xunZhangModel);
                     i++;
                 }
                 else {
-                    images1.add(n,R.drawable.senven);
+                    images1.add(n,R.drawable.senven);//7天勋章图片
                     content1.add(n,"连续7天1万步");
-                    xunZhangModelList.add(xunZhangModel);
                     n++;
                 }
-            //21天
+            //21天勋章是否获得
                 if (xunZhangModel.getTwentyOneDays().equals("0"))
                 {
 
-                    images.add(i,R.drawable.twenty_one);
+                    images.add(i,R.drawable.twenty_one);//21天勋章图片
                     content.add(i,"连续21天1万步");
-                    xunZhangModelList1.add(xunZhangModel);
                     i++;
                 }
                 else {
-                    images1.add(n,R.drawable.twenty_one);
+                    images1.add(n,R.drawable.twenty_one);//21天勋章图片
                     content1.add(n,"连续21天1万步");
-                    xunZhangModelList.add(xunZhangModel);
                     n++;
                 }
-            //30天
+            //30天勋章是否获得
                 if (xunZhangModel.getThirtyDays().equals("0"))
                 {
 
-                    images.add(i,R.drawable.thirty);
+                    images.add(i,R.drawable.thirty);//30天勋章图片
                     content.add(i,"连续30天1万步");
-                    xunZhangModelList1.add(xunZhangModel);
                     i++;
                 }
                 else {
-                    images1.add(n,R.drawable.thirty);
+                    images1.add(n,R.drawable.thirty);//30天勋章图片
                     content1.add(n,"连续30天1万步");
-                    xunZhangModelList.add(xunZhangModel);
                     n++;
                 }
-            //100天
+            //100天勋章是否获得
                 if (xunZhangModel.getOneHundredDays().equals("0"))
                 {
-                    images.add(i,R.drawable.hundred_day);
+                    images.add(i,R.drawable.hundred_day);//100天勋章图片
                     content.add(i,"连续100天1万步");
-                    xunZhangModelList1.add(xunZhangModel);
                     i++;
                 }
                 else {
-                    images1.add(n,R.drawable.hundred_day);
+                    images1.add(n,R.drawable.hundred_day);//100天勋章图片
                     content1.add(n,"连续100天1万步");
-                    xunZhangModelList.add(xunZhangModel);
                     n++;
                 }
-            //200天
+            //200天勋章是否获得
             if (xunZhangModel.getTwoHundredyDays().equals("0"))
             {
-                mThumbIds[i] = new Integer(R.drawable.three);
-                images.add(i,R.drawable.day200);
+
+                images.add(i,R.drawable.day200);//200天勋章图片
                 content.add(i,"连续200天1万步");
-                xunZhangModelList1.add(xunZhangModel);
                 i++;
             }
             else {
-                images1.add(n,R.drawable.day200);
+                images1.add(n,R.drawable.day200);//200天勋章图片
                 content1.add(n,"连续200天1万步");
-                xunZhangModelList.add(xunZhangModel);
                 n++;
             }
-            //365天
+            //365天勋章是否获得
             if (xunZhangModel.getOneYearDays().equals("0"))
             {
-                mThumbIds[i] = new Integer(R.drawable.three);
-                images.add(i,R.drawable.day365);
+                images.add(i,R.drawable.day365);//365天勋章图片
                 content.add(i,"连续365天1万步");
-                xunZhangModelList1.add(xunZhangModel);
                 i++;
             }
             else {
-                images1.add(n,R.drawable.day365);
+                images1.add(n,R.drawable.day365);//365天勋章图片
                 content1.add(n,"连续3天1万步");
-                xunZhangModelList.add(xunZhangModel);
                 n++;
             }
+            //爱心天使勋章是否获得
             if (xunZhangModel.getAngle().equals("0"))
             {
-                images.add(i,R.drawable.angel);
+                images.add(i,R.drawable.angel);//爱心天使勋章图片
                 content.add(i,"爱心天使");
-                xunZhangModelList1.add(xunZhangModel);
                 i++;
             }
             else {
-                images1.add(n,R.drawable.angel);
+                images1.add(n,R.drawable.angel);//爱心天使勋章图片
                 content1.add(n,"爱心天使");
-                xunZhangModelList.add(xunZhangModel);
                 n++;
             }
-
+            //根据pk勋章返回的长度，判断pk勋章数量
                switch (xunZhangModel.getPK().size())
                {
                    //未获得任何pk勋章
                    case 0:
 
-                            images.add(i,R.drawable.darentong);
+                            images.add(i,R.drawable.darentong);//pk成功一次挑战达人铜牌勋章
                             content.add(i++,"pk挑战成功1次");
-                            images.add(i,R.drawable.darenyin);
+                            images.add(i,R.drawable.darenyin);//pk成功50次挑战达人银牌勋章
                             content.add(i++,"pk挑战成功50次");
-                            images.add(i,R.drawable.darenjin);
+                            images.add(i,R.drawable.darenjin);//pk成功100次挑战达人金牌勋章
                             content.add(i++,"pk挑战成功100次");
-                            images.add(i,R.drawable.startong);
+                            images.add(i,R.drawable.startong);//pk成功200挑战达人明星铜牌勋章
                             content.add(i++,"pk挑战成功200次");
-                            images.add(i,R.drawable.staryin);
+                            images.add(i,R.drawable.staryin);//pk成功300挑战达人明星铜牌勋章
                             content.add(i++,"pk挑战成功300次");
-                            images.add(i,R.drawable.starjin);
+                            images.add(i,R.drawable.starjin);//pk成功500挑战达人明星铜牌勋章
                             content.add(i++,"pk挑战成功500次");
-                            xunZhangModelList1.add(xunZhangModel);
+
 
                        break;
-                   //获得任何1个pk勋章
+                   //获得1个pk勋章
                    case 1:
                        images1.add(n,R.drawable.darentong);
                        content1.add(n++,"pk挑战成功1次");
@@ -298,7 +236,7 @@ public class MyXuZhangActivity extends BaseActivity implements XunZhangListManag
                        content.add(i++,"pk挑战成功500次");
                        xunZhangModelList1.add(xunZhangModel);
                        break;
-                   //未获得任何2个pk勋章
+                   //未获得2个pk勋章
                    case 2:
                        images1.add(n,R.drawable.darentong);
                        content1.add(n++,"pk挑战成功1次");
@@ -314,7 +252,7 @@ public class MyXuZhangActivity extends BaseActivity implements XunZhangListManag
                        content.add(i++,"pk挑战成功500次");
                        xunZhangModelList1.add(xunZhangModel);
                        break;
-                   //未获得任何3个pk勋章
+                   //未获得3个pk勋章
                    case 3:
                        images1.add(n,R.drawable.darentong);
                        content1.add(n++,"pk挑战成功1次");
@@ -330,7 +268,7 @@ public class MyXuZhangActivity extends BaseActivity implements XunZhangListManag
                        content.add(i++,"pk挑战成功500次");
                        xunZhangModelList1.add(xunZhangModel);
                        break;
-                   //未获得任何4个pk勋章
+                   //未获得4个pk勋章
                    case 4:
                        images1.add(n,R.drawable.darentong);
                        content1.add(n++,"pk挑战成功1次");
@@ -346,7 +284,7 @@ public class MyXuZhangActivity extends BaseActivity implements XunZhangListManag
                        content.add(i++,"pk挑战成功500次");
                        xunZhangModelList1.add(xunZhangModel);
                        break;
-                   //未获得任何5个pk勋章
+                   //未获得5个pk勋章
                    case 5:
                        images1.add(n,R.drawable.darentong);
                        content1.add(n++,"pk挑战成功1次");
@@ -362,7 +300,7 @@ public class MyXuZhangActivity extends BaseActivity implements XunZhangListManag
                        content.add(i++,"pk挑战成功500次");
                        xunZhangModelList1.add(xunZhangModel);
                        break;
-                   //未获得任何6个pk勋章
+                   //未获得6个pk勋章
                    case 6:
                        images1.add(n,R.drawable.darentong);
                        content1.add(n++,"pk挑战成功1次");
@@ -380,6 +318,7 @@ public class MyXuZhangActivity extends BaseActivity implements XunZhangListManag
                        break;
 
             }
+            //根据步数勋章返回的长度，判断步数勋章数量
             if (xunZhangModel.getTotals().size()<6)
             {
                 switch (xunZhangModel.getTotals().size())
@@ -387,118 +326,118 @@ public class MyXuZhangActivity extends BaseActivity implements XunZhangListManag
                     case 0:
                         images.add(i,R.drawable.ten);
                         content.add(i++,"累计步数10万步");
-                        imgagecontent.add(count++,"10万");
+//                        imgagecontent.add(count++,"10万");
 
                         images.add(i,R.drawable.fifty);
                         content.add(i++,"累计步数50万步");
-                        imgagecontent.add(count++,"50万");
+//                        imgagecontent.add(count++,"50万");
 
                         images.add(i,R.drawable.one_hundred);
                         content.add(i++,"累计步数100万步");
-                        imgagecontent.add(count++,"100万");
+//                        imgagecontent.add(count++,"100万");
 
                         images.add(i,R.drawable.one_hundred);
                         content.add(i++,"累计步数500万步");
-                        imgagecontent.add(count++,"500万");
+//                        imgagecontent.add(count++,"500万");
 
                         images.add(i,R.drawable.one_hundred);
                         content.add(i++,"累计步数1000万步");
-                        imgagecontent.add(count++,"1000万");
+//                        imgagecontent.add(count++,"1000万");
                         break;
                     //获得任何1个pk勋章
                     case 1:
                         images1.add(n,R.drawable.ten);
                         content1.add(n++,"累计步数10万步");
-                        imgagecontent1.add(acount++,"10万");
+//                        imgagecontent1.add(acount++,"10万");
                         images.add(i,R.drawable.ten);
                         content.add(i++,"累计步数50万步");
-                        imgagecontent.add(count++,"50万");
+//                        imgagecontent.add(count++,"50万");
                         images.add(i,R.drawable.ten);
                         content.add(i++,"累计步数100万步");
-                        imgagecontent.add(count++,"100万");
+//                        imgagecontent.add(count++,"100万");
                         images.add(i,R.drawable.ten);
                         content.add(i++,"累计步数500万步");
-                        imgagecontent.add(count++,"500万");
+//                        imgagecontent.add(count++,"500万");
                         images.add(i,R.drawable.ten);
                         content.add(i++,"累计步数1000万步");
-                        imgagecontent.add(count++,"1000万");
-                        xunZhangModelList1.add(xunZhangModel);
+//                        imgagecontent.add(count++,"1000万");
+
                         break;
                     //未获得任何2个pk勋章
                     case 2:
                         images1.add(n,R.drawable.ten);
                         content1.add(n++,"累计步数10万步");
-                        imgagecontent1.add(acount++,"10万");
+//                        imgagecontent1.add(acount++,"10万");
                         images1.add(n,R.drawable.ten);
                         content1.add(n++,"累计步数50万步");
-                        imgagecontent1.add(acount++,"50万");
+//                        imgagecontent1.add(acount++,"50万");
                         images.add(i,R.drawable.ten);
                         content.add(i++,"累计步数100万步");
-                        imgagecontent.add(count++,"100万");
+//                        imgagecontent.add(count++,"100万");
                         images.add(i,R.drawable.ten);
                         content.add(i++,"累计步数500万步");
-                        imgagecontent.add(count++,"500万");
+//                        imgagecontent.add(count++,"500万");
                         images.add(i,R.drawable.ten);
                         content.add(i++,"累计步数1000万步");
-                        imgagecontent.add(count++,"1000万");
+//                        imgagecontent.add(count++,"1000万");
                         xunZhangModelList1.add(xunZhangModel);
                         break;
                     //未获得任何3个pk勋章
                     case 3:
                         images1.add(n,R.drawable.ten);
                         content1.add(n++,"累计步数10万步");
-                        imgagecontent1.add(acount++,"10万");
+//                        imgagecontent1.add(acount++,"10万");
                         images1.add(n,R.drawable.ten);
                         content1.add(n++,"累计步数50万步");
-                        imgagecontent1.add(acount++,"50万");
+//                        imgagecontent1.add(acount++,"50万");
                         images1.add(n,R.drawable.ten);
                         content1.add(n++,"累计步数100万步");
-                        imgagecontent1.add(acount++,"100万");
+//                        imgagecontent1.add(acount++,"100万");
                         images.add(i,R.drawable.ten);
                         content.add(i++,"累计步数500万步");
-                        imgagecontent.add(count++,"500万");
+//                        imgagecontent.add(count++,"500万");
                         images.add(i,R.drawable.ten);
                         content.add(i++,"累计步数1000万步");
-                        imgagecontent.add(count++,"1000万");
+//                        imgagecontent.add(count++,"1000万");
                         xunZhangModelList1.add(xunZhangModel);
                         break;
                     //未获得任何4个pk勋章
                     case 4:
                         images1.add(n,R.drawable.ten);
                         content1.add(n++,"累计步数10万步");
-                        imgagecontent1.add(acount++,"10万");
+//                        imgagecontent1.add(acount++,"10万");
                         images1.add(n,R.drawable.ten);
                         content1.add(n++,"累计步数50万步");
-                        imgagecontent1.add(acount++,"50万");
+//                        imgagecontent1.add(acount++,"50万");
                         images1.add(n,R.drawable.ten);
                         content1.add(n++,"累计步数100万步");
-                        imgagecontent1.add(acount++,"100万");
+//                        imgagecontent1.add(acount++,"100万");
                         images1.add(n,R.drawable.ten);
                         content1.add(n++,"累计步数500万步");
-                        imgagecontent1.add(acount++,"500万");
+//                        imgagecontent1.add(acount++,"500万");
                         images.add(i,R.drawable.ten);
                         content.add(i++,"累计步数1000万步");
-                        imgagecontent.add(count++,"1000万");
+//                        imgagecontent.add(count++,"1000万");
                         xunZhangModelList1.add(xunZhangModel);
                         break;
                     //未获得任何5个pk勋章
                     case 5:
                         images1.add(n,R.drawable.ten);
                         content1.add(n++,"累计步数10万步");
-                        imgagecontent1.add(acount++,"10万");
+//                        imgagecontent1.add(acount++,"10万");
                         images1.add(n,R.drawable.ten);
                         content1.add(n++,"累计步数50万步");
-                        imgagecontent1.add(acount++,"50万");
+//                        imgagecontent1.add(acount++,"50万");
                         images1.add(n,R.drawable.ten);
                         content1.add(n++,"累计步数100万步");
-                        imgagecontent1.add(acount++,"100万");
+//                        imgagecontent1.add(acount++,"100万");
                         images1.add(n,R.drawable.ten);
                         content1.add(n++,"累计步数500万步");
-                        imgagecontent1.add(acount++,"500万");
+//                        imgagecontent1.add(acount++,"500万");
                         images1.add(i,R.drawable.ten);
                         content1.add(i++,"累计步数1000万步");
-                        imgagecontent1.add(acount++,"1000万");
-                        xunZhangModelList1.add(xunZhangModel);
+//                        imgagecontent1.add(acount++,"1000万");
+
                         break;
 
                 }
@@ -507,14 +446,8 @@ public class MyXuZhangActivity extends BaseActivity implements XunZhangListManag
 
             }
 
-
-
-
-//            }
-
-
-            xuZhangAdapter.updateData(xunZhangModelList,images1,content1,imgagecontent1);
-            xuZhangNullAdapter.updateData(xunZhangModelList1,images,content,imgagecontent);
+            xuZhangAdapter.updateData(images1,content1);
+            xuZhangNullAdapter.updateData(images,content);
 
         }
 

@@ -2,6 +2,7 @@ package com.softtek.lai.module.community.view;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.v7.app.AlertDialog;
@@ -119,7 +120,12 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //清楚本地编辑的图片
-                        //FileUtils.deleteDir(dir);
+                        for(UploadImage image:images){
+                            Bitmap bit=image.getBitmap();
+                            if(bit!=null&&!bit.isRecycled()){
+                                bit.recycle();
+                            }
+                        }
                         finish();
                     }
                 }).setNegativeButton("取消", new DialogInterface.OnClickListener() {

@@ -19,6 +19,7 @@ import com.softtek.lai.module.community.model.HealthyCommunityModel;
 import com.softtek.lai.module.community.net.CommunityService;
 import com.softtek.lai.module.lossweightstory.view.PictureActivity;
 import com.softtek.lai.utils.DateUtil;
+import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.CircleImageView;
@@ -43,12 +44,14 @@ public class HealthyCommunityAdapter extends BaseAdapter{
     private List<HealthyCommunityModel> lossWeightStoryModels;
     private boolean isVR=false;
     private CommunityService service;
+    private int px;
 
     public HealthyCommunityAdapter(Context context, List<HealthyCommunityModel> lossWeightStoryModels,boolean isVR) {
         this.context = context;
         this.lossWeightStoryModels = lossWeightStoryModels;
         this.isVR=isVR;
         service= ZillaApi.NormalRestAdapter.create(CommunityService.class);
+        px= DisplayUtil.dip2px(context.getApplicationContext(),79);
     }
 
     @Override
@@ -196,7 +199,7 @@ public class HealthyCommunityAdapter extends BaseAdapter{
                                 context.startActivity(in);
                             }
                         });
-                        Picasso.with(context).load(path+uri).fit()
+                        Picasso.with(context).load(path+uri).resize(px,px).centerCrop()
                                 .placeholder(R.drawable.default_icon_square)
                                 .error(R.drawable.default_icon_square)
                                 .into(holder.img1);
@@ -219,7 +222,7 @@ public class HealthyCommunityAdapter extends BaseAdapter{
                                 context.startActivity(in);
                             }
                         });
-                        Picasso.with(context).load(path+uri).fit()
+                        Picasso.with(context).load(path+uri).resize(px,px).centerCrop()
                                 .placeholder(R.drawable.default_icon_square)
                                 .error(R.drawable.default_icon_square)
                                 .into(holder.img2);
@@ -241,7 +244,7 @@ public class HealthyCommunityAdapter extends BaseAdapter{
                                 context.startActivity(in);
                             }
                         });
-                        Picasso.with(context).load(path+uri).fit()
+                        Picasso.with(context).load(path+uri).resize(px,px).centerCrop()
                                 .placeholder(R.drawable.default_icon_square)
                                 .error(R.drawable.default_icon_square)
                                 .into(holder.img3);
@@ -262,7 +265,7 @@ public class HealthyCommunityAdapter extends BaseAdapter{
                                 context.startActivity(in);
                             }
                         });
-                        Picasso.with(context).load(path+uri).fit()
+                        Picasso.with(context).load(path+uri).resize(px,px).centerCrop()
                                 .placeholder(R.drawable.default_icon_square)
                                 .error(R.drawable.default_icon_square)
                                 .into(holder.img4);
@@ -282,7 +285,7 @@ public class HealthyCommunityAdapter extends BaseAdapter{
                                 context.startActivity(in);
                             }
                         });
-                        Picasso.with(context).load(path+uri).fit()
+                        Picasso.with(context).load(path+uri).resize(px,px).centerCrop()
                                 .placeholder(R.drawable.default_icon_square)
                                 .error(R.drawable.default_icon_square)
                                 .into(holder.img5);
@@ -301,7 +304,7 @@ public class HealthyCommunityAdapter extends BaseAdapter{
                                 context.startActivity(in);
                             }
                         });
-                        Picasso.with(context).load(path+uri).fit()
+                        Picasso.with(context).load(path+uri).resize(px,px).centerCrop()
                                 .placeholder(R.drawable.default_icon_square)
                                 .error(R.drawable.default_icon_square)
                                 .into(holder.img6);
@@ -319,7 +322,7 @@ public class HealthyCommunityAdapter extends BaseAdapter{
                                 context.startActivity(in);
                             }
                         });
-                        Picasso.with(context).load(path+uri).fit()
+                        Picasso.with(context).load(path+uri).resize(px,px).centerCrop()
                                 .placeholder(R.drawable.default_icon_square)
                                 .error(R.drawable.default_icon_square)
                                 .into(holder.img7);
@@ -336,7 +339,7 @@ public class HealthyCommunityAdapter extends BaseAdapter{
                                 context.startActivity(in);
                             }
                         });
-                        Picasso.with(context).load(path+uri).fit()
+                        Picasso.with(context).load(path+uri).resize(px,px).centerCrop()
                                 .placeholder(R.drawable.default_icon_square)
                                 .error(R.drawable.default_icon_square)
                                 .into(holder.img8);
@@ -352,7 +355,7 @@ public class HealthyCommunityAdapter extends BaseAdapter{
                                 context.startActivity(in);
                             }
                         });
-                        Picasso.with(context).load(path+uri).fit()
+                        Picasso.with(context).load(path+uri).resize(px,px).centerCrop()
                                 .placeholder(R.drawable.default_icon_square)
                                 .error(R.drawable.default_icon_square)
                                 .into(holder.img9);

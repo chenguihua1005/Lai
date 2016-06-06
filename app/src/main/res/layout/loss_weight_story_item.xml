@@ -28,8 +28,7 @@
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:textSize="14sp"
-                android:textColor="#333333"
-                android:text="Lee" />
+                android:textColor="#333333" />
             <TextView
                 android:id="@+id/tv_content"
                 android:layout_width="match_parent"
@@ -40,8 +39,7 @@
                 android:textColor="#666666"
                 android:ellipsize="end"
                 android:gravity="center|left"
-                android:maxLines="2"
-                android:text="dsadadasddsadadasddsadadasddsadadasddsadadasddsadadasddsadadasddsadadasddsadadasddsadadasddsadadasddsadadasddsadadasddsadadasddsadadasddsadadasddsadadasddsadadasddsadadasddsadadasddsadadasddsadadasddsadadasddsadadasddsadadasddsadadasddsadadasddsadadasd" />
+                android:maxLines="2" />
             <GridLayout
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"

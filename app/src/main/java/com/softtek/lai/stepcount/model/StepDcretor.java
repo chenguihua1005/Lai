@@ -64,7 +64,7 @@ public class StepDcretor implements SensorEventListener {
      * 0-准备计时   1-计时中  2-准备为正常计步计时  3-正常计步中
      */
     private int CountTimeState = 0;
-    public static int CURRENT_SETP = 0;
+    private static int CURRENT_SETP = 0;
     public static int TEMP_STEP = 0;
     private int lastStep = -1;
     // 加速计的三个维度数值
@@ -81,7 +81,7 @@ public class StepDcretor implements SensorEventListener {
     OnSensorChangeListener onSensorChangeListener;
 
     public interface OnSensorChangeListener {
-        void onChange();
+        void onChange(int step);
     }
 
     public StepDcretor(Context context) {
@@ -158,7 +158,7 @@ public class StepDcretor implements SensorEventListener {
         } else if (CountTimeState == 3) {
             CURRENT_SETP++;
             if (onSensorChangeListener != null) {
-                onSensorChangeListener.onChange();
+                onSensorChangeListener.onChange(CURRENT_SETP);
             }
         }
     }

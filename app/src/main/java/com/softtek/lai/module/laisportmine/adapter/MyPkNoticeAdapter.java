@@ -28,6 +28,7 @@ public class MyPkNoticeAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private UserInfoModel userInfoModel;
 
+
     public MyPkNoticeAdapter(Context context, List<PkNoticeModel> pkNoticeModelList) {
         this.context=context;
         inflater=LayoutInflater.from(context);
@@ -74,6 +75,7 @@ public class MyPkNoticeAdapter extends BaseAdapter {
         if (pkNoticeModel.getMsgType().equals("1"))
         {
             viewHolder.tv_pk_title.setText(pkNoticeModel.getUserName()+"向你发了一次挑战");
+
             if (!TextUtils.isEmpty(pkNoticeModel.getPhoto())) {
                 Picasso.with(context).load(path + pkNoticeModel.getPhoto()).fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(viewHolder.im_pk_head);
             }

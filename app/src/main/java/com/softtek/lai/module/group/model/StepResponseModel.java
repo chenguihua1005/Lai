@@ -5,13 +5,13 @@ package com.softtek.lai.module.group.model;
  */
 public class StepResponseModel {
 
-    private long TodayStepCnt;
+    private int TodayStepCnt;
 
-    public long getTodayStepCnt() {
+    public int getTodayStepCnt() {
         return TodayStepCnt;
     }
 
-    public void setTodayStepCnt(long todayStepCnt) {
+    public void setTodayStepCnt(int todayStepCnt) {
         TodayStepCnt = todayStepCnt;
     }
 }

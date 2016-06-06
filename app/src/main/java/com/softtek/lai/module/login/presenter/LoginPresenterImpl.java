@@ -14,6 +14,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
@@ -36,6 +37,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
+import java.util.List;
 
 import cn.jpush.android.api.JPushInterface;
 import retrofit.Callback;
@@ -283,15 +285,39 @@ public class LoginPresenterImpl implements ILoginPresenter {
     }
 
     private void stepDeal(Context context,String userId,long step){
-        long currentStep= StepUtil.getInstance().getCurrentStep(userId);
-        if(step>currentStep){
-            //删除当天旧数据
-            //新增新数据
+        String dateStar=DateUtil.weeHours(0);
+        String dateEnd=DateUtil.weeHours(1);
+        List<UserStep> steps=StepUtil.getInstance().getCurrentData(userId,dateStar,dateEnd);
+        if(!steps.isEmpty()){
+            UserStep stepStart=steps.get(0);
+            UserStep stepEnd=steps.get(steps.size()-1);
+            int currentStep= (int) (stepEnd.getStepCount()-stepStart.getStepCount());
+            if(step>currentStep){
+                //如果服务器上的步数大于本地
+                UserStep userStep=new UserStep();
+                userStep.setAccountId(Long.parseLong(userId));
+                userStep.setRecordTime(DateUtil.getInstance().getCurrentDate());
+                userStep.setStepCount(step+stepStart.getStepCount());
+                StepUtil.getInstance().saveStep(userStep);
+            }
+            //如果不大于则 不需要操作什么
+        }else{
+            //本地没有数据
+            //需要给本地插入一条 数据
             UserStep userStep=new UserStep();
             userStep.setAccountId(Long.parseLong(userId));
             userStep.setRecordTime(DateUtil.getInstance().getCurrentDate());
-            userStep.setStepCount(step);
+            userStep.setStepCount(0);
             StepUtil.getInstance().saveStep(userStep);
+            if(step>0){
+                //如果服务器上的数据大于0则写入本地
+                UserStep serverStep=new UserStep();
+                serverStep.setAccountId(Long.parseLong(userId));
+                serverStep.setRecordTime(DateUtil.getInstance().getCurrentDate());
+                serverStep.setStepCount(step);
+                StepUtil.getInstance().saveStep(serverStep);
+            }
+
         }
         //删除旧数据
         String currentDate=DateUtil.weeHours(0);

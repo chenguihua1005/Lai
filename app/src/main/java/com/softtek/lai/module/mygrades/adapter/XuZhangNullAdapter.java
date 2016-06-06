@@ -21,23 +21,21 @@ import java.util.List;
 public class XuZhangNullAdapter extends BaseAdapter{
 
     private Context context;
-    private List<XunZhangModel> xunZhangModelList;
     List<String> content=new ArrayList<String>();
     List<Integer> images=new ArrayList<Integer>();
-    List<String> imgagecontent=new ArrayList<String>();
+//    List<String> imgagecontent=new ArrayList<String>();
     private int account=0;
 
-    public XuZhangNullAdapter(Context context, List<XunZhangModel> xunZhangModelList,List<Integer> images,List<String> content,List<String> imgagecontent) {
+    public XuZhangNullAdapter(Context context,List<Integer> images,List<String> content) {
         this.context = context;
-        this.xunZhangModelList = xunZhangModelList;
-        this.imgagecontent=imgagecontent;
+//        this.imgagecontent=imgagecontent;
         this.images=images;
         this.content=content;
     }
 
-    public void updateData(List<XunZhangModel> xunZhangModelList,List<Integer> images,List<String> content,List<String> imgagecontent) {
-        this.xunZhangModelList = xunZhangModelList;
-        this.imgagecontent=imgagecontent;
+    public void updateData(List<Integer> images,List<String> content) {
+
+//        this.imgagecontent=imgagecontent;
         this.content=content;
         notifyDataSetChanged();
     }
@@ -70,10 +68,10 @@ public class XuZhangNullAdapter extends BaseAdapter{
 //        XunZhangModel xunZhangModel = xunZhangModelList.get(position);
         viewHolder.tab_bushu.setText(content.get(position));
         viewHolder.lab2.setImageResource(images.get(position));
-        if (position==(images.size()-imgagecontent.size()+account))
-        {
-            viewHolder.tv_ima_content.setText(imgagecontent.get(account++));
-        }
+//        if (position==(images.size()-imgagecontent.size()+account))
+//        {
+//            viewHolder.tv_ima_content.setText(imgagecontent.get(account++));
+//        }
 
 
         return convertView;
