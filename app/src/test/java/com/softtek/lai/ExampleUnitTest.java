@@ -1,6 +1,7 @@
 package com.softtek.lai;
 
 import com.softtek.lai.utils.DateUtil;
+import com.softtek.lai.utils.MD5;
 
 import org.junit.Test;
 
@@ -14,7 +15,7 @@ import static org.junit.Assert.*;
 public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() throws Exception {
-        System.out.println(new DecimalFormat("#0.00").format(1245.78787878));
+        System.out.println(MD5.md5WithEncoder("000000"));
         assertEquals(4, 2 + 2);
     }
 }

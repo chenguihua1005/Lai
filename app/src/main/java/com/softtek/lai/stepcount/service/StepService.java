@@ -277,10 +277,10 @@ public class StepService extends Service implements SensorEventListener {
     //存入数据库
     private void save() {
         UserModel model=UserInfoModel.getInstance().getUser();
-        if(model!=null||(currentStep+oldStep)==oldStep){
+        if(model!=null&&(currentStep+oldStep)==oldStep){
             UserStep step=new UserStep();
             step.setAccountId(Long.parseLong(model.getUserid()));
-            step.setRecordTime(DateUtil.getInstance("yyyy-MM-dd HH:mm:ss").getCurrentDate());
+            step.setRecordTime(DateUtil.getInstance().getCurrentDate());
             step.setStepCount(currentStep+oldStep);
             StepUtil.getInstance().saveStep(step);
         }
