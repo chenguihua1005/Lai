@@ -111,11 +111,6 @@ public class StepUtil {
         long i = db.insertWithOnConflict("user_step", "", values,
                 SQLiteDatabase.CONFLICT_NONE);//主键冲突策略，替换掉以往的数据
         db.close();
-        if(i!=-1){
-            Log.i("步数保存成功");
-        }else{
-            Log.i("步数保存失败");
-        }
         return i;
     }
 

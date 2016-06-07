@@ -42,7 +42,6 @@ import com.amap.api.maps.LocationSource;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.LatLng;
-import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
 import com.amap.api.maps.model.PolylineOptions;
@@ -55,7 +54,6 @@ import com.softtek.lai.module.sport.model.LatLon;
 import com.softtek.lai.module.sport.model.SportData;
 import com.softtek.lai.module.sport.model.Trajectory;
 import com.softtek.lai.module.sport.presenter.SportManager;
-import com.softtek.lai.stepcount.model.StepDcretor;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.JCountDownTimer;
 
@@ -109,14 +107,14 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
     LinearLayout ll_content1;
     @InjectView(R.id.ll_content2)
     LinearLayout ll_content2;
-    @InjectView(R.id.tv_jindu)
-    TextView tv_jindu;
+    /*@InjectView(R.id.tv_jindu)
+    TextView tv_jindu;*/
 
     //倒计时
     RunSportCountDown countDown;
     private SportManager manager;
     AMap aMap;
-    //Polyline polyline;//画线专用
+
     PolylineOptions polylineOptions;
     //定位服务类。此类提供单次定位、持续定位、地理围栏、最后位置相关功能
     private AMapLocationClient aMapLocationClient;
@@ -238,7 +236,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
             listener.onLocationChanged(aMapLocation);
             LatLng latLng=new LatLng(aMapLocation.getLatitude(),aMapLocation.getLongitude());
             aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16.3f));
-            tv_jindu.setText(aMapLocation.getAccuracy()+"");
+            //tv_jindu.setText(aMapLocation.getAccuracy()+"");
             if (aMapLocation.getErrorCode() == 0&&aMapLocation.getAccuracy()<20&&aMapLocation.getAccuracy()>0) {
                 //当坐标改变之后开始添加标记 画线
                 Log.i("获取位置");
