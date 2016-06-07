@@ -52,13 +52,10 @@ public class StepService extends Service implements SensorEventListener {
     private int oldStep;//记录服务器上的步数
     private int firstStep=0;//启动应用服务的时候的第一次步数
 
-
-    private LocalBroadcastManager localBroadcastManager;
-
     @Override
     public void onCreate() {
         super.onCreate();
-        localBroadcastManager=LocalBroadcastManager.getInstance(this);
+
         initBroadcastReceiver();
         new Thread(new Runnable() {
             public void run() {
@@ -151,11 +148,9 @@ public class StepService extends Service implements SensorEventListener {
         //发送通知
         nm.notify(R.string.app_name, notification);
         //发送广播
-        if(localBroadcastManager!=null) {
-            Intent stepIntent=new Intent(STEP);
-            stepIntent.putExtra("step",currentStep);
-            localBroadcastManager.sendBroadcast(stepIntent);
-        }
+        Intent stepIntent=new Intent(STEP);
+        stepIntent.putExtra("step",currentStep);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(stepIntent);
     }
 
     @Override
@@ -277,7 +272,7 @@ public class StepService extends Service implements SensorEventListener {
     //存入数据库
     private void save() {
         UserModel model=UserInfoModel.getInstance().getUser();
-        if(model!=null&&(currentStep+oldStep)==oldStep){
+        if(model!=null){
             UserStep step=new UserStep();
             step.setAccountId(Long.parseLong(model.getUserid()));
             step.setRecordTime(DateUtil.getInstance().getCurrentDate());

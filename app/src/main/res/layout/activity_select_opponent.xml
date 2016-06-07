@@ -32,7 +32,7 @@
                 android:textSize="14sp"
                 android:textColor="#666666"
                 android:layout_marginLeft="9dp"
-                android:text="搜索"/>
+                android:text="选择其他跑团PK挑战对手"/>
         </LinearLayout>
 
     </RelativeLayout>

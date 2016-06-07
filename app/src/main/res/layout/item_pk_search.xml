@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="69dp"
+    android:layout_height="wrap_content"
     android:gravity="center|left"
     android:background="@drawable/ll_selector_grey"
     android:orientation="horizontal">
@@ -12,13 +12,13 @@
         android:layout_height="54dp"
         android:layout_marginLeft="15dip"
         android:scaleType="centerCrop"
-        android:layout_centerVertical="true"
+        android:layout_marginTop="5dp"
         android:src="@drawable/img_default" />
 
     <LinearLayout
         android:layout_toRightOf="@+id/img"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="17dp"
         android:layout_centerVertical="true"
         android:orientation="vertical">
@@ -36,7 +36,8 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dip"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="5dp"
             android:orientation="horizontal">
 
             <TextView

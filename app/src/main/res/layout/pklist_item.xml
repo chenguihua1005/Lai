@@ -62,6 +62,14 @@
                 android:layout_gravity="bottom|right"
                 android:layout_marginRight="10dp"
                 android:src="@drawable/pk_list_wujiaoxin" />
+            <ImageView
+                android:id="@+id/iv_winner1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/pk_winner"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="5dp"
+                android:visibility="gone"/>
         </FrameLayout>
 
         <CheckBox
@@ -94,6 +102,14 @@
                 android:scaleType="centerCrop"
                 android:layout_gravity="center"
                 android:src="@drawable/img_default" />
+            <ImageView
+                android:id="@+id/iv_winner2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/pk_winner"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="5dp"
+                android:visibility="gone"/>
         </FrameLayout>
 
         <CheckBox

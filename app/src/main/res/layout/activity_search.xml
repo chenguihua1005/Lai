@@ -25,7 +25,7 @@
             android:singleLine="true"
             android:textSize="14sp"
             android:textColor="#666666"
-            android:hint="搜索"/>
+            android:hint="姓名或手机号码"/>
 
         <ImageView
             android:layout_width="wrap_content"

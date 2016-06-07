@@ -99,12 +99,8 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
                                 }
 
                             }
-                            //删除旧数据
-                            String currentDate=DateUtil.weeHours(0);
-                            StepUtil.getInstance().deleteOldDate(currentDate,userId);
                             //启动计步器服务
                             startService(new Intent(getApplicationContext(), StepService.class));
-
                         }
                         //进入首页
                         Intent intent = new Intent(WelcomeActivity.this, HomeActviity.class);
@@ -127,7 +123,7 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
 
     @Override
     public void run() {
-        if(StringUtils.isEmpty(token)){
+        if(StringUtils.isEmpty(token)||UserInfoModel.getInstance().getUser()==null){
             Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();

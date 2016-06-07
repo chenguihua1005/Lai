@@ -144,7 +144,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
             case R.id.btn_cancle_pk:
                 //取消PK赛
                 AlertDialog dialog=new AlertDialog.Builder(this)
-                        .setTitle("提示")
+                        .setTitle("温馨提示")
                         .setMessage("确定要取消 pk 吗? 取消后不能恢复, 对手会收到一条取消 pk 的消息")
                         .setNegativeButton("稍候再说", new DialogInterface.OnClickListener() {
                             @Override

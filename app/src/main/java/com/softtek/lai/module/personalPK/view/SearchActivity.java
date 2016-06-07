@@ -2,6 +2,7 @@ package com.softtek.lai.module.personalPK.view;
 
 import android.content.Intent;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -23,6 +24,8 @@ import com.softtek.lai.module.personalPK.model.PKCreatModel;
 import com.softtek.lai.module.personalPK.model.PKObjModel;
 import com.softtek.lai.module.personalPK.model.PKObjRequest;
 import com.softtek.lai.module.personalPK.presenter.PKListManager;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,10 +62,10 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     protected void initViews() {
         ll_left.setOnClickListener(this);
         fl_right.setOnClickListener(this);
-        search.addTextChangedListener(this);
+        //search.addTextChangedListener(this);
         tv_title.setText("选择PK挑战对手");
         tv_right.setText("搜索");
-        fl_right.setEnabled(false);
+        //fl_right.setEnabled(false);
         lv.setOnItemClickListener(this);
         lv.setOnRefreshListener(this);
         lv.setMode(PullToRefreshBase.Mode.PULL_FROM_END);
@@ -86,9 +89,13 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
                 ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE))
                         .hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
                                 InputMethodManager.HIDE_NOT_ALWAYS);
-                dialogShow("搜索中...");
-                pageIndex=1;
-                manager.searchPKObj(this,search.getText().toString(),pageIndex);
+                if(StringUtils.isEmpty(search.getText().toString())){
+                    new AlertDialog.Builder(this).setMessage("请输入姓名或手机号再试").create().show();
+                }else{
+                    dialogShow("搜索中...");
+                    pageIndex=1;
+                    manager.searchPKObj(this,search.getText().toString(),pageIndex);
+                }
                 break;
 
         }
@@ -104,6 +111,8 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         List<PKObjModel> models=data.getData();
         if(models==null||models.isEmpty()){
             lv.setMode(PullToRefreshBase.Mode.DISABLED);
+            modelList.clear();
+            adapter.notifyDataSetChanged();
             return;
         }
         lv.setMode(PullToRefreshBase.Mode.PULL_FROM_END);
