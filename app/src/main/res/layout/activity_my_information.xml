@@ -3,135 +3,163 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     android:background="#f1f1f1"
+    android:fitsSystemWindows="true"
     tools:context="com.softtek.lai.module.laisportmine.view.MyInformationActivity">
-<include layout="@layout/toolbar"
-    android:id="@+id/toolbar"></include>
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"></include>
+
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="63dp"
-        android:background="#ffffff">
-        <ImageView
-            android:id="@+id/im_lab"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginLeft="15dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/runnintman"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="我的跑团"
-            android:layout_marginLeft="15dp"
-            android:layout_toRightOf="@+id/im_lab"
-            android:layout_centerVertical="true"
-            android:textColor="#333333"
-            android:textSize="16sp"/>
-        <TextView
-            android:id="@+id/tv_runteamname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:textSize="16sp"
-            android:textColor="#999999"
-            android:layout_marginRight="15dp"
-            android:text=""/>
+        android:layout_below="@+id/toolbar"
+        android:orientation="vertical">
 
-    </RelativeLayout>
-<View
-    android:layout_width="match_parent"
-    android:layout_height="1dp"
-    android:background="#dddddd"/>
-    <RelativeLayout
-        android:id="@+id/Re_mynews"
-        android:layout_width="match_parent"
-        android:layout_height="63dp"
-        android:background="#ffffff">
-        <FrameLayout
-            android:id="@+id/im_tab1"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_centerVertical="true">
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/yellow_email"
-            android:layout_centerVertical="true"
-            />
+            android:background="#ffffff">
+
             <ImageView
-                android:id="@+id/im_news_flag"
-                android:layout_width="8dp"
-                android:layout_height="8dp"
-                android:src="@drawable/red_circle"
-                android:layout_gravity="right"
-                android:visibility="gone"
-                />
-        </FrameLayout>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="我的消息"
-            android:layout_toRightOf="@+id/im_tab1"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:textColor="#333333"
-            android:textSize="16sp"/>
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/myinfo_right"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="15dp"
-            android:layout_centerVertical="true"/>
-    </RelativeLayout>
+                android:id="@+id/im_lab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="20dip"
+                android:layout_marginTop="20dip"
+                android:src="@drawable/runnintman" />
+
+            <TextView
+                android:id="@+id/text_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@+id/im_lab"
+                android:text="我的跑团"
+                android:textColor="#333333"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_toRightOf="@+id/text_1"
+                android:id="@+id/tv_runteamname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="10dip"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:gravity="right"
+                android:textColor="#999999"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#dddddd"/>
+            android:background="#dddddd" />
+
         <RelativeLayout
-            android:id="@+id/re_pk_mysport"
+            android:id="@+id/Re_mynews"
             android:layout_width="match_parent"
-            android:layout_height="63dp"
+            android:layout_height="wrap_content"
             android:background="#ffffff">
-            <ImageView
-                android:id="@+id/im_lab2"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginLeft="15dp"
-                android:layout_alignParentLeft="true"
+
+            <FrameLayout
+                android:layout_marginTop="20dip"
+                android:layout_marginBottom="20dip"
+                android:id="@+id/im_tab1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:src="@drawable/mysporthistory"/>
+                android:layout_marginLeft="15dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/yellow_email" />
+
+                <ImageView
+                    android:id="@+id/im_news_flag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:src="@drawable/red_circle"
+                    android:visibility="gone" />
+            </FrameLayout>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="我的运动"
-                android:layout_marginLeft="15dp"
-                android:layout_toRightOf="@+id/im_lab2"
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@+id/im_tab1"
+                android:text="我的消息"
                 android:textColor="#333333"
-                android:textSize="16sp"/>
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/myinfo_right"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="15dp"
-                android:layout_centerVertical="true"/>
+                android:textSize="16sp" />
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:src="@drawable/myinfo_right" />
         </RelativeLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#dddddd"/>
+            android:background="#dddddd" />
+
+        <RelativeLayout
+            android:id="@+id/re_pk_mysport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff">
+
+            <ImageView
+                android:id="@+id/im_lab2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="20dip"
+                android:layout_marginBottom="20dip"
+                android:src="@drawable/mysporthistory" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@+id/im_lab2"
+                android:text="我的运动"
+                android:textColor="#333333"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:src="@drawable/myinfo_right" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#dddddd" />
+
         <Button
             android:id="@+id/btn_signout"
             android:layout_width="match_parent"
@@ -139,11 +167,11 @@
             android:layout_marginLeft="35dp"
             android:layout_marginRight="35dp"
             android:layout_marginTop="70dp"
-            android:textSize="18sp"
-            android:textColor="#ffffff"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
             android:background="@drawable/shape_laimy_btn"
-            android:text="退出跑团"/>
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="退出跑团"
+            android:textColor="#ffffff"
+            android:textSize="18sp" />
     </LinearLayout>
 </RelativeLayout>

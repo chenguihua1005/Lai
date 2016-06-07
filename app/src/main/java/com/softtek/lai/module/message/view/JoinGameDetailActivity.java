@@ -166,8 +166,8 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
     private ImageCropper imageCropper;
     private INewStudentpresenter iNewStudentpresenter;
 
-    boolean isR=false;//是否注册
-    boolean isOperation=false;
+    boolean isR = false;//是否注册
+    boolean isOperation = false;
     int current_operation;
 
     //获取当前日期
@@ -190,6 +190,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
 
     private String change_photo = "";
     private String upload_photo = "";
+    private String photo_backup = "";
     private GuwenClassPre guwenClassPre;
     private IMessagePresenter messagePresenter;
     private List<String> pargradeIdlList = new ArrayList<String>();
@@ -256,6 +257,8 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
         //String path= AddressManager.get("photoHost","http://172.16.98.167/FileUpload/PostFile/");
         change_photo = getConfirmInfoModel.getPhoto();
+        upload_photo = getConfirmInfoModel.getPhoto();
+        photo_backup = getConfirmInfoModel.getPhoto();
         if (!TextUtils.isEmpty(getConfirmInfoModel.getPhoto())) {
             Picasso.with(this).load(path + getConfirmInfoModel.getPhoto()).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(img1);
         } else {
@@ -353,12 +356,12 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
                     if (hasFocus) {
                         // 此处为得到焦点时的处理内容
 
-                    }else {
+                    } else {
                         String phone = et_phone.getText().toString();
                         System.out.println("phone.length:" + phone.length());
                         if (phone.length() == 11) {
                             progressDialog.show();
-                            isOperation=true;
+                            isOperation = true;
                             messagePresenter.phoneIsExist(phone, progressDialog, 0);
                         }
                     }
@@ -379,9 +382,9 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
 
     @Subscribe
     public void onEvent(CheckMobileEvent event) {
-        isOperation=false;
+        isOperation = false;
         boolean b = event.isB();
-        isR=b;
+        isR = b;
         if (b) {
             return;
         } else {
@@ -449,9 +452,9 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
     }
 
     private void checkPhone(int id) {
-        if(isR){
+        if (isR) {
             Util.toastMsg("手机号码已注册");
-        }else {
+        } else {
             switch (id) {
                 case R.id.fl_right:
                     validateLife.validate();
@@ -519,34 +522,34 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
     public void onClick(View v) {
         if (v.getId() == R.id.ll_left) {
             finish();
-        } else if(v.getId() == R.id.fl_right){
-           if("0".equals(type)){
-               ll_tizhi.setFocusable(true);
-               ll_tizhi.setFocusableInTouchMode(true);
-               ll_tizhi.requestFocus();
-               ll_tizhi.findFocus();
+        } else if (v.getId() == R.id.fl_right) {
+            if ("0".equals(type)) {
+                ll_tizhi.setFocusable(true);
+                ll_tizhi.setFocusableInTouchMode(true);
+                ll_tizhi.requestFocus();
+                ll_tizhi.findFocus();
 
-               et_phone.clearFocus();
-               current_operation=v.getId();
-               if(isOperation){
+                et_phone.clearFocus();
+                current_operation = v.getId();
+                if (isOperation) {
 
-               }else {
-                   checkPhone(v.getId());
-               }
-           }else {
-               validateLife.validate();
-           }
-        }else {
+                } else {
+                    checkPhone(v.getId());
+                }
+            } else {
+                validateLife.validate();
+            }
+        } else {
             ll_tizhi.setFocusable(true);
             ll_tizhi.setFocusableInTouchMode(true);
             ll_tizhi.requestFocus();
             ll_tizhi.findFocus();
 
             et_phone.clearFocus();
-            current_operation=v.getId();
-            if(isOperation){
+            current_operation = v.getId();
+            if (isOperation) {
 
-            }else {
+            } else {
                 checkPhone(v.getId());
             }
         }
@@ -893,10 +896,18 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
     @Override
     public void onValidationSucceeded() {
         if (upload_photo.equals("")) {
-            upload();
+            if ("1".equals(type)) {
+                Util.toastMsg("您还没有上传照片哦");
+            } else {
+                upload();
+            }
         } else {
-            dialogShow("加载中");
-            iUpConfirmInfopresenter.upload(upload_photo);
+            if (photo_backup.equals(upload_photo)) {
+                upload();
+            } else {
+                dialogShow("加载中");
+                iUpConfirmInfopresenter.upload(upload_photo);
+            }
         }
     }
 

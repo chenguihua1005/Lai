@@ -308,11 +308,10 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
                     validateLife.validate();
                 }
                 else {
-                    new AlertDialog.Builder(this).setMessage("功能开发中敬请期待").create().show();
-                    /*
+                    //new AlertDialog.Builder(this).setMessage("功能开发中敬请期待").create().show();
                     progressDialog.setMessage("加载中");
                     progressDialog.show();
-                    photoListPre.getLossData(UserInfoModel.getInstance().getUser().getUserid(), progressDialog);*/
+                    photoListPre.getLossData(UserInfoModel.getInstance().getUser().getUserid(), progressDialog);
                 }
 
                 break;

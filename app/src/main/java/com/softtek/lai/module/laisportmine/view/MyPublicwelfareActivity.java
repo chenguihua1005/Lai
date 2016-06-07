@@ -2,9 +2,6 @@ package com.softtek.lai.module.laisportmine.view;
 
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
@@ -19,17 +16,12 @@ import com.softtek.lai.module.laisportmine.model.PublicWewlfModel;
 import com.softtek.lai.module.laisportmine.present.DelNoticeOrMeasureManager;
 import com.softtek.lai.module.laisportmine.present.MyPublicWewlListManager;
 import com.softtek.lai.module.laisportmine.present.UpdateMsgRTimeManager;
-import com.softtek.lai.module.retest.adapter.ClassAdapter;
-import com.softtek.lai.module.retest.adapter.StudentAdapter;
-import com.softtek.lai.module.retest.model.BanjiModel;
-import com.softtek.lai.module.retest.model.BanjiStudentModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_my_publicwelfare)
 public class MyPublicwelfareActivity extends BaseActivity implements View.OnClickListener ,MyPublicWewlListManager.MyPublicWewlListCallback,UpdateMsgRTimeManager.UpdateMsgRTimeCallback,

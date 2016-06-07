@@ -20,8 +20,8 @@
             android:background="#ffffff">
             <ImageView
                 android:id="@+id/im_news_tab"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:src="@drawable/myrunning_heart"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
@@ -34,7 +34,7 @@
                 android:layout_toRightOf="@+id/im_news_tab"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
-                android:textSize="16sp"/>
+                android:textSize="17sp"/>
             <TextView
                 android:id="@+id/tv_newslis_public"
                 android:layout_width="20dp"
@@ -48,8 +48,8 @@
                 android:background="@drawable/sportnews_bac"/>
             <ImageView
                 android:id="@+id/im_news_right"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:src="@drawable/myinfo_right"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="15dp"
@@ -66,8 +66,8 @@
             android:background="#ffffff">
             <ImageView
                 android:id="@+id/im_news_tab1"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:src="@drawable/pk_tab"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
@@ -80,7 +80,7 @@
                 android:layout_toRightOf="@+id/im_news_tab1"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
-                android:textSize="16sp"/>
+                android:textSize="17sp"/>
             <TextView
                 android:id="@+id/tv_newslis_pk"
                 android:layout_width="20dp"
@@ -94,8 +94,8 @@
                 android:background="@drawable/sportnews_bac"/>
             <ImageView
                 android:id="@+id/im_news_right1"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:src="@drawable/myinfo_right"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="15dp"
@@ -112,8 +112,8 @@
             android:background="#ffffff">
             <ImageView
                 android:id="@+id/im_news_tab2"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:src="@drawable/invitation_tab"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
@@ -126,7 +126,7 @@
                 android:layout_toRightOf="@+id/im_news_tab2"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
-                android:textSize="16sp"/>
+                android:textSize="17sp"/>
             <TextView
                 android:id="@+id/tv_newslis_action"
                 android:layout_width="20dp"
@@ -140,8 +140,8 @@
                 android:background="@drawable/sportnews_bac"/>
             <ImageView
                 android:id="@+id/im_news_right2"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:src="@drawable/myinfo_right"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="15dp"
@@ -158,8 +158,8 @@
             android:background="#ffffff">
             <ImageView
                 android:id="@+id/im_news_tab3"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:src="@drawable/mynews_setting"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
@@ -172,7 +172,7 @@
                 android:layout_toRightOf="@+id/im_news_tab3"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
-                android:textSize="16sp"/>
+                android:textSize="17sp"/>
             <TextView
                 android:id="@+id/tv_newslis_system"
                 android:layout_width="20dp"
@@ -186,8 +186,8 @@
                 android:background="@drawable/sportnews_bac"/>
             <ImageView
                 android:id="@+id/im_news_right3"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:src="@drawable/myinfo_right"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="15dp"
