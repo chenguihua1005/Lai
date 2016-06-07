@@ -16,7 +16,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
-import cz.msebera.android.httpclient.client.methods.HttpOptions;
 import zilla.libcore.file.AddressManager;
 
 /**

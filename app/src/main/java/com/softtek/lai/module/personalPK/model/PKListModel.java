@@ -26,6 +26,15 @@ public class PKListModel implements Parcelable{
     private int TStatus;
     private String Start;
     private String End;
+    private String WinnerId;
+
+    public String getWinnerId() {
+        return WinnerId;
+    }
+
+    public void setWinnerId(String winnerId) {
+        WinnerId = winnerId;
+    }
 
     public PKListModel() {
     }
@@ -46,6 +55,7 @@ public class PKListModel implements Parcelable{
         TStatus = in.readInt();
         Start = in.readString();
         End = in.readString();
+        WinnerId = in.readString();
     }
 
     public static final Creator<PKListModel> CREATOR = new Creator<PKListModel>() {
@@ -223,5 +233,6 @@ public class PKListModel implements Parcelable{
         dest.writeInt(TStatus);
         dest.writeString(Start);
         dest.writeString(End);
+        dest.writeString(WinnerId);
     }
 }

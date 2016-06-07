@@ -79,7 +79,7 @@ public class CreatePKActivity extends BaseActivity implements View.OnClickListen
         cb_naixi.setOnClickListener(this);
         cb_naixicao.setOnClickListener(this);
         cb_zidingyi.setOnClickListener(this);
-        et_content.addTextChangedListener(this);
+        //et_content.addTextChangedListener(this);
         rg_km.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -127,8 +127,12 @@ public class CreatePKActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.fl_right:
                 //下一步
-                if(cb_zidingyi.isChecked()&&et_content.getText().toString().length()==0){
-                    new AlertDialog.Builder(this).setMessage("请输入自由筹码内容").create().show();
+                if(cb_zidingyi.isChecked()){
+                    if(et_content.getText().toString().length()==0){
+                        new AlertDialog.Builder(this).setMessage("请输入自由筹码内容").create().show();
+                    }else if(StringUtil.length(et_content.getText().toString())>40){
+                        new AlertDialog.Builder(this).setMessage("自由筹码不能超过20个汉字").create().show();
+                    }
                     return;
                 }
                 Intent pk=new Intent(this,SelectOpponentActivity.class);

@@ -247,4 +247,12 @@
             android:textColor="@color/white"
             android:textSize="9sp" />
     </LinearLayout>
+    <TextView
+        android:id="@+id/tv_jindu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:layout_below="@id/iv_gps"
+        android:background="@color/black"
+        android:text="dsadad"/>
 </RelativeLayout>

@@ -82,6 +82,10 @@ public class PKListAdapter extends BaseAdapter{
         }else if(model.getChipType()==CUSTOM){
             holder.iv_jiangli.setBackgroundResource(R.drawable.pk_chouma);
         }
+        holder.sender1.setVisibility(View.VISIBLE);//显示发起者标识
+        //隐藏胜利者标识
+        holder.iv_winner1.setVisibility(View.GONE);
+        holder.iv_winner2.setVisibility(View.GONE);
         if(model.getTStatus()==NOSTART){
             holder.tv_status.setBackgroundResource(R.drawable.pk_list_weikaishi);
             holder.tv_status.setText("未开始");
@@ -91,6 +95,20 @@ public class PKListAdapter extends BaseAdapter{
         }else if(model.getTStatus()==Completed){
             holder.tv_status.setBackgroundResource(R.drawable.pk_list_yijieshu);
             holder.tv_status.setText("已结束");
+            if(StringUtils.isNotEmpty(model.getWinnerId())){
+                if (Long.parseLong(model.getWinnerId())==model.getChallenged()){
+                    //发起方胜利
+                    holder.sender1.setVisibility(View.GONE);//隐藏发起者标识
+                    //显示胜利者表示
+                    holder.iv_winner1.setVisibility(View.VISIBLE);
+                    holder.iv_winner2.setVisibility(View.GONE);
+                }else{
+                    //接受方胜利
+                    holder.sender1.setVisibility(View.VISIBLE);//显示发起者标识
+                    holder.iv_winner2.setVisibility(View.VISIBLE);
+                    holder.iv_winner1.setVisibility(View.GONE);
+                }
+            }
         }
         //载入头像
         String path= AddressManager.get("photoHost");
@@ -112,7 +130,7 @@ public class PKListAdapter extends BaseAdapter{
     static class PKListHolder{
         public TextView tv_status,tv_time,pk_name1,pk_name2;
         public CheckBox cb_zan_right,cb_zan_left;
-        public ImageView iv_jiangli,sender1;
+        public ImageView iv_jiangli,sender1,iv_winner1,iv_winner2;
         public CircleImageView sender1_header,sender2_header;
 
         public PKListHolder(View view){
@@ -126,6 +144,8 @@ public class PKListAdapter extends BaseAdapter{
             sender1= (ImageView) view.findViewById(R.id.sender1);
             sender1_header= (CircleImageView) view.findViewById(R.id.sender1_header);
             sender2_header= (CircleImageView) view.findViewById(R.id.sender2_header);
+            iv_winner1= (ImageView) view.findViewById(R.id.iv_winner1);
+            iv_winner2= (ImageView) view.findViewById(R.id.iv_winner2);
 
         }
     }

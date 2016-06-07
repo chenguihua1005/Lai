@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.View;
@@ -108,6 +109,8 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
     LinearLayout ll_content1;
     @InjectView(R.id.ll_content2)
     LinearLayout ll_content2;
+    @InjectView(R.id.tv_jindu)
+    TextView tv_jindu;
 
     //倒计时
     RunSportCountDown countDown;
@@ -138,7 +141,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
         //我的位置样式
         MyLocationStyle locationStyle = new MyLocationStyle();
         locationStyle.myLocationIcon(BitmapDescriptorFactory
-                .fromResource(R.drawable.location_mark_end));
+                .fromResource(R.drawable.location_marker));
         locationStyle.strokeWidth(1f);//圆形的边框宽度
         locationStyle.strokeColor(Color.BLACK);// 设置圆形的边框颜色
         aMap.setMyLocationStyle(locationStyle);
@@ -188,7 +191,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
         receive=new StepReceive();
         IntentFilter filter = new IntentFilter();
         filter.addAction("com.softtek.lai.StepService.StepCount");
-        registerReceiver(receive,filter);
+        LocalBroadcastManager.getInstance(this).registerReceiver(receive,filter);
         locationManager= (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             locationManager.addGpsStatusListener(this);
@@ -203,7 +206,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
         //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
         if(countDown!=null)countDown.cancel();
         if(aMapLocationClient!=null)aMapLocationClient.unRegisterLocationListener(this);
-        if(receive!=null)unregisterReceiver(receive);
+        if(receive!=null)LocalBroadcastManager.getInstance(this).unregisterReceiver(receive);
         mapView.onDestroy();
         super.onDestroy();
     }
@@ -228,39 +231,35 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
 
     double previousDistance;//旧的距离
     boolean isFirst=true;
+    LatLng lastLatLon;
     @Override
     public void onLocationChanged(AMapLocation aMapLocation) {
         if(listener!=null&&aMapLocation!=null) {
             listener.onLocationChanged(aMapLocation);
-            if (aMapLocation.getErrorCode() == 0) {
+            LatLng latLng=new LatLng(aMapLocation.getLatitude(),aMapLocation.getLongitude());
+            aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16.3f));
+            tv_jindu.setText(aMapLocation.getAccuracy()+"");
+            if (aMapLocation.getErrorCode() == 0&&aMapLocation.getAccuracy()<20&&aMapLocation.getAccuracy()>0) {
                 //当坐标改变之后开始添加标记 画线
                 Log.i("获取位置");
-                LatLng latLng=new LatLng(aMapLocation.getLatitude(),aMapLocation.getLongitude());
                 if(isFirst){
                     isFirst=false;
                     aMap.addMarker(new MarkerOptions().position(latLng).icon(
                             BitmapDescriptorFactory.fromResource(R.drawable.location_mark_start)));
                 }
-                aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f));
-                if(coordinates.isEmpty()){
-                    coordinates.add(new LatLon(latLng.longitude,latLng.latitude));
-                    polylineOptions.add(latLng);
-                }else {
-                    LatLon latlon=coordinates.get(coordinates.size()-1);
-                    if(latlon.getLatitude()!=latLng.latitude||latlon.getLongitude()!=latLng.longitude){
-                        coordinates.add(new LatLon(latLng.longitude,latLng.latitude));
-                        polylineOptions.add(latLng);
-                    }
-                }
+                polylineOptions.add(latLng);
+                coordinates.add(new LatLon(latLng.longitude,latLng.latitude));
                 aMap.addPolyline(polylineOptions);
                 //计算平均速度
-                LatLon latlon=coordinates.get(coordinates.size()-1);
-                double distance= AMapUtils.calculateLineDistance(latLng,new LatLng(latlon.getLatitude(),latlon.getLongitude()));
-                previousDistance +=distance;
+                if(lastLatLon!=null){
+                    double distance= AMapUtils.calculateLineDistance(lastLatLon,latLng);
+                    previousDistance +=distance;
+                }
                 DecimalFormat format=new DecimalFormat("#0.00");
                 double speed=(previousDistance/1000)/(time*1f/3600);
                 tv_avg_speed.setText(format.format(speed)+"km/h");
                 tv_distance.setText(format.format((previousDistance)/(1000*1.0)));
+                lastLatLon=latLng;//暂存上一次坐标
             } else {
                 //显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
                 /*Log.i("ggx","定位失败, ErrCode:"
