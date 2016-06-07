@@ -29,8 +29,8 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
-                android:layout_marginBottom="15dip"
-                android:layout_marginTop="15dip"
+                android:layout_marginBottom="20dip"
+                android:layout_marginTop="20dip"
                 android:src="@drawable/runnintman" />
 
             <TextView
@@ -53,7 +53,6 @@
                 android:layout_marginLeft="10dip"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="15dp"
-                android:text="sadasdasdasdasdasdasdasdasdsadsadasdasdasdasdasdasdasdasdsadasdasdasdas"
                 android:gravity="right"
                 android:textColor="#999999"
                 android:textSize="16sp" />
@@ -72,8 +71,8 @@
             android:background="#ffffff">
 
             <FrameLayout
-                android:layout_marginTop="15dip"
-                android:layout_marginBottom="15dip"
+                android:layout_marginTop="20dip"
+                android:layout_marginBottom="20dip"
                 android:id="@+id/im_tab1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -132,8 +131,8 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="15dip"
-                android:layout_marginBottom="15dip"
+                android:layout_marginTop="20dip"
+                android:layout_marginBottom="20dip"
                 android:src="@drawable/mysporthistory" />
 
             <TextView
@@ -147,8 +146,8 @@
                 android:textSize="16sp" />
 
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="15dp"
