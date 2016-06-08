@@ -85,10 +85,15 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
     }
 
     @Override
-    protected void initDatas() {
-        tv_title.setText("运动");
+    public void onResume() {
+        super.onResume();
         SportManager manager = new SportManager(this);
         manager.getHistoryTotalMovement();
+    }
+
+    @Override
+    protected void initDatas() {
+        tv_title.setText("运动");
 //        new Thread(){
 //            @Override
 //            public void run()

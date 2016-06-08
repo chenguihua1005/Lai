@@ -4,6 +4,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.group.model.CityModel;
 import com.softtek.lai.module.group.model.DxqModel;
 import com.softtek.lai.module.group.model.GroupModel;
+import com.softtek.lai.module.group.model.MineResultModel;
 import com.softtek.lai.module.group.model.SportMainModel;
 import com.softtek.lai.module.group.model.StepResponseModel;
 import com.softtek.lai.module.group.model.TotalGroupModel;
@@ -81,8 +82,18 @@ public interface SportGroupService {
                       RequestCallback<ResponseData> callback);
 
     //莱运动-首页
-    @GET("/HerbSports/GetSportIndex")
+    @FormUrlEncoded
+    @POST("/HerbSports/GetSportIndex")
     void getSportIndex(@Header(TOKEN) String token,
-                       @Query("accountid") String accountid,
+                       @Field("AccountId") String accountid,
+                       @Field("DateTimeTotalStep") String todaystep,
                        RequestCallback<ResponseData<SportMainModel>> callback);
+
+    //莱运动-首页
+    @FormUrlEncoded
+    @POST("/HerbSports/GetMineResult")
+    void getMineResult(@Header(TOKEN) String token,
+                       @Field("AccountId") String accountid,
+                       @Field("DateTimeTotalStep") String todaystep,
+                       RequestCallback<ResponseData<MineResultModel>> callback);
 }

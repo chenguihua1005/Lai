@@ -28,6 +28,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.act.view.ActActivity;
 import com.softtek.lai.module.act.view.ActListActivity;
+import com.softtek.lai.module.group.model.MineResultModel;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.laisportmine.present.MyRunTeamManager;
 import com.softtek.lai.module.laisportmine.view.MyInformationActivity;
@@ -41,6 +42,8 @@ import com.softtek.lai.module.group.model.RecentlyActiviteModel;
 import com.softtek.lai.module.group.model.SportMainModel;
 import com.softtek.lai.module.group.presenter.SportGroupManager;
 import com.softtek.lai.module.sport.view.StartSportActivity;
+import com.softtek.lai.stepcount.net.StepNetService;
+import com.softtek.lai.stepcount.service.StepService;
 import com.softtek.lai.utils.StringUtil;
 import com.squareup.picasso.Picasso;
 
@@ -128,6 +131,8 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
     MyRunTeamManager myRunTeamManager;
     UserInfoModel userInfoModel = UserInfoModel.getInstance();
     long accountid = Long.parseLong(userInfoModel.getUser().getUserid());
+    SportGroupManager sportGroupManager;
+    String userId;
 
     PraiseChallengeModel praiseChallengeModel;
 
@@ -217,10 +222,15 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void initDatas() {
-        SportGroupManager sportGroupManager = new SportGroupManager(this);
-        String userId = UserInfoModel.getInstance().getUser().getUserid();
+        sportGroupManager = new SportGroupManager(this);
+        userId = UserInfoModel.getInstance().getUser().getUserid();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date curDate = new Date(System.currentTimeMillis());//获取当前时间
+        String time = formatter.format(curDate);
+        String str = time + "," + StepService.totalStep;
+        System.out.println("str:"+str);
         dialogShow("加载中...");
-        sportGroupManager.getSportIndex(userId);
+        sportGroupManager.getSportIndex(userId,str);
 
     }
 
@@ -228,7 +238,13 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.lin_reflash:
-
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                Date curDate = new Date(System.currentTimeMillis());//获取当前时间
+                String time = formatter.format(curDate);
+                String str = time + "," + StepService.totalStep;
+                dialogShow("加载中");
+                System.out.println("str:"+str);
+                sportGroupManager.getMineResult(userId, str);
                 break;
             case R.id.ll_left:
                 startActivity(new Intent(this, HomeActviity.class));
@@ -350,8 +366,8 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                 text_pk_right_count.setText(praiseChallengeModel.getBPCnt());
                 text_left_1.setText(praiseChallengeModel.getPCnt());
                 text_right_2.setText(praiseChallengeModel.getBPCnt());
-                text_pk_left_name.setText(StringUtil.showName(praiseChallengeModel.getUserName(),praiseChallengeModel.getMobile()));
-                text_pk_right_name.setText(StringUtil.showName(praiseChallengeModel.getBUserName(),praiseChallengeModel.getBMobile()));
+                text_pk_left_name.setText(StringUtil.showName(praiseChallengeModel.getUserName(), praiseChallengeModel.getMobile()));
+                text_pk_right_name.setText(StringUtil.showName(praiseChallengeModel.getBUserName(), praiseChallengeModel.getBMobile()));
                 String chipType = praiseChallengeModel.getChipType();
                 if ("0".equals(chipType)) {
                     img_pk_type.setImageResource(R.drawable.img_group_main_1);
@@ -398,6 +414,39 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                 list_activity.setVisibility(View.VISIBLE);
                 GroupMainActiuvityAdapter adapter = new GroupMainActiuvityAdapter(this, recentlyActivite);
                 list_activity.setAdapter(adapter);
+            }
+        }
+    }
+
+    @Override
+    public void getMineResult(String type, MineResultModel model) {
+        dialogDissmiss();
+        if ("success".equals(type)) {
+            String TodayStepCnt = model.getTodayStepCnt();
+            if ("0".equals(TodayStepCnt)) {
+                text_step.setText("--");
+            } else {
+                text_step.setText(model.getTodayStepCnt());
+            }
+            String todayKaluliCnt = model.getTodayKaluliCnt();
+            if ("0".equals(todayKaluliCnt)) {
+                text_rl.setText("--");
+                text3.setVisibility(View.GONE);
+            } else {
+                text3.setVisibility(View.VISIBLE);
+                text_rl.setText(model.getTodayKaluliCnt());
+            }
+            String todayStepOdr = model.getTodayStepOdr();
+            if ("0".equals(todayStepOdr)) {
+                text_pm.setText("--");
+            } else {
+                text_pm.setText(model.getTodayStepOdr());
+            }
+            String medalCnt = model.getMedalCnt();
+            if ("0".equals(medalCnt)) {
+                text_xzs.setText("--");
+            } else {
+                text_xzs.setText(model.getMedalCnt());
             }
         }
     }
