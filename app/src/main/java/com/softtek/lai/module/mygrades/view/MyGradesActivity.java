@@ -150,7 +150,7 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
     protected void initViews() {
         title.setText("我的成绩");
         iv_email.setImageResource(R.drawable.img_share_bt);
-
+        iv_email.setVisibility(View.GONE);
         ll_dayRank.setOnClickListener(this);
         ll_weekRank.setOnClickListener(this);
         ll_grade.setOnClickListener(this);

@@ -229,60 +229,60 @@ public class MyXuZhangActivity extends BaseActivity implements XunZhangListManag
             }
             if (map_total.get(0).equals("0")) {
                 images.add(R.drawable.img_total_10_none);//累计步数10万步
-                content.add("累计步数10万步");
+                content.add("累计步数10万");
             } else {
                 images1.add(R.drawable.img_total_10_have);//累计步数10万步
-                content1.add("累计步数10万步");
+                content1.add("累计步数10万");
             }
 
             if (map_total.get(1).equals("0")) {
                 images.add(R.drawable.img_total_50_none);//累计步数50万步
-                content.add("累计步数50万步");
+                content.add("累计步数50万");
             } else {
                 images1.add(R.drawable.img_total_50_have);//累计步数50万步
-                content1.add("累计步数50万步");
+                content1.add("累计步数50万");
             }
             if (map_total.get(2).equals("0")) {
                 images.add(R.drawable.img_total_100_none);//累计步数100万步
-                content.add("累计步数100万步");
+                content.add("累计步数100万");
             } else {
                 images1.add(R.drawable.img_total_100_have);//累计步数100万步
-                content1.add("累计步数100万步");
+                content1.add("累计步数100万");
             }
             if (map_total.get(3).equals("0")) {
                 images.add(R.drawable.img_total_200_none);//累计步数200万步
-                content.add("累计步数200万步");
+                content.add("累计步数200万");
             } else {
                 images1.add(R.drawable.img_total_200_have);//累计步数200万步
-                content1.add("累计步数200万步");
+                content1.add("累计步数200万");
             }
             if (map_total.get(4).equals("0")) {
                 images.add(R.drawable.img_total_500_none);//累计步数500万步
-                content.add("累计步数500万步");
+                content.add("累计步数500万");
             } else {
                 images1.add(R.drawable.img_total_500_have);//累计步数500万步
-                content1.add("累计步数500万步");
+                content1.add("累计步数500万");
             }
             if (map_total.get(5).equals("0")) {
                 images.add(R.drawable.img_total_1000_none);//累计步数1000万步
-                content.add("累计步数1000万步");
+                content.add("累计步数1000万");
             } else {
                 images1.add(R.drawable.img_total_1000_have);//累计步数1000万步
-                content1.add("累计步数1000万步");
+                content1.add("累计步数1000万");
             }
             if (map_total.get(6).equals("0")) {
                 images.add(R.drawable.img_total_2000_none);//累计步数2000万步
-                content.add("累计步数2000万步");
+                content.add("累计步数2000万");
             } else {
                 images1.add(R.drawable.img_total_2000_have);//累计步数2000万步
-                content1.add("累计步数2000万步");
+                content1.add("累计步数2000万");
             }
             if (map_total.get(7).equals("0")) {
                 images.add(R.drawable.img_total_3000_none);//累计步数3000万步
-                content.add("累计步数3000万步");
+                content.add("累计步数3000万");
             } else {
                 images1.add(R.drawable.img_total_3000_have);//累计步数3000万步
-                content1.add("累计步数3000万步");
+                content1.add("累计步数3000万");
             }
             //根据pk勋章返回的长度，判断pk勋章数量
 //            switch (xunZhangModel.getPK().size()) {

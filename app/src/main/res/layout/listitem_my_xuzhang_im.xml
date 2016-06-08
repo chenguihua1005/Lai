@@ -4,63 +4,66 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.softtek.lai.module.laisportmine.view.MyPublicwelfareActivity">
-<LinearLayout
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
 
-    <RelativeLayout
-        android:id="@+id/re_lay"
-        android:orientation="vertical"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="2dp"
-        android:gravity="center_horizontal|center_vertical"
-        android:background="#ffffff">
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:id="@+id/ll_lab2"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/re_lay"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/ll_action_content">
-            <FrameLayout
+            android:layout_marginBottom="2dp"
+            android:background="#ffffff"
+            android:gravity="center_horizontal|center_vertical"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/ll_lab2"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-        <ImageView
-            android:id="@+id/lab2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ll_action_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="15dp"
+                android:orientation="vertical">
 
-            />
-                <TextView
-                    android:id="@+id/tv_ima_content"
+                <FrameLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=""
-                    android:textStyle="bold"
-                    android:textSize="10sp"
-                    android:layout_marginBottom="4dp"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/lab2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal|center_vertical"
+
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_ima_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        android:layout_marginBottom="4dp"
+                        android:text=""
+                        android:textColor="#4825e6"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/tab_bushu"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal|center_vertical"
-                    android:textColor="#4825e6"/>
-            </FrameLayout>
-            <TextView
-                android:id="@+id/tab_bushu"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text=""
-                android:textColor="#666666"
-                android:gravity="center"
-                android:layout_marginBottom="10dip"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:textSize="10sp"/>
-        </LinearLayout>
+                    android:layout_marginBottom="10dip"
+                    android:gravity="center"
+                    android:textColor="#666666"
+                    android:textSize="10sp" />
+            </LinearLayout>
 
 
-
-    </RelativeLayout>
-</LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
 </RelativeLayout>
