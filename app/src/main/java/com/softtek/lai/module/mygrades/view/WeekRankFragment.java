@@ -156,7 +156,6 @@ public class WeekRankFragment extends BaseFragment {
 //                        Util.toastMsg("我的周排名--查询正确");
                         break;
                     case 500:
-                        Util.toastMsg("我的周排名--查询出bug");
                         break;
                 }
             }
