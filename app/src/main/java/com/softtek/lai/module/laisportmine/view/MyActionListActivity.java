@@ -96,6 +96,7 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
         }
         else {
             actionModelLists = actionModelList;
+            System.out.println("actionModelLists----:"+actionModelLists);
             myActionAdapter.updateData(actionModelList);
         }
     }
@@ -118,6 +119,7 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent=new Intent(this, ActActivity.class);
+        System.out.println("actionModelLists----:"+actionModelLists);
         intent.putExtra("id",actionModelLists.get(position).getActId());
         startActivity(intent);
     }

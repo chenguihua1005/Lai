@@ -167,9 +167,9 @@ public class ActFragment extends BaseFragment implements PullToRefreshBase.OnRef
             rel_group.setVisibility(View.VISIBLE);
             img_person.setVisibility(View.GONE);
             if (!TextUtils.isEmpty(actZKPersonModel.getActDImg())) {
-                Picasso.with(getContext()).load(path + actZKPersonModel.getActDImg()).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(img_group);
+                Picasso.with(getContext()).load(path + actZKPersonModel.getActDImg()).placeholder(R.drawable.img_group_default_big).fit().error(R.drawable.img_group_default_big).into(img_group);
             } else {
-                Picasso.with(getContext()).load("www").placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(img_group);
+                Picasso.with(getContext()).load("www").placeholder(R.drawable.img_group_default_big).fit().error(R.drawable.img_group_default_big).into(img_group);
             }
         } else {
             rel_group.setVisibility(View.GONE);
@@ -232,9 +232,9 @@ public class ActFragment extends BaseFragment implements PullToRefreshBase.OnRef
             if (pageIndex == 1) {
                 list = model.getActDetiallist();
                 String target = model.getTarget();
-                int target_value = 0;
+                double target_value = 0;
                 if (!"".equals(target)) {
-                    target_value = Integer.parseInt(model.getTarget());
+                    target_value = Double.parseDouble(model.getTarget());
                 }
                 adapter = new ActZKAdapter(getContext(), list, model.getActType(), target_value);
                 zk_list.setAdapter(adapter);

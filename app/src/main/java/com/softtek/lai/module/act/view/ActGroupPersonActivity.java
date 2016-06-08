@@ -136,9 +136,9 @@ public class ActGroupPersonActivity extends BaseActivity implements View.OnClick
     private void setHeadView(){
         String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
         if (!TextUtils.isEmpty(actDetiallistModel.getActDImg())) {
-            Picasso.with(this).load(path + actDetiallistModel.getActDImg()).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(img_group);
+            Picasso.with(this).load(path + actDetiallistModel.getActDImg()).placeholder(R.drawable.img_group_default_big).fit().centerCrop().error(R.drawable.img_group_default_big).into(img_group);
         } else {
-            Picasso.with(this).load("www").placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(img_group);
+            Picasso.with(this).load("www").placeholder(R.drawable.img_group_default_big).fit().centerCrop().error(R.drawable.img_group_default_big).into(img_group);
         }
         text_name.setText(actDetiallistModel.getActDName());
         text_order.setText("第"+actDetiallistModel.getActDOrder()+"名");
