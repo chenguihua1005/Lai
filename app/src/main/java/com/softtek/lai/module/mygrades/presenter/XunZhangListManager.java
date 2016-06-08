@@ -40,7 +40,7 @@ public class XunZhangListManager {
                         cb.getXunZhangList(xunZhangModelResponseData.getData());
                         break;
                     default:
-                        cb.getXunZhangList(xunZhangModelResponseData.getData());
+                        cb.getXunZhangList(null);
                         Log.i("活动列表"+xunZhangModelResponseData.getData());
                         break;
                 }

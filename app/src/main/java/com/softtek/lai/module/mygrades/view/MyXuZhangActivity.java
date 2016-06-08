@@ -92,7 +92,7 @@ public class MyXuZhangActivity extends BaseActivity implements XunZhangListManag
     //勋章接口回调
     @Override
     public void getXunZhangList(XunZhangModel xunZhangModel) {
-        if (!xunZhangModel.toString().isEmpty()) {
+        if (xunZhangModel!=null) {
             //images是存放未获得勋章，content存放未获得勋章文字内容
             //images1是存放获得勋章，content1存放获得勋章文字内容
             //3天勋章是否获得
