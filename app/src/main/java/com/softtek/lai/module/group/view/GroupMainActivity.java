@@ -122,6 +122,9 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
     @InjectView(R.id.rel_my_score)
     RelativeLayout rel_my_score;
 
+    @InjectView(R.id.lin_reflash)
+    LinearLayout lin_reflash;
+
     MyRunTeamManager myRunTeamManager;
     UserInfoModel userInfoModel = UserInfoModel.getInstance();
     long accountid = Long.parseLong(userInfoModel.getUser().getUserid());
@@ -183,6 +186,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
         iv_email.setOnClickListener(this);
         fl_right.setOnClickListener(this);
         rel_my_score.setOnClickListener(this);
+        lin_reflash.setOnClickListener(this);
         lin_start_sports.setOnClickListener(this);
         lin_start_sport.setOnClickListener(this);
         rel_my_activity.setOnClickListener(this);
@@ -223,6 +227,9 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.lin_reflash:
+
+                break;
             case R.id.ll_left:
                 startActivity(new Intent(this, HomeActviity.class));
                 break;
