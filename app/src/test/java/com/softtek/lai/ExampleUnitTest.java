@@ -15,7 +15,11 @@ import static org.junit.Assert.*;
 public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() throws Exception {
-        System.out.println(MD5.md5WithEncoder("000000"));
+        int time=7800;
+        int hour=time/3600;
+        int minutes=time%3600;
+        int second=time%3600%60;
+        System.out.println(hour+":"+minutes+":"+second);
         assertEquals(4, 2 + 2);
     }
 }
