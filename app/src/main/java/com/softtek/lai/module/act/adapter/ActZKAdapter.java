@@ -48,13 +48,13 @@ public class ActZKAdapter extends BaseAdapter {
     private Context context;
     private IAssistantPresenter assistantPresenter;
     String type;
-    int target_distance;
+    double target_distance;
     int target_step;
 
     /**
      * 构造函数
      */
-    public ActZKAdapter(Context context, List<ActDetiallistModel> list, String type, int distance) {
+    public ActZKAdapter(Context context, List<ActDetiallistModel> list, String type, double distance) {
         this.type = type;
         this.target_distance = distance;
         this.mInflater = LayoutInflater.from(context);
@@ -121,9 +121,9 @@ public class ActZKAdapter extends BaseAdapter {
             holder.img_person.setVisibility(View.GONE);
             holder.img.setVisibility(View.VISIBLE);
             if (!TextUtils.isEmpty(actDetiallistModel.getActDImg())) {
-                Picasso.with(context).load(path + actDetiallistModel.getActDImg()).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(holder.img_group);
+                Picasso.with(context).load(path + actDetiallistModel.getActDImg()).placeholder(R.drawable.img_group_default).fit().centerCrop().error(R.drawable.img_group_default).into(holder.img_group);
             } else {
-                Picasso.with(context).load("www").placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(holder.img_group);
+                Picasso.with(context).load("www").placeholder(R.drawable.img_group_default).fit().centerCrop().error(R.drawable.img_group_default).into(holder.img_group);
             }
         } else {
             holder.rel_group.setVisibility(View.GONE);
