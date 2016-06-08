@@ -34,7 +34,6 @@ public class DelayReceive extends BroadcastReceiver{
         }
         String userId=UserInfoModel.getInstance().getUser().getUserid();
         service= ZillaApi.NormalRestAdapter.create(StepNetService.class);
-        int oldStep=intent.getIntExtra("step",0);
          /*
         处理上传任务
          */
@@ -48,7 +47,7 @@ public class DelayReceive extends BroadcastReceiver{
             buffer.append(stepEnd.getRecordTime().split(" ")[0]);
             buffer.append(",");
             //今日新步数为当前总部步数-今日起始步数+服务器上的步数
-            long step=stepEnd.getStepCount()-stepStart.getStepCount()+oldStep;
+            long step=stepEnd.getStepCount()-stepStart.getStepCount();
             buffer.append(step);
             //提交数据
             submitStep(Long.parseLong(userId),buffer.toString());

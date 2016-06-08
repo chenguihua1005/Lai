@@ -42,7 +42,7 @@ public class StepService extends Service implements SensorEventListener {
     //默认为30秒进行一次存储
     private static int duration = 30000;
     //默认30分钟上传一次
-    private static int durationUpload=2*60*1000;
+    private static int durationUpload=30*60*1000;
     private SensorManager sensorManager;
     private StepDcretor stepDetector;
     private BroadcastReceiver mBatInfoReceiver;
@@ -51,6 +51,7 @@ public class StepService extends Service implements SensorEventListener {
     private int currentStep;//今日步数用于显示使用
     private int oldStep;//记录服务器上的步数
     private int firstStep=0;//启动应用服务的时候的第一次步数
+    private int totalStep;
 
     @Override
     public void onCreate() {
@@ -71,7 +72,8 @@ public class StepService extends Service implements SensorEventListener {
         String userId=UserInfoModel.getInstance().getUser().getUserid();
         //查询到今日的步数记录
         oldStep= StepUtil.getInstance().getCurrentStep(userId);
-        updateNotification("今日步数：" + oldStep + " 步");
+        lastStep=totalStep=currentStep+oldStep;
+        updateNotification("今日步数：" + totalStep + " 步");
     }
 
     private void initBroadcastReceiver() {
@@ -166,7 +168,7 @@ public class StepService extends Service implements SensorEventListener {
         //启动定时上传功能
         AlarmManager manager= (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent upIntent=new Intent(UPLOAD_STEP);
-        upIntent.putExtra("step",oldStep);
+        //upIntent.putExtra("step",oldStep);
         PendingIntent pi = PendingIntent.getBroadcast(this,0,upIntent,0);
         long triggerAtTime=SystemClock.elapsedRealtime()+durationUpload;
         manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
@@ -223,7 +225,8 @@ public class StepService extends Service implements SensorEventListener {
                     @Override
                     public void onChange(int step) {
                         currentStep=step;
-                        updateNotification("今日步数：" + (currentStep+oldStep)+ " 步");
+                        totalStep=currentStep+oldStep;
+                        updateNotification("今日步数：" + totalStep+ " 步");
                     }
                 });
     }
@@ -236,7 +239,8 @@ public class StepService extends Service implements SensorEventListener {
                 firstStep=stepTemp;
             }
             currentStep=stepTemp-firstStep;
-            updateNotification("今日步数：" + (currentStep+oldStep) + " 步");
+            totalStep=currentStep+oldStep;
+            updateNotification("今日步数：" + totalStep + " 步");
         }/* else if (event.sensor.getType() == Sensor.TYPE_STEP_DETECTOR) {
                 originalStep++;
         }*/
@@ -269,18 +273,26 @@ public class StepService extends Service implements SensorEventListener {
 
     }
 
+    int lastStep;
     //存入数据库
     private void save() {
         UserModel model=UserInfoModel.getInstance().getUser();
-        if(model!=null){
+        if(model!=null&&totalStep>lastStep){
+            lastStep=totalStep;//记录上一次保存的值
             UserStep step=new UserStep();
             step.setAccountId(Long.parseLong(model.getUserid()));
             step.setRecordTime(DateUtil.getInstance().getCurrentDate());
-            step.setStepCount(currentStep+oldStep);
+            com.github.snowdream.android.util.Log.i("保存数据时当前步数totalStep>>>>"+totalStep);
+            step.setStepCount(totalStep);
             StepUtil.getInstance().saveStep(step);
+        }else{
+            com.github.snowdream.android.util.Log.i("步数相同不保存");
         }
     }
 
+    public int getTotalStep() {
+        return totalStep;
+    }
 
     @Override
     public void onDestroy() {
