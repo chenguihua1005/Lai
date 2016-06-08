@@ -130,4 +130,25 @@
         <!--TAB选中文字颜色-->
     </style>
 
+    <style name="myTabLayout4" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">#FF75BC3B</item>
+        <!--TAB底部滑块高度-->
+        <item name="tabPaddingStart">5dp</item>
+        <!--TAB左边padding-->
+        <item name="tabPaddingEnd">5dp</item>
+        <!--TAB右边padding-->
+        <item name="tabBackground">@null</item>
+        <!--TAB背景色-->
+        <item name="tabTextAppearance">@style/MyCustomTabTextAppearance2</item>
+        <!--TAB文字样式-->
+        <item name="tabSelectedTextColor">#75BC3B</item>
+        <!--TAB选中文字颜色-->
+    </style>
+
+    <style name="MyCustomTabTextAppearance2" parent="TextAppearance.Design.Tab"> <!--TAB文字样式-->
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#BFBFBF</item>
+        <item name="textAllCaps">false</item>
+        <!--英文大写,默认true-->
+    </style>
 </resources>

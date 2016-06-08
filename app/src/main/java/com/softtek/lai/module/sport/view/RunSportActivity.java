@@ -92,6 +92,8 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
     TextView tv_step;
     @InjectView(R.id.tv_distance)
     TextView tv_distance;
+    @InjectView(R.id.iv_location)
+    ImageView iv_location;
 
     //平均速度和GPS信号量
     @InjectView(R.id.tv_avg_speed)
@@ -134,6 +136,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
         iv_pause.setOnClickListener(this);
         iv_stop.setOnClickListener(this);
         cb_control.setOnClickListener(this);
+        iv_location.setOnClickListener(this);
         aMap = mapView.getMap();
         aMap.setMapType(AMap.MAP_TYPE_NORMAL);
         //我的位置样式
@@ -234,16 +237,16 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
     public void onLocationChanged(AMapLocation aMapLocation) {
         if(listener!=null&&aMapLocation!=null) {
             listener.onLocationChanged(aMapLocation);
-            LatLng latLng=new LatLng(aMapLocation.getLatitude(),aMapLocation.getLongitude());
-            aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16.3f));
             //tv_jindu.setText(aMapLocation.getAccuracy()+"");
             if (aMapLocation.getErrorCode() == 0&&aMapLocation.getAccuracy()<20&&aMapLocation.getAccuracy()>0) {
                 //当坐标改变之后开始添加标记 画线
                 Log.i("获取位置");
+                LatLng latLng=new LatLng(aMapLocation.getLatitude(),aMapLocation.getLongitude());
                 if(isFirst){
                     isFirst=false;
                     aMap.addMarker(new MarkerOptions().position(latLng).icon(
                             BitmapDescriptorFactory.fromResource(R.drawable.location_mark_start)));
+                    aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16.3f));
                 }
                 //计算平均速度
                 if(lastLatLon!=null){
@@ -287,6 +290,11 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.iv_location:
+                if(lastLatLon!=null){
+                    aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(lastLatLon, 16.3f));
+                }
+                break;
             case R.id.ll_left:
                 doBack();
                 break;

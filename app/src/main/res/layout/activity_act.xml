@@ -9,7 +9,7 @@
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tab"
-        style="@style/myTabLayout2"
+        style="@style/myTabLayout4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
