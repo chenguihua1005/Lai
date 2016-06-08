@@ -53,8 +53,8 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_gravity="center"
-                        android:layout_marginLeft="15dip"
-                        android:src="@drawable/img_group_main_more" />
+                        android:layout_marginLeft="8dip"
+                        android:src="@drawable/img_reflash" />
                 </LinearLayout>
 
                 <RelativeLayout

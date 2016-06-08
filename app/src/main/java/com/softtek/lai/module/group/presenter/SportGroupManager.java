@@ -7,6 +7,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.group.model.CityModel;
 import com.softtek.lai.module.group.model.DxqModel;
 import com.softtek.lai.module.group.model.GroupModel;
+import com.softtek.lai.module.group.model.MineResultModel;
 import com.softtek.lai.module.group.model.SportMainModel;
 import com.softtek.lai.module.group.model.StepResponseModel;
 import com.softtek.lai.module.group.model.TotalGroupModel;
@@ -311,8 +312,8 @@ public class SportGroupManager {
         });
     }
 
-    public void getSportIndex(String str) {
-        service.getSportIndex(token, str, new RequestCallback<ResponseData<SportMainModel>>() {
+    public void getSportIndex(String str, String todaystep) {
+        service.getSportIndex(token, str, todaystep, new RequestCallback<ResponseData<SportMainModel>>() {
             @Override
             public void success(ResponseData<SportMainModel> listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());
@@ -335,6 +336,36 @@ public class SportGroupManager {
             public void failure(RetrofitError error) {
                 if (getSportIndexCallBack != null) {
                     getSportIndexCallBack.getSportIndex("fail", new SportMainModel());
+                }
+                ZillaApi.dealNetError(error);
+            }
+        });
+    }
+
+    public void getMineResult(String accountid, String todaystep) {
+        service.getMineResult(token, accountid, todaystep, new RequestCallback<ResponseData<MineResultModel>>() {
+            @Override
+            public void success(ResponseData<MineResultModel> listResponseData, Response response) {
+                Log.e("jarvis", listResponseData.toString());
+                int status = listResponseData.getStatus();
+                switch (status) {
+                    case 200:
+                        getSportIndexCallBack.getMineResult("success", listResponseData.getData());
+                        break;
+                    case 100:
+                        getSportIndexCallBack.getMineResult("fail", null);
+                        break;
+                    default:
+                        getSportIndexCallBack.getMineResult("fail", null);
+                        Util.toastMsg(listResponseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                if (getSportIndexCallBack != null) {
+                    getSportIndexCallBack.getMineResult("fail", null);
                 }
                 ZillaApi.dealNetError(error);
             }
@@ -394,6 +425,8 @@ public class SportGroupManager {
     public interface GetSportIndexCallBack {
 
         void getSportIndex(String type, SportMainModel sportMainModel);
+
+        void getMineResult(String type, MineResultModel model);
     }
 
     public interface GetGroupListCallBack {
