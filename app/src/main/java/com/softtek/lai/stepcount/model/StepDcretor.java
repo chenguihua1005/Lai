@@ -64,12 +64,12 @@ public class StepDcretor implements SensorEventListener {
      * 0-准备计时   1-计时中  2-准备为正常计步计时  3-正常计步中
      */
     private int CountTimeState = 0;
-    private static int CURRENT_SETP = 0;
+    private int CURRENT_SETP = 0;
     public static int TEMP_STEP = 0;
     private int lastStep = -1;
     // 加速计的三个维度数值
     public static float[] gravity = new float[3];
-    public static float[] linear_acceleration = new float[3];
+    //public static float[] linear_acceleration = new float[3];
     //用三个维度算出的平均值
     public static float average = 0;
 
@@ -88,9 +88,6 @@ public class StepDcretor implements SensorEventListener {
         super();
     }
 
-    public void onAccuracyChanged(Sensor arg0, int arg1) {
-
-    }
 
     public OnSensorChangeListener getOnSensorChangeListener() {
         return onSensorChangeListener;
@@ -101,6 +98,7 @@ public class StepDcretor implements SensorEventListener {
         this.onSensorChangeListener = onSensorChangeListener;
     }
 
+    @Override
     public void onSensorChanged(SensorEvent event) {
         Sensor sensor = event.sensor;
         synchronized (this) {
@@ -108,6 +106,11 @@ public class StepDcretor implements SensorEventListener {
                 calc_step(event);
             }
         }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
     }
 
     synchronized private void calc_step(SensorEvent event) {
@@ -151,10 +154,10 @@ public class StepDcretor implements SensorEventListener {
             time = new TimeCount(duration, 700);
             time.start();
             CountTimeState = 1;
-            Log.v(TAG, "开启计时器");
+            Log.i(TAG, "开启计时器");
         } else if (CountTimeState == 1) {
             TEMP_STEP++;
-            Log.v(TAG, "计步中 TEMP_STEP:" + TEMP_STEP);
+            Log.i(TAG, "计步中 TEMP_STEP:" + TEMP_STEP);
         } else if (CountTimeState == 3) {
             CURRENT_SETP++;
             if (onSensorChangeListener != null) {

@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.laisportmine.model.ActionModel;
 import com.softtek.lai.module.laisportmine.model.PkNoticeModel;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
@@ -25,13 +24,11 @@ import zilla.libcore.file.AddressManager;
 public class MyPkNoticeAdapter extends BaseAdapter {
     private Context context;
     private List<PkNoticeModel> pkNoticeModelList;
-    private LayoutInflater inflater;
     private UserInfoModel userInfoModel;
 
 
     public MyPkNoticeAdapter(Context context, List<PkNoticeModel> pkNoticeModelList) {
         this.context=context;
-        inflater=LayoutInflater.from(context);
         this.pkNoticeModelList=pkNoticeModelList;
     }
 
@@ -60,7 +57,7 @@ public class MyPkNoticeAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        ViewHolder viewHolder=null;
+        ViewHolder viewHolder;
         if (convertView==null)
         {
             convertView=LayoutInflater.from(context).inflate(R.layout.listitem_my_pknotice,parent,false);
