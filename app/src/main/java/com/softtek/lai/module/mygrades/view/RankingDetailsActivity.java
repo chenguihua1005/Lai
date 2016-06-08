@@ -1,6 +1,5 @@
 package com.softtek.lai.module.mygrades.view;
 
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,12 +22,9 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.mygrades.adapter.RankInfoAdapter;
 import com.softtek.lai.module.mygrades.adapter.TabContentAdapter;
-import com.softtek.lai.module.mygrades.model.DayRankModel;
 import com.softtek.lai.module.mygrades.model.RankSelectModel;
 import com.softtek.lai.module.mygrades.model.RunGroupModel;
 import com.softtek.lai.module.mygrades.net.GradesService;
-import com.softtek.lai.module.mygrades.presenter.GradesImpl;
-import com.softtek.lai.module.mygrades.presenter.IGradesPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,14 +71,14 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
     List<Fragment> fragments = new ArrayList<>();
 
     private List<RankSelectModel> rankSelectModelList = new ArrayList<RankSelectModel>();
-    private RankSelectModel rankSelectModel;
+    //private RankSelectModel rankSelectModel;
     public RankInfoAdapter rankInfoAdapter;
 
-    private FragmentManager manager;
+   /* private FragmentManager manager;
 
     private DayRankModel dayRankModel;
 
-    private IGradesPresenter iGradesPresenter;
+    private IGradesPresenter iGradesPresenter;*/
     private GradesService gradesService;
 
     long accoutid;
@@ -91,7 +87,7 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        iGradesPresenter = new GradesImpl();
+        //iGradesPresenter = new GradesImpl();
         gradesService = ZillaApi.NormalRestAdapter.create(GradesService.class);
 
         //当前用户所参加的跑团
@@ -113,7 +109,7 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
                     RL_rungroup.setVisibility(View.INVISIBLE);
                     ((DayRankFragment) fragments.get(0)).updateDayRankStatus(1);
                     ((WeekRankFragment) fragments.get(1)).updateWeekRankStatus(1);
-                    tv_rungroupname.setText(rungroupname);
+                    tv_rungroupname.setText(/*rungroupname*/"跑团排名");
                     iv1.setImageResource(R.drawable.radiosel);
                     iv2.setImageResource(R.drawable.radiocir);
                 }
@@ -142,7 +138,7 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
                     case 200:
                         Log.i("成功" + runTeamModelResponseData.getData());
                         rungroupname = runTeamModelResponseData.getData().getRgName();
-                        tv_rungroupname.setText(runTeamModelResponseData.getData().getRgName());
+                        tv_rungroupname.setText(/*runTeamModelResponseData.getData().getRgName()*/"跑团排名");
                         break;
                     case 100:
                         break;
@@ -173,7 +169,7 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
         tv_title.setText("排名详情");
         Rl_list.setOnClickListener(this);
         //1跑团排名，0全国排名,默认是跑团排名
-        manager = getFragmentManager();
+        //manager = getFragmentManager();
         DayRankFragment dayRankFragment = new DayRankFragment();
         Bundle bundle1 = new Bundle();
         bundle1.putInt("id", 1);

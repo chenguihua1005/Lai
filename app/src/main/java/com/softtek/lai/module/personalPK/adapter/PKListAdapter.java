@@ -117,12 +117,16 @@ public class PKListAdapter extends BaseAdapter{
                     .placeholder(R.drawable.img_default)
                     .error(R.drawable.img_default)
                     .into(holder.sender1_header);
+        }else{
+            Picasso.with(context).load(R.drawable.img_default).into(holder.sender1_header);
         }
         if(StringUtils.isNotEmpty(model.getBPhoto())){
             Picasso.with(context).load(path+model.getBPhoto()).fit()
                     .placeholder(R.drawable.img_default)
                     .error(R.drawable.img_default)
                     .into(holder.sender2_header);
+        }else{
+            Picasso.with(context).load(R.drawable.img_default).into(holder.sender1_header);
         }
         return convertView;
     }
