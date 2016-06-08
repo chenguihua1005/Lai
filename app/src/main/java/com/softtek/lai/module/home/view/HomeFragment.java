@@ -204,8 +204,9 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
+        getContext().unregisterReceiver(mMessageReceiver);
         EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 
     @Override

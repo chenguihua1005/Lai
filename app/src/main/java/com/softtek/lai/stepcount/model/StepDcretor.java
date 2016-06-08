@@ -64,18 +64,18 @@ public class StepDcretor implements SensorEventListener {
      * 0-准备计时   1-计时中  2-准备为正常计步计时  3-正常计步中
      */
     private int CountTimeState = 0;
-    private static int CURRENT_SETP = 0;
+    private int CURRENT_SETP = 0;
     public static int TEMP_STEP = 0;
     private int lastStep = -1;
     // 加速计的三个维度数值
     public static float[] gravity = new float[3];
-    public static float[] linear_acceleration = new float[3];
+    //public static float[] linear_acceleration = new float[3];
     //用三个维度算出的平均值
     public static float average = 0;
 
     private Timer timer;
     // 倒计时4秒，4秒内不会显示计步，用于屏蔽细微波动
-    private long duration = 4000;
+    private long duration = 2000;
     private TimeCount time;
 
     OnSensorChangeListener onSensorChangeListener;
@@ -88,9 +88,6 @@ public class StepDcretor implements SensorEventListener {
         super();
     }
 
-    public void onAccuracyChanged(Sensor arg0, int arg1) {
-
-    }
 
     public OnSensorChangeListener getOnSensorChangeListener() {
         return onSensorChangeListener;
@@ -101,6 +98,7 @@ public class StepDcretor implements SensorEventListener {
         this.onSensorChangeListener = onSensorChangeListener;
     }
 
+    @Override
     public void onSensorChanged(SensorEvent event) {
         Sensor sensor = event.sensor;
         synchronized (this) {
@@ -108,6 +106,11 @@ public class StepDcretor implements SensorEventListener {
                 calc_step(event);
             }
         }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
     }
 
     synchronized private void calc_step(SensorEvent event) {
@@ -133,7 +136,11 @@ public class StepDcretor implements SensorEventListener {
                         && (peakOfWave - valleyOfWave >= ThreadValue) && timeOfNow - timeOfLastPeak <= 2000) {
                     timeOfThisPeak = timeOfNow;
                     //更新界面的处理，不涉及到算法
-                    preStep();
+                    CURRENT_SETP++;
+                    if (onSensorChangeListener != null) {
+                        onSensorChangeListener.onChange(CURRENT_SETP);
+                    }
+                    //preStep();
                 }
                 if (timeOfNow - timeOfLastPeak >= 200
                         && (peakOfWave - valleyOfWave >= initialValue)) {
@@ -151,10 +158,10 @@ public class StepDcretor implements SensorEventListener {
             time = new TimeCount(duration, 700);
             time.start();
             CountTimeState = 1;
-            Log.v(TAG, "开启计时器");
+            Log.i(TAG, "开启计时器");
         } else if (CountTimeState == 1) {
             TEMP_STEP++;
-            Log.v(TAG, "计步中 TEMP_STEP:" + TEMP_STEP);
+            Log.i(TAG, "计步中 TEMP_STEP:" + TEMP_STEP);
         } else if (CountTimeState == 3) {
             CURRENT_SETP++;
             if (onSensorChangeListener != null) {

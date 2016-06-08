@@ -34,6 +34,8 @@ import com.softtek.lai.utils.JCountDownTimer;
 
 import java.util.Calendar;
 
+import zilla.libcore.util.Util;
+
 public class StepService extends Service implements SensorEventListener {
 
     public static final String UPLOAD_STEP="com.softtek.lai.StepService";
@@ -224,6 +226,7 @@ public class StepService extends Service implements SensorEventListener {
 
                     @Override
                     public void onChange(int step) {
+                        Util.toastMsg("步数"+step);
                         currentStep=step;
                         totalStep=currentStep+oldStep;
                         updateNotification("今日步数：" + totalStep+ " 步");
@@ -241,8 +244,8 @@ public class StepService extends Service implements SensorEventListener {
             currentStep=stepTemp-firstStep;
             totalStep=currentStep+oldStep;
             updateNotification("今日步数：" + totalStep + " 步");
-        }/* else if (event.sensor.getType() == Sensor.TYPE_STEP_DETECTOR) {
-                originalStep++;
+        } /*else if (event.sensor.getType() == Sensor.TYPE_STEP_DETECTOR) {
+                //originalStep++;
         }*/
 
     }
@@ -277,19 +280,19 @@ public class StepService extends Service implements SensorEventListener {
     //存入数据库
     private void save() {
         UserModel model=UserInfoModel.getInstance().getUser();
+        com.github.snowdream.android.util.Log.i("现在步数>>>"+totalStep);
         if(model!=null&&totalStep>lastStep){
             lastStep=totalStep;//记录上一次保存的值
             UserStep step=new UserStep();
             step.setAccountId(Long.parseLong(model.getUserid()));
             step.setRecordTime(DateUtil.getInstance().getCurrentDate());
-            com.github.snowdream.android.util.Log.i("保存数据时当前步数totalStep>>>>"+totalStep);
             step.setStepCount(totalStep);
             StepUtil.getInstance().saveStep(step);
         }else{
             com.github.snowdream.android.util.Log.i("步数相同不保存");
         }
     }
-    
+
 
     @Override
     public void onDestroy() {

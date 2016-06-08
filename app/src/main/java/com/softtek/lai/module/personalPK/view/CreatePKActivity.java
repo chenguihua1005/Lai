@@ -28,7 +28,7 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_create_pk)
-public class CreatePKActivity extends BaseActivity implements View.OnClickListener,TextWatcher{
+public class CreatePKActivity extends BaseActivity implements View.OnClickListener/*,TextWatcher*/{
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -260,7 +260,7 @@ public class CreatePKActivity extends BaseActivity implements View.OnClickListen
 
     }
 
-    @Override
+    /*@Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
     }
@@ -278,5 +278,5 @@ public class CreatePKActivity extends BaseActivity implements View.OnClickListen
             s.delete(s.length()-1,et_content.getSelectionEnd());
         }
 
-    }
+    }*/
 }
