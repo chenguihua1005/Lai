@@ -448,9 +448,9 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
         @Override
         public void onTick(long millisUntilFinished) {
             time++;
-            int minutes= (int) (time/60);
             int hour= (int) (time/3600);
-            int second= (int) (time%60);
+            int minutes= (int) (time%3600/60);
+            int second= (int) (time%3600%60);
             String show=(hour<10?"0"+hour:String.valueOf(hour))
                     +":"+(minutes<10?"0"+minutes:String.valueOf(minutes))
                     +":"+(second<10?"0"+second:String.valueOf(second));

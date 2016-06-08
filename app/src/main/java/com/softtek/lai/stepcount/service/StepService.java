@@ -51,7 +51,7 @@ public class StepService extends Service implements SensorEventListener {
     private int currentStep;//今日步数用于显示使用
     private int oldStep;//记录服务器上的步数
     private int firstStep=0;//启动应用服务的时候的第一次步数
-    private int totalStep;
+    public static int totalStep;
 
     @Override
     public void onCreate() {
@@ -289,10 +289,7 @@ public class StepService extends Service implements SensorEventListener {
             com.github.snowdream.android.util.Log.i("步数相同不保存");
         }
     }
-
-    public int getTotalStep() {
-        return totalStep;
-    }
+    
 
     @Override
     public void onDestroy() {
