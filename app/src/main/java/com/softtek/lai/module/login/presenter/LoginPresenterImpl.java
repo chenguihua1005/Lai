@@ -292,10 +292,10 @@ public class LoginPresenterImpl implements ILoginPresenter {
             UserStep stepStart=steps.get(0);
             UserStep stepEnd=steps.get(steps.size()-1);
             int currentStep= (int) (stepEnd.getStepCount()-stepStart.getStepCount());
-            Log.i("本地数据库中的最小数据为》》》》"+stepStart.getStepCount());
+            /*Log.i("本地数据库中的最小数据为》》》》"+stepStart.getStepCount());
             Log.i("本地数据库中的最大数据为》》》》"+stepStart.getStepCount());
             Log.i("服务器上的数据为》》》》"+step);
-            Log.i("如果更新后本地数据库中的最大数据为》》》》"+step+stepStart.getStepCount());
+            Log.i("如果更新后本地数据库中的最大数据为》》》》"+(step+stepStart.getStepCount()));*/
             if(step>currentStep){
                 //如果服务器上的步数大于本地
                 UserStep userStep=new UserStep();

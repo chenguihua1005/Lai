@@ -24,6 +24,7 @@ import com.softtek.lai.module.laisportmine.present.MyRunTeamManager;
 import com.softtek.lai.module.group.view.JoinGroupActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.sport.view.HistorySportListActivity;
+import com.softtek.lai.stepcount.service.StepService;
 
 import butterknife.InjectView;
 import retrofit.Callback;
@@ -143,6 +144,7 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
                         UserModel model=UserInfoModel.getInstance().getUser();
                         model.setIsJoin("0");
                         UserInfoModel.getInstance().saveUserCache(model);
+                        stopService(new Intent(getApplicationContext(), StepService.class));
                         Intent intent=new Intent(MyInformationActivity.this,HomeActviity.class);
                         startActivity(intent);
                         break;

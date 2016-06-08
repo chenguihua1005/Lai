@@ -245,19 +245,26 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
                     aMap.addMarker(new MarkerOptions().position(latLng).icon(
                             BitmapDescriptorFactory.fromResource(R.drawable.location_mark_start)));
                 }
-                polylineOptions.add(latLng);
-                coordinates.add(new LatLon(latLng.longitude,latLng.latitude));
-                aMap.addPolyline(polylineOptions);
                 //计算平均速度
                 if(lastLatLon!=null){
                     double distance= AMapUtils.calculateLineDistance(lastLatLon,latLng);
                     previousDistance +=distance;
+                    if(distance>=8){
+                        polylineOptions.add(latLng);
+                        coordinates.add(new LatLon(latLng.longitude,latLng.latitude));
+                        aMap.addPolyline(polylineOptions);
+                    }
+                }else{
+                    //如果是第一次定位到
+                    polylineOptions.add(latLng);
+                    coordinates.add(new LatLon(latLng.longitude,latLng.latitude));
+                    aMap.addPolyline(polylineOptions);
                 }
+                lastLatLon=latLng;//暂存上一次坐标
                 DecimalFormat format=new DecimalFormat("#0.00");
                 double speed=(previousDistance/1000)/(time*1f/3600);
                 tv_avg_speed.setText(format.format(speed)+"km/h");
                 tv_distance.setText(format.format((previousDistance)/(1000*1.0)));
-                lastLatLon=latLng;//暂存上一次坐标
             } else {
                 //显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
                 /*Log.i("ggx","定位失败, ErrCode:"
