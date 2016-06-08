@@ -2,8 +2,6 @@ package com.softtek.lai.module.personalPK.view;
 
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -130,10 +128,11 @@ public class CreatePKActivity extends BaseActivity implements View.OnClickListen
                 if(cb_zidingyi.isChecked()){
                     if(et_content.getText().toString().length()==0){
                         new AlertDialog.Builder(this).setMessage("请输入自由筹码内容").create().show();
+                        return;
                     }else if(StringUtil.length(et_content.getText().toString())>40){
                         new AlertDialog.Builder(this).setMessage("自由筹码不能超过20个汉字").create().show();
+                        return;
                     }
-                    return;
                 }
                 Intent pk=new Intent(this,SelectOpponentActivity.class);
                 saveValue();
