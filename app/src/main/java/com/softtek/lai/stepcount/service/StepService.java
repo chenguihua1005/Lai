@@ -34,8 +34,6 @@ import com.softtek.lai.utils.JCountDownTimer;
 
 import java.util.Calendar;
 
-import zilla.libcore.util.Util;
-
 public class StepService extends Service implements SensorEventListener {
 
     public static final String UPLOAD_STEP="com.softtek.lai.StepService";
@@ -226,7 +224,6 @@ public class StepService extends Service implements SensorEventListener {
 
                     @Override
                     public void onChange(int step) {
-                        Util.toastMsg("步数"+step);
                         currentStep=step;
                         totalStep=currentStep+oldStep;
                         updateNotification("今日步数：" + totalStep+ " 步");
@@ -308,11 +305,15 @@ public class StepService extends Service implements SensorEventListener {
             Log.i("base", "注销detector");
             sensorManager.unregisterListener(this, detectorSensor);
         }
-        if(UserInfoModel.getInstance().getUser()!=null){
+        if(UserInfoModel.getInstance().getUser()!=null&&"1".equals(UserInfoModel.getInstance().getUser().getIsJoin())){
             Intent intent = new Intent(this, StepService.class);
             startService(intent);
         }else{
             nm.cancelAll();
+            totalStep=0;
+            lastStep=0;
+            oldStep=0;
+            currentStep=0;
             com.github.snowdream.android.util.Log.i("计步器服务不再执行");
         }
         super.onDestroy();
