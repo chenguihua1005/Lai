@@ -75,7 +75,7 @@ public class StepDcretor implements SensorEventListener {
 
     private Timer timer;
     // 倒计时4秒，4秒内不会显示计步，用于屏蔽细微波动
-    private long duration = 4000;
+    private long duration = 2000;
     private TimeCount time;
 
     OnSensorChangeListener onSensorChangeListener;
@@ -136,7 +136,11 @@ public class StepDcretor implements SensorEventListener {
                         && (peakOfWave - valleyOfWave >= ThreadValue) && timeOfNow - timeOfLastPeak <= 2000) {
                     timeOfThisPeak = timeOfNow;
                     //更新界面的处理，不涉及到算法
-                    preStep();
+                    CURRENT_SETP++;
+                    if (onSensorChangeListener != null) {
+                        onSensorChangeListener.onChange(CURRENT_SETP);
+                    }
+                    //preStep();
                 }
                 if (timeOfNow - timeOfLastPeak >= 200
                         && (peakOfWave - valleyOfWave >= initialValue)) {
