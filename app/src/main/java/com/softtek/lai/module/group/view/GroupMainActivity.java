@@ -9,6 +9,7 @@ package com.softtek.lai.module.group.view;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -228,9 +229,9 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
         Date curDate = new Date(System.currentTimeMillis());//获取当前时间
         String time = formatter.format(curDate);
         String str = time + "," + StepService.totalStep;
-        System.out.println("str:"+str);
+        System.out.println("str:" + str);
         dialogShow("加载中...");
-        sportGroupManager.getSportIndex(userId,str);
+        sportGroupManager.getSportIndex(userId, str);
 
     }
 
@@ -243,7 +244,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                 String time = formatter.format(curDate);
                 String str = time + "," + StepService.totalStep;
                 dialogShow("加载中");
-                System.out.println("str:"+str);
+                System.out.println("str:" + str);
                 sportGroupManager.getMineResult(userId, str);
                 break;
             case R.id.ll_left:
@@ -420,7 +421,13 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void getMineResult(String type, MineResultModel model) {
-        dialogDissmiss();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                dialogDissmiss();
+            }
+        }, 500);
+
         if ("success".equals(type)) {
             String TodayStepCnt = model.getTodayStepCnt();
             if ("0".equals(TodayStepCnt)) {
