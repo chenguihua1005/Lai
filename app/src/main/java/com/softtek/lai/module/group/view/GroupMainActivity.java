@@ -327,17 +327,22 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
             String TodayStepCnt = sportMainModel.getTodayStepCnt();
             if ("0".equals(TodayStepCnt)) {
                 text_step.setText("--");
-            } else {
-                text_step.setText(sportMainModel.getTodayStepCnt());
-            }
-            String todayKaluliCnt = sportMainModel.getTodayKaluliCnt();
-            if ("0".equals(todayKaluliCnt)) {
                 text_rl.setText("--");
                 text3.setVisibility(View.GONE);
             } else {
+                text_step.setText(sportMainModel.getTodayStepCnt());
                 text3.setVisibility(View.VISIBLE);
-                text_rl.setText(sportMainModel.getTodayKaluliCnt());
+                int kaluli=Integer.parseInt(sportMainModel.getTodayStepCnt())/35;
+                text_rl.setText(kaluli+"");
             }
+//            String todayKaluliCnt = sportMainModel.getTodayKaluliCnt();
+//            if ("0".equals(todayKaluliCnt)) {
+//                text_rl.setText("--");
+//                text3.setVisibility(View.GONE);
+//            } else {
+//                text3.setVisibility(View.VISIBLE);
+//                text_rl.setText(sportMainModel.getTodayKaluliCnt());
+//            }
             String todayStepOdr = sportMainModel.getTodayStepOdr();
             if ("0".equals(todayStepOdr)) {
                 text_pm.setText("--");
@@ -362,7 +367,6 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
             } else {
                 lin_no_pk.setVisibility(View.GONE);
                 lin_have_pk.setVisibility(View.VISIBLE);
-
                 text_pk_left_count.setText(praiseChallengeModel.getPCnt());
                 text_pk_right_count.setText(praiseChallengeModel.getBPCnt());
                 text_left_1.setText(praiseChallengeModel.getPCnt());
@@ -432,16 +436,13 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
             String TodayStepCnt = model.getTodayStepCnt();
             if ("0".equals(TodayStepCnt)) {
                 text_step.setText("--");
-            } else {
-                text_step.setText(model.getTodayStepCnt());
-            }
-            String todayKaluliCnt = model.getTodayKaluliCnt();
-            if ("0".equals(todayKaluliCnt)) {
                 text_rl.setText("--");
                 text3.setVisibility(View.GONE);
             } else {
+                text_step.setText(model.getTodayStepCnt());
                 text3.setVisibility(View.VISIBLE);
-                text_rl.setText(model.getTodayKaluliCnt());
+                int kaluli=Integer.parseInt(model.getTodayStepCnt())/35;
+                text_rl.setText(kaluli+"");
             }
             String todayStepOdr = model.getTodayStepOdr();
             if ("0".equals(todayStepOdr)) {
