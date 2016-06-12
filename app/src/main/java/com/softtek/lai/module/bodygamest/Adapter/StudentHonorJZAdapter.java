@@ -56,6 +56,8 @@ public class StudentHonorJZAdapter extends BaseAdapter {
             holder = new ViewHolder();
             convertView = mInflater.inflate(R.layout.student_honor_jz_item, null);
             holder.text_value = (TextView) convertView.findViewById(R.id.text_value);
+            holder.tv = (TextView) convertView.findViewById(R.id.tv);
+            holder.img = (ImageView) convertView.findViewById(R.id.img);
 
             convertView.setTag(holder);
         } else {
@@ -63,11 +65,21 @@ public class StudentHonorJZAdapter extends BaseAdapter {
         }
         StudentHonorInfo studentHonorInfo = list.get(position);
         holder.text_value.setText(studentHonorInfo.getValue().toString());
+        String type=studentHonorInfo.getHonorType();
+        if("future".equals(type)){
+            holder.img.setImageResource(R.drawable.img_student_no_jz);
+            holder.tv.setText("");
+        }else {
+            holder.img.setImageResource(R.drawable.img_student_honor_jz_bg);
+            holder.tv.setText("斤");
+        }
 
         return convertView;
     }
 
     private static class ViewHolder {
         private TextView text_value;
+        private TextView tv;
+        private ImageView img;
     }
 }

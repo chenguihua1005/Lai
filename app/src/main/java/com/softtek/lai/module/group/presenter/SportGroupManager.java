@@ -78,13 +78,19 @@ public class SportGroupManager {
                 int status = stepResponseModelResponseData.getStatus();
                 switch (status) {
                     case 200:
-                        isJoinRunGroupManagerCallBack.isJoinRunGroup(true);
+                        if (isJoinRunGroupManagerCallBack != null) {
+                            isJoinRunGroupManagerCallBack.isJoinRunGroup(true);
+                        }
                         break;
                     case 100:
-                        isJoinRunGroupManagerCallBack.isJoinRunGroup(false);
+                        if (isJoinRunGroupManagerCallBack != null) {
+                            isJoinRunGroupManagerCallBack.isJoinRunGroup(false);
+                        }
                         break;
                     default:
-                        isJoinRunGroupManagerCallBack.isJoinRunGroup(false);
+                        if (isJoinRunGroupManagerCallBack != null) {
+                            isJoinRunGroupManagerCallBack.isJoinRunGroup(false);
+                        }
                         Util.toastMsg(stepResponseModelResponseData.getMsg());
                         break;
                 }
@@ -109,13 +115,19 @@ public class SportGroupManager {
                 int status = listResponseData.getStatus();
                 switch (status) {
                     case 200:
-                        getGroupListCallBack.getBregionList("success", listResponseData.getData());
+                        if (getGroupListCallBack != null) {
+                            getGroupListCallBack.getBregionList("success", listResponseData.getData());
+                        }
                         break;
                     case 100:
-                        getGroupListCallBack.getBregionList("fail", new ArrayList<DxqModel>());
+                        if (getGroupListCallBack != null) {
+                            getGroupListCallBack.getBregionList("fail", new ArrayList<DxqModel>());
+                        }
                         break;
                     default:
-                        getGroupListCallBack.getBregionList("fail", new ArrayList<DxqModel>());
+                        if (getGroupListCallBack != null) {
+                            getGroupListCallBack.getBregionList("fail", new ArrayList<DxqModel>());
+                        }
                         Util.toastMsg(listResponseData.getMsg());
                         break;
                 }
@@ -139,13 +151,19 @@ public class SportGroupManager {
                 int status = listResponseData.getStatus();
                 switch (status) {
                     case 200:
-                        getGroupListCallBack.getSregionList("success", listResponseData.getData());
+                        if (getGroupListCallBack != null) {
+                            getGroupListCallBack.getSregionList("success", listResponseData.getData());
+                        }
                         break;
                     case 100:
-                        getGroupListCallBack.getSregionList("fail", new ArrayList<DxqModel>());
+                        if (getGroupListCallBack != null) {
+                            getGroupListCallBack.getSregionList("fail", new ArrayList<DxqModel>());
+                        }
                         break;
                     default:
-                        getGroupListCallBack.getSregionList("fail", new ArrayList<DxqModel>());
+                        if (getGroupListCallBack != null) {
+                            getGroupListCallBack.getSregionList("fail", new ArrayList<DxqModel>());
+                        }
                         Util.toastMsg(listResponseData.getMsg());
                         break;
                 }
@@ -169,14 +187,20 @@ public class SportGroupManager {
                 int status = listResponseData.getStatus();
                 switch (status) {
                     case 200:
-                        getGroupListCallBack.getCityList("success", listResponseData.getData());
+                        if (getGroupListCallBack != null) {
+                            getGroupListCallBack.getCityList("success", listResponseData.getData());
+                        }
                         break;
 
                     case 100:
-                        getGroupListCallBack.getCityList("fail", new ArrayList<CityModel>());
+                        if (getGroupListCallBack != null) {
+                            getGroupListCallBack.getCityList("fail", new ArrayList<CityModel>());
+                        }
                         break;
                     default:
-                        getGroupListCallBack.getCityList("fail", new ArrayList<CityModel>());
+                        if (getGroupListCallBack != null) {
+                            getGroupListCallBack.getCityList("fail", new ArrayList<CityModel>());
+                        }
                         Util.toastMsg(listResponseData.getMsg());
                         break;
                 }
@@ -200,13 +224,19 @@ public class SportGroupManager {
                 int status = listResponseData.getStatus();
                 switch (status) {
                     case 200:
-                        getGroupListCallBack.getRGListByCity("success", listResponseData.getData());
+                        if (getGroupListCallBack != null) {
+                            getGroupListCallBack.getRGListByCity("success", listResponseData.getData());
+                        }
                         break;
                     case 100:
-                        getGroupListCallBack.getRGListByCity("fail", new ArrayList<GroupModel>());
+                        if (getGroupListCallBack != null) {
+                            getGroupListCallBack.getRGListByCity("fail", new ArrayList<GroupModel>());
+                        }
                         break;
                     default:
-                        getGroupListCallBack.getRGListByCity("fail", new ArrayList<GroupModel>());
+                        if (getGroupListCallBack != null) {
+                            getGroupListCallBack.getRGListByCity("fail", new ArrayList<GroupModel>());
+                        }
                         Util.toastMsg(listResponseData.getMsg());
                         break;
                 }
@@ -230,13 +260,19 @@ public class SportGroupManager {
                 int status = listResponseData.getStatus();
                 switch (status) {
                     case 200:
-                        getGroupListCallBack.getRGListByCity("success", listResponseData.getData());
+                        if (getGroupListCallBack != null) {
+                            getGroupListCallBack.getRGListByCity("success", listResponseData.getData());
+                        }
                         break;
                     case 100:
-                        getGroupListCallBack.getRGListByCity("fail", new ArrayList<GroupModel>());
+                        if (getGroupListCallBack != null) {
+                            getGroupListCallBack.getRGListByCity("fail", new ArrayList<GroupModel>());
+                        }
                         break;
                     default:
-                        getGroupListCallBack.getRGListByCity("fail", new ArrayList<GroupModel>());
+                        if (getGroupListCallBack != null) {
+                            getGroupListCallBack.getRGListByCity("fail", new ArrayList<GroupModel>());
+                        }
                         Util.toastMsg(listResponseData.getMsg());
                         break;
                 }
@@ -260,13 +296,19 @@ public class SportGroupManager {
                 int status = listResponseData.getStatus();
                 switch (status) {
                     case 200:
-                        getRGListCallBack.getRGList("success", listResponseData.getData());
+                        if (getRGListCallBack != null) {
+                            getRGListCallBack.getRGList("success", listResponseData.getData());
+                        }
                         break;
                     case 100:
-                        getRGListCallBack.getRGList("fail", new ArrayList<GroupModel>());
+                        if (getRGListCallBack != null) {
+                            getRGListCallBack.getRGList("fail", new ArrayList<GroupModel>());
+                        }
                         break;
                     default:
-                        getRGListCallBack.getRGList("fail", new ArrayList<GroupModel>());
+                        if (getRGListCallBack != null) {
+                            getRGListCallBack.getRGList("fail", new ArrayList<GroupModel>());
+                        }
                         Util.toastMsg(listResponseData.getMsg());
                         break;
                 }
@@ -290,13 +332,19 @@ public class SportGroupManager {
                 int status = listResponseData.getStatus();
                 switch (status) {
                     case 200:
-                        getRGByNameOrCodeCallBack.getRGByNameOrCode("success", listResponseData.getData());
+                        if (getRGByNameOrCodeCallBack != null) {
+                            getRGByNameOrCodeCallBack.getRGByNameOrCode("success", listResponseData.getData());
+                        }
                         break;
                     case 100:
-                        getRGByNameOrCodeCallBack.getRGByNameOrCode("fail", new ArrayList<GroupModel>());
+                        if (getRGByNameOrCodeCallBack != null) {
+                            getRGByNameOrCodeCallBack.getRGByNameOrCode("fail", new ArrayList<GroupModel>());
+                        }
                         break;
                     default:
-                        getRGByNameOrCodeCallBack.getRGByNameOrCode("fail", new ArrayList<GroupModel>());
+                        if (getRGByNameOrCodeCallBack != null) {
+                            getRGByNameOrCodeCallBack.getRGByNameOrCode("fail", new ArrayList<GroupModel>());
+                        }
                         Util.toastMsg(listResponseData.getMsg());
                         break;
                 }
@@ -320,13 +368,19 @@ public class SportGroupManager {
                 int status = listResponseData.getStatus();
                 switch (status) {
                     case 200:
-                        getSportIndexCallBack.getSportIndex("success", listResponseData.getData());
+                        if (getSportIndexCallBack != null) {
+                            getSportIndexCallBack.getSportIndex("success", listResponseData.getData());
+                        }
                         break;
                     case 100:
-                        getSportIndexCallBack.getSportIndex("fail", new SportMainModel());
+                        if (getSportIndexCallBack != null) {
+                            getSportIndexCallBack.getSportIndex("fail", new SportMainModel());
+                        }
                         break;
                     default:
-                        getSportIndexCallBack.getSportIndex("fail", new SportMainModel());
+                        if (getSportIndexCallBack != null) {
+                            getSportIndexCallBack.getSportIndex("fail", new SportMainModel());
+                        }
                         Util.toastMsg(listResponseData.getMsg());
                         break;
                 }
@@ -350,13 +404,19 @@ public class SportGroupManager {
                 int status = listResponseData.getStatus();
                 switch (status) {
                     case 200:
-                        getSportIndexCallBack.getMineResult("success", listResponseData.getData());
+                        if (getSportIndexCallBack != null) {
+                            getSportIndexCallBack.getMineResult("success", listResponseData.getData());
+                        }
                         break;
                     case 100:
-                        getSportIndexCallBack.getMineResult("fail", null);
+                        if (getSportIndexCallBack != null) {
+                            getSportIndexCallBack.getMineResult("fail", null);
+                        }
                         break;
                     default:
-                        getSportIndexCallBack.getMineResult("fail", null);
+                        if (getSportIndexCallBack != null) {
+                            getSportIndexCallBack.getMineResult("fail", null);
+                        }
                         Util.toastMsg(listResponseData.getMsg());
                         break;
                 }
@@ -380,13 +440,19 @@ public class SportGroupManager {
                 int status = listResponseData.getStatus();
                 switch (status) {
                     case 200:
-                        joinRunGroupCallBack.joinRunGroup(true);
+                        if (joinRunGroupCallBack != null) {
+                            joinRunGroupCallBack.joinRunGroup(true);
+                        }
                         break;
                     case 100:
-                        joinRunGroupCallBack.joinRunGroup(false);
+                        if (joinRunGroupCallBack != null) {
+                            joinRunGroupCallBack.joinRunGroup(false);
+                        }
                         break;
                     default:
-                        joinRunGroupCallBack.joinRunGroup(false);
+                        if (joinRunGroupCallBack != null) {
+                            joinRunGroupCallBack.joinRunGroup(false);
+                        }
                         Util.toastMsg(listResponseData.getMsg());
                         break;
                 }

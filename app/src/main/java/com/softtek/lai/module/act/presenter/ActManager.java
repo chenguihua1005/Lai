@@ -39,35 +39,37 @@ public class ActManager {
         token = UserInfoModel.getInstance().getToken();
         service = ZillaApi.NormalRestAdapter.create(ActService.class);
     }
+
     public ActManager(GetActDetailsCallBack getActDetailsCallBack) {
         this.getActDetailsCallBack = getActDetailsCallBack;
         token = UserInfoModel.getInstance().getToken();
         service = ZillaApi.NormalRestAdapter.create(ActService.class);
     }
-
     public ActManager(GetactivityListCallBack getactivityListCallBack) {
         this.getactivityListCallBack = getactivityListCallBack;
         token = UserInfoModel.getInstance().getToken();
         service = ZillaApi.NormalRestAdapter.create(ActService.class);
     }
 
-    public void getActivitySituation(String pageIndex, String accountid,String activityid) {
-        service.getActivitySituation(token, pageIndex, accountid, activityid,new RequestCallback<ResponseData<ActZKModel>>() {
+    public void getActivitySituation(String pageIndex, String accountid, String activityid) {
+        service.getActivitySituation(token, pageIndex, accountid, activityid, new RequestCallback<ResponseData<ActZKModel>>() {
             @Override
             public void success(ResponseData<ActZKModel> listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
-                switch (status) {
-                    case 200:
-                        getActivitySituationCallBack.getActivitySituation("true", listResponseData.getData());
-                        break;
-                    case 100:
-                        getActivitySituationCallBack.getActivitySituation("false", null);
-                        break;
-                    default:
-                        getActivitySituationCallBack.getActivitySituation("false", null);
-                        Util.toastMsg(listResponseData.getMsg());
-                        break;
+                if (getActivitySituationCallBack != null) {
+                    switch (status) {
+                        case 200:
+                            getActivitySituationCallBack.getActivitySituation("true", listResponseData.getData());
+                            break;
+                        case 100:
+                            getActivitySituationCallBack.getActivitySituation("false", null);
+                            break;
+                        default:
+                            getActivitySituationCallBack.getActivitySituation("false", null);
+                            Util.toastMsg(listResponseData.getMsg());
+                            break;
+                    }
                 }
             }
 
@@ -87,18 +89,20 @@ public class ActManager {
             public void success(ResponseData<ActivityModel> listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
-                switch (status) {
-                    case 200:
+                if (getactivityListCallBack != null) {
+                    switch (status) {
+                        case 200:
 
-                        getactivityListCallBack.activityList("true", listResponseData.getData());
-                        break;
-                    case 100:
-                        getactivityListCallBack.activityList("false", null);
-                        break;
-                    default:
-                        getactivityListCallBack.activityList("false", null);
-                        Util.toastMsg(listResponseData.getMsg());
-                        break;
+                            getactivityListCallBack.activityList("true", listResponseData.getData());
+                            break;
+                        case 100:
+                            getactivityListCallBack.activityList("false", null);
+                            break;
+                        default:
+                            getactivityListCallBack.activityList("false", null);
+                            Util.toastMsg(listResponseData.getMsg());
+                            break;
+                    }
                 }
             }
 
@@ -112,24 +116,26 @@ public class ActManager {
         });
     }
 
-    public void getActRGStepOrder(String pageIndex,String rgid,String activityid) {
-        service.getActRGStepOrder(token, pageIndex,rgid,activityid, new RequestCallback<ResponseData<ActZKPModel>>() {
+    public void getActRGStepOrder(String pageIndex, String rgid, String activityid) {
+        service.getActRGStepOrder(token, pageIndex, rgid, activityid, new RequestCallback<ResponseData<ActZKPModel>>() {
             @Override
             public void success(ResponseData<ActZKPModel> listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
-                switch (status) {
-                    case 200:
+                if (getActRGStepOrderCallBack != null) {
+                    switch (status) {
+                        case 200:
 
-                        getActRGStepOrderCallBack.getActRGStepOrder("true", listResponseData.getData());
-                        break;
-                    case 100:
-                        getActRGStepOrderCallBack.getActRGStepOrder("false", null);
-                        break;
-                    default:
-                        getActRGStepOrderCallBack.getActRGStepOrder("false", null);
-                        Util.toastMsg(listResponseData.getMsg());
-                        break;
+                            getActRGStepOrderCallBack.getActRGStepOrder("true", listResponseData.getData());
+                            break;
+                        case 100:
+                            getActRGStepOrderCallBack.getActRGStepOrder("false", null);
+                            break;
+                        default:
+                            getActRGStepOrderCallBack.getActRGStepOrder("false", null);
+                            Util.toastMsg(listResponseData.getMsg());
+                            break;
+                    }
                 }
             }
 
@@ -149,17 +155,19 @@ public class ActManager {
             public void success(ResponseData<ActDetailModel> listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
-                switch (status) {
-                    case 200:
-                        getActDetailsCallBack.getActDetails("true", listResponseData.getData());
-                        break;
-                    case 100:
-                        getActDetailsCallBack.getActDetails("false", null);
-                        break;
-                    default:
-                        getActDetailsCallBack.getActDetails("false", null);
-                        Util.toastMsg(listResponseData.getMsg());
-                        break;
+                if (getActDetailsCallBack != null) {
+                    switch (status) {
+                        case 200:
+                            getActDetailsCallBack.getActDetails("true", listResponseData.getData());
+                            break;
+                        case 100:
+                            getActDetailsCallBack.getActDetails("false", null);
+                            break;
+                        default:
+                            getActDetailsCallBack.getActDetails("false", null);
+                            Util.toastMsg(listResponseData.getMsg());
+                            break;
+                    }
                 }
             }
 
