@@ -14,7 +14,6 @@
         android:id="@+id/text_rnum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="1"
         android:layout_centerVertical="true"
         android:textSize="22sp"
         android:textColor="@color/word3"
@@ -29,8 +28,7 @@
         android:scaleType="centerCrop"
         android:layout_centerVertical="true"
         android:layout_marginTop="18dip"
-        android:layout_marginBottom="18dip"
-        android:src="@drawable/testheader" />
+        android:layout_marginBottom="18dip"/>
 
     <LinearLayout
         android:layout_toRightOf="@+id/img"
@@ -44,7 +42,6 @@
             android:id="@+id/text_user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="JOY"
             android:textColor="@color/word"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -93,7 +90,6 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="-18.0"
             android:textColor="@color/word"
             android:textSize="22sp"
             android:textStyle="bold" />

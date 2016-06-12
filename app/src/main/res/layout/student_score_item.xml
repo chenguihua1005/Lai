@@ -16,7 +16,6 @@
         android:layout_width="30dp"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="1"
         android:textSize="22sp"
         android:textStyle="bold" />
 
@@ -26,8 +25,7 @@
         android:layout_height="50dp"
         android:layout_marginBottom="10dip"
         android:layout_marginTop="10dip"
-        android:scaleType="centerCrop"
-        android:src="@drawable/testheader" />
+        android:scaleType="centerCrop" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -40,7 +38,6 @@
             android:id="@+id/text_user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="JOY"
             android:textColor="@color/word"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -55,7 +52,6 @@
                 android:id="@+id/text_before_weight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="前 78.5kg"
                 android:textSize="12sp" />
 
             <View
@@ -71,7 +67,6 @@
                 android:id="@+id/text_after_weight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="后 60.5kg"
                 android:textSize="12sp" />
         </LinearLayout>
     </LinearLayout>
@@ -87,7 +82,6 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="-18.0"
             android:textSize="22sp"
             android:textStyle="bold" />
 
