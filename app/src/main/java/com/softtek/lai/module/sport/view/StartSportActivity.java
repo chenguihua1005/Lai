@@ -19,17 +19,15 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.sport.model.HistorySportModel;
-import com.softtek.lai.module.sport.model.ResultModel;
 import com.softtek.lai.module.sport.model.TotalSportModel;
 import com.softtek.lai.module.sport.presenter.SportManager;
-import com.softtek.lai.utils.WheatherUtil;
 
-import java.io.UnsupportedEncodingException;
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -296,7 +294,8 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
     @Override
     public void getHistoryTotalMovement(String type, TotalSportModel model) {
         if ("true".equals(type)) {
-            text_total_distance.setText(model.getTotalKilometer());
+            String km= StringUtils.isEmpty(model.getTotalKilometer())?"0":model.getTotalKilometer();
+            text_total_distance.setText(km);
             text_total_time.setText(model.getTotalTime());
             text_total_count.setText(model.getCount());
         }

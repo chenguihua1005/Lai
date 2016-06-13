@@ -18,9 +18,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
@@ -30,7 +32,12 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.act.view.ActActivity;
 import com.softtek.lai.module.act.view.ActListActivity;
+import com.softtek.lai.module.group.adapter.GroupMainActiuvityAdapter;
 import com.softtek.lai.module.group.model.MineResultModel;
+import com.softtek.lai.module.group.model.PraiseChallengeModel;
+import com.softtek.lai.module.group.model.RecentlyActiviteModel;
+import com.softtek.lai.module.group.model.SportMainModel;
+import com.softtek.lai.module.group.presenter.SportGroupManager;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.laisportmine.present.MyRunTeamManager;
 import com.softtek.lai.module.laisportmine.view.MyInformationActivity;
@@ -38,13 +45,7 @@ import com.softtek.lai.module.mygrades.view.MyGradesActivity;
 import com.softtek.lai.module.personalPK.view.CreatePKActivity;
 import com.softtek.lai.module.personalPK.view.PKDetailActivity;
 import com.softtek.lai.module.personalPK.view.PKListActivity;
-import com.softtek.lai.module.group.adapter.GroupMainActiuvityAdapter;
-import com.softtek.lai.module.group.model.PraiseChallengeModel;
-import com.softtek.lai.module.group.model.RecentlyActiviteModel;
-import com.softtek.lai.module.group.model.SportMainModel;
-import com.softtek.lai.module.group.presenter.SportGroupManager;
 import com.softtek.lai.module.sport.view.StartSportActivity;
-import com.softtek.lai.stepcount.net.StepNetService;
 import com.softtek.lai.stepcount.service.StepService;
 import com.softtek.lai.utils.StringUtil;
 import com.squareup.picasso.Picasso;
@@ -67,7 +68,8 @@ import zilla.libcore.ui.InjectLayout;
  * 跑团首页
  */
 @InjectLayout(R.layout.activity_group_main)
-public class GroupMainActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener, SportGroupManager.GetSportIndexCallBack {
+public class GroupMainActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener, SportGroupManager.GetSportIndexCallBack
+,PullToRefreshBase.OnRefreshListener<ScrollView>{
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -131,6 +133,9 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
 
     @InjectView(R.id.lin_reflash)
     LinearLayout lin_reflash;
+
+    @InjectView(R.id.pull_sroll)
+    PullToRefreshScrollView pull_sroll;
 
     MyRunTeamManager myRunTeamManager;
     UserInfoModel userInfoModel = UserInfoModel.getInstance();
@@ -222,19 +227,22 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
     protected void initViews() {
         iv_email.setImageResource(R.drawable.img_group_main_my);
         iv_email.setVisibility(View.VISIBLE);
+        pull_sroll.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+        pull_sroll.setOnRefreshListener(this);
+
     }
 
     @Override
     protected void initDatas() {
         sportGroupManager = new SportGroupManager(this);
-        userId = UserInfoModel.getInstance().getUser().getUserid();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        Date curDate = new Date(System.currentTimeMillis());//获取当前时间
-        String time = formatter.format(curDate);
-        String str = time + "," + StepService.totalStep;
-        System.out.println("str:" + str);
-        dialogShow("加载中...");
-        sportGroupManager.getSportIndex(userId, str);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                pull_sroll.setRefreshing();
+            }
+        },300);
+        //dialogShow("加载中...");
+
 
     }
 
@@ -336,7 +344,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void getSportIndex(String type, SportMainModel sportMainModel) {
-        dialogDissmiss();
+        pull_sroll.onRefreshComplete();
         if ("success".equals(type)) {
             String TodayStepCnt = sportMainModel.getTodayStepCnt();
             if ("0".equals(TodayStepCnt)) {
@@ -471,5 +479,15 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                 text_xzs.setText(model.getMedalCnt());
             }
         }
+    }
+
+    @Override
+    public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
+        userId = UserInfoModel.getInstance().getUser().getUserid();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date curDate = new Date(System.currentTimeMillis());//获取当前时间
+        String time = formatter.format(curDate);
+        String str = time + "," + StepService.totalStep;
+        sportGroupManager.getSportIndex(userId, str);
     }
 }

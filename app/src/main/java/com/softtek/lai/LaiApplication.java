@@ -15,6 +15,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.utils.NetErrorHandler;
 import com.umeng.socialize.PlatformConfig;
 
+import im.fir.sdk.FIR;
 import retrofit.RequestInterceptor;
 import zilla.libcore.Zilla;
 import zilla.libcore.api.ZillaApi;
@@ -35,6 +36,7 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
         laiApplication = this;
         new Zilla().setCallBack(this).initSystem(this);
         UserInfoModel.getInstance(this);
+        FIR.init(this);//注册Fir自动更新
         CrashHandler catchHandler = CrashHandler.getInstance();
         catchHandler.init(getApplicationContext());
     }
