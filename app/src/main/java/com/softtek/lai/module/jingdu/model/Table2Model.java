@@ -8,12 +8,14 @@ public class Table2Model {
     private String ClassId;	    //班级id
     private String ClassName;	//班级名称
     private String WeightRate;
+    private String StartDate;//	班级开始时间
 
-    public Table2Model(String loseWeight, String classId, String className, String weightRate) {
+    public Table2Model(String loseWeight, String classId, String className, String weightRate, String startDate) {
         LoseWeight = loseWeight;
         ClassId = classId;
         ClassName = className;
         WeightRate = weightRate;
+        StartDate = startDate;
     }
 
     public String getLoseWeight() {
@@ -48,6 +50,14 @@ public class Table2Model {
         WeightRate = weightRate;
     }
 
+    public String getStartDate() {
+        return StartDate;
+    }
+
+    public void setStartDate(String startDate) {
+        StartDate = startDate;
+    }
+
     @Override
     public String toString() {
         return "Table2Model{" +
@@ -55,6 +65,7 @@ public class Table2Model {
                 ", ClassId='" + ClassId + '\'' +
                 ", ClassName='" + ClassName + '\'' +
                 ", WeightRate='" + WeightRate + '\'' +
+                ", StartDate='" + StartDate + '\'' +
                 '}';
     }
 }
