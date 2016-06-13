@@ -26,7 +26,11 @@ import com.softtek.lai.module.jingdu.presenter.IGetProinfopresenter;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -51,6 +55,20 @@ public class ZhuJiaoJingduActivity extends BaseActivity implements View.OnClickL
     ListView list_rank;
 
     //班级布局
+    @InjectView(R.id.ll_yue1)
+    LinearLayout ll_yue1;
+    @InjectView(R.id.ll_yue2)
+    LinearLayout ll_yue2;
+    @InjectView(R.id.ll_yue3)
+    LinearLayout ll_yue3;
+
+    @InjectView(R.id.tv_yue1)
+    TextView tv_yue1;
+    @InjectView(R.id.tv_yue2)
+    TextView tv_yue2;
+    @InjectView(R.id.tv_yue3)
+    TextView tv_yue3;
+
     @InjectView(R.id.img_oneban)
     ImageView img_oneban;
 
@@ -178,6 +196,21 @@ public class ZhuJiaoJingduActivity extends BaseActivity implements View.OnClickL
 
 //           ll_twoban.setVisibility(View.GONE);
 //           ll_threeban.setVisibility(View.GONE);
+            // 需要解析的日期字符串
+            String yue1 = spModel.getTable2().get(0).getStartDate();
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            try {
+                Date date = format.parse(yue1);
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(date);
+                int month = calendar.get(Calendar.MONTH);
+                ll_yue1.setVisibility(View.VISIBLE);
+                tv_yue1.setText("" + (month + 1));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+
             onebanname = spModel.getTable2().get(0).getClassName();
             oneban = spModel.getTable2().get(0).getLoseWeight();
             tv_classname1.setText(onebanname);
@@ -186,6 +219,29 @@ public class ZhuJiaoJingduActivity extends BaseActivity implements View.OnClickL
             total_weight.setValue(a, 0, 0);
         } else if (spModel.getTable2().size() == 2) {
             //ll_threeban.setVisibility(View.GONE);
+
+            String yue1 = spModel.getTable2().get(0).getStartDate();
+            String yue2 = spModel.getTable2().get(1).getStartDate();
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            try {
+                Date date1 = format.parse(yue1);
+                Date date2 = format.parse(yue2);
+                Calendar calendar1 = Calendar.getInstance();
+                Calendar calendar2 = Calendar.getInstance();
+                calendar1.setTime(date1);
+                calendar2.setTime(date2);
+                int month1 = calendar1.get(Calendar.MONTH);
+                int month2 = calendar2.get(Calendar.MONTH);
+                ll_yue1.setVisibility(View.VISIBLE);
+                tv_yue1.setText("" + (month1 + 1));
+                ll_yue2.setVisibility(View.VISIBLE);
+                tv_yue2.setText("" + (month2 + 1));
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+
             img_oneban.setVisibility(View.VISIBLE);
             img_twoban.setVisibility(View.VISIBLE);
 
@@ -201,6 +257,34 @@ public class ZhuJiaoJingduActivity extends BaseActivity implements View.OnClickL
             float b = Float.parseFloat(twoban);
             total_weight.setValue(a, b, 0);
         } else if (spModel.getTable2().size() == 3) {
+
+            String yue1 = spModel.getTable2().get(0).getStartDate();
+            String yue2 = spModel.getTable2().get(1).getStartDate();
+            String yue3 = spModel.getTable2().get(2).getStartDate();
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            try {
+                Date date1 = format.parse(yue1);
+                Date date2 = format.parse(yue2);
+                Date date3 = format.parse(yue3);
+                Calendar calendar1 = Calendar.getInstance();
+                Calendar calendar2 = Calendar.getInstance();
+                Calendar calendar3 = Calendar.getInstance();
+                calendar1.setTime(date1);
+                calendar2.setTime(date2);
+                calendar3.setTime(date3);
+                int month1 = calendar1.get(Calendar.MONTH);
+                int month2 = calendar2.get(Calendar.MONTH);
+                int month3 = calendar3.get(Calendar.MONTH);
+                ll_yue1.setVisibility(View.VISIBLE);
+                tv_yue1.setText("" + (month1 + 1));
+                ll_yue2.setVisibility(View.VISIBLE);
+                tv_yue2.setText("" + (month2 + 1));
+                ll_yue3.setVisibility(View.VISIBLE);
+                tv_yue3.setText("" + (month3 + 1));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
             img_oneban.setVisibility(View.VISIBLE);
             img_twoban.setVisibility(View.VISIBLE);
             img_threeban.setVisibility(View.INVISIBLE);

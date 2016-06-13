@@ -7,9 +7,7 @@ package com.softtek.lai.module.jingdu.view;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -38,8 +36,6 @@ import com.softtek.lai.widgets.SelectPicPopupWindow;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
-//import com.umeng.socialize.bean.SocializeConfig;
-//import com.umeng.socialize.sso.UMSsoHandler;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -47,12 +43,19 @@ import org.greenrobot.eventbus.Subscribe;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
+
+//import com.umeng.socialize.bean.SocializeConfig;
+//import com.umeng.socialize.sso.UMSsoHandler;
 
 @InjectLayout(R.layout.activity_jingdu)
 public class JingduActivity extends BaseActivity implements View.OnClickListener {
@@ -73,6 +76,20 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
     TextView tv_newmem;
 
     //班级布局
+    @InjectView(R.id.ll_yue1)
+    LinearLayout ll_yue1;
+    @InjectView(R.id.ll_yue2)
+    LinearLayout ll_yue2;
+    @InjectView(R.id.ll_yue3)
+    LinearLayout ll_yue3;
+
+    @InjectView(R.id.tv_yue1)
+    TextView tv_yue1;
+    @InjectView(R.id.tv_yue2)
+    TextView tv_yue2;
+    @InjectView(R.id.tv_yue3)
+    TextView tv_yue3;
+
     @InjectView(R.id.img_oneban)
     ImageView img_oneban;
 
@@ -203,16 +220,18 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
 
     @Subscribe
     public void onEvent(UserHonorModel model) {
-        userHonorModel=model;
+        userHonorModel = model;
         dialogShow("加载中");
-        iGetProinfopresenter.upload( "/sdcard/screen_test_1.png");
+        iGetProinfopresenter.upload("/sdcard/screen_test_1.png");
 
     }
+
     @Override
     protected void initDatas() {
         tv_title.setText("当期进度");
         honorPresenter = new HonorImpl(this);
     }
+
     @Subscribe
     public void onEvent(PhotosModel photModel) {
         System.out.println(photModel);
@@ -220,15 +239,16 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
             return;
         }
         String path = AddressManager.get("shareHost");
-        url = path + "ShareSPCurrentPro?AccountId=" + UserInfoModel.getInstance().getUser().getUserid()+"&Image="+photModel.getImg();
+        url = path + "ShareSPCurrentPro?AccountId=" + UserInfoModel.getInstance().getUser().getUserid() + "&Image=" + photModel.getImg();
         System.out.println("url:" + url);
-        value = "我在" + userHonorModel.getDays() + "天里已累计服务"+userHonorModel.getNum()+"学员，共帮助他们减重"+userHonorModel.getSumLoss()+"斤，快来参加体重管理挑战赛吧！";
+        value = "我在" + userHonorModel.getDays() + "天里已累计服务" + userHonorModel.getNum() + "学员，共帮助他们减重" + userHonorModel.getSumLoss() + "斤，快来参加体重管理挑战赛吧！";
 
         menuWindow = new SelectPicPopupWindow(JingduActivity.this, itemsOnClick);
         //显示窗口
         menuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         menuWindow.showAtLocation(JingduActivity.this.findViewById(R.id.rel), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
     }
+
     private View.OnClickListener itemsOnClick = new View.OnClickListener() {
 
         public void onClick(View v) {
@@ -267,6 +287,7 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
         }
 
     };
+
     @Subscribe
     public void onEvent(RankModel rank) {
         //Table：教练本月总开班数量，新增学员数量(累计减重数量)
@@ -287,6 +308,21 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
 
 //           ll_twoban.setVisibility(View.GONE);
 //           ll_threeban.setVisibility(View.GONE);
+
+            // 需要解析的日期字符串
+            String yue1 = rank.getTable2().get(0).getStartDate();
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            try {
+                Date date = format.parse(yue1);
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(date);
+                int month = calendar.get(Calendar.MONTH);
+                ll_yue1.setVisibility(View.VISIBLE);
+                tv_yue1.setText("" + (month + 1));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
             onebanname = rank.getTable2().get(0).getClassName();
             oneban = rank.getTable2().get(0).getLoseWeight();
             tv_classname1.setText(onebanname);
@@ -295,6 +331,28 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
             total_weight.setValue(a, 0, 0);
         } else if (rank.getTable2().size() == 2) {
             //ll_threeban.setVisibility(View.GONE);
+
+            String yue1 = rank.getTable2().get(0).getStartDate();
+            String yue2 = rank.getTable2().get(1).getStartDate();
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            try {
+                Date date1 = format.parse(yue1);
+                Date date2 = format.parse(yue2);
+                Calendar calendar1 = Calendar.getInstance();
+                Calendar calendar2 = Calendar.getInstance();
+                calendar1.setTime(date1);
+                calendar2.setTime(date2);
+                int month1 = calendar1.get(Calendar.MONTH);
+                int month2 = calendar2.get(Calendar.MONTH);
+                ll_yue1.setVisibility(View.VISIBLE);
+                tv_yue1.setText("" + (month1 + 1));
+                ll_yue2.setVisibility(View.VISIBLE);
+                tv_yue2.setText("" + (month2 + 1));
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
             img_oneban.setVisibility(View.VISIBLE);
             img_twoban.setVisibility(View.VISIBLE);
 
@@ -310,6 +368,34 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
             float b = Float.parseFloat(twoban);
             total_weight.setValue(a, b, 0);
         } else if (rank.getTable2().size() == 3) {
+
+            String yue1 = rank.getTable2().get(0).getStartDate();
+            String yue2 = rank.getTable2().get(1).getStartDate();
+            String yue3 = rank.getTable2().get(2).getStartDate();
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            try {
+                Date date1 = format.parse(yue1);
+                Date date2 = format.parse(yue2);
+                Date date3 = format.parse(yue3);
+                Calendar calendar1 = Calendar.getInstance();
+                Calendar calendar2 = Calendar.getInstance();
+                Calendar calendar3 = Calendar.getInstance();
+                calendar1.setTime(date1);
+                calendar2.setTime(date2);
+                calendar3.setTime(date3);
+                int month1 = calendar1.get(Calendar.MONTH);
+                int month2 = calendar2.get(Calendar.MONTH);
+                int month3 = calendar3.get(Calendar.MONTH);
+                ll_yue1.setVisibility(View.VISIBLE);
+                tv_yue1.setText("" + (month1 + 1));
+                ll_yue2.setVisibility(View.VISIBLE);
+                tv_yue2.setText("" + (month2 + 1));
+                ll_yue3.setVisibility(View.VISIBLE);
+                tv_yue3.setText("" + (month3 + 1));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
             img_oneban.setVisibility(View.VISIBLE);
             img_twoban.setVisibility(View.VISIBLE);
             img_threeban.setVisibility(View.INVISIBLE);
