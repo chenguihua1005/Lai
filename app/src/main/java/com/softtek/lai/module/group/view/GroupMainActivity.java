@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
@@ -47,6 +48,8 @@ import com.softtek.lai.stepcount.net.StepNetService;
 import com.softtek.lai.stepcount.service.StepService;
 import com.softtek.lai.utils.StringUtil;
 import com.squareup.picasso.Picasso;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -277,7 +280,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                     Intent intent = new Intent(this, PKDetailActivity.class);
                     intent.putExtra("pkId", Long.parseLong(id));
                     intent.putExtra("pkType", Constants.GROUPMAIN_PK);
-                    startActivity(intent);
+                    startActivityForResult(intent,100);
                 }
                 break;
 
@@ -289,6 +292,17 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_OK&&requestCode==100){
+            String chp=data.getStringExtra("ChP");
+            String bchp=data.getStringExtra("BChP");
+            text_pk_left_count.setText(StringUtils.isEmpty(chp)?"0":chp);
+            text_pk_right_count.setText(StringUtils.isEmpty(bchp)?"0":bchp);
+
+        }
+    }
 
     @Override
     protected void onStop() {
