@@ -270,6 +270,7 @@ public class StudentHonorGridActivity extends BaseActivity implements View.OnCli
             }
         }
 
+        setGridView();
         lin_fc_value.setVisibility(View.VISIBLE);
         lin_fc_sm.setVisibility(View.GONE);
         if (fc_list.size() == 0) {
@@ -288,14 +289,21 @@ public class StudentHonorGridActivity extends BaseActivity implements View.OnCli
                 img_fc_3.setImageResource(R.drawable.img_student_honor_jin);
             }
         }
-        setGridView();
-
         if (jz_list.size() == 0) {
             lin_jz_value.setVisibility(View.GONE);
             lin_jz_sm.setVisibility(View.VISIBLE);
         } else {
             lin_jz_value.setVisibility(View.VISIBLE);
             lin_jz_sm.setVisibility(View.GONE);
+            String value=jz_list.get(jz_list.size()-1).getValue();
+            if(Integer.parseInt(value)>=50){
+                text_jz.setText("加油! 你离下一枚减重奖章只差10斤了哦");
+            }else {
+                text_jz.setText("加油! 你离下一枚减重奖章只差5斤了哦");
+            }
+            StudentHonorInfo StudentHonorInfo=new StudentHonorInfo("future","");
+            jz_list.add(StudentHonorInfo);
+            setG();
             StudentHonorJZAdapter jz_adapter = new StudentHonorJZAdapter(this, jz_list);
             list_jz.setAdapter(jz_adapter);
         }
@@ -319,13 +327,9 @@ public class StudentHonorGridActivity extends BaseActivity implements View.OnCli
             StudentHonorStarAdapter star_adapter = new StudentHonorStarAdapter(this, star_list);
             list_star.setAdapter(star_adapter);
         }
-
     }
+    private void setG(){
 
-    /**
-     * 设置GirdView参数，绑定数据
-     */
-    private void setGridView() {
         int size = jz_list.size();
         int length = 100;
         DisplayMetrics dm = new DisplayMetrics();
@@ -341,7 +345,11 @@ public class StudentHonorGridActivity extends BaseActivity implements View.OnCli
         list_jz.setColumnWidth(itemWidth); // 设置列表项宽
         list_jz.setStretchMode(GridView.NO_STRETCH);
         list_jz.setNumColumns(size); // 设置列数量=列表集合数
-
+    }
+    /**
+     * 设置GirdView参数，绑定数据
+     */
+    private void setGridView() {
         int size1 = ygj_list.size();
         int length1 = 100;
         DisplayMetrics dm1 = new DisplayMetrics();

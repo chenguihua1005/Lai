@@ -79,4 +79,10 @@ public class StudentHonorInfo {
                 ", Value='" + Value + '\'' +
                 '}';
     }
+
+    public StudentHonorInfo(String honorType, String value) {
+        HonorType = honorType;
+        Value = value;
+    }
+
 }
