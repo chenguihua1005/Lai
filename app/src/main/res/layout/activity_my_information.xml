@@ -37,7 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="17dp"
                 android:layout_toRightOf="@+id/im_la"
                 android:text="跑团编号"
                 android:textColor="#333333"

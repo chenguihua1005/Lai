@@ -26,11 +26,14 @@ import com.softtek.lai.module.laisportmine.present.DelNoticeOrMeasureManager;
 import com.softtek.lai.module.laisportmine.present.UpdateMsgRTimeManager;
 import com.softtek.lai.module.personalPK.view.PKDetailActivity;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_my_action_list)
 public class MyActionListActivity extends BaseActivity implements View.OnClickListener,ActionListManager.ActionListCallback,UpdateMsgRTimeManager.UpdateMsgRTimeCallback,
@@ -117,8 +120,12 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent intent=new Intent(this, ActActivity.class);
-        intent.putExtra("id",actionModelLists.get(position).getActId());
-        startActivity(intent);
+        if(StringUtils.isEmpty(actionModelLists.get(position).getActId())){
+            Util.toastMsg("抱歉, 该活动已取消");
+        }else {
+            Intent intent=new Intent(this, ActActivity.class);
+            intent.putExtra("id", actionModelLists.get(position).getActId());
+            startActivity(intent);
+        }
     }
 }

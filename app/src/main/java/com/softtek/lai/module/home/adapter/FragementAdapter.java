@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class FragementAdapter extends FragmentPagerAdapter {
 
-    private String[] titles = {"活动推荐", "产品信息", "促销信息"};
+    private String[] titles = {"活动推荐", "产品信息", "品牌动向"};
     private List<Fragment> fragmentList;
 
     public FragementAdapter(FragmentManager fm,List<Fragment> fragments) {

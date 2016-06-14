@@ -52,7 +52,7 @@ public class StepService extends Service implements SensorEventListener {
     private int oldStep;//记录服务器上的步数
     private int firstStep=0;//启动应用服务的时候的第一次步数
     public static int totalStep;
-    public long flagTime;//时间标志位，如果每次上传的时间大于了这一天则删除昨天数据
+    //public long flagTime;//时间标志位，如果每次上传的时间大于了这一天则删除昨天数据
 
     @Override
     public void onCreate() {

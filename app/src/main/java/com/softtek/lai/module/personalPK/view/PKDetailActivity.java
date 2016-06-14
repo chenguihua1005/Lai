@@ -172,8 +172,11 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
                                         }else if(responseData.getStatus()==100){
                                             rl_load.setVisibility(View.VISIBLE);
                                             sv_pk.setVisibility(View.GONE);
+                                        }else if(responseData.getStatus()==201){
+                                            Toast.makeText(PKDetailActivity.this,responseData.getMsg(),Toast.LENGTH_SHORT).show();
                                         }else{
                                             Toast.makeText(PKDetailActivity.this,"取消失败",Toast.LENGTH_SHORT).show();
+
                                         }
                                     }
 
