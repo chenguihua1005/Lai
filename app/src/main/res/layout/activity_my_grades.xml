@@ -12,6 +12,7 @@
         layout="@layout/toolbar" />
 
     <ScrollView
+        android:id="@+id/scrollView1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="50dp">
@@ -48,9 +49,11 @@
                 android:layout_height="wrap_content">
 
                 <com.github.mikephil.charting.charts.LineChart
+                    android:background="#f1f1f1"
                     android:id="@+id/chart"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"></com.github.mikephil.charting.charts.LineChart>
+                    android:layout_height="200dp">
+                </com.github.mikephil.charting.charts.LineChart>
 
                 <LinearLayout
                     android:layout_width="wrap_content"

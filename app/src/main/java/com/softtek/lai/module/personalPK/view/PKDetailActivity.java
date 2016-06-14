@@ -189,38 +189,46 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
 
                 break;
             case R.id.cb_zan_left:
-                cb_zan_left.setChecked(true);
-                final int left_zan=Integer.parseInt(cb_zan_left.getText().toString())+1;
-                cb_zan_left.setText(left_zan+"");
-                cb_zan_left.setEnabled(false);
-                manager.doZan(model.getPKId(), 0, new RequestCallback<ResponseData>() {
-                    @Override
-                    public void success(ResponseData responseData, Response response) {}
-                    @Override
-                    public void failure(RetrofitError error) {
-                        cb_zan_left.setText(left_zan-1+"");
-                        cb_zan_left.setChecked(false);
-                        cb_zan_left.setEnabled(true);
-                        super.failure(error);
-                    }
-                });
+                if(cb_zan_left.isEnabled()) {
+                    cb_zan_left.setChecked(true);
+                    cb_zan_left.setEnabled(false);
+                    final int left_zan = Integer.parseInt(cb_zan_left.getText().toString()) + 1;
+                    cb_zan_left.setText(left_zan + "");
+                    manager.doZan(model.getPKId(), 0, new RequestCallback<ResponseData>() {
+                        @Override
+                        public void success(ResponseData responseData, Response response) {
+                        }
+
+                        @Override
+                        public void failure(RetrofitError error) {
+                            cb_zan_left.setText(left_zan - 1 + "");
+                            cb_zan_left.setChecked(false);
+                            cb_zan_left.setEnabled(true);
+                            super.failure(error);
+                        }
+                    });
+                }
                 break;
             case R.id.cb_zan_right:
-                final int right_zan=Integer.parseInt(cb_zan_left.getText().toString())+1;
-                cb_zan_right.setChecked(true);
-                cb_zan_right.setText(right_zan+"");
-                cb_zan_right.setEnabled(false);
-                manager.doZan(model.getPKId(), 1, new RequestCallback<ResponseData>() {
-                    @Override
-                    public void success(ResponseData responseData, Response response) {}
-                    @Override
-                    public void failure(RetrofitError error) {
-                        cb_zan_right.setText(right_zan-1+"");
-                        cb_zan_right.setEnabled(true);
-                        cb_zan_right.setChecked(false);
-                        super.failure(error);
-                    }
-                });
+                if(cb_zan_right.isEnabled()) {
+                    cb_zan_right.setEnabled(false);
+                    cb_zan_right.setChecked(true);
+                    final int right_zan = Integer.parseInt(cb_zan_right.getText().toString()) + 1;
+                    cb_zan_right.setText(right_zan + "");
+                    manager.doZan(model.getPKId(), 1, new RequestCallback<ResponseData>() {
+                        @Override
+                        public void success(ResponseData responseData, Response response) {
+                        }
+
+                        @Override
+                        public void failure(RetrofitError error) {
+                            cb_zan_right.setText(right_zan - 1 + "");
+                            cb_zan_right.setEnabled(true);
+                            cb_zan_right.setChecked(false);
+                            super.failure(error);
+                        }
+                    });
+                }
                 break;
             case R.id.btn_receive:
                 //接受挑战
@@ -513,10 +521,18 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
         if(type== Constants.CREATE_PK){//创建新PK跳转过来,按下返回按钮直接返回PK首页
             Intent intent=new Intent(this,GroupMainActivity.class);
             startActivity(intent);
-        }else if(type== Constants.MESSAGE_PK||type==Constants.GROUPMAIN_PK){
+        }else if(type== Constants.MESSAGE_PK){
             //如果是从消息列表过来的话
             finish();
         } else if(type== Constants.LIST_PK){
+            Intent intent=getIntent();
+            intent.putExtra("isCancel",false);
+            //需要改变一些状态
+            intent.putExtra("ChP",cb_zan_left.getText().toString());
+            intent.putExtra("BChP",cb_zan_right.getText().toString());
+            setResult(RESULT_OK,intent);
+            finish();
+        }else if(type==Constants.GROUPMAIN_PK){
             Intent intent=getIntent();
             intent.putExtra("isCancel",false);
             //需要改变一些状态

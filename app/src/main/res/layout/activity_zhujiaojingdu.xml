@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:fitsSystemWindows="true"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context="com.softtek.lai.module.jingdu.view.JingduActivity">
 
     <include layout="@layout/toolbar" />
@@ -23,7 +24,7 @@
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_weight="0.45"
                 android:gravity="center"
                 android:layout_height="180dp">
                 <com.ggx.jerryguan.widget_lib.Chart
@@ -37,7 +38,7 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_weight="0.55"
                 android:layout_height="180dp">
                 <LinearLayout
                     android:visibility="visible"
@@ -65,7 +66,25 @@
                             android:visibility="invisible"
                             android:src="@drawable/pic_oneban"/>
                     </RelativeLayout>
-
+                    <LinearLayout
+                        android:id="@+id/ll_yue1"
+                        android:visibility="gone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/tv_yue1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textColor="#6f6f6f"
+                            android:textSize="12sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="月:"
+                            android:textColor="#6f6f6f"
+                            android:textSize="12sp" />
+                    </LinearLayout>
                     <TextView
                         android:id="@+id/tv_classname1"
                         android:layout_width="80dp"
@@ -116,6 +135,25 @@
                         android:visibility="invisible"
                         android:src="@drawable/pic_twoban"/>
                     </RelativeLayout>
+                    <LinearLayout
+                        android:id="@+id/ll_yue2"
+                        android:visibility="gone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/tv_yue2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textColor="#6f6f6f"
+                            android:textSize="12sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="月:"
+                            android:textColor="#6f6f6f"
+                            android:textSize="12sp" />
+                    </LinearLayout>
                     <TextView
                         android:id="@+id/tv_classname2"
                         android:layout_width="80dp"
@@ -165,6 +203,25 @@
                         android:visibility="invisible"
                         android:src="@drawable/pic_threeban"/>
                     </RelativeLayout>
+                    <LinearLayout
+                        android:id="@+id/ll_yue3"
+                        android:visibility="gone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/tv_yue3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textColor="#6f6f6f"
+                            android:textSize="12sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="月:"
+                            android:textColor="#6f6f6f"
+                            android:textSize="12sp" />
+                    </LinearLayout>
                     <TextView
                         android:id="@+id/tv_classname3"
                         android:layout_width="80dp"
@@ -196,35 +253,41 @@
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:orientation="vertical"
-        android:background="#f1f1f1"
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/top">
         <LinearLayout
-            android:background="#74bb2a"
+            android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:gravity="center|left">
             <ImageView
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="10dp"
-                android:layout_width="wrap_content"
+                android:layout_width="20dp"
                 android:layout_height="wrap_content"
                 android:scaleType="fitCenter"
                 android:src="@drawable/pic_lossmember"/>
             <TextView
-                android:textColor="#ffffff"
+                android:textColor="#74bb2a"
                 android:textSize="18sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="学员减重TOP 10" />
         </LinearLayout>
+        <View
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#74bb2a"/>
         <ListView
             android:id="@+id/list_rank"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#eeeeee" />
+            android:background="@color/white" />
     </LinearLayout>
 </RelativeLayout>

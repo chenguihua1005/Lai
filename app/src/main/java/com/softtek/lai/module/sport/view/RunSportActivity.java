@@ -149,7 +149,10 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
         aMap.setLocationSource(this);//设置定位监听
         aMap.getUiSettings().setMyLocationButtonEnabled(false);//设置默认定位按钮是否显示
         aMap.getUiSettings().setZoomControlsEnabled(false);//隐藏缩放控制按钮
-        aMap.getUiSettings().setLogoPosition(2);
+        aMap.getUiSettings().setAllGesturesEnabled(false);
+        aMap.getUiSettings().setScrollGesturesEnabled(true);
+        aMap.getUiSettings().setTiltGesturesEnabled(true);
+        aMap.getUiSettings().setZoomGesturesEnabled(true);
         aMap.setMyLocationEnabled(true);
 
         aMapLocationClient = new AMapLocationClient(this);
@@ -252,7 +255,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
                 if(lastLatLon!=null){
                     double distance= AMapUtils.calculateLineDistance(lastLatLon,latLng);
                     previousDistance +=distance;
-                    if(distance>=8){
+                    if(distance>=6){
                         polylineOptions.add(latLng);
                         coordinates.add(new LatLon(latLng.longitude,latLng.latitude));
                         aMap.addPolyline(polylineOptions);

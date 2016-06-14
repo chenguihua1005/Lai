@@ -1,12 +1,15 @@
 package com.softtek.lai.module.mygrades.view;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -27,6 +30,9 @@ import com.softtek.lai.widgets.SelectPicPopupWindow;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -58,6 +64,8 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
     FrameLayout fl_right;
     @InjectView(R.id.iv_email)
     ImageView iv_email;
+    @InjectView(R.id.scrollView1)
+    ScrollView scrollView1;
 
     @InjectView(R.id.ll_dayRank)
     LinearLayout ll_dayRank;
@@ -357,45 +365,78 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         switch ((value >= 3 && value < 7) ? 3 : (value >= 7 && value < 21) ? 7 : (value >= 21 && value < 30) ? 21 : (value >= 30 && value < 100) ? 30 : (value >= 100 && value < 200) ? 100 : (value >= 200 && value < 365) ? 200 : (value >= 365) ? 365 : 365) {
                                             case 3:
                                                 tv_str1.setText("连续3天步数一万");
-                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                img_honor1.setImageResource(R.drawable.img_three_have);
                                                 break;
                                             case 7:
                                                 tv_str1.setText("连续7天步数一万");
-                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                img_honor1.setImageResource(R.drawable.img_seven_have);
                                                 break;
                                             case 21:
                                                 tv_str1.setText("连续21天步数一万");
-                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                img_honor1.setImageResource(R.drawable.img_twenty_one_have);
                                                 break;
                                             case 30:
                                                 tv_str1.setText("连续30天步数一万");
-                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                img_honor1.setImageResource(R.drawable.img_thirty_have);
                                                 break;
                                             case 100:
                                                 tv_str1.setText("连续100天步数一万");
-                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                img_honor1.setImageResource(R.drawable.img_hundred_day_have);
                                                 break;
                                             case 200:
                                                 tv_str1.setText("连续200天步数一万");
-                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                img_honor1.setImageResource(R.drawable.img_day200_have);
                                                 break;
                                             case 365:
                                                 tv_str1.setText("连续365天步数一万");
-                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                img_honor1.setImageResource(R.drawable.img_day365_have);
                                                 break;
                                         }
                                         ll_honor1.setVisibility(View.VISIBLE);
                                         break;
                                     case 2:
                                         //步数
-                                        tv_str1.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue() + "万");
-                                        img_honor1.setImageResource(R.drawable.img_medal);
+                                        int stepvalue = gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue();
+                                        switch ((stepvalue >= 10 && stepvalue < 50) ? 10 : (stepvalue >= 50 && stepvalue < 100) ? 50 : (stepvalue >= 100 && stepvalue < 200) ? 100 : (stepvalue >= 200 && stepvalue < 500) ? 200 : (stepvalue >= 500 && stepvalue < 1000) ? 500 : (stepvalue >= 1000 && stepvalue < 2000) ? 1000 : (stepvalue >= 2000 && stepvalue < 3000) ? 2000 : (stepvalue >= 3000) ? 3000 : 3000) {
+                                            case 10:
+                                                tv_str1.setText("累计步数10万");
+                                                img_honor1.setImageResource(R.drawable.img_total_10_have);
+                                                break;
+                                            case 50:
+                                                tv_str1.setText("累计步数50万");
+                                                img_honor1.setImageResource(R.drawable.img_total_50_have);
+                                                break;
+                                            case 100:
+                                                tv_str1.setText("累计步数100万");
+                                                img_honor1.setImageResource(R.drawable.img_total_100_have);
+                                                break;
+                                            case 200:
+                                                tv_str1.setText("累计步数200万");
+                                                img_honor1.setImageResource(R.drawable.img_total_200_have);
+                                                break;
+                                            case 500:
+                                                tv_str1.setText("累计步数500万");
+                                                img_honor1.setImageResource(R.drawable.img_total_500_have);
+                                                break;
+                                            case 1000:
+                                                tv_str1.setText("累计步数1000万");
+                                                img_honor1.setImageResource(R.drawable.img_total_1000_have);
+                                                break;
+                                            case 2000:
+                                                tv_str1.setText("累计步数2000万");
+                                                img_honor1.setImageResource(R.drawable.img_total_2000_have);
+                                                break;
+                                            case 3000:
+                                                tv_str1.setText("累计步数3000万");
+                                                img_honor1.setImageResource(R.drawable.img_total_3000_have);
+                                                break;
+                                        }
                                         ll_honor1.setVisibility(View.VISIBLE);
                                         break;
                                     case 3:
                                         //天使听见爱
                                         tv_str1.setText("天使听见爱");
-                                        img_honor1.setImageResource(R.drawable.img_group_main_csgy);
+                                        img_honor1.setImageResource(R.drawable.img_angel_have);
                                         ll_honor1.setVisibility(View.VISIBLE);
                                         break;
                                     case 4:
@@ -404,27 +445,27 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         switch ((pkvalue >= 1 && pkvalue < 50) ? 1 : (pkvalue >= 50 && pkvalue < 100) ? 50 : (pkvalue >= 100 && pkvalue < 200) ? 100 : (pkvalue >= 200 && pkvalue < 300) ? 200 : (pkvalue >= 300 && pkvalue < 500) ? 300 : (pkvalue >= 500) ? 500 : 500) {
                                             case 1:
                                                 tv_str1.setText("挑战达人铜牌");
-                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                img_honor1.setImageResource(R.drawable.img_pk_1_have);
                                                 break;
                                             case 50:
                                                 tv_str1.setText("挑战达人银牌");
-                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                img_honor1.setImageResource(R.drawable.img_pk_50_have);
                                                 break;
                                             case 100:
                                                 tv_str1.setText("挑战达人金牌");
-                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                img_honor1.setImageResource(R.drawable.img_pk_100_have);
                                                 break;
                                             case 200:
                                                 tv_str1.setText("挑战明星铜牌");
-                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                img_honor1.setImageResource(R.drawable.img_pk_200_have);
                                                 break;
                                             case 300:
                                                 tv_str1.setText("挑战明星银牌");
-                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                img_honor1.setImageResource(R.drawable.img_pk_300_have);
                                                 break;
                                             case 500:
                                                 tv_str1.setText("挑战明星金牌");
-                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                img_honor1.setImageResource(R.drawable.img_pk_500_have);
                                                 break;
                                         }
                                         ll_honor1.setVisibility(View.VISIBLE);
@@ -441,45 +482,78 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         switch ((value >= 3 && value < 7) ? 3 : (value >= 7 && value < 21) ? 7 : (value >= 21 && value < 30) ? 21 : (value >= 30 && value < 100) ? 30 : (value >= 100 && value < 200) ? 100 : (value >= 200 && value < 365) ? 200 : (value >= 365) ? 365 : 365) {
                                             case 3:
                                                 tv_str1.setText("连续3天步数一万");
-                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                img_honor1.setImageResource(R.drawable.img_three_have);
                                                 break;
                                             case 7:
                                                 tv_str1.setText("连续7天步数一万");
-                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                img_honor1.setImageResource(R.drawable.img_seven_have);
                                                 break;
                                             case 21:
                                                 tv_str1.setText("连续21天步数一万");
-                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                img_honor1.setImageResource(R.drawable.img_twenty_one_have);
                                                 break;
                                             case 30:
                                                 tv_str1.setText("连续30天步数一万");
-                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                img_honor1.setImageResource(R.drawable.img_thirty_have);
                                                 break;
                                             case 100:
                                                 tv_str1.setText("连续100天步数一万");
-                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                img_honor1.setImageResource(R.drawable.img_hundred_day_have);
                                                 break;
                                             case 200:
                                                 tv_str1.setText("连续200天步数一万");
-                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                img_honor1.setImageResource(R.drawable.img_day200_have);
                                                 break;
                                             case 365:
                                                 tv_str1.setText("连续365天步数一万");
-                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                img_honor1.setImageResource(R.drawable.img_day365_have);
                                                 break;
                                         }
                                         ll_honor1.setVisibility(View.VISIBLE);
                                         break;
                                     case 2:
                                         //步数
-                                        tv_str1.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue() + "万");
-                                        img_honor1.setImageResource(R.drawable.img_medal);
+                                        int stepvalue = gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue();
+                                        switch ((stepvalue >= 10 && stepvalue < 50) ? 10 : (stepvalue >= 50 && stepvalue < 100) ? 50 : (stepvalue >= 100 && stepvalue < 200) ? 100 : (stepvalue >= 200 && stepvalue < 500) ? 200 : (stepvalue >= 500 && stepvalue < 1000) ? 500 : (stepvalue >= 1000 && stepvalue < 2000) ? 1000 : (stepvalue >= 2000 && stepvalue < 3000) ? 2000 : (stepvalue >= 3000) ? 3000 : 3000) {
+                                            case 10:
+                                                tv_str1.setText("累计步数10万");
+                                                img_honor1.setImageResource(R.drawable.img_total_10_have);
+                                                break;
+                                            case 50:
+                                                tv_str1.setText("累计步数50万");
+                                                img_honor1.setImageResource(R.drawable.img_total_50_have);
+                                                break;
+                                            case 100:
+                                                tv_str1.setText("累计步数100万");
+                                                img_honor1.setImageResource(R.drawable.img_total_100_have);
+                                                break;
+                                            case 200:
+                                                tv_str1.setText("累计步数200万");
+                                                img_honor1.setImageResource(R.drawable.img_total_200_have);
+                                                break;
+                                            case 500:
+                                                tv_str1.setText("累计步数500万");
+                                                img_honor1.setImageResource(R.drawable.img_total_500_have);
+                                                break;
+                                            case 1000:
+                                                tv_str1.setText("累计步数1000万");
+                                                img_honor1.setImageResource(R.drawable.img_total_1000_have);
+                                                break;
+                                            case 2000:
+                                                tv_str1.setText("累计步数2000万");
+                                                img_honor1.setImageResource(R.drawable.img_total_2000_have);
+                                                break;
+                                            case 3000:
+                                                tv_str1.setText("累计步数3000万");
+                                                img_honor1.setImageResource(R.drawable.img_total_3000_have);
+                                                break;
+                                        }
                                         ll_honor1.setVisibility(View.VISIBLE);
                                         break;
                                     case 3:
                                         //天使听见爱
                                         tv_str1.setText("天使听见爱");
-                                        img_honor1.setImageResource(R.drawable.img_group_main_csgy);
+                                        img_honor1.setImageResource(R.drawable.img_angel_have);
                                         ll_honor1.setVisibility(View.VISIBLE);
                                         break;
                                     case 4:
@@ -488,27 +562,27 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         switch ((pkvalue >= 1 && pkvalue < 50) ? 1 : (pkvalue >= 50 && pkvalue < 100) ? 50 : (pkvalue >= 100 && pkvalue < 200) ? 100 : (pkvalue >= 200 && pkvalue < 300) ? 200 : (pkvalue >= 300 && pkvalue < 500) ? 300 : (pkvalue >= 500) ? 500 : 500) {
                                             case 1:
                                                 tv_str1.setText("挑战达人铜牌");
-                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                img_honor1.setImageResource(R.drawable.img_pk_1_have);
                                                 break;
                                             case 50:
                                                 tv_str1.setText("挑战达人银牌");
-                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                img_honor1.setImageResource(R.drawable.img_pk_50_have);
                                                 break;
                                             case 100:
                                                 tv_str1.setText("挑战达人金牌");
-                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                img_honor1.setImageResource(R.drawable.img_pk_100_have);
                                                 break;
                                             case 200:
                                                 tv_str1.setText("挑战明星铜牌");
-                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                img_honor1.setImageResource(R.drawable.img_pk_200_have);
                                                 break;
                                             case 300:
                                                 tv_str1.setText("挑战明星银牌");
-                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                img_honor1.setImageResource(R.drawable.img_pk_300_have);
                                                 break;
                                             case 500:
                                                 tv_str1.setText("挑战明星金牌");
-                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                img_honor1.setImageResource(R.drawable.img_pk_500_have);
                                                 break;
                                         }
                                         ll_honor1.setVisibility(View.VISIBLE);
@@ -522,45 +596,78 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         switch ((value >= 3 && value < 7) ? 3 : (value >= 7 && value < 21) ? 7 : (value >= 21 && value < 30) ? 21 : (value >= 30 && value < 100) ? 30 : (value >= 100 && value < 200) ? 100 : (value >= 200 && value < 365) ? 200 : (value >= 365) ? 365 : 365) {
                                             case 3:
                                                 tv_str2.setText("连续3天步数一万");
-                                                img_honor2.setImageResource(R.drawable.img_medal1);
+                                                img_honor2.setImageResource(R.drawable.img_three_have);
                                                 break;
                                             case 7:
                                                 tv_str2.setText("连续7天步数一万");
-                                                img_honor2.setImageResource(R.drawable.img_medal1);
+                                                img_honor2.setImageResource(R.drawable.img_seven_have);
                                                 break;
                                             case 21:
                                                 tv_str2.setText("连续21天步数一万");
-                                                img_honor2.setImageResource(R.drawable.img_medal1);
+                                                img_honor2.setImageResource(R.drawable.img_twenty_one_have);
                                                 break;
                                             case 30:
                                                 tv_str2.setText("连续30天步数一万");
-                                                img_honor2.setImageResource(R.drawable.img_medal1);
+                                                img_honor2.setImageResource(R.drawable.img_thirty_have);
                                                 break;
                                             case 100:
                                                 tv_str2.setText("连续100天步数一万");
-                                                img_honor2.setImageResource(R.drawable.img_medal1);
+                                                img_honor2.setImageResource(R.drawable.img_hundred_day_have);
                                                 break;
                                             case 200:
                                                 tv_str2.setText("连续200天步数一万");
-                                                img_honor2.setImageResource(R.drawable.img_medal1);
+                                                img_honor2.setImageResource(R.drawable.img_day200_have);
                                                 break;
                                             case 365:
                                                 tv_str2.setText("连续365天步数一万");
-                                                img_honor2.setImageResource(R.drawable.img_medal1);
+                                                img_honor2.setImageResource(R.drawable.img_day365_have);
                                                 break;
                                         }
                                         ll_honor2.setVisibility(View.VISIBLE);
                                         break;
                                     case 2:
                                         //步数
-                                        tv_str2.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue() + "万");
-                                        img_honor2.setImageResource(R.drawable.img_medal);
-                                        ll_honor2.setVisibility(View.VISIBLE);
+                                        int stepvalue = gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue();
+                                        switch ((stepvalue >= 10 && stepvalue < 50) ? 10 : (stepvalue >= 50 && stepvalue < 100) ? 50 : (stepvalue >= 100 && stepvalue < 200) ? 100 : (stepvalue >= 200 && stepvalue < 500) ? 200 : (stepvalue >= 500 && stepvalue < 1000) ? 500 : (stepvalue >= 1000 && stepvalue < 2000) ? 1000 : (stepvalue >= 2000 && stepvalue < 3000) ? 2000 : (stepvalue >= 3000) ? 3000 : 3000) {
+                                            case 10:
+                                                tv_str1.setText("累计步数10万");
+                                                img_honor1.setImageResource(R.drawable.img_total_10_have);
+                                                break;
+                                            case 50:
+                                                tv_str1.setText("累计步数50万");
+                                                img_honor1.setImageResource(R.drawable.img_total_50_have);
+                                                break;
+                                            case 100:
+                                                tv_str1.setText("累计步数100万");
+                                                img_honor1.setImageResource(R.drawable.img_total_100_have);
+                                                break;
+                                            case 200:
+                                                tv_str1.setText("累计步数200万");
+                                                img_honor1.setImageResource(R.drawable.img_total_200_have);
+                                                break;
+                                            case 500:
+                                                tv_str1.setText("累计步数500万");
+                                                img_honor1.setImageResource(R.drawable.img_total_500_have);
+                                                break;
+                                            case 1000:
+                                                tv_str1.setText("累计步数1000万");
+                                                img_honor1.setImageResource(R.drawable.img_total_1000_have);
+                                                break;
+                                            case 2000:
+                                                tv_str1.setText("累计步数2000万");
+                                                img_honor1.setImageResource(R.drawable.img_total_2000_have);
+                                                break;
+                                            case 3000:
+                                                tv_str1.setText("累计步数3000万");
+                                                img_honor1.setImageResource(R.drawable.img_total_3000_have);
+                                                break;
+                                        }
+                                        ll_honor1.setVisibility(View.VISIBLE);
                                         break;
                                     case 3:
                                         //天使听见爱
                                         tv_str2.setText("天使听见爱");
-                                        img_honor2.setImageResource(R.drawable.img_group_main_csgy);
+                                        img_honor2.setImageResource(R.drawable.img_angel_have);
                                         ll_honor2.setVisibility(View.VISIBLE);
                                         break;
                                     case 4:
@@ -569,27 +676,27 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         switch ((pkvalue >= 1 && pkvalue < 50) ? 1 : (pkvalue >= 50 && pkvalue < 100) ? 50 : (pkvalue >= 100 && pkvalue < 200) ? 100 : (pkvalue >= 200 && pkvalue < 300) ? 200 : (pkvalue >= 300 && pkvalue < 500) ? 300 : (pkvalue >= 500) ? 500 : 500) {
                                             case 1:
                                                 tv_str2.setText("挑战达人铜牌");
-                                                img_honor2.setImageResource(R.drawable.img_medal1);
+                                                img_honor2.setImageResource(R.drawable.img_pk_1_have);
                                                 break;
                                             case 50:
                                                 tv_str2.setText("挑战达人银牌");
-                                                img_honor2.setImageResource(R.drawable.img_medal1);
+                                                img_honor2.setImageResource(R.drawable.img_pk_50_have);
                                                 break;
                                             case 100:
                                                 tv_str2.setText("挑战达人金牌");
-                                                img_honor2.setImageResource(R.drawable.img_medal1);
+                                                img_honor2.setImageResource(R.drawable.img_pk_100_have);
                                                 break;
                                             case 200:
                                                 tv_str2.setText("挑战明星铜牌");
-                                                img_honor2.setImageResource(R.drawable.img_medal1);
+                                                img_honor2.setImageResource(R.drawable.img_pk_200_have);
                                                 break;
                                             case 300:
                                                 tv_str2.setText("挑战明星银牌");
-                                                img_honor2.setImageResource(R.drawable.img_medal1);
+                                                img_honor2.setImageResource(R.drawable.img_pk_300_have);
                                                 break;
                                             case 500:
                                                 tv_str2.setText("挑战明星金牌");
-                                                img_honor2.setImageResource(R.drawable.img_medal1);
+                                                img_honor2.setImageResource(R.drawable.img_pk_500_have);
                                                 break;
                                         }
                                         ll_honor2.setVisibility(View.VISIBLE);
@@ -606,45 +713,78 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         switch ((value >= 3 && value < 7) ? 3 : (value >= 7 && value < 21) ? 7 : (value >= 21 && value < 30) ? 21 : (value >= 30 && value < 100) ? 30 : (value >= 100 && value < 200) ? 100 : (value >= 200 && value < 365) ? 200 : (value >= 365) ? 365 : 365) {
                                             case 3:
                                                 tv_str1.setText("连续3天步数一万");
-                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                img_honor1.setImageResource(R.drawable.img_three_have);
                                                 break;
                                             case 7:
                                                 tv_str1.setText("连续7天步数一万");
-                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                img_honor1.setImageResource(R.drawable.img_seven_have);
                                                 break;
                                             case 21:
                                                 tv_str1.setText("连续21天步数一万");
-                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                img_honor1.setImageResource(R.drawable.img_twenty_one_have);
                                                 break;
                                             case 30:
                                                 tv_str1.setText("连续30天步数一万");
-                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                img_honor1.setImageResource(R.drawable.img_thirty_have);
                                                 break;
                                             case 100:
                                                 tv_str1.setText("连续100天步数一万");
-                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                img_honor1.setImageResource(R.drawable.img_hundred_day_have);
                                                 break;
                                             case 200:
                                                 tv_str1.setText("连续200天步数一万");
-                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                img_honor1.setImageResource(R.drawable.img_day200_have);
                                                 break;
                                             case 365:
                                                 tv_str1.setText("连续365天步数一万");
-                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                img_honor1.setImageResource(R.drawable.img_day365_have);
                                                 break;
                                         }
                                         ll_honor1.setVisibility(View.VISIBLE);
                                         break;
                                     case 2:
                                         //步数
-                                        tv_str1.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue() + "万");
-                                        img_honor1.setImageResource(R.drawable.img_medal);
+                                        int stepvalue = gradeHonorModelResponseData.getData().getLaiHonor().get(0).getHonorVlue();
+                                        switch ((stepvalue >= 10 && stepvalue < 50) ? 10 : (stepvalue >= 50 && stepvalue < 100) ? 50 : (stepvalue >= 100 && stepvalue < 200) ? 100 : (stepvalue >= 200 && stepvalue < 500) ? 200 : (stepvalue >= 500 && stepvalue < 1000) ? 500 : (stepvalue >= 1000 && stepvalue < 2000) ? 1000 : (stepvalue >= 2000 && stepvalue < 3000) ? 2000 : (stepvalue >= 3000) ? 3000 : 3000) {
+                                            case 10:
+                                                tv_str1.setText("累计步数10万");
+                                                img_honor1.setImageResource(R.drawable.img_total_10_have);
+                                                break;
+                                            case 50:
+                                                tv_str1.setText("累计步数50万");
+                                                img_honor1.setImageResource(R.drawable.img_total_50_have);
+                                                break;
+                                            case 100:
+                                                tv_str1.setText("累计步数100万");
+                                                img_honor1.setImageResource(R.drawable.img_total_100_have);
+                                                break;
+                                            case 200:
+                                                tv_str1.setText("累计步数200万");
+                                                img_honor1.setImageResource(R.drawable.img_total_200_have);
+                                                break;
+                                            case 500:
+                                                tv_str1.setText("累计步数500万");
+                                                img_honor1.setImageResource(R.drawable.img_total_500_have);
+                                                break;
+                                            case 1000:
+                                                tv_str1.setText("累计步数1000万");
+                                                img_honor1.setImageResource(R.drawable.img_total_1000_have);
+                                                break;
+                                            case 2000:
+                                                tv_str1.setText("累计步数2000万");
+                                                img_honor1.setImageResource(R.drawable.img_total_2000_have);
+                                                break;
+                                            case 3000:
+                                                tv_str1.setText("累计步数3000万");
+                                                img_honor1.setImageResource(R.drawable.img_total_3000_have);
+                                                break;
+                                        }
                                         ll_honor1.setVisibility(View.VISIBLE);
                                         break;
                                     case 3:
                                         //天使听见爱
                                         tv_str1.setText("天使听见爱");
-                                        img_honor1.setImageResource(R.drawable.img_group_main_csgy);
+                                        img_honor1.setImageResource(R.drawable.img_angel_have);
                                         ll_honor1.setVisibility(View.VISIBLE);
                                         break;
                                     case 4:
@@ -653,27 +793,27 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         switch ((pkvalue >= 1 && pkvalue < 50) ? 1 : (pkvalue >= 50 && pkvalue < 100) ? 50 : (pkvalue >= 100 && pkvalue < 200) ? 100 : (pkvalue >= 200 && pkvalue < 300) ? 200 : (pkvalue >= 300 && pkvalue < 500) ? 300 : (pkvalue >= 500) ? 500 : 500) {
                                             case 1:
                                                 tv_str1.setText("挑战达人铜牌");
-                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                img_honor1.setImageResource(R.drawable.img_pk_1_have);
                                                 break;
                                             case 50:
                                                 tv_str1.setText("挑战达人银牌");
-                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                img_honor1.setImageResource(R.drawable.img_pk_50_have);
                                                 break;
                                             case 100:
                                                 tv_str1.setText("挑战达人金牌");
-                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                img_honor1.setImageResource(R.drawable.img_pk_100_have);
                                                 break;
                                             case 200:
                                                 tv_str1.setText("挑战明星铜牌");
-                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                img_honor1.setImageResource(R.drawable.img_pk_200_have);
                                                 break;
                                             case 300:
                                                 tv_str1.setText("挑战明星银牌");
-                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                img_honor1.setImageResource(R.drawable.img_pk_300_have);
                                                 break;
                                             case 500:
                                                 tv_str1.setText("挑战明星金牌");
-                                                img_honor1.setImageResource(R.drawable.img_medal1);
+                                                img_honor1.setImageResource(R.drawable.img_pk_500_have);
                                                 break;
                                         }
                                         ll_honor1.setVisibility(View.VISIBLE);
@@ -687,45 +827,78 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         switch ((value >= 3 && value < 7) ? 3 : (value >= 7 && value < 21) ? 7 : (value >= 21 && value < 30) ? 21 : (value >= 30 && value < 100) ? 30 : (value >= 100 && value < 200) ? 100 : (value >= 200 && value < 365) ? 200 : (value >= 365) ? 365 : 365) {
                                             case 3:
                                                 tv_str2.setText("连续3天步数一万");
-                                                img_honor2.setImageResource(R.drawable.img_medal1);
+                                                img_honor2.setImageResource(R.drawable.img_three_have);
                                                 break;
                                             case 7:
                                                 tv_str2.setText("连续7天步数一万");
-                                                img_honor2.setImageResource(R.drawable.img_medal1);
+                                                img_honor2.setImageResource(R.drawable.img_seven_have);
                                                 break;
                                             case 21:
                                                 tv_str2.setText("连续21天步数一万");
-                                                img_honor2.setImageResource(R.drawable.img_medal1);
+                                                img_honor2.setImageResource(R.drawable.img_twenty_one_have);
                                                 break;
                                             case 30:
                                                 tv_str2.setText("连续30天步数一万");
-                                                img_honor2.setImageResource(R.drawable.img_medal1);
+                                                img_honor2.setImageResource(R.drawable.img_thirty_have);
                                                 break;
                                             case 100:
                                                 tv_str2.setText("连续100天步数一万");
-                                                img_honor2.setImageResource(R.drawable.img_medal1);
+                                                img_honor2.setImageResource(R.drawable.img_hundred_day_have);
                                                 break;
                                             case 200:
                                                 tv_str2.setText("连续200天步数一万");
-                                                img_honor2.setImageResource(R.drawable.img_medal1);
+                                                img_honor2.setImageResource(R.drawable.img_day200_have);
                                                 break;
                                             case 365:
                                                 tv_str2.setText("连续365天步数一万");
-                                                img_honor2.setImageResource(R.drawable.img_medal1);
+                                                img_honor2.setImageResource(R.drawable.img_day365_have);
                                                 break;
                                         }
                                         ll_honor2.setVisibility(View.VISIBLE);
                                         break;
                                     case 2:
                                         //步数
-                                        tv_str2.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue() + "万");
-                                        img_honor2.setImageResource(R.drawable.img_medal);
+                                        int stepvalue = gradeHonorModelResponseData.getData().getLaiHonor().get(1).getHonorVlue();
+                                        switch ((stepvalue >= 10 && stepvalue < 50) ? 10 : (stepvalue >= 50 && stepvalue < 100) ? 50 : (stepvalue >= 100 && stepvalue < 200) ? 100 : (stepvalue >= 200 && stepvalue < 500) ? 200 : (stepvalue >= 500 && stepvalue < 1000) ? 500 : (stepvalue >= 1000 && stepvalue < 2000) ? 1000 : (stepvalue >= 2000 && stepvalue < 3000) ? 2000 : (stepvalue >= 3000) ? 3000 : 3000) {
+                                            case 10:
+                                                tv_str2.setText("累计步数10万");
+                                                img_honor2.setImageResource(R.drawable.img_total_10_have);
+                                                break;
+                                            case 50:
+                                                tv_str2.setText("累计步数50万");
+                                                img_honor2.setImageResource(R.drawable.img_total_50_have);
+                                                break;
+                                            case 100:
+                                                tv_str2.setText("累计步数100万");
+                                                img_honor2.setImageResource(R.drawable.img_total_100_have);
+                                                break;
+                                            case 200:
+                                                tv_str2.setText("累计步数200万");
+                                                img_honor2.setImageResource(R.drawable.img_total_200_have);
+                                                break;
+                                            case 500:
+                                                tv_str2.setText("累计步数500万");
+                                                img_honor2.setImageResource(R.drawable.img_total_500_have);
+                                                break;
+                                            case 1000:
+                                                tv_str2.setText("累计步数1000万");
+                                                img_honor2.setImageResource(R.drawable.img_total_1000_have);
+                                                break;
+                                            case 2000:
+                                                tv_str2.setText("累计步数2000万");
+                                                img_honor2.setImageResource(R.drawable.img_total_2000_have);
+                                                break;
+                                            case 3000:
+                                                tv_str2.setText("累计步数3000万");
+                                                img_honor2.setImageResource(R.drawable.img_total_3000_have);
+                                                break;
+                                        }
                                         ll_honor2.setVisibility(View.VISIBLE);
                                         break;
                                     case 3:
                                         //天使听见爱
                                         tv_str2.setText("天使听见爱");
-                                        img_honor2.setImageResource(R.drawable.img_group_main_csgy);
+                                        img_honor2.setImageResource(R.drawable.img_angel_have);
                                         ll_honor2.setVisibility(View.VISIBLE);
                                         break;
                                     case 4:
@@ -734,27 +907,27 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         switch ((pkvalue >= 1 && pkvalue < 50) ? 1 : (pkvalue >= 50 && pkvalue < 100) ? 50 : (pkvalue >= 100 && pkvalue < 200) ? 100 : (pkvalue >= 200 && pkvalue < 300) ? 200 : (pkvalue >= 300 && pkvalue < 500) ? 300 : (pkvalue >= 500) ? 500 : 500) {
                                             case 1:
                                                 tv_str2.setText("挑战达人铜牌");
-                                                img_honor2.setImageResource(R.drawable.img_medal1);
+                                                img_honor2.setImageResource(R.drawable.img_pk_1_have);
                                                 break;
                                             case 50:
                                                 tv_str2.setText("挑战达人银牌");
-                                                img_honor2.setImageResource(R.drawable.img_medal1);
+                                                img_honor2.setImageResource(R.drawable.img_pk_50_have);
                                                 break;
                                             case 100:
                                                 tv_str2.setText("挑战达人金牌");
-                                                img_honor2.setImageResource(R.drawable.img_medal1);
+                                                img_honor2.setImageResource(R.drawable.img_pk_100_have);
                                                 break;
                                             case 200:
                                                 tv_str2.setText("挑战明星铜牌");
-                                                img_honor2.setImageResource(R.drawable.img_medal1);
+                                                img_honor2.setImageResource(R.drawable.img_pk_200_have);
                                                 break;
                                             case 300:
                                                 tv_str2.setText("挑战明星银牌");
-                                                img_honor2.setImageResource(R.drawable.img_medal1);
+                                                img_honor2.setImageResource(R.drawable.img_pk_300_have);
                                                 break;
                                             case 500:
                                                 tv_str2.setText("挑战明星金牌");
-                                                img_honor2.setImageResource(R.drawable.img_medal1);
+                                                img_honor2.setImageResource(R.drawable.img_pk_500_have);
                                                 break;
                                         }
                                         ll_honor2.setVisibility(View.VISIBLE);
@@ -768,45 +941,78 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         switch ((value >= 3 && value < 7) ? 3 : (value >= 7 && value < 21) ? 7 : (value >= 21 && value < 30) ? 21 : (value >= 30 && value < 100) ? 30 : (value >= 100 && value < 200) ? 100 : (value >= 200 && value < 365) ? 200 : (value >= 365) ? 365 : 365) {
                                             case 3:
                                                 tv_str3.setText("连续3天步数一万");
-                                                img_honor3.setImageResource(R.drawable.img_medal1);
+                                                img_honor3.setImageResource(R.drawable.img_three_have);
                                                 break;
                                             case 7:
                                                 tv_str3.setText("连续7天步数一万");
-                                                img_honor3.setImageResource(R.drawable.img_medal1);
+                                                img_honor3.setImageResource(R.drawable.img_seven_have);
                                                 break;
                                             case 21:
                                                 tv_str3.setText("连续21天步数一万");
-                                                img_honor3.setImageResource(R.drawable.img_medal1);
+                                                img_honor3.setImageResource(R.drawable.img_twenty_one_have);
                                                 break;
                                             case 30:
                                                 tv_str3.setText("连续30天步数一万");
-                                                img_honor3.setImageResource(R.drawable.img_medal1);
+                                                img_honor3.setImageResource(R.drawable.img_thirty_have);
                                                 break;
                                             case 100:
                                                 tv_str3.setText("连续100天步数一万");
-                                                img_honor3.setImageResource(R.drawable.img_medal1);
+                                                img_honor3.setImageResource(R.drawable.img_hundred_day_have);
                                                 break;
                                             case 200:
                                                 tv_str3.setText("连续200天步数一万");
-                                                img_honor3.setImageResource(R.drawable.img_medal1);
+                                                img_honor3.setImageResource(R.drawable.img_day200_have);
                                                 break;
                                             case 365:
                                                 tv_str3.setText("连续365天步数一万");
-                                                img_honor3.setImageResource(R.drawable.img_medal1);
+                                                img_honor3.setImageResource(R.drawable.img_day365_have);
                                                 break;
                                         }
                                         ll_honor3.setVisibility(View.VISIBLE);
                                         break;
                                     case 2:
                                         //步数
-                                        tv_str3.setText("累计步数" + gradeHonorModelResponseData.getData().getLaiHonor().get(2).getHonorVlue() + "万");
-                                        img_honor3.setImageResource(R.drawable.img_medal);
-                                        ll_honor3.setVisibility(View.VISIBLE);
+                                        int stepvalue = gradeHonorModelResponseData.getData().getLaiHonor().get(2).getHonorVlue();
+                                        switch ((stepvalue >= 10 && stepvalue < 50) ? 10 : (stepvalue >= 50 && stepvalue < 100) ? 50 : (stepvalue >= 100 && stepvalue < 200) ? 100 : (stepvalue >= 200 && stepvalue < 500) ? 200 : (stepvalue >= 500 && stepvalue < 1000) ? 500 : (stepvalue >= 1000 && stepvalue < 2000) ? 1000 : (stepvalue >= 2000 && stepvalue < 3000) ? 2000 : (stepvalue >= 3000) ? 3000 : 3000) {
+                                            case 10:
+                                                tv_str1.setText("累计步数10万");
+                                                img_honor1.setImageResource(R.drawable.img_total_10_have);
+                                                break;
+                                            case 50:
+                                                tv_str1.setText("累计步数50万");
+                                                img_honor1.setImageResource(R.drawable.img_total_50_have);
+                                                break;
+                                            case 100:
+                                                tv_str1.setText("累计步数100万");
+                                                img_honor1.setImageResource(R.drawable.img_total_100_have);
+                                                break;
+                                            case 200:
+                                                tv_str1.setText("累计步数200万");
+                                                img_honor1.setImageResource(R.drawable.img_total_200_have);
+                                                break;
+                                            case 500:
+                                                tv_str1.setText("累计步数500万");
+                                                img_honor1.setImageResource(R.drawable.img_total_500_have);
+                                                break;
+                                            case 1000:
+                                                tv_str1.setText("累计步数1000万");
+                                                img_honor1.setImageResource(R.drawable.img_total_1000_have);
+                                                break;
+                                            case 2000:
+                                                tv_str1.setText("累计步数2000万");
+                                                img_honor1.setImageResource(R.drawable.img_total_2000_have);
+                                                break;
+                                            case 3000:
+                                                tv_str1.setText("累计步数3000万");
+                                                img_honor1.setImageResource(R.drawable.img_total_3000_have);
+                                                break;
+                                        }
+                                        ll_honor1.setVisibility(View.VISIBLE);
                                         break;
                                     case 3:
                                         //天使听见爱
                                         tv_str3.setText("天使听见爱");
-                                        img_honor3.setImageResource(R.drawable.img_group_main_csgy);
+                                        img_honor3.setImageResource(R.drawable.img_angel_have);
                                         ll_honor3.setVisibility(View.VISIBLE);
                                         break;
                                     case 4:
@@ -815,27 +1021,27 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         switch ((pkvalue >= 1 && pkvalue < 50) ? 1 : (pkvalue >= 50 && pkvalue < 100) ? 50 : (pkvalue >= 100 && pkvalue < 200) ? 100 : (pkvalue >= 200 && pkvalue < 300) ? 200 : (pkvalue >= 300 && pkvalue < 500) ? 300 : (pkvalue >= 500) ? 500 : 500) {
                                             case 1:
                                                 tv_str3.setText("挑战达人铜牌");
-                                                img_honor3.setImageResource(R.drawable.img_medal1);
+                                                img_honor3.setImageResource(R.drawable.img_pk_1_have);
                                                 break;
                                             case 50:
                                                 tv_str3.setText("挑战达人银牌");
-                                                img_honor3.setImageResource(R.drawable.img_medal1);
+                                                img_honor3.setImageResource(R.drawable.img_pk_50_have);
                                                 break;
                                             case 100:
                                                 tv_str3.setText("挑战达人金牌");
-                                                img_honor3.setImageResource(R.drawable.img_medal1);
+                                                img_honor3.setImageResource(R.drawable.img_pk_100_have);
                                                 break;
                                             case 200:
                                                 tv_str3.setText("挑战明星铜牌");
-                                                img_honor3.setImageResource(R.drawable.img_medal1);
+                                                img_honor3.setImageResource(R.drawable.img_pk_200_have);
                                                 break;
                                             case 300:
                                                 tv_str3.setText("挑战明星银牌");
-                                                img_honor3.setImageResource(R.drawable.img_medal1);
+                                                img_honor3.setImageResource(R.drawable.img_pk_300_have);
                                                 break;
                                             case 500:
                                                 tv_str3.setText("挑战明星金牌");
-                                                img_honor3.setImageResource(R.drawable.img_medal1);
+                                                img_honor3.setImageResource(R.drawable.img_pk_500_have);
                                                 break;
                                         }
                                         ll_honor3.setVisibility(View.VISIBLE);
@@ -885,6 +1091,10 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                 break;
             //分享
             case R.id.fl_right:
+//                dialogShow("加载中");
+                Bitmap b1=getBitmapByView(scrollView1);
+                savePic(b1, "/sdcard/screen_test_2.png");
+
 //                menuWindow = new SelectPicPopupWindow(MyGradesActivity.this, itemsOnClick);
 //                //显示窗口
 //                menuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
@@ -1053,4 +1263,37 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
         super.onDestroy();
     }
 
+    // 保存到sdcard
+    public static void savePic(Bitmap b, String strFileName) {
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(strFileName);
+            if (null != fos) {
+                b.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                fos.flush();
+                fos.close();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 截取scrollview的屏幕
+     **/
+    public static Bitmap getBitmapByView(ScrollView scrollView) {
+        int h = 0;
+        Bitmap bitmap = null;
+        // 获取listView实际高度
+        for (int i = 0; i < scrollView.getChildCount(); i++) {
+            h += scrollView.getChildAt(i).getHeight();
+        }
+        // 创建对应大小的bitmap
+        bitmap = Bitmap.createBitmap(scrollView.getWidth(), h, Bitmap.Config.ARGB_8888);
+        final Canvas canvas = new Canvas(bitmap);
+        scrollView.draw(canvas);
+        return bitmap;
+    }
 }

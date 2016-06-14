@@ -77,4 +77,5 @@ dependencies {
     compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'
     compile 'com.android.support:multidex:1.0.0'
     compile 'com.akexorcist:RoundCornerProgressBar:2.0.3'
+    compile 'im.fir:fir-sdk:latest.integration@aar'
 }

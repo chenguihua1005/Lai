@@ -18,8 +18,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
@@ -29,7 +32,12 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.act.view.ActActivity;
 import com.softtek.lai.module.act.view.ActListActivity;
+import com.softtek.lai.module.group.adapter.GroupMainActiuvityAdapter;
 import com.softtek.lai.module.group.model.MineResultModel;
+import com.softtek.lai.module.group.model.PraiseChallengeModel;
+import com.softtek.lai.module.group.model.RecentlyActiviteModel;
+import com.softtek.lai.module.group.model.SportMainModel;
+import com.softtek.lai.module.group.presenter.SportGroupManager;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.laisportmine.present.MyRunTeamManager;
 import com.softtek.lai.module.laisportmine.view.MyInformationActivity;
@@ -37,16 +45,12 @@ import com.softtek.lai.module.mygrades.view.MyGradesActivity;
 import com.softtek.lai.module.personalPK.view.CreatePKActivity;
 import com.softtek.lai.module.personalPK.view.PKDetailActivity;
 import com.softtek.lai.module.personalPK.view.PKListActivity;
-import com.softtek.lai.module.group.adapter.GroupMainActiuvityAdapter;
-import com.softtek.lai.module.group.model.PraiseChallengeModel;
-import com.softtek.lai.module.group.model.RecentlyActiviteModel;
-import com.softtek.lai.module.group.model.SportMainModel;
-import com.softtek.lai.module.group.presenter.SportGroupManager;
 import com.softtek.lai.module.sport.view.StartSportActivity;
-import com.softtek.lai.stepcount.net.StepNetService;
 import com.softtek.lai.stepcount.service.StepService;
 import com.softtek.lai.utils.StringUtil;
 import com.squareup.picasso.Picasso;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -64,7 +68,8 @@ import zilla.libcore.ui.InjectLayout;
  * 跑团首页
  */
 @InjectLayout(R.layout.activity_group_main)
-public class GroupMainActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener, SportGroupManager.GetSportIndexCallBack {
+public class GroupMainActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener, SportGroupManager.GetSportIndexCallBack
+,PullToRefreshBase.OnRefreshListener<ScrollView>{
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -128,6 +133,9 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
 
     @InjectView(R.id.lin_reflash)
     LinearLayout lin_reflash;
+
+    @InjectView(R.id.pull_sroll)
+    PullToRefreshScrollView pull_sroll;
 
     MyRunTeamManager myRunTeamManager;
     UserInfoModel userInfoModel = UserInfoModel.getInstance();
@@ -219,19 +227,22 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
     protected void initViews() {
         iv_email.setImageResource(R.drawable.img_group_main_my);
         iv_email.setVisibility(View.VISIBLE);
+        pull_sroll.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+        pull_sroll.setOnRefreshListener(this);
+
     }
 
     @Override
     protected void initDatas() {
         sportGroupManager = new SportGroupManager(this);
-        userId = UserInfoModel.getInstance().getUser().getUserid();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        Date curDate = new Date(System.currentTimeMillis());//获取当前时间
-        String time = formatter.format(curDate);
-        String str = time + "," + StepService.totalStep;
-        System.out.println("str:" + str);
-        dialogShow("加载中...");
-        sportGroupManager.getSportIndex(userId, str);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                pull_sroll.setRefreshing();
+            }
+        },300);
+        //dialogShow("加载中...");
+
 
     }
 
@@ -277,7 +288,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                     Intent intent = new Intent(this, PKDetailActivity.class);
                     intent.putExtra("pkId", Long.parseLong(id));
                     intent.putExtra("pkType", Constants.GROUPMAIN_PK);
-                    startActivity(intent);
+                    startActivityForResult(intent,100);
                 }
                 break;
 
@@ -289,6 +300,17 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_OK&&requestCode==100){
+            String chp=data.getStringExtra("ChP");
+            String bchp=data.getStringExtra("BChP");
+            text_pk_left_count.setText(StringUtils.isEmpty(chp)?"0":chp);
+            text_pk_right_count.setText(StringUtils.isEmpty(bchp)?"0":bchp);
+
+        }
+    }
 
     @Override
     protected void onStop() {
@@ -322,22 +344,27 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void getSportIndex(String type, SportMainModel sportMainModel) {
-        dialogDissmiss();
+        pull_sroll.onRefreshComplete();
         if ("success".equals(type)) {
             String TodayStepCnt = sportMainModel.getTodayStepCnt();
             if ("0".equals(TodayStepCnt)) {
                 text_step.setText("--");
-            } else {
-                text_step.setText(sportMainModel.getTodayStepCnt());
-            }
-            String todayKaluliCnt = sportMainModel.getTodayKaluliCnt();
-            if ("0".equals(todayKaluliCnt)) {
                 text_rl.setText("--");
                 text3.setVisibility(View.GONE);
             } else {
+                text_step.setText(sportMainModel.getTodayStepCnt());
                 text3.setVisibility(View.VISIBLE);
-                text_rl.setText(sportMainModel.getTodayKaluliCnt());
+                int kaluli=Integer.parseInt(sportMainModel.getTodayStepCnt())/35;
+                text_rl.setText(kaluli+"");
             }
+//            String todayKaluliCnt = sportMainModel.getTodayKaluliCnt();
+//            if ("0".equals(todayKaluliCnt)) {
+//                text_rl.setText("--");
+//                text3.setVisibility(View.GONE);
+//            } else {
+//                text3.setVisibility(View.VISIBLE);
+//                text_rl.setText(sportMainModel.getTodayKaluliCnt());
+//            }
             String todayStepOdr = sportMainModel.getTodayStepOdr();
             if ("0".equals(todayStepOdr)) {
                 text_pm.setText("--");
@@ -362,7 +389,6 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
             } else {
                 lin_no_pk.setVisibility(View.GONE);
                 lin_have_pk.setVisibility(View.VISIBLE);
-
                 text_pk_left_count.setText(praiseChallengeModel.getPCnt());
                 text_pk_right_count.setText(praiseChallengeModel.getBPCnt());
                 text_left_1.setText(praiseChallengeModel.getPCnt());
@@ -432,16 +458,13 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
             String TodayStepCnt = model.getTodayStepCnt();
             if ("0".equals(TodayStepCnt)) {
                 text_step.setText("--");
-            } else {
-                text_step.setText(model.getTodayStepCnt());
-            }
-            String todayKaluliCnt = model.getTodayKaluliCnt();
-            if ("0".equals(todayKaluliCnt)) {
                 text_rl.setText("--");
                 text3.setVisibility(View.GONE);
             } else {
+                text_step.setText(model.getTodayStepCnt());
                 text3.setVisibility(View.VISIBLE);
-                text_rl.setText(model.getTodayKaluliCnt());
+                int kaluli=Integer.parseInt(model.getTodayStepCnt())/35;
+                text_rl.setText(kaluli+"");
             }
             String todayStepOdr = model.getTodayStepOdr();
             if ("0".equals(todayStepOdr)) {
@@ -456,5 +479,15 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                 text_xzs.setText(model.getMedalCnt());
             }
         }
+    }
+
+    @Override
+    public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
+        userId = UserInfoModel.getInstance().getUser().getUserid();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date curDate = new Date(System.currentTimeMillis());//获取当前时间
+        String time = formatter.format(curDate);
+        String str = time + "," + StepService.totalStep;
+        sportGroupManager.getSportIndex(userId, str);
     }
 }
