@@ -15,9 +15,11 @@
         android:id="@+id/toolbar"
         layout="@layout/toolbar" />
 
-    <ScrollView
+    <com.handmark.pulltorefresh.library.PullToRefreshScrollView
+        android:id="@+id/pull_sroll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:overScrollMode="never"
         android:scrollbars="none">
 
         <LinearLayout
@@ -797,5 +799,5 @@
                     android:textSize="@dimen/textSize12" />
             </LinearLayout>
         </LinearLayout>
-    </ScrollView>
+    </com.handmark.pulltorefresh.library.PullToRefreshScrollView>
 </LinearLayout>
