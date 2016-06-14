@@ -82,10 +82,8 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
     private List<BanjiStudentModel> banjiStudentModelList = new ArrayList<BanjiStudentModel>();
     private ClassAdapter classAdapter;
     private StudentAdapter studentAdapter;
-    boolean h = false;
-    boolean flag = false;
+    boolean h = true;
     long ClassId;
-    int chuheight = 300;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,16 +111,16 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
                 ClassId = banjiModel.getClassId();
                 retestPre.doGetBanjiStudent(ClassId, loginid);
                 studentAdapter.notifyDataSetChanged();
-                int height = ll_select_class.getHeight();
-                ObjectAnimator animator = ObjectAnimator.ofInt(new LayoutWapper(ll_select_class), "pingyi", height, 0);
-                animator.setDuration(500);
-                animator.start();
-//                list_class.setVisibility(View.GONE);
-//                ll_shousuo.setVisibility(View.GONE);
-//                ll_shousuolist.setVisibility(View.GONE);
+//                int height = ll_select_class.getHeight();
+//                ObjectAnimator animator = ObjectAnimator.ofInt(new LayoutWapper(ll_select_class), "pingyi", height, 0);
+//                animator.setDuration(500);
+//                animator.start();
+                list_class.setVisibility(View.GONE);
+                ll_shousuo.setVisibility(View.GONE);
+                ll_shousuolist.setVisibility(View.GONE);
                 Iv_fold.setImageResource(R.drawable.unfold);
                 selectclass.setText(banjiModel.getClassName());
-                h = true;
+                h = false;
                 for (int i = 0; i < parent.getChildCount(); i++) {
                     ImageView iv = (ImageView) parent.getChildAt(i).findViewById(R.id.rbtn_retest);
                     iv.setImageResource(R.drawable.radiocir);
@@ -197,30 +195,29 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
 
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-
                         if (h == false) {
-                            int height = ll_select_class.getHeight();
-                            if (flag == true) {
-                                chuheight = ll_select_class.getHeight();
-                            }
-                            ObjectAnimator animator = ObjectAnimator.ofInt(new LayoutWapper(ll_select_class), "pingyi", height, 0);
-                            animator.setDuration(500);
-                            animator.start();
-//                            list_class.setVisibility(View.VISIBLE);
-//                            ll_classlist.setVisibility(View.VISIBLE);
-//                            ll_shousuo.setVisibility(View.VISIBLE);
-//                            ll_shousuolist.setVisibility(View.VISIBLE);
+//                            int height = ll_select_class.getHeight();
+//                            if (flag == true) {
+//                                chuheight = ll_select_class.getHeight();
+//                            }
+//                            ObjectAnimator animator = ObjectAnimator.ofInt(new LayoutWapper(ll_select_class), "pingyi", height, 0);
+//                            animator.setDuration(500);
+//                            animator.start();
+                            list_class.setVisibility(View.VISIBLE);
+                            ll_classlist.setVisibility(View.VISIBLE);
+                            ll_shousuo.setVisibility(View.VISIBLE);
+                            ll_shousuolist.setVisibility(View.VISIBLE);
                             Iv_fold.setImageResource(R.drawable.retract);
                             h = true;
                         } else {
-                            int height = ll_select_class.getHeight();
-                            ObjectAnimator animator = ObjectAnimator.ofInt(new LayoutWapper(ll_select_class), "pingyi", 0, chuheight);
-                            animator.setDuration(500);
-                            animator.setInterpolator(new OvershootInterpolator());//估值器
-                            animator.start();
-//                            list_class.setVisibility(View.GONE);
-//                            ll_shousuo.setVisibility(View.GONE);
-//                            ll_shousuolist.setVisibility(View.GONE);
+//                            int height = ll_select_class.getHeight();
+//                            ObjectAnimator animator = ObjectAnimator.ofInt(new LayoutWapper(ll_select_class), "pingyi", 0, chuheight);
+//                            animator.setDuration(500);
+//                            animator.setInterpolator(new OvershootInterpolator());//估值器
+//                            animator.start();
+                            list_class.setVisibility(View.GONE);
+                            ll_shousuo.setVisibility(View.GONE);
+                            ll_shousuolist.setVisibility(View.GONE);
                             Iv_fold.setImageResource(R.drawable.unfold);
                             h = false;
 
@@ -243,26 +240,26 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
             @Override
             public void onClick(View v) {
                 if (h == false) {
-                    int height = ll_select_class.getHeight();
-//                    chuheight=ll_select_class.getHeight();
-                    ObjectAnimator animator = ObjectAnimator.ofInt(new LayoutWapper(ll_select_class), "pingyi", height, 0);
-                    animator.setDuration(500);
-                    animator.start();
-//                    list_class.setVisibility(View.VISIBLE);
-//                    ll_classlist.setVisibility(View.VISIBLE);
-//                    ll_shousuo.setVisibility(View.VISIBLE);
-//                    ll_shousuolist.setVisibility(View.VISIBLE);
+//                    int height = ll_select_class.getHeight();
+////                    chuheight=ll_select_class.getHeight();
+//                    ObjectAnimator animator = ObjectAnimator.ofInt(new LayoutWapper(ll_select_class), "pingyi", height, 0);
+//                    animator.setDuration(500);
+//                    animator.start();
+                    list_class.setVisibility(View.VISIBLE);
+                    ll_classlist.setVisibility(View.VISIBLE);
+                    ll_shousuo.setVisibility(View.VISIBLE);
+                    ll_shousuolist.setVisibility(View.VISIBLE);
                     Iv_fold.setImageResource(R.drawable.retract);
                     h = true;
                 } else {
-                    int height = ll_select_class.getHeight();
-                    ObjectAnimator animator = ObjectAnimator.ofInt(new LayoutWapper(ll_select_class), "pingyi", height, chuheight);
-                    animator.setDuration(500);
-                    animator.setInterpolator(new OvershootInterpolator());
-                    animator.start();
-//                    list_class.setVisibility(View.GONE);
-//                    ll_shousuo.setVisibility(View.GONE);
-//                    ll_shousuolist.setVisibility(View.GONE);
+//                    int height = ll_select_class.getHeight();
+//                    ObjectAnimator animator = ObjectAnimator.ofInt(new LayoutWapper(ll_select_class), "pingyi", height, chuheight);
+//                    animator.setDuration(500);
+//                    animator.setInterpolator(new OvershootInterpolator());
+//                    animator.start();
+                    list_class.setVisibility(View.GONE);
+                    ll_shousuo.setVisibility(View.GONE);
+                    ll_shousuolist.setVisibility(View.GONE);
                     Iv_fold.setImageResource(R.drawable.unfold);
                     h = false;
                 }
@@ -292,8 +289,7 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
         retestPre = new RetestclassImp();
         //获取班级列表，参数助教顾问id
         String id = UserInfoModel.getInstance().getUser().getUserid();
-        //retestPre.doGetRetestclass(loginid);
-
+        retestPre.doGetRetestclass(loginid);
 
     }
 
