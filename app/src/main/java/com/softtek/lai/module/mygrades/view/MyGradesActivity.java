@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -1093,8 +1092,8 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
             //分享
             case R.id.fl_right:
 //                dialogShow("加载中");
-//                Bitmap b1=getBitmapByView(scrollView1);
-//                savePic(b1, "/sdcard/screen_test_2.png");
+                Bitmap b1=getBitmapByView(scrollView1);
+                savePic(b1, "/sdcard/screen_test_2.png");
 
 //                menuWindow = new SelectPicPopupWindow(MyGradesActivity.this, itemsOnClick);
 //                //显示窗口
@@ -1281,7 +1280,9 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
         }
     }
 
-    /**截取scrollview的屏幕**/
+    /**
+     * 截取scrollview的屏幕
+     **/
     public static Bitmap getBitmapByView(ScrollView scrollView) {
         int h = 0;
         Bitmap bitmap = null;
@@ -1290,7 +1291,7 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
             h += scrollView.getChildAt(i).getHeight();
         }
         // 创建对应大小的bitmap
-        bitmap = Bitmap.createBitmap(scrollView.getWidth(), h,Bitmap.Config.ARGB_8888);
+        bitmap = Bitmap.createBitmap(scrollView.getWidth(), h, Bitmap.Config.ARGB_8888);
         final Canvas canvas = new Canvas(bitmap);
         scrollView.draw(canvas);
         return bitmap;
