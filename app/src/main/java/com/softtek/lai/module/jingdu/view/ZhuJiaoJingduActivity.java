@@ -343,7 +343,7 @@ public class ZhuJiaoJingduActivity extends BaseActivity implements View.OnClickL
             ll_oneban.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String classId =spModel.getTable2().get(0).getClassId();
+                    String classId = spModel.getTable2().get(0).getClassId();
                     Intent intent = new Intent(ZhuJiaoJingduActivity.this, GradeHomeActivity.class);
                     intent.putExtra("classId", classId);
                     intent.putExtra("review", 1);
@@ -405,8 +405,8 @@ public class ZhuJiaoJingduActivity extends BaseActivity implements View.OnClickL
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Table1Model table1Model = table1ModelList.get(position);
-        Long userId = Long.parseLong(table1Model.getAccountId());
-        Long classId = Long.parseLong(table1Model.getClassId());
+        long userId = Long.parseLong(table1Model.getAccountId());
+        long classId = Long.parseLong(table1Model.getClassId());
         Intent intent = new Intent(ZhuJiaoJingduActivity.this, StudentDetailActivity.class);
         intent.putExtra("userId", userId);
         intent.putExtra("classId", classId);

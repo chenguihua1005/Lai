@@ -74,11 +74,11 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
     //private RankSelectModel rankSelectModel;
     public RankInfoAdapter rankInfoAdapter;
 
-   /* private FragmentManager manager;
+    /* private FragmentManager manager;
 
-    private DayRankModel dayRankModel;
+     private DayRankModel dayRankModel;
 
-    private IGradesPresenter iGradesPresenter;*/
+     private IGradesPresenter iGradesPresenter;*/
     private GradesService gradesService;
 
     long accoutid;
@@ -93,7 +93,8 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
         //当前用户所参加的跑团
         UserInfoModel userInfoModel = UserInfoModel.getInstance();
         accoutid = Long.parseLong(userInfoModel.getUser().getUserid());
-        doGetNowRgName(accoutid);
+        //doGetNowRgName(accoutid);
+        tv_rungroupname.setText("跑团排名");
         init();
 
         rankInfoAdapter = new RankInfoAdapter(this, rankSelectModelList);
@@ -126,6 +127,7 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
             }
         });
     }
+
 
     //获取当前用户所参加的跑团
     public void doGetNowRgName(long accountid) {
