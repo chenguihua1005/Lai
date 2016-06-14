@@ -7,7 +7,9 @@ package com.softtek.lai.module.jingdu.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -16,12 +18,14 @@ import android.widget.TextView;
 import com.ggx.jerryguan.widget_lib.Chart;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
+import com.softtek.lai.module.grade.view.GradeHomeActivity;
 import com.softtek.lai.module.jingdu.Adapter.RankAdapter;
 import com.softtek.lai.module.jingdu.model.PaimingModel;
 import com.softtek.lai.module.jingdu.model.SPModel;
 import com.softtek.lai.module.jingdu.model.Table1Model;
 import com.softtek.lai.module.jingdu.presenter.GetProinfoImpl;
 import com.softtek.lai.module.jingdu.presenter.IGetProinfopresenter;
+import com.softtek.lai.module.studetail.view.StudentDetailActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -40,7 +44,7 @@ import zilla.libcore.ui.InjectLayout;
 //import com.umeng.socialize.sso.UMSsoHandler;
 
 @InjectLayout(R.layout.activity_zhujiaojingdu)
-public class ZhuJiaoJingduActivity extends BaseActivity implements View.OnClickListener {
+public class ZhuJiaoJingduActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -135,6 +139,7 @@ public class ZhuJiaoJingduActivity extends BaseActivity implements View.OnClickL
         initpaiming();
         rankAdapter = new RankAdapter(this, table1ModelList, paimingModelList);
         list_rank.setAdapter(rankAdapter);
+        list_rank.setOnItemClickListener(this);
         ll_left.setOnClickListener(this);
         //tv_right.setOnClickListener(this);
     }
@@ -181,7 +186,7 @@ public class ZhuJiaoJingduActivity extends BaseActivity implements View.OnClickL
     }
 
     @Subscribe
-    public void onEvent(SPModel spModel) {
+    public void onEvent(final SPModel spModel) {
         //SPTable：教练本月(累计减重数量)
         //System.out.println("rankEvent.getRanks()》》》》》》》》》》》》》》" + spModel.getSpTable().get(0).getTotalWeight());
 
@@ -209,14 +214,22 @@ public class ZhuJiaoJingduActivity extends BaseActivity implements View.OnClickL
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-
-
             onebanname = spModel.getTable2().get(0).getClassName();
             oneban = spModel.getTable2().get(0).getLoseWeight();
             tv_classname1.setText(onebanname);
             tv_oneban.setText(oneban);
             float a = Float.parseFloat(oneban);
             total_weight.setValue(a, 0, 0);
+            ll_oneban.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String classId = spModel.getTable2().get(0).getClassId();
+                    Intent intent = new Intent(ZhuJiaoJingduActivity.this, GradeHomeActivity.class);
+                    intent.putExtra("classId", classId);
+                    intent.putExtra("review", 1);
+                    startActivity(intent);
+                }
+            });
         } else if (spModel.getTable2().size() == 2) {
             //ll_threeban.setVisibility(View.GONE);
 
@@ -256,6 +269,28 @@ public class ZhuJiaoJingduActivity extends BaseActivity implements View.OnClickL
             float a = Float.parseFloat(oneban);
             float b = Float.parseFloat(twoban);
             total_weight.setValue(a, b, 0);
+            ll_oneban.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String classId = spModel.getTable2().get(0).getClassId();
+                    Log.i("", "classId1---->>>>>>" + classId);
+                    Intent intent = new Intent(ZhuJiaoJingduActivity.this, GradeHomeActivity.class);
+                    intent.putExtra("classId", classId);
+                    intent.putExtra("review", 1);
+                    startActivity(intent);
+                }
+            });
+            ll_twoban.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String classId = spModel.getTable2().get(1).getClassId();
+                    Log.i("", "classId2---->>>>>>" + classId);
+                    Intent intent = new Intent(ZhuJiaoJingduActivity.this, GradeHomeActivity.class);
+                    intent.putExtra("classId", classId);
+                    intent.putExtra("review", 1);
+                    startActivity(intent);
+                }
+            });
         } else if (spModel.getTable2().size() == 3) {
 
             String yue1 = spModel.getTable2().get(0).getStartDate();
@@ -305,6 +340,36 @@ public class ZhuJiaoJingduActivity extends BaseActivity implements View.OnClickL
             float b = Float.parseFloat(twoban);
             float c = Float.parseFloat(threeban);
             total_weight.setValue(a, b, c);
+            ll_oneban.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String classId =spModel.getTable2().get(0).getClassId();
+                    Intent intent = new Intent(ZhuJiaoJingduActivity.this, GradeHomeActivity.class);
+                    intent.putExtra("classId", classId);
+                    intent.putExtra("review", 1);
+                    startActivity(intent);
+                }
+            });
+            ll_twoban.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String classId = spModel.getTable2().get(1).getClassId();
+                    Intent intent = new Intent(ZhuJiaoJingduActivity.this, GradeHomeActivity.class);
+                    intent.putExtra("classId", classId);
+                    intent.putExtra("review", 1);
+                    startActivity(intent);
+                }
+            });
+            ll_threeban.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String classId = spModel.getTable2().get(2).getClassId();
+                    Intent intent = new Intent(ZhuJiaoJingduActivity.this, GradeHomeActivity.class);
+                    intent.putExtra("classId", classId);
+                    intent.putExtra("review", 1);
+                    startActivity(intent);
+                }
+            });
         }
 
     }
@@ -332,5 +397,20 @@ public class ZhuJiaoJingduActivity extends BaseActivity implements View.OnClickL
 //        if (ssoHandler != null) {
 //            ssoHandler.authorizeCallBack(requestCode, resultCode, data);
 //        }
+    }
+
+    /*
+     * listview的点击事件
+     */
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Table1Model table1Model = table1ModelList.get(position);
+        Long userId = Long.parseLong(table1Model.getAccountId());
+        Long classId = Long.parseLong(table1Model.getClassId());
+        Intent intent = new Intent(ZhuJiaoJingduActivity.this, StudentDetailActivity.class);
+        intent.putExtra("userId", userId);
+        intent.putExtra("classId", classId);
+        intent.putExtra("review", 1);
+        startActivity(intent);
     }
 }

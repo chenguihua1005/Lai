@@ -1,12 +1,14 @@
 package com.softtek.lai.module.retest.view;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.OvershootInterpolator;
 import android.widget.AdapterView;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -42,7 +44,7 @@ import zilla.libcore.ui.InjectLayout;
  * Created by lareina.qiao on 3/18/2016.
  */
 @InjectLayout(R.layout.activity_retest)
-public class  RetestActivity extends BaseActivity implements View.OnClickListener{
+public class RetestActivity extends BaseActivity implements View.OnClickListener {
     private RetestPre retestPre;
     //标题栏
     @InjectView(R.id.tv_right)
@@ -68,31 +70,32 @@ public class  RetestActivity extends BaseActivity implements View.OnClickListene
     LinearLayout ll_shousuolist;
     @InjectView(R.id.ll_shousuo)
     LinearLayout ll_shousuo;
-
+    @InjectView(R.id.ll_select_class)
+    LinearLayout ll_select_class;
     //选择班级
     @InjectView(R.id.selectclass)
     TextView selectclass;
-    private static final int GET_BODY=2;
-    UserInfoModel userInfoModel=UserInfoModel.getInstance();
-    long loginid=Long.parseLong(userInfoModel.getUser().getUserid());
-    private List<BanjiModel> banjiModelList=new ArrayList<BanjiModel>();
-    private List<BanjiStudentModel>banjiStudentModelList=new ArrayList<BanjiStudentModel>();
+    private static final int GET_BODY = 2;
+    UserInfoModel userInfoModel = UserInfoModel.getInstance();
+    long loginid = Long.parseLong(userInfoModel.getUser().getUserid());
+    private List<BanjiModel> banjiModelList = new ArrayList<BanjiModel>();
+    private List<BanjiStudentModel> banjiStudentModelList = new ArrayList<BanjiStudentModel>();
     private ClassAdapter classAdapter;
     private StudentAdapter studentAdapter;
-    boolean h=false;
+    boolean h = false;
+    boolean flag = false;
     long ClassId;
-//    int postions=-1;
+    int chuheight = 300;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
         super.onCreate(savedInstanceState);
-        classAdapter=new ClassAdapter(this,banjiModelList);
-        studentAdapter=new StudentAdapter(this,banjiStudentModelList);
-        list_class.setAdapter(classAdapter);
-//        queryAdapter=new QueryAdapter(this,banjiStudentList);
 
-//        ListView listView=(ListView)findViewById(R.id.list_class);
+        classAdapter = new ClassAdapter(this, banjiModelList);
+        studentAdapter = new StudentAdapter(this, banjiStudentModelList);
+        list_class.setAdapter(classAdapter);
+
 
         list_query.setAdapter(studentAdapter);
         list_query.setVerticalScrollBarEnabled(false);
@@ -104,25 +107,27 @@ public class  RetestActivity extends BaseActivity implements View.OnClickListene
         list_class.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                BanjiModel banjiModel=banjiModelList.get(position);
+                BanjiModel banjiModel = banjiModelList.get(position);
                 banjiStudentModelList.clear();
-                retestPre.doGetBanjiStudent(banjiModel.getClassId(),loginid);
-                ClassId=banjiModel.getClassId();
-                retestPre.doGetBanjiStudent(ClassId,loginid);
+                retestPre.doGetBanjiStudent(banjiModel.getClassId(), loginid);
+                ClassId = banjiModel.getClassId();
+                retestPre.doGetBanjiStudent(ClassId, loginid);
                 studentAdapter.notifyDataSetChanged();
-                list_class.setVisibility(View.INVISIBLE);
-                ll_shousuo.setVisibility(View.INVISIBLE);
-                ll_shousuolist.setVisibility(View.INVISIBLE);
+                int height = ll_select_class.getHeight();
+                ObjectAnimator animator = ObjectAnimator.ofInt(new LayoutWapper(ll_select_class), "pingyi", height, 0);
+                animator.setDuration(500);
+                animator.start();
+//                list_class.setVisibility(View.GONE);
+//                ll_shousuo.setVisibility(View.GONE);
+//                ll_shousuolist.setVisibility(View.GONE);
                 Iv_fold.setImageResource(R.drawable.unfold);
-//                String[] clas=banjiModel.getStartDate().split("-");
-//                selectclass.setText(tomonth(clas[1]));
                 selectclass.setText(banjiModel.getClassName());
-                h=false;
-                for(int i=0;i<parent.getChildCount();i++){
-                    ImageView iv= (ImageView) parent.getChildAt(i).findViewById(R.id.rbtn_retest);
+                h = true;
+                for (int i = 0; i < parent.getChildCount(); i++) {
+                    ImageView iv = (ImageView) parent.getChildAt(i).findViewById(R.id.rbtn_retest);
                     iv.setImageResource(R.drawable.radiocir);
                 }
-                ImageView iv= (ImageView) view.findViewById(R.id.rbtn_retest);
+                ImageView iv = (ImageView) view.findViewById(R.id.rbtn_retest);
                 iv.setImageResource(R.drawable.radiosel);
             }
         });
@@ -130,60 +135,58 @@ public class  RetestActivity extends BaseActivity implements View.OnClickListene
         list_query.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                BanjiStudentModel banjiStudentModel=banjiStudentModelList.get(position);
-                if (banjiStudentModel.getAMStatus()=="")
-                {
-                    Intent intent=new Intent(RetestActivity.this,WriteActivity.class);
-                    intent.putExtra("accountId",banjiStudentModel.getAccountId());
-                    intent.putExtra("classId",banjiStudentModel.getClassId());
-                    intent.putExtra("typeDate",banjiStudentModel.getTypeDate());
+                BanjiStudentModel banjiStudentModel = banjiStudentModelList.get(position);
+                if (banjiStudentModel.getAMStatus() == "") {
+                    Intent intent = new Intent(RetestActivity.this, WriteActivity.class);
+                    intent.putExtra("accountId", banjiStudentModel.getAccountId());
+                    intent.putExtra("classId", banjiStudentModel.getClassId());
+                    intent.putExtra("typeDate", banjiStudentModel.getTypeDate());
                     //开班时间，判断班级名称（几月班）
-                    intent.putExtra("StartDate",banjiStudentModel.getStartDate());
+                    intent.putExtra("StartDate", banjiStudentModel.getStartDate());
                     //开始周期
-                    intent.putExtra("CurrStart",banjiStudentModel.getCurrStart());
+                    intent.putExtra("CurrStart", banjiStudentModel.getCurrStart());
                     //结束周期
-                    intent.putExtra("CurrEnd",banjiStudentModel.getCurrEnd());
+                    intent.putExtra("CurrEnd", banjiStudentModel.getCurrEnd());
                     //昵称
-                    intent.putExtra("UserName",banjiStudentModel.getUserName());
+                    intent.putExtra("UserName", banjiStudentModel.getUserName());
                     //手机号
-                    intent.putExtra("Mobile",banjiStudentModel.getMobile());
+                    intent.putExtra("Mobile", banjiStudentModel.getMobile());
                     //头像
-                    intent.putExtra("Photo",banjiStudentModel.getPhoto());
+                    intent.putExtra("Photo", banjiStudentModel.getPhoto());
                     //第几周期
-                    intent.putExtra("Weekth",banjiStudentModel.getWeekth());
+                    intent.putExtra("Weekth", banjiStudentModel.getWeekth());
                     //postion
 //                    intent.putExtra("postion",position);
 //                    postions=position;
 
-                    startActivityForResult(intent,GET_BODY);
+                    startActivityForResult(intent, GET_BODY);
 
-                }
-                else {
+                } else {
 
-                    Intent intent=new Intent(RetestActivity.this, AuditActivity.class);
-                    intent.putExtra("accountId",banjiStudentModel.getAccountId());
-                    intent.putExtra("classId",banjiStudentModel.getClassId());
-                    intent.putExtra("typeDate",banjiStudentModel.getTypeDate());
-                    intent.putExtra("loginid","36");
+                    Intent intent = new Intent(RetestActivity.this, AuditActivity.class);
+                    intent.putExtra("accountId", banjiStudentModel.getAccountId());
+                    intent.putExtra("classId", banjiStudentModel.getClassId());
+                    intent.putExtra("typeDate", banjiStudentModel.getTypeDate());
+                    intent.putExtra("loginid", "36");
                     //开班时间，判断班级名称（几月班）
-                    intent.putExtra("StartDate",banjiStudentModel.getStartDate());
+                    intent.putExtra("StartDate", banjiStudentModel.getStartDate());
                     //开始周期
-                    intent.putExtra("CurrStart",banjiStudentModel.getCurrStart());
+                    intent.putExtra("CurrStart", banjiStudentModel.getCurrStart());
                     //结束周期
-                    intent.putExtra("CurrEnd",banjiStudentModel.getCurrEnd());
+                    intent.putExtra("CurrEnd", banjiStudentModel.getCurrEnd());
                     //昵称
-                    intent.putExtra("UserName",banjiStudentModel.getUserName());
+                    intent.putExtra("UserName", banjiStudentModel.getUserName());
                     //手机号
-                    intent.putExtra("Mobile",banjiStudentModel.getMobile());
+                    intent.putExtra("Mobile", banjiStudentModel.getMobile());
                     //头像
-                    intent.putExtra("Photo",banjiStudentModel.getPhoto());
+                    intent.putExtra("Photo", banjiStudentModel.getPhoto());
                     //第几周期
-                    intent.putExtra("Weekth",banjiStudentModel.getWeekth());
+                    intent.putExtra("Weekth", banjiStudentModel.getWeekth());
                     //postion
 //                    intent.putExtra("postion",position);
 //                    postions=position;
-                    Log.i("zhouqizhouqi"+banjiStudentModel.getWeekth());
-                    startActivityForResult(intent,GET_BODY);
+                    Log.i("zhouqizhouqi" + banjiStudentModel.getWeekth());
+                    startActivityForResult(intent, GET_BODY);
                 }
             }
         });
@@ -192,32 +195,44 @@ public class  RetestActivity extends BaseActivity implements View.OnClickListene
             public boolean onTouch(View v, MotionEvent event) {
 
 
-                switch (event.getAction()){
+                switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
 
-                        if (h==false) {
-                            list_class.setVisibility(View.VISIBLE);
-                            ll_classlist.setVisibility(View.VISIBLE);
-                            ll_shousuo.setVisibility(View.VISIBLE);
-                            ll_shousuolist.setVisibility(View.VISIBLE);
+                        if (h == false) {
+                            int height = ll_select_class.getHeight();
+                            if (flag == true) {
+                                chuheight = ll_select_class.getHeight();
+                            }
+                            ObjectAnimator animator = ObjectAnimator.ofInt(new LayoutWapper(ll_select_class), "pingyi", height, 0);
+                            animator.setDuration(500);
+                            animator.start();
+//                            list_class.setVisibility(View.VISIBLE);
+//                            ll_classlist.setVisibility(View.VISIBLE);
+//                            ll_shousuo.setVisibility(View.VISIBLE);
+//                            ll_shousuolist.setVisibility(View.VISIBLE);
                             Iv_fold.setImageResource(R.drawable.retract);
-                            h=true;
-                        }
-                        else {
-                            list_class.setVisibility(View.INVISIBLE);
-                            ll_shousuo.setVisibility(View.INVISIBLE);
-                            ll_shousuolist.setVisibility(View.INVISIBLE);
+                            h = true;
+                        } else {
+                            int height = ll_select_class.getHeight();
+                            ObjectAnimator animator = ObjectAnimator.ofInt(new LayoutWapper(ll_select_class), "pingyi", 0, chuheight);
+                            animator.setDuration(500);
+                            animator.setInterpolator(new OvershootInterpolator());//估值器
+                            animator.start();
+//                            list_class.setVisibility(View.GONE);
+//                            ll_shousuo.setVisibility(View.GONE);
+//                            ll_shousuolist.setVisibility(View.GONE);
                             Iv_fold.setImageResource(R.drawable.unfold);
-                            h=false;
+                            h = false;
+
                         }
                         break;
 
                     case MotionEvent.ACTION_BUTTON_PRESS:
-                        list_class.setVisibility(View.VISIBLE);
-                        ll_shousuo.setVisibility(View.VISIBLE);
+//                        list_class.setVisibility(View.VISIBLE);
+//                        ll_shousuo.setVisibility(View.VISIBLE);
                         break;
                     case MotionEvent.ACTION_UP:
-//                        list_class.setVisibility(View.INVISIBLE);
+
                         break;
                 }
                 return false;
@@ -227,21 +242,29 @@ public class  RetestActivity extends BaseActivity implements View.OnClickListene
         ll_shousuo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (h==false)
-                {
-                    list_class.setVisibility(View.VISIBLE);
-                    ll_classlist.setVisibility(View.VISIBLE);
-                    ll_shousuo.setVisibility(View.VISIBLE);
-                    ll_shousuolist.setVisibility(View.VISIBLE);
+                if (h == false) {
+                    int height = ll_select_class.getHeight();
+//                    chuheight=ll_select_class.getHeight();
+                    ObjectAnimator animator = ObjectAnimator.ofInt(new LayoutWapper(ll_select_class), "pingyi", height, 0);
+                    animator.setDuration(500);
+                    animator.start();
+//                    list_class.setVisibility(View.VISIBLE);
+//                    ll_classlist.setVisibility(View.VISIBLE);
+//                    ll_shousuo.setVisibility(View.VISIBLE);
+//                    ll_shousuolist.setVisibility(View.VISIBLE);
                     Iv_fold.setImageResource(R.drawable.retract);
-                    h=true;
-                }
-                else {
-                    list_class.setVisibility(View.INVISIBLE);
-                    ll_shousuo.setVisibility(View.INVISIBLE);
-                    ll_shousuolist.setVisibility(View.INVISIBLE);
+                    h = true;
+                } else {
+                    int height = ll_select_class.getHeight();
+                    ObjectAnimator animator = ObjectAnimator.ofInt(new LayoutWapper(ll_select_class), "pingyi", height, chuheight);
+                    animator.setDuration(500);
+                    animator.setInterpolator(new OvershootInterpolator());
+                    animator.start();
+//                    list_class.setVisibility(View.GONE);
+//                    ll_shousuo.setVisibility(View.GONE);
+//                    ll_shousuolist.setVisibility(View.GONE);
                     Iv_fold.setImageResource(R.drawable.unfold);
-                    h=false;
+                    h = false;
                 }
             }
         });
@@ -260,60 +283,45 @@ public class  RetestActivity extends BaseActivity implements View.OnClickListene
     }
 
 
-
     @Override
     protected void initDatas() {
 
         bar_title.setText("复测");
-//        tv_right.setText("搜索");
         iv_email.setVisibility(View.VISIBLE);
         iv_email.setImageResource(R.drawable.retestsearch);
-        retestPre =new RetestclassImp();
+        retestPre = new RetestclassImp();
         //获取班级列表，参数助教顾问id
-        String id=UserInfoModel.getInstance().getUser().getUserid();
-        retestPre.doGetRetestclass(loginid);
-        Log.i("id="+id);
-//        retestPre.doGetRetestclass(Integer.parseInt(id));
-
-
-
+        String id = UserInfoModel.getInstance().getUser().getUserid();
+        //retestPre.doGetRetestclass(loginid);
 
 
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==GET_BODY&&resultCode==RESULT_OK){
-//            Intent intent=getIntent();
-//            int postion=intent.getIntExtra("postion",-1);
-//            if (postions!=-1) {
-//                banjiModelList.remove(postions);
+        if (requestCode == GET_BODY && resultCode == RESULT_OK) {
+
             banjiStudentModelList.clear();
-            retestPre.doGetBanjiStudent(ClassId,loginid);
+            retestPre.doGetBanjiStudent(ClassId, loginid);
             studentAdapter.notifyDataSetChanged();
-//            }
+
 
         }
     }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        banjiStudentModelList.clear();
-//        retestPre.doGetBanjiStudent(ClassId,loginid);
-////        studentAdapter.notifyDataSetChanged();
-//    }
 
     @Subscribe
-    public void onEvent(BanJiEvent banji){
-        banjiModelList=banji.getBanjiModels();
+    public void onEvent(BanJiEvent banji) {
+        banjiModelList = banji.getBanjiModels();
         classAdapter.updateData(banjiModelList);
 
     }
+
     @Subscribe
-    public void onEvent1(BanjiStudentEvent banjiStudent){
+    public void onEvent1(BanjiStudentEvent banjiStudent) {
         banjiStudentModelList.clear();
-        banjiStudentModelList=banjiStudent.getBanjiStudentModels();
+        banjiStudentModelList = banjiStudent.getBanjiStudentModels();
         studentAdapter.updateData(banjiStudentModelList);
 //        List<Student> students=student.getStudents();
 //        for (Student st:students){
@@ -326,47 +334,52 @@ public class  RetestActivity extends BaseActivity implements View.OnClickListene
 
     }
 
+    private class LayoutWapper {
+        private View target;
 
-    public String tomonth(String month){
-        if (month.equals("01")){
-            month="一月班";
+        public LayoutWapper(View target) {
+            this.target = target;
         }
-        else if (month.equals("02")){
-            month="二月班";
-        }else if (month.equals("03"))
-        {
-            month="三月班";
-        }else if (month.equals("04"))
-        {
-            month="四月班";
 
-        }else if (month.equals("05"))
-        {
-            month="五月班";
-        }else if (month.equals("06"))
-        {
-            month="六月班";
-        }else if (month.equals("07"))
-        {
-            month="七月班";
-        } else if (month.equals("08"))
-        {
-            month="八月班";
-        }else if (month.equals("09"))
-        {
-            month="九月班";
-        }else if (month.equals("10"))
-        {
-            month="十月班";
-        }else if (month.equals("11"))
-        {
-            month="十一月班";
-        }else
-        {
-            month="十二月班";
+        public void setPingyi(int value) {
+            android.util.Log.i("tag", value + "");
+            ViewGroup.LayoutParams params = target.getLayoutParams();
+            params.height = value;
+            target.setLayoutParams(params);
+        }
+
+    }
+
+    public String tomonth(String month) {
+        if (month.equals("01")) {
+            month = "一月班";
+        } else if (month.equals("02")) {
+            month = "二月班";
+        } else if (month.equals("03")) {
+            month = "三月班";
+        } else if (month.equals("04")) {
+            month = "四月班";
+
+        } else if (month.equals("05")) {
+            month = "五月班";
+        } else if (month.equals("06")) {
+            month = "六月班";
+        } else if (month.equals("07")) {
+            month = "七月班";
+        } else if (month.equals("08")) {
+            month = "八月班";
+        } else if (month.equals("09")) {
+            month = "九月班";
+        } else if (month.equals("10")) {
+            month = "十月班";
+        } else if (month.equals("11")) {
+            month = "十一月班";
+        } else {
+            month = "十二月班";
         }
         return month;
     }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
@@ -380,18 +393,17 @@ public class  RetestActivity extends BaseActivity implements View.OnClickListene
         }
         return super.onKeyDown(keyCode, event);
     }
+
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.iv_email:
-            {
-                Intent intent=new Intent(RetestActivity.this,QueryActivity.class);
+        switch (v.getId()) {
+            case R.id.iv_email: {
+                Intent intent = new Intent(RetestActivity.this, QueryActivity.class);
                 startActivity(intent);
 
             }
             break;
-            case R.id.ll_left:
-            {
+            case R.id.ll_left: {
                 String type = getIntent().getStringExtra("type");
                 if ("0".equals(type)) {
                     startActivity(new Intent(this, HomeActviity.class));

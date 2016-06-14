@@ -54,10 +54,6 @@ import zilla.libcore.ui.InjectLayout;
 @InjectLayout(R.layout.activity_counselor)
 public class CounselorActivity extends BaseActivity implements View.OnClickListener {
     //标题栏
-    @InjectView(R.id.tv_right)
-    TextView bar_right;
-    @InjectView(R.id.tv_title)
-    TextView bar_title;
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     //banner图片
@@ -118,7 +114,7 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
         super.onCreate(savedInstanceState);
-
+        tintManager.setStatusBarAlpha(0);
         messagePresenter = new MessageImpl(this);
         registerMessageReceiver();
         iv_email.setBackgroundResource(R.drawable.email);
@@ -180,7 +176,6 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void initViews() {
-        bar_title.setText(R.string.CounselorBarL);
         progressDialog = new ProgressDialog(this);
     }
 

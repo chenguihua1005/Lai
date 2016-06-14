@@ -10,14 +10,16 @@ public class Table1Model {
     private String LoseWeight;
     private String UserName;
     private String Photo;
+    private String ClassId;
 
-    public Table1Model(String accountId, String beforeWight, String afterWeight, String loseWeight, String userName, String photo) {
+    public Table1Model(String accountId, String beforeWight, String afterWeight, String loseWeight, String userName, String photo, String classId) {
         AccountId = accountId;
         BeforeWight = beforeWight;
         AfterWeight = afterWeight;
         LoseWeight = loseWeight;
         UserName = userName;
         Photo = photo;
+        ClassId = classId;
     }
 
     public String getAccountId() {
@@ -68,6 +70,14 @@ public class Table1Model {
         Photo = photo;
     }
 
+    public String getClassId() {
+        return ClassId;
+    }
+
+    public void setClassId(String classId) {
+        ClassId = classId;
+    }
+
     @Override
     public String toString() {
         return "Table1Model{" +
@@ -77,6 +87,7 @@ public class Table1Model {
                 ", LoseWeight='" + LoseWeight + '\'' +
                 ", UserName='" + UserName + '\'' +
                 ", Photo='" + Photo + '\'' +
+                ", ClassId='" + ClassId + '\'' +
                 '}';
     }
 }
