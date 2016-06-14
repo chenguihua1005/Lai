@@ -31,7 +31,6 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="@dimen/margin"
             android:layout_marginTop="@dimen/margin"
-            android:text="@string/version"
             android:textColor="#808080"
             android:textSize="11sp" />
     </LinearLayout>
