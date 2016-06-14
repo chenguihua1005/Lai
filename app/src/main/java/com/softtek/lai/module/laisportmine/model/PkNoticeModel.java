@@ -11,8 +11,6 @@ public class PkNoticeModel {
     private String CreateTime;
     private String Photo;
     private String UserName;
-    private String BPhoto;
-    private String BUserName;
     private String Chip;
 
     @Override
@@ -25,8 +23,6 @@ public class PkNoticeModel {
                 ", CreateTime='" + CreateTime + '\'' +
                 ", Photo='" + Photo + '\'' +
                 ", UserName='" + UserName + '\'' +
-                ", BPhoto='" + BPhoto + '\'' +
-                ", BUserName='" + BUserName + '\'' +
                 ", Chip='" + Chip + '\'' +
                 '}';
     }
@@ -85,22 +81,6 @@ public class PkNoticeModel {
 
     public void setUserName(String userName) {
         UserName = userName;
-    }
-
-    public String getBPhoto() {
-        return BPhoto;
-    }
-
-    public void setBPhoto(String BPhoto) {
-        this.BPhoto = BPhoto;
-    }
-
-    public String getBUserName() {
-        return BUserName;
-    }
-
-    public void setBUserName(String BUserName) {
-        this.BUserName = BUserName;
     }
 
     public String getChip() {

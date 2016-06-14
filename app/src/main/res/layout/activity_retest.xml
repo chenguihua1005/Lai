@@ -8,33 +8,17 @@
     tools:context=".module.retest.view.RetestActivity">
   <include layout="@layout/toolbar"></include>
 
-        <FrameLayout
+        <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:gravity="center"
-            android:layout_marginTop="45dp"
+            android:layout_below="@+id/toolbar"
             android:layout_height="wrap_content">
-
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="60dp">
-                <ListView
-                    android:id="@+id/list_query"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:visibility="visible">
-
-                </ListView>
-            </RelativeLayout>
-
             <LinearLayout
+                android:id="@+id/ll_listclassselc"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_marginTop="5dp"
                 android:layout_height="wrap_content"
-
                 >
 
                 <RelativeLayout
@@ -50,13 +34,13 @@
                         android:layout_centerHorizontal="true"
                         android:gravity="center"
                         >
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="选择班级"
-                        android:textSize="20sp"
-                        android:textColor="#333"
-                        android:id="@+id/selectclass" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="选择班级"
+                            android:textSize="20sp"
+                            android:textColor="#333"
+                            android:id="@+id/selectclass" />
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -74,57 +58,78 @@
                     android:layout_width="wrap_content"
                     android:layout_height="1dp"
                     android:background="#F1F1F1"/>
-
-            <LinearLayout
-                android:id="@+id/ll_shousuolist"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
                 <LinearLayout
+                    android:id="@+id/ll_select_class"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
-                <ListView
-                    android:id="@+id/list_class"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#ffffff"
-                    android:choiceMode="singleChoice"
-                    android:scrollbars="none"
-                    android:visibility="gone">
-                </ListView>
-                </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#F1F1F1"/>
 
                 <LinearLayout
-                    android:id="@+id/ll_shousuo"
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="25dp"
-                    android:background="#ffffff"
-                    android:gravity="center"
-                    >
+                    android:id="@+id/ll_shousuolist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <ListView
+                            android:id="@+id/list_class"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#ffffff"
+                            android:choiceMode="singleChoice"
+                            android:scrollbars="none"
+                            android:visibility="visible"
+                            >
+                        </ListView>
+                    </LinearLayout>
                     <View
-                        android:layout_width="20dp"
+                        android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="#D4D4D4"/>
+                        android:background="#F1F1F1"/>
+
+                    <LinearLayout
+                        android:id="@+id/ll_shousuo"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="25dp"
+                        android:background="#ffffff"
+                        android:gravity="center"
+
+                        >
+                        <View
+                            android:layout_width="20dp"
+                            android:layout_height="1dp"
+                            android:background="#D4D4D4"/>
+                        <View
+                            android:layout_marginTop="5dp"
+                            android:layout_width="20dp"
+                            android:layout_height="1dp"
+                            android:background="#D4D4D4"/>
+                    </LinearLayout>
                     <View
-                        android:layout_marginTop="5dp"
-                        android:layout_width="20dp"
+                        android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="#D4D4D4"/>
+                        android:background="#F1F1F1"/>
                 </LinearLayout>
-                <View
+                </LinearLayout>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+                <ListView
+                    android:id="@+id/list_query"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#F1F1F1"/>
-            </LinearLayout>
+                    android:layout_height="match_parent"
+                    android:visibility="visible">
 
-            </LinearLayout>
+                </ListView>
+            </RelativeLayout>
 
 
-        </FrameLayout>
+
+
+        </LinearLayout>
 
 </RelativeLayout>

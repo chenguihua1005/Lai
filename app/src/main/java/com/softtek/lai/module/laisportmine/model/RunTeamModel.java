@@ -6,14 +6,12 @@ import java.io.Serializable;
  * Created by lareina.qiao on 5/10/2016.
  */
 public class RunTeamModel implements Serializable {
-   private String RgName;
-   private String IsHasMsg;
+    private String RgName;
+    private String IsHasMsg;
     private String IsHasAngelMsg;
     private String IsHasActMsg;
     private String IsHasChaMsg;
-
-    public RunTeamModel() {
-    }
+    private String RgNum;
 
     @Override
     public String toString() {
@@ -23,6 +21,7 @@ public class RunTeamModel implements Serializable {
                 ", IsHasAngelMsg='" + IsHasAngelMsg + '\'' +
                 ", IsHasActMsg='" + IsHasActMsg + '\'' +
                 ", IsHasChaMsg='" + IsHasChaMsg + '\'' +
+                ", RgNum='" + RgNum + '\'' +
                 '}';
     }
 
@@ -65,4 +64,17 @@ public class RunTeamModel implements Serializable {
     public void setIsHasChaMsg(String isHasChaMsg) {
         IsHasChaMsg = isHasChaMsg;
     }
+
+    public String getRgNum() {
+        return RgNum;
+    }
+
+    public void setRgNum(String rgNum) {
+        RgNum = rgNum;
+    }
+
+    public RunTeamModel() {
+    }
+
+
 }

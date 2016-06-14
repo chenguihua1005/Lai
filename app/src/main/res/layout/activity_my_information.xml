@@ -16,7 +16,51 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar"
         android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff">
 
+            <ImageView
+                android:id="@+id/im_la"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="20dip"
+                android:layout_marginTop="20dip"
+                android:src="@drawable/laisportid" />
+
+            <TextView
+                android:id="@+id/text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@+id/im_la"
+                android:text="跑团编号"
+                android:textColor="#333333"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_toRightOf="@+id/text"
+                android:id="@+id/tv_runteamnum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="10dip"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:gravity="right"
+                android:textColor="#999999"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#dddddd" />
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

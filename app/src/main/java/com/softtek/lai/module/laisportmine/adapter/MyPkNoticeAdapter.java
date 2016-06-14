@@ -9,7 +9,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
-import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.laisportmine.model.PkNoticeModel;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
@@ -24,7 +23,7 @@ import zilla.libcore.file.AddressManager;
 public class MyPkNoticeAdapter extends BaseAdapter {
     private Context context;
     private List<PkNoticeModel> pkNoticeModelList;
-    private UserInfoModel userInfoModel;
+
 
 
     public MyPkNoticeAdapter(Context context, List<PkNoticeModel> pkNoticeModelList) {
@@ -76,6 +75,9 @@ public class MyPkNoticeAdapter extends BaseAdapter {
             if (!TextUtils.isEmpty(pkNoticeModel.getPhoto())) {
                 Picasso.with(context).load(path + pkNoticeModel.getPhoto()).fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(viewHolder.im_pk_head);
             }
+            else {
+                Picasso.with(context).load(R.drawable.img_default).into(viewHolder.im_pk_head);
+            }
 
         }
         else if (pkNoticeModel.getMsgType().equals("2"))
@@ -84,12 +86,18 @@ public class MyPkNoticeAdapter extends BaseAdapter {
             if (!TextUtils.isEmpty(pkNoticeModel.getPhoto())) {
                 Picasso.with(context).load(path + pkNoticeModel.getPhoto()).fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(viewHolder.im_pk_head);
             }
+            else {
+                Picasso.with(context).load(R.drawable.img_default).into(viewHolder.im_pk_head);
+            }
         }
         else if (pkNoticeModel.getMsgType().equals("3"))
         {
             viewHolder.tv_pk_title.setText(pkNoticeModel.getUserName()+"拒绝了你的挑战");
             if (!TextUtils.isEmpty(pkNoticeModel.getPhoto())) {
                 Picasso.with(context).load(path + pkNoticeModel.getPhoto()).fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(viewHolder.im_pk_head);
+            }
+            else {
+                Picasso.with(context).load(R.drawable.img_default).into(viewHolder.im_pk_head);
             }
         }
         else if (pkNoticeModel.getMsgType().equals("4"))
@@ -98,6 +106,9 @@ public class MyPkNoticeAdapter extends BaseAdapter {
             if (!TextUtils.isEmpty(pkNoticeModel.getPhoto())) {
                 Picasso.with(context).load(path + pkNoticeModel.getPhoto()).fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(viewHolder.im_pk_head);
             }
+            else {
+                Picasso.with(context).load(R.drawable.img_default).into(viewHolder.im_pk_head);
+            }
         }
         else if (pkNoticeModel.getMsgType().equals("5"))
         {
@@ -105,18 +116,33 @@ public class MyPkNoticeAdapter extends BaseAdapter {
             if (!TextUtils.isEmpty(pkNoticeModel.getPhoto())) {
                 Picasso.with(context).load(path + pkNoticeModel.getPhoto()).fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(viewHolder.im_pk_head);
             }
+            else {
+                Picasso.with(context).load(R.drawable.img_default).into(viewHolder.im_pk_head);
+            }
+        }
+        else if (pkNoticeModel.getMsgType().equals("8"))
+        {
+            viewHolder.tv_pk_title.setText(pkNoticeModel.getUserName()+"重启了和你的PK");
+            if (!TextUtils.isEmpty(pkNoticeModel.getPhoto())) {
+                Picasso.with(context).load(path + pkNoticeModel.getPhoto()).fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(viewHolder.im_pk_head);
+            }
+            else {
+                Picasso.with(context).load(R.drawable.img_default).into(viewHolder.im_pk_head);
+            }
         }
         else {
             viewHolder.tv_pk_title.setText(pkNoticeModel.getChip());
             if (!TextUtils.isEmpty(pkNoticeModel.getPhoto())) {
                 Picasso.with(context).load(path + pkNoticeModel.getPhoto()).fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(viewHolder.im_pk_head);
             }
+            else {
+                Picasso.with(context).load(R.drawable.img_default).into(viewHolder.im_pk_head);
+            }
         }
 
         viewHolder.tv_pk_person1.setText(pkNoticeModel.getComments());
         String date[]=pkNoticeModel.getCreateTime().split("-");
         String date1[]=date[2].split(" ");
-        String date2=date[1].substring(0,1);
         if (date[1].substring(0,1).equals("0"))
         {
             viewHolder.tv_pk_date.setText(date[1].substring(1,2)+"-"+date1[0]);
