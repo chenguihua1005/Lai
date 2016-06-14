@@ -321,40 +321,50 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
                }
                 break;
             case R.id.iv_stop:
-                if(countDown!=null)countDown.cancel();
-                AlertDialog dialog=new AlertDialog.Builder(this).setMessage("确认结束运动并提交本次数据")
-                        .setPositiveButton("提交", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                if(countDown!=null)countDown.cancel();
-                                SportData data=new SportData();
-                                data.setAccountId(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()));
-                                data.setCalories(tv_calorie.getText().toString());
-                                data.setKilometre(tv_distance.getText().toString());
-                                data.setMType(0);
-                                data.setSpeed(tv_avg_speed.getText().toString());
-                                data.setTimeLength(tv_clock.getText().toString()+";"+time);
-                                data.setTotal(Integer.parseInt(tv_step.getText().toString()));
-                                data.setTrajectory(new Gson().toJson(new Trajectory(coordinates)));
-                                dialogShow("正在提交");
-                                //Log.i("保存数据为"+data.toString());
-                                manager.submitSportData(RunSportActivity.this,data);
-                            }
-                        })
-                        .setNegativeButton("稍后", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                if(countDown!=null)countDown.reStart();
+                if(countDown!=null)countDown.pause();
+                if(coordinates.isEmpty()){
+                    AlertDialog dialog=new AlertDialog.Builder(this).setMessage("您还没有运动哦，确定结束运动吗?").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if(countDown!=null)countDown.cancel();
+                            finish();
+                        }
+                    }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if(countDown!=null)countDown.reStart();
+                        }
+                    }).setCancelable(false).create();
+                    dialog.show();
+                }else {
+                    AlertDialog dialog = new AlertDialog.Builder(this).setMessage("确认结束运动并提交本次数据")
+                            .setPositiveButton("提交", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if (countDown != null) countDown.cancel();
+                                    SportData data = new SportData();
+                                    data.setAccountId(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()));
+                                    data.setCalories(tv_calorie.getText().toString());
+                                    data.setKilometre(tv_distance.getText().toString());
+                                    data.setMType(0);
+                                    data.setSpeed(tv_avg_speed.getText().toString());
+                                    data.setTimeLength(tv_clock.getText().toString() + ";" + time);
+                                    data.setTotal(Integer.parseInt(tv_step.getText().toString()));
+                                    data.setTrajectory(new Gson().toJson(new Trajectory(coordinates)));
+                                    dialogShow("正在提交");
+                                    //Log.i("保存数据为"+data.toString());
+                                    manager.submitSportData(RunSportActivity.this, data);
+                                }
+                            })
+                            .setNegativeButton("稍后", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if (countDown != null) countDown.reStart();
 
-                            }
-                        }).create();
-                dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        if(countDown!=null)countDown.reStart();
-                    }
-                });
-                dialog.show();
+                                }
+                            }).setCancelable(false).create();
+                    dialog.show();
+                }
                 break;
             case R.id.cb_control:
                 //面板控制动画
@@ -507,6 +517,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
     public void doSubmitResult(int resultCode){
         dialogDissmiss();
         if(resultCode==200){
+            if(countDown!=null)countDown.cancel();
             finish();
         }
     }

@@ -52,6 +52,7 @@ public class StepService extends Service implements SensorEventListener {
     private int oldStep;//记录服务器上的步数
     private int firstStep=0;//启动应用服务的时候的第一次步数
     public static int totalStep;
+    public long flagTime;//时间标志位，如果每次上传的时间大于了这一天则删除昨天数据
 
     @Override
     public void onCreate() {
@@ -168,7 +169,6 @@ public class StepService extends Service implements SensorEventListener {
         //启动定时上传功能
         AlarmManager manager= (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent upIntent=new Intent(UPLOAD_STEP);
-        //upIntent.putExtra("step",oldStep);
         PendingIntent pi = PendingIntent.getBroadcast(this,0,upIntent,0);
         long triggerAtTime=SystemClock.elapsedRealtime()+durationUpload;
         manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
@@ -276,6 +276,7 @@ public class StepService extends Service implements SensorEventListener {
     int lastStep;
     //存入数据库
     private void save() {
+        //检查日期
         UserModel model=UserInfoModel.getInstance().getUser();
         com.github.snowdream.android.util.Log.i("现在步数>>>"+totalStep);
         if(model!=null&&totalStep>lastStep){
