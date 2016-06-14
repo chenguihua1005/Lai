@@ -44,9 +44,9 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginRight="26dp"
+                    android:layout_marginBottom="13dp"
+                    android:layout_marginLeft="70dp"
+                    android:layout_marginRight="20dp"
                     android:layout_marginTop="21dp"
                     android:gravity="center_vertical|center_horizontal"
                     android:orientation="vertical">
@@ -61,7 +61,7 @@
                         android:id="@+id/tv_totalpersoncc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="2dp"
                         android:textSize="21sp"
                         android:textColor="#fcff00"/>
 
@@ -75,9 +75,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="21dp"
-                    android:layout_marginLeft="40dp"
+                    android:layout_marginLeft="20dp"
                     android:layout_marginRight="30dp"
-                    android:layout_marginBottom="5dp"
+                    android:layout_marginBottom="13dp"
                     android:gravity="center_vertical|center_horizontal"
                     android:orientation="vertical">
                     <TextView
@@ -91,7 +91,7 @@
                         android:id="@+id/tv_total_losscc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="2dp"
                         android:textSize="21sp"
                         android:textColor="#fcff00"/>
 
@@ -437,7 +437,6 @@
                     android:layout_width="10dp"
                     android:layout_height="10dp"
                     android:layout_gravity="right"
-                    android:layout_marginTop="10dip"
                     android:src="@drawable/img_red"
                     android:visibility="gone" />
             </FrameLayout>
