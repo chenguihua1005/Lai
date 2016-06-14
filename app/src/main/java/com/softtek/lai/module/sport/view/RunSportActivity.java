@@ -3,7 +3,6 @@ package com.softtek.lai.module.sport.view;
 import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -24,7 +23,6 @@ import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -109,8 +107,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
     LinearLayout ll_content1;
     @InjectView(R.id.ll_content2)
     LinearLayout ll_content2;
-    /*@InjectView(R.id.tv_jindu)
-    TextView tv_jindu;*/
+
 
     //倒计时
     RunSportCountDown countDown;
@@ -370,14 +367,14 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
                 //面板控制动画
                 int stp= DisplayUtil.dip2px(this,270);
                 int enp=DisplayUtil.dip2px(this,100);
-                int stmp=DisplayUtil.dip2px(this,250);
-                int edmp=DisplayUtil.dip2px(this,420);
+                /*int stmp=DisplayUtil.dip2px(this,250);
+                int edmp=DisplayUtil.dip2px(this,420);*/
                 if(cb_control.isChecked()){
                     //收起
-                    AnimatorSet set=new AnimatorSet();
-                    ObjectAnimator mapAn=ObjectAnimator.ofInt(new LayoutWapper(mapView),"translateY",stmp,edmp);
-                    mapAn.setDuration(100);
-                    mapAn.setInterpolator(new AccelerateInterpolator());
+                    //AnimatorSet set=new AnimatorSet();
+                    //ObjectAnimator mapAn=ObjectAnimator.ofInt(new LayoutWapper(mapView),"translateY",stmp,edmp);
+                    //mapAn.setDuration(100);
+                    //mapAn.setInterpolator(new AccelerateInterpolator());
                     ObjectAnimator animator=ObjectAnimator.ofInt(new LayoutWapper(ll_panel),"translateY",stp,enp)
                             .setDuration(200);
                     animator.setInterpolator(new OvershootInterpolator());
@@ -390,15 +387,16 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
                         }
 
                     });
-                    set.playSequentially(mapAn,animator);
-                    set.start();
+                    animator.start();
+                    //set.playSequentially(mapAn,animator);
+                    //set.start();
 
                 }else{
                     //展开
-                    AnimatorSet set=new AnimatorSet();
-                    ObjectAnimator mapAn=ObjectAnimator.ofInt(new LayoutWapper(mapView),"translateY",edmp,stmp);
-                    mapAn.setDuration(100);
-                    mapAn.setInterpolator(new OvershootInterpolator());
+                    //AnimatorSet set=new AnimatorSet();
+                    //ObjectAnimator mapAn=ObjectAnimator.ofInt(new LayoutWapper(mapView),"translateY",edmp,stmp);
+                    //mapAn.setDuration(100);
+                    //mapAn.setInterpolator(new OvershootInterpolator());
                     ObjectAnimator animator=ObjectAnimator.ofInt(new LayoutWapper(ll_panel),"translateY",enp,stp)
                             .setDuration(300);
                     animator.setInterpolator(new OvershootInterpolator());
@@ -410,8 +408,9 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
                             ll_content2.setVisibility(View.VISIBLE);
                         }
                     });
-                    set.playSequentially(animator,mapAn);
-                    set.start();
+                    animator.start();
+                    //set.playSequentially(animator,mapAn);
+                    //set.start();
                 }
                 break;
         }

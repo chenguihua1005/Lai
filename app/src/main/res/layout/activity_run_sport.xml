@@ -8,15 +8,7 @@
 
     <include layout="@layout/toolbar" />
 
-    <com.amap.api.maps.MapView
-        android:id="@+id/map"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_below="@id/toolbar"/>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/ll_panel"
@@ -197,6 +189,12 @@
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
+    <com.amap.api.maps.MapView
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/ll_panel"
+        android:layout_below="@id/toolbar"/>
         <CheckBox
             android:id="@+id/cb_control"
             android:layout_width="wrap_content"
@@ -215,9 +213,9 @@
             android:layout_height="wrap_content"
             android:src="@drawable/my_location"
             android:layout_marginLeft="15dp"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="18dp"
             android:layout_above="@id/ll_panel"/>
-    </RelativeLayout>
+
 
 
     <ImageView
@@ -255,12 +253,4 @@
             android:textColor="@color/white"
             android:textSize="9sp" />
     </LinearLayout>
-   <!-- <TextView
-        android:id="@+id/tv_jindu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:layout_below="@id/iv_gps"
-        android:background="@color/black"
-        android:text="dsadad"/>-->
 </RelativeLayout>

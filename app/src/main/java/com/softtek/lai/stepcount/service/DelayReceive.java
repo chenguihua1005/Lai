@@ -28,10 +28,10 @@ public class DelayReceive extends BroadcastReceiver{
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        //做上传工作
         if(UserInfoModel.getInstance().getUser()==null){
             return;
         }
+        //做上传工作
         String userId=UserInfoModel.getInstance().getUser().getUserid();
         service= ZillaApi.NormalRestAdapter.create(StepNetService.class);
          /*
