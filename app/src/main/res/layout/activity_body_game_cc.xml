@@ -5,20 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
-    android:fitsSystemWindows="true">
+    >
 
-    <LinearLayout
+    <FrameLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include layout="@layout/toolbar"></include>
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
+<FrameLayout
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -37,30 +39,31 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_gravity="bottom">
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginRight="26dp"
                     android:layout_marginTop="21dp"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginRight="40dp"
-                    android:layout_marginBottom="13dp"
                     android:gravity="center_vertical|center_horizontal"
                     android:orientation="vertical">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="总参赛人数"
-                        android:textSize="14sp"
-                        android:textColor="#c1c1c1"
+                        android:text="全国总参赛人数"
+                        android:textSize="12sp"
+                        android:textColor="#ffffff"
                         />
                     <TextView
                         android:id="@+id/tv_totalpersoncc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:textSize="24sp"
-                        android:text=""/>
+                        android:textSize="21sp"
+                        android:textColor="#fcff00"/>
 
                 </LinearLayout>
                 <View
@@ -74,29 +77,30 @@
                     android:layout_marginTop="21dp"
                     android:layout_marginLeft="40dp"
                     android:layout_marginRight="30dp"
-                    android:layout_marginBottom="13dp"
+                    android:layout_marginBottom="5dp"
                     android:gravity="center_vertical|center_horizontal"
                     android:orientation="vertical">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="总减重斤数"
-                        android:textSize="14sp"
-                        android:textColor="#c1c1c1"
+                        android:text="全国总减重斤数"
+                        android:textSize="12sp"
+                        android:textColor="#ffffff"
                         />
                     <TextView
                         android:id="@+id/tv_total_losscc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:textSize="24sp"
-                        android:text=""/>
+                        android:textSize="21sp"
+                        android:textColor="#fcff00"/>
 
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
+                    android:layout_marginTop="5dp"
                     >
                     <ImageView
                         android:id="@+id/tv_totalcc"
@@ -105,8 +109,8 @@
                         android:scaleType="fitCenter"
                         android:src="@drawable/refresh"/>
                 </LinearLayout>
-
             </LinearLayout>
+            </FrameLayout>
 
 
             <ScrollView
@@ -392,5 +396,51 @@
                 </LinearLayout>
             </ScrollView>
         </LinearLayout>
-    </LinearLayout>
+        <RelativeLayout
+            android:fitsSystemWindows="true"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/ll_left"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="left"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/iv_left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/back" />
+            </LinearLayout>
+
+
+            <FrameLayout
+                android:id="@+id/fl_right"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="right"
+                android:layout_marginRight="15dp">
+
+                <ImageView
+                    android:id="@+id/iv_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|right"
+                    android:background="@drawable/email" />
+
+                <ImageView
+                    android:id="@+id/img_red"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="10dip"
+                    android:src="@drawable/img_red"
+                    android:visibility="gone" />
+            </FrameLayout>
+        </RelativeLayout>
+    </FrameLayout>
 </RelativeLayout>

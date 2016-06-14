@@ -51,6 +51,7 @@ import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_write)
 public class WriteActivity extends BaseActivity implements View.OnClickListener,
@@ -149,7 +150,6 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
     private CharSequence[] items={"拍照","从相册选择照片"};
     String isState="true";
     private ProgressDialog progressDialog;
-    //private ImageFileSelector imageFileSelector;
     private ImageFileCropSelector imageFileCropSelector;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -187,11 +187,6 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         tv_right.setText("保存");
         retestPre=new RetestclassImp();
         measureModel=new MeasureModel();
-        /*imageFileSelector=new ImageFileSelector(this);
-        imageFileSelector.setOutPutImageSize(DisplayUtil.dip2px(this,600),
-                DisplayUtil.dip2px(this,400));
-        imageFileSelector.setQuality(80);
-        imageFileSelector.setCallback(this);*/
         imageFileCropSelector=new ImageFileCropSelector(this);
         imageFileCropSelector.setQuality(50);
         imageFileCropSelector.setOutPutAspect(1,1);
@@ -433,18 +428,22 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onValidationSucceeded() {
-
-        retestWrite.setInitWeight(tv_write_chu_weight.getText()+"");
-        retestWrite.setWeight(tv_retestWrite_nowweight.getText()+"");
-        retestWrite.setPysical(tv_retestWrite_tizhi.getText()+"");
-        retestWrite.setFat(tv_retestWrite_neizhi.getText()+"");
-        retestWrite.setClassId(classid);
-        retestWrite.setAccountId(acountid);
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.setMessage("数据刷新中...");
-        progressDialog.show();
-        retestPre.doPostWrite(Long.parseLong(acountid),loginid,retestWrite,this,progressDialog);
-
+        if (TextUtils.isEmpty(retestWrite.getImage()))
+        {
+            Util.toastMsg("请上传照片");
+        }
+        else {
+            retestWrite.setInitWeight(tv_write_chu_weight.getText() + "");
+            retestWrite.setWeight(tv_retestWrite_nowweight.getText() + "");
+            retestWrite.setPysical(tv_retestWrite_tizhi.getText() + "");
+            retestWrite.setFat(tv_retestWrite_neizhi.getText() + "");
+            retestWrite.setClassId(classid);
+            retestWrite.setAccountId(acountid);
+            progressDialog.setCanceledOnTouchOutside(false);
+            progressDialog.setMessage("数据刷新中...");
+            progressDialog.show();
+            retestPre.doPostWrite(Long.parseLong(acountid), loginid, retestWrite, this, progressDialog);
+        }
     }
 
     @Override
@@ -452,58 +451,7 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         validateLife.onValidationFailed(failedView, failedRule);
     }
 
-//    @Override
-//    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
-//    {
-//        //莱秤
-//        Log.i("莱秤被点击了。。。。。。。。。。。。。。。。。。。。。。");
-//        SharedPreferenceService.getInstance().put(LAI_CHEN_SWITCH_KEY,isChecked);
-//        if(isChecked){
-//            retestPre.doGetMeasure("0Pmg0UmrnZBYbcPABC5YB0pSqNXOFnB885ZYInLptG8YvAZsT87oGUPZtU5wbAad-26xsvP8Ov_eoq6Mj9rISg-XZiz2xesbiiqYPWK0AeYquQ8fXwXNpmvL0XwbUkse","18206182086");
-//        }
-//
-//
-//    }
-    /*public String tomonth(String month){
-        if (month.equals("01")){
-            month="一月班";
-        }
-        else if (month.equals("02")){
-            month="二月班";
-        }else if (month.equals("03"))
-        {
-            month="三月班";
-        }else if (month.equals("04"))
-        {
-            month="四月班";
 
-        }else if (month.equals("05"))
-        {
-            month="五月班";
-        }else if (month.equals("06"))
-        {
-            month="六月班";
-        }else if (month.equals("07"))
-        {
-            month="七月班";
-        } else if (month.equals("08"))
-        {
-            month="八月班";
-        }else if (month.equals("09"))
-        {
-            month="九月班";
-        }else if (month.equals("10"))
-        {
-            month="十月班";
-        }else if (month.equals("11"))
-        {
-            month="十一月班";
-        }else
-        {
-            month="十二月班";
-        }
-        return month;
-    }*/
 
     /*@Override
     public void onSuccess(String file) {
