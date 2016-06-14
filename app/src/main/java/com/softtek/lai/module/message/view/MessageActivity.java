@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -23,27 +22,17 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.counselor.adapter.HonorStudentAdapter;
-import com.softtek.lai.module.counselor.model.HonorInfoModel;
-import com.softtek.lai.module.counselor.model.HonorTable1Model;
-import com.softtek.lai.module.counselor.model.HonorTableModel;
-import com.softtek.lai.module.counselor.presenter.HonorImpl;
-import com.softtek.lai.module.counselor.presenter.IHonorPresenter;
 import com.softtek.lai.module.counselor.view.AssistantActivity;
-import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.message.model.MeasureRemindInfo;
 import com.softtek.lai.module.message.model.MessageDetailInfo;
 import com.softtek.lai.module.message.model.MessageModel;
 import com.softtek.lai.module.message.presenter.IMessagePresenter;
 import com.softtek.lai.module.message.presenter.MessageImpl;
-import com.softtek.lai.utils.ACache;
-import com.softtek.lai.utils.SoftInputUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
@@ -92,7 +81,7 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
 
 
     private IMessagePresenter messagePresenter;
-    private ACache aCache;
+    //private ACache aCache;
     MessageModel messageModel;
     ArrayList<MessageDetailInfo> list_remove;
     ArrayList<MessageDetailInfo> list_apply;
@@ -196,7 +185,7 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
     public void onResume() {
         super.onResume();
         messagePresenter = new MessageImpl(this);
-        aCache = ACache.get(this, Constants.USER_ACACHE_DATA_DIR);
+        //aCache = ACache.get(this, Constants.USER_ACACHE_DATA_DIR);
         String id = UserInfoModel.getInstance().getUser().getUserid();
         dialogShow("加载中");
         messagePresenter.getMsgList(id);
