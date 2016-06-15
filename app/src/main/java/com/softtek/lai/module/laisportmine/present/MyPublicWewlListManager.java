@@ -22,33 +22,38 @@ public class MyPublicWewlListManager {
     private MyPublicWewlListCallback cb;
 
     public MyPublicWewlListManager(MyPublicWewlListCallback cb) {
-        this.cb=cb;
-        service= ZillaApi.NormalRestAdapter.create(MineService.class);
+        this.cb = cb;
+        service = ZillaApi.NormalRestAdapter.create(MineService.class);
     }
 
     public void doGetDonateMsg(String accountid) {
-        String token= UserInfoModel.getInstance().getToken();
+        String token = UserInfoModel.getInstance().getToken();
         service.doGetDonateMsg(token, accountid, new Callback<ResponseData<List<PublicWewlfModel>>>() {
 
             @Override
             public void success(ResponseData<List<PublicWewlfModel>> listResponseData, Response response) {
-                int status=listResponseData.getStatus();
-                switch (status)
-                {
+                int status = listResponseData.getStatus();
+                switch (status) {
                     case 200:
-                        Log.i("成功读取"+listResponseData.getData());
-                        cb.getMyPublicWewlList(listResponseData.getData());
+                        Log.i("成功读取" + listResponseData.getData());
+                        if (cb != null) {
+                            cb.getMyPublicWewlList(listResponseData.getData());
+                        }
                         break;
                     default:
-                        cb.getMyPublicWewlList(null);
-                        Log.i("读取失败"+listResponseData.getData());
+                        if (cb != null) {
+                            cb.getMyPublicWewlList(null);
+                        }
+                        Log.i("读取失败" + listResponseData.getData());
                         break;
                 }
             }
 
             @Override
             public void failure(RetrofitError error) {
-                cb.getMyPublicWewlList(null);
+                if (cb != null) {
+                    cb.getMyPublicWewlList(null);
+                }
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }
@@ -57,7 +62,7 @@ public class MyPublicWewlListManager {
 
     }
 
-    public interface MyPublicWewlListCallback{
+    public interface MyPublicWewlListCallback {
         void getMyPublicWewlList(List<PublicWewlfModel> publicWewlfModel);
     }
 }
