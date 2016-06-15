@@ -37,6 +37,8 @@ public class MyNewsActivity extends BaseActivity implements View.OnClickListener
     TextView tv_newslis_pk;
     @InjectView(R.id.tv_newslis_action)
     TextView tv_newslis_action;
+    @InjectView(R.id.tv_newslis_system)
+    TextView tv_newslis_system;
     RunTeamModel runTeamModels;
     MyRunTeamManager myRunTeamManager;
     UserInfoModel userInfoModel = UserInfoModel.getInstance();
@@ -59,6 +61,7 @@ public class MyNewsActivity extends BaseActivity implements View.OnClickListener
         runTeamModels = new RunTeamModel();
         Intent intent = getIntent();
         runTeamModels = (RunTeamModel) intent.getSerializableExtra("runTeamModels");
+        //从上一个界面接收消息model，显示信息提醒数量
         if (!TextUtils.isEmpty(runTeamModels.toString())) {
             if (Integer.parseInt(runTeamModels.getIsHasAngelMsg()) > 0 && Integer.parseInt(runTeamModels.getIsHasAngelMsg()) <= 10) {
                 tv_newslis_public.setText(runTeamModels.getIsHasAngelMsg());
@@ -80,6 +83,13 @@ public class MyNewsActivity extends BaseActivity implements View.OnClickListener
             } else if (10 < Integer.parseInt(runTeamModels.getIsHasActMsg())) {
                 tv_newslis_action.setText("10+");
                 tv_newslis_action.setVisibility(View.VISIBLE);
+            }
+            if (Integer.parseInt(runTeamModels.getIsHasSysMsg()) > 0 && Integer.parseInt(runTeamModels.getIsHasSysMsg()) <= 10) {
+                tv_newslis_system.setText(runTeamModels.getIsHasSysMsg());
+                tv_newslis_system.setVisibility(View.VISIBLE);
+            } else if (10 < Integer.parseInt(runTeamModels.getIsHasSysMsg())) {
+                tv_newslis_system.setText("10+");
+                tv_newslis_system.setVisibility(View.VISIBLE);
             }
         }
 
@@ -145,6 +155,15 @@ public class MyNewsActivity extends BaseActivity implements View.OnClickListener
                 tv_newslis_action.setVisibility(View.VISIBLE);
             } else {
                 tv_newslis_action.setVisibility(View.GONE);
+            }
+            if (Integer.parseInt(runTeamModels.getIsHasSysMsg()) > 0 && Integer.parseInt(runTeamModels.getIsHasSysMsg()) <= 10) {
+                tv_newslis_system.setText(runTeamModels.getIsHasSysMsg());
+                tv_newslis_system.setVisibility(View.VISIBLE);
+            } else if (10 < Integer.parseInt(runTeamModels.getIsHasSysMsg())) {
+                tv_newslis_system.setText("10+");
+                tv_newslis_system.setVisibility(View.VISIBLE);
+            }else {
+                tv_newslis_system.setVisibility(View.GONE);
             }
         }
     }
