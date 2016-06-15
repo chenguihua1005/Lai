@@ -52,7 +52,7 @@ public class StepService extends Service implements SensorEventListener {
     private int serverStep;//记录服务器上的步数
     private int firstStep=0;//启动应用服务的时候的第一次步数
     public static int totalStep;
-
+    private boolean pause=false;
 
     @Override
     public void onCreate() {
@@ -224,6 +224,9 @@ public class StepService extends Service implements SensorEventListener {
 
                     @Override
                     public void onChange(int step) {
+                        if(pause){
+                            return;
+                        }
                         currentStep=step;
                         totalStep=currentStep+ serverStep;
                         updateNotification("今日步数：" + totalStep+ " 步");
@@ -235,6 +238,9 @@ public class StepService extends Service implements SensorEventListener {
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
             int stepTemp = (int) event.values[0];
+            if(pause){
+                return;
+            }
             if(firstStep==0){
                 firstStep=stepTemp;
             }
@@ -281,15 +287,17 @@ public class StepService extends Service implements SensorEventListener {
         c.setTimeInMillis(System.currentTimeMillis());
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minutes=c.get(Calendar.MINUTE);
-        if(hour==23&&minutes>=50){
+        //每晚的23点30分到24点之间
+        if(hour==23&&minutes>=30&&minutes<=59){
             firstStep=0;//清楚第一步状态标志步数
             serverStep =0;//清楚服务器上的步数
             totalStep=0;//清楚总步数服务
             lastStep=0;//清楚上一次步数
             currentStep=0;//清楚当前步数
+            pause=true;
             updateNotification("今日步数：" + totalStep + " 步");
-
         }else {
+            pause=false;
             UserModel model = UserInfoModel.getInstance().getUser();
             if (model != null && totalStep > lastStep) {
                 lastStep = totalStep;//记录上一次保存的值
