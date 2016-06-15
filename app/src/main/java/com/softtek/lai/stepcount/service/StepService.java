@@ -289,17 +289,18 @@ public class StepService extends Service implements SensorEventListener {
             currentStep=0;//清楚当前步数
             updateNotification("今日步数：" + totalStep + " 步");
 
-        }
-        UserModel model=UserInfoModel.getInstance().getUser();
-        if(model!=null&&totalStep>lastStep){
-            lastStep=totalStep;//记录上一次保存的值
-            UserStep step=new UserStep();
-            step.setAccountId(Long.parseLong(model.getUserid()));
-            step.setRecordTime(DateUtil.getInstance().getCurrentDate());
-            step.setStepCount(totalStep);
-            StepUtil.getInstance().saveStep(step);
-        }else{
-            com.github.snowdream.android.util.Log.i("步数相同不保存");
+        }else {
+            UserModel model = UserInfoModel.getInstance().getUser();
+            if (model != null && totalStep > lastStep) {
+                lastStep = totalStep;//记录上一次保存的值
+                UserStep step = new UserStep();
+                step.setAccountId(Long.parseLong(model.getUserid()));
+                step.setRecordTime(DateUtil.getInstance().getCurrentDate());
+                step.setStepCount(totalStep);
+                StepUtil.getInstance().saveStep(step);
+            } else {
+                com.github.snowdream.android.util.Log.i("步数相同不保存");
+            }
         }
     }
 
