@@ -5,6 +5,7 @@ import com.softtek.lai.module.laisportmine.model.ActionModel;
 import com.softtek.lai.module.laisportmine.model.PkNoticeModel;
 import com.softtek.lai.module.laisportmine.model.PublicWewlfModel;
 import com.softtek.lai.module.laisportmine.model.RunTeamModel;
+import com.softtek.lai.module.laisportmine.model.SystemNewsModel;
 
 import java.util.List;
 
@@ -39,6 +40,13 @@ public interface MineService {
             @Query("accountid")String accountid,
             Callback<ResponseData<List<PublicWewlfModel>>>callback
     );
+    //系统消息
+    @GET("/SportMsg/GetSysMsg")
+    void doGetSysMsg(
+            @Header("token")String token,
+            @Query("accountid")String accountid,
+            Callback<ResponseData<List<SystemNewsModel>>>callback
+            );
     //更改慈善、活动消息阅读时间
     @POST("/SportMsg/UpdateMsgRTime")
     void doUpdateMsgRTime(
@@ -76,4 +84,5 @@ public interface MineService {
             @Query("MessageId")String MessageId,
             Callback<ResponseData>callback
     );
+
 }

@@ -1,11 +1,7 @@
 package com.softtek.lai.module.laisportmine.view;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -14,12 +10,8 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.laisportmine.model.PublicWewlfModel;
 import com.softtek.lai.module.laisportmine.model.RunTeamModel;
-import com.softtek.lai.module.laisportmine.present.MyPublicWewlListManager;
 import com.softtek.lai.module.laisportmine.present.MyRunTeamManager;
-
-import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -115,7 +107,7 @@ public class MyNewsActivity extends BaseActivity implements View.OnClickListener
                 startActivity(new Intent(this, MyActionListActivity.class));
                 break;
             case R.id.Re_systemnews_lab:
-                startActivity(new Intent(this, MySystemActionActivity.class));
+                startActivity(new Intent(this, MySystemActivity.class));
                 break;
 
 

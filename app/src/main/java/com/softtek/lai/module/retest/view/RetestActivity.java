@@ -1,5 +1,7 @@
 package com.softtek.lai.module.retest.view;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
@@ -83,6 +85,8 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
     private ClassAdapter classAdapter;
     private StudentAdapter studentAdapter;
     boolean h = true;
+    boolean flag=true;
+    int chuheight=500;
     long ClassId;
 
     @Override
@@ -93,7 +97,6 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
         classAdapter = new ClassAdapter(this, banjiModelList);
         studentAdapter = new StudentAdapter(this, banjiStudentModelList);
         list_class.setAdapter(classAdapter);
-
 
         list_query.setAdapter(studentAdapter);
         list_query.setVerticalScrollBarEnabled(false);
@@ -107,17 +110,32 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 BanjiModel banjiModel = banjiModelList.get(position);
                 banjiStudentModelList.clear();
-                retestPre.doGetBanjiStudent(banjiModel.getClassId(), loginid);
+//                retestPre.doGetBanjiStudent(banjiModel.getClassId(), loginid);
                 ClassId = banjiModel.getClassId();
                 retestPre.doGetBanjiStudent(ClassId, loginid);
                 studentAdapter.notifyDataSetChanged();
-//                int height = ll_select_class.getHeight();
-//                ObjectAnimator animator = ObjectAnimator.ofInt(new LayoutWapper(ll_select_class), "pingyi", height, 0);
-//                animator.setDuration(500);
-//                animator.start();
-                list_class.setVisibility(View.GONE);
-                ll_shousuo.setVisibility(View.GONE);
-                ll_shousuolist.setVisibility(View.GONE);
+                //动画收起列表
+                if (flag) {
+                    chuheight = ll_select_class.getHeight();
+                    flag=false;
+                }
+                int height = ll_select_class.getHeight();
+//                chuheight=ll_select_class.getHeight();
+                ObjectAnimator animator = ObjectAnimator.ofInt(new LayoutWapper(ll_select_class), "pingyi", chuheight, 0);
+                animator.setDuration(500);
+                animator.start();
+                animator.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        list_class.setVisibility(View.GONE);
+                        ll_shousuo.setVisibility(View.GONE);
+                        ll_shousuolist.setVisibility(View.GONE);
+                    }
+                });
+//                list_class.setVisibility(View.GONE);
+//                ll_shousuo.setVisibility(View.GONE);
+//                ll_shousuolist.setVisibility(View.GONE);
                 Iv_fold.setImageResource(R.drawable.unfold);
                 selectclass.setText(banjiModel.getClassName());
                 h = false;
@@ -196,28 +214,52 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         if (h == false) {
-//                            int height = ll_select_class.getHeight();
-//                            if (flag == true) {
-//                                chuheight = ll_select_class.getHeight();
-//                            }
-//                            ObjectAnimator animator = ObjectAnimator.ofInt(new LayoutWapper(ll_select_class), "pingyi", height, 0);
-//                            animator.setDuration(500);
-//                            animator.start();
-                            list_class.setVisibility(View.VISIBLE);
-                            ll_classlist.setVisibility(View.VISIBLE);
-                            ll_shousuo.setVisibility(View.VISIBLE);
-                            ll_shousuolist.setVisibility(View.VISIBLE);
+                            //动画展开列表（点击选择班级时）
+                            int height = ll_select_class.getHeight();
+                            ObjectAnimator animator = ObjectAnimator.ofInt(new LayoutWapper(ll_select_class), "pingyi", 0, chuheight);
+                            animator.setDuration(500);
+//                            animator.setInterpolator(new OvershootInterpolator());//估值器
+                            animator.addListener(new AnimatorListenerAdapter() {
+                                @Override
+                                public void onAnimationStart(Animator animation) {
+                                    super.onAnimationStart(animation);
+                                    list_class.setVisibility(View.VISIBLE);
+                                    ll_classlist.setVisibility(View.VISIBLE);
+                                    ll_shousuo.setVisibility(View.VISIBLE);
+                                    ll_shousuolist.setVisibility(View.VISIBLE);
+                                }
+                            });
+                            animator.start();
+
+//                            list_class.setVisibility(View.VISIBLE);
+//                            ll_classlist.setVisibility(View.VISIBLE);
+//                            ll_shousuo.setVisibility(View.VISIBLE);
+//                            ll_shousuolist.setVisibility(View.VISIBLE);
                             Iv_fold.setImageResource(R.drawable.retract);
                             h = true;
                         } else {
-//                            int height = ll_select_class.getHeight();
-//                            ObjectAnimator animator = ObjectAnimator.ofInt(new LayoutWapper(ll_select_class), "pingyi", 0, chuheight);
-//                            animator.setDuration(500);
-//                            animator.setInterpolator(new OvershootInterpolator());//估值器
-//                            animator.start();
-                            list_class.setVisibility(View.GONE);
-                            ll_shousuo.setVisibility(View.GONE);
-                            ll_shousuolist.setVisibility(View.GONE);
+                            //动画收起列表（点击选择班级时）
+                            if (flag) {
+                                chuheight = ll_select_class.getHeight();
+                                flag=false;
+                            }
+                            int height = ll_select_class.getHeight();
+//                            chuheight=height;
+                            ObjectAnimator animator = ObjectAnimator.ofInt(new LayoutWapper(ll_select_class), "pingyi", chuheight, 0);
+                            animator.setDuration(500);
+                            animator.start();
+                            animator.addListener(new AnimatorListenerAdapter() {
+                                @Override
+                                public void onAnimationEnd(Animator animation) {
+                                    super.onAnimationEnd(animation);
+                                    list_class.setVisibility(View.GONE);
+                                    ll_shousuo.setVisibility(View.GONE);
+                                    ll_shousuolist.setVisibility(View.GONE);
+                                }
+                            });
+//                            list_class.setVisibility(View.GONE);
+//                            ll_shousuo.setVisibility(View.GONE);
+//                            ll_shousuolist.setVisibility(View.GONE);
                             Iv_fold.setImageResource(R.drawable.unfold);
                             h = false;
 
@@ -240,26 +282,51 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
             @Override
             public void onClick(View v) {
                 if (h == false) {
-//                    int height = ll_select_class.getHeight();
-////                    chuheight=ll_select_class.getHeight();
-//                    ObjectAnimator animator = ObjectAnimator.ofInt(new LayoutWapper(ll_select_class), "pingyi", height, 0);
-//                    animator.setDuration(500);
-//                    animator.start();
-                    list_class.setVisibility(View.VISIBLE);
-                    ll_classlist.setVisibility(View.VISIBLE);
-                    ll_shousuo.setVisibility(View.VISIBLE);
-                    ll_shousuolist.setVisibility(View.VISIBLE);
+                    //动画展开列表（点击收起时）
+                    int height = ll_select_class.getHeight();
+                    ObjectAnimator animator = ObjectAnimator.ofInt(new LayoutWapper(ll_select_class), "pingyi", 0, chuheight);
+                    animator.setDuration(500);
+                    animator.setInterpolator(new OvershootInterpolator());
+                    animator.addListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                            super.onAnimationStart(animation);
+                            list_class.setVisibility(View.VISIBLE);
+                            ll_classlist.setVisibility(View.VISIBLE);
+                            ll_shousuo.setVisibility(View.VISIBLE);
+                            ll_shousuolist.setVisibility(View.VISIBLE);
+                        }
+                    });
+                    animator.start();
+//                    list_class.setVisibility(View.VISIBLE);
+//                    ll_classlist.setVisibility(View.VISIBLE);
+//                    ll_shousuo.setVisibility(View.VISIBLE);
+//                    ll_shousuolist.setVisibility(View.VISIBLE);
                     Iv_fold.setImageResource(R.drawable.retract);
                     h = true;
                 } else {
-//                    int height = ll_select_class.getHeight();
-//                    ObjectAnimator animator = ObjectAnimator.ofInt(new LayoutWapper(ll_select_class), "pingyi", height, chuheight);
-//                    animator.setDuration(500);
-//                    animator.setInterpolator(new OvershootInterpolator());
-//                    animator.start();
-                    list_class.setVisibility(View.GONE);
-                    ll_shousuo.setVisibility(View.GONE);
-                    ll_shousuolist.setVisibility(View.GONE);
+                    //收起列表
+                    if (flag) {
+                        chuheight = ll_select_class.getHeight();
+                        flag=false;
+                    }
+                    int height = ll_select_class.getHeight();
+//                    chuheight=ll_select_class.getHeight();
+                    ObjectAnimator animator = ObjectAnimator.ofInt(new LayoutWapper(ll_select_class), "pingyi", chuheight, 0);
+                    animator.setDuration(500);
+                    animator.start();
+                    animator.addListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            super.onAnimationEnd(animation);
+                            list_class.setVisibility(View.GONE);
+                            ll_shousuo.setVisibility(View.GONE);
+                            ll_shousuolist.setVisibility(View.GONE);
+                        }
+                    });
+//                    list_class.setVisibility(View.GONE);
+//                    ll_shousuo.setVisibility(View.GONE);
+//                    ll_shousuolist.setVisibility(View.GONE);
                     Iv_fold.setImageResource(R.drawable.unfold);
                     h = false;
                 }
