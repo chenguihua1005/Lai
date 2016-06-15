@@ -72,7 +72,7 @@ public class MySystemActivity extends BaseActivity implements View.OnClickListen
         systemListManager=new SystemListManager(this);
         systemListManager.doGetSysMsg(accountid);
         updateMsgRTimeManager=new UpdateMsgRTimeManager(this);
-        updateMsgRTimeManager.doUpdateMsgRTime(accountid,"23");
+
         //暂不提交内容 结束
     }
 
@@ -91,6 +91,7 @@ public class MySystemActivity extends BaseActivity implements View.OnClickListen
         if (systemNewsModelList==null||systemNewsModelList.isEmpty())
         {
             ll_public_nomessage.setVisibility(View.VISIBLE);
+            updateMsgRTimeManager.doUpdateMsgRTime(accountid,"23");
         }
         else {
             systemNewsModelLists=systemNewsModelList;
