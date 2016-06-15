@@ -12,6 +12,7 @@ public class RunTeamModel implements Serializable {
     private String IsHasActMsg;
     private String IsHasChaMsg;
     private String RgNum;
+    private String IsHasSysMsg;
 
     @Override
     public String toString() {
@@ -22,6 +23,7 @@ public class RunTeamModel implements Serializable {
                 ", IsHasActMsg='" + IsHasActMsg + '\'' +
                 ", IsHasChaMsg='" + IsHasChaMsg + '\'' +
                 ", RgNum='" + RgNum + '\'' +
+                ", IsHasSysMsg='" + IsHasSysMsg + '\'' +
                 '}';
     }
 
@@ -71,6 +73,14 @@ public class RunTeamModel implements Serializable {
 
     public void setRgNum(String rgNum) {
         RgNum = rgNum;
+    }
+
+    public String getIsHasSysMsg() {
+        return IsHasSysMsg;
+    }
+
+    public void setIsHasSysMsg(String isHasSysMsg) {
+        IsHasSysMsg = isHasSysMsg;
     }
 
     public RunTeamModel() {

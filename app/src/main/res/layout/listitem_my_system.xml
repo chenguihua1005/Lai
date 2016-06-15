@@ -45,11 +45,7 @@
         android:layout_marginRight="20dp"
         android:layout_marginBottom="2dp"
         android:background="#e6e6e6">
-        <LinearLayout
-            android:id="@+id/ll_system_content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp">
+
         <TextView
             android:id="@+id/tv_system_content"
             android:layout_width="wrap_content"
@@ -59,48 +55,23 @@
             android:layout_marginLeft="10dp"
             android:textSize="16sp"
             android:textColor="#333333"
+            android:text="sdfsdfsd"
             />
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/ll_lab2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_below="@+id/ll_system_content">
-        <ImageView
-            android:id="@+id/lab2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/action_right_line"
-            />
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/ll_system_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_below="@+id/ll_lab2">
+
+
+
             <TextView
                 android:id="@+id/tv_system_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
+                android:text="asdsdas"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="5dp"
                 android:textSize="14sp"
-                android:textColor="#999999"
-
+                android:textColor="#333333"
+                android:layout_below="@+id/tv_system_content"
                 />
-        </LinearLayout>
-        <ImageView
-            android:id="@+id/lab"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/action_right"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="16dp"
-            />
+
 
     </RelativeLayout>
 </LinearLayout>

@@ -66,8 +66,8 @@ public class MySystemAdapter extends BaseAdapter {
         SystemNewsModel systemNewsModel=systemNewsModelList.get(position);
         String date= DateUtil.getInstance().convertDateStr(systemNewsModel.getSendTime(),"yyyy年MM月dd日");
         viewHolder.tv_system_date.setText(date);
-        viewHolder.tv_system_content.setText(systemNewsModel.getContent());
-        viewHolder.tv_system_name.setText("系统消息");
+        viewHolder.tv_system_content.setText("系统消息");
+        viewHolder.tv_system_name.setText(systemNewsModel.getContent());
 
         return convertView;
     }
