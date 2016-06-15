@@ -143,6 +143,7 @@ public class RetestclassImp implements RetestPre{
                         Log.i("查询成功");
                         break;
                     case 201:
+                        EventBus.getDefault().post(new BanjiStudentEvent(null));
                         Log.i("未查询到结果");
                         break;
                 }

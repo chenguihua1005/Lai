@@ -122,10 +122,10 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
          if (actionModelLists.get(position).getIsJoinAct().equals("0"))
         {
-            Util.toastMsg("您不在该活动中，不能查看活动详情");
+            Util.toastMsg("您不在该活动中，不能查看活动详情！");
         }
         else if(StringUtils.isEmpty(actionModelLists.get(position).getActId())){
-            Util.toastMsg("抱歉, 该活动已取消");
+            Util.toastMsg("抱歉, 该活动已取消！");
         }
         else
         {

@@ -84,7 +84,7 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
     private ClassAdapter classAdapter;
     private StudentAdapter studentAdapter;
     boolean h = true;
-    int chuheight=500;
+    int chuheight = 500;
     long ClassId;
 
     @Override
@@ -126,6 +126,9 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
                         ll_shousuo.setVisibility(View.GONE);
 
                         Iv_fold.setImageResource(R.drawable.unfold);
+                        ViewGroup.LayoutParams params = ll_shousuolist.getLayoutParams();
+                        params.height = 0;
+                        ll_shousuolist.setLayoutParams(params);
                         h = false;
                         retestPre.doGetBanjiStudent(ClassId, loginid);
                     }
@@ -214,6 +217,9 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
                             list_class.setVisibility(View.GONE);
                             ll_shousuo.setVisibility(View.GONE);
                             Iv_fold.setImageResource(R.drawable.unfold);
+                            ViewGroup.LayoutParams params = ll_shousuolist.getLayoutParams();
+                            params.height = 0;
+                            ll_shousuolist.setLayoutParams(params);
                             h = false;
                         }
                     });
@@ -254,6 +260,9 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
                             list_class.setVisibility(View.GONE);
                             ll_shousuo.setVisibility(View.GONE);
                             Iv_fold.setImageResource(R.drawable.unfold);
+                            ViewGroup.LayoutParams params = ll_shousuolist.getLayoutParams();
+                            params.height = 0;
+                            ll_shousuolist.setLayoutParams(params);
                             h = false;
                         }
                     });
@@ -284,7 +293,7 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
         iv_email.setImageResource(R.drawable.retestsearch);
         retestPre = new RetestclassImp();
         //获取班级列表，参数助教顾问id
-        loginid=Long.parseLong(userInfoModel.getUser().getUserid());
+        loginid = Long.parseLong(userInfoModel.getUser().getUserid());
         retestPre.doGetRetestclass(loginid);
 
     }
@@ -327,22 +336,21 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
     public void onEvent(BanJiEvent banji) {
         banjiModelList = banji.getBanjiModels();
         classAdapter.updateData(banjiModelList);
-        //获取班级初始高度
-        chuheight=setListViewHeightBasedOnChildren(list_class);
-        chuheight+=ll_shousuolist.getHeight();
-        Log.i("班级列表的高度为>>>>>"+chuheight);
+        //获取班级初列表始高度
+        chuheight = setListViewHeightBasedOnChildren(list_class);
+        chuheight += ll_shousuolist.getHeight();
+        Log.i("班级列表的高度为>>>>>" + chuheight);
 
     }
 
     @Subscribe
     public void onEvent1(BanjiStudentEvent banjiStudent) {
         banjiStudentModelList.clear();
-        List<BanjiStudentModel> models=banjiStudent.getBanjiStudentModels();
-        if(models!=null){
+        List<BanjiStudentModel> models = banjiStudent.getBanjiStudentModels();
+        if (models != null) {
             banjiStudentModelList.addAll(models);
         }
         studentAdapter.notifyDataSetChanged();
-
 
 
     }
