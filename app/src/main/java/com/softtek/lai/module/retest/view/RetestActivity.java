@@ -6,13 +6,13 @@ import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -72,20 +72,18 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
     LinearLayout ll_shousuolist;
     @InjectView(R.id.ll_shousuo)
     LinearLayout ll_shousuo;
-    @InjectView(R.id.ll_select_class)
-    LinearLayout ll_select_class;
+
     //选择班级
     @InjectView(R.id.selectclass)
     TextView selectclass;
     private static final int GET_BODY = 2;
     UserInfoModel userInfoModel = UserInfoModel.getInstance();
-    long loginid = Long.parseLong(userInfoModel.getUser().getUserid());
-    private List<BanjiModel> banjiModelList = new ArrayList<BanjiModel>();
-    private List<BanjiStudentModel> banjiStudentModelList = new ArrayList<BanjiStudentModel>();
+    long loginid;
+    private List<BanjiModel> banjiModelList = new ArrayList<>();
+    private List<BanjiStudentModel> banjiStudentModelList = new ArrayList<>();
     private ClassAdapter classAdapter;
     private StudentAdapter studentAdapter;
     boolean h = true;
-    boolean flag=true;
     int chuheight=500;
     long ClassId;
 
@@ -108,43 +106,31 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
         list_class.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                BanjiModel banjiModel = banjiModelList.get(position);
-                banjiStudentModelList.clear();
-//                retestPre.doGetBanjiStudent(banjiModel.getClassId(), loginid);
-                ClassId = banjiModel.getClassId();
-                retestPre.doGetBanjiStudent(ClassId, loginid);
-                studentAdapter.notifyDataSetChanged();
-                //动画收起列表
-                if (flag) {
-                    chuheight = ll_select_class.getHeight();
-                    flag=false;
-                }
-                int height = ll_select_class.getHeight();
-//                chuheight=ll_select_class.getHeight();
-                ObjectAnimator animator = ObjectAnimator.ofInt(new LayoutWapper(ll_select_class), "pingyi", chuheight, 0);
-                animator.setDuration(500);
-                animator.start();
-                animator.addListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        super.onAnimationEnd(animation);
-                        list_class.setVisibility(View.GONE);
-                        ll_shousuo.setVisibility(View.GONE);
-                        ll_shousuolist.setVisibility(View.GONE);
-                    }
-                });
-//                list_class.setVisibility(View.GONE);
-//                ll_shousuo.setVisibility(View.GONE);
-//                ll_shousuolist.setVisibility(View.GONE);
-                Iv_fold.setImageResource(R.drawable.unfold);
-                selectclass.setText(banjiModel.getClassName());
-                h = false;
                 for (int i = 0; i < parent.getChildCount(); i++) {
                     ImageView iv = (ImageView) parent.getChildAt(i).findViewById(R.id.rbtn_retest);
                     iv.setImageResource(R.drawable.radiocir);
                 }
                 ImageView iv = (ImageView) view.findViewById(R.id.rbtn_retest);
                 iv.setImageResource(R.drawable.radiosel);
+                BanjiModel banjiModel = banjiModelList.get(position);
+                selectclass.setText(banjiModel.getClassName());
+                ClassId = banjiModel.getClassId();
+                //动画收起列表
+                ObjectAnimator animator = ObjectAnimator.ofInt(new LayoutWapper(ll_shousuolist), "pingyi", chuheight, 0);
+                animator.setDuration(300);
+                animator.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        list_class.setVisibility(View.GONE);
+                        ll_shousuo.setVisibility(View.GONE);
+
+                        Iv_fold.setImageResource(R.drawable.unfold);
+                        h = false;
+                        retestPre.doGetBanjiStudent(ClassId, loginid);
+                    }
+                });
+                animator.start();
             }
         });
         //学员列表
@@ -171,10 +157,6 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
                     intent.putExtra("Photo", banjiStudentModel.getPhoto());
                     //第几周期
                     intent.putExtra("Weekth", banjiStudentModel.getWeekth());
-                    //postion
-//                    intent.putExtra("postion",position);
-//                    postions=position;
-
                     startActivityForResult(intent, GET_BODY);
 
                 } else {
@@ -198,121 +180,31 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
                     intent.putExtra("Photo", banjiStudentModel.getPhoto());
                     //第几周期
                     intent.putExtra("Weekth", banjiStudentModel.getWeekth());
-                    //postion
-//                    intent.putExtra("postion",position);
-//                    postions=position;
-                    Log.i("zhouqizhouqi" + banjiStudentModel.getWeekth());
                     startActivityForResult(intent, GET_BODY);
                 }
             }
         });
-        ll_classlist.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-
-
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        if (h == false) {
-                            //动画展开列表（点击选择班级时）
-                            int height = ll_select_class.getHeight();
-                            ObjectAnimator animator = ObjectAnimator.ofInt(new LayoutWapper(ll_select_class), "pingyi", 0, chuheight);
-                            animator.setDuration(500);
-//                            animator.setInterpolator(new OvershootInterpolator());//估值器
-                            animator.addListener(new AnimatorListenerAdapter() {
-                                @Override
-                                public void onAnimationStart(Animator animation) {
-                                    super.onAnimationStart(animation);
-                                    list_class.setVisibility(View.VISIBLE);
-                                    ll_classlist.setVisibility(View.VISIBLE);
-                                    ll_shousuo.setVisibility(View.VISIBLE);
-                                    ll_shousuolist.setVisibility(View.VISIBLE);
-                                }
-                            });
-                            animator.start();
-
-//                            list_class.setVisibility(View.VISIBLE);
-//                            ll_classlist.setVisibility(View.VISIBLE);
-//                            ll_shousuo.setVisibility(View.VISIBLE);
-//                            ll_shousuolist.setVisibility(View.VISIBLE);
-                            Iv_fold.setImageResource(R.drawable.retract);
-                            h = true;
-                        } else {
-                            //动画收起列表（点击选择班级时）
-                            if (flag) {
-                                chuheight = ll_select_class.getHeight();
-                                flag=false;
-                            }
-                            int height = ll_select_class.getHeight();
-//                            chuheight=height;
-                            ObjectAnimator animator = ObjectAnimator.ofInt(new LayoutWapper(ll_select_class), "pingyi", chuheight, 0);
-                            animator.setDuration(500);
-                            animator.start();
-                            animator.addListener(new AnimatorListenerAdapter() {
-                                @Override
-                                public void onAnimationEnd(Animator animation) {
-                                    super.onAnimationEnd(animation);
-                                    list_class.setVisibility(View.GONE);
-                                    ll_shousuo.setVisibility(View.GONE);
-                                    ll_shousuolist.setVisibility(View.GONE);
-                                }
-                            });
-//                            list_class.setVisibility(View.GONE);
-//                            ll_shousuo.setVisibility(View.GONE);
-//                            ll_shousuolist.setVisibility(View.GONE);
-                            Iv_fold.setImageResource(R.drawable.unfold);
-                            h = false;
-
-                        }
-                        break;
-
-                    case MotionEvent.ACTION_BUTTON_PRESS:
-//                        list_class.setVisibility(View.VISIBLE);
-//                        ll_shousuo.setVisibility(View.VISIBLE);
-                        break;
-                    case MotionEvent.ACTION_UP:
-
-                        break;
-                }
-                return false;
-            }
-
-        });
-        ll_shousuo.setOnClickListener(new View.OnClickListener() {
+        ll_classlist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (h == false) {
-                    //动画展开列表（点击收起时）
-                    int height = ll_select_class.getHeight();
-                    ObjectAnimator animator = ObjectAnimator.ofInt(new LayoutWapper(ll_select_class), "pingyi", 0, chuheight);
+                    //动画展开列表（点击选择班级时）
+                    ObjectAnimator animator = ObjectAnimator.ofInt(new LayoutWapper(ll_shousuolist), "pingyi", 0, chuheight);
                     animator.setDuration(500);
-                    animator.setInterpolator(new OvershootInterpolator());
                     animator.addListener(new AnimatorListenerAdapter() {
                         @Override
                         public void onAnimationStart(Animator animation) {
                             super.onAnimationStart(animation);
                             list_class.setVisibility(View.VISIBLE);
-                            ll_classlist.setVisibility(View.VISIBLE);
                             ll_shousuo.setVisibility(View.VISIBLE);
-                            ll_shousuolist.setVisibility(View.VISIBLE);
+                            Iv_fold.setImageResource(R.drawable.retract);
+                            h = true;
                         }
                     });
                     animator.start();
-//                    list_class.setVisibility(View.VISIBLE);
-//                    ll_classlist.setVisibility(View.VISIBLE);
-//                    ll_shousuo.setVisibility(View.VISIBLE);
-//                    ll_shousuolist.setVisibility(View.VISIBLE);
-                    Iv_fold.setImageResource(R.drawable.retract);
-                    h = true;
                 } else {
-                    //收起列表
-                    if (flag) {
-                        chuheight = ll_select_class.getHeight();
-                        flag=false;
-                    }
-                    int height = ll_select_class.getHeight();
-//                    chuheight=ll_select_class.getHeight();
-                    ObjectAnimator animator = ObjectAnimator.ofInt(new LayoutWapper(ll_select_class), "pingyi", chuheight, 0);
+                    //动画收起列表（点击选择班级时）
+                    ObjectAnimator animator = ObjectAnimator.ofInt(new LayoutWapper(ll_shousuolist), "pingyi", chuheight, 0);
                     animator.setDuration(500);
                     animator.start();
                     animator.addListener(new AnimatorListenerAdapter() {
@@ -321,14 +213,51 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
                             super.onAnimationEnd(animation);
                             list_class.setVisibility(View.GONE);
                             ll_shousuo.setVisibility(View.GONE);
-                            ll_shousuolist.setVisibility(View.GONE);
+                            Iv_fold.setImageResource(R.drawable.unfold);
+                            h = false;
                         }
                     });
-//                    list_class.setVisibility(View.GONE);
-//                    ll_shousuo.setVisibility(View.GONE);
-//                    ll_shousuolist.setVisibility(View.GONE);
-                    Iv_fold.setImageResource(R.drawable.unfold);
-                    h = false;
+
+                }
+            }
+        });
+
+        ll_shousuo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (h == false) {
+                    //动画展开列表（点击收起时）
+                    ObjectAnimator animator = ObjectAnimator.ofInt(new LayoutWapper(ll_shousuolist), "pingyi", 0, chuheight);
+                    animator.setDuration(500);
+                    animator.setInterpolator(new OvershootInterpolator());
+                    animator.addListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                            super.onAnimationStart(animation);
+                            list_class.setVisibility(View.VISIBLE);
+                            ll_shousuo.setVisibility(View.VISIBLE);
+                            Iv_fold.setImageResource(R.drawable.retract);
+                            h = true;
+                        }
+                    });
+                    animator.start();
+
+                } else {
+                    //收起列表
+                    ObjectAnimator animator = ObjectAnimator.ofInt(new LayoutWapper(ll_shousuolist), "pingyi", chuheight, 0);
+                    animator.setDuration(300);
+                    animator.addListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            super.onAnimationEnd(animation);
+                            list_class.setVisibility(View.GONE);
+                            ll_shousuo.setVisibility(View.GONE);
+                            Iv_fold.setImageResource(R.drawable.unfold);
+                            h = false;
+                        }
+                    });
+                    animator.start();
                 }
             }
         });
@@ -355,7 +284,7 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
         iv_email.setImageResource(R.drawable.retestsearch);
         retestPre = new RetestclassImp();
         //获取班级列表，参数助教顾问id
-        String id = UserInfoModel.getInstance().getUser().getUserid();
+        loginid=Long.parseLong(userInfoModel.getUser().getUserid());
         retestPre.doGetRetestclass(loginid);
 
     }
@@ -373,26 +302,47 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
+    public static int setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            // pre-condition
+            return 0;
+        }
+        int totalHeight = 0;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            // listItem.measure(0, 0);
+            listItem.measure(
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+            totalHeight += listItem.getMeasuredHeight();
+        }
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+        return params.height;
+    }
 
     @Subscribe
     public void onEvent(BanJiEvent banji) {
         banjiModelList = banji.getBanjiModels();
         classAdapter.updateData(banjiModelList);
+        //获取班级初始高度
+        chuheight=setListViewHeightBasedOnChildren(list_class);
+        chuheight+=ll_shousuolist.getHeight();
+        Log.i("班级列表的高度为>>>>>"+chuheight);
 
     }
 
     @Subscribe
     public void onEvent1(BanjiStudentEvent banjiStudent) {
         banjiStudentModelList.clear();
-        banjiStudentModelList = banjiStudent.getBanjiStudentModels();
-        studentAdapter.updateData(banjiStudentModelList);
-//        List<Student> students=student.getStudents();
-//        for (Student st:students){
-//            String month=st.getStartDate().substring(5,7);
-//            Student lis=new Student(st.getPhoto(),st.getUserName(),st.getMobile(),tomonth(month),st.getWeekth(),st.getAMStatus());
-//            studentList.add(lis);
-//            queryAdapter.updateData(studentList);
-//        }
+        List<BanjiStudentModel> models=banjiStudent.getBanjiStudentModels();
+        if(models!=null){
+            banjiStudentModelList.addAll(models);
+        }
+        studentAdapter.notifyDataSetChanged();
+
 
 
     }

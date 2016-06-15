@@ -139,7 +139,6 @@ public class RetestclassImp implements RetestPre{
                 int status=listResponseData.getStatus();
                 switch (status){
                     case 200:
-                        Log.i("service>>>>>>>>>>>>>>>>>>>>>>>dsfdsssssssssssssssssssssssssssssssssssssss>>>"+service);
                         EventBus.getDefault().post(new BanjiStudentEvent(listResponseData.getData()));
                         Log.i("查询成功");
                         break;

@@ -126,7 +126,8 @@
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".module.retest.view.RetestActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:hardwareAccelerated="true"/>
         <activity
             android:name=".module.login.view.TermActivity"
             android:screenOrientation="portrait" />
