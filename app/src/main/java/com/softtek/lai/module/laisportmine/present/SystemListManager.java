@@ -3,8 +3,8 @@ package com.softtek.lai.module.laisportmine.present;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.laisportmine.model.PkNoticeModel;
-import com.softtek.lai.module.laisportmine.model.RunTeamModel;
+import com.softtek.lai.module.laisportmine.model.ActionModel;
+import com.softtek.lai.module.laisportmine.model.SystemNewsModel;
 import com.softtek.lai.module.laisportmine.net.MineService;
 
 import java.util.List;
@@ -17,31 +17,31 @@ import zilla.libcore.api.ZillaApi;
 /**
  * Created by lareina.qiao on 5/12/2016.
  */
-public class PkNoticeManager {
+public class SystemListManager {
     private MineService service;
-    private PkNoticeCallback cb;
+    private SystemListCallback cb;
 
-    public PkNoticeManager(PkNoticeCallback cb) {
+    public SystemListManager(SystemListCallback cb) {
         this.cb = cb;
         service = ZillaApi.NormalRestAdapter.create(MineService.class);
     }
 
-    public void doGetPKINotice(String accountid) {
+    public void doGetSysMsg(String accountid) {
         String token = UserInfoModel.getInstance().getToken();
-        service.doGetPKINotice(token, accountid, new Callback<ResponseData<List<PkNoticeModel>>>() {
+        service.doGetSysMsg(token, accountid, new Callback<ResponseData<List<SystemNewsModel>>>() {
             @Override
-            public void success(ResponseData<List<PkNoticeModel>> listResponseData, Response response) {
+            public void success(ResponseData<List<SystemNewsModel>> listResponseData, Response response) {
+                Log.i("系统消息列表");
                 int status = listResponseData.getStatus();
                 switch (status) {
                     case 200:
-                        Log.i("成功" + listResponseData.getData());
                         if (cb != null) {
-                            cb.getPkNotice(listResponseData.getData());
+                            cb.getSystemList(listResponseData.getData());
                         }
                         break;
-                    case 100:
+                    default:
                         if (cb != null) {
-                            cb.getPkNotice(null);
+                            cb.getSystemList(null);
                         }
                         break;
                 }
@@ -50,7 +50,7 @@ public class PkNoticeManager {
             @Override
             public void failure(RetrofitError error) {
                 if (cb != null) {
-                    cb.getPkNotice(null);
+                    cb.getSystemList(null);
                 }
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
@@ -60,7 +60,7 @@ public class PkNoticeManager {
 
     }
 
-    public interface PkNoticeCallback {
-        void getPkNotice(List<PkNoticeModel> pkNoticeModels);
+    public interface SystemListCallback {
+        void getSystemList(List<SystemNewsModel> systemNewsModelList);
     }
 }

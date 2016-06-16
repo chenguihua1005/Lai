@@ -1,11 +1,7 @@
 package com.softtek.lai.module.laisportmine.view;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -14,12 +10,8 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.laisportmine.model.PublicWewlfModel;
 import com.softtek.lai.module.laisportmine.model.RunTeamModel;
-import com.softtek.lai.module.laisportmine.present.MyPublicWewlListManager;
 import com.softtek.lai.module.laisportmine.present.MyRunTeamManager;
-
-import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -45,6 +37,8 @@ public class MyNewsActivity extends BaseActivity implements View.OnClickListener
     TextView tv_newslis_pk;
     @InjectView(R.id.tv_newslis_action)
     TextView tv_newslis_action;
+    @InjectView(R.id.tv_newslis_system)
+    TextView tv_newslis_system;
     RunTeamModel runTeamModels;
     MyRunTeamManager myRunTeamManager;
     UserInfoModel userInfoModel = UserInfoModel.getInstance();
@@ -67,6 +61,7 @@ public class MyNewsActivity extends BaseActivity implements View.OnClickListener
         runTeamModels = new RunTeamModel();
         Intent intent = getIntent();
         runTeamModels = (RunTeamModel) intent.getSerializableExtra("runTeamModels");
+        //从上一个界面接收消息model，显示信息提醒数量
         if (!TextUtils.isEmpty(runTeamModels.toString())) {
             if (Integer.parseInt(runTeamModels.getIsHasAngelMsg()) > 0 && Integer.parseInt(runTeamModels.getIsHasAngelMsg()) <= 10) {
                 tv_newslis_public.setText(runTeamModels.getIsHasAngelMsg());
@@ -88,6 +83,13 @@ public class MyNewsActivity extends BaseActivity implements View.OnClickListener
             } else if (10 < Integer.parseInt(runTeamModels.getIsHasActMsg())) {
                 tv_newslis_action.setText("10+");
                 tv_newslis_action.setVisibility(View.VISIBLE);
+            }
+            if (Integer.parseInt(runTeamModels.getIsHasSysMsg()) > 0 && Integer.parseInt(runTeamModels.getIsHasSysMsg()) <= 10) {
+                tv_newslis_system.setText(runTeamModels.getIsHasSysMsg());
+                tv_newslis_system.setVisibility(View.VISIBLE);
+            } else if (10 < Integer.parseInt(runTeamModels.getIsHasSysMsg())) {
+                tv_newslis_system.setText("10+");
+                tv_newslis_system.setVisibility(View.VISIBLE);
             }
         }
 
@@ -115,7 +117,7 @@ public class MyNewsActivity extends BaseActivity implements View.OnClickListener
                 startActivity(new Intent(this, MyActionListActivity.class));
                 break;
             case R.id.Re_systemnews_lab:
-                startActivity(new Intent(this, MySystemActionActivity.class));
+                startActivity(new Intent(this, MySystemActivity.class));
                 break;
 
 
@@ -153,6 +155,15 @@ public class MyNewsActivity extends BaseActivity implements View.OnClickListener
                 tv_newslis_action.setVisibility(View.VISIBLE);
             } else {
                 tv_newslis_action.setVisibility(View.GONE);
+            }
+            if (Integer.parseInt(runTeamModels.getIsHasSysMsg()) > 0 && Integer.parseInt(runTeamModels.getIsHasSysMsg()) <= 10) {
+                tv_newslis_system.setText(runTeamModels.getIsHasSysMsg());
+                tv_newslis_system.setVisibility(View.VISIBLE);
+            } else if (10 < Integer.parseInt(runTeamModels.getIsHasSysMsg())) {
+                tv_newslis_system.setText("10+");
+                tv_newslis_system.setVisibility(View.VISIBLE);
+            }else {
+                tv_newslis_system.setVisibility(View.GONE);
             }
         }
     }

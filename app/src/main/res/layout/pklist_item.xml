@@ -170,7 +170,8 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@id/lfl"
             android:layout_below="@id/tv_pk_name1"
-            android:layout_marginTop="18dp">
+            android:layout_marginTop="18dp"
+            android:layout_marginLeft="-10dp">
 
             <ImageView
                 android:id="@+id/iv"

@@ -100,8 +100,7 @@
                         android:layout_width="50dp"
                         android:layout_height="wrap_content"
                         android:textColor="#333333"
-                        android:textSize="18sp"
-                        android:text=""/>
+                        android:textSize="18sp" />
 
                     <TextView
                         android:gravity="right"
@@ -173,7 +172,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="#333333"
                         android:textSize="18sp"
-                        android:text="" />
+                         />
 
                     <TextView
                         android:gravity="right"
@@ -244,7 +243,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="#333333"
                         android:textSize="18sp"
-                        android:text="" />
+                         />
 
                     <TextView
                         android:gravity="right"

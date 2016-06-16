@@ -659,21 +659,21 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
         View view = getLayoutInflater().inflate(R.layout.birth_dialog, null);
         final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
         np1.setMaxValue(myear);
-        np1.setValue(myear);
-        np1.setMinValue(1900);
+        np1.setValue(1990);
+        np1.setMinValue(1970);
         np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np1.setWrapSelectorWheel(false);
 
         final NumberPicker np2 = (NumberPicker) view.findViewById(R.id.numberPicker2);
         np2.setMaxValue(12);
-        np2.setValue(mmonth + 1);
+        np2.setValue(1);
         np2.setMinValue(1);
         np2.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np2.setWrapSelectorWheel(false);
 
         final NumberPicker np3 = (NumberPicker) view.findViewById(R.id.numberPicker3);
         np3.setMaxValue(31);
-        np3.setValue(mday);
+        np3.setValue(1);
         np3.setMinValue(1);
         np3.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         np3.setWrapSelectorWheel(false);

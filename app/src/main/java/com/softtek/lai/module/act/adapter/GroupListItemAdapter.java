@@ -88,9 +88,9 @@ public class GroupListItemAdapter extends BaseAdapter {
 
         String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
         if ("".equals(actlistModel.getActimg()) || "null".equals(actlistModel.getActimg()) || actlistModel.getActimg() == null) {
-            Picasso.with(context).load("111").fit().error(R.drawable.img_default).into(holder.img);
+            Picasso.with(context).load("111").fit().error(R.drawable.default_icon_rect).into(holder.img);
         } else {
-            Picasso.with(context).load(path + actlistModel.getActimg()).error(R.drawable.img_default).into(holder.img);
+            Picasso.with(context).load(path + actlistModel.getActimg()).error(R.drawable.default_icon_rect).into(holder.img);
         }
         holder.text_title.setText(actlistModel.getActTitle().toString());
         String status=actlistModel.getAcStatus();

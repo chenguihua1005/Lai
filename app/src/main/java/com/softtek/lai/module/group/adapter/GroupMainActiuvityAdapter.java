@@ -87,9 +87,9 @@ public class GroupMainActiuvityAdapter extends BaseAdapter {
 
         String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
         if ("".equals(recentlyActiviteModel.getActimg()) || "null".equals(recentlyActiviteModel.getActimg()) || recentlyActiviteModel.getActimg() == null) {
-            Picasso.with(context).load("111").fit().error(R.drawable.img_default).into(holder.img);
+            Picasso.with(context).load("111").fit().error(R.drawable.default_icon_rect).into(holder.img);
         } else {
-            Picasso.with(context).load(path + recentlyActiviteModel.getActimg()).error(R.drawable.img_default).into(holder.img);
+            Picasso.with(context).load(path + recentlyActiviteModel.getActimg()).error(R.drawable.default_icon_rect).into(holder.img);
         }
         holder.text_title.setText(recentlyActiviteModel.getActTitle().toString());
         String status=recentlyActiviteModel.getAcStatus();

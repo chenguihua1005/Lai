@@ -104,7 +104,7 @@ public class HealthyRecordFragment extends BaseFragment implements View.OnClickL
 
     @Override
     protected void initViews() {
-        ll_left.setVisibility(View.GONE);
+        ll_left.setVisibility(View.INVISIBLE);
         fl_right.setOnClickListener(this);
         tv_weight.setOnClickListener(this);
         tv_body_fat.setOnClickListener(this);
