@@ -117,6 +117,25 @@ public class NetErrorHandler implements IApiErrorHandler {
                     case 503:
                         Util.toastMsg("服务不可用");
                         break;
+                    case 4001:
+                        new AlertDialog.Builder(LaiApplication.getInstance().getContext())
+                                .setTitle("温馨提示").setMessage("")
+                                .setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        UserInfoModel.getInstance().loginOut();
+                                        LaiApplication.getInstance().stopService(new Intent(LaiApplication.getInstance(), StepService.class));
+                                        Intent intent=new Intent(LaiApplication.getInstance(), LoginActivity.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        LaiApplication.getInstance().startActivity(intent);
+                                    }
+                                }).setCancelable(false).create().show();
+                        break;
+                    case 4002:
+                        break;
+                    case 4003:
+                        break;
                     default:
                         Util.toastMsg(zilla.libcore.R.string.net_http_other);
                         break;
