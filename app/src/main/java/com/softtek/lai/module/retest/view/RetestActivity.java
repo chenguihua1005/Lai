@@ -122,7 +122,6 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
                         super.onAnimationEnd(animation);
                         list_class.setVisibility(View.GONE);
                         ll_shousuo.setVisibility(View.GONE);
-
                         Iv_fold.setImageResource(R.drawable.unfold);
                         ViewGroup.LayoutParams params = ll_shousuolist.getLayoutParams();
                         params.height = 0;
@@ -199,6 +198,14 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
                             list_class.setVisibility(View.VISIBLE);
                             ll_shousuo.setVisibility(View.VISIBLE);
                             Iv_fold.setImageResource(R.drawable.retract);
+
+                        }
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            super.onAnimationEnd(animation);
+                            ViewGroup.LayoutParams params = ll_shousuolist.getLayoutParams();
+                            params.height = chuheight;
+                            ll_shousuolist.setLayoutParams(params);
                             h = true;
                         }
                     });
@@ -242,6 +249,14 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
                             list_class.setVisibility(View.VISIBLE);
                             ll_shousuo.setVisibility(View.VISIBLE);
                             Iv_fold.setImageResource(R.drawable.retract);
+
+                        }
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            super.onAnimationEnd(animation);
+                            ViewGroup.LayoutParams params=ll_shousuolist.getLayoutParams();
+                            params.height=chuheight;
+                            ll_shousuolist.setLayoutParams(params);
                             h = true;
                         }
                     });
@@ -308,7 +323,7 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
 
         }
     }
-
+    /*计算listview高度*/
     public static int setListViewHeightBasedOnChildren(ListView listView) {
         ListAdapter listAdapter = listView.getAdapter();
         if (listAdapter == null) {
@@ -334,12 +349,13 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
     public void onEvent(BanJiEvent banji) {
         banjiModelList = banji.getBanjiModels();
         classAdapter.updateData(banjiModelList);
-        //获取班级初列表始高度
+//        获取班级初列表始高度
         chuheight = setListViewHeightBasedOnChildren(list_class);
         chuheight += ll_shousuolist.getHeight();
-        Log.i("班级列表的高度为>>>>>" + chuheight);
+//        Log.i("班级列表的高度为>>>>>" + chuheight);
 
     }
+
 
     @Subscribe
     public void onEvent1(BanjiStudentEvent banjiStudent) {
@@ -419,7 +435,6 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
             case R.id.iv_email: {
                 Intent intent = new Intent(RetestActivity.this, QueryActivity.class);
                 startActivity(intent);
-
             }
             break;
             case R.id.ll_left: {

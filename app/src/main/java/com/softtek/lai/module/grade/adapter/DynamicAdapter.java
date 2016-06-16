@@ -22,6 +22,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
+import zilla.libcore.file.AddressManager;
+
 /**
  * Created by jerry.guan on 3/22/2016.
  */
@@ -69,7 +71,7 @@ public class DynamicAdapter extends BaseAdapter {
             holder.iv_icon.setVisibility(View.GONE);
             holder.iv_head.setVisibility(View.VISIBLE);
             if(StringUtils.isNotEmpty(info.getPhoto())){
-                Picasso.with(context).load(info.getPhoto()).fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(holder.iv_head);
+                Picasso.with(context).load(AddressManager.get("photoHost")+info.getPhoto()).fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(holder.iv_head);
             }else{
                 Picasso.with(context).load(R.drawable.img_default).into(holder.iv_head);
             }
