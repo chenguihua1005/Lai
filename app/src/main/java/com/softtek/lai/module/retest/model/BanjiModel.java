@@ -103,6 +103,9 @@ public class BanjiModel {
         StartDate = startDate;
         Total = total;
     }
+    public BanjiModel() {
+
+    }
 
 
 }

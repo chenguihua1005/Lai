@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,13 +26,16 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.counselor.model.UserHonorModel;
 import com.softtek.lai.module.counselor.presenter.HonorImpl;
 import com.softtek.lai.module.counselor.presenter.IHonorPresenter;
+import com.softtek.lai.module.grade.view.GradeHomeActivity;
 import com.softtek.lai.module.jingdu.Adapter.RankAdapter;
 import com.softtek.lai.module.jingdu.model.PaimingModel;
 import com.softtek.lai.module.jingdu.model.RankModel;
 import com.softtek.lai.module.jingdu.model.Table1Model;
+import com.softtek.lai.module.jingdu.model.Table2Model;
 import com.softtek.lai.module.jingdu.presenter.GetProinfoImpl;
 import com.softtek.lai.module.jingdu.presenter.IGetProinfopresenter;
 import com.softtek.lai.module.message.model.PhotosModel;
+import com.softtek.lai.module.studetail.view.StudentDetailActivity;
 import com.softtek.lai.widgets.SelectPicPopupWindow;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -58,7 +62,7 @@ import zilla.libcore.ui.InjectLayout;
 //import com.umeng.socialize.sso.UMSsoHandler;
 
 @InjectLayout(R.layout.activity_jingdu)
-public class JingduActivity extends BaseActivity implements View.OnClickListener {
+public class JingduActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -146,6 +150,7 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
     private IHonorPresenter honorPresenter;
     private List<Table1Model> table1ModelList = new ArrayList<Table1Model>();
     private List<PaimingModel> paimingModelList = new ArrayList<PaimingModel>();
+    private List<Table2Model> table2ModelList = new ArrayList<Table2Model>();
     private IGetProinfopresenter iGetProinfopresenter;
     UserHonorModel userHonorModel;
 
@@ -174,13 +179,13 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
         initpaiming();
         rankAdapter = new RankAdapter(this, table1ModelList, paimingModelList);
         list_rank.setAdapter(rankAdapter);
+        list_rank.setOnItemClickListener(this);
         ll_left.setOnClickListener(this);
 
         iv_email.setVisibility(View.VISIBLE);
         iv_email.setImageResource(R.drawable.img_share_bt);
         iv_email.setOnClickListener(this);
         fl_right.setOnClickListener(this);
-
     }
 
     private void initpaiming() {
@@ -250,7 +255,6 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
     }
 
     private View.OnClickListener itemsOnClick = new View.OnClickListener() {
-
         public void onClick(View v) {
             menuWindow.dismiss();
             switch (v.getId()) {
@@ -282,14 +286,11 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
                 default:
                     break;
             }
-
-
         }
-
     };
 
     @Subscribe
-    public void onEvent(RankModel rank) {
+    public void onEvent(final RankModel rank) {
         //Table：教练本月总开班数量，新增学员数量(累计减重数量)
         System.out.println("rankEvent.getRanks()》》》》》》》》》》》》》》" + rank.getTable());
         newban = rank.getTable().get(0).getTotalClass();
@@ -303,6 +304,10 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
 
         //Table2:各个班本月累计减重
         System.out.println("rankEvent.getRanks()------------------------Table2:" + rank.getTable2());
+
+        table2ModelList = rank.getTable2();
+        Log.i("", "???????????????????---size:" + table2ModelList.size());
+
         if (rank.getTable2().size() == 1) {
             img_oneban.setVisibility(View.VISIBLE);
 
@@ -329,6 +334,17 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
             tv_oneban.setText(oneban);
             float a = Float.parseFloat(oneban);
             total_weight.setValue(a, 0, 0);
+            ll_oneban.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String classId = rank.getTable2().get(0).getClassId();
+                    Intent intent = new Intent(JingduActivity.this, GradeHomeActivity.class);
+                    intent.putExtra("classId", classId);
+                    intent.putExtra("review", 1);
+                    startActivity(intent);
+                }
+            });
+
         } else if (rank.getTable2().size() == 2) {
             //ll_threeban.setVisibility(View.GONE);
 
@@ -367,6 +383,30 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
             float a = Float.parseFloat(oneban);
             float b = Float.parseFloat(twoban);
             total_weight.setValue(a, b, 0);
+
+            ll_oneban.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String classId = rank.getTable2().get(0).getClassId();
+                    Log.i("", "classId1---->>>>>>" + classId);
+                    Intent intent = new Intent(JingduActivity.this, GradeHomeActivity.class);
+                    intent.putExtra("classId", classId);
+                    intent.putExtra("review", 1);
+                    startActivity(intent);
+                }
+            });
+            ll_twoban.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String classId = rank.getTable2().get(1).getClassId();
+                    Log.i("", "classId2---->>>>>>" + classId);
+                    Intent intent = new Intent(JingduActivity.this, GradeHomeActivity.class);
+                    intent.putExtra("classId", classId);
+                    intent.putExtra("review", 1);
+                    startActivity(intent);
+                }
+            });
+
         } else if (rank.getTable2().size() == 3) {
 
             String yue1 = rank.getTable2().get(0).getStartDate();
@@ -416,6 +456,36 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
             float b = Float.parseFloat(twoban);
             float c = Float.parseFloat(threeban);
             total_weight.setValue(a, b, c);
+            ll_oneban.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String classId = rank.getTable2().get(0).getClassId();
+                    Intent intent = new Intent(JingduActivity.this, GradeHomeActivity.class);
+                    intent.putExtra("classId", classId);
+                    intent.putExtra("review", 1);
+                    startActivity(intent);
+                }
+            });
+            ll_twoban.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String classId = rank.getTable2().get(1).getClassId();
+                    Intent intent = new Intent(JingduActivity.this, GradeHomeActivity.class);
+                    intent.putExtra("classId", classId);
+                    intent.putExtra("review", 1);
+                    startActivity(intent);
+                }
+            });
+            ll_threeban.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String classId = rank.getTable2().get(2).getClassId();
+                    Intent intent = new Intent(JingduActivity.this, GradeHomeActivity.class);
+                    intent.putExtra("classId", classId);
+                    intent.putExtra("review", 1);
+                    startActivity(intent);
+                }
+            });
         }
 //        new Handler().postDelayed(new Runnable() {
 //            @Override
@@ -441,7 +511,30 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
                 honorPresenter.getUserHonors();
                 //iGetProinfopresenter.upload("/sdcard/screen_test_1.png");
                 break;
-
+//            case R.id.ll_oneban:
+//                Long classId=Long.parseLong(rank.getTable2().get(0).getClassId());
+//                Log.i("","classId1---->>>>>>"+classId);
+//                Intent intent=new Intent(JingduActivity.this, StudentDetailActivity.class);
+//                intent.putExtra("classId",classId);
+//                intent.putExtra("review",1);
+//                startActivity(intent);
+//                break;
+//            case R.id.ll_twoban:
+//                Long classId2=Long.parseLong(rank.getTable2().get(1).getClassId());
+//                Log.i("","classId2---->>>>>>"+classId2);
+//                Intent intent1=new Intent(JingduActivity.this, GradeHomeActivity.class);
+//                intent1.putExtra("classId", classId2);
+//                intent1.putExtra("review", 1);
+//                startActivity(intent1);
+//                break;
+//            case R.id.ll_threeban:
+//                Long classId3=Long.parseLong(rank.getTable2().get(2).getClassId());
+//                Log.i("","classId3---->>>>>>"+classId3);
+//                Intent intent2=new Intent(JingduActivity.this, GradeHomeActivity.class);
+//                intent2.putExtra("classId", classId3);
+//                intent2.putExtra("review", 1);
+//                startActivity(intent2);
+//                break;
         }
     }
 
@@ -508,4 +601,18 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
         return bitmap;
     }
 
+    /*
+     * listview的点击事件
+     */
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Table1Model table1Model = table1ModelList.get(position);
+        long userId = Long.parseLong(table1Model.getAccountId());
+        long classId = Long.parseLong(table1Model.getClassId());
+        Intent intent = new Intent(JingduActivity.this, StudentDetailActivity.class);
+        intent.putExtra("userId", userId);
+        intent.putExtra("classId", classId);
+        intent.putExtra("review", 1);
+        startActivity(intent);
+    }
 }

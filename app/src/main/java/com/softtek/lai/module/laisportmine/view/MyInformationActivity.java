@@ -52,6 +52,8 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
     //我的运动点击
     @InjectView(R.id.re_pk_mysport)
     RelativeLayout re_pk_mysport;
+    @InjectView(R.id.tv_runteamnum)
+            TextView tv_runteamnum;
     MyRunTeamManager myRunTeamManager;
     UserInfoModel userInfoModel=UserInfoModel.getInstance();
     long accountid=Long.parseLong(userInfoModel.getUser().getUserid());
@@ -119,6 +121,7 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
             runTeamModels = runTeamModel;
             if (!runTeamModel.getRgName().isEmpty()) {
                 tv_runteamname.setText(runTeamModels.getRgName());
+                tv_runteamnum.setText(runTeamModel.getRgNum());
             }
             if (!runTeamModels.getIsHasMsg().isEmpty()) {
                 if (runTeamModel.getIsHasMsg().equals("True")) {

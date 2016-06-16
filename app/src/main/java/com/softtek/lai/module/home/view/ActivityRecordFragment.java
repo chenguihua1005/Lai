@@ -46,7 +46,6 @@ public class ActivityRecordFragment extends BaseFragment  {
     private int lastVisitableItem;
     private boolean isLoading=false;
 
-    private boolean isFirstItem=true;
     @Override
     protected void initViews() {
         EventBus.getDefault().register(this);

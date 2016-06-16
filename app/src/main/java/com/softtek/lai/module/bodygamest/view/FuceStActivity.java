@@ -562,17 +562,22 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     public void onValidationSucceeded() {
-        retestWrite.setWeight(tv_retestWrites_nowweight.getText()+"");
-        retestWrite.setInitWeight(tv_writes_chu_weight.getText()+"");
-        retestWrite.setPysical(tv_retestWritest_tizhi.getText()+"");
-        retestWrite.setFat(tv_retestWritest_neizhi.getText()+"");
-        retestWrite.setAccountId(loginid+"");
-        Log.i(retestWrite.getImage()+"");
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.setMessage("正在保存...");
-        progressDialog.show();
-        retestPre.doPostWrite(loginid,loginid,retestWrite,this,progressDialog);
-
+        if (TextUtils.isEmpty(retestWrite.getImage()))
+        {
+            Util.toastMsg("请上传照片");
+        }
+        else {
+            retestWrite.setWeight(tv_retestWrites_nowweight.getText() + "");
+            retestWrite.setInitWeight(tv_writes_chu_weight.getText() + "");
+            retestWrite.setPysical(tv_retestWritest_tizhi.getText() + "");
+            retestWrite.setFat(tv_retestWritest_neizhi.getText() + "");
+            retestWrite.setAccountId(loginid + "");
+            Log.i(retestWrite.getImage() + "");
+            progressDialog.setCanceledOnTouchOutside(false);
+            progressDialog.setMessage("正在保存...");
+            progressDialog.show();
+            retestPre.doPostWrite(loginid, loginid, retestWrite, this, progressDialog);
+        }
 
 
     }

@@ -5,6 +5,7 @@
     android:fitsSystemWindows="true"
     android:layout_height="match_parent"
     android:id="@id/rel"
+    android:background="@color/white"
     tools:context="com.softtek.lai.module.jingdu.view.JingduActivity">
 
     <include layout="@layout/toolbar" />
@@ -188,6 +189,7 @@
                         android:textSize="12sp" />
 
                     <TextView
+                        android:gravity="right"
                         android:id="@+id/tv_oneban"
                         android:layout_marginRight="2dp"
                         android:layout_width="50dp"
@@ -197,7 +199,9 @@
                         android:text=""/>
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:gravity="right"
+                        android:layout_marginRight="10dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="12sp"
                         android:text="斤" />
@@ -257,6 +261,7 @@
                         android:textSize="12sp"/>
 
                     <TextView
+                        android:gravity="right"
                         android:id="@+id/tv_twoban"
                         android:layout_marginRight="2dp"
                         android:layout_width="50dp"
@@ -266,7 +271,9 @@
                         android:text="" />
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:gravity="right"
+                        android:layout_marginRight="10dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="12sp"
                         android:text="斤" />
@@ -325,6 +332,7 @@
                         android:textSize="12sp"/>
 
                     <TextView
+                        android:gravity="right"
                         android:id="@+id/tv_threeban"
                         android:layout_marginRight="2dp"
                         android:layout_width="50dp"
@@ -334,48 +342,55 @@
                         android:text="" />
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:gravity="right"
+                        android:layout_marginRight="10dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="12sp"
                         android:text="斤" />
 
                 </LinearLayout>
 
-
             </LinearLayout>
 
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:orientation="vertical"
-        android:background="#f1f1f1"
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/top">
         <LinearLayout
-            android:background="#74bb2a"
+            android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:gravity="center|left">
             <ImageView
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="10dp"
-                android:layout_width="wrap_content"
+                android:layout_width="20dp"
                 android:layout_height="wrap_content"
                 android:scaleType="fitCenter"
                 android:src="@drawable/pic_lossmember"/>
             <TextView
-                android:textColor="#ffffff"
+                android:textColor="#74bb2a"
                 android:textSize="18sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="学员减重TOP 10" />
         </LinearLayout>
+        <View
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#74bb2a"/>
         <ListView
             android:id="@+id/list_rank"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#eeeeee" />
+            android:background="@color/white" />
     </LinearLayout>
 </RelativeLayout>

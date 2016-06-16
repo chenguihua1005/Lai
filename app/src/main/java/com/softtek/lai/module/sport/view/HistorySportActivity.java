@@ -67,7 +67,10 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
         aMap.setMapType(AMap.MAP_TYPE_NORMAL);
         aMap.getUiSettings().setMyLocationButtonEnabled(false);//设置默认定位按钮是否显示
         aMap.getUiSettings().setZoomControlsEnabled(false);//隐藏缩放控制按钮
-        aMap.getUiSettings().setLogoPosition(2);
+        aMap.getUiSettings().setAllGesturesEnabled(false);
+        aMap.getUiSettings().setScrollGesturesEnabled(true);
+        aMap.getUiSettings().setTiltGesturesEnabled(true);
+        aMap.getUiSettings().setZoomGesturesEnabled(true);
         HistorySportModel model= (HistorySportModel) getIntent().getSerializableExtra("history");
         tv_clock.setText(model.getTimeLength());
         tv_calorie.setText(model.getCalories());

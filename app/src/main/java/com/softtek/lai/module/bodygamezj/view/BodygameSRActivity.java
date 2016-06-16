@@ -50,8 +50,6 @@ import zilla.libcore.ui.InjectLayout;
 public class BodygameSRActivity extends BaseActivity implements View.OnClickListener {
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
-    @InjectView(R.id.tv_title)
-    TextView tv_title;
 
     @InjectView(R.id.iv_advzj)
     ImageView iv_advzj;
@@ -110,7 +108,7 @@ public class BodygameSRActivity extends BaseActivity implements View.OnClickList
         ll_saikuang.setOnClickListener(this);
         ll_rongyu.setOnClickListener(this);
         ll_assistant.setOnClickListener(this);
-
+        tintManager.setStatusBarAlpha(0);
         messagePresenter = new MessageImpl(this);
         registerMessageReceiver();
         iv_email.setBackgroundResource(R.drawable.email);
@@ -121,7 +119,6 @@ public class BodygameSRActivity extends BaseActivity implements View.OnClickList
 
     @Override
     protected void initDatas() {
-        tv_title.setText("体管赛（助教版）");
         iTiGuanSai = new TiGuanSaiImpl();
         iTiGuanSai.getTiGuanSai();
         iTiGuanSai.doGetFuceNum(loginid);
@@ -249,6 +246,7 @@ public class BodygameSRActivity extends BaseActivity implements View.OnClickList
     @Subscribe
     public void onEvent(TiGuanSaiModel tiGuanSai) {
         Picasso.with(this).load(tiGuanSai.getImg_Addr()).placeholder(R.drawable.default_icon_rect).fit().error(R.drawable.default_icon_rect).into(iv_advzj);
+
 
     }
 

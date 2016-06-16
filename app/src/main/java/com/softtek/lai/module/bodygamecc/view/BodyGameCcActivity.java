@@ -44,8 +44,6 @@ public class BodyGameCcActivity extends BaseActivity implements View.OnClickList
     //标题栏
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
-    @InjectView(R.id.tv_title)
-    TextView tv_title;
 
     @InjectView(R.id.ll_match)
     LinearLayout ll_match;
@@ -85,7 +83,7 @@ public class BodyGameCcActivity extends BaseActivity implements View.OnClickList
         ll_tipcc.setOnClickListener(this);
         ll_match.setOnClickListener(this);
         tv_totalcc.setOnClickListener(this);
-
+        tintManager.setStatusBarAlpha(0);
         messagePresenter = new MessageImpl(this);
         registerMessageReceiver();
         iv_email.setBackgroundResource(R.drawable.email);
@@ -136,12 +134,7 @@ public class BodyGameCcActivity extends BaseActivity implements View.OnClickList
 
     @Override
     protected void initDatas() {
-        if (role.equals("4")) {
-            tv_title.setText("体管赛（受邀普通顾客版）");
-        }
-        else {
-            tv_title.setText("体管赛（普通顾客版）");
-        }
+
         iTiGuanSai=new TiGuanSaiImpl();
         iTiGuanSai.doGetTotal(progressDialog);
         iTiGuanSai.getTiGuanSai();

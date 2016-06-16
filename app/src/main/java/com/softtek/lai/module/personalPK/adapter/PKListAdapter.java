@@ -126,7 +126,7 @@ public class PKListAdapter extends BaseAdapter{
                     .error(R.drawable.img_default)
                     .into(holder.sender2_header);
         }else{
-            Picasso.with(context).load(R.drawable.img_default).into(holder.sender1_header);
+            Picasso.with(context).load(R.drawable.img_default).into(holder.sender2_header);
         }
         return convertView;
     }

@@ -37,10 +37,14 @@ public class MyRunTeamManager {
                 {
                     case 200:
                         Log.i("成功"+runTeamModelResponseData.getData());
-                        cb.getRunTeamName(runTeamModelResponseData.getData());
+                        if (cb!=null) {
+                            cb.getRunTeamName(runTeamModelResponseData.getData());
+                        }
                         break;
                     case 100:
-                        cb.getRunTeamName(null);
+                        if (cb!=null) {
+                            cb.getRunTeamName(null);
+                        }
                         break;
                     default:
                         Log.i(runTeamModelResponseData.getMsg());
@@ -50,7 +54,9 @@ public class MyRunTeamManager {
 
             @Override
             public void failure(RetrofitError error) {
-                cb.getRunTeamName(null);
+                if (cb!=null) {
+                    cb.getRunTeamName(null);
+                }
                 ZillaApi.dealNetError(error);
             }
         });

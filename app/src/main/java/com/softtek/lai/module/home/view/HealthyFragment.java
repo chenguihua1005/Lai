@@ -61,7 +61,7 @@ public class HealthyFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     protected void initViews() {
-        ll_left.setVisibility(View.GONE);
+        ll_left.setVisibility(View.INVISIBLE);
         tv_title.setText("健康圈");
         iv_email.setBackgroundResource(R.drawable.camera);
         fl_right.setOnClickListener(this);

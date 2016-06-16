@@ -92,6 +92,8 @@ public class GradeImpl implements IGrade {
                 DynamicInfoModel info = new DynamicInfoModel();
                 info.setCreateDate(DateUtil.getInstance(DateUtil.yyyy_MM_dd_HH_mm_ss).getCurrentDate());
                 info.setDyContent(dyContent);
+                info.setDyType("2");
+                info.setPhoto(UserInfoModel.getInstance().getUser().getPhoto());
                 EventBus.getDefault().post(info);
             }
 

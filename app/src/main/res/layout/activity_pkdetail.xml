@@ -39,7 +39,6 @@
                         android:layout_alignParentTop="true"
                         android:layout_centerInParent="true"
                         android:layout_marginTop="18dp"
-                        android:background="@drawable/pk_list_jingxingzhong"
                         android:gravity="center"
                         android:textColor="@color/white"
                         android:textSize="13sp" />
@@ -427,7 +426,7 @@
                     android:background="@drawable/bg_pk_btn_refues"
                     android:gravity="center"
                     android:text="拒绝"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="18sp"
                     android:visibility="gone" />
 

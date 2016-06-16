@@ -113,9 +113,10 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
 
     private List<String> advList = new ArrayList<>();
     private List<HomeInfoModel> records = new ArrayList<>();
-    /* private List<HomeInfoModel> products = new ArrayList<>();
-     private List<HomeInfoModel> sales = new ArrayList<>();*/
+    private List<HomeInfoModel> products = new ArrayList<>();
+    private List<HomeInfoModel> sales = new ArrayList<>();
     private List<Fragment> fragments = new ArrayList<>();
+    FragementAdapter fragementAdapter;
     private MessageReceiver mMessageReceiver;
 
     @Override
@@ -125,12 +126,13 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         fl_right.setOnClickListener(this);
         iv_email.setOnClickListener(this);
         ActivityRecordFragment recordFragment = new ActivityRecordFragment();
-        /*ProductInfoFragment productInfoFragment=new ProductInfoFragment();
-        SaleInfoFragment saleInfoFragment=new SaleInfoFragment();*/
+        ProductInfoFragment productInfoFragment=new ProductInfoFragment();
+        SaleInfoFragment saleInfoFragment=new SaleInfoFragment();
         fragments.add(recordFragment);
-        /*fragments.add(productInfoFragment);
-        fragments.add(saleInfoFragment);*/
-        page.setAdapter(new FragementAdapter(getFragmentManager(), fragments));
+        fragments.add(productInfoFragment);
+        fragments.add(saleInfoFragment);
+        fragementAdapter=new FragementAdapter(getFragmentManager(), fragments);
+        page.setAdapter(fragementAdapter);
         page.setOffscreenPageLimit(3);
         //设置tabLayout和viewpage关联
         tab.setupWithViewPager(page);
@@ -167,8 +169,8 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     public void onEventRefresh(HomeEvent event) {
         advList.clear();
         records.clear();
-        /*products.clear();
-        sales.clear();*/
+        products.clear();
+        sales.clear();
         for (HomeInfoModel info : event.getInfos()) {
             switch (info.getImg_Type()) {
                 case "0":
@@ -177,18 +179,18 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                 case "1":
                     records.add(info);
                     break;
-               /* case "2":
+                case "2":
                     products.add(info);
                     break;
                 case "6":
                     sales.add(info);
-                    break;*/
+                    break;
             }
         }
         rhv_adv.setImgUrlData(advList);
         ((ActivityRecordFragment) fragments.get(0)).updateInfo(records);
-        /*((ProductInfoFragment)fragments.get(1)).updateInfo(products);
-        ((SaleInfoFragment)fragments.get(2)).updateInfo(sales);*/
+        ((ProductInfoFragment)fragments.get(1)).updateInfo(products);
+        ((SaleInfoFragment)fragments.get(2)).updateInfo(sales);
 
     }
 
@@ -235,13 +237,29 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         if(num<=0){
             toolbar.setVisibility(View.GONE);
         }*/
-
-        ActivityRecordFragment recordFragment = ((ActivityRecordFragment) fragments.get(0));
-        if (recordFragment != null) {
-            if (recordFragment.isRecycleFirst() && verticalOffset >= 0) {
-                pull.setEnabled(true);
-            } else {
-                pull.setEnabled(false);
+        Fragment fragment = fragments.get(tab.getSelectedTabPosition());
+        if(fragment!=null){
+            if(fragment instanceof ActivityRecordFragment){
+                ActivityRecordFragment recordFragment= (ActivityRecordFragment) fragment;
+                if (recordFragment.isRecycleFirst() && verticalOffset >= 0) {
+                    pull.setEnabled(true);
+                } else {
+                    pull.setEnabled(false);
+                }
+            }else if(fragment instanceof ProductInfoFragment){
+                ProductInfoFragment recordFragment= (ProductInfoFragment) fragment;
+                if (recordFragment.isRecycleFirst() && verticalOffset >= 0) {
+                    pull.setEnabled(true);
+                } else {
+                    pull.setEnabled(false);
+                }
+            }else if(fragment instanceof SaleInfoFragment){
+                SaleInfoFragment recordFragment= (SaleInfoFragment) fragment;
+                if (recordFragment.isRecycleFirst() && verticalOffset >= 0) {
+                    pull.setEnabled(true);
+                } else {
+                    pull.setEnabled(false);
+                }
             }
         }
     }
@@ -268,7 +286,6 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                     intoBodyGamePage(role);
                     break;
                 case Constants.LAI_YUNDONG:
-                    //new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
                     String isJoin=userInfoModel.getUser().getIsJoin();
                     if (StringUtils.isEmpty(isJoin)||"0".equals(isJoin)) {
                         startActivity(new Intent(getContext(), JoinGroupActivity.class));
