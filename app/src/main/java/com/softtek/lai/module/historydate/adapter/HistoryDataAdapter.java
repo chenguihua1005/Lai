@@ -2,6 +2,10 @@ package com.softtek.lai.module.historydate.adapter;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.AbsoluteSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +19,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.module.historydate.model.HistoryData;
 import com.softtek.lai.module.historydate.model.HistoryDataItemModel;
 import com.softtek.lai.utils.DateUtil;
+import com.softtek.lai.utils.StringUtil;
 
 import java.util.List;
 
@@ -89,24 +94,38 @@ public class HistoryDataAdapter extends BaseAdapter{
         }
         String date=data.getCreateDate();
         DateUtil util=DateUtil.getInstance();
-        holder.tv_ymd.setText(util.getYear(date)+"年"+util.getMonth(date)+"月"+util.getDay(date)+"日");
         int hour=util.getHour(date);
         int minute=util.getMinute(date);
-        holder.tv_hm.setText((hour<10?"0"+hour:hour)+":"+(minute<10?"0"+minute:minute));
+        int month=util.getMonth(date);
+        int day=util.getDay(date);
+        holder.time.setText((month<10?"0"+month:month)+"-"+(day<10?"0"+day:day)+" "+(hour<10?"0"+hour:hour)+":"+(minute<10?"0"+minute:minute));
+        SpannableString spannableString=new SpannableString(StringUtil.getFloatValue(data.getWeight())+"斤");
+        spannableString.setSpan(new AbsoluteSizeSpan(30),spannableString.length()-1,spannableString.length(),Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        holder.loss_weight.setText(spannableString);
+        SpannableString spannable=new SpannableString(StringUtil.getFloatValue(data.getPysical())+"%");
+        spannable.setSpan(new AbsoluteSizeSpan(30),spannable.length()-1,spannable.length(),Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        holder.physical.setText(spannable);
+        holder.fat.setText(StringUtil.getFloatValue(data.getFat()));
         return convertView;
     }
 
     static class ViewHolder{
         public CheckBox cb_selecter;
         public ImageView icon;
-        public TextView tv_ymd;
-        public TextView tv_hm;
+        public TextView week;
+        public TextView time;
+        public TextView loss_weight;
+        public TextView physical;
+        public TextView fat;
 
         public ViewHolder(View view){
             cb_selecter= (CheckBox) view.findViewById(R.id.cb_selecter);
             icon= (ImageView) view.findViewById(R.id.iv_icon);
-            tv_ymd= (TextView) view.findViewById(R.id.tv_ymd);
-            tv_hm= (TextView) view.findViewById(R.id.tv_hm);
+            week= (TextView) view.findViewById(R.id.week);
+            time= (TextView) view.findViewById(R.id.time);
+            loss_weight= (TextView) view.findViewById(R.id.loss_weight);
+            physical= (TextView) view.findViewById(R.id.physical);
+            fat= (TextView) view.findViewById(R.id.fat);
         }
     }
 }

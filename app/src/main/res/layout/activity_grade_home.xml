@@ -408,16 +408,11 @@
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:layout_gravity="left"
-            android:gravity="center">
-
-            <TextView
-                android:id="@+id/tv_left"
-                android:layout_width="10dp"
-                android:layout_height="25dp"
-                android:layout_marginLeft="-18dp"
-                android:background="@drawable/back"
-                android:textColor="#ffffff"
-                />
+            android:gravity="center|left">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/back"/>
         </LinearLayout>
 
         <LinearLayout
