@@ -1,33 +1,17 @@
 package com.softtek.lai.module.act.view;
 
-import android.graphics.drawable.ClipDrawable;
-import android.os.Handler;
-import android.os.Message;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.act.model.ActDetailModel;
 import com.softtek.lai.module.act.presenter.ActManager;
-import com.softtek.lai.module.tips.adapter.AskHealthyAdapter;
-import com.softtek.lai.module.tips.model.AskHealthyModel;
-import com.softtek.lai.module.tips.model.AskHealthyResponseModel;
-import com.softtek.lai.module.tips.presenter.AskHealthyManager;
 import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
@@ -88,9 +72,9 @@ public class ActDetailsFragment extends BaseFragment implements ActManager.GetAc
         if ("true".equals(type)) {
             String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
             if ("".equals(model.getActimg()) || "null".equals(model.getActimg()) || model.getActimg() == null) {
-                Picasso.with(getContext()).load("111").fit().error(R.drawable.img_default).into(img);
+                Picasso.with(getContext()).load("111").fit().error(R.drawable.default_icon_rect).into(img);
             } else {
-                Picasso.with(getContext()).load(path + model.getActimg()).error(R.drawable.img_default).into(img);
+                Picasso.with(getContext()).load(path + model.getActimg()).error(R.drawable.default_icon_rect).into(img);
             }
             text_title.setText(model.getActTitle().toString());
             String status = model.getAcStatus();
@@ -139,7 +123,7 @@ public class ActDetailsFragment extends BaseFragment implements ActManager.GetAc
                 text_mb_value.setText(model.getTarget() + "公里");
             } else {
                 text_mb.setText("");
-                text_gz.setText("目标步数");
+                text_gz.setText("总步数");
                 text_mb_value.setText("总步数");
             }
         }

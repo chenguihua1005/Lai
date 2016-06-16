@@ -285,7 +285,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
         View view = getLayoutInflater().inflate(R.layout.birth_dialog, null);
         final NumberPicker np1 = (NumberPicker) view.findViewById(R.id.numberPicker1);
         np1.setMaxValue(myear);
-        np1.setValue(myear);
+        np1.setValue(1990);
         np1.setMinValue(1900);
         np1.setWrapSelectorWheel(false);
         np1.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);

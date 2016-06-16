@@ -22,32 +22,38 @@ public class ActionListManager {
     private ActionListCallback cb;
 
     public ActionListManager(ActionListCallback cb) {
-        this.cb=cb;
-        service= ZillaApi.NormalRestAdapter.create(MineService.class);
+        this.cb = cb;
+        service = ZillaApi.NormalRestAdapter.create(MineService.class);
     }
 
     public void GetActiveMsg(String accountid) {
-        String token= UserInfoModel.getInstance().getToken();
+        String token = UserInfoModel.getInstance().getToken();
         service.GetActiveMsg(token, accountid, new Callback<ResponseData<List<ActionModel>>>() {
             @Override
             public void success(ResponseData<List<ActionModel>> listResponseData, Response response) {
-                int status=listResponseData.getStatus();
-                switch (status)
-                {
+                int status = listResponseData.getStatus();
+                switch (status) {
                     case 200:
-                        Log.i("活动列表"+listResponseData.getData());
-                        cb.getActionList(listResponseData.getData());
+                        Log.i("活动列表" + listResponseData.getData());
+                        if (cb != null) {
+                            cb.getActionList(listResponseData.getData());
+                        }
                         break;
                     default:
-                        cb.getActionList(null);
-                        Log.i("活动列表"+listResponseData.getData());
+                        if (cb != null) {
+                            cb.getActionList(null);
+
+                        }
+                        Log.i("活动列表" + listResponseData.getData());
                         break;
                 }
             }
 
             @Override
             public void failure(RetrofitError error) {
-                cb.getActionList(null);
+                if (cb != null) {
+                    cb.getActionList(null);
+                }
                 ZillaApi.dealNetError(error);
                 error.printStackTrace();
             }
@@ -56,7 +62,7 @@ public class ActionListManager {
 
     }
 
-    public interface ActionListCallback{
+    public interface ActionListCallback {
         void getActionList(List<ActionModel> actionModelList);
     }
 }

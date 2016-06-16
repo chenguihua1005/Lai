@@ -43,8 +43,6 @@ public class BodygameYkActivity extends BaseActivity implements View.OnClickList
     //标题栏
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
-    @InjectView(R.id.tv_title)
-    TextView tv_title;
     @InjectView(R.id.ll_tipyk)
     LinearLayout ll_tipyk;
     @InjectView(R.id.ll_match)
@@ -72,12 +70,12 @@ public class BodygameYkActivity extends BaseActivity implements View.OnClickList
     @Override
     protected void initViews() {
         EventBus.getDefault().register(this);
+        tintManager.setStatusBarAlpha(0);
         progressDialog = new ProgressDialog(this);
         ll_left.setOnClickListener(this);
         ll_tipyk.setOnClickListener(this);
         ll_match.setOnClickListener(this);
         tv_refreshyk.setOnClickListener(this);
-
         messagePresenter = new MessageImpl(this);
         registerMessageReceiver();
         iv_email.setBackgroundResource(R.drawable.email);
@@ -126,7 +124,6 @@ public class BodygameYkActivity extends BaseActivity implements View.OnClickList
 
     @Override
     protected void initDatas() {
-        tv_title.setText("体管赛（游客版）");
         iTiGuanSai=new TiGuanSaiImpl();
         iTiGuanSai.getTiGuanSai();
         progressDialog.setCanceledOnTouchOutside(false);
@@ -189,7 +186,8 @@ public class BodygameYkActivity extends BaseActivity implements View.OnClickList
     public void onEvent(TiGuanSaiModel tiGuanSai){
         iv_advyk.setScaleType(ImageView.ScaleType.CENTER_CROP);
         Picasso.with(this).load(tiGuanSai.getImg_Addr()).placeholder(R.drawable.default_icon_rect).fit().error(R.drawable.default_icon_rect).into(iv_advyk);
-
+        tintManager.setStatusBarTintResource(Integer.parseInt(tiGuanSai.getImg_Addr()));
+//        tintManager.setS
 
     }
     @Subscribe

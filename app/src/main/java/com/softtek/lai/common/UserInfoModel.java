@@ -102,6 +102,7 @@ public class UserInfoModel {
         user.setNickname("游客");
         user.setCertification("");
         user.setCertTime("");
+        user.setIsJoin("0");
         user.setMobile("");
         setUser(user);
         //存储本地

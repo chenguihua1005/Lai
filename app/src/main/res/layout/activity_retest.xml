@@ -3,128 +3,113 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     android:background="#ffffff"
+    android:fitsSystemWindows="true"
     tools:context=".module.retest.view.RetestActivity">
-  <include layout="@layout/toolbar"></include>
 
-        <FrameLayout
-            android:orientation="vertical"
+    <include layout="@layout/toolbar"></include>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ll_listclassselc"
             android:layout_width="match_parent"
-            android:gravity="center"
-            android:layout_marginTop="45dp"
-            android:layout_height="wrap_content">
-
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <RelativeLayout
+                android:id="@+id/ll_classlist"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="60dp">
-                <ListView
-                    android:id="@+id/list_query"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:visibility="visible">
+                android:layout_height="55dp"
+                android:background="#ffffff"
+                android:gravity="center_vertical">
 
-                </ListView>
+                <TextView
+                    android:id="@+id/selectclass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="选择班级"
+                    android:textColor="#333333"
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:id="@+id/Iv_fold"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginRight="20dp"
+                    android:src="@drawable/unfold" />
+
             </RelativeLayout>
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_marginTop="5dp"
-                android:layout_height="wrap_content"
-
-                >
-
-                <RelativeLayout
-                    android:id="@+id/ll_classlist"
-                    android:layout_width="match_parent"
-                    android:gravity="center_vertical"
-                    android:background="#ffffff"
-                    android:layout_height="55dp"
-                    >
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:gravity="center"
-                        >
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="选择班级"
-                        android:textSize="20sp"
-                        android:textColor="#333"
-                        android:id="@+id/selectclass" />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_height="wrap_content">
-                        <ImageView
-                            android:id="@+id/Iv_fold"
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
-                            android:layout_marginRight="20dp"
-                            android:src="@drawable/unfold"/>
-                    </LinearLayout>
-                </RelativeLayout>
-                <View
-                    android:layout_width="wrap_content"
-                    android:layout_height="1dp"
-                    android:background="#F1F1F1"/>
-
-            <LinearLayout
-                android:id="@+id/ll_shousuolist"
+            <View
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="1dp"
+                android:background="#F1F1F1" />
+
                 <LinearLayout
+                    android:id="@+id/ll_shousuolist"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                <ListView
-                    android:id="@+id/list_class"
-                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#ffffff"
-                    android:choiceMode="singleChoice"
-                    android:scrollbars="none"
-                    android:visibility="gone">
-                </ListView>
-                </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#F1F1F1"/>
+                    android:orientation="vertical">
 
-                <LinearLayout
-                    android:id="@+id/ll_shousuo"
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="25dp"
-                    android:background="#ffffff"
-                    android:gravity="center"
-                    >
+
+                    <ListView
+                        android:id="@+id/list_class"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#ffffff"
+                        android:choiceMode="singleChoice"
+                        android:scrollbars="none"
+                        android:visibility="visible"/>
+
                     <View
-                        android:layout_width="20dp"
+                        android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="#D4D4D4"/>
+                        android:background="#f1f1f1" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_shousuo"
+                        android:layout_width="match_parent"
+                        android:layout_height="25dp"
+                        android:background="#ffffff"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <View
+                            android:layout_width="20dp"
+                            android:layout_height="1dp"
+                            android:background="#D4D4D4" />
+
+                        <View
+                            android:layout_width="20dp"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="5dp"
+                            android:background="#D4D4D4" />
+                    </LinearLayout>
+
                     <View
-                        android:layout_marginTop="5dp"
-                        android:layout_width="20dp"
+                        android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="#D4D4D4"/>
+                        android:background="#F1F1F1" />
                 </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#F1F1F1"/>
-            </LinearLayout>
+        </LinearLayout>
 
-            </LinearLayout>
+        <!--学生列表-->
+        <ListView
+            android:id="@+id/list_query"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
+        </ListView>
 
-        </FrameLayout>
+    </LinearLayout>
 
 </RelativeLayout>

@@ -65,8 +65,6 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
     private StudentImpl studentImpl;
 
     //标题
-    @InjectView(R.id.tv_title)
-    TextView tv_title;
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.tv_st_num)
@@ -139,7 +137,7 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
         ll_st_tipst.setOnClickListener(this);
         ll_left.setOnClickListener(this);
         ll_st_review.setOnClickListener(this);
-
+        tintManager.setStatusBarAlpha(0);
         messagePresenter = new MessageImpl(this);
         registerMessageReceiver();
         iv_email.setBackgroundResource(R.drawable.email);
@@ -228,7 +226,6 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
 
     @Override
     protected void initDatas() {
-        tv_title.setText("体管赛（学员版）");
         iStudentPresenter = new StudentImpl(this);
         tiGuanSai = new TiGuanSaiImpl();
         tiGuanSai.getTiGuanSai();

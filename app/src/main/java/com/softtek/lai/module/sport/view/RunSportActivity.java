@@ -3,7 +3,6 @@ package com.softtek.lai.module.sport.view;
 import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -24,7 +23,6 @@ import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -109,8 +107,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
     LinearLayout ll_content1;
     @InjectView(R.id.ll_content2)
     LinearLayout ll_content2;
-    /*@InjectView(R.id.tv_jindu)
-    TextView tv_jindu;*/
+
 
     //倒计时
     RunSportCountDown countDown;
@@ -321,53 +318,63 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
                }
                 break;
             case R.id.iv_stop:
-                if(countDown!=null)countDown.cancel();
-                AlertDialog dialog=new AlertDialog.Builder(this).setMessage("确认结束运动并提交本次数据")
-                        .setPositiveButton("提交", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                if(countDown!=null)countDown.cancel();
-                                SportData data=new SportData();
-                                data.setAccountId(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()));
-                                data.setCalories(tv_calorie.getText().toString());
-                                data.setKilometre(tv_distance.getText().toString());
-                                data.setMType(0);
-                                data.setSpeed(tv_avg_speed.getText().toString());
-                                data.setTimeLength(tv_clock.getText().toString()+";"+time);
-                                data.setTotal(Integer.parseInt(tv_step.getText().toString()));
-                                data.setTrajectory(new Gson().toJson(new Trajectory(coordinates)));
-                                dialogShow("正在提交");
-                                //Log.i("保存数据为"+data.toString());
-                                manager.submitSportData(RunSportActivity.this,data);
-                            }
-                        })
-                        .setNegativeButton("稍后", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                if(countDown!=null)countDown.reStart();
+                if(countDown!=null)countDown.pause();
+                if(coordinates.isEmpty()){
+                    AlertDialog dialog=new AlertDialog.Builder(this).setMessage("您还没有运动哦，确定结束运动吗?").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if(countDown!=null)countDown.cancel();
+                            finish();
+                        }
+                    }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if(countDown!=null)countDown.reStart();
+                        }
+                    }).setCancelable(false).create();
+                    dialog.show();
+                }else {
+                    AlertDialog dialog = new AlertDialog.Builder(this).setMessage("确认结束运动并提交本次数据")
+                            .setPositiveButton("提交", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if (countDown != null) countDown.cancel();
+                                    SportData data = new SportData();
+                                    data.setAccountId(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()));
+                                    data.setCalories(tv_calorie.getText().toString());
+                                    data.setKilometre(tv_distance.getText().toString());
+                                    data.setMType(0);
+                                    data.setSpeed(tv_avg_speed.getText().toString());
+                                    data.setTimeLength(tv_clock.getText().toString() + ";" + time);
+                                    data.setTotal(Integer.parseInt(tv_step.getText().toString()));
+                                    data.setTrajectory(new Gson().toJson(new Trajectory(coordinates)));
+                                    dialogShow("正在提交");
+                                    //Log.i("保存数据为"+data.toString());
+                                    manager.submitSportData(RunSportActivity.this, data);
+                                }
+                            })
+                            .setNegativeButton("稍后", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if (countDown != null) countDown.reStart();
 
-                            }
-                        }).create();
-                dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        if(countDown!=null)countDown.reStart();
-                    }
-                });
-                dialog.show();
+                                }
+                            }).setCancelable(false).create();
+                    dialog.show();
+                }
                 break;
             case R.id.cb_control:
                 //面板控制动画
                 int stp= DisplayUtil.dip2px(this,270);
                 int enp=DisplayUtil.dip2px(this,100);
-                int stmp=DisplayUtil.dip2px(this,250);
-                int edmp=DisplayUtil.dip2px(this,420);
+                /*int stmp=DisplayUtil.dip2px(this,250);
+                int edmp=DisplayUtil.dip2px(this,420);*/
                 if(cb_control.isChecked()){
                     //收起
-                    AnimatorSet set=new AnimatorSet();
-                    ObjectAnimator mapAn=ObjectAnimator.ofInt(new LayoutWapper(mapView),"translateY",stmp,edmp);
-                    mapAn.setDuration(100);
-                    mapAn.setInterpolator(new AccelerateInterpolator());
+                    //AnimatorSet set=new AnimatorSet();
+                    //ObjectAnimator mapAn=ObjectAnimator.ofInt(new LayoutWapper(mapView),"translateY",stmp,edmp);
+                    //mapAn.setDuration(100);
+                    //mapAn.setInterpolator(new AccelerateInterpolator());
                     ObjectAnimator animator=ObjectAnimator.ofInt(new LayoutWapper(ll_panel),"translateY",stp,enp)
                             .setDuration(200);
                     animator.setInterpolator(new OvershootInterpolator());
@@ -380,15 +387,16 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
                         }
 
                     });
-                    set.playSequentially(mapAn,animator);
-                    set.start();
+                    animator.start();
+                    //set.playSequentially(mapAn,animator);
+                    //set.start();
 
                 }else{
                     //展开
-                    AnimatorSet set=new AnimatorSet();
-                    ObjectAnimator mapAn=ObjectAnimator.ofInt(new LayoutWapper(mapView),"translateY",edmp,stmp);
-                    mapAn.setDuration(100);
-                    mapAn.setInterpolator(new OvershootInterpolator());
+                    //AnimatorSet set=new AnimatorSet();
+                    //ObjectAnimator mapAn=ObjectAnimator.ofInt(new LayoutWapper(mapView),"translateY",edmp,stmp);
+                    //mapAn.setDuration(100);
+                    //mapAn.setInterpolator(new OvershootInterpolator());
                     ObjectAnimator animator=ObjectAnimator.ofInt(new LayoutWapper(ll_panel),"translateY",enp,stp)
                             .setDuration(300);
                     animator.setInterpolator(new OvershootInterpolator());
@@ -400,8 +408,9 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
                             ll_content2.setVisibility(View.VISIBLE);
                         }
                     });
-                    set.playSequentially(animator,mapAn);
-                    set.start();
+                    animator.start();
+                    //set.playSequentially(animator,mapAn);
+                    //set.start();
                 }
                 break;
         }
@@ -507,6 +516,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
     public void doSubmitResult(int resultCode){
         dialogDissmiss();
         if(resultCode==200){
+            if(countDown!=null)countDown.cancel();
             finish();
         }
     }

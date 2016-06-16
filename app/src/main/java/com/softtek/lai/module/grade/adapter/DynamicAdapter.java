@@ -10,10 +10,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.module.grade.model.DynamicInfoModel;
 import com.softtek.lai.utils.DateUtil;
+import com.softtek.lai.widgets.CircleImageView;
+import com.squareup.picasso.Picasso;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
@@ -23,9 +28,11 @@ import java.util.List;
 public class DynamicAdapter extends BaseAdapter {
 
     private LayoutInflater inflater;
+    Context context;
     private List<DynamicInfoModel> dynamicInfoList;
 
     public DynamicAdapter(Context context, List<DynamicInfoModel> dynamicInfos) {
+        this.context=context;
         inflater = LayoutInflater.from(context);
         this.dynamicInfoList = dynamicInfos;
     }
@@ -47,7 +54,7 @@ public class DynamicAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = null;
+        ViewHolder holder;
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.dynamic_item, parent, false);
             holder = new ViewHolder(convertView);
@@ -58,6 +65,18 @@ public class DynamicAdapter extends BaseAdapter {
         DynamicInfoModel info = dynamicInfoList.get(position);
         holder.tv_date.setText(DateUtil.getInstance().convertDateStr(info.getCreateDate(),"yyyy年MM月dd日"));
         holder.tv_content.setText(info.getDyContent());
+        if("2".equals(info.getDyType())){
+            holder.iv_icon.setVisibility(View.GONE);
+            holder.iv_head.setVisibility(View.VISIBLE);
+            if(StringUtils.isNotEmpty(info.getPhoto())){
+                Picasso.with(context).load(info.getPhoto()).fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(holder.iv_head);
+            }else{
+                Picasso.with(context).load(R.drawable.img_default).into(holder.iv_head);
+            }
+        }else {
+            holder.iv_icon.setVisibility(View.VISIBLE);
+            holder.iv_head.setVisibility(View.GONE);
+        }
         return convertView;
     }
 
@@ -65,10 +84,15 @@ public class DynamicAdapter extends BaseAdapter {
 
         TextView tv_date;
         TextView tv_content;
+        ImageView iv_icon;
+        CircleImageView iv_head;
+
 
         public ViewHolder(View view) {
             tv_date = (TextView) view.findViewById(R.id.tv_date);
             tv_content = (TextView) view.findViewById(R.id.tv_content);
+            iv_icon= (ImageView) view.findViewById(R.id.iv_icon);
+            iv_head= (CircleImageView) view.findViewById(R.id.iv_head);
         }
 
     }

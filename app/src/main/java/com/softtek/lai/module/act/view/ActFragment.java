@@ -245,7 +245,8 @@ public class ActFragment extends BaseFragment implements PullToRefreshBase.OnRef
             }
         } else {
             if (pageIndex == 1) {
-                rel_head.setVisibility(View.GONE);
+                if(rel_head!=null)
+                    rel_head.setVisibility(View.GONE);
                 //zk_list.setVisibility(View.GONE);
             }
             if (zk_list != null) {

@@ -83,7 +83,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
 
     @Override
     protected void initViews() {
-        ll_left.setVisibility(View.GONE);
+        ll_left.setVisibility(View.INVISIBLE);
         but_login_out.setOnClickListener(this);
         lin_validate_certification.setOnClickListener(this);
         lin_setting.setOnClickListener(this);

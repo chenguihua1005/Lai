@@ -53,11 +53,11 @@
             android:value="5728545a67e58ea7cf001701" />
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="033f58bd1089dc21e1e36a5dfe00e731"></meta-data>
+            android:value="1b5f8692ccfaa42c10cef250909a89a5"></meta-data>
+
         <meta-data android:value="5704e47c748aac462300001d" android:name="BUG_HD_SDK_GENERAL_KEY" />
         <activity
             android:name=".module.login.view.LoginActivity"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
@@ -117,7 +117,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".module.laisportmine.view.MySystemActionActivity"
+            android:name=".module.laisportmine.view.MySystemActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
@@ -126,7 +126,8 @@
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".module.retest.view.RetestActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:hardwareAccelerated="true"/>
         <activity
             android:name=".module.login.view.TermActivity"
             android:screenOrientation="portrait" />
@@ -566,7 +567,7 @@
         <activity android:name=".module.mygrades.view.MyXuZhangActivity" />
         <activity
             android:name=".module.sport.view.RunSportActivity"
-            android:hardwareAccelerated="true" />
+            />
 
         <!-- 定位需要的服务 使用2.0的定位需要加上这个 -->
         <service android:name="com.amap.api.location.APSService" />

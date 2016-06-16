@@ -13,6 +13,8 @@ public class DynamicInfoModel {
     private String DyInfoTitle;
     private String DyContent;
     private String CreateDate;
+    private String Photo;
+    private String DyType;
 
     public String getDyInfoTitle() {
         return DyInfoTitle;
@@ -38,12 +40,30 @@ public class DynamicInfoModel {
         CreateDate = createDate;
     }
 
+    public String getPhoto() {
+        return Photo;
+    }
+
+    public void setPhoto(String photo) {
+        Photo = photo;
+    }
+
+    public String getDyType() {
+        return DyType;
+    }
+
+    public void setDyType(String dyType) {
+        DyType = dyType;
+    }
+
     @Override
     public String toString() {
         return "DynamicInfoModel{" +
                 "DyInfoTitle='" + DyInfoTitle + '\'' +
                 ", DyContent='" + DyContent + '\'' +
                 ", CreateDate='" + CreateDate + '\'' +
+                ", Photo='" + Photo + '\'' +
+                ", DyType='" + DyType + '\'' +
                 '}';
     }
 }
