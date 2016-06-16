@@ -14,11 +14,17 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.easemob.EMCallBack;
+import com.easemob.chat.EMChatManager;
+import com.easemob.chat.EMGroupManager;
+import com.easemob.util.EMLog;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
+import com.softtek.lai.chat.ConversationListActivity;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.home.view.HomeActviity;
@@ -100,7 +106,32 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         }
         return super.dispatchTouchEvent(ev);
     }
+    private void loginChat(){
+        EMChatManager.getInstance().login("42", "f123123", new EMCallBack() {
 
+            @Override
+            public void onSuccess() {
+                // ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
+                // ** manually load all local groups and
+                EMChatManager.getInstance().loadAllConversations();
+// 进入主页面
+                Intent intent = new Intent(LoginActivity.this, ConversationListActivity.class);
+                startActivity(intent);
+                finish();
+                System.out.println("onSuccess---------");
+            }
+
+            @Override
+            public void onProgress(int progress, String status) {
+                System.out.println("onProgress---------");
+            }
+
+            @Override
+            public void onError(final int code, final String message) {
+                System.out.println("onError--------message:-" + message);
+            }
+        });
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

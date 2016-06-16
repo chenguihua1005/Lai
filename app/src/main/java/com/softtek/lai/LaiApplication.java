@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.multidex.MultiDex;
 
 import com.github.snowdream.android.util.Log;
+import com.softtek.lai.chat.ChatHelper;
 import com.softtek.lai.common.CrashHandler;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.utils.NetErrorHandler;
@@ -37,6 +38,7 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
         UserInfoModel.getInstance(this);
         CrashHandler catchHandler = CrashHandler.getInstance();
         catchHandler.init(getApplicationContext());
+        ChatHelper.getInstance().init(getApplicationContext());
     }
 
     public static LaiApplication getInstance() {
