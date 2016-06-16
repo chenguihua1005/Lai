@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<<<<<<< HEAD
-<merger version="3"><dataSet config="main"><source path="D:\as-workspace\LaiApp\easeui\src\main\shaders"/></dataSet><dataSet config="debug"><source path="D:\as-workspace\LaiApp\easeui\build-types\debug\shaders"/></dataSet></merger>
-=======
-<merger version="3"><dataSet config="main"><source path="C:\Users\jarvis.liu\Desktop\android\easeui\src\main\shaders"/></dataSet><dataSet config="debug"><source path="C:\Users\jarvis.liu\Desktop\android\easeui\src\debug\shaders"/></dataSet></merger>
->>>>>>> ee09fcd25cdbaa0c025afb3023cd1085ae14cc3d

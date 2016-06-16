@@ -8,3 +8,4 @@ gradle
 .DS_Store
 /build
 /captures
+/easeui/build
