@@ -237,7 +237,6 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
     public void onLocationChanged(AMapLocation aMapLocation) {
         if(listener!=null&&aMapLocation!=null) {
             listener.onLocationChanged(aMapLocation);
-            //tv_jindu.setText(aMapLocation.getAccuracy()+"");
             if (aMapLocation.getErrorCode() == 0&&aMapLocation.getAccuracy()<20&&aMapLocation.getAccuracy()>0) {
                 //当坐标改变之后开始添加标记 画线
                 Log.i("获取位置");
@@ -573,6 +572,13 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
             int calori=step/35;
             tv_step.setText(step+"");
             tv_calorie.setText(calori+"");
+            if(coordinates.isEmpty()){//如果还没有定位到则使用步数来计算公里数
+                DecimalFormat format=new DecimalFormat("#0.00");
+                previousDistance=step/1428f;
+                double speed=(previousDistance/1000)/(time*1f/3600);
+                tv_avg_speed.setText(format.format(speed)+"km/h");
+                tv_distance.setText(format.format((previousDistance)/(1000*1.0)));
+            }
 
         }
     }

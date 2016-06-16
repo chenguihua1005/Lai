@@ -1,1 +1,1 @@
-include ':app', ':widget_lib', ':social_project', ':image_file_selector', ':photoview'
+include ':app', ':widget_lib', ':social_project', ':image_file_selector', ':photoview', ':easeui'
