@@ -1,2 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<<<<<<< HEAD
 <merger version="3"><dataSet config="main"><source path="D:\as-workspace\LaiApp\easeui\libs"><file name="android-support-v4.jar" path="D:\as-workspace\LaiApp\easeui\libs\android-support-v4.jar"/><file name="easemobchat_2.2.9.jar" path="D:\as-workspace\LaiApp\easeui\libs\easemobchat_2.2.9.jar"/><file name="glide-3.6.1.jar" path="D:\as-workspace\LaiApp\easeui\libs\glide-3.6.1.jar"/><file name="MiPush_SDK_Client_2_2_19.jar" path="D:\as-workspace\LaiApp\easeui\libs\MiPush_SDK_Client_2_2_19.jar"/><file name="org.apache.http.legacy.jar" path="D:\as-workspace\LaiApp\easeui\libs\org.apache.http.legacy.jar"/></source></dataSet><dataSet config="release"><source path="D:\as-workspace\LaiApp\easeui\build-types\release\jniLibs"/></dataSet></merger>
+=======
+<merger version="3"><dataSet config="main"><source path="C:\Users\jarvis.liu\Desktop\android\easeui\src\main\jniLibs"/></dataSet><dataSet config="release"><source path="C:\Users\jarvis.liu\Desktop\android\easeui\src\release\jniLibs"/></dataSet></merger>
+>>>>>>> ee09fcd25cdbaa0c025afb3023cd1085ae14cc3d
