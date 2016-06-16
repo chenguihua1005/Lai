@@ -137,6 +137,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         switch (v.getId()) {
             case R.id.tv_login:
                 validateLife.validate();
+
                 break;
             case R.id.tv_forgetpsd:
                 startActivity(new Intent(this, ForgetActivity.class));

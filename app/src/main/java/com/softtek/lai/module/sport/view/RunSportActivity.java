@@ -574,7 +574,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
             tv_calorie.setText(calori+"");
             if(coordinates.isEmpty()){//如果还没有定位到则使用步数来计算公里数
                 DecimalFormat format=new DecimalFormat("#0.00");
-                previousDistance=step/1428f;
+                previousDistance=step*1000/1428f;
                 double speed=(previousDistance/1000)/(time*1f/3600);
                 tv_avg_speed.setText(format.format(speed)+"km/h");
                 tv_distance.setText(format.format((previousDistance)/(1000*1.0)));
