@@ -49,8 +49,6 @@ import zilla.libcore.ui.InjectLayout;
 public class RetestActivity extends BaseActivity implements View.OnClickListener {
     private RetestPre retestPre;
     //标题栏
-    @InjectView(R.id.tv_right)
-    TextView tv_right;
     @InjectView(R.id.tv_title)
     TextView bar_title;
     @InjectView(R.id.ll_left)
@@ -58,7 +56,7 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
     @InjectView(R.id.iv_email)
     ImageView iv_email;
 
-
+    //班级列表、学员列表
     @InjectView(R.id.Iv_fold)
     ImageView Iv_fold;
     @InjectView(R.id.list_class)
@@ -91,18 +89,18 @@ public class RetestActivity extends BaseActivity implements View.OnClickListener
     protected void onCreate(Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
         super.onCreate(savedInstanceState);
-
+        //适配班级、学员列表listview
         classAdapter = new ClassAdapter(this, banjiModelList);
         studentAdapter = new StudentAdapter(this, banjiStudentModelList);
         list_class.setAdapter(classAdapter);
-
         list_query.setAdapter(studentAdapter);
         list_query.setVerticalScrollBarEnabled(false);
+        //监听
         ll_classlist.setOnClickListener(this);
         ll_shousuo.setOnClickListener(this);
         ll_left.setOnClickListener(this);
-        tv_right.setOnClickListener(this);
         iv_email.setOnClickListener(this);
+        //班级item点击事件监听
         list_class.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

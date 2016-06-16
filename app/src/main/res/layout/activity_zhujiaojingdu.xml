@@ -104,7 +104,7 @@
 
                     <TextView
                         android:gravity="right"
-                        android:layout_marginRight="20dp"
+                        android:layout_marginRight="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="12sp"
@@ -176,7 +176,7 @@
 
                     <TextView
                         android:gravity="right"
-                        android:layout_marginRight="20dp"
+                        android:layout_marginRight="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="12sp"
@@ -247,7 +247,7 @@
 
                     <TextView
                         android:gravity="right"
-                        android:layout_marginRight="20dp"
+                        android:layout_marginRight="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="12sp"
