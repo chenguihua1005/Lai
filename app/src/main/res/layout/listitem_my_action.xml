@@ -41,7 +41,7 @@
     <RelativeLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="90dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="2dp"
@@ -55,11 +55,10 @@
             android:id="@+id/tv_action_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
             android:layout_marginTop="15dp"
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="10dp"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:textColor="#333333"
             />
         </LinearLayout>
@@ -86,7 +85,7 @@
                 android:id="@+id/tv_action_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
+                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="15dp"
                 android:textSize="14sp"
@@ -96,8 +95,8 @@
         </LinearLayout>
         <ImageView
             android:id="@+id/lab"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:src="@drawable/action_right"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
