@@ -6,12 +6,21 @@
     android:fitsSystemWindows="true"
     tools:context="com.softtek.lai.module.tips.view.AskDetailActivity">
     <include layout="@layout/toolbar"/>
+    <ImageView
+        android:id="@+id/iv_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        android:scaleType="fitCenter"
+        android:background="#f1f1f1"
+        android:src="@drawable/default_icon_rect"/>
     <WebView
         android:id="@+id/webView"
         android:layout_below="@id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none"
+        android:visibility="gone"
         android:overScrollMode="never"/>
 
 </RelativeLayout>
