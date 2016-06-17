@@ -7,7 +7,6 @@ package com.softtek.lai.module.jingdu.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -141,7 +140,6 @@ public class ZhuJiaoJingduActivity extends BaseActivity implements View.OnClickL
         list_rank.setAdapter(rankAdapter);
         list_rank.setOnItemClickListener(this);
         ll_left.setOnClickListener(this);
-        //tv_right.setOnClickListener(this);
     }
 
     private void initpaiming() {
@@ -182,14 +180,10 @@ public class ZhuJiaoJingduActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void initDatas() {
         tv_title.setText("当期进度");
-        //tv_right.setText("分享");
     }
 
     @Subscribe
     public void onEvent(final SPModel spModel) {
-        //SPTable：教练本月(累计减重数量)
-        //System.out.println("rankEvent.getRanks()》》》》》》》》》》》》》》" + spModel.getSpTable().get(0).getTotalWeight());
-
         //Table1: 教练所有班级的所有学员减重最多的前10名学员
         table1ModelList = spModel.getTable1();
         rankAdapter.updateData(table1ModelList, paimingModelList);
@@ -198,9 +192,6 @@ public class ZhuJiaoJingduActivity extends BaseActivity implements View.OnClickL
         System.out.println("spEvent.getRanks()------------------------Table2:" + spModel.getTable2());
         if (spModel.getTable2().size() == 1) {
             img_oneban.setVisibility(View.VISIBLE);
-
-//           ll_twoban.setVisibility(View.GONE);
-//           ll_threeban.setVisibility(View.GONE);
             // 需要解析的日期字符串
             String yue1 = spModel.getTable2().get(0).getStartDate();
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -231,8 +222,6 @@ public class ZhuJiaoJingduActivity extends BaseActivity implements View.OnClickL
                 }
             });
         } else if (spModel.getTable2().size() == 2) {
-            //ll_threeban.setVisibility(View.GONE);
-
             String yue1 = spModel.getTable2().get(0).getStartDate();
             String yue2 = spModel.getTable2().get(1).getStartDate();
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -273,7 +262,6 @@ public class ZhuJiaoJingduActivity extends BaseActivity implements View.OnClickL
                 @Override
                 public void onClick(View v) {
                     String classId = spModel.getTable2().get(0).getClassId();
-                    Log.i("", "classId1---->>>>>>" + classId);
                     Intent intent = new Intent(ZhuJiaoJingduActivity.this, GradeHomeActivity.class);
                     intent.putExtra("classId", classId);
                     intent.putExtra("review", 1);
@@ -284,7 +272,6 @@ public class ZhuJiaoJingduActivity extends BaseActivity implements View.OnClickL
                 @Override
                 public void onClick(View v) {
                     String classId = spModel.getTable2().get(1).getClassId();
-                    Log.i("", "classId2---->>>>>>" + classId);
                     Intent intent = new Intent(ZhuJiaoJingduActivity.this, GradeHomeActivity.class);
                     intent.putExtra("classId", classId);
                     intent.putExtra("review", 1);

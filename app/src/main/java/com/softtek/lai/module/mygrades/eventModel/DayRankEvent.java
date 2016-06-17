@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * Created by julie.zhu on 5/3/2016.
- *  当日排名
+ * 当日排名
  */
 public class DayRankEvent {
 

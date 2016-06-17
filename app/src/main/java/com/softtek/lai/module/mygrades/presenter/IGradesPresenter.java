@@ -5,9 +5,5 @@ package com.softtek.lai.module.mygrades.presenter;
  */
 public interface IGradesPresenter {
     //2.19.1	我的成绩
-    void getStepCount(String start,String end);
-
-//    //3.3.2	成绩勋章信息
-//    void getGradeHonor();
-
+    void getStepCount(String start, String end);
 }

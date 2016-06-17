@@ -22,7 +22,7 @@ import zilla.libcore.file.AddressManager;
 /**
  * Created by julie.zhu on 5/17/2016.
  */
-public class RankAdapter extends BaseAdapter{
+public class RankAdapter extends BaseAdapter {
 
     private Context context;
     private List<OrderDataModel> orderDataModelList;
@@ -64,7 +64,7 @@ public class RankAdapter extends BaseAdapter{
         }
         OrderDataModel orderDataModel = orderDataModelList.get(position);
         if (!TextUtils.isEmpty(orderDataModelList.get(position).getPhoto())) {
-            Picasso.with(context).load(AddressManager.get("photoHost")+ orderDataModel.getPhoto()).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(viewHolder.civ_header_image);
+            Picasso.with(context).load(AddressManager.get("photoHost") + orderDataModel.getPhoto()).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(viewHolder.civ_header_image);
         } else {
             Picasso.with(context).load("www").placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(viewHolder.civ_header_image);
         }
@@ -75,27 +75,27 @@ public class RankAdapter extends BaseAdapter{
         }
         viewHolder.rank.setText(orderDataModelList.get(position).get_order() + "");
         //(姓名如果为空，手机号码前3后4中间4个*的)
-        if (orderDataModelList.get(position).getUserName().isEmpty()){
-            String mobile=orderDataModelList.get(position).getMobile();
-            String qian=mobile.substring(0,3);
-            String hou=mobile.substring(mobile.length()-4,mobile.length());
-            viewHolder.name.setText(qian+"****"+hou);
-        }else {
-            viewHolder.name.setText(orderDataModelList.get(position).getUserName()+"");
+        if (orderDataModelList.get(position).getUserName().isEmpty()) {
+            String mobile = orderDataModelList.get(position).getMobile();
+            String qian = mobile.substring(0, 3);
+            String hou = mobile.substring(mobile.length() - 4, mobile.length());
+            viewHolder.name.setText(qian + "****" + hou);
+        } else {
+            viewHolder.name.setText(orderDataModelList.get(position).getUserName() + "");
         }
-        viewHolder.bushu.setText(orderDataModelList.get(position).getStepCount()+"");
+        viewHolder.bushu.setText(orderDataModelList.get(position).getStepCount() + "");
 
-        Float step=Float.parseFloat(orderDataModelList.get(0).getStepCount());
-        Float stepper=80/step;
+        Float step = Float.parseFloat(orderDataModelList.get(0).getStepCount());
+        Float stepper = 80 / step;
 
-        if ((position+1)<2){
-            if(Integer.parseInt(orderDataModelList.get(0).getStepCount())==0){
+        if ((position + 1) < 2) {
+            if (Integer.parseInt(orderDataModelList.get(0).getStepCount()) == 0) {
                 viewHolder.prog.setProgress(0);
-            }else {
+            } else {
                 viewHolder.prog.setProgress(85);
             }
-        }else {
-            Float pro=Float.parseFloat(orderDataModelList.get(position).getStepCount())*stepper;
+        } else {
+            Float pro = Float.parseFloat(orderDataModelList.get(position).getStepCount()) * stepper;
             viewHolder.prog.setProgress(pro);
         }
 
@@ -113,7 +113,7 @@ public class RankAdapter extends BaseAdapter{
             rank = (TextView) view.findViewById(R.id.tv_rank);
             name = (TextView) view.findViewById(R.id.tv_name);
             bushu = (TextView) view.findViewById(R.id.tv_bushu);
-            prog=(RoundCornerProgressBar)view.findViewById(R.id.rcpb_prog);
+            prog = (RoundCornerProgressBar) view.findViewById(R.id.rcpb_prog);
             civ_header_image = (CircleImageView) view.findViewById(R.id.civ_header_image);
         }
     }

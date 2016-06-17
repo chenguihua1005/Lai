@@ -74,9 +74,7 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
     //private RankSelectModel rankSelectModel;
     public RankInfoAdapter rankInfoAdapter;
 
-    /* private FragmentManager manager;
-
-     private DayRankModel dayRankModel;
+    /* private DayRankModel dayRankModel;
 
      private IGradesPresenter iGradesPresenter;*/
     private GradesService gradesService;
@@ -171,7 +169,6 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
         tv_title.setText("排名详情");
         Rl_list.setOnClickListener(this);
         //1跑团排名，0全国排名,默认是跑团排名
-        //manager = getFragmentManager();
         DayRankFragment dayRankFragment = new DayRankFragment();
         Bundle bundle1 = new Bundle();
         bundle1.putInt("id", 1);

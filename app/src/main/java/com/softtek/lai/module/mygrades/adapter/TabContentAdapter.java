@@ -9,20 +9,18 @@ import java.util.List;
 /**
  * Created by jerry.guan on 4/11/2016.
  */
-public class TabContentAdapter extends FragmentPagerAdapter{
+public class TabContentAdapter extends FragmentPagerAdapter {
 
-    String[] titles={"日排名","周排名"};
+    String[] titles = {"日排名", "周排名"};
     List<Fragment> fragments;
 
     public TabContentAdapter(FragmentManager fm, List<Fragment> fragments) {
         super(fm);
-        this.fragments=fragments;
+        this.fragments = fragments;
     }
 
     @Override
     public Fragment getItem(int position) {
-
-        //Log.i("position------->>",position+"");
         return fragments.get(position);
     }
 
