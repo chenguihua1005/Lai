@@ -2,7 +2,6 @@ package com.softtek.lai.module.historydate.adapter;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
-import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.AbsoluteSizeSpan;
@@ -98,6 +97,7 @@ public class HistoryDataAdapter extends BaseAdapter{
         int minute=util.getMinute(date);
         int month=util.getMonth(date);
         int day=util.getDay(date);
+        holder.week.setText(util.getWeek(util.convert2Date(date)));
         holder.time.setText((month<10?"0"+month:month)+"-"+(day<10?"0"+day:day)+" "+(hour<10?"0"+hour:hour)+":"+(minute<10?"0"+minute:minute));
         SpannableString spannableString=new SpannableString(StringUtil.getFloatValue(data.getWeight())+"斤");
         spannableString.setSpan(new AbsoluteSizeSpan(30),spannableString.length()-1,spannableString.length(),Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
