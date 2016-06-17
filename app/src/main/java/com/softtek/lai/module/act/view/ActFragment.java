@@ -127,14 +127,14 @@ public class ActFragment extends BaseFragment implements PullToRefreshBase.OnRef
         actManager = new ActManager(this);
         userId = UserInfoModel.getInstance().getUser().getUserid();
         id = getActivity().getIntent().getStringExtra("id");
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                if (zk_list != null)
-//                    zk_list.setRefreshing();
-//            }
-//        }, 500);
-        actManager.getActivitySituation(pageIndex + "", userId, id);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (zk_list != null)
+                    zk_list.setRefreshing();
+            }
+        }, 500);
+        //actManager.getActivitySituation(pageIndex + "", userId, id);
     }
 
     @Override

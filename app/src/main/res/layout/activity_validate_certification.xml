@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/validateCertificationMargin"
-            android:layout_marginLeft="@dimen/validateCertificationMargins"
+            android:layout_marginLeft="@dimen/margin"
             android:layout_marginRight="@dimen/validateCertificationMargins"
             android:layout_marginTop="@dimen/validateCertificationMargin">
 
@@ -54,8 +54,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar"
-        android:layout_marginLeft="@dimen/validateCertificationMarginLeft1"
-        android:layout_marginRight="@dimen/validateCertificationMarginLeft1"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="@dimen/margin"
         android:layout_marginTop="100dip"
         android:orientation="horizontal">
 
@@ -72,6 +72,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/validateCertificationMarginLeft"
             android:background="@drawable/border_none"
+            android:hint="请输入康宝莱资格证号"
             android:singleLine="true"
             android:textColor="@color/word"
             android:textCursorDrawable="@drawable/color_cursor"
@@ -81,8 +82,8 @@
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dip"
-        android:layout_marginLeft="@dimen/validateCertificationMargin1"
-        android:layout_marginRight="@dimen/validateCertificationMargin1"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="@dimen/margin"
         android:layout_marginTop="@dimen/validateCertificationMarginLeft"
         android:background="@color/mytoolbar_green" />
 
@@ -91,8 +92,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rel_account"
-        android:layout_marginLeft="@dimen/validateCertificationMarginLeft1"
-        android:layout_marginRight="@dimen/validateCertificationMarginLeft1"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="@dimen/margin"
         android:layout_marginTop="@dimen/validateCertificationMargin"
         android:orientation="horizontal">
 
@@ -109,6 +110,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/validateCertificationMarginLeft"
             android:background="@drawable/border_none"
+            android:hint="请输入密码"
             android:password="true"
             android:singleLine="true"
             android:textColor="@color/word"
@@ -119,8 +121,8 @@
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dip"
-        android:layout_marginLeft="@dimen/validateCertificationMargin1"
-        android:layout_marginRight="@dimen/validateCertificationMargin1"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="@dimen/margin"
         android:layout_marginTop="@dimen/validateCertificationMarginLeft"
         android:background="@color/mytoolbar_green" />
 
@@ -129,8 +131,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rel_password"
-        android:layout_marginLeft="@dimen/fragmentMineMargin"
-        android:layout_marginRight="@dimen/fragmentMineMargin"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="@dimen/margin"
         android:layout_marginTop="@dimen/validateCertificationMarginTop"
         android:background="@drawable/bg_login_btn"
         android:text="提交"
