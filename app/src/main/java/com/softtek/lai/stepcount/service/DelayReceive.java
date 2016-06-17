@@ -34,10 +34,14 @@ public class DelayReceive extends BroadcastReceiver{
         //做上传工作
         String userId=UserInfoModel.getInstance().getUser().getUserid();
         service= ZillaApi.NormalRestAdapter.create(StepNetService.class);
-         /*
-        处理上传任务
-         */
-        String dateStar=DateUtil.weeHours(0);
+        int todayStep=StepService.todayStep;
+        StringBuilder buffer=new StringBuilder();
+        buffer.append(DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate());
+        buffer.append(",");
+        buffer.append(todayStep);
+        //提交数据
+        submitStep(Long.parseLong(userId),buffer.toString());
+        /*String dateStar=DateUtil.weeHours(0);
         String dateEnd=DateUtil.weeHours(1);
         List<UserStep> steps= StepUtil.getInstance().getCurrentData(userId,dateStar,dateEnd);
         if(!steps.isEmpty()){//if have datas
@@ -51,7 +55,7 @@ public class DelayReceive extends BroadcastReceiver{
             buffer.append(step);
             //提交数据
             submitStep(Long.parseLong(userId),buffer.toString());
-        }
+        }*/
         context.startService(new Intent(context.getApplicationContext(),StepService.class));
     }
 

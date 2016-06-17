@@ -28,9 +28,8 @@ public class StepUtil {
         List<UserStep> steps=getCurrentData(accountId,dateStar,dateEnd);
         int stepCount=0;
         if(!steps.isEmpty()){//if have datas
-            UserStep stepStart=steps.get(0);
             UserStep stepEnd=steps.get(steps.size()-1);
-            stepCount= (int) (stepEnd.getStepCount()-stepStart.getStepCount());
+            stepCount= (int) stepEnd.getStepCount();
         }
         return stepCount;
     }

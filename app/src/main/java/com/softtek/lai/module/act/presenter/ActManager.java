@@ -65,6 +65,12 @@ public class ActManager {
                         case 100:
                             getActivitySituationCallBack.getActivitySituation("false", null);
                             break;
+                        case 102:
+                            getActivitySituationCallBack.getActivitySituation("102", null);
+                            break;
+                        case 103:
+                            getActivitySituationCallBack.getActivitySituation("103", null);
+                            break;
                         default:
                             getActivitySituationCallBack.getActivitySituation("false", null);
                             Util.toastMsg(listResponseData.getMsg());
@@ -125,11 +131,13 @@ public class ActManager {
                 if (getActRGStepOrderCallBack != null) {
                     switch (status) {
                         case 200:
-
                             getActRGStepOrderCallBack.getActRGStepOrder("true", listResponseData.getData());
                             break;
                         case 100:
                             getActRGStepOrderCallBack.getActRGStepOrder("false", null);
+                            break;
+                        case 102:
+                            getActRGStepOrderCallBack.getActRGStepOrder("102", null);
                             break;
                         default:
                             getActRGStepOrderCallBack.getActRGStepOrder("false", null);
@@ -162,6 +170,9 @@ public class ActManager {
                             break;
                         case 100:
                             getActDetailsCallBack.getActDetails("false", null);
+                            break;
+                        case 102:
+                            getActDetailsCallBack.getActDetails("102", null);
                             break;
                         default:
                             getActDetailsCallBack.getActDetails("false", null);

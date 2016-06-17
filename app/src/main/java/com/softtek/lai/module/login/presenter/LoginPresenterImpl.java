@@ -14,7 +14,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
@@ -238,7 +237,10 @@ public class LoginPresenterImpl implements ILoginPresenter {
                         set.setAlias(model.getMobile());
                         set.setStyleBasic();
                         UserInfoModel.getInstance().saveUserCache(model);
-                        stepDeal(context,model.getUserid(), StringUtils.isEmpty(model.getTodayStepCnt())?0:Long.parseLong(model.getTodayStepCnt()));
+                        //如果用户加入了跑团
+                        if("1".equals(model.getIsJoin())){
+                            stepDeal(context,model.getUserid(), StringUtils.isEmpty(model.getTodayStepCnt())?0:Long.parseLong(model.getTodayStepCnt()));
+                        }
                         final String token=userResponseData.getData().getToken();
                         if("0".equals(model.getIsCreatInfo())&&!model.isHasGender()){
                             //如果没有创建档案且性别不是2才算没创建档案
@@ -308,19 +310,19 @@ public class LoginPresenterImpl implements ILoginPresenter {
         }else{
             //本地没有数据
             //需要给本地插入一条 数据
-            UserStep userStep=new UserStep();
+           /* UserStep userStep=new UserStep();
             userStep.setAccountId(Long.parseLong(userId));
             userStep.setRecordTime(DateUtil.getInstance().getCurrentDate());
             userStep.setStepCount(0);
             StepUtil.getInstance().saveStep(userStep);
-            if(step>0){
+            if(step>0){*/
                 //如果服务器上的数据大于0则写入本地
                 UserStep serverStep=new UserStep();
                 serverStep.setAccountId(Long.parseLong(userId));
                 serverStep.setRecordTime(DateUtil.getInstance().getCurrentDate());
                 serverStep.setStepCount(step);
                 StepUtil.getInstance().saveStep(serverStep);
-            }
+            //}
 
         }
         //删除旧数据

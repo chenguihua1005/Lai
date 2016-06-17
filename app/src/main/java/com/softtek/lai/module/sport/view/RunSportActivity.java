@@ -16,6 +16,7 @@ import android.location.GpsStatus;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
@@ -127,6 +128,8 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
         mapView.onCreate(savedInstanceState);
     }
 
+    private static final int LOCATION_PREMISSION=100;
+
     @Override
     protected void initViews() {
         ll_left.setOnClickListener(this);
@@ -170,8 +173,6 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
         aMapLocationClientOption.setInterval(5000);
         //给定位客户端对象设置定位参数
         aMapLocationClient.setLocationOption(aMapLocationClientOption);
-        //启动定位
-        aMapLocationClient.startLocation();
 
         //初始化polyline
         polylineOptions = new PolylineOptions();
@@ -179,7 +180,57 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
         polylineOptions.color(Color.RED);
         polylineOptions.zIndex(3);
 
+        /**
+         * Android 6.0动态权限申请
+         * PackageManager.PERMISSION_GRANTED:允许使用权限
+         * PackageManager.PERMISSION_DENIED:不允许使用权限
+         */
+        if(ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION)!=PackageManager.PERMISSION_GRANTED||
+                ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)!=PackageManager.PERMISSION_GRANTED){
+            //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
+            if(ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.ACCESS_COARSE_LOCATION)||
+                    ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.ACCESS_FINE_LOCATION)){
+                //允许弹出提示
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION},
+                        LOCATION_PREMISSION);
+
+            }else{
+                //不允许弹出提示
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION},
+                        LOCATION_PREMISSION);
+            }
+        }else{
+            //执行获取权限后的操作
+            //启动定位
+            aMapLocationClient.startLocation();
+        }
     }
+
+    //6.0权限回调方法
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode){
+            case LOCATION_PREMISSION:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                    aMapLocationClient.startLocation();
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                break;
+        }
+
+    }
+
     LocationManager locationManager;
     StepReceive receive;
     int startStep=0;
@@ -318,7 +369,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
                 break;
             case R.id.iv_stop:
                 if(countDown!=null)countDown.pause();
-                if(coordinates.isEmpty()){
+                if(coordinates.isEmpty()&&Integer.parseInt(tv_step.getText().toString())==0){
                     AlertDialog dialog=new AlertDialog.Builder(this).setMessage("您还没有运动哦，确定结束运动吗?").setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
