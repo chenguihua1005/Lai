@@ -10,6 +10,8 @@ import android.text.TextUtils;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.home.view.HomeActviity;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.stepcount.service.StepService;
 
@@ -116,6 +118,48 @@ public class NetErrorHandler implements IApiErrorHandler {
                         break;
                     case 503:
                         Util.toastMsg("服务不可用");
+                        break;
+                    case 4001:
+                        new AlertDialog.Builder(LaiApplication.getInstance().getContext())
+                                .setTitle("温馨提示").setMessage("您已被管理员移出跑团, 您可以等待管理员为您重新分配跑团或选择加入新的跑团")
+                                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        UserModel model=UserInfoModel.getInstance().getUser();
+                                        model.setIsJoin("0");
+                                        UserInfoModel.getInstance().saveUserCache(model);
+                                        LaiApplication.getInstance().stopService(new Intent(LaiApplication.getInstance(), StepService.class));
+                                        Intent intent=new Intent(LaiApplication.getInstance(), HomeActviity.class);
+                                        LaiApplication.getInstance().startActivity(intent);
+                                    }
+                                }).setCancelable(false).create().show();
+                        break;
+                    case 4002:
+                        new AlertDialog.Builder(LaiApplication.getInstance().getContext())
+                                .setTitle("温馨提示").setMessage("您所在跑团已被管理员删除, 您可以等待管理员为您重新分配跑团或选择加入新的跑团")
+                                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                        UserModel model=UserInfoModel.getInstance().getUser();
+                                        model.setIsJoin("0");
+                                        UserInfoModel.getInstance().saveUserCache(model);
+                                        LaiApplication.getInstance().stopService(new Intent(LaiApplication.getInstance(), StepService.class));
+                                        Intent intent=new Intent(LaiApplication.getInstance(), HomeActviity.class);
+                                        LaiApplication.getInstance().startActivity(intent);
+                                    }
+                                }).setCancelable(false).create().show();
+                        break;
+                    case 4003:
+                        new AlertDialog.Builder(LaiApplication.getInstance().getContext())
+                                .setTitle("温馨提示").setMessage("您已被管理员移动到新的跑团, 请重新点击莱运动以更新跑团")
+                                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent intent=new Intent(LaiApplication.getInstance(), HomeActviity.class);
+                                        LaiApplication.getInstance().startActivity(intent);
+                                    }
+                                }).setCancelable(false).create().show();
                         break;
                     default:
                         Util.toastMsg(zilla.libcore.R.string.net_http_other);
