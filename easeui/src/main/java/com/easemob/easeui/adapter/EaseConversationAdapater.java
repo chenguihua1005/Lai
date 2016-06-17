@@ -129,7 +129,7 @@ public class EaseConversationAdapater extends ArrayAdapter<EMConversation> {
 		// 获取用户username或者群组groupid
 		String username = conversation.getUserName();
 		EMMessage lastMessage = conversation.getLastMessage();
-
+		System.out.println("field value--------------->"+conversation.getExtField());
 		if (conversation.getType() == EMConversationType.GroupChat) {
 			// 群聊消息，显示群聊头像
 			holder.avatar.setImageResource(R.drawable.ease_group_icon);
@@ -143,36 +143,26 @@ public class EaseConversationAdapater extends ArrayAdapter<EMConversation> {
 //			EaseUserUtils.setUserAvatar(getContext(), username, holder.avatar);
 //			EaseUserUtils.setUserNick(username, holder.name);
 
-			String name = "";
-			String avatar = "";
-			String userId = "";
-			List<EMMessage> listMessage=conversation.getAllMessages();
-			for (int i = 0; i <listMessage.size() ; i++) {
-				EMMessage msg=listMessage.get(i);
+			String name="";
+			String photo="";
+			if(!TextUtils.isEmpty(conversation.getExtField())){
+				String[] field=conversation.getExtField().split(",");
+				name=field[0];
+				photo=field[1];
+			}else {
+				EMMessage msg=conversation.getAllMessages().get(0);
 				try {
 					name=msg.getStringAttribute("nickname");
-					avatar=msg.getStringAttribute("avatarURL");
-					userId=msg.getStringAttribute("userId");
+					photo=msg.getStringAttribute("avatarURL");
 				} catch (EaseMobException e) {
 					e.printStackTrace();
 				}
-				System.out.println("username:"+username+"        name:"+name+"     userId:"+userId+"   avatar:"+avatar+"   i:"+i);
-				if(userId.equals(username)){
-					holder.name.setText(name);
-					if("".equals(avatar)){
-						Picasso.with(getContext()).load("111").fit().error(R.drawable.ease_group_icon).into(holder.avatar);
-					}else {
-						Picasso.with(getContext()).load(avatar).fit().error(R.drawable.ease_group_icon).into(holder.avatar);
-					}
-					break;
-				}else {
-					name = "";
-					avatar = "";
-					userId = "";
-				}
 			}
-			if("".equals(avatar)){
-				holder.name.setText("test");
+			holder.name.setText(name);
+			if("".equals(photo)){
+				Picasso.with(getContext()).load("111").fit().error(R.drawable.ease_group_icon).into(holder.avatar);
+			}else {
+				Picasso.with(getContext()).load(photo).fit().error(R.drawable.ease_group_icon).into(holder.avatar);
 			}
 			//String avatar=EaseUserUtils.getUserInfo(username).getAvatar();
 //			EaseUserUtils.setUserAvatar(getContext(), "", holder.avatar);

@@ -31,6 +31,7 @@ import com.easemob.chat.EMMessage;
 import com.easemob.easeui.EaseConstant;
 import com.easemob.easeui.controller.EaseUI;
 import com.easemob.easeui.utils.EaseCommonUtils;
+import com.easemob.exceptions.EaseMobException;
 import com.easemob.util.EMLog;
 import com.easemob.util.NetUtils;
 import com.mobsandgeeks.saripaar.Rule;
@@ -49,7 +50,7 @@ import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_conversation_list)
-public class ConversationListActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener,EMEventListener {
+public class ConversationListActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener, EMEventListener {
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -59,6 +60,9 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
 
     @InjectView(R.id.tv_title)
     TextView tv_title;
+
+    @InjectView(R.id.tv_right)
+    TextView tv_right;
 
     @InjectView(R.id.lin)
     LinearLayout lin;
@@ -76,7 +80,9 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         tv_title.setText("会话列表");
+        tv_right.setText("测试");
         ll_left.setOnClickListener(this);
+        tv_right.setOnClickListener(this);
         if (savedInstanceState != null && savedInstanceState.getBoolean(Constant.ACCOUNT_REMOVED, false)) {
             // 防止被移除后，没点确定按钮然后按了home键，长期在后台又进app导致的crash
             // 三个fragment里加的判断同理
@@ -101,6 +107,7 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
         getSupportFragmentManager().beginTransaction().add(R.id.lin, conversationListFragment).show(conversationListFragment)
                 .commit();
     }
+
     /**
      * 监听事件
      */
@@ -131,12 +138,12 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
                 EMMessage ackMessage = (EMMessage) event.getData();
                 EMConversation conversation = EMChatManager.getInstance().getConversation(ackMessage.getTo());
                 // 判断接收到ack的这条消息是不是阅后即焚的消息，如果是，则说明对方看过消息了，对方会销毁，这边也删除(现在只有txt iamge file三种消息支持 )
-                if(ackMessage.getBooleanAttribute(EaseConstant.EASE_ATTR_READFIRE, false)
+                if (ackMessage.getBooleanAttribute(EaseConstant.EASE_ATTR_READFIRE, false)
                         && (ackMessage.getType() == EMMessage.Type.TXT
                         || ackMessage.getType() == EMMessage.Type.VOICE
-                        || ackMessage.getType() == EMMessage.Type.IMAGE)){
+                        || ackMessage.getType() == EMMessage.Type.IMAGE)) {
                     // 判断当前会话是不是只有一条消息，如果只有一条消息，并且这条消息也是阅后即焚类型，当对方阅读后，这边要删除，会话会被过滤掉，因此要加载上一条消息
-                    if(conversation.getAllMessages().size() == 1 && conversation.getLastMessage().getMsgId().equals(ackMessage.getMsgId())){
+                    if (conversation.getAllMessages().size() == 1 && conversation.getLastMessage().getMsgId().equals(ackMessage.getMsgId())) {
                         if (ackMessage.getChatType() == EMMessage.ChatType.Chat) {
                             conversation.loadMoreMsgFromDB(ackMessage.getMsgId(), 1);
                         } else {
@@ -176,8 +183,8 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
                     conversationListFragment.refresh();
                 }
                 String action = intent.getAction();
-                if (action.equals(Constant.REFRESH_GROUP_MONEY_ACTION)){
-                    if (conversationListFragment != null){
+                if (action.equals(Constant.REFRESH_GROUP_MONEY_ACTION)) {
+                    if (conversationListFragment != null) {
                         conversationListFragment.refresh();
                     }
                 }
@@ -186,7 +193,7 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
         broadcastManager.registerReceiver(broadcastReceiver, intentFilter);
     }
 
-    private void unregisterBroadcastReceiver(){
+    private void unregisterBroadcastReceiver() {
         broadcastManager.unregisterReceiver(broadcastReceiver);
     }
 
@@ -226,11 +233,11 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
         int unreadMsgCountTotal = 0;
         int chatroomUnreadMsgCount = 0;
         unreadMsgCountTotal = EMChatManager.getInstance().getUnreadMsgsCount();
-        for(EMConversation conversation:EMChatManager.getInstance().getAllConversations().values()){
-            if(conversation.getType() == EMConversation.EMConversationType.ChatRoom)
-                chatroomUnreadMsgCount=chatroomUnreadMsgCount+conversation.getUnreadMsgCount();
+        for (EMConversation conversation : EMChatManager.getInstance().getAllConversations().values()) {
+            if (conversation.getType() == EMConversation.EMConversationType.ChatRoom)
+                chatroomUnreadMsgCount = chatroomUnreadMsgCount + conversation.getUnreadMsgCount();
         }
-        return unreadMsgCountTotal-chatroomUnreadMsgCount;
+        return unreadMsgCountTotal - chatroomUnreadMsgCount;
     }
 
     @Override
@@ -239,7 +246,7 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
 
         // register the event listener when enter the foreground
         EMChatManager.getInstance().registerEventListener(this,
-                new EMNotifierEvent.Event[] {
+                new EMNotifierEvent.Event[]{
                         EMNotifierEvent.Event.EventNewMessage,
                         EMNotifierEvent.Event.EventOfflineMessage,
                         EMNotifierEvent.Event.EventConversationListChanged,
@@ -291,7 +298,7 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
      */
     private void showConflictDialog() {
         isConflictDialogShow = true;
-        ChatHelper.getInstance().logout(false,null);
+        ChatHelper.getInstance().logout(false, null);
         String st = getResources().getString(R.string.Logoff_notification);
         if (!ConversationListActivity.this.isFinishing()) {
             // clear up global variables
@@ -326,7 +333,7 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
      */
     private void showAccountRemovedDialog() {
         isAccountRemovedDialogShow = true;
-        ChatHelper.getInstance().logout(false,null);
+        ChatHelper.getInstance().logout(false, null);
         String st5 = getResources().getString(R.string.Remove_the_notification);
         if (!ConversationListActivity.this.isFinishing()) {
             // clear up global variables
@@ -374,7 +381,18 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
 
     @Override
     public void onClick(View v) {
-
+        switch (v.getId()) {
+            case R.id.ll_left:
+                finish();
+                break;
+            case R.id.tv_right:
+                Intent intent = new Intent(ConversationListActivity.this, ChatActivity.class);
+                intent.putExtra(Constant.EXTRA_USER_ID, "13961893758");
+                intent.putExtra("name", "立忠");
+                intent.putExtra("photo", "http://o8nbxcohc.qnssl.com/%E8%8E%B1%E8%81%9A%2B%E4%BA%8C%E7%BB%B4%E7%A0%81.png");
+                startActivity(intent);
+                break;
+        }
     }
 
     @Override

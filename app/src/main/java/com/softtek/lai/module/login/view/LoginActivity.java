@@ -22,6 +22,8 @@ import android.widget.Toast;
 import com.easemob.EMCallBack;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroupManager;
+import com.easemob.easeui.domain.ChatUserInfoModel;
+import com.easemob.easeui.domain.ChatUserModel;
 import com.easemob.util.EMLog;
 import com.github.snowdream.android.util.Log;
 import com.mobsandgeeks.saripaar.Rule;
@@ -113,12 +115,20 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         return super.dispatchTouchEvent(ev);
     }
     private void loginChat(){
+//        EMChatManager.getInstance().login("jarvis0104", "123123", new EMCallBack() {
         EMChatManager.getInstance().login("42", "f123123", new EMCallBack() {
 
             @Override
             public void onSuccess() {
                 // ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
                 // ** manually load all local groups and
+                ChatUserModel chatUserModel = new ChatUserModel();
+                chatUserModel.setUserId("jarvis0104");
+                chatUserModel.setUserName("aaa");
+                chatUserModel.setUserPhone("https://o8nbxcohc.qnssl.com/testimage.png");
+//            chatUserModel.setUserPhone("http://172.16.98.167/UpFiles/201606141135132757684564.png");
+                ChatUserInfoModel.getInstance().setUser(chatUserModel);
+
                 EMChatManager.getInstance().loadAllConversations();
 // 进入主页面
                 Intent intent = new Intent(LoginActivity.this, ConversationListActivity.class);
@@ -154,6 +164,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     Log.i("packageName : " + packageName);
                 }*/
                 validateLife.validate();
+                //loginChat();
                 break;
             case R.id.tv_forgetpsd:
                 startActivity(new Intent(this, ForgetActivity.class));

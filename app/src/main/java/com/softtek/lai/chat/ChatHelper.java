@@ -61,13 +61,6 @@ public class ChatHelper {
 //get easeui instance
             easeUI = EaseUI.getInstance();
 
-            ChatUserModel chatUserModel = new ChatUserModel();
-            chatUserModel.setUserId("jarvis0104");
-            chatUserModel.setUserName("aaa");
-            chatUserModel.setUserPhone("https://o8nbxcohc.qnssl.com/testimage.png");
-//            chatUserModel.setUserPhone("http://172.16.98.167/UpFiles/201606141135132757684564.png");
-            ChatUserInfoModel.getInstance().setUser(chatUserModel);
-
             connectionListener = new EMConnectionListener() {
                 @Override
                 public void onDisconnected(int error) {
