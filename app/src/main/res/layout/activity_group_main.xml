@@ -120,6 +120,8 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="今日步数"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
                                     android:textColor="@color/word3"
                                     android:textSize="@dimen/textSize2" />
 
@@ -127,6 +129,8 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="5dip"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
                                     android:src="@drawable/img_group_main_step" />
                             </LinearLayout>
                         </LinearLayout>
@@ -153,11 +157,15 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
                                     android:text="今日步数" />
 
                                 <ImageView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
                                     android:src="@drawable/img_group_main_step" />
                             </LinearLayout>
                         </LinearLayout>
@@ -201,6 +209,8 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="消耗热量"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
                                     android:textColor="@color/word3"
                                     android:textSize="@dimen/textSize2" />
 
@@ -208,6 +218,8 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="5dip"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
                                     android:src="@drawable/img_group_main_xhrl" />
                             </LinearLayout>
                         </LinearLayout>
@@ -244,6 +256,8 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="今日排名"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
                                     android:textColor="@color/word3"
                                     android:textSize="@dimen/textSize2" />
 
@@ -251,6 +265,8 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="5dip"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
                                     android:src="@drawable/img_group_main_jrpm" />
                             </LinearLayout>
                         </LinearLayout>
@@ -277,11 +293,15 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
                                     android:text="今日步数" />
 
                                 <ImageView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
                                     android:src="@drawable/img_group_main_step" />
                             </LinearLayout>
                         </LinearLayout>
@@ -311,14 +331,17 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="获得勋章数"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
                                     android:textColor="@color/word3"
                                     android:textSize="@dimen/textSize2" />
 
                                 <ImageView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
                                     android:layout_marginLeft="5dip"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
                                     android:src="@drawable/img_group_main_honor" />
                             </LinearLayout>
                         </LinearLayout>

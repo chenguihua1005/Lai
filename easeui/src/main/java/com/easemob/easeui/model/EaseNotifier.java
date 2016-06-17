@@ -123,9 +123,9 @@ public class EaseNotifier {
      * @param message
      */
     public synchronized void onNewMsg(EMMessage message) {
-        if (EMChatManager.getInstance().isSlientMessage(message)) {
-            return;
-        }
+//        if (EMChatManager.getInstance().isSlientMessage(message)) {
+//            return;
+//        }
         //       EaseSettingsProvider settingsProvider = EaseUI.getInstance().getSettingsProvider();
 //        if(!settingsProvider.isMsgNotifyAllowed(message)){
 //            return;
@@ -134,8 +134,10 @@ public class EaseNotifier {
         // 判断app是否在后台
         if (!EasyUtils.isAppRunningForeground(appContext)) {
             EMLog.d(TAG, "app is running in backgroud");
+            System.out.println("-----------");
             sendNotification(message, false);
         } else {
+            System.out.println("========");
             sendNotification(message, true);
 
         }
@@ -151,13 +153,13 @@ public class EaseNotifier {
         if (!settingsProvider.isMsgNotifyAllowed(null)) {
             return;
         }
-        // 判断app是否在后台
-        if (!EasyUtils.isAppRunningForeground(appContext)) {
-            EMLog.d(TAG, "app is running in backgroud");
-            sendNotification(messages, false);
-        } else {
-            sendNotification(messages, true);
-        }
+//        // 判断app是否在后台
+//        if (!EasyUtils.isAppRunningForeground(appContext)) {
+//            EMLog.d(TAG, "app is running in backgroud");
+//            sendNotification(messages, false);
+//        } else {
+//            sendNotification(messages, true);
+//        }
         viberateAndPlayTone(messages.get(messages.size() - 1));
     }
 
@@ -189,7 +191,7 @@ public class EaseNotifier {
     protected void sendNotification(EMMessage message, boolean isForeground, boolean numIncrease) {
         String username = null;
         try {
-            username = message.getStringAttribute("name");
+            username = message.getStringAttribute("nickname");
         } catch (EaseMobException e) {
             e.printStackTrace();
         }
@@ -284,7 +286,6 @@ public class EaseNotifier {
             mBuilder.setContentIntent(pendingIntent);
             // mBuilder.setNumber(notificationNum);
             Notification notification = mBuilder.build();
-
             if (isForeground) {
                 notificationManager.notify(foregroundNotifyID, notification);
                 notificationManager.cancel(foregroundNotifyID);

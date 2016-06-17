@@ -1,6 +1,7 @@
 package com.softtek.lai.chat;
 
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuItem;
@@ -45,26 +46,7 @@ public class ConversationListFragment extends EaseConversationListFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 EMConversation conversation = conversationListView.getItem(position);
                 String username = conversation.getUserName();
-                String name = "";
-                String avatar = "";
-                String userId = "";
-                List<EMMessage> listMessage=conversation.getAllMessages();
-                for (int i = 0; i <listMessage.size() ; i++) {
-                    EMMessage msg=listMessage.get(i);
-                    try {
-                        name=msg.getStringAttribute("name");
-                        avatar=msg.getStringAttribute("avatar");
-                        userId=msg.getStringAttribute("userId");
-                    } catch (EaseMobException e) {
-                        e.printStackTrace();
-                    }
-                    System.out.println("username:"+username+"        name:"+name+"     userId:"+userId+"   avatar:"+avatar+"   i:"+i);
-                    if(userId.equals(username)){
-                        break;
-                    }else {
-                        name="";
-                    }
-                }
+
                 if (username.equals(EMChatManager.getInstance().getCurrentUser()))
                     Toast.makeText(getActivity(), R.string.Cant_chat_with_yourself, Toast.LENGTH_SHORT).show();
                 else {
@@ -79,9 +61,26 @@ public class ConversationListFragment extends EaseConversationListFragment {
                         }
 
                     }
+                    String name="";
+                    String photo="";
+                    System.out.println("field value===================>"+conversation.getExtField());
+                    if(!TextUtils.isEmpty(conversation.getExtField())){
+                        String[] field=conversation.getExtField().split(",");
+                        name=field[0];
+                        photo=field[1];
+                    }else {
+                        EMMessage msg=conversation.getAllMessages().get(0);
+                        try {
+                            name=msg.getStringAttribute("nickname");
+                            photo=msg.getStringAttribute("avatarURL");
+                        } catch (EaseMobException e) {
+                            e.printStackTrace();
+                        }
+                    }
                     // it's single chat
                     intent.putExtra(Constant.EXTRA_USER_ID, username);
-                    intent.putExtra("title", name);
+                    intent.putExtra("name", name);
+                    intent.putExtra("photo", photo);
                     startActivity(intent);
                 }
             }
