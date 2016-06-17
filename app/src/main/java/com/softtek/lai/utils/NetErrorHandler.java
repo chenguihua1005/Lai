@@ -63,7 +63,6 @@ public class NetErrorHandler implements IApiErrorHandler {
     @Override
     public void dealNetError(RetrofitError error) {
         Log.i(error.getUrl());
-        Log.i(error.getBody().toString());
         error.printStackTrace();
         switch (error.getKind()) {
             case NETWORK:
@@ -83,7 +82,6 @@ public class NetErrorHandler implements IApiErrorHandler {
                 switch (statusCode) {
                     case 401:
                         int customCode=0;
-                        Log.i("customCode====+++++++++++++++++++"+(error.getBody() instanceof ResponseData));
                         if(error.getBody() instanceof ResponseData){
                             ResponseData data=(ResponseData)error.getBody();
                             customCode=data.getStatus();

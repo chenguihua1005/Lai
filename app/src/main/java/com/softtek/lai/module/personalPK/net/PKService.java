@@ -56,7 +56,7 @@ public interface PKService {
     //加载当前用户的跑团成员
     @GET("/Challenged/GetOnwerRGMembers")
     void getCurrentPaoTuanMember(@Header("token")String token,
-                                 RequestCallback<ResponseData<PKObjRequest>> callback);
+                                 RequestCallback<ResponseData<List<PKObjModel>>> callback);
 
     @POST("/Challenged/SavePK")
     void savePK(@Header("token")String token,
