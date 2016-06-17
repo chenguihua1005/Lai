@@ -133,12 +133,12 @@ public class PKListManager {
     public void getCurrentPaoTuanMember(final SelectOpponentActivity activity){
         service.getCurrentPaoTuanMember(
                 token,
-                new RequestCallback<ResponseData<List<PKObjModel>>>() {
+                new RequestCallback<ResponseData<PKObjRequest>>() {
                     @Override
-                    public void success(ResponseData<List<PKObjModel>> listResponseData, Response response) {
+                    public void success(ResponseData<PKObjRequest> listResponseData, Response response) {
                         Log.i(listResponseData.toString());
                         if(activity!=null)
-                            activity.loadData(listResponseData.getData());
+                            activity.loadData(listResponseData.getData().getData());
                     }
 
                     @Override
