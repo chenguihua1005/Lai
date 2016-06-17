@@ -369,7 +369,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
                 break;
             case R.id.iv_stop:
                 if(countDown!=null)countDown.pause();
-                if(coordinates.isEmpty()){
+                if(coordinates.isEmpty()&&Integer.parseInt(tv_step.getText().toString())==0){
                     AlertDialog dialog=new AlertDialog.Builder(this).setMessage("您还没有运动哦，确定结束运动吗?").setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
