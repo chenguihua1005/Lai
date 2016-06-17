@@ -13,7 +13,8 @@
         android:layout_width="fill_parent"
         android:layout_height="101dip"
         android:background="@color/white"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
         <RelativeLayout
             android:id="@+id/rel"
             android:layout_width="65dp"
@@ -92,6 +93,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:src="@drawable/img_no_act"
+        android:src="@drawable/no_message"
+        android:visibility="gone"/>
+    <ImageView
+        android:id="@+id/img_loss"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@drawable/img_act_loss"
         android:visibility="gone"/>
 </RelativeLayout>
