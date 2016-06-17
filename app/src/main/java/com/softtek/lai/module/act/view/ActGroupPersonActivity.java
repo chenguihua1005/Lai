@@ -39,7 +39,7 @@ import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_act_group_person)
-public class ActGroupPersonActivity extends BaseActivity implements View.OnClickListener,ActManager.GetActRGStepOrderCallBack,PullToRefreshBase.OnRefreshListener2<ListView>  {
+public class ActGroupPersonActivity extends BaseActivity implements View.OnClickListener, ActManager.GetActRGStepOrderCallBack, PullToRefreshBase.OnRefreshListener2<ListView> {
     @InjectView(R.id.zk_list)
     PullToRefreshListView zk_list;
 
@@ -66,6 +66,8 @@ public class ActGroupPersonActivity extends BaseActivity implements View.OnClick
 
     @InjectView(R.id.img_mo_message)
     ImageView img_mo_message;
+    @InjectView(R.id.img_loss)
+    ImageView img_loss;
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -80,11 +82,11 @@ public class ActGroupPersonActivity extends BaseActivity implements View.OnClick
     ActDetiallistModel actDetiallistModel;
     String id;
     private List<ActZKP1Model> list = new ArrayList<ActZKP1Model>();
+
     @Override
     protected void initViews() {
         zk_list.setMode(PullToRefreshBase.Mode.BOTH);
         zk_list.setOnRefreshListener(this);
-        zk_list.setEmptyView(img_mo_message);
         ll_left.setOnClickListener(this);
     }
 
@@ -99,27 +101,27 @@ public class ActGroupPersonActivity extends BaseActivity implements View.OnClick
 //                    zk_list.setRefreshing();
 //            }
 //        }, 500);
-        actDetiallistModel = (ActDetiallistModel)getIntent().getSerializableExtra("actDetiallistModel");
+        actDetiallistModel = (ActDetiallistModel) getIntent().getSerializableExtra("actDetiallistModel");
         System.out.println(actDetiallistModel);
-        id=getIntent().getStringExtra("id");
-        m_tpye=getIntent().getStringExtra("type");
+        id = getIntent().getStringExtra("id");
+        m_tpye = getIntent().getStringExtra("type");
         setHeadView();
         tv_title.setText(actDetiallistModel.getActDName());
-        target=actDetiallistModel.getActDTotal();
-        actManager.getActRGStepOrder(pageIndex+"",actDetiallistModel.getActId(),id);
+        target = actDetiallistModel.getActDTotal();
+        actManager.getActRGStepOrder(pageIndex + "", actDetiallistModel.getActId(), id);
     }
 
     @Override
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
         pageIndex = 1;
-        actManager.getActRGStepOrder(pageIndex+"",actDetiallistModel.getActId(),id);
+        actManager.getActRGStepOrder(pageIndex + "", actDetiallistModel.getActId(), id);
     }
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
         pageIndex++;
         if (pageIndex <= totalPage) {
-            actManager.getActRGStepOrder(pageIndex+"",actDetiallistModel.getActId(),id);
+            actManager.getActRGStepOrder(pageIndex + "", actDetiallistModel.getActId(), id);
         } else {
             pageIndex--;
             if (zk_list != null) {
@@ -133,7 +135,8 @@ public class ActGroupPersonActivity extends BaseActivity implements View.OnClick
             }
         }
     }
-    private void setHeadView(){
+
+    private void setHeadView() {
         String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
         if (!TextUtils.isEmpty(actDetiallistModel.getActDImg())) {
             Picasso.with(this).load(path + actDetiallistModel.getActDImg()).placeholder(R.drawable.img_group_default_big).fit().centerCrop().error(R.drawable.img_group_default_big).into(img_group);
@@ -141,11 +144,11 @@ public class ActGroupPersonActivity extends BaseActivity implements View.OnClick
             Picasso.with(this).load("www").placeholder(R.drawable.img_group_default_big).fit().centerCrop().error(R.drawable.img_group_default_big).into(img_group);
         }
         text_name.setText(actDetiallistModel.getActDName());
-        text_order.setText("第"+actDetiallistModel.getActDOrder()+"名");
-        if("0".equals(m_tpye)){
-            text_value.setText(actDetiallistModel.getActDTotal()+"步");
-        }else {
-            text_value.setText(actDetiallistModel.getActDTotal()+"公里");
+        text_order.setText("第" + actDetiallistModel.getActDOrder() + "名");
+        if ("0".equals(m_tpye)) {
+            text_value.setText(actDetiallistModel.getActDTotal() + "步");
+        } else {
+            text_value.setText(actDetiallistModel.getActDTotal() + "公里");
         }
     }
 
@@ -163,6 +166,8 @@ public class ActGroupPersonActivity extends BaseActivity implements View.OnClick
         if ("true".equals(type)) {
             rel_head.setVisibility(View.VISIBLE);
             zk_list.setVisibility(View.VISIBLE);
+            img_loss.setVisibility(View.GONE);
+            img_mo_message.setVisibility(View.GONE);
             if (zk_list != null) {
                 zk_list.onRefreshComplete();
             }
@@ -174,14 +179,35 @@ public class ActGroupPersonActivity extends BaseActivity implements View.OnClick
             }
 
             if (pageIndex == 1) {
-                list=model.getAccDetiallist();
-                adapter = new ActZKPAdapter(this, list,m_tpye,Float.parseFloat(target));
+                list = model.getAccDetiallist();
+                adapter = new ActZKPAdapter(this, list, m_tpye, Float.parseFloat(target));
                 zk_list.setAdapter(adapter);
-            }else {
+            } else {
                 list.addAll(model.getAccDetiallist());
                 adapter.notifyDataSetChanged();
             }
+        } else if ("102".equals(type)) {
+            rel_head.setVisibility(View.GONE);
+            zk_list.setVisibility(View.GONE);
+            img_loss.setVisibility(View.VISIBLE);
+            img_mo_message.setVisibility(View.GONE);
+            if (pageIndex == 1) {
+                rel_head.setVisibility(View.GONE);
+                zk_list.setVisibility(View.GONE);
+            }
+            if (zk_list != null) {
+                zk_list.onRefreshComplete();
+            }
+            if (pageIndex == 1) {
+                pageIndex = 1;
+            } else {
+                pageIndex--;
+            }
         } else {
+            rel_head.setVisibility(View.GONE);
+            zk_list.setVisibility(View.GONE);
+            img_loss.setVisibility(View.GONE);
+            img_mo_message.setVisibility(View.VISIBLE);
             if (pageIndex == 1) {
                 rel_head.setVisibility(View.GONE);
                 zk_list.setVisibility(View.GONE);

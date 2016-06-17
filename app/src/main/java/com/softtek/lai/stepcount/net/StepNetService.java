@@ -20,4 +20,9 @@ public interface StepNetService {
                       @Field("AccountId") long accountId,
                       @Field("DateTimeTotalStep")String data,
                       RequestCallback<ResponseData> callback);
+
+    //移动跑团
+    @POST("/HerbSports/UpdateIsMove")
+    void updateIsMove(@Header("token")String token,
+                      RequestCallback<ResponseData> callback);
 }

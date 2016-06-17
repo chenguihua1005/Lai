@@ -1,6 +1,8 @@
 package com.softtek.lai.module.act.view;
 
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
@@ -24,6 +26,12 @@ import zilla.libcore.ui.InjectLayout;
 public class ActDetailsFragment extends BaseFragment implements ActManager.GetActDetailsCallBack {
     @InjectView(R.id.img)
     ImageView img;
+    @InjectView(R.id.img_no)
+    ImageView img_no;
+    @InjectView(R.id.img_loss)
+    ImageView img_loss;
+    @InjectView(R.id.lin_have)
+    LinearLayout lin_have;
 
     @InjectView(R.id.img_state)
     ImageView img_state;
@@ -70,6 +78,9 @@ public class ActDetailsFragment extends BaseFragment implements ActManager.GetAc
     @Override
     public void getActDetails(String type, ActDetailModel model) {
         if ("true".equals(type)) {
+            img_no.setVisibility(View.GONE);
+            img_loss.setVisibility(View.GONE);
+            lin_have.setVisibility(View.VISIBLE);
             String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
             if ("".equals(model.getActimg()) || "null".equals(model.getActimg()) || model.getActimg() == null) {
                 Picasso.with(getContext()).load("111").fit().error(R.drawable.default_icon_rect).into(img);
@@ -126,6 +137,14 @@ public class ActDetailsFragment extends BaseFragment implements ActManager.GetAc
                 text_gz.setText("总步数");
                 text_mb_value.setText("总步数");
             }
+        }else if ("102".equals(type)){
+            img_no.setVisibility(View.GONE);
+            img_loss.setVisibility(View.VISIBLE);
+            lin_have.setVisibility(View.GONE);
+        }else {
+            img_no.setVisibility(View.VISIBLE);
+            img_loss.setVisibility(View.GONE);
+            lin_have.setVisibility(View.GONE);
         }
     }
 }

@@ -43,6 +43,10 @@ public class ActFragment extends BaseFragment implements PullToRefreshBase.OnRef
 
     @InjectView(R.id.img_person)
     ImageView img_person;
+    @InjectView(R.id.img_no)
+    ImageView img_no;
+    @InjectView(R.id.img_loss)
+    ImageView img_loss;
 
     @InjectView(R.id.text_name)
     TextView text_name;
@@ -75,7 +79,6 @@ public class ActFragment extends BaseFragment implements PullToRefreshBase.OnRef
     protected void initViews() {
         zk_list.setMode(PullToRefreshBase.Mode.BOTH);
         zk_list.setOnRefreshListener(this);
-        zk_list.setEmptyView(img_mo_message);
         rel_head.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,14 +127,14 @@ public class ActFragment extends BaseFragment implements PullToRefreshBase.OnRef
         actManager = new ActManager(this);
         userId = UserInfoModel.getInstance().getUser().getUserid();
         id = getActivity().getIntent().getStringExtra("id");
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                if (zk_list != null)
-//                    zk_list.setRefreshing();
-//            }
-//        }, 500);
-        actManager.getActivitySituation(pageIndex + "", userId, id);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (zk_list != null)
+                    zk_list.setRefreshing();
+            }
+        }, 500);
+        //actManager.getActivitySituation(pageIndex + "", userId, id);
     }
 
     @Override
@@ -216,8 +219,21 @@ public class ActFragment extends BaseFragment implements PullToRefreshBase.OnRef
     @Override
     public void getActivitySituation(String type, ActZKModel model) {
         if ("true".equals(type)) {
-            rel_head.setVisibility(View.VISIBLE);
-            zk_list.setVisibility(View.VISIBLE);
+            if (rel_head != null) {
+                rel_head.setVisibility(View.VISIBLE);
+            }
+            if (zk_list != null) {
+                zk_list.setVisibility(View.VISIBLE);
+            }
+            if (img_no != null) {
+                img_no.setVisibility(View.GONE);
+            }
+            if (img_mo_message != null) {
+                img_mo_message.setVisibility(View.GONE);
+            }
+            if (img_loss != null) {
+                img_loss.setVisibility(View.GONE);
+            }
             actZKModel = model;
             if (zk_list != null) {
                 zk_list.onRefreshComplete();
@@ -243,11 +259,69 @@ public class ActFragment extends BaseFragment implements PullToRefreshBase.OnRef
                 list.addAll(model.getActDetiallist());
                 adapter.notifyDataSetChanged();
             }
-        } else {
+        } else if ("102".equals(type)) {
+            if (rel_head != null) {
+                rel_head.setVisibility(View.GONE);
+            }
+            if (zk_list != null) {
+                zk_list.setVisibility(View.GONE);
+            }
+            if (img_no != null) {
+                img_no.setVisibility(View.GONE);
+            }
+            if (img_mo_message != null) {
+                img_mo_message.setVisibility(View.GONE);
+            }
+            if (img_loss != null) {
+                img_loss.setVisibility(View.VISIBLE);
+            }
+            if (zk_list != null) {
+                zk_list.onRefreshComplete();
+            }
             if (pageIndex == 1) {
-                if(rel_head!=null)
-                    rel_head.setVisibility(View.GONE);
-                //zk_list.setVisibility(View.GONE);
+                pageIndex = 1;
+            } else {
+                pageIndex--;
+            }
+        } else if ("103".equals(type)) {
+            if (rel_head != null) {
+                rel_head.setVisibility(View.GONE);
+            }
+            if (zk_list != null) {
+                zk_list.setVisibility(View.GONE);
+            }
+            if (img_no != null) {
+                img_no.setVisibility(View.GONE);
+            }
+            if (img_mo_message != null) {
+                img_mo_message.setVisibility(View.VISIBLE);
+            }
+            if (img_loss != null) {
+                img_loss.setVisibility(View.GONE);
+            }
+            if (zk_list != null) {
+                zk_list.onRefreshComplete();
+            }
+            if (pageIndex == 1) {
+                pageIndex = 1;
+            } else {
+                pageIndex--;
+            }
+        } else {
+            if (rel_head != null) {
+                rel_head.setVisibility(View.GONE);
+            }
+            if (zk_list != null) {
+                zk_list.setVisibility(View.GONE);
+            }
+            if (img_no != null) {
+                img_no.setVisibility(View.VISIBLE);
+            }
+            if (img_mo_message != null) {
+                img_mo_message.setVisibility(View.GONE);
+            }
+            if (img_loss != null) {
+                img_loss.setVisibility(View.GONE);
             }
             if (zk_list != null) {
                 zk_list.onRefreshComplete();

@@ -52,6 +52,7 @@ public class RegistPresenterImpl implements IRegistPresenter {
                 switch (status) {
                     case 200:
                         UserModel model=userResponseData.getData();
+                        model.setIsJoin("0");
                         UserInfoModel.getInstance().saveUserCache(model);
                         UserInfoModel.getInstance().setToken("");
                         Intent intent=new Intent(context, CreatFlleActivity.class);

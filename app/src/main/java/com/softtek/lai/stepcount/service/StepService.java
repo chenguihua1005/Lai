@@ -24,7 +24,7 @@ import android.util.Log;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.group.view.GroupMainActivity;
+import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.stepcount.db.StepUtil;
 import com.softtek.lai.stepcount.model.StepDcretor;
@@ -48,11 +48,11 @@ public class StepService extends Service implements SensorEventListener {
     private BroadcastReceiver mBatInfoReceiver;
     private WakeLock mWakeLock;
     private TimeCount time;
-    private int currentStep;//今日步数用于显示使用
+    private int currentStep;//当前计步器 得出的步数结果用与做数据使用
     private int serverStep;//记录服务器上的步数
     private int firstStep=0;//启动应用服务的时候的第一次步数
-    public static int totalStep;
-    private boolean pause=false;
+    public static int todayStep;//用于显示今日步数使用
+
 
     @Override
     public void onCreate() {
@@ -73,8 +73,8 @@ public class StepService extends Service implements SensorEventListener {
         String userId=UserInfoModel.getInstance().getUser().getUserid();
         //查询到今日的步数记录
         serverStep = StepUtil.getInstance().getCurrentStep(userId);
-        lastStep=totalStep=currentStep+ serverStep;
-        updateNotification("今日步数：" + totalStep + " 步");
+        lastStep= todayStep =currentStep+ serverStep;
+        updateNotification("今日步数：" + todayStep + " 步");
     }
 
     private void initBroadcastReceiver() {
@@ -132,8 +132,7 @@ public class StepService extends Service implements SensorEventListener {
     private NotificationManager nm;
     private void updateNotification(String content) {
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                new Intent(this, GroupMainActivity.class), 0);
-
+                new Intent(this, HomeActviity.class), 0);
         builder = new NotificationCompat.Builder(this);
         builder.setPriority(Notification.PRIORITY_MIN)
                 .setContentIntent(contentIntent)
@@ -150,10 +149,7 @@ public class StepService extends Service implements SensorEventListener {
         nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         //发送通知
         nm.notify(R.string.app_name, notification);
-        //发送广播
-        Intent stepIntent=new Intent(STEP);
-        stepIntent.putExtra("step",currentStep);
-        LocalBroadcastManager.getInstance(this).sendBroadcast(stepIntent);
+
     }
 
     @Override
@@ -224,12 +220,10 @@ public class StepService extends Service implements SensorEventListener {
 
                     @Override
                     public void onChange(int step) {
-                        if(pause){
-                            return;
-                        }
-                        currentStep=step;
-                        totalStep=currentStep+ serverStep;
-                        updateNotification("今日步数：" + totalStep+ " 步");
+                        calTodayStep(step);
+                        /*currentStep=step;
+                        todayStep =currentStep+ serverStep;
+                        updateNotification("今日步数：" + todayStep + " 步");*/
                     }
                 });
     }
@@ -238,19 +232,47 @@ public class StepService extends Service implements SensorEventListener {
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
             int stepTemp = (int) event.values[0];
-            if(pause){
-                return;
-            }
-            if(firstStep==0){
-                firstStep=stepTemp;
-            }
-            currentStep=stepTemp-firstStep;
-            totalStep=currentStep+ serverStep;
-            updateNotification("今日步数：" + totalStep + " 步");
+            calTodayStep(stepTemp);
         } /*else if (event.sensor.getType() == Sensor.TYPE_STEP_DETECTOR) {
                 //originalStep++;
         }*/
 
+    }
+
+    /**
+     * 今日步数处理逻辑方法
+     * 记录传感器第一次得到的步数，由于使用的是StepCount传感器，该传感器会在手机第一次启动的时候就开始几步因此要过滤掉之前的步数
+     * 今日步数不光由currentStep组成 或许还有服务器上的旧步数,一次需要叠加服务器上的旧的步数
+     * 然而 今日步数在每晚23点30分到24点之间开始不统计步数，所以要过滤这段时间的步数
+     * 处理方法 ： 当系统检测到当前时间处于设定的时间之间，则当日步数保持不变即可
+     * @param stepTemp 传感器获取的步数
+     */
+    private void calTodayStep(int stepTemp){
+        //发送广播
+        Intent stepIntent=new Intent(STEP);
+        stepIntent.putExtra("step",stepTemp);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(stepIntent);
+        //检查日期
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(System.currentTimeMillis());
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int minutes=c.get(Calendar.MINUTE);
+        //每晚的23点30分到24点之间
+        if(hour==23&&minutes>=30&&minutes<=59){
+            //清空当天的临时步数
+            serverStep=0;
+            firstStep=0;
+            updateNotification("今日步数：" + todayStep + " 步");
+            return;
+        }
+        //如果firstStep为0表示第一次开启应用 或者隔天了。
+        if(firstStep==0){
+            firstStep=stepTemp;
+            lastStep=0;
+        }
+        currentStep=stepTemp-firstStep;
+        todayStep =currentStep+ serverStep;
+        updateNotification("今日步数：" + todayStep + " 步");
     }
 
     @Override
@@ -282,34 +304,18 @@ public class StepService extends Service implements SensorEventListener {
     int lastStep;
     //存入数据库
     private void save() {
-        //检查日期
-        Calendar c = Calendar.getInstance();
-        c.setTimeInMillis(System.currentTimeMillis());
-        int hour = c.get(Calendar.HOUR_OF_DAY);
-        int minutes=c.get(Calendar.MINUTE);
-        //每晚的23点30分到24点之间
-        if(hour==23&&minutes>=30&&minutes<=59){
-            firstStep=0;//清楚第一步状态标志步数
-            serverStep =0;//清楚服务器上的步数
-            totalStep=0;//清楚总步数服务
-            lastStep=0;//清楚上一次步数
-            currentStep=0;//清楚当前步数
-            pause=true;
-            updateNotification("今日步数：" + totalStep + " 步");
-        }else {
-            pause=false;
-            UserModel model = UserInfoModel.getInstance().getUser();
-            if (model != null && totalStep > lastStep) {
-                lastStep = totalStep;//记录上一次保存的值
-                UserStep step = new UserStep();
-                step.setAccountId(Long.parseLong(model.getUserid()));
-                step.setRecordTime(DateUtil.getInstance().getCurrentDate());
-                step.setStepCount(totalStep);
-                StepUtil.getInstance().saveStep(step);
-            } else {
-                com.github.snowdream.android.util.Log.i("步数相同不保存");
-            }
+        UserModel model = UserInfoModel.getInstance().getUser();
+        if (model != null && todayStep > lastStep) {
+            lastStep = todayStep;//记录上一次保存的值
+            UserStep step = new UserStep();
+            step.setAccountId(Long.parseLong(model.getUserid()));
+            step.setRecordTime(DateUtil.getInstance().getCurrentDate());
+            step.setStepCount(todayStep);
+            StepUtil.getInstance().saveStep(step);
+        } else {
+            com.github.snowdream.android.util.Log.i("步数相同不保存");
         }
+
     }
 
 
@@ -332,7 +338,7 @@ public class StepService extends Service implements SensorEventListener {
             startService(intent);
         }else{
             nm.cancelAll();
-            totalStep=0;
+            todayStep =0;
             lastStep=0;
             serverStep =0;
             currentStep=0;

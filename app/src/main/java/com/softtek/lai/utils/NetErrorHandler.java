@@ -9,8 +9,12 @@ import android.text.TextUtils;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.LaiApplication;
+import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.home.view.HomeActviity;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
+import com.softtek.lai.stepcount.net.StepNetService;
 import com.softtek.lai.stepcount.service.StepService;
 
 import java.io.InterruptedIOException;
@@ -18,8 +22,10 @@ import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
 import retrofit.RetrofitError;
+import retrofit.client.Response;
 import zilla.libcore.api.IApiError;
 import zilla.libcore.api.IApiErrorHandler;
+import zilla.libcore.api.ZillaApi;
 import zilla.libcore.util.Util;
 
 /**
@@ -75,32 +81,93 @@ public class NetErrorHandler implements IApiErrorHandler {
                 int statusCode = error.getResponse().getStatus();
                 switch (statusCode) {
                     case 401:
-                        if(builder!=null||(LaiApplication.getInstance().getContext() instanceof LoginActivity)){
-                            return;
+                        int customCode=0;
+                        if(error.getBody() instanceof ResponseData){
+                            ResponseData data=(ResponseData)error.getBody();
+                            customCode=data.getStatus();
                         }
-                        builder=new AlertDialog.Builder(LaiApplication.getInstance().getContext())
-                                .setTitle("温馨提示").setMessage("您的帐号已经在其他设备登录，请重新登录后再试。")
-                                .setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        builder=null;
-                                        UserInfoModel.getInstance().loginOut();
-                                        LaiApplication.getInstance().stopService(new Intent(LaiApplication.getInstance(), StepService.class));
-                                        Intent intent=new Intent(LaiApplication.getInstance(), LoginActivity.class);
-                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                        LaiApplication.getInstance().startActivity(intent);
-                                    }
-                                });
-                        builder.setCancelable(false);
-                        builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                            @Override
-                            public void onDismiss(DialogInterface dialog) {
-                                builder=null;
-                            }
-                        });
+                        switch (customCode){
+                            case 401:
+                                if(builder!=null||(LaiApplication.getInstance().getContext() instanceof LoginActivity)){
+                                    return;
+                                }
+                                builder=new AlertDialog.Builder(LaiApplication.getInstance().getContext())
+                                        .setTitle("温馨提示").setMessage("您的帐号已经在其他设备登录，请重新登录后再试。")
+                                        .setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                builder=null;
+                                                UserInfoModel.getInstance().loginOut();
+                                                LaiApplication.getInstance().stopService(new Intent(LaiApplication.getInstance(), StepService.class));
+                                                Intent intent=new Intent(LaiApplication.getInstance(), LoginActivity.class);
+                                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                LaiApplication.getInstance().startActivity(intent);
+                                            }
+                                        }).setCancelable(false);
+                                builder.create().show();
+                                break;
+                            case 4001:
+                                new AlertDialog.Builder(LaiApplication.getInstance().getContext())
+                                        .setTitle("温馨提示").setMessage("您已被管理员移出跑团, 您可以等待管理员为您重新分配跑团或选择加入新的跑团")
+                                        .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                UserModel model=UserInfoModel.getInstance().getUser();
+                                                model.setIsJoin("0");
+                                                UserInfoModel.getInstance().saveUserCache(model);
+                                                LaiApplication.getInstance().stopService(new Intent(LaiApplication.getInstance(), StepService.class));
+                                                Intent intent=new Intent(LaiApplication.getInstance(), HomeActviity.class);
+                                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                LaiApplication.getInstance().startActivity(intent);
+                                            }
+                                        }).setCancelable(false).create().show();
+                                break;
+                            case 4002:
+                                new AlertDialog.Builder(LaiApplication.getInstance().getContext())
+                                        .setTitle("温馨提示").setMessage("您所在跑团已被管理员删除, 您可以等待管理员为您重新分配跑团或选择加入新的跑团")
+                                        .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
 
-                        builder.create().show();
+                                                UserModel model=UserInfoModel.getInstance().getUser();
+                                                model.setIsJoin("0");
+                                                UserInfoModel.getInstance().saveUserCache(model);
+                                                LaiApplication.getInstance().stopService(new Intent(LaiApplication.getInstance(), StepService.class));
+                                                Intent intent=new Intent(LaiApplication.getInstance(), HomeActviity.class);
+                                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                LaiApplication.getInstance().startActivity(intent);
+                                            }
+                                        }).setCancelable(false).create().show();
+                                break;
+                            case 4003:
+                                new AlertDialog.Builder(LaiApplication.getInstance().getContext())
+                                        .setTitle("温馨提示").setMessage("您已被管理员移动到新的跑团, 请重新点击莱运动以更新跑团")
+                                        .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                ZillaApi.NormalRestAdapter.create(StepNetService.class).updateIsMove(UserInfoModel.getInstance().getToken(), new RequestCallback<ResponseData>() {
+                                                    @Override
+                                                    public void success(ResponseData responseData, Response response) {
+                                                        Intent intent=new Intent(LaiApplication.getInstance(), HomeActviity.class);
+                                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                        LaiApplication.getInstance().startActivity(intent);
+                                                    }
+
+                                                    @Override
+                                                    public void failure(RetrofitError error) {
+                                                        //error.printStackTrace();
+                                                        Intent intent=new Intent(LaiApplication.getInstance(), HomeActviity.class);
+                                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                        LaiApplication.getInstance().startActivity(intent);
+
+                                                    }
+                                                });
+
+                                            }
+                                        }).setCancelable(false).create().show();
+                                break;
+                        }
                         break;
                     case 403:
                         Util.toastMsg(zilla.libcore.R.string.net_http_403);
