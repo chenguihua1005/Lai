@@ -7,6 +7,9 @@ package com.softtek.lai.module.login.view;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -22,6 +25,7 @@ import com.easemob.chat.EMGroupManager;
 import com.easemob.easeui.domain.ChatUserInfoModel;
 import com.easemob.easeui.domain.ChatUserModel;
 import com.easemob.util.EMLog;
+import com.github.snowdream.android.util.Log;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
@@ -34,6 +38,8 @@ import com.softtek.lai.module.login.presenter.ILoginPresenter;
 import com.softtek.lai.module.login.presenter.LoginPresenterImpl;
 import com.softtek.lai.utils.MD5;
 import com.softtek.lai.utils.SoftInputUtil;
+
+import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
@@ -146,6 +152,17 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_login:
+                /*Intent intent = new Intent();
+                intent.setAction("android.intent.action.MAIN");
+                intent.addCategory("android.intent.category.APP_MARKET");
+                PackageManager pm = this.getPackageManager();
+                List<ResolveInfo> infos = pm.queryIntentActivities(intent, 0);
+                int size = infos.size();
+                for (int i = 0; i < size; i++) {
+                    ActivityInfo activityInfo = infos.get(i).activityInfo;
+                    String packageName = activityInfo.packageName;
+                    Log.i("packageName : " + packageName);
+                }*/
                 validateLife.validate();
                 //loginChat();
                 break;

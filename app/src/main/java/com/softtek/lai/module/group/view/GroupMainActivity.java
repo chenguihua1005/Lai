@@ -253,7 +253,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 Date curDate = new Date(System.currentTimeMillis());//获取当前时间
                 String time = formatter.format(curDate);
-                String str = time + "," + StepService.totalStep;
+                String str = time + "," + StepService.todayStep;
                 dialogShow("加载中");
                 System.out.println("str:" + str);
                 sportGroupManager.getMineResult(userId, str);
@@ -487,7 +487,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date curDate = new Date(System.currentTimeMillis());//获取当前时间
         String time = formatter.format(curDate);
-        String str = time + "," + StepService.totalStep;
+        String str = time + "," + StepService.todayStep;
         sportGroupManager.getSportIndex(userId, str);
     }
 }

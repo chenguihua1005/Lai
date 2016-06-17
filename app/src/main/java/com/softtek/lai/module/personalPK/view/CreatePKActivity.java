@@ -137,7 +137,6 @@ public class CreatePKActivity extends BaseActivity implements View.OnClickListen
                 Intent pk=new Intent(this,SelectOpponentActivity.class);
                 saveValue();
                 pk.putExtra("pkmodel",model);
-                Log.i(model.toString());
                 startActivity(pk);
                 break;
             case R.id.cb_targer_km:

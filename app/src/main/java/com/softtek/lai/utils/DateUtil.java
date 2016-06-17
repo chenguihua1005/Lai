@@ -550,6 +550,41 @@ public class DateUtil {
          */
         return day==1?7:day-1;
     }
+    public String getWeek(Date date){
+        calendar.setTime(date);
+        int day=calendar.get(Calendar.DAY_OF_WEEK);
+        /*
+        由于国外是周日为一周第一天，而国内是周一为第一天，
+        因此，当计算到当天如果是1则为周日，对应转换为中国的7，如果不是周日则
+        按照规则 减去1即可。
+         */
+        day=day==1?7:day-1;
+        String week="";
+        switch (day){
+            case 1:
+                week="星期一";
+                break;
+            case 2:
+                week="星期二";
+                break;
+            case 3:
+                week="星期三";
+                break;
+            case 4:
+                week="星期四";
+                break;
+            case 5:
+                week="星期五";
+                break;
+            case 6:
+                week="星期六";
+                break;
+            case 7:
+                week="星期天";
+                break;
+        }
+        return week;
+    }
 
     /**
      * 获取两个日期之间一共有多少天
