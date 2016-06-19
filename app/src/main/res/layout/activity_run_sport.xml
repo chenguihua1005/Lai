@@ -8,7 +8,11 @@
 
     <include layout="@layout/toolbar" />
 
-
+        <com.amap.api.maps.MapView
+            android:id="@+id/map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/toolbar"/>
 
         <LinearLayout
             android:id="@+id/ll_panel"
@@ -189,12 +193,7 @@
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
-    <com.amap.api.maps.MapView
-        android:id="@+id/map"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/ll_panel"
-        android:layout_below="@id/toolbar"/>
+
         <CheckBox
             android:id="@+id/cb_control"
             android:layout_width="wrap_content"

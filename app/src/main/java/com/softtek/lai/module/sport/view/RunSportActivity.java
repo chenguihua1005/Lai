@@ -139,6 +139,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
         iv_location.setOnClickListener(this);
         aMap = mapView.getMap();
         aMap.setMapType(AMap.MAP_TYPE_NORMAL);
+
         //我的位置样式
         MyLocationStyle locationStyle = new MyLocationStyle();
         locationStyle.myLocationIcon(BitmapDescriptorFactory
@@ -206,6 +207,10 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
             //启动定位
             aMapLocationClient.startLocation();
         }
+
+        ViewGroup.LayoutParams params=mapView.getLayoutParams();
+        params.height=DisplayUtil.getMobileHeight(RunSportActivity.this)-DisplayUtil.dip2px(RunSportActivity.this,320);
+        mapView.setLayoutParams(params);
     }
 
     //6.0权限回调方法
@@ -234,7 +239,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
     LocationManager locationManager;
     StepReceive receive;
     int startStep=0;
-    long aDay=60*60*24*1000;
+    long aDay=3600*24000;
     @Override
     protected void initDatas() {
         tv_title.setText("运动");
@@ -248,15 +253,12 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             locationManager.addGpsStatusListener(this);
         }
-
-        countDown=new RunSportCountDown(aDay,1000);
-        countDown.start();
+        startCountDown();
     }
 
     @Override
     protected void onDestroy() {
         //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
-        if(countDown!=null)countDown.cancel();
         if(aMapLocationClient!=null)aMapLocationClient.unRegisterLocationListener(this);
         if(receive!=null)LocalBroadcastManager.getInstance(this).unregisterReceiver(receive);
         mapView.onDestroy();
@@ -279,6 +281,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
         super.onSaveInstanceState(outState);
         //在activity执行onSaveInstanceState时执行mMapView.onSaveInstanceState (outState)，实现地图生命周期管理
         mapView.onSaveInstanceState(outState);
+
     }
 
     double previousDistance;//旧的距离
@@ -359,27 +362,29 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
                if(countDown!=null){
                    if(countDown.isPaused()){
                        countDown.reStart();
+                       aMapLocationClient.startLocation();
                        iv_pause.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.pause));
 
                    }else if(countDown.isRunning()){
                        countDown.pause();
+                       aMapLocationClient.stopLocation();
                        iv_pause.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.go_on));
                    }
                }
                 break;
             case R.id.iv_stop:
-                if(countDown!=null)countDown.pause();
+                if(countDown!=null)countDown.cancel();
                 if(coordinates.isEmpty()&&Integer.parseInt(tv_step.getText().toString())==0){
-                    AlertDialog dialog=new AlertDialog.Builder(this).setMessage("您还没有运动哦，确定结束运动吗?").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    AlertDialog dialog=new AlertDialog.Builder(this).setMessage("您还没有运动哦，确定结束运动吗?")
+                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            if(countDown!=null)countDown.cancel();
                             finish();
                         }
                     }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            if(countDown!=null)countDown.reStart();
+                            startCountDown();
                         }
                     }).setCancelable(false).create();
                     dialog.show();
@@ -388,7 +393,6 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
                             .setPositiveButton("提交", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    if (countDown != null) countDown.cancel();
                                     SportData data = new SportData();
                                     data.setAccountId(Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()));
                                     data.setCalories(tv_calorie.getText().toString());
@@ -399,15 +403,13 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
                                     data.setTotal(Integer.parseInt(tv_step.getText().toString()));
                                     data.setTrajectory(new Gson().toJson(new Trajectory(coordinates)));
                                     dialogShow("正在提交");
-                                    //Log.i("保存数据为"+data.toString());
                                     manager.submitSportData(RunSportActivity.this, data);
                                 }
                             })
                             .setNegativeButton("稍后", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    if (countDown != null) countDown.reStart();
-
+                                    startCountDown();
                                 }
                             }).setCancelable(false).create();
                     dialog.show();
@@ -415,38 +417,36 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
                 break;
             case R.id.cb_control:
                 //面板控制动画
-                int stp= DisplayUtil.dip2px(this,270);
+                final int stp= DisplayUtil.dip2px(this,270);
                 int enp=DisplayUtil.dip2px(this,100);
-                /*int stmp=DisplayUtil.dip2px(this,250);
-                int edmp=DisplayUtil.dip2px(this,420);*/
                 if(cb_control.isChecked()){
                     //收起
-                    //AnimatorSet set=new AnimatorSet();
-                    //ObjectAnimator mapAn=ObjectAnimator.ofInt(new LayoutWapper(mapView),"translateY",stmp,edmp);
-                    //mapAn.setDuration(100);
-                    //mapAn.setInterpolator(new AccelerateInterpolator());
                     ObjectAnimator animator=ObjectAnimator.ofInt(new LayoutWapper(ll_panel),"translateY",stp,enp)
-                            .setDuration(200);
+                            .setDuration(500);
                     animator.setInterpolator(new OvershootInterpolator());
                     animator.addListener(new AnimatorListenerAdapter() {
+
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                            ViewGroup.LayoutParams params=mapView.getLayoutParams();
+                            params.height=DisplayUtil.getMobileHeight(RunSportActivity.this)-DisplayUtil.dip2px(RunSportActivity.this,160);
+                            mapView.setLayoutParams(params);
+                        }
+
                         @Override
                         public void onAnimationEnd(Animator animation) {
                             cb_control.setChecked(true);
                             ll_content1.setVisibility(View.GONE);
                             ll_content2.setVisibility(View.GONE);
+
                         }
 
                     });
                     animator.start();
-                    //set.playSequentially(mapAn,animator);
-                    //set.start();
+
 
                 }else{
                     //展开
-                    //AnimatorSet set=new AnimatorSet();
-                    //ObjectAnimator mapAn=ObjectAnimator.ofInt(new LayoutWapper(mapView),"translateY",edmp,stmp);
-                    //mapAn.setDuration(100);
-                    //mapAn.setInterpolator(new OvershootInterpolator());
                     ObjectAnimator animator=ObjectAnimator.ofInt(new LayoutWapper(ll_panel),"translateY",enp,stp)
                             .setDuration(300);
                     animator.setInterpolator(new OvershootInterpolator());
@@ -457,10 +457,15 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
                             ll_content1.setVisibility(View.VISIBLE);
                             ll_content2.setVisibility(View.VISIBLE);
                         }
+
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            ViewGroup.LayoutParams params=mapView.getLayoutParams();
+                            params.height=DisplayUtil.getMobileHeight(RunSportActivity.this)-DisplayUtil.dip2px(RunSportActivity.this,320);
+                            mapView.setLayoutParams(params);
+                        }
                     });
                     animator.start();
-                    //set.playSequentially(animator,mapAn);
-                    //set.start();
                 }
                 break;
         }
@@ -483,10 +488,10 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
             while (it.hasNext() && count <= maxSatellites) {
                 count++;
             }
-            if (count >= maxSatellites / 2) {//如果卫星数量大于最大卫星数量的一半则表示很强
+            if (count >= maxSatellites / 4) {//如果卫星数量大于最大卫星数量的一半则表示很强
                 if(iv_gps!=null)
                     iv_gps.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.gps_three));
-            } else if (count >= maxSatellites / 4) {
+            } else if (count >= maxSatellites / 8) {
                 if(iv_gps!=null)
                     iv_gps.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.gps_two));
             } else if (count >= 1) {
@@ -538,26 +543,22 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
 
         @Override
         public void onFinish() {
+            Log.i("定时器结束");
             //重新启动
-            countDown=new RunSportCountDown(aDay,1000);
-            countDown.start();
+            startCountDown();
+
         }
     }
 
-    boolean flag=true;
+    private void startCountDown(){
+        countDown=new RunSportCountDown(aDay,1000);
+        countDown.start();
+    }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN){
-            if(flag){
-                flag=false;
-                doBack();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        flag=true;
-                    }
-                },500);
-            }
+            doBack();
             return true;
         }
         return super.onKeyDown(keyCode, event);
@@ -566,34 +567,24 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
     public void doSubmitResult(int resultCode){
         dialogDissmiss();
         if(resultCode==200){
-            if(countDown!=null)countDown.cancel();
             finish();
         }
     }
     private void doBack(){
-        if(countDown!=null){
-            countDown.pause();
-        }
+        if(countDown!=null)countDown.cancel();
         AlertDialog dialog=new AlertDialog.Builder(this).setMessage("返回将丢失本次跑步数据")
                 .setPositiveButton("放弃", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if(countDown!=null)countDown.cancel();
                         finish();
                     }
                 })
                 .setNegativeButton("继续", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if(countDown!=null)countDown.reStart();
+                        startCountDown();
                     }
-                }).create();
-        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                if(countDown!=null)countDown.reStart();
-            }
-        });
+                }).setCancelable(false).create();
         dialog.show();
     }
 
