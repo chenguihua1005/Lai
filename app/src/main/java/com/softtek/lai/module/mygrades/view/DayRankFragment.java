@@ -3,14 +3,12 @@ package com.softtek.lai.module.mygrades.view;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.ResponseData;
-import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.mygrades.adapter.RankAdapter;
 import com.softtek.lai.module.mygrades.model.DayRankModel;
 import com.softtek.lai.module.mygrades.model.OrderDataModel;

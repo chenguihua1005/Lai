@@ -57,8 +57,8 @@ public class RankInfoAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         RankSelectModel rankSelectModel = rankSelectModelList.get(position);
-        viewHolder.name.setText(rankSelectModelList.get(position).getName()+"");
-        if (position==0){
+        viewHolder.name.setText(rankSelectModelList.get(position).getName() + "");
+        if (position == 0) {
             viewHolder.rbtn_select.setImageResource(R.drawable.radiosel);
         }
         return convertView;
@@ -70,7 +70,7 @@ public class RankInfoAdapter extends BaseAdapter {
 
         public ViewHolder(View view) {
             name = (TextView) view.findViewById(R.id.tv_name);
-            rbtn_select=(ImageView)view.findViewById(R.id.rbtn_select);
+            rbtn_select = (ImageView) view.findViewById(R.id.rbtn_select);
         }
     }
 }

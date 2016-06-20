@@ -241,10 +241,7 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
     //我的成绩曲线图
     @Subscribe
     public void onEvent(GradesEvent gradesEvent) {
-        System.out.println("------------gradesEvent：" + gradesEvent.getgradesModels().size());
-        System.out.println("------------曲线图size()" + gradesEvent.getgradesModels().size());
         List<GradesModel> gradesModels = gradesEvent.getgradesModels();
-
         int n = gradesEvent.getgradesModels().size();
         for (int i = 0; i <= n - 1; i++) {
             if (getDateform(nowdate1).equals(gradesEvent.getgradesModels().get(i).getDate())) {
@@ -278,16 +275,6 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
         dates.add(0f);
         dates.add(0f);
         dates.add(0f);
-//        for (GradesModel gl:gradesModels){
-//            System.out.println("日期"+gl.getDate()+"步数"+gl.getTotalCnt());
-//            float TotalCnt=Float.parseFloat(gl.getTotalCnt());
-//            dates.add(TotalCnt);
-//            days.add(gl.getDate());
-//        }
-//        days.add(5+"/"+10);
-//        days.add(mMonth+"/"+mDay);
-//        chartUtil=new LineChartUtil(MyGradesActivity.this,chart);
-//        chartUtil.addDataf(dates,4,days);
     }
 
     //成绩勋章信息
@@ -434,8 +421,8 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         ll_honor1.setVisibility(View.VISIBLE);
                                         break;
                                     case 3:
-                                        //天使听见爱
-                                        tv_str1.setText("天使听见爱");
+                                        //
+                                        tv_str1.setText("爱心天使");
                                         img_honor1.setImageResource(R.drawable.img_angel_have);
                                         ll_honor1.setVisibility(View.VISIBLE);
                                         break;
@@ -551,8 +538,8 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         ll_honor1.setVisibility(View.VISIBLE);
                                         break;
                                     case 3:
-                                        //天使听见爱
-                                        tv_str1.setText("天使听见爱");
+                                        //爱心天使
+                                        tv_str1.setText("爱心天使");
                                         img_honor1.setImageResource(R.drawable.img_angel_have);
                                         ll_honor1.setVisibility(View.VISIBLE);
                                         break;
@@ -665,8 +652,8 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         ll_honor1.setVisibility(View.VISIBLE);
                                         break;
                                     case 3:
-                                        //天使听见爱
-                                        tv_str2.setText("天使听见爱");
+                                        //爱心天使
+                                        tv_str2.setText("爱心天使");
                                         img_honor2.setImageResource(R.drawable.img_angel_have);
                                         ll_honor2.setVisibility(View.VISIBLE);
                                         break;
@@ -782,8 +769,8 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         ll_honor1.setVisibility(View.VISIBLE);
                                         break;
                                     case 3:
-                                        //天使听见爱
-                                        tv_str1.setText("天使听见爱");
+                                        //爱心天使
+                                        tv_str1.setText("爱心天使");
                                         img_honor1.setImageResource(R.drawable.img_angel_have);
                                         ll_honor1.setVisibility(View.VISIBLE);
                                         break;
@@ -896,8 +883,8 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         ll_honor2.setVisibility(View.VISIBLE);
                                         break;
                                     case 3:
-                                        //天使听见爱
-                                        tv_str2.setText("天使听见爱");
+                                        //爱心天使
+                                        tv_str2.setText("爱心天使");
                                         img_honor2.setImageResource(R.drawable.img_angel_have);
                                         ll_honor2.setVisibility(View.VISIBLE);
                                         break;
@@ -1010,8 +997,8 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         ll_honor1.setVisibility(View.VISIBLE);
                                         break;
                                     case 3:
-                                        //天使听见爱
-                                        tv_str3.setText("天使听见爱");
+                                        //爱心天使
+                                        tv_str3.setText("爱心天使");
                                         img_honor3.setImageResource(R.drawable.img_angel_have);
                                         ll_honor3.setVisibility(View.VISIBLE);
                                         break;
@@ -1049,7 +1036,6 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                 }
                             }
                         }
-                        //Util.toastMsg("我的勋章--查询正确");
                         break;
                     case 500:
                         Util.toastMsg("我的勋章--查询出bug");
@@ -1092,7 +1078,7 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
             //分享
             case R.id.fl_right:
 //                dialogShow("加载中");
-                Bitmap b1=getBitmapByView(scrollView1);
+                Bitmap b1 = getBitmapByView(scrollView1);
                 savePic(b1, "/sdcard/screen_test_2.png");
 
 //                menuWindow = new SelectPicPopupWindow(MyGradesActivity.this, itemsOnClick);
@@ -1120,7 +1106,6 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                 days.add(formdate(nowdate5));
                 days.add(formdate(nowdate6));
                 days.add(formdate(nowdate7));
-                //progressDialog.show();
                 iGradesPresenter.getStepCount(getDateform(nowdate1), getDateform(nowdate7));
                 n = n + 7;
                 bt_right.setVisibility(View.VISIBLE);
@@ -1146,7 +1131,6 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                 days.add(formdate(nowdate5));
                 days.add(formdate(nowdate6));
                 days.add(formdate(nowdate7));
-                //progressDialog.show();
                 iGradesPresenter.getStepCount(getDateform(nowdate1), getDateform(nowdate7));
                 state = false;
                 if (nowdate7.equals(getPeriodDate(type, 0) + ""))
@@ -1214,37 +1198,30 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
             case '1': // 2小时前
                 hour = c.get(Calendar.HOUR_OF_DAY) - 2;
                 c.set(Calendar.HOUR_OF_DAY, hour);
-                // System.out.println(df.format(c.getTime()));
                 break;
             case '2': // 3小时前
                 hour = c.get(Calendar.HOUR_OF_DAY) - 3;
                 c.set(Calendar.HOUR_OF_DAY, hour);
-                // System.out.println(df.format(c.getTime()));
                 break;
             case '3': // 6小时前
                 hour = c.get(Calendar.HOUR_OF_DAY) - 6;
                 c.set(Calendar.HOUR_OF_DAY, hour);
-                // System.out.println(df.format(c.getTime()));
                 break;
             case '4': // 12小时前
                 hour = c.get(Calendar.HOUR_OF_DAY) - 12;
                 c.set(Calendar.HOUR_OF_DAY, hour);
-                // System.out.println(df.format(c.getTime()));
                 break;
             case '5': // 一天前
                 day = c.get(Calendar.DAY_OF_MONTH) - 1;
                 c.set(Calendar.DAY_OF_MONTH, day);
-                // System.out.println(df.format(c.getTime()));
                 break;
             case '6': // 一星期前
                 day = c.get(Calendar.DAY_OF_MONTH) - n;
                 c.set(Calendar.DAY_OF_MONTH, day);
-                // System.out.println(df.format(c.getTime()));
                 break;
             case '7': // 一个月前
                 day = c.get(Calendar.DAY_OF_MONTH) - 30 * n;
                 c.set(Calendar.DAY_OF_MONTH, day);
-                // System.out.println(df.format(c.getTime()));
                 break;
         }
         int mYear = c.get(Calendar.YEAR);
@@ -1253,7 +1230,6 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
         StringBuilder strForwardDate = new StringBuilder().append(mYear).append(
                 (mMonth + 1) < 10 ? "0" + (mMonth + 1) : (mMonth + 1)).append(
                 (mDay < 10) ? "0" + mDay : mDay);
-        System.out.println("strDate------->" + strForwardDate + "-" + c.getTimeInMillis());
         return strForwardDate;
     }
 

@@ -10,9 +10,11 @@ import java.util.List;
  */
 public class GradesEvent {
 
-    private List<GradesModel>gradesModels;
+    private List<GradesModel> gradesModels;
 
-    public GradesEvent(List<GradesModel>gradesModels){this.gradesModels=gradesModels;}
+    public GradesEvent(List<GradesModel> gradesModels) {
+        this.gradesModels = gradesModels;
+    }
 
     public List<GradesModel> getgradesModels() {
         return gradesModels;

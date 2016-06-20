@@ -141,7 +141,6 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
         iv_location.setOnClickListener(this);
         aMap = mapView.getMap();
         aMap.setMapType(AMap.MAP_TYPE_NORMAL);
-
         //我的位置样式
         MyLocationStyle locationStyle = new MyLocationStyle();
         locationStyle.myLocationIcon(BitmapDescriptorFactory
@@ -176,6 +175,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
         aMapLocationClientOption.setInterval(3000);
         //给定位客户端对象设置定位参数
         aMapLocationClient.setLocationOption(aMapLocationClientOption);
+
 
         //初始化polyline
         polylineOptions = new PolylineOptions();
