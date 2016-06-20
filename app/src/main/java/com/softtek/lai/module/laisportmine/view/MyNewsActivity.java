@@ -62,7 +62,7 @@ public class MyNewsActivity extends BaseActivity implements View.OnClickListener
         Intent intent = getIntent();
         runTeamModels = (RunTeamModel) intent.getSerializableExtra("runTeamModels");
         //从上一个界面接收消息model，显示信息提醒数量
-        if (!TextUtils.isEmpty(runTeamModels.toString())) {
+        if (runTeamModels!=null) {
             if (Integer.parseInt(runTeamModels.getIsHasAngelMsg()) > 0 && Integer.parseInt(runTeamModels.getIsHasAngelMsg()) <= 10) {
                 tv_newslis_public.setText(runTeamModels.getIsHasAngelMsg());
                 tv_newslis_public.setVisibility(View.VISIBLE);
