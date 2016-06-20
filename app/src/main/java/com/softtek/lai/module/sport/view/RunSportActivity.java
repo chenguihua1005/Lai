@@ -28,6 +28,7 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
@@ -108,6 +109,8 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
     LinearLayout ll_content1;
     @InjectView(R.id.ll_content2)
     LinearLayout ll_content2;
+    @InjectView(R.id.rl_base)
+    RelativeLayout rl_base;
 
 
     //倒计时
@@ -209,7 +212,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
         }
 
         ViewGroup.LayoutParams params=mapView.getLayoutParams();
-        params.height=DisplayUtil.getMobileHeight(RunSportActivity.this)-DisplayUtil.dip2px(RunSportActivity.this,320);
+        params.height=DisplayUtil.getMobileHeight(RunSportActivity.this)-DisplayUtil.dip2px(RunSportActivity.this,345);
         mapView.setLayoutParams(params);
     }
 
@@ -429,7 +432,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
                         @Override
                         public void onAnimationStart(Animator animation) {
                             ViewGroup.LayoutParams params=mapView.getLayoutParams();
-                            params.height=DisplayUtil.getMobileHeight(RunSportActivity.this)-DisplayUtil.dip2px(RunSportActivity.this,160);
+                            params.height=DisplayUtil.getMobileHeight(RunSportActivity.this)-DisplayUtil.dip2px(RunSportActivity.this,175);
                             mapView.setLayoutParams(params);
                         }
 
@@ -443,7 +446,6 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
 
                     });
                     animator.start();
-
 
                 }else{
                     //展开
@@ -461,7 +463,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
                         @Override
                         public void onAnimationEnd(Animator animation) {
                             ViewGroup.LayoutParams params=mapView.getLayoutParams();
-                            params.height=DisplayUtil.getMobileHeight(RunSportActivity.this)-DisplayUtil.dip2px(RunSportActivity.this,320);
+                            params.height=DisplayUtil.getMobileHeight(RunSportActivity.this)-DisplayUtil.dip2px(RunSportActivity.this,345);
                             mapView.setLayoutParams(params);
                         }
                     });

@@ -193,6 +193,15 @@
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/rl_base"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#00ffffff"
+        android:layout_below="@id/toolbar"
+        android:layout_above="@id/ll_panel">
+
+    </RelativeLayout>
 
         <CheckBox
             android:id="@+id/cb_control"
