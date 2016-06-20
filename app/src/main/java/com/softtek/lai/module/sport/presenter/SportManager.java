@@ -129,6 +129,9 @@ public class SportManager {
                     @Override
                     public void success(ResponseData responseData, Response response) {
                         com.github.snowdream.android.util.Log.i(responseData.toString());
+                        if(responseData.getStatus()!=200){
+                            Util.toastMsg(responseData.getMsg());
+                        }
                         if(activity!=null) {
                             activity.doSubmitResult(responseData.getStatus());
                         }
