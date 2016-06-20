@@ -4,9 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -59,8 +57,7 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
     private List<Fragment> fragments=new ArrayList<>();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void initViews() {
         btn_home.setOnClickListener(this);
         btn_healthy.setOnClickListener(this);
         btn_healthy_record.setOnClickListener(this);
@@ -68,10 +65,6 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
         /*white = getResources().getDrawable(R.drawable.bg_white);
         green = getResources().getDrawable(R.drawable.bg_green);*/
         checkUpdate();
-    }
-
-    @Override
-    protected void initViews() {
         content.setOffscreenPageLimit(3);
     }
 
