@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
@@ -78,16 +79,16 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
     //信息点击弹框
     //初始体重
     @InjectView(R.id.ll_retestWrite_chu_weight)
-    LinearLayout ll_retestWrite_chu_weight;
+    RelativeLayout ll_retestWrite_chu_weight;
     //现在体重
     @InjectView(R.id.ll_retestWrite_nowweight)
-    LinearLayout ll_retestWrite_nowweight;
+    RelativeLayout ll_retestWrite_nowweight;
     //体脂
     @InjectView(R.id.ll_retestWrite_tizhi)
-    LinearLayout ll_retestWrite_tizhi;
+    RelativeLayout ll_retestWrite_tizhi;
     //内脂
     @InjectView(R.id.ll_retestWrite_neizhi)
-    LinearLayout ll_retestWrite_neizhi;
+    RelativeLayout ll_retestWrite_neizhi;
 
     @LifeCircleInject
     ValidateLife validateLife;

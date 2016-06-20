@@ -257,7 +257,7 @@
                 </RelativeLayout>
             </LinearLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/ll_retestWrite_chu_weight"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -267,12 +267,6 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="5dp">
-
-                <RelativeLayout
-                    android:id="@+id/Re_retestWrite_chu_weight"
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -310,8 +304,8 @@
                         android:paddingRight="3dp"
                         android:textColor="#333333"
                         android:id="@+id/textView15" />
-                </RelativeLayout>
-            </LinearLayout>
+
+            </RelativeLayout>
             <View
                 android:layout_height="1dp"
                 android:layout_width="match_parent"
@@ -319,7 +313,7 @@
                 android:layout_marginRight="20dp"
                 android:background="#75ba2b"/>
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/ll_retestWrite_nowweight"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -328,12 +322,6 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:padding="15dp">
-
-                <RelativeLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" >
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -369,8 +357,7 @@
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentRight="true"
                         android:id="@+id/textView18" />
-                </RelativeLayout>
-            </LinearLayout>
+            </RelativeLayout>
             <View
                 android:layout_height="1dp"
                 android:layout_width="match_parent"
@@ -378,7 +365,7 @@
                 android:layout_marginLeft="20dp"
                 android:background="#75ba2b"/>
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/ll_retestWrite_tizhi"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -387,11 +374,6 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:padding="15dp" >
-
-                <RelativeLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" >
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -424,8 +406,7 @@
                         android:layout_alignParentRight="true"
                         android:paddingRight="3dp"
                         android:id="@+id/textView17" />
-                </RelativeLayout>
-            </LinearLayout>
+            </RelativeLayout>
             <View
                 android:layout_height="1dp"
                 android:layout_width="match_parent"
@@ -433,7 +414,7 @@
                 android:layout_marginLeft="20dp"
                 android:background="#75ba2b"/>
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/ll_retestWrite_neizhi"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -442,11 +423,6 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:padding="15dp" >
-
-                <RelativeLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" >
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -478,8 +454,7 @@
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentRight="true"
                         android:id="@+id/textView21" />
-                </RelativeLayout>
-            </LinearLayout>
+            </RelativeLayout>
             <View
                 android:layout_height="1dp"
                 android:layout_width="match_parent"
@@ -489,7 +464,7 @@
 
 
 
-            <LinearLayout
+            <RelativeLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -497,11 +472,6 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:padding="15dp" >
-
-                <RelativeLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" >
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -531,9 +501,8 @@
                         android:layout_alignParentRight="true"
                         android:layout_alignParentBottom="true"
                         android:id="@+id/im_retestwrite_takephoto" />
-                </RelativeLayout>
 
-            </LinearLayout>
+            </RelativeLayout>
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
