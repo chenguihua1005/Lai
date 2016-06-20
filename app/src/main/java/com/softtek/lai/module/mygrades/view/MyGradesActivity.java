@@ -421,8 +421,8 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         ll_honor1.setVisibility(View.VISIBLE);
                                         break;
                                     case 3:
-                                        //天使听见爱
-                                        tv_str1.setText("天使听见爱");
+                                        //
+                                        tv_str1.setText("爱心天使");
                                         img_honor1.setImageResource(R.drawable.img_angel_have);
                                         ll_honor1.setVisibility(View.VISIBLE);
                                         break;
@@ -538,8 +538,8 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         ll_honor1.setVisibility(View.VISIBLE);
                                         break;
                                     case 3:
-                                        //天使听见爱
-                                        tv_str1.setText("天使听见爱");
+                                        //爱心天使
+                                        tv_str1.setText("爱心天使");
                                         img_honor1.setImageResource(R.drawable.img_angel_have);
                                         ll_honor1.setVisibility(View.VISIBLE);
                                         break;
@@ -652,8 +652,8 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         ll_honor1.setVisibility(View.VISIBLE);
                                         break;
                                     case 3:
-                                        //天使听见爱
-                                        tv_str2.setText("天使听见爱");
+                                        //爱心天使
+                                        tv_str2.setText("爱心天使");
                                         img_honor2.setImageResource(R.drawable.img_angel_have);
                                         ll_honor2.setVisibility(View.VISIBLE);
                                         break;
@@ -769,8 +769,8 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         ll_honor1.setVisibility(View.VISIBLE);
                                         break;
                                     case 3:
-                                        //天使听见爱
-                                        tv_str1.setText("天使听见爱");
+                                        //爱心天使
+                                        tv_str1.setText("爱心天使");
                                         img_honor1.setImageResource(R.drawable.img_angel_have);
                                         ll_honor1.setVisibility(View.VISIBLE);
                                         break;
@@ -883,8 +883,8 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         ll_honor2.setVisibility(View.VISIBLE);
                                         break;
                                     case 3:
-                                        //天使听见爱
-                                        tv_str2.setText("天使听见爱");
+                                        //爱心天使
+                                        tv_str2.setText("爱心天使");
                                         img_honor2.setImageResource(R.drawable.img_angel_have);
                                         ll_honor2.setVisibility(View.VISIBLE);
                                         break;
@@ -997,8 +997,8 @@ public class MyGradesActivity extends BaseActivity implements View.OnClickListen
                                         ll_honor1.setVisibility(View.VISIBLE);
                                         break;
                                     case 3:
-                                        //天使听见爱
-                                        tv_str3.setText("天使听见爱");
+                                        //爱心天使
+                                        tv_str3.setText("爱心天使");
                                         img_honor3.setImageResource(R.drawable.img_angel_have);
                                         ll_honor3.setVisibility(View.VISIBLE);
                                         break;
