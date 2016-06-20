@@ -54,8 +54,6 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
     private int currentId = 0;
     private boolean isClick = false;
 
-    Drawable white;
-    Drawable green;
 
     private int select_page = 0;
     private List<Fragment> fragments=new ArrayList<>();
@@ -67,20 +65,21 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
         btn_healthy.setOnClickListener(this);
         btn_healthy_record.setOnClickListener(this);
         btn_mine.setOnClickListener(this);
-        white = getResources().getDrawable(R.drawable.bg_white);
-        green = getResources().getDrawable(R.drawable.bg_green);
+        /*white = getResources().getDrawable(R.drawable.bg_white);
+        green = getResources().getDrawable(R.drawable.bg_green);*/
         checkUpdate();
     }
 
     @Override
     protected void initViews() {
-        content.setOffscreenPageLimit(5);
+        content.setOffscreenPageLimit(3);
     }
 
     @Override
     protected void initDatas() {
         fragments.add(new HomeFragment());
         fragments.add(new HealthyFragment());
+        //fragments.add(new ConversationFragment());
         fragments.add(new HealthyRecordFragment());
         fragments.add(new MineFragment());
         content.setAdapter(new MainPageAdapter(getSupportFragmentManager(),fragments));
@@ -240,7 +239,7 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
                     String versionShort = jsonObject.getString("versionShort");
                     build = jsonObject.getInt("build");
                     installUrl = jsonObject.getString("installUrl");
-                    information = "名称：" + name + "\n" + "更新内容:" + changelog + "\n" + "版本号：" + versionShort;
+                    information = "更新内容:\n" + changelog + "\n" + "版本号：" + versionShort;
                 } catch (Exception E) {
                     E.printStackTrace();
                 }

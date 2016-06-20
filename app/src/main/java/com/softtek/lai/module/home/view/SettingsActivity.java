@@ -15,8 +15,6 @@ import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,15 +22,8 @@ import android.widget.TextView;
 import com.github.snowdream.android.util.Log;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
-import com.mobsandgeeks.saripaar.annotation.ConfirmPassword;
-import com.mobsandgeeks.saripaar.annotation.Password;
-import com.mobsandgeeks.saripaar.annotation.Regex;
-import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.module.login.presenter.IPasswordPresenter;
-import com.softtek.lai.module.login.presenter.PasswordPresnter;
-import com.softtek.lai.module.message.view.MessageActivity;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.SoftInputUtil;
 
@@ -41,7 +32,6 @@ import org.json.JSONObject;
 import butterknife.InjectView;
 import im.fir.sdk.FIR;
 import im.fir.sdk.VersionCheckCallback;
-import zilla.libcore.file.PropertiesManager;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
@@ -177,7 +167,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
                     String versionShort = jsonObject.getString("versionShort");
                     build = jsonObject.getInt("build");
                     installUrl = jsonObject.getString("installUrl");
-                    information = "名称：" + name + "\n" + "更新内容:" + changelog + "\n" + "版本号：" + versionShort;
+                    information = "更新内容:\n" + changelog + "\n" + "版本号：" + versionShort;
                 } catch (Exception E) {
                     E.printStackTrace();
                 }

@@ -28,7 +28,6 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
@@ -109,8 +108,8 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
     LinearLayout ll_content1;
     @InjectView(R.id.ll_content2)
     LinearLayout ll_content2;
-    @InjectView(R.id.rl_base)
-    RelativeLayout rl_base;
+    /*@InjectView(R.id.rl_base)
+    RelativeLayout rl_base;*/
 
 
     //倒计时
@@ -173,8 +172,8 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
         aMapLocationClientOption.setWifiActiveScan(true);
         //设置是否允许模拟位置,默认为false，不允许模拟位置
         aMapLocationClientOption.setMockEnable(true);
-        //设置定位间隔,单位毫秒,默认为2000ms
-        aMapLocationClientOption.setInterval(5000);
+        //设置定位间隔,单位毫秒,默认为3000ms
+        aMapLocationClientOption.setInterval(3000);
         //给定位客户端对象设置定位参数
         aMapLocationClient.setLocationOption(aMapLocationClientOption);
 
