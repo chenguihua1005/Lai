@@ -39,6 +39,7 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 /**
+ * @author lareina.qiao
  * Created by John on 2016/4/12.
  */
 @InjectLayout(R.layout.fragment_weight)
@@ -61,19 +62,11 @@ public class BustFragment extends BaseFragment implements RadioGroup.OnCheckedCh
     Button bt_left;
     @InjectView(R.id.bt_right)
     Button bt_right;
-
+    DateForm dateForm;
     private LineChartUtil chartUtil;
     List<Float> dates=new ArrayList<Float>();
     List<String>days=new ArrayList<String>();
-    //时间
-    Calendar c = Calendar.getInstance();
-    //            取得系统日期:
-    int years = c.get(Calendar.YEAR);
-    int months = c.get(Calendar.MONTH) + 1;
-    int day = c.get(Calendar.DAY_OF_MONTH);
-    //取得系统时间：
-    int hour = c.get(Calendar.HOUR_OF_DAY);
-    int minute = c.get(Calendar.MINUTE);
+
     char type='6';
     int n=7;
     boolean state=true;
@@ -111,6 +104,7 @@ public class BustFragment extends BaseFragment implements RadioGroup.OnCheckedCh
         YAxis rightAxis=chart.getAxisRight();
         rightAxis.setDrawZeroLine(true);
         chart.setData(new LineData());//设置一个空数据
+
         radio_group.setOnCheckedChangeListener(this);
         bt_left.setOnClickListener(this);
         bt_right.setOnClickListener(this);
@@ -123,32 +117,31 @@ public class BustFragment extends BaseFragment implements RadioGroup.OnCheckedCh
 
     @Override
     protected void initDatas() {
+        dateForm=new DateForm();
         progressDialog=new ProgressDialog(getContext());
         progressDialog.setMessage("加载中...");
         progressDialog.setCanceledOnTouchOutside(false);
         healthRecordManager=new HealthRecordManager(this);
         chartUtil=new LineChartUtil(getContext(),chart);
         dates.clear();
-        Log.i(""+date+datetime[0]+datetime[1]);
+//        Log.i(""+date+datetime[0]+datetime[1]);
         iHealthyRecord=new HealthyRecordImpl();
-        String nowdate7=getPeriodDate(type,0)+"";
-        String nowdate6=getPeriodDate(type,1)+"";
-        String nowdate5=getPeriodDate(type,2)+"";
-        String nowdate4=getPeriodDate(type,3)+"";
-        String nowdate3=getPeriodDate(type,4)+"";
-        String nowdate2=getPeriodDate(type,5)+"";
-        String nowdate1=getPeriodDate(type,6)+"";
-        days.add(formdate(nowdate1));
-        days.add(formdate(nowdate2));
-        days.add(formdate(nowdate3));
-        days.add(formdate(nowdate4));
-        days.add(formdate(nowdate5));
-        days.add(formdate(nowdate6));
-        days.add(formdate(nowdate7));
+        String nowdate7=dateForm.getPeriodDate(type,0)+"";
+        String nowdate6=dateForm.getPeriodDate(type,1)+"";
+        String nowdate5=dateForm.getPeriodDate(type,2)+"";
+        String nowdate4=dateForm.getPeriodDate(type,3)+"";
+        String nowdate3=dateForm.getPeriodDate(type,4)+"";
+        String nowdate2=dateForm.getPeriodDate(type,5)+"";
+        String nowdate1=dateForm.getPeriodDate(type,6)+"";
+        days.add(dateForm.formdate(nowdate1));
+        days.add(dateForm.formdate(nowdate2));
+        days.add(dateForm.formdate(nowdate3));
+        days.add(dateForm.formdate(nowdate4));
+        days.add(dateForm.formdate(nowdate5));
+        days.add(dateForm.formdate(nowdate6));
+        days.add(dateForm.formdate(nowdate7));
         progressDialog.show();
-        healthRecordManager.doGetHealthcircumRecords(getDateform(nowdate1)+" "+datetime[1],date,1);
-
-
+        healthRecordManager.doGetHealthcircumRecords(dateForm.getDateform(nowdate1)+" "+datetime[1],date,1);
     }
 
     @Override
@@ -165,91 +158,9 @@ public class BustFragment extends BaseFragment implements RadioGroup.OnCheckedCh
                 break;
         }
     }
-    /**
-     * 获取阶段日期
-     * @param  dateType
-     * @author Yangtse
-     */
-    //使用方法 char datetype = '7';
-    public static StringBuilder getPeriodDate(char dateType,int n) {
-        Calendar c = Calendar.getInstance(); // 当时的日期和时间
-        int hour; // 需要更改的小时
-        int day; // 需要更改的天数
-        switch (dateType) {
-            case '0': // 1小时前
-                hour = c.get(Calendar.HOUR_OF_DAY) - 1;
-                c.set(Calendar.HOUR_OF_DAY, hour);
-                // System.out.println(df.format(c.getTime()));
-                break;
-            case '1': // 2小时前
-                hour = c.get(Calendar.HOUR_OF_DAY) - 2;
-                c.set(Calendar.HOUR_OF_DAY, hour);
-                // System.out.println(df.format(c.getTime()));
-                break;
-            case '2': // 3小时前
-                hour = c.get(Calendar.HOUR_OF_DAY) - 3;
-                c.set(Calendar.HOUR_OF_DAY, hour);
-                // System.out.println(df.format(c.getTime()));
-                break;
-            case '3': // 6小时前
-                hour = c.get(Calendar.HOUR_OF_DAY) - 6;
-                c.set(Calendar.HOUR_OF_DAY, hour);
-                // System.out.println(df.format(c.getTime()));
-                break;
-            case '4': // 12小时前
-                hour = c.get(Calendar.HOUR_OF_DAY) - 12;
-                c.set(Calendar.HOUR_OF_DAY, hour);
-                // System.out.println(df.format(c.getTime()));
-                break;
-            case '5': // 一天前
-                day = c.get(Calendar.DAY_OF_MONTH) - 1;
-                c.set(Calendar.DAY_OF_MONTH, day);
-                // System.out.println(df.format(c.getTime()));
-                break;
-            case '6': // 一星期前
-                day = c.get(Calendar.DAY_OF_MONTH) - n;
-                c.set(Calendar.DAY_OF_MONTH, day);
-                // System.out.println(df.format(c.getTime()));
-                break;
-            case '7': // 一个月前
-                day = c.get(Calendar.DAY_OF_MONTH) - 30*n;
-                c.set(Calendar.DAY_OF_MONTH, day);
-                // System.out.println(df.format(c.getTime()));
-                break;
-        }
-        int mYear = c.get(Calendar.YEAR);
-        int mMonth = c.get(Calendar.MONTH);
-        int mDay = c.get(Calendar.DAY_OF_MONTH);
-        StringBuilder strForwardDate = new StringBuilder().append(mYear).append(
-                (mMonth + 1) < 10 ? "0" + (mMonth + 1) : (mMonth + 1)).append(
-                (mDay < 10) ? "0" + mDay : mDay);
-        System.out.println("strDate------->"+strForwardDate+"-"+c.getTimeInMillis());
-        return strForwardDate;
-        //return c.getTimeInMillis();
-    }
-    public String formdate(String nowdate)
-    {
-        String date;
-        String sr=nowdate.substring(4,5);
-        if (nowdate.substring(4,5).equals("0"))
-        {
-            date=nowdate.substring(5,6)+"/"+nowdate.substring(6,8);
-        }
-        else {
-            date=nowdate.substring(4,6)+"/"+nowdate.substring(6,8);
 
-        }
-        return date;
 
-    }
-    public String getDateform(String nowdate)
-    {
-        String date;
-        String sr=nowdate.substring(4,5);
-        date=nowdate.substring(0,4)+"-"+nowdate.substring(4,6)+"-"+nowdate.substring(6,8);
-        return date;
 
-    }
 
     @Override
     public void getHealthPysicalRecords(PysicalModel pysicalModel) {
@@ -322,22 +233,22 @@ public class BustFragment extends BaseFragment implements RadioGroup.OnCheckedCh
                         state=true;
                         days.clear();
                         dates.clear();
-                        String nowdate7 = getPeriodDate(type, n) + "";
-                        String nowdate6 = getPeriodDate(type, n + 1) + "";
-                        String nowdate5 = getPeriodDate(type, n + 2) + "";
-                        String nowdate4 = getPeriodDate(type, n + 3) + "";
-                        String nowdate3 = getPeriodDate(type, n + 4) + "";
-                        String nowdate2 = getPeriodDate(type, n + 5) + "";
-                        String nowdate1 = getPeriodDate(type, n + 6) + "";
-                        days.add(formdate(nowdate1));
-                        days.add(formdate(nowdate2));
-                        days.add(formdate(nowdate3));
-                        days.add(formdate(nowdate4));
-                        days.add(formdate(nowdate5));
-                        days.add(formdate(nowdate6));
-                        days.add(formdate(nowdate7));
+                        String nowdate7 = dateForm.getPeriodDate(type, n) + "";
+                        String nowdate6 = dateForm.getPeriodDate(type, n + 1) + "";
+                        String nowdate5 = dateForm.getPeriodDate(type, n + 2) + "";
+                        String nowdate4 = dateForm.getPeriodDate(type, n + 3) + "";
+                        String nowdate3 = dateForm.getPeriodDate(type, n + 4) + "";
+                        String nowdate2 = dateForm.getPeriodDate(type, n + 5) + "";
+                        String nowdate1 = dateForm.getPeriodDate(type, n + 6) + "";
+                        days.add(dateForm.formdate(nowdate1));
+                        days.add(dateForm.formdate(nowdate2));
+                        days.add(dateForm.formdate(nowdate3));
+                        days.add(dateForm.formdate(nowdate4));
+                        days.add(dateForm.formdate(nowdate5));
+                        days.add(dateForm.formdate(nowdate6));
+                        days.add(dateForm.formdate(nowdate7));
                         progressDialog.show();
-                        healthRecordManager.doGetHealthcircumRecords(getDateform(nowdate1),getDateform(nowdate7),1);
+                        healthRecordManager.doGetHealthcircumRecords(dateForm.getDateform(nowdate1),dateForm.getDateform(nowdate7),1);
                         n = n + 7;
                         bt_right.setVisibility(View.VISIBLE);
                         break;
@@ -346,20 +257,20 @@ public class BustFragment extends BaseFragment implements RadioGroup.OnCheckedCh
                         {
                             n=n+4;
                         }
-                        state=true;
+                        state=true;;
                         dates.clear();
                         days.clear();
                         type='6';
-                        String monthdate4=getPeriodDate(type,7*n)+"";
-                        String monthdate3=getPeriodDate(type,7*(n+1))+"";
-                        String monthdate2=getPeriodDate(type,7*(n+2))+"";
-                        String monthdate1=getPeriodDate(type,7*(n+3))+"";
-                        days.add(formdate(monthdate1));
-                        days.add(formdate(monthdate2));
-                        days.add(formdate(monthdate3));
-                        days.add(formdate(monthdate4));
+                        String monthdate4=dateForm.getPeriodDate(type,7*n)+"";
+                        String monthdate3=dateForm.getPeriodDate(type,7*(n+1))+"";
+                        String monthdate2=dateForm.getPeriodDate(type,7*(n+2))+"";
+                        String monthdate1=dateForm.getPeriodDate(type,7*(n+3))+"";
+                        days.add(dateForm.formdate(monthdate1));
+                        days.add(dateForm.formdate(monthdate2));
+                        days.add(dateForm.formdate(monthdate3));
+                        days.add(dateForm.formdate(monthdate4));
                         progressDialog.show();
-                        healthRecordManager.doGetHealthcircumRecords(getDateform(monthdate1),getDateform(monthdate4),2);
+                        healthRecordManager.doGetHealthcircumRecords(dateForm.getDateform(monthdate1),dateForm.getDateform(monthdate4),2);
                         n=n+4;
                         bt_right.setVisibility(View.VISIBLE);
                         break;
@@ -372,16 +283,16 @@ public class BustFragment extends BaseFragment implements RadioGroup.OnCheckedCh
                         dates.clear();
                         days.clear();
                         type='6';
-                        String quarterdate4=getPeriodDate(type,21*n)+"";
-                        String quarterdate3=getPeriodDate(type,21*(n+1))+"";
-                        String quarterdate2=getPeriodDate(type,21*(n+2))+"";
-                        String quarterdate1=getPeriodDate(type,21*(n+3))+"";
-                        days.add(formdate(quarterdate1));
-                        days.add(formdate(quarterdate2));
-                        days.add(formdate(quarterdate3));
-                        days.add(formdate(quarterdate4));
+                        String quarterdate4=dateForm.getPeriodDate(type,21*n)+"";
+                        String quarterdate3=dateForm.getPeriodDate(type,21*(n+1))+"";
+                        String quarterdate2=dateForm.getPeriodDate(type,21*(n+2))+"";
+                        String quarterdate1=dateForm.getPeriodDate(type,21*(n+3))+"";
+                        days.add(dateForm.formdate(quarterdate1));
+                        days.add(dateForm.formdate(quarterdate2));
+                        days.add(dateForm.formdate(quarterdate3));
+                        days.add(dateForm.formdate(quarterdate4));
                         progressDialog.show();
-                        healthRecordManager.doGetHealthcircumRecords(getDateform(quarterdate1),getDateform(quarterdate4),3);
+                        healthRecordManager.doGetHealthcircumRecords(dateForm.getDateform(quarterdate1),dateForm.getDateform(quarterdate4),3);
                         n=n+4;
                         bt_right.setVisibility(View.VISIBLE);
                         break;
@@ -394,17 +305,17 @@ public class BustFragment extends BaseFragment implements RadioGroup.OnCheckedCh
                         days.clear();
                         state=true;
                         type='7';
-                        String yeardate4=getPeriodDate(type,2*n)+"";
-                        String yeardate3=getPeriodDate(type,2*(n+1))+"";
-                        String yeardate2=getPeriodDate(type,2*(n+2))+"";
-                        String yeardate1=getPeriodDate(type,2*(n+3))+"";
-                        String yeardate0=getPeriodDate(type,2*(n+4))+"";
+                        String yeardate4=dateForm.getPeriodDate(type,2*n)+"";
+                        String yeardate3=dateForm.getPeriodDate(type,2*(n+1))+"";
+                        String yeardate2=dateForm.getPeriodDate(type,2*(n+2))+"";
+                        String yeardate1=dateForm.getPeriodDate(type,2*(n+3))+"";
+                        String yeardate0=dateForm.getPeriodDate(type,2*(n+4))+"";
                         days.add(formyeardate(yeardate1));
                         days.add(formyeardate(yeardate2));
                         days.add(formyeardate(yeardate3));
                         days.add(formyeardate(yeardate4)+"     /");
                         progressDialog.show();
-                        healthRecordManager.doGetHealthcircumRecords(getDateform(yeardate0),getDateform(yeardate4),4);
+                        healthRecordManager.doGetHealthcircumRecords(dateForm.getDateform(yeardate0),dateForm.getDateform(yeardate4),4);
                         n=n+4;
                         bt_right.setVisibility(View.VISIBLE);
                         break;
@@ -426,24 +337,24 @@ public class BustFragment extends BaseFragment implements RadioGroup.OnCheckedCh
                         }
                         dates.clear();
                         days.clear();
-                        String nowdate7 = getPeriodDate(type, n) + "";
-                        String nowdate6 = getPeriodDate(type, n + 1) + "";
-                        String nowdate5 = getPeriodDate(type, n + 2) + "";
-                        String nowdate4 = getPeriodDate(type, n + 3) + "";
-                        String nowdate3 = getPeriodDate(type, n + 4) + "";
-                        String nowdate2 = getPeriodDate(type, n + 5) + "";
-                        String nowdate1 = getPeriodDate(type, n + 6) + "";
-                        days.add(formdate(nowdate1));
-                        days.add(formdate(nowdate2));
-                        days.add(formdate(nowdate3));
-                        days.add(formdate(nowdate4));
-                        days.add(formdate(nowdate5));
-                        days.add(formdate(nowdate6));
-                        days.add(formdate(nowdate7));
+                        String nowdate7 = dateForm.getPeriodDate(type, n) + "";
+                        String nowdate6 = dateForm.getPeriodDate(type, n + 1) + "";
+                        String nowdate5 = dateForm.getPeriodDate(type, n + 2) + "";
+                        String nowdate4 = dateForm.getPeriodDate(type, n + 3) + "";
+                        String nowdate3 = dateForm.getPeriodDate(type, n + 4) + "";
+                        String nowdate2 = dateForm.getPeriodDate(type, n + 5) + "";
+                        String nowdate1 = dateForm.getPeriodDate(type, n + 6) + "";
+                        days.add(dateForm.formdate(nowdate1));
+                        days.add(dateForm.formdate(nowdate2));
+                        days.add(dateForm.formdate(nowdate3));
+                        days.add(dateForm.formdate(nowdate4));
+                        days.add(dateForm.formdate(nowdate5));
+                        days.add(dateForm.formdate(nowdate6));
+                        days.add(dateForm.formdate(nowdate7));
                         progressDialog.show();
-                        healthRecordManager.doGetHealthcircumRecords(getDateform(nowdate1),getDateform(nowdate7),1);
+                        healthRecordManager.doGetHealthcircumRecords(dateForm.getDateform(nowdate1),dateForm.getDateform(nowdate7),1);
                         state=false;
-                        if (nowdate7.equals(getPeriodDate(type,0)+""))
+                        if (nowdate7.equals(dateForm.getPeriodDate(type,0)+""))
                             bt_right.setVisibility(View.GONE);
                         break;
                     case 1:
@@ -457,18 +368,18 @@ public class BustFragment extends BaseFragment implements RadioGroup.OnCheckedCh
                         dates.clear();
                         days.clear();
                         type='6';
-                        String monthdate4=getPeriodDate(type,7*n)+"";
-                        String monthdate3=getPeriodDate(type,7*(n+1))+"";
-                        String monthdate2=getPeriodDate(type,7*(n+2))+"";
-                        String monthdate1=getPeriodDate(type,7*(n+3))+"";
-                        days.add(formdate(monthdate1));
-                        days.add(formdate(monthdate2));
-                        days.add(formdate(monthdate3));
-                        days.add(formdate(monthdate4));
+                        String monthdate4=dateForm.getPeriodDate(type,7*n)+"";
+                        String monthdate3=dateForm.getPeriodDate(type,7*(n+1))+"";
+                        String monthdate2=dateForm.getPeriodDate(type,7*(n+2))+"";
+                        String monthdate1=dateForm.getPeriodDate(type,7*(n+3))+"";
+                        days.add(dateForm.formdate(monthdate1));
+                        days.add(dateForm.formdate(monthdate2));
+                        days.add(dateForm.formdate(monthdate3));
+                        days.add(dateForm.formdate(monthdate4));
                         progressDialog.show();
-                        healthRecordManager.doGetHealthcircumRecords(getDateform(monthdate1),getDateform(monthdate4),2);
+                        healthRecordManager.doGetHealthcircumRecords(dateForm.getDateform(monthdate1),dateForm.getDateform(monthdate4),2);
                         state=false;
-                        if (monthdate4.equals(getPeriodDate(type,0)+""))
+                        if (monthdate4.equals(dateForm.getPeriodDate(type,0)+""))
                             bt_right.setVisibility(View.GONE);
                         break;
                     case 2:
@@ -482,19 +393,19 @@ public class BustFragment extends BaseFragment implements RadioGroup.OnCheckedCh
                         dates.clear();
                         days.clear();
                         type='6';
-                        String quarterdate4=getPeriodDate(type,21*n)+"";
-                        String quarterdate3=getPeriodDate(type,21*(n+1))+"";
-                        String quarterdate2=getPeriodDate(type,21*(n+2))+"";
-                        String quarterdate1=getPeriodDate(type,21*(n+3))+"";
-                        days.add(formdate(quarterdate1));
-                        days.add(formdate(quarterdate2));
-                        days.add(formdate(quarterdate3));
-                        days.add(formdate(quarterdate4));
+                        String quarterdate4=dateForm.getPeriodDate(type,21*n)+"";
+                        String quarterdate3=dateForm.getPeriodDate(type,21*(n+1))+"";
+                        String quarterdate2=dateForm.getPeriodDate(type,21*(n+2))+"";
+                        String quarterdate1=dateForm.getPeriodDate(type,21*(n+3))+"";
+                        days.add(dateForm.formdate(quarterdate1));
+                        days.add(dateForm.formdate(quarterdate2));
+                        days.add(dateForm.formdate(quarterdate3));
+                        days.add(dateForm.formdate(quarterdate4));
                         progressDialog.show();
-                        healthRecordManager.doGetHealthcircumRecords(getDateform(quarterdate1),getDateform(quarterdate4),3);
+                        healthRecordManager.doGetHealthcircumRecords(dateForm.getDateform(quarterdate1),dateForm.getDateform(quarterdate4),3);
                         bt_right.setVisibility(View.VISIBLE);
                         state=false;
-                        if (quarterdate4.equals(getPeriodDate(type,0)+""))
+                        if (quarterdate4.equals(dateForm.getPeriodDate(type,0)+""))
                             bt_right.setVisibility(View.GONE);
                         break;
                     case 3:
@@ -508,20 +419,20 @@ public class BustFragment extends BaseFragment implements RadioGroup.OnCheckedCh
                         dates.clear();
                         days.clear();
                         type='7';
-                        String yeardate4=getPeriodDate(type,2*n)+"";
-                        String yeardate3=getPeriodDate(type,2*(n+1))+"";
-                        String yeardate2=getPeriodDate(type,2*(n+2))+"";
-                        String yeardate1=getPeriodDate(type,2*(n+3))+"";
-                        String yeardate0=getPeriodDate(type,2*(n+4))+"";
+                        String yeardate4=dateForm.getPeriodDate(type,2*n)+"";
+                        String yeardate3=dateForm.getPeriodDate(type,2*(n+1))+"";
+                        String yeardate2=dateForm.getPeriodDate(type,2*(n+2))+"";
+                        String yeardate1=dateForm.getPeriodDate(type,2*(n+3))+"";
+                        String yeardate0=dateForm.getPeriodDate(type,2*(n+4))+"";
                         days.add(formyeardate(yeardate1));
                         days.add(formyeardate(yeardate2));
                         days.add(formyeardate(yeardate3));
                         days.add(formyeardate(yeardate4)+"     /");
                         progressDialog.show();
-                        healthRecordManager.doGetHealthcircumRecords(getDateform(yeardate0),getDateform(yeardate4),4);
+                        healthRecordManager.doGetHealthcircumRecords(dateForm.getDateform(yeardate0),dateForm.getDateform(yeardate4),4);
                         bt_right.setVisibility(View.VISIBLE);
                         state=false;
-                        if (yeardate4.equals(getPeriodDate(type,0)+""))
+                        if (yeardate4.equals(dateForm.getPeriodDate(type,0)+""))
                             bt_right.setVisibility(View.GONE);
                         break;
                 }
@@ -536,22 +447,22 @@ public class BustFragment extends BaseFragment implements RadioGroup.OnCheckedCh
                 bt_right.setVisibility(View.GONE);
                 dates.clear();
                 days.clear();
-                String weekdate7=getPeriodDate(type,0)+"";
-                String weekdate6=getPeriodDate(type,1)+"";
-                String weekdate5=getPeriodDate(type,2)+"";
-                String weekdate4=getPeriodDate(type,3)+"";
-                String weekdate3=getPeriodDate(type,4)+"";
-                String weekdate2=getPeriodDate(type,5)+"";
-                String weekdate1=getPeriodDate(type,6)+"";
-                days.add(formdate(weekdate1));
-                days.add(formdate(weekdate2));
-                days.add(formdate(weekdate3));
-                days.add(formdate(weekdate4));
-                days.add(formdate(weekdate5));
-                days.add(formdate(weekdate6));
-                days.add(formdate(weekdate7));
+                String weekdate7=dateForm.getPeriodDate(type,0)+"";
+                String weekdate6=dateForm.getPeriodDate(type,1)+"";
+                String weekdate5=dateForm.getPeriodDate(type,2)+"";
+                String weekdate4=dateForm.getPeriodDate(type,3)+"";
+                String weekdate3=dateForm.getPeriodDate(type,4)+"";
+                String weekdate2=dateForm.getPeriodDate(type,5)+"";
+                String weekdate1=dateForm.getPeriodDate(type,6)+"";
+                days.add(dateForm.formdate(weekdate1));
+                days.add(dateForm.formdate(weekdate2));
+                days.add(dateForm.formdate(weekdate3));
+                days.add(dateForm.formdate(weekdate4));
+                days.add(dateForm.formdate(weekdate5));
+                days.add(dateForm.formdate(weekdate6));
+                days.add(dateForm.formdate(weekdate7));
                 progressDialog.show();
-                healthRecordManager.doGetHealthcircumRecords(getDateform(weekdate1),getDateform(weekdate7),1);
+                healthRecordManager.doGetHealthcircumRecords(dateForm.getDateform(weekdate1),dateForm.getDateform(weekdate7),1);
 
                 break;
             case R.id.month:
@@ -562,16 +473,16 @@ public class BustFragment extends BaseFragment implements RadioGroup.OnCheckedCh
                 bt_right.setVisibility(View.GONE);
                 type='6';
                 n=4;
-                String monthdate4=getPeriodDate(type,0)+"";
-                String monthdate3=getPeriodDate(type,7)+"";
-                String monthdate2=getPeriodDate(type,14)+"";
-                String monthdate1=getPeriodDate(type,21)+"";
-                days.add(formdate(monthdate1));
-                days.add(formdate(monthdate2));
-                days.add(formdate(monthdate3));
-                days.add(formdate(monthdate4));
+                String monthdate4=dateForm.getPeriodDate(type,0)+"";
+                String monthdate3=dateForm.getPeriodDate(type,7)+"";
+                String monthdate2=dateForm.getPeriodDate(type,14)+"";
+                String monthdate1=dateForm.getPeriodDate(type,21)+"";
+                days.add(dateForm.formdate(monthdate1));
+                days.add(dateForm.formdate(monthdate2));
+                days.add(dateForm.formdate(monthdate3));
+                days.add(dateForm.formdate(monthdate4));
                 progressDialog.show();
-                healthRecordManager.doGetHealthcircumRecords(getDateform(monthdate1),getDateform(monthdate4),2);
+                healthRecordManager.doGetHealthcircumRecords(dateForm.getDateform(monthdate1),dateForm.getDateform(monthdate4),2);
                 break;
             case R.id.quarter:
                 dates.clear();
@@ -581,16 +492,16 @@ public class BustFragment extends BaseFragment implements RadioGroup.OnCheckedCh
                 bt_right.setVisibility(View.GONE);
                 type='6';
                 n=4;
-                String quarterdate4=getPeriodDate(type,0)+"";
-                String quarterdate3=getPeriodDate(type,21)+"";
-                String quarterdate2=getPeriodDate(type,21*2)+"";
-                String quarterdate1=getPeriodDate(type,21*3)+"";
-                days.add(formdate(quarterdate1));
-                days.add(formdate(quarterdate2));
-                days.add(formdate(quarterdate3));
-                days.add(formdate(quarterdate4));
+                String quarterdate4=dateForm.getPeriodDate(type,0)+"";
+                String quarterdate3=dateForm.getPeriodDate(type,21)+"";
+                String quarterdate2=dateForm.getPeriodDate(type,21*2)+"";
+                String quarterdate1=dateForm.getPeriodDate(type,21*3)+"";
+                days.add(dateForm.formdate(quarterdate1));
+                days.add(dateForm.formdate(quarterdate2));
+                days.add(dateForm.formdate(quarterdate3));
+                days.add(dateForm.formdate(quarterdate4));
                 progressDialog.show();
-                healthRecordManager.doGetHealthcircumRecords(getDateform(quarterdate1),getDateform(quarterdate4),3);
+                healthRecordManager.doGetHealthcircumRecords(dateForm.getDateform(quarterdate1),dateForm.getDateform(quarterdate4),3);
                 break;
             case R.id.year:
                 flag=3;
@@ -600,17 +511,17 @@ public class BustFragment extends BaseFragment implements RadioGroup.OnCheckedCh
                 bt_right.setVisibility(View.GONE);
                 type='7';
                 n=4;
-                String yeardate4=getPeriodDate(type,0)+"";
-                String yeardate3=getPeriodDate(type,2)+"";
-                String yeardate2=getPeriodDate(type,4)+"";
-                String yeardate1=getPeriodDate(type,6)+"";
-                String yeardate0=getPeriodDate(type,8)+"";
+                String yeardate4=dateForm.getPeriodDate(type,0)+"";
+                String yeardate3=dateForm.getPeriodDate(type,2)+"";
+                String yeardate2=dateForm.getPeriodDate(type,4)+"";
+                String yeardate1=dateForm.getPeriodDate(type,6)+"";
+                String yeardate0=dateForm.getPeriodDate(type,8)+"";
                 days.add(formyeardate(yeardate1));
                 days.add(formyeardate(yeardate2));
                 days.add(formyeardate(yeardate3));
                 days.add(formyeardate(yeardate4)+"     /");
                 progressDialog.show();
-                healthRecordManager.doGetHealthcircumRecords(getDateform(yeardate0),getDateform(yeardate4),4);
+                healthRecordManager.doGetHealthcircumRecords(dateForm.getDateform(yeardate0),dateForm.getDateform(yeardate4),4);
                 break;
         }
     }
@@ -633,21 +544,21 @@ public class BustFragment extends BaseFragment implements RadioGroup.OnCheckedCh
         bt_right.setVisibility(View.GONE);
         dates.clear();
         days.clear();
-        String weekdate7=getPeriodDate(type,0)+"";
-        String weekdate6=getPeriodDate(type,1)+"";
-        String weekdate5=getPeriodDate(type,2)+"";
-        String weekdate4=getPeriodDate(type,3)+"";
-        String weekdate3=getPeriodDate(type,4)+"";
-        String weekdate2=getPeriodDate(type,5)+"";
-        String weekdate1=getPeriodDate(type,6)+"";
-        days.add(formdate(weekdate1));
-        days.add(formdate(weekdate2));
-        days.add(formdate(weekdate3));
-        days.add(formdate(weekdate4));
-        days.add(formdate(weekdate5));
-        days.add(formdate(weekdate6));
-        days.add(formdate(weekdate7));
+        String weekdate7=dateForm.getPeriodDate(type,0)+"";
+        String weekdate6=dateForm.getPeriodDate(type,1)+"";
+        String weekdate5=dateForm.getPeriodDate(type,2)+"";
+        String weekdate4=dateForm.getPeriodDate(type,3)+"";
+        String weekdate3=dateForm.getPeriodDate(type,4)+"";
+        String weekdate2=dateForm.getPeriodDate(type,5)+"";
+        String weekdate1=dateForm.getPeriodDate(type,6)+"";
+        days.add(dateForm.formdate(weekdate1));
+        days.add(dateForm.formdate(weekdate2));
+        days.add(dateForm.formdate(weekdate3));
+        days.add(dateForm.formdate(weekdate4));
+        days.add(dateForm.formdate(weekdate5));
+        days.add(dateForm.formdate(weekdate6));
+        days.add(dateForm.formdate(weekdate7));
         progressDialog.show();
-        healthRecordManager.doGetHealthcircumRecords(getDateform(weekdate1),getDateform(weekdate7),1);
+        healthRecordManager.doGetHealthcircumRecords(dateForm.getDateform(weekdate1),dateForm.getDateform(weekdate7),1);
     }
 }

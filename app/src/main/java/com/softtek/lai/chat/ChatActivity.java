@@ -67,7 +67,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         //可以直接new EaseChatFratFragment使用
         chatFragment = new ChatFragment();
         //传入参数
-        String title_value = getIntent().getStringExtra("title");
+        String title_value = getIntent().getStringExtra("name");
         if ("".equals(title_value)) {
             title_value = "test";
         }

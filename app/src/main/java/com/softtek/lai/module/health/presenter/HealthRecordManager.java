@@ -33,15 +33,14 @@ public class HealthRecordManager {
 
     private String token;
     private HealthyService service;
-    //private Context context;
     private HealthRecordCallBack cb;
 
     public HealthRecordManager(HealthRecordCallBack context) {
-        //this.context = context;
         cb= context;
         token= UserInfoModel.getInstance().getToken();
         service= ZillaApi.NormalRestAdapter.create(HealthyService.class);
     }
+    //获取体脂数据
     public void doGetHealthPysicalRecords(String Startdate,String Enddate,int i) {
         service.doGetHealthPysicalRecords(token, Startdate, Enddate, i, new RequestCallback<ResponseData<PysicalModel>>() {
             @Override
@@ -61,7 +60,7 @@ public class HealthRecordManager {
             }
         });
     }
-
+    //获取体重数据
     public void doGetHealthWeightRecords(String Startdate,String Enddate,int i) {
         service.GetHealthWeightRecords(token, Startdate, Enddate, i, new RequestCallback<ResponseData<HealthWeightModel>>() {
             @Override
@@ -84,7 +83,7 @@ public class HealthRecordManager {
             }
         });
     }
-    //内脂
+    //获取内脂数据
     public void doGetHealthfatRecords(String Startdate,String Enddate,int i) {
         service.doGetHealthfatRecords(token, Startdate, Enddate, i, new RequestCallback<ResponseData<HealthFatModel>>() {
             @Override
@@ -105,7 +104,7 @@ public class HealthRecordManager {
 
         });
     }
-    //胸围
+    //获取胸围数据
     public void doGetHealthcircumRecords(String Startdate,String Enddate,int i) {
         service.doGetHealthcircumRecords(token, Startdate, Enddate, i, new RequestCallback<ResponseData<HealthCircrumModel>>() {
             @Override
@@ -125,7 +124,7 @@ public class HealthRecordManager {
             }
         });
     }
-    //腰围
+    //获取腰围数据
     public void doGetHealthwaistlineRecords(String Startdate,String Enddate,int i) {
         service.doGetHealthwaistlineRecords(token, Startdate, Enddate, i, new RequestCallback<ResponseData<HealthWaistlineModel>>() {
             @Override
@@ -145,7 +144,7 @@ public class HealthRecordManager {
             }
         });
     }
-    //臀围
+    //获取臀围数据
     public void doGetHealthhiplieRecords(String Startdate,String Enddate,int i) {
         service.doGetHealthhiplieRecords(token, Startdate, Enddate, i, new RequestCallback<ResponseData<HealthHiplieModel>>() {
             @Override
@@ -166,7 +165,7 @@ public class HealthRecordManager {
         });
     }
 
-    //上臂围
+    //获取上臂围数据
     public void doGetHealthupArmGirthRecords(String Startdate,String Enddate,int i) {
         service.doGetHealthupArmGirthRecords(token, Startdate, Enddate, i, new RequestCallback<ResponseData<HealthUpArmGirthModel>>() {
             @Override
@@ -186,7 +185,7 @@ public class HealthRecordManager {
             }
         });
     }
-    //大腿围
+    //获取大腿围数据
     public void doGetHealthupLegGirthRecords(String Startdate,String Enddate,int i) {
         service.doGetHealthupLegGirthRecords(token, Startdate, Enddate, i, new RequestCallback<ResponseData<HealthupLegGirthModel>>() {
             @Override
@@ -206,7 +205,7 @@ public class HealthRecordManager {
             }
         });
     }
-    //小腿围
+    //获取小腿围数据
     public void doGetHealthdoLegGirthRecords(String Startdate,String Enddate,int i) {
         service.doGetHealthdoLegGirthRecords(token, Startdate, Enddate, i, new RequestCallback<ResponseData<HealthdoLegGirthModel>>() {
             @Override

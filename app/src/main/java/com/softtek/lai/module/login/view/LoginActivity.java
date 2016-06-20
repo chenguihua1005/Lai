@@ -14,12 +14,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.easemob.EMCallBack;
 import com.easemob.chat.EMChatManager;
-import com.easemob.chat.EMGroupManager;
-import com.easemob.util.EMLog;
+import com.easemob.easeui.domain.ChatUserInfoModel;
+import com.easemob.easeui.domain.ChatUserModel;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
@@ -107,12 +106,20 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         return super.dispatchTouchEvent(ev);
     }
     private void loginChat(){
+//        EMChatManager.getInstance().login("jarvis0104", "123123", new EMCallBack() {
         EMChatManager.getInstance().login("42", "f123123", new EMCallBack() {
 
             @Override
             public void onSuccess() {
                 // ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
                 // ** manually load all local groups and
+                ChatUserModel chatUserModel = new ChatUserModel();
+                chatUserModel.setUserId("jarvis0104");
+                chatUserModel.setUserName("aaa");
+                chatUserModel.setUserPhone("https://o8nbxcohc.qnssl.com/testimage.png");
+//            chatUserModel.setUserPhone("http://172.16.98.167/UpFiles/201606141135132757684564.png");
+                ChatUserInfoModel.getInstance().setUser(chatUserModel);
+
                 EMChatManager.getInstance().loadAllConversations();
 // 进入主页面
                 Intent intent = new Intent(LoginActivity.this, ConversationListActivity.class);
@@ -136,7 +143,19 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_login:
+                /*Intent intent = new Intent();
+                intent.setAction("android.intent.action.MAIN");
+                intent.addCategory("android.intent.category.APP_MARKET");
+                PackageManager pm = this.getPackageManager();
+                List<ResolveInfo> infos = pm.queryIntentActivities(intent, 0);
+                int size = infos.size();
+                for (int i = 0; i < size; i++) {
+                    ActivityInfo activityInfo = infos.get(i).activityInfo;
+                    String packageName = activityInfo.packageName;
+                    Log.i("packageName : " + packageName);
+                }*/
                 validateLife.validate();
+                //loginChat();
                 break;
             case R.id.tv_forgetpsd:
                 startActivity(new Intent(this, ForgetActivity.class));
@@ -147,10 +166,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             case R.id.ll_visitor:
                 UserInfoModel.getInstance().visitorLogin();
                 startActivity(new Intent(this, HomeActviity.class));
-//                ShareUtils shareUtils = new ShareUtils(LoginActivity.this);
-//                shareUtils.setShareContent("1", "http://www.baidu.com", R.drawable.img_default, "222", "333");
-//                shareUtils.getController().openShare(LoginActivity.this,false);
-
                 break;
 
         }

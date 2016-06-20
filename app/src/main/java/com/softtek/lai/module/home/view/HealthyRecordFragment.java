@@ -261,12 +261,12 @@ public class HealthyRecordFragment extends BaseFragment implements View.OnClickL
             return;
         }
         DateUtil util = DateUtil.getInstance();
-        int year = util.getYear(date);
+        //int year = util.getYear(date);
         int month = util.getMonth(date);
         int day = util.getDay(date);
         int hour = util.getHour(date);
         int minutes = util.getMinute(date);
-        tv_healthdate.setText(year + "年" + month + "月" + day + "日");
+        tv_healthdate.setText(/*year + "年" +*/ month + "月" + day + "日");
         tv_healthtime.setText(hour + ":" + (minutes < 10 ? "0" + minutes : minutes));
     }
 }

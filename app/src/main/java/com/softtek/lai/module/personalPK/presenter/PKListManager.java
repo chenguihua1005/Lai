@@ -15,7 +15,6 @@ import com.softtek.lai.module.personalPK.view.PKListActivity;
 import com.softtek.lai.module.personalPK.view.PKListMineActivity;
 import com.softtek.lai.module.personalPK.view.SearchActivity;
 import com.softtek.lai.module.personalPK.view.SelectOpponentActivity;
-import com.softtek.lai.module.personalPK.view.SelectTimeActivity;
 import com.softtek.lai.utils.RequestCallback;
 
 import java.util.List;
@@ -23,7 +22,6 @@ import java.util.List;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
-import zilla.libcore.util.Util;
 
 /**
  * Created by jerry.guan on 5/5/2016.
