@@ -100,20 +100,16 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
         ll_explain.setOnClickListener(this);
         btn_save.setOnClickListener(this);
         ll_left.setOnClickListener(this);
-//
-//        String data=load();
-//        if (!TextUtils.isEmpty(data)){
-//            tv_circum.setText(data);
-//            //tv_circum.setSelection(circum.length());
-//        }
-
     }
 
     @Override
     protected void initViews() {
 
     }
-    /** 点击屏幕隐藏软键盘**/
+
+    /**
+     * 点击屏幕隐藏软键盘
+     **/
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
@@ -125,6 +121,7 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
         }
         return super.dispatchTouchEvent(ev);
     }
+
     @Override
     protected void initDatas() {
         file = (FileModel) getIntent().getSerializableExtra("file");
@@ -168,13 +165,10 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
                 break;
             //返回按钮
             case R.id.ll_left:
-                //startActivity(new Intent(DimensionRecordActivity.this,CreatFlleActivity.class));
                 finish();
                 break;
             //保存记录......
             case R.id.btn_save:
-                /*getIntent().putExtra("","token");
-                String token= SharedPreferenceService.getInstance().get("token","");*/
                 double circum = Double.parseDouble(tv_circum.getText().toString().equals("") ? "0" : (tv_circum.getText().toString()));
                 double waistline = Double.parseDouble(tv_waistline.getText().toString().equals("") ? "0" : tv_waistline.getText().toString());
                 double hiplie = Double.parseDouble(tv_hiplie.getText().toString().equals("") ? "0" : tv_hiplie.getText().toString());
@@ -193,38 +187,7 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
                 Intent intent = new Intent();
                 intent.putExtra("file", file);
                 setResult(RESULT_OK, intent);
-//
-//                //新学员录入的添加围度
-//                newstudentsModel=new NewstudentsModel();
-//                newstudentsModel.setCircum(circum);
-//                newstudentsModel.setWaistline(waistline);
-//                newstudentsModel.setHiplie(hiplie);
-//                newstudentsModel.setUparmgirth(uparmgirth);
-//                newstudentsModel.setUpleggirth(tupleggirth);
-//                newstudentsModel.setDoleggirth(doleggirth);
-//                Intent intent1=new Intent();
-//                intent1.putExtra("newstudentsModel",newstudentsModel);
-//                setResult(RESULT_OK,intent1);
-//                //复测录入
-//                retestWriteModel=new RetestWriteModel();
-//                retestWriteModel.setCircum(circum+"");
-//                retestWriteModel.setWaistline(waistline+"");
-//                retestWriteModel.setHiplie(hiplie+"");
-//                retestWriteModel.setUpArmGirth(uparmgirth+"");
-//                retestWriteModel.setUpLegGirth(tupleggirth+"");
-//                retestWriteModel.setDoLegGirth(doleggirth+"");
-//                Intent intent2=new Intent();
-//                intent2.putExtra("retestWriteModel",retestWriteModel+"");
-//                setResult(RESULT_OK,intent2);
-//
-//                Intent intent3=new Intent();
-//                intent.putExtra("data_return","Hello");
-//                setResult(RESULT_OK,intent3);
-
-
                 finish();
-
-                //  Log.i("-------------------newstudentsModel----------------------"+newstudentsModel);
                 break;
         }
     }
@@ -236,31 +199,6 @@ public class DimensionRecordActivity extends BaseActivity implements OnClickList
 
     }
 
-
-    //    public String load(){
-//        FileInputStream in=null;
-//        BufferedReader reader=null;
-//        StringBuilder content=new StringBuilder();
-//        try{
-//            in=openFileInput("data");///////
-//            reader=new BufferedReader(new InputStreamReader(in));
-//            String line="";
-//            while ((line=reader.readLine())!=null){
-//                content.append(line);
-//            }
-//        }catch (IOException e){
-//            e.printStackTrace();
-//        }finally {
-//            if (reader!=null){
-//                try {
-//                    reader.close();
-//                }catch (IOException e){
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-//        return content.toString();
-//    }
     //围度dialog
     public void show_circum_dialog() {
         final AlertDialog.Builder birdialog = new AlertDialog.Builder(this);
