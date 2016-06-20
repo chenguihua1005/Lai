@@ -180,8 +180,9 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
         rankAdapter = new RankAdapter(this, table1ModelList, paimingModelList);
         list_rank.setAdapter(rankAdapter);
         list_rank.setOnItemClickListener(this);
+        //返回按钮
         ll_left.setOnClickListener(this);
-
+        //分享按钮
         iv_email.setVisibility(View.VISIBLE);
         iv_email.setImageResource(R.drawable.img_share_bt);
         iv_email.setOnClickListener(this);
@@ -292,7 +293,6 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
     @Subscribe
     public void onEvent(final RankModel rank) {
         //Table：教练本月总开班数量，新增学员数量(累计减重数量)
-        System.out.println("rankEvent.getRanks()》》》》》》》》》》》》》》" + rank.getTable());
         newban = rank.getTable().get(0).getTotalClass();
         newmem = rank.getTable().get(0).getTotalMember();
         tv_newban.setText(newban);
@@ -303,18 +303,10 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
         rankAdapter.updateData(table1ModelList, paimingModelList);
 
         //Table2:各个班本月累计减重
-        System.out.println("rankEvent.getRanks()------------------------Table2:" + rank.getTable2());
-
         table2ModelList = rank.getTable2();
-        Log.i("", "???????????????????---size:" + table2ModelList.size());
-
         if (rank.getTable2().size() == 1) {
             img_oneban.setVisibility(View.VISIBLE);
-
-//           ll_twoban.setVisibility(View.GONE);
-//           ll_threeban.setVisibility(View.GONE);
-
-            // 需要解析的日期字符串
+            // 需要解析的日期字符串，是几月班
             String yue1 = rank.getTable2().get(0).getStartDate();
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             try {
@@ -346,8 +338,6 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
             });
 
         } else if (rank.getTable2().size() == 2) {
-            //ll_threeban.setVisibility(View.GONE);
-
             String yue1 = rank.getTable2().get(0).getStartDate();
             String yue2 = rank.getTable2().get(1).getStartDate();
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -388,7 +378,6 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
                 @Override
                 public void onClick(View v) {
                     String classId = rank.getTable2().get(0).getClassId();
-                    Log.i("", "classId1---->>>>>>" + classId);
                     Intent intent = new Intent(JingduActivity.this, GradeHomeActivity.class);
                     intent.putExtra("classId", classId);
                     intent.putExtra("review", 1);
@@ -399,7 +388,6 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
                 @Override
                 public void onClick(View v) {
                     String classId = rank.getTable2().get(1).getClassId();
-                    Log.i("", "classId2---->>>>>>" + classId);
                     Intent intent = new Intent(JingduActivity.this, GradeHomeActivity.class);
                     intent.putExtra("classId", classId);
                     intent.putExtra("review", 1);
@@ -511,30 +499,6 @@ public class JingduActivity extends BaseActivity implements View.OnClickListener
                 honorPresenter.getUserHonors();
                 //iGetProinfopresenter.upload("/sdcard/screen_test_1.png");
                 break;
-//            case R.id.ll_oneban:
-//                Long classId=Long.parseLong(rank.getTable2().get(0).getClassId());
-//                Log.i("","classId1---->>>>>>"+classId);
-//                Intent intent=new Intent(JingduActivity.this, StudentDetailActivity.class);
-//                intent.putExtra("classId",classId);
-//                intent.putExtra("review",1);
-//                startActivity(intent);
-//                break;
-//            case R.id.ll_twoban:
-//                Long classId2=Long.parseLong(rank.getTable2().get(1).getClassId());
-//                Log.i("","classId2---->>>>>>"+classId2);
-//                Intent intent1=new Intent(JingduActivity.this, GradeHomeActivity.class);
-//                intent1.putExtra("classId", classId2);
-//                intent1.putExtra("review", 1);
-//                startActivity(intent1);
-//                break;
-//            case R.id.ll_threeban:
-//                Long classId3=Long.parseLong(rank.getTable2().get(2).getClassId());
-//                Log.i("","classId3---->>>>>>"+classId3);
-//                Intent intent2=new Intent(JingduActivity.this, GradeHomeActivity.class);
-//                intent2.putExtra("classId", classId3);
-//                intent2.putExtra("review", 1);
-//                startActivity(intent2);
-//                break;
         }
     }
 

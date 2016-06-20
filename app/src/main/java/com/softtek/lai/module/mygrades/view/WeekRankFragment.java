@@ -29,7 +29,6 @@ import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 /**
  * Created by julie.zhu on 5/16/2016.
@@ -38,10 +37,6 @@ import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.fagment_rank_sport)
 public class WeekRankFragment extends BaseFragment {
-//    default_icon_square
-//    default_icon_rect
-
-    //我的排名情况
     @InjectView(R.id.img_myheadportrait)
     CircleImageView img_myheadportrait;
     @InjectView(R.id.tv_name)

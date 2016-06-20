@@ -49,8 +49,8 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
     @InjectView(R.id.tv_title)
     TextView tv_title;
 
-    @InjectView(R.id.RL_rungroup)
-    LinearLayout RL_rungroup;
+//    @InjectView(R.id.RL_rungroup)
+//    LinearLayout RL_rungroup;
     @InjectView(R.id.list_group)
     ListView list_group;
     @InjectView(R.id.Iv_fold)
@@ -74,9 +74,7 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
     //private RankSelectModel rankSelectModel;
     public RankInfoAdapter rankInfoAdapter;
 
-    /* private FragmentManager manager;
-
-     private DayRankModel dayRankModel;
+    /* private DayRankModel dayRankModel;
 
      private IGradesPresenter iGradesPresenter;*/
     private GradesService gradesService;
@@ -107,7 +105,7 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
                 //跑团排名
                 if (position == 0) {
                     Iv_fold.setImageResource(R.drawable.unfold);
-                    RL_rungroup.setVisibility(View.INVISIBLE);
+                    list_group.setVisibility(View.INVISIBLE);
                     ((DayRankFragment) fragments.get(0)).updateDayRankStatus(1);
                     ((WeekRankFragment) fragments.get(1)).updateWeekRankStatus(1);
                     tv_rungroupname.setText(/*rungroupname*/"跑团排名");
@@ -117,7 +115,7 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
                 //全国排名
                 if (position == 1) {
                     Iv_fold.setImageResource(R.drawable.unfold);
-                    RL_rungroup.setVisibility(View.INVISIBLE);
+                    list_group.setVisibility(View.INVISIBLE);
                     tv_rungroupname.setText("全国排名");
                     ((DayRankFragment) fragments.get(0)).updateDayRankStatus(0);
                     ((WeekRankFragment) fragments.get(1)).updateWeekRankStatus(0);
@@ -171,7 +169,6 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
         tv_title.setText("排名详情");
         Rl_list.setOnClickListener(this);
         //1跑团排名，0全国排名,默认是跑团排名
-        //manager = getFragmentManager();
         DayRankFragment dayRankFragment = new DayRankFragment();
         Bundle bundle1 = new Bundle();
         bundle1.putInt("id", 1);
@@ -204,11 +201,11 @@ public class RankingDetailsActivity extends BaseActivity implements View.OnClick
                 finish();
                 break;
             case R.id.Rl_list:
-                if (RL_rungroup.getVisibility() == View.VISIBLE) {
+                if (list_group.getVisibility() == View.VISIBLE) {
                     Iv_fold.setImageResource(R.drawable.unfold);
-                    RL_rungroup.setVisibility(View.INVISIBLE);
-                } else if (RL_rungroup.getVisibility() == View.INVISIBLE) {
-                    RL_rungroup.setVisibility(View.VISIBLE);
+                    list_group.setVisibility(View.INVISIBLE);
+                } else if (list_group.getVisibility() == View.INVISIBLE) {
+                    list_group.setVisibility(View.VISIBLE);
                     Iv_fold.setImageResource(R.drawable.retract);
                 }
                 break;

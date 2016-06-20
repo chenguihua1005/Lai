@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
@@ -108,34 +109,34 @@ public class AuditActivity extends BaseActivity implements View.OnClickListener,
     //触发弹框选择点击事件
     //初始体重
     @InjectView(R.id.ll_audit_chu_weight)
-    LinearLayout ll_audit_chu_weight;
+    RelativeLayout ll_audit_chu_weight;
     //现在体重
     @InjectView(R.id.ll_retestAudit_nowweight)
-    LinearLayout ll_retestAudit_nowweight;
+    RelativeLayout ll_retestAudit_nowweight;
     //体脂
     @InjectView(R.id.ll_retestAudit_tizhi)
-    LinearLayout ll_retestAudit_tizhi;
+    RelativeLayout ll_retestAudit_tizhi;
     //胸围
     @InjectView(R.id.ll_retestAudit_wasit)
-    LinearLayout ll_retestAudit_wasit;
+    RelativeLayout ll_retestAudit_wasit;
     //腰围
     @InjectView(R.id.ll_retestAudit_yaowei)
-    LinearLayout ll_retestAudit_yaowei;
+    RelativeLayout ll_retestAudit_yaowei;
     //臀围
     @InjectView(R.id.ll_retestAudit_tunwei)
-    LinearLayout ll_retestAudit_tunwei;
+    RelativeLayout ll_retestAudit_tunwei;
     //上臂围
     @InjectView(R.id.ll_retestAudit_upArmGirth)
-    LinearLayout ll_retestAudit_upArmGirth;
+    RelativeLayout ll_retestAudit_upArmGirth;
     //大腿围
     @InjectView(R.id.ll_retestAudit_upLegGirth)
-    LinearLayout ll_retestAudit_upLegGirth;
+    RelativeLayout ll_retestAudit_upLegGirth;
     //小腿围
     @InjectView(R.id.ll_retestAudit_doLegGirth)
-    LinearLayout ll_retestAudit_doLegGirth;
+    RelativeLayout ll_retestAudit_doLegGirth;
     //内脂
     @InjectView(R.id.ll_retesrAudit_fat)
-    LinearLayout ll_retesrAudit_fat;
+    RelativeLayout ll_retesrAudit_fat;
 
 
     UserInfoModel userInfoModel=UserInfoModel.getInstance();
