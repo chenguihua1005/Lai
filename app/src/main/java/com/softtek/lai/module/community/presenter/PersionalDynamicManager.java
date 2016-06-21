@@ -3,6 +3,7 @@ package com.softtek.lai.module.community.presenter;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 
 import com.github.snowdream.android.util.Log;
@@ -93,6 +94,12 @@ public class PersionalDynamicManager implements Runnable,UploadImageService.Uplo
                 @Override
                 public void success(ResponseData responseData, Response response) {
                     Log.i("第二阶段上传结束->"+responseData.getMsg());
+                    for(UploadImage image:images){
+                        Bitmap bit=image.getBitmap();
+                        if(bit!=null&&!bit.isRecycled()){
+                            bit.recycle();
+                        }
+                    }
                     if(progressDialog!=null){
                         progressDialog.dismiss();
                     }
