@@ -41,6 +41,7 @@ import com.softtek.lai.module.group.presenter.SportGroupManager;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.laisportmine.present.MyRunTeamManager;
 import com.softtek.lai.module.laisportmine.view.MyInformationActivity;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.mygrades.view.MyGradesActivity;
 import com.softtek.lai.module.personalPK.view.CreatePKActivity;
 import com.softtek.lai.module.personalPK.view.PKDetailActivity;
@@ -137,9 +138,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
     @InjectView(R.id.pull_sroll)
     PullToRefreshScrollView pull_sroll;
 
-    MyRunTeamManager myRunTeamManager;
-    UserInfoModel userInfoModel = UserInfoModel.getInstance();
-    long accountid = Long.parseLong(userInfoModel.getUser().getUserid());
+    UserModel model;
     SportGroupManager sportGroupManager;
     String userId;
 
@@ -210,6 +209,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
         text_start_pks.setOnClickListener(this);
         lin_no_pk.setOnClickListener(this);
         lin_no_activity.setOnClickListener(this);
+        sportGroupManager = new SportGroupManager(this);
         list_activity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -226,7 +226,6 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void initViews() {
         iv_email.setImageResource(R.drawable.img_group_main_my);
-        iv_email.setVisibility(View.VISIBLE);
         pull_sroll.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         pull_sroll.setOnRefreshListener(this);
 
@@ -234,7 +233,6 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void initDatas() {
-        sportGroupManager = new SportGroupManager(this);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -242,8 +240,16 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
             }
         },300);
         //dialogShow("加载中...");
+    }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        model = UserInfoModel.getInstance().getUser();
+        if(model!=null){
+            dialogShow("加载中");
+            sportGroupManager.getNewMsgRemind(model.getUserid());
+        }
     }
 
     @Override
@@ -255,7 +261,6 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                 String time = formatter.format(curDate);
                 String str = time + "," + StepService.todayStep;
                 dialogShow("加载中");
-                System.out.println("str:" + str);
                 sportGroupManager.getMineResult(userId, str);
                 break;
             case R.id.ll_left:
@@ -478,6 +483,16 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
             } else {
                 text_xzs.setText(model.getMedalCnt());
             }
+        }
+    }
+
+    @Override
+    public void getNewMsgRemind(String type) {
+        dialogDissmiss();
+        if ("success".equals(type)){
+            iv_email.setImageResource(R.drawable.img_message_have);
+        }else {
+            iv_email.setImageResource(R.drawable.img_message_none);
         }
     }
 
