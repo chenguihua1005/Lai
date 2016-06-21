@@ -2,6 +2,7 @@ package com.softtek.lai.module.community.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,20 +39,20 @@ import zilla.libcore.file.AddressManager;
 /**
  * Created by John on 2016/4/14.
  */
-public class HealthyCommunityAdapter extends BaseAdapter{
+public class HealthyCommunityAdapter extends BaseAdapter {
 
     private Context context;
     private List<HealthyCommunityModel> lossWeightStoryModels;
-    private boolean isVR=false;
+    private boolean isVR = false;
     private CommunityService service;
     private int px;
 
-    public HealthyCommunityAdapter(Context context, List<HealthyCommunityModel> lossWeightStoryModels,boolean isVR) {
+    public HealthyCommunityAdapter(Context context, List<HealthyCommunityModel> lossWeightStoryModels, boolean isVR) {
         this.context = context;
         this.lossWeightStoryModels = lossWeightStoryModels;
-        this.isVR=isVR;
-        service= ZillaApi.NormalRestAdapter.create(CommunityService.class);
-        px= DisplayUtil.dip2px(context.getApplicationContext(),79);
+        this.isVR = isVR;
+        service = ZillaApi.NormalRestAdapter.create(CommunityService.class);
+        px = DisplayUtil.dip2px(context.getApplicationContext(), 79);
     }
 
     @Override
@@ -71,30 +72,30 @@ public class HealthyCommunityAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-       final ViewHolder holder;
-        final HealthyCommunityModel model=lossWeightStoryModels.get(position);
-        if(convertView==null){
-            convertView= LayoutInflater.from(context).inflate(R.layout.loss_weight_story_item,parent,false);
-            holder=new ViewHolder(convertView);
+        final ViewHolder holder;
+        final HealthyCommunityModel model = lossWeightStoryModels.get(position);
+        if (convertView == null) {
+            convertView = LayoutInflater.from(context).inflate(R.layout.loss_weight_story_item, parent, false);
+            holder = new ViewHolder(convertView);
             convertView.setTag(holder);
-        }else{
-            holder= (ViewHolder) convertView.getTag();
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
         holder.tv_name.setText(model.getUserName());
         holder.tv_content.setText(model.getContent());
-        String date=model.getCreateDate();
-        holder.tv_date.setText(DateUtil.getInstance().getYear(date)+
-                "年"+DateUtil.getInstance().getMonth(date)+
-                "月"+DateUtil.getInstance().getDay(date)+"日");
+        String date = model.getCreateDate();
+        holder.tv_date.setText(DateUtil.getInstance().getYear(date) +
+                "年" + DateUtil.getInstance().getMonth(date) +
+                "月" + DateUtil.getInstance().getDay(date) + "日");
         holder.tv_zan_name.setText(model.getUsernameSet());
         holder.cb_zan.setText(model.getPraiseNum());
-        if(isVR){
+        if (isVR) {
             holder.cb_zan.setEnabled(false);
-        }else{
-            if(Constants.HAS_ZAN.equals(model.getIsPraise())){
+        } else {
+            if (Constants.HAS_ZAN.equals(model.getIsPraise())) {
                 holder.cb_zan.setChecked(true);
                 holder.cb_zan.setEnabled(false);
-            }else if(Constants.NO_ZAN.equals(model.getIsPraise())){
+            } else if (Constants.NO_ZAN.equals(model.getIsPraise())) {
                 holder.cb_zan.setChecked(false);
                 holder.cb_zan.setEnabled(true);
                 holder.cb_zan.setOnClickListener(new View.OnClickListener() {
@@ -104,11 +105,11 @@ public class HealthyCommunityAdapter extends BaseAdapter{
                             final UserInfoModel infoModel = UserInfoModel.getInstance();
                             model.setPraiseNum(Integer.parseInt(model.getPraiseNum()) + 1 + "");
                             model.setIsPraise(Constants.HAS_ZAN);
-                            model.setUsernameSet(StringUtil.appendDot(model.getUsernameSet(),infoModel.getUser().getNickname(),
+                            model.setUsernameSet(StringUtil.appendDot(model.getUsernameSet(), infoModel.getUser().getNickname(),
                                     infoModel.getUser().getMobile()));
                             //向服务器提交
                             String token = infoModel.getToken();
-                            service.clickLike(token,new DoZan(Long.parseLong(infoModel.getUser().getUserid()),model.getID()),
+                            service.clickLike(token, new DoZan(Long.parseLong(infoModel.getUser().getUserid()), model.getID()),
                                     new RequestCallback<ResponseData>() {
                                         @Override
                                         public void success(ResponseData responseData, Response response) {
@@ -119,7 +120,7 @@ public class HealthyCommunityAdapter extends BaseAdapter{
                                             super.failure(error);
                                             int priase = Integer.parseInt(model.getPraiseNum()) - 1 < 0 ? 0 : Integer.parseInt(model.getPraiseNum()) - 1;
                                             model.setPraiseNum(priase + "");
-                                            String del= StringUtils.removeEnd(StringUtils.removeEnd(model.getUsernameSet(),infoModel.getUser().getNickname()),",");
+                                            String del = StringUtils.removeEnd(StringUtils.removeEnd(model.getUsernameSet(), infoModel.getUser().getNickname()), ",");
                                             model.setUsernameSet(del);
                                             model.setIsPraise(Constants.NO_ZAN);
                                             notifyDataSetChanged();
@@ -132,237 +133,233 @@ public class HealthyCommunityAdapter extends BaseAdapter{
             }
         }
         //加载图片
-        String path= AddressManager.get("photoHost");
-        Picasso.with(context).load(path+model.getPhoto()).fit()
+        String path = AddressManager.get("photoHost");
+        Picasso.with(context).load(path + model.getPhoto()).fit()
                 .placeholder(R.drawable.img_default).error(R.drawable.img_default).into(holder.civ_header_image);
-        String[] imgs=model.getImgCollection().split(",");
-        ArrayList<String> list=new ArrayList<>();
-        for(int i=0;i<imgs.length;i++){
+        String[] imgs = model.getImgCollection().split(",");
+        ArrayList<String> list = new ArrayList<>();
+        for (int i = 0; i < imgs.length; i++) {
             list.add(imgs[i]);
         }
-        visitableOrGone(holder,list,path);
+        visitableOrGone(holder, list, path);
         return convertView;
 
     }
 
 
-
-    static class ViewHolder{
+    static class ViewHolder {
         CircleImageView civ_header_image;
-        TextView tv_name,tv_content,tv_date,tv_zan_name;
-        ImageView img1,img2,img3,img4,img5,img6,img7,img8,img9;
+        TextView tv_name, tv_content, tv_date, tv_zan_name;
+        ImageView img1, img2, img3, img4, img5, img6, img7, img8, img9;
         CheckBox cb_zan;
 
-        public ViewHolder(View view){
-            civ_header_image= (CircleImageView) view.findViewById(R.id.civ_header_image);
-            tv_name= (TextView) view.findViewById(R.id.tv_name);
-            tv_content=(TextView)view.findViewById(R.id.tv_content);
-            tv_date=(TextView)view.findViewById(R.id.tv_date);
-            tv_zan_name=(TextView)view.findViewById(R.id.tv_zan_name);
-            img1= (ImageView) view.findViewById(R.id.img_1);
-            img2=(ImageView)view.findViewById(R.id.img_2);
-            img3=(ImageView)view.findViewById(R.id.img_3);
-            img4=(ImageView)view.findViewById(R.id.img_4);
-            img5=(ImageView)view.findViewById(R.id.img_5);
-            img6=(ImageView)view.findViewById(R.id.img_6);
-            img7=(ImageView)view.findViewById(R.id.img_7);
-            img8=(ImageView)view.findViewById(R.id.img_8);
-            img9= (ImageView) view.findViewById(R.id.img_9);
-            cb_zan= (CheckBox) view.findViewById(R.id.cb_zan);
+        public ViewHolder(View view) {
+            civ_header_image = (CircleImageView) view.findViewById(R.id.civ_header_image);
+            tv_name = (TextView) view.findViewById(R.id.tv_name);
+            tv_content = (TextView) view.findViewById(R.id.tv_content);
+            tv_date = (TextView) view.findViewById(R.id.tv_date);
+            tv_zan_name = (TextView) view.findViewById(R.id.tv_zan_name);
+            img1 = (ImageView) view.findViewById(R.id.img_1);
+            img2 = (ImageView) view.findViewById(R.id.img_2);
+            img3 = (ImageView) view.findViewById(R.id.img_3);
+            img4 = (ImageView) view.findViewById(R.id.img_4);
+            img5 = (ImageView) view.findViewById(R.id.img_5);
+            img6 = (ImageView) view.findViewById(R.id.img_6);
+            img7 = (ImageView) view.findViewById(R.id.img_7);
+            img8 = (ImageView) view.findViewById(R.id.img_8);
+            img9 = (ImageView) view.findViewById(R.id.img_9);
+            cb_zan = (CheckBox) view.findViewById(R.id.cb_zan);
         }
     }
 
-    private void visitableOrGone(ViewHolder holder,final ArrayList<String> imgs,String path) {
+    private void visitableOrGone(ViewHolder holder, final ArrayList<String> imgs, String path) {
         for (int i = 0; i < imgs.size(); i++) {
-            if("".equals(imgs.get(i))){
+            if (TextUtils.isEmpty(imgs.get(i))) {
                 continue;
             }
-            String uri=imgs.get(i);
-            try {
-                switch (i + 1) {
-                    case 1:
-                        holder.img1.setVisibility(View.VISIBLE);
-                        holder.img2.setVisibility(View.GONE);
-                        holder.img3.setVisibility(View.GONE);
-                        holder.img4.setVisibility(View.GONE);
-                        holder.img5.setVisibility(View.GONE);
-                        holder.img6.setVisibility(View.GONE);
-                        holder.img7.setVisibility(View.GONE);
-                        holder.img8.setVisibility(View.GONE);
-                        holder.img9.setVisibility(View.GONE);
-                        holder.img1.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent in=new Intent(context, PictureActivity.class);
-                                in.putStringArrayListExtra("images", imgs);
-                                in.putExtra("position",0);
-                                context.startActivity(in);
-                            }
-                        });
-                        Picasso.with(context).load(path+uri).resize(px,px).centerCrop()
-                                .placeholder(R.drawable.default_icon_square)
-                                .error(R.drawable.default_icon_square)
-                                .into(holder.img1);
-                        break;
-                    case 2:
-                        holder.img2.setVisibility(View.VISIBLE);
-                        holder.img3.setVisibility(View.GONE);
-                        holder.img4.setVisibility(View.GONE);
-                        holder.img5.setVisibility(View.GONE);
-                        holder.img6.setVisibility(View.GONE);
-                        holder.img7.setVisibility(View.GONE);
-                        holder.img8.setVisibility(View.GONE);
-                        holder.img9.setVisibility(View.GONE);
-                        holder.img2.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent in=new Intent(context, PictureActivity.class);
-                                in.putStringArrayListExtra("images", imgs);
-                                in.putExtra("position",1);
-                                context.startActivity(in);
-                            }
-                        });
-                        Picasso.with(context).load(path+uri).resize(px,px).centerCrop()
-                                .placeholder(R.drawable.default_icon_square)
-                                .error(R.drawable.default_icon_square)
-                                .into(holder.img2);
-                        break;
-                    case 3:
-                        holder.img3.setVisibility(View.VISIBLE);
-                        holder.img4.setVisibility(View.GONE);
-                        holder.img5.setVisibility(View.GONE);
-                        holder.img6.setVisibility(View.GONE);
-                        holder.img7.setVisibility(View.GONE);
-                        holder.img8.setVisibility(View.GONE);
-                        holder.img9.setVisibility(View.GONE);
-                        holder.img3.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent in=new Intent(context, PictureActivity.class);
-                                in.putStringArrayListExtra("images", imgs);
-                                in.putExtra("position",2);
-                                context.startActivity(in);
-                            }
-                        });
-                        Picasso.with(context).load(path+uri).resize(px,px).centerCrop()
-                                .placeholder(R.drawable.default_icon_square)
-                                .error(R.drawable.default_icon_square)
-                                .into(holder.img3);
-                        break;
-                    case 4:
-                        holder.img4.setVisibility(View.VISIBLE);
-                        holder.img5.setVisibility(View.GONE);
-                        holder.img6.setVisibility(View.GONE);
-                        holder.img7.setVisibility(View.GONE);
-                        holder.img8.setVisibility(View.GONE);
-                        holder.img9.setVisibility(View.GONE);
-                        holder.img4.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent in=new Intent(context, PictureActivity.class);
-                                in.putStringArrayListExtra("images", imgs);
-                                in.putExtra("position",3);
-                                context.startActivity(in);
-                            }
-                        });
-                        Picasso.with(context).load(path+uri).resize(px,px).centerCrop()
-                                .placeholder(R.drawable.default_icon_square)
-                                .error(R.drawable.default_icon_square)
-                                .into(holder.img4);
-                        break;
-                    case 5:
-                        holder.img5.setVisibility(View.VISIBLE);
-                        holder.img6.setVisibility(View.GONE);
-                        holder.img7.setVisibility(View.GONE);
-                        holder.img8.setVisibility(View.GONE);
-                        holder.img9.setVisibility(View.GONE);
-                        holder.img5.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent in=new Intent(context, PictureActivity.class);
-                                in.putStringArrayListExtra("images",imgs);
-                                in.putExtra("position",4);
-                                context.startActivity(in);
-                            }
-                        });
-                        Picasso.with(context).load(path+uri).resize(px,px).centerCrop()
-                                .placeholder(R.drawable.default_icon_square)
-                                .error(R.drawable.default_icon_square)
-                                .into(holder.img5);
-                        break;
-                    case 6:
-                        holder.img6.setVisibility(View.VISIBLE);
-                        holder.img7.setVisibility(View.GONE);
-                        holder.img8.setVisibility(View.GONE);
-                        holder.img9.setVisibility(View.GONE);
-                        holder.img6.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent in=new Intent(context, PictureActivity.class);
-                                in.putStringArrayListExtra("images", imgs);
-                                in.putExtra("position",5);
-                                context.startActivity(in);
-                            }
-                        });
-                        Picasso.with(context).load(path+uri).resize(px,px).centerCrop()
-                                .placeholder(R.drawable.default_icon_square)
-                                .error(R.drawable.default_icon_square)
-                                .into(holder.img6);
-                        break;
-                    case 7:
-                        holder.img7.setVisibility(View.VISIBLE);
-                        holder.img8.setVisibility(View.GONE);
-                        holder.img9.setVisibility(View.GONE);
-                        holder.img7.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent in=new Intent(context, PictureActivity.class);
-                                in.putStringArrayListExtra("images", imgs);
-                                in.putExtra("position",6);
-                                context.startActivity(in);
-                            }
-                        });
-                        Picasso.with(context).load(path+uri).resize(px,px).centerCrop()
-                                .placeholder(R.drawable.default_icon_square)
-                                .error(R.drawable.default_icon_square)
-                                .into(holder.img7);
-                        break;
-                    case 8:
-                        holder.img8.setVisibility(View.VISIBLE);
-                        holder.img9.setVisibility(View.GONE);
-                        holder.img8.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent in=new Intent(context, PictureActivity.class);
-                                in.putStringArrayListExtra("images", imgs);
-                                in.putExtra("position",7);
-                                context.startActivity(in);
-                            }
-                        });
-                        Picasso.with(context).load(path+uri).resize(px,px).centerCrop()
-                                .placeholder(R.drawable.default_icon_square)
-                                .error(R.drawable.default_icon_square)
-                                .into(holder.img8);
-                        break;
-                    case 9:
-                        holder.img9.setVisibility(View.VISIBLE);
-                        holder.img9.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent in=new Intent(context, PictureActivity.class);
-                                in.putStringArrayListExtra("images", imgs);
-                                in.putExtra("position",8);
-                                context.startActivity(in);
-                            }
-                        });
-                        Picasso.with(context).load(path+uri).resize(px,px).centerCrop()
-                                .placeholder(R.drawable.default_icon_square)
-                                .error(R.drawable.default_icon_square)
-                                .into(holder.img9);
-                        break;
-                }
-            } catch (Exception e) {
+            String uri = imgs.get(i);
+            switch (i + 1) {
+                case 1:
+                    holder.img1.setVisibility(View.VISIBLE);
+                    holder.img2.setVisibility(View.GONE);
+                    holder.img3.setVisibility(View.GONE);
+                    holder.img4.setVisibility(View.GONE);
+                    holder.img5.setVisibility(View.GONE);
+                    holder.img6.setVisibility(View.GONE);
+                    holder.img7.setVisibility(View.GONE);
+                    holder.img8.setVisibility(View.GONE);
+                    holder.img9.setVisibility(View.GONE);
+                    holder.img1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent in = new Intent(context, PictureActivity.class);
+                            in.putStringArrayListExtra("images", imgs);
+                            in.putExtra("position", 0);
+                            context.startActivity(in);
+                        }
+                    });
+                    Picasso.with(context).load(path + uri).resize(px, px).centerCrop()
+                            .placeholder(R.drawable.default_icon_square)
+                            .error(R.drawable.default_icon_square)
+                            .into(holder.img1);
+                    break;
+                case 2:
+                    holder.img2.setVisibility(View.VISIBLE);
+                    holder.img3.setVisibility(View.GONE);
+                    holder.img4.setVisibility(View.GONE);
+                    holder.img5.setVisibility(View.GONE);
+                    holder.img6.setVisibility(View.GONE);
+                    holder.img7.setVisibility(View.GONE);
+                    holder.img8.setVisibility(View.GONE);
+                    holder.img9.setVisibility(View.GONE);
+                    holder.img2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent in = new Intent(context, PictureActivity.class);
+                            in.putStringArrayListExtra("images", imgs);
+                            in.putExtra("position", 1);
+                            context.startActivity(in);
+                        }
+                    });
 
+                    Picasso.with(context).load(path + uri).resize(px, px).centerCrop()
+                            .placeholder(R.drawable.default_icon_square)
+                            .error(R.drawable.default_icon_square)
+                            .into(holder.img2);
+                    break;
+                case 3:
+                    holder.img3.setVisibility(View.VISIBLE);
+                    holder.img4.setVisibility(View.GONE);
+                    holder.img5.setVisibility(View.GONE);
+                    holder.img6.setVisibility(View.GONE);
+                    holder.img7.setVisibility(View.GONE);
+                    holder.img8.setVisibility(View.GONE);
+                    holder.img9.setVisibility(View.GONE);
+                    holder.img3.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent in = new Intent(context, PictureActivity.class);
+                            in.putStringArrayListExtra("images", imgs);
+                            in.putExtra("position", 2);
+                            context.startActivity(in);
+                        }
+                    });
+                    Picasso.with(context).load(path + uri).resize(px, px).centerCrop()
+                            .placeholder(R.drawable.default_icon_square)
+                            .error(R.drawable.default_icon_square)
+                            .into(holder.img3);
+                    break;
+                case 4:
+                    holder.img4.setVisibility(View.VISIBLE);
+                    holder.img5.setVisibility(View.GONE);
+                    holder.img6.setVisibility(View.GONE);
+                    holder.img7.setVisibility(View.GONE);
+                    holder.img8.setVisibility(View.GONE);
+                    holder.img9.setVisibility(View.GONE);
+                    holder.img4.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent in = new Intent(context, PictureActivity.class);
+                            in.putStringArrayListExtra("images", imgs);
+                            in.putExtra("position", 3);
+                            context.startActivity(in);
+                        }
+                    });
+                    Picasso.with(context).load(path + uri).resize(px, px).centerCrop()
+                            .placeholder(R.drawable.default_icon_square)
+                            .error(R.drawable.default_icon_square)
+                            .into(holder.img4);
+                    break;
+                case 5:
+                    holder.img5.setVisibility(View.VISIBLE);
+                    holder.img6.setVisibility(View.GONE);
+                    holder.img7.setVisibility(View.GONE);
+                    holder.img8.setVisibility(View.GONE);
+                    holder.img9.setVisibility(View.GONE);
+                    holder.img5.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent in = new Intent(context, PictureActivity.class);
+                            in.putStringArrayListExtra("images", imgs);
+                            in.putExtra("position", 4);
+                            context.startActivity(in);
+                        }
+                    });
+                    Picasso.with(context).load(path + uri).resize(px, px).centerCrop()
+                            .placeholder(R.drawable.default_icon_square)
+                            .error(R.drawable.default_icon_square)
+                            .into(holder.img5);
+                    break;
+                case 6:
+                    holder.img6.setVisibility(View.VISIBLE);
+                    holder.img7.setVisibility(View.GONE);
+                    holder.img8.setVisibility(View.GONE);
+                    holder.img9.setVisibility(View.GONE);
+                    holder.img6.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent in = new Intent(context, PictureActivity.class);
+                            in.putStringArrayListExtra("images", imgs);
+                            in.putExtra("position", 5);
+                            context.startActivity(in);
+                        }
+                    });
+                    Picasso.with(context).load(path + uri).resize(px, px).centerCrop()
+                            .placeholder(R.drawable.default_icon_square)
+                            .error(R.drawable.default_icon_square)
+                            .into(holder.img6);
+                    break;
+                case 7:
+                    holder.img7.setVisibility(View.VISIBLE);
+                    holder.img8.setVisibility(View.GONE);
+                    holder.img9.setVisibility(View.GONE);
+                    holder.img7.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent in = new Intent(context, PictureActivity.class);
+                            in.putStringArrayListExtra("images", imgs);
+                            in.putExtra("position", 6);
+                            context.startActivity(in);
+                        }
+                    });
+                    Picasso.with(context).load(path + uri).resize(px, px).centerCrop()
+                            .placeholder(R.drawable.default_icon_square)
+                            .error(R.drawable.default_icon_square)
+                            .into(holder.img7);
+                    break;
+                case 8:
+                    holder.img8.setVisibility(View.VISIBLE);
+                    holder.img9.setVisibility(View.GONE);
+                    holder.img8.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent in = new Intent(context, PictureActivity.class);
+                            in.putStringArrayListExtra("images", imgs);
+                            in.putExtra("position", 7);
+                            context.startActivity(in);
+                        }
+                    });
+                    Picasso.with(context).load(path + uri).resize(px, px).centerCrop()
+                            .placeholder(R.drawable.default_icon_square)
+                            .error(R.drawable.default_icon_square)
+                            .into(holder.img8);
+                    break;
+                case 9:
+                    holder.img9.setVisibility(View.VISIBLE);
+                    holder.img9.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent in = new Intent(context, PictureActivity.class);
+                            in.putStringArrayListExtra("images", imgs);
+                            in.putExtra("position", 8);
+                            context.startActivity(in);
+                        }
+                    });
+                    Picasso.with(context).load(path + uri).resize(px, px).centerCrop()
+                            .placeholder(R.drawable.default_icon_square)
+                            .error(R.drawable.default_icon_square)
+                            .into(holder.img9);
+                    break;
             }
         }
     }
