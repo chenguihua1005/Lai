@@ -5,6 +5,7 @@
 
 package com.softtek.lai.module.home.view;
 
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -25,8 +26,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.easemob.EMCallBack;
+import com.easemob.chat.EMChatManager;
+import com.easemob.easeui.domain.ChatUserInfoModel;
+import com.easemob.easeui.domain.ChatUserModel;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
+import com.softtek.lai.chat.ConversationListActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
@@ -66,6 +72,7 @@ import java.util.List;
 import butterknife.InjectView;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
 
@@ -118,6 +125,8 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     private List<Fragment> fragments = new ArrayList<>();
     FragementAdapter fragementAdapter;
     private MessageReceiver mMessageReceiver;
+    UserModel model;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void initViews() {
@@ -144,6 +153,11 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                 android.R.color.holo_orange_light,
                 android.R.color.holo_green_light);
         pull.setOnRefreshListener(this);
+
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setMessage("加载中");
+
     }
 
     @Override
@@ -214,7 +228,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     @Override
     public void onResume() {
         super.onResume();
-        UserModel model=UserInfoModel.getInstance().getUser();
+        model=UserInfoModel.getInstance().getUser();
         if(model==null){
             return;
         }
@@ -269,7 +283,41 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         System.out.println("正在加载......");
         homeInfoPresenter.getHomeInfoData(pull);
     }
+    private void loginChat(final ProgressDialog progressDialog){
+        System.out.println("model:"+model);
+        EMChatManager.getInstance().login(model.getMobile(), "123123", new EMCallBack() {
+            @Override
+            public void onSuccess() {
+                // ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
+                // ** manually load all local groups and
+                String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+                ChatUserModel chatUserModel = new ChatUserModel();
+                chatUserModel.setUserName(model.getNickname());
+                chatUserModel.setUserPhone(path+model.getPhoto());
+                EMChatManager.getInstance().updateCurrentUserNick(model.getNickname());
+                ChatUserInfoModel.getInstance().setUser(chatUserModel);
 
+                EMChatManager.getInstance().loadAllConversations();
+// 进入主页面
+                Intent intent = new Intent(getActivity(), ConversationListActivity.class);
+                startActivity(intent);
+                if(progressDialog!=null){
+                    progressDialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onProgress(int progress, String status) {
+            }
+
+            @Override
+            public void onError(final int code, final String message) {
+                if(progressDialog!=null){
+                    progressDialog.dismiss();
+                }
+            }
+        });
+    }
     /**
      * 功能模块按钮
      */

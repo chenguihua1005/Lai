@@ -4,6 +4,7 @@ import java.util.Date;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
@@ -119,17 +120,18 @@ public abstract class EaseChatRow extends LinearLayout {
         }
         String name = null;
         String avatar = null;
-        System.out.println("message:"+message);
         try {
             name=message.getStringAttribute("nickname");
             avatar=message.getStringAttribute("avatarURL");
+            if(TextUtils.isEmpty(avatar)){
+                avatar="111";
+            }
         } catch (EaseMobException e) {
             e.printStackTrace();
         }
-        System.out.println("name:"+name);
-        System.out.println("avatar:"+avatar);
         //设置头像和nick
         if(message.direct == Direct.SEND){
+
             Picasso.with(getContext()).load(avatar).fit().error(R.drawable.ease_group_icon).into(userAvatarView);
             //EaseUserUtils.setUserAvatar(context, EMChatManager.getInstance().getCurrentUser(), userAvatarView);
            // 发送方不显示nick

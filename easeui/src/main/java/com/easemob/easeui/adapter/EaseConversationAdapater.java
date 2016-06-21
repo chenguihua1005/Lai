@@ -129,7 +129,6 @@ public class EaseConversationAdapater extends ArrayAdapter<EMConversation> {
 		// 获取用户username或者群组groupid
 		String username = conversation.getUserName();
 		EMMessage lastMessage = conversation.getLastMessage();
-		System.out.println("field value--------------->"+conversation.getExtField());
 		if (conversation.getType() == EMConversationType.GroupChat) {
 			// 群聊消息，显示群聊头像
 			holder.avatar.setImageResource(R.drawable.ease_group_icon);
@@ -145,6 +144,7 @@ public class EaseConversationAdapater extends ArrayAdapter<EMConversation> {
 
 			String name="";
 			String photo="";
+			System.out.println("conversation getExtField==============>:"+conversation.getExtField());
 			if(!TextUtils.isEmpty(conversation.getExtField())){
 				String[] field=conversation.getExtField().split(",");
 				name=field[0];
@@ -159,6 +159,7 @@ public class EaseConversationAdapater extends ArrayAdapter<EMConversation> {
 				}
 			}
 			holder.name.setText(name);
+			System.out.println("conversation==============>:"+name+","+photo);
 			if("".equals(photo)){
 				Picasso.with(getContext()).load("111").fit().error(R.drawable.ease_group_icon).into(holder.avatar);
 			}else {

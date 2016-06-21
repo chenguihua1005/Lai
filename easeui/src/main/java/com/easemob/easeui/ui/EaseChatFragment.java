@@ -300,18 +300,16 @@ public class EaseChatFragment extends EaseBaseFragment implements EMEventListene
     protected void setProfile(EMConversation conversation) {
         String name = fragmentArgs.getString("name");
         String photo = fragmentArgs.getString("photo");
-        System.out.println("field value===================>"+name+","+photo);
+        System.out.println("conversation------------------->:"+name+","+photo);
         conversation.setExtField(name + "," + photo);
     }
 
     protected void onConversationInit() {
         // 获取当前conversation对象
         conversation = EMChatManager.getInstance().getConversation(toChatUsername);
-        System.out.println("getExtField:"+conversation.getExtField());
-        System.out.println("field value--------------->"+conversation.getExtField());
-        if (TextUtils.isEmpty(conversation.getExtField())) {
-            setProfile(conversation);
-        }
+        //conversation=EMChatManager.getInstance().getConversationByType(toChatUsername, EMConversation.EMConversationType.Chat);
+
+
         // 把此会话的未读数置为0
         conversation.markAllMessagesAsRead();
         // 初始化db时，每个conversation加载数目是getChatOptions().getNumberOfMessagesLoaded
@@ -690,7 +688,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMEventListene
                     selectPicFromLocal(); // 图库选择图片
                     break;
                 case ITEM_LOCATION: // 位置
-//                startActivityForResult(new Intent(getActivity(), EaseBaiduMapActivity.class), REQUEST_CODE_MAP);
+                    //startActivityForResult(new Intent(getActivity(), EaseBaiduMapActivity.class), REQUEST_CODE_MAP);
                     break;
 
                 default:
@@ -740,10 +738,8 @@ public class EaseChatFragment extends EaseBaseFragment implements EMEventListene
 
     protected void sendMessage(EMMessage message) {
         ChatUserModel chatUserModel = ChatUserInfoModel.getInstance().getUser();
-        System.out.println("chatUserModel:" + chatUserModel);
         message.setAttribute("nickname", chatUserModel.getUserName());
         message.setAttribute("avatarURL", chatUserModel.getUserPhone());
-        message.setAttribute("userId", chatUserModel.getUserId());
         if (chatFragmentHelper != null) {
             //设置扩展属性
             chatFragmentHelper.onSetMessageAttributes(message);
@@ -757,6 +753,9 @@ public class EaseChatFragment extends EaseBaseFragment implements EMEventListene
         //发送消息
         EMChatManager.getInstance().sendMessage(message, null);
         //刷新ui
+        if (TextUtils.isEmpty(conversation.getExtField())) {
+            setProfile(conversation);
+        }
         messageList.refreshSelectLast();
     }
 
