@@ -36,7 +36,6 @@ import java.util.Calendar;
 import java.util.List;
 
 import butterknife.InjectView;
-import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
@@ -193,7 +192,6 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
 
                 case R.id.tv_sex:
                     showGradeDialog();
-//                    show_sex_dialog();
                     break;
                 case R.id.ll_height:
 
@@ -205,11 +203,6 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
                 case R.id.tv_weight:
                     show_weight_dialog();
                     break;
-//                case R.id.tv_right:
-//                    Intent intent1 = new Intent(CreatFlleActivity.this, HomeActviity.class);
-//                    startActivity(intent1);
-//                    finish();
-//                    break;
             }
         }
         return true;
@@ -259,7 +252,7 @@ public class CreatFlleActivity extends BaseActivity implements View.OnClickListe
             String weights = weight.split("斤")[0];
             file.setWeight(Double.parseDouble(weights));
 
-            String token=getIntent().getStringExtra("token");
+            String token = getIntent().getStringExtra("token");
             ICreateFilepresenter.createFile(token, file);
         }
     }

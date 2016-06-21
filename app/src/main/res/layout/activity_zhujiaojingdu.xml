@@ -278,7 +278,7 @@
                 android:layout_width="20dp"
                 android:layout_height="wrap_content"
                 android:scaleType="fitCenter"
-                android:src="@drawable/pic_lossmember"/>
+                android:src="@drawable/pic_lossmember" />
             <TextView
                 android:textColor="#74bb2a"
                 android:textSize="18sp"

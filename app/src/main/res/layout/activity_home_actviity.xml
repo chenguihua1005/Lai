@@ -46,7 +46,6 @@
                 app:alpha="true"
                 app:text="@string/healthy"/>
 
-
         <com.ggx.jerryguan.widget_lib.SimpleButton
                 android:id="@+id/btn_healthy_record"
                 android:layout_width="0dp"

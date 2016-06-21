@@ -6,11 +6,7 @@
     android:fitsSystemWindows="true"
     android:id="@+id/lin"
     tools:context="com.softtek.lai.module.mygrades.view.MyGradesActivity">
-
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar" />
-
+    <include layout="@layout/toolbar" />
     <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"
@@ -21,28 +17,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <LinearLayout
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@color/white"
                 android:gravity="center_vertical"
                 android:paddingLeft="15dp"
-                android:paddingRight="15dp">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="运动步数"
-                        android:textColor="#333333"
-                        android:textSize="15sp" />
-                </LinearLayout>
-            </LinearLayout>
+                android:text="运动步数"
+                android:textColor="#333333"
+                android:textSize="15sp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -55,35 +38,21 @@
                     android:layout_height="200dp">
                 </com.github.mikephil.charting.charts.LineChart>
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true">
+                <Button
+                    android:id="@+id/bt_left"
+                    android:layout_width="30dp"
+                    android:layout_height="40dp"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/back_arrow_left" />
 
-                    <Button
-                        android:id="@+id/bt_left"
-                        android:layout_width="30dp"
-                        android:layout_height="40dp"
-                        android:layout_centerVertical="true"
-                        android:background="@drawable/back_arrow_left" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <Button
+                    android:id="@+id/bt_right"
+                    android:layout_width="30dp"
+                    android:layout_height="40dp"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true">
-
-                    <Button
-                        android:id="@+id/bt_right"
-                        android:layout_width="30dp"
-                        android:layout_height="40dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:background="@drawable/back_arrow_right"
-                        android:visibility="gone" />
-                </LinearLayout>
-
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/back_arrow_right"
+                    android:visibility="gone" />
             </RelativeLayout>
 
             <LinearLayout
@@ -118,19 +87,15 @@
                             android:textSize="12sp" />
                     </LinearLayout>
 
-                    <LinearLayout
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:text="总步数"
+                        android:textColor="#666666"
+                        android:textSize="12sp" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="总步数"
-                            android:textColor="#666666"
-                            android:textSize="12sp" />
-                    </LinearLayout>
                 </LinearLayout>
 
                 <View
@@ -166,19 +131,14 @@
                             android:textSize="12sp" />
                     </LinearLayout>
 
-                    <LinearLayout
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:gravity="center">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="总公里数"
-                            android:textColor="#666666"
-                            android:textSize="12sp" />
-                    </LinearLayout>
+                        android:gravity="center"
+                        android:text="总公里数"
+                        android:textColor="#666666"
+                        android:textSize="12sp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -187,37 +147,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
                 android:background="#f1f1f1"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
-
-                <LinearLayout
+                <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
-                    android:layout_weight="1">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center|left"
-                        android:text="我的日排名"
-                        android:textColor="#333333"
-                        android:textSize="15sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="15dp"
                     android:layout_weight="1"
-                    android:gravity="center|right">
-
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/arrow" />
-                </LinearLayout>
+                    android:gravity="center|left"
+                    android:text="我的日排名"
+                    android:textColor="#333333"
+                    android:textSize="15sp" />
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_gravity="right|center_vertical"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/arrow" />
             </LinearLayout>
 
             <LinearLayout
@@ -371,34 +318,23 @@
                 android:background="#f1f1f1"
                 android:gravity="center"
                 android:orientation="horizontal">
-
-                <LinearLayout
+                <TextView
+                    android:gravity="center|left"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
-                    android:layout_weight="1">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="我的周排名"
-                        android:textColor="#333333"
-                        android:textSize="15sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="15dp"
                     android:layout_weight="1"
-                    android:gravity="center|right">
+                    android:text="我的周排名"
+                    android:textColor="#333333"
+                    android:textSize="15sp" />
 
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/arrow" />
-                </LinearLayout>
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_gravity="right|center_vertical"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/arrow" />
             </LinearLayout>
 
             <LinearLayout
@@ -554,6 +490,7 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
+                    android:gravity="center|left"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
@@ -583,20 +520,13 @@
                         android:textColor="#333333"
                         android:textSize="15sp" />
                 </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
                     android:layout_marginRight="15dp"
-                    android:layout_weight="1"
-                    android:gravity="center|right">
-
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/arrow" />
-                </LinearLayout>
+                    android:layout_gravity="right|center_vertical"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/arrow" />
             </LinearLayout>
 
             <LinearLayout

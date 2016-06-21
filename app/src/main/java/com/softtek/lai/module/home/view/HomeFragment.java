@@ -203,9 +203,10 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         }
         rhv_adv.setImgUrlData(advList);
         ((ActivityRecordFragment) fragments.get(0)).updateInfo(records);
-        ((ProductInfoFragment)fragments.get(1)).updateInfo(products);
-        ((SaleInfoFragment)fragments.get(2)).updateInfo(sales);
-
+        ProductInfoFragment productInfoFragment=((ProductInfoFragment)fragments.get(1));
+        productInfoFragment.updateInfo(products);
+        SaleInfoFragment saleInfoFragment=((SaleInfoFragment)fragments.get(2));
+        saleInfoFragment.updateInfo(sales);
     }
 
     @Override
@@ -323,7 +324,6 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
      */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
         UserInfoModel userInfoModel = UserInfoModel.getInstance();
         int role = Integer.parseInt(userInfoModel.getUser().getUserrole());
         ////判断当前用户是否拥有此按钮权限

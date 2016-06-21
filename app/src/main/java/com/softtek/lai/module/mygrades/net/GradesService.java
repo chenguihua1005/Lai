@@ -21,8 +21,8 @@ public interface GradesService {
     //2.19.1	我的成绩
     @GET("/StepCount/GetStepCount")
     void getStepCount(@Header("token") String token,
-                      @Query("start")String start,  //开始日期(yyyy-MM-dd HH:mm:ss)
-                      @Query("end")String end,      //结束日期(yyyy-MM-dd HH:mm:ss)
+                      @Query("start") String start,  //开始日期(yyyy-MM-dd HH:mm:ss)
+                      @Query("end") String end,      //结束日期(yyyy-MM-dd HH:mm:ss)
                       Callback<ResponseData<List<GradesModel>>> callback);
 
     //3.3.2	成绩勋章信息
@@ -31,30 +31,28 @@ public interface GradesService {
                        Callback<ResponseData<GradeHonorModel>> callback);
 
 
-
     //2.19.3	当日排名
     @GET("/StepCount/GetCurrentDateOrder")
     void getCurrentDateOrder(@Header("token") String token,
-                             @Query("RGIdType")int RGIdType,
+                             @Query("RGIdType") int RGIdType,
                              Callback<ResponseData<DayRankModel>> callback);
 
     //2.19.4	当周排名
     @GET("/StepCount/GetCurrentWeekOrder")
     void getCurrentWeekOrder(@Header("token") String token,
-                             @Query("RGIdType")int RGIdType,
+                             @Query("RGIdType") int RGIdType,
                              Callback<ResponseData<DayRankModel>> callback);
 
     //我的跑团
     @GET("/HerbMyData/GetNowRgName")
     void doGetNowRgName(
-            @Header("token")String token,
-            @Query("accountid")long accountid,
-            Callback<ResponseData<RunGroupModel>>callback);
+            @Header("token") String token,
+            @Query("accountid") long accountid,
+            Callback<ResponseData<RunGroupModel>> callback);
 
     //2.19.2	勋章详情页
     @GET("/StepCount/GetStepHonor")
     void doGetXunZhang(@Header("token") String token,
-                      Callback<ResponseData<XunZhangModel>> callback);
-
+                       Callback<ResponseData<XunZhangModel>> callback);
 
 }

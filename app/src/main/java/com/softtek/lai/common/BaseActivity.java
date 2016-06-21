@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -17,6 +18,7 @@ import android.widget.Button;
 
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
+import com.softtek.lai.utils.HomeListener;
 import com.softtek.lai.utils.SystemBarTintManager;
 
 import butterknife.ButterKnife;
@@ -44,6 +46,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected ProgressDialog progressDialog;
 
+    HomeListener mHomeWatcher;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -58,10 +62,30 @@ public abstract class BaseActivity extends AppCompatActivity {
         tintManager = new SystemBarTintManager(this);
         tintManager.setStatusBarTintEnabled(true);
         tintManager.setStatusBarTintResource(R.color.colorPrimaryDark);
+        mHomeWatcher = new HomeListener(this);
+        mHomeWatcher.setOnHomePressedListener(new HomeListener.OnHomePressedListener() {
+
+            @Override
+            public void onHomePressed() {
+                //TODO 进行点击Home键的处理
+                Log.i("xsl", "0000000000000");
+                moveTaskToBack(true);
+            }
+
+            @Override
+            public void onHomeLongPressed() {
+                //TODO 进行长按Home键的处理
+                Log.i("xsl", "00000000001");
+                //moveTaskToBack(true);
+            }
+        });
+        mHomeWatcher.startWatch();
 
         ButterKnife.inject(this);
         initViews();
         initDatas();
+
+
 
     }
 
@@ -76,6 +100,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void onPause() {
         super.onPause();
         LifeCircle.onPause(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 
     public void dialogShow(String value) {

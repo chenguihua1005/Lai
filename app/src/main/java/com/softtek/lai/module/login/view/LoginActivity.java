@@ -7,9 +7,6 @@ package com.softtek.lai.module.login.view;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -17,15 +14,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.easemob.EMCallBack;
 import com.easemob.chat.EMChatManager;
-import com.easemob.chat.EMGroupManager;
 import com.easemob.easeui.domain.ChatUserInfoModel;
 import com.easemob.easeui.domain.ChatUserModel;
-import com.easemob.util.EMLog;
-import com.github.snowdream.android.util.Log;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
@@ -38,8 +31,6 @@ import com.softtek.lai.module.login.presenter.ILoginPresenter;
 import com.softtek.lai.module.login.presenter.LoginPresenterImpl;
 import com.softtek.lai.utils.MD5;
 import com.softtek.lai.utils.SoftInputUtil;
-
-import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
@@ -140,10 +131,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             case R.id.ll_visitor:
                 UserInfoModel.getInstance().visitorLogin();
                 startActivity(new Intent(this, HomeActviity.class));
-//                ShareUtils shareUtils = new ShareUtils(LoginActivity.this);
-//                shareUtils.setShareContent("1", "http://www.baidu.com", R.drawable.img_default, "222", "333");
-//                shareUtils.getController().openShare(LoginActivity.this,false);
-
                 break;
 
         }

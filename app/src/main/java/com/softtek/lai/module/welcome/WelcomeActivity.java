@@ -5,6 +5,7 @@
 package com.softtek.lai.module.welcome;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 
 import com.github.snowdream.android.util.Log;
@@ -37,6 +38,11 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
     private  String token=null;
     private SportGroupService service;
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if(!isTaskRoot()){finish();return;}
+    }
 
     @Override
     protected void initViews() {

@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="Tom"
+            android:text=""
             android:textStyle="bold"
             android:textColor="#ababab"
             android:textSize="14sp"/>
@@ -51,7 +51,7 @@
                 android:id="@+id/tv_bushu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="40521"
+                android:text=""
                 android:textColor="#333333"
                 android:textSize="18sp"/>
             <TextView
@@ -61,48 +61,18 @@
                 android:textColor="#333333"
                 android:textSize="12sp"/>
         </LinearLayout>
-        <RelativeLayout
+        <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+            android:id="@+id/rcpb_prog"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_gravity="center_vertical">
-
-            <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
-                android:id="@+id/rcpb_prog"
-                android:layout_width="match_parent"
-                android:layout_height="10dp"
-                app:rcProgress="80"
-                app:rcSecondaryProgress="100"
-                app:rcMax="100"
-                app:rcRadius="100dp"
-                app:rcBackgroundPadding="0dp"
-                app:rcReverse="false"
-                app:rcProgressColor="#7bbd35"
-                app:rcSecondaryProgressColor="#f1f0f0"
-                app:rcBackgroundColor="#f1f0f0" />
-            <!--<ImageView-->
-                <!--android:layout_width="240dp"-->
-                <!--android:layout_height="10dp"-->
-                <!--android:layout_gravity="center_vertical"-->
-                <!--android:src="@drawable/img_progress_off"-->
-                <!--android:layout_marginRight="5dp"-->
-                <!--android:scaleType="fitXY"-->
-                <!--/>-->
-            <!--<ImageView-->
-                <!--android:layout_width="240dp"-->
-                <!--android:layout_height="10dp"-->
-                <!--android:layout_marginLeft="1dp"-->
-                <!--android:layout_gravity="center_vertical"-->
-                <!--android:src="@drawable/img_progress_on"-->
-                <!--android:scaleType="fitXY"-->
-                <!--/>-->
-            <!--<ImageView-->
-                <!--android:layout_width="240dp"-->
-                <!--android:layout_height="10dp"-->
-                <!--android:layout_gravity="center_vertical"-->
-                <!--android:scaleType="fitXY"-->
-                <!--android:layout_alignParentRight="true"-->
-                <!--android:src="@drawable/img_pro"/>-->
-        </RelativeLayout>
+            android:layout_height="10dp"
+            app:rcProgress="80"
+            app:rcSecondaryProgress="100"
+            app:rcMax="100"
+            app:rcRadius="100dp"
+            app:rcBackgroundPadding="0dp"
+            app:rcReverse="false"
+            app:rcProgressColor="#7bbd35"
+            app:rcSecondaryProgressColor="#f1f0f0"
+            app:rcBackgroundColor="#f1f0f0" />
     </LinearLayout>
 </LinearLayout>
