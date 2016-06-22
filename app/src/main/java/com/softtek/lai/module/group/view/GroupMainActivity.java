@@ -191,11 +191,24 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
     @InjectView(R.id.text_start_pks)
     TextView text_start_pks;
 
+    @InjectView(R.id.lin1)
+    LinearLayout lin1;
+    @InjectView(R.id.lin2)
+    LinearLayout lin2;
+    @InjectView(R.id.lin3)
+    LinearLayout lin3;
+    @InjectView(R.id.lin4)
+    LinearLayout lin4;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ll_left.setOnClickListener(this);
+        lin1.setOnClickListener(this);
+        lin2.setOnClickListener(this);
+        lin3.setOnClickListener(this);
+        lin4.setOnClickListener(this);
         iv_email.setOnClickListener(this);
         fl_right.setOnClickListener(this);
         rel_my_score.setOnClickListener(this);
@@ -270,6 +283,10 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
             case R.id.iv_email:
                 startActivity(new Intent(this, MyInformationActivity.class));
                 break;
+            case R.id.lin1://我的成绩
+            case R.id.lin2://我的成绩
+            case R.id.lin3://我的成绩
+            case R.id.lin4://我的成绩
             case R.id.rel_my_score://我的成绩
                 startActivity(new Intent(this, MyGradesActivity.class));
                 break;
@@ -504,5 +521,6 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
         String time = formatter.format(curDate);
         String str = time + "," + StepService.todayStep;
         sportGroupManager.getSportIndex(userId, str);
+        sportGroupManager.getNewMsgRemind(userId);
     }
 }

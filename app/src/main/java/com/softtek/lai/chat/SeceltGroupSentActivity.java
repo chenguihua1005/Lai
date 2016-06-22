@@ -23,6 +23,7 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.counselor.model.ContactListInfoModel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -107,10 +108,16 @@ public class SeceltGroupSentActivity extends BaseActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.lin_next:
+                List<ChatContactInfoModel> select_list=new ArrayList<ChatContactInfoModel>();
                 for (int i = 0; i < list.size(); i++) {
-                    System.out.println("name:"+list.get(i).getModel().getUserName());
-                    System.out.println("isselect:"+list.get(i).isSelected());
+                    if(list.get(i).isSelected()){
+                        select_list.add(list.get(i).getModel());
+                    }
                 }
+
+                Intent intent=new Intent(this,GroupSentActivity.class);
+                intent.putExtra("list",(Serializable)select_list);
+                startActivity(intent);
                 break;
             case R.id.ll_left:
                 finish();
