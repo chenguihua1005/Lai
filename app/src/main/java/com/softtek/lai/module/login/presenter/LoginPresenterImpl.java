@@ -291,43 +291,27 @@ public class LoginPresenterImpl implements ILoginPresenter {
         String dateEnd=DateUtil.weeHours(1);
         List<UserStep> steps=StepUtil.getInstance().getCurrentData(userId,dateStar,dateEnd);
         if(!steps.isEmpty()){
-            UserStep stepStart=steps.get(0);
             UserStep stepEnd=steps.get(steps.size()-1);
-            int currentStep= (int) (stepEnd.getStepCount()-stepStart.getStepCount());
-            /*Log.i("本地数据库中的最小数据为》》》》"+stepStart.getStepCount());
-            Log.i("本地数据库中的最大数据为》》》》"+stepStart.getStepCount());
-            Log.i("服务器上的数据为》》》》"+step);
-            Log.i("如果更新后本地数据库中的最大数据为》》》》"+(step+stepStart.getStepCount()));*/
+            int currentStep= (int) (stepEnd.getStepCount());
             if(step>currentStep){
                 //如果服务器上的步数大于本地
                 UserStep userStep=new UserStep();
                 userStep.setAccountId(Long.parseLong(userId));
                 userStep.setRecordTime(DateUtil.getInstance().getCurrentDate());
-                userStep.setStepCount(step+stepStart.getStepCount());
+                userStep.setStepCount(step);
                 StepUtil.getInstance().saveStep(userStep);
             }
             //如果不大于则 不需要操作什么
         }else{
-            //本地没有数据
-            //需要给本地插入一条 数据
-           /* UserStep userStep=new UserStep();
-            userStep.setAccountId(Long.parseLong(userId));
-            userStep.setRecordTime(DateUtil.getInstance().getCurrentDate());
-            userStep.setStepCount(0);
-            StepUtil.getInstance().saveStep(userStep);
-            if(step>0){*/
-                //如果服务器上的数据大于0则写入本地
-                UserStep serverStep=new UserStep();
-                serverStep.setAccountId(Long.parseLong(userId));
-                serverStep.setRecordTime(DateUtil.getInstance().getCurrentDate());
-                serverStep.setStepCount(step);
-                StepUtil.getInstance().saveStep(serverStep);
-            //}
-
+            //本地没有数据则写入本地
+            UserStep serverStep=new UserStep();
+            serverStep.setAccountId(Long.parseLong(userId));
+            serverStep.setRecordTime(DateUtil.getInstance().getCurrentDate());
+            serverStep.setStepCount(step);
+            StepUtil.getInstance().saveStep(serverStep);
         }
         //删除旧数据
-        String currentDate=DateUtil.weeHours(0);
-        StepUtil.getInstance().deleteOldDate(currentDate,userId);
+        StepUtil.getInstance().deleteOldDate(dateStar,userId);
         //启动计步器服务
         context.startService(new Intent(context.getApplicationContext(), StepService.class));
     }

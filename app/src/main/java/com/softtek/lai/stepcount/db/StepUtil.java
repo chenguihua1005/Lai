@@ -10,6 +10,7 @@ import com.softtek.lai.utils.DateUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import zilla.libcore.db.DBHelper;
 
@@ -35,7 +36,7 @@ public class StepUtil {
     }
 
     /**
-     * 获取前天的数据
+     * 获取当天的数据
      * @param accountId
      * @return
      */
@@ -48,7 +49,7 @@ public class StepUtil {
         try {
             if (cursor.moveToFirst()) {
                 do {
-                    int id=cursor.getInt(cursor.getColumnIndex("id"));
+                    String id=cursor.getString(cursor.getColumnIndex("id"));
                     long step = cursor.getLong(cursor.getColumnIndex("stepCount"));
                     String recordTime = cursor.getString(cursor.getColumnIndex("recordTime"));
                     String userId = cursor.getString(cursor.getColumnIndex("accountId"));
@@ -104,6 +105,7 @@ public class StepUtil {
     public  long saveStep(UserStep step){
         SQLiteDatabase db= dbHelper.getWritableDatabase();
         ContentValues values=new ContentValues();
+        values.put("id", UUID.randomUUID().toString().replaceAll("-",""));
         values.put("accountId",step.getAccountId()+"");
         values.put("recordTime",step.getRecordTime());
         values.put("stepCount",step.getStepCount());

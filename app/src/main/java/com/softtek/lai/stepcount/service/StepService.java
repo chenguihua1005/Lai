@@ -35,6 +35,7 @@ import com.softtek.lai.utils.JCountDownTimer;
 import java.util.Calendar;
 import java.util.UUID;
 
+import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.util.Util;
 
 public class StepService extends Service implements SensorEventListener {
@@ -45,7 +46,7 @@ public class StepService extends Service implements SensorEventListener {
     //默认为30秒进行一次存储
     private static int duration = 30000;
     //默认30分钟上传一次
-    private static int durationUpload=30*60*1000;
+    private static int durationUpload=10*60*1000;
     private SensorManager sensorManager;
     private StepDcretor stepDetector;
     private BroadcastReceiver mBatInfoReceiver;
@@ -73,11 +74,18 @@ public class StepService extends Service implements SensorEventListener {
 
     private void initTodayData() {
         //获取当天的步数用于展示
-        String userId=UserInfoModel.getInstance().getUser().getUserid();
-        //查询到今日的步数记录
-        serverStep = StepUtil.getInstance().getCurrentStep(userId);
-        lastStep= todayStep =currentStep+ serverStep;
-        updateNotification("今日步数：" + todayStep + " 步");
+        UserModel model=UserInfoModel.getInstance().getUser();
+        if(model!=null) {
+            //查询到今日的步数记录
+            String userId=model.getUserid();
+            serverStep = StepUtil.getInstance().getCurrentStep(userId);
+            SharedPreferenceService.getInstance().put("serverStep",serverStep);
+            lastStep = todayStep = currentStep + serverStep;
+            updateNotification("今日步数：" + todayStep + " 步");
+        }else{
+            serverStep=SharedPreferenceService.getInstance().get("serverStep",0);
+            lastStep = todayStep = currentStep + serverStep;
+        }
     }
 
     private void initBroadcastReceiver() {
@@ -265,6 +273,7 @@ public class StepService extends Service implements SensorEventListener {
             //清空当天的临时步数
             serverStep=0;
             firstStep=0;
+            SharedPreferenceService.getInstance().put("serverStep",serverStep);
             updateNotification("今日步数：" + todayStep + " 步");
             return;
         }
@@ -272,13 +281,10 @@ public class StepService extends Service implements SensorEventListener {
         if(firstStep==0){
             firstStep=stepTemp;
             lastStep=0;
-            //存储当天的第一次计步传感器数据
-            save();
-
         }
         currentStep=stepTemp-firstStep;
         todayStep =currentStep+ serverStep;
-        updateNotification("今日步数：" + todayStep + " 步；计步传感器的数据>"+stepTemp);
+        updateNotification("今日步数：" + todayStep + " 步");
     }
 
     @Override
@@ -308,25 +314,9 @@ public class StepService extends Service implements SensorEventListener {
     }
 
 
-    //只保存计步器第一次开启的时候的步数与日期
-    private void save() {
-        UserModel model = UserInfoModel.getInstance().getUser();
-        if (model != null) {
-            UserStep step = new UserStep();
-            step.setId(UUID.randomUUID().toString().replaceAll("-",""));
-            step.setAccountId(Long.parseLong(model.getUserid()));
-            step.setRecordTime(DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate());
-            step.setStepCount(firstStep);
-            StepUtil.getInstance().saveStep(step);
-        } else {
-            com.github.snowdream.android.util.Log.i("步数相同不保存");
-        }
-
-    }
-
     int lastStep;
     //存入数据库
-    /*private void save() {
+    private void save() {
         UserModel model = UserInfoModel.getInstance().getUser();
         if (model != null && todayStep > lastStep) {
             lastStep = todayStep;//记录上一次保存的值
@@ -339,7 +329,7 @@ public class StepService extends Service implements SensorEventListener {
             com.github.snowdream.android.util.Log.i("步数相同不保存");
         }
 
-    }*/
+    }
 
 
     @Override
