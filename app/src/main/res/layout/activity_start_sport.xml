@@ -21,42 +21,71 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="10dip"
-        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginLeft="10dp"
         android:src="@drawable/img_start_sport_gps1" />
 
     <LinearLayout
+        android:id="@+id/ll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-
         android:layout_marginBottom="10dip"
         android:layout_marginRight="@dimen/margin"
-        android:background="@drawable/img_wheather">
+        android:background="@drawable/bg_panel_green">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/img_wheather_1"
-            android:layout_gravity="center"
-            android:layout_marginLeft="8dip"/>
+            android:layout_gravity="center" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textSize="9sp"
             android:layout_gravity="center"
-            android:layout_marginLeft="5dip"
-            android:text="空气"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textSize="9sp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="5dip"
-            android:text="良"/>
+            android:text="  空气 良"/>
     </LinearLayout>
+    <TextView
+        android:id="@+id/tv_air_quality"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#333333"
+        android:textSize="9sp"
+        android:layout_toLeftOf="@id/ll"
+        android:layout_marginRight="5dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:background="@drawable/bg_panel"
+        android:text="空气质量:优"/>
+    <TextView
+        android:id="@+id/tv_air_index"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#333333"
+        android:textSize="9dp"
+        android:layout_toLeftOf="@id/tv_air_quality"
+        android:layout_marginRight="5dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:background="@drawable/bg_panel"
+        android:text="空气指数:25"/>
+    <TextView
+        android:id="@+id/tv_air_temperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#333333"
+        android:textSize="9dp"
+        android:layout_toLeftOf="@id/tv_air_index"
+        android:layout_marginRight="5dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:background="@drawable/bg_panel"
+        android:text="室外温度:25℃"/>
 
 
     <TextView

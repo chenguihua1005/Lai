@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
+import android.text.SpannableString;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -80,6 +81,7 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
         text_total_distance.setOnClickListener(this);
         rel_start.setOnClickListener(this);
         rel_start1.setOnClickListener(this);
+
     }
 
     @Override
