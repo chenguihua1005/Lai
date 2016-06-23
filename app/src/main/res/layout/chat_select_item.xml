@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2010-2016 Softtek Information Systems (Wuxi) Co.Ltd.
+  ~ Date:2016-03-31
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    tools:context=".module.retest.WriteActivity">
+
+    <RelativeLayout
+        android:id="@+id/rel"
+        android:layout_width="fill_parent"
+        android:layout_height="106dip"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/img_select_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin"
+            android:src="@drawable/history_data_circle" />
+
+        <com.softtek.lai.widgets.CircleImageView
+            android:id="@+id/img"
+            android:layout_width="67dip"
+            android:layout_height="67dip"
+            android:layout_toRightOf="@+id/img_select_button"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin"
+            android:src="@drawable/img_default" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/inviteStudentMarginLeft1"
+            android:layout_toRightOf="@+id/img"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/text_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Default"
+                android:textColor="@color/word"
+                android:textSize="@dimen/textSize5"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>

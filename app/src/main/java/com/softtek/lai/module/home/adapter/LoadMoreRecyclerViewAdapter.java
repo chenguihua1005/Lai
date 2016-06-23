@@ -6,6 +6,7 @@
 package com.softtek.lai.module.home.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,7 +59,13 @@ public class LoadMoreRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
         //绑定数据
         if(holder instanceof ViewHolder){
             HomeInfoModel info = infos.get(position);
-            Picasso.with(mContext).load(info.getImg_Addr()).fit().placeholder(R.drawable.default_icon_rect).error(R.drawable.default_icon_rect).into(((ViewHolder)holder).iv_image);
+            Bitmap bitmap=((ViewHolder)holder).iv_image.getDrawingCache();
+            if(bitmap!=null&&bitmap.isRecycled()){
+                bitmap.recycle();
+            }
+            Picasso.with(mContext).load(info.getImg_Addr())
+                    .fit().placeholder(R.drawable.default_icon_rect)
+                    .error(R.drawable.default_icon_rect).into(((ViewHolder)holder).iv_image);
             ((ViewHolder)holder).tv_title.setText(info.getImg_Title());
         }
 

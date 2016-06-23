@@ -432,6 +432,42 @@ public class SportGroupManager {
         });
     }
 
+    public void getNewMsgRemind(String accountid) {
+        service.getNewMsgRemind(token, accountid, new RequestCallback<ResponseData>() {
+            @Override
+            public void success(ResponseData listResponseData, Response response) {
+                Log.e("jarvis", listResponseData.toString());
+                int status = listResponseData.getStatus();
+                switch (status) {
+                    case 200:
+                        if (getSportIndexCallBack != null) {
+                            getSportIndexCallBack.getNewMsgRemind("success");
+                        }
+                        break;
+                    case 201:
+                        if (getSportIndexCallBack != null) {
+                            getSportIndexCallBack.getNewMsgRemind("fail");
+                        }
+                        break;
+                    default:
+                        if (getSportIndexCallBack != null) {
+                            getSportIndexCallBack.getNewMsgRemind("fail");
+                        }
+                        Util.toastMsg(listResponseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                if (getSportIndexCallBack != null) {
+                    getSportIndexCallBack.getNewMsgRemind("fail");
+                }
+                ZillaApi.dealNetError(error);
+            }
+        });
+    }
+
     public void joinRunGroup(String rGId, String rGAccId, final JoinRunGroupCallBack joinRunGroupCallBack) {
         service.joinRunGroup(token, rGId, rGAccId, new RequestCallback<ResponseData>() {
             @Override
@@ -493,6 +529,8 @@ public class SportGroupManager {
         void getSportIndex(String type, SportMainModel sportMainModel);
 
         void getMineResult(String type, MineResultModel model);
+
+        void getNewMsgRemind(String type);
     }
 
     public interface GetGroupListCallBack {

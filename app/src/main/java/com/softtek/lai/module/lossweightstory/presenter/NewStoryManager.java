@@ -3,6 +3,7 @@ package com.softtek.lai.module.lossweightstory.presenter;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 
 import com.github.snowdream.android.util.Log;
@@ -90,6 +91,12 @@ public class NewStoryManager implements Runnable,UploadImageService.UploadImageC
             service.sendLog(token, model, new RequestCallback<ResponseData>() {
                 @Override
                 public void success(ResponseData responseData, Response response) {
+                    for(UploadImage image:images){
+                        Bitmap bit=image.getBitmap();
+                        if(bit!=null&&!bit.isRecycled()){
+                            bit.recycle();
+                        }
+                    }
                     if(progressDialog!=null)progressDialog.dismiss();
                     Intent intent=((AppCompatActivity)context).getIntent();
                     //intent.putExtra("story",model);

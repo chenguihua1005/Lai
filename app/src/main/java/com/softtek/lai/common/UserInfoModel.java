@@ -130,6 +130,7 @@ public class UserInfoModel {
                 break;
             case Constants.OFFICE:
                 has=power.isOffice();
+                //has=true;
                 break;
             case Constants.LAI_EXCLE:
                 has=power.isLaiExcel();

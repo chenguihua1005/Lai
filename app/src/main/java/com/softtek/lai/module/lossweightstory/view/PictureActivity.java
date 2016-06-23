@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.ActionMode;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
@@ -130,5 +131,8 @@ public class PictureActivity extends BaseActivity implements View.OnClickListene
 
     }
 
-
+    @Override
+    public void onActionModeFinished(ActionMode mode) {
+        super.onActionModeFinished(mode);
+    }
 }

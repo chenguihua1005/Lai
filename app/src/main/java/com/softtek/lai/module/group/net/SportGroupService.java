@@ -73,6 +73,12 @@ public interface SportGroupService {
                            @Query("str") String str,
                            RequestCallback<ResponseData<List<GroupModel>>> callback);
 
+    //消息提醒
+    @GET("/SportMsg/GetNewMsgRemind")
+    void getNewMsgRemind(@Header(TOKEN) String token,
+                           @Query("AccountId") String accountId,
+                           RequestCallback<ResponseData> callback);
+
     //用户加入跑团
     @FormUrlEncoded
     @POST("/HerbSports/JoinRunGroup")

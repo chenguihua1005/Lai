@@ -17,6 +17,7 @@ import java.util.List;
 
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
+import zilla.libcore.file.SharedPreferenceService;
 
 /**
  * Created by John on 2016/5/26.
@@ -36,26 +37,11 @@ public class DelayReceive extends BroadcastReceiver{
         service= ZillaApi.NormalRestAdapter.create(StepNetService.class);
         int todayStep=StepService.todayStep;
         StringBuilder buffer=new StringBuilder();
-        buffer.append(DateUtil.getInstance(DateUtil.yyyy_MM_dd).getCurrentDate());
+        buffer.append(DateUtil.getInstance().getCurrentDate());
         buffer.append(",");
         buffer.append(todayStep);
         //提交数据
         submitStep(Long.parseLong(userId),buffer.toString());
-        /*String dateStar=DateUtil.weeHours(0);
-        String dateEnd=DateUtil.weeHours(1);
-        List<UserStep> steps= StepUtil.getInstance().getCurrentData(userId,dateStar,dateEnd);
-        if(!steps.isEmpty()){//if have datas
-            UserStep stepStart=steps.get(0);
-            UserStep stepEnd=steps.get(steps.size()-1);
-            StringBuilder buffer=new StringBuilder();
-            buffer.append(stepEnd.getRecordTime().split(" ")[0]);
-            buffer.append(",");
-            //今日新步数为当前总部步数-今日起始步数+服务器上的步数
-            long step=stepEnd.getStepCount()-stepStart.getStepCount();
-            buffer.append(step);
-            //提交数据
-            submitStep(Long.parseLong(userId),buffer.toString());
-        }*/
         context.startService(new Intent(context.getApplicationContext(),StepService.class));
     }
 
@@ -64,9 +50,7 @@ public class DelayReceive extends BroadcastReceiver{
         Log.i("步数>>"+step);
         service.synStepCount(UserInfoModel.getInstance().getToken(),accountId, step, new RequestCallback<ResponseData>() {
             @Override
-            public void success(ResponseData responseData, Response response) {
-
-            }
+            public void success(ResponseData responseData, Response response) {}
         });
     }
 }

@@ -134,10 +134,8 @@ public class EaseNotifier {
         // 判断app是否在后台
         if (!EasyUtils.isAppRunningForeground(appContext)) {
             EMLog.d(TAG, "app is running in backgroud");
-            System.out.println("-----------");
             sendNotification(message, false);
         } else {
-            System.out.println("========");
             sendNotification(message, true);
 
         }
@@ -153,13 +151,13 @@ public class EaseNotifier {
         if (!settingsProvider.isMsgNotifyAllowed(null)) {
             return;
         }
-//        // 判断app是否在后台
-//        if (!EasyUtils.isAppRunningForeground(appContext)) {
-//            EMLog.d(TAG, "app is running in backgroud");
-//            sendNotification(messages, false);
-//        } else {
-//            sendNotification(messages, true);
-//        }
+        // 判断app是否在后台
+        if (!EasyUtils.isAppRunningForeground(appContext)) {
+            EMLog.d(TAG, "app is running in backgroud");
+            sendNotification(messages, false);
+        } else {
+            sendNotification(messages, true);
+        }
         viberateAndPlayTone(messages.get(messages.size() - 1));
     }
 
