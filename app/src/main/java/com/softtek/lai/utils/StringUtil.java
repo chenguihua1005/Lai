@@ -129,5 +129,8 @@ public class StringUtil {
         return len;
     }
 
+    public static String withValue(String value){
+        return StringUtils.isEmpty(value)?"未知":value;
+    }
 
 }
