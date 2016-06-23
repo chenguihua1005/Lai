@@ -1,11 +1,14 @@
 package com.sw926.imagefileselector;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 
@@ -52,7 +55,6 @@ class ImageCaptureHelper {
             }
         }
     }
-
     public void captureImage(Activity activity) {
         mOutFile = CommonUtils.generateExternalImageCacheFile(activity, ".jpg");
         try {

@@ -1,10 +1,14 @@
 package com.softtek.lai.module.retest;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.MotionEvent;
@@ -265,11 +269,11 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
             Picasso.with(this).load(retestAuditModelEvent.getRetestAuditModels().get(0).getPhoto()).placeholder(R.drawable.img_default).error(R.drawable.img_default).into(iv_write_head);
         }
         else {
-            Picasso.with(this).load("www").placeholder(R.drawable.img_default).error(R.drawable.img_default).into(iv_write_head);
+            Picasso.with(this).load(R.drawable.img_default).into(iv_write_head);
         }
         retestPre.GetUserMeasuredInfo(retestAuditModelEvent.getRetestAuditModels().get(0).getMobile());
     }
-
+    private static final int CAMERA_PREMISSION=100;
     @Override
     public void onClick(View v) {
         switch (v.getId())
@@ -308,7 +312,21 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             if (which == 0) {
-                                imageFileCropSelector.takePhoto(WriteActivity.this);
+                                if(ActivityCompat.checkSelfPermission(WriteActivity.this, Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
+                                    //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
+                                    if(ActivityCompat.shouldShowRequestPermissionRationale(WriteActivity.this,Manifest.permission.CAMERA)){
+                                        //允许弹出提示
+                                        ActivityCompat.requestPermissions(WriteActivity.this,
+                                                new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
+
+                                    }else{
+                                        //不允许弹出提示
+                                        ActivityCompat.requestPermissions(WriteActivity.this,
+                                                new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
+                                    }
+                                }else {
+                                    imageFileCropSelector.takePhoto(WriteActivity.this);
+                                }
                             } else if (which == 1) {
                                 imageFileCropSelector.selectImage(WriteActivity.this);
                             }
@@ -353,6 +371,23 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
 
         }
 
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode==CAMERA_PREMISSION) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // permission was granted, yay! Do the
+                // contacts-related task you need to do.
+                imageFileCropSelector.takePhoto(WriteActivity.this);
+
+            } else {
+
+                // permission denied, boo! Disable the
+                // functionality that depends on this permission.
+            }
+        }
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

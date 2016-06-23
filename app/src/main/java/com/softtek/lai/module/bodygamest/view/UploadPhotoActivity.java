@@ -1,14 +1,17 @@
 package com.softtek.lai.module.bodygamest.view;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -237,8 +240,22 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {
-                            //imageFileSelector.takePhoto(UploadPhotoActivity.this);
-                            imageFileCropSelector.takePhoto(UploadPhotoActivity.this);
+
+                            if(ActivityCompat.checkSelfPermission(UploadPhotoActivity.this, Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
+                                //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
+                                if(ActivityCompat.shouldShowRequestPermissionRationale(UploadPhotoActivity.this,Manifest.permission.CAMERA)){
+                                    //允许弹出提示
+                                    ActivityCompat.requestPermissions(UploadPhotoActivity.this,
+                                            new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
+
+                                }else{
+                                    //不允许弹出提示
+                                    ActivityCompat.requestPermissions(UploadPhotoActivity.this,
+                                            new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
+                                }
+                            }else {
+                                imageFileCropSelector.takePhoto(UploadPhotoActivity.this);
+                            }
                         } else if (which == 1) {
                             //照片
                             //imageFileSelector.selectImage(UploadPhotoActivity.this);
@@ -309,7 +326,25 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         }
 
     };
+    private static final int CAMERA_PREMISSION=100;
+    // Android 6.0的动态权限
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode==CAMERA_PREMISSION){
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // permission was granted, yay! Do the
+                // contacts-related task you need to do.
+                imageFileCropSelector.takePhoto(UploadPhotoActivity.this);
 
+            } else {
+
+                // permission denied, boo! Disable the
+                // functionality that depends on this permission.
+            }
+        }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

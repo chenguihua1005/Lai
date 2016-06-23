@@ -5,10 +5,14 @@
 
 package com.softtek.lai.module.home.view;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.MotionEvent;
 import android.view.View;
@@ -134,7 +138,21 @@ public class ModifyPhotoActivity extends BaseActivity implements View.OnClickLis
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {
                             //拍照
-                            imageFileCropSelector.takePhoto(ModifyPhotoActivity.this);
+                            if(ActivityCompat.checkSelfPermission(ModifyPhotoActivity.this, Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
+                                //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
+                                if(ActivityCompat.shouldShowRequestPermissionRationale(ModifyPhotoActivity.this,Manifest.permission.CAMERA)){
+                                    //允许弹出提示
+                                    ActivityCompat.requestPermissions(ModifyPhotoActivity.this,
+                                            new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
+
+                                }else{
+                                    //不允许弹出提示
+                                    ActivityCompat.requestPermissions(ModifyPhotoActivity.this,
+                                            new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
+                                }
+                            }else {
+                                imageFileCropSelector.takePhoto(ModifyPhotoActivity.this);
+                            }
                         } else if (which == 1) {
                             //照片
                             imageFileCropSelector.selectImage(ModifyPhotoActivity.this);
@@ -170,11 +188,29 @@ public class ModifyPhotoActivity extends BaseActivity implements View.OnClickLis
     public void onValidationFailed(View failedView, Rule<?> failedRule) {
 
     }
-
+    private static final int CAMERA_PREMISSION=100;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         imageFileCropSelector.onActivityResult(requestCode, resultCode, data);
         imageFileCropSelector.getmImageCropperHelper().onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode==CAMERA_PREMISSION) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // permission was granted, yay! Do the
+                // contacts-related task you need to do.
+                imageFileCropSelector.takePhoto(ModifyPhotoActivity.this);
+
+            } else {
+
+                // permission denied, boo! Disable the
+                // functionality that depends on this permission.
+            }
+        }
     }
 }

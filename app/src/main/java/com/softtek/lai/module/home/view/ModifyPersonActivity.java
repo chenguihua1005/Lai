@@ -5,10 +5,13 @@
 
 package com.softtek.lai.module.home.view;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,8 +20,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.mobsandgeeks.saripaar.Rule;
-import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
@@ -32,15 +33,10 @@ import com.sw926.imagefileselector.ImageFileCropSelector;
 
 import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
-import zilla.libcore.lifecircle.LifeCircleInject;
-import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_modify_person)
-public class ModifyPersonActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener {
-
-    @LifeCircleInject
-    ValidateLife validateLife;
+public class ModifyPersonActivity extends BaseActivity implements View.OnClickListener {
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -142,7 +138,7 @@ public class ModifyPersonActivity extends BaseActivity implements View.OnClickLi
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setMessage("加载中");
     }
-
+    private static final int CAMERA_PREMISSION=100;
     @Override
     public void onClick(View v) {
 
@@ -164,7 +160,21 @@ public class ModifyPersonActivity extends BaseActivity implements View.OnClickLi
                         public void onClick(DialogInterface dialog, int which) {
                             if (which == 0) {
                                 //拍照
-                                imageFileCropSelector.takePhoto(ModifyPersonActivity.this);
+                                if(ActivityCompat.checkSelfPermission(ModifyPersonActivity.this, Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
+                                    //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
+                                    if(ActivityCompat.shouldShowRequestPermissionRationale(ModifyPersonActivity.this,Manifest.permission.CAMERA)){
+                                        //允许弹出提示
+                                        ActivityCompat.requestPermissions(ModifyPersonActivity.this,
+                                                new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
+
+                                    }else{
+                                        //不允许弹出提示
+                                        ActivityCompat.requestPermissions(ModifyPersonActivity.this,
+                                                new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
+                                    }
+                                }else {
+                                    imageFileCropSelector.takePhoto(ModifyPersonActivity.this);
+                                }
                             } else if (which == 1) {
                                 //照片
                                 imageFileCropSelector.selectImage(ModifyPersonActivity.this);
@@ -178,6 +188,8 @@ public class ModifyPersonActivity extends BaseActivity implements View.OnClickLi
 
         }
     }
+
+
 
     /**
      * 点击屏幕隐藏软键盘
@@ -194,15 +206,25 @@ public class ModifyPersonActivity extends BaseActivity implements View.OnClickLi
         return super.dispatchTouchEvent(ev);
     }
 
+    // Android 6.0的动态权限
     @Override
-    public void onValidationSucceeded() {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode==CAMERA_PREMISSION){
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // permission was granted, yay! Do the
+                // contacts-related task you need to do.
+                imageFileCropSelector.takePhoto(ModifyPersonActivity.this);
 
+            } else {
+
+                // permission denied, boo! Disable the
+                // functionality that depends on this permission.
+            }
+        }
     }
 
-    @Override
-    public void onValidationFailed(View failedView, Rule<?> failedRule) {
-
-    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
