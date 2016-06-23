@@ -1,7 +1,11 @@
 package com.softtek.lai.module.personalPK.view;
 
+import android.annotation.TargetApi;
+import android.app.Instrumentation;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v7.app.AlertDialog;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -11,7 +15,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
@@ -117,11 +120,18 @@ public class CreatePKActivity extends BaseActivity implements View.OnClickListen
 
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ll_left:
-                finish();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Instrumentation inst=new Instrumentation();
+                        inst.sendKeyDownUpSync(KeyEvent.KEYCODE_BACK);
+                    }
+                }).start();
                 break;
             case R.id.fl_right:
                 //下一步

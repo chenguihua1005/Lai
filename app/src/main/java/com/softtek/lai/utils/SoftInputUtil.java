@@ -36,8 +36,17 @@ public class SoftInputUtil {
      */
     public static void hidden(Context context) {
         InputMethodManager im = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-        im.hideSoftInputFromWindow(((AppCompatActivity)context).getCurrentFocus().getWindowToken(),
-                InputMethodManager.HIDE_NOT_ALWAYS);
+        View view=((AppCompatActivity)context).getCurrentFocus();
+        if(view!=null){
+            im.hideSoftInputFromWindow(view.getWindowToken(),
+                    InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+
+    }
+
+    public static boolean isShow(Context context){
+        InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        return imm.isActive();//isOpen若返回true，则表示输入法打开
     }
 
     /**

@@ -240,7 +240,7 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
                 takecamera();
 
             } else {
-                
+
             }
         }
     }
