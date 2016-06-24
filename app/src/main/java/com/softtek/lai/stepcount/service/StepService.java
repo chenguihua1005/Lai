@@ -218,10 +218,10 @@ public class StepService extends Service implements SensorEventListener {
             addBasePedoListener();
         }
     }
-    Sensor sensor;
+
     private void addBasePedoListener() {
         stepDetector = new StepDcretor(this);
-         sensor= sensorManager
+        Sensor sensor= sensorManager
                 .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
         sensorManager.registerListener(stepDetector, sensor,
