@@ -225,7 +225,7 @@ public class StepService extends Service implements SensorEventListener {
                 .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
         sensorManager.registerListener(stepDetector, sensor,
-                SensorManager.SENSOR_DELAY_UI);
+                SensorManager.SENSOR_DELAY_FASTEST);
         stepDetector.setOnSensorChangeListener(new StepDcretor.OnSensorChangeListener() {
 
                     @Override
