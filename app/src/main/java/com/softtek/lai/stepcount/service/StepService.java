@@ -218,10 +218,10 @@ public class StepService extends Service implements SensorEventListener {
             addBasePedoListener();
         }
     }
-    Sensor sensor;
+
     private void addBasePedoListener() {
-        stepDetector = new StepDcretor(this);
-         sensor= sensorManager
+        /*stepDetector = new StepDcretor(this);
+        Sensor sensor= sensorManager
                 .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
         sensorManager.registerListener(stepDetector, sensor,
@@ -231,11 +231,11 @@ public class StepService extends Service implements SensorEventListener {
                     @Override
                     public void onChange(int step) {
                         calTodayStep(step);
-                        /*currentStep=step;
+                        currentStep=step;
                         todayStep =currentStep+ serverStep;
-                        updateNotification("今日步数：" + todayStep + " 步");*/
+                        updateNotification("今日步数：" + todayStep + " 步");
                     }
-                });
+                });*/
     }
 
     @Override
