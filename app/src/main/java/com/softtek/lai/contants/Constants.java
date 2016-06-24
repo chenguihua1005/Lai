@@ -106,7 +106,8 @@ public class Constants {
     public static final int LAI_EXCLE=3;
     public static final int LAI_SHOP=4;
 
-    public static final String MESSAGE_RECEIVED_ACTION = "com.example.jpushdemo.MESSAGE_RECEIVED_ACTION";
+    public static final String MESSAGE_RECEIVED_ACTION = "jpush.MESSAGE_RECEIVED_ACTION";
+    public static final String MESSAGE_CHAT_ACTION = "chat.MESSAGE_RECEIVED_ACTION";
     public static final String KEY_TITLE = "title";
     public static final String KEY_MESSAGE = "message";
     public static final String KEY_EXTRAS = "extras";
