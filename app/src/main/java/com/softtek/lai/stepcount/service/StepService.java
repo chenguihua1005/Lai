@@ -33,10 +33,8 @@ import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.JCountDownTimer;
 
 import java.util.Calendar;
-import java.util.UUID;
 
 import zilla.libcore.file.SharedPreferenceService;
-import zilla.libcore.util.Util;
 
 public class StepService extends Service implements SensorEventListener {
 
@@ -220,11 +218,12 @@ public class StepService extends Service implements SensorEventListener {
             addBasePedoListener();
         }
     }
-
+    Sensor sensor;
     private void addBasePedoListener() {
         stepDetector = new StepDcretor(this);
-        Sensor sensor = sensorManager
+         sensor= sensorManager
                 .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
         sensorManager.registerListener(stepDetector, sensor,
                 SensorManager.SENSOR_DELAY_UI);
         stepDetector.setOnSensorChangeListener(new StepDcretor.OnSensorChangeListener() {
