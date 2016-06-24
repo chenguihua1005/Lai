@@ -218,14 +218,8 @@ public class StepService extends Service implements SensorEventListener {
             addBasePedoListener();
         }
     }
-<<<<<<< HEAD
 
-    private void addBasePedoListener() {
-        stepDetector = new StepDcretor(this);
-        Sensor sensor= sensorManager
-                .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-=======
->>>>>>> 计步器备选
+
 
     private void addBasePedoListener() {
         StepDetector stepDetector = new StepDetector(this);
@@ -234,25 +228,12 @@ public class StepService extends Service implements SensorEventListener {
         //此方法用来注册，只有注册过才会生效，参数：SensorEventListener的实例，Sensor的实例，更新速率
         sensorManager.registerListener(stepDetector, sensor,
                 SensorManager.SENSOR_DELAY_FASTEST);
-<<<<<<< HEAD
-        stepDetector.setOnSensorChangeListener(new StepDcretor.OnSensorChangeListener() {
-
-                    @Override
-                    public void onChange(int step) {
-                        calTodayStep(step);
-                        /*currentStep=step;
-                        todayStep =currentStep+ serverStep;
-                        updateNotification("今日步数：" + todayStep + " 步");*/
-                    }
-                });
-=======
         stepDetector.setOnSensorChangeListener(new StepDetector.OnSensorChangeListener() {
             @Override
             public void onChange(int step) {
                 calTodayStep(step);
             }
         });
->>>>>>> 计步器备选
     }
 
     @Override
