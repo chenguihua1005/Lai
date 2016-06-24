@@ -9,7 +9,7 @@ import android.hardware.SensorManager;
 /**
  * 这是一个实现了信号监听的记步的类
  * 这是从谷歌找来的一个记步的算法，看不太懂
- * @author Liyachao Date:2015-1-6
+ * @author Jerry Date:2016-6-24
  *
  */
 public class StepDetector implements SensorEventListener {
@@ -77,6 +77,9 @@ public class StepDetector implements SensorEventListener {
                             if (end - start > 500) {// 此时判断为走了一步
 
                                 CURRENT_SETP++;
+                                if (onSensorChangeListener != null) {
+                                    onSensorChangeListener.onChange(CURRENT_SETP);
+                                }
                                 mLastMatch = extType;
                                 start = end;
                             }
@@ -95,6 +98,20 @@ public class StepDetector implements SensorEventListener {
     //当传感器的经度发生变化时就会调用这个方法，在这里没有用
     public void onAccuracyChanged(Sensor arg0, int arg1) {
 
+    }
+
+    OnSensorChangeListener onSensorChangeListener;
+
+    public OnSensorChangeListener getOnSensorChangeListener() {
+        return onSensorChangeListener;
+    }
+
+    public void setOnSensorChangeListener(OnSensorChangeListener onSensorChangeListener) {
+        this.onSensorChangeListener = onSensorChangeListener;
+    }
+
+    public interface OnSensorChangeListener {
+        void onChange(int step);
     }
 
 }
