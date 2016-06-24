@@ -59,12 +59,12 @@ public class EaseChatMessageList extends RelativeLayout{
      * @param chatType
      * @param customChatRowProvider
      */
-    public void init(String toChatUsername, int chatType, EaseCustomChatRowProvider customChatRowProvider) {
+    public void init(String toChatUsername, int chatType, EaseCustomChatRowProvider customChatRowProvider,String name,String photo) {
         this.chatType = chatType;
         this.toChatUsername = toChatUsername;
         
         conversation = EMChatManager.getInstance().getConversation(toChatUsername);
-        messageAdapter = new EaseMessageAdapter(context, toChatUsername, chatType, listView);
+        messageAdapter = new EaseMessageAdapter(context, toChatUsername, chatType, listView,name,photo);
         messageAdapter.setShowAvatar(showAvatar);
         messageAdapter.setShowUserNick(showUserNick);
         messageAdapter.setMyBubbleBg(myBubbleBg);
@@ -72,7 +72,6 @@ public class EaseChatMessageList extends RelativeLayout{
         messageAdapter.setCustomChatRowProvider(customChatRowProvider);
         // 设置adapter显示消息
         listView.setAdapter(messageAdapter);
-        
         refreshSelectLast();
     }
     

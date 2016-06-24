@@ -17,6 +17,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
@@ -29,15 +30,21 @@ import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.counselor.adapter.InviteContantAdapter;
 import com.softtek.lai.module.counselor.model.ContactListInfoModel;
 import com.softtek.lai.module.counselor.presenter.IStudentPresenter;
 import com.softtek.lai.module.counselor.presenter.StudentImpl;
 import com.softtek.lai.module.counselor.view.SearchContantActivity;
+import com.softtek.lai.module.login.model.RoleInfo;
 import com.softtek.lai.module.login.model.UserModel;
+import com.softtek.lai.module.login.net.LoginService;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.HanziToPinyin;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.InputStream;
 import java.io.Serializable;
@@ -45,9 +52,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import zilla.libcore.api.ZillaApi;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 /**
  * Created by jarvis.liu on 3/22/2016.
@@ -89,46 +102,53 @@ public class ContantListActivity extends BaseActivity implements View.OnClickLis
 
         list = new ArrayList<ChatContactInfoModel>();
         setData();
-        adapter = new ChatContantAdapter(this, list);
-        list_contant.setAdapter(adapter);
-
         list_contant.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ChatContactInfoModel model=list.get(position);
+                ChatContactInfoModel model = list.get(position);
                 Intent intent = new Intent(ContantListActivity.this, ChatActivity.class);
-                intent.putExtra(Constant.EXTRA_USER_ID, model.getUserId());
+                String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+                intent.putExtra(Constant.EXTRA_USER_ID, model.getHXAccountId());
                 intent.putExtra("name", model.getUserName());
-                intent.putExtra("photo", model.getUserPhoto());
+                intent.putExtra("photo", path + model.getPhoto());
                 startActivity(intent);
             }
         });
     }
 
     private void setData() {
-        ChatContactInfoModel model1 = new ChatContactInfoModel();
-        model1.setUserId("18261576085");
-        model1.setUserName("aaaaaaa");
-        model1.setUserPhoto("http://172.16.98.167/UpFiles/tgs_banner.png");
-        list.add(model1);
+        dialogShow("加载中");
+        LoginService service = ZillaApi.NormalRestAdapter.create(LoginService.class);
+        String token = UserInfoModel.getInstance().getToken();
+        service.getEMchatContacts(token, new Callback<ResponseData<List<ChatContactInfoModel>>>() {
+            @Override
+            public void success(ResponseData<List<ChatContactInfoModel>> userResponseData, Response response) {
+                System.out.println("userResponseData:" + userResponseData);
+                int status = userResponseData.getStatus();
+                dialogDissmiss();
+                switch (status) {
+                    case 200:
+                        list = userResponseData.getData();
+                        adapter = new ChatContantAdapter(ContantListActivity.this, list);
+                        list_contant.setAdapter(adapter);
+                        break;
+                    case 201:
 
-        ChatContactInfoModel model2 = new ChatContactInfoModel();
-        model2.setUserId("18261576086");
-        model2.setUserName("bbbbbbbbb");
-        model2.setUserPhoto("http://172.16.98.167/UpFiles/tgs_banner.png");
-        list.add(model2);
+                        break;
+                    default:
+                        Util.toastMsg(userResponseData.getMsg());
+                        break;
+                }
+            }
 
-        ChatContactInfoModel model3 = new ChatContactInfoModel();
-        model3.setUserId("18261576087");
-        model3.setUserName("cccccccccc");
-        model3.setUserPhoto("http://172.16.98.167/UpFiles/tgs_banner.png");
-        list.add(model3);
+            @Override
+            public void failure(RetrofitError error) {
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
+                dialogDissmiss();
+            }
+        });
 
-        ChatContactInfoModel model4 = new ChatContactInfoModel();
-        model4.setUserId("18261576088");
-        model4.setUserName("dddddddddd");
-        model4.setUserPhoto("http://172.16.98.167/UpFiles/tgs_banner.png");
-        list.add(model4);
     }
 
     @Override
@@ -151,8 +171,8 @@ public class ContantListActivity extends BaseActivity implements View.OnClickLis
                 break;
 
             case R.id.lin_group_send:
-                Intent intent=new Intent(this,SeceltGroupSentActivity.class);
-                intent.putExtra("list",(Serializable)list);
+                Intent intent = new Intent(this, SeceltGroupSentActivity.class);
+                intent.putExtra("list", (Serializable) list);
                 startActivity(intent);
                 break;
         }

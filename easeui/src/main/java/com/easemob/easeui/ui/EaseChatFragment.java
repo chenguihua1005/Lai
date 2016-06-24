@@ -331,8 +331,11 @@ public class EaseChatFragment extends EaseBaseFragment implements EMEventListene
     }
 
     protected void onMessageListInit() {
+        String names = fragmentArgs.getString("name");
+        String photos = fragmentArgs.getString("photo");
+
         messageList.init(toChatUsername, chatType, chatFragmentHelper != null ?
-                chatFragmentHelper.onSetCustomChatRowProvider() : null);
+                chatFragmentHelper.onSetCustomChatRowProvider() : null,names,photos);
         //设置list item里的控件的点击事件
         setListItemClickListener();
 
@@ -753,9 +756,10 @@ public class EaseChatFragment extends EaseBaseFragment implements EMEventListene
         //发送消息
         EMChatManager.getInstance().sendMessage(message, null);
         //刷新ui
-        if (TextUtils.isEmpty(conversation.getExtField())) {
-            setProfile(conversation);
-        }
+//        if (TextUtils.isEmpty(conversation.getExtField())) {
+//            setProfile(conversation);
+//        }
+        setProfile(conversation);
         messageList.refreshSelectLast();
     }
 

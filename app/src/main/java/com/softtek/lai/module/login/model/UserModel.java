@@ -29,6 +29,56 @@ public class UserModel implements Serializable {
     private String IsJoin;//是否加入跑团
     private String TodayStepCnt;//当天最新步数
     private String IsCreatInfo;//该用户是否创建过档案
+    private String HXAccountId;//若为空则还未注册
+    private String HasEmchat;//0：未注册，1：已注册
+
+    @Override
+    public String toString() {
+        return "UserModel{" +
+                "token='" + token + '\'' +
+                ", userid='" + userid + '\'' +
+                ", userrole='" + userrole + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", gender='" + gender + '\'' +
+                ", weight='" + weight + '\'' +
+                ", height='" + height + '\'' +
+                ", Photo='" + Photo + '\'' +
+                ", Certification='" + Certification + '\'' +
+                ", CertTime='" + CertTime + '\'' +
+                ", Mobile='" + Mobile + '\'' +
+                ", IsJoin='" + IsJoin + '\'' +
+                ", TodayStepCnt='" + TodayStepCnt + '\'' +
+                ", IsCreatInfo='" + IsCreatInfo + '\'' +
+                ", HXAccountId='" + HXAccountId + '\'' +
+                ", HasEmchat='" + HasEmchat + '\'' +
+                ", hasGender=" + hasGender +
+                '}';
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public String getHXAccountId() {
+        return HXAccountId;
+    }
+
+    public void setHXAccountId(String HXAccountId) {
+        this.HXAccountId = HXAccountId;
+    }
+
+    public String getHasEmchat() {
+        return HasEmchat;
+    }
+
+    public void setHasEmchat(String hasEmchat) {
+        HasEmchat = hasEmchat;
+    }
+
+    public void setHasGender(boolean hasGender) {
+        this.hasGender = hasGender;
+    }
+
     //*********记录用户是否有性别
     private boolean hasGender;
 
@@ -148,24 +198,4 @@ public class UserModel implements Serializable {
         IsCreatInfo = isCreatInfo;
     }
 
-    @Override
-    public String toString() {
-        return "UserModel{" +
-                "token='" + token + '\'' +
-                ", userid='" + userid + '\'' +
-                ", userrole='" + userrole + '\'' +
-                ", nickname='" + nickname + '\'' +
-                ", gender='" + gender + '\'' +
-                ", weight='" + weight + '\'' +
-                ", height='" + height + '\'' +
-                ", Photo='" + Photo + '\'' +
-                ", Certification='" + Certification + '\'' +
-                ", CertTime='" + CertTime + '\'' +
-                ", Mobile='" + Mobile + '\'' +
-                ", IsJoin='" + IsJoin + '\'' +
-                ", TodayStepCnt='" + TodayStepCnt + '\'' +
-                ", IsCreatInfo='" + IsCreatInfo + '\'' +
-                ", hasGender=" + hasGender +
-                '}';
-    }
 }

@@ -85,10 +85,15 @@ public class EaseMessageAdapter extends BaseAdapter{
 
     private ListView listView;
 
-	public EaseMessageAdapter(Context context, String username, int chatType, ListView listView) {
+	String nameF;
+	String photoF;
+
+	public EaseMessageAdapter(Context context, String username, int chatType, ListView listView,String name,String photo) {
 		this.context = context;
 		this.listView = listView;
 		toChatUsername = username;
+		nameF=name;
+		photoF=photo;
 		this.conversation = EMChatManager.getInstance().getConversation(username);
 	}
 	
@@ -276,7 +281,7 @@ public class EaseMessageAdapter extends BaseAdapter{
 //			((EaseChatRowRevoke)convertView).setUpView(message, position, itemClickListener);
 //        }else{
     		//缓存的view的message很可能不是当前item的，传入当前message和position更新ui
-    		((EaseChatRow)convertView).setUpView(message, position, itemClickListener);
+    		((EaseChatRow)convertView).setUpView(message, position, itemClickListener,nameF,photoF);
 //        }
 		return convertView;
 	}
