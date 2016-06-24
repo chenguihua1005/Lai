@@ -188,27 +188,27 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
             }
         });
         onRefresh();
-        model = UserInfoModel.getInstance().getUser();
-        String hasEmchat = model.getHasEmchat();
-        if ("1".equals(hasEmchat)) {
-
-            timer = new Timer();
-            TimerTask task = new TimerTask() {
-
-                @Override
-                public void run() {
-                    // 需要做的事:发送消息
-                    if (!EMChat.getInstance().isLoggedIn()) {
-                        loginChat(progressDialog, model.getHXAccountId());
-                    } else {
-                        if (timer != null) {
-                            timer.cancel();
-                        }
-                    }
-                }
-            };
-            timer.schedule(task, 0, 10000);
-        }
+ //       model = UserInfoModel.getInstance().getUser();
+//        String hasEmchat = model.getHasEmchat();
+//        if ("1".equals(hasEmchat)) {
+//
+//            timer = new Timer();
+//            TimerTask task = new TimerTask() {
+//
+//                @Override
+//                public void run() {
+//                    // 需要做的事:发送消息
+//                    if (!EMChat.getInstance().isLoggedIn()) {
+//                        loginChat(progressDialog, model.getHXAccountId());
+//                    } else {
+//                        if (timer != null) {
+//                            timer.cancel();
+//                        }
+//                    }
+//                }
+//            };
+//            timer.schedule(task, 0, 10000);
+//        }
 
     }
 
@@ -282,10 +282,6 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     @Override
     public void onResume() {
         super.onResume();
-        if (EMChat.getInstance().isLoggedIn()) {
-            unreadMsgCountTotal = EMChatManager.getInstance().getUnreadMsgsCount();
-        }
-
         model = UserInfoModel.getInstance().getUser();
         if (model == null) {
             return;
@@ -406,32 +402,32 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                     }
                     break;
                 case Constants.OFFICE:
-                    boolean isLogin = EMChat.getInstance().isLoggedIn();
-                    if (isLogin) {
-                        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-                        ChatUserModel chatUserModel = new ChatUserModel();
-                        chatUserModel.setUserName(model.getNickname());
-                        chatUserModel.setUserPhone(path + model.getPhoto());
-                        chatUserModel.setUserId(model.getHXAccountId());
-                        ChatUserInfoModel.getInstance().setUser(chatUserModel);
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                EMChatManager.getInstance().updateCurrentUserNick(model.getNickname());
-                                EMChatManager.getInstance().loadAllConversations();
-                            }
-                        }).start();
-// 进入主页面
-                        Intent intent = new Intent(getActivity(), ConversationListActivity.class);
-                        startActivity(intent);
-                    } else {
-                        isTurn = true;
-                        if (timer != null) {
-                            timer.cancel();
-                        }
-                        loginPresenter.getEMChatAccount(progressDialog);
-                    }
-                    break;
+//                    boolean isLogin = EMChat.getInstance().isLoggedIn();
+//                    if (isLogin) {
+//                        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+//                        ChatUserModel chatUserModel = new ChatUserModel();
+//                        chatUserModel.setUserName(model.getNickname());
+//                        chatUserModel.setUserPhone(path + model.getPhoto());
+//                        chatUserModel.setUserId(model.getHXAccountId());
+//                        ChatUserInfoModel.getInstance().setUser(chatUserModel);
+//                        new Thread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                EMChatManager.getInstance().updateCurrentUserNick(model.getNickname());
+//                                EMChatManager.getInstance().loadAllConversations();
+//                            }
+//                        }).start();
+//// 进入主页面
+//                        Intent intent = new Intent(getActivity(), ConversationListActivity.class);
+//                        startActivity(intent);
+//                    } else {
+//                        isTurn = true;
+//                        if (timer != null) {
+//                            timer.cancel();
+//                        }
+//                        loginPresenter.getEMChatAccount(progressDialog);
+//                    }
+//                    break;
                 case Constants.LAI_EXCLE:
                 case Constants.LAI_SHOP:
                     new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();

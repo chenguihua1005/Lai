@@ -13,6 +13,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
@@ -91,6 +92,12 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                 "月" + DateUtil.getInstance().getDay(date) + "日");
         holder.tv_zan_name.setText(model.getUsernameSet());
         holder.cb_zan.setText(model.getPraiseNum());
+        if("1".equals(model.getMinetype())){
+            holder.tv_delete.setVisibility(View.GONE);
+        }else{
+            holder.tv_delete.setVisibility(View.VISIBLE);
+
+        }
         holder.tv_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,7 +105,16 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                
+                                service.deleteHealth(UserInfoModel.getInstance().getToken(), model.getID(),
+                                        new RequestCallback<ResponseData>() {
+                                            @Override
+                                            public void success(ResponseData responseData, Response response) {
+                                                if(responseData.getStatus()==200){
+                                                    lossWeightStoryModels.remove(model);
+                                                    notifyDataSetChanged();
+                                                }
+                                            }
+                                        });
                             }
                         }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
@@ -106,6 +122,7 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                 }).create().show();
             }
         });
+
         if (isVR) {
             holder.cb_zan.setEnabled(false);
         } else {
