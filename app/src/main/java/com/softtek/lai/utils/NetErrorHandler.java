@@ -119,7 +119,6 @@ public class NetErrorHandler implements IApiErrorHandler {
                                                 LaiApplication.getInstance().stopService(new Intent(LaiApplication.getInstance(), StepService.class));
                                                 Intent intent=new Intent(LaiApplication.getInstance(), HomeActviity.class);
                                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                                 LaiApplication.getInstance().startActivity(intent);
                                             }
                                         }).setCancelable(false).create().show();
@@ -137,7 +136,6 @@ public class NetErrorHandler implements IApiErrorHandler {
                                                 LaiApplication.getInstance().stopService(new Intent(LaiApplication.getInstance(), StepService.class));
                                                 Intent intent=new Intent(LaiApplication.getInstance(), HomeActviity.class);
                                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                                 LaiApplication.getInstance().startActivity(intent);
                                             }
                                         }).setCancelable(false).create().show();
@@ -153,7 +151,6 @@ public class NetErrorHandler implements IApiErrorHandler {
                                                     public void success(ResponseData responseData, Response response) {
                                                         Intent intent=new Intent(LaiApplication.getInstance(), HomeActviity.class);
                                                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                                         LaiApplication.getInstance().startActivity(intent);
                                                     }
 

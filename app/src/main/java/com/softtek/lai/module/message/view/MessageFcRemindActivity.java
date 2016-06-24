@@ -28,7 +28,6 @@ import com.softtek.lai.module.message.adapter.MessageFcRemindAdapter;
 import com.softtek.lai.module.message.model.MeasureRemindInfo;
 import com.softtek.lai.module.message.presenter.IMessagePresenter;
 import com.softtek.lai.module.message.presenter.MessageImpl;
-import com.softtek.lai.module.retest.WriteActivity;
 import com.softtek.lai.module.retest.view.RetestActivity;
 
 import org.greenrobot.eventbus.EventBus;

@@ -14,7 +14,6 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.ScaleAnimation;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -22,14 +21,11 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
-import com.softtek.lai.module.sport.model.HistorySportModel;
 import com.softtek.lai.module.sport.model.TotalSportModel;
 import com.softtek.lai.module.sport.presenter.SportManager;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -59,8 +55,8 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
     @InjectView(R.id.rel_djs)
     RelativeLayout rel_djs;
 
-    @InjectView(R.id.img_start)
-    ImageView img_start;
+    /*@InjectView(R.id.img_start)
+    ImageView img_start;*/
 
     @InjectView(R.id.text_start)
     TextView text_start;
@@ -71,7 +67,7 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
     Timer timer;
     int recLen;
 
-    private List<HistorySportModel> list = new ArrayList<HistorySportModel>();
+    //private List<HistorySportModel> list = new ArrayList<HistorySportModel>();
     TimerTask task;
 
     @Override
@@ -92,24 +88,9 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
     @Override
     protected void initDatas() {
         tv_title.setText("运动");
-//        new Thread(){
-//            @Override
-//            public void run()
-//            {
-//                //把网络访问的代码放在这里
-//                WheatherUtil util=new WheatherUtil();
-//                String request = util.request("http://apis.baidu.com/apistore/aqiservice/aqi?city=乌鲁木齐");
-//                //request=convert(request);
-//                System.out.println("request:"+request);
-//                Gson gson = new Gson();
-//                ResultModel resultModel = gson.fromJson(request, ResultModel.class);
-//                System.out.println("resultModel:"+resultModel);
-//                System.out.println("level:"+resultModel.getRetData().getLevel());
-//            }
-//        }.start();
     }
 
-    public static String convert(String utfString) {
+   /* public static String convert(String utfString) {
         StringBuilder sb = new StringBuilder();
         int i = -1;
         int pos = 0;
@@ -123,7 +104,7 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
         }
 
         return sb.toString();
-    }
+    }*/
 
     @Override
     public void onClick(View v) {
