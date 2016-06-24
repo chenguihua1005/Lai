@@ -523,6 +523,7 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
     private void doBack(){
         if(type== Constants.CREATE_PK){//创建新PK跳转过来,按下返回按钮直接返回PK首页
             Intent intent=new Intent(this,GroupMainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }else if(type== Constants.MESSAGE_PK){
             //如果是从消息列表过来的话

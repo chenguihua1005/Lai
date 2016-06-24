@@ -5,13 +5,10 @@
 
 package com.softtek.lai.module.counselor.presenter;
 
-import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -21,25 +18,30 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.counselor.adapter.ApplyAssistantAdapter;
 import com.softtek.lai.module.counselor.adapter.AssistantAdapter;
-import com.softtek.lai.module.counselor.adapter.AssistantApplyAdapter;
-import com.softtek.lai.module.counselor.adapter.AssistantClassAdapter;
-import com.softtek.lai.module.counselor.adapter.AssistantClassListAdapter;
-import com.softtek.lai.module.counselor.model.*;
+import com.softtek.lai.module.counselor.model.ApplyAssistantModel;
+import com.softtek.lai.module.counselor.model.ApplySuccessModel;
+import com.softtek.lai.module.counselor.model.AssistantApplyEvent;
+import com.softtek.lai.module.counselor.model.AssistantApplyInfoModel;
+import com.softtek.lai.module.counselor.model.AssistantClassEvent;
+import com.softtek.lai.module.counselor.model.AssistantClassInfoModel;
+import com.softtek.lai.module.counselor.model.AssistantDetailInfoModel;
+import com.softtek.lai.module.counselor.model.AssistantInfoEvent;
+import com.softtek.lai.module.counselor.model.AssistantInfoModel;
+import com.softtek.lai.module.counselor.model.AssistantModel;
+import com.softtek.lai.module.counselor.model.ReviewAssistantApplyEvent;
 import com.softtek.lai.module.counselor.net.CounselorService;
 import com.softtek.lai.module.counselor.view.AssistantDetailActivity;
-import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.message.view.MessageActivity;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.List;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
-import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.util.Util;
-
-import java.util.List;
 
 /**
  * Created by jarvis.liu on 3/22/2016.
@@ -81,7 +83,6 @@ public class AssistantImpl implements IAssistantPresenter {
             public void failure(RetrofitError error) {
                 context.dialogDissmiss();
                 ZillaApi.dealNetError(error);
-                error.printStackTrace();
             }
         });
     }
@@ -114,7 +115,6 @@ public class AssistantImpl implements IAssistantPresenter {
             public void failure(RetrofitError error) {
                 context.dialogDissmiss();
                 ZillaApi.dealNetError(error);
-                error.printStackTrace();
             }
         });
     }
@@ -145,7 +145,6 @@ public class AssistantImpl implements IAssistantPresenter {
             public void failure(RetrofitError error) {
                 context.dialogDissmiss();
                 ZillaApi.dealNetError(error);
-                error.printStackTrace();
             }
         });
     }
@@ -184,7 +183,6 @@ public class AssistantImpl implements IAssistantPresenter {
             public void failure(RetrofitError error) {
                 context.dialogDissmiss();
                 ZillaApi.dealNetError(error);
-                error.printStackTrace();
             }
         });
     }
@@ -217,7 +215,6 @@ public class AssistantImpl implements IAssistantPresenter {
             public void failure(RetrofitError error) {
                 context.dialogDissmiss();
                 ZillaApi.dealNetError(error);
-                error.printStackTrace();
             }
         });
     }
@@ -251,7 +248,6 @@ public class AssistantImpl implements IAssistantPresenter {
             public void failure(RetrofitError error) {
                 context.dialogDissmiss();
                 ZillaApi.dealNetError(error);
-                error.printStackTrace();
             }
         });
     }
@@ -283,7 +279,6 @@ public class AssistantImpl implements IAssistantPresenter {
             public void failure(RetrofitError error) {
                 context.dialogDissmiss();
                 ZillaApi.dealNetError(error);
-                error.printStackTrace();
             }
         });
     }
@@ -315,7 +310,6 @@ public class AssistantImpl implements IAssistantPresenter {
             public void failure(RetrofitError error) {
                 context.dialogDissmiss();
                 ZillaApi.dealNetError(error);
-                error.printStackTrace();
             }
         });
     }
@@ -348,7 +342,6 @@ public class AssistantImpl implements IAssistantPresenter {
             public void failure(RetrofitError error) {
                 context.dialogDissmiss();
                 ZillaApi.dealNetError(error);
-                error.printStackTrace();
             }
         });
     }
@@ -380,7 +373,6 @@ public class AssistantImpl implements IAssistantPresenter {
             public void failure(RetrofitError error) {
                 context.dialogDissmiss();
                 ZillaApi.dealNetError(error);
-                error.printStackTrace();
             }
         });
 

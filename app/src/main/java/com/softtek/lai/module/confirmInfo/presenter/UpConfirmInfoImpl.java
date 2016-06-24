@@ -4,23 +4,16 @@ package com.softtek.lai.module.confirmInfo.presenter;
 import android.content.Context;
 import android.content.Intent;
 
-import retrofit.mime.TypedFile;
-import zilla.libcore.util.Util;
-
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygame.view.CounselorActivity;
 import com.softtek.lai.module.confirmInfo.EventModel.ConinfoEvent;
 import com.softtek.lai.module.confirmInfo.model.ConinfoModel;
 import com.softtek.lai.module.confirmInfo.model.GetConfirmInfoModel;
 import com.softtek.lai.module.confirmInfo.net.ConfirmInfoService;
-import com.softtek.lai.module.confirmInfo.view.CansaiActivity;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.message.model.PhotosModel;
 import com.softtek.lai.module.message.view.JoinGameDetailActivity;
-import com.softtek.lai.module.newmemberentry.view.model.PhotModel;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -29,8 +22,10 @@ import java.io.File;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import retrofit.mime.TypedFile;
 import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.SharedPreferenceService;
+import zilla.libcore.util.Util;
 
 /**
  * Created by zcy on 2016/4/13.
@@ -78,7 +73,6 @@ public class UpConfirmInfoImpl implements IUpConfirmInfopresenter {
     //修改参赛数据
     @Override
     public void changeUpConfirmInfo(String token, final ConinfoModel coninfoModel) {
-        //String token = SharedPreferenceService.getInstance().get("token", "");
         confirmInfoService.changeUpConfirmInfo(token, coninfoModel, new Callback<ResponseData<ConinfoModel>>() {
             @Override
             public void success(ResponseData<ConinfoModel> coninfoModelResponseData, Response response) {
@@ -86,13 +80,14 @@ public class UpConfirmInfoImpl implements IUpConfirmInfopresenter {
                 ((JoinGameDetailActivity) context).dialogDissmiss();
                 switch (status) {
                     case 200:
-                        Intent intent = new Intent(context, HomeActviity.class);
-                        context.startActivity(intent);
+
                         UserModel userModel = UserInfoModel.getInstance().getUser();
                         userModel.setGender(coninfoModel.getGender() + "");
                         userModel.setUserrole(coninfoModelResponseData.getData().getUserRole());
                         UserInfoModel.getInstance().saveUserCache(userModel);
-                        ((JoinGameDetailActivity) context).finish();
+                        Intent intent = new Intent(context, HomeActviity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        context.startActivity(intent);
                         break;
                     case 500:
                         Util.toastMsg(coninfoModelResponseData.getMsg());
@@ -104,7 +99,6 @@ public class UpConfirmInfoImpl implements IUpConfirmInfopresenter {
             public void failure(RetrofitError error) {
                 ((JoinGameDetailActivity) context).dialogDissmiss();
                 ZillaApi.dealNetError(error);
-                error.printStackTrace();
             }
         });
     }

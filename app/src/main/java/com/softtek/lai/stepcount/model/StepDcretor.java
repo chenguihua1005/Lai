@@ -11,6 +11,10 @@ import com.softtek.lai.utils.JCountDownTimer;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * 弃用
+ */
+@Deprecated
 public class StepDcretor implements SensorEventListener {
     //存放三轴数据
     float[] oriValues = new float[3];

@@ -16,9 +16,7 @@ android {
     lintOptions {
         abortOnError false
     }
-//    dexOptions {
-//       javaMaxHeapSize "4g"
-//    }
+
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES'
         exclude 'META-INF/NOTICE'

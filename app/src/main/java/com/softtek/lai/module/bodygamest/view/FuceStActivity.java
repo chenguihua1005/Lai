@@ -6,10 +6,13 @@
 package com.softtek.lai.module.bodygamest.view;
 
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -295,7 +298,7 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
         }
 
     };
-
+    private static final int CAMERA_PREMISSION=100;
     @Override
     public void onClick(View view) {
         switch (view.getId())
@@ -374,7 +377,21 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 if (which == 0) {
-                                    imageFileCropSelector.takePhoto(FuceStActivity.this);
+                                    if(ActivityCompat.checkSelfPermission(FuceStActivity.this, Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
+                                        //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
+                                        if(ActivityCompat.shouldShowRequestPermissionRationale(FuceStActivity.this,Manifest.permission.CAMERA)){
+                                            //允许弹出提示
+                                            ActivityCompat.requestPermissions(FuceStActivity.this,
+                                                    new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
+
+                                        }else{
+                                            //不允许弹出提示
+                                            ActivityCompat.requestPermissions(FuceStActivity.this,
+                                                    new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
+                                        }
+                                    }else {
+                                        imageFileCropSelector.takePhoto(FuceStActivity.this);
+                                    }
                                 } else if (which == 1) {
                                     //照片
                                     imageFileCropSelector.selectImage(FuceStActivity.this);
@@ -487,6 +504,24 @@ public class FuceStActivity extends BaseActivity implements View.OnClickListener
 
     }
 
+    // Android 6.0的动态权限
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode==CAMERA_PREMISSION){
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // permission was granted, yay! Do the
+                // contacts-related task you need to do.
+                imageFileCropSelector.takePhoto(FuceStActivity.this);
+
+            } else {
+
+                // permission denied, boo! Disable the
+                // functionality that depends on this permission.
+            }
+        }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

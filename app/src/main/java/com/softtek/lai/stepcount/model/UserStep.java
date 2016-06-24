@@ -7,11 +7,9 @@ import zilla.libcore.db.Table;
  * Created by jerry.guan on 5/23/2016.
  * 保存用户步数的对象
  */
-@Table("user_step")
 public class UserStep {
 
-    @Id
-    private int id;
+    private String id;
 
     private long accountId;
 
@@ -19,11 +17,11 @@ public class UserStep {
 
     private String recordTime;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

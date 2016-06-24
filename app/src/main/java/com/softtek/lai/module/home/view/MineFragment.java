@@ -8,6 +8,7 @@ package com.softtek.lai.module.home.view;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
@@ -28,6 +29,8 @@ import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.stepcount.service.StepService;
 import com.squareup.picasso.Picasso;
+
+import org.apache.commons.lang3.StringUtils;
 
 import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
@@ -121,7 +124,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
            Picasso.with(getContext()).load(path + photo).fit().error(R.drawable.img_default).into(img);
         }
 
-        if (model.getNickname() == null || "".equals(model.getNickname())) {
+        if (StringUtils.isEmpty(model.getNickname())) {
             text_name.setText(model.getMobile());
         } else {
             text_name.setText(model.getNickname());

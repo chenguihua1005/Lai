@@ -90,7 +90,7 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
     }
 
     public static final String CREATE_STEP="create table user_step(" +
-            "id integer primary key autoincrement," +
+            "id text primary key," +
             "accountId text," +
             "stepCount bigint," +
             "recordTime text )";
@@ -105,6 +105,11 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.i("onUpgrade(SQLiteDatabase db)");
-
+        switch (oldVersion){
+            case 1:
+                db.execSQL("drop table user_step");//删除表
+                db.execSQL(CREATE_STEP);//创建新表
+                break;
+        }
     }
 }

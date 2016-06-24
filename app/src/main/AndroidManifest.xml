@@ -154,7 +154,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.home.view.HomeActviity"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.home.view.ValidateCertificationActivity"
@@ -364,7 +363,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.group.view.GroupMainActivity"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.act.view.ActListActivity"
@@ -407,9 +405,6 @@
             android:name=".module.health.view.HealthyRecordActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.confirmInfo.view.CansaiActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".module.lossweightstory.view.LossWeightStoryActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -432,11 +427,7 @@
         <activity
             android:name=".module.community.view.HealthyDetailActivity"
             android:screenOrientation="portrait" />
-        <!--
-            <activity
-            android:name="com.yalantis.ucrop.UCropActivity"
-            android:screenOrientation="portrait"/>
-        -->
+
         <!-- Rich push 核心功能 since 2.0.6 -->
         <activity
             android:name="cn.jpush.android.ui.PopWinActivity"
