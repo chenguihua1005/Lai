@@ -23,6 +23,7 @@ import com.easemob.easeui.utils.EaseACKUtil;
 import com.easemob.easeui.utils.EaseCommonUtils;
 import com.easemob.exceptions.EaseMobException;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.login.view.LoginActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -149,9 +150,9 @@ public class ChatHelper {
      * 账号在别的设备登录
      */
     protected void onConnectionConflict() {
-        Intent intent = new Intent(appContext, ConversationListActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(Constant.ACCOUNT_CONFLICT, true);
+        Intent intent = new Intent(appContext, LoginActivity.class);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        intent.putExtra(Constant.ACCOUNT_CONFLICT, true);
         appContext.startActivity(intent);
     }
 

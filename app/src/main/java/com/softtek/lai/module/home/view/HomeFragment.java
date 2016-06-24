@@ -610,6 +610,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                 img_red.setVisibility(View.VISIBLE);
             }else {
                 unreadMsgCountTotal=intent.getIntExtra("count",0);
+                System.out.println("unreadMsgCountTotal:"+unreadMsgCountTotal);
             }
         }
     }
