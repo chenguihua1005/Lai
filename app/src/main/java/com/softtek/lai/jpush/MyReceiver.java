@@ -8,8 +8,6 @@ import android.util.Log;
 
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.home.view.HomeActviity;
-import com.softtek.lai.module.login.view.LoginActivity;
-import com.softtek.lai.module.message.view.MessageActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;

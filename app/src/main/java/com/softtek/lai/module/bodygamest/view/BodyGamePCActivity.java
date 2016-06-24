@@ -352,7 +352,9 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
                 case R.id.ll_left:
                     String type = getIntent().getStringExtra("type");
                     if ("0".equals(type)) {
-                        startActivity(new Intent(this, HomeActviity.class));
+                        Intent inten=new Intent(this, HomeActviity.class);
+                        inten.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(inten);
                     } else {
                         finish();
                     }
@@ -446,7 +448,9 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
             String type = getIntent().getStringExtra("type");
             if ("0".equals(type)) {
-                startActivity(new Intent(this, HomeActviity.class));
+                Intent inten=new Intent(this, HomeActviity.class);
+                inten.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(inten);
             } else {
                 finish();
             }

@@ -8,23 +8,15 @@ package com.softtek.lai.module.message.presenter;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ListView;
 
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygamezj.view.BodygameSRActivity;
-import com.softtek.lai.module.confirmInfo.view.CansaiActivity;
-import com.softtek.lai.module.counselor.adapter.GameAdapter;
-import com.softtek.lai.module.counselor.model.MarchInfoModel;
-import com.softtek.lai.module.counselor.net.CounselorService;
-import com.softtek.lai.module.counselor.presenter.IGamePresenter;
-import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.message.model.CheckClassEvent;
 import com.softtek.lai.module.message.model.CheckMobileEvent;
@@ -36,13 +28,10 @@ import com.softtek.lai.module.message.view.MessageActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.List;
-
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
-import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.util.Util;
 
 /**
@@ -119,7 +108,7 @@ public class MessageImpl implements IMessagePresenter {
             public void failure(RetrofitError error) {
                 context.dialogDissmiss();
                 ZillaApi.dealNetError(error);
-                error.printStackTrace();
+
             }
         });
     }
@@ -149,7 +138,6 @@ public class MessageImpl implements IMessagePresenter {
             @Override
             public void failure(RetrofitError error) {
                 ZillaApi.dealNetError(error);
-                error.printStackTrace();
             }
         });
     }
@@ -180,7 +168,6 @@ public class MessageImpl implements IMessagePresenter {
             public void failure(RetrofitError error) {
                 context.dialogDissmiss();
                 ZillaApi.dealNetError(error);
-                error.printStackTrace();
             }
         });
     }
@@ -212,7 +199,6 @@ public class MessageImpl implements IMessagePresenter {
             public void failure(RetrofitError error) {
                 context.dialogDissmiss();
                 ZillaApi.dealNetError(error);
-                error.printStackTrace();
             }
         });
     }
