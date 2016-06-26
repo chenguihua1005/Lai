@@ -38,12 +38,10 @@ import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
-import com.softtek.lai.module.sport.model.HistorySportModel;
 import com.softtek.lai.module.sport.model.TotalSportModel;
 import com.softtek.lai.module.sport.model.Weather;
 import com.softtek.lai.module.sport.net.WeatherServer;
 import com.softtek.lai.module.sport.presenter.SportManager;
-import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.StringUtil;
 
 import org.apache.commons.lang3.StringUtils;
@@ -52,8 +50,6 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -119,8 +115,7 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
 
     Timer timer;
     int recLen;
-
-    private List<HistorySportModel> list = new ArrayList<HistorySportModel>();
+    
     TimerTask task;
 
     private AMapLocationClient aMapLocationClient;
