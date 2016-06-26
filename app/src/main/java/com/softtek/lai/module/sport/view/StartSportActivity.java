@@ -134,6 +134,8 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
         rel_start1.setOnClickListener(this);
         ll_ll.setOnClickListener(this);
         tv_sport.setOnClickListener(this);
+        ll_ll.setEnabled(false);
+        tv_sport.setEnabled(false);
         aMapLocationClient = new AMapLocationClient(this);
         aMapLocationClientOption = new AMapLocationClientOption();
         //初始化定位参数
@@ -161,7 +163,7 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
     public void onLocationChanged(final AMapLocation aMapLocation) {
         if (aMapLocation != null && aMapLocation.getErrorCode() == 0) {
             String city = aMapLocation.getCity();
-            Log.i("当前城市>>>" + city.substring(0,city.length()-1));
+            Log.i("定位到的地方是>>>"+city);
             if (StringUtils.isNotEmpty(city)) {
                 aMapLocationClient.stopLocation();
                 ZillaApi.getCustomRESTAdapter("http://wthrcdn.etouch.cn", new RequestInterceptor() {
@@ -171,6 +173,8 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
                 }).create(WeatherServer.class).getWeather(city.substring(0,city.length()-1), new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
+                        ll_ll.setEnabled(true);
+                        tv_sport.setEnabled(true);
                         try {
                             Weather weather = paseXml(response.getBody().in());
                             if(weather!=null){
@@ -193,6 +197,8 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
 
                     @Override
                     public void failure(RetrofitError error) {
+                        ll_ll.setEnabled(false);
+                        tv_sport.setEnabled(false);
                         aMapLocationClient.startLocation();
                     }
                 });
@@ -219,6 +225,13 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
         super.onResume();
         SportManager manager = new SportManager(this);
         manager.getHistoryTotalMovement();
+    }
+
+    @Override
+    protected void onDestroy() {
+        aMapLocationClient.stopLocation();
+        super.onDestroy();
+        Log.i("开始运动界面销毁了................");
     }
 
     @Override
