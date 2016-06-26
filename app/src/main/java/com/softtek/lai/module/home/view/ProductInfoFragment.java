@@ -120,8 +120,11 @@ public class ProductInfoFragment extends BaseFragment  {
         infos.addAll(products);
         if(adapter==null){
             adapter = new LoadMoreRecyclerViewAdapter(getContext(), infos);
-            ptrrv.setAdapter(adapter);
+            if(ptrrv!=null){
+                ptrrv.setAdapter(adapter);
+            }
         }
+        adapter.notifyDataSetChanged();
         adapter.notifyDataSetChanged();
     }
 

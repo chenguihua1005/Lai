@@ -120,9 +120,6 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     @InjectView(R.id.fl_right)
     FrameLayout fl_right;
 
-    int unreadMsgCountTotal;
-
-
     private IHomeInfoPresenter homeInfoPresenter;
     private IMessagePresenter messagePresenter;
     private ILoginPresenter loginPresenter;
@@ -173,13 +170,16 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
 
     }
 
+    private ModelAdapter modelAdapter;
+
     @Override
     protected void initDatas() {
         tv_title.setText("莱聚+");
 
         //载入缓存数据
         homeInfoPresenter.loadCacheData();
-        gv_model.setAdapter(new ModelAdapter(getContext()));
+        modelAdapter=new ModelAdapter(getContext());
+        gv_model.setAdapter(modelAdapter);
         gv_model.setOnItemClickListener(this);
         //第一次加载自动刷新
         pull.post(new Runnable() {
@@ -256,10 +256,8 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         }
         rhv_adv.setImgUrlData(advList);
         ((ActivityRecordFragment) fragments.get(0)).updateInfo(records);
-        ProductInfoFragment productInfoFragment = ((ProductInfoFragment) fragments.get(1));
-        productInfoFragment.updateInfo(products);
-        SaleInfoFragment saleInfoFragment = ((SaleInfoFragment) fragments.get(2));
-        saleInfoFragment.updateInfo(sales);
+        ((ProductInfoFragment) fragments.get(1)).updateInfo(products);
+        ((SaleInfoFragment) fragments.get(2)).updateInfo(sales);
     }
 
     @Override
@@ -351,7 +349,8 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                 chatUserModel.setUserId(model.getHXAccountId());
                 EMChatManager.getInstance().updateCurrentUserNick(model.getNickname());
                 ChatUserInfoModel.getInstance().setUser(chatUserModel);
-                unreadMsgCountTotal = EMChatManager.getInstance().getUnreadMsgsCount();
+                int unread = EMChatManager.getInstance().getUnreadMsgsCount();
+                modelAdapter.update(unread);
                 EMChatManager.getInstance().loadAllConversations();
                 if (isTurn) {
                     Intent intent = new Intent(getActivity(), ConversationListActivity.class);
@@ -606,7 +605,8 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
             if (Constants.MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {
                 img_red.setVisibility(View.VISIBLE);
             }else {
-                unreadMsgCountTotal=intent.getIntExtra("count",0);
+                int unread=intent.getIntExtra("count",0);
+                modelAdapter.update(unread);
             }
         }
     }

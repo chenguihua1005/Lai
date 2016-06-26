@@ -115,7 +115,7 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
 
     Timer timer;
     int recLen;
-    
+
     TimerTask task;
 
     private AMapLocationClient aMapLocationClient;

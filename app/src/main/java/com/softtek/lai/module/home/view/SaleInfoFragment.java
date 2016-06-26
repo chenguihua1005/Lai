@@ -119,7 +119,9 @@ public class SaleInfoFragment extends BaseFragment{
         infos.addAll(sales);
         if(adapter==null){
             adapter = new LoadMoreRecyclerViewAdapter(getContext(), infos);
-            ptrrv.setAdapter(adapter);
+            if(ptrrv!=null){
+                ptrrv.setAdapter(adapter);
+            }
         }
         adapter.notifyDataSetChanged();
     }

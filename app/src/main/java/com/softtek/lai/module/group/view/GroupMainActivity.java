@@ -39,7 +39,6 @@ import com.softtek.lai.module.group.model.RecentlyActiviteModel;
 import com.softtek.lai.module.group.model.SportMainModel;
 import com.softtek.lai.module.group.presenter.SportGroupManager;
 import com.softtek.lai.module.home.view.HomeActviity;
-import com.softtek.lai.module.laisportmine.present.MyRunTeamManager;
 import com.softtek.lai.module.laisportmine.view.MyInformationActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.mygrades.view.MyGradesActivity;
@@ -251,7 +250,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
             public void run() {
                 pull_sroll.setRefreshing();
             }
-        },300);
+        },400);
         //dialogShow("加载中...");
     }
 
@@ -277,9 +276,10 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                 sportGroupManager.getMineResult(userId, str);
                 break;
             case R.id.ll_left:
-                Intent inten=new Intent(this, HomeActviity.class);
+                /*Intent inten=new Intent(this, HomeActviity.class);
                 inten.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(inten);
+                startActivity(inten);*/
+                finish();
                 break;
             case R.id.fl_right:
             case R.id.iv_email:
