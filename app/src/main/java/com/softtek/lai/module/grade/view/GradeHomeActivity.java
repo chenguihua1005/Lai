@@ -5,11 +5,15 @@
 
 package com.softtek.lai.module.grade.view;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -191,6 +195,7 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
     }
 
     CharSequence[] items={"拍照","照片"};
+    private static final int CAMERA_PREMISSION=100;
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -205,7 +210,22 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
                     public void onClick(DialogInterface dialog, int which) {
                         if(which==0){
                             //拍照
-                            imageFileCropSelector.takePhoto(GradeHomeActivity.this);
+                            if(ActivityCompat.checkSelfPermission(GradeHomeActivity.this, Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
+                                //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
+                                if(ActivityCompat.shouldShowRequestPermissionRationale(GradeHomeActivity.this,Manifest.permission.ACCESS_COARSE_LOCATION)||
+                                        ActivityCompat.shouldShowRequestPermissionRationale(GradeHomeActivity.this,Manifest.permission.ACCESS_FINE_LOCATION)){
+                                    //允许弹出提示
+                                    ActivityCompat.requestPermissions(GradeHomeActivity.this,
+                                            new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
+
+                                }else{
+                                    //不允许弹出提示
+                                    ActivityCompat.requestPermissions(GradeHomeActivity.this,
+                                            new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
+                                }
+                            }else {
+                                imageFileCropSelector.takePhoto(GradeHomeActivity.this);
+                            }
                         }else if(which==1){
                             //照片
                             imageFileCropSelector.selectImage(GradeHomeActivity.this);
@@ -362,6 +382,23 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
         super.onDestroy();
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode==CAMERA_PREMISSION) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // permission was granted, yay! Do the
+                // contacts-related task you need to do.
+                imageFileCropSelector.takePhoto(GradeHomeActivity.this);
+
+            } else {
+
+                // permission denied, boo! Disable the
+                // functionality that depends on this permission.
+            }
+        }
+    }
 
     @Override
     public void onClick(DialogInterface dialog, int which) {

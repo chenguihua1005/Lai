@@ -5,10 +5,14 @@
 
 package com.softtek.lai.module.home.view;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
@@ -28,7 +32,6 @@ import com.softtek.lai.module.community.view.MineHealthyFragment;
 import com.softtek.lai.module.community.view.RecommendHealthyFragment;
 import com.softtek.lai.module.lossweightstory.model.UploadImage;
 import com.softtek.lai.utils.DisplayUtil;
-import com.sw926.imagefileselector.ImageFileCropSelector;
 import com.sw926.imagefileselector.ImageFileSelector;
 
 import java.io.File;
@@ -114,6 +117,7 @@ public class HealthyFragment extends BaseFragment implements View.OnClickListene
 
     private CharSequence[] items={"拍照","从相册选择照片"};
     private static final int OPEN_SENDER_REQUEST=1;
+    private static final int CAMERA_PREMISSION=100;
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -125,7 +129,21 @@ public class HealthyFragment extends BaseFragment implements View.OnClickListene
                     public void onClick(DialogInterface dialog, int which) {
                         if(which==0){
                             //拍照
-                            imageFileSelector.takePhoto(HealthyFragment.this);
+                            if(ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
+                                //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
+                                if(ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),Manifest.permission.CAMERA)){
+                                    //允许弹出提示
+                                    ActivityCompat.requestPermissions(getActivity(),
+                                            new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
+
+                                }else{
+                                    //不允许弹出提示
+                                    ActivityCompat.requestPermissions(getActivity(),
+                                            new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
+                                }
+                            }else {
+                                imageFileSelector.takePhoto(HealthyFragment.this);
+                            }
                         }else if(which==1){
                             //照片
                             imageFileSelector.selectImage(HealthyFragment.this);
@@ -153,6 +171,24 @@ public class HealthyFragment extends BaseFragment implements View.OnClickListene
 
             }
 
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode==CAMERA_PREMISSION) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // permission was granted, yay! Do the
+                // contacts-related task you need to do.
+                imageFileSelector.takePhoto(HealthyFragment.this);
+
+            } else {
+
+                // permission denied, boo! Disable the
+                // functionality that depends on this permission.
+            }
         }
     }
 }

@@ -29,4 +29,7 @@ public interface ILoginPresenter {
 
     //修改昵称
     void getUpdateName(String accountId, String userName, ProgressDialog dialog);
+
+    //获取环信帐号
+    void getEMChatAccount( ProgressDialog dialog);
 }

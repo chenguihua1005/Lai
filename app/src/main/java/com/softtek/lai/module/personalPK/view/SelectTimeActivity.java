@@ -140,6 +140,10 @@ public class SelectTimeActivity extends BaseActivity implements View.OnClickList
         currentYear= DateUtil.getInstance().getCurrentYear();
         currentMonth=DateUtil.getInstance().getCurrentMonth();
         currentDay=DateUtil.getInstance().getCurrentDay();
+        int afterDay=currentDay+1;
+        String currentDate=currentYear+"年"+(currentMonth<10?"0"+currentMonth:currentMonth)+"月"+(afterDay<10?"0"+afterDay:afterDay);
+        tv_start.setText(currentDate);
+        tv_end.setText(currentDate);
     }
 
     @Override
@@ -195,7 +199,7 @@ public class SelectTimeActivity extends BaseActivity implements View.OnClickList
                     }
                 }
             }
-        }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)).show();
+        }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)+1).show();
 
     }
 

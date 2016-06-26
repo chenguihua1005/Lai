@@ -22,9 +22,12 @@ import com.easemob.chat.EMMessage.Direct;
 import com.easemob.easeui.EaseConstant;
 import com.easemob.easeui.R;
 import com.easemob.easeui.adapter.EaseMessageAdapter;
+import com.easemob.easeui.domain.ChatUserInfoModel;
+import com.easemob.easeui.domain.ChatUserModel;
 import com.easemob.easeui.utils.EaseUserUtils;
 import com.easemob.easeui.widget.EaseChatMessageList;
 import com.easemob.easeui.widget.EaseChatMessageList.MessageListItemClickListener;
+import com.easemob.easeui.widget.EaseImageView;
 import com.easemob.exceptions.EaseMobException;
 import com.easemob.util.DateUtils;
 import com.squareup.picasso.Picasso;
@@ -39,7 +42,7 @@ public abstract class EaseChatRow extends LinearLayout {
     protected int position;
 
     protected TextView timeStampView;
-    protected ImageView userAvatarView;
+    protected EaseImageView userAvatarView;
     protected View bubbleLayout;
     protected TextView usernickView;
 
@@ -56,6 +59,9 @@ public abstract class EaseChatRow extends LinearLayout {
 
     protected MessageListItemClickListener itemClickListener;
 
+    String nameF;
+    String photoF;
+
     public EaseChatRow(Context context, EMMessage message, int position, BaseAdapter adapter) {
         super(context);
         this.context = context;
@@ -71,7 +77,7 @@ public abstract class EaseChatRow extends LinearLayout {
     private void initView() {
         onInflatView();
         timeStampView = (TextView) findViewById(R.id.timestamp);
-        userAvatarView = (ImageView) findViewById(R.id.iv_userhead);
+        userAvatarView = (EaseImageView) findViewById(R.id.iv_userhead);
         bubbleLayout = findViewById(R.id.bubble);
         usernickView = (TextView) findViewById(R.id.tv_userid);
 
@@ -79,7 +85,7 @@ public abstract class EaseChatRow extends LinearLayout {
         statusView = (ImageView) findViewById(R.id.msg_status);
         ackedView = (TextView) findViewById(R.id.tv_ack);
         deliveredView = (TextView) findViewById(R.id.tv_delivered);
-
+        userAvatarView.setShapeType(1);
         onFindViewById();
     }
 
@@ -90,11 +96,12 @@ public abstract class EaseChatRow extends LinearLayout {
      * @param position
      */
     public void setUpView(EMMessage message, int position,
-            EaseChatMessageList.MessageListItemClickListener itemClickListener) {
+            EaseChatMessageList.MessageListItemClickListener itemClickListener,String name,String photo) {
         this.message = message;
         this.position = position;
         this.itemClickListener = itemClickListener;
-
+        nameF=name;
+        photoF=photo;
         setUpBaseView();
         onSetUpView();
         setClickListener();
@@ -131,19 +138,20 @@ public abstract class EaseChatRow extends LinearLayout {
         }
         //设置头像和nick
         if(message.direct == Direct.SEND){
-
-            Picasso.with(getContext()).load(avatar).fit().error(R.drawable.ease_group_icon).into(userAvatarView);
+            ChatUserModel chatUserModel = ChatUserInfoModel.getInstance().getUser();
+            String p=chatUserModel.getUserPhone();
+            Picasso.with(getContext()).load(p).fit().error(R.drawable.ease_group_icon).into(userAvatarView);
             //EaseUserUtils.setUserAvatar(context, EMChatManager.getInstance().getCurrentUser(), userAvatarView);
            // 发送方不显示nick
            // UserUtils.setUserNick(EMChatManager.getInstance().getCurrentUser(), usernickView);
         }else{
 //            EaseUserUtils.setUserAvatar(context, message.getFrom(), userAvatarView);
 //            EaseUserUtils.setUserNick(message.getFrom(), usernickView);
-            Picasso.with(getContext()).load(avatar).fit().error(R.drawable.ease_group_icon).into(userAvatarView);
+
+            Picasso.with(getContext()).load(photoF).fit().error(R.drawable.ease_group_icon).into(userAvatarView);
             usernickView.setVisibility(VISIBLE);
-            usernickView.setText(name);
+            usernickView.setText(nameF);
         }
-        
         if(deliveredView != null){
             if (message.isDelivered) {
                 deliveredView.setVisibility(View.VISIBLE);

@@ -27,16 +27,13 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.stepcount.db.StepUtil;
-import com.softtek.lai.stepcount.model.StepDcretor;
 import com.softtek.lai.stepcount.model.UserStep;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.JCountDownTimer;
 
 import java.util.Calendar;
-import java.util.UUID;
 
 import zilla.libcore.file.SharedPreferenceService;
-import zilla.libcore.util.Util;
 
 public class StepService extends Service implements SensorEventListener {
 
@@ -48,7 +45,7 @@ public class StepService extends Service implements SensorEventListener {
     //默认30分钟上传一次
     private static int durationUpload=10*60*1000;
     private SensorManager sensorManager;
-    private StepDcretor stepDetector;
+    private StepDetector  stepDetector;
     private BroadcastReceiver mBatInfoReceiver;
     private WakeLock mWakeLock;
     private TimeCount time;
@@ -68,8 +65,8 @@ public class StepService extends Service implements SensorEventListener {
                 startStepDetector();
             }
         }).start();
-        startTimeCount();
         initTodayData();
+        startTimeCount();
     }
 
     private void initTodayData() {
@@ -221,22 +218,21 @@ public class StepService extends Service implements SensorEventListener {
         }
     }
 
-    private void addBasePedoListener() {
-        stepDetector = new StepDcretor(this);
-        Sensor sensor = sensorManager
-                .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        sensorManager.registerListener(stepDetector, sensor,
-                SensorManager.SENSOR_DELAY_UI);
-        stepDetector.setOnSensorChangeListener(new StepDcretor.OnSensorChangeListener() {
 
-                    @Override
-                    public void onChange(int step) {
-                        calTodayStep(step);
-                        /*currentStep=step;
-                        todayStep =currentStep+ serverStep;
-                        updateNotification("今日步数：" + todayStep + " 步");*/
-                    }
-                });
+
+    private void addBasePedoListener() {
+        stepDetector = new StepDetector(this);
+        Sensor sensor = sensorManager
+                .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);//获得传感器的类型，这里获得的类型是加速度传感器
+        //此方法用来注册，只有注册过才会生效，参数：SensorEventListener的实例，Sensor的实例，更新速率
+        sensorManager.registerListener(stepDetector, sensor,
+                SensorManager.SENSOR_DELAY_FASTEST);
+        stepDetector.setOnSensorChangeListener(new StepDetector.OnSensorChangeListener() {
+            @Override
+            public void onChange(int step) {
+                calTodayStep(step);
+            }
+        });
     }
 
     @Override
@@ -337,6 +333,7 @@ public class StepService extends Service implements SensorEventListener {
         //取消前台进程
         Log.i("test","计步服务结束");
         stopForeground(true);
+        nm.cancelAll();
         unregisterReceiver(mBatInfoReceiver);
         if (countSensor != null) {
             Log.i("base", "注销countSensor");
@@ -346,11 +343,11 @@ public class StepService extends Service implements SensorEventListener {
             Log.i("base", "注销detector");
             sensorManager.unregisterListener(this, detectorSensor);
         }
+        time.cancel();
         if(UserInfoModel.getInstance().getUser()!=null&&"1".equals(UserInfoModel.getInstance().getUser().getIsJoin())){
             Intent intent = new Intent(this, StepService.class);
             startService(intent);
         }else{
-            nm.cancelAll();
             todayStep =0;
             lastStep=0;
             serverStep =0;

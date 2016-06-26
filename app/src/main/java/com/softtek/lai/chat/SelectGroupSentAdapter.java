@@ -19,6 +19,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import zilla.libcore.file.AddressManager;
+
 /**
  * Created by jarvis.liu on 3/22/2016.
  */
@@ -74,12 +76,13 @@ public class SelectGroupSentAdapter extends BaseAdapter {
         /**设置TextView显示的内容，即我们存放在动态数组中的数据*/
         final SelectContactInfoModel selectContactInfoModel = list.get(position);
         ChatContactInfoModel contactListInfo = selectContactInfoModel.getModel();
-        String photo = contactListInfo.getUserPhoto();
+        String photo = contactListInfo.getPhoto();
         System.out.println("photo:" + photo);
+        String path= AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
         if ("".equals(photo)) {
             Picasso.with(context).load("111").fit().error(com.easemob.easeui.R.drawable.ease_group_icon).into(holder.img);
         } else {
-            Picasso.with(context).load(photo).fit().error(com.easemob.easeui.R.drawable.ease_group_icon).into(holder.img);
+            Picasso.with(context).load(path+photo).fit().error(com.easemob.easeui.R.drawable.ease_group_icon).into(holder.img);
         }
         holder.text_name.setText(contactListInfo.getUserName());
         final boolean isSelect = selectContactInfoModel.isSelected();

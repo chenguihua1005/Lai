@@ -1,7 +1,9 @@
 package com.softtek.lai.module.community.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
@@ -89,6 +92,37 @@ public class HealthyCommunityAdapter extends BaseAdapter {
                 "月" + DateUtil.getInstance().getDay(date) + "日");
         holder.tv_zan_name.setText(model.getUsernameSet());
         holder.cb_zan.setText(model.getPraiseNum());
+        if("1".equals(model.getMinetype())){
+            holder.tv_delete.setVisibility(View.GONE);
+        }else{
+            holder.tv_delete.setVisibility(View.VISIBLE);
+
+        }
+        holder.tv_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(context).setTitle("温馨提示").setMessage("确定删除吗？")
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                service.deleteHealth(UserInfoModel.getInstance().getToken(), model.getID(),
+                                        new RequestCallback<ResponseData>() {
+                                            @Override
+                                            public void success(ResponseData responseData, Response response) {
+                                                if(responseData.getStatus()==200){
+                                                    lossWeightStoryModels.remove(model);
+                                                    notifyDataSetChanged();
+                                                }
+                                            }
+                                        });
+                            }
+                        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {}
+                }).create().show();
+            }
+        });
+
         if (isVR) {
             holder.cb_zan.setEnabled(false);
         } else {
@@ -149,7 +183,7 @@ public class HealthyCommunityAdapter extends BaseAdapter {
 
     static class ViewHolder {
         CircleImageView civ_header_image;
-        TextView tv_name, tv_content, tv_date, tv_zan_name;
+        TextView tv_name, tv_content, tv_date, tv_zan_name,tv_delete;
         ImageView img1, img2, img3, img4, img5, img6, img7, img8, img9;
         CheckBox cb_zan;
 
@@ -169,6 +203,7 @@ public class HealthyCommunityAdapter extends BaseAdapter {
             img8 = (ImageView) view.findViewById(R.id.img_8);
             img9 = (ImageView) view.findViewById(R.id.img_9);
             cb_zan = (CheckBox) view.findViewById(R.id.cb_zan);
+            tv_delete= (TextView) view.findViewById(R.id.tv_delete);
         }
     }
 

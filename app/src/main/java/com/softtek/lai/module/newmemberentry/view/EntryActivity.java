@@ -5,12 +5,14 @@
 
 package com.softtek.lai.module.newmemberentry.view;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -19,7 +21,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -28,10 +31,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.NumberPicker;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Regex;
@@ -67,8 +68,6 @@ import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_member_entry)
 public class EntryActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener {
-
-    private String SexData[] = {"男", "女"};//性别数据
 
     private INewStudentpresenter iNewStudentpresenter;
     private GuwenClassPre guwenClassPre;
@@ -141,9 +140,6 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
 
     @InjectView(R.id.img1)
     ImageView img1;
-
-//    @InjectView(R.id.scrollView4)
-//    ScrollView scrollView4;
 
     //添加身体围度
     @InjectView(R.id.btn_Add_bodydimension)
@@ -226,19 +222,28 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
         iNewStudentpresenter = new NewStudentInputImpl(this);
         newstudentsModel = new NewstudentsModel();
         tv_title.setText("新学员录入");
-        //tv_left.setBackground(null);
         tv_right.setText("确定");
 
         //添加性别
         addGrade();
     }
 
-    String first_image;
     private CharSequence[] items={"拍照","照片"};
-    private static final int OPEN_CAMERA_REQUEST=1;
-    private static final int OPEN_PICTURE_REQUEST=2;
-    private static final String IMAGE_UPLOADS_DIR=Environment.getExternalStorageDirectory() + File.separator + "healthyfragmentuoploads";
-    private File dir=new File(IMAGE_UPLOADS_DIR);
+    private static final int CAMERA_PREMISSION=100;
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode==CAMERA_PREMISSION) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                takecamera();
+
+            } else {
+
+            }
+        }
+    }
 
 
     @Override
@@ -268,19 +273,21 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
                             String status = Environment.getExternalStorageState();
                             if (status.equals(Environment.MEDIA_MOUNTED)) {
                                 try {
-//                                    if (!dir.exists()){
-//                                        dir.mkdirs();
-//                                    }else {
-//                                        dir.delete();
-//                                        dir.mkdirs();
-//                                    }
-//                                    String nameTemp= SystemClock.currentThreadTimeMillis()+".png";
-//                                    File f = new File(dir, nameTemp);
-//                                    first_image=f.getAbsolutePath();
-////                                    bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(selectedImage));
-//
-//                                    startActivityForResult(SystemUtils.openCamera(Uri.fromFile(f)), OPEN_CAMERA_REQUEST);
-                                    takecamera();
+                                    if(ActivityCompat.checkSelfPermission(EntryActivity.this, Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
+                                        //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
+                                        if(ActivityCompat.shouldShowRequestPermissionRationale(EntryActivity.this,Manifest.permission.CAMERA)){
+                                            //允许弹出提示
+                                            ActivityCompat.requestPermissions(EntryActivity.this,
+                                                    new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
+
+                                        }else{
+                                            //不允许弹出提示
+                                            ActivityCompat.requestPermissions(EntryActivity.this,
+                                                    new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
+                                        }
+                                    }else {
+                                        takecamera();
+                                    }
                                 } catch (ActivityNotFoundException e) {
                                     Util.toastMsg("没有找到存储目录");
                                 }
@@ -289,7 +296,6 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
                             }
                         }else if(which==1){
                             //照片
-                            //startActivityForResult(SystemUtils.openPicture(),OPEN_PICTURE_REQUEST);
                             takepic();
                         }
                     }
@@ -342,10 +348,9 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
 
     @Subscribe
     public void onEvent(ClassEvent classEvent) {
-        System.out.println("classEvent.getPargradeModels()>>》》》》》》》》》》》》》》" + classEvent.getPargradeModels());
+
         List<PargradeModel> pargradeModels = classEvent.getPargradeModels();
         for (PargradeModel cl : pargradeModels) {
-            System.out.println("dsfsdfsdfsdfsdfsdf?????/?????>>》》》》》》》》》》》》》》" + "ClassIdModel:" + cl.getClassId() + "ClassName:" + cl.getClassName());
             PargradeModel p1 = new PargradeModel(cl.getClassId(), cl.getClassName());
             pargradeModelList.add(p1);
         }
@@ -353,7 +358,6 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
 
     @Subscribe
     public void onEvent1(PhotModel photModel) {
-        System.out.println("classEvent.getPargradeModels()>>》》》》》》》》》》》》》》" + photModel.getImg());
         newstudentsModel.setPhoto(photModel.getImg());
     }
 
@@ -374,16 +378,14 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
         newstudentsModel.setSentaccid(sentaccid);//36
         newstudentsModel.setNickname(nickname);
         newstudentsModel.setMobile(mobile);
-        //newstudentsModel.setClassid(Integer.parseInt(classid));
         newstudentsModel.setClassid(classid);
         newstudentsModel.setWeight(Double.parseDouble(weight.equals("") ? "0" : weight));
         newstudentsModel.setPysical(Double.parseDouble(pysical.equals("") ? "0" : pysical));
         newstudentsModel.setFat(Double.parseDouble(fat.equals("") ? "0" : fat));
         newstudentsModel.setBirthday(birthday);
         newstudentsModel.setGender(gender.equals("女") ? 0 : 1);
-       newstudentsModel.setPhoto("2024938094839380");//img.getPhoto()+""
+        newstudentsModel.setPhoto("2024938094839380");
         iNewStudentpresenter.input(newstudentsModel);
-        //newstudentsModel.setPhoto("/storage/emulated/0/123.jpg");
         finish();
     }
 
@@ -533,7 +535,6 @@ public class EntryActivity extends BaseActivity implements View.OnClickListener,
         wheel_grade.setItems(gradeList);
         wheel_grade.setSeletion(0);
         select_grade = "";
-//        wheel_grade.setBackgroundDrawable(1,"#000",);
         wheel_grade.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
             @Override
             public void onSelected(int selectedIndex, String item) {

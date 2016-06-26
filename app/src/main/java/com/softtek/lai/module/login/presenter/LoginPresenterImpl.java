@@ -21,6 +21,7 @@ import com.softtek.lai.jpush.JpushSet;
 import com.softtek.lai.module.File.view.CreatFlleActivity;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.home.view.ModifyPasswordActivity;
+import com.softtek.lai.module.login.model.EMChatAccountModel;
 import com.softtek.lai.module.login.model.PhotoModel;
 import com.softtek.lai.module.login.model.RoleInfo;
 import com.softtek.lai.module.login.model.UserModel;
@@ -166,6 +167,42 @@ public class LoginPresenterImpl implements ILoginPresenter {
                         userModel.setPhoto(photoModel.getImg());
                         UserInfoModel.getInstance().saveUserCache(userModel);
                         ((AppCompatActivity) context).finish();
+                        break;
+                    default:
+                        Util.toastMsg(responseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
+            }
+        });
+    }
+
+    @Override
+    public void getEMChatAccount(final ProgressDialog dialog) {
+        String token = SharedPreferenceService.getInstance().get("token", "");
+        service.getEMChatAccount(token, new Callback<ResponseData<EMChatAccountModel>>() {
+            @Override
+            public void success(ResponseData<EMChatAccountModel> responseData, Response response) {
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+                System.out.println("responseData:" + responseData);
+                int status = responseData.getStatus();
+                switch (status) {
+                    case 200:
+                        EMChatAccountModel model = responseData.getData();
+                        EventBus.getDefault().post(model);
+                        break;
+                    case 300:
+                        EventBus.getDefault().post(null);
                         break;
                     default:
                         Util.toastMsg(responseData.getMsg());

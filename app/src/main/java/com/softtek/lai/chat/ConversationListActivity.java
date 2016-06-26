@@ -18,6 +18,8 @@ import android.text.TextUtils;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -61,12 +63,14 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
+    @InjectView(R.id.iv_email)
+    ImageView iv_email;
 
     @InjectView(R.id.tv_title)
     TextView tv_title;
 
-    @InjectView(R.id.tv_right)
-    TextView tv_right;
+    @InjectView(R.id.fl_right)
+    FrameLayout fl_right;
 
     @InjectView(R.id.lin)
     LinearLayout lin;
@@ -85,9 +89,9 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         tv_title.setText("会话列表");
-        tv_right.setText("通讯录");
+        iv_email.setImageResource(R.drawable.img_chat_contant);
         ll_left.setOnClickListener(this);
-        tv_right.setOnClickListener(this);
+        fl_right.setOnClickListener(this);
         easeUI = EaseUI.getInstance();
         if (savedInstanceState != null && savedInstanceState.getBoolean(Constant.ACCOUNT_REMOVED, false)) {
             // 防止被移除后，没点确定按钮然后按了home键，长期在后台又进app导致的crash
@@ -378,72 +382,14 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
         //getMenuInflater().inflate(R.menu.context_tab_contact, menu);
     }
 
-    //发送消息方法
-    //==========================================================================
-    protected void sendTextMessage(String content, String toChatUsername,EMConversation conversation,int type) {
-        EMMessage message = EMMessage.createTxtSendMessage(content, toChatUsername);
-        sendMessage(message,conversation,type);
-    }
-
-    protected void sendMessage(EMMessage message,EMConversation conversation,int type) {
-        ChatUserModel chatUserModel = ChatUserInfoModel.getInstance().getUser();
-        message.setAttribute("nickname", chatUserModel.getUserName());
-        message.setAttribute("avatarURL", chatUserModel.getUserPhone());
-        message.setAttribute("userId", chatUserModel.getUserId());
-
-        //发送消息
-        EMChatManager.getInstance().sendMessage(message, null);
-
-        if (TextUtils.isEmpty(conversation.getExtField())) {
-            setProfile(conversation,type);
-        }
-    }
-    protected void setProfile(EMConversation conversation,int type) {
-        String name;
-        String photo;
-        if(type==1){
-            name = "jarvis0105";
-            photo = "https://o8nbxcohc.qnssl.com/testimage.png";
-        }else {
-            name="jarvis0106";
-            photo = "http://image.baidu.com/search/detail?ct=503316480&z=undefined&tn=baiduimagedetail&ipn=d&word=QQ%E5%9B%BE%E7%89%87&step_word=&ie=utf-8&in=&cl=2&lm=-1&st=-1&cs=3713114485,4026763287&os=1327419601,3327449670&simid=4183989323,678832023&pn=0&rn=1&di=15537223790&ln=1000&fr=&fmq=1466411200910_R&fm=rs10&ic=undefined&s=undefined&se=&sme=&tab=0&width=&height=&face=undefined&is=&istype=0&ist=&jit=&bdtype=0&gsm=0&oriquery=%E5%9B%BE%E7%89%87&objurl=http%3A%2F%2Fwww.onegreen.net%2FQQ%2FUploadFiles%2F201006%2F2010062617333267.jpg&rpstart=0&rpnum=0&ctd=1466411205736^3_1349X667%1";
-        }
-        conversation.setExtField(name + "," + photo);
-    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_left:
                 finish();
                 break;
-            case R.id.tv_right:
+            case R.id.fl_right:
                 startActivity(new Intent(this,ContantListActivity.class));
-//                Intent intent = new Intent(ConversationListActivity.this, ChatActivity.class);
-//                intent.putExtra(Constant.EXTRA_USER_ID, "18261576083");
-//                intent.putExtra("name", "fdsfsdf");
-//                intent.putExtra("photo", "https://o8nbxcohc.qnssl.com/testimage.png");
-//                startActivity(intent);
-//                new Thread(
-//                        new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                EMConversation conversation = EMChatManager.getInstance().getConversation("jarvis0105");
-//                                conversation.markAllMessagesAsRead();
-//                                sendTextMessage("test", "jarvis0105",conversation,1);
-//                            }
-//                        }
-//                ).start();
-//
-//                new Thread(
-//                        new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                EMConversation conversation = EMChatManager.getInstance().getConversation("jarvis0106");
-//                                conversation.markAllMessagesAsRead();
-//                                sendTextMessage("test", "jarvis0106",conversation,2);
-//                            }
-//                        }
-//                ).start();
                 break;
         }
     }

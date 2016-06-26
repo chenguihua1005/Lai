@@ -22,6 +22,10 @@ import com.easemob.easeui.model.EaseNotifier;
 import com.easemob.easeui.utils.EaseACKUtil;
 import com.easemob.easeui.utils.EaseCommonUtils;
 import com.easemob.exceptions.EaseMobException;
+import com.softtek.lai.contants.Constants;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -177,6 +181,12 @@ public class ChatHelper {
                 switch (event.getEvent()) {
                     case EventNewMessage:
                         //应用在后台，不需要刷新UI,通知栏提示新消息
+                        System.out.println("getMessage1111111111");
+                        int unreadMsgCountTotal = EMChatManager.getInstance().getUnreadMsgsCount();
+                        Intent msgIntent = new Intent(Constants.MESSAGE_CHAT_ACTION);
+                        msgIntent.putExtra("count",unreadMsgCountTotal);
+                        appContext.sendBroadcast(msgIntent);
+                        System.out.println("EventNewMessage-----");
                         if(!easeUI.hasForegroundActivies()){
                             getNotifier().onNewMsg(message);
                         }

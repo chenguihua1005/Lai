@@ -1,12 +1,15 @@
 package com.softtek.lai.module.lossweightstory.view;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.View;
@@ -173,6 +176,7 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
 
     CharSequence[] options={"拍照","选择个人相册"};
     private static final int OPEN_PREVIEW=3;
+    private static final int CAMERA_PREMISSION=100;
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         UploadImage image=images.get(position);
@@ -182,11 +186,25 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
                 public void onClick(DialogInterface dialog, int which) {
                     if(which==0){
                         //打开照相机
-                        //imageFileCropSelector.takePhoto(NewStoryActivity.this);
-                        imageFileSelector.takePhoto(NewStoryActivity.this);
+                        if(ActivityCompat.checkSelfPermission(NewStoryActivity.this, Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
+                            //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
+                            if(ActivityCompat.shouldShowRequestPermissionRationale(NewStoryActivity.this,Manifest.permission.ACCESS_COARSE_LOCATION)||
+                                    ActivityCompat.shouldShowRequestPermissionRationale(NewStoryActivity.this,Manifest.permission.ACCESS_FINE_LOCATION)){
+                                //允许弹出提示
+                                ActivityCompat.requestPermissions(NewStoryActivity.this,
+                                        new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
+
+                            }else{
+                                //不允许弹出提示
+                                ActivityCompat.requestPermissions(NewStoryActivity.this,
+                                        new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
+                            }
+                        }else {
+                            imageFileSelector.takePhoto(NewStoryActivity.this);
+                        }
                     }else if(which==1){
                         //打开图库
-                        //imageFileCropSelector.selectImage(NewStoryActivity.this);
+
                         imageFileSelector.selectImage(NewStoryActivity.this);
                     }
                 }
@@ -199,6 +217,7 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
         }
 
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -231,7 +250,19 @@ public class NewStoryActivity extends BaseActivity implements View.OnClickListen
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        imageFileSelector.onRequestPermissionsResult(requestCode,permissions,grantResults);
+        if(requestCode==CAMERA_PREMISSION) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // permission was granted, yay! Do the
+                // contacts-related task you need to do.
+                imageFileSelector.takePhoto(NewStoryActivity.this);
+
+            } else {
+
+                // permission denied, boo! Disable the
+                // functionality that depends on this permission.
+            }
+        }
     }
 
     @Override

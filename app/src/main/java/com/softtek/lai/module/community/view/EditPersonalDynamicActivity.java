@@ -1,10 +1,14 @@
 package com.softtek.lai.module.community.view;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.View;
@@ -181,7 +185,21 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
                 public void onClick(DialogInterface dialog, int which) {
                     if(which==0){
                         //打开照相机
-                        imageFileSelector.takePhoto(EditPersonalDynamicActivity.this);
+                        if(ActivityCompat.checkSelfPermission(EditPersonalDynamicActivity.this, Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
+                            //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
+                            if(ActivityCompat.shouldShowRequestPermissionRationale(EditPersonalDynamicActivity.this,Manifest.permission.CAMERA)){
+                                //允许弹出提示
+                                ActivityCompat.requestPermissions(EditPersonalDynamicActivity.this,
+                                        new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
+
+                            }else{
+                                //不允许弹出提示
+                                ActivityCompat.requestPermissions(EditPersonalDynamicActivity.this,
+                                        new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
+                            }
+                        }else {
+                            imageFileSelector.takePhoto(EditPersonalDynamicActivity.this);
+                        }
                     }else if(which==1){
                         //打开图库
                         imageFileSelector.selectImage(EditPersonalDynamicActivity.this);
@@ -193,6 +211,24 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
             intent.putExtra("uri",Uri.fromFile(image.getImage()));
             intent.putExtra("position",position);
             startActivityForResult(intent, OPEN_PREVIEW);
+        }
+    }
+    private static final int CAMERA_PREMISSION=100;
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode==CAMERA_PREMISSION) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // permission was granted, yay! Do the
+                // contacts-related task you need to do.
+                imageFileSelector.takePhoto(EditPersonalDynamicActivity.this);
+
+            } else {
+
+                // permission denied, boo! Disable the
+                // functionality that depends on this permission.
+            }
         }
     }
 

@@ -7,6 +7,7 @@ package com.softtek.lai.chat;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -14,9 +15,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.text.method.ScrollingMovementMethod;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,12 +41,14 @@ import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.utils.SoftInputUtil;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
@@ -55,6 +61,8 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
+    @InjectView(R.id.lin_mid)
+    LinearLayout lin_mid;
 
     @InjectView(R.id.voice_recorder)
     EaseVoiceRecorderView voiceRecorderView;
@@ -95,13 +103,19 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //可以直接new EaseChatFratFragment使用
-        tv_title.setText("群发");
-        ll_left.setOnClickListener(this);
-        list = (ArrayList<ChatContactInfoModel>) getIntent().getSerializableExtra("list");
-        registerExtendMenuItem();
-        // init input menu
 
         extendMenuItemClickListener = new MyItemClickListener();
+        registerExtendMenuItem();
+        // init input menu
+        lin_mid.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                hideKeyboard();
+                inputMenu.hideExtendMenuContainer();
+                return false;
+            }
+        });
 
         inputMenu.init(null);
         inputMenu.setChatInputMenuListener(new EaseChatInputMenu.ChatInputMenuListener() {
@@ -158,7 +172,17 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
         });
 
     }
-
+    /**
+     * 隐藏软键盘
+     */
+    protected void hideKeyboard() {
+        InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
+            if (getCurrentFocus() != null)
+                inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -173,18 +197,27 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
-    public String getToChatUsername() {
-        return toChatUsername;
-    }
-
     @Override
     protected void initViews() {
-
+        tv_title.setText("群发");
+        ll_left.setOnClickListener(this);
+        text_value.setMovementMethod(ScrollingMovementMethod.getInstance());
     }
 
     @Override
     protected void initDatas() {
-
+        list = (ArrayList<ChatContactInfoModel>) getIntent().getSerializableExtra("list");
+        text_count.setText("你将发送消息给"+list.size()+"位朋友:");
+        String value="";
+        for (int i = 0; i <list.size() ; i++) {
+            ChatContactInfoModel model=list.get(i);
+            if(i==0){
+                value=value+model.getUserName();
+            }else {
+                value=value+","+model.getUserName();
+            }
+        }
+        text_value.setText(value);
     }
 
     @Override
@@ -298,26 +331,26 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
     //发送消息方法
     //==========================================================================
     protected void sendTextMessage(String content, ChatContactInfoModel model) {
-        EMMessage message = EMMessage.createTxtSendMessage(content, model.getUserId());
-        EMConversation conversation = EMChatManager.getInstance().getConversation(model.getUserId());
+        EMMessage message = EMMessage.createTxtSendMessage(content, model.getHXAccountId());
+        EMConversation conversation = EMChatManager.getInstance().getConversation(model.getHXAccountId());
         sendMessage(message, conversation, model);
     }
 
     protected void sendBigExpressionMessage(String name, String identityCode, ChatContactInfoModel model) {
-        EMMessage message = EaseCommonUtils.createExpressionMessage(model.getUserId(), name, identityCode);
-        EMConversation conversation = EMChatManager.getInstance().getConversation(model.getUserId());
+        EMMessage message = EaseCommonUtils.createExpressionMessage(model.getHXAccountId(), name, identityCode);
+        EMConversation conversation = EMChatManager.getInstance().getConversation(model.getHXAccountId());
         sendMessage(message, conversation, model);
     }
 
     protected void sendVoiceMessage(String filePath, int length, ChatContactInfoModel model) {
-        EMMessage message = EMMessage.createVoiceSendMessage(filePath, length, model.getUserId());
-        EMConversation conversation = EMChatManager.getInstance().getConversation(model.getUserId());
+        EMMessage message = EMMessage.createVoiceSendMessage(filePath, length, model.getHXAccountId());
+        EMConversation conversation = EMChatManager.getInstance().getConversation(model.getHXAccountId());
         sendMessage(message, conversation, model);
     }
 
     protected void sendImageMessage(String imagePath, ChatContactInfoModel model) {
-        EMMessage message = EMMessage.createImageSendMessage(imagePath, false, model.getUserId());
-        EMConversation conversation = EMChatManager.getInstance().getConversation(model.getUserId());
+        EMMessage message = EMMessage.createImageSendMessage(imagePath, false, model.getHXAccountId());
+        EMConversation conversation = EMChatManager.getInstance().getConversation(model.getHXAccountId());
         sendMessage(message, conversation, model);
     }
 
@@ -331,13 +364,15 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
         if (TextUtils.isEmpty(conversation.getExtField())) {
             setProfile(conversation, model);
         }
+        startActivity(new Intent(this,ConversationListActivity.class));
         finish();
     }
 
     protected void setProfile(EMConversation conversation, ChatContactInfoModel model) {
+        String path= AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
         String name = model.getUserName();
-        String photo = model.getUserPhoto();
-        conversation.setExtField(name + "," + photo);
+        String photo = model.getPhoto();
+        conversation.setExtField(name + "," + path+photo);
     }
 
     /**

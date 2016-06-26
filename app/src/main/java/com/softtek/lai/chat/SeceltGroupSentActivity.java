@@ -31,6 +31,7 @@ import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 /**
  * Created by jarvis.liu on 3/22/2016.
@@ -114,10 +115,13 @@ public class SeceltGroupSentActivity extends BaseActivity implements View.OnClic
                         select_list.add(list.get(i).getModel());
                     }
                 }
-
-                Intent intent=new Intent(this,GroupSentActivity.class);
-                intent.putExtra("list",(Serializable)select_list);
-                startActivity(intent);
+                if(select_list.size()!=0){
+                    Intent intent=new Intent(this,GroupSentActivity.class);
+                    intent.putExtra("list",(Serializable)select_list);
+                    startActivity(intent);
+                }else {
+                    Util.toastMsg("请选择收件人");
+                }
                 break;
             case R.id.ll_left:
                 finish();

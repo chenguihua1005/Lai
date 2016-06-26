@@ -277,7 +277,9 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                 sportGroupManager.getMineResult(userId, str);
                 break;
             case R.id.ll_left:
-                startActivity(new Intent(this, HomeActviity.class));
+                Intent inten=new Intent(this, HomeActviity.class);
+                inten.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(inten);
                 break;
             case R.id.fl_right:
             case R.id.iv_email:
@@ -358,7 +360,9 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            startActivity(new Intent(this, HomeActviity.class));
+            Intent inten=new Intent(this, HomeActviity.class);
+            inten.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(inten);
             return true;
         }
         return super.onKeyDown(keyCode, event);

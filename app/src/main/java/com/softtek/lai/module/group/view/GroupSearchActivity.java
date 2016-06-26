@@ -76,7 +76,6 @@ public class GroupSearchActivity extends BaseActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         ll_left.setOnClickListener(this);
         text_search.setOnClickListener(this);
-        edit_search.setFilters(new InputFilter[]{new InputFilter.LengthFilter(6)});
 
         list_group.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
