@@ -173,8 +173,8 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
                 }).create(WeatherServer.class).getWeather(city.substring(0,city.length()-1), new Callback<Response>() {
                     @Override
                     public void success(Response response, Response response2) {
-                        ll_ll.setEnabled(true);
-                        tv_sport.setEnabled(true);
+                        if(ll_ll!=null)ll_ll.setEnabled(true);
+                        if(tv_sport!=null)tv_sport.setEnabled(true);
                         try {
                             Weather weather = paseXml(response.getBody().in());
                             if(weather!=null){
@@ -197,8 +197,6 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
 
                     @Override
                     public void failure(RetrofitError error) {
-                        ll_ll.setEnabled(false);
-                        tv_sport.setEnabled(false);
                         aMapLocationClient.startLocation();
                     }
                 });
@@ -359,25 +357,28 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
                 AnimatorSet set_anim=new AnimatorSet();
                 set_anim.setInterpolator(new OvershootInterpolator());
                 ObjectAnimator quality_anim=ObjectAnimator.ofPropertyValuesHolder(tv_air_quality,traslation_quality,alpha).setDuration(300);
-                ObjectAnimator index_anim=ObjectAnimator.ofPropertyValuesHolder(tv_air_index,traslation_index,alpha).setDuration(300);
-                ObjectAnimator temperature_anim=ObjectAnimator.ofPropertyValuesHolder(tv_air_temperature,traslation_temperature,alpha).setDuration(300);
-                set_anim.addListener(new AnimatorListenerAdapter() {
+                quality_anim.addListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationStart(Animator animation) {
                         iv_gps.setVisibility(View.GONE);
                         ll_ll.setVisibility(View.GONE);
                         tv_sport.setVisibility(View.VISIBLE);
                         tv_air_quality.setVisibility(View.VISIBLE);
-                        tv_air_index.setVisibility(View.VISIBLE);
-                        tv_air_temperature.setVisibility(View.VISIBLE);
                     }
 
                     @Override
                     public void onAnimationEnd(Animator animation) {
-
-
+                        tv_air_index.setVisibility(View.VISIBLE);
                     }
                 });
+                ObjectAnimator index_anim=ObjectAnimator.ofPropertyValuesHolder(tv_air_index,traslation_index,alpha).setDuration(300);
+                index_anim.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        tv_air_temperature.setVisibility(View.VISIBLE);
+                    }
+                });
+                ObjectAnimator temperature_anim=ObjectAnimator.ofPropertyValuesHolder(tv_air_temperature,traslation_temperature,alpha).setDuration(300);
                 set_anim.playSequentially(quality_anim,index_anim,temperature_anim);
                 set_anim.start();
                 break;
