@@ -13,7 +13,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
@@ -21,11 +20,8 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.module.File.model.FileModel;
 import com.softtek.lai.module.File.view.ExplainActivity;
 import com.softtek.lai.module.confirmInfo.model.GetConfirmInfoModel;
-import com.softtek.lai.module.newmemberentry.view.model.NewstudentsModel;
-import com.softtek.lai.module.retest.model.RetestWriteModel;
 import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.utils.StringUtil;
 

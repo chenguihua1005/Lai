@@ -2,7 +2,7 @@
   "vr": {
     "bodyGame":true,
     "laiYunDong":false,
-    "office":false,
+    "office":false,//会话
     "laiExcel":false,
     "laiShop":false
   },

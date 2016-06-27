@@ -5,6 +5,7 @@
 package com.softtek.lai.common;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,12 +15,13 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 
 import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.utils.HomeListener;
 import com.softtek.lai.utils.SystemBarTintManager;
+
+import java.lang.ref.WeakReference;
 
 import butterknife.ButterKnife;
 import zilla.libcore.Zilla;
@@ -92,7 +94,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         Zilla.ACTIVITY = this;
-        LaiApplication.getInstance().setContext(this);
+        LaiApplication.getInstance().setContext(new WeakReference<Context>(this));
         LifeCircle.onResume(this);
 
     }
@@ -136,6 +138,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onDestroy();
         LifeCircle.onDestory(this);
         ButterKnife.reset(this);
+        LaiApplication.getInstance().getContext().clear();
     }
 
     @Override

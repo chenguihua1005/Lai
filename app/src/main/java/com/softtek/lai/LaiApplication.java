@@ -16,6 +16,8 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.utils.NetErrorHandler;
 import com.umeng.socialize.PlatformConfig;
 
+import java.lang.ref.WeakReference;
+
 import im.fir.sdk.FIR;
 import retrofit.RequestInterceptor;
 import zilla.libcore.Zilla;
@@ -29,7 +31,7 @@ import zilla.libcore.file.PropertiesManager;
 public class LaiApplication extends Application implements Zilla.InitCallback, DBHelper.DBUpgradeListener {
 
     private static LaiApplication laiApplication;
-    private Context context;
+    private WeakReference<Context>  context;
 
     @Override
     public void onCreate() {
@@ -47,11 +49,19 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
         return laiApplication;
     }
 
-    public Context getContext() {
+    /*public Context getContext() {
         return context;
     }
 
     public void setContext(Context context) {
+        this.context = context;
+    }*/
+
+    public WeakReference<Context> getContext() {
+        return context;
+    }
+
+    public void setContext(WeakReference<Context> context) {
         this.context = context;
     }
 

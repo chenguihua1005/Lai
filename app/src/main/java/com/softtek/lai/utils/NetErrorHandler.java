@@ -88,10 +88,10 @@ public class NetErrorHandler implements IApiErrorHandler {
                         }
                         switch (customCode){
                             case 401:
-                                if(builder!=null||(LaiApplication.getInstance().getContext() instanceof LoginActivity)){
+                                if(builder!=null||(LaiApplication.getInstance().getContext().get() instanceof LoginActivity)){
                                     return;
                                 }
-                                builder=new AlertDialog.Builder(LaiApplication.getInstance().getContext())
+                                builder=new AlertDialog.Builder(LaiApplication.getInstance().getContext().get())
                                         .setTitle("温馨提示").setMessage("您的帐号已经在其他设备登录，请重新登录后再试。")
                                         .setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
                                             @Override
@@ -108,7 +108,7 @@ public class NetErrorHandler implements IApiErrorHandler {
                                 builder.create().show();
                                 break;
                             case 4001:
-                                new AlertDialog.Builder(LaiApplication.getInstance().getContext())
+                                new AlertDialog.Builder(LaiApplication.getInstance().getContext().get())
                                         .setTitle("温馨提示").setMessage("您已被管理员移出跑团, 您可以等待管理员为您重新分配跑团或选择加入新的跑团")
                                         .setPositiveButton("确认", new DialogInterface.OnClickListener() {
                                             @Override
@@ -119,13 +119,12 @@ public class NetErrorHandler implements IApiErrorHandler {
                                                 LaiApplication.getInstance().stopService(new Intent(LaiApplication.getInstance(), StepService.class));
                                                 Intent intent=new Intent(LaiApplication.getInstance(), HomeActviity.class);
                                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                                 LaiApplication.getInstance().startActivity(intent);
                                             }
                                         }).setCancelable(false).create().show();
                                 break;
                             case 4002:
-                                new AlertDialog.Builder(LaiApplication.getInstance().getContext())
+                                new AlertDialog.Builder(LaiApplication.getInstance().getContext().get())
                                         .setTitle("温馨提示").setMessage("您所在跑团已被管理员删除, 您可以等待管理员为您重新分配跑团或选择加入新的跑团")
                                         .setPositiveButton("确认", new DialogInterface.OnClickListener() {
                                             @Override
@@ -137,13 +136,12 @@ public class NetErrorHandler implements IApiErrorHandler {
                                                 LaiApplication.getInstance().stopService(new Intent(LaiApplication.getInstance(), StepService.class));
                                                 Intent intent=new Intent(LaiApplication.getInstance(), HomeActviity.class);
                                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                                 LaiApplication.getInstance().startActivity(intent);
                                             }
                                         }).setCancelable(false).create().show();
                                 break;
                             case 4003:
-                                new AlertDialog.Builder(LaiApplication.getInstance().getContext())
+                                new AlertDialog.Builder(LaiApplication.getInstance().getContext().get())
                                         .setTitle("温馨提示").setMessage("您已被管理员移动到新的跑团, 请重新点击莱运动以更新跑团")
                                         .setPositiveButton("确认", new DialogInterface.OnClickListener() {
                                             @Override
@@ -153,7 +151,6 @@ public class NetErrorHandler implements IApiErrorHandler {
                                                     public void success(ResponseData responseData, Response response) {
                                                         Intent intent=new Intent(LaiApplication.getInstance(), HomeActviity.class);
                                                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                                         LaiApplication.getInstance().startActivity(intent);
                                                     }
 

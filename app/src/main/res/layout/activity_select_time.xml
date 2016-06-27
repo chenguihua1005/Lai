@@ -23,16 +23,17 @@
 
         <FrameLayout
             android:id="@+id/lfl"
-            android:layout_width="63dp"
-            android:layout_height="63dp"
-            android:layout_marginRight="33dp"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
             android:layout_marginTop="24dp"
             android:layout_toLeftOf="@id/pk">
 
             <com.softtek.lai.widgets.CircleImageView
                 android:id="@+id/sender1_header"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="63dp"
+                android:layout_height="63dp"
+                android:layout_gravity="center"
                 android:scaleType="centerCrop"
                 android:src="@drawable/img_default" />
 
@@ -41,22 +42,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|right"
+                android:layout_marginRight="15dp"
                 android:src="@drawable/pk_list_wujiaoxin" />
         </FrameLayout>
 
         <FrameLayout
             android:id="@+id/rfl"
-            android:layout_width="63dp"
-            android:layout_height="63dp"
-            android:layout_marginLeft="33dp"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
             android:layout_marginTop="24dp"
             android:layout_toRightOf="@id/pk">
 
             <com.softtek.lai.widgets.CircleImageView
                 android:id="@+id/sender2_header"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="63dp"
+                android:layout_height="63dp"
                 android:scaleType="centerCrop"
+                android:layout_gravity="center"
                 android:src="@drawable/img_default" />
 
         </FrameLayout>
@@ -73,6 +76,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignRight="@id/lfl"
+            android:layout_alignLeft="@id/lfl"
             android:layout_below="@id/lfl"
             android:layout_centerInParent="true"
             android:layout_marginTop="12dp"
@@ -86,13 +90,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@id/rfl"
+            android:layout_alignRight="@id/rfl"
             android:layout_below="@id/rfl"
             android:layout_centerInParent="true"
             android:layout_marginTop="12dp"
             android:gravity="center"
             android:textColor="#333333"
             android:textSize="15sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            />
     </RelativeLayout>
     
     <RelativeLayout

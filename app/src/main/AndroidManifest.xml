@@ -563,7 +563,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.lossweightstory.view.PictureActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:process=":picture"/>
         <activity
             android:name=".module.laisportmine.view.MyInformationActivity"
             android:screenOrientation="portrait" />

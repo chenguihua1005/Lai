@@ -24,6 +24,8 @@ import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.lossweightstory.model.LossWeightStoryModel;
 import com.softtek.lai.module.lossweightstory.view.LogStoryDetailActivity;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,11 +64,6 @@ public class MineHealthyFragment extends BaseFragment  implements  AdapterView.O
         ptrlv.setEmptyView(img_mo_message);
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-    }
 
     @Override
     protected void initDatas() {
@@ -75,7 +72,7 @@ public class MineHealthyFragment extends BaseFragment  implements  AdapterView.O
         adapter=new HealthyCommunityAdapter(getContext(),communityModels,false);
         ptrlv.setAdapter(adapter);
         String token=UserInfoModel.getInstance().getToken();
-        if(token==null||"".equals(token)){
+        if(StringUtils.isEmpty(token)){
             isLogin=false;
             lin_is_vr.setVisibility(View.VISIBLE);
             ptrlv.setVisibility(View.GONE);
