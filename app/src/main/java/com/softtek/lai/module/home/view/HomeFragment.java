@@ -120,8 +120,6 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     @InjectView(R.id.fl_right)
     FrameLayout fl_right;
 
-    int unreadMsgCountTotal;
-
 
     private IHomeInfoPresenter homeInfoPresenter;
     private IMessagePresenter messagePresenter;
@@ -171,14 +169,15 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         progressDialog.setMessage("加载中");
 
     }
-
+    private ModelAdapter modelAdapter;
     @Override
     protected void initDatas() {
         tv_title.setText("莱聚+");
 
         //载入缓存数据
         homeInfoPresenter.loadCacheData();
-        gv_model.setAdapter(new ModelAdapter(getContext()));
+        modelAdapter=new ModelAdapter(getContext());
+        gv_model.setAdapter(modelAdapter);
         gv_model.setOnItemClickListener(this);
         //第一次加载自动刷新
         pull.post(new Runnable() {
@@ -281,10 +280,6 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     @Override
     public void onResume() {
         super.onResume();
-        if (EMChat.getInstance().isLoggedIn()) {
-            unreadMsgCountTotal = EMChatManager.getInstance().getUnreadMsgsCount();
-        }
-
         model = UserInfoModel.getInstance().getUser();
         if (model == null) {
             return;
@@ -354,7 +349,8 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                 chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
                 EMChatManager.getInstance().updateCurrentUserNick(model.getNickname());
                 ChatUserInfoModel.getInstance().setUser(chatUserModel);
-                unreadMsgCountTotal = EMChatManager.getInstance().getUnreadMsgsCount();
+                int unreadNum = EMChatManager.getInstance().getUnreadMsgsCount();
+                modelAdapter.update(unreadNum);
                 EMChatManager.getInstance().loadAllConversations();
                 if (isTurn) {
                     System.out.println("ConversationListActivity-----");
@@ -611,8 +607,8 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
             if (Constants.MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {
                 img_red.setVisibility(View.VISIBLE);
             } else {
-                unreadMsgCountTotal = intent.getIntExtra("count", 0);
-                System.out.println("unreadMsgCountTotal:" + unreadMsgCountTotal);
+                int unreadNum = intent.getIntExtra("count", 0);
+                modelAdapter.update(unreadNum);
             }
         }
     }
