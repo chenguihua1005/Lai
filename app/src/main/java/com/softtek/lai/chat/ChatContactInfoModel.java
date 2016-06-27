@@ -12,25 +12,45 @@ import java.io.Serializable;
  */
 public class ChatContactInfoModel implements Serializable {
 
-    private String UserId;
+    private String AccountId;
+    private String Mobile;
     private String UserName;
-    private String UserPhoto;
+    private String Gender;
+    private String Photo;
+    private String SuperiorID;
+    private String UserRole;
+    private String HXAccountId;
+    private String HXAddTime;
 
     @Override
     public String toString() {
         return "ChatContactInfoModel{" +
-                "UserId='" + UserId + '\'' +
+                "AccountId='" + AccountId + '\'' +
+                ", Mobile='" + Mobile + '\'' +
                 ", UserName='" + UserName + '\'' +
-                ", UserPhoto='" + UserPhoto + '\'' +
+                ", Gender='" + Gender + '\'' +
+                ", Photo='" + Photo + '\'' +
+                ", SuperiorID='" + SuperiorID + '\'' +
+                ", UserRole='" + UserRole + '\'' +
+                ", HXAccountId='" + HXAccountId + '\'' +
+                ", HXAddTime='" + HXAddTime + '\'' +
                 '}';
     }
 
-    public String getUserId() {
-        return UserId;
+    public String getAccountId() {
+        return AccountId;
     }
 
-    public void setUserId(String userId) {
-        UserId = userId;
+    public void setAccountId(String accountId) {
+        AccountId = accountId;
+    }
+
+    public String getMobile() {
+        return Mobile;
+    }
+
+    public void setMobile(String mobile) {
+        Mobile = mobile;
     }
 
     public String getUserName() {
@@ -41,11 +61,51 @@ public class ChatContactInfoModel implements Serializable {
         UserName = userName;
     }
 
-    public String getUserPhoto() {
-        return UserPhoto;
+    public String getGender() {
+        return Gender;
     }
 
-    public void setUserPhoto(String userPhoto) {
-        UserPhoto = userPhoto;
+    public void setGender(String gender) {
+        Gender = gender;
+    }
+
+    public String getPhoto() {
+        return Photo;
+    }
+
+    public void setPhoto(String photo) {
+        Photo = photo;
+    }
+
+    public String getSuperiorID() {
+        return SuperiorID;
+    }
+
+    public void setSuperiorID(String superiorID) {
+        SuperiorID = superiorID;
+    }
+
+    public String getUserRole() {
+        return UserRole;
+    }
+
+    public void setUserRole(String userRole) {
+        UserRole = userRole;
+    }
+
+    public String getHXAccountId() {
+        return HXAccountId;
+    }
+
+    public void setHXAccountId(String HXAccountId) {
+        this.HXAccountId = HXAccountId;
+    }
+
+    public String getHXAddTime() {
+        return HXAddTime;
+    }
+
+    public void setHXAddTime(String HXAddTime) {
+        this.HXAddTime = HXAddTime;
     }
 }

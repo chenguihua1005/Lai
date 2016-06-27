@@ -6,9 +6,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
+    android:background="#c9c8ce"
     tools:context="com.softtek.lai.module.login.view.ForgetActivity">
 
     <include
@@ -50,21 +51,27 @@
     <LinearLayout
         android:id="@+id/lin_group_send"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/grey">
-
-        <TextView
-            android:layout_width="fill_parent"
+        android:background="@color/grey"
+        android:layout_height="60dip">
+        <ImageView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="15dip"
+            android:layout_marginLeft="15dip"
+            android:src="@drawable/img_group"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="18dip"
             android:gravity="center"
-            android:text="群发"
-            android:textSize="20sp" />
+            android:text="群发消息"
+            android:textSize="17sp" />
     </LinearLayout>
 
     <ListView
         android:id="@+id/list_contant"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_marginTop="10dip"
         android:layout_height="fill_parent" />
 </LinearLayout>

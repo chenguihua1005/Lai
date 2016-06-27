@@ -34,6 +34,8 @@ import com.easemob.chat.EMMessage;
 import com.easemob.chat.EMMessage.Direct;
 import com.easemob.easeui.EaseConstant;
 import com.easemob.easeui.R;
+import com.easemob.easeui.domain.ChatUserInfoModel;
+import com.easemob.easeui.domain.ChatUserModel;
 import com.easemob.easeui.domain.EaseUser;
 import com.easemob.easeui.utils.EaseCommonUtils;
 import com.easemob.easeui.utils.EaseSmileUtils;
@@ -141,30 +143,46 @@ public class EaseConversationAdapater extends ArrayAdapter<EMConversation> {
 		} else {
 //			EaseUserUtils.setUserAvatar(getContext(), username, holder.avatar);
 //			EaseUserUtils.setUserNick(username, holder.name);
-
 			String name="";
 			String photo="";
-			System.out.println("conversation getExtField==============>:"+conversation.getExtField());
-			if(!TextUtils.isEmpty(conversation.getExtField())){
+			ChatUserModel chatUserModel = ChatUserInfoModel.getInstance().getUser();
+			String userId=chatUserModel.getUserId().toLowerCase();
+			String f=lastMessage.getFrom().toLowerCase();
+			try {
+				name=lastMessage.getStringAttribute("nickname");
+				photo=lastMessage.getStringAttribute("avatarURL");
+			} catch (EaseMobException e) {
+				e.printStackTrace();
+			}
+
+			System.out.println("userId:"+userId+"    f:"+f);
+			if(f.equals(userId)){
 				String[] field=conversation.getExtField().split(",");
-				name=field[0];
-				photo=field[1];
-			}else {
-				EMMessage msg=conversation.getAllMessages().get(0);
-				try {
-					name=msg.getStringAttribute("nickname");
-					photo=msg.getStringAttribute("avatarURL");
-				} catch (EaseMobException e) {
-					e.printStackTrace();
+				if(field.length>=2){
+					name=field[0];
+					photo=field[1];
 				}
 			}
+//			if(!TextUtils.isEmpty(conversation.getExtField())){
+//				String[] field=conversation.getExtField().split(",");
+//				name=field[0];
+//				photo=field[1];
+//			}else {
+//				EMMessage msg=conversation.getAllMessages().get(0);
+//				try {
+//					name=msg.getStringAttribute("nickname");
+//					photo=msg.getStringAttribute("avatarURL");
+//				} catch (EaseMobException e) {
+//					e.printStackTrace();
+//				}
+//			}
 			holder.name.setText(name);
-			System.out.println("conversation==============>:"+name+","+photo);
 			if("".equals(photo)){
 				Picasso.with(getContext()).load("111").fit().error(R.drawable.ease_group_icon).into(holder.avatar);
 			}else {
 				Picasso.with(getContext()).load(photo).fit().error(R.drawable.ease_group_icon).into(holder.avatar);
 			}
+			holder.avatar.setShapeType(1);
 			//String avatar=EaseUserUtils.getUserInfo(username).getAvatar();
 //			EaseUserUtils.setUserAvatar(getContext(), "", holder.avatar);
 //			EaseUserUtils.setUserNick(username, holder.name);

@@ -17,45 +17,96 @@
         android:src="@drawable/img_start_sport_bottom" />
 
     <ImageView
+        android:id="@+id/iv_gps"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="10dip"
-        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginLeft="10dp"
         android:src="@drawable/img_start_sport_gps1" />
+    <TextView
+        android:id="@+id/tv_air_quality"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#333333"
+        android:textSize="9sp"
+        android:layout_marginRight="5dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:background="@drawable/bg_panel"
+        android:visibility="invisible"
+        android:text="空气质量：未知"/>
+    <TextView
+        android:id="@+id/tv_air_index"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#333333"
+        android:textSize="9sp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="5dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:background="@drawable/bg_panel"
+        android:text="空气指数：未知"
+        android:visibility="invisible"/>
+    <TextView
+        android:id="@+id/tv_air_temperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#333333"
+        android:textSize="9sp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="5dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:background="@drawable/bg_panel"
+        android:text="室外温度：未知"
+        android:visibility="invisible"/>
+
 
     <LinearLayout
+        android:id="@+id/ll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="10dip"
         android:layout_marginRight="@dimen/margin"
-        android:background="@drawable/img_wheather">
+        android:background="@drawable/bg_panel_green">
 
         <ImageView
+            android:id="@+id/iv_air_iocn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/img_wheather_1"
-            android:layout_gravity="center"
-            android:layout_marginLeft="8dip"/>
+            android:layout_gravity="center" />
         <TextView
+            android:id="@+id/tv_air_quality1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textSize="9sp"
             android:layout_gravity="center"
-            android:layout_marginLeft="5dip"
-            android:text="空气"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textSize="9sp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="5dip"
-            android:text="良"/>
+            android:text="  空气 未知"/>
     </LinearLayout>
+    <TextView
+        android:id="@+id/tv_sport"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="9sp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:background="@drawable/bg_panel_green"
+        android:text="运动：未知    "
+        android:visibility="invisible"/>
 
 
     <TextView

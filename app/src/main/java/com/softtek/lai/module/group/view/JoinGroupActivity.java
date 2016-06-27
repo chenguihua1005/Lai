@@ -29,7 +29,6 @@ import com.softtek.lai.module.group.adapter.GroupAdapter;
 import com.softtek.lai.module.group.model.CityModel;
 import com.softtek.lai.module.group.model.DxqModel;
 import com.softtek.lai.module.group.model.GroupModel;
-import com.softtek.lai.module.group.model.TotalGroupModel;
 import com.softtek.lai.module.group.presenter.SportGroupManager;
 import com.softtek.lai.widgets.WheelView;
 
@@ -108,7 +107,7 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
     String select_dq_name = "";
     String select_dq_id = "";
     int select_dq_posion = 0;
-    String select_is_head="";
+    String select_is_head = "";
 
     String select_is_head_info = "";
     String select_dq_name_info = "";
@@ -132,7 +131,6 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
     String select_city_name_info = "";
     String select_city_id_info = "";
     int select_city_posion_info = 0;
-
 
 
     @Override
@@ -184,23 +182,29 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
                 break;
 
             case R.id.fl_right:
-                startActivity(new Intent(this,GroupSearchActivity.class));
+                startActivity(new Intent(this, GroupSearchActivity.class));
                 break;
             case R.id.rel_dq:
-                showDaQuDialog();
+                if (dq_name_list.size() != 0) {
+                    showDaQuDialog();
+                }
                 break;
             case R.id.rel_xq:
                 if ("选择大区".equals(text_dq.getText())) {
 
                 } else {
-                    showXiaoQuDialog();
+                    if (xq_name_list.size() != 0) {
+                        showXiaoQuDialog();
+                    }
                 }
                 break;
             case R.id.rel_cs:
                 if ("选择小区".equals(text_xq.getText())) {
 
                 } else {
-                    showCityDialog();
+                    if (city_name_list.size() != 0) {
+                        showCityDialog();
+                    }
                 }
                 break;
         }
@@ -296,7 +300,7 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
             @Override
             public void onSelected(int selectedIndex, String item) {
                 select_dq_id_info = dq_id_list.get(selectedIndex - 1);
-                select_is_head_info=dq_is_head_list.get(selectedIndex - 1);
+                select_is_head_info = dq_is_head_list.get(selectedIndex - 1);
                 select_dq_name_info = item;
                 select_dq_posion_info = selectedIndex - 1;
             }
@@ -313,14 +317,15 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
                             text_dq.setText(select_dq_name);
                             resetXQCity();
                             dialogShow("加载中");
-                           // sportGroupManager.getSregionList(select_dq_id);
-                            if("1".equals(select_is_head)){
+                            // sportGroupManager.getSregionList(select_dq_id);
+                            if ("1".equals(select_is_head)) {
                                 sportGroupManager.getHQRGlist(select_dq_id);
                                 rel_xq.setVisibility(View.GONE);
                                 rel_cs.setVisibility(View.GONE);
-                            }else {
+                            } else {
                                 sportGroupManager.getSregionList(select_dq_id);
                             }
+                            return;
                         }
                         if (!"".equals(select_dq_name_info)) {
                             select_dq_name = select_dq_name_info;
@@ -330,12 +335,24 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
                             text_dq.setText(select_dq_name);
                             resetXQCity();
                             dialogShow("加载中");
-                           // sportGroupManager.getSregionList(select_dq_id);
-                            if("1".equals(select_is_head)){
+                            // sportGroupManager.getSregionList(select_dq_id);
+                            if ("1".equals(select_is_head)) {
                                 sportGroupManager.getHQRGlist(select_dq_id);
                                 rel_xq.setVisibility(View.GONE);
                                 rel_cs.setVisibility(View.GONE);
-                            }else {
+                            } else {
+                                sportGroupManager.getSregionList(select_dq_id);
+                            }
+                        }else {
+                            text_dq.setText(select_dq_name);
+                            resetXQCity();
+                            dialogShow("加载中");
+                            // sportGroupManager.getSregionList(select_dq_id);
+                            if ("1".equals(select_is_head)) {
+                                sportGroupManager.getHQRGlist(select_dq_id);
+                                rel_xq.setVisibility(View.GONE);
+                                rel_cs.setVisibility(View.GONE);
+                            } else {
                                 sportGroupManager.getSregionList(select_dq_id);
                             }
                         }
@@ -389,6 +406,11 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
                             resetCity();
                             dialogShow("加载中");
                             sportGroupManager.getCityList(select_xq_id);
+                        }else {
+                            text_xq.setText(select_xq_name);
+                            resetCity();
+                            dialogShow("加载中");
+                            sportGroupManager.getCityList(select_xq_id);
                         }
                     }
                 })
@@ -435,6 +457,10 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
                             select_city_name = select_city_name_info;
                             select_city_id = select_city_id_info;
                             select_city_posion = select_city_posion_info;
+                            text_cs.setText(select_city_name);
+                            dialogShow("加载中");
+                            sportGroupManager.getRGListByCity(select_city_id);
+                        }else {
                             text_cs.setText(select_city_name);
                             dialogShow("加载中");
                             sportGroupManager.getRGListByCity(select_city_id);
@@ -491,9 +517,9 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
         dialogDissmiss();
         if ("success".equals(type)) {
             group_list = list;
-            if(group_list.size()>0){
+            if (group_list.size() > 0) {
                 img_mo_message.setVisibility(View.GONE);
-            }else {
+            } else {
                 img_mo_message.setVisibility(View.VISIBLE);
             }
             list_group.setVisibility(View.VISIBLE);
@@ -511,9 +537,9 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
         dialogDissmiss();
         if ("success".equals(type)) {
             group_list = list;
-            if(group_list.size()>0){
+            if (group_list.size() > 0) {
                 img_mo_message.setVisibility(View.GONE);
-            }else {
+            } else {
                 img_mo_message.setVisibility(View.VISIBLE);
             }
             list_group.setVisibility(View.VISIBLE);

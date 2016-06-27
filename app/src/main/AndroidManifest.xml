@@ -83,6 +83,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:largeHeap="true"
+        android:persistent="true"
         tools:replace="android:icon, android:theme">
         <meta-data
             android:name="UMENG_APPKEY"
@@ -116,7 +118,7 @@
         <activity
             android:name=".chat.GroupSentActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name=".chat.SeceltGroupSentActivity"
             android:screenOrientation="portrait"
@@ -562,7 +564,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.lossweightstory.view.PictureActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:process=":picture"/>
         <activity
             android:name=".module.laisportmine.view.MyInformationActivity"
             android:screenOrientation="portrait" />
@@ -643,13 +646,13 @@
             </intent-filter>
         </receiver>
 
-        <!-- 设置环信应用的appkey -->
-        <meta-data
-            android:name="EASEMOB_APPKEY"
-            android:value="easemob-demo#chatdemoui" />
+         <!--设置环信应用的appkey -->
         <!--<meta-data-->
             <!--android:name="EASEMOB_APPKEY"-->
-            <!--android:value="417997#laiju" />-->
+            <!--android:value="easemob-demo#chatdemoui" />-->
+        <meta-data
+            android:name="EASEMOB_APPKEY"
+            android:value="herbalife#laiju" />
         <!-- 声明sdk所需的service -->
         <service
             android:name="com.easemob.chat.EMChatService"

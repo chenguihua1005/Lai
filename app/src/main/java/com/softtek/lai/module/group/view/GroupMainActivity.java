@@ -39,7 +39,6 @@ import com.softtek.lai.module.group.model.RecentlyActiviteModel;
 import com.softtek.lai.module.group.model.SportMainModel;
 import com.softtek.lai.module.group.presenter.SportGroupManager;
 import com.softtek.lai.module.home.view.HomeActviity;
-import com.softtek.lai.module.laisportmine.present.MyRunTeamManager;
 import com.softtek.lai.module.laisportmine.view.MyInformationActivity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.mygrades.view.MyGradesActivity;
@@ -251,7 +250,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
             public void run() {
                 pull_sroll.setRefreshing();
             }
-        },300);
+        },400);
         //dialogShow("加载中...");
     }
 
@@ -277,9 +276,10 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                 sportGroupManager.getMineResult(userId, str);
                 break;
             case R.id.ll_left:
-                Intent inten=new Intent(this, HomeActviity.class);
+                /*Intent inten=new Intent(this, HomeActviity.class);
                 inten.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(inten);
+                startActivity(inten);*/
+                finish();
                 break;
             case R.id.fl_right:
             case R.id.iv_email:
@@ -431,12 +431,12 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                 }
                 String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
                 if ("".equals(praiseChallengeModel.getUserPhoto()) || "null".equals(praiseChallengeModel.getUserPhoto()) || praiseChallengeModel.getUserPhoto() == null) {
-                    Picasso.with(this).load("111").fit().error(R.drawable.img_default).into(img_left);
+                    Picasso.with(this).load(R.drawable.img_default).into(img_left);
                 } else {
                     Picasso.with(this).load(path + praiseChallengeModel.getUserPhoto()).fit().error(R.drawable.img_default).into(img_left);
                 }
                 if ("".equals(praiseChallengeModel.getBPhoto()) || "null".equals(praiseChallengeModel.getBPhoto()) || praiseChallengeModel.getBPhoto() == null) {
-                    Picasso.with(this).load("111").fit().error(R.drawable.img_default).into(img_right);
+                    Picasso.with(this).load(R.drawable.img_default).into(img_right);
                 } else {
                     Picasso.with(this).load(path + praiseChallengeModel.getBPhoto()).fit().error(R.drawable.img_default).into(img_right);
                 }
@@ -447,7 +447,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                 String end_time = "";
 
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd号");
+                SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd日");
                 try {
                     Date start_date = sdf.parse(start);
                     Date end_date = sdf.parse(end);

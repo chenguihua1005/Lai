@@ -12,6 +12,8 @@ import com.softtek.lai.utils.RequestCallback;
 import java.util.List;
 
 import retrofit.http.Body;
+import retrofit.http.Field;
+import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.Header;
 import retrofit.http.Multipart;
@@ -61,4 +63,10 @@ public interface CommunityService {
     void uploadMutilpartImage(@Header("token")String token,
                               @Part("photo")TypedFile file,
                               RequestCallback<ResponseData<ImageResponse>> callback);
+
+    //删除动态
+    @POST("/HealthyCircle/DeleteHealth")
+    void deleteHealth(@Header("token")String token,
+                      @Query("healthid") String healthId,
+                      RequestCallback<ResponseData> callback);
 }

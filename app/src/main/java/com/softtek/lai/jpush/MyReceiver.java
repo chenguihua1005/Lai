@@ -105,7 +105,6 @@ public class MyReceiver extends BroadcastReceiver {
     private void processCustomMessage(Context context, Bundle bundle) {
         String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
         String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
-        System.out.print("extras-------------------:"+extras);
         Intent msgIntent = new Intent(Constants.MESSAGE_RECEIVED_ACTION);
         msgIntent.putExtra(Constants.KEY_MESSAGE, message);
 

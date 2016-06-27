@@ -147,6 +147,7 @@ public class SportManager {
                 });
     }
 
+
     public interface GetMovementListCallBack {
 
         void getMovementList(String type, List<HistorySportModel> list);

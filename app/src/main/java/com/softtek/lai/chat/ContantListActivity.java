@@ -10,13 +10,18 @@ import android.app.ProgressDialog;
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.content.ContentUris;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.ContactsContract;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
@@ -24,20 +29,33 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.easemob.EMCallBack;
+import com.easemob.EMConnectionListener;
+import com.easemob.chat.EMChatManager;
+import com.easemob.easeui.utils.EaseACKUtil;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
+import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.counselor.adapter.InviteContantAdapter;
 import com.softtek.lai.module.counselor.model.ContactListInfoModel;
 import com.softtek.lai.module.counselor.presenter.IStudentPresenter;
 import com.softtek.lai.module.counselor.presenter.StudentImpl;
 import com.softtek.lai.module.counselor.view.SearchContantActivity;
+import com.softtek.lai.module.login.model.RoleInfo;
 import com.softtek.lai.module.login.model.UserModel;
+import com.softtek.lai.module.login.net.LoginService;
+import com.softtek.lai.module.login.view.LoginActivity;
+import com.softtek.lai.stepcount.service.StepService;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.HanziToPinyin;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.InputStream;
 import java.io.Serializable;
@@ -45,9 +63,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import zilla.libcore.api.ZillaApi;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 /**
  * Created by jarvis.liu on 3/22/2016.
@@ -78,6 +102,37 @@ public class ContantListActivity extends BaseActivity implements View.OnClickLis
     ChatContantAdapter adapter;
     List<ChatContactInfoModel> list;
 
+    public AlertDialog.Builder builder = null;
+    private EMConnectionListener connectionListener;
+    private Handler handler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            // TODO Auto-generated method stub
+            if (builder != null) {
+                return;
+            }
+            builder = new AlertDialog.Builder(ContantListActivity.this)
+                    .setTitle("温馨提示").setMessage("您的帐号已经在其他设备登录，请重新登录后再试。")
+                    .setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            builder = null;
+                            UserInfoModel.getInstance().loginOut();
+                            stopService(new Intent(ContantListActivity.this, StepService.class));
+                            Intent intent = new Intent(ContantListActivity.this, LoginActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                        }
+                    }).setCancelable(false);
+            if(!isFinishing()){
+                builder.create().show();
+            }
+
+        }
+
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,46 +144,90 @@ public class ContantListActivity extends BaseActivity implements View.OnClickLis
 
         list = new ArrayList<ChatContactInfoModel>();
         setData();
-        adapter = new ChatContantAdapter(this, list);
-        list_contant.setAdapter(adapter);
+        connectionListener = new EMConnectionListener() {
+            @Override
+            public void onDisconnected(final int error) {
+                if (!isFinishing()) {
+                    EMChatManager.getInstance().logout(new EMCallBack() {
+
+                        @Override
+                        public void onSuccess() {
+                            // TODO Auto-generated method stub
+                            System.out.println("--------");
+                            handler.sendEmptyMessage(0);
+                        }
+
+                        @Override
+                        public void onProgress(int progress, String status) {
+                            // TODO Auto-generated method stub
+
+                        }
+
+                        @Override
+                        public void onError(int code, String message) {
+                            // TODO Auto-generated method stub
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onConnected() {
+                // 当连接到服务器之后，这里开始检查是否有没有发送的ack回执消息，
+                EaseACKUtil.getInstance(ContantListActivity.this).checkACKData();
+
+            }
+        };
+        EMChatManager.getInstance().addConnectionListener(connectionListener);
 
         list_contant.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ChatContactInfoModel model=list.get(position);
+                ChatContactInfoModel model = list.get(position);
                 Intent intent = new Intent(ContantListActivity.this, ChatActivity.class);
-                intent.putExtra(Constant.EXTRA_USER_ID, model.getUserId());
+                String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+                intent.putExtra(Constant.EXTRA_USER_ID, model.getHXAccountId().toLowerCase());
                 intent.putExtra("name", model.getUserName());
-                intent.putExtra("photo", model.getUserPhoto());
+                intent.putExtra("photo", path + model.getPhoto());
                 startActivity(intent);
             }
         });
     }
 
     private void setData() {
-        ChatContactInfoModel model1 = new ChatContactInfoModel();
-        model1.setUserId("18261576085");
-        model1.setUserName("aaaaaaa");
-        model1.setUserPhoto("http://172.16.98.167/UpFiles/tgs_banner.png");
-        list.add(model1);
+        dialogShow("加载中");
+        LoginService service = ZillaApi.NormalRestAdapter.create(LoginService.class);
+        String token = UserInfoModel.getInstance().getToken();
+        service.getEMchatContacts(token, new Callback<ResponseData<List<ChatContactInfoModel>>>() {
+            @Override
+            public void success(ResponseData<List<ChatContactInfoModel>> userResponseData, Response response) {
+                System.out.println("userResponseData:" + userResponseData);
+                int status = userResponseData.getStatus();
+                dialogDissmiss();
+                switch (status) {
+                    case 200:
+                        list = userResponseData.getData();
+                        adapter = new ChatContantAdapter(ContantListActivity.this, list);
+                        list_contant.setAdapter(adapter);
+                        break;
+                    case 201:
 
-        ChatContactInfoModel model2 = new ChatContactInfoModel();
-        model2.setUserId("18261576086");
-        model2.setUserName("bbbbbbbbb");
-        model2.setUserPhoto("http://172.16.98.167/UpFiles/tgs_banner.png");
-        list.add(model2);
+                        break;
+                    default:
+                        Util.toastMsg(userResponseData.getMsg());
+                        break;
+                }
+            }
 
-        ChatContactInfoModel model3 = new ChatContactInfoModel();
-        model3.setUserId("18261576087");
-        model3.setUserName("cccccccccc");
-        model3.setUserPhoto("http://172.16.98.167/UpFiles/tgs_banner.png");
-        list.add(model3);
+            @Override
+            public void failure(RetrofitError error) {
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
+                dialogDissmiss();
+            }
+        });
 
-        ChatContactInfoModel model4 = new ChatContactInfoModel();
-        model4.setUserId("18261576088");
-        model4.setUserName("dddddddddd");
-        model4.setUserPhoto("http://172.16.98.167/UpFiles/tgs_banner.png");
-        list.add(model4);
     }
 
     @Override
@@ -151,8 +250,8 @@ public class ContantListActivity extends BaseActivity implements View.OnClickLis
                 break;
 
             case R.id.lin_group_send:
-                Intent intent=new Intent(this,SeceltGroupSentActivity.class);
-                intent.putExtra("list",(Serializable)list);
+                Intent intent = new Intent(this, SeceltGroupSentActivity.class);
+                intent.putExtra("list", (Serializable) list);
                 startActivity(intent);
                 break;
         }

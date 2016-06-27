@@ -17,6 +17,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.easemob.EMCallBack;
+import com.easemob.chat.EMChat;
+import com.easemob.chat.EMChatManager;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
@@ -103,10 +106,10 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         super.onResume();
         System.out.println("onResume------");
         model = UserInfoModel.getInstance().getUser();
-        if(model==null){
+        if (model == null) {
             return;
         }
-        String userrole =model.getUserrole();
+        String userrole = model.getUserrole();
         if (String.valueOf(Constants.VR).equals(userrole)) {
             lin_not_vr.setVisibility(View.GONE);
             lin_is_vr.setVisibility(View.VISIBLE);
@@ -119,7 +122,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         if ("".equals(photo) || "null".equals(photo) || photo == null) {
             Picasso.with(getContext()).load("111").fit().error(R.drawable.img_default).into(img);
         } else {
-            Picasso.with(getContext()).load(path + photo).fit().error(R.drawable.img_default).into(img);
+           Picasso.with(getContext()).load(path + photo).fit().error(R.drawable.img_default).into(img);
         }
 
         if (StringUtils.isEmpty(model.getNickname())) {
@@ -173,9 +176,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 break;
 
             case R.id.lin_reset_password:
-                Intent intent=new Intent(getContext(), ModifyPasswordActivity.class);
-                intent.putExtra("type","2");
-                intent.putExtra("token",UserInfoModel.getInstance().getToken());
+                Intent intent = new Intent(getContext(), ModifyPasswordActivity.class);
+                intent.putExtra("type", "2");
+                intent.putExtra("token", UserInfoModel.getInstance().getToken());
                 startActivity(intent);
                 break;
             case R.id.rel_nodify_person:
@@ -209,6 +212,31 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     private void clearData() {
         UserInfoModel.getInstance().loginOut();
         getContext().stopService(new Intent(getContext(), StepService.class));
+//        if(HomeFragment.timer!=null){
+//            HomeFragment.timer.cancel();
+//        }
+//        if (EMChat.getInstance().isLoggedIn()) {
+//            EMChatManager.getInstance().logout(new EMCallBack() {
+//
+//                @Override
+//                public void onSuccess() {
+//                    // TODO Auto-generated method stub
+//
+//                }
+//
+//                @Override
+//                public void onProgress(int progress, String status) {
+//                    // TODO Auto-generated method stub
+//
+//                }
+//
+//                @Override
+//                public void onError(int code, String message) {
+//                    // TODO Auto-generated method stub
+//
+//                }
+//            });
+//        }
     }
 
     @Override

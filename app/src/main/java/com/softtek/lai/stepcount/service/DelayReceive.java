@@ -50,7 +50,9 @@ public class DelayReceive extends BroadcastReceiver{
         Log.i("步数>>"+step);
         service.synStepCount(UserInfoModel.getInstance().getToken(),accountId, step, new RequestCallback<ResponseData>() {
             @Override
-            public void success(ResponseData responseData, Response response) {}
+            public void success(ResponseData responseData, Response response) {
+                Log.i("上传成功");
+            }
         });
     }
 }

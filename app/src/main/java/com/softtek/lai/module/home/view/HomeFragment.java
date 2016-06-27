@@ -12,6 +12,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
@@ -27,6 +29,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.easemob.EMCallBack;
+import com.easemob.chat.EMChat;
 import com.easemob.chat.EMChatManager;
 import com.easemob.easeui.domain.ChatUserInfoModel;
 import com.easemob.easeui.domain.ChatUserModel;
@@ -52,11 +55,15 @@ import com.softtek.lai.module.home.eventModel.HomeEvent;
 import com.softtek.lai.module.home.model.HomeInfoModel;
 import com.softtek.lai.module.home.presenter.HomeInfoImpl;
 import com.softtek.lai.module.home.presenter.IHomeInfoPresenter;
+import com.softtek.lai.module.login.model.EMChatAccountModel;
 import com.softtek.lai.module.login.model.UserModel;
+import com.softtek.lai.module.login.presenter.ILoginPresenter;
+import com.softtek.lai.module.login.presenter.LoginPresenterImpl;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.message.presenter.IMessagePresenter;
 import com.softtek.lai.module.message.presenter.MessageImpl;
 import com.softtek.lai.module.message.view.MessageActivity;
+import com.softtek.lai.stepcount.service.StepService;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CustomGridView;
@@ -68,6 +75,8 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.InjectView;
 import retrofit.RetrofitError;
@@ -114,8 +123,10 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     @InjectView(R.id.fl_right)
     FrameLayout fl_right;
 
+
     private IHomeInfoPresenter homeInfoPresenter;
     private IMessagePresenter messagePresenter;
+    private ILoginPresenter loginPresenter;
     private StudentImpl studentImpl;
 
     private List<String> advList = new ArrayList<>();
@@ -127,6 +138,20 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     private MessageReceiver mMessageReceiver;
     UserModel model;
     private ProgressDialog progressDialog;
+    public static Timer timer;
+    boolean isTurn = false;
+
+    private Handler handler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            // TODO Auto-generated method stub
+            int unreadNum = EMChatManager.getInstance().getUnreadMsgsCount();
+            modelAdapter.update(unreadNum);
+        }
+
+    };
+
 
     @Override
     protected void initViews() {
@@ -135,12 +160,12 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         fl_right.setOnClickListener(this);
         iv_email.setOnClickListener(this);
         ActivityRecordFragment recordFragment = new ActivityRecordFragment();
-        ProductInfoFragment productInfoFragment=new ProductInfoFragment();
-        SaleInfoFragment saleInfoFragment=new SaleInfoFragment();
+        ProductInfoFragment productInfoFragment = new ProductInfoFragment();
+        SaleInfoFragment saleInfoFragment = new SaleInfoFragment();
         fragments.add(recordFragment);
         fragments.add(productInfoFragment);
         fragments.add(saleInfoFragment);
-        fragementAdapter=new FragementAdapter(getFragmentManager(), fragments);
+        fragementAdapter = new FragementAdapter(getFragmentManager(), fragments);
         page.setAdapter(fragementAdapter);
         page.setOffscreenPageLimit(3);
         //设置tabLayout和viewpage关联
@@ -159,14 +184,15 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         progressDialog.setMessage("加载中");
 
     }
-
+    private ModelAdapter modelAdapter;
     @Override
     protected void initDatas() {
         tv_title.setText("莱聚+");
 
         //载入缓存数据
         homeInfoPresenter.loadCacheData();
-        gv_model.setAdapter(new ModelAdapter(getContext()));
+        modelAdapter=new ModelAdapter(getContext());
+        gv_model.setAdapter(modelAdapter);
         gv_model.setOnItemClickListener(this);
         //第一次加载自动刷新
         pull.post(new Runnable() {
@@ -176,8 +202,47 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
             }
         });
         onRefresh();
+        /*model = UserInfoModel.getInstance().getUser();
+        String hasEmchat = model.getHasEmchat();
+        if ("1".equals(hasEmchat)) {
+
+            timer = new Timer();
+            TimerTask task = new TimerTask() {
+
+                @Override
+                public void run() {
+                    // 需要做的事:发送消息
+                    if (!EMChat.getInstance().isLoggedIn()) {
+                        loginChat(progressDialog, model.getHXAccountId());
+                    } else {
+                        if (timer != null) {
+                            timer.cancel();
+                        }
+                    }
+                }
+            };
+            timer.schedule(task, 0, 10000);
+        }*/
+
     }
 
+    @Subscribe
+    public void onEvent(EMChatAccountModel model) {
+        if (model != null) {
+            String state = model.getState();
+            if ("0".equals(state)) {
+                isTurn = false;
+                Util.toastMsg("您的会话权限开通中, 请10分钟后再试");
+            } else {
+                if (isTurn) {
+                    progressDialog.show();
+                }
+                loginChat(progressDialog, model.getHXAccountId());
+            }
+        } else {
+            isTurn = false;
+        }
+    }
 
     @Subscribe
     public void onEventRefresh(HomeEvent event) {
@@ -203,9 +268,9 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         }
         rhv_adv.setImgUrlData(advList);
         ((ActivityRecordFragment) fragments.get(0)).updateInfo(records);
-        ProductInfoFragment productInfoFragment=((ProductInfoFragment)fragments.get(1));
+        ProductInfoFragment productInfoFragment = ((ProductInfoFragment) fragments.get(1));
         productInfoFragment.updateInfo(products);
-        SaleInfoFragment saleInfoFragment=((SaleInfoFragment)fragments.get(2));
+        SaleInfoFragment saleInfoFragment = ((SaleInfoFragment) fragments.get(2));
         saleInfoFragment.updateInfo(sales);
     }
 
@@ -215,6 +280,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         EventBus.getDefault().register(this);
         homeInfoPresenter = new HomeInfoImpl(getContext());
         messagePresenter = new MessageImpl(getContext());
+        loginPresenter = new LoginPresenterImpl(getContext());
         studentImpl = new StudentImpl(getContext());
         registerMessageReceiver();
     }
@@ -229,9 +295,14 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     @Override
     public void onResume() {
         super.onResume();
-        model=UserInfoModel.getInstance().getUser();
-        if(model==null){
+        model = UserInfoModel.getInstance().getUser();
+        if (model == null) {
             return;
+        }
+        if (EMChat.getInstance().isLoggedIn()) {
+            int unreadNum = EMChatManager.getInstance().getUnreadMsgsCount();
+            System.out.println("unreadNum:"+unreadNum);
+            modelAdapter.update(unreadNum);
         }
         String userrole = UserInfoModel.getInstance().getUser().getUserrole();
         if (String.valueOf(Constants.VR).equals(userrole)) {
@@ -253,23 +324,23 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
             toolbar.setVisibility(View.GONE);
         }*/
         Fragment fragment = fragments.get(tab.getSelectedTabPosition());
-        if(fragment!=null){
-            if(fragment instanceof ActivityRecordFragment){
-                ActivityRecordFragment recordFragment= (ActivityRecordFragment) fragment;
+        if (fragment != null) {
+            if (fragment instanceof ActivityRecordFragment) {
+                ActivityRecordFragment recordFragment = (ActivityRecordFragment) fragment;
                 if (recordFragment.isRecycleFirst() && verticalOffset >= 0) {
                     pull.setEnabled(true);
                 } else {
                     pull.setEnabled(false);
                 }
-            }else if(fragment instanceof ProductInfoFragment){
-                ProductInfoFragment recordFragment= (ProductInfoFragment) fragment;
+            } else if (fragment instanceof ProductInfoFragment) {
+                ProductInfoFragment recordFragment = (ProductInfoFragment) fragment;
                 if (recordFragment.isRecycleFirst() && verticalOffset >= 0) {
                     pull.setEnabled(true);
                 } else {
                     pull.setEnabled(false);
                 }
-            }else if(fragment instanceof SaleInfoFragment){
-                SaleInfoFragment recordFragment= (SaleInfoFragment) fragment;
+            } else if (fragment instanceof SaleInfoFragment) {
+                SaleInfoFragment recordFragment = (SaleInfoFragment) fragment;
                 if (recordFragment.isRecycleFirst() && verticalOffset >= 0) {
                     pull.setEnabled(true);
                 } else {
@@ -281,28 +352,35 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
 
     @Override
     public void onRefresh() {
-        System.out.println("正在加载......");
         homeInfoPresenter.getHomeInfoData(pull);
     }
-    private void loginChat(final ProgressDialog progressDialog){
-        System.out.println("model:"+model);
-        EMChatManager.getInstance().login(model.getMobile(), "123123", new EMCallBack() {
+
+    private void loginChat(final ProgressDialog progressDialog, String account) {
+        EMChatManager.getInstance().login(account.toLowerCase(), "HBL_SOFTTEK#321", new EMCallBack() {
             @Override
             public void onSuccess() {
                 // ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
                 // ** manually load all local groups and
+                System.out.println("onSuccess------");
                 String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
                 ChatUserModel chatUserModel = new ChatUserModel();
                 chatUserModel.setUserName(model.getNickname());
-                chatUserModel.setUserPhone(path+model.getPhoto());
+                chatUserModel.setUserPhone(path + model.getPhoto());
+                chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
                 EMChatManager.getInstance().updateCurrentUserNick(model.getNickname());
                 ChatUserInfoModel.getInstance().setUser(chatUserModel);
-
+                handler.sendEmptyMessage(0);
                 EMChatManager.getInstance().loadAllConversations();
-// 进入主页面
-                Intent intent = new Intent(getActivity(), ConversationListActivity.class);
-                startActivity(intent);
-                if(progressDialog!=null){
+                if (isTurn) {
+                    Intent intent = new Intent(getActivity(), ConversationListActivity.class);
+                    startActivity(intent);
+                } else {
+
+                }
+                if (timer != null) {
+                    timer.cancel();
+                }
+                if (progressDialog != null) {
                     progressDialog.dismiss();
                 }
             }
@@ -313,12 +391,13 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
 
             @Override
             public void onError(final int code, final String message) {
-                if(progressDialog!=null){
+                if (progressDialog != null) {
                     progressDialog.dismiss();
                 }
             }
         });
     }
+
     /**
      * 功能模块按钮
      */
@@ -334,16 +413,40 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                     intoBodyGamePage(role);
                     break;
                 case Constants.LAI_YUNDONG:
-                    String isJoin=userInfoModel.getUser().getIsJoin();
-                    if (StringUtils.isEmpty(isJoin)||"0".equals(isJoin)) {
+                    String isJoin = userInfoModel.getUser().getIsJoin();
+                    if (StringUtils.isEmpty(isJoin) || "0".equals(isJoin)) {
                         startActivity(new Intent(getContext(), JoinGroupActivity.class));
                     } else {
                         startActivity(new Intent(getContext(), GroupMainActivity.class));
                     }
                     break;
                 case Constants.OFFICE:
-//                    progressDialog.show();
-//                    loginChat(progressDialog);
+//                    boolean isLogin = EMChat.getInstance().isLoggedIn();
+//                    if (isLogin) {
+//                        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+//                        ChatUserModel chatUserModel = new ChatUserModel();
+//                        chatUserModel.setUserName(model.getNickname());
+//                        chatUserModel.setUserPhone(path + model.getPhoto());
+//                        chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
+//                        ChatUserInfoModel.getInstance().setUser(chatUserModel);
+//                        new Thread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                EMChatManager.getInstance().updateCurrentUserNick(model.getNickname());
+//                                EMChatManager.getInstance().loadAllConversations();
+//                            }
+//                        }).start();
+//// 进入主页面
+//                        System.out.println("ConversationListActivity=======");
+//                        Intent intent = new Intent(getActivity(), ConversationListActivity.class);
+//                        startActivity(intent);
+//                    } else {
+//                        isTurn = true;
+//                        if (timer != null) {
+//                            timer.cancel();
+//                        }
+//                        loginPresenter.getEMChatAccount(progressDialog);
+//                    }
 //                    break;
                 case Constants.LAI_EXCLE:
                 case Constants.LAI_SHOP:
@@ -474,6 +577,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         }
     }
 
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -510,6 +614,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         IntentFilter filter = new IntentFilter();
         filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
         filter.addAction(Constants.MESSAGE_RECEIVED_ACTION);
+        filter.addAction(Constants.MESSAGE_CHAT_ACTION);
         getContext().registerReceiver(mMessageReceiver, filter);
 
     }
@@ -520,6 +625,9 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         public void onReceive(Context context, Intent intent) {
             if (Constants.MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {
                 img_red.setVisibility(View.VISIBLE);
+            } else {
+                int unreadNum = intent.getIntExtra("count", 0);
+                modelAdapter.update(unreadNum);
             }
         }
     }

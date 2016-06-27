@@ -7,6 +7,7 @@ package com.softtek.lai.module.welcome;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.RelativeLayout;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
@@ -27,6 +28,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
+import butterknife.InjectView;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
@@ -38,16 +40,18 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
 
     private  String token=null;
     private SportGroupService service;
+    @InjectView(R.id.guide)
+    RelativeLayout guide;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if(!isTaskRoot()){finish();return;}
-    }
 
     @Override
     protected void initViews() {
+        guide.setBackgroundResource(R.drawable.guide_bac);
         tintManager.setStatusBarTintResource(android.R.color.transparent);
+        if (!isTaskRoot()) {
+            finish();
+            return;
+        }
     }
 
     @Override

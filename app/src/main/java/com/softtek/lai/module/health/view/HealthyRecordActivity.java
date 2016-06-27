@@ -67,7 +67,7 @@ public class HealthyRecordActivity extends BaseActivity implements View.OnClickL
         tab_content.addOnPageChangeListener(this);
         tab.setupWithViewPager(tab_content);
         tab.setTabMode(TabLayout.MODE_SCROLLABLE);
-        tab_content.setOffscreenPageLimit(9);
+        tab_content.setOffscreenPageLimit(0);
         item=getIntent().getIntExtra("id",0);
         flag=getIntent().getIntExtra("flag",0);
         tab_content.setCurrentItem(item);

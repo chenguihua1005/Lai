@@ -77,6 +77,7 @@ public class LossWeightStoryAdapter extends BaseAdapter{
             holder= (ViewHolder) convertView.getTag();
         }
         final LossWeightStoryModel model=lossWeightStoryModels.get(position);
+        holder.tv_delete.setVisibility(View.GONE);
         if(Constants.HAS_ZAN.equals(model.getIsClicked())){
             holder.cb_zan.setChecked(true);
             holder.cb_zan.setEnabled(false);
@@ -140,7 +141,7 @@ public class LossWeightStoryAdapter extends BaseAdapter{
 
     static class ViewHolder{
         CircleImageView civ_header_image;
-        TextView tv_name,tv_content,tv_date,tv_zan_name;
+        TextView tv_name,tv_content,tv_date,tv_zan_name,tv_delete;
         ImageView img1,img2,img3,img4,img5,img6,img7,img8,img9;
         CheckBox cb_zan;
 
@@ -160,6 +161,7 @@ public class LossWeightStoryAdapter extends BaseAdapter{
             img8=(ImageView)view.findViewById(R.id.img_8);
             img9= (ImageView) view.findViewById(R.id.img_9);
             cb_zan= (CheckBox) view.findViewById(R.id.cb_zan);
+            tv_delete= (TextView) view.findViewById(R.id.tv_delete);
         }
 
     }

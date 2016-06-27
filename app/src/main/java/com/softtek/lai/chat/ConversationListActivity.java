@@ -7,22 +7,29 @@ package com.softtek.lai.chat;
 
 
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.easemob.EMCallBack;
+import com.easemob.EMConnectionListener;
 import com.easemob.EMEventListener;
 import com.easemob.EMNotifierEvent;
 import com.easemob.chat.CmdMessageBody;
@@ -34,12 +41,14 @@ import com.easemob.easeui.controller.EaseUI;
 import com.easemob.easeui.domain.ChatUserInfoModel;
 import com.easemob.easeui.domain.ChatUserModel;
 import com.easemob.easeui.model.EaseNotifier;
+import com.easemob.easeui.utils.EaseACKUtil;
 import com.easemob.easeui.utils.EaseCommonUtils;
 import com.easemob.exceptions.EaseMobException;
 import com.easemob.util.EMLog;
 import com.easemob.util.NetUtils;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
+import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
@@ -47,6 +56,7 @@ import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.counselor.presenter.AssistantImpl;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 import com.softtek.lai.module.login.view.LoginActivity;
+import com.softtek.lai.stepcount.service.StepService;
 
 import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
@@ -61,12 +71,14 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
+    @InjectView(R.id.iv_email)
+    ImageView iv_email;
 
     @InjectView(R.id.tv_title)
     TextView tv_title;
 
-    @InjectView(R.id.tv_right)
-    TextView tv_right;
+    @InjectView(R.id.fl_right)
+    FrameLayout fl_right;
 
     @InjectView(R.id.lin)
     LinearLayout lin;
@@ -80,14 +92,45 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
     private TextView unreadLabel;
     private EaseUI easeUI;
 
+    public AlertDialog.Builder builder = null;
+    private EMConnectionListener connectionListener;
+    private Handler handler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            // TODO Auto-generated method stub
+            if (builder != null) {
+                return;
+            }
+            builder = new AlertDialog.Builder(ConversationListActivity.this)
+                    .setTitle("温馨提示").setMessage("您的帐号已经在其他设备登录，请重新登录后再试。")
+                    .setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            builder = null;
+                            UserInfoModel.getInstance().loginOut();
+                            stopService(new Intent(ConversationListActivity.this, StepService.class));
+                            Intent intent = new Intent(ConversationListActivity.this, LoginActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                        }
+                    }).setCancelable(false);
+            if(!isFinishing()){
+                builder.create().show();
+            }
+        }
+
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         tv_title.setText("会话列表");
-        tv_right.setText("通讯录");
+        iv_email.setImageResource(R.drawable.img_chat_contant);
         ll_left.setOnClickListener(this);
-        tv_right.setOnClickListener(this);
+        fl_right.setOnClickListener(this);
         easeUI = EaseUI.getInstance();
         if (savedInstanceState != null && savedInstanceState.getBoolean(Constant.ACCOUNT_REMOVED, false)) {
             // 防止被移除后，没点确定按钮然后按了home键，长期在后台又进app导致的crash
@@ -108,6 +151,44 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
         } else if (getIntent().getBooleanExtra(Constant.ACCOUNT_REMOVED, false) && !isAccountRemovedDialogShow) {
             showAccountRemovedDialog();
         }
+        connectionListener = new EMConnectionListener() {
+            @Override
+            public void onDisconnected(final int error) {
+                System.out.println("isFinishing:"+isFinishing());
+                if (!isFinishing()) {
+                    EMChatManager.getInstance().logout(new EMCallBack() {
+
+                        @Override
+                        public void onSuccess() {
+                            // TODO Auto-generated method stub
+                            System.out.println("--------");
+                            handler.sendEmptyMessage(0);
+                        }
+
+                        @Override
+                        public void onProgress(int progress, String status) {
+                            // TODO Auto-generated method stub
+
+                        }
+
+                        @Override
+                        public void onError(int code, String message) {
+                            // TODO Auto-generated method stub
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onConnected() {
+                // 当连接到服务器之后，这里开始检查是否有没有发送的ack回执消息，
+                EaseACKUtil.getInstance(ConversationListActivity.this).checkACKData();
+
+            }
+        };
+        EMChatManager.getInstance().addConnectionListener(connectionListener);
+
         registerBroadcastReceiver();
         EaseUI.getInstance().getNotifier().reset();
         conversationListFragment = new ConversationListFragment();
@@ -378,72 +459,14 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
         //getMenuInflater().inflate(R.menu.context_tab_contact, menu);
     }
 
-    //发送消息方法
-    //==========================================================================
-    protected void sendTextMessage(String content, String toChatUsername,EMConversation conversation,int type) {
-        EMMessage message = EMMessage.createTxtSendMessage(content, toChatUsername);
-        sendMessage(message,conversation,type);
-    }
-
-    protected void sendMessage(EMMessage message,EMConversation conversation,int type) {
-        ChatUserModel chatUserModel = ChatUserInfoModel.getInstance().getUser();
-        message.setAttribute("nickname", chatUserModel.getUserName());
-        message.setAttribute("avatarURL", chatUserModel.getUserPhone());
-        message.setAttribute("userId", chatUserModel.getUserId());
-
-        //发送消息
-        EMChatManager.getInstance().sendMessage(message, null);
-
-        if (TextUtils.isEmpty(conversation.getExtField())) {
-            setProfile(conversation,type);
-        }
-    }
-    protected void setProfile(EMConversation conversation,int type) {
-        String name;
-        String photo;
-        if(type==1){
-            name = "jarvis0105";
-            photo = "https://o8nbxcohc.qnssl.com/testimage.png";
-        }else {
-            name="jarvis0106";
-            photo = "http://image.baidu.com/search/detail?ct=503316480&z=undefined&tn=baiduimagedetail&ipn=d&word=QQ%E5%9B%BE%E7%89%87&step_word=&ie=utf-8&in=&cl=2&lm=-1&st=-1&cs=3713114485,4026763287&os=1327419601,3327449670&simid=4183989323,678832023&pn=0&rn=1&di=15537223790&ln=1000&fr=&fmq=1466411200910_R&fm=rs10&ic=undefined&s=undefined&se=&sme=&tab=0&width=&height=&face=undefined&is=&istype=0&ist=&jit=&bdtype=0&gsm=0&oriquery=%E5%9B%BE%E7%89%87&objurl=http%3A%2F%2Fwww.onegreen.net%2FQQ%2FUploadFiles%2F201006%2F2010062617333267.jpg&rpstart=0&rpnum=0&ctd=1466411205736^3_1349X667%1";
-        }
-        conversation.setExtField(name + "," + photo);
-    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_left:
                 finish();
                 break;
-            case R.id.tv_right:
-                startActivity(new Intent(this,ContantListActivity.class));
-//                Intent intent = new Intent(ConversationListActivity.this, ChatActivity.class);
-//                intent.putExtra(Constant.EXTRA_USER_ID, "18261576083");
-//                intent.putExtra("name", "fdsfsdf");
-//                intent.putExtra("photo", "https://o8nbxcohc.qnssl.com/testimage.png");
-//                startActivity(intent);
-//                new Thread(
-//                        new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                EMConversation conversation = EMChatManager.getInstance().getConversation("jarvis0105");
-//                                conversation.markAllMessagesAsRead();
-//                                sendTextMessage("test", "jarvis0105",conversation,1);
-//                            }
-//                        }
-//                ).start();
-//
-//                new Thread(
-//                        new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                EMConversation conversation = EMChatManager.getInstance().getConversation("jarvis0106");
-//                                conversation.markAllMessagesAsRead();
-//                                sendTextMessage("test", "jarvis0106",conversation,2);
-//                            }
-//                        }
-//                ).start();
+            case R.id.fl_right:
+                startActivity(new Intent(this, ContantListActivity.class));
                 break;
         }
     }
