@@ -44,21 +44,24 @@ public class ChatHelper {
     private EaseUI easeUI;
     private EMConnectionListener connectionListener;
     protected EMEventListener eventListener = null;
-    private AlertDialog.Builder builder=null;
+    public AlertDialog.Builder builder = null;
     private Handler handler = new Handler() {
 
         @Override
         public void handleMessage(Message msg) {
             // TODO Auto-generated method stub
-            builder=new AlertDialog.Builder(LaiApplication.getInstance().getContext())
+            if (builder != null) {
+                return;
+            }
+            builder = new AlertDialog.Builder(LaiApplication.getInstance().getContext().get())
                     .setTitle("温馨提示").setMessage("您的帐号已经在其他设备登录，请重新登录后再试。")
                     .setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            builder=null;
+                            builder = null;
                             UserInfoModel.getInstance().loginOut();
                             LaiApplication.getInstance().stopService(new Intent(LaiApplication.getInstance(), StepService.class));
-                            Intent intent=new Intent(LaiApplication.getInstance(), LoginActivity.class);
+                            Intent intent = new Intent(LaiApplication.getInstance(), LoginActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             LaiApplication.getInstance().startActivity(intent);
@@ -109,6 +112,7 @@ public class ChatHelper {
                         @Override
                         public void onSuccess() {
                             // TODO Auto-generated method stub
+                            System.out.println("--------");
                             onConnectionConflict();
                         }
 
@@ -133,11 +137,12 @@ public class ChatHelper {
 
                 }
             };
-            EMChatManager.getInstance().addConnectionListener(connectionListener);
+           // EMChatManager.getInstance().addConnectionListener(connectionListener);
             registerEventListener();
             setEaseUIProviders();
         }
     }
+
     protected void setEaseUIProviders() {
 //不设置，则使用easeui默认的
         easeUI.getNotifier().setNotificationInfoProvider(new EaseNotifier.EaseNotificationInfoProvider() {
@@ -158,12 +163,12 @@ public class ChatHelper {
             public String getDisplayedText(EMMessage message) {
                 // 设置状态栏的消息提示，可以根据message的类型做相应提示
                 String ticker = EaseCommonUtils.getMessageDigest(message, appContext);
-                if(message.getType() == EMMessage.Type.TXT){
+                if (message.getType() == EMMessage.Type.TXT) {
                     ticker = ticker.replaceAll("\\[.{2,3}\\]", "[表情]");
                 }
-                String nickName="";
+                String nickName = "";
                 try {
-                    nickName=message.getStringAttribute("nickname");
+                    nickName = message.getStringAttribute("nickname");
                 } catch (EaseMobException e) {
                     e.printStackTrace();
                 }
@@ -184,6 +189,7 @@ public class ChatHelper {
             }
         });
     }
+
     /**
      * 账号被移除
      */
@@ -214,6 +220,7 @@ public class ChatHelper {
             e.printStackTrace();
         }
     }
+
     /**
      * 全局事件监听
      * 因为可能会有UI页面先处理到这个消息，所以一般如果UI页面已经处理，这里就不需要再次处理
@@ -226,8 +233,8 @@ public class ChatHelper {
             @Override
             public void onEvent(EMNotifierEvent event) {
                 EMMessage message = null;
-                if(event.getData() instanceof EMMessage){
-                    message = (EMMessage)event.getData();
+                if (event.getData() instanceof EMMessage) {
+                    message = (EMMessage) event.getData();
                 }
 
                 switch (event.getEvent()) {
@@ -236,15 +243,15 @@ public class ChatHelper {
                         System.out.println("getMessage1111111111");
                         int unreadMsgCountTotal = EMChatManager.getInstance().getUnreadMsgsCount();
                         Intent msgIntent = new Intent(Constants.MESSAGE_CHAT_ACTION);
-                        msgIntent.putExtra("count",unreadMsgCountTotal);
+                        msgIntent.putExtra("count", unreadMsgCountTotal);
                         appContext.sendBroadcast(msgIntent);
                         System.out.println("EventNewMessage-----");
-                        if(!easeUI.hasForegroundActivies()){
+                        if (!easeUI.hasForegroundActivies()) {
                             getNotifier().onNewMsg(message);
                         }
                         break;
                     case EventOfflineMessage:
-                        if(!easeUI.hasForegroundActivies()){
+                        if (!easeUI.hasForegroundActivies()) {
                             List<EMMessage> messages = (List<EMMessage>) event.getData();
                             getNotifier().onNewMesg(messages);
                         }
@@ -255,8 +262,8 @@ public class ChatHelper {
                         //获取消息body
                         CmdMessageBody cmdMsgBody = (CmdMessageBody) message.getBody();
                         final String action = cmdMsgBody.action;//获取自定义action
-                        if(!easeUI.hasForegroundActivies()){
-                            if(action.equals(EaseConstant.EASE_ATTR_REVOKE)){
+                        if (!easeUI.hasForegroundActivies()) {
+                            if (action.equals(EaseConstant.EASE_ATTR_REVOKE)) {
                                 EaseCommonUtils.receiveRevokeMessage(appContext, message);
                             }
                         }
@@ -267,14 +274,14 @@ public class ChatHelper {
                         final String CMD_TOAST_BROADCAST = "easemob.demo.cmd.toast";
                         IntentFilter cmdFilter = new IntentFilter(CMD_TOAST_BROADCAST);
 
-                        if(broadCastReceiver == null){
-                            broadCastReceiver = new BroadcastReceiver(){
+                        if (broadCastReceiver == null) {
+                            broadCastReceiver = new BroadcastReceiver() {
 
                                 @Override
                                 public void onReceive(Context context, Intent intent) {
                                     // TODO Auto-generated method stub
                                     //过滤掉红包回执消息的透传吐司
-                                    if (action.equals(Constant.REFRESH_GROUP_MONEY_ACTION)){
+                                    if (action.equals(Constant.REFRESH_GROUP_MONEY_ACTION)) {
                                         return;
                                     }
                                     Toast.makeText(appContext, intent.getStringExtra("cmd_value"), Toast.LENGTH_SHORT).show();
@@ -282,11 +289,11 @@ public class ChatHelper {
                             };
 
                             //注册广播接收者
-                            appContext.registerReceiver(broadCastReceiver,cmdFilter);
+                            appContext.registerReceiver(broadCastReceiver, cmdFilter);
                         }
 
                         Intent broadcastIntent = new Intent(CMD_TOAST_BROADCAST);
-                        broadcastIntent.putExtra("cmd_value", str+action);
+                        broadcastIntent.putExtra("cmd_value", str + action);
                         appContext.sendBroadcast(broadcastIntent, null);
 
                         break;
@@ -299,12 +306,12 @@ public class ChatHelper {
                         EMMessage ackMessage = (EMMessage) event.getData();
                         EMConversation conversation = EMChatManager.getInstance().getConversation(ackMessage.getTo());
                         // 判断接收到ack的这条消息是不是阅后即焚的消息，如果是，则说明对方看过消息了，对方会销毁，这边也删除(现在只有txt iamge file三种消息支持 )
-                        if(ackMessage.getBooleanAttribute(EaseConstant.EASE_ATTR_READFIRE, false)
+                        if (ackMessage.getBooleanAttribute(EaseConstant.EASE_ATTR_READFIRE, false)
                                 && (ackMessage.getType() == EMMessage.Type.TXT
                                 || ackMessage.getType() == EMMessage.Type.VOICE
-                                || ackMessage.getType() == EMMessage.Type.IMAGE)){
+                                || ackMessage.getType() == EMMessage.Type.IMAGE)) {
                             // 判断当前会话是不是只有一条消息，如果只有一条消息，并且这条消息也是阅后即焚类型，当对方阅读后，这边要删除，会话会被过滤掉，因此要加载上一条消息
-                            if(conversation.getAllMessages().size() == 1 && conversation.getLastMessage().getMsgId().equals(ackMessage.getMsgId())){
+                            if (conversation.getAllMessages().size() == 1 && conversation.getLastMessage().getMsgId().equals(ackMessage.getMsgId())) {
                                 if (ackMessage.getChatType() == EMMessage.ChatType.Chat) {
                                     conversation.loadMoreMsgFromDB(ackMessage.getMsgId(), 1);
                                 } else {
@@ -324,6 +331,7 @@ public class ChatHelper {
 
         EMChatManager.getInstance().registerEventListener(eventListener);
     }
+
     /**
      * 获取消息通知类
      *

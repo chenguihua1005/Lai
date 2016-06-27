@@ -342,11 +342,12 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     }
 
     private void loginChat(final ProgressDialog progressDialog, String account) {
-        EMChatManager.getInstance().login(account, "123123", new EMCallBack() {
+        EMChatManager.getInstance().login(account, "HBL_SOFTTEK#321", new EMCallBack() {
             @Override
             public void onSuccess() {
                 // ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
                 // ** manually load all local groups and
+                System.out.println("onSuccess------");
                 String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
                 ChatUserModel chatUserModel = new ChatUserModel();
                 chatUserModel.setUserName(model.getNickname());
@@ -357,6 +358,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                 unreadMsgCountTotal = EMChatManager.getInstance().getUnreadMsgsCount();
                 EMChatManager.getInstance().loadAllConversations();
                 if (isTurn) {
+                    System.out.println("ConversationListActivity-----");
                     Intent intent = new Intent(getActivity(), ConversationListActivity.class);
                     startActivity(intent);
                 } else {
@@ -422,6 +424,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                             }
                         }).start();
 // 进入主页面
+                        System.out.println("ConversationListActivity=======");
                         Intent intent = new Intent(getActivity(), ConversationListActivity.class);
                         startActivity(intent);
                     } else {
@@ -608,9 +611,9 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         public void onReceive(Context context, Intent intent) {
             if (Constants.MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {
                 img_red.setVisibility(View.VISIBLE);
-            }else {
-                unreadMsgCountTotal=intent.getIntExtra("count",0);
-                System.out.println("unreadMsgCountTotal:"+unreadMsgCountTotal);
+            } else {
+                unreadMsgCountTotal = intent.getIntExtra("count", 0);
+                System.out.println("unreadMsgCountTotal:" + unreadMsgCountTotal);
             }
         }
     }
