@@ -412,26 +412,26 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
     //发送消息方法
     //==========================================================================
     protected void sendTextMessage(String content, ChatContactInfoModel model) {
-        EMMessage message = EMMessage.createTxtSendMessage(content, model.getHXAccountId());
-        EMConversation conversation = EMChatManager.getInstance().getConversation(model.getHXAccountId());
+        EMMessage message = EMMessage.createTxtSendMessage(content, model.getHXAccountId().toLowerCase());
+        EMConversation conversation = EMChatManager.getInstance().getConversation(model.getHXAccountId().toLowerCase());
         sendMessage(message, conversation, model);
     }
 
     protected void sendBigExpressionMessage(String name, String identityCode, ChatContactInfoModel model) {
-        EMMessage message = EaseCommonUtils.createExpressionMessage(model.getHXAccountId(), name, identityCode);
-        EMConversation conversation = EMChatManager.getInstance().getConversation(model.getHXAccountId());
+        EMMessage message = EaseCommonUtils.createExpressionMessage(model.getHXAccountId().toLowerCase(), name, identityCode);
+        EMConversation conversation = EMChatManager.getInstance().getConversation(model.getHXAccountId().toLowerCase());
         sendMessage(message, conversation, model);
     }
 
     protected void sendVoiceMessage(String filePath, int length, ChatContactInfoModel model) {
-        EMMessage message = EMMessage.createVoiceSendMessage(filePath, length, model.getHXAccountId());
-        EMConversation conversation = EMChatManager.getInstance().getConversation(model.getHXAccountId());
+        EMMessage message = EMMessage.createVoiceSendMessage(filePath, length, model.getHXAccountId().toLowerCase());
+        EMConversation conversation = EMChatManager.getInstance().getConversation(model.getHXAccountId().toLowerCase());
         sendMessage(message, conversation, model);
     }
 
     protected void sendImageMessage(String imagePath, ChatContactInfoModel model) {
-        EMMessage message = EMMessage.createImageSendMessage(imagePath, false, model.getHXAccountId());
-        EMConversation conversation = EMChatManager.getInstance().getConversation(model.getHXAccountId());
+        EMMessage message = EMMessage.createImageSendMessage(imagePath, false, model.getHXAccountId().toLowerCase());
+        EMConversation conversation = EMChatManager.getInstance().getConversation(model.getHXAccountId().toLowerCase());
         sendMessage(message, conversation, model);
     }
 

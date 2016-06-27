@@ -218,7 +218,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
             String state = model.getState();
             if ("0".equals(state)) {
                 isTurn = false;
-                Util.toastMsg("暂未有帐号");
+                Util.toastMsg("您的会话权限开通中, 请60分钟后再试");
             } else {
                 if (isTurn) {
                     progressDialog.show();
@@ -227,7 +227,6 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
             }
         } else {
             isTurn = false;
-            Util.toastMsg("请稍候再试");
         }
     }
 
@@ -342,7 +341,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     }
 
     private void loginChat(final ProgressDialog progressDialog, String account) {
-        EMChatManager.getInstance().login(account, "HBL_SOFTTEK#321", new EMCallBack() {
+        EMChatManager.getInstance().login(account.toLowerCase(), "HBL_SOFTTEK#321", new EMCallBack() {
             @Override
             public void onSuccess() {
                 // ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
@@ -352,7 +351,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                 ChatUserModel chatUserModel = new ChatUserModel();
                 chatUserModel.setUserName(model.getNickname());
                 chatUserModel.setUserPhone(path + model.getPhoto());
-                chatUserModel.setUserId(model.getHXAccountId());
+                chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
                 EMChatManager.getInstance().updateCurrentUserNick(model.getNickname());
                 ChatUserInfoModel.getInstance().setUser(chatUserModel);
                 unreadMsgCountTotal = EMChatManager.getInstance().getUnreadMsgsCount();
@@ -414,7 +413,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                         ChatUserModel chatUserModel = new ChatUserModel();
                         chatUserModel.setUserName(model.getNickname());
                         chatUserModel.setUserPhone(path + model.getPhoto());
-                        chatUserModel.setUserId(model.getHXAccountId());
+                        chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
                         ChatUserInfoModel.getInstance().setUser(chatUserModel);
                         new Thread(new Runnable() {
                             @Override

@@ -146,8 +146,8 @@ public class EaseConversationAdapater extends ArrayAdapter<EMConversation> {
 			String name="";
 			String photo="";
 			ChatUserModel chatUserModel = ChatUserInfoModel.getInstance().getUser();
-			String userId=chatUserModel.getUserId();
-			String f=lastMessage.getFrom();
+			String userId=chatUserModel.getUserId().toLowerCase();
+			String f=lastMessage.getFrom().toLowerCase();
 			try {
 				name=lastMessage.getStringAttribute("nickname");
 				photo=lastMessage.getStringAttribute("avatarURL");

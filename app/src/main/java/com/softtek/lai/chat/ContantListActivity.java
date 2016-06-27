@@ -187,7 +187,7 @@ public class ContantListActivity extends BaseActivity implements View.OnClickLis
                 ChatContactInfoModel model = list.get(position);
                 Intent intent = new Intent(ContantListActivity.this, ChatActivity.class);
                 String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-                intent.putExtra(Constant.EXTRA_USER_ID, model.getHXAccountId());
+                intent.putExtra(Constant.EXTRA_USER_ID, model.getHXAccountId().toLowerCase());
                 intent.putExtra("name", model.getUserName());
                 intent.putExtra("photo", path + model.getPhoto());
                 startActivity(intent);

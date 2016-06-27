@@ -47,7 +47,7 @@ public class ConversationListFragment extends EaseConversationListFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 EMConversation conversation = conversationListView.getItem(position);
-                String username = conversation.getUserName();
+                String username = conversation.getUserName().toLowerCase();
 
                 if (username.equals(EMChatManager.getInstance().getCurrentUser()))
                     Toast.makeText(getActivity(), R.string.Cant_chat_with_yourself, Toast.LENGTH_SHORT).show();
@@ -82,9 +82,9 @@ public class ConversationListFragment extends EaseConversationListFragment {
                     String name="";
                     String photo="";
                     ChatUserModel chatUserModel = ChatUserInfoModel.getInstance().getUser();
-                    String userId=chatUserModel.getUserId();
+                    String userId=chatUserModel.getUserId().toLowerCase();
                     EMMessage lastMessage = conversation.getLastMessage();
-                    String f=lastMessage.getFrom();
+                    String f=lastMessage.getFrom().toLowerCase();
                     try {
                         name=lastMessage.getStringAttribute("nickname");
                         photo=lastMessage.getStringAttribute("avatarURL");
