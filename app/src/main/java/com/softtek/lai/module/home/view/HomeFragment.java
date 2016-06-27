@@ -12,6 +12,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
@@ -61,6 +63,7 @@ import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.message.presenter.IMessagePresenter;
 import com.softtek.lai.module.message.presenter.MessageImpl;
 import com.softtek.lai.module.message.view.MessageActivity;
+import com.softtek.lai.stepcount.service.StepService;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CustomGridView;
@@ -137,6 +140,18 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     private ProgressDialog progressDialog;
     public static Timer timer;
     boolean isTurn = false;
+
+    private Handler handler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            // TODO Auto-generated method stub
+            int unreadNum = EMChatManager.getInstance().getUnreadMsgsCount();
+            modelAdapter.update(unreadNum);
+        }
+
+    };
+
 
     @Override
     protected void initViews() {
@@ -217,7 +232,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
             String state = model.getState();
             if ("0".equals(state)) {
                 isTurn = false;
-                Util.toastMsg("您的会话权限开通中, 请60分钟后再试");
+                Util.toastMsg("您的会话权限开通中, 请10分钟后再试");
             } else {
                 if (isTurn) {
                     progressDialog.show();
@@ -284,6 +299,11 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         if (model == null) {
             return;
         }
+        if (EMChat.getInstance().isLoggedIn()) {
+            int unreadNum = EMChatManager.getInstance().getUnreadMsgsCount();
+            System.out.println("unreadNum:"+unreadNum);
+            modelAdapter.update(unreadNum);
+        }
         String userrole = UserInfoModel.getInstance().getUser().getUserrole();
         if (String.valueOf(Constants.VR).equals(userrole)) {
 
@@ -349,11 +369,9 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                 chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
                 EMChatManager.getInstance().updateCurrentUserNick(model.getNickname());
                 ChatUserInfoModel.getInstance().setUser(chatUserModel);
-                int unreadNum = EMChatManager.getInstance().getUnreadMsgsCount();
-                modelAdapter.update(unreadNum);
+                handler.sendEmptyMessage(0);
                 EMChatManager.getInstance().loadAllConversations();
                 if (isTurn) {
-                    System.out.println("ConversationListActivity-----");
                     Intent intent = new Intent(getActivity(), ConversationListActivity.class);
                     startActivity(intent);
                 } else {
