@@ -293,7 +293,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
     public void onLocationChanged(AMapLocation aMapLocation) {
         if(listener!=null&&aMapLocation!=null) {
             listener.onLocationChanged(aMapLocation);
-            if (aMapLocation.getErrorCode() == 0&&aMapLocation.getAccuracy()<=30&&aMapLocation.getAccuracy()>0) {
+            if (aMapLocation.getErrorCode() == 0&&aMapLocation.getAccuracy()<=25&&aMapLocation.getAccuracy()>0) {
                 //当坐标改变之后开始添加标记 画线
                 Log.i("获取位置");
                 LatLng latLng=new LatLng(aMapLocation.getLatitude(),aMapLocation.getLongitude());
@@ -440,7 +440,6 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
                             cb_control.setChecked(true);
                             ll_content1.setVisibility(View.GONE);
                             ll_content2.setVisibility(View.GONE);
-
                         }
 
                     });
@@ -485,7 +484,6 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
         } else if (event == GpsStatus.GPS_EVENT_SATELLITE_STATUS) {
             int maxSatellites = status.getMaxSatellites();
             Iterator<GpsSatellite> it = status.getSatellites().iterator();
-            it.next().getSnr();
             int count = 0;
             while (it.hasNext() && count <= maxSatellites) {
                 count++;

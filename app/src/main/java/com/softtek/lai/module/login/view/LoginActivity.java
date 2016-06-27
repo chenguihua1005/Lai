@@ -134,6 +134,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             case R.id.ll_visitor:
                 UserInfoModel.getInstance().visitorLogin();
                 startActivity(new Intent(this, HomeActviity.class));
+                finish();
                 break;
 
         }
