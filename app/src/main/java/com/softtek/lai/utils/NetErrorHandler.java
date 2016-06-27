@@ -188,10 +188,8 @@ public class NetErrorHandler implements IApiErrorHandler {
 
                                                     @Override
                                                     public void failure(RetrofitError error) {
-                                                        //error.printStackTrace();
                                                         Intent intent = new Intent(LaiApplication.getInstance(), HomeActviity.class);
                                                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                                         LaiApplication.getInstance().startActivity(intent);
 
                                                     }
@@ -199,6 +197,8 @@ public class NetErrorHandler implements IApiErrorHandler {
 
                                             }
                                         }).setCancelable(false).create().show();
+                                break;
+                            default:
                                 break;
                         }
                         break;
