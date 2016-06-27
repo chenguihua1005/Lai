@@ -431,12 +431,12 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                 }
                 String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
                 if ("".equals(praiseChallengeModel.getUserPhoto()) || "null".equals(praiseChallengeModel.getUserPhoto()) || praiseChallengeModel.getUserPhoto() == null) {
-                    Picasso.with(this).load("111").fit().error(R.drawable.img_default).into(img_left);
+                    Picasso.with(this).load(R.drawable.img_default).into(img_left);
                 } else {
                     Picasso.with(this).load(path + praiseChallengeModel.getUserPhoto()).fit().error(R.drawable.img_default).into(img_left);
                 }
                 if ("".equals(praiseChallengeModel.getBPhoto()) || "null".equals(praiseChallengeModel.getBPhoto()) || praiseChallengeModel.getBPhoto() == null) {
-                    Picasso.with(this).load("111").fit().error(R.drawable.img_default).into(img_right);
+                    Picasso.with(this).load(R.drawable.img_default).into(img_right);
                 } else {
                     Picasso.with(this).load(path + praiseChallengeModel.getBPhoto()).fit().error(R.drawable.img_default).into(img_right);
                 }
@@ -447,7 +447,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                 String end_time = "";
 
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd号");
+                SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd日");
                 try {
                     Date start_date = sdf.parse(start);
                     Date end_date = sdf.parse(end);
