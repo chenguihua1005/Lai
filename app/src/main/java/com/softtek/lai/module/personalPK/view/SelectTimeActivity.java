@@ -141,7 +141,7 @@ public class SelectTimeActivity extends BaseActivity implements View.OnClickList
         currentMonth=DateUtil.getInstance().getCurrentMonth();
         currentDay=DateUtil.getInstance().getCurrentDay();
         int afterDay=currentDay+1;
-        String currentDate=currentYear+"年"+(currentMonth<10?"0"+currentMonth:currentMonth)+"月"+(afterDay<10?"0"+afterDay:afterDay);
+        String currentDate=currentYear+"年"+(currentMonth<10?"0"+currentMonth:currentMonth)+"月"+(afterDay<10?"0"+afterDay:afterDay)+"日";
         tv_start.setText(currentDate);
         tv_end.setText(currentDate);
     }

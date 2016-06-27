@@ -308,21 +308,21 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         if (fragment != null) {
             if (fragment instanceof ActivityRecordFragment) {
                 ActivityRecordFragment recordFragment = (ActivityRecordFragment) fragment;
-                if (recordFragment.isRecycleFirst() && verticalOffset <= 0) {
+                if (recordFragment.isRecycleFirst() && verticalOffset >= 0) {
                     pull.setEnabled(true);
                 } else {
                     pull.setEnabled(false);
                 }
             } else if (fragment instanceof ProductInfoFragment) {
                 ProductInfoFragment recordFragment = (ProductInfoFragment) fragment;
-                if (recordFragment.isRecycleFirst() && verticalOffset <= 0) {
+                if (recordFragment.isRecycleFirst() && verticalOffset >= 0) {
                     pull.setEnabled(true);
                 } else {
                     pull.setEnabled(false);
                 }
             } else if (fragment instanceof SaleInfoFragment) {
                 SaleInfoFragment recordFragment = (SaleInfoFragment) fragment;
-                if (recordFragment.isRecycleFirst() && verticalOffset <= 0) {
+                if (recordFragment.isRecycleFirst() && verticalOffset >= 0) {
                     pull.setEnabled(true);
                 } else {
                     pull.setEnabled(false);
@@ -485,7 +485,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
      */
     private void intoBodyGamePage(int role) {
         //受邀未认证成功就是普通用户，认证成功就是高级用户
-        AlertDialog.Builder information_dialog = null;
+        AlertDialog.Builder information_dialog;
         if (role == Constants.VR) {
             //提示用户让他注册或者直接进入2个功能的踢馆赛模块
             information_dialog = new AlertDialog.Builder(getContext());
