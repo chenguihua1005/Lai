@@ -2,8 +2,12 @@ package com.softtek.lai.chat;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
 
 import com.easemob.EMCallBack;
@@ -22,8 +26,11 @@ import com.easemob.easeui.model.EaseNotifier;
 import com.easemob.easeui.utils.EaseACKUtil;
 import com.easemob.easeui.utils.EaseCommonUtils;
 import com.easemob.exceptions.EaseMobException;
+import com.softtek.lai.LaiApplication;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.login.view.LoginActivity;
+import com.softtek.lai.stepcount.service.StepService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,6 +44,32 @@ public class ChatHelper {
     private EaseUI easeUI;
     private EMConnectionListener connectionListener;
     protected EMEventListener eventListener = null;
+    private AlertDialog.Builder builder=null;
+    private Handler handler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            // TODO Auto-generated method stub
+            builder=new AlertDialog.Builder(LaiApplication.getInstance().getContext())
+                    .setTitle("温馨提示").setMessage("您的帐号已经在其他设备登录，请重新登录后再试。")
+                    .setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            builder=null;
+                            UserInfoModel.getInstance().loginOut();
+                            LaiApplication.getInstance().stopService(new Intent(LaiApplication.getInstance(), StepService.class));
+                            Intent intent=new Intent(LaiApplication.getInstance(), LoginActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            LaiApplication.getInstance().startActivity(intent);
+                        }
+                    }).setCancelable(false);
+            builder.create().show();
+
+        }
+
+    };
+
 
     static public interface DataSyncListener {
         /**
@@ -70,12 +103,27 @@ public class ChatHelper {
 
             connectionListener = new EMConnectionListener() {
                 @Override
-                public void onDisconnected(int error) {
-                    if (error == EMError.USER_REMOVED) {
-                        onCurrentAccountRemoved();
-                    } else if (error == EMError.CONNECTION_CONFLICT) {
-                        onConnectionConflict();
-                    }
+                public void onDisconnected(final int error) {
+                    EMChatManager.getInstance().logout(new EMCallBack() {
+
+                        @Override
+                        public void onSuccess() {
+                            // TODO Auto-generated method stub
+                            onConnectionConflict();
+                        }
+
+                        @Override
+                        public void onProgress(int progress, String status) {
+                            // TODO Auto-generated method stub
+
+                        }
+
+                        @Override
+                        public void onError(int code, String message) {
+                            // TODO Auto-generated method stub
+
+                        }
+                    });
                 }
 
                 @Override
@@ -150,10 +198,13 @@ public class ChatHelper {
      * 账号在别的设备登录
      */
     protected void onConnectionConflict() {
-        Intent intent = new Intent(appContext, LoginActivity.class);
+        System.out.println("onConnectionConflict-----");
+//        Intent intent = new Intent(appContext, LoginActivity.class);
 //        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //        intent.putExtra(Constant.ACCOUNT_CONFLICT, true);
-        appContext.startActivity(intent);
+//        appContext.startActivity(intent);
+
+        handler.sendEmptyMessage(0);
     }
 
     void endCall() {

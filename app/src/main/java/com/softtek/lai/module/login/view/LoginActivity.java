@@ -6,8 +6,10 @@
 package com.softtek.lai.module.login.view;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,15 +17,20 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.easemob.EMCallBack;
+import com.easemob.chat.EMChatManager;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
+import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
+import com.softtek.lai.chat.Constant;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.login.presenter.ILoginPresenter;
 import com.softtek.lai.module.login.presenter.LoginPresenterImpl;
+import com.softtek.lai.stepcount.service.StepService;
 import com.softtek.lai.utils.MD5;
 import com.softtek.lai.utils.SoftInputUtil;
 
@@ -71,6 +78,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         tv_forgetpsd.setOnClickListener(this);
         tv_regist.setOnClickListener(this);
         ll_visitor.setOnClickListener(this);
+        System.out.println("type:"+getIntent().getBooleanExtra(Constant.ACCOUNT_CONFLICT, false));
     }
 
     @Override
