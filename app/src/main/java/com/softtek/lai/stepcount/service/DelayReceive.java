@@ -7,6 +7,7 @@ import android.content.Intent;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.stepcount.db.StepUtil;
 import com.softtek.lai.stepcount.model.UserStep;
 import com.softtek.lai.stepcount.net.StepNetService;
@@ -29,11 +30,12 @@ public class DelayReceive extends BroadcastReceiver{
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if(UserInfoModel.getInstance().getUser()==null){
+        UserModel model=UserInfoModel.getInstance().getUser();
+        if(model==null||"0".equals(model.getIsJoin())){
             return;
         }
         //做上传工作
-        String userId=UserInfoModel.getInstance().getUser().getUserid();
+        String userId=model.getUserid();
         service= ZillaApi.NormalRestAdapter.create(StepNetService.class);
         int todayStep=StepService.todayStep;
         StringBuilder buffer=new StringBuilder();

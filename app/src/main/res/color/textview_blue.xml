@@ -5,8 +5,8 @@
   -->
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_selected="true" android:color="#B20263ff"/>
-    <item android:color="#B20263ff" android:state_pressed="true"/>
-    <item android:color="#B20263ff" android:state_focused="true"/>
-    <item android:color="#0263ff"/>
+    <item android:state_selected="true" android:color="#5f89b4"/>
+    <item android:color="#5f89b4" android:state_pressed="true"/>
+    <item android:color="#5f89b4" android:state_focused="true"/>
+    <item android:color="#3e6790"/>
 </selector>

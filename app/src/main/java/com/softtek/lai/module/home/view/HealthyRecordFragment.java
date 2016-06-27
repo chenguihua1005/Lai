@@ -43,10 +43,6 @@ public class HealthyRecordFragment extends BaseFragment implements View.OnClickL
     LinearLayout ll_left;
     @InjectView(R.id.tv_title)
     TextView tv_title;
-    @InjectView(R.id.iv_email)
-    ImageView iv_email;
-    @InjectView(R.id.fl_right)
-    FrameLayout fl_right;
 
     @InjectView(R.id.tv_weight)
     TextView tv_weight;
@@ -105,7 +101,6 @@ public class HealthyRecordFragment extends BaseFragment implements View.OnClickL
     @Override
     protected void initViews() {
         ll_left.setVisibility(View.INVISIBLE);
-        fl_right.setOnClickListener(this);
         tv_weight.setOnClickListener(this);
         tv_body_fat.setOnClickListener(this);
         tv_fat.setOnClickListener(this);
@@ -124,16 +119,13 @@ public class HealthyRecordFragment extends BaseFragment implements View.OnClickL
     @Override
     protected void initDatas() {
         tv_title.setText("健康记录");
-        iv_email.setImageResource(R.drawable.healthedit);
-        if ("".equals(UserInfoModel.getInstance().getToken())) {
+        if (StringUtils.isEmpty(UserInfoModel.getInstance().getToken())) {
             lin_is_vr.setVisibility(View.VISIBLE);
             ll.setVisibility(View.GONE);
-            fl_right.setVisibility(View.GONE);
 
         } else {
             lin_is_vr.setVisibility(View.GONE);
             ll.setVisibility(View.VISIBLE);
-            fl_right.setVisibility(View.VISIBLE);
             //获取健康记录
             mobile = UserInfoModel.getInstance().getUser().getMobile();
             retestPre = new HealthyRecordManager(this);

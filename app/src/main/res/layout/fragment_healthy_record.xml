@@ -8,30 +8,27 @@
     <include layout="@layout/toolbar" />
 
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <FrameLayout
+        <include layout="@layout/no_login_tip" />
+
+        <com.handmark.pulltorefresh.library.PullToRefreshScrollView
+            xmlns:ptr="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/healthy_refresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            >
+            android:overScrollMode="never"
+            android:scrollbars="none"
+            ptr:ptrShowIndicator="false">
 
-            <include layout="@layout/no_login_tip" />
-            <com.handmark.pulltorefresh.library.PullToRefreshScrollView
-                xmlns:ptr="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/healthy_refresh"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                ptr:ptrMode="both"
-                ptr:ptrShowIndicator="false"
-                android:overScrollMode="never"
-                android:scrollbars="none"
-                >
             <LinearLayout
                 android:id="@+id/ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:background="@color/white"
-                >
+                android:orientation="vertical">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -606,7 +603,7 @@
                     android:layout_height="1dp"
                     android:background="#e0e0e0" />
             </LinearLayout>
-            </com.handmark.pulltorefresh.library.PullToRefreshScrollView>
-        </FrameLayout>
+        </com.handmark.pulltorefresh.library.PullToRefreshScrollView>
+    </FrameLayout>
 
 </LinearLayout>
