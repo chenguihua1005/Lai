@@ -202,7 +202,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
             }
         });
         onRefresh();
-        model = UserInfoModel.getInstance().getUser();
+        /*model = UserInfoModel.getInstance().getUser();
         String hasEmchat = model.getHasEmchat();
         if ("1".equals(hasEmchat)) {
 
@@ -222,7 +222,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                 }
             };
             timer.schedule(task, 0, 10000);
-        }
+        }*/
 
     }
 
@@ -421,33 +421,33 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                     }
                     break;
                 case Constants.OFFICE:
-                    boolean isLogin = EMChat.getInstance().isLoggedIn();
-                    if (isLogin) {
-                        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-                        ChatUserModel chatUserModel = new ChatUserModel();
-                        chatUserModel.setUserName(model.getNickname());
-                        chatUserModel.setUserPhone(path + model.getPhoto());
-                        chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
-                        ChatUserInfoModel.getInstance().setUser(chatUserModel);
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                EMChatManager.getInstance().updateCurrentUserNick(model.getNickname());
-                                EMChatManager.getInstance().loadAllConversations();
-                            }
-                        }).start();
-// 进入主页面
-                        System.out.println("ConversationListActivity=======");
-                        Intent intent = new Intent(getActivity(), ConversationListActivity.class);
-                        startActivity(intent);
-                    } else {
-                        isTurn = true;
-                        if (timer != null) {
-                            timer.cancel();
-                        }
-                        loginPresenter.getEMChatAccount(progressDialog);
-                    }
-                    break;
+//                    boolean isLogin = EMChat.getInstance().isLoggedIn();
+//                    if (isLogin) {
+//                        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+//                        ChatUserModel chatUserModel = new ChatUserModel();
+//                        chatUserModel.setUserName(model.getNickname());
+//                        chatUserModel.setUserPhone(path + model.getPhoto());
+//                        chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
+//                        ChatUserInfoModel.getInstance().setUser(chatUserModel);
+//                        new Thread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                EMChatManager.getInstance().updateCurrentUserNick(model.getNickname());
+//                                EMChatManager.getInstance().loadAllConversations();
+//                            }
+//                        }).start();
+//// 进入主页面
+//                        System.out.println("ConversationListActivity=======");
+//                        Intent intent = new Intent(getActivity(), ConversationListActivity.class);
+//                        startActivity(intent);
+//                    } else {
+//                        isTurn = true;
+//                        if (timer != null) {
+//                            timer.cancel();
+//                        }
+//                        loginPresenter.getEMChatAccount(progressDialog);
+//                    }
+//                    break;
                 case Constants.LAI_EXCLE:
                 case Constants.LAI_SHOP:
                     new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
@@ -576,6 +576,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
 
         }
     }
+
 
     @Override
     public void onClick(View v) {

@@ -88,7 +88,7 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
                 break;
             case R.id.btn_signout:
                 information_dialog = new AlertDialog.Builder(this);
-                information_dialog.setTitle("确认退出跑团？").setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                information_dialog.setTitle("温馨提示").setMessage("您确认退出跑团吗？").setPositiveButton("确认", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //跳转到身份认证界面

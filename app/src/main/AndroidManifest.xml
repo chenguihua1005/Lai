@@ -110,7 +110,6 @@
         <activity
             android:name=".chat.ConversationListActivity"
             android:screenOrientation="portrait"
-            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
             android:name=".chat.ChatActivity"
