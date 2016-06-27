@@ -178,6 +178,7 @@ public class HealthyFragment extends BaseFragment implements View.OnClickListene
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(requestCode==CAMERA_PREMISSION) {
+            Log.i("拍照权限返回>>>>>>"+grantResults.length+";grantResults[0]=="+(grantResults[0]== PackageManager.PERMISSION_GRANTED));
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // permission was granted, yay! Do the

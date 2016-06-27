@@ -29,6 +29,7 @@ import com.softtek.lai.module.community.model.CommunityModel;
 import com.softtek.lai.module.community.presenter.PersionalDynamicManager;
 import com.softtek.lai.module.lossweightstory.model.UploadImage;
 import com.softtek.lai.utils.DisplayUtil;
+import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.widgets.CustomGridView;
 import com.sw926.imagefileselector.ImageFileSelector;
 
@@ -118,6 +119,7 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
     }
 
     private void exitEdit(){
+        SoftInputUtil.hidden(this);
         new AlertDialog.Builder(this)
                 .setMessage("退出此次编辑？")
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -149,6 +151,7 @@ public class EditPersonalDynamicActivity extends BaseActivity implements View.On
 
     @Override
     public void onValidationSucceeded() {
+        SoftInputUtil.hidden(this);
         if(images.size()==1){
             new AlertDialog.Builder(this)
                     .setMessage("请选择至少一张图片上传")
