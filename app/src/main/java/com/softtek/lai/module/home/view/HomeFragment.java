@@ -308,21 +308,21 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         if (fragment != null) {
             if (fragment instanceof ActivityRecordFragment) {
                 ActivityRecordFragment recordFragment = (ActivityRecordFragment) fragment;
-                if (recordFragment.isRecycleFirst() && verticalOffset >= 0) {
+                if (recordFragment.isRecycleFirst() && verticalOffset <= 0) {
                     pull.setEnabled(true);
                 } else {
                     pull.setEnabled(false);
                 }
             } else if (fragment instanceof ProductInfoFragment) {
                 ProductInfoFragment recordFragment = (ProductInfoFragment) fragment;
-                if (recordFragment.isRecycleFirst() && verticalOffset >= 0) {
+                if (recordFragment.isRecycleFirst() && verticalOffset <= 0) {
                     pull.setEnabled(true);
                 } else {
                     pull.setEnabled(false);
                 }
             } else if (fragment instanceof SaleInfoFragment) {
                 SaleInfoFragment recordFragment = (SaleInfoFragment) fragment;
-                if (recordFragment.isRecycleFirst() && verticalOffset >= 0) {
+                if (recordFragment.isRecycleFirst() && verticalOffset <= 0) {
                     pull.setEnabled(true);
                 } else {
                     pull.setEnabled(false);
@@ -342,7 +342,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
             public void onSuccess() {
                 // ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
                 // ** manually load all local groups and
-                String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+                String path = AddressManager.get("photoHost");
                 ChatUserModel chatUserModel = new ChatUserModel();
                 chatUserModel.setUserName(model.getNickname());
                 chatUserModel.setUserPhone(path + model.getPhoto());

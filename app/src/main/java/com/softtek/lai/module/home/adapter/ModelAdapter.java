@@ -24,7 +24,7 @@ public class ModelAdapter extends BaseAdapter {
 
     private LayoutInflater inflater;
     private String[] models_name;
-    private int[] icons = {R.drawable.tiguansai, R.drawable.laiyundong, R.drawable.office, R.drawable.laibiaoge, R.drawable.laigou};
+    private int[] icons = {R.drawable.tiguansai, R.drawable.laiyundong, R.drawable.home_chat, R.drawable.laibiaoge, R.drawable.laigou};
     private String unRead_Num;
 
     public ModelAdapter(Context context) {
