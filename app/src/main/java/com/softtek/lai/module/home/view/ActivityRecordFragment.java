@@ -122,7 +122,7 @@ public class ActivityRecordFragment extends BaseFragment  {
     }
     //确定recycle的位置
     public boolean isRecycleFirst(){
-        boolean result=true;
+        boolean result;
         if(ptrrv!=null&&adapter!=null){
             if(infos.isEmpty()){
                 result=true;

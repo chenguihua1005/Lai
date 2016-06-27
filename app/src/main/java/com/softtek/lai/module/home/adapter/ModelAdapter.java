@@ -48,6 +48,9 @@ public class ModelAdapter extends BaseAdapter {
     }
 
     public void update(int unreadNum){
+        if(unreadNum==0){
+            return;
+        }
         unRead_Num=unreadNum>=100?"99+":unreadNum+"";
         notifyDataSetChanged();
     }

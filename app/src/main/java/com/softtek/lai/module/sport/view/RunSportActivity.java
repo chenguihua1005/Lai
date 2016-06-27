@@ -171,8 +171,8 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
         aMapLocationClientOption.setWifiActiveScan(true);
         //设置是否允许模拟位置,默认为false，不允许模拟位置
         aMapLocationClientOption.setMockEnable(true);
-        //设置定位间隔,单位毫秒,默认为3000ms
-        aMapLocationClientOption.setInterval(3000);
+        //设置定位间隔,单位毫秒,默认为5000ms
+        aMapLocationClientOption.setInterval(5000);
         //给定位客户端对象设置定位参数
         aMapLocationClient.setLocationOption(aMapLocationClientOption);
 
@@ -293,7 +293,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
     public void onLocationChanged(AMapLocation aMapLocation) {
         if(listener!=null&&aMapLocation!=null) {
             listener.onLocationChanged(aMapLocation);
-            if (aMapLocation.getErrorCode() == 0&&aMapLocation.getAccuracy()<20&&aMapLocation.getAccuracy()>0) {
+            if (aMapLocation.getErrorCode() == 0&&aMapLocation.getAccuracy()<=30&&aMapLocation.getAccuracy()>0) {
                 //当坐标改变之后开始添加标记 画线
                 Log.i("获取位置");
                 LatLng latLng=new LatLng(aMapLocation.getLatitude(),aMapLocation.getLongitude());
@@ -485,6 +485,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource, AM
         } else if (event == GpsStatus.GPS_EVENT_SATELLITE_STATUS) {
             int maxSatellites = status.getMaxSatellites();
             Iterator<GpsSatellite> it = status.getSatellites().iterator();
+            it.next().getSnr();
             int count = 0;
             while (it.hasNext() && count <= maxSatellites) {
                 count++;

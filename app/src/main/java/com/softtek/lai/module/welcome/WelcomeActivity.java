@@ -48,6 +48,10 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
     protected void initViews() {
         guide.setBackgroundResource(R.drawable.guide_bac);
         tintManager.setStatusBarTintResource(android.R.color.transparent);
+        if (!isTaskRoot()) {
+            finish();
+            return;
+        }
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.softtek.lai.module.sport.view;
 
+import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
@@ -8,11 +9,15 @@ import android.animation.PropertyValuesHolder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Handler;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -120,7 +125,7 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
 
     private AMapLocationClient aMapLocationClient;
     private AMapLocationClientOption aMapLocationClientOption;
-
+    private static final int LOCATION_PREMISSION=100;
     @Override
     protected void initViews() {
         ll_left.setOnClickListener(this);
@@ -150,8 +155,54 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
         //给定位客户端对象设置定位参数
         aMapLocationClient.setLocationOption(aMapLocationClientOption);
         aMapLocationClient.setLocationListener(this);
-        aMapLocationClient.startLocation();
+        /**
+         * Android 6.0动态权限申请
+         * PackageManager.PERMISSION_GRANTED:允许使用权限
+         * PackageManager.PERMISSION_DENIED:不允许使用权限
+         */
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)!= PackageManager.PERMISSION_GRANTED||
+                ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)!=PackageManager.PERMISSION_GRANTED){
+            //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
+            if(ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.ACCESS_COARSE_LOCATION)||
+                    ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.ACCESS_FINE_LOCATION)){
+                //允许弹出提示
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION},
+                        LOCATION_PREMISSION);
 
+            }else{
+                //不允许弹出提示
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION},
+                        LOCATION_PREMISSION);
+            }
+        }else{
+            //执行获取权限后的操作
+            //启动定位
+            aMapLocationClient.startLocation();
+        }
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode){
+            case LOCATION_PREMISSION:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                    aMapLocationClient.startLocation();
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                break;
+        }
     }
 
     @Override
@@ -173,16 +224,16 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
                         try {
                             Weather weather = paseXml(response.getBody().in());
                             if(weather!=null){
-                                tv_sport.setText("运动:"+ StringUtil.withValue(weather.getSport()));
-                                String index=StringUtil.withValue(weather.getAqi());
-                                String temperature=StringUtils.isEmpty(weather.getWenDu())?"未知":weather.getWenDu()+"℃";
-                                String quality=StringUtil.withValue(weather.getQuality());
-                                tv_air_index.setText("空气指数:"+wrapperString(index,Color.parseColor("#75BA2B"),0,index.length()));
-                                tv_air_temperature.setText("室外温度:"+wrapperString(temperature,Color.parseColor("#75BA2B"),0,temperature.length()));
-                                tv_air_quality.setText("空气质量:"+wrapperString(quality,Color.parseColor("#75BA2B"),0,quality.length()));
-                                tv_air_quality1.setText(" 空气 "+quality);
+                                tv_sport.setText("运动："+ StringUtil.withValue(weather.getSport()));
+                                String index="空气指数："+StringUtil.withValue(weather.getAqi());
+                                String temperature="室外温度："+(StringUtils.isEmpty(weather.getWenDu())?"未知":weather.getWenDu()+"℃");
+                                String quality="空气质量："+StringUtil.withValue(weather.getQuality());
+                                tv_air_index.setText(wrapperString(index,Color.parseColor("#75BA2B"),5,index.length()));
+                                tv_air_temperature.setText(wrapperString(temperature,Color.parseColor("#75BA2B"),5,temperature.length()));
+                                tv_air_quality.setText(wrapperString(quality,Color.parseColor("#75BA2B"),5,quality.length()));
+                                tv_air_quality1.setText(" 空气 "+StringUtil.withValue(weather.getQuality()));
                             }
-                            Log.i("天气状况" + weather != null ? weather.toString() : null);
+                            //Log.i("天气状况" + weather != null ? weather.toString() : null);
                         } catch (IOException e) {
                             e.printStackTrace();
                         } catch (XmlPullParserException e) {
@@ -279,7 +330,7 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
 
     }
 
-    public static String convert(String utfString) {
+    /*public static String convert(String utfString) {
         StringBuilder sb = new StringBuilder();
         int i = -1;
         int pos = 0;
@@ -293,7 +344,7 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
         }
 
         return sb.toString();
-    }
+    }*/
 
     @Override
     public void onClick(View v) {
@@ -340,18 +391,17 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
                 break;
             case R.id.ll:
                 //滑出动画
-
                 startX=tv_sport.getX();
-                quality_x=startX-tv_air_quality.getWidth()-10;
-                index_x=quality_x-tv_air_index.getWidth()-10;
-                temperature_x=index_x-tv_air_index.getWidth()-20;
+                quality_x=startX-tv_air_quality.getWidth()-15;
+                index_x=quality_x-tv_air_index.getWidth()-15;
+                temperature_x=index_x-tv_air_index.getWidth()-40;
                 PropertyValuesHolder alpha = PropertyValuesHolder.ofFloat("alpha",0f, 1f);
                 PropertyValuesHolder traslation_quality=PropertyValuesHolder.ofFloat("x",startX,quality_x);
                 PropertyValuesHolder traslation_index=PropertyValuesHolder.ofFloat("x",quality_x,index_x);
                 PropertyValuesHolder traslation_temperature=PropertyValuesHolder.ofFloat("x",index_x,temperature_x);
                 AnimatorSet set_anim=new AnimatorSet();
-                set_anim.setInterpolator(new OvershootInterpolator());
-                ObjectAnimator quality_anim=ObjectAnimator.ofPropertyValuesHolder(tv_air_quality,traslation_quality,alpha).setDuration(300);
+                //set_anim.setInterpolator(new OvershootInterpolator());
+                ObjectAnimator quality_anim=ObjectAnimator.ofPropertyValuesHolder(tv_air_quality,traslation_quality,alpha).setDuration(200);
                 quality_anim.addListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationStart(Animator animation) {
