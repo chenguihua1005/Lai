@@ -69,6 +69,7 @@ public class NetErrorHandler implements IApiErrorHandler {
     public void dealNetError(RetrofitError error) {
         Log.i(error.getUrl());
         error.printStackTrace();
+
         switch (error.getKind()) {
             case NETWORK:
                 Throwable throwable = error.getCause();
@@ -91,33 +92,34 @@ public class NetErrorHandler implements IApiErrorHandler {
                             ResponseData data = (ResponseData) error.getBody();
                             customCode = data.getStatus();
                         }
+                        Log.i("return code====="+customCode);
                         switch (customCode) {
                             case 401:
-//                                if (HomeFragment.timer != null) {
-//                                    HomeFragment.timer.cancel();
-//                                }
-//                                if (EMChat.getInstance().isLoggedIn()) {
-//                                    EMChatManager.getInstance().logout(new EMCallBack() {
-//
-//                                        @Override
-//                                        public void onSuccess() {
-//                                            // TODO Auto-generated method stub
-//
-//                                        }
-//
-//                                        @Override
-//                                        public void onProgress(int progress, String status) {
-//                                            // TODO Auto-generated method stub
-//
-//                                        }
-//
-//                                        @Override
-//                                        public void onError(int code, String message) {
-//                                            // TODO Auto-generated method stub
-//
-//                                        }
-//                                    });
-//                                }
+                                if (HomeFragment.timer != null) {
+                                    HomeFragment.timer.cancel();
+                                }
+                                if (EMChat.getInstance().isLoggedIn()) {
+                                    EMChatManager.getInstance().logout(new EMCallBack() {
+
+                                        @Override
+                                        public void onSuccess() {
+                                            // TODO Auto-generated method stub
+
+                                        }
+
+                                        @Override
+                                        public void onProgress(int progress, String status) {
+                                            // TODO Auto-generated method stub
+
+                                        }
+
+                                        @Override
+                                        public void onError(int code, String message) {
+                                            // TODO Auto-generated method stub
+
+                                        }
+                                    });
+                                }
 
                                 if (builder != null || (LaiApplication.getInstance().getContext().get() instanceof LoginActivity)) {
                                     return;
