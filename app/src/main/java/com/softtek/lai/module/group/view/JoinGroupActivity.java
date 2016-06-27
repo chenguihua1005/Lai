@@ -29,7 +29,6 @@ import com.softtek.lai.module.group.adapter.GroupAdapter;
 import com.softtek.lai.module.group.model.CityModel;
 import com.softtek.lai.module.group.model.DxqModel;
 import com.softtek.lai.module.group.model.GroupModel;
-import com.softtek.lai.module.group.model.TotalGroupModel;
 import com.softtek.lai.module.group.presenter.SportGroupManager;
 import com.softtek.lai.widgets.WheelView;
 

@@ -144,6 +144,8 @@ public class SelectTimeActivity extends BaseActivity implements View.OnClickList
         String currentDate=currentYear+"年"+(currentMonth<10?"0"+currentMonth:currentMonth)+"月"+(afterDay<10?"0"+afterDay:afterDay)+"日";
         tv_start.setText(currentDate);
         tv_end.setText(currentDate);
+        form.setStart(DateUtil.getInstance("yyyy年MM月dd日").convertDateStr(currentDate,"yyyy-MM-dd"));
+        form.setEnd(DateUtil.getInstance("yyyy年MM月dd日").convertDateStr(currentDate,"yyyy-MM-dd"));
     }
 
     @Override

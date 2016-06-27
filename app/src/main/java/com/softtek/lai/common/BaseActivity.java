@@ -138,7 +138,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onDestroy();
         LifeCircle.onDestory(this);
         ButterKnife.reset(this);
-        LaiApplication.getInstance().getContext().clear();
+        //LaiApplication.getInstance().getContext().clear();
     }
 
     @Override
