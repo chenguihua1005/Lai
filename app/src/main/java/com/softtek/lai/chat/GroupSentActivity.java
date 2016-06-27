@@ -8,12 +8,16 @@ package com.softtek.lai.chat;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Gravity;
@@ -25,12 +29,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.easemob.EMCallBack;
+import com.easemob.EMConnectionListener;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMMessage;
 import com.easemob.easeui.domain.ChatUserInfoModel;
 import com.easemob.easeui.domain.ChatUserModel;
 import com.easemob.easeui.domain.EaseEmojicon;
+import com.easemob.easeui.utils.EaseACKUtil;
 import com.easemob.easeui.utils.EaseCommonUtils;
 import com.easemob.easeui.widget.EaseChatExtendMenu;
 import com.easemob.easeui.widget.EaseChatInputMenu;
@@ -38,9 +45,13 @@ import com.easemob.easeui.widget.EaseVoiceRecorderView;
 import com.easemob.util.PathUtil;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
+import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.login.view.LoginActivity;
+import com.softtek.lai.stepcount.service.StepService;
 import com.softtek.lai.utils.SoftInputUtil;
 
 import java.io.File;
@@ -98,6 +109,38 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
 
     List<ChatContactInfoModel> list;
 
+    public AlertDialog.Builder builder = null;
+    private EMConnectionListener connectionListener;
+    private Handler handler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            // TODO Auto-generated method stub
+            if (builder != null) {
+                return;
+            }
+            builder = new AlertDialog.Builder(GroupSentActivity.this)
+                    .setTitle("温馨提示").setMessage("您的帐号已经在其他设备登录，请重新登录后再试。")
+                    .setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            builder = null;
+                            UserInfoModel.getInstance().loginOut();
+                            stopService(new Intent(GroupSentActivity.this, StepService.class));
+                            Intent intent = new Intent(GroupSentActivity.this, LoginActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                        }
+                    }).setCancelable(false);
+            if(!isFinishing()){
+                builder.create().show();
+            }
+
+        }
+
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +161,44 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
         });
 
         inputMenu.init(null);
+        connectionListener = new EMConnectionListener() {
+            @Override
+            public void onDisconnected(final int error) {
+                if (!isFinishing()) {
+                    EMChatManager.getInstance().logout(new EMCallBack() {
+
+                        @Override
+                        public void onSuccess() {
+                            // TODO Auto-generated method stub
+                            System.out.println("--------");
+                            handler.sendEmptyMessage(0);
+                        }
+
+                        @Override
+                        public void onProgress(int progress, String status) {
+                            // TODO Auto-generated method stub
+
+                        }
+
+                        @Override
+                        public void onError(int code, String message) {
+                            // TODO Auto-generated method stub
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onConnected() {
+                // 当连接到服务器之后，这里开始检查是否有没有发送的ack回执消息，
+                EaseACKUtil.getInstance(GroupSentActivity.this).checkACKData();
+
+            }
+        };
+        EMChatManager.getInstance().addConnectionListener(connectionListener);
+
+
         inputMenu.setChatInputMenuListener(new EaseChatInputMenu.ChatInputMenuListener() {
 
             @Override

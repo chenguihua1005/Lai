@@ -120,6 +120,9 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     @InjectView(R.id.fl_right)
     FrameLayout fl_right;
 
+    int unreadMsgCountTotal;
+
+
     private IHomeInfoPresenter homeInfoPresenter;
     private IMessagePresenter messagePresenter;
     private ILoginPresenter loginPresenter;
@@ -146,13 +149,12 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         ActivityRecordFragment recordFragment = new ActivityRecordFragment();
         ProductInfoFragment productInfoFragment = new ProductInfoFragment();
         SaleInfoFragment saleInfoFragment = new SaleInfoFragment();
-        fragments.clear();
         fragments.add(recordFragment);
         fragments.add(productInfoFragment);
         fragments.add(saleInfoFragment);
         fragementAdapter = new FragementAdapter(getFragmentManager(), fragments);
         page.setAdapter(fragementAdapter);
-        //page.setOffscreenPageLimit(3);
+        page.setOffscreenPageLimit(3);
         //设置tabLayout和viewpage关联
         tab.setupWithViewPager(page);
         tab.setTabMode(TabLayout.MODE_FIXED);
@@ -170,16 +172,13 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
 
     }
 
-    private ModelAdapter modelAdapter;
-
     @Override
     protected void initDatas() {
         tv_title.setText("莱聚+");
 
         //载入缓存数据
         homeInfoPresenter.loadCacheData();
-        modelAdapter=new ModelAdapter(getContext());
-        gv_model.setAdapter(modelAdapter);
+        gv_model.setAdapter(new ModelAdapter(getContext()));
         gv_model.setOnItemClickListener(this);
         //第一次加载自动刷新
         pull.post(new Runnable() {
@@ -189,27 +188,27 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
             }
         });
         onRefresh();
- //       model = UserInfoModel.getInstance().getUser();
-//        String hasEmchat = model.getHasEmchat();
-//        if ("1".equals(hasEmchat)) {
-//
-//            timer = new Timer();
-//            TimerTask task = new TimerTask() {
-//
-//                @Override
-//                public void run() {
-//                    // 需要做的事:发送消息
-//                    if (!EMChat.getInstance().isLoggedIn()) {
-//                        loginChat(progressDialog, model.getHXAccountId());
-//                    } else {
-//                        if (timer != null) {
-//                            timer.cancel();
-//                        }
-//                    }
-//                }
-//            };
-//            timer.schedule(task, 0, 10000);
-//        }
+        model = UserInfoModel.getInstance().getUser();
+        String hasEmchat = model.getHasEmchat();
+        if ("1".equals(hasEmchat)) {
+
+            timer = new Timer();
+            TimerTask task = new TimerTask() {
+
+                @Override
+                public void run() {
+                    // 需要做的事:发送消息
+                    if (!EMChat.getInstance().isLoggedIn()) {
+                        loginChat(progressDialog, model.getHXAccountId());
+                    } else {
+                        if (timer != null) {
+                            timer.cancel();
+                        }
+                    }
+                }
+            };
+            timer.schedule(task, 0, 10000);
+        }
 
     }
 
@@ -256,8 +255,10 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         }
         rhv_adv.setImgUrlData(advList);
         ((ActivityRecordFragment) fragments.get(0)).updateInfo(records);
-        ((ProductInfoFragment) fragments.get(1)).updateInfo(products);
-        ((SaleInfoFragment) fragments.get(2)).updateInfo(sales);
+        ProductInfoFragment productInfoFragment = ((ProductInfoFragment) fragments.get(1));
+        productInfoFragment.updateInfo(products);
+        SaleInfoFragment saleInfoFragment = ((SaleInfoFragment) fragments.get(2));
+        saleInfoFragment.updateInfo(sales);
     }
 
     @Override
@@ -281,6 +282,10 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     @Override
     public void onResume() {
         super.onResume();
+        if (EMChat.getInstance().isLoggedIn()) {
+            unreadMsgCountTotal = EMChatManager.getInstance().getUnreadMsgsCount();
+        }
+
         model = UserInfoModel.getInstance().getUser();
         if (model == null) {
             return;
@@ -337,22 +342,23 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     }
 
     private void loginChat(final ProgressDialog progressDialog, String account) {
-        EMChatManager.getInstance().login(account, "123123", new EMCallBack() {
+        EMChatManager.getInstance().login(account, "HBL_SOFTTEK#321", new EMCallBack() {
             @Override
             public void onSuccess() {
                 // ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
                 // ** manually load all local groups and
-                String path = AddressManager.get("photoHost");
+                System.out.println("onSuccess------");
+                String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
                 ChatUserModel chatUserModel = new ChatUserModel();
                 chatUserModel.setUserName(model.getNickname());
                 chatUserModel.setUserPhone(path + model.getPhoto());
                 chatUserModel.setUserId(model.getHXAccountId());
                 EMChatManager.getInstance().updateCurrentUserNick(model.getNickname());
                 ChatUserInfoModel.getInstance().setUser(chatUserModel);
-                int unread = EMChatManager.getInstance().getUnreadMsgsCount();
-                modelAdapter.update(unread);
+                unreadMsgCountTotal = EMChatManager.getInstance().getUnreadMsgsCount();
                 EMChatManager.getInstance().loadAllConversations();
                 if (isTurn) {
+                    System.out.println("ConversationListActivity-----");
                     Intent intent = new Intent(getActivity(), ConversationListActivity.class);
                     startActivity(intent);
                 } else {
@@ -402,32 +408,33 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                     }
                     break;
                 case Constants.OFFICE:
-//                    boolean isLogin = EMChat.getInstance().isLoggedIn();
-//                    if (isLogin) {
-//                        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-//                        ChatUserModel chatUserModel = new ChatUserModel();
-//                        chatUserModel.setUserName(model.getNickname());
-//                        chatUserModel.setUserPhone(path + model.getPhoto());
-//                        chatUserModel.setUserId(model.getHXAccountId());
-//                        ChatUserInfoModel.getInstance().setUser(chatUserModel);
-//                        new Thread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                EMChatManager.getInstance().updateCurrentUserNick(model.getNickname());
-//                                EMChatManager.getInstance().loadAllConversations();
-//                            }
-//                        }).start();
-//// 进入主页面
-//                        Intent intent = new Intent(getActivity(), ConversationListActivity.class);
-//                        startActivity(intent);
-//                    } else {
-//                        isTurn = true;
-//                        if (timer != null) {
-//                            timer.cancel();
-//                        }
-//                        loginPresenter.getEMChatAccount(progressDialog);
-//                    }
-//                    break;
+                    boolean isLogin = EMChat.getInstance().isLoggedIn();
+                    if (isLogin) {
+                        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+                        ChatUserModel chatUserModel = new ChatUserModel();
+                        chatUserModel.setUserName(model.getNickname());
+                        chatUserModel.setUserPhone(path + model.getPhoto());
+                        chatUserModel.setUserId(model.getHXAccountId());
+                        ChatUserInfoModel.getInstance().setUser(chatUserModel);
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                EMChatManager.getInstance().updateCurrentUserNick(model.getNickname());
+                                EMChatManager.getInstance().loadAllConversations();
+                            }
+                        }).start();
+// 进入主页面
+                        System.out.println("ConversationListActivity=======");
+                        Intent intent = new Intent(getActivity(), ConversationListActivity.class);
+                        startActivity(intent);
+                    } else {
+                        isTurn = true;
+                        if (timer != null) {
+                            timer.cancel();
+                        }
+                        loginPresenter.getEMChatAccount(progressDialog);
+                    }
+                    break;
                 case Constants.LAI_EXCLE:
                 case Constants.LAI_SHOP:
                     new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
@@ -604,9 +611,9 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         public void onReceive(Context context, Intent intent) {
             if (Constants.MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {
                 img_red.setVisibility(View.VISIBLE);
-            }else {
-                int unread=intent.getIntExtra("count",0);
-                modelAdapter.update(unread);
+            } else {
+                unreadMsgCountTotal = intent.getIntExtra("count", 0);
+                System.out.println("unreadMsgCountTotal:" + unreadMsgCountTotal);
             }
         }
     }

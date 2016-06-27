@@ -158,8 +158,10 @@ public class EaseConversationAdapater extends ArrayAdapter<EMConversation> {
 			System.out.println("userId:"+userId+"    f:"+f);
 			if(f.equals(userId)){
 				String[] field=conversation.getExtField().split(",");
-				name=field[0];
-				photo=field[1];
+				if(field.length>=2){
+					name=field[0];
+					photo=field[1];
+				}
 			}
 //			if(!TextUtils.isEmpty(conversation.getExtField())){
 //				String[] field=conversation.getExtField().split(",");

@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.easemob.EMCallBack;
+import com.easemob.chat.EMChat;
 import com.easemob.chat.EMChatManager;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
@@ -214,27 +215,28 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         if(HomeFragment.timer!=null){
             HomeFragment.timer.cancel();
         }
-        EMChatManager.getInstance().logout(new EMCallBack() {
+        if (EMChat.getInstance().isLoggedIn()) {
+            EMChatManager.getInstance().logout(new EMCallBack() {
 
-            @Override
-            public void onSuccess() {
-                // TODO Auto-generated method stub
+                @Override
+                public void onSuccess() {
+                    // TODO Auto-generated method stub
 
-            }
+                }
 
-            @Override
-            public void onProgress(int progress, String status) {
-                // TODO Auto-generated method stub
+                @Override
+                public void onProgress(int progress, String status) {
+                    // TODO Auto-generated method stub
 
-            }
+                }
 
-            @Override
-            public void onError(int code, String message) {
-                // TODO Auto-generated method stub
+                @Override
+                public void onError(int code, String message) {
+                    // TODO Auto-generated method stub
 
-            }
-        });
-
+                }
+            });
+        }
     }
 
     @Override

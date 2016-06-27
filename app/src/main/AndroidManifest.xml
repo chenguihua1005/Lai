@@ -646,12 +646,12 @@
         </receiver>
 
          <!--设置环信应用的appkey -->
-        <meta-data
-            android:name="EASEMOB_APPKEY"
-            android:value="easemob-demo#chatdemoui" />
         <!--<meta-data-->
             <!--android:name="EASEMOB_APPKEY"-->
-            <!--android:value="herbalife#laiju" />-->
+            <!--android:value="easemob-demo#chatdemoui" />-->
+        <meta-data
+            android:name="EASEMOB_APPKEY"
+            android:value="herbalife#laiju" />
         <!-- 声明sdk所需的service -->
         <service
             android:name="com.easemob.chat.EMChatService"

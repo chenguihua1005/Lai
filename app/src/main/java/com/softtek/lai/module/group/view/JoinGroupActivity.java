@@ -194,7 +194,7 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
                 if ("选择大区".equals(text_dq.getText())) {
 
                 } else {
-                    if(xq_name_list.size()!=0){
+                    if (xq_name_list.size() != 0) {
                         showXiaoQuDialog();
                     }
                 }
@@ -203,7 +203,7 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
                 if ("选择小区".equals(text_xq.getText())) {
 
                 } else {
-                    if(city_name_list.size()!=0){
+                    if (city_name_list.size() != 0) {
                         showCityDialog();
                     }
                 }
@@ -326,12 +326,25 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
                             } else {
                                 sportGroupManager.getSregionList(select_dq_id);
                             }
+                            return;
                         }
                         if (!"".equals(select_dq_name_info)) {
                             select_dq_name = select_dq_name_info;
                             select_dq_id = select_dq_id_info;
                             select_is_head = select_is_head_info;
                             select_dq_posion = select_dq_posion_info;
+                            text_dq.setText(select_dq_name);
+                            resetXQCity();
+                            dialogShow("加载中");
+                            // sportGroupManager.getSregionList(select_dq_id);
+                            if ("1".equals(select_is_head)) {
+                                sportGroupManager.getHQRGlist(select_dq_id);
+                                rel_xq.setVisibility(View.GONE);
+                                rel_cs.setVisibility(View.GONE);
+                            } else {
+                                sportGroupManager.getSregionList(select_dq_id);
+                            }
+                        }else {
                             text_dq.setText(select_dq_name);
                             resetXQCity();
                             dialogShow("加载中");
@@ -394,6 +407,11 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
                             resetCity();
                             dialogShow("加载中");
                             sportGroupManager.getCityList(select_xq_id);
+                        }else {
+                            text_xq.setText(select_xq_name);
+                            resetCity();
+                            dialogShow("加载中");
+                            sportGroupManager.getCityList(select_xq_id);
                         }
                     }
                 })
@@ -440,6 +458,10 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
                             select_city_name = select_city_name_info;
                             select_city_id = select_city_id_info;
                             select_city_posion = select_city_posion_info;
+                            text_cs.setText(select_city_name);
+                            dialogShow("加载中");
+                            sportGroupManager.getRGListByCity(select_city_id);
+                        }else {
                             text_cs.setText(select_city_name);
                             dialogShow("加载中");
                             sportGroupManager.getRGListByCity(select_city_id);
