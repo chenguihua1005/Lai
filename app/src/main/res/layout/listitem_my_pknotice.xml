@@ -14,9 +14,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:layout_marginTop="5dp"
             android:background="@drawable/shape_pknews_layout">
 
@@ -25,15 +24,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                >
 
                 <com.softtek.lai.widgets.CircleImageView
                     android:id="@+id/im_pk_head"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:layout_marginBottom="30dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="20dp"
                     android:background="@drawable/img_default" />
             </LinearLayout>
 
@@ -41,24 +41,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/ll_pk_head"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                >
 
                 <RelativeLayout
                     android:id="@+id/ll_action_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp">
+                    android:layout_marginLeft="2dp">
 
                     <TextView
                         android:id="@+id/tv_pk_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
-                        android:layout_marginLeft="10dp"
                         android:layout_marginTop="15dp"
-                        android:text="wuli向你发起了一次挑战"
-                        android:textColor="#bababa"
-                        android:textSize="10sp" />
+                        android:textColor="#333333"
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/tv_pk_date"
@@ -66,19 +65,18 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_marginBottom="8dp"
-                        android:layout_marginRight="40dp"
+                        android:layout_marginRight="20dp"
                         android:layout_marginTop="15dp"
                         android:gravity="right"
-                        android:text="6-16"
-                        android:textColor="#bababa"
-                        android:textSize="10sp" />
+                        android:textColor="#333333"
+                        android:textSize="12sp" />
                 </RelativeLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="40dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
                     android:background="#f1f1f1" />
 
                 <RelativeLayout
@@ -86,8 +84,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/ll_lab2"
-                    android:layout_marginLeft="10dp"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    >
 
                     <TextView
                         android:id="@+id/tv_pk_person1"
@@ -97,9 +95,8 @@
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="36dp"
                         android:layout_marginTop="5dp"
-                        android:textColor="#333333"
-                        android:textSize="14sp"
-
+                        android:textColor="#bababa"
+                        android:textSize="10sp"
                         />
 
                     <ImageView
@@ -108,7 +105,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginRight="5dp"
                         android:src="@drawable/action_right" />
                 </RelativeLayout>
 

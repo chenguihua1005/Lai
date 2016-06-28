@@ -40,6 +40,7 @@ import com.softtek.lai.module.lossweightstory.view.LossWeightStoryActivity;
 import com.softtek.lai.module.message.presenter.IMessagePresenter;
 import com.softtek.lai.module.message.presenter.MessageImpl;
 import com.softtek.lai.module.message.view.MessageActivity;
+import com.softtek.lai.module.pastreview.view.ClassListActivity;
 import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.module.retest.present.RetestclassImp;
@@ -305,7 +306,6 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-
         final int id = v.getId();
         if (id != R.id.ll_st_saikuang && id != R.id.ll_st_tipst && id != R.id.ll_left
                 && id != R.id.fl_right && id != R.id.iv_email && id != R.id.ll_st_rongyu) {
@@ -428,7 +428,8 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
                 break;
             //往期回顾
             case R.id.ll_st_review:
-                new AlertDialog.Builder(this).setMessage("功能开发中敬请期待").create().show();
+//                new AlertDialog.Builder(this).setMessage("功能开发中敬请期待").create().show();
+                startActivity(new Intent(this, ClassListActivity.class));
                 break;
 
         }
