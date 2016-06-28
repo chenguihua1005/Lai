@@ -439,6 +439,7 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
         ChatUserModel chatUserModel = ChatUserInfoModel.getInstance().getUser();
         message.setAttribute("nickname", chatUserModel.getUserName());
         message.setAttribute("avatarURL", chatUserModel.getUserPhone());
+        message.setAttribute("userId", chatUserModel.getUserId().toLowerCase());
 
         //发送消息
         EMChatManager.getInstance().sendMessage(message, null);

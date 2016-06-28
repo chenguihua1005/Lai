@@ -140,7 +140,7 @@ public abstract class EaseChatRow extends LinearLayout {
         if(message.direct == Direct.SEND){
             ChatUserModel chatUserModel = ChatUserInfoModel.getInstance().getUser();
             String p=chatUserModel.getUserPhone();
-            Picasso.with(getContext()).load(p).fit().error(R.drawable.ease_group_icon).into(userAvatarView);
+            Picasso.with(getContext()).load(p).fit().error(R.drawable.img_default).into(userAvatarView);
             //EaseUserUtils.setUserAvatar(context, EMChatManager.getInstance().getCurrentUser(), userAvatarView);
            // 发送方不显示nick
            // UserUtils.setUserNick(EMChatManager.getInstance().getCurrentUser(), usernickView);
@@ -148,7 +148,7 @@ public abstract class EaseChatRow extends LinearLayout {
 //            EaseUserUtils.setUserAvatar(context, message.getFrom(), userAvatarView);
 //            EaseUserUtils.setUserNick(message.getFrom(), usernickView);
 
-            Picasso.with(getContext()).load(photoF).fit().error(R.drawable.ease_group_icon).into(userAvatarView);
+            Picasso.with(getContext()).load(photoF).fit().error(R.drawable.img_default).into(userAvatarView);
             usernickView.setVisibility(VISIBLE);
             usernickView.setText(nameF);
         }

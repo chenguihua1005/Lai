@@ -3,7 +3,7 @@
   ~ Date:2016-03-31
   -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="65dp"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
     <LinearLayout
@@ -16,7 +16,8 @@
         <ImageView
             android:id="@+id/iv_icon"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:src="@drawable/tiguansai"/>
 
         <TextView
             android:id="@+id/tv_name"
@@ -35,5 +36,6 @@
         android:background="@drawable/circle_bg"
         android:layout_gravity="right"
         android:visibility="gone"
+        android:gravity="center"
         />
 </FrameLayout>

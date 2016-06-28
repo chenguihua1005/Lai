@@ -268,6 +268,7 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
     public void onResume() {
         super.onResume();
         SportManager manager = new SportManager(this);
+        dialogShow("加载中");
         manager.getHistoryTotalMovement();
     }
 
@@ -584,11 +585,15 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void getHistoryTotalMovement(String type, TotalSportModel model) {
+        dialogDissmiss();
         if ("true".equals(type)) {
             String km = StringUtils.isEmpty(model.getTotalKilometer()) ? "0" : model.getTotalKilometer();
-            text_total_distance.setText(km);
-            text_total_time.setText(model.getTotalTime());
-            text_total_count.setText(model.getCount());
+            if(text_total_distance!=null)
+                text_total_distance.setText(km);
+            if(text_total_time!=null)
+                text_total_time.setText(model.getTotalTime());
+            if(text_total_count!=null)
+                text_total_count.setText(model.getCount());
         }
     }
 
