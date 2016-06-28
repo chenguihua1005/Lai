@@ -79,9 +79,6 @@ public class BaseDateFragment extends BaseFragment{
             StudentBaseInfoModel model= (StudentBaseInfoModel) bundle.getSerializable("obj");
             accountId=model.getAccountId();
             classId=model.getClassId();
-            /*tv_totle_lw.setText(model.getLossTotal()+"");
-            tv_loss_before.setText(model.getLossBefore());
-            tv_loss_after.setText(model.getLossAfter());*/
             if(StringUtils.isNotEmpty(model.getLossBeforePhoto())){
                 Picasso.with(getContext()).load(model.getLossBeforePhoto()).fit().placeholder(R.drawable.default_icon_rect).error(R.drawable.default_icon_rect).into(iv_loss_before);
             }

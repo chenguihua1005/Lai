@@ -122,7 +122,6 @@ public class StepUtil {
     public static StepUtil getInstance(){
         if(util==null){
             util=new StepUtil();
-            Log.i("啦啦啦啦啦 我的快乐的测试字符串");
         }
         return util;
     }
