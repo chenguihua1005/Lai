@@ -3,40 +3,38 @@
  * Date:2016-03-31
  */
 
-package com.softtek.lai.chat;
+package com.softtek.lai.chat.adapter;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
+import com.softtek.lai.chat.model.ChatContactInfoModel;
+import com.softtek.lai.chat.model.SelectContactInfoModel;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.module.counselor.model.ContactListInfoModel;
-import com.softtek.lai.module.counselor.presenter.IStudentPresenter;
-import com.softtek.lai.module.counselor.presenter.StudentImpl;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import zilla.libcore.file.AddressManager;
-import zilla.libcore.file.SharedPreferenceService;
 
 /**
  * Created by jarvis.liu on 3/22/2016.
  */
-public class ChatContantAdapter extends BaseAdapter {
+public class SelectGroupSentAdapter extends BaseAdapter {
     private LayoutInflater mInflater;//得到一个LayoutInfalter对象用来导入布局
-    private List<ChatContactInfoModel> list;
+    private List<SelectContactInfoModel> list;
     private BaseActivity context;
 
     /**
      * 构造函数
      */
-    public ChatContantAdapter(BaseActivity context, List<ChatContactInfoModel> list) {
+    public SelectGroupSentAdapter(BaseActivity context, List<SelectContactInfoModel> list) {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
         this.list = list;
@@ -65,27 +63,50 @@ public class ChatContantAdapter extends BaseAdapter {
         final ViewHolder holder;
         //观察convertView随ListView滚动情况
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.chat_contant_list_item, null);
+            convertView = mInflater.inflate(R.layout.chat_select_item, null);
             holder = new ViewHolder();
             /**得到各个控件的对象*/
             holder.text_name = (TextView) convertView.findViewById(R.id.text_name);
             holder.img = (ImageView) convertView.findViewById(R.id.img);
+            holder.img_select_button = (ImageView) convertView.findViewById(R.id.img_select_button);
+            holder.rel = (RelativeLayout) convertView.findViewById(R.id.rel);
 
             convertView.setTag(holder);//绑定ViewHolder对象
         } else {
             holder = (ViewHolder) convertView.getTag();//取出ViewHolder对象
         }
         /**设置TextView显示的内容，即我们存放在动态数组中的数据*/
-        final ChatContactInfoModel contactListInfo = list.get(position);
+        final SelectContactInfoModel selectContactInfoModel = list.get(position);
+        ChatContactInfoModel contactListInfo = selectContactInfoModel.getModel();
         String photo = contactListInfo.getPhoto();
-        System.out.println("photo:"+photo);
+        System.out.println("photo:" + photo);
         String path= AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
         if ("".equals(photo)) {
-            Picasso.with(context).load("111").fit().error(com.easemob.easeui.R.drawable.img_default).into(holder.img);
+            Picasso.with(context).load("111").fit().error(com.easemob.easeui.R.drawable.ease_group_icon).into(holder.img);
         } else {
-            Picasso.with(context).load(path+photo).fit().error(com.easemob.easeui.R.drawable.img_default).into(holder.img);
+            Picasso.with(context).load(path+photo).fit().error(com.easemob.easeui.R.drawable.ease_group_icon).into(holder.img);
         }
         holder.text_name.setText(contactListInfo.getUserName());
+        final boolean isSelect = selectContactInfoModel.isSelected();
+        if (isSelect) {
+            holder.img_select_button.setImageResource(R.drawable.history_data_circled);
+        } else {
+            holder.img_select_button.setImageResource(R.drawable.history_data_circle);
+        }
+        holder.rel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (selectContactInfoModel.isSelected()) {
+                    System.out.println("--------");
+                    holder.img_select_button.setImageResource(R.drawable.history_data_circle);
+                    selectContactInfoModel.setSelected(false);
+                } else {
+                    System.out.println("==========");
+                    holder.img_select_button.setImageResource(R.drawable.history_data_circled);
+                    selectContactInfoModel.setSelected(true);
+                }
+            }
+        });
         return convertView;
     }
 
@@ -95,6 +116,8 @@ public class ChatContantAdapter extends BaseAdapter {
     public class ViewHolder {
         public TextView text_name;
         public ImageView img;
+        public ImageView img_select_button;
+        public RelativeLayout rel;
     }
 }
 

@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import com.easemob.EMCallBack;
 import com.easemob.EMConnectionListener;
-import com.easemob.EMError;
 import com.easemob.EMEventListener;
 import com.easemob.EMNotifierEvent;
 import com.easemob.chat.CmdMessageBody;
@@ -21,19 +20,16 @@ import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMMessage;
 import com.easemob.easeui.EaseConstant;
 import com.easemob.easeui.controller.EaseUI;
-import com.easemob.easeui.domain.EaseUser;
 import com.easemob.easeui.model.EaseNotifier;
 import com.easemob.easeui.utils.EaseACKUtil;
 import com.easemob.easeui.utils.EaseCommonUtils;
 import com.easemob.exceptions.EaseMobException;
 import com.softtek.lai.LaiApplication;
+import com.softtek.lai.chat.ui.ConversationListActivity;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.stepcount.service.StepService;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.List;
 

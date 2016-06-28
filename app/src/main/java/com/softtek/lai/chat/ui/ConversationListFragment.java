@@ -1,7 +1,6 @@
-package com.softtek.lai.chat;
+package com.softtek.lai.chat.ui;
 
 import android.content.Intent;
-import android.text.TextUtils;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuItem;
@@ -22,9 +21,7 @@ import com.easemob.easeui.ui.EaseConversationListFragment;
 import com.easemob.exceptions.EaseMobException;
 import com.easemob.util.NetUtils;
 import com.softtek.lai.R;
-import com.squareup.picasso.Picasso;
-
-import java.util.List;
+import com.softtek.lai.chat.Constant;
 
 public class ConversationListFragment extends EaseConversationListFragment {
 

@@ -3,7 +3,7 @@
  * Date:2016-03-31
  */
 
-package com.softtek.lai.chat;
+package com.softtek.lai.chat.model;
 
 import java.io.Serializable;
 

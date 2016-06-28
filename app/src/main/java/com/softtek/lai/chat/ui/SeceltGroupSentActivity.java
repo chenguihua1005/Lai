@@ -3,69 +3,80 @@
  * Date:2016-03-31
  */
 
-package com.softtek.lai.chat;
+package com.softtek.lai.chat.ui;
 
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
-import android.view.ContextMenu;
-import android.view.KeyEvent;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.easemob.EMCallBack;
 import com.easemob.EMConnectionListener;
-import com.easemob.EMEventListener;
-import com.easemob.EMNotifierEvent;
 import com.easemob.chat.EMChatManager;
-import com.easemob.chat.EMConversation;
-import com.easemob.chat.EMMessage;
-import com.easemob.easeui.EaseConstant;
-import com.easemob.easeui.ui.EaseChatFragment;
 import com.easemob.easeui.utils.EaseACKUtil;
-import com.easemob.util.EMLog;
-import com.easemob.util.NetUtils;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
-import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
+import com.softtek.lai.chat.adapter.SelectGroupSentAdapter;
+import com.softtek.lai.chat.model.ChatContactInfoModel;
+import com.softtek.lai.chat.model.SelectContactInfoModel;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.stepcount.service.StepService;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
-@InjectLayout(R.layout.em_activity_chat)
-public class ChatActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener {
+/**
+ * Created by jarvis.liu on 3/22/2016.
+ */
+@InjectLayout(R.layout.activity_select_group_list)
+public class SeceltGroupSentActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener {
 
     @LifeCircleInject
     ValidateLife validateLife;
 
+
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
 
+    @InjectView(R.id.fl)
+    FrameLayout fl;
+    @InjectView(R.id.et_search)
+    TextView et_search;
+
     @InjectView(R.id.tv_title)
     TextView tv_title;
+    @InjectView(R.id.tv_right)
+    TextView tv_right;
+    @InjectView(R.id.lin_next)
+    LinearLayout lin_next;
 
-    public static ChatActivity activityInstance;
-    private EaseChatFragment chatFragment;
-    String toChatUsername;
+    @InjectView(R.id.list_contant)
+    ListView list_contant;
 
+    SelectGroupSentAdapter adapter;
+    List<SelectContactInfoModel> list;
+
+    boolean isSelectAll=false;
     public AlertDialog.Builder builder = null;
     private EMConnectionListener connectionListener;
     private Handler handler = new Handler() {
@@ -76,21 +87,21 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
             if (builder != null) {
                 return;
             }
-            builder = new AlertDialog.Builder(ChatActivity.this)
+            builder = new AlertDialog.Builder(SeceltGroupSentActivity.this)
                     .setTitle("温馨提示").setMessage("您的帐号已经在其他设备登录，请重新登录后再试。")
                     .setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             builder = null;
                             UserInfoModel.getInstance().loginOut();
-                            stopService(new Intent(ChatActivity.this, StepService.class));
-                            Intent intent = new Intent(ChatActivity.this, LoginActivity.class);
+                            stopService(new Intent(SeceltGroupSentActivity.this, StepService.class));
+                            Intent intent = new Intent(SeceltGroupSentActivity.this, LoginActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(intent);
                         }
                     }).setCancelable(false);
-            if (!isFinishing()) {
+            if(!isFinishing()){
                 builder.create().show();
             }
 
@@ -99,22 +110,18 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
     };
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activityInstance = this;
-        //聊天人或群id
-        toChatUsername = getIntent().getExtras().getString("userId");
-        //可以直接new EaseChatFratFragment使用
-        chatFragment = new ChatFragment();
-        //传入参数
-        String title_value = getIntent().getStringExtra("name");
-        if ("".equals(title_value)) {
-            title_value = "test";
-        }
-        tv_title.setText(title_value);
         ll_left.setOnClickListener(this);
+        fl.setOnClickListener(this);
+        tv_right.setOnClickListener(this);
+        et_search.setOnClickListener(this);
+        lin_next.setOnClickListener(this);
 
+        list = new ArrayList<SelectContactInfoModel>();
+        setData();
         connectionListener = new EMConnectionListener() {
             @Override
             public void onDisconnected(final int error) {
@@ -139,7 +146,6 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                             // TODO Auto-generated method stub
 
                         }
-
                     });
                 }
             }
@@ -147,46 +153,30 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
             @Override
             public void onConnected() {
                 // 当连接到服务器之后，这里开始检查是否有没有发送的ack回执消息，
-                EaseACKUtil.getInstance(ChatActivity.this).checkACKData();
+                EaseACKUtil.getInstance(SeceltGroupSentActivity.this).checkACKData();
 
             }
         };
         EMChatManager.getInstance().addConnectionListener(connectionListener);
-
-        chatFragment.setArguments(getIntent().getExtras());
-        getSupportFragmentManager().beginTransaction().add(R.id.container, chatFragment).commit();
+        adapter = new SelectGroupSentAdapter(this, list);
+        list_contant.setAdapter(adapter);
     }
 
-    @Override
-    protected void onNewIntent(Intent intent) {
-        // 点击notification bar进入聊天页面，保证只有一个聊天页面
-        String username = intent.getStringExtra("userId");
-        if (toChatUsername.equals(username))
-            super.onNewIntent(intent);
-        else {
-            finish();
-            startActivity(intent);
+    private void setData() {
+        List<ChatContactInfoModel> lists = (ArrayList<ChatContactInfoModel>) getIntent().getSerializableExtra("list");
+        for (int i = 0; i < lists.size(); i++) {
+            SelectContactInfoModel model = new SelectContactInfoModel();
+            model.setSelected(false);
+            model.setModel(lists.get(i));
+            list.add(model);
         }
-
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        activityInstance = null;
-    }
-
-    @Override
-    public void onBackPressed() {
-        chatFragment.onBackPressed();
-    }
-
-    public String getToChatUsername() {
-        return toChatUsername;
     }
 
     @Override
     protected void initViews() {
+        //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
+        tv_title.setText("选择收件人");
+        tv_right.setText("全选");
 
     }
 
@@ -198,15 +188,49 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.lin_next:
+                List<ChatContactInfoModel> select_list=new ArrayList<ChatContactInfoModel>();
+                for (int i = 0; i < list.size(); i++) {
+                    if(list.get(i).isSelected()){
+                        select_list.add(list.get(i).getModel());
+                    }
+                }
+                if(select_list.size()!=0){
+                    Intent intent=new Intent(this,GroupSentActivity.class);
+                    intent.putExtra("list",(Serializable)select_list);
+                    startActivity(intent);
+                }else {
+                    Util.toastMsg("请选择收件人");
+                }
+                break;
             case R.id.ll_left:
                 finish();
+                break;
+            case R.id.tv_right:
+                if(isSelectAll){
+                    tv_right.setText("全选");
+                    isSelectAll=false;
+                    for (int i = 0; i <list.size() ; i++) {
+                        SelectContactInfoModel selectContactInfoModel=list.get(i);
+                        selectContactInfoModel.setSelected(false);
+                    }
+                }else {
+                    tv_right.setText("取消");
+                    isSelectAll=true;
+                    for (int i = 0; i <list.size() ; i++) {
+                        SelectContactInfoModel selectContactInfoModel=list.get(i);
+                        selectContactInfoModel.setSelected(true);
+                    }
+                }
+                adapter.notifyDataSetChanged();
                 break;
         }
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
 
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 
     @Override
@@ -216,6 +240,12 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public void onValidationFailed(View failedView, Rule<?> failedRule) {
+        validateLife.onValidationFailed(failedView, failedRule);
+    }
+
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
 
     }
 }

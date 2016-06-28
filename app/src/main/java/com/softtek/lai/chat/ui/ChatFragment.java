@@ -1,4 +1,4 @@
-package com.softtek.lai.chat;
+package com.softtek.lai.chat.ui;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -15,7 +15,6 @@ import android.widget.BaseAdapter;
 
 import com.easemob.EMNotifierEvent;
 import com.easemob.chat.CmdMessageBody;
-import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.TextMessageBody;
 import com.easemob.easeui.EaseConstant;
@@ -23,7 +22,6 @@ import com.easemob.easeui.ui.EaseChatFragment;
 import com.easemob.easeui.ui.EaseChatFragment.EaseChatFragmentHelper;
 import com.easemob.easeui.widget.chatrow.EaseChatRow;
 import com.easemob.easeui.widget.chatrow.EaseCustomChatRowProvider;
-import com.easemob.exceptions.EaseMobException;
 import com.easemob.util.PathUtil;
 
 import java.io.File;
