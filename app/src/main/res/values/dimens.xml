@@ -113,7 +113,7 @@
     <dimen name="studentHonorMarginTop2">15dip</dimen>
     <dimen name="studentHonorMarginTop3">37dip</dimen>
     <dimen name="studentHonorMarginTop4">18dip</dimen>
-    <dimen name="studentHonorMarginTop5">22dip</dimen>
+    <dimen name="studentHonorMarginTop5">23dip</dimen>
     <dimen name="studentHonorMarginRight">26dip</dimen>
     <dimen name="studentHonorTextSize">16sp</dimen>
     <dimen name="studentHonorTextSizes">14sp</dimen>
