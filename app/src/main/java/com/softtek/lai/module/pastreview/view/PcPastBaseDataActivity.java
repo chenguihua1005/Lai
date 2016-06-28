@@ -94,7 +94,10 @@ public class PcPastBaseDataActivity extends BaseActivity implements View.OnClick
     }
 
     public void onGetData(PastBaseData memberModel) {
-
+        dialogDissmiss();
+        if(memberModel==null){
+            return;
+        }
         if(StringUtils.isNotEmpty(memberModel.getTotalLoss())&&Float.parseFloat(memberModel.getTotalLoss())<0){
             tv_total_loss_tip.setText("共增重");
         }else{

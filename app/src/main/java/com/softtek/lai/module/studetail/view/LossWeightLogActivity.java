@@ -220,7 +220,7 @@ public class LossWeightLogActivity extends BaseActivity implements View.OnClickL
         totalPage=Integer.parseInt(logs.getTotalPage());
         tv_name.setText(logs.getUserName());
         List<LossWeightLogModel> models=logs.getLogList();
-        if(models==null||logs.getLogList().isEmpty()){
+        if(models==null||models.isEmpty()){
             pageIndex=--pageIndex<1?1:pageIndex;
             return;
         }

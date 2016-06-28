@@ -3,10 +3,14 @@ package com.softtek.lai.module.pastreview.presenter;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.pastreview.model.PastBaseData;
+import com.softtek.lai.module.pastreview.model.StoryList;
+import com.softtek.lai.module.pastreview.model.StoryModel;
 import com.softtek.lai.module.pastreview.net.PCPastReview;
 import com.softtek.lai.module.pastreview.view.PcPastBaseDataActivity;
+import com.softtek.lai.module.pastreview.view.StoryActivity;
 import com.softtek.lai.utils.RequestCallback;
 
+import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
 
@@ -16,13 +20,15 @@ import zilla.libcore.api.ZillaApi;
 public class PastReviewManager {
 
     private PCPastReview service;
+    private UserInfoModel userInfoModel;
 
     public PastReviewManager() {
+        userInfoModel=UserInfoModel.getInstance();
         this.service = ZillaApi.NormalRestAdapter.create(PCPastReview.class);
     }
 
     public void getBaseDataInfo(final PcPastBaseDataActivity activity, long userId, long classId){
-        service.getBaseInfo(UserInfoModel.getInstance().getToken(), userId, classId, new RequestCallback<ResponseData<PastBaseData>>() {
+        service.getBaseInfo(userInfoModel.getToken(), userId, classId, new RequestCallback<ResponseData<PastBaseData>>() {
             @Override
             public void success(ResponseData<PastBaseData> pastBaseDataResponseData, Response response) {
                 if(pastBaseDataResponseData.getStatus()==200){
@@ -30,6 +36,33 @@ public class PastReviewManager {
                         activity.onGetData(pastBaseDataResponseData.getData());
                     }
                 }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                if(activity!=null){
+                    activity.onGetData(null);
+                }
+                super.failure(error);
+            }
+        });
+    }
+
+    public void getStoryList(final StoryActivity activity, long userId, long classId,int pageIndex){
+        service.getPastStory(userInfoModel.getToken(), userId, classId, pageIndex, new RequestCallback<ResponseData<StoryList>>() {
+            @Override
+            public void success(ResponseData<StoryList> storyListResponseData, Response response) {
+                if(activity!=null){
+                    activity.getLogList(storyListResponseData.getData());
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                if(activity!=null){
+                    activity.getLogList(null);
+                }
+                super.failure(error);
             }
         });
     }

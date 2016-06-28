@@ -107,6 +107,10 @@ public class StringUtil {
         return StringUtils.isEmpty(value)?0.0f:Float.parseFloat(value);
     }
 
+    public static long getLong(String value){
+        return StringUtils.isEmpty(value)?-1:Long.parseLong(value);
+    }
+
 
     private static  boolean isLetter(char c) {
         int k = 0x80;
