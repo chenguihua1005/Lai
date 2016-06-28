@@ -669,7 +669,8 @@
         </receiver>
 
         <activity android:name=".module.pastreview.view.PastBaseDataActivity" />
-        <activity android:name=".module.pastreview.view.PcPastBaseDataActivity"></activity>
+        <activity android:name=".module.pastreview.view.PcPastBaseDataActivity" />
+        <activity android:name=".module.pastreview.view.ClassListActivity"></activity>
     </application>
 
 </manifest>
