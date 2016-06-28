@@ -39,7 +39,6 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
-
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
@@ -61,39 +60,41 @@
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
     <uses-permission android:name="android.permission.BROADCAST_STICKY" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
     <!-- 使用时把com.easemob.chatuidemo替换成自己的包名 -->
     <permission
         android:name="com.softtek.lai.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
+
     <uses-permission android:name="com.softtek.lai.permission.C2D_MESSAGE" />
+
     <permission
         android:name="com.softtek.lai.permission.MIPUSH_RECEIVE"
         android:protectionLevel="signature" />
 
     <uses-permission android:name="com.softtek.lai.permission.MIPUSH_RECEIVE" />
 
-
     <application
         android:name=".LaiApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme"
         android:largeHeap="true"
         android:persistent="true"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
         tools:replace="android:icon, android:theme">
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="5728545a67e58ea7cf001701" />
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="1b5f8692ccfaa42c10cef250909a89a5"></meta-data>
+            android:value="1b5f8692ccfaa42c10cef250909a89a5" />
+        <meta-data
+            android:name="BUG_HD_SDK_GENERAL_KEY"
+            android:value="5704e47c748aac462300001d" />
 
-        <meta-data android:value="5704e47c748aac462300001d" android:name="BUG_HD_SDK_GENERAL_KEY" />
         <activity
             android:name=".module.login.view.LoginActivity"
             android:screenOrientation="portrait"
@@ -130,7 +131,6 @@
         <activity
             android:name=".chat.ContextMenuActivity"
             android:screenOrientation="portrait"
-
             android:theme="@style/MyDialogStyle"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <!-- 显示下载大图页面 -->
@@ -194,8 +194,8 @@
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".module.retest.view.RetestActivity"
-            android:screenOrientation="portrait"
-            android:hardwareAccelerated="true"/>
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.login.view.TermActivity"
             android:screenOrientation="portrait" />
@@ -564,8 +564,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.lossweightstory.view.PictureActivity"
-            android:screenOrientation="portrait"
-            android:process=":picture"/>
+            android:process=":picture"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.laisportmine.view.MyInformationActivity"
             android:screenOrientation="portrait" />
@@ -626,15 +626,12 @@
         </receiver>
 
         <activity android:name=".module.mygrades.view.MyXuZhangActivity" />
-        <activity
-            android:name=".module.sport.view.RunSportActivity"
-            />
+        <activity android:name=".module.sport.view.RunSportActivity" />
 
         <!-- 定位需要的服务 使用2.0的定位需要加上这个 -->
         <service android:name="com.amap.api.location.APSService" />
 
-        <activity android:name=".module.sport.view.HistorySportActivity"></activity>
-
+        <activity android:name=".module.sport.view.HistorySportActivity" />
 
         <!-- 开机自启动服务 -->
         <receiver android:name="com.easemob.chat.StartServiceReceiver">
@@ -646,10 +643,10 @@
             </intent-filter>
         </receiver>
 
-         <!--设置环信应用的appkey -->
-        <!--<meta-data-->
-            <!--android:name="EASEMOB_APPKEY"-->
-            <!--android:value="easemob-demo#chatdemoui" />-->
+        <!-- 设置环信应用的appkey -->
+        <!-- <meta-data -->
+        <!-- android:name="EASEMOB_APPKEY" -->
+        <!-- android:value="easemob-demo#chatdemoui" /> -->
         <meta-data
             android:name="EASEMOB_APPKEY"
             android:value="herbalife#laiju" />
@@ -661,6 +658,7 @@
         <receiver android:name="com.easemob.chat.EMMonitorReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
                 <data android:scheme="package" />
             </intent-filter>
             <!-- 可选filter -->
@@ -670,6 +668,8 @@
             </intent-filter>
         </receiver>
 
+        <activity android:name=".module.pastreview.view.PastBaseDataActivity" />
+        <activity android:name=".module.pastreview.view.PcPastBaseDataActivity"></activity>
     </application>
 
 </manifest>
