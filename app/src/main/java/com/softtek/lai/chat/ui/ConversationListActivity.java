@@ -3,11 +3,10 @@
  * Date:2016-03-31
  */
 
-package com.softtek.lai.chat;
+package com.softtek.lai.chat.ui;
 
 
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,43 +17,33 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
-import android.text.TextUtils;
 import android.view.ContextMenu;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.easemob.EMCallBack;
 import com.easemob.EMConnectionListener;
 import com.easemob.EMEventListener;
 import com.easemob.EMNotifierEvent;
-import com.easemob.chat.CmdMessageBody;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMMessage;
 import com.easemob.easeui.EaseConstant;
 import com.easemob.easeui.controller.EaseUI;
-import com.easemob.easeui.domain.ChatUserInfoModel;
-import com.easemob.easeui.domain.ChatUserModel;
-import com.easemob.easeui.model.EaseNotifier;
 import com.easemob.easeui.utils.EaseACKUtil;
-import com.easemob.easeui.utils.EaseCommonUtils;
-import com.easemob.exceptions.EaseMobException;
 import com.easemob.util.EMLog;
 import com.easemob.util.NetUtils;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
-import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
+import com.softtek.lai.chat.ChatHelper;
+import com.softtek.lai.chat.Constant;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.counselor.presenter.AssistantImpl;
-import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.stepcount.service.StepService;
 

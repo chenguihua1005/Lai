@@ -108,27 +108,27 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".chat.ConversationListActivity"
+            android:name=".chat.ui.ConversationListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
-            android:name=".chat.ChatActivity"
+            android:name=".chat.ui.ChatActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
-            android:name=".chat.GroupSentActivity"
+            android:name=".chat.ui.GroupSentActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".chat.SeceltGroupSentActivity"
+            android:name=".chat.ui.SeceltGroupSentActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
-            android:name=".chat.ContantListActivity"
+            android:name=".chat.ui.ContantListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
-            android:name=".chat.ContextMenuActivity"
+            android:name=".chat.ui.ContextMenuActivity"
             android:screenOrientation="portrait"
 
             android:theme="@style/MyDialogStyle"
