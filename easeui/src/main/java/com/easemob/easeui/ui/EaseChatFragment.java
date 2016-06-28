@@ -743,6 +743,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMEventListene
         ChatUserModel chatUserModel = ChatUserInfoModel.getInstance().getUser();
         message.setAttribute("nickname", chatUserModel.getUserName());
         message.setAttribute("avatarURL", chatUserModel.getUserPhone());
+        message.setAttribute("userId", chatUserModel.getUserId().toLowerCase());
         if (chatFragmentHelper != null) {
             //设置扩展属性
             chatFragmentHelper.onSetMessageAttributes(message);
