@@ -8,7 +8,6 @@ public class ClassListModel {
     private String ClassName;
     private String StartDate;
     private String EndDate;
-    private String LoseWeight;
 
     public String getClassId() {
         return ClassId;
@@ -42,11 +41,4 @@ public class ClassListModel {
         EndDate = endDate;
     }
 
-    public String getLoseWeight() {
-        return LoseWeight;
-    }
-
-    public void setLoseWeight(String loseWeight) {
-        LoseWeight = loseWeight;
-    }
 }

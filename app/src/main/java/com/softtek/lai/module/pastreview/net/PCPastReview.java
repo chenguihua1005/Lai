@@ -15,7 +15,7 @@ import retrofit.http.Query;
  * 学员班往期回顾网络接口
  */
 public interface PCPastReview {
-@GET("/HerbrClass/GetHistoryClassList")
+@GET("/Review/GetHistoryClassList")
     void doGetHistoryClassList(
         @Header("token")String token,
         @Query("accountid")String accountid,
