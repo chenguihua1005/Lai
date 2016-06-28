@@ -3,25 +3,16 @@
  * Date:2016-03-31
  */
 
-package com.softtek.lai.chat;
+package com.softtek.lai.chat.ui;
 
 
-import android.app.ProgressDialog;
-import android.content.AsyncQueryHandler;
-import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.ContactsContract;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
@@ -35,29 +26,18 @@ import com.easemob.chat.EMChatManager;
 import com.easemob.easeui.utils.EaseACKUtil;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
-import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
+import com.softtek.lai.chat.adapter.ChatContantAdapter;
+import com.softtek.lai.chat.Constant;
+import com.softtek.lai.chat.model.ChatContactInfoModel;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.counselor.adapter.InviteContantAdapter;
-import com.softtek.lai.module.counselor.model.ContactListInfoModel;
-import com.softtek.lai.module.counselor.presenter.IStudentPresenter;
-import com.softtek.lai.module.counselor.presenter.StudentImpl;
-import com.softtek.lai.module.counselor.view.SearchContantActivity;
-import com.softtek.lai.module.login.model.RoleInfo;
-import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.net.LoginService;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.stepcount.service.StepService;
-import com.softtek.lai.utils.ACache;
-import com.softtek.lai.utils.HanziToPinyin;
 
-import org.greenrobot.eventbus.EventBus;
-
-import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

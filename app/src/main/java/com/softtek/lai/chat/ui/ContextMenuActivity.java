@@ -11,7 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.softtek.lai.chat;
+package com.softtek.lai.chat.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -21,6 +21,7 @@ import android.view.View;
 import com.easemob.chat.EMMessage;
 import com.easemob.easeui.EaseConstant;
 import com.softtek.lai.R;
+import com.softtek.lai.chat.Constant;
 import com.softtek.lai.common.BaseActivity;
 
 public class ContextMenuActivity extends Activity {

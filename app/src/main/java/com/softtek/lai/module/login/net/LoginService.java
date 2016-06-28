@@ -5,14 +5,13 @@
 
 package com.softtek.lai.module.login.net;
 
-import com.softtek.lai.chat.ChatContactInfoModel;
+import com.softtek.lai.chat.model.ChatContactInfoModel;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.login.model.EMChatAccountModel;
 import com.softtek.lai.module.login.model.IdentifyModel;
 import com.softtek.lai.module.login.model.PhotoModel;
 import com.softtek.lai.module.login.model.RoleInfo;
 import com.softtek.lai.module.login.model.UserModel;
-import com.softtek.lai.module.message.model.PhotosModel;
 
 import java.util.List;
 

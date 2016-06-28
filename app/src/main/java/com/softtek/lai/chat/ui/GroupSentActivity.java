@@ -3,7 +3,7 @@
  * Date:2016-03-31
  */
 
-package com.softtek.lai.chat;
+package com.softtek.lai.chat.ui;
 
 
 import android.app.Activity;
@@ -45,14 +45,13 @@ import com.easemob.easeui.widget.EaseVoiceRecorderView;
 import com.easemob.util.PathUtil;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
-import com.softtek.lai.LaiApplication;
 import com.softtek.lai.R;
+import com.softtek.lai.chat.model.ChatContactInfoModel;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.stepcount.service.StepService;
-import com.softtek.lai.utils.SoftInputUtil;
 
 import java.io.File;
 import java.util.ArrayList;
