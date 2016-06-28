@@ -136,6 +136,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        mHomeWatcher.stopWatch();
         super.onDestroy();
         LifeCircle.onDestory(this);
         ButterKnife.reset(this);
