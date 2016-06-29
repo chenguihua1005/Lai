@@ -234,7 +234,10 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
             String state = model.getState();
             if ("0".equals(state)) {
                 isTurn = false;
-                Util.toastMsg("您的会话权限开通中, 请10分钟后再试");
+                Util.toastMsg("您的会话权限开通中，请稍候再试");
+            } else if ("-1".equals(state)) {
+                isTurn = false;
+                Util.toastMsg("开通会话功能需要身份认证");
             } else {
                 if (isTurn) {
                     progressDialog.show();
