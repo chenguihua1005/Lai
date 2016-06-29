@@ -85,7 +85,6 @@ public class PcPastBaseDataActivity extends BaseActivity implements View.OnClick
 
     @Override
     protected void initDatas() {
-        EventBus.getDefault().register(this);
         tv_title.setText("基础数据");
         manager=new PastReviewManager();
         //请求学员基本数据
@@ -94,7 +93,10 @@ public class PcPastBaseDataActivity extends BaseActivity implements View.OnClick
     }
 
     public void onGetData(PastBaseData memberModel) {
-
+        dialogDissmiss();
+        if(memberModel==null){
+            return;
+        }
         if(StringUtils.isNotEmpty(memberModel.getTotalLoss())&&Float.parseFloat(memberModel.getTotalLoss())<0){
             tv_total_loss_tip.setText("共增重");
         }else{
@@ -127,11 +129,6 @@ public class PcPastBaseDataActivity extends BaseActivity implements View.OnClick
 
     }
 
-    @Override
-    protected void onDestroy() {
-        EventBus.getDefault().unregister(this);
-        super.onDestroy();
-    }
 
     @Override
     public void onFragmentInteraction(Uri uri) {
