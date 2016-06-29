@@ -7,6 +7,7 @@ package com.softtek.lai.module.login.presenter;
 
 import android.app.ProgressDialog;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import uk.co.senab.photoview.PhotoView;
 
@@ -16,7 +17,7 @@ import uk.co.senab.photoview.PhotoView;
 public interface ILoginPresenter {
 
     //登录
-    void doLogin(String userName, String password, ProgressDialog dialog);
+    void doLogin(String userName, String password, ProgressDialog dialog, TextView tv_login);
 
     //资格认证
     void alidateCertification(String memberId, String password, String accountId,ProgressDialog progressDialog);
