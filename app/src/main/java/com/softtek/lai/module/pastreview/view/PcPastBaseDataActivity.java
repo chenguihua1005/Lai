@@ -72,7 +72,7 @@ public class PcPastBaseDataActivity extends BaseActivity implements View.OnClick
         //需要传入班级Id和用户id
         UserModel model=UserInfoModel.getInstance().getUser();
         userId=Long.parseLong(model.getUserid());
-        classId=getIntent().getIntExtra("classId",0);
+        classId=Long.parseLong(getIntent().getStringExtra("classId"));
         LossWeightChartFragmentPC lwcf= LossWeightChartFragmentPC.newInstance(model.getUserid(),String.valueOf(classId));
         DimensionChartFragmentPC dcf= DimensionChartFragmentPC.newInstance(model.getUserid(),classId+"");
         fragments.add(lwcf);
