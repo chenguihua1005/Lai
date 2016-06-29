@@ -228,9 +228,6 @@
             android:name=".module.bodygamest.view.StudentHonorGridActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.bodygamest.view.StudentScoresActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".module.bodygamest.view.StudentScoreActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -668,7 +665,6 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".module.pastreview.view.PastBaseDataActivity" />
         <activity android:name=".module.pastreview.view.PcPastBaseDataActivity" />
         <activity android:name=".module.pastreview.view.ClassListActivity" />
         <activity android:name=".module.pastreview.view.PassPhotoActivity"></activity>
