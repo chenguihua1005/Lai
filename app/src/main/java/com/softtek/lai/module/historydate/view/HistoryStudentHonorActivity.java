@@ -20,6 +20,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.mobsandgeeks.saripaar.Rule;
@@ -43,6 +44,7 @@ import com.softtek.lai.module.historydate.adapter.HistoryHonorJZAdapter;
 import com.softtek.lai.module.historydate.adapter.HistoryHonorStarAdapter;
 import com.softtek.lai.module.historydate.adapter.HistoryHonorYGJAdapter;
 import com.softtek.lai.module.historydate.model.HistoryHonorInfo;
+import com.softtek.lai.module.historydate.presenter.HistoryDataManager;
 import com.softtek.lai.utils.ACache;
 import com.softtek.lai.widgets.SelectPicPopupWindow;
 import com.umeng.socialize.ShareAction;
@@ -67,7 +69,7 @@ import zilla.libcore.util.Util;
  * 助教管理页面
  */
 @InjectLayout(R.layout.activity_history_student_honor)
-public class HistoryStudentHonorActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener {
+public class HistoryStudentHonorActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener, HistoryDataManager.GetHistoryStudentHonorCallback {
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -98,6 +100,7 @@ public class HistoryStudentHonorActivity extends BaseActivity implements View.On
     @InjectView(R.id.view_ygj)
     View view_ygj;
 
+    private HistoryDataManager manager;
 
     private List<HistoryHonorInfo> jz_list = new ArrayList<HistoryHonorInfo>();
     private List<HistoryHonorInfo> fc_list = new ArrayList<HistoryHonorInfo>();
@@ -121,79 +124,20 @@ public class HistoryStudentHonorActivity extends BaseActivity implements View.On
 
     @Subscribe
     public void onEvent(List<HistoryHonorInfo> table1) {
-        System.out.println("list:" + table1);
-        for (int i = 0; i < table1.size(); i++) {
-            HistoryHonorInfo studentHonorInfo = table1.get(i);
-            String honorType = studentHonorInfo.getHonorType().toString();
-            if ("0".equals(honorType)) {
-                jz_list.add(studentHonorInfo);
-            } else if ("1".equals(honorType)) {
-                fc_list.add(studentHonorInfo);
-            } else if ("2".equals(honorType)) {
-                ygj_list.add(studentHonorInfo);
-            } else {
-                star_list.add(studentHonorInfo);
-            }
-        }
 
-        if (jz_list.size() == 0) {
-            view_jz.setVisibility(View.GONE);
-            list_jz.setVisibility(View.GONE);
-        } else {
-            HistoryHonorJZAdapter jz_adapter = new HistoryHonorJZAdapter(this, jz_list);
-            list_jz.setAdapter(jz_adapter);
-        }
-
-        if (fc_list.size() == 0) {
-            view_fc.setVisibility(View.GONE);
-            list_fc.setVisibility(View.GONE);
-        } else {
-            HistoryHonorFCAdapter fc_adapter = new HistoryHonorFCAdapter(this, fc_list);
-            list_fc.setAdapter(fc_adapter);
-        }
-
-        if (ygj_list.size() == 0) {
-            view_ygj.setVisibility(View.GONE);
-            list_ygj.setVisibility(View.GONE);
-        } else {
-            HistoryHonorYGJAdapter ygj_adapter = new HistoryHonorYGJAdapter(this, ygj_list);
-            list_ygj.setAdapter(ygj_adapter);
-        }
-        if (star_list.size() == 0) {
-            list_star.setVisibility(View.GONE);
-        } else {
-            HistoryHonorStarAdapter star_adapter = new HistoryHonorStarAdapter(this, star_list);
-            list_star.setAdapter(star_adapter);
-        }
     }
 
     @Override
     protected void initViews() {
-        //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
         tv_title.setText("我的荣誉榜");
-
-
-//        img_fc_1.post(new Runnable() {
-//            @Override
-//            public void run() {
-//                width = img_fc_1.getWidth();
-//                ViewGroup.LayoutParams para = list_jz.getLayoutParams();
-//                para.height = width;
-//                list_jz.setLayoutParams(para);
-//
-//                list_ygj.setLayoutParams(para);
-//
-//                list_star.setLayoutParams(para);
-//
-//                //lin_fc.setLayoutParams(para);
-//                lin_fc.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, width));
-//            }
-//        });
     }
 
     @Override
     protected void initDatas() {
-
+        manager=new HistoryDataManager(this);
+        String userId=UserInfoModel.getInstance().getUser().getUserid();
+        dialogShow("加载中");
+        manager.getHistoryStudentHonor("1","6");
     }
 
     @Override
@@ -226,4 +170,55 @@ public class HistoryStudentHonorActivity extends BaseActivity implements View.On
 
     }
 
+    @Override
+    public void getHistoryStudentHonorCallback(String type, List<HistoryHonorInfo> table1) {
+        dialogDissmiss();
+        if ("true".equals(type)) {
+
+            System.out.println("table1:" + table1);
+            for (int i = 0; i < table1.size(); i++) {
+                HistoryHonorInfo studentHonorInfo = table1.get(i);
+                String honorType = studentHonorInfo.getHonorType().toString();
+                if ("0".equals(honorType)) {
+                    jz_list.add(studentHonorInfo);
+                } else if ("1".equals(honorType)) {
+                    fc_list.add(studentHonorInfo);
+                } else if ("2".equals(honorType)) {
+                    ygj_list.add(studentHonorInfo);
+                } else {
+                    star_list.add(studentHonorInfo);
+                }
+            }
+
+            if (jz_list.size() == 0) {
+                view_jz.setVisibility(View.GONE);
+                list_jz.setVisibility(View.GONE);
+            } else {
+                HistoryHonorJZAdapter jz_adapter = new HistoryHonorJZAdapter(this, jz_list);
+                list_jz.setAdapter(jz_adapter);
+            }
+
+            if (fc_list.size() == 0) {
+                view_fc.setVisibility(View.GONE);
+                list_fc.setVisibility(View.GONE);
+            } else {
+                HistoryHonorFCAdapter fc_adapter = new HistoryHonorFCAdapter(this, fc_list);
+                list_fc.setAdapter(fc_adapter);
+            }
+
+            if (ygj_list.size() == 0) {
+                view_ygj.setVisibility(View.GONE);
+                list_ygj.setVisibility(View.GONE);
+            } else {
+                HistoryHonorYGJAdapter ygj_adapter = new HistoryHonorYGJAdapter(this, ygj_list);
+                list_ygj.setAdapter(ygj_adapter);
+            }
+            if (star_list.size() == 0) {
+                list_star.setVisibility(View.GONE);
+            } else {
+                HistoryHonorStarAdapter star_adapter = new HistoryHonorStarAdapter(this, star_list);
+                list_star.setAdapter(star_adapter);
+            }
+        }
+    }
 }

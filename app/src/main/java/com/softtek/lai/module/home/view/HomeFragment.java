@@ -49,6 +49,7 @@ import com.softtek.lai.module.bodygameyk.view.BodygameYkActivity;
 import com.softtek.lai.module.bodygamezj.view.BodygameSRActivity;
 import com.softtek.lai.module.group.view.GroupMainActivity;
 import com.softtek.lai.module.group.view.JoinGroupActivity;
+import com.softtek.lai.module.historydate.view.HistoryStudentHonorActivity;
 import com.softtek.lai.module.home.adapter.FragementAdapter;
 import com.softtek.lai.module.home.adapter.ModelAdapter;
 import com.softtek.lai.module.home.eventModel.HomeEvent;
@@ -183,14 +184,16 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         progressDialog.setMessage("加载中");
 
     }
+
     private ModelAdapter modelAdapter;
+
     @Override
     protected void initDatas() {
         tv_title.setText("莱聚+");
 
         //载入缓存数据
         homeInfoPresenter.loadCacheData();
-        modelAdapter=new ModelAdapter(getContext());
+        modelAdapter = new ModelAdapter(getContext());
         gv_model.setAdapter(modelAdapter);
         gv_model.setOnItemClickListener(this);
         //第一次加载自动刷新
@@ -300,7 +303,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         }
         if (EMChat.getInstance().isLoggedIn()) {
             int unreadNum = EMChatManager.getInstance().getUnreadMsgsCount();
-            System.out.println("unreadNum:"+unreadNum);
+            System.out.println("unreadNum:" + unreadNum);
             modelAdapter.update(unreadNum);
         }
         String userrole = UserInfoModel.getInstance().getUser().getUserrole();
@@ -420,6 +423,8 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                     }
                     break;
                 case Constants.OFFICE:
+//                    Intent intent = new Intent(getActivity(), HistoryStudentHonorActivity.class);
+//                       startActivity(intent);
                     boolean isLogin = EMChat.getInstance().isLoggedIn();
                     if (isLogin) {
                         String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
