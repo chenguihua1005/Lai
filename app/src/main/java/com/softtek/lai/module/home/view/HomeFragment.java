@@ -422,7 +422,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                         startActivity(new Intent(getContext(), GroupMainActivity.class));
                     }
                     break;
-                case Constants.OFFICE:
+                case Constants.CHAT:
 //                    Intent intent = new Intent(getActivity(), HistoryStudentHonorActivity.class);
 //                    startActivity(intent);
                     boolean isLogin = EMChat.getInstance().isLoggedIn();
@@ -440,7 +440,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                                 EMChatManager.getInstance().loadAllConversations();
                             }
                         }).start();
-// 进入主页面
+                        // 进入主页面
                         System.out.println("ConversationListActivity=======");
                         Intent intent = new Intent(getActivity(), ConversationListActivity.class);
                         startActivity(intent);

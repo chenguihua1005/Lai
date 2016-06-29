@@ -228,9 +228,6 @@
             android:name=".module.bodygamest.view.StudentHonorGridActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.bodygamest.view.StudentScoresActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".module.bodygamest.view.StudentScoreActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -548,9 +545,6 @@
             android:name=".module.historydate.view.HistoryDataActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.historydate.view.HistoryStudentHonorActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".module.historydate.view.HistoryDataDetailActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -692,11 +686,17 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".module.pastreview.view.PastBaseDataActivity" />
-        <activity android:name=".module.pastreview.view.PcPastBaseDataActivity" />
-        <activity android:name=".module.pastreview.view.ClassListActivity" />
-        <activity android:name=".module.pastreview.view.StoryActivity" />
-        <activity android:name=".module.pastreview.view.StoryDetailActivity"></activity>
+        <activity android:name=".module.pastreview.view.PcPastBaseDataActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.pastreview.view.ClassListActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.pastreview.view.PassPhotoActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.pastreview.view.StoryActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.pastreview.view.StoryDetailActivity"
+            android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>

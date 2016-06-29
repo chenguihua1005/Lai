@@ -10,7 +10,7 @@ public class Power {
 
     private boolean bodyGame;
     private boolean laiYunDong;
-    private boolean office;
+    private boolean chat;
     private boolean laiExcel;
     private boolean laiShop;
 
@@ -30,12 +30,12 @@ public class Power {
         this.laiYunDong = laiYunDong;
     }
 
-    public boolean isOffice() {
-        return office;
+    public boolean isChat() {
+        return chat;
     }
 
-    public void setOffice(boolean office) {
-        this.office = office;
+    public void setChat(boolean chat) {
+        this.chat = chat;
     }
 
     public boolean isLaiExcel() {
@@ -59,7 +59,7 @@ public class Power {
         return "Power{" +
                 "bodyGame=" + bodyGame +
                 ", laiYunDong=" + laiYunDong +
-                ", office=" + office +
+                ", chat=" + chat +
                 ", laiExcel=" + laiExcel +
                 ", laiShop=" + laiShop +
                 '}';
