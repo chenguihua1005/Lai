@@ -32,9 +32,6 @@ import zilla.libcore.util.Util;
  */
 public class MemberInfoImpl implements IMemberInfopresenter {
 
-    private static final String LOG_CACHE_DIR="logCache";
-    private static final String LOG_CACHE_KEY="logKey";
-
     private MemberInfoService service;
     private UserInfoModel infoModel;
     private Context context;
