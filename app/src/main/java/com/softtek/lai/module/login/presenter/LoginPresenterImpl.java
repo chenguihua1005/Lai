@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
@@ -258,7 +259,7 @@ public class LoginPresenterImpl implements ILoginPresenter {
     }
 
     @Override
-    public void doLogin(String userName, final String password, final ProgressDialog dialog) {
+    public void doLogin(String userName, final String password, final ProgressDialog dialog, final TextView tv_login) {
 
         service.doLogin(userName, password, new Callback<ResponseData<UserModel>>() {
             @Override
@@ -310,6 +311,7 @@ public class LoginPresenterImpl implements ILoginPresenter {
                         }
                         break;
                     default:
+                        if(tv_login!=null)tv_login.setEnabled(true);
                         Util.toastMsg(userResponseData.getMsg());
                         break;
                 }
@@ -317,6 +319,7 @@ public class LoginPresenterImpl implements ILoginPresenter {
 
             @Override
             public void failure(RetrofitError error) {
+                if(tv_login!=null)tv_login.setEnabled(true);
                 if (dialog != null) dialog.dismiss();
                 ZillaApi.dealNetError(error);
             }
