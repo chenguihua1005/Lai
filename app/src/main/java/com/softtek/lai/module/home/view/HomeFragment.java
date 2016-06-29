@@ -424,7 +424,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                     break;
                 case Constants.OFFICE:
 //                    Intent intent = new Intent(getActivity(), HistoryStudentHonorActivity.class);
-//                       startActivity(intent);
+//                    startActivity(intent);
                     boolean isLogin = EMChat.getInstance().isLoggedIn();
                     if (isLogin) {
                         String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");

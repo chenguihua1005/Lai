@@ -128,7 +128,7 @@ public class ContantListActivity extends BaseActivity implements View.OnClickLis
             @Override
             public void onDisconnected(final int error) {
                 if (!isFinishing()) {
-                    EMChatManager.getInstance().logout(new EMCallBack() {
+                    EMChatManager.getInstance().logout(true,new EMCallBack() {
 
                         @Override
                         public void onSuccess() {

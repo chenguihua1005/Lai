@@ -97,16 +97,16 @@ public class HistoryDataManager {
             public void success(ResponseData<List<HistoryHonorInfo>> responseData, Response response) {
                 Log.i(responseData.toString());
                 int status = responseData.getStatus();
-                if (getHistoryStudentHonorCallback != null) {
+                if(getHistoryStudentHonorCallback!=null) {
                     switch (status) {
                         case 200:
-                            getHistoryStudentHonorCallback.getHistoryStudentHonorCallback("true", responseData.getData());
+                            getHistoryStudentHonorCallback.getHistoryStudentHonorCallback("true",responseData.getData());
                             break;
                         case 100:
-                            getHistoryStudentHonorCallback.getHistoryStudentHonorCallback("false", null);
+                            getHistoryStudentHonorCallback.getHistoryStudentHonorCallback("false",null);
                             break;
                         default:
-                            getHistoryStudentHonorCallback.getHistoryStudentHonorCallback("false", null);
+                            getHistoryStudentHonorCallback.getHistoryStudentHonorCallback("false",null);
                             Util.toastMsg(responseData.getMsg());
                             break;
                     }
@@ -117,10 +117,8 @@ public class HistoryDataManager {
             @Override
             public void failure(RetrofitError error) {
                 super.failure(error);
-                if (getHistoryStudentHonorCallback != null) {
-                    getHistoryStudentHonorCallback.getHistoryStudentHonorCallback("false", null);
-                }
-                ZillaApi.dealNetError(error);
+                if(getHistoryStudentHonorCallback!=null)
+                cb.deleteResult(false);
             }
         });
     }

@@ -99,7 +99,7 @@ public class NetErrorHandler implements IApiErrorHandler {
                                     HomeFragment.timer.cancel();
                                 }
                                 if (EMChat.getInstance().isLoggedIn()) {
-                                    EMChatManager.getInstance().logout(new EMCallBack() {
+                                    EMChatManager.getInstance().logout(true,new EMCallBack() {
 
                                         @Override
                                         public void onSuccess() {
