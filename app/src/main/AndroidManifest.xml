@@ -665,9 +665,17 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".module.pastreview.view.PcPastBaseDataActivity" />
-        <activity android:name=".module.pastreview.view.ClassListActivity" />
-        <activity android:name=".module.pastreview.view.PassPhotoActivity"></activity>
+        <activity android:name=".module.pastreview.view.PcPastBaseDataActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.pastreview.view.ClassListActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.pastreview.view.PassPhotoActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.pastreview.view.StoryActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.pastreview.view.StoryDetailActivity"
+            android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>
