@@ -6,15 +6,18 @@
 package com.softtek.lai.chat.ui;
 
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.view.ContextMenu;
@@ -183,6 +186,14 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
         conversationListFragment = new ConversationListFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.lin, conversationListFragment).show(conversationListFragment)
                 .commit();
+
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)!= PackageManager.PERMISSION_GRANTED){
+            if(ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.RECORD_AUDIO)){
+                ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.RECORD_AUDIO},100);
+            }else{
+                ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.RECORD_AUDIO},100);
+            }
+        }
     }
 
     /**
