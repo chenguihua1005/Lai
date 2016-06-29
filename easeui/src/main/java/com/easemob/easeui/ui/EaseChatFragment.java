@@ -3,17 +3,21 @@ package com.easemob.easeui.ui;
 import java.io.File;
 import java.util.List;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.text.ClipboardManager;
@@ -191,6 +195,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMEventListene
         clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
+
 
     /**
      * 设置属性，监听等
@@ -685,7 +690,15 @@ public class EaseChatFragment extends EaseBaseFragment implements EMEventListene
             }
             switch (itemId) {
                 case ITEM_TAKE_PICTURE: // 拍照
-                    selectPicFromCamera();
+                    if(ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
+                        if(ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),Manifest.permission.CAMERA)){
+                            ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.CAMERA},100);
+                        }else{
+                            ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.CAMERA},100);
+                        }
+                    }else {
+                        selectPicFromCamera();
+                    }
                     break;
                 case ITEM_PICTURE:
                     selectPicFromLocal(); // 图库选择图片
@@ -700,7 +713,6 @@ public class EaseChatFragment extends EaseBaseFragment implements EMEventListene
         }
 
     }
-
 
     //发送消息方法
     //==========================================================================
