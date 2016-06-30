@@ -145,7 +145,7 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
             public void onDisconnected(final int error) {
                 System.out.println("isFinishing:"+isFinishing());
                 if (!isFinishing()) {
-                    EMChatManager.getInstance().logout(new EMCallBack() {
+                    EMChatManager.getInstance().logout(true,new EMCallBack() {
 
                         @Override
                         public void onSuccess() {
@@ -183,7 +183,10 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
         conversationListFragment = new ConversationListFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.lin, conversationListFragment).show(conversationListFragment)
                 .commit();
+
     }
+
+
 
     /**
      * 监听事件

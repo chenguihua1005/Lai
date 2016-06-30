@@ -99,7 +99,7 @@ public class ChatHelper {
             appContext = context;
 //get easeui instance
             easeUI = EaseUI.getInstance();
-
+            EMChatManager.getInstance().setMipushConfig("2882303761517485411", "5111748585411");
             connectionListener = new EMConnectionListener() {
                 @Override
                 public void onDisconnected(final int error) {

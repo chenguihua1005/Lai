@@ -146,11 +146,11 @@
                     android:layout_height="wrap_content"
                     android:text="@string/visitor"
                     android:layout_gravity="center|right"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:textColor="@color/textview_green"/>
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="15dp"
+                    android:layout_height="wrap_content"
                     android:scaleType="fitCenter"
                     android:layout_gravity="center|right"
                     android:src="@drawable/arrow_copy"/>

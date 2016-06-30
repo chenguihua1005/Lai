@@ -1,4 +1,4 @@
-package com.softtek.lai.module.historydate.adapter;
+package com.softtek.lai.module.pastreview.adapter;
 
 /**
  * Created by jarvis.liu on 4/1/2016.
@@ -13,16 +13,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
-import com.softtek.lai.module.historydate.model.HistoryHonorInfo;
+import com.softtek.lai.module.pastreview.model.HistoryHonorInfo;
 
 import java.util.List;
 
-public class HistoryHonorFCAdapter extends BaseAdapter {
+public class HistoryHonorJZAdapter extends BaseAdapter {
     private List<HistoryHonorInfo> list;
     private LayoutInflater mInflater;
     private Context context;
 
-    public HistoryHonorFCAdapter(Context context, List<HistoryHonorInfo> list) {
+    public HistoryHonorJZAdapter(Context context, List<HistoryHonorInfo> list) {
         System.out.println("list:" + list);
         this.context = context;
         this.list = list;
@@ -49,7 +49,8 @@ public class HistoryHonorFCAdapter extends BaseAdapter {
         ViewHolder holder;
         if (convertView == null) {
             holder = new ViewHolder();
-            convertView = mInflater.inflate(R.layout.history_honor_fc_item, null);
+            convertView = mInflater.inflate(R.layout.history_honor_jz_item, null);
+            holder.text_value = (TextView) convertView.findViewById(R.id.text_value);
             holder.text_sm = (TextView) convertView.findViewById(R.id.text_sm);
             holder.img = (ImageView) convertView.findViewById(R.id.img);
 
@@ -57,21 +58,16 @@ public class HistoryHonorFCAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        if(position==0){
-            holder.text_sm.setText("复测铜牌奖章");
-            holder.img.setImageResource(R.drawable.img_student_honor_tong);
-        }else if(position==1) {
-            holder.text_sm.setText("复测银牌奖章");
-            holder.img.setImageResource(R.drawable.img_student_honor_yin);
-        }else if(position==2) {
-            holder.text_sm.setText("复测金牌奖章");
-            holder.img.setImageResource(R.drawable.img_student_honor_jin);
-        }
+        HistoryHonorInfo studentHonorInfo = list.get(position);
+        holder.text_value.setText(studentHonorInfo.getValue().toString());
+        holder.text_sm.setText("减重"+studentHonorInfo.getValue().toString()+"斤奖章");
+        holder.img.setImageResource(R.drawable.img_student_honor_jz_bg);
 
-            return convertView;
+        return convertView;
     }
 
     private static class ViewHolder {
+        private TextView text_value;
         private TextView text_sm;
         private ImageView img;
     }

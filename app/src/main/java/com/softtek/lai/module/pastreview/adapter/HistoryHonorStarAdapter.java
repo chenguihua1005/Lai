@@ -1,4 +1,4 @@
-package com.softtek.lai.module.historydate.adapter;
+package com.softtek.lai.module.pastreview.adapter;
 
 /**
  * Created by jarvis.liu on 4/1/2016.
@@ -13,8 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
-import com.softtek.lai.module.bodygamest.model.StudentHonorInfo;
-import com.softtek.lai.module.historydate.model.HistoryHonorInfo;
+import com.softtek.lai.module.pastreview.model.HistoryHonorInfo;
 
 import java.util.List;
 

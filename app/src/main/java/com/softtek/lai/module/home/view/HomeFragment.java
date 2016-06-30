@@ -49,7 +49,6 @@ import com.softtek.lai.module.bodygameyk.view.BodygameYkActivity;
 import com.softtek.lai.module.bodygamezj.view.BodygameSRActivity;
 import com.softtek.lai.module.group.view.GroupMainActivity;
 import com.softtek.lai.module.group.view.JoinGroupActivity;
-import com.softtek.lai.module.historydate.view.HistoryStudentHonorActivity;
 import com.softtek.lai.module.home.adapter.FragementAdapter;
 import com.softtek.lai.module.home.adapter.ModelAdapter;
 import com.softtek.lai.module.home.eventModel.HomeEvent;
@@ -234,7 +233,10 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
             String state = model.getState();
             if ("0".equals(state)) {
                 isTurn = false;
-                Util.toastMsg("您的会话权限开通中, 请10分钟后再试");
+                Util.toastMsg("您的会话权限开通中，请稍候再试");
+            } else if ("-1".equals(state)) {
+                isTurn = false;
+                Util.toastMsg("开通会话功能需要身份认证");
             } else {
                 if (isTurn) {
                     progressDialog.show();
@@ -424,7 +426,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                     break;
                 case Constants.CHAT:
 //                    Intent intent = new Intent(getActivity(), HistoryStudentHonorActivity.class);
-//                       startActivity(intent);
+//                    startActivity(intent);
                     boolean isLogin = EMChat.getInstance().isLoggedIn();
                     if (isLogin) {
                         String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");

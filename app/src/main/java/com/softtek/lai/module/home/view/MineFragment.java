@@ -216,7 +216,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
             HomeFragment.timer.cancel();
         }
         if (EMChat.getInstance().isLoggedIn()) {
-            EMChatManager.getInstance().logout(new EMCallBack() {
+            EMChatManager.getInstance().logout(true,new EMCallBack() {
 
                 @Override
                 public void onSuccess() {

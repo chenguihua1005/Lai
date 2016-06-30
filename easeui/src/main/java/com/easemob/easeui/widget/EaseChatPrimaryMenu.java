@@ -1,6 +1,10 @@
 package com.easemob.easeui.widget;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -121,7 +125,7 @@ public class EaseChatPrimaryMenu extends EaseChatPrimaryMenuBase implements OnCl
             }
         });
     }
-    
+
     /**
      * 设置长按说话录制控件
      * @param voiceRecorderView
@@ -164,10 +168,20 @@ public class EaseChatPrimaryMenu extends EaseChatPrimaryMenuBase implements OnCl
                 }
             }
         } else if (id == R.id.btn_set_mode_voice) {
-            setModeVoice();
-            showNormalFaceImage();
-            if(listener != null)
-                listener.onToggleVoiceBtnClicked();
+            if(ActivityCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO)!= PackageManager.PERMISSION_GRANTED){
+                if(ActivityCompat.shouldShowRequestPermissionRationale(activity,Manifest.permission.RECORD_AUDIO)){
+                    ActivityCompat.requestPermissions(activity,new String[]{Manifest.permission.RECORD_AUDIO},100);
+                }else{
+                    ActivityCompat.requestPermissions(activity,new String[]{Manifest.permission.RECORD_AUDIO},100);
+
+                }
+            }else {
+                setModeVoice();
+                showNormalFaceImage();
+                if(listener != null)
+                    listener.onToggleVoiceBtnClicked();
+            }
+
         } else if (id == R.id.btn_set_mode_keyboard) {
             setModeKeyboard();
             showNormalFaceImage();
