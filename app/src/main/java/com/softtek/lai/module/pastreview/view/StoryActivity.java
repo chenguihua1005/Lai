@@ -54,8 +54,9 @@ public class StoryActivity extends BaseActivity implements View.OnClickListener,
         ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
         ptrlv.setOnItemClickListener(this);
         ptrlv.setOnRefreshListener(this);
-        userId= StringUtil.getLong(UserInfoModel.getInstance().getUser().getUserid());
-        classId=Long.parseLong(getIntent().getStringExtra("classId"));
+        Intent intent=getIntent();
+        userId= intent.getLongExtra("userId",0);
+        classId=intent.getLongExtra("classId",0);
     }
 
     @Override

@@ -83,7 +83,7 @@ public class HistoryStudentHonorActivity extends BaseActivity implements View.On
         ll_left.setOnClickListener(this);
 
     }
-    
+
     @Override
     protected void initViews() {
         tv_title.setText("我的荣誉榜");

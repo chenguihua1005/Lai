@@ -3,6 +3,7 @@ package com.softtek.lai.module.pastreview.net;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.module.pastreview.model.HistoryHonorInfo;
 import com.softtek.lai.module.pastreview.model.PastBaseData;
+import com.softtek.lai.module.pastreview.model.PastClass;
 import com.softtek.lai.module.pastreview.model.StoryList;
 import com.softtek.lai.module.pastreview.model.StoryModel;
 import com.softtek.lai.utils.RequestCallback;
@@ -49,4 +50,10 @@ public interface PCPastReview {
                                 @Query("accounted") String accountId,
                                 @Query("classid") String classid,
                                 RequestCallback<ResponseData<List<HistoryHonorInfo>>> callback);
+
+    @GET("/Review/PCReviewHistory")
+    void getPastClassDetail(@Header("token")String token,
+                            @Query("accountId")long userId,
+                            @Query("classId")long classId,
+                            RequestCallback<ResponseData<PastClass>> callback);
 }

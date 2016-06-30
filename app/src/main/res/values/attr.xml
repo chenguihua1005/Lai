@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="Medal">
+        <attr name="medaltext" format="string"/>
+        <attr name="medaldate" format="string"/>
+        <attr name="medaltype" format="enum">
+            <enum name="lossWeight" value="0"/>
+            <enum name="fuce" value="1"/>
+            <enum name="monthChampion" value="2"/>
+            <enum name="nation" value="3"/>
+        </attr>
+        <attr name="medallevel" format="enum">
+            <enum name="gold" value="0"/>
+            <enum name="silver" value="1"/>
+            <enum name="copper" value="2"/>
+        </attr>
+    </declare-styleable>
+</resources>
