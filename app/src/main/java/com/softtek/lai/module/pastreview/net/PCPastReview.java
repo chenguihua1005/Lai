@@ -58,7 +58,7 @@ public interface PCPastReview {
     //学员历史荣誉榜
     @GET("/Index/GetHistoryStudentHonor")
     void getHistoryStudentHonor(@Header("token") String token,
-                                @Query("accounted") String accountId,
+                                @Query("accountid") String accountId,
                                 @Query("classid") String classid,
                                 RequestCallback<ResponseData<List<HistoryHonorInfo>>> callback);
 

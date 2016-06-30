@@ -11,7 +11,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -21,10 +20,13 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.module.pastreview.adapter.HistoryHonorFCAdapter;
+import com.softtek.lai.module.pastreview.adapter.HistoryHonorJZAdapter;
+import com.softtek.lai.module.pastreview.adapter.HistoryHonorStarAdapter;
+import com.softtek.lai.module.pastreview.adapter.HistoryHonorYGJAdapter;
 import com.softtek.lai.module.pastreview.model.HistoryHonorInfo;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
+import com.softtek.lai.module.pastreview.presenter.HistoryHonorListManager;
+import com.softtek.lai.widgets.MyGridView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,11 +41,10 @@ import zilla.libcore.ui.InjectLayout;
  * 助教管理页面
  */
 @InjectLayout(R.layout.activity_history_student_honor)
-public class HistoryStudentHonorActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener {
+public class HistoryStudentHonorActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener ,HistoryHonorListManager.HistoryHonorCallback{
 
     @LifeCircleInject
     ValidateLife validateLife;
-
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -51,17 +52,17 @@ public class HistoryStudentHonorActivity extends BaseActivity implements View.On
     @InjectView(R.id.tv_title)
     TextView tv_title;
 
-    @InjectView(R.id.list_star)
-    GridView list_star;
+    @InjectView(R.id.historylist_star)
+    com.softtek.lai.module.mygrades.view.MyGridView historylist_star;
 
     @InjectView(R.id.list_ygj)
-    GridView list_ygj;
+    com.softtek.lai.module.mygrades.view.MyGridView list_ygj;
 
     @InjectView(R.id.list_jz)
-    GridView list_jz;
+    com.softtek.lai.module.mygrades.view.MyGridView list_jz;
 
     @InjectView(R.id.list_fc)
-    GridView list_fc;
+    com.softtek.lai.module.mygrades.view.MyGridView list_fc;
 
     @InjectView(R.id.view_jz)
     View view_jz;
@@ -69,7 +70,7 @@ public class HistoryStudentHonorActivity extends BaseActivity implements View.On
     View view_fc;
     @InjectView(R.id.view_ygj)
     View view_ygj;
-
+    HistoryHonorListManager historyHonorListManager;
 
     private List<HistoryHonorInfo> jz_list = new ArrayList<HistoryHonorInfo>();
     private List<HistoryHonorInfo> fc_list = new ArrayList<HistoryHonorInfo>();
@@ -77,22 +78,20 @@ public class HistoryStudentHonorActivity extends BaseActivity implements View.On
     private List<HistoryHonorInfo> star_list = new ArrayList<HistoryHonorInfo>();
 
     @TargetApi(Build.VERSION_CODES.M)
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ll_left.setOnClickListener(this);
-
-    }
     
     @Override
     protected void initViews() {
         tv_title.setText("我的荣誉榜");
+        ll_left.setOnClickListener(this);
     }
 
     @Override
     protected void initDatas() {
         String userId=UserInfoModel.getInstance().getUser().getUserid();
         dialogShow("加载中");
+        historyHonorListManager=new HistoryHonorListManager(this);
+        //需要接收跳转classid参数替换死数据
+        historyHonorListManager.getHistoryStudentHonor(userId,"1");
     }
 
     @Override
@@ -125,7 +124,7 @@ public class HistoryStudentHonorActivity extends BaseActivity implements View.On
 
     }
 
-    /*@Override
+    @Override
     public void getHistoryStudentHonorCallback(String type, List<HistoryHonorInfo> table1) {
         dialogDissmiss();
         if ("true".equals(type)) {
@@ -135,13 +134,13 @@ public class HistoryStudentHonorActivity extends BaseActivity implements View.On
                 HistoryHonorInfo studentHonorInfo = table1.get(i);
                 String honorType = studentHonorInfo.getHonorType().toString();
                 if ("0".equals(honorType)) {
-                    jz_list.add(studentHonorInfo);
+                    jz_list.add(studentHonorInfo);//减重
                 } else if ("1".equals(honorType)) {
-                    fc_list.add(studentHonorInfo);
+                    fc_list.add(studentHonorInfo);//复测
                 } else if ("2".equals(honorType)) {
-                    ygj_list.add(studentHonorInfo);
+                    ygj_list.add(studentHonorInfo);//月
                 } else {
-                    star_list.add(studentHonorInfo);
+                    star_list.add(studentHonorInfo);//全国
                 }
             }
 
@@ -169,11 +168,13 @@ public class HistoryStudentHonorActivity extends BaseActivity implements View.On
                 list_ygj.setAdapter(ygj_adapter);
             }
             if (star_list.size() == 0) {
-                list_star.setVisibility(View.GONE);
+                historylist_star.setVisibility(View.GONE);
             } else {
                 HistoryHonorStarAdapter star_adapter = new HistoryHonorStarAdapter(this, star_list);
-                list_star.setAdapter(star_adapter);
+                historylist_star.setAdapter(star_adapter);
             }
         }
-    }*/
+    }
+
+
 }

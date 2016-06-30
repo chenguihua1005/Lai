@@ -5,6 +5,7 @@ package com.softtek.lai.module.pastreview.adapter;
  */
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,8 +61,8 @@ public class HistoryHonorYGJAdapter extends BaseAdapter {
         String time=studentHonorInfo.getCreateDate();
         String[] str1=time.split(" ");
         String[] str=str1[0].split("-");
-        holder.text_value.setText(str[0]+"年"+str[1]+"月");
-        holder.text_sm.setText(str[1]+"月月度冠军");
+        holder.text_value.setText(str[0]+"年"+Integer.parseInt(str[1])+"月");
+        holder.text_sm.setText(Integer.parseInt(str[1])+"月月度冠军");
 
         return convertView;
     }
