@@ -49,7 +49,6 @@ import com.softtek.lai.module.bodygameyk.view.BodygameYkActivity;
 import com.softtek.lai.module.bodygamezj.view.BodygameSRActivity;
 import com.softtek.lai.module.group.view.GroupMainActivity;
 import com.softtek.lai.module.group.view.JoinGroupActivity;
-import com.softtek.lai.module.historydate.view.HistoryStudentHonorActivity;
 import com.softtek.lai.module.home.adapter.FragementAdapter;
 import com.softtek.lai.module.home.adapter.ModelAdapter;
 import com.softtek.lai.module.home.eventModel.HomeEvent;

@@ -3,24 +3,16 @@
  * Date:2016-03-31
  */
 
-package com.softtek.lai.module.historydate.view;
+package com.softtek.lai.module.pastreview.view;
 
 
 import android.annotation.TargetApi;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.view.Gravity;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.FrameLayout;
 import android.widget.GridView;
-import android.widget.HorizontalScrollView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.mobsandgeeks.saripaar.Rule;
@@ -29,27 +21,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.bodygamest.Adapter.StudentHonorJZAdapter;
-import com.softtek.lai.module.bodygamest.Adapter.StudentHonorStarAdapter;
-import com.softtek.lai.module.bodygamest.Adapter.StudentHonorYGJAdapter;
-import com.softtek.lai.module.bodygamest.model.HnumsModel;
-import com.softtek.lai.module.bodygamest.model.HonorModel;
-import com.softtek.lai.module.bodygamest.model.StudentHonorInfo;
-import com.softtek.lai.module.bodygamest.model.StudentHonorTypeInfo;
-import com.softtek.lai.module.bodygamest.present.IStudentPresenter;
-import com.softtek.lai.module.bodygamest.present.StudentImpl;
-import com.softtek.lai.module.historydate.adapter.HistoryHonorFCAdapter;
-import com.softtek.lai.module.historydate.adapter.HistoryHonorJZAdapter;
-import com.softtek.lai.module.historydate.adapter.HistoryHonorStarAdapter;
-import com.softtek.lai.module.historydate.adapter.HistoryHonorYGJAdapter;
-import com.softtek.lai.module.historydate.model.HistoryHonorInfo;
-import com.softtek.lai.module.historydate.presenter.HistoryDataManager;
-import com.softtek.lai.utils.ACache;
-import com.softtek.lai.widgets.SelectPicPopupWindow;
-import com.umeng.socialize.ShareAction;
-import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.umeng.socialize.media.UMImage;
+import com.softtek.lai.module.pastreview.model.HistoryHonorInfo;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -58,18 +30,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
-import zilla.libcore.file.AddressManager;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 /**
  * Created by jarvis.liu on 3/22/2016.
  * 助教管理页面
  */
 @InjectLayout(R.layout.activity_history_student_honor)
-public class HistoryStudentHonorActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener, HistoryDataManager.GetHistoryStudentHonorCallback {
+public class HistoryStudentHonorActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener {
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -100,7 +70,6 @@ public class HistoryStudentHonorActivity extends BaseActivity implements View.On
     @InjectView(R.id.view_ygj)
     View view_ygj;
 
-    private HistoryDataManager manager;
 
     private List<HistoryHonorInfo> jz_list = new ArrayList<HistoryHonorInfo>();
     private List<HistoryHonorInfo> fc_list = new ArrayList<HistoryHonorInfo>();
@@ -134,10 +103,8 @@ public class HistoryStudentHonorActivity extends BaseActivity implements View.On
 
     @Override
     protected void initDatas() {
-        manager=new HistoryDataManager(this);
         String userId=UserInfoModel.getInstance().getUser().getUserid();
         dialogShow("加载中");
-        manager.getHistoryStudentHonor("1","6");
     }
 
     @Override
@@ -170,7 +137,7 @@ public class HistoryStudentHonorActivity extends BaseActivity implements View.On
 
     }
 
-    @Override
+    /*@Override
     public void getHistoryStudentHonorCallback(String type, List<HistoryHonorInfo> table1) {
         dialogDissmiss();
         if ("true".equals(type)) {
@@ -220,5 +187,5 @@ public class HistoryStudentHonorActivity extends BaseActivity implements View.On
                 list_star.setAdapter(star_adapter);
             }
         }
-    }
+    }*/
 }

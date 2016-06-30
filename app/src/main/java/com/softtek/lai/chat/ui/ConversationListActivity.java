@@ -187,7 +187,7 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
         conversationListFragment = new ConversationListFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.lin, conversationListFragment).show(conversationListFragment)
                 .commit();
-        
+
     }
 
     /**

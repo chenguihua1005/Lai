@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
-import com.softtek.lai.module.historydate.model.HistoryHonorInfo;
+import com.softtek.lai.module.pastreview.model.HistoryHonorInfo;
 
 import java.util.List;
 

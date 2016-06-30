@@ -696,6 +696,10 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".module.pastreview.view.StoryDetailActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".module.pastreview.view.HistoryHomeActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.pastreview.view.HistoryStudentHonorActivity"
+            android:screenOrientation="portrait"/>
 
     </application>
 
