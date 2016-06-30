@@ -150,6 +150,12 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     }
 
     @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.but_login_out:
