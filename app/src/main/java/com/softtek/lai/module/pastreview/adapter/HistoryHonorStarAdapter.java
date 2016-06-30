@@ -1,4 +1,4 @@
-package com.softtek.lai.module.historydate.adapter;
+package com.softtek.lai.module.pastreview.adapter;
 
 /**
  * Created by jarvis.liu on 4/1/2016.

@@ -82,20 +82,8 @@ public class HistoryStudentHonorActivity extends BaseActivity implements View.On
         super.onCreate(savedInstanceState);
         ll_left.setOnClickListener(this);
 
-        EventBus.getDefault().register(this);
     }
-
-    @Override
-    protected void onDestroy() {
-        EventBus.getDefault().unregister(this);
-        super.onDestroy();
-    }
-
-    @Subscribe
-    public void onEvent(List<HistoryHonorInfo> table1) {
-
-    }
-
+    
     @Override
     protected void initViews() {
         tv_title.setText("我的荣誉榜");
