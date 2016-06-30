@@ -62,7 +62,7 @@ public interface PCPastReview {
                                 @Query("accountid") String accountId,
                                 @Query("classid") String classid,
                                 RequestCallback<ResponseData<List<HistoryHonorInfo>>> callback);
-    
+
     @GET("/Review/PCReviewHistory")
     void getPastClassDetail(@Header("token")String token,
                             @Query("accountId")long userId,
