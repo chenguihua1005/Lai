@@ -310,15 +310,13 @@
                         android:id="@+id/medal1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        app:medaltext="第1名"
-                        app:medaldate="2016/1/3"/>
+                        android:layout_gravity="center" />
                     <TextView
                         android:id="@+id/tv_medal1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom|center"
-                        android:text="减重5斤奖章"/>
+                        />
 
                 </LinearLayout>
                 <LinearLayout
