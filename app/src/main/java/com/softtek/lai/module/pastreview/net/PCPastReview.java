@@ -1,13 +1,13 @@
 package com.softtek.lai.module.pastreview.net;
 
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.module.pastreview.model.ClassListModel;
 import com.softtek.lai.module.pastreview.model.HistoryHonorInfo;
+import com.softtek.lai.module.pastreview.model.MyPhotoListModel;
 import com.softtek.lai.module.pastreview.model.PastBaseData;
 import com.softtek.lai.module.pastreview.model.PastClass;
 import com.softtek.lai.module.pastreview.model.StoryList;
-import com.softtek.lai.module.pastreview.model.StoryModel;
 import com.softtek.lai.utils.RequestCallback;
-import com.softtek.lai.module.pastreview.model.ClassListModel;
 
 import java.util.List;
 
@@ -29,6 +29,7 @@ public interface PCPastReview {
                      @Query("classid") long classId,
                      RequestCallback<ResponseData<PastBaseData>> callback);
 
+    //获取历史班级列表
     @GET("/Review/GetHistoryClassList")
     void doGetHistoryClassList(
             @Header("token") String token,
@@ -38,22 +39,34 @@ public interface PCPastReview {
 
     //获取学员往期减重故事
     @GET("/Review/GetCompetitionLogList")
-    void getPastStory(@Header("token")String token,
+    void getPastStory(@Header("token") String token,
                       @Query("accountid") long accountId,
-                      @Query("classid")long classId,
-                      @Query("PageIndex")int pageIndex,
+                      @Query("classid") long classId,
+                      @Query("PageIndex") int pageIndex,
                       RequestCallback<ResponseData<StoryList>> callback);
+
+    //获取历史相册
+    @GET("/Review/GetMyPhotoList")
+    void doGetMyPhotoList(
+            @Header("token") String token,
+            @Query("accountid") String accountid,
+            @Query("PageIndex") String PageIndex,
+            @Query("classid") String classid,
+            Callback<ResponseData<List<MyPhotoListModel>>> callback
+    );
+
 
     //学员历史荣誉榜
     @GET("/Index/GetHistoryStudentHonor")
     void getHistoryStudentHonor(@Header("token") String token,
-                                @Query("accounted") String accountId,
+                                @Query("accountid") String accountId,
                                 @Query("classid") String classid,
                                 RequestCallback<ResponseData<List<HistoryHonorInfo>>> callback);
-
+    
     @GET("/Review/PCReviewHistory")
     void getPastClassDetail(@Header("token")String token,
                             @Query("accountId")long userId,
                             @Query("classId")long classId,
                             RequestCallback<ResponseData<PastClass>> callback);
+
 }

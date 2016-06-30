@@ -63,7 +63,9 @@ public class ClassListActivity extends BaseActivity implements View.OnClickListe
         switch (v.getId())
         {
             case R.id.ll_left:
-                finish();
+//                finish();
+//                startActivity(new Intent(this,PassPhotoActivity.class));
+                startActivity(new Intent(this,HistoryStudentHonorActivity.class));
                 break;
         }
     }
@@ -90,6 +92,7 @@ public class ClassListActivity extends BaseActivity implements View.OnClickListe
         ClassListModel classListModel=classListModelList.get(position);
         Intent intent=new Intent(this, PcPastBaseDataActivity.class);
         intent.putExtra("classId",classListModel.getClassId());
+        intent.putExtra("className",classListModel.getClassName());
         startActivity(intent);
     }
 }

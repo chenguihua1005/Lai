@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context="com.softtek.lai.module.pastreview.view.ClassListActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:background="#ffffff">
+    <RelativeLayout
+        android:id="@+id/re_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginLeft="10dp"
+        android:layout_centerVertical="true"
+        >
+        <TextView
+            android:id="@+id/tv_photodate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="26"
+            android:layout_centerHorizontal="true"
+            android:textColor="#333333"
+            android:textSize="18sp" />
+        <TextView
+            android:id="@+id/tv_photoday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="十二月"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/tv_photodate"
+            android:textColor="#333333"
+            android:textSize="16sp" />
+    </RelativeLayout>
+        <ImageView
+            android:id="@+id/im_uploadphoto"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="26dp"
+            android:layout_toRightOf="@+id/re_date"
+            android:scaleType="fitXY"
+            android:src="@drawable/default_icon_square"
+            />
+
+    </RelativeLayout>
+</RelativeLayout>

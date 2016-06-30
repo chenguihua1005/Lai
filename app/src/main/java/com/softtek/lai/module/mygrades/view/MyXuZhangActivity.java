@@ -48,12 +48,8 @@ public class MyXuZhangActivity extends BaseActivity implements XunZhangListManag
     XunZhangListManager xunZhangListManager;
     List<Integer> images = new ArrayList<Integer>();
     List<Integer> images1 = new ArrayList<Integer>();
-    List<Integer> pknull = new ArrayList<Integer>();
-    List<Integer> pkimage = new ArrayList<Integer>();
     List<String> content = new ArrayList<String>();
     List<String> content1 = new ArrayList<String>();
-    //    List<String> imgagecontent=new ArrayList<String>();
-//    List<String> imgagecontent1=new ArrayList<String>();
     private List<XunZhangModel> xunZhangModelList = new ArrayList<XunZhangModel>();
     private List<XunZhangModel> xunZhangModelList1 = new ArrayList<XunZhangModel>();
 
