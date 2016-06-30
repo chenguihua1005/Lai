@@ -1,11 +1,11 @@
 package com.softtek.lai.module.pastreview.net;
 
 import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.module.pastreview.model.ClassListModel;
+import com.softtek.lai.module.pastreview.model.MyPhotoListModel;
 import com.softtek.lai.module.pastreview.model.PastBaseData;
 import com.softtek.lai.module.pastreview.model.StoryList;
-import com.softtek.lai.module.pastreview.model.StoryModel;
 import com.softtek.lai.utils.RequestCallback;
-import com.softtek.lai.module.pastreview.model.ClassListModel;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ public interface PCPastReview {
                      @Query("accountid") long userId,
                      @Query("classid") long classId,
                      RequestCallback<ResponseData<PastBaseData>> callback);
-
+    //获取历史班级列表
     @GET("/Review/GetHistoryClassList")
     void doGetHistoryClassList(
             @Header("token") String token,
@@ -41,4 +41,13 @@ public interface PCPastReview {
                       @Query("classid")long classId,
                       @Query("PageIndex")int pageIndex,
                       RequestCallback<ResponseData<StoryList>> callback);
+    //获取历史班级列表
+    @GET("/Review/GetMyPhotoList")
+    void doGetMyPhotoList(
+            @Header("token") String token,
+            @Query("accountid") String accountid,
+            @Query("PageIndex") String PageIndex,
+            @Query("classid") String classid,
+            Callback<ResponseData<List<MyPhotoListModel>>> callback
+    );
 }

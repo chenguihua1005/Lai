@@ -158,7 +158,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         /*imageFileSelector = new ImageFileSelector(this);
         imageFileSelector.setOutPutImageSize(DisplayUtil.dip2px(this, 600),
                 DisplayUtil.dip2px(this, 400));
-        imageFileSelector.setQuality(80);
+        imageFileSelector.setQ2uality(80);
         imageFileSelector.setCallback(this);*/
         //监听点击事件
         ll_left.setOnClickListener(this);
