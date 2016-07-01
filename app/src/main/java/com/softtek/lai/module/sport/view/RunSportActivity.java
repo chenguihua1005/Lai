@@ -14,7 +14,6 @@ import android.graphics.Color;
 import android.location.GpsSatellite;
 import android.location.GpsStatus;
 import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -65,12 +64,13 @@ import zilla.libcore.ui.InjectLayout;
 
 /**
  * 开始跑步地图界面
+ *
  * @author jerry.guan
- *  2016/5/30
+ *         2016/5/30
  */
 @InjectLayout(R.layout.activity_run_sport)
 public class RunSportActivity extends BaseActivity implements LocationSource
-        , View.OnClickListener,GpsStatus.Listener {
+        , View.OnClickListener, GpsStatus.Listener {
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -124,7 +124,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
         mapView.onCreate(savedInstanceState);
     }
 
-    private static final int LOCATION_PREMISSION=100;
+    private static final int LOCATION_PREMISSION = 100;
     private Intent intent;
 
     @Override
@@ -164,31 +164,31 @@ public class RunSportActivity extends BaseActivity implements LocationSource
          * PackageManager.PERMISSION_GRANTED:允许使用权限
          * PackageManager.PERMISSION_DENIED:不允许使用权限
          */
-        if(ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION)!=PackageManager.PERMISSION_GRANTED||
-                ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)!=PackageManager.PERMISSION_GRANTED){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
-            if(ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.ACCESS_COARSE_LOCATION)||
-                    ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.ACCESS_FINE_LOCATION)){
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION) ||
+                    ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
                 //允许弹出提示
                 ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION},
+                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
                         LOCATION_PREMISSION);
 
-            }else{
+            } else {
                 //不允许弹出提示
                 ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION},
+                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
                         LOCATION_PREMISSION);
             }
-        }else{
+        } else {
             //执行获取权限后的操作
             //启动定位
-            intent=new Intent(this,LocationService.class);
+            intent = new Intent(this, LocationService.class);
             startService(intent);
         }
 
-        ViewGroup.LayoutParams params=mapView.getLayoutParams();
-        params.height=DisplayUtil.getMobileHeight(RunSportActivity.this)-DisplayUtil.dip2px(RunSportActivity.this,345);
+        ViewGroup.LayoutParams params = mapView.getLayoutParams();
+        params.height = DisplayUtil.getMobileHeight(RunSportActivity.this) - DisplayUtil.dip2px(RunSportActivity.this, 345);
         mapView.setLayoutParams(params);
     }
 
@@ -197,14 +197,14 @@ public class RunSportActivity extends BaseActivity implements LocationSource
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode){
+        switch (requestCode) {
             case LOCATION_PREMISSION:
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
-                    intent=new Intent(this,LocationService.class);
+                    intent = new Intent(this, LocationService.class);
                     startService(intent);
                 } else {
 
@@ -219,22 +219,23 @@ public class RunSportActivity extends BaseActivity implements LocationSource
     LocationManager locationManager;
     StepReceive receive;
     LocationReceiver locationReceiver;
-    int startStep=0;
-    long aDay=3600*24000;
+    int startStep = 0;
+    long aDay = 3600 * 24000;
+
     @Override
     protected void initDatas() {
         tv_title.setText("运动");
-        manager=new SportManager();
+        manager = new SportManager();
         //注册步数接收器
-        receive=new StepReceive();
+        receive = new StepReceive();
         IntentFilter filter = new IntentFilter();
         filter.addAction("com.softtek.lai.StepService.StepCount");
-        LocalBroadcastManager.getInstance(this).registerReceiver(receive,filter);
-        locationReceiver=new LocationReceiver();
+        LocalBroadcastManager.getInstance(this).registerReceiver(receive, filter);
+        locationReceiver = new LocationReceiver();
         IntentFilter locationFilter = new IntentFilter();
         locationFilter.addAction(LocationService.LOCATION_SERIVER);
-        LocalBroadcastManager.getInstance(this).registerReceiver(locationReceiver,locationFilter);
-        locationManager= (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        LocalBroadcastManager.getInstance(this).registerReceiver(locationReceiver, locationFilter);
+        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             locationManager.addGpsStatusListener(this);
         }
@@ -244,26 +245,30 @@ public class RunSportActivity extends BaseActivity implements LocationSource
     @Override
     protected void onDestroy() {
         //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
-        if(intent!=null)stopService(intent);
-        if(receive!=null)LocalBroadcastManager.getInstance(this).unregisterReceiver(receive);
-        if(locationReceiver!=null)LocalBroadcastManager.getInstance(this).unregisterReceiver(locationReceiver);
+        if (intent != null) stopService(intent);
+        if (receive != null) LocalBroadcastManager.getInstance(this).unregisterReceiver(receive);
+        if (locationReceiver != null)
+            LocalBroadcastManager.getInstance(this).unregisterReceiver(locationReceiver);
         mapView.onDestroy();
         super.onDestroy();
     }
+
     @Override
     public void onResume() {
         super.onResume();
         //在activity执行onResume时执行mMapView.onResume ()，实现地图生命周期管理
         mapView.onResume();
     }
+
     @Override
     public void onPause() {
         super.onPause();
         //在activity执行onPause时执行mMapView.onPause ()，实现地图生命周期管理
         mapView.onPause();
     }
+
     @Override
-    protected void onSaveInstanceState( Bundle outState) {
+    protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         //在activity执行onSaveInstanceState时执行mMapView.onSaveInstanceState (outState)，实现地图生命周期管理
         mapView.onSaveInstanceState(outState);
@@ -282,9 +287,9 @@ public class RunSportActivity extends BaseActivity implements LocationSource
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.iv_location:
-                if(lastLatLon!=null){
+                if (lastLatLon != null) {
                     aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(lastLatLon, 16.3f));
                 }
                 break;
@@ -298,35 +303,35 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                     public void run() {
                         iv_pause.setEnabled(true);
                     }
-                },500);
-               if(countDown!=null){
-                   if(countDown.isPaused()){
-                       countDown.reStart();
-                       iv_pause.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.pause));
+                }, 500);
+                if (countDown != null) {
+                    if (countDown.isPaused()) {
+                        countDown.reStart();
+                        iv_pause.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.pause));
 
-                   }else if(countDown.isRunning()){
-                       countDown.pause();
-                       iv_pause.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.go_on));
-                   }
-               }
+                    } else if (countDown.isRunning()) {
+                        countDown.pause();
+                        iv_pause.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.go_on));
+                    }
+                }
                 break;
             case R.id.iv_stop:
-                if(countDown!=null)countDown.cancel();
-                if(coordinates.isEmpty()&&Integer.parseInt(tv_step.getText().toString())==0){
-                    AlertDialog dialog=new AlertDialog.Builder(this).setMessage("您还没有运动哦，确定结束运动吗?")
+                if (countDown != null) countDown.cancel();
+                if (coordinates.isEmpty() && Integer.parseInt(tv_step.getText().toString()) == 0) {
+                    AlertDialog dialog = new AlertDialog.Builder(this).setMessage("您还没有运动哦，确定结束运动吗?")
                             .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            finish();
-                        }
-                    }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            startCountDown();
-                        }
-                    }).setCancelable(false).create();
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    finish();
+                                }
+                            }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    startCountDown();
+                                }
+                            }).setCancelable(false).create();
                     dialog.show();
-                }else {
+                } else {
                     AlertDialog dialog = new AlertDialog.Builder(this).setMessage("确认结束运动并提交本次数据")
                             .setPositiveButton("提交", new DialogInterface.OnClickListener() {
                                 @Override
@@ -355,19 +360,19 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                 break;
             case R.id.cb_control:
                 //面板控制动画
-                final int stp= DisplayUtil.dip2px(this,270);
-                int enp=DisplayUtil.dip2px(this,100);
-                if(cb_control.isChecked()){
+                final int stp = DisplayUtil.dip2px(this, 270);
+                int enp = DisplayUtil.dip2px(this, 100);
+                if (cb_control.isChecked()) {
                     //收起
-                    ObjectAnimator animator=ObjectAnimator.ofInt(new LayoutWapper(ll_panel),"translateY",stp,enp)
+                    ObjectAnimator animator = ObjectAnimator.ofInt(new LayoutWapper(ll_panel), "translateY", stp, enp)
                             .setDuration(500);
                     animator.setInterpolator(new OvershootInterpolator());
                     animator.addListener(new AnimatorListenerAdapter() {
 
                         @Override
                         public void onAnimationStart(Animator animation) {
-                            ViewGroup.LayoutParams params=mapView.getLayoutParams();
-                            params.height=DisplayUtil.getMobileHeight(RunSportActivity.this)-DisplayUtil.dip2px(RunSportActivity.this,175);
+                            ViewGroup.LayoutParams params = mapView.getLayoutParams();
+                            params.height = DisplayUtil.getMobileHeight(RunSportActivity.this) - DisplayUtil.dip2px(RunSportActivity.this, 175);
                             mapView.setLayoutParams(params);
                         }
 
@@ -381,9 +386,9 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                     });
                     animator.start();
 
-                }else{
+                } else {
                     //展开
-                    ObjectAnimator animator=ObjectAnimator.ofInt(new LayoutWapper(ll_panel),"translateY",enp,stp)
+                    ObjectAnimator animator = ObjectAnimator.ofInt(new LayoutWapper(ll_panel), "translateY", enp, stp)
                             .setDuration(300);
                     animator.setInterpolator(new OvershootInterpolator());
                     animator.addListener(new AnimatorListenerAdapter() {
@@ -396,8 +401,8 @@ public class RunSportActivity extends BaseActivity implements LocationSource
 
                         @Override
                         public void onAnimationEnd(Animator animation) {
-                            ViewGroup.LayoutParams params=mapView.getLayoutParams();
-                            params.height=DisplayUtil.getMobileHeight(RunSportActivity.this)-DisplayUtil.dip2px(RunSportActivity.this,345);
+                            ViewGroup.LayoutParams params = mapView.getLayoutParams();
+                            params.height = DisplayUtil.getMobileHeight(RunSportActivity.this) - DisplayUtil.dip2px(RunSportActivity.this, 345);
                             mapView.setLayoutParams(params);
                         }
                     });
@@ -406,16 +411,17 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                 break;
         }
     }
+
     //GPS状态监听
     @Override
     public void onGpsStatusChanged(int event) {
-        if(locationManager==null){
+        if (locationManager == null) {
             iv_gps.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.gps_empty));
             return;
         }
         GpsStatus status = locationManager.getGpsStatus(null); //取当前状态
         if (status == null) {//卫星数量为0
-            if (iv_gps!=null)
+            if (iv_gps != null)
                 iv_gps.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.gps_empty));
         } else if (event == GpsStatus.GPS_EVENT_SATELLITE_STATUS) {
             int maxSatellites = status.getMaxSatellites();
@@ -425,32 +431,30 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                 count++;
             }
             if (count >= maxSatellites / 4) {//如果卫星数量大于最大卫星数量的一半则表示很强
-                if(iv_gps!=null)
+                if (iv_gps != null)
                     iv_gps.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.gps_three));
             } else if (count >= maxSatellites / 8) {
-                if(iv_gps!=null)
+                if (iv_gps != null)
                     iv_gps.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.gps_two));
             } else if (count >= 1) {
-                if(iv_gps!=null)
+                if (iv_gps != null)
                     iv_gps.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.gps_one));
             } else {
-                if(iv_gps!=null)
+                if (iv_gps != null)
                     iv_gps.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.gps_empty));
             }
-        }else if(event==GpsStatus.GPS_EVENT_STARTED)
-        {
+        } else if (event == GpsStatus.GPS_EVENT_STARTED) {
             //定位启动
-            if(iv_gps!=null)
+            if (iv_gps != null)
                 iv_gps.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.gps_one));
-        }
-        else if(event==GpsStatus.GPS_EVENT_STOPPED)
-        {
+        } else if (event == GpsStatus.GPS_EVENT_STOPPED) {
             //定位结束
         }
     }
 
-    long time=0;//总耗时
-    private class RunSportCountDown extends JCountDownTimer{
+    long time = 0;//总耗时
+
+    private class RunSportCountDown extends JCountDownTimer {
 
         /**
          * @param millisInFuture    The number of millis in the future from the call
@@ -466,13 +470,13 @@ public class RunSportActivity extends BaseActivity implements LocationSource
         @Override
         public void onTick(long millisUntilFinished) {
             time++;
-            int hour= (int) (time/3600);
-            int minutes= (int) (time%3600/60);
-            int second= (int) (time%3600%60);
-            String show=(hour<10?"0"+hour:String.valueOf(hour))
-                    +":"+(minutes<10?"0"+minutes:String.valueOf(minutes))
-                    +":"+(second<10?"0"+second:String.valueOf(second));
-            if(tv_clock!=null)
+            int hour = (int) (time / 3600);
+            int minutes = (int) (time % 3600 / 60);
+            int second = (int) (time % 3600 % 60);
+            String show = (hour < 10 ? "0" + hour : String.valueOf(hour))
+                    + ":" + (minutes < 10 ? "0" + minutes : String.valueOf(minutes))
+                    + ":" + (second < 10 ? "0" + second : String.valueOf(second));
+            if (tv_clock != null)
                 tv_clock.setText(show);
         }
 
@@ -486,29 +490,30 @@ public class RunSportActivity extends BaseActivity implements LocationSource
         }
     }
 
-    private void startCountDown(){
-        countDown=new RunSportCountDown(aDay,1000);
+    private void startCountDown() {
+        countDown = new RunSportCountDown(aDay, 1000);
         countDown.start();
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN){
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
             doBack();
             return true;
         }
         return super.onKeyDown(keyCode, event);
     }
 
-    public void doSubmitResult(int resultCode){
+    public void doSubmitResult(int resultCode) {
         dialogDissmiss();
-        if(resultCode==200){
+        if (resultCode == 200) {
             finish();
         }
     }
-    private void doBack(){
-        if(countDown!=null)countDown.cancel();
-        AlertDialog dialog=new AlertDialog.Builder(this).setMessage("返回将丢失本次跑步数据")
+
+    private void doBack() {
+        if (countDown != null) countDown.cancel();
+        AlertDialog dialog = new AlertDialog.Builder(this).setMessage("返回将丢失本次跑步数据")
                 .setPositiveButton("放弃", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -524,90 +529,87 @@ public class RunSportActivity extends BaseActivity implements LocationSource
         dialog.show();
     }
 
-    private class LayoutWapper{
+    private class LayoutWapper {
         private View target;
 
-        public LayoutWapper(View target){
-            this.target=target;
+        public LayoutWapper(View target) {
+            this.target = target;
         }
 
-        public void setTranslateY(int value){
-            ViewGroup.LayoutParams params=target.getLayoutParams();
-            params.height=value;
+        public void setTranslateY(int value) {
+            ViewGroup.LayoutParams params = target.getLayoutParams();
+            params.height = value;
             target.setLayoutParams(params);
         }
 
     }
 
     //注册步数接收器
-    private  class StepReceive extends BroadcastReceiver{
+    private class StepReceive extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            int tempStep=intent.getIntExtra("step",0);
-            if(startStep==0)startStep=tempStep;
-            int step=(tempStep-startStep)<=0?0:(tempStep-startStep);
-            int calori=step/35;
-            tv_step.setText(step+"");
-            tv_calorie.setText(calori+"");
-            if(coordinates.isEmpty()){//如果还没有定位到则使用步数来计算公里数
-                DecimalFormat format=new DecimalFormat("#0.00");
-                previousDistance=step*1000/1428f;
-                double speed=(previousDistance/1000)/(time*1f/3600);
-                tv_avg_speed.setText(format.format(speed)+"km/h");
-                tv_distance.setText(format.format((previousDistance)/(1000*1.0)));
+            int tempStep = intent.getIntExtra("step", 0);
+            if (startStep == 0) startStep = tempStep;
+            int step = (tempStep - startStep) <= 0 ? 0 : (tempStep - startStep);
+            int calori = step / 35;
+            tv_step.setText(step + "");
+            tv_calorie.setText(calori + "");
+            if (coordinates.isEmpty()) {//如果还没有定位到则使用步数来计算公里数
+                DecimalFormat format = new DecimalFormat("#0.00");
+                previousDistance = step * 1000 / 1428f;
+                double speed = (previousDistance / 1000) / (time * 1f / 3600);
+                tv_avg_speed.setText(format.format(speed) + "km/h");
+                tv_distance.setText(format.format((previousDistance) / (1000 * 1.0)));
             }
 
         }
     }
 
     double previousDistance;//旧的距离
-    boolean isFirst=true;
+    boolean isFirst = true;
     LatLng lastLatLon;
+
     //位置接收器
-    private  class LocationReceiver extends BroadcastReceiver{
+    private class LocationReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            AMapLocation location=intent.getParcelableExtra("location");
-            if(listener!=null) {
+            AMapLocation location = intent.getParcelableExtra("location");
+            if (listener != null) {
                 listener.onLocationChanged(location);
-                if (/*location.getErrorCode() == 0&&*/location.getAccuracy()<=25&&location.getAccuracy()>0) {
-                    //当坐标改变之后开始添加标记 画线
-                    Log.i("获取位置");
-                    LatLng latLng=new LatLng(location.getLatitude(),location.getLongitude());
-                    if(isFirst){
-                        isFirst=false;
-                        aMap.addMarker(new MarkerOptions().position(latLng).icon(
-                                BitmapDescriptorFactory.fromResource(R.drawable.location_mark_start)));
-                        aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.5f));
-                    }
-                    //计算平均速度
-                    if(lastLatLon!=null){
-                        double distance= AMapUtils.calculateLineDistance(lastLatLon,latLng);
-                        previousDistance +=distance;
-                        if(distance>=6){
-                            polylineOptions.add(latLng);
-                            coordinates.add(new LatLon(latLng.longitude,latLng.latitude));
-                            aMap.addPolyline(polylineOptions);
-                        }
-                    }else{
-                        //如果是第一次定位到
+            }
+            if (location.getErrorCode() == 0&&location.getAccuracy() <= 100 && location.getAccuracy() > 0) {
+                //当坐标改变之后开始添加标记 画线
+                Log.i("获取位置");
+                LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                if (isFirst) {
+                    isFirst = false;
+                    aMap.addMarker(new MarkerOptions().position(latLng).icon(
+                            BitmapDescriptorFactory.fromResource(R.drawable.location_mark_start)));
+                    aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.5f));
+                }
+                //计算平均速度
+                if (lastLatLon != null) {
+                    double distance = AMapUtils.calculateLineDistance(lastLatLon, latLng);
+                    previousDistance += distance;
+                    if (distance >= 6) {
                         polylineOptions.add(latLng);
-                        coordinates.add(new LatLon(latLng.longitude,latLng.latitude));
+                        coordinates.add(new LatLon(latLng.longitude, latLng.latitude));
                         aMap.addPolyline(polylineOptions);
                     }
-                    lastLatLon=latLng;//暂存上一次坐标
-                    DecimalFormat format=new DecimalFormat("#0.00");
-                    double speed=(previousDistance/1000)/(time*1f/3600);
-                    tv_avg_speed.setText(format.format(speed)+"km/h");
-                    tv_distance.setText(format.format((previousDistance)/(1000*1.0)));
                 } else {
-                    //显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
-                /*Log.i("ggx","定位失败, ErrCode:"
-                        + aMapLocation.getErrorCode() + ", errInfo:"
-                        + aMapLocation.getErrorInfo());*/
+                    //如果是第一次定位到
+                    polylineOptions.add(latLng);
+                    coordinates.add(new LatLon(latLng.longitude, latLng.latitude));
+                    aMap.addPolyline(polylineOptions);
                 }
+                lastLatLon = latLng;//暂存上一次坐标
+                DecimalFormat format = new DecimalFormat("#0.00");
+                double speed = (previousDistance / 1000) / (time * 1f / 3600);
+                tv_avg_speed.setText(format.format(speed) + "km/h");
+                tv_distance.setText(format.format((previousDistance) / (1000 * 1.0)));
             }
         }
     }
+//    }
 }
