@@ -70,9 +70,6 @@ public class LoginPresenterImpl implements ILoginPresenter {
             public void success(ResponseData<RoleInfo> userResponseData, Response response) {
                 System.out.println("userResponseData:" + userResponseData);
                 int status = userResponseData.getStatus();
-                if (progressDialog != null) {
-                    progressDialog.dismiss();
-                }
                 switch (status) {
                     case 200:
                         UserModel model = UserInfoModel.getInstance().getUser();
@@ -94,9 +91,11 @@ public class LoginPresenterImpl implements ILoginPresenter {
                         }
                         UserInfoModel.getInstance().saveUserCache(model);
                         EventBus.getDefault().post(userResponseData.getData());
-                        ((AppCompatActivity) context).finish();
                         break;
                     default:
+                        if (progressDialog != null) {
+                            progressDialog.dismiss();
+                        }
                         Util.toastMsg(userResponseData.getMsg());
                         break;
                 }
@@ -225,7 +224,7 @@ public class LoginPresenterImpl implements ILoginPresenter {
     @Override
     public void getUpdateName(String accountId, final String userName, final ProgressDialog dialog) {
         String token = SharedPreferenceService.getInstance().get("token", "");
-        service.getUpdateName(token, accountId,userName, new Callback<ResponseData>() {
+        service.getUpdateName(token, accountId, userName, new Callback<ResponseData>() {
             @Override
             public void success(ResponseData responseData, Response response) {
                 if (dialog != null) {
@@ -236,7 +235,7 @@ public class LoginPresenterImpl implements ILoginPresenter {
                 switch (status) {
                     case 200:
                         UserModel userModel = UserInfoModel.getInstance().getUser();
-                        System.out.println("userName:"+userName);
+                        System.out.println("userName:" + userName);
                         userModel.setNickname(userName);
                         UserInfoModel.getInstance().saveUserCache(userModel);
                         ((AppCompatActivity) context).finish();
@@ -259,6 +258,59 @@ public class LoginPresenterImpl implements ILoginPresenter {
     }
 
     @Override
+    public void updateHXState(final String phoneNo, final String hxAccountId, final String state, final ProgressDialog dialog, final DialogInterface dialogs, final String type) {
+        String token = SharedPreferenceService.getInstance().get("token", "");
+        service.updateHXState(token, phoneNo, hxAccountId, state, new Callback<ResponseData>() {
+            @Override
+            public void success(ResponseData responseData, Response response) {
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+                System.out.println("responseData:" + responseData);
+                int status = responseData.getStatus();
+                switch (status) {
+                    case 200:
+                        if (dialogs != null) {
+                            dialogs.dismiss();
+                        }
+                        if ("1".equals(state)) {
+                            UserModel userModel = UserInfoModel.getInstance().getUser();
+                            userModel.setHasEmchat("1");
+                            userModel.setHXAccountId(hxAccountId);
+                            UserInfoModel.getInstance().saveUserCache(userModel);
+                            if (!"isInBack".equals(type)) {
+                                ((AppCompatActivity) context).finish();
+                            }
+                        }
+                        break;
+                    default:
+                        if (!"isInBack".equals(type)) {
+                            EventBus.getDefault().post(1);
+                        }else {
+                            updateHXState(phoneNo,hxAccountId,state,dialog,dialogs,type);
+                        }
+//                        Util.toastMsg(responseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+                if (!"isInBack".equals(type)) {
+                    EventBus.getDefault().post(1);
+                }else {
+                    updateHXState(phoneNo,hxAccountId,state,dialog,dialogs,type);
+                }
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
+            }
+        });
+    }
+
+    @Override
     public void doLogin(String userName, final String password, final ProgressDialog dialog, final TextView tv_login) {
 
         service.doLogin(userName, password, new Callback<ResponseData<UserModel>>() {
@@ -271,22 +323,22 @@ public class LoginPresenterImpl implements ILoginPresenter {
                     case 200:
                         JPushInterface.init(context);
                         JpushSet set = new JpushSet(context);
-                        UserModel model=userResponseData.getData();
+                        UserModel model = userResponseData.getData();
                         set.setAlias(model.getMobile());
                         set.setStyleBasic();
                         UserInfoModel.getInstance().saveUserCache(model);
                         //如果用户加入了跑团
-                        if("1".equals(model.getIsJoin())){
-                            stepDeal(context,model.getUserid(), StringUtils.isEmpty(model.getTodayStepCnt())?0:Long.parseLong(model.getTodayStepCnt()));
+                        if ("1".equals(model.getIsJoin())) {
+                            stepDeal(context, model.getUserid(), StringUtils.isEmpty(model.getTodayStepCnt()) ? 0 : Long.parseLong(model.getTodayStepCnt()));
                         }
-                        final String token=userResponseData.getData().getToken();
-                        if("0".equals(model.getIsCreatInfo())&&!model.isHasGender()){
+                        final String token = userResponseData.getData().getToken();
+                        if ("0".equals(model.getIsCreatInfo()) && !model.isHasGender()) {
                             //如果没有创建档案且性别不是2才算没创建档案
                             UserInfoModel.getInstance().setToken("");
-                            Intent intent=new Intent(context, CreatFlleActivity.class);
-                            intent.putExtra("token",token);
+                            Intent intent = new Intent(context, CreatFlleActivity.class);
+                            intent.putExtra("token", token);
                             context.startActivity(intent);
-                        }else if(MD5.md5WithEncoder("000000").equals(password)){
+                        } else if (MD5.md5WithEncoder("000000").equals(password)) {
                             UserInfoModel.getInstance().setToken("");
                             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context)
                                     .setTitle(context.getString(R.string.login_out_title))
@@ -295,23 +347,23 @@ public class LoginPresenterImpl implements ILoginPresenter {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
 
-                                            Intent intent=new Intent(context, ModifyPasswordActivity.class);
-                                            intent.putExtra("type","1");
-                                            intent.putExtra("token",token);
+                                            Intent intent = new Intent(context, ModifyPasswordActivity.class);
+                                            intent.putExtra("type", "1");
+                                            intent.putExtra("token", token);
                                             context.startActivity(intent);
                                             ((AppCompatActivity) context).finish();
                                         }
                                     });
-                            Dialog dialog=dialogBuilder.create();
+                            Dialog dialog = dialogBuilder.create();
                             dialog.setCancelable(false);
                             dialog.show();
-                        }else {
+                        } else {
                             context.startActivity(new Intent(context, HomeActviity.class));
                             ((AppCompatActivity) context).finish();
                         }
                         break;
                     default:
-                        if(tv_login!=null)tv_login.setEnabled(true);
+                        if (tv_login != null) tv_login.setEnabled(true);
                         Util.toastMsg(userResponseData.getMsg());
                         break;
                 }
@@ -319,39 +371,39 @@ public class LoginPresenterImpl implements ILoginPresenter {
 
             @Override
             public void failure(RetrofitError error) {
-                if(tv_login!=null)tv_login.setEnabled(true);
+                if (tv_login != null) tv_login.setEnabled(true);
                 if (dialog != null) dialog.dismiss();
                 ZillaApi.dealNetError(error);
             }
         });
     }
 
-    private void stepDeal(Context context,String userId,long step){
-        String dateStar=DateUtil.weeHours(0);
-        String dateEnd=DateUtil.weeHours(1);
-        List<UserStep> steps=StepUtil.getInstance().getCurrentData(userId,dateStar,dateEnd);
-        if(!steps.isEmpty()){
-            UserStep stepEnd=steps.get(steps.size()-1);
-            int currentStep= (int) (stepEnd.getStepCount());
-            if(step>currentStep){
+    private void stepDeal(Context context, String userId, long step) {
+        String dateStar = DateUtil.weeHours(0);
+        String dateEnd = DateUtil.weeHours(1);
+        List<UserStep> steps = StepUtil.getInstance().getCurrentData(userId, dateStar, dateEnd);
+        if (!steps.isEmpty()) {
+            UserStep stepEnd = steps.get(steps.size() - 1);
+            int currentStep = (int) (stepEnd.getStepCount());
+            if (step > currentStep) {
                 //如果服务器上的步数大于本地
-                UserStep userStep=new UserStep();
+                UserStep userStep = new UserStep();
                 userStep.setAccountId(Long.parseLong(userId));
                 userStep.setRecordTime(DateUtil.getInstance().getCurrentDate());
                 userStep.setStepCount(step);
                 StepUtil.getInstance().saveStep(userStep);
             }
             //如果不大于则 不需要操作什么
-        }else{
+        } else {
             //本地没有数据则写入本地
-            UserStep serverStep=new UserStep();
+            UserStep serverStep = new UserStep();
             serverStep.setAccountId(Long.parseLong(userId));
             serverStep.setRecordTime(DateUtil.getInstance().getCurrentDate());
             serverStep.setStepCount(step);
             StepUtil.getInstance().saveStep(serverStep);
         }
         //删除旧数据
-        StepUtil.getInstance().deleteOldDate(dateStar,userId);
+        StepUtil.getInstance().deleteOldDate(dateStar, userId);
         //启动计步器服务
         context.startService(new Intent(context.getApplicationContext(), StepService.class));
     }

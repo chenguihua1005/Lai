@@ -23,6 +23,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/attach_take_pic"
-        android:textColor="#727171" />
+        android:textColor="#727171"
+        android:visibility="gone"/>
 
 </LinearLayout>

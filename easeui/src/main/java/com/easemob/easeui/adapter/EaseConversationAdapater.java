@@ -154,13 +154,15 @@ public class EaseConversationAdapater extends ArrayAdapter<EMConversation> {
 			} catch (EaseMobException e) {
 				e.printStackTrace();
 			}
-
 			System.out.println("userId:"+userId+"    f:"+f);
 			if(f.equals(userId)){
-				String[] field=conversation.getExtField().split(",");
-				if(field.length>=2){
-					name=field[0];
-					photo=field[1];
+				String str=conversation.getExtField();
+				if(!TextUtils.isEmpty(str)){
+					String[] field=str.split(",");
+					if(field.length>=2){
+						name=field[0];
+						photo=field[1];
+					}
 				}
 			}
 //			if(!TextUtils.isEmpty(conversation.getExtField())){
@@ -236,16 +238,16 @@ public class EaseConversationAdapater extends ArrayAdapter<EMConversation> {
 		if (avatarRadius != -1) {
 			holder.avatar.setRadius(avatarRadius);
 		}
-		// 设置自定义属性
-		holder.name.setTextColor(primaryColor);
-		holder.message.setTextColor(secondaryColor);
-		holder.time.setTextColor(timeColor);
-		if (primarySize != 0)
-			holder.name.setTextSize(TypedValue.COMPLEX_UNIT_PX, primarySize);
-		if (secondarySize != 0)
-			holder.message.setTextSize(TypedValue.COMPLEX_UNIT_PX, secondarySize);
-		if (timeSize != 0)
-			holder.time.setTextSize(TypedValue.COMPLEX_UNIT_PX, timeSize);
+//		// 设置自定义属性
+//		holder.name.setTextColor(primaryColor);
+//		holder.message.setTextColor(secondaryColor);
+//		holder.time.setTextColor(timeColor);
+//		if (primarySize != 0)
+//			holder.name.setTextSize(TypedValue.COMPLEX_UNIT_PX, primarySize);
+//		if (secondarySize != 0)
+//			holder.message.setTextSize(TypedValue.COMPLEX_UNIT_PX, secondarySize);
+//		if (timeSize != 0)
+//			holder.time.setTextSize(TypedValue.COMPLEX_UNIT_PX, timeSize);
 
 		return convertView;
 	}

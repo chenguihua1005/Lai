@@ -26,6 +26,9 @@ import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
+import com.easemob.EMError;
+import com.easemob.chat.EMChatManager;
+import com.easemob.exceptions.EaseMobException;
 import com.github.snowdream.android.util.Log;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
@@ -34,13 +37,17 @@ import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.confirmInfo.EventModel.ConinfoEvent;
 import com.softtek.lai.module.confirmInfo.model.ConinfoModel;
 import com.softtek.lai.module.confirmInfo.model.GetConfirmInfoModel;
 import com.softtek.lai.module.confirmInfo.presenter.IUpConfirmInfopresenter;
 import com.softtek.lai.module.confirmInfo.presenter.UpConfirmInfoImpl;
+import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.login.model.UserModel;
+import com.softtek.lai.module.login.presenter.ILoginPresenter;
+import com.softtek.lai.module.login.presenter.LoginPresenterImpl;
 import com.softtek.lai.module.message.model.CheckMobileEvent;
 import com.softtek.lai.module.message.model.MessageDetailInfo;
 import com.softtek.lai.module.message.model.PhotosModel;
@@ -170,6 +177,8 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
     boolean isOperation = false;
     int current_operation;
 
+    private ILoginPresenter loginPresenter;
+
     //获取当前日期
     Calendar ca;
     int myear;//获取年份
@@ -197,6 +206,8 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
     private List<String> pargradeNamelList = new ArrayList<String>();
 
     private int select_posion = 0;
+
+    private UserModel model;
 
     private ImageFileCropSelector imageFileCropSelector;
     private ProgressDialog progressDialog;
@@ -321,10 +332,12 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
     protected void initDatas() {
         iNewStudentpresenter = new NewStudentInputImpl(JoinGameDetailActivity.this);
         iUpConfirmInfopresenter = new UpConfirmInfoImpl(JoinGameDetailActivity.this);
+        loginPresenter = new LoginPresenterImpl(this);
         messagePresenter = new MessageImpl(JoinGameDetailActivity.this);
         guwenClassPre = new GuwenClassImp();
         UserInfoModel userInfoModel = UserInfoModel.getInstance();
         accoutid = Long.parseLong(userInfoModel.getUser().getUserid());
+        model=userInfoModel.getUser();
         addGrade();
         type = getIntent().getStringExtra("type");
         if ("1".equals(type)) {
@@ -369,7 +382,45 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
             });
         }
     }
+    private void rigstHX(){
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    // 调用sdk注册方法
+                    String phone=model.getMobile();
+                    final String account=MD5.md5WithEncoder(phone).toLowerCase();
+                    EMChatManager.getInstance().createAccountOnServer(account, "HBL_SOFTTEK#321");
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            loginPresenter.updateHXState(model.getMobile(),account,"1",null,null,"isInBack");
+                        }
+                    });
+                } catch (final EaseMobException e) {
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            int errorCode=e.getErrorCode();
+                            if (errorCode == EMError.USER_ALREADY_EXISTS) {
+                                String phone=model.getMobile();
+                                final String account=MD5.md5WithEncoder(phone).toLowerCase();
+                                loginPresenter.updateHXState(model.getMobile(),account,"1",null,null,"isInBack");
+                            }else {
+                                loginPresenter.updateHXState(model.getMobile(),"","0",null,null,"isInBack");
+                            }
+                        }
+                    });
+                }
+            }
+        }).start();
+    }
 
+    @Subscribe
+    public void onEvent(Integer a) {
+        rigstHX();
+        Intent intent = new Intent(JoinGameDetailActivity.this, HomeActviity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+
+    }
     @Subscribe
     public void onEvent(ClassEvent classEvent) {
         System.out.println("classEvent.getPargradeModels()>>》》》》》》》》》》》》》》" + classEvent.getPargradeModels());

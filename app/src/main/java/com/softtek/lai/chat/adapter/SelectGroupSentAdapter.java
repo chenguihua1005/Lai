@@ -82,9 +82,9 @@ public class SelectGroupSentAdapter extends BaseAdapter {
         System.out.println("photo:" + photo);
         String path= AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
         if ("".equals(photo)) {
-            Picasso.with(context).load("111").fit().error(com.easemob.easeui.R.drawable.ease_group_icon).into(holder.img);
+            Picasso.with(context).load("111").fit().error(R.drawable.img_default).into(holder.img);
         } else {
-            Picasso.with(context).load(path+photo).fit().error(com.easemob.easeui.R.drawable.ease_group_icon).into(holder.img);
+            Picasso.with(context).load(path+photo).fit().error(R.drawable.img_default).into(holder.img);
         }
         holder.text_name.setText(contactListInfo.getUserName());
         final boolean isSelect = selectContactInfoModel.isSelected();
@@ -97,11 +97,9 @@ public class SelectGroupSentAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 if (selectContactInfoModel.isSelected()) {
-                    System.out.println("--------");
                     holder.img_select_button.setImageResource(R.drawable.history_data_circle);
                     selectContactInfoModel.setSelected(false);
                 } else {
-                    System.out.println("==========");
                     holder.img_select_button.setImageResource(R.drawable.history_data_circled);
                     selectContactInfoModel.setSelected(true);
                 }

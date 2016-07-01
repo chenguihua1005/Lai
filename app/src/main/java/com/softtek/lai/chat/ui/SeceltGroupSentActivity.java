@@ -175,7 +175,7 @@ public class SeceltGroupSentActivity extends BaseActivity implements View.OnClic
     @Override
     protected void initViews() {
         //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
-        tv_title.setText("选择收件人");
+        tv_title.setText("选择联系人");
         tv_right.setText("全选");
 
     }

@@ -109,7 +109,7 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
                             startActivity(intent);
                         }
                     }).setCancelable(false);
-            if(!isFinishing()){
+            if (!isFinishing()) {
                 builder.create().show();
             }
         }
@@ -120,7 +120,7 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        tv_title.setText("会话列表");
+        tv_title.setText("会话");
         iv_email.setImageResource(R.drawable.img_chat_contant);
         ll_left.setOnClickListener(this);
         fl_right.setOnClickListener(this);
@@ -147,9 +147,9 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
         connectionListener = new EMConnectionListener() {
             @Override
             public void onDisconnected(final int error) {
-                System.out.println("isFinishing:"+isFinishing());
+                System.out.println("isFinishing:" + isFinishing());
                 if (!isFinishing()) {
-                    EMChatManager.getInstance().logout(true,new EMCallBack() {
+                    EMChatManager.getInstance().logout(true, new EMCallBack() {
 
                         @Override
                         public void onSuccess() {
@@ -190,7 +190,6 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
         //
 
     }
-
 
 
     /**
@@ -426,7 +425,8 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
                         dialog.dismiss();
                         accountRemovedBuilder = null;
                         finish();
-                        startActivity(new Intent(ConversationListActivity.this, LoginActivity.class));
+                        Intent intent = new Intent(ConversationListActivity.this, LoginActivity.class);
+                        startActivity(intent);
                     }
                 });
                 accountRemovedBuilder.setCancelable(false);

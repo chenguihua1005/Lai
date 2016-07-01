@@ -169,7 +169,6 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
                         @Override
                         public void onSuccess() {
                             // TODO Auto-generated method stub
-                            System.out.println("--------");
                             handler.sendEmptyMessage(0);
                         }
 
@@ -445,7 +444,9 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
         if (TextUtils.isEmpty(conversation.getExtField())) {
             setProfile(conversation, model);
         }
-        startActivity(new Intent(this,ConversationListActivity.class));
+        Intent intent=new Intent(this,ConversationListActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
         finish();
     }
 
