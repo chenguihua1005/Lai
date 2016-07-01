@@ -69,7 +69,7 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
         aMap.getUiSettings().setZoomControlsEnabled(false);//隐藏缩放控制按钮
         aMap.getUiSettings().setAllGesturesEnabled(false);
         aMap.getUiSettings().setScrollGesturesEnabled(true);
-        aMap.getUiSettings().setTiltGesturesEnabled(true);
+        //aMap.getUiSettings().setTiltGesturesEnabled(true);
         aMap.getUiSettings().setZoomGesturesEnabled(true);
         HistorySportModel model= (HistorySportModel) getIntent().getSerializableExtra("history");
         tv_clock.setText(model.getTimeLength());
@@ -82,7 +82,7 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
         List<LatLng> list = readLatLngs(coords);
         if(!list.isEmpty()){
             aMap.addPolyline(new PolylineOptions().color(Color.RED)
-                    .addAll(list).useGradient(true).width(20));
+                    .addAll(list)/*.useGradient(true)*/.width(20));
             LatLng start=list.get(0);
             LatLng end=list.get(list.size()-1);
             LatLngBounds bounds=new LatLngBounds.Builder().include(start).include(end).build();
