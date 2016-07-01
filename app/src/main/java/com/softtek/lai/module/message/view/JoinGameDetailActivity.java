@@ -6,12 +6,15 @@
 package com.softtek.lai.module.message.view;
 
 
+import android.Manifest;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -535,10 +538,34 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
                         public void onClick(DialogInterface dialog, int which) {
                             if (which == 0) {
                                 //拍照
-                                imageFileCropSelector.takePhoto(JoinGameDetailActivity.this);
+                                if (ActivityCompat.checkSelfPermission(JoinGameDetailActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+                                        || ActivityCompat.checkSelfPermission(JoinGameDetailActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                                        ActivityCompat.checkSelfPermission(JoinGameDetailActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                                    if (ActivityCompat.shouldShowRequestPermissionRationale(JoinGameDetailActivity.this, Manifest.permission.CAMERA) ||
+                                            ActivityCompat.shouldShowRequestPermissionRationale(JoinGameDetailActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
+                                            ActivityCompat.shouldShowRequestPermissionRationale(JoinGameDetailActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                                        ActivityCompat.requestPermissions(JoinGameDetailActivity.this, new String[]{Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 100);
+                                    } else {
+                                        ActivityCompat.requestPermissions(JoinGameDetailActivity.this, new String[]{Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 100);
+                                    }
+                                } else {
+                                    imageFileCropSelector.takePhoto(JoinGameDetailActivity.this);
+                                }
+
                             } else if (which == 1) {
                                 //照片
-                                imageFileCropSelector.selectImage(JoinGameDetailActivity.this);
+                                if (ActivityCompat.checkSelfPermission(JoinGameDetailActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                                        ActivityCompat.checkSelfPermission(JoinGameDetailActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                                    if (ActivityCompat.shouldShowRequestPermissionRationale(JoinGameDetailActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
+                                            ActivityCompat.shouldShowRequestPermissionRationale(JoinGameDetailActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                                        ActivityCompat.requestPermissions(JoinGameDetailActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 200);
+                                    } else {
+                                        ActivityCompat.requestPermissions(JoinGameDetailActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 200);
+                                    }
+                                } else {
+                                    imageFileCropSelector.selectImage(JoinGameDetailActivity.this);; // 图库选择图片
+                                }
+
                             }
                         }
                     }).create().show();
@@ -605,7 +632,25 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
             }
         }
     }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 100) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // permission was granted, yay! Do the
+                // contacts-related task you need to do.
+                imageFileCropSelector.takePhoto(JoinGameDetailActivity.this);
 
+            } if(requestCode == 200){
+                imageFileCropSelector.selectImage(JoinGameDetailActivity.this);// 图库选择图片
+            }else {
+
+                // permission denied, boo! Disable the
+                // functionality that depends on this permission.
+            }
+        }
+    }
     public void showGradeDialog() {
         final AlertDialog.Builder birdialog = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.dialog_select_grade, null);

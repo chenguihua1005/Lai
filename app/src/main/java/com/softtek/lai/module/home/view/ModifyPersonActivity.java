@@ -86,7 +86,7 @@ public class ModifyPersonActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void onSuccess(String file) {
                 progressDialog.show();
-                presenter.modifyPicture(UserInfoModel.getInstance().getUser().getUserid(),file,progressDialog,img);
+                presenter.modifyPicture(UserInfoModel.getInstance().getUser().getUserid(), file, progressDialog, img);
             }
 
             @Override
@@ -114,13 +114,13 @@ public class ModifyPersonActivity extends BaseActivity implements View.OnClickLi
             text_name.setText(model.getNickname());
         }
         text_phone.setText(model.getMobile());
-        if(model.isHasGender()){
+        if (model.isHasGender()) {
             if ("1".equals(model.getGender())) {
                 text_sex.setText("女");
             } else {
                 text_sex.setText("男");
             }
-        }else {
+        } else {
             text_sex.setText("");
         }
 
@@ -133,12 +133,14 @@ public class ModifyPersonActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     protected void initDatas() {
-        presenter=new LoginPresenterImpl(this);
+        presenter = new LoginPresenterImpl(this);
         progressDialog = new ProgressDialog(this);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setMessage("加载中");
     }
-    private static final int CAMERA_PREMISSION=100;
+
+    private static final int CAMERA_PREMISSION = 100;
+
     @Override
     public void onClick(View v) {
 
@@ -148,11 +150,11 @@ public class ModifyPersonActivity extends BaseActivity implements View.OnClickLi
                 break;
 
             case R.id.rel_modofy_name:
-                startActivity(new Intent(this,ModifyNameActivity.class));
+                startActivity(new Intent(this, ModifyNameActivity.class));
                 break;
 
             case R.id.rel_modofy_photo:
-                if("".equals(photo)){
+                if ("".equals(photo)) {
                     //弹出dialog
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setItems(items, new DialogInterface.OnClickListener() {
@@ -160,35 +162,42 @@ public class ModifyPersonActivity extends BaseActivity implements View.OnClickLi
                         public void onClick(DialogInterface dialog, int which) {
                             if (which == 0) {
                                 //拍照
-                                if(ActivityCompat.checkSelfPermission(ModifyPersonActivity.this, Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
-                                    //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
-                                    if(ActivityCompat.shouldShowRequestPermissionRationale(ModifyPersonActivity.this,Manifest.permission.CAMERA)){
-                                        //允许弹出提示
-                                        ActivityCompat.requestPermissions(ModifyPersonActivity.this,
-                                                new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
-
-                                    }else{
-                                        //不允许弹出提示
-                                        ActivityCompat.requestPermissions(ModifyPersonActivity.this,
-                                                new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
+                                if (ActivityCompat.checkSelfPermission(ModifyPersonActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+                                        || ActivityCompat.checkSelfPermission(ModifyPersonActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                                        ActivityCompat.checkSelfPermission(ModifyPersonActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                                    if (ActivityCompat.shouldShowRequestPermissionRationale(ModifyPersonActivity.this, Manifest.permission.CAMERA) ||
+                                            ActivityCompat.shouldShowRequestPermissionRationale(ModifyPersonActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
+                                            ActivityCompat.shouldShowRequestPermissionRationale(ModifyPersonActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                                        ActivityCompat.requestPermissions(ModifyPersonActivity.this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 100);
+                                    } else {
+                                        ActivityCompat.requestPermissions(ModifyPersonActivity.this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 100);
                                     }
-                                }else {
+                                } else {
                                     imageFileCropSelector.takePhoto(ModifyPersonActivity.this);
                                 }
                             } else if (which == 1) {
                                 //照片
-                                imageFileCropSelector.selectImage(ModifyPersonActivity.this);
+                                if (ActivityCompat.checkSelfPermission(ModifyPersonActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                                        ActivityCompat.checkSelfPermission(ModifyPersonActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                                    if (ActivityCompat.shouldShowRequestPermissionRationale(ModifyPersonActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
+                                            ActivityCompat.shouldShowRequestPermissionRationale(ModifyPersonActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                                        ActivityCompat.requestPermissions(ModifyPersonActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 200);
+                                    } else {
+                                        ActivityCompat.requestPermissions(ModifyPersonActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 200);
+                                    }
+                                } else {
+                                    imageFileCropSelector.selectImage(ModifyPersonActivity.this);// 图库选择图片
+                                }
                             }
                         }
                     }).create().show();
-                }else {
-                    startActivity(new Intent(this,ModifyPhotoActivity.class));
+                } else {
+                    startActivity(new Intent(this, ModifyPhotoActivity.class));
                 }
                 break;
 
         }
     }
-
 
 
     /**
@@ -210,14 +219,16 @@ public class ModifyPersonActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode==CAMERA_PREMISSION){
+        if (requestCode == 100) {
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // permission was granted, yay! Do the
                 // contacts-related task you need to do.
                 imageFileCropSelector.takePhoto(ModifyPersonActivity.this);
 
-            } else {
+            } if(requestCode == 200){
+                imageFileCropSelector.selectImage(ModifyPersonActivity.this);// 图库选择图片
+            }else {
 
                 // permission denied, boo! Disable the
                 // functionality that depends on this permission.
