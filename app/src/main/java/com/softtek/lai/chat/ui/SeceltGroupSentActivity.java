@@ -200,7 +200,7 @@ public class SeceltGroupSentActivity extends BaseActivity implements View.OnClic
                     intent.putExtra("list",(Serializable)select_list);
                     startActivity(intent);
                 }else {
-                    Util.toastMsg("请选择收件人");
+                    Util.toastMsg("请选择联系人");
                 }
                 break;
             case R.id.ll_left:
