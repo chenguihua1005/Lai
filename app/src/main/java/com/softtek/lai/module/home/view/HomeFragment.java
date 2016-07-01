@@ -139,7 +139,6 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     UserModel model;
     private ProgressDialog progressDialog;
     public static Timer timer;
-    boolean isTurn = false;
 
     private Handler handler = new Handler() {
 
@@ -204,28 +203,6 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
             }
         });
         onRefresh();
-        model = UserInfoModel.getInstance().getUser();
-        String hasEmchat = model.getHasEmchat();
-        if ("1".equals(hasEmchat)) {
-
-            timer = new Timer();
-            TimerTask task = new TimerTask() {
-
-                @Override
-                public void run() {
-                    // 需要做的事:发送消息
-                    if (!EMChat.getInstance().isLoggedIn()) {
-                        loginChat(progressDialog, model.getHXAccountId());
-                    } else {
-                        if (timer != null) {
-                            timer.cancel();
-                        }
-                    }
-                }
-            };
-            timer.schedule(task, 0, 10000);
-        }
-
     }
 
     @Subscribe
@@ -233,19 +210,14 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         if (model != null) {
             String state = model.getState();
             if ("0".equals(state)) {
-                isTurn = false;
                 Util.toastMsg("您的会话权限开通中，请稍候再试");
             } else if ("-1".equals(state)) {
-                isTurn = false;
                 Util.toastMsg("开通会话功能需要身份认证");
             } else {
-                if (isTurn) {
-                    progressDialog.show();
-                }
-                loginChat(progressDialog, model.getHXAccountId());
+                Util.toastMsg("会话异常，请稍候再试");
             }
         } else {
-            isTurn = false;
+            Util.toastMsg("会话异常，请稍候再试");
         }
     }
 
@@ -316,6 +288,28 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         } else {
             messagePresenter.getMessageRead(img_red);
         }
+
+        String hasEmchat = model.getHasEmchat();
+        System.out.println("hasEmchat:" + hasEmchat);
+        if ("1".equals(hasEmchat)) {
+            timer = new Timer();
+            TimerTask task = new TimerTask() {
+
+                @Override
+                public void run() {
+                    // 需要做的事:发送消息
+                    if (!EMChat.getInstance().isLoggedIn()) {
+                        loginChat(progressDialog, model.getHXAccountId());
+                    } else {
+                        if (timer != null) {
+                            timer.cancel();
+                        }
+                    }
+                }
+            };
+            timer.schedule(task, 0, 10000);
+        }
+
     }
 
     @Override
@@ -377,12 +371,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                 ChatUserInfoModel.getInstance().setUser(chatUserModel);
                 handler.sendEmptyMessage(0);
                 EMChatManager.getInstance().loadAllConversations();
-                if (isTurn) {
-                    Intent intent = new Intent(getActivity(), ConversationListActivity.class);
-                    startActivity(intent);
-                } else {
 
-                }
                 if (timer != null) {
                     timer.cancel();
                 }
@@ -449,10 +438,6 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                         Intent intent = new Intent(getActivity(), ConversationListActivity.class);
                         startActivity(intent);
                     } else {
-                        isTurn = true;
-                        if (timer != null) {
-                            timer.cancel();
-                        }
                         loginPresenter.getEMChatAccount(progressDialog);
                     }
                     break;

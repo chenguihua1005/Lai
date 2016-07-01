@@ -6,12 +6,15 @@
 package com.softtek.lai.module.message.view;
 
 
+import android.Manifest;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -26,6 +29,9 @@ import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
+import com.easemob.EMError;
+import com.easemob.chat.EMChatManager;
+import com.easemob.exceptions.EaseMobException;
 import com.github.snowdream.android.util.Log;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
@@ -34,13 +40,17 @@ import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.confirmInfo.EventModel.ConinfoEvent;
 import com.softtek.lai.module.confirmInfo.model.ConinfoModel;
 import com.softtek.lai.module.confirmInfo.model.GetConfirmInfoModel;
 import com.softtek.lai.module.confirmInfo.presenter.IUpConfirmInfopresenter;
 import com.softtek.lai.module.confirmInfo.presenter.UpConfirmInfoImpl;
+import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.login.model.UserModel;
+import com.softtek.lai.module.login.presenter.ILoginPresenter;
+import com.softtek.lai.module.login.presenter.LoginPresenterImpl;
 import com.softtek.lai.module.message.model.CheckMobileEvent;
 import com.softtek.lai.module.message.model.MessageDetailInfo;
 import com.softtek.lai.module.message.model.PhotosModel;
@@ -170,6 +180,8 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
     boolean isOperation = false;
     int current_operation;
 
+    private ILoginPresenter loginPresenter;
+
     //获取当前日期
     Calendar ca;
     int myear;//获取年份
@@ -197,6 +209,8 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
     private List<String> pargradeNamelList = new ArrayList<String>();
 
     private int select_posion = 0;
+
+    private UserModel model;
 
     private ImageFileCropSelector imageFileCropSelector;
     private ProgressDialog progressDialog;
@@ -321,10 +335,12 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
     protected void initDatas() {
         iNewStudentpresenter = new NewStudentInputImpl(JoinGameDetailActivity.this);
         iUpConfirmInfopresenter = new UpConfirmInfoImpl(JoinGameDetailActivity.this);
+        loginPresenter = new LoginPresenterImpl(this);
         messagePresenter = new MessageImpl(JoinGameDetailActivity.this);
         guwenClassPre = new GuwenClassImp();
         UserInfoModel userInfoModel = UserInfoModel.getInstance();
         accoutid = Long.parseLong(userInfoModel.getUser().getUserid());
+        model=userInfoModel.getUser();
         addGrade();
         type = getIntent().getStringExtra("type");
         if ("1".equals(type)) {
@@ -369,7 +385,45 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
             });
         }
     }
+    private void rigstHX(){
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    // 调用sdk注册方法
+                    String phone=model.getMobile();
+                    final String account=MD5.md5WithEncoder(phone).toLowerCase();
+                    EMChatManager.getInstance().createAccountOnServer(account, "HBL_SOFTTEK#321");
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            loginPresenter.updateHXState(model.getMobile(),account,"1",null,null,"isInBack");
+                        }
+                    });
+                } catch (final EaseMobException e) {
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            int errorCode=e.getErrorCode();
+                            if (errorCode == EMError.USER_ALREADY_EXISTS) {
+                                String phone=model.getMobile();
+                                final String account=MD5.md5WithEncoder(phone).toLowerCase();
+                                loginPresenter.updateHXState(model.getMobile(),account,"1",null,null,"isInBack");
+                            }else {
+                                loginPresenter.updateHXState(model.getMobile(),"","0",null,null,"isInBack");
+                            }
+                        }
+                    });
+                }
+            }
+        }).start();
+    }
 
+    @Subscribe
+    public void onEvent(Integer a) {
+        rigstHX();
+        Intent intent = new Intent(JoinGameDetailActivity.this, HomeActviity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+
+    }
     @Subscribe
     public void onEvent(ClassEvent classEvent) {
         System.out.println("classEvent.getPargradeModels()>>》》》》》》》》》》》》》》" + classEvent.getPargradeModels());
@@ -484,10 +538,34 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
                         public void onClick(DialogInterface dialog, int which) {
                             if (which == 0) {
                                 //拍照
-                                imageFileCropSelector.takePhoto(JoinGameDetailActivity.this);
+                                if (ActivityCompat.checkSelfPermission(JoinGameDetailActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+                                        || ActivityCompat.checkSelfPermission(JoinGameDetailActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                                        ActivityCompat.checkSelfPermission(JoinGameDetailActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                                    if (ActivityCompat.shouldShowRequestPermissionRationale(JoinGameDetailActivity.this, Manifest.permission.CAMERA) ||
+                                            ActivityCompat.shouldShowRequestPermissionRationale(JoinGameDetailActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
+                                            ActivityCompat.shouldShowRequestPermissionRationale(JoinGameDetailActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                                        ActivityCompat.requestPermissions(JoinGameDetailActivity.this, new String[]{Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 100);
+                                    } else {
+                                        ActivityCompat.requestPermissions(JoinGameDetailActivity.this, new String[]{Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 100);
+                                    }
+                                } else {
+                                    imageFileCropSelector.takePhoto(JoinGameDetailActivity.this);
+                                }
+
                             } else if (which == 1) {
                                 //照片
-                                imageFileCropSelector.selectImage(JoinGameDetailActivity.this);
+                                if (ActivityCompat.checkSelfPermission(JoinGameDetailActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                                        ActivityCompat.checkSelfPermission(JoinGameDetailActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                                    if (ActivityCompat.shouldShowRequestPermissionRationale(JoinGameDetailActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
+                                            ActivityCompat.shouldShowRequestPermissionRationale(JoinGameDetailActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                                        ActivityCompat.requestPermissions(JoinGameDetailActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 200);
+                                    } else {
+                                        ActivityCompat.requestPermissions(JoinGameDetailActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 200);
+                                    }
+                                } else {
+                                    imageFileCropSelector.selectImage(JoinGameDetailActivity.this);; // 图库选择图片
+                                }
+
                             }
                         }
                     }).create().show();
@@ -554,7 +632,25 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
             }
         }
     }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 100) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // permission was granted, yay! Do the
+                // contacts-related task you need to do.
+                imageFileCropSelector.takePhoto(JoinGameDetailActivity.this);
 
+            } if(requestCode == 200){
+                imageFileCropSelector.selectImage(JoinGameDetailActivity.this);// 图库选择图片
+            }else {
+
+                // permission denied, boo! Disable the
+                // functionality that depends on this permission.
+            }
+        }
+    }
     public void showGradeDialog() {
         final AlertDialog.Builder birdialog = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.dialog_select_grade, null);

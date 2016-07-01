@@ -63,10 +63,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="18dip"
+            android:layout_marginLeft="10dip"
             android:gravity="center"
             android:text="群发消息"
-            android:textSize="17sp" />
+            android:textSize="15sp" />
     </LinearLayout>
 
     <ListView

@@ -61,7 +61,6 @@ public class InviteStudentActivity extends BaseActivity implements View.OnClickL
     private IStudentPresenter studentPresenter;
     private ACache aCache;
     private UserModel userModel;
-    TelephonyManager tManager;
 
 
     @Override
@@ -69,8 +68,6 @@ public class InviteStudentActivity extends BaseActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         ll_left.setOnClickListener(this);
         but_contant.setOnClickListener(this);
-        tManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-        System.out.println("number:" + tManager.getLine1Number());
 
     }
 
@@ -78,7 +75,6 @@ public class InviteStudentActivity extends BaseActivity implements View.OnClickL
     protected void initViews() {
         //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
         tv_title.setText(R.string.joinGame);
-
     }
 
     @Override

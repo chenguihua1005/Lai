@@ -181,6 +181,7 @@ public class ChatHelper {
             public Intent getLaunchIntent(EMMessage message) {
                 //设置点击通知栏跳转事件
                 Intent intent = new Intent(appContext, ConversationListActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 return intent;
             }
         });
@@ -191,7 +192,7 @@ public class ChatHelper {
      */
     protected void onCurrentAccountRemoved() {
         Intent intent = new Intent(appContext, ConversationListActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(Constant.ACCOUNT_REMOVED, true);
         appContext.startActivity(intent);
     }
@@ -247,6 +248,17 @@ public class ChatHelper {
                         }
                         break;
                     case EventOfflineMessage:
+                        System.out.println("EventOfflineMessage--------");
+                        List<EMMessage> messagess = (List<EMMessage>) event.getData();
+                        for (int i = 0; i <messagess.size() ; i++) {
+                            EMMessage m=messagess.get(i);
+                            try {
+                                String name=m.getStringAttribute("nickname");
+                                System.out.println("name:"+name);
+                            } catch (EaseMobException e) {
+                                e.printStackTrace();
+                            }
+                        }
                         if (!easeUI.hasForegroundActivies()) {
                             List<EMMessage> messages = (List<EMMessage>) event.getData();
                             getNotifier().onNewMesg(messages);
