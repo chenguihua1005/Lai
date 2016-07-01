@@ -20,19 +20,24 @@ import android.os.PowerManager.WakeLock;
 import android.os.SystemClock;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.NotificationCompat;
-import android.util.Log;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
+import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.stepcount.db.StepUtil;
 import com.softtek.lai.stepcount.model.UserStep;
+import com.softtek.lai.stepcount.net.StepNetService;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.JCountDownTimer;
+import com.softtek.lai.utils.RequestCallback;
 
 import java.util.Calendar;
 
+import retrofit.client.Response;
+import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.SharedPreferenceService;
 
 public class StepService extends Service implements SensorEventListener {
@@ -46,13 +51,15 @@ public class StepService extends Service implements SensorEventListener {
     private static int durationUpload=10*60*1000;
     private SensorManager sensorManager;
     private StepDetector  stepDetector;
-    private BroadcastReceiver mBatInfoReceiver;
+//    private BroadcastReceiver mBatInfoReceiver;
+    private UploadStepReceive uploadStepReceive;
     private WakeLock mWakeLock;
     private TimeCount time;
     private int currentStep;//当前计步器 得出的步数结果用与做数据使用
     private int serverStep;//记录服务器上的步数
     private int firstStep=0;//启动应用服务的时候的第一次步数
-    public static int todayStep;//用于显示今日步数使用
+    private static int todayStep;//用于显示今日步数使用
+
 
 
     @Override
@@ -78,15 +85,18 @@ public class StepService extends Service implements SensorEventListener {
             serverStep = StepUtil.getInstance().getCurrentStep(userId);
             SharedPreferenceService.getInstance().put("serverStep",serverStep);
             lastStep = todayStep = currentStep + serverStep;
+            SharedPreferenceService.getInstance().put("currentStep",todayStep);
             updateNotification("今日步数：" + todayStep + " 步");
-        }else{
-            serverStep=SharedPreferenceService.getInstance().get("serverStep",0);
-            lastStep = todayStep = currentStep + serverStep;
         }
     }
 
     private void initBroadcastReceiver() {
-        final IntentFilter filter = new IntentFilter();
+        uploadStepReceive=new UploadStepReceive();
+        IntentFilter upload=new IntentFilter(UPLOAD_STEP);
+        upload.addAction(Intent.ACTION_TIME_TICK);
+        registerReceiver(uploadStepReceive,upload);
+
+        /*final IntentFilter filter = new IntentFilter();
         // 屏幕灭屏广播
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         //关机广播
@@ -98,9 +108,8 @@ public class StepService extends Service implements SensorEventListener {
         // 当长按电源键弹出“关机”对话或者锁屏时系统会发出这个广播
         // example：有时候会用到系统对话框，权限可能很高，会覆盖在锁屏界面或者“关机”对话框之上，
         // 所以监听这个广播，当收到时就隐藏自己的对话，如点击pad右下角部分弹出的对话框
-        filter.addAction(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
-
-        mBatInfoReceiver = new BroadcastReceiver() {
+        filter.addAction(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);*/
+        /*mBatInfoReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(final Context context, final Intent intent) {
                 String action = intent.getAction();
@@ -125,7 +134,8 @@ public class StepService extends Service implements SensorEventListener {
                 }
             }
         };
-        registerReceiver(mBatInfoReceiver, filter);
+        registerReceiver(mBatInfoReceiver, filter);*/
+
     }
 
     private void startTimeCount() {
@@ -194,10 +204,10 @@ public class StepService extends Service implements SensorEventListener {
         //android4.4以后可以使用计步传感器
         int VERSION_CODES = Build.VERSION.SDK_INT;
         if (VERSION_CODES >= 19) {
-            Log.i("xf", " 选用安卓自带的计步器功能");
+            Log.i(" 选用安卓自带的计步器功能");
             addCountStepListener();
         } else {
-            Log.i("xf", " 选用重力加速度传感器");
+            Log.i(" 选用重力加速度传感器");
             addBasePedoListener();
         }
     }
@@ -208,7 +218,7 @@ public class StepService extends Service implements SensorEventListener {
         countSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
         if (countSensor != null) {
             Log.i("base", "countSensor");
-            sensorManager.registerListener(this, countSensor, SensorManager.SENSOR_DELAY_UI);
+            sensorManager.registerListener(this, countSensor, SensorManager.SENSOR_DELAY_FASTEST);
         }/*else if (detectorSensor != null) {
             Log.i("base", "detector");
             sensorManager.registerListener(this, detectorSensor, SensorManager.SENSOR_DELAY_UI);
@@ -269,8 +279,9 @@ public class StepService extends Service implements SensorEventListener {
             //清空当天的临时步数
             serverStep=0;
             firstStep=0;
-            SharedPreferenceService.getInstance().put("serverStep",serverStep);
-            updateNotification("今日步数：" + todayStep + " 步");
+            todayStep=0;
+            int tempStep=SharedPreferenceService.getInstance().get("currentStep",0);
+            updateNotification("今日步数："+tempStep+"步");
             return;
         }
         //如果firstStep为0表示第一次开启应用 或者隔天了。
@@ -280,6 +291,7 @@ public class StepService extends Service implements SensorEventListener {
         }
         currentStep=stepTemp-firstStep;
         todayStep =currentStep+ serverStep;
+        SharedPreferenceService.getInstance().put("currentStep",todayStep);
         updateNotification("今日步数：" + todayStep + " 步");
     }
 
@@ -321,8 +333,6 @@ public class StepService extends Service implements SensorEventListener {
             step.setRecordTime(DateUtil.getInstance().getCurrentDate());
             step.setStepCount(todayStep);
             StepUtil.getInstance().saveStep(step);
-        } else {
-            com.github.snowdream.android.util.Log.i("步数相同不保存");
         }
 
     }
@@ -334,7 +344,8 @@ public class StepService extends Service implements SensorEventListener {
         Log.i("test","计步服务结束");
         stopForeground(true);
         nm.cancelAll();
-        unregisterReceiver(mBatInfoReceiver);
+        unregisterReceiver(uploadStepReceive);
+        //unregisterReceiver(mBatInfoReceiver);
         if (countSensor != null) {
             Log.i("base", "注销countSensor");
             sensorManager.unregisterListener(this, countSensor);
@@ -355,11 +366,6 @@ public class StepService extends Service implements SensorEventListener {
             com.github.snowdream.android.util.Log.i("计步器服务不再执行");
         }
         super.onDestroy();
-    }
-
-    @Override
-    public boolean onUnbind(Intent intent) {
-        return super.onUnbind(intent);
     }
 
     synchronized private WakeLock getLock(Context context) {
@@ -388,4 +394,66 @@ public class StepService extends Service implements SensorEventListener {
         return (mWakeLock);
     }
 
+    public class UploadStepReceive extends BroadcastReceiver{
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action=intent.getAction();
+            if(Intent.ACTION_TIME_TICK.equals(action)){
+                //系统time_tick
+                Log.i("系统发出了时间"+DateUtil.getInstance().getCurrentDate());
+                //检查日期
+                Calendar c = Calendar.getInstance();
+                c.setTimeInMillis(System.currentTimeMillis());
+                int hour = c.get(Calendar.HOUR_OF_DAY);
+                int minutes=c.get(Calendar.MINUTE);
+                //每晚的23点30分到24点之间
+                if(hour==23&&minutes>=30&&minutes<=59){
+                    serverStep=0;
+                    firstStep=0;
+                    lastStep=0;
+                    todayStep=0;
+                    int tempStep=SharedPreferenceService.getInstance().get("currentStep",0);
+                    updateNotification("今日步数："+tempStep+"步");
+                }if(hour==0&&minutes==0){
+                    SharedPreferenceService.getInstance().put("currentStep",0);
+                    updateNotification("今日步数：0步");
+                }
+            }else if(UPLOAD_STEP.equals(action)) {
+                UserModel model = UserInfoModel.getInstance().getUser();
+                if (model == null || "0".equals(model.getIsJoin())) {
+                    return;
+                }
+                //检查日期
+                Calendar c = Calendar.getInstance();
+                c.setTimeInMillis(System.currentTimeMillis());
+                int hour = c.get(Calendar.HOUR_OF_DAY);
+                int minutes = c.get(Calendar.MINUTE);
+                //每晚的23点30分到24点之间
+                if (hour == 23 && minutes >= 30 && minutes <= 59) {
+                    //清空当天的临时步数
+                    return;
+                }
+                //做上传工作
+                String userId = model.getUserid();
+                int todayStep =StepService.todayStep;
+                StringBuilder buffer = new StringBuilder();
+                buffer.append(DateUtil.getInstance().getCurrentDate());
+                buffer.append(",");
+                buffer.append(todayStep);
+                //提交数据
+                com.github.snowdream.android.util.Log.i("步数数据开始上传.......................................");
+                com.github.snowdream.android.util.Log.i("步数>>" + buffer.toString());
+                ZillaApi.NormalRestAdapter.create(StepNetService.class)
+                        .synStepCount(
+                                UserInfoModel.getInstance().getToken(), Long.parseLong(userId), buffer.toString(), new RequestCallback<ResponseData>() {
+                                    @Override
+                                    public void success(ResponseData responseData, Response response) {
+                                        com.github.snowdream.android.util.Log.i("上传成功");
+                                    }
+                                });
+                context.startService(new Intent(context.getApplicationContext(), StepService.class));
+            }
+        }
+    }
 }

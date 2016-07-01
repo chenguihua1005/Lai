@@ -615,13 +615,6 @@
             android:screenOrientation="portrait" />
 
         <service android:name=".stepcount.service.StepService" />
-
-        <receiver android:name=".stepcount.service.DelayReceive">
-            <intent-filter>
-                <action android:name="com.softtek.lai.StepService" />
-            </intent-filter>
-        </receiver>
-
         <activity android:name=".module.mygrades.view.MyXuZhangActivity" />
         <activity android:name=".module.sport.view.RunSportActivity" />
 
@@ -664,6 +657,7 @@
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
+
         <service
             android:name="com.xiaomi.mipush.sdk.PushMessageHandler"
             android:enabled="true"
@@ -674,7 +668,7 @@
 
         <receiver
             android:name="com.easemob.chat.EMMipushReceiver"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.xiaomi.mipush.RECEIVE_MESSAGE" />
             </intent-filter>
@@ -686,21 +680,32 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".module.pastreview.view.PcPastBaseDataActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.pastreview.view.ClassListActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.pastreview.view.PassPhotoActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.pastreview.view.StoryActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.pastreview.view.StoryDetailActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.pastreview.view.HistoryHomeActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".module.pastreview.view.HistoryStudentHonorActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".module.pastreview.view.PcPastBaseDataActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.pastreview.view.ClassListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.pastreview.view.PassPhotoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.pastreview.view.StoryActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.pastreview.view.StoryDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.pastreview.view.HistoryHomeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.pastreview.view.HistoryStudentHonorActivity"
+            android:screenOrientation="portrait" />
 
+        <service
+            android:name=".locationservice.LocationService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

@@ -469,7 +469,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                 case Constants.INC:
                 case Constants.PC:
                     information_dialog = new AlertDialog.Builder(getContext());
-                    information_dialog.setTitle("请先进行身份认证后在试").setPositiveButton("认证", new DialogInterface.OnClickListener() {
+                    information_dialog.setTitle("请先进行身份认证后再试").setPositiveButton("认证", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             //跳转到身份认证界面
