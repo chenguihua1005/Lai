@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.easemob.EMCallBack;
 import com.easemob.EMConnectionListener;
 import com.easemob.chat.EMChatManager;
+import com.easemob.easeui.EaseConstant;
 import com.easemob.easeui.ui.EaseChatFragment;
 import com.easemob.easeui.utils.EaseACKUtil;
 import com.mobsandgeeks.saripaar.Rule;
@@ -88,6 +89,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EaseConstant.IS_GROUP_SENT="flase";
         activityInstance = this;
         //聊天人或群id
         toChatUsername = getIntent().getExtras().getString("userId");
