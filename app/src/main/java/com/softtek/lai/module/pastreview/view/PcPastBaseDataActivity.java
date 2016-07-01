@@ -1,5 +1,6 @@
 package com.softtek.lai.module.pastreview.view;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -70,11 +71,11 @@ public class PcPastBaseDataActivity extends BaseActivity implements View.OnClick
     protected void initViews() {
         ll_left.setOnClickListener(this);
         //需要传入班级Id和用户id
-        UserModel model=UserInfoModel.getInstance().getUser();
-        userId=Long.parseLong(model.getUserid());
-        classId=Long.parseLong(getIntent().getStringExtra("classId"));
-        LossWeightChartFragmentPC lwcf= LossWeightChartFragmentPC.newInstance(model.getUserid(),String.valueOf(classId));
-        DimensionChartFragmentPC dcf= DimensionChartFragmentPC.newInstance(model.getUserid(),classId+"");
+        Intent intent=getIntent();
+        userId= intent.getLongExtra("userId",0);
+        classId=intent.getLongExtra("classId",0);
+        LossWeightChartFragmentPC lwcf= LossWeightChartFragmentPC.newInstance(userId+"",classId+"");
+        DimensionChartFragmentPC dcf= DimensionChartFragmentPC.newInstance(userId+"",classId+"");
         fragments.add(lwcf);
         fragments.add(dcf);
         tabcontent.setAdapter(new StudentDetailFragmentAdapter(getSupportFragmentManager(), fragments));

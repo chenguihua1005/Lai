@@ -1,4 +1,4 @@
-package com.softtek.lai.module.historydate.adapter;
+package com.softtek.lai.module.pastreview.adapter;
 
 /**
  * Created by jarvis.liu on 4/1/2016.
@@ -13,8 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
-import com.softtek.lai.module.bodygamest.model.StudentHonorInfo;
-import com.softtek.lai.module.historydate.model.HistoryHonorInfo;
+import com.softtek.lai.module.pastreview.model.HistoryHonorInfo;
 
 import java.util.List;
 
@@ -68,8 +67,11 @@ public class HistoryHonorStarAdapter extends BaseAdapter {
                 holder.img.setImageResource(R.drawable.img_student_honor_1);
             } else if ("2".equals(studentHonorInfo.getValue())) {
                 holder.img.setImageResource(R.drawable.img_student_honor_2);
-            } else {
+            } else if ("3".equals(studentHonorInfo.getValue())){
                 holder.img.setImageResource(R.drawable.img_student_honor_3);
+            }
+            else {
+                holder.img.setImageResource(R.drawable.img_student_honor_star);
             }
         }
         holder.text_value.setText(studentHonorInfo.getValue());
@@ -89,4 +91,5 @@ public class HistoryHonorStarAdapter extends BaseAdapter {
         private TextView text_sm;
         private ImageView img;
     }
+
 }

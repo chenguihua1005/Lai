@@ -308,7 +308,8 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
     public void onClick(View v) {
         final int id = v.getId();
         if (id != R.id.ll_st_saikuang && id != R.id.ll_st_tipst && id != R.id.ll_left
-                && id != R.id.fl_right && id != R.id.iv_email && id != R.id.ll_st_rongyu) {
+                && id != R.id.fl_right && id != R.id.iv_email && id != R.id.ll_st_rongyu
+                &&id!=R.id.ll_st_review) {
             dialogShow("检查中...");
             studentImpl.hasClass(new RequestCallback<ResponseData<HasClass>>() {
                 @Override
@@ -349,6 +350,12 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
                 case R.id.ll_st_tipst:
                     startActivity(new Intent(this, TipsActivity.class));
                     break;
+                //往期回顾
+                case R.id.ll_st_review:
+//                new AlertDialog.Builder(this).setMessage("功能开发中敬请期待").create().show();
+                    startActivity(new Intent(this, ClassListActivity.class));
+                    break;
+
                 case R.id.ll_left:
                     String type = getIntent().getStringExtra("type");
                     if ("0".equals(type)) {
@@ -425,11 +432,6 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
             //成绩单
             case R.id.ll_st_chengjidan:
                 startActivity(new Intent(this, StudentScoreActivity.class));
-                break;
-            //往期回顾
-            case R.id.ll_st_review:
-//                new AlertDialog.Builder(this).setMessage("功能开发中敬请期待").create().show();
-                startActivity(new Intent(this, ClassListActivity.class));
                 break;
 
         }

@@ -1,4 +1,4 @@
-package com.softtek.lai.module.historydate.model;
+package com.softtek.lai.module.pastreview.model;
 
 /**
  * Created by jarvis.liu on 3/31/2016.

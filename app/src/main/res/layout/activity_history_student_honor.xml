@@ -4,6 +4,7 @@
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rel"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
@@ -33,10 +34,20 @@
                 android:background="@color/white"
                 android:orientation="vertical">
 
-                <com.softtek.lai.widgets.MyGridView
+                <com.softtek.lai.module.mygrades.view.MyGridView
                     android:id="@+id/list_jz"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:numColumns="auto_fit"
+                    android:horizontalSpacing="1dip"
+                    android:verticalSpacing="5dip"
+                    android:columnWidth="100dip"
+                    android:stretchMode="columnWidth"
+                    android:gravity="center"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="5dp"
+
+                    />
             </LinearLayout>
             <View
                 android:id="@+id/view_jz"
@@ -50,10 +61,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-                <com.softtek.lai.widgets.MyGridView
+                <com.softtek.lai.module.mygrades.view.MyGridView
                     android:id="@+id/list_fc"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:numColumns="auto_fit"
+                    android:horizontalSpacing="1dip"
+                    android:verticalSpacing="5dip"
+                    android:columnWidth="100dip"
+                    android:stretchMode="columnWidth"
+                    android:gravity="center"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="5dp"
+                    />
             </LinearLayout>
             <View
                 android:id="@+id/view_fc"
@@ -69,10 +89,19 @@
                 android:background="@color/white"
                 android:orientation="vertical">
 
-                <com.softtek.lai.widgets.MyGridView
+                <com.softtek.lai.module.mygrades.view.MyGridView
                     android:id="@+id/list_ygj"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:numColumns="auto_fit"
+                    android:horizontalSpacing="1dip"
+                    android:verticalSpacing="5dip"
+                    android:columnWidth="100dip"
+                    android:stretchMode="columnWidth"
+                    android:gravity="center"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="5dp"
+                    />
             </LinearLayout>
             <View
                 android:id="@+id/view_ygj"
@@ -90,11 +119,21 @@
                 android:background="@color/white"
                 android:orientation="vertical">
 
-                <com.softtek.lai.widgets.MyGridView
-                    android:id="@+id/list_star"
+                <com.softtek.lai.module.mygrades.view.MyGridView
+                    android:id="@+id/historylist_star"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:numColumns="auto_fit"
+                    android:horizontalSpacing="1dip"
+                    android:verticalSpacing="5dip"
+                    android:columnWidth="100dip"
+                    android:stretchMode="columnWidth"
+                    android:gravity="center"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="5dp"
+                    />
             </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 
