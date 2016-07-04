@@ -6,6 +6,8 @@
 package com.softtek.lai.module.login.view;
 
 import android.content.Intent;
+import android.os.Handler;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.*;
@@ -27,6 +29,7 @@ import com.softtek.lai.utils.MD5;
 import com.softtek.lai.utils.SoftInputUtil;
 
 import zilla.libcore.lifecircle.LifeCircleInject;
+import zilla.libcore.lifecircle.exit.AppManager;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
@@ -81,6 +84,10 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     protected void initViews() {
+        if (!isTaskRoot()) {
+            finish();
+            return;
+        }
         tv_title.setText("注册");
         tv_get_identify.setOnClickListener(this);
         btn_regist.setOnClickListener(this);
@@ -128,6 +135,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
                 startActivity(new Intent(this, TermActivity.class));
                 break;
             case R.id.ll_left:
+                startActivity(new Intent(this,LoginActivity.class));
                 finish();
                 break;
         }
@@ -212,6 +220,14 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
             tv_get_identify.setEnabled(true);
         }
     }
-
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            startActivity(new Intent(this,LoginActivity.class));
+            finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
 }
