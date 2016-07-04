@@ -1,8 +1,7 @@
 package com.softtek.lai.module.pastreview.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
-import android.text.Html;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,16 +10,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
-import com.softtek.lai.module.pastreview.model.ClassListModel;
-import com.softtek.lai.module.pastreview.model.MyPhotoListItemModel;
+import com.softtek.lai.module.lossweightstory.view.PictureActivity;
 import com.softtek.lai.module.pastreview.model.MyPhotoListModel;
-import com.softtek.lai.utils.ChMonth;
-import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.DisplayUtil;
 import com.squareup.picasso.Picasso;
 
@@ -32,9 +27,10 @@ import zilla.libcore.file.AddressManager;
 /**
  * Created by lareina.qiao on 6/28/2016.
  */
-public class MyPhotoListAdapter extends BaseAdapter {
+public class MyPhotoListAdapter extends BaseAdapter{
     private Context context;
-    private List<MyPhotoListModel> myPhotoListModelList=new ArrayList<MyPhotoListModel>();
+    private List<MyPhotoListModel> myPhotoListModelList;
+    //private List<MyPhotoListModel> myPhotoListModelList1=new ArrayList<MyPhotoListModel>();
     public MyPhotoListAdapter(Context context, List<MyPhotoListModel> myPhotoListModelList) {
         this.context = context;
         this.myPhotoListModelList = myPhotoListModelList;
@@ -56,7 +52,7 @@ public class MyPhotoListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder=null;
         if (convertView==null)
         {
@@ -67,7 +63,7 @@ public class MyPhotoListAdapter extends BaseAdapter {
         else {
             viewHolder= (ViewHolder) convertView.getTag();
         }
-        MyPhotoListModel myPhotoListModel=myPhotoListModelList.get(position);
+        final MyPhotoListModel myPhotoListModel=myPhotoListModelList.get(position);
 
         String path = AddressManager.get("photoHost");
         switch (myPhotoListModel.getPhotoList().size())
@@ -777,8 +773,207 @@ public class MyPhotoListAdapter extends BaseAdapter {
                 viewHolder.tv_photodate10.setText(getDate(myPhotoListModel.getPhotoList().get(9).getCreateDate(),1));
                 break;
         }
+        viewHolder.im_pic1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context, PictureActivity.class);
+                ArrayList<String> img=new ArrayList<>();
+                Log.i("长度>>",myPhotoListModelList.size()+"");
+                for (int j=0;j<myPhotoListModelList.size();j++)
+                {
+                    for (int i=0;i<myPhotoListModelList.get(j).getPhotoList().size();i++)
+                    {
+                        img.add(myPhotoListModelList.get(j).getPhotoList().get(i).getImgUrl());
+                    }
+                }
+                intent.putStringArrayListExtra("images",img);
+                intent.putExtra("position",position*10);
+                context.startActivity(intent);
+            }
+        });
+        viewHolder.im_pic2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context, PictureActivity.class);
+                ArrayList<String> img=new ArrayList<>();
+                for (int j=0;j<myPhotoListModelList.size();j++)
+                {
+                    for (int i=0;i<myPhotoListModelList.get(j).getPhotoList().size();i++)
+                    {
+                        img.add(myPhotoListModelList.get(j).getPhotoList().get(i).getImgUrl());
+                    }
+                }
+                intent.putStringArrayListExtra("images",img);
+                intent.putExtra("position",position*10+1);
+                context.startActivity(intent);
+                Log.i("点击事件1》》》","点击事件");
+            }
+        });
+        viewHolder.im_pic3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context, PictureActivity.class);
+                ArrayList<String> img=new ArrayList<>();
+                for (int j=0;j<myPhotoListModelList.size();j++)
+                {
+                    for (int i=0;i<myPhotoListModelList.get(j).getPhotoList().size();i++)
+                    {
+                        img.add(myPhotoListModelList.get(j).getPhotoList().get(i).getImgUrl());
+                    }
+                }
+                intent.putStringArrayListExtra("images",img);
+                intent.putExtra("position",position*10+2);
+                context.startActivity(intent);
+                Log.i("点击事件1》》》","点击事件");
+            }
+        });
+        viewHolder.im_pic4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context, PictureActivity.class);
+                ArrayList<String> img=new ArrayList<>();
+                for (int j=0;j<myPhotoListModelList.size();j++)
+                {
+                    for (int i=0;i<myPhotoListModelList.get(j).getPhotoList().size();i++)
+                    {
+                        img.add(myPhotoListModelList.get(j).getPhotoList().get(i).getImgUrl());
+                    }
+                }
+                intent.putStringArrayListExtra("images",img);
+                intent.putExtra("position",position*10+3);
+                context.startActivity(intent);
+                Log.i("点击事件1》》》","点击事件");
+            }
+        });
+        viewHolder.im_pic5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context, PictureActivity.class);
+                ArrayList<String> img=new ArrayList<>();
+                for (int j=0;j<myPhotoListModelList.size();j++)
+                {
+                    for (int i=0;i<myPhotoListModelList.get(j).getPhotoList().size();i++)
+                    {
+                        img.add(myPhotoListModelList.get(j).getPhotoList().get(i).getImgUrl());
+                    }
+                }
+                intent.putStringArrayListExtra("images",img);
+                intent.putExtra("position",position*10+4);
+                context.startActivity(intent);
+                Log.i("点击事件1》》》","点击事件");
+            }
+        });
+        viewHolder.im_pic6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context, PictureActivity.class);
+                ArrayList<String> img=new ArrayList<>();
+                for (int j=0;j<myPhotoListModelList.size();j++)
+                {
+                    for (int i=0;i<myPhotoListModelList.get(j).getPhotoList().size();i++)
+                    {
+                        img.add(myPhotoListModelList.get(j).getPhotoList().get(i).getImgUrl());
+                    }
+                }
+                intent.putStringArrayListExtra("images",img);
+                intent.putExtra("position",position*10+5);
+                context.startActivity(intent);
+                Log.i("点击事件1》》》","点击事件");
+            }
+        });
+        viewHolder.im_pic7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context, PictureActivity.class);
+                ArrayList<String> img=new ArrayList<>();
+                for (int j=0;j<myPhotoListModelList.size();j++)
+                {
+                    for (int i=0;i<myPhotoListModelList.get(j).getPhotoList().size();i++)
+                    {
+                        img.add(myPhotoListModelList.get(j).getPhotoList().get(i).getImgUrl());
+                    }
+                }
+                intent.putStringArrayListExtra("images",img);
+                intent.putExtra("position",position*10+6);
+                context.startActivity(intent);
+                Log.i("点击事件1》》》","点击事件");
+            }
+        });
+        viewHolder.im_pic8.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context, PictureActivity.class);
+                ArrayList<String> img=new ArrayList<>();
+                for (int j=0;j<myPhotoListModelList.size();j++)
+                {
+                    for (int i=0;i<myPhotoListModelList.get(j).getPhotoList().size();i++)
+                    {
+                        img.add(myPhotoListModelList.get(j).getPhotoList().get(i).getImgUrl());
+                    }
+                }
+                intent.putStringArrayListExtra("images",img);
+                intent.putExtra("position",position*10+7);
+                context.startActivity(intent);
+                Log.i("点击事件1》》》","点击事件");
+            }
+        });
+        viewHolder.im_pic9.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context, PictureActivity.class);
+                ArrayList<String> img=new ArrayList<>();
+                for (int j=0;j<myPhotoListModelList.size();j++)
+                {
+                    for (int i=0;i<myPhotoListModelList.get(j).getPhotoList().size();i++)
+                    {
+                        img.add(myPhotoListModelList.get(j).getPhotoList().get(i).getImgUrl());
+                    }
+                }
+                intent.putStringArrayListExtra("images",img);
+                intent.putExtra("position",position*10+8);
+                context.startActivity(intent);
+                Log.i("点击事件1》》》","点击事件");
+            }
+        });
+        viewHolder.im_pic10.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context, PictureActivity.class);
+                ArrayList<String> img=new ArrayList<>();
+                for (int j=0;j<myPhotoListModelList.size();j++)
+                {
+                    for (int i=0;i<myPhotoListModelList.get(j).getPhotoList().size();i++)
+                    {
+                        img.add(myPhotoListModelList.get(j).getPhotoList().get(i).getImgUrl());
+                    }
+                }
+                intent.putStringArrayListExtra("images",img);
+                intent.putExtra("position",position*10+9);
+                context.startActivity(intent);
+                Log.i("点击事件1》》》","点击事件");
+            }
+        });
+        viewHolder.im_single.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context, PictureActivity.class);
+                ArrayList<String> img=new ArrayList<>();
+                for (int j=0;j<myPhotoListModelList.size();j++)
+                {
+                    for (int i=0;i<myPhotoListModelList.get(j).getPhotoList().size();i++)
+                    {
+                        img.add(myPhotoListModelList.get(j).getPhotoList().get(i).getImgUrl());
+                    }
+                }
+                intent.putStringArrayListExtra("images",img);
+                intent.putExtra("position",position*10);
+                context.startActivity(intent);
+                Log.i("点击事件1》》》","点击事件");
+            }
+        });
         return convertView;
     }
+
     class ViewHolder{
         FrameLayout ll_singlepic;
         RelativeLayout re_singletext1;
@@ -877,7 +1072,7 @@ public class MyPhotoListAdapter extends BaseAdapter {
     }
     public String getDate(String date,int type)
     {
-        String Time="";
+        String Time;
         if (type==0)
         {
             String[] YearAndMon=date.split("-");
