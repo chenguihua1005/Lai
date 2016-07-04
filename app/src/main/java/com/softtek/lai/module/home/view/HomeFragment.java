@@ -433,7 +433,6 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                             }
                         }).start();
                         // 进入主页面
-                        System.out.println("ConversationListActivity=======");
                         Intent intent = new Intent(getActivity(), ConversationListActivity.class);
                         startActivity(intent);
                     } else {
@@ -467,18 +466,28 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                 case Constants.NC:
                 case Constants.INC:
                 case Constants.PC:
-                    information_dialog = new AlertDialog.Builder(getContext());
-                    information_dialog.setTitle("请先进行身份认证后再试").setPositiveButton("认证", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            //跳转到身份认证界面
-                            startActivity(new Intent(getContext(), ValidateCertificationActivity.class));
-                        }
-                    }).setNegativeButton("稍后", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    }).create().show();
+                    if (position == Constants.CHAT) {
+                        information_dialog = new AlertDialog.Builder(getContext());
+                        information_dialog.setTitle("请先进行身份认证后再试").setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        }).create().show();
+                    } else {
+                        information_dialog = new AlertDialog.Builder(getContext());
+                        information_dialog.setTitle("请先进行身份认证后再试").setPositiveButton("认证", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //跳转到身份认证界面
+                                startActivity(new Intent(getContext(), ValidateCertificationActivity.class));
+                            }
+                        }).setNegativeButton("稍后", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        }).create().show();
+                    }
                     break;
                 case Constants.SR:
                     break;

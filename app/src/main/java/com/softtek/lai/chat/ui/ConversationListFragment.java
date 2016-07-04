@@ -1,6 +1,7 @@
 package com.softtek.lai.chat.ui;
 
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuItem;
@@ -91,9 +92,14 @@ public class ConversationListFragment extends EaseConversationListFragment {
 
                     System.out.println("userId:"+userId+"    f:"+f);
                     if(f.equals(userId)){
-                        String[] field=conversation.getExtField().split(",");
-                        name=field[0];
-                        photo=field[1];
+                        String str=conversation.getExtField();
+                        if(!TextUtils.isEmpty(str)){
+                            String[] field=str.split(",");
+                            if(field.length>=2){
+                                name=field[0];
+                                photo=field[1];
+                            }
+                        }
                     }
                     // it's single chat
                     intent.putExtra(Constant.EXTRA_USER_ID, username);

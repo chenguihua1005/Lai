@@ -95,7 +95,7 @@ public class ClassListActivity extends BaseActivity implements View.OnClickListe
         intent.putExtra("classId",classListModel.getClassId());
         intent.putExtra("className",classListModel.getClassName());
         String[] datestar=classListModel.getStartDate().split("-");
-        String[] datend=classListModel.getStartDate().split("-");
+        String[] datend=classListModel.getEndDate().split("-");
         intent.putExtra("classDate",datestar[0]+"年"+datestar[1]+"月"+"-"+datend[0]+"年"+datend[1]+"月");
         startActivity(intent);
     }

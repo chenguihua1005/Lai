@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.module.pastreview.honors.Medal;
@@ -114,7 +115,7 @@ public class HistoryHomeActivity extends BaseActivity implements View.OnClickLis
         classId=Long.parseLong(getIntent().getStringExtra("classId"));
         manager=new PastReviewManager();
         dialogShow("加载中...");
-        manager.loadClassDetail(this,1,1);
+        manager.loadClassDetail(this,userId,classId);
     }
 
     @Override
@@ -162,6 +163,7 @@ public class HistoryHomeActivity extends BaseActivity implements View.OnClickLis
             setText(tv_loss_before,StringUtil.getFloatValue(baseData.getBeforeWeight())+"斤");
             setText(tv_loss_after,StringUtil.getFloatValue(baseData.getAfterWeight())+"斤");
             if(iv_loss_after!=null||iv_loss_before!=null){
+                Log.i("图片地址："+baseData.getBeforeImage()+";2:"+baseData.getAfterImage());
                 if(StringUtils.isNotEmpty(baseData.getBeforeImage())){
                     Picasso.with(this).load(basePath+baseData.getBeforeImage()).fit().placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square)
                             .into(iv_loss_before);
@@ -179,13 +181,20 @@ public class HistoryHomeActivity extends BaseActivity implements View.OnClickLis
 
         LossStory story=pastClass.getLossLog();
         if(story!=null){
-            int day= DateUtil.getInstance().getDay(story.getCreateDate());
-            int month=DateUtil.getInstance().getMonth(story.getCreateDate());
+            int day= DateUtil.getInstance(DateUtil.yyyy_MM_dd).getDay(story.getCreateDate());
+            int month=DateUtil.getInstance(DateUtil.yyyy_MM_dd).getMonth(story.getCreateDate());
             setText(tv_day,day+"");
-            setText(tv_month,month+"");
+            setText(tv_month,month+"月");
             setText(tv_content,story.getLogContent());
             if(cb_zan!=null){
                 cb_zan.setText(story.getPriase());
+            }
+            Log.i("减重故事:"+story.getImgUrl());
+            if(StringUtils.isNotEmpty(story.getImgUrl())){
+                Picasso.with(this).load(basePath+story.getImgUrl()).fit().placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square)
+                        .into(iv_image);
+            }else{
+                Picasso.with(this).load(R.drawable.default_icon_square).into(iv_image);
             }
         }
         List<Honor> honors=pastClass.getHonor();
@@ -209,7 +218,8 @@ public class HistoryHomeActivity extends BaseActivity implements View.OnClickLis
         List<Photo> photos=pastClass.getImgBook();
         if(photos!=null&&!photos.isEmpty()){
             for (int i=0;i<photos.size();i++){
-                String url =baseData+photos.get(i).getImgUrl();
+                String url =basePath+photos.get(i).getImgUrl();
+                Log.i("我的相册>>>"+url);
                 switch (i){
                     case 0:
                         if(iv_first!=null){
