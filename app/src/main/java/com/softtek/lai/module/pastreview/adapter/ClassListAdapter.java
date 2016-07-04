@@ -56,7 +56,7 @@ public class ClassListAdapter extends BaseAdapter {
         }
         ClassListModel classListModel=classListModelList.get(position);
         String[] datestar=classListModel.getStartDate().split("-");
-        String[] datend=classListModel.getStartDate().split("-");
+        String[] datend=classListModel.getEndDate().split("-");
         viewHolder.tv_passclassname.setText(classListModel.getClassName());
         viewHolder.tv_passclassdate.setText(datestar[0]+"年"+datestar[1]+"月"+"-"+datend[0]+"年"+datend[1]+"月");
         return convertView;

@@ -114,7 +114,7 @@ public class HistoryHomeActivity extends BaseActivity implements View.OnClickLis
         classId=Long.parseLong(getIntent().getStringExtra("classId"));
         manager=new PastReviewManager();
         dialogShow("加载中...");
-        manager.loadClassDetail(this,1,1);
+        manager.loadClassDetail(this,userId,classId);
     }
 
     @Override
@@ -179,10 +179,10 @@ public class HistoryHomeActivity extends BaseActivity implements View.OnClickLis
 
         LossStory story=pastClass.getLossLog();
         if(story!=null){
-            int day= DateUtil.getInstance().getDay(story.getCreateDate());
-            int month=DateUtil.getInstance().getMonth(story.getCreateDate());
+            int day= DateUtil.getInstance(DateUtil.yyyy_MM_dd).getDay(story.getCreateDate());
+            int month=DateUtil.getInstance(DateUtil.yyyy_MM_dd).getMonth(story.getCreateDate());
             setText(tv_day,day+"");
-            setText(tv_month,month+"");
+            setText(tv_month,month+"月");
             setText(tv_content,story.getLogContent());
             if(cb_zan!=null){
                 cb_zan.setText(story.getPriase());
@@ -209,7 +209,7 @@ public class HistoryHomeActivity extends BaseActivity implements View.OnClickLis
         List<Photo> photos=pastClass.getImgBook();
         if(photos!=null&&!photos.isEmpty()){
             for (int i=0;i<photos.size();i++){
-                String url =baseData+photos.get(i).getImgUrl();
+                String url =basePath+photos.get(i).getImgUrl();
                 switch (i){
                     case 0:
                         if(iv_first!=null){
