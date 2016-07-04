@@ -139,7 +139,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                 LatLng latLng=new LatLng(firstLatLon.getLatitude(),firstLatLon.getLongitude());
                 aMap.addMarker(new MarkerOptions().position(latLng).icon(
                         BitmapDescriptorFactory.fromResource(R.drawable.location_mark_start)));
-                aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.5f));
+                aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16.5f));
             }
             aMap.addPolyline(polylineOptions);
         }
@@ -332,7 +332,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
         switch (v.getId()) {
             case R.id.iv_location:
                 if (lastLatLon != null) {
-                    aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(lastLatLon, 16.3f));
+                    aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(lastLatLon, 15.5f));
                 }
                 break;
             case R.id.ll_left:
@@ -628,7 +628,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                     isFirst = false;
                     aMap.addMarker(new MarkerOptions().position(latLng).icon(
                             BitmapDescriptorFactory.fromResource(R.drawable.location_mark_start)));
-                    aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.5f));
+                    aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16.5f));
                 }
                 //计算平均速度
                 if (lastLatLon != null) {
