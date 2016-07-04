@@ -37,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/inviteStudentMarginLeft1"
+            android:layout_marginLeft="10dip"
             android:layout_toRightOf="@+id/img"
             android:orientation="vertical">
 
@@ -47,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:text="Default"
                 android:textColor="@color/word"
-                android:textSize="@dimen/textSize5" />
+                android:textSize="15sp" />
 
         </LinearLayout>
     </RelativeLayout>

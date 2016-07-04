@@ -109,4 +109,12 @@ public interface LoginService {
     void getEMchatContacts(
             @Header("token") String token,
             Callback<ResponseData<List<ChatContactInfoModel>>> callback);
+
+    @POST("/HerbUser/UpdateHXState")
+    void updateHXState(
+            @Header("token") String token,
+            @Query("PhoneNo") String phoneNo,
+            @Query("HXAccountId") String hxAccountId,
+            @Query("State") String state,
+            Callback<ResponseData> callback);
 }

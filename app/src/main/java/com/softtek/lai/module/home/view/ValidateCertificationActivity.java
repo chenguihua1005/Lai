@@ -2,15 +2,22 @@ package com.softtek.lai.module.home.view;
 
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.easemob.EMError;
+import com.easemob.chat.EMChatManager;
+import com.easemob.exceptions.EaseMobException;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
@@ -23,7 +30,9 @@ import com.softtek.lai.module.login.model.RoleInfo;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.presenter.ILoginPresenter;
 import com.softtek.lai.module.login.presenter.LoginPresenterImpl;
+import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.utils.ACache;
+import com.softtek.lai.utils.MD5;
 import com.softtek.lai.utils.SoftInputUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -34,6 +43,7 @@ import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 /**
  * Created by jarvis.liu on 3/22/2016.
@@ -93,12 +103,94 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
         super.onDestroy();
     }
 
+    private void rigstHX() {
+        if (progressDialog != null) {
+            progressDialog.setMessage("加载中");
+            progressDialog.show();
+        }
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    // 调用sdk注册方法
+                    String phone = model.getMobile();
+                    final String account = MD5.md5WithEncoder(phone).toLowerCase();
+                    EMChatManager.getInstance().createAccountOnServer(account, "HBL_SOFTTEK#321");
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            if (!ValidateCertificationActivity.this.isFinishing()) {
+                                if (progressDialog != null) {
+                                    progressDialog.dismiss();
+                                    progressDialog = null;
+                                }
+                            }
+                            loginPresenter.updateHXState(model.getMobile(), account, "1", progressDialog, null,"noInBack");
+                            finish();
+                        }
+                    });
+                } catch (final EaseMobException e) {
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            if (!ValidateCertificationActivity.this.isFinishing()) {
+                                if (progressDialog != null) {
+                                    progressDialog.dismiss();
+                                    progressDialog = null;
+                                }
+                            }
+                            int errorCode = e.getErrorCode();
+                            String msg = "";
+                            if (errorCode == EMError.USER_ALREADY_EXISTS) {
+                                String phone = model.getMobile();
+                                final String account = MD5.md5WithEncoder(phone).toLowerCase();
+                                loginPresenter.updateHXState(model.getMobile(), account, "1", progressDialog, null,"noInBack");
+                            } else {
+                                showDialog();
+                            }
+                        }
+                    });
+                }
+            }
+        }).start();
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(RoleInfo roleInfo) {
         System.out.println("roleInfo:" + roleInfo);
+        edit_password.setText("");
+        edit_account.setText("");
+        setData();
+        progressDialog.setMessage("加载中");
+        String hasEmchat = model.getHasEmchat();
+        if ("1".equals(hasEmchat)) {
+            loginPresenter.updateHXState(model.getMobile(), model.getHXAccountId(), "1", progressDialog, null,"noInBack");
+        } else {
+            rigstHX();
+        }
+    }
+    @Subscribe
+    public void onEvent(Integer i) {
+        showDialog();
+    }
 
-        //progressDialog.dismiss();
-        //setData();
+    private void showDialog() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ValidateCertificationActivity.this)
+                .setTitle("认证成功")
+                .setMessage("是否需要现在开通会话功能? 开通后您就可以和体管赛中其他小伙伴聊天了。")
+                .setCancelable(false)
+                .setPositiveButton("开通", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        rigstHX();
+                    }
+                })
+                .setNegativeButton("稍后", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        loginPresenter.updateHXState(model.getMobile(), "", "0", progressDialog, dialog,"noInBack");
+                    }
+                });
+        dialogBuilder.create().setCancelable(false);
+        dialogBuilder.create().show();
 
     }
 

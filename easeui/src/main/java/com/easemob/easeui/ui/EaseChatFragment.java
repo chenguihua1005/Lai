@@ -305,7 +305,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMEventListene
     protected void setProfile(EMConversation conversation) {
         String name = fragmentArgs.getString("name");
         String photo = fragmentArgs.getString("photo");
-        System.out.println("conversation------------------->:"+name+","+photo);
+        System.out.println("conversation------------------->:" + name + "," + photo);
         conversation.setExtField(name + "," + photo);
     }
 
@@ -340,7 +340,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMEventListene
         String photos = fragmentArgs.getString("photo");
 
         messageList.init(toChatUsername, chatType, chatFragmentHelper != null ?
-                chatFragmentHelper.onSetCustomChatRowProvider() : null,names,photos);
+                chatFragmentHelper.onSetCustomChatRowProvider() : null, names, photos);
         //设置list item里的控件的点击事件
         setListItemClickListener();
 
@@ -690,18 +690,33 @@ public class EaseChatFragment extends EaseBaseFragment implements EMEventListene
             }
             switch (itemId) {
                 case ITEM_TAKE_PICTURE: // 拍照
-                    if(ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
-                        if(ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),Manifest.permission.CAMERA)){
-                            ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.CAMERA},100);
-                        }else{
-                            ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.CAMERA},100);
+                    if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+                            || ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                            ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.CAMERA) ||
+                                ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
+                                ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 100);
+                        } else {
+                            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 100);
                         }
-                    }else {
+                    } else {
                         selectPicFromCamera();
                     }
                     break;
                 case ITEM_PICTURE:
-                    selectPicFromLocal(); // 图库选择图片
+                    if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                            ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
+                                ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 100);
+                        } else {
+                            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 100);
+                        }
+                    } else {
+                        selectPicFromLocal(); // 图库选择图片
+                    }
+
                     break;
                 case ITEM_LOCATION: // 位置
                     //startActivityForResult(new Intent(getActivity(), EaseBaiduMapActivity.class), REQUEST_CODE_MAP);

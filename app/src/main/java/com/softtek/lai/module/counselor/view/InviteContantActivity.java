@@ -6,17 +6,21 @@
 package com.softtek.lai.module.counselor.view;
 
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -29,6 +33,7 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.bodygamest.view.FuceStActivity;
 import com.softtek.lai.module.counselor.adapter.InviteContantAdapter;
 import com.softtek.lai.module.counselor.model.ContactListInfoModel;
 import com.softtek.lai.module.counselor.presenter.IStudentPresenter;
@@ -106,6 +111,38 @@ public class InviteContantActivity extends BaseActivity implements View.OnClickL
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setMessage(getResources().getString(zilla.libcore.R.string.dialog_loading));
         progressDialog.setMessage("正在加载内容...");
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CONTACTS}, 100);
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CONTACTS}, 100);
+            }
+        } else {
+            loadContants();
+        }
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 100) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // permission was granted, yay! Do the
+                // contacts-related task you need to do.
+                loadContants();
+
+            } else {
+
+                // permission denied, boo! Disable the
+                // functionality that depends on this permission.
+            }
+        }
+    }
+
+    private void loadContants() {
         progressDialog.show();
         asyncQueryHandler = new MyAsyncQueryHandler(getContentResolver());
         asyncQueryHandler.startQuery(0, null, ContactsContract.CommonDataKinds.Phone.CONTENT_URI, projection, null, null,
@@ -113,15 +150,11 @@ public class InviteContantActivity extends BaseActivity implements View.OnClickL
 
         adapter = new InviteContantAdapter(this, contactListValue);
         list_contant.setAdapter(adapter);
-//        String str="我萨达DSSDSss";
-//        String pin = getPinYin(str);
-//        String s="w";
-//        System.out.println("ssssss:"+pin.contains(s)+"    pin:"+pin);
-
     }
+
     public static String getPinYin(String input) {
         ArrayList<HanziToPinyin.Token> tokens = HanziToPinyin.getInstance().get(input);
-        System.out.println("tokens:"+tokens);
+        System.out.println("tokens:" + tokens);
         StringBuilder sb = new StringBuilder();
         if (tokens != null && tokens.size() > 0) {
             for (HanziToPinyin.Token token : tokens) {
@@ -134,6 +167,7 @@ public class InviteContantActivity extends BaseActivity implements View.OnClickL
         }
         return sb.toString().toLowerCase();
     }
+
     @Override
     protected void initViews() {
         //tv_left.setLayoutParams(new Toolbar.LayoutParams(DisplayUtil.dip2px(this,15),DisplayUtil.dip2px(this,30)));
@@ -158,8 +192,8 @@ public class InviteContantActivity extends BaseActivity implements View.OnClickL
 
             case R.id.et_search:
             case R.id.fl:
-                Intent intent=new Intent(this,SearchContantActivity.class);
-                intent.putExtra("list",(Serializable)contactListValue);
+                Intent intent = new Intent(this, SearchContantActivity.class);
+                intent.putExtra("list", (Serializable) contactListValue);
                 startActivity(intent);
                 break;
         }
@@ -242,7 +276,7 @@ public class InviteContantActivity extends BaseActivity implements View.OnClickL
                         number = number.replace("+86", "");
                     }
 
-                    ContactListInfoModel contactListInfo = new ContactListInfoModel( name, number);
+                    ContactListInfoModel contactListInfo = new ContactListInfoModel(name, number);
                     contactListValue.add(contactListInfo);
 
                 }
@@ -255,7 +289,8 @@ public class InviteContantActivity extends BaseActivity implements View.OnClickL
         }
 
     }
-    private void getFuzzyQueryByName(String key){
+
+    private void getFuzzyQueryByName(String key) {
 
         StringBuilder sb = new StringBuilder();
         ContentResolver cr = getContentResolver();
@@ -266,7 +301,7 @@ public class InviteContantActivity extends BaseActivity implements View.OnClickL
                 projection,
                 ContactsContract.Contacts.DISPLAY_NAME + " like " + "'%" + key + "%'",
                 null, null);
-        while(cursor.moveToNext()){
+        while (cursor.moveToNext()) {
             String name = cursor.getString(
                     cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
             String number = cursor.getString(
@@ -275,8 +310,8 @@ public class InviteContantActivity extends BaseActivity implements View.OnClickL
         }
         cursor.close();
 
-        if(!sb.toString().isEmpty()){
-            System.out.println("查询联系人:"+ sb.toString());
+        if (!sb.toString().isEmpty()) {
+            System.out.println("查询联系人:" + sb.toString());
         }
     }
 

@@ -59,6 +59,7 @@ import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
+import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
@@ -271,7 +272,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 Date curDate = new Date(System.currentTimeMillis());//获取当前时间
                 String time = formatter.format(curDate);
-                String str = time + "," + StepService.todayStep;
+                String str = time + "," + SharedPreferenceService.getInstance().get("currentStep",0);
                 dialogShow("加载中");
                 sportGroupManager.getMineResult(userId, str);
                 break;
@@ -523,7 +524,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date curDate = new Date(System.currentTimeMillis());//获取当前时间
         String time = formatter.format(curDate);
-        String str = time + "," + StepService.todayStep;
+        String str = time + "," + SharedPreferenceService.getInstance().get("currentStep",0);
         sportGroupManager.getSportIndex(userId, str);
         sportGroupManager.getNewMsgRemind(userId);
     }

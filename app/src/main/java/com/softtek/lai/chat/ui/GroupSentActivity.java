@@ -34,6 +34,7 @@ import com.easemob.EMConnectionListener;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMMessage;
+import com.easemob.easeui.EaseConstant;
 import com.easemob.easeui.domain.ChatUserInfoModel;
 import com.easemob.easeui.domain.ChatUserModel;
 import com.easemob.easeui.domain.EaseEmojicon;
@@ -145,7 +146,7 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //可以直接new EaseChatFratFragment使用
-
+        EaseConstant.IS_GROUP_SENT="true";
         extendMenuItemClickListener = new MyItemClickListener();
         registerExtendMenuItem();
         // init input menu
@@ -169,7 +170,6 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
                         @Override
                         public void onSuccess() {
                             // TODO Auto-generated method stub
-                            System.out.println("--------");
                             handler.sendEmptyMessage(0);
                         }
 
@@ -445,7 +445,9 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
         if (TextUtils.isEmpty(conversation.getExtField())) {
             setProfile(conversation, model);
         }
-        startActivity(new Intent(this,ConversationListActivity.class));
+        Intent intent=new Intent(this,ConversationListActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
         finish();
     }
 
