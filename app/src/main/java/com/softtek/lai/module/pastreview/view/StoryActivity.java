@@ -104,7 +104,7 @@ public class StoryActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent intent=new Intent(this,LogDetailActivity.class);
+        Intent intent=new Intent(this,StoryDetailActivity.class);
         intent.putExtra("logId",logs.get(position-1).getLossLogId());
         startActivity(intent);
     }
