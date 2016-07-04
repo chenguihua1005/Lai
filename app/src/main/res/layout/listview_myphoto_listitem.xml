@@ -174,7 +174,7 @@
             <ImageView
                 android:id="@+id/im_pic4"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="155dp"
                 android:src="@drawable/default_icon_square"
                 android:scaleType="centerCrop"/>
             <RelativeLayout
@@ -213,7 +213,7 @@
             <ImageView
                 android:id="@+id/im_pic5"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="155dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/default_icon_square"
                 />
@@ -413,7 +413,7 @@
             <ImageView
                 android:id="@+id/im_pic9"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="155dp"
                 android:src="@drawable/default_icon_square"
                 android:scaleType="centerCrop"/>
             <RelativeLayout
@@ -453,7 +453,7 @@
             <ImageView
                 android:id="@+id/im_pic10"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="155dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/default_icon_square"
 
@@ -487,16 +487,43 @@
         </FrameLayout>
     </LinearLayout>
 </RelativeLayout>
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/ll_singlepic"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:padding="10dp"
         android:visibility="gone">
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:id="@+id/im_single"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:src="@drawable/default_icon_square"
             android:scaleType="centerCrop"/>
-    </LinearLayout>
+        <RelativeLayout
+            android:id="@+id/re_singletext1"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_gravity="bottom"
+            android:background="#99ffa200">
+
+            <TextView
+                android:id="@+id/tv_singleweight1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:text="105斤"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_singledate1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:text="2016年6月15日"
+                android:textSize="14sp" />
+        </RelativeLayout>
+    </FrameLayout>
 </RelativeLayout>

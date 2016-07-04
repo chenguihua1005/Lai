@@ -29,42 +29,42 @@ public class MyPhotoListManager {
     public void doGetMyPhotoList(String accountid,String PageIndex,String classid)
     {
         String token = UserInfoModel.getInstance().getToken();
-        service.doGetMyPhotoList(token, accountid, PageIndex, classid, new Callback<ResponseData<List<MyPhotoListModel>>>() {
+        service.doGetMyPhotoList(token, accountid, PageIndex, classid, new Callback<ResponseData<MyPhotoListModel>>() {
             @Override
-            public void success(ResponseData<List<MyPhotoListModel>> listResponseData, Response response) {
-                int status=listResponseData.getStatus();
+            public void success(ResponseData<MyPhotoListModel> myPhotoListModelResponseData, Response response) {
+                int status=myPhotoListModelResponseData.getStatus();
                 switch (status)
                 {
                     case 200:
                         if (cb!=null)
                         {
-                            Log.i("相册信息》》》》",listResponseData.getData().toString());
-                            cb.getMyPhotoList(listResponseData.getData());
+                            Log.i("相册信息》》》》",myPhotoListModelResponseData.getData().toString());
+                            cb.getMyPhotoList(myPhotoListModelResponseData.getData());
                         }
                         break;
                     default:
                         if (cb!=null)
                         {
 //                            cb.getMyPhotoList(null);
-                            MyPhotoListModel myPhotoListModel=new MyPhotoListModel();
-                            myPhotoListModel.setLLId("1");
-                            myPhotoListModel.setImgUrl("");
-                            myPhotoListModel.setCreateDate("2016-05-29 15:40:26");
-                            myPhotoListModel.setWeight("120");
-                            List<MyPhotoListModel> myPhotoListModels=new ArrayList<MyPhotoListModel>();
-                            myPhotoListModels.add(myPhotoListModel);
-                            myPhotoListModels.add(myPhotoListModel);
-                            myPhotoListModels.add(myPhotoListModel);
-                            myPhotoListModels.add(myPhotoListModel);
-                            myPhotoListModels.add(myPhotoListModel);
-                            myPhotoListModels.add(myPhotoListModel);
-                            myPhotoListModels.add(myPhotoListModel);
-                            myPhotoListModels.add(myPhotoListModel);
-                            myPhotoListModels.add(myPhotoListModel);
-                            myPhotoListModels.add(myPhotoListModel);
-                            myPhotoListModels.add(myPhotoListModel);
+//                            MyPhotoListModel myPhotoListModel=new MyPhotoListModel();
+//                            myPhotoListModel.setLLId("1");
+//                            myPhotoListModel.setImgUrl("");
+//                            myPhotoListModel.setCreateDate("2016-05-29 15:40:26");
+//                            myPhotoListModel.setWeight("120");
+//                            List<MyPhotoListModel> myPhotoListModels=new ArrayList<MyPhotoListModel>();
 //                            myPhotoListModels.add(myPhotoListModel);
-                            cb.getMyPhotoList(myPhotoListModels);
+//                            myPhotoListModels.add(myPhotoListModel);
+//                            myPhotoListModels.add(myPhotoListModel);
+//                            myPhotoListModels.add(myPhotoListModel);
+//                            myPhotoListModels.add(myPhotoListModel);
+//                            myPhotoListModels.add(myPhotoListModel);
+//                            myPhotoListModels.add(myPhotoListModel);
+//                            myPhotoListModels.add(myPhotoListModel);
+//                            myPhotoListModels.add(myPhotoListModel);
+//                            myPhotoListModels.add(myPhotoListModel);
+//                            myPhotoListModels.add(myPhotoListModel);
+//                            myPhotoListModels.add(myPhotoListModel);
+                            cb.getMyPhotoList(null);
                         }
                         break;
                 }
@@ -82,6 +82,6 @@ public class MyPhotoListManager {
         });
     }
     public interface MyPhotoListCallback {
-        void getMyPhotoList(List<MyPhotoListModel> myPhotoListModels);
+        void getMyPhotoList(MyPhotoListModel myPhotoListModels);
     }
 }

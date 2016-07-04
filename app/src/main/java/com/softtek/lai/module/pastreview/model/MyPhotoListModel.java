@@ -1,44 +1,27 @@
 package com.softtek.lai.module.pastreview.model;
 
+import java.util.List;
+
 /**
  * Created by lareina.qiao on 6/28/2016.
  */
 public class MyPhotoListModel {
-    private String LLId;
-    private String ImgUrl;
-    private String CreateDate;
-    private String Weight;
+    private String PageCount;
+    private List<PhotoListModel> PhotoList;
 
-    public String getWeight() {
-        return Weight;
+    public String getPageCount() {
+        return PageCount;
     }
 
-    public void setWeight(String weight) {
-        Weight = weight;
+    public void setPageCount(String pageCount) {
+        PageCount = pageCount;
     }
 
-    public String getLLId() {
-        return LLId;
+    public List<PhotoListModel> getPhotoList() {
+        return PhotoList;
     }
 
-    public void setLLId(String LLId) {
-        this.LLId = LLId;
+    public void setPhotoList(List<PhotoListModel> photoList) {
+        PhotoList = photoList;
     }
-
-    public String getImgUrl() {
-        return ImgUrl;
-    }
-
-    public void setImgUrl(String imgUrl) {
-        ImgUrl = imgUrl;
-    }
-
-    public String getCreateDate() {
-        return CreateDate;
-    }
-
-    public void setCreateDate(String createDate) {
-        CreateDate = createDate;
-    }
-
 }
