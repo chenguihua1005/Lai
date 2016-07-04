@@ -137,9 +137,9 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                 }
                 LatLon firstLatLon=coordinates.get(0);
                 LatLng latLng=new LatLng(firstLatLon.getLatitude(),firstLatLon.getLongitude());
+                aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16.5f));
                 aMap.addMarker(new MarkerOptions().position(latLng).icon(
                         BitmapDescriptorFactory.fromResource(R.drawable.location_mark_start)));
-                aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16.5f));
             }
             aMap.addPolyline(polylineOptions);
         }
