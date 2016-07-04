@@ -16,6 +16,7 @@ import android.location.GpsStatus;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -57,7 +58,6 @@ import com.softtek.lai.utils.JCountDownTimer;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -116,13 +116,49 @@ public class RunSportActivity extends BaseActivity implements LocationSource
     PolylineOptions polylineOptions;
 
     private OnLocationChangedListener listener;
-    private List<LatLon> coordinates = new ArrayList<>();//坐标集合
+    private ArrayList<LatLon> coordinates = new ArrayList<>();//坐标集合
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mapView.onCreate(savedInstanceState);
+        if(savedInstanceState!=null){
+            time=savedInstanceState.getLong("time",0);
+            startStep=savedInstanceState.getInt("startStep",startStep);
+            isFirst=savedInstanceState.getBoolean("isFirst",true);
+            previousDistance=savedInstanceState.getDouble("previousDistance",0);
+            lastLatLon=savedInstanceState.getParcelable("lastLatLon");
+            ArrayList<LatLon> coordinates=savedInstanceState.getParcelableArrayList("coordinates");
+            if(coordinates!=null&&!coordinates.isEmpty()){
+                this.coordinates.clear();
+                for(LatLon latLon:coordinates){
+                    this.coordinates.add(latLon);
+                    polylineOptions.add(new LatLng(latLon.getLatitude(),latLon.getLongitude()));
+                }
+                LatLon firstLatLon=coordinates.get(0);
+                LatLng latLng=new LatLng(firstLatLon.getLatitude(),firstLatLon.getLongitude());
+                aMap.addMarker(new MarkerOptions().position(latLng).icon(
+                        BitmapDescriptorFactory.fromResource(R.drawable.location_mark_start)));
+                aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.5f));
+            }
+            aMap.addPolyline(polylineOptions);
+        }
+        startCountDown();
     }
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        //在这里保存一些数据
+        outState.putLong("time",time);//保存当前计时
+        outState.putInt("startStep",startStep);//保存开始计时的时候步数
+        outState.putBoolean("isFirst",isFirst);//保存是否是第一次定位
+        outState.putDouble("previousDistance",previousDistance);//保存距离
+        outState.putParcelable("lastLatLon",lastLatLon);//保存上一次坐标
+        outState.putParcelableArrayList("coordinates",coordinates);//保存做坐标集合
+    }
+
 
     private static final int LOCATION_PREMISSION = 100;
     private Intent intent;
@@ -183,7 +219,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
             } else {
                 //不允许弹出提示
                 ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE},
                         LOCATION_PREMISSION);
             }
         } else {
@@ -246,7 +282,6 @@ public class RunSportActivity extends BaseActivity implements LocationSource
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             locationManager.addGpsStatusListener(this);
         }
-        startCountDown();
     }
 
     @Override
@@ -618,5 +653,4 @@ public class RunSportActivity extends BaseActivity implements LocationSource
             }
         }
     }
-//    }
 }
