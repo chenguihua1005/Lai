@@ -115,7 +115,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
 
     PolylineOptions polylineOptions;
 
-    private LocationSource.OnLocationChangedListener listener;
+    private OnLocationChangedListener listener;
     private List<LatLon> coordinates = new ArrayList<>();//坐标集合
 
     @Override
@@ -152,6 +152,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
         aMap.getUiSettings().setTiltGesturesEnabled(true);
         aMap.getUiSettings().setZoomGesturesEnabled(true);
         aMap.setMyLocationEnabled(true);
+        aMap.setMyLocationType(AMap.LOCATION_TYPE_LOCATE);
 
         //初始化polyline
         polylineOptions = new PolylineOptions();
@@ -165,24 +166,30 @@ public class RunSportActivity extends BaseActivity implements LocationSource
          * PackageManager.PERMISSION_DENIED:不允许使用权限
          */
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            Log.i("检查权限。。。。");
             //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION) ||
-                    ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+                    ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)||
+                    ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)||
+                    ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
                 //允许弹出提示
                 ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
+                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         LOCATION_PREMISSION);
 
             } else {
                 //不允许弹出提示
                 ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
+                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         LOCATION_PREMISSION);
             }
         } else {
             //执行获取权限后的操作
             //启动定位
+            Log.i("权限通过");
             intent = new Intent(this, LocationService.class);
             startService(intent);
         }
@@ -578,7 +585,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
             if (listener != null) {
                 listener.onLocationChanged(location);
             }
-            if (location.getErrorCode() == 0&&location.getAccuracy() <= 100 && location.getAccuracy() > 0) {
+            if (/*location.getErrorCode() == 0&&*/location.getAccuracy() <= 100 && location.getAccuracy() > 0) {
                 //当坐标改变之后开始添加标记 画线
                 Log.i("获取位置");
                 LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());

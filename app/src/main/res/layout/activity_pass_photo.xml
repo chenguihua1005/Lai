@@ -19,7 +19,6 @@
         app:ptrShowIndicator="false"
         android:id="@+id/ptrlvpassclasslist"
         android:focusable="false"
-        android:layout_marginTop="-3dp"
         android:layout_below="@+id/toolbar">
     </com.handmark.pulltorefresh.library.PullToRefreshListView>
     <ImageView

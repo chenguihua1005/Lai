@@ -63,7 +63,6 @@ import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.module.message.presenter.IMessagePresenter;
 import com.softtek.lai.module.message.presenter.MessageImpl;
 import com.softtek.lai.module.message.view.MessageActivity;
-import com.softtek.lai.module.pastreview.view.HistoryHomeActivity;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.widgets.CustomGridView;
@@ -112,8 +111,8 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
 
     @InjectView(R.id.tv_title)
     TextView tv_title;
-    @InjectView(R.id.tv_right)
-    TextView tv_right;
+    /*@InjectView(R.id.tv_right)
+    TextView tv_right;*/
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.iv_email)
