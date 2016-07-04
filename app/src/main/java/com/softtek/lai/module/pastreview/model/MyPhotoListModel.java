@@ -7,7 +7,15 @@ public class MyPhotoListModel {
     private String LLId;
     private String ImgUrl;
     private String CreateDate;
-    private String ClassId;
+    private String Weight;
+
+    public String getWeight() {
+        return Weight;
+    }
+
+    public void setWeight(String weight) {
+        Weight = weight;
+    }
 
     public String getLLId() {
         return LLId;
@@ -33,11 +41,4 @@ public class MyPhotoListModel {
         CreateDate = createDate;
     }
 
-    public String getClassId() {
-        return ClassId;
-    }
-
-    public void setClassId(String classId) {
-        ClassId = classId;
-    }
 }

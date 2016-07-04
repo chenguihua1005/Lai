@@ -50,9 +50,20 @@ public class MyPhotoListManager {
                             myPhotoListModel.setLLId("1");
                             myPhotoListModel.setImgUrl("");
                             myPhotoListModel.setCreateDate("2016-05-29 15:40:26");
-                            myPhotoListModel.setClassId("1");
+                            myPhotoListModel.setWeight("120");
                             List<MyPhotoListModel> myPhotoListModels=new ArrayList<MyPhotoListModel>();
                             myPhotoListModels.add(myPhotoListModel);
+                            myPhotoListModels.add(myPhotoListModel);
+                            myPhotoListModels.add(myPhotoListModel);
+                            myPhotoListModels.add(myPhotoListModel);
+                            myPhotoListModels.add(myPhotoListModel);
+                            myPhotoListModels.add(myPhotoListModel);
+                            myPhotoListModels.add(myPhotoListModel);
+                            myPhotoListModels.add(myPhotoListModel);
+                            myPhotoListModels.add(myPhotoListModel);
+                            myPhotoListModels.add(myPhotoListModel);
+                            myPhotoListModels.add(myPhotoListModel);
+//                            myPhotoListModels.add(myPhotoListModel);
                             cb.getMyPhotoList(myPhotoListModels);
                         }
                         break;

@@ -90,7 +90,7 @@ public class HistoryStudentHonorActivity extends BaseActivity implements View.On
         dialogShow("加载中");
         historyHonorListManager=new HistoryHonorListManager(this);
         //需要接收跳转classid参数替换死数据
-        historyHonorListManager.getHistoryStudentHonor(userId,"1");
+        historyHonorListManager.getHistoryStudentHonor("6","1");
     }
 
     @Override

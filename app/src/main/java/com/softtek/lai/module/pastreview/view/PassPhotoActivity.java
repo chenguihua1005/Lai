@@ -16,6 +16,7 @@ import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygamest.model.LogListModel;
 import com.softtek.lai.module.pastreview.adapter.MyPhotoListAdapter;
+import com.softtek.lai.module.pastreview.model.MyPhotoListItemModel;
 import com.softtek.lai.module.pastreview.model.MyPhotoListModel;
 import com.softtek.lai.module.pastreview.presenter.MyPhotoListManager;
 import com.squareup.picasso.Picasso;
@@ -43,6 +44,7 @@ public class PassPhotoActivity extends BaseActivity implements View.OnClickListe
     MyPhotoListAdapter myPhotoListAdapter;
     MyPhotoListModel myPhotoListModel;
     List<MyPhotoListModel> myPhotoListModelList=new ArrayList<MyPhotoListModel>();
+    List<MyPhotoListItemModel>myPhotoListItemModels=new ArrayList<MyPhotoListItemModel>();
     @Override
     protected void initViews() {
         tv_title.setText("我的相册");
@@ -54,7 +56,7 @@ public class PassPhotoActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void initDatas() {
-        myPhotoListAdapter=new MyPhotoListAdapter(this,myPhotoListModelList);
+        myPhotoListAdapter=new MyPhotoListAdapter(this,myPhotoListItemModels);
         ptrlvpassclasslist.setAdapter(myPhotoListAdapter);
         myPhotoListManager=new MyPhotoListManager(this);
         new Handler().postDelayed(new Runnable() {
@@ -113,14 +115,54 @@ public class PassPhotoActivity extends BaseActivity implements View.OnClickListe
 //        }
 
         List<MyPhotoListModel> models = myPhotoListModels;
-        if (models == null || models.isEmpty()) {
+        MyPhotoListItemModel myPhotoListItemModel=new MyPhotoListItemModel();
+        List<String> imageurl = new ArrayList<String>();
+        List<String> weight = new ArrayList<String>();
+        List<String> date = new ArrayList<String>();
+        int length=myPhotoListModels.size();
+        myPhotoListItemModels.clear();
+        for (int i=0;i<myPhotoListModels.size();i=i+10) {
+            imageurl.clear();
+            weight.clear();
+            date.clear();
+            int p = 0;
+            myPhotoListItemModels.clear();
+            myPhotoListItemModel.setLLId(myPhotoListModels.get(i).getLLId());
+            if ("0".equals(length/10)) {
+                for (int j = 0; j < myPhotoListModels.size()%10; j++) {
+                    imageurl.add(myPhotoListModels.get(p).getImgUrl());
+                    weight.add(myPhotoListModels.get(p).getWeight());
+                    date.add(myPhotoListModels.get(p++).getCreateDate());
+                }
+                myPhotoListItemModel.setCreateDate(date);
+                myPhotoListItemModel.setWeight(weight);
+                myPhotoListItemModel.setImgUrl(imageurl);
+                myPhotoListItemModels.add(myPhotoListItemModel);
+
+            }
+            else
+            {
+                length=length-10;
+                for (int j = i; j < i+10; j++) {
+                    imageurl.add(myPhotoListModels.get(p).getImgUrl());
+                    weight.add(myPhotoListModels.get(p).getWeight());
+                    date.add(myPhotoListModels.get(p++).getCreateDate());
+                }
+                myPhotoListItemModel.setCreateDate(date);
+                myPhotoListItemModel.setWeight(weight);
+                myPhotoListItemModel.setImgUrl(imageurl);
+                myPhotoListItemModels.add(myPhotoListItemModel);
+            }
+        }
+        if (myPhotoListItemModels == null || myPhotoListItemModels.isEmpty()) {
             pageIndex = --pageIndex < 1 ? 1 : pageIndex;
             return;
         }
         if (pageIndex == 1) {
-            myPhotoListModelList.clear();
+            myPhotoListItemModels.clear();
         }
-        myPhotoListModelList.addAll(models);
+//        myPhotoListModelList.addAll(models);
+        myPhotoListItemModels.add(myPhotoListItemModel);
         myPhotoListAdapter.notifyDataSetChanged();
 
     }
