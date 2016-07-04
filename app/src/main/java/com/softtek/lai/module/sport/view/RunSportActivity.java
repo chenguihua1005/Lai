@@ -626,9 +626,9 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                 LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
                 if (isFirst) {
                     isFirst = false;
+                    aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16.5f));
                     aMap.addMarker(new MarkerOptions().position(latLng).icon(
                             BitmapDescriptorFactory.fromResource(R.drawable.location_mark_start)));
-                    aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16.5f));
                 }
                 //计算平均速度
                 if (lastLatLon != null) {
