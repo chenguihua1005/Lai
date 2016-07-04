@@ -12,13 +12,10 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.pastreview.adapter.StoryAdapter;
 import com.softtek.lai.module.pastreview.model.StoryList;
 import com.softtek.lai.module.pastreview.model.StoryModel;
 import com.softtek.lai.module.pastreview.presenter.PastReviewManager;
-import com.softtek.lai.module.studetail.view.LogDetailActivity;
-import com.softtek.lai.utils.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
