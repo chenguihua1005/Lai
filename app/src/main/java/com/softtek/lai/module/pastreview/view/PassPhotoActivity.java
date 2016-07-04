@@ -1,5 +1,6 @@
 package com.softtek.lai.module.pastreview.view;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
@@ -40,7 +41,8 @@ public class PassPhotoActivity extends BaseActivity implements View.OnClickListe
     PullToRefreshListView ptrlvpassclasslist;
     int pageIndex = 0;
     MyPhotoListManager myPhotoListManager;
-    String classid="1";
+    String classId;
+    String userId;
     MyPhotoListAdapter myPhotoListAdapter;
     MyPhotoListModel myPhotoListModel;
     List<MyPhotoListModel> myPhotoListModelList=new ArrayList<MyPhotoListModel>();
@@ -56,6 +58,9 @@ public class PassPhotoActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void initDatas() {
+        Intent intent=getIntent();
+        userId=intent.getLongExtra("userId",0)+"";
+        classId=intent.getLongExtra("classId",0)+"";
         myPhotoListAdapter=new MyPhotoListAdapter(this,myPhotoListItemModels);
         ptrlvpassclasslist.setAdapter(myPhotoListAdapter);
         myPhotoListManager=new MyPhotoListManager(this);
@@ -86,14 +91,14 @@ public class PassPhotoActivity extends BaseActivity implements View.OnClickListe
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
         String userId = UserInfoModel.getInstance().getUser().getUserid();
         pageIndex = 1;
-        myPhotoListManager.doGetMyPhotoList(userId, "1",classid);
+        myPhotoListManager.doGetMyPhotoList(userId, "1",classId);
     }
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
         String userId = UserInfoModel.getInstance().getUser().getUserid();
         pageIndex++;
-        myPhotoListManager.doGetMyPhotoList(userId, pageIndex+"",classid);
+        myPhotoListManager.doGetMyPhotoList(userId, pageIndex+"",classId);
     }
 
     @Override

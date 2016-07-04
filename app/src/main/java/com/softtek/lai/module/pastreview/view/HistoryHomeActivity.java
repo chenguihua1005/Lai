@@ -130,7 +130,10 @@ public class HistoryHomeActivity extends BaseActivity implements View.OnClickLis
                 startActivity(baseIntent);
                 break;
             case R.id.rel_my_honor:
-
+                Intent honorIntent=new Intent(this,HistoryStudentHonorActivity.class);
+                honorIntent.putExtra("userId",userId);
+                honorIntent.putExtra("classId",classId);
+                startActivity(honorIntent);
                 break;
             case R.id.rel_my_weight:
                 Intent storyIntent=new Intent(this,StoryActivity.class);
@@ -139,6 +142,10 @@ public class HistoryHomeActivity extends BaseActivity implements View.OnClickLis
                 startActivity(storyIntent);
                 break;
             case R.id.rel_my_photo:
+                Intent photoIntent=new Intent(this,PassPhotoActivity.class);
+                photoIntent.putExtra("userId",userId);
+                photoIntent.putExtra("classId",classId);
+                startActivity(photoIntent);
                 break;
         }
     }

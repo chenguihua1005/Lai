@@ -90,7 +90,7 @@ public class ClassListActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         ClassListModel classListModel=classListModelList.get(position);
-        Intent intent=new Intent(this, PcPastBaseDataActivity.class);
+        Intent intent=new Intent(this, HistoryHomeActivity.class);
         intent.putExtra("userId",accountid);
         intent.putExtra("classId",classListModel.getClassId());
         intent.putExtra("className",classListModel.getClassName());

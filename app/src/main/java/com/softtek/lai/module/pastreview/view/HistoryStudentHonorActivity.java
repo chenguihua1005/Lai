@@ -7,6 +7,7 @@ package com.softtek.lai.module.pastreview.view;
 
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -86,11 +87,13 @@ public class HistoryStudentHonorActivity extends BaseActivity implements View.On
 
     @Override
     protected void initDatas() {
-        String userId=UserInfoModel.getInstance().getUser().getUserid();
+        Intent intent=getIntent();
+        String userId=intent.getLongExtra("userId",0)+"";
+        String classId=intent.getLongExtra("classId",0)+"";
         dialogShow("加载中");
         historyHonorListManager=new HistoryHonorListManager(this);
         //需要接收跳转classid参数替换死数据
-        historyHonorListManager.getHistoryStudentHonor("6","1");
+        historyHonorListManager.getHistoryStudentHonor(userId,classId);
     }
 
     @Override
