@@ -35,6 +35,7 @@ import com.easemob.easeui.domain.ChatUserInfoModel;
 import com.easemob.easeui.domain.ChatUserModel;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
+import com.softtek.lai.chat.ui.ConversationListActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
@@ -74,6 +75,7 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.InjectView;
 import retrofit.RetrofitError;
@@ -491,18 +493,6 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                             }
                         }).create().show();
                     }
-//                    information_dialog = new AlertDialog.Builder(getContext());
-//                    information_dialog.setTitle("请先进行身份认证后再试").setPositiveButton("认证", new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            //跳转到身份认证界面
-//                            startActivity(new Intent(getContext(), ValidateCertificationActivity.class));
-//                        }
-//                    }).setNegativeButton("稍后", new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                        }
-//                    }).create().show();
                     break;
                 case Constants.SR:
                     break;
