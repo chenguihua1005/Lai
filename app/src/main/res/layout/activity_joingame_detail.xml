@@ -57,7 +57,7 @@
                     android:singleLine="true"
                     android:textColor="#808080"
                     android:textCursorDrawable="@drawable/color_cursor"
-                    android:textSize="15dp" />
+                    android:textSize="15sp" />
 
             </LinearLayout>
 
@@ -100,7 +100,7 @@
                     android:singleLine="true"
                     android:textColor="#808080"
                     android:textCursorDrawable="@drawable/color_cursor"
-                    android:textSize="15dp" />
+                    android:textSize="15sp" />
 
             </LinearLayout>
 
