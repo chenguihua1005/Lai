@@ -44,9 +44,7 @@ public class PassPhotoActivity extends BaseActivity implements View.OnClickListe
     String classId;
     String userId;
     MyPhotoListAdapter myPhotoListAdapter;
-    MyPhotoListModel myPhotoListModel;
     List<MyPhotoListModel> myPhotoListModelList=new ArrayList<MyPhotoListModel>();
-    List<MyPhotoListItemModel>myPhotoListItemModels=new ArrayList<MyPhotoListItemModel>();
     @Override
     protected void initViews() {
         tv_title.setText("我的相册");
@@ -61,7 +59,7 @@ public class PassPhotoActivity extends BaseActivity implements View.OnClickListe
         Intent intent=getIntent();
         userId=intent.getLongExtra("userId",0)+"";
         classId=intent.getLongExtra("classId",0)+"";
-        myPhotoListAdapter=new MyPhotoListAdapter(this,myPhotoListItemModels);
+        myPhotoListAdapter=new MyPhotoListAdapter(this,myPhotoListModelList);
         ptrlvpassclasslist.setAdapter(myPhotoListAdapter);
         myPhotoListManager=new MyPhotoListManager(this);
         new Handler().postDelayed(new Runnable() {
@@ -101,74 +99,26 @@ public class PassPhotoActivity extends BaseActivity implements View.OnClickListe
         myPhotoListManager.doGetMyPhotoList(userId, pageIndex+"",classId);
     }
 
+
     @Override
-    public void getMyPhotoList(List<MyPhotoListModel> myPhotoListModels) {
+    public void getMyPhotoList(MyPhotoListModel myPhotoListModels) {
         ptrlvpassclasslist.onRefreshComplete();
-        if (myPhotoListModels == null||myPhotoListModels.isEmpty()) {
+        if (myPhotoListModels == null) {
             pageIndex = --pageIndex < 1 ? 1 : pageIndex;
             return;
         }
         im_nomessage.setVisibility(View.GONE);
-//        if (myPhotoListModel.getClassId() != null) {
-//            if (!TextUtils.isEmpty(downPhotoModel.getPhoto())) {
-//                Picasso.with(this).load(path + downPhotoModel.getPhoto()).fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(cir_downphoto_head_list);
-//            }
-//
-//            if (!TextUtils.isEmpty(downPhotoModel.getBanner())) {
-//                Picasso.with(this).load(path + downPhotoModel.getBanner()).fit().centerCrop().placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square).into(im_uploadphoto_banner_list);
-//            }
-//        }
 
-        List<MyPhotoListModel> models = myPhotoListModels;
-        MyPhotoListItemModel myPhotoListItemModel=new MyPhotoListItemModel();
-        List<String> imageurl = new ArrayList<String>();
-        List<String> weight = new ArrayList<String>();
-        List<String> date = new ArrayList<String>();
-        int length=myPhotoListModels.size();
-        myPhotoListItemModels.clear();
-        for (int i=0;i<myPhotoListModels.size();i=i+10) {
-            imageurl.clear();
-            weight.clear();
-            date.clear();
-            int p = 0;
-            myPhotoListItemModels.clear();
-            myPhotoListItemModel.setLLId(myPhotoListModels.get(i).getLLId());
-            if ("0".equals(length/10)) {
-                for (int j = 0; j < myPhotoListModels.size()%10; j++) {
-                    imageurl.add(myPhotoListModels.get(p).getImgUrl());
-                    weight.add(myPhotoListModels.get(p).getWeight());
-                    date.add(myPhotoListModels.get(p++).getCreateDate());
-                }
-                myPhotoListItemModel.setCreateDate(date);
-                myPhotoListItemModel.setWeight(weight);
-                myPhotoListItemModel.setImgUrl(imageurl);
-                myPhotoListItemModels.add(myPhotoListItemModel);
+        MyPhotoListModel models = myPhotoListModels;
 
-            }
-            else
-            {
-                length=length-10;
-                for (int j = i; j < i+10; j++) {
-                    imageurl.add(myPhotoListModels.get(p).getImgUrl());
-                    weight.add(myPhotoListModels.get(p).getWeight());
-                    date.add(myPhotoListModels.get(p++).getCreateDate());
-                }
-                myPhotoListItemModel.setCreateDate(date);
-                myPhotoListItemModel.setWeight(weight);
-                myPhotoListItemModel.setImgUrl(imageurl);
-                myPhotoListItemModels.add(myPhotoListItemModel);
-            }
-        }
-        if (myPhotoListItemModels == null || myPhotoListItemModels.isEmpty()) {
+        if (myPhotoListModels == null ) {
             pageIndex = --pageIndex < 1 ? 1 : pageIndex;
             return;
         }
         if (pageIndex == 1) {
-            myPhotoListItemModels.clear();
+            myPhotoListModelList.clear();
         }
-//        myPhotoListModelList.addAll(models);
-        myPhotoListItemModels.add(myPhotoListItemModel);
+        myPhotoListModelList.add(models);
         myPhotoListAdapter.notifyDataSetChanged();
-
     }
 }

@@ -52,7 +52,7 @@ public interface PCPastReview {
             @Query("accountid") String accountid,
             @Query("PageIndex") String PageIndex,
             @Query("classid") String classid,
-            Callback<ResponseData<List<MyPhotoListModel>>> callback
+            Callback<ResponseData<MyPhotoListModel>> callback
     );
 
 

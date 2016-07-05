@@ -12,13 +12,10 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.pastreview.adapter.StoryAdapter;
 import com.softtek.lai.module.pastreview.model.StoryList;
 import com.softtek.lai.module.pastreview.model.StoryModel;
 import com.softtek.lai.module.pastreview.presenter.PastReviewManager;
-import com.softtek.lai.module.studetail.view.LogDetailActivity;
-import com.softtek.lai.utils.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,7 +101,7 @@ public class StoryActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent intent=new Intent(this,LogDetailActivity.class);
+        Intent intent=new Intent(this,StoryDetailActivity.class);
         intent.putExtra("logId",logs.get(position-1).getLossLogId());
         startActivity(intent);
     }

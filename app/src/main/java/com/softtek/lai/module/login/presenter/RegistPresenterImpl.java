@@ -7,6 +7,7 @@ package com.softtek.lai.module.login.presenter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.widget.EditText;
 
@@ -58,6 +59,7 @@ public class RegistPresenterImpl implements IRegistPresenter {
                         Intent intent=new Intent(context, CreatFlleActivity.class);
                         intent.putExtra("token",model.getToken());
                         context.startActivity(intent);
+                        ((AppCompatActivity) context).finish();
                         break;
                     default:
                         Util.toastMsg(userResponseData.getMsg());
