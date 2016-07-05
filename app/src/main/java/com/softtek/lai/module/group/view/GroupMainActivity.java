@@ -554,7 +554,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
         @Override
         public void onReceive(Context context, Intent intent) {
             if (StepService.STEP.equals(intent.getAction())) {
-                int step_count = intent.getIntExtra("step_count", 0);
+                int step_count = intent.getIntExtra("currentStep", 0);
                 if (step_count == 0) {
                     text_step.setText("--");
                     text_rl.setText("--");
