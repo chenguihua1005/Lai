@@ -13,6 +13,7 @@ import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -24,6 +25,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.mobsandgeeks.saripaar.Rule;
@@ -529,6 +531,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
         Date curDate = new Date(System.currentTimeMillis());//获取当前时间
         String time = formatter.format(curDate);
         String str = time + "," + SharedPreferenceService.getInstance().get("currentStep", 0);
+        Log.i("当前最新步数>>>>"+str);
         sportGroupManager.getSportIndex(userId, str);
         sportGroupManager.getNewMsgRemind(userId);
     }
@@ -538,15 +541,15 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
         IntentFilter filter = new IntentFilter();
         filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
         filter.addAction(StepService.STEP);
-        filter.addAction(Constants.MESSAGE_CHAT_ACTION);
-        registerReceiver(mMessageReceiver, filter);
+        filter.addAction(StepService.UPLOAD_STEP);
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, filter);
 
     }
 
     @Override
     protected void onDestroy() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
         super.onDestroy();
-        unregisterReceiver(mMessageReceiver);
     }
 
     public class MessageReceiver extends BroadcastReceiver {
@@ -554,7 +557,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
         @Override
         public void onReceive(Context context, Intent intent) {
             if (StepService.STEP.equals(intent.getAction())) {
-                int step_count = intent.getIntExtra("step_count", 0);
+                int step_count = intent.getIntExtra("currentStep", 0);
                 if (step_count == 0) {
                     text_step.setText("--");
                     text_rl.setText("--");
@@ -565,7 +568,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                     int kaluli = step_count / 35;
                     text_rl.setText(kaluli + "");
                 }
-            } else if (Constants.MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {
+            } else if (StepService.UPLOAD_STEP.equals(intent.getAction())) {
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 Date curDate = new Date(System.currentTimeMillis());//获取当前时间
                 String time = formatter.format(curDate);
