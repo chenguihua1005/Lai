@@ -352,4 +352,57 @@ public class LoginPresenterImpl implements ILoginPresenter {
         //启动计步器服务
         context.startService(new Intent(context.getApplicationContext(), StepService.class));
     }
+
+    @Override
+    public void updateHXState(final String phoneNo, final String hxAccountId, final String state, final ProgressDialog dialog, final DialogInterface dialogs, final String type) {
+        String token = SharedPreferenceService.getInstance().get("token", "");
+        service.updateHXState(token, phoneNo, hxAccountId, state, new Callback<ResponseData>() {
+            @Override
+            public void success(ResponseData responseData, Response response) {
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+                System.out.println("responseData:" + responseData);
+                int status = responseData.getStatus();
+                switch (status) {
+                    case 200:
+                        if (dialogs != null) {
+                            dialogs.dismiss();
+                        }
+                        if ("1".equals(state)) {
+                            UserModel userModel = UserInfoModel.getInstance().getUser();
+                            userModel.setHasEmchat("1");
+                            userModel.setHXAccountId(hxAccountId);
+                            UserInfoModel.getInstance().saveUserCache(userModel);
+                            if (!"isInBack".equals(type)) {
+                                ((AppCompatActivity) context).finish();
+                            }
+                        }
+                        break;
+                    default:
+                        if (!"isInBack".equals(type)) {
+                            EventBus.getDefault().post(1);
+                        }else {
+                            updateHXState(phoneNo,hxAccountId,state,dialog,dialogs,type);
+                        }
+//                        Util.toastMsg(responseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+                if (!"isInBack".equals(type)) {
+                    EventBus.getDefault().post(1);
+                }else {
+                    updateHXState(phoneNo,hxAccountId,state,dialog,dialogs,type);
+                }
+                ZillaApi.dealNetError(error);
+                error.printStackTrace();
+            }
+        });
+    }
 }

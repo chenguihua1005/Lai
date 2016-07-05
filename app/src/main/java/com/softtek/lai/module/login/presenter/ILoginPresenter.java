@@ -6,6 +6,7 @@
 package com.softtek.lai.module.login.presenter;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.widget.ImageView;
 
 import uk.co.senab.photoview.PhotoView;
@@ -32,4 +33,7 @@ public interface ILoginPresenter {
 
     //获取环信帐号
     void getEMChatAccount(ProgressDialog dialog);
+
+    //前台注册后，更新后台环信
+    void updateHXState(String phoneNo, String hxAccountId, String state, ProgressDialog dialog, DialogInterface dialogs, String type);
 }
