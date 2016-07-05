@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.easemob.EMCallBack;
 import com.easemob.EMConnectionListener;
+import com.easemob.EMError;
 import com.easemob.chat.EMChatManager;
 import com.easemob.easeui.utils.EaseACKUtil;
 import com.mobsandgeeks.saripaar.Rule;
@@ -131,8 +132,9 @@ public class SeceltGroupSentActivity extends BaseActivity implements View.OnClic
                         @Override
                         public void onSuccess() {
                             // TODO Auto-generated method stub
-                            System.out.println("--------");
-                            handler.sendEmptyMessage(0);
+                            if (error == EMError.CONNECTION_CONFLICT) {
+                                handler.sendEmptyMessage(0);
+                            }
                         }
 
                         @Override
@@ -153,7 +155,7 @@ public class SeceltGroupSentActivity extends BaseActivity implements View.OnClic
             @Override
             public void onConnected() {
                 // 当连接到服务器之后，这里开始检查是否有没有发送的ack回执消息，
-                EaseACKUtil.getInstance(SeceltGroupSentActivity.this).checkACKData();
+                //EaseACKUtil.getInstance(SeceltGroupSentActivity.this).checkACKData();
 
             }
         };

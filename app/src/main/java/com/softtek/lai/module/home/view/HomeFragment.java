@@ -214,6 +214,10 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                 Util.toastMsg("开通会话功能需要身份认证");
             } else {
                 Util.toastMsg("会话异常，请稍候再试");
+                UserModel userModel = UserInfoModel.getInstance().getUser();
+                userModel.setHasEmchat("1");
+                userModel.setHXAccountId(model.getHXAccountId());
+                UserInfoModel.getInstance().saveUserCache(userModel);
             }
         } else {
             Util.toastMsg("会话异常，请稍候再试");
@@ -272,6 +276,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     @Override
     public void onResume() {
         super.onResume();
+        System.out.println("EMChat.getInstance().isLoggedIn():"+EMChat.getInstance().isLoggedIn());
         model = UserInfoModel.getInstance().getUser();
         if (model == null) {
             return;
@@ -468,7 +473,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                 case Constants.PC:
                     if (position == Constants.CHAT) {
                         information_dialog = new AlertDialog.Builder(getContext());
-                        information_dialog.setTitle("请先进行身份认证后再试").setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                        information_dialog.setTitle("开通会话功能需要身份认证").setPositiveButton("确认", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 

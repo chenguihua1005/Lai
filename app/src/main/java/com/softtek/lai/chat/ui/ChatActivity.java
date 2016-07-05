@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.easemob.EMCallBack;
 import com.easemob.EMConnectionListener;
+import com.easemob.EMError;
 import com.easemob.chat.EMChatManager;
 import com.easemob.easeui.EaseConstant;
 import com.easemob.easeui.ui.EaseChatFragment;
@@ -112,8 +113,9 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                         @Override
                         public void onSuccess() {
                             // TODO Auto-generated method stub
-                            System.out.println("--------");
-                            handler.sendEmptyMessage(0);
+                            if (error == EMError.CONNECTION_CONFLICT) {
+                                handler.sendEmptyMessage(0);
+                            }
                         }
 
                         @Override
@@ -135,7 +137,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
             @Override
             public void onConnected() {
                 // 当连接到服务器之后，这里开始检查是否有没有发送的ack回执消息，
-                EaseACKUtil.getInstance(ChatActivity.this).checkACKData();
+//                EaseACKUtil.getInstance(ChatActivity.this).checkACKData();
 
             }
         };

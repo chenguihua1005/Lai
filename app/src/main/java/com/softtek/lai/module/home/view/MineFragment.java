@@ -227,7 +227,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 @Override
                 public void onSuccess() {
                     // TODO Auto-generated method stub
-
+                    System.out.println("onSuccess------");
                 }
 
                 @Override
@@ -239,7 +239,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 @Override
                 public void onError(int code, String message) {
                     // TODO Auto-generated method stub
-
+                    System.out.println("onError------");
                 }
             });
         }

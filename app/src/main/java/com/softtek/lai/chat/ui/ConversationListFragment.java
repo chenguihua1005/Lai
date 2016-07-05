@@ -102,6 +102,7 @@ public class ConversationListFragment extends EaseConversationListFragment {
                         }
                     }
                     // it's single chat
+                    System.out.println("username:"+username);
                     intent.putExtra(Constant.EXTRA_USER_ID, username);
                     intent.putExtra("name", name);
                     intent.putExtra("photo", photo);
