@@ -276,15 +276,10 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     @Override
     public void onResume() {
         super.onResume();
-        System.out.println("EMChat.getInstance().isLoggedIn():"+EMChat.getInstance().isLoggedIn());
+        System.out.println("EMChat.getInstance().isLoggedIn():" + EMChat.getInstance().isLoggedIn());
         model = UserInfoModel.getInstance().getUser();
         if (model == null) {
             return;
-        }
-        if (EMChat.getInstance().isLoggedIn()) {
-            int unreadNum = EMChatManager.getInstance().getUnreadMsgsCount();
-            System.out.println("unreadNum:" + unreadNum);
-            modelAdapter.update(unreadNum);
         }
         String userrole = UserInfoModel.getInstance().getUser().getUserrole();
         if (String.valueOf(Constants.VR).equals(userrole)) {
@@ -292,27 +287,31 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         } else {
             messagePresenter.getMessageRead(img_red);
         }
-
-        String hasEmchat = model.getHasEmchat();
-        System.out.println("hasEmchat:" + hasEmchat);
-        if ("1".equals(hasEmchat)) {
-            timer = new Timer();
-            TimerTask task = new TimerTask() {
-
-                @Override
-                public void run() {
-                    // 需要做的事:发送消息
-                    if (!EMChat.getInstance().isLoggedIn()) {
-                        loginChat(progressDialog, model.getHXAccountId());
-                    } else {
-                        if (timer != null) {
-                            timer.cancel();
-                        }
-                    }
-                }
-            };
-            timer.schedule(task, 0, 10000);
-        }
+//        if (EMChat.getInstance().isLoggedIn()) {
+//            int unreadNum = EMChatManager.getInstance().getUnreadMsgsCount();
+//            System.out.println("unreadNum:" + unreadNum);
+//            modelAdapter.update(unreadNum);
+//        }
+//        String hasEmchat = model.getHasEmchat();
+//        System.out.println("hasEmchat:" + hasEmchat);
+//        if ("1".equals(hasEmchat)) {
+//            timer = new Timer();
+//            TimerTask task = new TimerTask() {
+//
+//                @Override
+//                public void run() {
+//                    // 需要做的事:发送消息
+//                    if (!EMChat.getInstance().isLoggedIn()) {
+//                        loginChat(progressDialog, model.getHXAccountId());
+//                    } else {
+//                        if (timer != null) {
+//                            timer.cancel();
+//                        }
+//                    }
+//                }
+//            };
+//            timer.schedule(task, 0, 10000);
+//        }
 
     }
 
@@ -420,30 +419,28 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                     }
                     break;
                 case Constants.CHAT:
-//                    Intent intent = new Intent(getActivity(), HistoryStudentHonorActivity.class);
-//                    startActivity(intent);
-                    boolean isLogin = EMChat.getInstance().isLoggedIn();
-                    if (isLogin) {
-                        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-                        ChatUserModel chatUserModel = new ChatUserModel();
-                        chatUserModel.setUserName(model.getNickname());
-                        chatUserModel.setUserPhone(path + model.getPhoto());
-                        chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
-                        ChatUserInfoModel.getInstance().setUser(chatUserModel);
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                EMChatManager.getInstance().updateCurrentUserNick(model.getNickname());
-                                EMChatManager.getInstance().loadAllConversations();
-                            }
-                        }).start();
-                        // 进入主页面
-                        Intent intent = new Intent(getActivity(), ConversationListActivity.class);
-                        startActivity(intent);
-                    } else {
-                        loginPresenter.getEMChatAccount(progressDialog);
-                    }
-                    break;
+//                    boolean isLogin = EMChat.getInstance().isLoggedIn();
+//                    if (isLogin) {
+//                        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+//                        ChatUserModel chatUserModel = new ChatUserModel();
+//                        chatUserModel.setUserName(model.getNickname());
+//                        chatUserModel.setUserPhone(path + model.getPhoto());
+//                        chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
+//                        ChatUserInfoModel.getInstance().setUser(chatUserModel);
+//                        new Thread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                EMChatManager.getInstance().updateCurrentUserNick(model.getNickname());
+//                                EMChatManager.getInstance().loadAllConversations();
+//                            }
+//                        }).start();
+//                        // 进入主页面
+//                        Intent intent = new Intent(getActivity(), ConversationListActivity.class);
+//                        startActivity(intent);
+//                    } else {
+//                        loginPresenter.getEMChatAccount(progressDialog);
+//                    }
+//                    break;
                 case Constants.LAI_EXCLE:
                 case Constants.LAI_SHOP:
                     new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
@@ -471,28 +468,40 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                 case Constants.NC:
                 case Constants.INC:
                 case Constants.PC:
-                    if (position == Constants.CHAT) {
-                        information_dialog = new AlertDialog.Builder(getContext());
-                        information_dialog.setTitle("开通会话功能需要身份认证").setPositiveButton("确认", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        }).create().show();
-                    } else {
-                        information_dialog = new AlertDialog.Builder(getContext());
-                        information_dialog.setTitle("请先进行身份认证后再试").setPositiveButton("认证", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                //跳转到身份认证界面
-                                startActivity(new Intent(getContext(), ValidateCertificationActivity.class));
-                            }
-                        }).setNegativeButton("稍后", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        }).create().show();
-                    }
+//                    if (position == Constants.CHAT) {
+//                        information_dialog = new AlertDialog.Builder(getContext());
+//                        information_dialog.setTitle("开通会话功能需要身份认证").setPositiveButton("确认", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//
+//                            }
+//                        }).create().show();
+//                    } else {
+//                        information_dialog = new AlertDialog.Builder(getContext());
+//                        information_dialog.setTitle("请先进行身份认证后再试").setPositiveButton("认证", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                //跳转到身份认证界面
+//                                startActivity(new Intent(getContext(), ValidateCertificationActivity.class));
+//                            }
+//                        }).setNegativeButton("稍后", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                            }
+//                        }).create().show();
+//                    }
+                    information_dialog = new AlertDialog.Builder(getContext());
+                    information_dialog.setTitle("请先进行身份认证后再试").setPositiveButton("认证", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //跳转到身份认证界面
+                            startActivity(new Intent(getContext(), ValidateCertificationActivity.class));
+                        }
+                    }).setNegativeButton("稍后", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    }).create().show();
                     break;
                 case Constants.SR:
                     break;

@@ -218,31 +218,31 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     private void clearData() {
         UserInfoModel.getInstance().loginOut();
         getContext().stopService(new Intent(getContext(), StepService.class));
-        if(HomeFragment.timer!=null){
-            HomeFragment.timer.cancel();
-        }
-        if (EMChat.getInstance().isLoggedIn()) {
-            EMChatManager.getInstance().logout(true,new EMCallBack() {
-
-                @Override
-                public void onSuccess() {
-                    // TODO Auto-generated method stub
-                    System.out.println("onSuccess------");
-                }
-
-                @Override
-                public void onProgress(int progress, String status) {
-                    // TODO Auto-generated method stub
-
-                }
-
-                @Override
-                public void onError(int code, String message) {
-                    // TODO Auto-generated method stub
-                    System.out.println("onError------");
-                }
-            });
-        }
+//        if(HomeFragment.timer!=null){
+//            HomeFragment.timer.cancel();
+//        }
+//        if (EMChat.getInstance().isLoggedIn()) {
+//            EMChatManager.getInstance().logout(true,new EMCallBack() {
+//
+//                @Override
+//                public void onSuccess() {
+//                    // TODO Auto-generated method stub
+//                    System.out.println("onSuccess------");
+//                }
+//
+//                @Override
+//                public void onProgress(int progress, String status) {
+//                    // TODO Auto-generated method stub
+//
+//                }
+//
+//                @Override
+//                public void onError(int code, String message) {
+//                    // TODO Auto-generated method stub
+//                    System.out.println("onError------");
+//                }
+//            });
+//        }
     }
 
     @Override
