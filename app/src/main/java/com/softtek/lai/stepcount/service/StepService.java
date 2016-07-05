@@ -243,11 +243,6 @@ public class StepService extends Service implements SensorEventListener {
             firstStep=0;
             todayStep=0;
             int tempStep=SharedPreferenceService.getInstance().get("currentStep",0);
-            //发送广播
-            Intent stepIntent=new Intent(STEP);
-            stepIntent.putExtra("step",stepTemp);
-            stepIntent.putExtra("currentStep",tempStep);
-            LocalBroadcastManager.getInstance(this).sendBroadcast(stepIntent);
             updateNotification("今日步数："+tempStep+"步");
             return;
         }
@@ -421,6 +416,9 @@ public class StepService extends Service implements SensorEventListener {
                                     @Override
                                     public void success(ResponseData responseData, Response response) {
                                         com.github.snowdream.android.util.Log.i("上传成功");
+                                        //发送广播
+                                        Intent stepIntent=new Intent(UPLOAD_STEP);
+                                        LocalBroadcastManager.getInstance(StepService.this).sendBroadcast(stepIntent);
                                     }
                                 });
                 context.startService(new Intent(context.getApplicationContext(), StepService.class));
