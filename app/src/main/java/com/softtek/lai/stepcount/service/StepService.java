@@ -322,7 +322,7 @@ public class StepService extends Service implements SensorEventListener {
             lastStep=0;
             serverStep =0;
             currentStep=0;
-            com.github.snowdream.android.util.Log.i("计步器服务不再执行");
+            Log.i("计步器服务不再执行");
         }
         super.onDestroy();
     }

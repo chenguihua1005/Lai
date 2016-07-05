@@ -58,8 +58,8 @@ public class RegistPresenterImpl implements IRegistPresenter {
                         UserInfoModel.getInstance().setToken("");
                         Intent intent=new Intent(context, CreatFlleActivity.class);
                         intent.putExtra("token",model.getToken());
-                        context.startActivity(intent);
                         ((AppCompatActivity) context).finish();
+                        context.startActivity(intent);
                         break;
                     default:
                         Util.toastMsg(userResponseData.getMsg());
@@ -70,7 +70,6 @@ public class RegistPresenterImpl implements IRegistPresenter {
 
             @Override
             public void failure(RetrofitError error) {
-                Log.i("注册失败");
                 ZillaApi.dealNetError(error);
 
             }

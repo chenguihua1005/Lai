@@ -276,7 +276,6 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
     protected void onDestroy() {
         aMapLocationClient.stopLocation();
         super.onDestroy();
-        Log.i("开始运动界面销毁了................");
     }
 
     @Override
