@@ -1,12 +1,12 @@
-package com.softtek.lai.module.bodygame2.view;
+package com.softtek.lai.module.bodygame2sr.view;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;
 
 import zilla.libcore.ui.InjectLayout;
 
-@InjectLayout(R.layout.fragment_contact)
-public class ContactFragment extends BaseFragment {
+@InjectLayout(R.layout.fragment_bodygame_sp)
+public class BodyGameSRFragment extends BaseFragment {
 
     @Override
     protected void initViews() {
@@ -17,4 +17,5 @@ public class ContactFragment extends BaseFragment {
     protected void initDatas() {
 
     }
+
 }

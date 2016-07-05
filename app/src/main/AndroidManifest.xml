@@ -713,7 +713,7 @@
             android:enabled="true"
             android:exported="true"></service>
 
-        <activity android:name=".module.bodygame2.view.BodyGameActivity"
+        <activity android:name=".module.bodygamesp.view.BodyGameActivity"
             android:screenOrientation="portrait"/>
     </application>
 

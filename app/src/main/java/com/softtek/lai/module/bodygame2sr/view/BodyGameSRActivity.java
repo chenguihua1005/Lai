@@ -1,4 +1,4 @@
-package com.softtek.lai.module.bodygame2.view;
+package com.softtek.lai.module.bodygame2sr.view;
 
 import android.net.Uri;
 import android.view.View;
@@ -12,7 +12,7 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_bodygame)
-public class BodyGameActivity extends BaseActivity implements View.OnClickListener,BaseFragment.OnFragmentInteractionListener {
+public class BodyGameSRActivity extends BaseActivity implements View.OnClickListener,BaseFragment.OnFragmentInteractionListener {
 
     @InjectView(R.id.btn_bodygame)
     SimpleButton btn_bodygame;
@@ -25,7 +25,7 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
     @InjectView(R.id.btn_class)
     SimpleButton btn_class;
 
-    private BodyGameSPFragment bodyGameSPFragment;
+    private BodyGameSRFragment bodyGameSRFragment;
     private ContactFragment contactFragment;
     private ChatFragment chatFragment;
     private FuCeFragment fuCeFragment;
@@ -42,7 +42,7 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
         btn_fuce.setOnClickListener(this);
         btn_class.setOnClickListener(this);
 
-        bodyGameSPFragment=new BodyGameSPFragment();
+        bodyGameSRFragment=new BodyGameSRFragment();
         contactFragment =new ContactFragment();
         chatFragment =new ChatFragment();
         fuCeFragment=new FuCeFragment();
@@ -51,7 +51,7 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
         current=R.id.btn_bodygame;
         restoreState();
         btn_bodygame.setProgress(1);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, bodyGameSPFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, bodyGameSRFragment).commit();
     }
 
     @Override
@@ -69,7 +69,7 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
                 if(current==R.id.btn_bodygame){
                     return;
                 }
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, bodyGameSPFragment).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, bodyGameSRFragment).commit();
                 break;
             case R.id.btn_chat:
                 btn_chat.setProgress(1);

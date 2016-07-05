@@ -1,4 +1,4 @@
-package com.softtek.lai.module.bodygame2.view;
+package com.softtek.lai.module.bodygame2sr.view;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseFragment;

@@ -5,7 +5,7 @@ import com.softtek.lai.common.BaseFragment;
 
 import zilla.libcore.ui.InjectLayout;
 
-@InjectLayout(R.layout.fragment_chat)
+@InjectLayout(R.layout.fragment_class)
 public class ClassFragment extends BaseFragment {
 
     @Override
