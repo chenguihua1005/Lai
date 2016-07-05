@@ -47,8 +47,8 @@ public class BodyGameActivity extends BaseActivity implements View.OnClickListen
         fuCeFragment=new FuCeFragment();
         classFragment=new ClassFragment();
         //设置第一个fragment
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, bodyGameSPFragment).commit();
         current=R.id.btn_bodygame;
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, bodyGameSPFragment).commit();
     }
 
     @Override

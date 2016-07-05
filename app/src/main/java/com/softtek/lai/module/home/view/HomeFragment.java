@@ -41,6 +41,7 @@ import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame.view.CounselorActivity;
+import com.softtek.lai.module.bodygame2.view.BodyGameActivity;
 import com.softtek.lai.module.bodygamecc.view.BodyGameCcActivity;
 import com.softtek.lai.module.bodygamest.model.HasClass;
 import com.softtek.lai.module.bodygamest.present.StudentImpl;
@@ -511,7 +512,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
      */
     private void intoBodyGamePage(int role) {
         //受邀未认证成功就是普通用户，认证成功就是高级用户
-        AlertDialog.Builder information_dialog = null;
+        AlertDialog.Builder information_dialog;
         if (role == Constants.VR) {
             //提示用户让他注册或者直接进入2个功能的踢馆赛模块
             information_dialog = new AlertDialog.Builder(getContext());
@@ -568,17 +569,19 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
             });
         } else if (role == Constants.PC) {
             //直接进入踢馆赛学员版
-            Intent intent = new Intent(getContext(), BodyGamePCActivity.class);
+            Intent intent = new Intent(getContext(), BodyGameActivity.class);
             intent.putExtra("type", "1");
             startActivity(intent);
         } else if (role == Constants.SR) {
             //进入踢馆赛助教版
-            Intent intent = new Intent(getContext(), BodygameSRActivity.class);
+            Intent intent = new Intent(getContext(), BodyGameActivity.class);
             intent.putExtra("type", "1");
             startActivity(intent);
         } else if (role == Constants.SP) {
             //进入踢馆赛顾问版
-            startActivity(new Intent(getContext(), CounselorActivity.class));
+            Intent intent = new Intent(getContext(), BodyGameActivity.class);
+            intent.putExtra("role", role);
+            startActivity(intent);
 
         }
     }
