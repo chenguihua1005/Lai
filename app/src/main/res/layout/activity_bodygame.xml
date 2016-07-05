@@ -1,20 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-    
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tablayout"
+
+    <LinearLayout
+        android:id="@+id/ll"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"/>
+        android:layout_height="53dp"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:gravity="center_horizontal">
+
+        <com.ggx.jerryguan.widget_lib.SimpleButton
+            android:id="@+id/btn_bodygame"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            app:normalBitmap="@drawable/bg_home"
+            app:pitchBitmap="@drawable/bg_rehome"
+            app:alpha="true"
+            app:text="体管赛"
+            />
+
+        <com.ggx.jerryguan.widget_lib.SimpleButton
+            android:id="@+id/btn_chat"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            app:normalBitmap="@drawable/bg_chat"
+            app:pitchBitmap="@drawable/bg_rechat"
+            app:alpha="true"
+            app:text="会话"/>
+
+        <com.ggx.jerryguan.widget_lib.SimpleButton
+            android:id="@+id/btn_contact"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            app:normalBitmap="@drawable/bg_contact"
+            app:pitchBitmap="@drawable/bg_recontact"
+            app:alpha="true"
+            app:text="通讯录"/>
+
+        <com.ggx.jerryguan.widget_lib.SimpleButton
+            android:id="@+id/btn_fuce"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            app:normalBitmap="@drawable/bg_fuce"
+            app:pitchBitmap="@drawable/bg_refuce"
+            app:alpha="true"
+            app:text="复测"/>
+        <com.ggx.jerryguan.widget_lib.SimpleButton
+            android:id="@+id/btn_class"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            app:normalBitmap="@drawable/bg_class"
+            app:pitchBitmap="@drawable/bg_reclass"
+            app:alpha="true"
+            app:text="班级"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#c0c0c0"
+        android:layout_alignTop="@id/ll"/>
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/tablayout"
+        android:layout_above="@id/ll"
         />
     
 </RelativeLayout>

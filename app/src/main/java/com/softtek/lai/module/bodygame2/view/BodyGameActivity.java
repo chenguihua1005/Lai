@@ -1,7 +1,9 @@
 package com.softtek.lai.module.bodygame2.view;
 
 import android.support.design.widget.TabLayout;
+import android.view.View;
 
+import com.ggx.jerryguan.widget_lib.SimpleButton;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 
@@ -9,10 +11,19 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_bodygame)
-public class BodyGameActivity extends BaseActivity {
+public class BodyGameActivity extends BaseActivity implements View.OnClickListener{
 
-    @InjectView(R.id.tablayout)
-    TabLayout tabLayout;
+    @InjectView(R.id.btn_bodygame)
+    SimpleButton btn_bodygame;
+    @InjectView(R.id.btn_chat)
+    SimpleButton btn_chat;
+    @InjectView(R.id.btn_contact)
+    SimpleButton btn_contact;
+    @InjectView(R.id.btn_fuce)
+    SimpleButton btn_fuce;
+    @InjectView(R.id.btn_class)
+    SimpleButton btn_class;
+
     private BodyGameSPFragment bodyGameSPFragment;
     private ContactFragment contactFragment;
     private ChatFragment chatFragment;
@@ -24,13 +35,12 @@ public class BodyGameActivity extends BaseActivity {
     @Override
     protected void initViews() {
 
-        TabLayout.Tab tab1=tabLayout.newTab().setText("体管赛");
-        TabLayout.Tab tab2=tabLayout.newTab().setText("222");
-        TabLayout.Tab tab3=tabLayout.newTab().setText("333");
-        tabLayout.setTabMode(TabLayout.MODE_FIXED);
-        tabLayout.addTab(tab1);
-        tabLayout.addTab(tab2);
-        tabLayout.addTab(tab3);
+        btn_bodygame.setOnClickListener(this);
+        btn_chat.setOnClickListener(this);
+        btn_contact.setOnClickListener(this);
+        btn_fuce.setOnClickListener(this);
+        btn_class.setOnClickListener(this);
+
         bodyGameSPFragment =new BodyGameSPFragment();
         contactFragment =new ContactFragment();
         chatFragment =new ChatFragment();
@@ -38,51 +48,62 @@ public class BodyGameActivity extends BaseActivity {
         classFragment=new ClassFragment();
         //设置第一个fragment
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, bodyGameSPFragment).commit();
-        current=0;
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                int position=tabLayout.getSelectedTabPosition();
-                //Log.i("MainActivity","当前位置>>>>"+position);
-                if(current==position){
-                    return;
-                }
-                current=position;
-                switch (position){
-                    case 0:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, bodyGameSPFragment).commit();
-                        break;
-                    case 1:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, chatFragment).commit();
-                        break;
-                    case 2:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, contactFragment).commit();
-                        break;
-                    case 3:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fuCeFragment).commit();
-                        break;
-                    case 4:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, classFragment).commit();
-                        break;
-                }
-
-
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
+        current=R.id.btn_bodygame;
     }
 
     @Override
     protected void initDatas() {
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        restoreState();
+        switch (v.getId()){
+            case R.id.btn_bodygame:
+                btn_bodygame.setProgress(1);
+                if(current==R.id.btn_bodygame){
+                    return;
+                }
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, bodyGameSPFragment).commit();
+                break;
+            case R.id.btn_chat:
+                btn_chat.setProgress(1);
+                if(current==R.id.btn_chat){
+                    return;
+                }
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, chatFragment).commit();
+                break;
+            case R.id.btn_contact:
+                btn_contact.setProgress(1);
+                if(current==R.id.btn_contact){
+                    return;
+                }
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, contactFragment).commit();
+                break;
+            case R.id.btn_fuce:
+                btn_fuce.setProgress(1);
+                if(current==R.id.btn_fuce){
+                    return;
+                }
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fuCeFragment).commit();
+                break;
+            case R.id.btn_class:
+                btn_class.setProgress(1);
+                if(current==R.id.btn_class){
+                    return;
+                }
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, classFragment).commit();
+                break;
+        }
+        current=v.getId();
+    }
+    private void restoreState() {
+        btn_bodygame.setProgress(0);
+        btn_chat.setProgress(0);
+        btn_contact.setProgress(0);
+        btn_fuce.setProgress(0);
+        btn_class.setProgress(0);
 
     }
 }
