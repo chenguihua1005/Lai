@@ -106,6 +106,7 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
                         //进入首页
                         finish();
                         Intent intent = new Intent(WelcomeActivity.this, HomeActviity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                     }
 
@@ -130,18 +131,6 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
             startActivity(intent);
         }else{
             checks();
-            /*UserModel model=UserInfoModel.getInstance().getUser();
-            if(model==null){
-                UserInfoModel.getInstance().loginOut();//本地退出
-                Intent intent = new Intent(this, LoginActivity.class);
-                startActivity(intent);
-                finish();
-            }else{
-                //进入首页
-                Intent intent = new Intent(this, HomeActviity.class);
-                startActivity(intent);
-                finish();
-            }*/
         }
     }
 }

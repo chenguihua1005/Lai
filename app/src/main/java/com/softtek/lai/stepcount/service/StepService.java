@@ -47,7 +47,7 @@ public class StepService extends Service implements SensorEventListener {
 
 
     //默认为30秒进行一次存储
-    private static int duration = 30000;
+    private static int duration = 10000;
     //默认30分钟上传一次
     private static int durationUpload=10*60*1000;
     private SensorManager sensorManager;

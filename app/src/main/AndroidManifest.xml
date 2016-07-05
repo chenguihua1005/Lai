@@ -90,7 +90,7 @@
             android:value="5728545a67e58ea7cf001701" />
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="2bb973055b43e92252c06ea16a7f2278" />
+            android:value="c6b9697bcfc32b64ff0e22ad9d40cc8f" />
         <meta-data
             android:name="BUG_HD_SDK_GENERAL_KEY"
             android:value="5704e47c748aac462300001d" />

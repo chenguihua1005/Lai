@@ -252,7 +252,6 @@ public class LoginPresenterImpl implements ILoginPresenter {
                     dialog.dismiss();
                 }
                 ZillaApi.dealNetError(error);
-                error.printStackTrace();
             }
         });
     }
@@ -306,7 +305,9 @@ public class LoginPresenterImpl implements ILoginPresenter {
                             dialog.show();
                         }else {
                             ((AppCompatActivity) context).finish();
-                            context.startActivity(new Intent(context, HomeActviity.class));
+                            Intent start=new Intent(context, HomeActviity.class);
+                            start.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(start);
                         }
                         break;
                     default:
