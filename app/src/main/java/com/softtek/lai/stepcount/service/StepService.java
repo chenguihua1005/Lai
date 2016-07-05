@@ -9,6 +9,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -47,7 +48,7 @@ public class StepService extends Service implements SensorEventListener {
 
 
     //默认为30秒进行一次存储
-    private static int duration = 30000;
+    private static int duration = 10000;
     //默认30分钟上传一次
     private static int durationUpload=10*60*1000;
     private SensorManager sensorManager;
@@ -66,7 +67,17 @@ public class StepService extends Service implements SensorEventListener {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        PackageManager pm=getPackageManager();
+        if(pm.hasSystemFeature(PackageManager.FEATURE_SENSOR_STEP_COUNTER)){
+            Log.i("该手机有SENSOR_STEP_COUNTER");
+        }else {
+            Log.i("该手机没有SENSOR_STEP_COUNTER");
+        }
+        if(pm.hasSystemFeature(PackageManager.FEATURE_SENSOR_STEP_DETECTOR)){
+            Log.i("该手机有SENSOR_STEP_DETECTOR");
+        }else{
+            Log.i("该手机没有SENSOR_STEP_DETECTOR");
+        }
         initBroadcastReceiver();
         new Thread(new Runnable() {
             public void run() {

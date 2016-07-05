@@ -10,7 +10,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
@@ -32,7 +31,6 @@ import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.act.view.ActActivity;
@@ -74,7 +72,7 @@ import zilla.libcore.ui.InjectLayout;
  * 跑团首页
  */
 @InjectLayout(R.layout.activity_group_main)
-public class GroupMainActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener, SportGroupManager.GetSportIndexCallBack
+public class GroupMainActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, SportGroupManager.GetSportIndexCallBack
         , PullToRefreshBase.OnRefreshListener<ScrollView> {
 
     @LifeCircleInject
@@ -283,10 +281,8 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                 sportGroupManager.getMineResult(userId, str);
                 break;
             case R.id.ll_left:
-                /*Intent inten=new Intent(this, HomeActviity.class);
-                inten.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(inten);*/
-                finish();
+                Intent inten=new Intent(this, HomeActviity.class);
+                startActivity(inten);
                 break;
             case R.id.fl_right:
             case R.id.iv_email:
@@ -360,15 +356,9 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
 
 
     @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
-
-    @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
             Intent inten = new Intent(this, HomeActviity.class);
-            inten.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(inten);
             return true;
         }
