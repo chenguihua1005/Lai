@@ -712,6 +712,9 @@
             android:name=".locationservice.LocationService"
             android:enabled="true"
             android:exported="true"></service>
+
+        <activity android:name=".module.bodygame2.view.BodyGameActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
