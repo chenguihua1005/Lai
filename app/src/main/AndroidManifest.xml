@@ -90,7 +90,7 @@
             android:value="5728545a67e58ea7cf001701" />
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="1b5f8692ccfaa42c10cef250909a89a5" />
+            android:value="2bb973055b43e92252c06ea16a7f2278" />
         <meta-data
             android:name="BUG_HD_SDK_GENERAL_KEY"
             android:value="5704e47c748aac462300001d" />
@@ -596,7 +596,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.personalPK.view.SearchActivity"
-            android:windowSoftInputMode="stateAlwaysVisible" />
+            android:windowSoftInputMode="stateAlwaysVisible"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".module.personalPK.view.SelectTimeActivity"
             android:screenOrientation="portrait" />
@@ -615,13 +616,16 @@
             android:screenOrientation="portrait" />
 
         <service android:name=".stepcount.service.StepService" />
-        <activity android:name=".module.mygrades.view.MyXuZhangActivity" />
-        <activity android:name=".module.sport.view.RunSportActivity" />
+        <activity android:name=".module.mygrades.view.MyXuZhangActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.sport.view.RunSportActivity"
+            android:screenOrientation="portrait"/>
 
         <!-- 定位需要的服务 使用2.0的定位需要加上这个 -->
         <service android:name="com.amap.api.location.APSService" />
 
-        <activity android:name=".module.sport.view.HistorySportActivity" />
+        <activity android:name=".module.sport.view.HistorySportActivity"
+            android:screenOrientation="portrait"/>
 
         <!-- 开机自启动服务 -->
         <receiver android:name="com.easemob.chat.StartServiceReceiver">

@@ -52,8 +52,6 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
     private int currentId = 0;
     private boolean isClick = false;
 
-
-    private int select_page = 0;
     private List<Fragment> fragments=new ArrayList<>();
 
     @Override
@@ -66,8 +64,6 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
         btn_healthy.setOnClickListener(this);
         btn_healthy_record.setOnClickListener(this);
         btn_mine.setOnClickListener(this);
-        /*white = getResources().getDrawable(R.drawable.bg_white);
-        green = getResources().getDrawable(R.drawable.bg_green);*/
         checkUpdate();
         content.setOffscreenPageLimit(3);
     }
@@ -76,14 +72,12 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
     protected void initDatas() {
         fragments.add(new HomeFragment());
         fragments.add(new HealthyFragment());
-        //fragments.add(new ConversationFragment());
         fragments.add(new HealthyRecordFragment());
         fragments.add(new MineFragment());
         content.setAdapter(new MainPageAdapter(getSupportFragmentManager(),fragments));
         content.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                //Log.i("onPageScrolled");
                 if (!isClick) {
                     setChildProgress(position, 1 - positionOffset);
                     setChildProgress(position + 1, positionOffset);
@@ -93,8 +87,6 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
 
             @Override
             public void onPageSelected(int position) {
-                Log.i("onPageSelected>>>>>" + position);
-                select_page = position;
                 //页面切换了
                 isClick = false;
 
@@ -102,7 +94,6 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                //Log.i("onPageScrollStateChanged>>>>>>"+state);
                 currentId = state;
             }
         });
