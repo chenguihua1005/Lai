@@ -106,7 +106,6 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
                         //进入首页
                         finish();
                         Intent intent = new Intent(WelcomeActivity.this, HomeActviity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                     }
 

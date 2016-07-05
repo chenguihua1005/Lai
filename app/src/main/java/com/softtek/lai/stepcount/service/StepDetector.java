@@ -77,11 +77,11 @@ public class StepDetector implements SensorEventListener {
                             if (end - start > 500) {// 此时判断为走了一步
 
                                 CURRENT_SETP++;
+                                mLastMatch = extType;
+                                start = end;
                                 if (onSensorChangeListener != null) {
                                     onSensorChangeListener.onChange(CURRENT_SETP);
                                 }
-                                mLastMatch = extType;
-                                start = end;
                             }
                         } else {
                             mLastMatch = -1;

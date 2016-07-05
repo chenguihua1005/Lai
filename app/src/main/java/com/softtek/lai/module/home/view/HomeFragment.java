@@ -35,7 +35,6 @@ import com.easemob.easeui.domain.ChatUserInfoModel;
 import com.easemob.easeui.domain.ChatUserModel;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
-import com.softtek.lai.chat.ui.ConversationListActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
@@ -75,7 +74,6 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
-import java.util.TimerTask;
 
 import butterknife.InjectView;
 import retrofit.RetrofitError;
@@ -457,7 +455,10 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                     information_dialog.setTitle("您当前是游客身份，请登录后再试").setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            startActivity(new Intent(getContext(), LoginActivity.class));
+                            Intent login = new Intent(getContext(), LoginActivity.class);
+                            login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(login);
                         }
                     }).setNegativeButton("稍后", new DialogInterface.OnClickListener() {
                         @Override

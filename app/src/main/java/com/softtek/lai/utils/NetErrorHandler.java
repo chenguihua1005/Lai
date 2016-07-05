@@ -7,16 +7,11 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 
-import com.easemob.EMCallBack;
-import com.easemob.chat.EMChat;
-import com.easemob.chat.EMChatManager;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.LaiApplication;
-import com.softtek.lai.chat.ChatHelper;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.home.view.HomeActviity;
-import com.softtek.lai.module.home.view.HomeFragment;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.stepcount.net.StepNetService;

@@ -306,7 +306,6 @@ public class LoginPresenterImpl implements ILoginPresenter {
                         }else {
                             ((AppCompatActivity) context).finish();
                             Intent start=new Intent(context, HomeActviity.class);
-                            start.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(start);
                         }
                         break;

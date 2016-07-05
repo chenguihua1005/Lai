@@ -283,7 +283,6 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
             case R.id.ll_left:
                 Intent inten=new Intent(this, HomeActviity.class);
                 startActivity(inten);
-                finish();
                 break;
             case R.id.fl_right:
             case R.id.iv_email:
@@ -361,7 +360,6 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
             Intent inten = new Intent(this, HomeActviity.class);
             startActivity(inten);
-            finish();
             return true;
         }
         return super.onKeyDown(keyCode, event);
