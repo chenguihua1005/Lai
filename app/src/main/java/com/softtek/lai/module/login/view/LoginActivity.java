@@ -127,13 +127,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 startActivity(new Intent(this, ForgetActivity.class));
                 break;
             case R.id.tv_regist:
-                startActivity(new Intent(this, RegistActivity.class));
                 finish();
+                startActivity(new Intent(this, RegistActivity.class));
                 break;
             case R.id.ll_visitor:
+                finish();
                 UserInfoModel.getInstance().visitorLogin();
                 startActivity(new Intent(this, HomeActviity.class));
-                finish();
                 break;
 
         }

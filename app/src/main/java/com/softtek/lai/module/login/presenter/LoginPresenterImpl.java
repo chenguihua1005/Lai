@@ -297,16 +297,16 @@ public class LoginPresenterImpl implements ILoginPresenter {
                                             Intent intent=new Intent(context, ModifyPasswordActivity.class);
                                             intent.putExtra("type","1");
                                             intent.putExtra("token",token);
-                                            context.startActivity(intent);
                                             ((AppCompatActivity) context).finish();
+                                            context.startActivity(intent);
                                         }
                                     });
                             Dialog dialog=dialogBuilder.create();
                             dialog.setCancelable(false);
                             dialog.show();
                         }else {
-                            context.startActivity(new Intent(context, HomeActviity.class));
                             ((AppCompatActivity) context).finish();
+                            context.startActivity(new Intent(context, HomeActviity.class));
                         }
                         break;
                     default:

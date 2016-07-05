@@ -25,29 +25,25 @@ import zilla.libcore.util.Util;
  */
 public class SportManager {
 
-    private String token;
     private SportService service;
     private GetMovementListCallBack getMovementListCallBack;
     private GetHistoryTotalMovementCallBack getHistoryTotalMovementCallBack;
 
     public SportManager(GetMovementListCallBack getMovementListCallBack) {
         this.getMovementListCallBack = getMovementListCallBack;
-        token = UserInfoModel.getInstance().getToken();
         service = ZillaApi.NormalRestAdapter.create(SportService.class);
     }
     public SportManager(){
-        token = UserInfoModel.getInstance().getToken();
         service = ZillaApi.NormalRestAdapter.create(SportService.class);
     }
 
     public SportManager(GetHistoryTotalMovementCallBack getHistoryTotalMovementCallBack) {
         this.getHistoryTotalMovementCallBack = getHistoryTotalMovementCallBack;
-        token = UserInfoModel.getInstance().getToken();
         service = ZillaApi.NormalRestAdapter.create(SportService.class);
     }
 
     public void getMovementList() {
-        service.getMovementList(token, new RequestCallback<ResponseData<List<HistorySportModel>>>() {
+        service.getMovementList(UserInfoModel.getInstance().getToken(), new RequestCallback<ResponseData<List<HistorySportModel>>>() {
             @Override
             public void success(ResponseData<List<HistorySportModel>> listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());
@@ -85,7 +81,7 @@ public class SportManager {
     }
 
     public void getHistoryTotalMovement() {
-        service.getHistoryTotalMovement(token, new RequestCallback<ResponseData<TotalSportModel>>() {
+        service.getHistoryTotalMovement(UserInfoModel.getInstance().getToken(), new RequestCallback<ResponseData<TotalSportModel>>() {
             @Override
             public void success(ResponseData<TotalSportModel> listResponseData, Response response) {
                 Log.e("jarvis", listResponseData.toString());

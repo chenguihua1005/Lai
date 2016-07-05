@@ -56,16 +56,13 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     protected void initViews() {
-        if (!isTaskRoot()) {
-            finish();
-            return;
-        }
         btn_home.setOnClickListener(this);
         btn_healthy.setOnClickListener(this);
         btn_healthy_record.setOnClickListener(this);
         btn_mine.setOnClickListener(this);
         checkUpdate();
         content.setOffscreenPageLimit(3);
+
     }
 
     @Override
@@ -102,7 +99,10 @@ public class HomeActviity extends BaseActivity implements View.OnClickListener, 
         btn_home.setProgress(1);
         currentId = 0;
         content.setCurrentItem(0);
-
+        if (!isTaskRoot()) {
+            finish();
+            return;
+        }
     }
 
     @Override

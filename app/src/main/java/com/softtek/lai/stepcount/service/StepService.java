@@ -45,6 +45,7 @@ public class StepService extends Service implements SensorEventListener {
     public static final String UPLOAD_STEP="com.softtek.lai.StepService";
     public static final String STEP="com.softtek.lai.StepService.StepCount";
 
+
     //默认为30秒进行一次存储
     private static int duration = 30000;
     //默认30分钟上传一次
@@ -226,9 +227,10 @@ public class StepService extends Service implements SensorEventListener {
      */
     private void calTodayStep(int stepTemp){
         //发送广播
-        Intent stepIntent=new Intent(STEP);
-        stepIntent.putExtra("step",stepTemp);
-        LocalBroadcastManager.getInstance(this).sendBroadcast(stepIntent);
+//        Intent stepIntent=new Intent(STEP);
+//        stepIntent.putExtra("step",stepTemp);
+//        stepIntent.putExtra("currentStep",currentStep);
+//        LocalBroadcastManager.getInstance(this).sendBroadcast(stepIntent);
         //检查日期
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(System.currentTimeMillis());
@@ -241,6 +243,11 @@ public class StepService extends Service implements SensorEventListener {
             firstStep=0;
             todayStep=0;
             int tempStep=SharedPreferenceService.getInstance().get("currentStep",0);
+            //发送广播
+            Intent stepIntent=new Intent(STEP);
+            stepIntent.putExtra("step",stepTemp);
+            stepIntent.putExtra("currentStep",tempStep);
+            LocalBroadcastManager.getInstance(this).sendBroadcast(stepIntent);
             updateNotification("今日步数："+tempStep+"步");
             return;
         }
@@ -252,6 +259,11 @@ public class StepService extends Service implements SensorEventListener {
         currentStep=stepTemp-firstStep;
         todayStep =currentStep+ serverStep;
         SharedPreferenceService.getInstance().put("currentStep",todayStep);
+        //发送广播
+        Intent stepIntent=new Intent(STEP);
+        stepIntent.putExtra("step",stepTemp);
+        stepIntent.putExtra("currentStep",todayStep);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(stepIntent);
         updateNotification("今日步数：" + todayStep + " 步");
     }
 
@@ -322,7 +334,7 @@ public class StepService extends Service implements SensorEventListener {
             lastStep=0;
             serverStep =0;
             currentStep=0;
-            com.github.snowdream.android.util.Log.i("计步器服务不再执行");
+            Log.i("计步器服务不再执行");
         }
         super.onDestroy();
     }
