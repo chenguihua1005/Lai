@@ -40,8 +40,7 @@ import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
-import com.softtek.lai.module.bodygame.view.CounselorActivity;
-import com.softtek.lai.module.bodygame2.view.BodyGameActivity;
+import com.softtek.lai.module.bodygame2.view.BodyGameSPActivity;
 import com.softtek.lai.module.bodygamecc.view.BodyGameCcActivity;
 import com.softtek.lai.module.bodygamest.model.HasClass;
 import com.softtek.lai.module.bodygamest.present.StudentImpl;
@@ -579,7 +578,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
             startActivity(intent);
         } else if (role == Constants.SP) {
             //进入踢馆赛顾问版
-            Intent intent = new Intent(getContext(), BodyGameActivity.class);
+            Intent intent = new Intent(getContext(), BodyGameSPActivity.class);
             startActivity(intent);
 
         }

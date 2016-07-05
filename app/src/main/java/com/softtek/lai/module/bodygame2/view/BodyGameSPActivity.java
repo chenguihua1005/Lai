@@ -12,7 +12,7 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_bodygame)
-public class BodyGameActivity extends BaseActivity implements View.OnClickListener,BaseFragment.OnFragmentInteractionListener {
+public class BodyGameSPActivity extends BaseActivity implements View.OnClickListener,BaseFragment.OnFragmentInteractionListener {
 
     @InjectView(R.id.btn_bodygame)
     SimpleButton btn_bodygame;
