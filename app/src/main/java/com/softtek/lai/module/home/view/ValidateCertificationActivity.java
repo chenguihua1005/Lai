@@ -3,7 +3,6 @@ package com.softtek.lai.module.home.view;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -13,7 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.easemob.EMError;
 import com.easemob.chat.EMChatManager;
@@ -30,8 +28,6 @@ import com.softtek.lai.module.login.model.RoleInfo;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.presenter.ILoginPresenter;
 import com.softtek.lai.module.login.presenter.LoginPresenterImpl;
-import com.softtek.lai.module.login.view.LoginActivity;
-import com.softtek.lai.utils.ACache;
 import com.softtek.lai.utils.MD5;
 import com.softtek.lai.utils.SoftInputUtil;
 
@@ -43,7 +39,6 @@ import butterknife.InjectView;
 import zilla.libcore.lifecircle.LifeCircleInject;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 /**
  * Created by jarvis.liu on 3/22/2016.
@@ -81,7 +76,6 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
 
 
     private ILoginPresenter loginPresenter;
-    private ACache aCache;
 
 
     private UserModel model;
@@ -169,7 +163,7 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
     }
     @Subscribe
     public void onEvent(Integer i) {
-        showDialog();
+        //showDialog();
     }
 
     private void showDialog() {
@@ -204,8 +198,6 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
     @Override
     protected void initDatas() {
         loginPresenter = new LoginPresenterImpl(this);
-        aCache = ACache.get(this, Constants.USER_ACACHE_DATA_DIR);
-
         setData();
         edit_password.setText("");
         edit_account.setText("");
