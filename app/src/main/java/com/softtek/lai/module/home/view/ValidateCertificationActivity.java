@@ -165,6 +165,7 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
         } else {
             rigstHX();
         }
+//        finish();
     }
     @Subscribe
     public void onEvent(Integer i) {

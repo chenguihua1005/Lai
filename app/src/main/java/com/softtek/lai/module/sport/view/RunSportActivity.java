@@ -137,9 +137,9 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                 }
                 LatLon firstLatLon=coordinates.get(0);
                 LatLng latLng=new LatLng(firstLatLon.getLatitude(),firstLatLon.getLongitude());
+                aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16.5f));
                 aMap.addMarker(new MarkerOptions().position(latLng).icon(
                         BitmapDescriptorFactory.fromResource(R.drawable.location_mark_start)));
-                aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16.5f));
             }
             aMap.addPolyline(polylineOptions);
         }
@@ -150,13 +150,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
-        //在这里保存一些数据
-        outState.putLong("time",time);//保存当前计时
-        outState.putInt("startStep",startStep);//保存开始计时的时候步数
-        outState.putBoolean("isFirst",isFirst);//保存是否是第一次定位
-        outState.putDouble("previousDistance",previousDistance);//保存距离
-        outState.putParcelable("lastLatLon",lastLatLon);//保存上一次坐标
-        outState.putParcelableArrayList("coordinates",coordinates);//保存做坐标集合
+
     }
 
 
@@ -314,6 +308,13 @@ public class RunSportActivity extends BaseActivity implements LocationSource
         super.onSaveInstanceState(outState);
         //在activity执行onSaveInstanceState时执行mMapView.onSaveInstanceState (outState)，实现地图生命周期管理
         mapView.onSaveInstanceState(outState);
+        //在这里保存一些数据
+        outState.putLong("time",time);//保存当前计时
+        outState.putInt("startStep",startStep);//保存开始计时的时候步数
+        outState.putBoolean("isFirst",isFirst);//保存是否是第一次定位
+        outState.putDouble("previousDistance",previousDistance);//保存距离
+        outState.putParcelable("lastLatLon",lastLatLon);//保存上一次坐标
+        outState.putParcelableArrayList("coordinates",coordinates);//保存做坐标集合
 
     }
 

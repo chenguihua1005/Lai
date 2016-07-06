@@ -7,6 +7,7 @@ package com.softtek.lai.module.File.presenter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
@@ -30,9 +31,9 @@ public class CreateFileImpl implements ICreateFilepresenter {
     private FileService service;
     private Context context;
 
-    public CreateFileImpl(CreatFlleActivity creatFlleActivity) {
+    public CreateFileImpl(Context context) {
         service = ZillaApi.NormalRestAdapter.create(FileService.class);
-        context = creatFlleActivity;
+        this.context = context;
     }
 
 
@@ -49,11 +50,11 @@ public class CreateFileImpl implements ICreateFilepresenter {
                         model.setGender(file.getGender() + "");
                         model.setToken(token);
                         UserInfoModel.getInstance().saveUserCache(model);
-                        Intent intent = new Intent(context, HomeActviity.class);
+                        ((AppCompatActivity) context).finish();
+                        Intent intent=new Intent(context, HomeActviity.class);
                         context.startActivity(intent);
                         break;
                     }
-
                     case 100:
                         Util.toastMsg(fileResponseData.getMsg());
                         break;
@@ -65,7 +66,7 @@ public class CreateFileImpl implements ICreateFilepresenter {
 
             @Override
             public void failure(RetrofitError error) {
-
+                ZillaApi.dealNetError(error);
             }
         });
     }

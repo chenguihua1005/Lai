@@ -6,6 +6,8 @@
 package com.softtek.lai.module.login.view;
 
 import android.content.Intent;
+import android.os.Handler;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.*;
@@ -27,6 +29,7 @@ import com.softtek.lai.utils.MD5;
 import com.softtek.lai.utils.SoftInputUtil;
 
 import zilla.libcore.lifecircle.LifeCircleInject;
+import zilla.libcore.lifecircle.exit.AppManager;
 import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
@@ -86,6 +89,10 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
         btn_regist.setOnClickListener(this);
         tv_protocol.setOnClickListener(this);
         ll_left.setOnClickListener(this);
+        if (!isTaskRoot()) {
+            finish();
+            return;
+        }
     }
 
     @Override
@@ -129,6 +136,7 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
                 break;
             case R.id.ll_left:
                 finish();
+                startActivity(new Intent(this,LoginActivity.class));
                 break;
         }
     }
@@ -212,6 +220,14 @@ public class RegistActivity extends BaseActivity implements View.OnClickListener
             tv_get_identify.setEnabled(true);
         }
     }
-
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            finish();
+            startActivity(new Intent(this,LoginActivity.class));
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
 }

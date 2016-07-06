@@ -31,6 +31,7 @@ import android.widget.Toast;
 
 import com.easemob.EMCallBack;
 import com.easemob.EMConnectionListener;
+import com.easemob.EMError;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMMessage;
@@ -133,7 +134,7 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
                             startActivity(intent);
                         }
                     }).setCancelable(false);
-            if(!isFinishing()){
+            if (!isFinishing()) {
                 builder.create().show();
             }
 
@@ -146,7 +147,7 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //可以直接new EaseChatFratFragment使用
-        EaseConstant.IS_GROUP_SENT="true";
+        EaseConstant.IS_GROUP_SENT = "true";
         extendMenuItemClickListener = new MyItemClickListener();
         registerExtendMenuItem();
         // init input menu
@@ -165,12 +166,14 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
             @Override
             public void onDisconnected(final int error) {
                 if (!isFinishing()) {
-                    EMChatManager.getInstance().logout(true,new EMCallBack() {
+                    EMChatManager.getInstance().logout(true, new EMCallBack() {
 
                         @Override
                         public void onSuccess() {
                             // TODO Auto-generated method stub
-                            handler.sendEmptyMessage(0);
+                            if (error == EMError.CONNECTION_CONFLICT) {
+                                handler.sendEmptyMessage(0);
+                            }
                         }
 
                         @Override
@@ -191,7 +194,7 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
             @Override
             public void onConnected() {
                 // 当连接到服务器之后，这里开始检查是否有没有发送的ack回执消息，
-                EaseACKUtil.getInstance(GroupSentActivity.this).checkACKData();
+                //EaseACKUtil.getInstance(GroupSentActivity.this).checkACKData();
 
             }
         };
@@ -252,17 +255,19 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
         });
 
     }
+
     /**
      * 隐藏软键盘
      */
     protected void hideKeyboard() {
-        InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         if (getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
             if (getCurrentFocus() != null)
                 inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
                         InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -287,14 +292,14 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void initDatas() {
         list = (ArrayList<ChatContactInfoModel>) getIntent().getSerializableExtra("list");
-        text_count.setText("你将发送消息给"+list.size()+"位朋友:");
-        String value="";
-        for (int i = 0; i <list.size() ; i++) {
-            ChatContactInfoModel model=list.get(i);
-            if(i==0){
-                value=value+model.getUserName();
-            }else {
-                value=value+","+model.getUserName();
+        text_count.setText("你将发送消息给" + list.size() + "位朋友:");
+        String value = "";
+        for (int i = 0; i < list.size(); i++) {
+            ChatContactInfoModel model = list.get(i);
+            if (i == 0) {
+                value = value + model.getUserName();
+            } else {
+                value = value + "," + model.getUserName();
             }
         }
         text_value.setText(value);
@@ -329,7 +334,7 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
      */
     protected void selectPicFromCamera() {
         if (!EaseCommonUtils.isExitsSdcard()) {
-            Toast.makeText(this, com.easemob.easeui.R.string.sd_card_does_not_exist, 0).show();
+            Toast.makeText(this, com.easemob.easeui.R.string.sd_card_does_not_exist, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -442,20 +447,18 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
 
         //发送消息
         EMChatManager.getInstance().sendMessage(message, null);
-        if (TextUtils.isEmpty(conversation.getExtField())) {
-            setProfile(conversation, model);
-        }
-        Intent intent=new Intent(this,ConversationListActivity.class);
+        setProfile(conversation, model);
+        Intent intent = new Intent(this, ConversationListActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
     }
 
     protected void setProfile(EMConversation conversation, ChatContactInfoModel model) {
-        String path= AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
         String name = model.getUserName();
         String photo = model.getPhoto();
-        conversation.setExtField(name + "," + path+photo);
+        conversation.setExtField(name + "," + path + photo);
     }
 
     /**

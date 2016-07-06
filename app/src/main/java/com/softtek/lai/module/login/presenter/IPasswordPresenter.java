@@ -17,5 +17,5 @@ public interface IPasswordPresenter {
     void checkIdentify(String phone, String identify);
 
     //我的页面 修改密码
-    void changePsd(String newpsd, String psd,String token,String type);
+    void changePsd(String newpsd, String psd, String token, String type);
 }

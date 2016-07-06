@@ -104,18 +104,18 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
                             startService(new Intent(getApplicationContext(), StepService.class));
                         }
                         //进入首页
+                        finish();
                         Intent intent = new Intent(WelcomeActivity.this, HomeActviity.class);
                         startActivity(intent);
-                        finish();
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
                         //有异常返回登录也重新登录
                         UserInfoModel.getInstance().loginOut();//本地退出
+                        finish();
                         Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
                         startActivity(intent);
-                        finish();
                     }
                 });
 
@@ -125,23 +125,11 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
     @Override
     public void run() {
         if(StringUtils.isEmpty(token)||UserInfoModel.getInstance().getUser()==null){
+            finish();
             Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
             startActivity(intent);
-            finish();
         }else{
             checks();
-            /*UserModel model=UserInfoModel.getInstance().getUser();
-            if(model==null){
-                UserInfoModel.getInstance().loginOut();//本地退出
-                Intent intent = new Intent(this, LoginActivity.class);
-                startActivity(intent);
-                finish();
-            }else{
-                //进入首页
-                Intent intent = new Intent(this, HomeActviity.class);
-                startActivity(intent);
-                finish();
-            }*/
         }
     }
 }

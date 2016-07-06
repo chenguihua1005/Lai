@@ -8,7 +8,6 @@ package com.softtek.lai.module.login.presenter;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import uk.co.senab.photoview.PhotoView;
 
@@ -18,13 +17,13 @@ import uk.co.senab.photoview.PhotoView;
 public interface ILoginPresenter {
 
     //登录
-    void doLogin(String userName, String password, ProgressDialog dialog, TextView tv_login);
+    void doLogin(String userName, String password, ProgressDialog dialog);
 
     //资格认证
-    void alidateCertification(String memberId, String password, String accountId,ProgressDialog progressDialog);
+    void alidateCertification(String memberId, String password, String accountId, ProgressDialog progressDialog);
 
     //修改头像
-    void modifyPicture(String memberId, String upimg, ProgressDialog dialog,ImageView imgV);
+    void modifyPicture(String memberId, String upimg, ProgressDialog dialog, ImageView imgV);
 
     //修改头像
     void modifyPictures(String memberId, String upimg, ProgressDialog dialog);
@@ -33,8 +32,8 @@ public interface ILoginPresenter {
     void getUpdateName(String accountId, String userName, ProgressDialog dialog);
 
     //获取环信帐号
-    void getEMChatAccount( ProgressDialog dialog);
+    void getEMChatAccount(ProgressDialog dialog);
 
     //前台注册后，更新后台环信
-    void updateHXState( String phoneNo,String hxAccountId,String state,ProgressDialog dialog,DialogInterface dialogs,String type);
+    void updateHXState(String phoneNo, String hxAccountId, String state, ProgressDialog dialog, DialogInterface dialogs, String type);
 }

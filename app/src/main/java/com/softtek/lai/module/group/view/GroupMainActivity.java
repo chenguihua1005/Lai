@@ -6,10 +6,13 @@
 package com.softtek.lai.module.group.view;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,13 +24,13 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.github.snowdream.android.util.Log;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
-import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.act.view.ActActivity;
@@ -69,8 +72,8 @@ import zilla.libcore.ui.InjectLayout;
  * 跑团首页
  */
 @InjectLayout(R.layout.activity_group_main)
-public class GroupMainActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener, SportGroupManager.GetSportIndexCallBack
-,PullToRefreshBase.OnRefreshListener<ScrollView>{
+public class GroupMainActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, SportGroupManager.GetSportIndexCallBack
+        , PullToRefreshBase.OnRefreshListener<ScrollView> {
 
     @LifeCircleInject
     ValidateLife validateLife;
@@ -200,6 +203,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
     @InjectView(R.id.lin4)
     LinearLayout lin4;
 
+    private MessageReceiver mMessageReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -241,7 +245,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
         iv_email.setImageResource(R.drawable.img_group_main_my);
         pull_sroll.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         pull_sroll.setOnRefreshListener(this);
-
+        registerMessageReceiver();
     }
 
     @Override
@@ -251,7 +255,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
             public void run() {
                 pull_sroll.setRefreshing();
             }
-        },400);
+        }, 400);
         //dialogShow("加载中...");
     }
 
@@ -259,7 +263,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
     public void onResume() {
         super.onResume();
         model = UserInfoModel.getInstance().getUser();
-        if(model!=null){
+        if (model != null) {
             dialogShow("加载中");
             sportGroupManager.getNewMsgRemind(model.getUserid());
         }
@@ -272,15 +276,13 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 Date curDate = new Date(System.currentTimeMillis());//获取当前时间
                 String time = formatter.format(curDate);
-                String str = time + "," + SharedPreferenceService.getInstance().get("currentStep",0);
+                String str = time + "," + SharedPreferenceService.getInstance().get("currentStep", 0);
                 dialogShow("加载中");
                 sportGroupManager.getMineResult(userId, str);
                 break;
             case R.id.ll_left:
-                /*Intent inten=new Intent(this, HomeActviity.class);
-                inten.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(inten);*/
-                finish();
+                Intent inten=new Intent(this, HomeActviity.class);
+                startActivity(inten);
                 break;
             case R.id.fl_right:
             case R.id.iv_email:
@@ -313,7 +315,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                     Intent intent = new Intent(this, PKDetailActivity.class);
                     intent.putExtra("pkId", Long.parseLong(id));
                     intent.putExtra("pkType", Constants.GROUPMAIN_PK);
-                    startActivityForResult(intent,100);
+                    startActivityForResult(intent, 100);
                 }
                 break;
 
@@ -328,11 +330,11 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode==RESULT_OK&&requestCode==100){
-            String chp=data.getStringExtra("ChP");
-            String bchp=data.getStringExtra("BChP");
-            text_pk_left_count.setText(StringUtils.isEmpty(chp)?"0":chp);
-            text_pk_right_count.setText(StringUtils.isEmpty(bchp)?"0":bchp);
+        if (resultCode == RESULT_OK && requestCode == 100) {
+            String chp = data.getStringExtra("ChP");
+            String bchp = data.getStringExtra("BChP");
+            text_pk_left_count.setText(StringUtils.isEmpty(chp) ? "0" : chp);
+            text_pk_right_count.setText(StringUtils.isEmpty(bchp) ? "0" : bchp);
 
         }
     }
@@ -354,15 +356,9 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
 
 
     @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
-
-    @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            Intent inten=new Intent(this, HomeActviity.class);
-            inten.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            Intent inten = new Intent(this, HomeActviity.class);
             startActivity(inten);
             return true;
         }
@@ -381,8 +377,8 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
             } else {
                 text_step.setText(sportMainModel.getTodayStepCnt());
                 text3.setVisibility(View.VISIBLE);
-                int kaluli=Integer.parseInt(sportMainModel.getTodayStepCnt())/35;
-                text_rl.setText(kaluli+"");
+                int kaluli = Integer.parseInt(sportMainModel.getTodayStepCnt()) / 35;
+                text_rl.setText(kaluli + "");
             }
 //            String todayKaluliCnt = sportMainModel.getTodayKaluliCnt();
 //            if ("0".equals(todayKaluliCnt)) {
@@ -490,8 +486,8 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
             } else {
                 text_step.setText(model.getTodayStepCnt());
                 text3.setVisibility(View.VISIBLE);
-                int kaluli=Integer.parseInt(model.getTodayStepCnt())/35;
-                text_rl.setText(kaluli+"");
+                int kaluli = Integer.parseInt(model.getTodayStepCnt()) / 35;
+                text_rl.setText(kaluli + "");
             }
             String todayStepOdr = model.getTodayStepOdr();
             if ("0".equals(todayStepOdr)) {
@@ -511,9 +507,9 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void getNewMsgRemind(String type) {
         dialogDissmiss();
-        if ("success".equals(type)){
+        if ("success".equals(type)) {
             iv_email.setImageResource(R.drawable.img_message_have);
-        }else {
+        } else {
             iv_email.setImageResource(R.drawable.img_message_none);
         }
     }
@@ -524,8 +520,52 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date curDate = new Date(System.currentTimeMillis());//获取当前时间
         String time = formatter.format(curDate);
-        String str = time + "," + SharedPreferenceService.getInstance().get("currentStep",0);
+        String str = time + "," + SharedPreferenceService.getInstance().get("currentStep", 0);
+        Log.i("当前最新步数>>>>"+str);
         sportGroupManager.getSportIndex(userId, str);
         sportGroupManager.getNewMsgRemind(userId);
     }
+
+    public void registerMessageReceiver() {
+        mMessageReceiver = new MessageReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
+        filter.addAction(StepService.STEP);
+        filter.addAction(StepService.UPLOAD_STEP);
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, filter);
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
+        super.onDestroy();
+    }
+
+    public class MessageReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (StepService.STEP.equals(intent.getAction())) {
+                int step_count = intent.getIntExtra("currentStep", 0);
+                if (step_count == 0) {
+                    text_step.setText("--");
+                    text_rl.setText("--");
+                    text3.setVisibility(View.GONE);
+                } else {
+                    text_step.setText(step_count + "");
+                    text3.setVisibility(View.VISIBLE);
+                    int kaluli = step_count / 35;
+                    text_rl.setText(kaluli + "");
+                }
+            } else if (StepService.UPLOAD_STEP.equals(intent.getAction())) {
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                Date curDate = new Date(System.currentTimeMillis());//获取当前时间
+                String time = formatter.format(curDate);
+                String str = time + "," + SharedPreferenceService.getInstance().get("currentStep", 0);
+                sportGroupManager.getMineResult(userId, str);
+            }
+        }
+    }
+
 }

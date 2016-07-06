@@ -352,8 +352,8 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
                     break;
                 //往期回顾
                 case R.id.ll_st_review:
-//                new AlertDialog.Builder(this).setMessage("功能开发中敬请期待").create().show();
-                    startActivity(new Intent(this, ClassListActivity.class));
+                new AlertDialog.Builder(this).setMessage("功能开发中敬请期待").create().show();
+                    //startActivity(new Intent(this, ClassListActivity.class));
                     break;
 
                 case R.id.ll_left:

@@ -12,7 +12,6 @@ import com.easemob.chat.EMChat;
 import com.easemob.chat.EMChatManager;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.LaiApplication;
-import com.softtek.lai.chat.ChatHelper;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.home.view.HomeActviity;

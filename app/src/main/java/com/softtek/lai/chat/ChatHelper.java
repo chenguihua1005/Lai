@@ -129,7 +129,6 @@ public class ChatHelper {
                 @Override
                 public void onConnected() {
                     // 当连接到服务器之后，这里开始检查是否有没有发送的ack回执消息，
-                    EaseACKUtil.getInstance(appContext).checkACKData();
 
                 }
             };

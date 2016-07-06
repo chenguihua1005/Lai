@@ -72,21 +72,19 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private ProgressDialog progressDialog;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        tv_login.setOnClickListener(this);
-        tv_forgetpsd.setOnClickListener(this);
-        tv_regist.setOnClickListener(this);
-        ll_visitor.setOnClickListener(this);
-        System.out.println("type:"+getIntent().getBooleanExtra(Constant.ACCOUNT_CONFLICT, false));
-    }
-
-    @Override
     protected void initViews() {
+        if (!isTaskRoot()) {
+            finish();
+            return;
+        }
         tintManager.setStatusBarTintResource(R.drawable.grey_white);
         progressDialog = new ProgressDialog(this);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setMessage("登录中，请稍候...");
+        tv_login.setOnClickListener(this);
+        tv_forgetpsd.setOnClickListener(this);
+        tv_regist.setOnClickListener(this);
+        ll_visitor.setOnClickListener(this);
     }
 
     @Override
@@ -129,12 +127,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 startActivity(new Intent(this, ForgetActivity.class));
                 break;
             case R.id.tv_regist:
+                finish();
                 startActivity(new Intent(this, RegistActivity.class));
                 break;
             case R.id.ll_visitor:
+                finish();
                 UserInfoModel.getInstance().visitorLogin();
                 startActivity(new Intent(this, HomeActviity.class));
-                finish();
                 break;
 
         }
@@ -142,12 +141,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onValidationSucceeded() {
-        //禁用登录按钮
-        tv_login.setEnabled(false);
+
         String phone = et_phone.getText().toString();
         String password = et_password.getText().toString();
         progressDialog.show();
-        loginPresenter.doLogin(phone, MD5.md5WithEncoder(password), progressDialog,tv_login);
+        loginPresenter.doLogin(phone, MD5.md5WithEncoder(password), progressDialog);
     }
 
     @Override

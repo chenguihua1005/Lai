@@ -7,6 +7,7 @@ package com.softtek.lai.module.login.presenter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.widget.EditText;
 
@@ -57,6 +58,7 @@ public class RegistPresenterImpl implements IRegistPresenter {
                         UserInfoModel.getInstance().setToken("");
                         Intent intent=new Intent(context, CreatFlleActivity.class);
                         intent.putExtra("token",model.getToken());
+                        ((AppCompatActivity) context).finish();
                         context.startActivity(intent);
                         break;
                     default:
@@ -68,7 +70,6 @@ public class RegistPresenterImpl implements IRegistPresenter {
 
             @Override
             public void failure(RetrofitError error) {
-                Log.i("注册失败");
                 ZillaApi.dealNetError(error);
 
             }

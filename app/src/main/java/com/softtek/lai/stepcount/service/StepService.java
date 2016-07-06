@@ -9,6 +9,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -45,8 +46,9 @@ public class StepService extends Service implements SensorEventListener {
     public static final String UPLOAD_STEP="com.softtek.lai.StepService";
     public static final String STEP="com.softtek.lai.StepService.StepCount";
 
+
     //默认为30秒进行一次存储
-    private static int duration = 30000;
+    private static int duration = 10000;
     //默认30分钟上传一次
     private static int durationUpload=10*60*1000;
     private SensorManager sensorManager;
@@ -65,7 +67,17 @@ public class StepService extends Service implements SensorEventListener {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        PackageManager pm=getPackageManager();
+        if(pm.hasSystemFeature(PackageManager.FEATURE_SENSOR_STEP_COUNTER)){
+            Log.i("该手机有SENSOR_STEP_COUNTER");
+        }else {
+            Log.i("该手机没有SENSOR_STEP_COUNTER");
+        }
+        if(pm.hasSystemFeature(PackageManager.FEATURE_SENSOR_STEP_DETECTOR)){
+            Log.i("该手机有SENSOR_STEP_DETECTOR");
+        }else{
+            Log.i("该手机没有SENSOR_STEP_DETECTOR");
+        }
         initBroadcastReceiver();
         new Thread(new Runnable() {
             public void run() {
@@ -95,46 +107,6 @@ public class StepService extends Service implements SensorEventListener {
         IntentFilter upload=new IntentFilter(UPLOAD_STEP);
         upload.addAction(Intent.ACTION_TIME_TICK);
         registerReceiver(uploadStepReceive,upload);
-
-        /*final IntentFilter filter = new IntentFilter();
-        // 屏幕灭屏广播
-        filter.addAction(Intent.ACTION_SCREEN_OFF);
-        //关机广播
-        filter.addAction(Intent.ACTION_SHUTDOWN);
-        // 屏幕亮屏广播
-        filter.addAction(Intent.ACTION_SCREEN_ON);
-        // 屏幕解锁广播
-        filter.addAction(Intent.ACTION_USER_PRESENT);
-        // 当长按电源键弹出“关机”对话或者锁屏时系统会发出这个广播
-        // example：有时候会用到系统对话框，权限可能很高，会覆盖在锁屏界面或者“关机”对话框之上，
-        // 所以监听这个广播，当收到时就隐藏自己的对话，如点击pad右下角部分弹出的对话框
-        filter.addAction(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);*/
-        /*mBatInfoReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(final Context context, final Intent intent) {
-                String action = intent.getAction();
-                if (Intent.ACTION_SCREEN_ON.equals(action)) {
-                    Log.d("xf", "screen on");
-                } else if (Intent.ACTION_SCREEN_OFF.equals(action)) {
-                    Log.d("xf", "screen off");
-                    //改为60秒一存储
-                    //duration = 60000;
-                } else if (Intent.ACTION_USER_PRESENT.equals(action)) {
-                    Log.d("xf", "screen unlock");
-                    save();
-                    //改为30秒一存储
-                    duration = 30000;
-                } else if (Intent.ACTION_CLOSE_SYSTEM_DIALOGS.equals(intent.getAction())) {
-                    Log.i("xf", " receive Intent.ACTION_CLOSE_SYSTEM_DIALOGS");
-                    //保存一次
-                    save();
-                } else if (Intent.ACTION_SHUTDOWN.equals(intent.getAction())) {
-                    Log.i("xf", " receive ACTION_SHUTDOWN");
-                    save();
-                }
-            }
-        };
-        registerReceiver(mBatInfoReceiver, filter);*/
 
     }
 
@@ -211,7 +183,7 @@ public class StepService extends Service implements SensorEventListener {
             addBasePedoListener();
         }
     }
-    private Sensor detectorSensor;
+    //private Sensor detectorSensor;
     private Sensor countSensor;
     private void addCountStepListener() {
         //detectorSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
@@ -266,16 +238,17 @@ public class StepService extends Service implements SensorEventListener {
      */
     private void calTodayStep(int stepTemp){
         //发送广播
-        Intent stepIntent=new Intent(STEP);
-        stepIntent.putExtra("step",stepTemp);
-        LocalBroadcastManager.getInstance(this).sendBroadcast(stepIntent);
+//        Intent stepIntent=new Intent(STEP);
+//        stepIntent.putExtra("step",stepTemp);
+//        stepIntent.putExtra("currentStep",currentStep);
+//        LocalBroadcastManager.getInstance(this).sendBroadcast(stepIntent);
         //检查日期
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(System.currentTimeMillis());
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minutes=c.get(Calendar.MINUTE);
-        //每晚的23点30分到24点之间
-        if(hour==23&&minutes>=30&&minutes<=59){
+        //每晚的23点50分到24点之间
+        if(hour==23&&minutes>50&&minutes<=59){
             //清空当天的临时步数
             serverStep=0;
             firstStep=0;
@@ -292,6 +265,11 @@ public class StepService extends Service implements SensorEventListener {
         currentStep=stepTemp-firstStep;
         todayStep =currentStep+ serverStep;
         SharedPreferenceService.getInstance().put("currentStep",todayStep);
+        //发送广播
+        Intent stepIntent=new Intent(STEP);
+        stepIntent.putExtra("step",stepTemp);
+        stepIntent.putExtra("currentStep",todayStep);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(stepIntent);
         updateNotification("今日步数：" + todayStep + " 步");
     }
 
@@ -345,15 +323,14 @@ public class StepService extends Service implements SensorEventListener {
         stopForeground(true);
         nm.cancelAll();
         unregisterReceiver(uploadStepReceive);
-        //unregisterReceiver(mBatInfoReceiver);
         if (countSensor != null) {
             Log.i("base", "注销countSensor");
             sensorManager.unregisterListener(this, countSensor);
         }
-        if (detectorSensor != null) {
+        /*if (detectorSensor != null) {
             Log.i("base", "注销detector");
             sensorManager.unregisterListener(this, detectorSensor);
-        }
+        }*/
         time.cancel();
         if(UserInfoModel.getInstance().getUser()!=null&&"1".equals(UserInfoModel.getInstance().getUser().getIsJoin())){
             Intent intent = new Intent(this, StepService.class);
@@ -363,7 +340,7 @@ public class StepService extends Service implements SensorEventListener {
             lastStep=0;
             serverStep =0;
             currentStep=0;
-            com.github.snowdream.android.util.Log.i("计步器服务不再执行");
+            Log.i("计步器服务不再执行");
         }
         super.onDestroy();
     }
@@ -384,7 +361,7 @@ public class StepService extends Service implements SensorEventListener {
             Calendar c = Calendar.getInstance();
             c.setTimeInMillis(System.currentTimeMillis());
             int hour = c.get(Calendar.HOUR_OF_DAY);
-            if (hour >= 23 || hour <= 6) {
+            if (hour >=50 || hour <= 6) {
                 mWakeLock.acquire(5000);
             } else {
                 mWakeLock.acquire(300000);
@@ -408,7 +385,7 @@ public class StepService extends Service implements SensorEventListener {
                 int hour = c.get(Calendar.HOUR_OF_DAY);
                 int minutes=c.get(Calendar.MINUTE);
                 //每晚的23点30分到24点之间
-                if(hour==23&&minutes>=30&&minutes<=59){
+                if(hour==23&&minutes>50&&minutes<=59){
                     serverStep=0;
                     firstStep=0;
                     lastStep=0;
@@ -429,8 +406,8 @@ public class StepService extends Service implements SensorEventListener {
                 c.setTimeInMillis(System.currentTimeMillis());
                 int hour = c.get(Calendar.HOUR_OF_DAY);
                 int minutes = c.get(Calendar.MINUTE);
-                //每晚的23点30分到24点之间
-                if (hour == 23 && minutes >= 30 && minutes <= 59) {
+                //每晚的23点50分到24点之间
+                if (hour == 23 && minutes > 50 && minutes <= 59) {
                     //清空当天的临时步数
                     return;
                 }
@@ -450,6 +427,9 @@ public class StepService extends Service implements SensorEventListener {
                                     @Override
                                     public void success(ResponseData responseData, Response response) {
                                         com.github.snowdream.android.util.Log.i("上传成功");
+                                        //发送广播
+                                        Intent stepIntent=new Intent(UPLOAD_STEP);
+                                        LocalBroadcastManager.getInstance(StepService.this).sendBroadcast(stepIntent);
                                     }
                                 });
                 context.startService(new Intent(context.getApplicationContext(), StepService.class));

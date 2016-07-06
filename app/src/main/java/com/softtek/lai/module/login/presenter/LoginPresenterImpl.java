@@ -13,7 +13,6 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
@@ -70,6 +69,9 @@ public class LoginPresenterImpl implements ILoginPresenter {
             public void success(ResponseData<RoleInfo> userResponseData, Response response) {
                 System.out.println("userResponseData:" + userResponseData);
                 int status = userResponseData.getStatus();
+                if (progressDialog != null) {
+                    progressDialog.dismiss();
+                }
                 switch (status) {
                     case 200:
                         UserModel model = UserInfoModel.getInstance().getUser();
@@ -91,11 +93,9 @@ public class LoginPresenterImpl implements ILoginPresenter {
                         }
                         UserInfoModel.getInstance().saveUserCache(model);
                         EventBus.getDefault().post(userResponseData.getData());
+                        ((AppCompatActivity) context).finish();
                         break;
                     default:
-                        if (progressDialog != null) {
-                            progressDialog.dismiss();
-                        }
                         Util.toastMsg(userResponseData.getMsg());
                         break;
                 }
@@ -224,7 +224,7 @@ public class LoginPresenterImpl implements ILoginPresenter {
     @Override
     public void getUpdateName(String accountId, final String userName, final ProgressDialog dialog) {
         String token = SharedPreferenceService.getInstance().get("token", "");
-        service.getUpdateName(token, accountId, userName, new Callback<ResponseData>() {
+        service.getUpdateName(token, accountId,userName, new Callback<ResponseData>() {
             @Override
             public void success(ResponseData responseData, Response response) {
                 if (dialog != null) {
@@ -235,7 +235,7 @@ public class LoginPresenterImpl implements ILoginPresenter {
                 switch (status) {
                     case 200:
                         UserModel userModel = UserInfoModel.getInstance().getUser();
-                        System.out.println("userName:" + userName);
+                        System.out.println("userName:"+userName);
                         userModel.setNickname(userName);
                         UserInfoModel.getInstance().saveUserCache(userModel);
                         ((AppCompatActivity) context).finish();
@@ -252,9 +252,105 @@ public class LoginPresenterImpl implements ILoginPresenter {
                     dialog.dismiss();
                 }
                 ZillaApi.dealNetError(error);
-                error.printStackTrace();
             }
         });
+    }
+
+    @Override
+    public void doLogin(String userName, final String password, final ProgressDialog dialog) {
+
+        service.doLogin(userName, password, new Callback<ResponseData<UserModel>>() {
+            @Override
+            public void success(final ResponseData<UserModel> userResponseData, Response response) {
+                if (dialog != null) dialog.dismiss();
+                System.out.println(userResponseData);
+                int status = userResponseData.getStatus();
+                switch (status) {
+                    case 200:
+                        JPushInterface.init(context);
+                        JpushSet set = new JpushSet(context);
+                        UserModel model=userResponseData.getData();
+                        set.setAlias(model.getMobile());
+                        set.setStyleBasic();
+                        UserInfoModel.getInstance().saveUserCache(model);
+                        //如果用户加入了跑团
+                        if("1".equals(model.getIsJoin())){
+                            stepDeal(context,model.getUserid(), StringUtils.isEmpty(model.getTodayStepCnt())?0:Long.parseLong(model.getTodayStepCnt()));
+                        }
+                        final String token=userResponseData.getData().getToken();
+                        if("0".equals(model.getIsCreatInfo())&&!model.isHasGender()){
+                            //如果没有创建档案且性别不是2才算没创建档案
+                            UserInfoModel.getInstance().setToken("");
+                            Intent intent=new Intent(context, CreatFlleActivity.class);
+                            intent.putExtra("token",token);
+                            context.startActivity(intent);
+                        }else if(MD5.md5WithEncoder("000000").equals(password)){
+                            UserInfoModel.getInstance().setToken("");
+                            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context)
+                                    .setTitle(context.getString(R.string.login_out_title))
+                                    .setMessage("您正在使用默认密码, 为了您的账户安全, 需要设置一个新密码.")
+                                    .setPositiveButton("立即修改", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+
+                                            Intent intent=new Intent(context, ModifyPasswordActivity.class);
+                                            intent.putExtra("type","1");
+                                            intent.putExtra("token",token);
+                                            ((AppCompatActivity) context).finish();
+                                            context.startActivity(intent);
+                                        }
+                                    });
+                            Dialog dialog=dialogBuilder.create();
+                            dialog.setCancelable(false);
+                            dialog.show();
+                        }else {
+                            ((AppCompatActivity) context).finish();
+                            Intent start=new Intent(context, HomeActviity.class);
+                            context.startActivity(start);
+                        }
+                        break;
+                    default:
+                        Util.toastMsg(userResponseData.getMsg());
+                        break;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                if (dialog != null) dialog.dismiss();
+                ZillaApi.dealNetError(error);
+            }
+        });
+    }
+
+    private void stepDeal(Context context,String userId,long step){
+        String dateStar=DateUtil.weeHours(0);
+        String dateEnd=DateUtil.weeHours(1);
+        List<UserStep> steps=StepUtil.getInstance().getCurrentData(userId,dateStar,dateEnd);
+        if(!steps.isEmpty()){
+            UserStep stepEnd=steps.get(steps.size()-1);
+            int currentStep= (int) (stepEnd.getStepCount());
+            if(step>currentStep){
+                //如果服务器上的步数大于本地
+                UserStep userStep=new UserStep();
+                userStep.setAccountId(Long.parseLong(userId));
+                userStep.setRecordTime(DateUtil.getInstance().getCurrentDate());
+                userStep.setStepCount(step);
+                StepUtil.getInstance().saveStep(userStep);
+            }
+            //如果不大于则 不需要操作什么
+        }else{
+            //本地没有数据则写入本地
+            UserStep serverStep=new UserStep();
+            serverStep.setAccountId(Long.parseLong(userId));
+            serverStep.setRecordTime(DateUtil.getInstance().getCurrentDate());
+            serverStep.setStepCount(step);
+            StepUtil.getInstance().saveStep(serverStep);
+        }
+        //删除旧数据
+        StepUtil.getInstance().deleteOldDate(dateStar,userId);
+        //启动计步器服务
+        context.startService(new Intent(context.getApplicationContext(), StepService.class));
     }
 
     @Override
@@ -308,103 +404,5 @@ public class LoginPresenterImpl implements ILoginPresenter {
                 error.printStackTrace();
             }
         });
-    }
-
-    @Override
-    public void doLogin(String userName, final String password, final ProgressDialog dialog, final TextView tv_login) {
-
-        service.doLogin(userName, password, new Callback<ResponseData<UserModel>>() {
-            @Override
-            public void success(final ResponseData<UserModel> userResponseData, Response response) {
-                if (dialog != null) dialog.dismiss();
-                System.out.println(userResponseData);
-                int status = userResponseData.getStatus();
-                switch (status) {
-                    case 200:
-                        JPushInterface.init(context);
-                        JpushSet set = new JpushSet(context);
-                        UserModel model = userResponseData.getData();
-                        set.setAlias(model.getMobile());
-                        set.setStyleBasic();
-                        UserInfoModel.getInstance().saveUserCache(model);
-                        //如果用户加入了跑团
-                        if ("1".equals(model.getIsJoin())) {
-                            stepDeal(context, model.getUserid(), StringUtils.isEmpty(model.getTodayStepCnt()) ? 0 : Long.parseLong(model.getTodayStepCnt()));
-                        }
-                        final String token = userResponseData.getData().getToken();
-                        if ("0".equals(model.getIsCreatInfo()) && !model.isHasGender()) {
-                            //如果没有创建档案且性别不是2才算没创建档案
-                            UserInfoModel.getInstance().setToken("");
-                            Intent intent = new Intent(context, CreatFlleActivity.class);
-                            intent.putExtra("token", token);
-                            context.startActivity(intent);
-                        } else if (MD5.md5WithEncoder("000000").equals(password)) {
-                            UserInfoModel.getInstance().setToken("");
-                            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context)
-                                    .setTitle(context.getString(R.string.login_out_title))
-                                    .setMessage("您正在使用默认密码, 为了您的账户安全, 需要设置一个新密码.")
-                                    .setPositiveButton("立即修改", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-
-                                            Intent intent = new Intent(context, ModifyPasswordActivity.class);
-                                            intent.putExtra("type", "1");
-                                            intent.putExtra("token", token);
-                                            context.startActivity(intent);
-                                            ((AppCompatActivity) context).finish();
-                                        }
-                                    });
-                            Dialog dialog = dialogBuilder.create();
-                            dialog.setCancelable(false);
-                            dialog.show();
-                        } else {
-                            context.startActivity(new Intent(context, HomeActviity.class));
-                            ((AppCompatActivity) context).finish();
-                        }
-                        break;
-                    default:
-                        if (tv_login != null) tv_login.setEnabled(true);
-                        Util.toastMsg(userResponseData.getMsg());
-                        break;
-                }
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                if (tv_login != null) tv_login.setEnabled(true);
-                if (dialog != null) dialog.dismiss();
-                ZillaApi.dealNetError(error);
-            }
-        });
-    }
-
-    private void stepDeal(Context context, String userId, long step) {
-        String dateStar = DateUtil.weeHours(0);
-        String dateEnd = DateUtil.weeHours(1);
-        List<UserStep> steps = StepUtil.getInstance().getCurrentData(userId, dateStar, dateEnd);
-        if (!steps.isEmpty()) {
-            UserStep stepEnd = steps.get(steps.size() - 1);
-            int currentStep = (int) (stepEnd.getStepCount());
-            if (step > currentStep) {
-                //如果服务器上的步数大于本地
-                UserStep userStep = new UserStep();
-                userStep.setAccountId(Long.parseLong(userId));
-                userStep.setRecordTime(DateUtil.getInstance().getCurrentDate());
-                userStep.setStepCount(step);
-                StepUtil.getInstance().saveStep(userStep);
-            }
-            //如果不大于则 不需要操作什么
-        } else {
-            //本地没有数据则写入本地
-            UserStep serverStep = new UserStep();
-            serverStep.setAccountId(Long.parseLong(userId));
-            serverStep.setRecordTime(DateUtil.getInstance().getCurrentDate());
-            serverStep.setStepCount(step);
-            StepUtil.getInstance().saveStep(serverStep);
-        }
-        //删除旧数据
-        StepUtil.getInstance().deleteOldDate(dateStar, userId);
-        //启动计步器服务
-        context.startService(new Intent(context.getApplicationContext(), StepService.class));
     }
 }

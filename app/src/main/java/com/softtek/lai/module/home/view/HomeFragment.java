@@ -214,6 +214,10 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                 Util.toastMsg("开通会话功能需要身份认证");
             } else {
                 Util.toastMsg("会话异常，请稍候再试");
+                UserModel userModel = UserInfoModel.getInstance().getUser();
+                userModel.setHasEmchat("1");
+                userModel.setHXAccountId(model.getHXAccountId());
+                UserInfoModel.getInstance().saveUserCache(userModel);
             }
         } else {
             Util.toastMsg("会话异常，请稍候再试");
@@ -272,14 +276,10 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     @Override
     public void onResume() {
         super.onResume();
+        System.out.println("EMChat.getInstance().isLoggedIn():" + EMChat.getInstance().isLoggedIn());
         model = UserInfoModel.getInstance().getUser();
         if (model == null) {
             return;
-        }
-        if (EMChat.getInstance().isLoggedIn()) {
-            int unreadNum = EMChatManager.getInstance().getUnreadMsgsCount();
-            System.out.println("unreadNum:" + unreadNum);
-            modelAdapter.update(unreadNum);
         }
         String userrole = UserInfoModel.getInstance().getUser().getUserrole();
         if (String.valueOf(Constants.VR).equals(userrole)) {
@@ -287,7 +287,11 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         } else {
             messagePresenter.getMessageRead(img_red);
         }
-
+        if (EMChat.getInstance().isLoggedIn()) {
+            int unreadNum = EMChatManager.getInstance().getUnreadMsgsCount();
+            System.out.println("unreadNum:" + unreadNum);
+            modelAdapter.update(unreadNum);
+        }
         String hasEmchat = model.getHasEmchat();
         System.out.println("hasEmchat:" + hasEmchat);
         if ("1".equals(hasEmchat)) {
@@ -415,8 +419,6 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                     }
                     break;
                 case Constants.CHAT:
-//                    Intent intent = new Intent(getActivity(), HistoryStudentHonorActivity.class);
-//                    startActivity(intent);
                     boolean isLogin = EMChat.getInstance().isLoggedIn();
                     if (isLogin) {
                         String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
@@ -455,7 +457,10 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                     information_dialog.setTitle("您当前是游客身份，请登录后再试").setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            startActivity(new Intent(getContext(), LoginActivity.class));
+                            Intent login = new Intent(getContext(), LoginActivity.class);
+                            login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(login);
                         }
                     }).setNegativeButton("稍后", new DialogInterface.OnClickListener() {
                         @Override
@@ -468,7 +473,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                 case Constants.PC:
                     if (position == Constants.CHAT) {
                         information_dialog = new AlertDialog.Builder(getContext());
-                        information_dialog.setTitle("请先进行身份认证后再试").setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                        information_dialog.setTitle("开通会话功能需要身份认证").setPositiveButton("确认", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
