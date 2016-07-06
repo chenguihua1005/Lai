@@ -261,14 +261,11 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
                 Intent intent = new Intent(this, RetestActivity.class);
                 intent.putExtra("type", "1");
                 startActivity(intent);
-
-
             }
             break;
             //主题栏返回事件
             case R.id.ll_left: {
                 finish();
-
             }
             break;
             //体管赛按钮点击跳转事件
@@ -328,28 +325,6 @@ public class CounselorActivity extends BaseActivity implements View.OnClickListe
                 progressDialog.setMessage("数据刷新中...");
                 progressDialog.show();
                 iTiGuanSai.doGetTotal(progressDialog);
-//                final Animation rotate= AnimationUtils.loadAnimation(this,R.anim.rotate);
-//                im_refresh.startAnimation(rotate);
-//                rotate.setAnimationListener(new Animation.AnimationListener() {
-//                    @Override
-//                    public void onAnimationStart(Animation animation) {
-//                        //做请求操作
-//                        iTiGuanSai.doGetTotal();
-//                    }
-//
-//                    @Override
-//                    public void onAnimationEnd(Animation animation) {
-//                        im_refresh.clearAnimation();
-//
-//                    }
-//
-//                    @Override
-//                    public void onAnimationRepeat(Animation animation) {
-//
-//                    }
-//                });
-
-
                 break;
 
         }

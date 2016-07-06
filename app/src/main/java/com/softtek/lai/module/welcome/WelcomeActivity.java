@@ -40,7 +40,6 @@ import zilla.libcore.ui.InjectLayout;
 public class WelcomeActivity extends BaseActivity implements Runnable{
 
     private  String token=null;
-    //private SportGroupService service;
     @InjectView(R.id.guide)
     RelativeLayout guide;
 
@@ -57,7 +56,6 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
 
     @Override
     protected void initDatas() {
-        //service= ZillaApi.NormalRestAdapter.create(SportGroupService.class);
         //检查是否存在token
         token= UserInfoModel.getInstance().getToken();
         Log.i("token="+token);
