@@ -139,7 +139,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         System.out.println("lossModel:" + lossModel);
         String path = AddressManager.get("shareHost");
         url = path + "SharePhotoAblum?AccountId=" + UserInfoModel.getInstance().getUser().getUserid();
-        System.out.println("url:"+url);
+        System.out.println("url:" + url);
         menuWindow = new SelectPicPopupWindow(UploadPhotoActivity.this, itemsOnClick);
         //显示窗口
         menuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
@@ -176,8 +176,8 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         imtest_list.setOnClickListener(this);
         imageFileCropSelector = new ImageFileCropSelector(this);
         imageFileCropSelector.setOutPutAspect(1, 1);
-        int px=Math.min(DisplayUtil.getMobileWidth(this),DisplayUtil.getMobileHeight(this));
-        imageFileCropSelector.setOutPut(px,px);
+        int px = Math.min(DisplayUtil.getMobileWidth(this), DisplayUtil.getMobileHeight(this));
+        imageFileCropSelector.setOutPut(px, px);
         imageFileCropSelector.setCallback(this);
         im_uploadphoto_banner_list.setLongClickable(true);
         im_uploadphoto_banner_list.setOnLongClickListener(new View.OnLongClickListener() {
@@ -241,19 +241,19 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {
 
-                            if(ActivityCompat.checkSelfPermission(UploadPhotoActivity.this, Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
+                            if (ActivityCompat.checkSelfPermission(UploadPhotoActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                                 //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
-                                if(ActivityCompat.shouldShowRequestPermissionRationale(UploadPhotoActivity.this,Manifest.permission.CAMERA)){
+                                if (ActivityCompat.shouldShowRequestPermissionRationale(UploadPhotoActivity.this, Manifest.permission.CAMERA)) {
                                     //允许弹出提示
                                     ActivityCompat.requestPermissions(UploadPhotoActivity.this,
-                                            new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
+                                            new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
 
-                                }else{
+                                } else {
                                     //不允许弹出提示
                                     ActivityCompat.requestPermissions(UploadPhotoActivity.this,
-                                            new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
+                                            new String[]{Manifest.permission.CAMERA}, CAMERA_PREMISSION);
                                 }
-                            }else {
+                            } else {
                                 imageFileCropSelector.takePhoto(UploadPhotoActivity.this);
                             }
                         } else if (which == 1) {
@@ -284,13 +284,13 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
 
         public void onClick(View v) {
             String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-            String str_url="";
-            if(result.contains(",")){
-                str_url=result.split(",")[0];
-            }else {
-                str_url=result;
+            String str_url = "";
+            if (result.contains(",")) {
+                str_url = result.split(",")[0];
+            } else {
+                str_url = result;
             }
-            System.out.println("path:"+path+str_url);
+            System.out.println("path:" + path + str_url);
             menuWindow.dismiss();
             switch (v.getId()) {
                 case R.id.lin_weixin:
@@ -299,7 +299,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
                             .withTitle("康宝莱体重管理挑战赛，坚持只为改变！")
                             .withText(lossModel.getContent())
                             .withTargetUrl(url)
-                            .withMedia(new UMImage(UploadPhotoActivity.this,path+str_url))
+                            .withMedia(new UMImage(UploadPhotoActivity.this, path + str_url))
                             .share();
                     break;
                 case R.id.lin_circle:
@@ -308,14 +308,14 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
                             .withTitle("康宝莱体重管理挑战赛，坚持只为改变！")
                             .withText(lossModel.getContent())
                             .withTargetUrl(url)
-                            .withMedia(new UMImage(UploadPhotoActivity.this,path+str_url))
+                            .withMedia(new UMImage(UploadPhotoActivity.this, path + str_url))
                             .share();
                     break;
                 case R.id.lin_sina:
                     new ShareAction(UploadPhotoActivity.this)
                             .setPlatform(SHARE_MEDIA.SINA)
                             .withText(lossModel.getContent() + url)
-                            .withMedia(new UMImage(UploadPhotoActivity.this,path+str_url))
+                            .withMedia(new UMImage(UploadPhotoActivity.this, path + str_url))
                             .share();
                     break;
                 default:
@@ -326,12 +326,13 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         }
 
     };
-    private static final int CAMERA_PREMISSION=100;
+    private static final int CAMERA_PREMISSION = 100;
+
     // Android 6.0的动态权限
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode==CAMERA_PREMISSION){
+        if (requestCode == CAMERA_PREMISSION) {
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // permission was granted, yay! Do the

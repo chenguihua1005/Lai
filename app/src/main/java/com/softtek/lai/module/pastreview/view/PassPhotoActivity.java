@@ -2,7 +2,6 @@ package com.softtek.lai.module.pastreview.view;
 
 import android.content.Intent;
 import android.os.Handler;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -15,22 +14,18 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.bodygamest.model.LogListModel;
 import com.softtek.lai.module.pastreview.adapter.MyPhotoListAdapter;
-import com.softtek.lai.module.pastreview.model.MyPhotoListItemModel;
 import com.softtek.lai.module.pastreview.model.MyPhotoListModel;
 import com.softtek.lai.module.pastreview.presenter.MyPhotoListManager;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
-import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_pass_photo)
-public class PassPhotoActivity extends BaseActivity implements View.OnClickListener,PullToRefreshBase.OnRefreshListener2<ListView>,  AdapterView.OnItemClickListener,MyPhotoListManager.MyPhotoListCallback{
+public class PassPhotoActivity extends BaseActivity implements View.OnClickListener, PullToRefreshBase.OnRefreshListener2<ListView>, AdapterView.OnItemClickListener, MyPhotoListManager.MyPhotoListCallback {
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.tv_title)
@@ -44,7 +39,8 @@ public class PassPhotoActivity extends BaseActivity implements View.OnClickListe
     String classId;
     String userId;
     MyPhotoListAdapter myPhotoListAdapter;
-    List<MyPhotoListModel> myPhotoListModelList=new ArrayList<MyPhotoListModel>();
+    List<MyPhotoListModel> myPhotoListModelList = new ArrayList<MyPhotoListModel>();
+
     @Override
     protected void initViews() {
         tv_title.setText("我的相册");
@@ -56,12 +52,12 @@ public class PassPhotoActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void initDatas() {
-        Intent intent=getIntent();
-        userId=intent.getLongExtra("userId",0)+"";
-        classId=intent.getLongExtra("classId",0)+"";
-        myPhotoListAdapter=new MyPhotoListAdapter(this,myPhotoListModelList);
+        Intent intent = getIntent();
+        userId = intent.getLongExtra("userId", 0) + "";
+        classId = intent.getLongExtra("classId", 0) + "";
+        myPhotoListAdapter = new MyPhotoListAdapter(this, myPhotoListModelList);
         ptrlvpassclasslist.setAdapter(myPhotoListAdapter);
-        myPhotoListManager=new MyPhotoListManager(this);
+        myPhotoListManager = new MyPhotoListManager(this);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -72,8 +68,7 @@ public class PassPhotoActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        switch (v.getId())
-        {
+        switch (v.getId()) {
             case R.id.ll_left:
                 finish();
                 break;
@@ -89,14 +84,14 @@ public class PassPhotoActivity extends BaseActivity implements View.OnClickListe
     public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
         String userId = UserInfoModel.getInstance().getUser().getUserid();
         pageIndex = 1;
-        myPhotoListManager.doGetMyPhotoList(userId, "1",classId);
+        myPhotoListManager.doGetMyPhotoList(userId, "1", classId);
     }
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
         String userId = UserInfoModel.getInstance().getUser().getUserid();
         pageIndex++;
-        myPhotoListManager.doGetMyPhotoList(userId, pageIndex+"",classId);
+        myPhotoListManager.doGetMyPhotoList(userId, pageIndex + "", classId);
     }
 
 
@@ -111,7 +106,7 @@ public class PassPhotoActivity extends BaseActivity implements View.OnClickListe
 
         MyPhotoListModel models = myPhotoListModels;
 
-        if (myPhotoListModels == null ) {
+        if (myPhotoListModels == null) {
             pageIndex = --pageIndex < 1 ? 1 : pageIndex;
             return;
         }
