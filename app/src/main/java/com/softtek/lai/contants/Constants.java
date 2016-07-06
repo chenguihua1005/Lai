@@ -31,6 +31,8 @@ public class Constants {
 
     //token
     public static final String TOKEN="token";
+    public static final String USER="account";
+    public static final String PDW="password";
     /**
      * 用户角色常量
      *  0:NC 普通顾客，未认证用户
