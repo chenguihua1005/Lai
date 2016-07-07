@@ -58,8 +58,8 @@ public class CircleImageView extends ImageView {
 
         Bitmap bitmap = mDrawable.getBitmap().copy(Bitmap.Config.ARGB_8888, true);
 
-        Log.i("", "bitmap w = " + bitmap.getWidth());
-        Log.i("", "bitmap h = " + bitmap.getHeight());
+        //Log.i("", "bitmap w = " + bitmap.getWidth());
+        //Log.i("", "bitmap h = " + bitmap.getHeight());
 
         canvas.drawBitmap(bitmapCircle(bitmap, width, height), 0, 0, null);
     }
