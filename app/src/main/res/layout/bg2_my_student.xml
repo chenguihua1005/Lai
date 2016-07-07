@@ -67,35 +67,47 @@
             android:layout_height="match_parent"
             android:layout_toRightOf="@id/civ_header"
             android:layout_toLeftOf="@id/iv_arrow"
+            android:layout_marginRight="15dp"
             android:gravity="center|left"
             android:layout_marginLeft="17dp"
             android:orientation="vertical">
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center|left"
                 android:layout_marginBottom="12dp"
                 android:orientation="horizontal">
-                <ImageView
+                <CheckBox
+                    android:id="@+id/cb_gender"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src=""/>
+                    android:button="@null"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentLeft="true"
+                    android:drawableLeft="@drawable/cb_gender"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
+                    android:textSize="15sp"
+                    android:layout_centerInParent="true"
+                    android:layout_toRightOf="@id/cb_gender"
                     android:layout_marginLeft="7dp"
-                    android:text="Joy"/>
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="51dp"
-                    android:src="@drawable/bg2_zhujiao_icon"/>
+                    android:text=""/>
+
                 <TextView
+                    android:id="@+id/tv_who"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:layout_alignParentRight="true"
                     android:text="(助教)：David"/>
-            </LinearLayout>
+                <ImageView
+                    android:layout_toLeftOf="@id/tv_who"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/bg2_zhujiao_icon"/>
+            </RelativeLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -133,6 +145,248 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="10sp"
+                    android:layout_marginLeft="2dp"
+                    android:text=" x8"/>
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="85dp">
+        <TextView
+            android:id="@+id/tv_order2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:textColor="#333333"
+            android:layout_marginLeft="15dp"
+            android:layout_centerInParent="true"
+            android:layout_alignParentLeft="true"
+            android:text="1"/>
+        <com.softtek.lai.widgets.CircleImageView
+            android:id="@+id/civ_header2"
+            android:layout_width="57dp"
+            android:layout_height="57dp"
+            android:layout_centerInParent="true"
+            android:layout_toRightOf="@id/tv_order2"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/img_default"
+            android:scaleType="centerCrop"/>
+
+        <ImageView
+            android:id="@+id/iv_arrow2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/bg2_arrow1"
+            android:layout_centerInParent="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@id/civ_header2"
+            android:layout_toLeftOf="@id/iv_arrow2"
+            android:layout_marginRight="15dp"
+            android:gravity="center|left"
+            android:layout_marginLeft="17dp"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center|left"
+                android:layout_marginBottom="12dp"
+                android:orientation="horizontal">
+                <CheckBox
+                    android:id="@+id/cb_gender2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@null"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentLeft="true"
+                    android:drawableLeft="@drawable/cb_gender"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:layout_centerInParent="true"
+                    android:layout_toRightOf="@id/cb_gender2"
+                    android:layout_marginLeft="7dp"
+                    android:text=""/>
+
+                <TextView
+                    android:id="@+id/tv_who2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:layout_alignParentRight="true"
+                    android:text="(助教)：David"/>
+                <ImageView
+                    android:layout_toLeftOf="@id/tv_who2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/bg2_zhujiao_icon"/>
+            </RelativeLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center|left"
+                android:background="@drawable/bg2_orange2">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/bg2_loss2"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="#333333"
+                    android:layout_marginLeft="7dp"
+                    android:text="-40斤"/>
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@null"
+                    android:layout_marginLeft="20dp"
+                    android:drawableLeft="@drawable/cb_mingxing"/>
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@null"
+                    android:layout_marginLeft="25dp"
+                    android:drawableLeft="@drawable/cb_fuce"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:src="@drawable/bg2_xunzhang"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10sp"
+                    android:layout_marginLeft="2dp"
+                    android:text=" x8"/>
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="85dp">
+        <TextView
+            android:id="@+id/tv_order3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:textColor="#333333"
+            android:layout_marginLeft="15dp"
+            android:layout_centerInParent="true"
+            android:layout_alignParentLeft="true"
+            android:text="1"/>
+        <com.softtek.lai.widgets.CircleImageView
+            android:id="@+id/civ_header3"
+            android:layout_width="57dp"
+            android:layout_height="57dp"
+            android:layout_centerInParent="true"
+            android:layout_toRightOf="@id/tv_order3"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/img_default"
+            android:scaleType="centerCrop"/>
+
+        <ImageView
+            android:id="@+id/iv_arrow3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/bg2_arrow1"
+            android:layout_centerInParent="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@id/civ_header3"
+            android:layout_toLeftOf="@id/iv_arrow3"
+            android:layout_marginRight="15dp"
+            android:gravity="center|left"
+            android:layout_marginLeft="17dp"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center|left"
+                android:layout_marginBottom="12dp"
+                android:orientation="horizontal">
+                <CheckBox
+                    android:id="@+id/cb_gender3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@null"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentLeft="true"
+                    android:drawableLeft="@drawable/cb_gender"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:layout_centerInParent="true"
+                    android:layout_toRightOf="@id/cb_gender3"
+                    android:layout_marginLeft="7dp"
+                    android:text=""/>
+
+                <TextView
+                    android:id="@+id/tv_who3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:layout_alignParentRight="true"
+                    android:text="(助教)：David"/>
+                <ImageView
+                    android:layout_toLeftOf="@id/tv_who3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/bg2_zhujiao_icon"/>
+            </RelativeLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center|left"
+                android:background="@drawable/bg2_orange2">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/bg2_loss2"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="#333333"
+                    android:layout_marginLeft="7dp"
+                    android:text="-40斤"/>
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@null"
+                    android:layout_marginLeft="20dp"
+                    android:drawableLeft="@drawable/cb_mingxing"/>
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@null"
+                    android:layout_marginLeft="25dp"
+                    android:drawableLeft="@drawable/cb_fuce"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:src="@drawable/bg2_xunzhang"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10sp"
+                    android:layout_marginLeft="2dp"
                     android:text=" x8"/>
             </LinearLayout>
         </LinearLayout>
