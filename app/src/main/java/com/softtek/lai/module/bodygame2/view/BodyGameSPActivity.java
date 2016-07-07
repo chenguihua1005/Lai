@@ -1,18 +1,25 @@
 package com.softtek.lai.module.bodygame2.view;
 
 import android.net.Uri;
+import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.ggx.jerryguan.widget_lib.SimpleButton;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.common.LazyBaseFragment;
+import com.softtek.lai.module.home.adapter.MainPageAdapter;
+import com.softtek.lai.widgets.NoSlidingViewPage;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_bodygame)
-public class BodyGameSPActivity extends BaseActivity implements View.OnClickListener,BaseFragment.OnFragmentInteractionListener {
+public class BodyGameSPActivity extends BaseActivity implements View.OnClickListener{
 
     @InjectView(R.id.btn_bodygame)
     SimpleButton btn_bodygame;
@@ -24,12 +31,10 @@ public class BodyGameSPActivity extends BaseActivity implements View.OnClickList
     SimpleButton btn_fuce;
     @InjectView(R.id.btn_class)
     SimpleButton btn_class;
+    @InjectView(R.id.nsvp)
+    NoSlidingViewPage content;
 
-    private BodyGameSPFragment bodyGameSPFragment;
-    private ContactFragment contactFragment;
-    private ChatFragment chatFragment;
-    private FuCeFragment fuCeFragment;
-    private ClassFragment classFragment;
+    private List<Fragment> fragments=new ArrayList<>();
 
     private int current=0;
 
@@ -42,16 +47,18 @@ public class BodyGameSPActivity extends BaseActivity implements View.OnClickList
         btn_fuce.setOnClickListener(this);
         btn_class.setOnClickListener(this);
 
-        bodyGameSPFragment=new BodyGameSPFragment();
-        contactFragment =new ContactFragment();
-        chatFragment =new ChatFragment();
-        fuCeFragment=new FuCeFragment();
-        classFragment=new ClassFragment();
+        fragments.add(new BodyGameSPFragment());
+        fragments.add(new ChatFragment());
+        fragments.add(new ContactFragment());
+        fragments.add(new FuCeFragment());
+        fragments.add(new ClassFragment());
+        content.setOffscreenPageLimit(4);
+        content.setAdapter(new MainPageAdapter(getSupportFragmentManager(),fragments));
         //设置第一个fragment
-        current=R.id.btn_bodygame;
+        current=0;
         restoreState();
         btn_bodygame.setProgress(1);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, bodyGameSPFragment).commit();
+        content.setCurrentItem(current,false);
     }
 
     @Override
@@ -66,41 +73,42 @@ public class BodyGameSPActivity extends BaseActivity implements View.OnClickList
         switch (v.getId()){
             case R.id.btn_bodygame:
                 btn_bodygame.setProgress(1);
-                if(current==R.id.btn_bodygame){
+                if(current==0){
                     return;
                 }
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, bodyGameSPFragment).commit();
+                current=0;
                 break;
             case R.id.btn_chat:
                 btn_chat.setProgress(1);
-                if(current==R.id.btn_chat){
+                if(current==1){
                     return;
                 }
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, chatFragment).commit();
+                current=1;
                 break;
             case R.id.btn_contact:
                 btn_contact.setProgress(1);
-                if(current==R.id.btn_contact){
+                if(current==2){
                     return;
                 }
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, contactFragment).commit();
+                current=2;
                 break;
             case R.id.btn_fuce:
                 btn_fuce.setProgress(1);
-                if(current==R.id.btn_fuce){
+                if(current==3){
                     return;
                 }
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fuCeFragment).commit();
+                current=3;
                 break;
             case R.id.btn_class:
                 btn_class.setProgress(1);
-                if(current==R.id.btn_class){
+                if(current==4){
                     return;
                 }
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, classFragment).commit();
+                current=4;
                 break;
         }
-        current=v.getId();
+      content.setCurrentItem(current,false);
+
     }
     private void restoreState() {
         btn_bodygame.setProgress(0);
@@ -111,8 +119,4 @@ public class BodyGameSPActivity extends BaseActivity implements View.OnClickList
 
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
 }
