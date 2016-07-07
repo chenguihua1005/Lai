@@ -25,11 +25,6 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
     @InjectView(R.id.btn_class)
     SimpleButton btn_class;
 
-    private BodyGamePCFragment bodyGamePCFragment;
-    private ContactFragment contactFragment;
-    private ChatFragment chatFragment;
-    private FuCeFragment fuCeFragment;
-    private ClassFragment classFragment;
 
     private int current=0;
 
@@ -42,16 +37,12 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
         btn_fuce.setOnClickListener(this);
         btn_class.setOnClickListener(this);
 
-        bodyGamePCFragment=new BodyGamePCFragment();
-        contactFragment =new ContactFragment();
-        chatFragment =new ChatFragment();
-        fuCeFragment=new FuCeFragment();
-        classFragment=new ClassFragment();
+
         //设置第一个fragment
         current=R.id.btn_bodygame;
         restoreState();
         btn_bodygame.setProgress(1);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, bodyGamePCFragment).commit();
+
     }
 
     @Override
@@ -69,35 +60,35 @@ public class BodyGamePCActivity extends BaseActivity implements View.OnClickList
                 if(current==R.id.btn_bodygame){
                     return;
                 }
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, bodyGamePCFragment).commit();
+
                 break;
             case R.id.btn_chat:
                 btn_chat.setProgress(1);
                 if(current==R.id.btn_chat){
                     return;
                 }
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, chatFragment).commit();
+                //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, chatFragment).commit();
                 break;
             case R.id.btn_contact:
                 btn_contact.setProgress(1);
                 if(current==R.id.btn_contact){
                     return;
                 }
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, contactFragment).commit();
+                //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, contactFragment).commit();
                 break;
             case R.id.btn_fuce:
                 btn_fuce.setProgress(1);
                 if(current==R.id.btn_fuce){
                     return;
                 }
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fuCeFragment).commit();
+                //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fuCeFragment).commit();
                 break;
             case R.id.btn_class:
                 btn_class.setProgress(1);
                 if(current==R.id.btn_class){
                     return;
                 }
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, classFragment).commit();
+                //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, classFragment).commit();
                 break;
         }
         current=v.getId();
