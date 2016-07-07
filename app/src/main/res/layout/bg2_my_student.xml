@@ -1,394 +1,450 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="31dp"
-        android:background="@color/white"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:background="@color/white">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
             android:layout_alignParentLeft="true"
-            android:textSize="13sp"
-            android:textColor="#333333"
+            android:layout_centerInParent="true"
             android:layout_marginLeft="15dp"
-            android:text="我的学员"/>
+            android:text="我的学员"
+            android:textColor="#333333"
+            android:textSize="13sp" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
             android:layout_alignParentRight="true"
-            android:textSize="13sp"
-            android:textColor="#333333"
+            android:layout_centerInParent="true"
             android:layout_marginRight="15dp"
-            android:text="查看更多"/>
+            android:text="查看更多"
+            android:textColor="#333333"
+            android:textSize="13sp" />
     </RelativeLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#e5e5e5"/>
+        android:background="#e5e5e5" />
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="85dp">
+        android:layout_height="85dp"
+        android:background="@color/white">
+
         <TextView
             android:id="@+id/tv_order"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="22sp"
-            android:textColor="#333333"
-            android:layout_marginLeft="15dp"
-            android:layout_centerInParent="true"
             android:layout_alignParentLeft="true"
-            android:text="1"/>
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="15dp"
+            android:text="1"
+            android:textColor="#333333"
+            android:textSize="22sp" />
+
         <com.softtek.lai.widgets.CircleImageView
             android:id="@+id/civ_header"
             android:layout_width="57dp"
             android:layout_height="57dp"
             android:layout_centerInParent="true"
-            android:layout_toRightOf="@id/tv_order"
             android:layout_marginLeft="10dp"
-            android:src="@drawable/img_default"
-            android:scaleType="centerCrop"/>
+            android:layout_toRightOf="@id/tv_order"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img_default" />
 
         <ImageView
             android:id="@+id/iv_arrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/bg2_arrow1"
-            android:layout_centerInParent="true"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="15dp"/>
+            android:layout_centerInParent="true"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/bg2_arrow1" />
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_toRightOf="@id/civ_header"
-            android:layout_toLeftOf="@id/iv_arrow"
-            android:layout_marginRight="15dp"
-            android:gravity="center|left"
             android:layout_marginLeft="17dp"
+            android:layout_marginRight="15dp"
+            android:layout_toLeftOf="@id/iv_arrow"
+            android:layout_toRightOf="@id/civ_header"
+            android:gravity="center|left"
             android:orientation="vertical">
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center|left"
                 android:layout_marginBottom="12dp"
+                android:gravity="center|left"
                 android:orientation="horizontal">
+
                 <CheckBox
                     android:id="@+id/cb_gender"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:button="@null"
-                    android:layout_centerInParent="true"
                     android:layout_alignParentLeft="true"
-                    android:drawableLeft="@drawable/cb_gender"/>
+                    android:layout_centerInParent="true"
+                    android:button="@null"
+                    android:drawableLeft="@drawable/cb_gender" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
                     android:layout_centerInParent="true"
-                    android:layout_toRightOf="@id/cb_gender"
                     android:layout_marginLeft="7dp"
-                    android:text=""/>
+                    android:layout_toRightOf="@id/cb_gender"
+                    android:text=""
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/tv_who"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
                     android:layout_alignParentRight="true"
-                    android:text="(助教)：David"/>
+                    android:text="(助教)：David"
+                    android:textSize="12sp" />
+
                 <ImageView
-                    android:layout_toLeftOf="@id/tv_who"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/bg2_zhujiao_icon"/>
+                    android:layout_toLeftOf="@id/tv_who"
+                    android:src="@drawable/bg2_zhujiao_icon" />
             </RelativeLayout>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:background="@drawable/bg2_orange2"
                 android:gravity="center|left"
-                android:background="@drawable/bg2_orange2">
+                android:orientation="horizontal">
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/bg2_loss2"/>
+                    android:src="@drawable/bg2_loss2" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:textColor="#333333"
                     android:layout_marginLeft="7dp"
-                    android:text="-40斤"/>
+                    android:text="-40斤"
+                    android:textColor="#333333"
+                    android:textSize="12sp" />
+
                 <CheckBox
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:button="@null"
                     android:layout_marginLeft="20dp"
-                    android:drawableLeft="@drawable/cb_mingxing"/>
+                    android:button="@null"
+                    android:drawableLeft="@drawable/cb_mingxing" />
+
                 <CheckBox
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:button="@null"
                     android:layout_marginLeft="25dp"
-                    android:drawableLeft="@drawable/cb_fuce"/>
+                    android:button="@null"
+                    android:drawableLeft="@drawable/cb_fuce" />
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="25dp"
-                    android:src="@drawable/bg2_xunzhang"/>
+                    android:src="@drawable/bg2_xunzhang" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="10sp"
                     android:layout_marginLeft="2dp"
-                    android:text=" x8"/>
+                    android:text=" x8"
+                    android:textSize="10sp" />
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="85dp">
+        android:layout_height="85dp"
+        android:layout_marginTop="4dp"
+        android:background="@color/white">
+
         <TextView
             android:id="@+id/tv_order2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="22sp"
-            android:textColor="#333333"
-            android:layout_marginLeft="15dp"
-            android:layout_centerInParent="true"
             android:layout_alignParentLeft="true"
-            android:text="1"/>
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="15dp"
+            android:text="1"
+            android:textColor="#333333"
+            android:textSize="22sp" />
+
         <com.softtek.lai.widgets.CircleImageView
             android:id="@+id/civ_header2"
             android:layout_width="57dp"
             android:layout_height="57dp"
             android:layout_centerInParent="true"
-            android:layout_toRightOf="@id/tv_order2"
             android:layout_marginLeft="10dp"
-            android:src="@drawable/img_default"
-            android:scaleType="centerCrop"/>
+            android:layout_toRightOf="@id/tv_order2"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img_default" />
 
         <ImageView
             android:id="@+id/iv_arrow2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/bg2_arrow1"
-            android:layout_centerInParent="true"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="15dp"/>
+            android:layout_centerInParent="true"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/bg2_arrow1" />
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_toRightOf="@id/civ_header2"
-            android:layout_toLeftOf="@id/iv_arrow2"
-            android:layout_marginRight="15dp"
-            android:gravity="center|left"
             android:layout_marginLeft="17dp"
+            android:layout_marginRight="15dp"
+            android:layout_toLeftOf="@id/iv_arrow2"
+            android:layout_toRightOf="@id/civ_header2"
+            android:gravity="center|left"
             android:orientation="vertical">
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center|left"
                 android:layout_marginBottom="12dp"
+                android:gravity="center|left"
                 android:orientation="horizontal">
+
                 <CheckBox
                     android:id="@+id/cb_gender2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:button="@null"
-                    android:layout_centerInParent="true"
                     android:layout_alignParentLeft="true"
-                    android:drawableLeft="@drawable/cb_gender"/>
+                    android:layout_centerInParent="true"
+                    android:button="@null"
+                    android:drawableLeft="@drawable/cb_gender" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
                     android:layout_centerInParent="true"
-                    android:layout_toRightOf="@id/cb_gender2"
                     android:layout_marginLeft="7dp"
-                    android:text=""/>
+                    android:layout_toRightOf="@id/cb_gender2"
+                    android:text=""
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/tv_who2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
                     android:layout_alignParentRight="true"
-                    android:text="(助教)：David"/>
+                    android:text="(助教)：David"
+                    android:textSize="12sp" />
+
                 <ImageView
-                    android:layout_toLeftOf="@id/tv_who2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/bg2_zhujiao_icon"/>
+                    android:layout_toLeftOf="@id/tv_who2"
+                    android:src="@drawable/bg2_zhujiao_icon" />
             </RelativeLayout>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:background="@drawable/bg2_orange2"
                 android:gravity="center|left"
-                android:background="@drawable/bg2_orange2">
+                android:orientation="horizontal">
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/bg2_loss2"/>
+                    android:src="@drawable/bg2_loss2" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:textColor="#333333"
                     android:layout_marginLeft="7dp"
-                    android:text="-40斤"/>
+                    android:text="-40斤"
+                    android:textColor="#333333"
+                    android:textSize="12sp" />
+
                 <CheckBox
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:button="@null"
                     android:layout_marginLeft="20dp"
-                    android:drawableLeft="@drawable/cb_mingxing"/>
+                    android:button="@null"
+                    android:drawableLeft="@drawable/cb_mingxing" />
+
                 <CheckBox
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:button="@null"
                     android:layout_marginLeft="25dp"
-                    android:drawableLeft="@drawable/cb_fuce"/>
+                    android:button="@null"
+                    android:drawableLeft="@drawable/cb_fuce" />
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="25dp"
-                    android:src="@drawable/bg2_xunzhang"/>
+                    android:src="@drawable/bg2_xunzhang" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="10sp"
                     android:layout_marginLeft="2dp"
-                    android:text=" x8"/>
+                    android:text=" x8"
+                    android:textSize="10sp" />
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="85dp">
+        android:layout_height="85dp"
+        android:layout_marginTop="4dp"
+        android:background="@color/white">
+
         <TextView
             android:id="@+id/tv_order3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="22sp"
-            android:textColor="#333333"
-            android:layout_marginLeft="15dp"
-            android:layout_centerInParent="true"
             android:layout_alignParentLeft="true"
-            android:text="1"/>
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="15dp"
+            android:text="1"
+            android:textColor="#333333"
+            android:textSize="22sp" />
+
         <com.softtek.lai.widgets.CircleImageView
             android:id="@+id/civ_header3"
             android:layout_width="57dp"
             android:layout_height="57dp"
             android:layout_centerInParent="true"
-            android:layout_toRightOf="@id/tv_order3"
             android:layout_marginLeft="10dp"
-            android:src="@drawable/img_default"
-            android:scaleType="centerCrop"/>
+            android:layout_toRightOf="@id/tv_order3"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img_default" />
 
         <ImageView
             android:id="@+id/iv_arrow3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/bg2_arrow1"
-            android:layout_centerInParent="true"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="15dp"/>
+            android:layout_centerInParent="true"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/bg2_arrow1" />
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_toRightOf="@id/civ_header3"
-            android:layout_toLeftOf="@id/iv_arrow3"
-            android:layout_marginRight="15dp"
-            android:gravity="center|left"
             android:layout_marginLeft="17dp"
+            android:layout_marginRight="15dp"
+            android:layout_toLeftOf="@id/iv_arrow3"
+            android:layout_toRightOf="@id/civ_header3"
+            android:gravity="center|left"
             android:orientation="vertical">
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center|left"
                 android:layout_marginBottom="12dp"
+                android:gravity="center|left"
                 android:orientation="horizontal">
+
                 <CheckBox
                     android:id="@+id/cb_gender3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:button="@null"
-                    android:layout_centerInParent="true"
                     android:layout_alignParentLeft="true"
-                    android:drawableLeft="@drawable/cb_gender"/>
+                    android:layout_centerInParent="true"
+                    android:button="@null"
+                    android:drawableLeft="@drawable/cb_gender" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
                     android:layout_centerInParent="true"
-                    android:layout_toRightOf="@id/cb_gender3"
                     android:layout_marginLeft="7dp"
-                    android:text=""/>
+                    android:layout_toRightOf="@id/cb_gender3"
+                    android:text=""
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/tv_who3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
                     android:layout_alignParentRight="true"
-                    android:text="(助教)：David"/>
+                    android:text="(助教)：David"
+                    android:textSize="12sp" />
+
                 <ImageView
-                    android:layout_toLeftOf="@id/tv_who3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/bg2_zhujiao_icon"/>
+                    android:layout_toLeftOf="@id/tv_who3"
+                    android:src="@drawable/bg2_zhujiao_icon" />
             </RelativeLayout>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:background="@drawable/bg2_orange2"
                 android:gravity="center|left"
-                android:background="@drawable/bg2_orange2">
+                android:orientation="horizontal">
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/bg2_loss2"/>
+                    android:src="@drawable/bg2_loss2" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:textColor="#333333"
                     android:layout_marginLeft="7dp"
-                    android:text="-40斤"/>
+                    android:text="-40斤"
+                    android:textColor="#333333"
+                    android:textSize="12sp" />
+
                 <CheckBox
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:button="@null"
                     android:layout_marginLeft="20dp"
-                    android:drawableLeft="@drawable/cb_mingxing"/>
+                    android:button="@null"
+                    android:drawableLeft="@drawable/cb_mingxing" />
+
                 <CheckBox
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:button="@null"
                     android:layout_marginLeft="25dp"
-                    android:drawableLeft="@drawable/cb_fuce"/>
+                    android:button="@null"
+                    android:drawableLeft="@drawable/cb_fuce" />
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="25dp"
-                    android:src="@drawable/bg2_xunzhang"/>
+                    android:src="@drawable/bg2_xunzhang" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="10sp"
                     android:layout_marginLeft="2dp"
-                    android:text=" x8"/>
+                    android:text=" x8"
+                    android:textSize="10sp" />
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
-</LinearLayout>
+
+    <!--</LinearLayout>-->
+</merge>
