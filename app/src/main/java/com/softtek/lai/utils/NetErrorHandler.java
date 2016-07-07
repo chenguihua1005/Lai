@@ -94,31 +94,31 @@ public class NetErrorHandler implements IApiErrorHandler {
                         Log.i("return code====="+customCode);
                         switch (customCode) {
                             case 401:
-                                if (HomeFragment.timer != null) {
-                                    HomeFragment.timer.cancel();
-                                }
-                                if (EMChat.getInstance().isLoggedIn()) {
-                                    EMChatManager.getInstance().logout(true,new EMCallBack() {
-
-                                        @Override
-                                        public void onSuccess() {
-                                            // TODO Auto-generated method stub
-
-                                        }
-
-                                        @Override
-                                        public void onProgress(int progress, String status) {
-                                            // TODO Auto-generated method stub
-
-                                        }
-
-                                        @Override
-                                        public void onError(int code, String message) {
-                                            // TODO Auto-generated method stub
-
-                                        }
-                                    });
-                                }
+//                                if (HomeFragment.timer != null) {
+//                                    HomeFragment.timer.cancel();
+//                                }
+//                                if (EMChat.getInstance().isLoggedIn()) {
+//                                    EMChatManager.getInstance().logout(true,new EMCallBack() {
+//
+//                                        @Override
+//                                        public void onSuccess() {
+//                                            // TODO Auto-generated method stub
+//
+//                                        }
+//
+//                                        @Override
+//                                        public void onProgress(int progress, String status) {
+//                                            // TODO Auto-generated method stub
+//
+//                                        }
+//
+//                                        @Override
+//                                        public void onError(int code, String message) {
+//                                            // TODO Auto-generated method stub
+//
+//                                        }
+//                                    });
+//                                }
 
                                 if (builder != null || (LaiApplication.getInstance().getContext().get() instanceof LoginActivity)) {
                                     return;
