@@ -378,7 +378,7 @@ public class StepService extends Service implements SensorEventListener {
             String action=intent.getAction();
             if(Intent.ACTION_TIME_TICK.equals(action)){
                 //系统time_tick
-                Log.i("系统发出了时间"+DateUtil.getInstance().getCurrentDate());
+                //Log.i("系统发出了时间"+DateUtil.getInstance().getCurrentDate());
                 //检查日期
                 Calendar c = Calendar.getInstance();
                 c.setTimeInMillis(System.currentTimeMillis());

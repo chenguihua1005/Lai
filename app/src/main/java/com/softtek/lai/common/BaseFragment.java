@@ -37,8 +37,6 @@ public abstract class BaseFragment extends Fragment {
 
     protected Serializable mParamObj;
     private static final String ARG_PARAM = "PARAM";
-    protected boolean isPrepared;
-    protected boolean isVisible;
 
     private OnFragmentInteractionListener mListener;
 
@@ -73,7 +71,6 @@ public abstract class BaseFragment extends Fragment {
         contentView = inflater.inflate(LayoutInjectUtil.getInjectLayoutId(this), container, false);
         LifeCircle.onCreate(this);
         ButterKnife.inject(this, contentView);
-        isPrepared=true;
         initViews();
         return contentView;
     }
@@ -86,8 +83,6 @@ public abstract class BaseFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
-        isPrepared=false;
-        isVisible=false;
         super.onDestroyView();
     }
 
@@ -138,22 +133,9 @@ public abstract class BaseFragment extends Fragment {
         }
     }
 
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if(getUserVisibleHint()){
-            //如果可见且布局都完成了则可以加载网络请求
-            isVisible=true;
-        }else{
-            isVisible=false;
-
-        }
-    }
 
     protected abstract void initViews();
 
     protected abstract void initDatas();
-    protected void lazyLoad(){
 
-    };
 }
