@@ -13,26 +13,23 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
-import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.pastreview.model.PastBaseData;
 import com.softtek.lai.module.pastreview.presenter.PastReviewManager;
 import com.softtek.lai.module.studetail.adapter.StudentDetailFragmentAdapter;
-import com.softtek.lai.module.studetail.model.MemberModel;
-import com.softtek.lai.module.studetail.presenter.IMemberInfopresenter;
-import com.softtek.lai.module.studetail.presenter.MemberInfoImpl;
+import com.softtek.lai.module.studetail.view.DimensionChartFragment;
+import com.softtek.lai.module.studetail.view.LossWeightChartFragment;
 import com.softtek.lai.utils.StringUtil;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringUtils;
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.InjectView;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_pc_past_base_data)
@@ -74,8 +71,11 @@ public class PcPastBaseDataActivity extends BaseActivity implements View.OnClick
         Intent intent=getIntent();
         userId= intent.getLongExtra("userId",0);
         classId=intent.getLongExtra("classId",0);
-        LossWeightChartFragmentPC lwcf= LossWeightChartFragmentPC.newInstance(userId+"",classId+"");
-        DimensionChartFragmentPC dcf= DimensionChartFragmentPC.newInstance(userId+"",classId+"");
+        Map<String,String> params=new HashMap<>();
+        params.put("userId",userId+"");
+        params.put("classId",classId+"");
+        LossWeightChartFragment lwcf= LossWeightChartFragment.newInstance(params);
+        DimensionChartFragment dcf=DimensionChartFragment.newInstance(params);
         fragments.add(lwcf);
         fragments.add(dcf);
         tabcontent.setAdapter(new StudentDetailFragmentAdapter(getSupportFragmentManager(), fragments));
@@ -112,11 +112,12 @@ public class PcPastBaseDataActivity extends BaseActivity implements View.OnClick
         }else{
             tv_loss_after_tip.setVisibility(View.VISIBLE);
         }
+        String basePath= AddressManager.get("photoHost");
         if(!StringUtils.isEmpty(memberModel.getBeforeImage())){
-            Picasso.with(this).load(memberModel.getBeforeImage()).fit().placeholder(R.drawable.default_icon_rect).error(R.drawable.default_icon_rect).into(iv_loss_before);
+            Picasso.with(this).load(basePath+memberModel.getBeforeImage()).fit().placeholder(R.drawable.default_icon_rect).error(R.drawable.default_icon_rect).into(iv_loss_before);
         }
         if(!StringUtils.isEmpty(memberModel.getAfterImage())){
-            Picasso.with(this).load(memberModel.getAfterImage()).fit().placeholder(R.drawable.default_icon_rect).error(R.drawable.default_icon_rect).into(iv_loss_after);
+            Picasso.with(this).load(basePath+memberModel.getAfterImage()).fit().placeholder(R.drawable.default_icon_rect).error(R.drawable.default_icon_rect).into(iv_loss_after);
         }
     }
 
