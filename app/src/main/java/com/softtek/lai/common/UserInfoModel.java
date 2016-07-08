@@ -5,6 +5,7 @@ import android.content.res.AssetManager;
 
 import com.github.snowdream.android.util.Log;
 import com.google.gson.Gson;
+import com.softtek.lai.chat.Constant;
 import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.premission.Power;
@@ -71,6 +72,8 @@ public class UserInfoModel {
         token=null;
         //清除token
         SharedPreferenceService.getInstance().put("token", "");
+        SharedPreferenceService.getInstance().put(Constants.USER, "");
+        SharedPreferenceService.getInstance().put(Constants.PDW, "");
         //清除本地用户
         aCache.remove(Constants.USER_ACACHE_KEY);
     }
@@ -84,6 +87,7 @@ public class UserInfoModel {
         setUser(user);
         setToken(user.getToken());
         //存储本地
+        aCache.remove(Constants.USER_ACACHE_KEY);
         aCache.put(Constants.USER_ACACHE_KEY,user);
         SharedPreferenceService.getInstance().put(Constants.TOKEN,token);
 

@@ -47,6 +47,7 @@ public class HistoryHonorFCAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
+        HistoryHonorInfo historyHonorInfo=list.get(position);
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = mInflater.inflate(R.layout.history_honor_fc_item, null);
@@ -57,13 +58,13 @@ public class HistoryHonorFCAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        if(position==0){
+        if(historyHonorInfo.getValue().equals("3")){
             holder.text_sm.setText("复测铜牌奖章");
             holder.img.setImageResource(R.drawable.img_student_honor_tong);
-        }else if(position==1) {
+        }else if(historyHonorInfo.getValue().equals("2")) {
             holder.text_sm.setText("复测银牌奖章");
             holder.img.setImageResource(R.drawable.img_student_honor_yin);
-        }else if(position==2) {
+        }else if(historyHonorInfo.getValue().equals("1")) {
             holder.text_sm.setText("复测金牌奖章");
             holder.img.setImageResource(R.drawable.img_student_honor_jin);
         }

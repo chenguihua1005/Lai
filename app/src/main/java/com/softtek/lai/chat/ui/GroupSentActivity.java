@@ -334,7 +334,7 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
      */
     protected void selectPicFromCamera() {
         if (!EaseCommonUtils.isExitsSdcard()) {
-            Toast.makeText(this, com.easemob.easeui.R.string.sd_card_does_not_exist, 0).show();
+            Toast.makeText(this, com.easemob.easeui.R.string.sd_card_does_not_exist, Toast.LENGTH_SHORT).show();
             return;
         }
 
