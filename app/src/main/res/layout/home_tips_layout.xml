@@ -1,172 +1,189 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#F2F2F2">
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="31dp"
-    android:background="#ffffff"
-    android:gravity="center_vertical">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tips"
-        android:textColor="#333333"
-        android:textSize="13sp"
-        android:layout_marginLeft="10dp"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="查看更多"
-        android:textColor="#333333"
-        android:textSize="13sp"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="10dp"/>
+    android:background="#F2F2F2"
+    android:orientation="vertical">-->
 
-</RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="31dp"
+        android:layout_marginTop="20dp"
+        android:background="#ffffff"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Tips"
+            android:textColor="#333333"
+            android:textSize="13sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:text="查看更多"
+            android:textColor="#333333"
+            android:textSize="13sp" />
+
+    </RelativeLayout>
+
     <FrameLayout
         android:id="@+id/fl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="19dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="19dp"
+        android:background="@drawable/bg2_picture_border">
+
         <ImageView
             android:id="@+id/iv_video_image"
             android:layout_width="match_parent"
-            android:layout_height="211dp"
-            android:scaleType="fitCenter"
+            android:layout_height="190dp"
             android:background="#F2F0F1"
-            android:src="@drawable/default_icon_rect"/>
+            android:scaleType="fitCenter"
+            android:src="@drawable/default_icon_rect" />
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@drawable/play"/>
+            android:src="@drawable/play" />
     </FrameLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="84dp"
+        android:layout_height="100dp"
         android:orientation="horizontal">
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="2dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
             android:background="#ffffff"
             android:gravity="left|center_vertical"
             android:orientation="vertical"
             android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:layout_weight="1"
-            >
+            android:paddingRight="8dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
                 android:gravity="left|center_vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="吸睛小蛮腰+撩人马甲线，秘诀统统告诉你！！！"
-                android:textColor="#333333"
-                android:textSize="12sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="吸睛小蛮腰+撩人马甲线，秘诀统统告诉你！！！"
+                    android:textColor="#333333"
+                    android:textSize="12sp" />
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#f2f2f2"
-                android:layout_marginTop="2dp"/>
+                android:layout_marginTop="2dp"
+                android:background="#f2f2f2" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:paddingTop="4dp"
+                android:orientation="horizontal"
                 android:paddingBottom="4dp"
-                >
+                android:paddingTop="4dp">
+
                 <ImageView
                     android:id="@+id/im_icon_tip"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    />
+                    android:layout_height="wrap_content" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="运动健身"
-                    android:textSize="12sp"
-                    android:textColor="#999999"
                     android:layout_toRightOf="@+id/im_icon_tip"
-                    />
+                    android:text="运动健身"
+                    android:textColor="#999999"
+                    android:textSize="12sp" />
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/action_right"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="10dp"/>
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/action_right" />
             </RelativeLayout>
 
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginTop="8dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
             android:background="#ffffff"
             android:gravity="left|center_vertical"
             android:orientation="vertical"
-            android:layout_marginLeft="2dp"
             android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:layout_weight="1"
-            >
+            android:paddingRight="8dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
-                android:gravity="left|center_vertical"
-                >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="小测试-通过减肥方法看性格"
-                android:textColor="#333333"
-                android:textSize="12sp"/>
-            </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#f2f2f2"
-                android:layout_marginTop="2dp"/>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:paddingTop="4dp"
-                android:paddingBottom="4dp"
-                >
-                <ImageView
-                    android:id="@+id/im_icon_tip2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    />
+                android:gravity="left|center_vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="营养课堂"
-                    android:textSize="12sp"
-                    android:textColor="#999999"
+                    android:text="小测试-通过减肥方法看性格"
+                    android:textColor="#333333"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="2dp"
+                android:background="#f2f2f2" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingBottom="4dp"
+                android:paddingTop="4dp">
+
+                <ImageView
+                    android:id="@+id/im_icon_tip2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/im_icon_tip2"
-                    />
+                    android:text="营养课堂"
+                    android:textColor="#999999"
+                    android:textSize="12sp" />
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/action_right"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="10dp"
-                    />
+                    android:src="@drawable/action_right" />
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+<!--</LinearLayout>-->
+</merge>
