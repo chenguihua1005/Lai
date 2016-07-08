@@ -595,28 +595,29 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         switch (v.getId()) {
             case R.id.fl_right:
             case R.id.iv_email:
-                String userroles = UserInfoModel.getInstance().getUser().getUserrole();
-                if (String.valueOf(Constants.VR).equals(userroles)) {
-                    //提示用户让他登录或者直接进入2个功能的踢馆赛模块
-                    AlertDialog.Builder information_dialog = null;
-                    information_dialog = new AlertDialog.Builder(getContext());
-                    information_dialog.setTitle("您当前是游客身份，请登录后再试").setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent login = new Intent(getContext(), LoginActivity.class);
-                            login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(login);
-                        }
-                    }).setNegativeButton("稍后", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    }).create().show();
-                } else {
-                    startActivity(new Intent(getContext(), MessageActivity.class));
-                }
+//                String userroles = UserInfoModel.getInstance().getUser().getUserrole();
+//                if (String.valueOf(Constants.VR).equals(userroles)) {
+//                    //提示用户让他登录或者直接进入2个功能的踢馆赛模块
+//                    AlertDialog.Builder information_dialog = null;
+//                    information_dialog = new AlertDialog.Builder(getContext());
+//                    information_dialog.setTitle("您当前是游客身份，请登录后再试").setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            Intent login = new Intent(getContext(), LoginActivity.class);
+//                            login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                            login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                            startActivity(login);
+//                        }
+//                    }).setNegativeButton("稍后", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            dialog.dismiss();
+//                        }
+//                    }).create().show();
+//                } else {
+//                    startActivity(new Intent(getContext(), MessageActivity.class));
+//                }
+                startActivity(new Intent(getContext(), BodyGameSPActivity.class));
                 break;
         }
     }
