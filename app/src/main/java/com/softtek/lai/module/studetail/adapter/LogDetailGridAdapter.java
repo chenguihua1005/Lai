@@ -8,7 +8,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.softtek.lai.R;
+import com.softtek.lai.utils.DisplayUtil;
 import com.squareup.picasso.Picasso;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
@@ -54,10 +57,13 @@ public class LogDetailGridAdapter extends BaseAdapter{
         }else {
             holder= (LogDetailGrid) convertView.getTag();
         }
-        try {
-            Picasso.with(context).load(AddressManager.get("photoHost")+images.get(position)).fit().placeholder(R.drawable.default_icon_square)
+        int px= DisplayUtil.dip2px(context,100);
+        if(StringUtils.isNotEmpty(images.get(position))){
+            Picasso.with(context).load(AddressManager.get("photoHost")+images.get(position)).resize(px,px).centerCrop().placeholder(R.drawable.default_icon_square)
                     .error(R.drawable.default_icon_square).into(holder.iv_image);
-        }catch (Exception e){}
+        }else{
+            Picasso.with(context).load(R.drawable.default_icon_square).into(holder.iv_image);
+        }
         return convertView;
     }
 
