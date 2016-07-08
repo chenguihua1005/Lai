@@ -73,8 +73,8 @@ public class MyPhotoListAdapter extends BaseAdapter {
                 viewHolder.im_single.setLayoutParams(params);
                 viewHolder.re_mulpic.setVisibility(View.GONE);
                 viewHolder.ll_singlepic.setVisibility(View.VISIBLE);
-                viewHolder.tv_singleweight1.setText(myPhotoListModel.getPhotoList().get(0).getWeight());
-                viewHolder.tv_singledate1.setText(getDate(myPhotoListModel.getPhotoList().get(0).getCreateDate(), 1));
+                viewHolder.tv_singleweight1.setText(myPhotoListModel.getPhotoList().get(0).getWeight()+"斤");
+                viewHolder.tv_singledate1.setText(getDate(myPhotoListModel.getPhotoList().get(0).getCreateDate(), 0));
                 if (!TextUtils.isEmpty(myPhotoListModel.getPhotoList().get(0).getImgUrl())) {
                     Picasso.with(context).load(path + myPhotoListModel.getPhotoList().get(0).getImgUrl()).fit().error(R.drawable.default_icon_square).into(viewHolder.im_single);
                 } else {
@@ -93,9 +93,9 @@ public class MyPhotoListAdapter extends BaseAdapter {
                 } else {
                     Picasso.with(context).load(R.drawable.default_icon_square).into(viewHolder.im_pic2);
                 }
-                viewHolder.tv_photoweight1.setText(myPhotoListModel.getPhotoList().get(position).getWeight());
-                viewHolder.tv_photoweight2.setText(myPhotoListModel.getPhotoList().get(position).getWeight());
-                viewHolder.tv_photodate1.setText(getDate(myPhotoListModel.getPhotoList().get(0).getCreateDate(), 1));
+                viewHolder.tv_photoweight1.setText(myPhotoListModel.getPhotoList().get(position).getWeight()+"斤");
+                viewHolder.tv_photoweight2.setText(myPhotoListModel.getPhotoList().get(position).getWeight()+"斤");
+                viewHolder.tv_photodate1.setText(getDate(myPhotoListModel.getPhotoList().get(0).getCreateDate(), 0));
                 viewHolder.tv_photodate2.setText(getDate(myPhotoListModel.getPhotoList().get(1).getCreateDate(), 0));
                 viewHolder.im_pic3.setVisibility(View.GONE);
                 viewHolder.im_pic4.setVisibility(View.GONE);
@@ -115,10 +115,10 @@ public class MyPhotoListAdapter extends BaseAdapter {
                 viewHolder.re_text10.setVisibility(View.GONE);
                 break;
             case 3:
-                viewHolder.tv_photoweight1.setText(myPhotoListModel.getPhotoList().get(0).getWeight());
-                viewHolder.tv_photoweight2.setText(myPhotoListModel.getPhotoList().get(1).getWeight());
-                viewHolder.tv_photoweight3.setText(myPhotoListModel.getPhotoList().get(2).getWeight());
-                viewHolder.tv_photodate1.setText(getDate(myPhotoListModel.getPhotoList().get(0).getCreateDate(), 1));
+                viewHolder.tv_photoweight1.setText(myPhotoListModel.getPhotoList().get(0).getWeight()+"斤");
+                viewHolder.tv_photoweight2.setText(myPhotoListModel.getPhotoList().get(1).getWeight()+"斤");
+                viewHolder.tv_photoweight3.setText(myPhotoListModel.getPhotoList().get(2).getWeight()+"斤");
+                viewHolder.tv_photodate1.setText(getDate(myPhotoListModel.getPhotoList().get(0).getCreateDate(), 0));
                 viewHolder.tv_photodate2.setText(getDate(myPhotoListModel.getPhotoList().get(1).getCreateDate(), 0));
                 viewHolder.tv_photodate3.setText(getDate(myPhotoListModel.getPhotoList().get(2).getCreateDate(), 0));
                 if (!TextUtils.isEmpty(myPhotoListModel.getPhotoList().get(0).getImgUrl())) {
@@ -172,14 +172,14 @@ public class MyPhotoListAdapter extends BaseAdapter {
                 } else {
                     Picasso.with(context).load(R.drawable.default_icon_square).into(viewHolder.im_pic4);
                 }
-                viewHolder.tv_photoweight1.setText(myPhotoListModel.getPhotoList().get(0).getWeight());
-                viewHolder.tv_photoweight2.setText(myPhotoListModel.getPhotoList().get(1).getWeight());
-                viewHolder.tv_photoweight3.setText(myPhotoListModel.getPhotoList().get(2).getWeight());
-                viewHolder.tv_photoweight4.setText(myPhotoListModel.getPhotoList().get(3).getWeight());
-                viewHolder.tv_photodate1.setText(getDate(myPhotoListModel.getPhotoList().get(0).getCreateDate(), 1));
+                viewHolder.tv_photoweight1.setText(myPhotoListModel.getPhotoList().get(0).getWeight()+"斤");
+                viewHolder.tv_photoweight2.setText(myPhotoListModel.getPhotoList().get(1).getWeight()+"斤");
+                viewHolder.tv_photoweight3.setText(myPhotoListModel.getPhotoList().get(2).getWeight()+"斤");
+                viewHolder.tv_photoweight4.setText(myPhotoListModel.getPhotoList().get(3).getWeight()+"斤");
+                viewHolder.tv_photodate1.setText(getDate(myPhotoListModel.getPhotoList().get(0).getCreateDate(), 0));
                 viewHolder.tv_photodate2.setText(getDate(myPhotoListModel.getPhotoList().get(1).getCreateDate(), 0));
                 viewHolder.tv_photodate3.setText(getDate(myPhotoListModel.getPhotoList().get(2).getCreateDate(), 0));
-                viewHolder.tv_photodate4.setText(getDate(myPhotoListModel.getPhotoList().get(3).getCreateDate(), 1));
+                viewHolder.tv_photodate4.setText(getDate(myPhotoListModel.getPhotoList().get(3).getCreateDate(), 0));
                 viewHolder.im_pic5.setVisibility(View.GONE);
                 viewHolder.im_pic6.setVisibility(View.GONE);
                 viewHolder.im_pic7.setVisibility(View.GONE);
@@ -219,16 +219,16 @@ public class MyPhotoListAdapter extends BaseAdapter {
                 } else {
                     Picasso.with(context).load(R.drawable.default_icon_square).into(viewHolder.im_pic5);
                 }
-                viewHolder.tv_photoweight1.setText(myPhotoListModel.getPhotoList().get(0).getWeight());
-                viewHolder.tv_photoweight2.setText(myPhotoListModel.getPhotoList().get(1).getWeight());
-                viewHolder.tv_photoweight3.setText(myPhotoListModel.getPhotoList().get(2).getWeight());
-                viewHolder.tv_photoweight4.setText(myPhotoListModel.getPhotoList().get(3).getWeight());
-                viewHolder.tv_photoweight5.setText(myPhotoListModel.getPhotoList().get(4).getWeight());
-                viewHolder.tv_photodate1.setText(getDate(myPhotoListModel.getPhotoList().get(0).getCreateDate(), 1));
+                viewHolder.tv_photoweight1.setText(myPhotoListModel.getPhotoList().get(0).getWeight()+"斤");
+                viewHolder.tv_photoweight2.setText(myPhotoListModel.getPhotoList().get(1).getWeight()+"斤");
+                viewHolder.tv_photoweight3.setText(myPhotoListModel.getPhotoList().get(2).getWeight()+"斤");
+                viewHolder.tv_photoweight4.setText(myPhotoListModel.getPhotoList().get(3).getWeight()+"斤");
+                viewHolder.tv_photoweight5.setText(myPhotoListModel.getPhotoList().get(4).getWeight()+"斤");
+                viewHolder.tv_photodate1.setText(getDate(myPhotoListModel.getPhotoList().get(0).getCreateDate(), 0));
                 viewHolder.tv_photodate2.setText(getDate(myPhotoListModel.getPhotoList().get(1).getCreateDate(), 0));
                 viewHolder.tv_photodate3.setText(getDate(myPhotoListModel.getPhotoList().get(2).getCreateDate(), 0));
-                viewHolder.tv_photodate4.setText(getDate(myPhotoListModel.getPhotoList().get(3).getCreateDate(), 1));
-                viewHolder.tv_photodate5.setText(getDate(myPhotoListModel.getPhotoList().get(4).getCreateDate(), 1));
+                viewHolder.tv_photodate4.setText(getDate(myPhotoListModel.getPhotoList().get(3).getCreateDate(), 0));
+                viewHolder.tv_photodate5.setText(getDate(myPhotoListModel.getPhotoList().get(4).getCreateDate(), 0));
                 viewHolder.im_pic6.setVisibility(View.GONE);
                 viewHolder.im_pic7.setVisibility(View.GONE);
                 viewHolder.im_pic8.setVisibility(View.GONE);
@@ -271,17 +271,17 @@ public class MyPhotoListAdapter extends BaseAdapter {
                 } else {
                     Picasso.with(context).load(R.drawable.default_icon_square).into(viewHolder.im_pic6);
                 }
-                viewHolder.tv_photoweight1.setText(myPhotoListModel.getPhotoList().get(0).getWeight());
-                viewHolder.tv_photoweight2.setText(myPhotoListModel.getPhotoList().get(1).getWeight());
-                viewHolder.tv_photoweight3.setText(myPhotoListModel.getPhotoList().get(2).getWeight());
-                viewHolder.tv_photoweight4.setText(myPhotoListModel.getPhotoList().get(3).getWeight());
-                viewHolder.tv_photoweight5.setText(myPhotoListModel.getPhotoList().get(4).getWeight());
-                viewHolder.tv_photoweight6.setText(myPhotoListModel.getPhotoList().get(5).getWeight());
-                viewHolder.tv_photodate1.setText(getDate(myPhotoListModel.getPhotoList().get(0).getCreateDate(), 1));
+                viewHolder.tv_photoweight1.setText(myPhotoListModel.getPhotoList().get(0).getWeight()+"斤");
+                viewHolder.tv_photoweight2.setText(myPhotoListModel.getPhotoList().get(1).getWeight()+"斤");
+                viewHolder.tv_photoweight3.setText(myPhotoListModel.getPhotoList().get(2).getWeight()+"斤");
+                viewHolder.tv_photoweight4.setText(myPhotoListModel.getPhotoList().get(3).getWeight()+"斤");
+                viewHolder.tv_photoweight5.setText(myPhotoListModel.getPhotoList().get(4).getWeight()+"斤");
+                viewHolder.tv_photoweight6.setText(myPhotoListModel.getPhotoList().get(5).getWeight()+"斤");
+                viewHolder.tv_photodate1.setText(getDate(myPhotoListModel.getPhotoList().get(0).getCreateDate(), 0));
                 viewHolder.tv_photodate2.setText(getDate(myPhotoListModel.getPhotoList().get(1).getCreateDate(), 0));
                 viewHolder.tv_photodate3.setText(getDate(myPhotoListModel.getPhotoList().get(2).getCreateDate(), 0));
-                viewHolder.tv_photodate4.setText(getDate(myPhotoListModel.getPhotoList().get(3).getCreateDate(), 1));
-                viewHolder.tv_photodate5.setText(getDate(myPhotoListModel.getPhotoList().get(4).getCreateDate(), 1));
+                viewHolder.tv_photodate4.setText(getDate(myPhotoListModel.getPhotoList().get(3).getCreateDate(), 0));
+                viewHolder.tv_photodate5.setText(getDate(myPhotoListModel.getPhotoList().get(4).getCreateDate(), 0));
                 viewHolder.tv_photodate6.setText(getDate(myPhotoListModel.getPhotoList().get(5).getCreateDate(), 0));
                 viewHolder.im_pic7.setVisibility(View.GONE);
                 viewHolder.im_pic8.setVisibility(View.GONE);
@@ -328,18 +328,18 @@ public class MyPhotoListAdapter extends BaseAdapter {
                 } else {
                     Picasso.with(context).load(R.drawable.default_icon_square).into(viewHolder.im_pic7);
                 }
-                viewHolder.tv_photoweight1.setText(myPhotoListModel.getPhotoList().get(0).getWeight());
-                viewHolder.tv_photoweight2.setText(myPhotoListModel.getPhotoList().get(1).getWeight());
-                viewHolder.tv_photoweight3.setText(myPhotoListModel.getPhotoList().get(2).getWeight());
-                viewHolder.tv_photoweight4.setText(myPhotoListModel.getPhotoList().get(3).getWeight());
-                viewHolder.tv_photoweight5.setText(myPhotoListModel.getPhotoList().get(4).getWeight());
-                viewHolder.tv_photoweight6.setText(myPhotoListModel.getPhotoList().get(5).getWeight());
-                viewHolder.tv_photoweight7.setText(myPhotoListModel.getPhotoList().get(6).getWeight());
-                viewHolder.tv_photodate1.setText(getDate(myPhotoListModel.getPhotoList().get(0).getCreateDate(), 1));
+                viewHolder.tv_photoweight1.setText(myPhotoListModel.getPhotoList().get(0).getWeight()+"斤");
+                viewHolder.tv_photoweight2.setText(myPhotoListModel.getPhotoList().get(1).getWeight()+"斤");
+                viewHolder.tv_photoweight3.setText(myPhotoListModel.getPhotoList().get(2).getWeight()+"斤");
+                viewHolder.tv_photoweight4.setText(myPhotoListModel.getPhotoList().get(3).getWeight()+"斤");
+                viewHolder.tv_photoweight5.setText(myPhotoListModel.getPhotoList().get(4).getWeight()+"斤");
+                viewHolder.tv_photoweight6.setText(myPhotoListModel.getPhotoList().get(5).getWeight()+"斤");
+                viewHolder.tv_photoweight7.setText(myPhotoListModel.getPhotoList().get(6).getWeight()+"斤");
+                viewHolder.tv_photodate1.setText(getDate(myPhotoListModel.getPhotoList().get(0).getCreateDate(), 0));
                 viewHolder.tv_photodate2.setText(getDate(myPhotoListModel.getPhotoList().get(1).getCreateDate(), 0));
                 viewHolder.tv_photodate3.setText(getDate(myPhotoListModel.getPhotoList().get(2).getCreateDate(), 0));
-                viewHolder.tv_photodate4.setText(getDate(myPhotoListModel.getPhotoList().get(3).getCreateDate(), 1));
-                viewHolder.tv_photodate5.setText(getDate(myPhotoListModel.getPhotoList().get(4).getCreateDate(), 1));
+                viewHolder.tv_photodate4.setText(getDate(myPhotoListModel.getPhotoList().get(3).getCreateDate(), 0));
+                viewHolder.tv_photodate5.setText(getDate(myPhotoListModel.getPhotoList().get(4).getCreateDate(), 0));
                 viewHolder.tv_photodate6.setText(getDate(myPhotoListModel.getPhotoList().get(5).getCreateDate(), 0));
                 viewHolder.tv_photodate7.setText(getDate(myPhotoListModel.getPhotoList().get(6).getCreateDate(), 0));
                 viewHolder.im_pic8.setVisibility(View.GONE);
@@ -390,22 +390,22 @@ public class MyPhotoListAdapter extends BaseAdapter {
                 } else {
                     Picasso.with(context).load(R.drawable.default_icon_square).into(viewHolder.im_pic8);
                 }
-                viewHolder.tv_photoweight1.setText(myPhotoListModel.getPhotoList().get(0).getWeight());
-                viewHolder.tv_photoweight2.setText(myPhotoListModel.getPhotoList().get(1).getWeight());
-                viewHolder.tv_photoweight3.setText(myPhotoListModel.getPhotoList().get(2).getWeight());
-                viewHolder.tv_photoweight4.setText(myPhotoListModel.getPhotoList().get(3).getWeight());
-                viewHolder.tv_photoweight5.setText(myPhotoListModel.getPhotoList().get(4).getWeight());
-                viewHolder.tv_photoweight6.setText(myPhotoListModel.getPhotoList().get(5).getWeight());
-                viewHolder.tv_photoweight7.setText(myPhotoListModel.getPhotoList().get(6).getWeight());
-                viewHolder.tv_photoweight8.setText(myPhotoListModel.getPhotoList().get(7).getWeight());
-                viewHolder.tv_photodate1.setText(getDate(myPhotoListModel.getPhotoList().get(0).getCreateDate(), 1));
+                viewHolder.tv_photoweight1.setText(myPhotoListModel.getPhotoList().get(0).getWeight()+"斤");
+                viewHolder.tv_photoweight2.setText(myPhotoListModel.getPhotoList().get(1).getWeight()+"斤");
+                viewHolder.tv_photoweight3.setText(myPhotoListModel.getPhotoList().get(2).getWeight()+"斤");
+                viewHolder.tv_photoweight4.setText(myPhotoListModel.getPhotoList().get(3).getWeight()+"斤");
+                viewHolder.tv_photoweight5.setText(myPhotoListModel.getPhotoList().get(4).getWeight()+"斤");
+                viewHolder.tv_photoweight6.setText(myPhotoListModel.getPhotoList().get(5).getWeight()+"斤");
+                viewHolder.tv_photoweight7.setText(myPhotoListModel.getPhotoList().get(6).getWeight()+"斤");
+                viewHolder.tv_photoweight8.setText(myPhotoListModel.getPhotoList().get(7).getWeight()+"斤");
+                viewHolder.tv_photodate1.setText(getDate(myPhotoListModel.getPhotoList().get(0).getCreateDate(), 0));
                 viewHolder.tv_photodate2.setText(getDate(myPhotoListModel.getPhotoList().get(1).getCreateDate(), 0));
                 viewHolder.tv_photodate3.setText(getDate(myPhotoListModel.getPhotoList().get(2).getCreateDate(), 0));
-                viewHolder.tv_photodate4.setText(getDate(myPhotoListModel.getPhotoList().get(3).getCreateDate(), 1));
-                viewHolder.tv_photodate5.setText(getDate(myPhotoListModel.getPhotoList().get(4).getCreateDate(), 1));
+                viewHolder.tv_photodate4.setText(getDate(myPhotoListModel.getPhotoList().get(3).getCreateDate(), 0));
+                viewHolder.tv_photodate5.setText(getDate(myPhotoListModel.getPhotoList().get(4).getCreateDate(), 0));
                 viewHolder.tv_photodate6.setText(getDate(myPhotoListModel.getPhotoList().get(5).getCreateDate(), 0));
                 viewHolder.tv_photodate7.setText(getDate(myPhotoListModel.getPhotoList().get(6).getCreateDate(), 0));
-                viewHolder.tv_photodate8.setText(getDate(myPhotoListModel.getPhotoList().get(7).getCreateDate(), 1));
+                viewHolder.tv_photodate8.setText(getDate(myPhotoListModel.getPhotoList().get(7).getCreateDate(), 0));
                 viewHolder.im_pic9.setVisibility(View.GONE);
                 viewHolder.im_pic10.setVisibility(View.GONE);
                 viewHolder.re_text9.setVisibility(View.GONE);
@@ -457,24 +457,24 @@ public class MyPhotoListAdapter extends BaseAdapter {
                 } else {
                     Picasso.with(context).load(R.drawable.default_icon_square).into(viewHolder.im_pic9);
                 }
-                viewHolder.tv_photoweight1.setText(myPhotoListModel.getPhotoList().get(0).getWeight());
-                viewHolder.tv_photoweight2.setText(myPhotoListModel.getPhotoList().get(1).getWeight());
-                viewHolder.tv_photoweight3.setText(myPhotoListModel.getPhotoList().get(2).getWeight());
-                viewHolder.tv_photoweight4.setText(myPhotoListModel.getPhotoList().get(3).getWeight());
-                viewHolder.tv_photoweight5.setText(myPhotoListModel.getPhotoList().get(4).getWeight());
-                viewHolder.tv_photoweight6.setText(myPhotoListModel.getPhotoList().get(5).getWeight());
-                viewHolder.tv_photoweight7.setText(myPhotoListModel.getPhotoList().get(6).getWeight());
-                viewHolder.tv_photoweight8.setText(myPhotoListModel.getPhotoList().get(7).getWeight());
-                viewHolder.tv_photoweight9.setText(myPhotoListModel.getPhotoList().get(8).getWeight());
-                viewHolder.tv_photodate1.setText(getDate(myPhotoListModel.getPhotoList().get(0).getCreateDate(), 1));
+                viewHolder.tv_photoweight1.setText(myPhotoListModel.getPhotoList().get(0).getWeight()+"斤");
+                viewHolder.tv_photoweight2.setText(myPhotoListModel.getPhotoList().get(1).getWeight()+"斤");
+                viewHolder.tv_photoweight3.setText(myPhotoListModel.getPhotoList().get(2).getWeight()+"斤");
+                viewHolder.tv_photoweight4.setText(myPhotoListModel.getPhotoList().get(3).getWeight()+"斤");
+                viewHolder.tv_photoweight5.setText(myPhotoListModel.getPhotoList().get(4).getWeight()+"斤");
+                viewHolder.tv_photoweight6.setText(myPhotoListModel.getPhotoList().get(5).getWeight()+"斤");
+                viewHolder.tv_photoweight7.setText(myPhotoListModel.getPhotoList().get(6).getWeight()+"斤");
+                viewHolder.tv_photoweight8.setText(myPhotoListModel.getPhotoList().get(7).getWeight()+"斤");
+                viewHolder.tv_photoweight9.setText(myPhotoListModel.getPhotoList().get(8).getWeight()+"斤");
+                viewHolder.tv_photodate1.setText(getDate(myPhotoListModel.getPhotoList().get(0).getCreateDate(), 0));
                 viewHolder.tv_photodate2.setText(getDate(myPhotoListModel.getPhotoList().get(1).getCreateDate(), 0));
                 viewHolder.tv_photodate3.setText(getDate(myPhotoListModel.getPhotoList().get(2).getCreateDate(), 0));
-                viewHolder.tv_photodate4.setText(getDate(myPhotoListModel.getPhotoList().get(3).getCreateDate(), 1));
-                viewHolder.tv_photodate5.setText(getDate(myPhotoListModel.getPhotoList().get(4).getCreateDate(), 1));
+                viewHolder.tv_photodate4.setText(getDate(myPhotoListModel.getPhotoList().get(3).getCreateDate(), 0));
+                viewHolder.tv_photodate5.setText(getDate(myPhotoListModel.getPhotoList().get(4).getCreateDate(), 0));
                 viewHolder.tv_photodate6.setText(getDate(myPhotoListModel.getPhotoList().get(5).getCreateDate(), 0));
                 viewHolder.tv_photodate7.setText(getDate(myPhotoListModel.getPhotoList().get(6).getCreateDate(), 0));
-                viewHolder.tv_photodate8.setText(getDate(myPhotoListModel.getPhotoList().get(7).getCreateDate(), 1));
-                viewHolder.tv_photodate9.setText(getDate(myPhotoListModel.getPhotoList().get(8).getCreateDate(), 1));
+                viewHolder.tv_photodate8.setText(getDate(myPhotoListModel.getPhotoList().get(7).getCreateDate(), 0));
+                viewHolder.tv_photodate9.setText(getDate(myPhotoListModel.getPhotoList().get(8).getCreateDate(), 0));
                 viewHolder.im_pic10.setVisibility(View.GONE);
                 viewHolder.re_text10.setVisibility(View.GONE);
                 break;
@@ -529,26 +529,26 @@ public class MyPhotoListAdapter extends BaseAdapter {
                 } else {
                     Picasso.with(context).load(R.drawable.default_icon_square).into(viewHolder.im_pic10);
                 }
-                viewHolder.tv_photoweight1.setText(myPhotoListModel.getPhotoList().get(0).getWeight());
-                viewHolder.tv_photoweight2.setText(myPhotoListModel.getPhotoList().get(1).getWeight());
-                viewHolder.tv_photoweight3.setText(myPhotoListModel.getPhotoList().get(2).getWeight());
-                viewHolder.tv_photoweight4.setText(myPhotoListModel.getPhotoList().get(3).getWeight());
-                viewHolder.tv_photoweight5.setText(myPhotoListModel.getPhotoList().get(4).getWeight());
-                viewHolder.tv_photoweight6.setText(myPhotoListModel.getPhotoList().get(5).getWeight());
-                viewHolder.tv_photoweight7.setText(myPhotoListModel.getPhotoList().get(6).getWeight());
-                viewHolder.tv_photoweight8.setText(myPhotoListModel.getPhotoList().get(7).getWeight());
-                viewHolder.tv_photoweight9.setText(myPhotoListModel.getPhotoList().get(8).getWeight());
-                viewHolder.tv_photoweight10.setText(myPhotoListModel.getPhotoList().get(9).getWeight());
-                viewHolder.tv_photodate1.setText(getDate(myPhotoListModel.getPhotoList().get(0).getCreateDate(), 1));
+                viewHolder.tv_photoweight1.setText(myPhotoListModel.getPhotoList().get(0).getWeight()+"斤");
+                viewHolder.tv_photoweight2.setText(myPhotoListModel.getPhotoList().get(1).getWeight()+"斤");
+                viewHolder.tv_photoweight3.setText(myPhotoListModel.getPhotoList().get(2).getWeight()+"斤");
+                viewHolder.tv_photoweight4.setText(myPhotoListModel.getPhotoList().get(3).getWeight()+"斤");
+                viewHolder.tv_photoweight5.setText(myPhotoListModel.getPhotoList().get(4).getWeight()+"斤");
+                viewHolder.tv_photoweight6.setText(myPhotoListModel.getPhotoList().get(5).getWeight()+"斤");
+                viewHolder.tv_photoweight7.setText(myPhotoListModel.getPhotoList().get(6).getWeight()+"斤");
+                viewHolder.tv_photoweight8.setText(myPhotoListModel.getPhotoList().get(7).getWeight()+"斤");
+                viewHolder.tv_photoweight9.setText(myPhotoListModel.getPhotoList().get(8).getWeight()+"斤");
+                viewHolder.tv_photoweight10.setText(myPhotoListModel.getPhotoList().get(9).getWeight()+"斤");
+                viewHolder.tv_photodate1.setText(getDate(myPhotoListModel.getPhotoList().get(0).getCreateDate(), 0));
                 viewHolder.tv_photodate2.setText(getDate(myPhotoListModel.getPhotoList().get(1).getCreateDate(), 0));
                 viewHolder.tv_photodate3.setText(getDate(myPhotoListModel.getPhotoList().get(2).getCreateDate(), 0));
-                viewHolder.tv_photodate4.setText(getDate(myPhotoListModel.getPhotoList().get(3).getCreateDate(), 1));
-                viewHolder.tv_photodate5.setText(getDate(myPhotoListModel.getPhotoList().get(4).getCreateDate(), 1));
+                viewHolder.tv_photodate4.setText(getDate(myPhotoListModel.getPhotoList().get(3).getCreateDate(), 0));
+                viewHolder.tv_photodate5.setText(getDate(myPhotoListModel.getPhotoList().get(4).getCreateDate(), 0));
                 viewHolder.tv_photodate6.setText(getDate(myPhotoListModel.getPhotoList().get(5).getCreateDate(), 0));
                 viewHolder.tv_photodate7.setText(getDate(myPhotoListModel.getPhotoList().get(6).getCreateDate(), 0));
-                viewHolder.tv_photodate8.setText(getDate(myPhotoListModel.getPhotoList().get(7).getCreateDate(), 1));
-                viewHolder.tv_photodate9.setText(getDate(myPhotoListModel.getPhotoList().get(8).getCreateDate(), 1));
-                viewHolder.tv_photodate10.setText(getDate(myPhotoListModel.getPhotoList().get(9).getCreateDate(), 1));
+                viewHolder.tv_photodate8.setText(getDate(myPhotoListModel.getPhotoList().get(7).getCreateDate(), 0));
+                viewHolder.tv_photodate9.setText(getDate(myPhotoListModel.getPhotoList().get(8).getCreateDate(), 0));
+                viewHolder.tv_photodate10.setText(getDate(myPhotoListModel.getPhotoList().get(9).getCreateDate(), 0));
                 break;
         }
         viewHolder.im_pic1.setOnClickListener(new View.OnClickListener() {
