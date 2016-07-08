@@ -506,7 +506,6 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
 
     /**
      * 根据角色进入相应的体管赛页面
-     *
      * @param role
      * @return
      */

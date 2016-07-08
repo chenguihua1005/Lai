@@ -2,7 +2,9 @@ package com.softtek.lai.module.pastreview.view;
 
 import android.content.Intent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -19,6 +21,7 @@ import com.softtek.lai.module.pastreview.model.PastClass;
 import com.softtek.lai.module.pastreview.model.Photo;
 import com.softtek.lai.module.pastreview.presenter.PastReviewManager;
 import com.softtek.lai.utils.DateUtil;
+import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.StringUtil;
 import com.squareup.picasso.Picasso;
 
@@ -185,7 +188,6 @@ public class HistoryHomeActivity extends BaseActivity implements View.OnClickLis
             setText(tv_loss_before, StringUtil.getFloatValue(baseData.getBeforeWeight()) + "斤");
             setText(tv_loss_after, StringUtil.getFloatValue(baseData.getAfterWeight()) + "斤");
             if (iv_loss_after != null || iv_loss_before != null) {
-                Log.i("图片地址：" + baseData.getBeforeImage() + ";2:" + baseData.getAfterImage());
                 if (StringUtils.isNotEmpty(baseData.getBeforeImage())) {
                     Picasso.with(this).load(basePath + baseData.getBeforeImage()).fit().placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square)
                             .into(iv_loss_before);
@@ -211,7 +213,6 @@ public class HistoryHomeActivity extends BaseActivity implements View.OnClickLis
             if (cb_zan != null) {
                 cb_zan.setText(story.getPriase());
             }
-            Log.i("减重故事:" + story.getImgUrl());
             if (StringUtils.isNotEmpty(story.getImgUrl())) {
                 Picasso.with(this).load(basePath + story.getImgUrl()).fit().placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square)
                         .into(iv_image);
@@ -238,6 +239,7 @@ public class HistoryHomeActivity extends BaseActivity implements View.OnClickLis
         }
 
         List<Photo> photos = pastClass.getImgBook();
+        int px= (DisplayUtil.getMobileWidth(this)-16)/3;
         if (photos != null && !photos.isEmpty()) {
             for (int i = 0; i < photos.size(); i++) {
                 String url = basePath + photos.get(i).getImgUrl();
@@ -246,6 +248,10 @@ public class HistoryHomeActivity extends BaseActivity implements View.OnClickLis
                     case 0:
                         if (iv_first != null) {
                             iv_first.setVisibility(View.VISIBLE);
+                            ViewGroup.LayoutParams params= iv_first.getLayoutParams();
+                            params.height=px;
+                            params.width=px;
+                            iv_first.setLayoutParams(params);
                             Picasso.with(this).load(url).fit().placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square)
                                     .into(iv_first);
                         }
@@ -253,6 +259,10 @@ public class HistoryHomeActivity extends BaseActivity implements View.OnClickLis
                     case 1:
                         if (iv_second != null) {
                             iv_second.setVisibility(View.VISIBLE);
+                            ViewGroup.LayoutParams params= iv_second.getLayoutParams();
+                            params.height=px;
+                            params.width=px;
+                            iv_second.setLayoutParams(params);
                             Picasso.with(this).load(url).fit().placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square)
                                     .into(iv_second);
                         }
@@ -260,6 +270,10 @@ public class HistoryHomeActivity extends BaseActivity implements View.OnClickLis
                     case 2:
                         if (iv_third != null) {
                             iv_third.setVisibility(View.VISIBLE);
+                            ViewGroup.LayoutParams params= iv_third.getLayoutParams();
+                            params.height=px;
+                            params.width=px;
+                            iv_third.setLayoutParams(params);
                             Picasso.with(this).load(url).fit().placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square)
                                     .into(iv_third);
                         }
