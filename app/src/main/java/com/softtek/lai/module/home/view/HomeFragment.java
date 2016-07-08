@@ -581,9 +581,9 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
             startActivity(intent);
         } else if (role == Constants.SP) {
             //进入踢馆赛顾问版
-            Intent intent = new Intent(getContext(), PersonalDataActivity.class);
+//            Intent intent = new Intent(getContext(), PersonalDataActivity.class);
 //            Intent intent = new Intent(getContext(), CounselorActivity.class);
-//            Intent intent = new Intent(getContext(), BodyGameSPActivity.class);
+            Intent intent = new Intent(getContext(), BodyGameSPActivity.class);
             startActivity(intent);
 
         }
