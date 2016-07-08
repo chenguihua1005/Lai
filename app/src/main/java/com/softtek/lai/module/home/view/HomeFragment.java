@@ -289,31 +289,31 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         } else {
             messagePresenter.getMessageRead(img_red);
         }
-        if (EMChat.getInstance().isLoggedIn()) {
-            int unreadNum = EMChatManager.getInstance().getUnreadMsgsCount();
-            System.out.println("unreadNum:" + unreadNum);
-            modelAdapter.update(unreadNum);
-        }
-        String hasEmchat = model.getHasEmchat();
-        System.out.println("hasEmchat:" + hasEmchat);
-        if ("1".equals(hasEmchat)) {
-            timer = new Timer();
-            TimerTask task = new TimerTask() {
-
-                @Override
-                public void run() {
-                    // 需要做的事:发送消息
-                    if (!EMChat.getInstance().isLoggedIn()) {
-                        loginChat(progressDialog, model.getHXAccountId());
-                    } else {
-                        if (timer != null) {
-                            timer.cancel();
-                        }
-                    }
-                }
-            };
-            timer.schedule(task, 0, 10000);
-        }
+//        if (EMChat.getInstance().isLoggedIn()) {
+//            int unreadNum = EMChatManager.getInstance().getUnreadMsgsCount();
+//            System.out.println("unreadNum:" + unreadNum);
+//            modelAdapter.update(unreadNum);
+//        }
+//        String hasEmchat = model.getHasEmchat();
+//        System.out.println("hasEmchat:" + hasEmchat);
+//        if ("1".equals(hasEmchat)) {
+//            timer = new Timer();
+//            TimerTask task = new TimerTask() {
+//
+//                @Override
+//                public void run() {
+//                    // 需要做的事:发送消息
+//                    if (!EMChat.getInstance().isLoggedIn()) {
+//                        loginChat(progressDialog, model.getHXAccountId());
+//                    } else {
+//                        if (timer != null) {
+//                            timer.cancel();
+//                        }
+//                    }
+//                }
+//            };
+//            timer.schedule(task, 0, 10000);
+//        }
 
     }
 
@@ -421,27 +421,28 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                     }
                     break;
                 case Constants.CHAT:
-                    boolean isLogin = EMChat.getInstance().isLoggedIn();
-                    if (isLogin) {
-                        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-                        ChatUserModel chatUserModel = new ChatUserModel();
-                        chatUserModel.setUserName(model.getNickname());
-                        chatUserModel.setUserPhone(path + model.getPhoto());
-                        chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
-                        ChatUserInfoModel.getInstance().setUser(chatUserModel);
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                EMChatManager.getInstance().updateCurrentUserNick(model.getNickname());
-                                EMChatManager.getInstance().loadAllConversations();
-                            }
-                        }).start();
-                        // 进入主页面
-                        Intent intent = new Intent(getActivity(), ConversationListActivity.class);
-                        startActivity(intent);
-                    } else {
-                        loginPresenter.getEMChatAccount(progressDialog);
-                    }
+                    new AlertDialog.Builder(getContext()).setMessage("功能开发中敬请期待").create().show();
+//                    boolean isLogin = EMChat.getInstance().isLoggedIn();
+//                    if (isLogin) {
+//                        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+//                        ChatUserModel chatUserModel = new ChatUserModel();
+//                        chatUserModel.setUserName(model.getNickname());
+//                        chatUserModel.setUserPhone(path + model.getPhoto());
+//                        chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
+//                        ChatUserInfoModel.getInstance().setUser(chatUserModel);
+//                        new Thread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                EMChatManager.getInstance().updateCurrentUserNick(model.getNickname());
+//                                EMChatManager.getInstance().loadAllConversations();
+//                            }
+//                        }).start();
+//                        // 进入主页面
+//                        Intent intent = new Intent(getActivity(), ConversationListActivity.class);
+//                        startActivity(intent);
+//                    } else {
+//                        loginPresenter.getEMChatAccount(progressDialog);
+//                    }
                     break;
                 case Constants.LAI_EXCLE:
                 case Constants.LAI_SHOP:
@@ -594,28 +595,29 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         switch (v.getId()) {
             case R.id.fl_right:
             case R.id.iv_email:
-                String userroles = UserInfoModel.getInstance().getUser().getUserrole();
-                if (String.valueOf(Constants.VR).equals(userroles)) {
-                    //提示用户让他登录或者直接进入2个功能的踢馆赛模块
-                    AlertDialog.Builder information_dialog = null;
-                    information_dialog = new AlertDialog.Builder(getContext());
-                    information_dialog.setTitle("您当前是游客身份，请登录后再试").setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent login = new Intent(getContext(), LoginActivity.class);
-                            login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(login);
-                        }
-                    }).setNegativeButton("稍后", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    }).create().show();
-                } else {
-                    startActivity(new Intent(getContext(), MessageActivity.class));
-                }
+//                String userroles = UserInfoModel.getInstance().getUser().getUserrole();
+//                if (String.valueOf(Constants.VR).equals(userroles)) {
+//                    //提示用户让他登录或者直接进入2个功能的踢馆赛模块
+//                    AlertDialog.Builder information_dialog = null;
+//                    information_dialog = new AlertDialog.Builder(getContext());
+//                    information_dialog.setTitle("您当前是游客身份，请登录后再试").setPositiveButton("现在登录", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            Intent login = new Intent(getContext(), LoginActivity.class);
+//                            login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                            login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                            startActivity(login);
+//                        }
+//                    }).setNegativeButton("稍后", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            dialog.dismiss();
+//                        }
+//                    }).create().show();
+//                } else {
+//                    startActivity(new Intent(getContext(), MessageActivity.class));
+//                }
+                startActivity(new Intent(getContext(), BodyGameSPActivity.class));
                 break;
         }
     }

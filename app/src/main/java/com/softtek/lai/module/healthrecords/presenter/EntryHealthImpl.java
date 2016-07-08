@@ -1,20 +1,11 @@
 package com.softtek.lai.module.healthrecords.presenter;
 
-import android.content.Context;
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.healthrecords.EventModel.RecordEvent;
 import com.softtek.lai.module.healthrecords.model.HealthModel;
 import com.softtek.lai.module.healthrecords.model.LastestRecordModel;
 import com.softtek.lai.module.healthrecords.net.HealthRecordService;
-import com.softtek.lai.module.healthrecords.view.HealthEntryActivity;
-import com.softtek.lai.module.home.view.HealthyFragment;
-import com.softtek.lai.module.home.view.HealthyRecordFragment;
-
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -22,7 +13,6 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import zilla.libcore.api.ZillaApi;
-import zilla.libcore.file.SharedPreferenceService;
 import zilla.libcore.util.Util;
 
 /**

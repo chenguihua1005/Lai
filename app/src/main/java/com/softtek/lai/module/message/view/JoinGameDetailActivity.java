@@ -40,7 +40,6 @@ import com.mobsandgeeks.saripaar.annotation.Required;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
-import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.confirmInfo.EventModel.ConinfoEvent;
 import com.softtek.lai.module.confirmInfo.model.ConinfoModel;
@@ -69,9 +68,7 @@ import com.softtek.lai.utils.SoftInputUtil;
 import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.WheelView;
 import com.squareup.picasso.Picasso;
-import com.sw926.imagefileselector.ImageCropper;
 import com.sw926.imagefileselector.ImageFileCropSelector;
-import com.sw926.imagefileselector.ImageFileSelector;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -170,10 +167,8 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
 
 
     private String type;
-    private List<String> gradeList = new ArrayList<String>();
-    private List<String> gradeIDList = new ArrayList<String>();
-    private ImageFileSelector imageFileSelector;
-    private ImageCropper imageCropper;
+    private List<String> gradeList = new ArrayList<>();
+    private List<String> gradeIDList = new ArrayList<>();
     private INewStudentpresenter iNewStudentpresenter;
 
     boolean isR = false;//是否注册
@@ -418,7 +413,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
 
     @Subscribe
     public void onEvent(Integer a) {
-        rigstHX();
+        //rigstHX();
         Intent intent = new Intent(JoinGameDetailActivity.this, HomeActviity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);

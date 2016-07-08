@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.jpush.JpushSet;
 import com.softtek.lai.module.File.view.CreatFlleActivity;
 import com.softtek.lai.module.home.view.HomeActviity;
@@ -257,13 +258,12 @@ public class LoginPresenterImpl implements ILoginPresenter {
     }
 
     @Override
-    public void doLogin(String userName, final String password, final ProgressDialog dialog) {
+    public void doLogin(final String userName, final String password, final ProgressDialog dialog) {
 
         service.doLogin(userName, password, new Callback<ResponseData<UserModel>>() {
             @Override
             public void success(final ResponseData<UserModel> userResponseData, Response response) {
                 if (dialog != null) dialog.dismiss();
-                System.out.println(userResponseData);
                 int status = userResponseData.getStatus();
                 switch (status) {
                     case 200:
@@ -273,6 +273,8 @@ public class LoginPresenterImpl implements ILoginPresenter {
                         set.setAlias(model.getMobile());
                         set.setStyleBasic();
                         UserInfoModel.getInstance().saveUserCache(model);
+                        SharedPreferenceService.getInstance().put(Constants.USER,userName);
+                        SharedPreferenceService.getInstance().put(Constants.PDW,password);
                         //如果用户加入了跑团
                         if("1".equals(model.getIsJoin())){
                             stepDeal(context,model.getUserid(), StringUtils.isEmpty(model.getTodayStepCnt())?0:Long.parseLong(model.getTodayStepCnt()));
