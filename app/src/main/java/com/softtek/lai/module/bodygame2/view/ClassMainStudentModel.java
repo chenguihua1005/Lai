@@ -15,6 +15,7 @@ public class ClassMainStudentModel implements Serializable {
     private String order;
     private String img;
     private String weight;
+    private String gender;
     private String name;
     private String zname;
     private String value;
@@ -28,6 +29,7 @@ public class ClassMainStudentModel implements Serializable {
                 "order='" + order + '\'' +
                 ", img='" + img + '\'' +
                 ", weight='" + weight + '\'' +
+                ", gender='" + gender + '\'' +
                 ", name='" + name + '\'' +
                 ", zname='" + zname + '\'' +
                 ", value='" + value + '\'' +
@@ -35,6 +37,14 @@ public class ClassMainStudentModel implements Serializable {
                 ", type2='" + type2 + '\'' +
                 ", count='" + count + '\'' +
                 '}';
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public String getOrder() {
