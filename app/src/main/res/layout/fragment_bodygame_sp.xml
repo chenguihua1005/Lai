@@ -486,10 +486,13 @@
         </LinearLayout>
 
         <!--我的学员-->
-        <!--<include layout="@layout/bg2_my_student"
-            />-->
+        <!--<include layout="@layout/bg2_my_student" />-->
+
         <!--大赛赛况-->
-        <include layout="@layout/bg2_saikuang" />
+        <!--<include layout="@layout/bg2_saikuang" />-->
+
+        <!--Tips-->
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
