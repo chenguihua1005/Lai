@@ -7,11 +7,17 @@ package com.softtek.lai.module.group.view;
 
 
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
+import android.os.Message;
+import android.os.Messenger;
+import android.os.RemoteException;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.KeyEvent;
 import android.view.View;
@@ -72,11 +78,8 @@ import zilla.libcore.ui.InjectLayout;
  * 跑团首页
  */
 @InjectLayout(R.layout.activity_group_main)
-public class GroupMainActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, SportGroupManager.GetSportIndexCallBack
-        , PullToRefreshBase.OnRefreshListener<ScrollView> {
-
-    @LifeCircleInject
-    ValidateLife validateLife;
+public class GroupMainActivity extends BaseActivity implements View.OnClickListener, SportGroupManager.GetSportIndexCallBack
+        , PullToRefreshBase.OnRefreshListener<ScrollView> ,Handler.Callback{
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -204,10 +207,75 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
     LinearLayout lin4;
 
     private MessageReceiver mMessageReceiver;
+    private Messenger clientMessenger;
+    //用来接收服务端发送过来的信息使用
+    private Messenger getReplyMessage=new Messenger(new Handler(this));
+    private int currentStep;
+    private static final int REQUEST_DELAY=3;
+    private Handler delayHandler=new Handler(this);
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public boolean handleMessage(Message msg) {
+        //在这里获取服务端发来的信息
+        switch (msg.what){
+            case StepService.MSG_FROM_SERVER:
+                //获取数据
+                Bundle data=msg.getData();
+                currentStep=data.getInt("todayStep",0);
+                //更新显示
+                if (currentStep == 0) {
+                    text_step.setText("--");
+                    text_rl.setText("--");
+                    text3.setVisibility(View.GONE);
+                } else {
+                    text_step.setText(currentStep + "");
+                    text3.setVisibility(View.VISIBLE);
+                    int kaluli = currentStep / 35;
+                    text_rl.setText(kaluli + "");
+                }
+                //延迟在一次向服务端请求
+                delayHandler.sendEmptyMessageDelayed(REQUEST_DELAY,400);
+                break;
+            case REQUEST_DELAY:
+                //继续向服务端发送请求获取数据
+                Message message=Message.obtain(null,StepService.MSG_FROM_CLIENT);
+                message.replyTo=getReplyMessage;
+                try {
+                    clientMessenger.send(message);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+                break;
+        }
+        return false;
+    }
+
+    //用于绑定服务使用
+    private ServiceConnection connection=new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            //当连接开始时向服务端发起一个信使，然后服务端会拿到这个信使并返回一个数据
+            clientMessenger=new Messenger(service);
+            Message message=Message.obtain(null,StepService.MSG_FROM_CLIENT);
+            message.replyTo=getReplyMessage;
+            try {
+                clientMessenger.send(message);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    };
+
+    @Override
+    protected void initViews() {
+        iv_email.setImageResource(R.drawable.img_group_main_my);
+        pull_sroll.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+        pull_sroll.setOnRefreshListener(this);
         ll_left.setOnClickListener(this);
         lin1.setOnClickListener(this);
         lin2.setOnClickListener(this);
@@ -226,6 +294,13 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
         text_start_pks.setOnClickListener(this);
         lin_no_pk.setOnClickListener(this);
         lin_no_activity.setOnClickListener(this);
+        //绑定服务
+        bindService(new Intent(this,StepService.class),connection,Context.BIND_AUTO_CREATE);
+        registerMessageReceiver();
+    }
+
+    @Override
+    protected void initDatas() {
         sportGroupManager = new SportGroupManager(this);
         list_activity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -238,25 +313,13 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
 
             }
         });
-    }
 
-    @Override
-    protected void initViews() {
-        iv_email.setImageResource(R.drawable.img_group_main_my);
-        pull_sroll.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
-        pull_sroll.setOnRefreshListener(this);
-        registerMessageReceiver();
-    }
-
-    @Override
-    protected void initDatas() {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 pull_sroll.setRefreshing();
             }
         }, 400);
-        //dialogShow("加载中...");
     }
 
     @Override
@@ -264,7 +327,6 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
         super.onResume();
         model = UserInfoModel.getInstance().getUser();
         if (model != null) {
-            dialogShow("加载中");
             sportGroupManager.getNewMsgRemind(model.getUserid());
         }
     }
@@ -276,7 +338,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 Date curDate = new Date(System.currentTimeMillis());//获取当前时间
                 String time = formatter.format(curDate);
-                String str = time + "," + SharedPreferenceService.getInstance().get("currentStep", 0);
+                String str = time + "," + currentStep;
                 dialogShow("加载中");
                 sportGroupManager.getMineResult(userId, str);
                 break;
@@ -339,21 +401,6 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onValidationSucceeded() {
-
-    }
-
-    @Override
-    public void onValidationFailed(View failedView, Rule<?> failedRule) {
-        validateLife.onValidationFailed(failedView, failedRule);
-    }
-
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -380,14 +427,6 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                 int kaluli = Integer.parseInt(sportMainModel.getTodayStepCnt()) / 35;
                 text_rl.setText(kaluli + "");
             }
-//            String todayKaluliCnt = sportMainModel.getTodayKaluliCnt();
-//            if ("0".equals(todayKaluliCnt)) {
-//                text_rl.setText("--");
-//                text3.setVisibility(View.GONE);
-//            } else {
-//                text3.setVisibility(View.VISIBLE);
-//                text_rl.setText(sportMainModel.getTodayKaluliCnt());
-//            }
             String todayStepOdr = sportMainModel.getTodayStepOdr();
             if ("0".equals(todayStepOdr)) {
                 text_pm.setText("--");
@@ -470,13 +509,6 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void getMineResult(String type, MineResultModel model) {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                dialogDissmiss();
-            }
-        }, 500);
-
         if ("success".equals(type)) {
             String TodayStepCnt = model.getTodayStepCnt();
             if ("0".equals(TodayStepCnt)) {
@@ -506,7 +538,6 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void getNewMsgRemind(String type) {
-        dialogDissmiss();
         if ("success".equals(type)) {
             iv_email.setImageResource(R.drawable.img_message_have);
         } else {
@@ -520,7 +551,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date curDate = new Date(System.currentTimeMillis());//获取当前时间
         String time = formatter.format(curDate);
-        String str = time + "," + SharedPreferenceService.getInstance().get("currentStep", 0);
+        String str = time + "," + currentStep;
         Log.i("当前最新步数>>>>"+str);
         sportGroupManager.getSportIndex(userId, str);
         sportGroupManager.getNewMsgRemind(userId);
@@ -530,7 +561,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
         mMessageReceiver = new MessageReceiver();
         IntentFilter filter = new IntentFilter();
         filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
-        filter.addAction(StepService.STEP);
+        //filter.addAction(StepService.STEP);
         filter.addAction(StepService.UPLOAD_STEP);
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, filter);
 
@@ -538,6 +569,9 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void onDestroy() {
+        //解绑服务
+        delayHandler.removeMessages(REQUEST_DELAY);
+        unbindService(connection);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
         super.onDestroy();
     }
@@ -546,7 +580,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (StepService.STEP.equals(intent.getAction())) {
+            /*if (StepService.STEP.equals(intent.getAction())) {
                 int step_count = intent.getIntExtra("currentStep", 0);
                 if (step_count == 0) {
                     text_step.setText("--");
@@ -558,11 +592,11 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                     int kaluli = step_count / 35;
                     text_rl.setText(kaluli + "");
                 }
-            } else if (StepService.UPLOAD_STEP.equals(intent.getAction())) {
+            } else */if (StepService.UPLOAD_STEP.equals(intent.getAction())) {
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 Date curDate = new Date(System.currentTimeMillis());//获取当前时间
                 String time = formatter.format(curDate);
-                String str = time + "," + SharedPreferenceService.getInstance().get("currentStep", 0);
+                String str = time + "," + currentStep;
                 sportGroupManager.getMineResult(userId, str);
             }
         }

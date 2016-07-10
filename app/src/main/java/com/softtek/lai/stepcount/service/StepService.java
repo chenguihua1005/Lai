@@ -14,10 +14,14 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.Build;
+import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
+import android.os.Messenger;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
+import android.os.RemoteException;
 import android.os.SystemClock;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.NotificationCompat;
@@ -34,6 +38,9 @@ import com.softtek.lai.stepcount.net.StepNetService;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.JCountDownTimer;
 import com.softtek.lai.utils.RequestCallback;
+import com.softtek.lai.utils.StringUtil;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Calendar;
 
@@ -46,6 +53,8 @@ public class StepService extends Service implements SensorEventListener {
     public static final String UPLOAD_STEP="com.softtek.lai.StepService";
     public static final String STEP="com.softtek.lai.StepService.StepCount";
 
+    public static final int MSG_FROM_CLIENT=1;
+    public static final int MSG_FROM_SERVER=1;
 
     //默认为30秒进行一次存储
     private static int duration = 10000;
@@ -62,22 +71,36 @@ public class StepService extends Service implements SensorEventListener {
     private int firstStep=0;//启动应用服务的时候的第一次步数
     private static int todayStep;//用于显示今日步数使用
 
+    private Messenger messenger = new Messenger(new MessengerHandler());
 
+    //跨进程通信用于传递数据
+    private static class MessengerHandler extends Handler{
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case MSG_FROM_CLIENT:
+                    Messenger server=msg.replyTo;
+                    Message message=Message.obtain(null,MSG_FROM_SERVER);
+                    Bundle data=new Bundle();
+                    //将今日步数传递过去
+                    data.putInt("todayStep",todayStep);
+                    message.setData(data);
+                    try {
+                        server.send(message);
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                default:
+                    super.handleMessage(msg);
+            }
+
+        }
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        PackageManager pm=getPackageManager();
-        if(pm.hasSystemFeature(PackageManager.FEATURE_SENSOR_STEP_COUNTER)){
-            Log.i("该手机有SENSOR_STEP_COUNTER");
-        }else {
-            Log.i("该手机没有SENSOR_STEP_COUNTER");
-        }
-        if(pm.hasSystemFeature(PackageManager.FEATURE_SENSOR_STEP_DETECTOR)){
-            Log.i("该手机有SENSOR_STEP_DETECTOR");
-        }else{
-            Log.i("该手机没有SENSOR_STEP_DETECTOR");
-        }
         initBroadcastReceiver();
         new Thread(new Runnable() {
             public void run() {
@@ -145,7 +168,7 @@ public class StepService extends Service implements SensorEventListener {
     @Override
     public IBinder onBind(Intent intent) {
 
-        return null;
+        return messenger.getBinder();
     }
 
 
@@ -164,37 +187,28 @@ public class StepService extends Service implements SensorEventListener {
     }
 
     private void startStepDetector() {
-        if (sensorManager != null && stepDetector != null) {
-            sensorManager.unregisterListener(stepDetector);
-            sensorManager = null;
-            stepDetector = null;
-        }
         getLock(this);
         // 获取传感器管理器的实例
         sensorManager = (SensorManager) this
                 .getSystemService(SENSOR_SERVICE);
-        //android4.4以后可以使用计步传感器
-        int VERSION_CODES = Build.VERSION.SDK_INT;
-        if (VERSION_CODES >= 19) {
-            Log.i(" 选用安卓自带的计步器功能");
+        PackageManager pm=getPackageManager();
+        if(pm.hasSystemFeature(PackageManager.FEATURE_SENSOR_STEP_COUNTER)){
+            Log.i("该手机有SENSOR_STEP_COUNTER");
             addCountStepListener();
-        } else {
+        }else {
+            Log.i("该手机没有SENSOR_STEP_COUNTER");
             Log.i(" 选用重力加速度传感器");
             addBasePedoListener();
         }
+
     }
-    //private Sensor detectorSensor;
     private Sensor countSensor;
     private void addCountStepListener() {
-        //detectorSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
         countSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
         if (countSensor != null) {
             Log.i("base", "countSensor");
             sensorManager.registerListener(this, countSensor, SensorManager.SENSOR_DELAY_FASTEST);
-        }/*else if (detectorSensor != null) {
-            Log.i("base", "detector");
-            sensorManager.registerListener(this, detectorSensor, SensorManager.SENSOR_DELAY_UI);
-        }*/else {
+        }else {
             Log.i("base", "Count sensor not available!");
             addBasePedoListener();
         }
@@ -222,9 +236,7 @@ public class StepService extends Service implements SensorEventListener {
         if (event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
             int stepTemp = (int) event.values[0];
             calTodayStep(stepTemp);
-        } /*else if (event.sensor.getType() == Sensor.TYPE_STEP_DETECTOR) {
-                //originalStep++;
-        }*/
+        }
 
     }
 
@@ -237,11 +249,6 @@ public class StepService extends Service implements SensorEventListener {
      * @param stepTemp 传感器获取的步数
      */
     private void calTodayStep(int stepTemp){
-        //发送广播
-//        Intent stepIntent=new Intent(STEP);
-//        stepIntent.putExtra("step",stepTemp);
-//        stepIntent.putExtra("currentStep",currentStep);
-//        LocalBroadcastManager.getInstance(this).sendBroadcast(stepIntent);
         //检查日期
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(System.currentTimeMillis());
@@ -307,7 +314,8 @@ public class StepService extends Service implements SensorEventListener {
         if (model != null && todayStep > lastStep) {
             lastStep = todayStep;//记录上一次保存的值
             UserStep step = new UserStep();
-            step.setAccountId(Long.parseLong(model.getUserid()));
+            String userId=StringUtils.isEmpty(model.getUserid())?"-1":model.getUserid();
+            step.setAccountId(Long.parseLong(userId));
             step.setRecordTime(DateUtil.getInstance().getCurrentDate());
             step.setStepCount(todayStep);
             StepUtil.getInstance().saveStep(step);
@@ -318,19 +326,21 @@ public class StepService extends Service implements SensorEventListener {
 
     @Override
     public void onDestroy() {
+        super.onDestroy();
         //取消前台进程
         Log.i("test","计步服务结束");
         stopForeground(true);
         nm.cancelAll();
         unregisterReceiver(uploadStepReceive);
+        if(stepDetector!=null){
+            sensorManager.unregisterListener(stepDetector);
+            stepDetector=null;
+        }
         if (countSensor != null) {
             Log.i("base", "注销countSensor");
             sensorManager.unregisterListener(this, countSensor);
         }
-        /*if (detectorSensor != null) {
-            Log.i("base", "注销detector");
-            sensorManager.unregisterListener(this, detectorSensor);
-        }*/
+        sensorManager=null;
         time.cancel();
         if(UserInfoModel.getInstance().getUser()!=null&&"1".equals(UserInfoModel.getInstance().getUser().getIsJoin())){
             Intent intent = new Intent(this, StepService.class);
@@ -342,7 +352,6 @@ public class StepService extends Service implements SensorEventListener {
             currentStep=0;
             Log.i("计步器服务不再执行");
         }
-        super.onDestroy();
     }
 
     synchronized private WakeLock getLock(Context context) {
