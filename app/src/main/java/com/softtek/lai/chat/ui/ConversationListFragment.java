@@ -27,12 +27,12 @@ import com.softtek.lai.chat.Constant;
 public class ConversationListFragment extends EaseConversationListFragment {
 
     private TextView errorText;
-
     @Override
     protected void initView() {
         super.initView();
         View errorView = (LinearLayout) View.inflate(getActivity(), R.layout.em_chat_neterror_item, null);
         errorItemContainer.addView(errorView);
+        errorItemContainer.setVisibility(View.GONE);
         errorText = (TextView) errorView.findViewById(R.id.tv_connect_errormsg);
     }
 
@@ -61,22 +61,6 @@ public class ConversationListFragment extends EaseConversationListFragment {
                         }
 
                     }
-//                    String name="";
-//                    String photo="";
-//                    System.out.println("field value===================>"+conversation.getExtField());
-//                    if(!TextUtils.isEmpty(conversation.getExtField())){
-//                        String[] field=conversation.getExtField().split(",");
-//                        name=field[0];
-//                        photo=field[1];
-//                    }else {
-//                        EMMessage msg=conversation.getAllMessages().get(0);
-//                        try {
-//                            name=msg.getStringAttribute("nickname");
-//                            photo=msg.getStringAttribute("avatarURL");
-//                        } catch (EaseMobException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
                     String name="";
                     String photo="";
                     ChatUserModel chatUserModel = ChatUserInfoModel.getInstance().getUser();

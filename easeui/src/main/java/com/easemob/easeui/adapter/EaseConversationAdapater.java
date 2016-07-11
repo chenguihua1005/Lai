@@ -51,9 +51,9 @@ import com.squareup.picasso.Picasso;
  *
  */
 public class EaseConversationAdapater extends ArrayAdapter<EMConversation> {
-    
+
     private Context mContext;
-    
+
 	private static final String TAG = "ChatAllHistoryAdapter";
 	private List<EMConversation> conversationList;
 	private List<EMConversation> copyConversationList;
@@ -80,7 +80,7 @@ public class EaseConversationAdapater extends ArrayAdapter<EMConversation> {
 		copyConversationList = new ArrayList<EMConversation>();
 		copyConversationList.addAll(objects);
 	}
-	
+
 	public void setAvatarShape(int shape) {
 		this.avatarShape = shape;
 	}
@@ -367,7 +367,7 @@ public class EaseConversationAdapater extends ArrayAdapter<EMConversation> {
 		}
 
 	}
-	
+
 	private EaseConversationListHelper cvsListHelper;
 	public void setCvsListHelper(EaseConversationListHelper cvsListHelper){
 		this.cvsListHelper = cvsListHelper;
@@ -390,5 +390,5 @@ public class EaseConversationAdapater extends ArrayAdapter<EMConversation> {
 		RelativeLayout list_itease_layout;
 
 	}
-	
+
 }

@@ -201,7 +201,7 @@ public class ConversationListActivity extends BaseActivity implements View.OnCli
 
                 refreshUIWithMessage();
                 break;
-            case EventOfflineMessage: {
+                case EventOfflineMessage: {
                 refreshUIWithMessage();
                 break;
             }
