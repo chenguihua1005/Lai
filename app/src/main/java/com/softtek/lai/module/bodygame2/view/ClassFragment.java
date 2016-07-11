@@ -15,8 +15,10 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.module.bodygame2.adapter.ClassMainStudentAdapter;
 import com.softtek.lai.module.bodygame2.adapter.ClassSelectAdapter;
+import com.softtek.lai.module.bodygame2.model.ClassMainModel;
 import com.softtek.lai.module.bodygame2.model.ClassMainStudentModel;
 import com.softtek.lai.module.bodygame2.model.ClassSelectModel;
+import com.softtek.lai.module.bodygame2.present.ClassMainManager;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.CostomerListView;
 import com.softtek.lai.widgets.ObservableScrollView;
@@ -28,7 +30,7 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.fragment_class)
-public class ClassFragment extends LazyBaseFragment implements View.OnClickListener, ObservableScrollView.ScrollViewListener {
+public class ClassFragment extends LazyBaseFragment implements View.OnClickListener, ObservableScrollView.ScrollViewListener,ClassMainManager.ClassMainCallback {
     @InjectView(R.id.lin_class_select)
     LinearLayout lin_class_select;
 
@@ -78,7 +80,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
 
     private float alapa = 0;
 
-
+    ClassMainManager classMainManager;
     @Override
     protected void initViews() {
         lin_class_select.setOnClickListener(this);
@@ -87,7 +89,11 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
         rel_title.setAlpha(0);
         scroll.setScrollViewListener(this);
     }
-
+    @Override
+    protected void onVisible() {
+        isPrepared = false;
+        super.onVisible();
+    }
     @Override
     protected void initDatas() {
         student_list = new ArrayList<ClassMainStudentModel>();
@@ -113,6 +119,15 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
         }
         ClassMainStudentAdapter adapter = new ClassMainStudentAdapter(getContext(), student_list);
         list_student.setAdapter(adapter);
+        scroll.post(
+                new Runnable() {
+                    public void run() {
+                        //sv_container.fullScroll(ScrollView.FOCUS_UP);
+                        scroll.smoothScrollTo(0, 0);
+                    }
+                });
+        classMainManager=new ClassMainManager(this);
+        classMainManager.doClassMainIndex("59");//固定值fanny帐号，作测试用
     }
 
     private void initSelectTypePop() {
@@ -140,6 +155,10 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
     @Override
     protected void lazyLoad() {
         Log.i("ClassFragment 加载数据");
+        rel_title_more.setFocusable(true);
+        rel_title_more.setFocusableInTouchMode(true);
+        rel_title_more.requestFocus();
+        scroll.setFocusable(false);
     }
 
     @Override
@@ -262,23 +281,28 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
     @Override
     public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
         if (oldy < y && scrollView.getScrollY() >= 300) {
-            alapa = alapa + (y-oldy)/100.0f;
+            alapa = alapa + (y - oldy) / 100.0f;
             if (alapa >= 1) {
                 alapa = 1;
             }
             rel_title.setAlpha(alapa);
         } else if (scrollView.getScrollY() < 300 && oldy > y) {
-            alapa = alapa - (oldy-y)/100.0f;
+            alapa = alapa - (oldy - y) / 100.0f;
             if (alapa <= 0) {
                 alapa = 0;
             }
             rel_title.setAlpha(alapa);
         }
-        if(scrollView.getScrollY()==0){
+        if (scrollView.getScrollY() == 0) {
             rel_title.setAlpha(0);
         }
-        if(scrollView.getScrollY()>500){
+        if (scrollView.getScrollY() > 500) {
             rel_title.setAlpha(1);
         }
+    }
+
+    @Override
+    public void getClassMain(ClassMainModel classMainModel) {
+
     }
 }

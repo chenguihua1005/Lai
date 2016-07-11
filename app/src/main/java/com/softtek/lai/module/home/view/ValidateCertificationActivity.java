@@ -152,18 +152,18 @@ public class ValidateCertificationActivity extends BaseActivity implements View.
         edit_password.setText("");
         edit_account.setText("");
         setData();
-//        progressDialog.setMessage("加载中");
-//        String hasEmchat = model.getHasEmchat();
-//        if ("1".equals(hasEmchat)) {
-//            loginPresenter.updateHXState(model.getMobile(), model.getHXAccountId(), "1", progressDialog, null,"noInBack");
-//        } else {
-//            rigstHX();
-//        }
+        progressDialog.setMessage("加载中");
+        String hasEmchat = model.getHasEmchat();
+        if ("1".equals(hasEmchat)) {
+            loginPresenter.updateHXState(model.getMobile(), model.getHXAccountId(), "1", progressDialog, null,"noInBack");
+        } else {
+            rigstHX();
+        }
 //        finish();
     }
     @Subscribe
     public void onEvent(Integer i) {
-        //showDialog();
+        showDialog();
     }
 
     private void showDialog() {
