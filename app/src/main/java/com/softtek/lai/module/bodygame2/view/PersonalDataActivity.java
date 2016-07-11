@@ -108,14 +108,14 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void initDatas() {
         LayoutInflater.from(this).inflate(R.layout.person_honor_fc_item,ll_honorn1);
+        TextView tv_fuce_value= (TextView) findViewById(R.id.tv_fuce_value);
+//        tv_fuce_value.setText("100");
+        LayoutInflater.from(this).inflate(R.layout.person_honor_jz_item,ll_honorn2);
         TextView tv_jz_value= (TextView) findViewById(R.id.tv_jz_value);
-//        tv_jz_value.setText("100");
-//        LayoutInflater.from(this).inflate(R.layout.person_honor_jz_item,ll_honorn1);
-//        TextView tv_jz_value= (TextView) findViewById(R.id.tv_jz_value);
-//        tv_jz_value.setText("100");
-        LayoutInflater.from(this).inflate(R.layout.person_honor_star_item,ll_honorn2);
-        TextView tv_jzstar_value= (TextView) findViewById(R.id.tv_jzstar_value);
-        tv_jzstar_value.setText("20");
+        tv_jz_value.setText("100");
+//        LayoutInflater.from(this).inflate(R.layout.person_honor_star_item,ll_honorn2);
+//        TextView tv_jzstar_value= (TextView) findViewById(R.id.tv_jzstar_value);
+//        tv_jzstar_value.setText("20");
         LayoutInflater.from(this).inflate(R.layout.person_honor_ygj_item,ll_honorn3);
         TextView tv_yuegj_value= (TextView) findViewById(R.id.tv_yuegj_value);
         tv_yuegj_value.setText("2016年7月");
