@@ -436,7 +436,6 @@ public class SportGroupManager {
         service.getNewMsgRemind(token, accountid, new RequestCallback<ResponseData>() {
             @Override
             public void success(ResponseData listResponseData, Response response) {
-                Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
                 switch (status) {
                     case 200:
