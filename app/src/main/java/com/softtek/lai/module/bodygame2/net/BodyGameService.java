@@ -20,6 +20,6 @@ public interface BodyGameService {
     void doClassMainIndex(
         @Header("token")String token,
         @Query("accountid")String accountid,
-        RequestCallback<ResponseData<List<ClassMainModel>>> callback
+        RequestCallback<ResponseData<ClassMainModel>> callback
     );
 }

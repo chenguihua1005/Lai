@@ -15,8 +15,10 @@ import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
 import com.softtek.lai.module.bodygame2.adapter.ClassMainStudentAdapter;
 import com.softtek.lai.module.bodygame2.adapter.ClassSelectAdapter;
+import com.softtek.lai.module.bodygame2.model.ClassMainModel;
 import com.softtek.lai.module.bodygame2.model.ClassMainStudentModel;
 import com.softtek.lai.module.bodygame2.model.ClassSelectModel;
+import com.softtek.lai.module.bodygame2.present.ClassMainManager;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.CostomerListView;
 import com.softtek.lai.widgets.ObservableScrollView;
@@ -28,7 +30,7 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.fragment_class)
-public class ClassFragment extends LazyBaseFragment implements View.OnClickListener, ObservableScrollView.ScrollViewListener {
+public class ClassFragment extends LazyBaseFragment implements View.OnClickListener, ObservableScrollView.ScrollViewListener ,ClassMainManager.ClassMainCallback{
     @InjectView(R.id.lin_class_select)
     LinearLayout lin_class_select;
 
@@ -77,7 +79,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
     private List<ClassMainStudentModel> student_list;
 
     private float alapa = 0;
-
+    ClassMainManager classMainManager;
 
     @Override
     protected void initViews() {
@@ -113,6 +115,8 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
         }
         ClassMainStudentAdapter adapter = new ClassMainStudentAdapter(getContext(), student_list);
         list_student.setAdapter(adapter);
+        classMainManager=new ClassMainManager(this);
+        classMainManager.doClassMainIndex("59");
     }
 
     private void initSelectTypePop() {
@@ -280,5 +284,11 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
         if(scrollView.getScrollY()>500){
             rel_title.setAlpha(1);
         }
+    }
+
+
+    @Override
+    public void getClassMain(ClassMainModel classMainModel) {
+
     }
 }
