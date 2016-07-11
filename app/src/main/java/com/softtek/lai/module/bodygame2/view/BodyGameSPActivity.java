@@ -37,7 +37,7 @@ public class BodyGameSPActivity extends BaseActivity implements View.OnClickList
 
     @Override
     protected void initViews() {
-
+        tintManager.setStatusBarAlpha(0);
         btn_bodygame.setOnClickListener(this);
         btn_chat.setOnClickListener(this);
         btn_contact.setOnClickListener(this);
