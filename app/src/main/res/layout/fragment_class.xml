@@ -3,319 +3,334 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <RelativeLayout
-        android:id="@+id/rel_head_view"
+    <com.softtek.lai.widgets.ObservableScrollView
+        android:id="@+id/scroll"
         android:layout_width="wrap_content"
-        android:layout_height="190dip">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/default_icon_rect" />
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="55dip"
-            android:layout_alignParentBottom="true"
-            android:background="#b2000000">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="20dip"
-                android:layout_marginRight="10dip"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="班级人数"
-                        android:textColor="@color/white"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="4dip"
-                        android:text="24"
-                        android:textColor="@color/white"
-                        android:textSize="15sp" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center">>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="减重斤数"
-                        android:textColor="@color/white"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="4dip"
-                        android:text="24斤"
-                        android:textColor="@color/white"
-                        android:textSize="15sp" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="10dip"
-                android:layout_marginRight="20dip"
-                android:layout_weight="1">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="平均复测率"
-                        android:textColor="@color/white"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="4dip"
-                        android:text="75%"
-                        android:textColor="@color/white"
-                        android:textSize="15sp" />
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
-    </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/lin_message_view"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rel_head_view"
-        android:layout_marginTop="18dip"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
         <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="31dip">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:id="@+id/rel_head_view"
+                android:layout_width="wrap_content"
+                android:layout_height="190dip">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/default_icon_rect" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="55dip"
+                    android:layout_alignParentBottom="true"
+                    android:background="#b2000000">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="20dip"
+                        android:layout_marginRight="10dip"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="班级人数"
+                                android:textColor="@color/white"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="4dip"
+                                android:text="24"
+                                android:textColor="@color/white"
+                                android:textSize="15sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center">>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="减重斤数"
+                                android:textColor="@color/white"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="4dip"
+                                android:text="24斤"
+                                android:textColor="@color/white"
+                                android:textSize="15sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dip"
+                        android:layout_marginRight="20dip"
+                        android:layout_weight="1">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="平均复测率"
+                                android:textColor="@color/white"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="4dip"
+                                android:text="75%"
+                                android:textColor="@color/white"
+                                android:textSize="15sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/lin_message_view"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rel_head_view"
+                android:layout_marginTop="18dip"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="31dip">
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dip"
+                        android:layout_alignParentBottom="true"
+                        android:background="#f1f1f1" />
+
+                    <RelativeLayout
+                        android:id="@+id/rel_gg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="22dip">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/img_bg_select" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="公告"
+                            android:textColor="@color/word13"
+                            android:textSize="13sp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/rel_gg">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/img_bg_unselect" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="系统消息"
+                            android:textColor="@color/word13"
+                            android:textSize="13sp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="50dip"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="15dip"
+                            android:src="@drawable/img_bg_add" />
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="98dip">
+
+                    <com.softtek.lai.widgets.CircleImageView
+                        android:id="@+id/img"
+                        android:layout_width="39dip"
+                        android:layout_height="39dip"
+                        android:layout_marginLeft="15dip"
+                        android:layout_marginTop="23dip"
+                        android:src="@drawable/img_default" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dip"
+                        android:layout_marginRight="15dip"
+                        android:layout_marginTop="23dip"
+                        android:layout_toRightOf="@+id/img"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/text_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="2"
+                            android:text="tetesttesttesttesttestteststtetesttesttesttesttestteststtetesttesttesttesttestteststtetesttesttesttesttestteststtetesttesttesttesttestteststtetesttesttesttesttestteststtetesttesttesttesttestteststtetesttesttesttesttestteststtetesttesttesttesttesttestst"
+                            android:textColor="@color/word"
+                            android:textSize="13sp" />
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dip">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="2016年3月12号"
+                                android:textColor="@color/word6"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:text="查看更多"
+                                android:textColor="@color/word6"
+                                android:textSize="12sp" />
+                        </RelativeLayout>
+                    </LinearLayout>
+                </RelativeLayout>
+            </LinearLayout>
 
             <View
+                android:id="@+id/view_grey"
                 android:layout_width="fill_parent"
-                android:layout_height="1dip"
-                android:layout_alignParentBottom="true"
-                android:background="#f1f1f1" />
-
-            <RelativeLayout
-                android:id="@+id/rel_gg"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="22dip">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/img_bg_select" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="公告"
-                    android:textColor="@color/word13"
-                    android:textSize="13sp" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/rel_gg">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/img_bg_unselect" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="系统消息"
-                    android:textColor="@color/word13"
-                    android:textSize="13sp" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="50dip"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="15dip"
-                    android:src="@drawable/img_bg_add" />
-            </RelativeLayout>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="98dip">
-
-            <com.softtek.lai.widgets.CircleImageView
-                android:id="@+id/img"
-                android:layout_width="39dip"
-                android:layout_height="39dip"
-                android:layout_marginLeft="15dip"
-                android:layout_marginTop="23dip"
-                android:src="@drawable/img_default" />
+                android:layout_height="13dip"
+                android:layout_below="@+id/lin_message_view"
+                android:background="@color/grey" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dip"
-                android:layout_marginRight="15dip"
-                android:layout_marginTop="23dip"
-                android:layout_toRightOf="@+id/img"
+                android:layout_below="@+id/view_grey"
                 android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/text_value"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="2"
-                    android:text="tetesttesttesttesttestteststtetesttesttesttesttestteststtetesttesttesttesttestteststtetesttesttesttesttestteststtetesttesttesttesttestteststtetesttesttesttesttestteststtetesttesttesttesttestteststtetesttesttesttesttestteststtetesttesttesttesttesttestst"
-                    android:textColor="@color/word"
-                    android:textSize="13sp" />
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dip">
+                    android:layout_height="31dip"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2016年3月12号"
-                        android:textColor="@color/word6"
-                        android:textSize="11sp" />
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="15dip"
+                        android:text="学员数据"
+                        android:textColor="@color/word"
+                        android:textSize="13sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/lin_select_type"
+                        android:layout_width="150dip"
+                        android:layout_height="fill_parent"
                         android:layout_alignParentRight="true"
-                        android:text="查看更多"
-                        android:textColor="@color/word6"
-                        android:textSize="12sp" />
+                        android:layout_centerVertical="true"
+                        android:gravity="right"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/text_select_type"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:text="按减重斤数"
+                            android:textColor="@color/word"
+                            android:textSize="13sp" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="9dip"
+                            android:layout_marginRight="15dip"
+                            android:src="@drawable/img_bg_more_down" />
+                    </LinearLayout>
                 </RelativeLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dip"
+                    android:background="@color/grey" />
+
+                <com.softtek.lai.widgets.CostomerListView
+                    android:id="@+id/list_student"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"></com.softtek.lai.widgets.CostomerListView>
             </LinearLayout>
+
         </RelativeLayout>
-    </LinearLayout>
-
-    <View
-        android:id="@+id/view_grey"
-        android:layout_width="fill_parent"
-        android:layout_height="13dip"
-        android:layout_below="@+id/lin_message_view"
-        android:background="@color/grey" />
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/view_grey"
-        android:orientation="vertical">
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="31dip"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="15dip"
-                android:text="学员数据"
-                android:textColor="@color/word"
-                android:textSize="13sp" />
-
-            <LinearLayout
-                android:id="@+id/lin_select_type"
-                android:layout_width="150dip"
-                android:layout_height="fill_parent"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:gravity="right"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/text_select_type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="按减重斤数"
-                    android:textColor="@color/word"
-                    android:textSize="13sp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="9dip"
-                    android:layout_marginRight="15dip"
-                    android:src="@drawable/img_bg_more_down" />
-            </LinearLayout>
-        </RelativeLayout>
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dip"
-            android:background="@color/grey" />
-
-        <ListView
-            android:id="@+id/list_student"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"></ListView>
-    </LinearLayout>
-
+    </com.softtek.lai.widgets.ObservableScrollView>
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="50dip"
-        android:background="@color/green"
         android:fitsSystemWindows="true">
-
+        <RelativeLayout
+            android:id="@+id/rel_title"
+            android:layout_width="fill_parent"
+            android:layout_height="50dip"
+            android:background="@color/green"
+            android:orientation="horizontal"/>
         <LinearLayout
             android:id="@+id/lin_class_select"
             android:layout_width="141dip"

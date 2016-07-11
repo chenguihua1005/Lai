@@ -22,7 +22,7 @@
             <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="208dp"
-                android:layout_margin="10dp"
+                android:layout_margin="6dp"
                 android:layout_weight="1.8">
 
                 <ImageView
@@ -46,6 +46,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="5dp"
                         android:text="105斤"
+                        android:textColor="#ffffff"
                         android:textSize="14sp" />
 
                     <TextView
@@ -56,6 +57,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginRight="5dp"
                         android:text="2016年6月15日"
+                        android:textColor="#ffffff"
                         android:textSize="14sp" />
                 </RelativeLayout>
             </FrameLayout>
@@ -70,9 +72,9 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_marginBottom="4dp"
+                    android:layout_marginBottom="2dp"
                     android:layout_marginRight="4dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="6dp"
                     android:layout_weight="1">
 
                     <ImageView
@@ -96,6 +98,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="5dp"
                             android:text="105斤"
+                            android:textColor="#ffffff"
                             android:textSize="9sp" />
 
                         <TextView
@@ -106,6 +109,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginRight="5dp"
                             android:text="2016年6月15日"
+                            android:textColor="#ffffff"
                             android:textSize="9sp" />
                     </RelativeLayout>
                 </FrameLayout>
@@ -113,8 +117,9 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="6dp"
                     android:layout_marginRight="4dp"
+                    android:layout_marginTop="2dp"
                     android:layout_weight="1"
 
                     >
@@ -140,6 +145,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="5dp"
                             android:text="105斤"
+                            android:textColor="#ffffff"
                             android:textSize="9sp" />
 
                         <TextView
@@ -150,6 +156,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginRight="5dp"
                             android:text="2016年6月15日"
+                            android:textColor="#ffffff"
                             android:textSize="9sp" />
                     </RelativeLayout>
                 </FrameLayout>
@@ -162,13 +169,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ll_view1"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="4dp">
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="5dp"
+            >
 
             <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="6dp"
                 android:layout_weight="1">
 
                 <ImageView
@@ -192,6 +200,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="5dp"
                         android:text="105斤"
+                        android:textColor="#ffffff"
                         android:textSize="11sp" />
 
                     <TextView
@@ -202,6 +211,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginRight="5dp"
                         android:text="2016年6月15日"
+                        android:textColor="#ffffff"
                         android:textSize="11sp" />
                 </RelativeLayout>
             </FrameLayout>
@@ -209,7 +219,8 @@
             <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                >
 
                 <ImageView
                     android:id="@+id/im_pic5"
@@ -232,6 +243,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="5dp"
                         android:text="105斤"
+                        android:textColor="#ffffff"
                         android:textSize="11sp" />
 
                     <TextView
@@ -242,6 +254,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginRight="5dp"
                         android:text="2016年6月15日"
+                        android:textColor="#ffffff"
                         android:textSize="11sp" />
                 </RelativeLayout>
             </FrameLayout>
@@ -253,12 +266,13 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/ll_view2"
             android:background="#ffffff"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            >
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="6dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:orientation="vertical">
@@ -266,8 +280,8 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_marginBottom="4dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginTop="6dp"
                     android:layout_weight="1">
 
                     <ImageView
@@ -291,6 +305,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="5dp"
                             android:text="105斤"
+                            android:textColor="#ffffff"
                             android:textSize="9sp" />
 
                         <TextView
@@ -301,6 +316,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginRight="5dp"
                             android:text="2016年6月15日"
+                            android:textColor="#ffffff"
                             android:textSize="9sp" />
                     </RelativeLayout>
                 </FrameLayout>
@@ -308,7 +324,8 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="6dp"
+                    android:layout_marginTop="2dp"
                     android:layout_weight="1"
 
                     >
@@ -334,6 +351,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="5dp"
                             android:text="105斤"
+                            android:textColor="#ffffff"
                             android:textSize="9sp" />
 
                         <TextView
@@ -344,6 +362,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginRight="5dp"
                             android:text="2016年6月15日"
+                            android:textColor="#ffffff"
                             android:textSize="9sp" />
                     </RelativeLayout>
                 </FrameLayout>
@@ -352,10 +371,10 @@
             <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="208dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="6dp"
+                android:layout_marginLeft="6dp"
                 android:layout_marginRight="4dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="6dp"
                 android:layout_weight="1.8">
 
                 <ImageView
@@ -379,6 +398,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="5dp"
                         android:text="105斤"
+                        android:textColor="#ffffff"
                         android:textSize="14sp" />
 
                     <TextView
@@ -389,6 +409,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginRight="5dp"
                         android:text="2016年6月15日"
+                        android:textColor="#ffffff"
                         android:textSize="14sp" />
                 </RelativeLayout>
             </FrameLayout>
@@ -401,13 +422,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ll_view3"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="4dp">
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="4dp"
+            >
 
             <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="6dp"
                 android:layout_weight="1">
 
                 <ImageView
@@ -431,6 +453,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="5dp"
                         android:text="105斤"
+                        android:textColor="#ffffff"
                         android:textSize="11sp" />
 
                     <TextView
@@ -441,6 +464,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginRight="5dp"
                         android:text="2016年6月15日"
+                        android:textColor="#ffffff"
                         android:textSize="11sp" />
                 </RelativeLayout>
             </FrameLayout>
@@ -474,6 +498,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="5dp"
                         android:text="105斤"
+                        android:textColor="#ffffff"
                         android:textSize="11sp" />
 
                     <TextView
@@ -484,6 +509,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginRight="5dp"
                         android:text="2016年6月15日"
+                        android:textColor="#ffffff"
                         android:textSize="11sp" />
                 </RelativeLayout>
             </FrameLayout>
@@ -518,6 +544,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
                 android:text="105斤"
+                android:textColor="#ffffff"
                 android:textSize="14sp" />
 
             <TextView
@@ -528,6 +555,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="5dp"
                 android:text="2016年6月15日"
+                android:textColor="#ffffff"
                 android:textSize="14sp" />
         </RelativeLayout>
     </FrameLayout>

@@ -3,16 +3,18 @@
  * Date:2016-03-31
  */
 
-package com.softtek.lai.module.bodygame2.view;
+package com.softtek.lai.module.bodygame2.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
+import com.softtek.lai.module.bodygame2.model.ClassMainStudentModel;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 
 import java.util.List;
@@ -58,12 +60,19 @@ public class ClassMainStudentAdapter extends BaseAdapter {
         final ViewHolder holder;
         //观察convertView随ListView滚动情况
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.select_class_item, null);
+            convertView = mInflater.inflate(R.layout.class_main_student_item, null);
             holder = new ViewHolder();
             /**得到各个控件的对象*/
 
-            holder.text_month = (TextView) convertView.findViewById(R.id.text_month);
+            holder.tv_order = (TextView) convertView.findViewById(R.id.tv_order);
+            holder.text_before_weight = (TextView) convertView.findViewById(R.id.text_before_weight);
             holder.text_name = (TextView) convertView.findViewById(R.id.text_name);
+            holder.tv_who = (TextView) convertView.findViewById(R.id.tv_who);
+            holder.text_value = (TextView) convertView.findViewById(R.id.text_value);
+            holder.text_count = (TextView) convertView.findViewById(R.id.text_count);
+            holder.cb_gender = (CheckBox) convertView.findViewById(R.id.cb_gender);
+            holder.cb_star = (CheckBox) convertView.findViewById(R.id.cb_star);
+            holder.cb_fc = (CheckBox) convertView.findViewById(R.id.cb_fc);
 
             convertView.setTag(holder);//绑定ViewHolder对象
         } else {
@@ -71,7 +80,28 @@ public class ClassMainStudentAdapter extends BaseAdapter {
         }
         /**设置TextView显示的内容，即我们存放在动态数组中的数据*/
         ClassMainStudentModel model = list.get(position);
+        holder.text_before_weight.setText("初始体重："+model.getWeight());
+        holder.tv_order.setText(model.getOrder());
+        holder.text_name.setText(model.getName());
+        holder.tv_who.setText(model.getZname());
+        holder.text_value.setText(model.getValue()+"斤");
+        holder.text_count.setText("x"+model.getCount());
 
+        if(model.getGender().equals("1")){
+            holder.cb_gender.setChecked(true);
+        }else {
+            holder.cb_gender.setChecked(false);
+        }
+        if(model.getType1().equals("1")){
+            holder.cb_star.setChecked(true);
+        }else {
+            holder.cb_star.setChecked(false);
+        }
+        if(model.getType2().equals("1")){
+            holder.cb_fc.setChecked(true);
+        }else {
+            holder.cb_fc.setChecked(false);
+        }
         return convertView;
     }
 
@@ -79,8 +109,15 @@ public class ClassMainStudentAdapter extends BaseAdapter {
      * 存放控件
      */
     public class ViewHolder {
-        public TextView text_month;
+        public TextView tv_order;
+        public TextView text_before_weight;
         public TextView text_name;
+        public TextView tv_who;
+        public TextView text_value;
+        public TextView text_count;
+        public CheckBox cb_gender;
+        public CheckBox cb_star;
+        public CheckBox cb_fc;
     }
 }
 
