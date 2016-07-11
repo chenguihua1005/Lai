@@ -4,6 +4,7 @@ import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
+import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -13,6 +14,7 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Handler.Callback;
@@ -26,6 +28,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
@@ -38,13 +41,18 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.AMapUtils;
 import com.amap.api.maps.CameraUpdateFactory;
+import com.amap.api.maps.CustomRenderer;
 import com.amap.api.maps.LocationSource;
 import com.amap.api.maps.MapView;
+import com.amap.api.maps.model.AMapGLOverlay;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
+import com.amap.api.maps.model.GroundOverlayOptions;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
+import com.amap.api.maps.model.PolygonOptions;
 import com.amap.api.maps.model.PolylineOptions;
+import com.autonavi.amap.mapcore.MapCore;
 import com.github.snowdream.android.util.Log;
 import com.google.gson.Gson;
 import com.softtek.lai.R;
@@ -61,6 +69,9 @@ import com.softtek.lai.utils.JCountDownTimer;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.opengles.GL10;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -183,7 +194,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
         //初始化polyline
         polylineOptions = new PolylineOptions();
         polylineOptions.width(15);
-        polylineOptions.color(Color.RED);
+        polylineOptions.color(Color.GREEN);
         polylineOptions.zIndex(3);
 
         /**
@@ -225,7 +236,18 @@ public class RunSportActivity extends BaseActivity implements LocationSource
         mapView.setLayoutParams(params);
     }
 
+    @Override
+    protected void initDatas() {
+        tv_title.setText("运动");
+        manager = new SportManager();
+        //绑定步数服务
+        bindService(new Intent(this,StepService.class),connection,Context.BIND_AUTO_CREATE);
+        locationReceiver = new LocationReceiver();
+        IntentFilter locationFilter = new IntentFilter();
+        locationFilter.addAction(LocationService.LOCATION_SERIVER);
+        LocalBroadcastManager.getInstance(this).registerReceiver(locationReceiver, locationFilter);
 
+    }
     //6.0权限回调方法
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -316,18 +338,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
         return false;
     }
 
-    @Override
-    protected void initDatas() {
-        tv_title.setText("运动");
-        manager = new SportManager();
-        //绑定步数服务
-        bindService(new Intent(this,StepService.class),connection,Context.BIND_AUTO_CREATE);
-        locationReceiver = new LocationReceiver();
-        IntentFilter locationFilter = new IntentFilter();
-        locationFilter.addAction(LocationService.LOCATION_SERIVER);
-        LocalBroadcastManager.getInstance(this).registerReceiver(locationReceiver, locationFilter);
 
-    }
 
     @Override
     protected void onDestroy() {
@@ -380,13 +391,15 @@ public class RunSportActivity extends BaseActivity implements LocationSource
 
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_location:
-                if (lastLatLon != null) {
+
+                /*if (lastLatLon != null) {
                     aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(lastLatLon, 15.5f));
-                }
+                }*/
                 break;
             case R.id.ll_left:
                 doBack();
@@ -628,11 +641,11 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                 if (lastLatLon != null) {
                     double distance = AMapUtils.calculateLineDistance(lastLatLon, latLng);
                     previousDistance += distance;
-                    polylineOptions.add(latLng);
-                    coordinates.add(new LatLon(latLng.longitude, latLng.latitude));
-                    aMap.addPolyline(polylineOptions);
-                    /*if (distance >= 6) {
-                    }*/
+                    if (distance >= 6) {
+                        polylineOptions.add(latLng);
+                        coordinates.add(new LatLon(latLng.longitude, latLng.latitude));
+                        aMap.addPolyline(polylineOptions);
+                    }
                 } else {
                     //如果是第一次定位到
                     polylineOptions.add(latLng);
