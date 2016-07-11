@@ -5,6 +5,7 @@ import com.softtek.lai.module.act.model.ActivityModel;
 import com.softtek.lai.module.bodygame2.model.ClassChangeModel;
 import com.softtek.lai.module.bodygame2.model.ClassMainModel;
 import com.softtek.lai.module.bodygame2.model.MemberChangeModel;
+import com.softtek.lai.module.bodygame2.model.SPBodyGameInfo;
 import com.softtek.lai.utils.RequestCallback;
 
 import java.util.List;
@@ -38,4 +39,8 @@ public interface BodyGameService {
             @Query("classid")String classid,
             RequestCallback<ResponseData<MemberChangeModel>>callback
     );
+
+    @GET("/HerbNewUser/GetSPIndexInformation")
+    void getSPIndexInformation(@Header("token")String token,
+                               RequestCallback<ResponseData<SPBodyGameInfo>> callback);
 }
