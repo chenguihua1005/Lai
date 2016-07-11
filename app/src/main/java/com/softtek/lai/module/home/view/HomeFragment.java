@@ -260,7 +260,6 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
-        setUserVisibleHint(true);
         homeInfoPresenter = new HomeInfoImpl(getContext());
         messagePresenter = new MessageImpl(getContext());
         loginPresenter = new LoginPresenterImpl(getContext());
