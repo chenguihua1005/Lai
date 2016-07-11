@@ -146,23 +146,27 @@ public class HistoryDataActivity extends BaseActivity implements AdapterView.OnI
     @Override
     public void historyDataCallback(HistoryDataModel model) {
         ptrlv.onRefreshComplete();
-        if(model==null){
-            pageIndex=--pageIndex<1?1:pageIndex;
-            return;
-        }
+        try {
+            if(model==null){
+                pageIndex=--pageIndex<1?1:pageIndex;
+                return;
+            }
 
-        totalPage=Integer.parseInt(model.getTotalPage());
-        List<HistoryData> datas=model.getHistoryList();
-        if(pageIndex==1){
-            dataItemModels.clear();
+            totalPage=Integer.parseInt(model.getTotalPage());
+            List<HistoryData> datas=model.getHistoryList();
+            if(pageIndex==1){
+                dataItemModels.clear();
+            }
+            if(datas.isEmpty()){
+                pageIndex=--pageIndex<1?1:pageIndex;
+            }
+            for(HistoryData data:model.getHistoryList()){
+                dataItemModels.add(new HistoryDataItemModel(false,false,data));
+            }
+            adapter.notifyDataSetChanged();
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
         }
-        if(datas.isEmpty()){
-            pageIndex=--pageIndex<1?1:pageIndex;
-        }
-        for(HistoryData data:model.getHistoryList()){
-            dataItemModels.add(new HistoryDataItemModel(false,false,data));
-        }
-        adapter.notifyDataSetChanged();
     }
 
     @Override

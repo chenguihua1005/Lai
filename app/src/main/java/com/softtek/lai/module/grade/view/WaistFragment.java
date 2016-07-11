@@ -113,13 +113,17 @@ public class WaistFragment extends BaseFragment implements PullToRefreshBase.OnR
     @Override
     public void updataData(List<StudentModel> models) {
         ptrlv.onRefreshComplete();
-        if(models==null||models.isEmpty()){
-            return;
+        try {
+            if(models==null||models.isEmpty()){
+                return;
+            }
+            if(!this.studentModels.isEmpty()){
+                this.studentModels.clear();
+            }
+            this.studentModels.addAll(models);
+            adapter.notifyDataSetChanged();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        if(!this.studentModels.isEmpty()){
-            this.studentModels.clear();
-        }
-        this.studentModels.addAll(models);
-        adapter.notifyDataSetChanged();
     }
 }

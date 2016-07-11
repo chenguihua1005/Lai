@@ -88,14 +88,18 @@ public class MySystemActivity extends BaseActivity implements View.OnClickListen
     @Override
     public void getSystemList(List<SystemNewsModel> systemNewsModelList) {
         //接口回调，适配listview数据
-        if (systemNewsModelList==null||systemNewsModelList.isEmpty())
-        {
-            ll_public_nomessage.setVisibility(View.VISIBLE);
-        }
-        else {
-            systemNewsModelLists=systemNewsModelList;
-            mySystemAdapter.updateData(systemNewsModelLists);
-            ll_public_nomessage.setVisibility(View.GONE);
+        try {
+            if (systemNewsModelList==null||systemNewsModelList.isEmpty())
+            {
+                ll_public_nomessage.setVisibility(View.VISIBLE);
+            }
+            else {
+                systemNewsModelLists=systemNewsModelList;
+                mySystemAdapter.updateData(systemNewsModelLists);
+                ll_public_nomessage.setVisibility(View.GONE);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

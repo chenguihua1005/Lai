@@ -180,16 +180,20 @@ public class BustFragment extends BaseFragment implements RadioGroup.OnCheckedCh
     @Override
     public void getHealthcircumRecords(HealthCircrumModel healthCircrumModel) {
         progressDialog.dismiss();
-        if(healthCircrumModel==null){
-            return;
-        }
-        System.out.println("健康记录胸围" + healthCircrumModel.getFirstrecordtime());
-        int n=healthCircrumModel.getCircumlist().size();
-        for (int i=0;i<=n-1;i++) {
-            dates.add(Float.parseFloat(healthCircrumModel.getCircumlist().get(i).getCircum()));
-        }
+        try {
+            if(healthCircrumModel==null){
+                return;
+            }
+            System.out.println("健康记录胸围" + healthCircrumModel.getFirstrecordtime());
+            int n=healthCircrumModel.getCircumlist().size();
+            for (int i=0;i<=n-1;i++) {
+                dates.add(Float.parseFloat(healthCircrumModel.getCircumlist().get(i).getCircum()));
+            }
 
-        chartUtil.addData(dates,n,days);
+            chartUtil.addData(dates,n,days);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

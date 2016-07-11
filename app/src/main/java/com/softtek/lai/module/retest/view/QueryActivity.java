@@ -6,18 +6,14 @@
 package com.softtek.lai.module.retest.view;
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.NumberPicker;
 import android.widget.TextView;
-import butterknife.InjectView;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
@@ -27,18 +23,19 @@ import com.softtek.lai.module.retest.AuditActivity;
 import com.softtek.lai.module.retest.WriteActivity;
 import com.softtek.lai.module.retest.adapter.QueryAdapter;
 import com.softtek.lai.module.retest.eventModel.StudentEvent;
-import com.softtek.lai.module.retest.model.BanjiStudentModel;
-import com.softtek.lai.module.retest.model.RetestWriteModel;
 import com.softtek.lai.module.retest.model.StudentModel;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.module.retest.present.RetestclassImp;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import zilla.libcore.ui.InjectLayout;
-import zilla.libcore.util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.InjectView;
+import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_query)
 public class QueryActivity extends BaseActivity implements View.OnClickListener {

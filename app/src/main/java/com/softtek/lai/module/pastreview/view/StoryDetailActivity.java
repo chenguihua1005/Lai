@@ -94,42 +94,46 @@ public class StoryDetailActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void getLogDetail(LogStoryDetailModel log) {
         dialogDissmiss();
-        if(log==null){
-            return;
+        try {
+            if(log==null){
+                return;
+            }
+            if(StringUtils.isNotEmpty(log.getPhoto())){
+                Picasso.with(this).load(AddressManager.get("photoHost")+log.getPhoto()).fit().placeholder(R.drawable.img_default)
+                        .error(R.drawable.img_default).into(civ_header_image);
+            }
+            tv_name.setText(log.getUserName());
+            tv_content.setText(log.getLogContent());
+            String date=log.getCreateDate();
+            tv_date.setText(DateUtil.getInstance().getYear(date)+
+                    "年"+DateUtil.getInstance().getMonth(date)+
+                    "月"+DateUtil.getInstance().getDay(date)+"日");
+            tv_totle_lw.setText(log.getAfterWeight()+"斤");
+            cb_zan.setText(log.getPriasenum());
+            if (TextUtils.isEmpty(log.getUserNames()))
+            {
+                im_heart.setVisibility(View.GONE);
+            }
+            else {
+                tv_zan_name.setText(log.getUserNames());
+            }
+            if(Constants.HAS_ZAN.equals(log.getIfpriasenum())){
+                cb_zan.setChecked(true);
+                cb_zan.setEnabled(false);
+            }else if(Constants.NO_ZAN.equals(log.getIfpriasenum())){
+                cb_zan.setChecked(false);
+                cb_zan.setEnabled(true);
+            }
+            //拆分字符串图片列表,并添加到图片集合中
+            if(!"".equals(log.getImgCollection())&&!(null==log.getImgCollection())){
+                String[] image=log.getImgCollection().split(",");
+                images.clear();
+                images.addAll(Arrays.asList(image));
+            }
+            adapter.notifyDataSetChanged();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        if(StringUtils.isNotEmpty(log.getPhoto())){
-            Picasso.with(this).load(AddressManager.get("photoHost")+log.getPhoto()).fit().placeholder(R.drawable.img_default)
-                    .error(R.drawable.img_default).into(civ_header_image);
-        }
-        tv_name.setText(log.getUserName());
-        tv_content.setText(log.getLogContent());
-        String date=log.getCreateDate();
-        tv_date.setText(DateUtil.getInstance().getYear(date)+
-                "年"+DateUtil.getInstance().getMonth(date)+
-                "月"+DateUtil.getInstance().getDay(date)+"日");
-        tv_totle_lw.setText(log.getAfterWeight()+"斤");
-        cb_zan.setText(log.getPriasenum());
-        if (TextUtils.isEmpty(log.getUserNames()))
-        {
-            im_heart.setVisibility(View.GONE);
-        }
-        else {
-            tv_zan_name.setText(log.getUserNames());
-        }
-        if(Constants.HAS_ZAN.equals(log.getIfpriasenum())){
-            cb_zan.setChecked(true);
-            cb_zan.setEnabled(false);
-        }else if(Constants.NO_ZAN.equals(log.getIfpriasenum())){
-            cb_zan.setChecked(false);
-            cb_zan.setEnabled(true);
-        }
-        //拆分字符串图片列表,并添加到图片集合中
-        if(!"".equals(log.getImgCollection())&&!(null==log.getImgCollection())){
-            String[] image=log.getImgCollection().split(",");
-            images.clear();
-            images.addAll(Arrays.asList(image));
-        }
-        adapter.notifyDataSetChanged();
 
     }
 

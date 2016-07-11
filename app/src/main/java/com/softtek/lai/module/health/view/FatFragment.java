@@ -264,17 +264,21 @@ public class FatFragment extends BaseFragment implements RadioGroup.OnCheckedCha
     @Override
     public void getHealthfatRecords(HealthFatModel healthFatModel) {
         progressDialog.dismiss();
-        if(healthFatModel==null){
-            return;
-        }
-        System.out.println("健康记录内脂" + healthFatModel.getFirstrecordtime());
-        int n=healthFatModel.getFatlist().size();
-        for (int i=0;i<=n-1;i++) {
-            dates.add(Float.parseFloat(healthFatModel.getFatlist().get(i).getFat()));
-        }
+        try {
+            if(healthFatModel==null){
+                return;
+            }
+            System.out.println("健康记录内脂" + healthFatModel.getFirstrecordtime());
+            int n=healthFatModel.getFatlist().size();
+            for (int i=0;i<=n-1;i++) {
+                dates.add(Float.parseFloat(healthFatModel.getFatlist().get(i).getFat()));
+            }
 
 
-        chartUtil.addData(dates,n,days);
+            chartUtil.addData(dates,n,days);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
