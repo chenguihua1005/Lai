@@ -108,7 +108,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void initDatas() {
         LayoutInflater.from(this).inflate(R.layout.person_honor_fc_item,ll_honorn1);
-        TextView tv_fuce_value= (TextView) findViewById(R.id.tv_fuce_value);
+//        TextView tv_fuce_value= (TextView) findViewById(R.id.tv_fuce_value);
 //        tv_fuce_value.setText("100");
         LayoutInflater.from(this).inflate(R.layout.person_honor_jz_item,ll_honorn2);
         TextView tv_jz_value= (TextView) findViewById(R.id.tv_jz_value);
@@ -125,29 +125,6 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
         dialogShow("正在读取学员数据...");
         memberInfopresenter.getMemberinfo(String.valueOf(classId),String.valueOf(accountId) , progressDialog);
 
-//        studentBaseDate = new StudentBaseDateImpl(this);
-//        BaseDateFragment baseDateFragment = BaseDateFragment.getInstance(null);
-//        ClassDynamicFragment classDynamicFragment = ClassDynamicFragment.getInstance();
-//        fragments.add(baseDateFragment);
-//        fragments.add(classDynamicFragment);
-//        tab_content.setAdapter(new BaseDataFragmentAdapter(getSupportFragmentManager(), fragments));
-//        tab.setupWithViewPager(tab_content);
-//        View tab1 = getLayoutInflater().inflate(R.layout.tab1_basedata, null);
-//        View tab2 = getLayoutInflater().inflate(R.layout.tab2_basedata, null);
-//        tab.removeAllTabs();
-//        tab.addTab(tab.newTab().setCustomView(tab1), 0, true);
-//        tab.addTab(tab.newTab().setCustomView(tab2), 1);
-//        tab.setTabMode(TabLayout.MODE_FIXED);
-//        dialogShow("正在加载...");
-//        studentBaseDate.getClassMemberInfoPC();
-//        LossWeightChartFragmentPC lwcf= LossWeightChartFragmentPC.newInstance();
-//        DimensionChartFragmentPC dcf=DimensionChartFragmentPC.newInstance();
-//        fragments.add(lwcf);
-//        fragments.add(dcf);
-//        tabcontent.setAdapter(new StudentDetailFragmentAdapter(getSupportFragmentManager(), fragments));
-//        tabLayout.setupWithViewPager(tabcontent);
-//        tabLayout.setTabMode(TabLayout.MODE_FIXED);
-
     }
 
 
@@ -155,34 +132,6 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
 
     }
 
-
-//    public void getClassMemberInfo(StudentBaseInfoModel studentBaseInfoModel) {
-//        dialogDissmiss();
-//        if (studentBaseInfoModel != null) {
-//            Log.i("基础数据" + studentBaseInfoModel);
-//            tv_title.setText(studentBaseInfoModel.getClassName());
-//            StringBuffer strDate = new StringBuffer();
-//            StringBuffer endDate = new StringBuffer();
-//            String start = studentBaseInfoModel.getStartDate();
-//            String end = studentBaseInfoModel.getEndDate();
-//            if (StringUtils.isNotEmpty(start)) {
-//                strDate.append(DateUtil.getInstance().getYear(start));
-//                strDate.append("年");
-//                strDate.append(DateUtil.getInstance().getMonth(start));
-//                strDate.append("月");
-//            }
-//            if (StringUtils.isNotEmpty(end)) {
-//                endDate.append(DateUtil.getInstance().getYear(end));
-//                endDate.append("年");
-//                endDate.append(DateUtil.getInstance().getMonth(end));
-//                endDate.append("月");
-//            }
-////            tv_title_date.setText(strDate.toString()+"-"+endDate.toString());
-//
-//            ((BaseDateFragment) fragments.get(0)).updateData(studentBaseInfoModel);
-//            ((ClassDynamicFragment) fragments.get(1)).loadDynamic(studentBaseInfoModel.getClassId());
-//        }
-//    }
 
     @Override
     public void onClick(View v) {

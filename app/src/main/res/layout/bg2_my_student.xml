@@ -8,7 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="31dp"
         android:layout_marginTop="10dp"
-        android:background="@color/white">
+        android:background="@color/white"
+        >
 
         <TextView
             android:layout_width="wrap_content"
@@ -37,9 +38,11 @@
         android:background="#e5e5e5" />
 
     <RelativeLayout
+        android:id="@+id/re_student_one"
         android:layout_width="match_parent"
         android:layout_height="85dp"
-        android:background="@color/white">
+        android:background="@color/white"
+        >
 
         <TextView
             android:id="@+id/tv_order"
@@ -173,6 +176,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/re_student_two"
         android:layout_width="match_parent"
         android:layout_height="85dp"
         android:layout_marginTop="4dp"
@@ -310,10 +314,12 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/re_student_three"
         android:layout_width="match_parent"
         android:layout_height="85dp"
         android:layout_marginTop="4dp"
-        android:background="@color/white">
+        android:background="@color/white"
+        >
 
         <TextView
             android:id="@+id/tv_order3"
