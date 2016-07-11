@@ -1,13 +1,11 @@
 package com.softtek.lai.module.bodygame2.view;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.PopupMenu;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -15,7 +13,13 @@ import android.widget.TextView;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
+import com.softtek.lai.module.bodygame2.adapter.ClassMainStudentAdapter;
+import com.softtek.lai.module.bodygame2.adapter.ClassSelectAdapter;
+import com.softtek.lai.module.bodygame2.model.ClassMainStudentModel;
+import com.softtek.lai.module.bodygame2.model.ClassSelectModel;
 import com.softtek.lai.utils.DisplayUtil;
+import com.softtek.lai.widgets.CostomerListView;
+import com.softtek.lai.widgets.ObservableScrollView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,15 +28,24 @@ import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.fragment_class)
-public class ClassFragment extends LazyBaseFragment implements View.OnClickListener {
+public class ClassFragment extends LazyBaseFragment implements View.OnClickListener, ObservableScrollView.ScrollViewListener {
     @InjectView(R.id.lin_class_select)
     LinearLayout lin_class_select;
+
+    @InjectView(R.id.scroll)
+    ObservableScrollView scroll;
 
     @InjectView(R.id.rel_title_more)
     RelativeLayout rel_title_more;
 
     @InjectView(R.id.lin_select_type)
     LinearLayout lin_select_type;
+
+    @InjectView(R.id.rel_title)
+    RelativeLayout rel_title;
+
+    @InjectView(R.id.list_student)
+    CostomerListView list_student;
 
     @InjectView(R.id.img_class_down)
     ImageView img_class_down;
@@ -61,17 +74,45 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
     private int select_type = 1;         //1:减重斤数  2：减重百分比   3:体制率  4：腰围变化
 
     private List<ClassSelectModel> select_class_list;
+    private List<ClassMainStudentModel> student_list;
+
+    private float alapa = 0;
+
 
     @Override
     protected void initViews() {
         lin_class_select.setOnClickListener(this);
         rel_title_more.setOnClickListener(this);
         lin_select_type.setOnClickListener(this);
+        rel_title.setAlpha(0);
+        scroll.setScrollViewListener(this);
     }
 
     @Override
     protected void initDatas() {
-
+        student_list = new ArrayList<ClassMainStudentModel>();
+        for (int i = 0; i < 10; i++) {
+            ClassMainStudentModel m = new ClassMainStudentModel();
+            m.setOrder(i + "");
+            m.setImg(i + "");
+            m.setWeight(i + "");
+            m.setName("Tom" + i);
+            m.setZname("Jim" + i);
+            m.setValue(i + "");
+            m.setCount(i + "");
+            if (i % 2 == 0) {
+                m.setType1("1");
+                m.setType2("1");
+                m.setGender("1");
+            } else {
+                m.setType1("0");
+                m.setType2("0");
+                m.setGender("0");
+            }
+            student_list.add(m);
+        }
+        ClassMainStudentAdapter adapter = new ClassMainStudentAdapter(getContext(), student_list);
+        list_student.setAdapter(adapter);
     }
 
     private void initSelectTypePop() {
@@ -215,6 +256,29 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
 
                 }
                 break;
+        }
+    }
+
+    @Override
+    public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
+        if (oldy < y && scrollView.getScrollY() >= 300) {
+            alapa = alapa + (y-oldy)/100.0f;
+            if (alapa >= 1) {
+                alapa = 1;
+            }
+            rel_title.setAlpha(alapa);
+        } else if (scrollView.getScrollY() < 300 && oldy > y) {
+            alapa = alapa - (oldy-y)/100.0f;
+            if (alapa <= 0) {
+                alapa = 0;
+            }
+            rel_title.setAlpha(alapa);
+        }
+        if(scrollView.getScrollY()==0){
+            rel_title.setAlpha(0);
+        }
+        if(scrollView.getScrollY()>500){
+            rel_title.setAlpha(1);
         }
     }
 }

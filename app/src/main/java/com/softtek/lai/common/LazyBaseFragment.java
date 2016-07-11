@@ -1,5 +1,6 @@
 package com.softtek.lai.common;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -23,6 +24,7 @@ public abstract class LazyBaseFragment extends Fragment{
     private boolean isCreatedView=false;//是否加载完成试图
 
     protected View contentView;
+    protected ProgressDialog progressDialog;
 
 
     @Nullable
@@ -53,7 +55,21 @@ public abstract class LazyBaseFragment extends Fragment{
         isCreatedView=false;
         super.onDestroyView();
     }
-
+    public void dialogShow(String value) {
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(getContext());
+            progressDialog.setCanceledOnTouchOutside(false);
+            progressDialog.setCancelable(false);
+            progressDialog.setMessage(value);
+            progressDialog.show();
+        }
+    }
+    public void dialogDissmiss() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+            progressDialog = null;
+        }
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();

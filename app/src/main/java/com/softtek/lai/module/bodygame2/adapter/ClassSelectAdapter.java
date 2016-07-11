@@ -3,27 +3,20 @@
  * Date:2016-03-31
  */
 
-package com.softtek.lai.module.bodygame2.view;
+package com.softtek.lai.module.bodygame2.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
-import com.softtek.lai.module.counselor.model.MarchInfoModel;
+import com.softtek.lai.module.bodygame2.model.ClassSelectModel;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
-import com.softtek.lai.utils.StringUtil;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
-
-import zilla.libcore.file.AddressManager;
 
 /**
  * Created by jarvis.liu on 3/22/2016.
