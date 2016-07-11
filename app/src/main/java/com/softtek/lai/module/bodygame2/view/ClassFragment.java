@@ -1,26 +1,22 @@
 package com.softtek.lai.module.bodygame2.view;
 
-import android.annotation.TargetApi;
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
-import android.os.Build;
-import android.os.Handler;
-import android.os.Message;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.PopupMenu;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
+import com.softtek.lai.module.bodygame2.adapter.ClassMainStudentAdapter;
+import com.softtek.lai.module.bodygame2.adapter.ClassSelectAdapter;
+import com.softtek.lai.module.bodygame2.model.ClassMainStudentModel;
+import com.softtek.lai.module.bodygame2.model.ClassSelectModel;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.widgets.CostomerListView;
 import com.softtek.lai.widgets.ObservableScrollView;
@@ -80,39 +76,8 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
     private List<ClassSelectModel> select_class_list;
     private List<ClassMainStudentModel> student_list;
 
-    private int lastY = 0;
-    float old_y;
-    private int touchEventId = -9983761;
     private float alapa = 0;
 
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            View scroller = (View) msg.obj;
-            if (msg.what == touchEventId) {
-                System.out.println("lastY:" + lastY + "   scroller.getScrollY():" + scroller.getScrollY());
-                if (lastY == scroller.getScrollY()) {
-                    handleStop(scroller);
-                } else {
-                    handler.sendMessageDelayed(handler.obtainMessage(touchEventId, scroller), 5);
-                    lastY = scroller.getScrollY();
-
-                }
-            } else {
-
-            }
-        }
-    };
-
-    private void handleStop(View scorll) {
-//        System.out.println("位置：" + scorll.getScrollY());
-//        if (scorll.getScrollY() < 400) {
-//            rel_title.setAlpha(0);
-//        } else {
-//            rel_title.setAlpha(1);
-//        }
-    }
 
     @Override
     protected void initViews() {
@@ -121,17 +86,6 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
         lin_select_type.setOnClickListener(this);
         rel_title.setAlpha(0);
         scroll.setScrollViewListener(this);
-        scroll.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_UP:
-                        handler.sendMessageDelayed(handler.obtainMessage(touchEventId, v), 5);
-                        break;
-                }
-                return false;
-            }
-        });
     }
 
     @Override
@@ -307,8 +261,6 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
 
     @Override
     public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
-        System.out.println("scrollY:" + y + "    oldScrollY:" + oldy + "   scrollView:" + scrollView.getScrollY() + "   y:" + scrollView.getY());
-        old_y = y;
         if (oldy < y && scrollView.getScrollY() >= 300) {
             alapa = alapa + (y-oldy)/100.0f;
             if (alapa >= 1) {

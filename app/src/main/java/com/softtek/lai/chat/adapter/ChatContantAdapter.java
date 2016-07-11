@@ -5,6 +5,7 @@
 
 package com.softtek.lai.chat.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,12 +28,12 @@ import zilla.libcore.file.AddressManager;
 public class ChatContantAdapter extends BaseAdapter {
     private LayoutInflater mInflater;//得到一个LayoutInfalter对象用来导入布局
     private List<ChatContactInfoModel> list;
-    private BaseActivity context;
+    private Context context;
 
     /**
      * 构造函数
      */
-    public ChatContantAdapter(BaseActivity context, List<ChatContactInfoModel> list) {
+    public ChatContantAdapter(Context context, List<ChatContactInfoModel> list) {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
         this.list = list;
