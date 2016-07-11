@@ -10,6 +10,7 @@
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/re_xunz"
         android:layout_width="102dip"
         android:layout_height="fill_parent"
         android:orientation="vertical">
@@ -19,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:src="@drawable/img_student_honor_jz_bg" />
+            android:src="@drawable/img_student_honor_tong" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -27,10 +28,10 @@
             android:layout_centerInParent="true">
 
             <TextView
-                android:id="@+id/text_value"
+                android:id="@+id/tv_fuce_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="10"
+                android:text=""
                 android:textColor="@color/white"
                 android:textSize="@dimen/textSize5" />
 
@@ -38,9 +39,22 @@
                 android:id="@+id/tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="斤"
+                android:text=""
                 android:textColor="@color/white"
                 android:textSize="@dimen/textSize6" />
+
         </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="复测铜牌"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:paddingTop="120dp"
+            android:textColor="#666666"
+            android:textSize="9sp"
+            />
     </RelativeLayout>
 </RelativeLayout>

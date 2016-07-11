@@ -33,7 +33,6 @@ public class ClassListManager {
                 int status = listResponseData.getStatus();
                 switch (status) {
                     case 200:
-                        Log.i("往期回顾：》》班级列表" + listResponseData.getData());
                         if (cb != null) {
                             cb.getClassList(listResponseData.getData());
                         }

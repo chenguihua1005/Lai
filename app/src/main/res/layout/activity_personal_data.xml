@@ -26,7 +26,7 @@
                 android:layout_height="173dp"
                 android:background="#ffffff"
                 android:orientation="vertical"
-                android:visibility="visible">
+                >
 
                 <RelativeLayout
                     android:id="@+id/re_flag"
@@ -216,7 +216,7 @@
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
                 android:orientation="vertical"
-                android:visibility="gone">
+                >
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
@@ -244,7 +244,8 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="60dp"
-                    android:gravity="center_vertical"
+                    android:gravity="center"
+                    android:layout_gravity="center_vertical"
                     >
                     <RelativeLayout
                         android:id="@+id/re_date"
@@ -258,6 +259,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="13"
+                        android:layout_centerHorizontal="true"
                         android:textSize="14sp"
                         android:textColor="#333333"
                         android:textStyle="bold"
@@ -266,6 +268,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="三月"
+                        android:layout_centerHorizontal="true"
                         android:layout_below="@+id/tv_weightday"
                         android:textColor="#333333"
                         android:textSize="12sp"/>
@@ -278,6 +281,7 @@
                         android:layout_marginLeft="10dp"
                         android:textSize="12sp"
                         android:maxLines="4"
+                        android:layout_centerVertical="true"
                         android:ellipsize="end"/>
 
                 </RelativeLayout>
@@ -285,13 +289,13 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="110dp"
+                android:layout_height="188dp"
                 android:layout_marginTop="13dp"
                 android:background="#ffffff"
                 android:orientation="vertical"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:visibility="gone">
+                >
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -326,33 +330,73 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
-                    android:gravity="center">
+                    android:gravity="center"
+                    >
 
                     <LinearLayout
-                        android:id="@+id/ll_honorn1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
                         android:orientation="vertical"
                         >
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:id="@+id/ll_honorn1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="80dp"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:layout_marginTop="20dp">
 
-
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="复测铜牌"
+                        android:textColor="#666666"
+                        android:textSize="9sp"/>
+                        </LinearLayout>
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/ll_honorn2"
+
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:orientation="vertical"
                         android:gravity="center"
                         >
+                        <LinearLayout
+                            android:id="@+id/ll_honorn2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="80dp"
+                            android:orientation="vertical"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:layout_marginTop="20dp">
 
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="减重100斤奖章"
+                                android:textColor="#666666"
+                                android:textSize="9sp"/>/>
+                        </LinearLayout>
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/ll_honorn3"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -360,7 +404,28 @@
                         android:gravity="center"
                         >
 
+                        <LinearLayout
+                            android:id="@+id/ll_honorn3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="80dp"
+                            android:orientation="vertical"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:layout_marginTop="20dp">
 
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="月冠军"
+                                android:textColor="#666666"
+                                android:textSize="9sp"/>/>
+                        </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -373,7 +438,7 @@
                 android:orientation="vertical"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:visibility="gone">
+                >
 
                 <RelativeLayout
                     android:layout_width="match_parent"

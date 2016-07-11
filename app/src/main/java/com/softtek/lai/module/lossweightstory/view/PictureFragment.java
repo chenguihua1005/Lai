@@ -46,8 +46,9 @@ public class PictureFragment extends BaseFragment{
         if(cache!=null&&!cache.isRecycled()){
             cache.recycle();
         }
+        int px=Math.min(DisplayUtil.getMobileHeight(getContext()),DisplayUtil.getMobileWidth(getContext()));
         Picasso.with(getContext()).load(AddressManager.get("photoHost")+uri)
-                .resize(DisplayUtil.getMobileWidth(getContext()),DisplayUtil.getMobileHeight(getContext())).centerCrop()
+                .resize(px,px).centerCrop()
                 .placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square).into(iv_image);
     }
 
