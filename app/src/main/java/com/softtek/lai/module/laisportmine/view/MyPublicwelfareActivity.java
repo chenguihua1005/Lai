@@ -77,13 +77,17 @@ public class MyPublicwelfareActivity extends BaseActivity implements View.OnClic
 
     @Override
     public void getMyPublicWewlList(List<PublicWewlfModel> publicWewlfModel) {
-        if (publicWewlfModel==null||publicWewlfModel.isEmpty())
-        {
-            ll_public_nomessage.setVisibility(View.VISIBLE);
-        }
-        else {
-            publicWewlfModelList = publicWewlfModel;
-            myPublicWealfareAdapter.updateData(publicWewlfModelList);
+        try {
+            if (publicWewlfModel==null||publicWewlfModel.isEmpty())
+            {
+                ll_public_nomessage.setVisibility(View.VISIBLE);
+            }
+            else {
+                publicWewlfModelList = publicWewlfModel;
+                myPublicWealfareAdapter.updateData(publicWewlfModelList);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

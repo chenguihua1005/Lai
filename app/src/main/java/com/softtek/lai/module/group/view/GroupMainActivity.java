@@ -415,95 +415,99 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void getSportIndex(String type, SportMainModel sportMainModel) {
         pull_sroll.onRefreshComplete();
-        if ("success".equals(type)) {
-            String TodayStepCnt = sportMainModel.getTodayStepCnt();
-            if ("0".equals(TodayStepCnt)) {
-                text_step.setText("--");
-                text_rl.setText("--");
-                text3.setVisibility(View.GONE);
-            } else {
-                text_step.setText(sportMainModel.getTodayStepCnt());
-                text3.setVisibility(View.VISIBLE);
-                int kaluli = Integer.parseInt(sportMainModel.getTodayStepCnt()) / 35;
-                text_rl.setText(kaluli + "");
-            }
-            String todayStepOdr = sportMainModel.getTodayStepOdr();
-            if ("0".equals(todayStepOdr)) {
-                text_pm.setText("--");
-            } else {
-                text_pm.setText(sportMainModel.getTodayStepOdr());
-            }
-            String medalCnt = sportMainModel.getMedalCnt();
-            if ("0".equals(medalCnt)) {
-                text_xzs.setText("--");
-            } else {
-                text_xzs.setText(sportMainModel.getMedalCnt());
-            }
-
-            text_gxz.setText(sportMainModel.getDonatenNum());
-
-            tv_title.setText(sportMainModel.getRGName());
-
-            praiseChallengeModel = sportMainModel.getPraiseChallenge();
-            if (praiseChallengeModel != null && praiseChallengeModel.getPKId() == null) {
-                lin_no_pk.setVisibility(View.VISIBLE);
-                lin_have_pk.setVisibility(View.GONE);
-            } else {
-                lin_no_pk.setVisibility(View.GONE);
-                lin_have_pk.setVisibility(View.VISIBLE);
-                text_pk_left_count.setText(praiseChallengeModel.getPCnt());
-                text_pk_right_count.setText(praiseChallengeModel.getBPCnt());
-                text_left_1.setText(praiseChallengeModel.getPCnt());
-                text_right_2.setText(praiseChallengeModel.getBPCnt());
-                text_pk_left_name.setText(StringUtil.showName(praiseChallengeModel.getUserName(), praiseChallengeModel.getMobile()));
-                text_pk_right_name.setText(StringUtil.showName(praiseChallengeModel.getBUserName(), praiseChallengeModel.getBMobile()));
-                String chipType = praiseChallengeModel.getChipType();
-                if ("0".equals(chipType)) {
-                    img_pk_type.setImageResource(R.drawable.img_group_main_1);
-                } else if ("1".equals(chipType)) {
-                    img_pk_type.setImageResource(R.drawable.img_group_main_2);
-                } else if ("2".equals(chipType)) {
-                    img_pk_type.setImageResource(R.drawable.img_group_main_3);
-                }
-                String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-                if ("".equals(praiseChallengeModel.getUserPhoto()) || "null".equals(praiseChallengeModel.getUserPhoto()) || praiseChallengeModel.getUserPhoto() == null) {
-                    Picasso.with(this).load(R.drawable.img_default).into(img_left);
+        try {
+            if ("success".equals(type)) {
+                String TodayStepCnt = sportMainModel.getTodayStepCnt();
+                if ("0".equals(TodayStepCnt)) {
+                    text_step.setText("--");
+                    text_rl.setText("--");
+                    text3.setVisibility(View.GONE);
                 } else {
-                    Picasso.with(this).load(path + praiseChallengeModel.getUserPhoto()).fit().error(R.drawable.img_default).into(img_left);
+                    text_step.setText(sportMainModel.getTodayStepCnt());
+                    text3.setVisibility(View.VISIBLE);
+                    int kaluli = Integer.parseInt(sportMainModel.getTodayStepCnt()) / 35;
+                    text_rl.setText(kaluli + "");
                 }
-                if ("".equals(praiseChallengeModel.getBPhoto()) || "null".equals(praiseChallengeModel.getBPhoto()) || praiseChallengeModel.getBPhoto() == null) {
-                    Picasso.with(this).load(R.drawable.img_default).into(img_right);
+                String todayStepOdr = sportMainModel.getTodayStepOdr();
+                if ("0".equals(todayStepOdr)) {
+                    text_pm.setText("--");
                 } else {
-                    Picasso.with(this).load(path + praiseChallengeModel.getBPhoto()).fit().error(R.drawable.img_default).into(img_right);
+                    text_pm.setText(sportMainModel.getTodayStepOdr());
                 }
-                String start = praiseChallengeModel.getStart();
-                String end = praiseChallengeModel.getEnd();
-
-                String start_time = "";
-                String end_time = "";
-
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd日");
-                try {
-                    Date start_date = sdf.parse(start);
-                    Date end_date = sdf.parse(end);
-                    start_time = format.format(start_date);
-                    end_time = format.format(end_date);
-                } catch (ParseException e) {
-                    e.printStackTrace();
+                String medalCnt = sportMainModel.getMedalCnt();
+                if ("0".equals(medalCnt)) {
+                    text_xzs.setText("--");
+                } else {
+                    text_xzs.setText(sportMainModel.getMedalCnt());
                 }
-                text_pk_time.setText(start_time + " - " + end_time);
+
+                text_gxz.setText(sportMainModel.getDonatenNum());
+
+                tv_title.setText(sportMainModel.getRGName());
+
+                praiseChallengeModel = sportMainModel.getPraiseChallenge();
+                if (praiseChallengeModel != null && praiseChallengeModel.getPKId() == null) {
+                    lin_no_pk.setVisibility(View.VISIBLE);
+                    lin_have_pk.setVisibility(View.GONE);
+                } else {
+                    lin_no_pk.setVisibility(View.GONE);
+                    lin_have_pk.setVisibility(View.VISIBLE);
+                    text_pk_left_count.setText(praiseChallengeModel.getPCnt());
+                    text_pk_right_count.setText(praiseChallengeModel.getBPCnt());
+                    text_left_1.setText(praiseChallengeModel.getPCnt());
+                    text_right_2.setText(praiseChallengeModel.getBPCnt());
+                    text_pk_left_name.setText(StringUtil.showName(praiseChallengeModel.getUserName(), praiseChallengeModel.getMobile()));
+                    text_pk_right_name.setText(StringUtil.showName(praiseChallengeModel.getBUserName(), praiseChallengeModel.getBMobile()));
+                    String chipType = praiseChallengeModel.getChipType();
+                    if ("0".equals(chipType)) {
+                        img_pk_type.setImageResource(R.drawable.img_group_main_1);
+                    } else if ("1".equals(chipType)) {
+                        img_pk_type.setImageResource(R.drawable.img_group_main_2);
+                    } else if ("2".equals(chipType)) {
+                        img_pk_type.setImageResource(R.drawable.img_group_main_3);
+                    }
+                    String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+                    if ("".equals(praiseChallengeModel.getUserPhoto()) || "null".equals(praiseChallengeModel.getUserPhoto()) || praiseChallengeModel.getUserPhoto() == null) {
+                        Picasso.with(this).load(R.drawable.img_default).into(img_left);
+                    } else {
+                        Picasso.with(this).load(path + praiseChallengeModel.getUserPhoto()).fit().error(R.drawable.img_default).into(img_left);
+                    }
+                    if ("".equals(praiseChallengeModel.getBPhoto()) || "null".equals(praiseChallengeModel.getBPhoto()) || praiseChallengeModel.getBPhoto() == null) {
+                        Picasso.with(this).load(R.drawable.img_default).into(img_right);
+                    } else {
+                        Picasso.with(this).load(path + praiseChallengeModel.getBPhoto()).fit().error(R.drawable.img_default).into(img_right);
+                    }
+                    String start = praiseChallengeModel.getStart();
+                    String end = praiseChallengeModel.getEnd();
+
+                    String start_time = "";
+                    String end_time = "";
+
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd日");
+                    try {
+                        Date start_date = sdf.parse(start);
+                        Date end_date = sdf.parse(end);
+                        start_time = format.format(start_date);
+                        end_time = format.format(end_date);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    text_pk_time.setText(start_time + " - " + end_time);
+                }
+                recentlyActivite = sportMainModel.getRecentlyActivite();
+                if (recentlyActivite.size() == 0) {
+                    lin_no_activity.setVisibility(View.VISIBLE);
+                    list_activity.setVisibility(View.GONE);
+                } else {
+                    lin_no_activity.setVisibility(View.GONE);
+                    list_activity.setVisibility(View.VISIBLE);
+                    GroupMainActiuvityAdapter adapter = new GroupMainActiuvityAdapter(this, recentlyActivite);
+                    list_activity.setAdapter(adapter);
+                }
             }
-            recentlyActivite = sportMainModel.getRecentlyActivite();
-            if (recentlyActivite.size() == 0) {
-                lin_no_activity.setVisibility(View.VISIBLE);
-                list_activity.setVisibility(View.GONE);
-            } else {
-                lin_no_activity.setVisibility(View.GONE);
-                list_activity.setVisibility(View.VISIBLE);
-                GroupMainActiuvityAdapter adapter = new GroupMainActiuvityAdapter(this, recentlyActivite);
-                list_activity.setAdapter(adapter);
-            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
         }
     }
 

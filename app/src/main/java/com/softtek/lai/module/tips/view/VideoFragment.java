@@ -92,22 +92,26 @@ public class VideoFragment extends BaseFragment implements
 
     @Override
     public void getHealthyList(AskHealthyResponseModel model) {
-        if(ptrlv!=null)
-            ptrlv.onRefreshComplete();
-        if(model==null||(model.getTotalPage()==null||model.getTipsList()==null)){
-            pageIndex=--pageIndex<1?1:pageIndex;
-            return;
+        try {
+            if(ptrlv!=null)
+                ptrlv.onRefreshComplete();
+            if(model==null||(model.getTotalPage()==null||model.getTipsList()==null)){
+                pageIndex=--pageIndex<1?1:pageIndex;
+                return;
+            }
+            totalPage=Integer.parseInt(model.getTotalPage());
+            if(model.getTipsList()==null||model.getTipsList().isEmpty()){
+                pageIndex=--pageIndex<1?1:pageIndex;
+                return;
+            }
+            if(pageIndex==1){
+                modelList.clear();
+            }
+            modelList.addAll(model.getTipsList());
+            adapter.notifyDataSetChanged();
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
         }
-        totalPage=Integer.parseInt(model.getTotalPage());
-        if(model.getTipsList()==null||model.getTipsList().isEmpty()){
-            pageIndex=--pageIndex<1?1:pageIndex;
-            return;
-        }
-        if(pageIndex==1){
-            modelList.clear();
-        }
-        modelList.addAll(model.getTipsList());
-        adapter.notifyDataSetChanged();
     }
 
     @Override

@@ -200,35 +200,39 @@ public class LossWeightLogActivity extends BaseActivity implements View.OnClickL
     @Override
     public void getLogList(LogList logs) {
         ptrlv.onRefreshComplete();
-        if(logs==null){
-            pageIndex=--pageIndex<1?1:pageIndex;
-            return;
+        try {
+            if(logs==null){
+                pageIndex=--pageIndex<1?1:pageIndex;
+                return;
+            }
+            String path= AddressManager.get("photoHost");
+            if(StringUtils.isNotEmpty(logs.getPhoto())){
+                Picasso.with(this).load(path + logs.getPhoto()).fit()
+                        .placeholder(R.drawable.img_default)
+                        .error(R.drawable.img_default)
+                        .into(cir_header_image);
+            }
+            if(StringUtils.isNotEmpty(logs.getBanner())){
+                Picasso.with(this).load(path + logs.getBanner()).fit()
+                        .placeholder(R.drawable.default_icon_rect)
+                        .error(R.drawable.default_icon_rect).centerCrop()
+                        .into(log_banner);
+            }
+            totalPage=Integer.parseInt(logs.getTotalPage());
+            tv_name.setText(logs.getUserName());
+            List<LossWeightLogModel> models=logs.getLogList();
+            if(models==null||models.isEmpty()){
+                pageIndex=--pageIndex<1?1:pageIndex;
+                return;
+            }
+            if(pageIndex==1){
+                this.logs.clear();
+            }
+            this.logs.addAll(models);
+            adapter.notifyDataSetChanged();
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
         }
-        String path= AddressManager.get("photoHost");
-        if(StringUtils.isNotEmpty(logs.getPhoto())){
-            Picasso.with(this).load(path + logs.getPhoto()).fit()
-                    .placeholder(R.drawable.img_default)
-                    .error(R.drawable.img_default)
-                    .into(cir_header_image);
-        }
-        if(StringUtils.isNotEmpty(logs.getBanner())){
-            Picasso.with(this).load(path + logs.getBanner()).fit()
-                    .placeholder(R.drawable.default_icon_rect)
-                    .error(R.drawable.default_icon_rect).centerCrop()
-                    .into(log_banner);
-        }
-        totalPage=Integer.parseInt(logs.getTotalPage());
-        tv_name.setText(logs.getUserName());
-        List<LossWeightLogModel> models=logs.getLogList();
-        if(models==null||models.isEmpty()){
-            pageIndex=--pageIndex<1?1:pageIndex;
-            return;
-        }
-        if(pageIndex==1){
-            this.logs.clear();
-        }
-        this.logs.addAll(models);
-        adapter.notifyDataSetChanged();
 
     }
 

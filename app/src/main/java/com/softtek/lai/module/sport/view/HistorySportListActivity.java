@@ -78,10 +78,14 @@ public class HistorySportListActivity extends BaseActivity implements View.OnCli
 
     @Override
     public void getMovementList(String type, List<HistorySportModel> list) {
-        if("true".equals(type)){
-            this.list=list;
-            adapter = new HistorySportAdapter(this, this.list);
-            sport_list.setAdapter(adapter);
+        try {
+            if("true".equals(type)){
+                this.list=list;
+                adapter = new HistorySportAdapter(this, this.list);
+                sport_list.setAdapter(adapter);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

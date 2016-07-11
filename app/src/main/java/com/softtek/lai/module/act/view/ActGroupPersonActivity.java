@@ -163,63 +163,67 @@ public class ActGroupPersonActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void getActRGStepOrder(String type, ActZKPModel model) {
-        if ("true".equals(type)) {
-            rel_head.setVisibility(View.VISIBLE);
-            zk_list.setVisibility(View.VISIBLE);
-            img_loss.setVisibility(View.GONE);
-            img_mo_message.setVisibility(View.GONE);
-            if (zk_list != null) {
-                zk_list.onRefreshComplete();
-            }
-            String pages = model.getPageCount();
-            if (!"".equals(pages)) {
-                totalPage = Integer.parseInt(pages);
-            } else {
-                totalPage = 1;
-            }
+        try {
+            if ("true".equals(type)) {
+                rel_head.setVisibility(View.VISIBLE);
+                zk_list.setVisibility(View.VISIBLE);
+                img_loss.setVisibility(View.GONE);
+                img_mo_message.setVisibility(View.GONE);
+                if (zk_list != null) {
+                    zk_list.onRefreshComplete();
+                }
+                String pages = model.getPageCount();
+                if (!"".equals(pages)) {
+                    totalPage = Integer.parseInt(pages);
+                } else {
+                    totalPage = 1;
+                }
 
-            if (pageIndex == 1) {
-                list = model.getAccDetiallist();
-                adapter = new ActZKPAdapter(this, list, m_tpye, Float.parseFloat(target));
-                zk_list.setAdapter(adapter);
-            } else {
-                list.addAll(model.getAccDetiallist());
-                adapter.notifyDataSetChanged();
-            }
-        } else if ("102".equals(type)) {
-            rel_head.setVisibility(View.GONE);
-            zk_list.setVisibility(View.GONE);
-            img_loss.setVisibility(View.VISIBLE);
-            img_mo_message.setVisibility(View.GONE);
-            if (pageIndex == 1) {
+                if (pageIndex == 1) {
+                    list = model.getAccDetiallist();
+                    adapter = new ActZKPAdapter(this, list, m_tpye, Float.parseFloat(target));
+                    zk_list.setAdapter(adapter);
+                } else {
+                    list.addAll(model.getAccDetiallist());
+                    adapter.notifyDataSetChanged();
+                }
+            } else if ("102".equals(type)) {
                 rel_head.setVisibility(View.GONE);
                 zk_list.setVisibility(View.GONE);
-            }
-            if (zk_list != null) {
-                zk_list.onRefreshComplete();
-            }
-            if (pageIndex == 1) {
-                pageIndex = 1;
+                img_loss.setVisibility(View.VISIBLE);
+                img_mo_message.setVisibility(View.GONE);
+                if (pageIndex == 1) {
+                    rel_head.setVisibility(View.GONE);
+                    zk_list.setVisibility(View.GONE);
+                }
+                if (zk_list != null) {
+                    zk_list.onRefreshComplete();
+                }
+                if (pageIndex == 1) {
+                    pageIndex = 1;
+                } else {
+                    pageIndex--;
+                }
             } else {
-                pageIndex--;
-            }
-        } else {
-            rel_head.setVisibility(View.GONE);
-            zk_list.setVisibility(View.GONE);
-            img_loss.setVisibility(View.GONE);
-            img_mo_message.setVisibility(View.VISIBLE);
-            if (pageIndex == 1) {
                 rel_head.setVisibility(View.GONE);
                 zk_list.setVisibility(View.GONE);
+                img_loss.setVisibility(View.GONE);
+                img_mo_message.setVisibility(View.VISIBLE);
+                if (pageIndex == 1) {
+                    rel_head.setVisibility(View.GONE);
+                    zk_list.setVisibility(View.GONE);
+                }
+                if (zk_list != null) {
+                    zk_list.onRefreshComplete();
+                }
+                if (pageIndex == 1) {
+                    pageIndex = 1;
+                } else {
+                    pageIndex--;
+                }
             }
-            if (zk_list != null) {
-                zk_list.onRefreshComplete();
-            }
-            if (pageIndex == 1) {
-                pageIndex = 1;
-            } else {
-                pageIndex--;
-            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
         }
     }
 }

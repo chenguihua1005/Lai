@@ -129,52 +129,56 @@ public class HistoryStudentHonorActivity extends BaseActivity implements View.On
     @Override
     public void getHistoryStudentHonorCallback(String type, List<HistoryHonorInfo> table1) {
         dialogDissmiss();
-        if ("true".equals(type)) {
+        try {
+            if ("true".equals(type)) {
 
-            System.out.println("table1:" + table1);
-            for (int i = 0; i < table1.size(); i++) {
-                HistoryHonorInfo studentHonorInfo = table1.get(i);
-                String honorType = studentHonorInfo.getHonorType().toString();
-                if ("0".equals(honorType)) {
-                    jz_list.add(studentHonorInfo);//减重
-                } else if ("1".equals(honorType)) {
-                    fc_list.add(studentHonorInfo);//复测
-                } else if ("2".equals(honorType)) {
-                    ygj_list.add(studentHonorInfo);//月
+                System.out.println("table1:" + table1);
+                for (int i = 0; i < table1.size(); i++) {
+                    HistoryHonorInfo studentHonorInfo = table1.get(i);
+                    String honorType = studentHonorInfo.getHonorType().toString();
+                    if ("0".equals(honorType)) {
+                        jz_list.add(studentHonorInfo);//减重
+                    } else if ("1".equals(honorType)) {
+                        fc_list.add(studentHonorInfo);//复测
+                    } else if ("2".equals(honorType)) {
+                        ygj_list.add(studentHonorInfo);//月
+                    } else {
+                        star_list.add(studentHonorInfo);//全国
+                    }
+                }
+
+                if (jz_list.size() == 0) {
+                    view_jz.setVisibility(View.GONE);
+                    list_jz.setVisibility(View.GONE);
                 } else {
-                    star_list.add(studentHonorInfo);//全国
+                    HistoryHonorJZAdapter jz_adapter = new HistoryHonorJZAdapter(this, jz_list);
+                    list_jz.setAdapter(jz_adapter);
+                }
+
+                if (fc_list.size() == 0) {
+                    view_fc.setVisibility(View.GONE);
+                    list_fc.setVisibility(View.GONE);
+                } else {
+                    HistoryHonorFCAdapter fc_adapter = new HistoryHonorFCAdapter(this, fc_list);
+                    list_fc.setAdapter(fc_adapter);
+                }
+
+                if (ygj_list.size() == 0) {
+                    view_ygj.setVisibility(View.GONE);
+                    list_ygj.setVisibility(View.GONE);
+                } else {
+                    HistoryHonorYGJAdapter ygj_adapter = new HistoryHonorYGJAdapter(this, ygj_list);
+                    list_ygj.setAdapter(ygj_adapter);
+                }
+                if (star_list.size() == 0) {
+                    historylist_star.setVisibility(View.GONE);
+                } else {
+                    HistoryHonorStarAdapter star_adapter = new HistoryHonorStarAdapter(this, star_list);
+                    historylist_star.setAdapter(star_adapter);
                 }
             }
-
-            if (jz_list.size() == 0) {
-                view_jz.setVisibility(View.GONE);
-                list_jz.setVisibility(View.GONE);
-            } else {
-                HistoryHonorJZAdapter jz_adapter = new HistoryHonorJZAdapter(this, jz_list);
-                list_jz.setAdapter(jz_adapter);
-            }
-
-            if (fc_list.size() == 0) {
-                view_fc.setVisibility(View.GONE);
-                list_fc.setVisibility(View.GONE);
-            } else {
-                HistoryHonorFCAdapter fc_adapter = new HistoryHonorFCAdapter(this, fc_list);
-                list_fc.setAdapter(fc_adapter);
-            }
-
-            if (ygj_list.size() == 0) {
-                view_ygj.setVisibility(View.GONE);
-                list_ygj.setVisibility(View.GONE);
-            } else {
-                HistoryHonorYGJAdapter ygj_adapter = new HistoryHonorYGJAdapter(this, ygj_list);
-                list_ygj.setAdapter(ygj_adapter);
-            }
-            if (star_list.size() == 0) {
-                historylist_star.setVisibility(View.GONE);
-            } else {
-                HistoryHonorStarAdapter star_adapter = new HistoryHonorStarAdapter(this, star_list);
-                historylist_star.setAdapter(star_adapter);
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
