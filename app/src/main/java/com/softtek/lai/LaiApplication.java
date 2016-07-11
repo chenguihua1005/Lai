@@ -104,6 +104,10 @@ public class LaiApplication extends Application implements Zilla.InitCallback, D
             "accountId text," +
             "stepCount bigint," +
             "recordTime text )";
+    public static final String TABLE_SPORT_DATA="create table sport_data(" +
+            "id text primary key,"+
+            ""+
+            ")";
 
     @Override
     public void onCreate(SQLiteDatabase db) {

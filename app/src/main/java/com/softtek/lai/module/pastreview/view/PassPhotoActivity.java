@@ -98,22 +98,26 @@ public class PassPhotoActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void getMyPhotoList(MyPhotoListModel myPhotoListModels) {
         ptrlvpassclasslist.onRefreshComplete();
-        if (myPhotoListModels == null) {
-            pageIndex = --pageIndex < 1 ? 1 : pageIndex;
-            return;
-        }
-        im_nomessage.setVisibility(View.GONE);
+        try {
+            if (myPhotoListModels == null) {
+                pageIndex = --pageIndex < 1 ? 1 : pageIndex;
+                return;
+            }
+            im_nomessage.setVisibility(View.GONE);
 
-        MyPhotoListModel models = myPhotoListModels;
+            MyPhotoListModel models = myPhotoListModels;
 
-        if (myPhotoListModels == null) {
-            pageIndex = --pageIndex < 1 ? 1 : pageIndex;
-            return;
+            if (myPhotoListModels == null) {
+                pageIndex = --pageIndex < 1 ? 1 : pageIndex;
+                return;
+            }
+            if (pageIndex == 1) {
+                myPhotoListModelList.clear();
+            }
+            myPhotoListModelList.add(models);
+            myPhotoListAdapter.notifyDataSetChanged();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        if (pageIndex == 1) {
-            myPhotoListModelList.clear();
-        }
-        myPhotoListModelList.add(models);
-        myPhotoListAdapter.notifyDataSetChanged();
     }
 }

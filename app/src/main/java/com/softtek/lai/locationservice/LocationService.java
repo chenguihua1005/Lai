@@ -2,7 +2,12 @@ package com.softtek.lai.locationservice;
 
 import android.app.Service;
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
+import android.os.Messenger;
+import android.os.RemoteException;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.amap.api.location.AMapLocation;
@@ -54,16 +59,43 @@ public class LocationService extends Service implements AMapLocationListener {
         super.onDestroy();
     }
 
+    public static final int MSG_FROM_CLIENT=100;
+    public static final int MSG_FROM_SERVER=200;
+    private static AMapLocation aMapLocation;
+    private Messenger messenger=new Messenger(new MessengerHandler());
+
+    private static class MessengerHandler extends Handler{
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case MSG_FROM_CLIENT:
+                    //接受从客户端发来的信息并恢复给客户端
+                    Messenger messenger=msg.replyTo;
+                    Message message=Message.obtain(null,MSG_FROM_SERVER);
+                    Bundle data=new Bundle();
+                    data.putParcelable("location",aMapLocation);
+                    try {
+                        messenger.send(message);
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                default:
+                    super.handleMessage(msg);
+            }
+        }
+    }
 
     @Override
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
-        return null;
+        return messenger.getBinder();
     }
 
     @Override
     public void onLocationChanged(AMapLocation aMapLocation) {
         if(aMapLocation!=null){
+            this.aMapLocation=aMapLocation;
             Intent locIntent=new Intent(LOCATION_SERIVER);
             locIntent.putExtra("location",aMapLocation);
             LocalBroadcastManager.getInstance(this).sendBroadcast(locIntent);

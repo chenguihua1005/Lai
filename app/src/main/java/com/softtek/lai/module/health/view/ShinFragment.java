@@ -289,16 +289,20 @@ public class ShinFragment extends BaseFragment implements RadioGroup.OnCheckedCh
     @Override
     public void getHealthdoLegGirthRecords(HealthdoLegGirthModel healthdoLegGirthModel) {
         progressDialog.dismiss();
-        if(healthdoLegGirthModel==null){
-            return;
-        }
-        System.out.println("健康记录体重" + healthdoLegGirthModel.getFirstrecordtime());
-        int n=healthdoLegGirthModel.getDoLegGirthlist().size();
-        for (int i=0;i<=n-1;i++) {
-            dates.add(Float.parseFloat(healthdoLegGirthModel.getDoLegGirthlist().get(i).getDoLegGirth()));
-        }
+        try {
+            if(healthdoLegGirthModel==null){
+                return;
+            }
+            System.out.println("健康记录体重" + healthdoLegGirthModel.getFirstrecordtime());
+            int n=healthdoLegGirthModel.getDoLegGirthlist().size();
+            for (int i=0;i<=n-1;i++) {
+                dates.add(Float.parseFloat(healthdoLegGirthModel.getDoLegGirthlist().get(i).getDoLegGirth()));
+            }
 
-        chartUtil.addData(dates,n,days);
+            chartUtil.addData(dates,n,days);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

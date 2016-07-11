@@ -55,7 +55,11 @@ public class PastReviewManager {
             @Override
             public void success(ResponseData<StoryList> storyListResponseData, Response response) {
                 if(activity!=null){
-                    activity.getLogList(storyListResponseData.getData());
+                    if(storyListResponseData.getStatus()==200){
+                        activity.getLogList(storyListResponseData.getData());
+                    }else{
+                        activity.getLogList(null);
+                    }
                 }
             }
 

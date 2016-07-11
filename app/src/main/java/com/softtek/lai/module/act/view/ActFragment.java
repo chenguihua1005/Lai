@@ -163,174 +163,183 @@ public class ActFragment extends BaseFragment implements PullToRefreshBase.OnRef
     }
 
     private void setHeadView(ActZKModel model) {
-        ActZKPersonModel actZKPersonModel = model.getActDetial();
-        String m_type = model.getActType();
-        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-        if ("1".equals(m_type) || "0".equals(m_type)) {
-            rel_group.setVisibility(View.VISIBLE);
-            img_person.setVisibility(View.GONE);
-            if (!TextUtils.isEmpty(actZKPersonModel.getActDImg())) {
-                Picasso.with(getContext()).load(path + actZKPersonModel.getActDImg()).placeholder(R.drawable.img_group_default_big).fit().error(R.drawable.img_group_default_big).into(img_group);
+        try {
+            ActZKPersonModel actZKPersonModel = model.getActDetial();
+            String m_type = model.getActType();
+            String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+            if ("1".equals(m_type) || "0".equals(m_type)) {
+                rel_group.setVisibility(View.VISIBLE);
+                img_person.setVisibility(View.GONE);
+                if (!TextUtils.isEmpty(actZKPersonModel.getActDImg())) {
+                    Picasso.with(getContext()).load(path + actZKPersonModel.getActDImg()).placeholder(R.drawable.img_group_default_big).fit().error(R.drawable.img_group_default_big).into(img_group);
+                } else {
+                    Picasso.with(getContext()).load("www").placeholder(R.drawable.img_group_default_big).fit().error(R.drawable.img_group_default_big).into(img_group);
+                }
             } else {
-                Picasso.with(getContext()).load("www").placeholder(R.drawable.img_group_default_big).fit().error(R.drawable.img_group_default_big).into(img_group);
+                rel_group.setVisibility(View.GONE);
+                img_person.setVisibility(View.VISIBLE);
+                if (!TextUtils.isEmpty(actZKPersonModel.getActDImg())) {
+                    Picasso.with(getContext()).load(path + actZKPersonModel.getActDImg()).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(img_person);
+                } else {
+                    Picasso.with(getContext()).load("www").placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(img_person);
+                }
             }
-        } else {
-            rel_group.setVisibility(View.GONE);
-            img_person.setVisibility(View.VISIBLE);
-            if (!TextUtils.isEmpty(actZKPersonModel.getActDImg())) {
-                Picasso.with(getContext()).load(path + actZKPersonModel.getActDImg()).placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(img_person);
-            } else {
-                Picasso.with(getContext()).load("www").placeholder(R.drawable.img_default).fit().error(R.drawable.img_default).into(img_person);
-            }
-        }
 
-        float distance;
-        if ("0".equals(m_type)) {
-            rel_group.setVisibility(View.VISIBLE);
-            img_person.setVisibility(View.GONE);
-            text_value.setText(actZKPersonModel.getActDTotal() + "步");
-        } else if ("1".equals(m_type)) {
-            rel_group.setVisibility(View.VISIBLE);
-            img_person.setVisibility(View.GONE);
-//            distance = step / 1428;
-//            if (distance <= 0.01) {
-//                distance = 0;
-//            }
-//            java.text.DecimalFormat   df   =new   java.text.DecimalFormat("####0.00");
-            text_value.setText(actZKPersonModel.getActDTotal() + "公里");
-        } else if ("2".equals(m_type)) {
-            rel_group.setVisibility(View.GONE);
-            img_person.setVisibility(View.VISIBLE);
-            text_value.setText(actZKPersonModel.getActDTotal() + "步");
-        } else {
-            rel_group.setVisibility(View.GONE);
-            img_person.setVisibility(View.VISIBLE);
-//            distance = step / 1428;
-//            if (distance <= 0.01) {
-//                distance = 0;
-//            }
-//            java.text.DecimalFormat   df   =new   java.text.DecimalFormat("####0.00");
-            text_value.setText(actZKPersonModel.getActDTotal() + "公里");
+            float distance;
+            if ("0".equals(m_type)) {
+                rel_group.setVisibility(View.VISIBLE);
+                img_person.setVisibility(View.GONE);
+                text_value.setText(actZKPersonModel.getActDTotal() + "步");
+            } else if ("1".equals(m_type)) {
+                rel_group.setVisibility(View.VISIBLE);
+                img_person.setVisibility(View.GONE);
+                //            distance = step / 1428;
+                //            if (distance <= 0.01) {
+                //                distance = 0;
+                //            }
+                //            java.text.DecimalFormat   df   =new   java.text.DecimalFormat("####0.00");
+                text_value.setText(actZKPersonModel.getActDTotal() + "公里");
+            } else if ("2".equals(m_type)) {
+                rel_group.setVisibility(View.GONE);
+                img_person.setVisibility(View.VISIBLE);
+                text_value.setText(actZKPersonModel.getActDTotal() + "步");
+            } else {
+                rel_group.setVisibility(View.GONE);
+                img_person.setVisibility(View.VISIBLE);
+                //            distance = step / 1428;
+                //            if (distance <= 0.01) {
+                //                distance = 0;
+                //            }
+                //            java.text.DecimalFormat   df   =new   java.text.DecimalFormat("####0.00");
+                text_value.setText(actZKPersonModel.getActDTotal() + "公里");
+            }
+            text_name.setText(actZKPersonModel.getActDName());
+            text_order.setText("第" + actZKPersonModel.getActDOrder() + "名");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        text_name.setText(actZKPersonModel.getActDName());
-        text_order.setText("第" + actZKPersonModel.getActDOrder() + "名");
     }
 
     @Override
     public void getActivitySituation(String type, ActZKModel model) {
-        if ("true".equals(type)) {
-            if (rel_head != null) {
-                rel_head.setVisibility(View.VISIBLE);
-            }
-            if (zk_list != null) {
-                zk_list.setVisibility(View.VISIBLE);
-            }
-            if (img_no != null) {
-                img_no.setVisibility(View.GONE);
-            }
-            if (img_mo_message != null) {
-                img_mo_message.setVisibility(View.GONE);
-            }
-            if (img_loss != null) {
-                img_loss.setVisibility(View.GONE);
-            }
-            actZKModel = model;
-            if (zk_list != null) {
-                zk_list.onRefreshComplete();
-            }
-            String pages = model.getPageCount();
-            if (!"".equals(pages)) {
-                totalPage = Integer.parseInt(pages);
-            } else {
-                totalPage = 1;
-            }
-
-            if (pageIndex == 1) {
-                list = model.getActDetiallist();
-                String target = model.getTarget();
-                double target_value = 0;
-                if (!"".equals(target)) {
-                    target_value = Double.parseDouble(model.getTarget());
+        try {
+            if ("true".equals(type)) {
+                if (rel_head != null) {
+                    rel_head.setVisibility(View.VISIBLE);
                 }
-                adapter = new ActZKAdapter(getContext(), list, model.getActType(), target_value);
-                zk_list.setAdapter(adapter);
-                setHeadView(model);
+                if (zk_list != null) {
+                    zk_list.setVisibility(View.VISIBLE);
+                }
+                if (img_no != null) {
+                    img_no.setVisibility(View.GONE);
+                }
+                if (img_mo_message != null) {
+                    img_mo_message.setVisibility(View.GONE);
+                }
+                if (img_loss != null) {
+                    img_loss.setVisibility(View.GONE);
+                }
+                actZKModel = model;
+                if (zk_list != null) {
+                    zk_list.onRefreshComplete();
+                }
+                String pages = model.getPageCount();
+                if (!"".equals(pages)) {
+                    totalPage = Integer.parseInt(pages);
+                } else {
+                    totalPage = 1;
+                }
+
+                if (pageIndex == 1) {
+                    list = model.getActDetiallist();
+                    String target = model.getTarget();
+                    double target_value = 0;
+                    if (!"".equals(target)) {
+                        target_value = Double.parseDouble(model.getTarget());
+                    }
+                    adapter = new ActZKAdapter(getContext(), list, model.getActType(), target_value);
+                    zk_list.setAdapter(adapter);
+                    setHeadView(model);
+                } else {
+                    list.addAll(model.getActDetiallist());
+                    adapter.notifyDataSetChanged();
+                }
+            } else if ("102".equals(type)) {
+                if (rel_head != null) {
+                    rel_head.setVisibility(View.GONE);
+                }
+                if (zk_list != null) {
+                    zk_list.setVisibility(View.GONE);
+                }
+                if (img_no != null) {
+                    img_no.setVisibility(View.GONE);
+                }
+                if (img_mo_message != null) {
+                    img_mo_message.setVisibility(View.GONE);
+                }
+                if (img_loss != null) {
+                    img_loss.setVisibility(View.VISIBLE);
+                }
+                if (zk_list != null) {
+                    zk_list.onRefreshComplete();
+                }
+                if (pageIndex == 1) {
+                    pageIndex = 1;
+                } else {
+                    pageIndex--;
+                }
+            } else if ("103".equals(type)) {
+                if (rel_head != null) {
+                    rel_head.setVisibility(View.GONE);
+                }
+                if (zk_list != null) {
+                    zk_list.setVisibility(View.GONE);
+                }
+                if (img_no != null) {
+                    img_no.setVisibility(View.GONE);
+                }
+                if (img_mo_message != null) {
+                    img_mo_message.setVisibility(View.VISIBLE);
+                }
+                if (img_loss != null) {
+                    img_loss.setVisibility(View.GONE);
+                }
+                if (zk_list != null) {
+                    zk_list.onRefreshComplete();
+                }
+                if (pageIndex == 1) {
+                    pageIndex = 1;
+                } else {
+                    pageIndex--;
+                }
             } else {
-                list.addAll(model.getActDetiallist());
-                adapter.notifyDataSetChanged();
+                if (rel_head != null) {
+                    rel_head.setVisibility(View.GONE);
+                }
+                if (zk_list != null) {
+                    zk_list.setVisibility(View.GONE);
+                }
+                if (img_no != null) {
+                    img_no.setVisibility(View.VISIBLE);
+                }
+                if (img_mo_message != null) {
+                    img_mo_message.setVisibility(View.GONE);
+                }
+                if (img_loss != null) {
+                    img_loss.setVisibility(View.GONE);
+                }
+                if (zk_list != null) {
+                    zk_list.onRefreshComplete();
+                }
+                if (pageIndex == 1) {
+                    pageIndex = 1;
+                } else {
+                    pageIndex--;
+                }
             }
-        } else if ("102".equals(type)) {
-            if (rel_head != null) {
-                rel_head.setVisibility(View.GONE);
-            }
-            if (zk_list != null) {
-                zk_list.setVisibility(View.GONE);
-            }
-            if (img_no != null) {
-                img_no.setVisibility(View.GONE);
-            }
-            if (img_mo_message != null) {
-                img_mo_message.setVisibility(View.GONE);
-            }
-            if (img_loss != null) {
-                img_loss.setVisibility(View.VISIBLE);
-            }
-            if (zk_list != null) {
-                zk_list.onRefreshComplete();
-            }
-            if (pageIndex == 1) {
-                pageIndex = 1;
-            } else {
-                pageIndex--;
-            }
-        } else if ("103".equals(type)) {
-            if (rel_head != null) {
-                rel_head.setVisibility(View.GONE);
-            }
-            if (zk_list != null) {
-                zk_list.setVisibility(View.GONE);
-            }
-            if (img_no != null) {
-                img_no.setVisibility(View.GONE);
-            }
-            if (img_mo_message != null) {
-                img_mo_message.setVisibility(View.VISIBLE);
-            }
-            if (img_loss != null) {
-                img_loss.setVisibility(View.GONE);
-            }
-            if (zk_list != null) {
-                zk_list.onRefreshComplete();
-            }
-            if (pageIndex == 1) {
-                pageIndex = 1;
-            } else {
-                pageIndex--;
-            }
-        } else {
-            if (rel_head != null) {
-                rel_head.setVisibility(View.GONE);
-            }
-            if (zk_list != null) {
-                zk_list.setVisibility(View.GONE);
-            }
-            if (img_no != null) {
-                img_no.setVisibility(View.VISIBLE);
-            }
-            if (img_mo_message != null) {
-                img_mo_message.setVisibility(View.GONE);
-            }
-            if (img_loss != null) {
-                img_loss.setVisibility(View.GONE);
-            }
-            if (zk_list != null) {
-                zk_list.onRefreshComplete();
-            }
-            if (pageIndex == 1) {
-                pageIndex = 1;
-            } else {
-                pageIndex--;
-            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
         }
     }
+
 }

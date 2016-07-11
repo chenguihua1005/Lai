@@ -83,15 +83,19 @@ public class ReviewActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     public void getClassList(List<ClassInfoModel> list) {
-        classInfoModels.clear();
-        classInfoModels.addAll(list);
-        if (list.size() > 0) {
-            expand_list.setVisibility(View.VISIBLE);
-            img_mo_message.setVisibility(View.GONE);
-        } else {
-            expand_list.setVisibility(View.GONE);
-            img_mo_message.setVisibility(View.VISIBLE);
+        try {
+            classInfoModels.clear();
+            classInfoModels.addAll(list);
+            if (list.size() > 0) {
+                expand_list.setVisibility(View.VISIBLE);
+                img_mo_message.setVisibility(View.GONE);
+            } else {
+                expand_list.setVisibility(View.GONE);
+                img_mo_message.setVisibility(View.VISIBLE);
+            }
+            adapter.notifyDataSetChanged();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        adapter.notifyDataSetChanged();
     }
 }

@@ -286,15 +286,19 @@ public class LegFragment extends BaseFragment implements RadioGroup.OnCheckedCha
     @Override
     public void getGetHealthupLegGirthRecords(HealthupLegGirthModel healthupLegGirthModel) {
         progressDialog.dismiss();
-        if(healthupLegGirthModel==null){
-            return;
+        try {
+            if(healthupLegGirthModel==null){
+                return;
+            }
+            System.out.println("健康记录大腿围" + healthupLegGirthModel.getFirstrecordtime());
+            int n=healthupLegGirthModel.getUpLegGirthlist().size();
+            for (int i=0;i<=n-1;i++) {
+                dates.add(Float.parseFloat(healthupLegGirthModel.getUpLegGirthlist().get(i).getUpLegGirth()));
+            }
+            chartUtil.addData(dates,n,days);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
         }
-        System.out.println("健康记录大腿围" + healthupLegGirthModel.getFirstrecordtime());
-        int n=healthupLegGirthModel.getUpLegGirthlist().size();
-        for (int i=0;i<=n-1;i++) {
-            dates.add(Float.parseFloat(healthupLegGirthModel.getUpLegGirthlist().get(i).getUpLegGirth()));
-        }
-        chartUtil.addData(dates,n,days);
     }
 
     @Override

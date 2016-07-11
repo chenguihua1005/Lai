@@ -276,89 +276,93 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUpdate(GradeModel gradeModel) {
         //更新班级信息
-        List<GradeInfoModel> grades = gradeModel.getClassInfo();
-        if (grades != null && grades.size() > 0) {
-            GradeInfoModel info = grades.get(0);
-            tv_title.setText(info.getClassName());
-            String startDate=info.getStartDate();
-            String endDate=info.getEndDate();
-            tv_title_date.setText(DateUtil.getInstance(DateUtil.yyyy_MM_dd).getYear(startDate)+"年"+
-                                  DateUtil.getInstance(DateUtil.yyyy_MM_dd).getMonth(startDate)+"月"+"-"+
-                    DateUtil.getInstance(DateUtil.yyyy_MM_dd).getYear(endDate)+"年"+
-                    DateUtil.getInstance(DateUtil.yyyy_MM_dd).getMonth(endDate)+"月");
-            tv_pc_num.setText(info.getPCNum() + "人");
-            tv_sr_num.setText(info.getSRNum() + "人");
-            if (StringUtils.isNotEmpty(info.getClassBanner())){
-                Picasso.with(this).load(info.getClassBanner()).fit().centerCrop().placeholder(R.drawable.default_icon_rect)
-                        .error(R.drawable.default_icon_rect).centerCrop().into(iv_grade_banner);
+        try {
+            List<GradeInfoModel> grades = gradeModel.getClassInfo();
+            if (grades != null && grades.size() > 0) {
+                GradeInfoModel info = grades.get(0);
+                tv_title.setText(info.getClassName());
+                String startDate=info.getStartDate();
+                String endDate=info.getEndDate();
+                tv_title_date.setText(DateUtil.getInstance(DateUtil.yyyy_MM_dd).getYear(startDate)+"年"+
+                                      DateUtil.getInstance(DateUtil.yyyy_MM_dd).getMonth(startDate)+"月"+"-"+
+                        DateUtil.getInstance(DateUtil.yyyy_MM_dd).getYear(endDate)+"年"+
+                        DateUtil.getInstance(DateUtil.yyyy_MM_dd).getMonth(endDate)+"月");
+                tv_pc_num.setText(info.getPCNum() + "人");
+                tv_sr_num.setText(info.getSRNum() + "人");
+                if (StringUtils.isNotEmpty(info.getClassBanner())){
+                    Picasso.with(this).load(info.getClassBanner()).fit().centerCrop().placeholder(R.drawable.default_icon_rect)
+                            .error(R.drawable.default_icon_rect).centerCrop().into(iv_grade_banner);
+                }
             }
-        }
-        //加载学员头像
-        List<PeopleModel> pcs = gradeModel.getPCInfo();
-        List<PeopleModel> srs = gradeModel.getSRInfo();
-        for (int i = 0; i < pcs.size(); i++) {
-            PeopleModel pc = pcs.get(i);
-            switch (i) {
-                case 0:
-                    cir_pc_one.setVisibility(View.VISIBLE);
-                    pc_first_icon.setVisibility(View.VISIBLE);
-                    if(StringUtils.isNotEmpty(pc.getPhoto())){
-                        Picasso.with(this).load(pc.getPhoto()).fit()
-                                .placeholder(R.drawable.img_default)
-                                .error(R.drawable.img_default).into(cir_pc_one);
-                    }
-                    break;
-                case 1:
-                    cir_pc_two.setVisibility(View.VISIBLE);
-                    pc_second_icon.setVisibility(View.VISIBLE);
-                    if(StringUtils.isNotEmpty(pc.getPhoto())) {
-                        Picasso.with(this).load(pc.getPhoto()).fit()
-                                .placeholder(R.drawable.img_default)
-                                .error(R.drawable.img_default).into(cir_pc_two);
-                    }
-                    break;
-                case 2:
-                    cir_pc_three.setVisibility(View.VISIBLE);
-                    pc_third_icon.setVisibility(View.VISIBLE);
-                    if(StringUtils.isNotEmpty(pc.getPhoto())) {
-                        Picasso.with(this).load(pc.getPhoto()).fit()
-                                .placeholder(R.drawable.img_default)
-                                .error(R.drawable.img_default).into(cir_pc_three);
-                    }
-                    break;
+            //加载学员头像
+            List<PeopleModel> pcs = gradeModel.getPCInfo();
+            List<PeopleModel> srs = gradeModel.getSRInfo();
+            for (int i = 0; i < pcs.size(); i++) {
+                PeopleModel pc = pcs.get(i);
+                switch (i) {
+                    case 0:
+                        cir_pc_one.setVisibility(View.VISIBLE);
+                        pc_first_icon.setVisibility(View.VISIBLE);
+                        if(StringUtils.isNotEmpty(pc.getPhoto())){
+                            Picasso.with(this).load(pc.getPhoto()).fit()
+                                    .placeholder(R.drawable.img_default)
+                                    .error(R.drawable.img_default).into(cir_pc_one);
+                        }
+                        break;
+                    case 1:
+                        cir_pc_two.setVisibility(View.VISIBLE);
+                        pc_second_icon.setVisibility(View.VISIBLE);
+                        if(StringUtils.isNotEmpty(pc.getPhoto())) {
+                            Picasso.with(this).load(pc.getPhoto()).fit()
+                                    .placeholder(R.drawable.img_default)
+                                    .error(R.drawable.img_default).into(cir_pc_two);
+                        }
+                        break;
+                    case 2:
+                        cir_pc_three.setVisibility(View.VISIBLE);
+                        pc_third_icon.setVisibility(View.VISIBLE);
+                        if(StringUtils.isNotEmpty(pc.getPhoto())) {
+                            Picasso.with(this).load(pc.getPhoto()).fit()
+                                    .placeholder(R.drawable.img_default)
+                                    .error(R.drawable.img_default).into(cir_pc_three);
+                        }
+                        break;
+                }
             }
-        }
-        for (int i = 0; i < srs.size(); i++) {
-            PeopleModel sr = srs.get(i);
-            switch (i) {
-                case 0:
-                    cir_sr_one.setVisibility(View.VISIBLE);
-                    sr_first_icon.setVisibility(View.VISIBLE);
-                    if(StringUtils.isNotEmpty(sr.getPhoto())) {
-                        Picasso.with(this).load(sr.getPhoto()).fit()
-                                .placeholder(R.drawable.img_default)
-                                .error(R.drawable.img_default).into(cir_sr_one);
-                    }
-                    break;
-                case 1:
-                    cir_sr_two.setVisibility(View.VISIBLE);
-                    sr_second_icon.setVisibility(View.VISIBLE);
-                    if(StringUtils.isNotEmpty(sr.getPhoto())) {
-                        Picasso.with(this).load(sr.getPhoto()).fit()
-                                .placeholder(R.drawable.img_default)
-                                .error(R.drawable.img_default).into(cir_sr_two);
-                    }
-                    break;
-                case 2:
-                    cir_sr_three.setVisibility(View.VISIBLE );
-                    sr_third_icon.setVisibility(View.VISIBLE);
-                    if(StringUtils.isNotEmpty(sr.getPhoto())) {
-                        Picasso.with(this).load(sr.getPhoto()).fit()
-                                .placeholder(R.drawable.img_default)
-                                .error(R.drawable.img_default).into(cir_sr_three);
-                    }
-                    break;
+            for (int i = 0; i < srs.size(); i++) {
+                PeopleModel sr = srs.get(i);
+                switch (i) {
+                    case 0:
+                        cir_sr_one.setVisibility(View.VISIBLE);
+                        sr_first_icon.setVisibility(View.VISIBLE);
+                        if(StringUtils.isNotEmpty(sr.getPhoto())) {
+                            Picasso.with(this).load(sr.getPhoto()).fit()
+                                    .placeholder(R.drawable.img_default)
+                                    .error(R.drawable.img_default).into(cir_sr_one);
+                        }
+                        break;
+                    case 1:
+                        cir_sr_two.setVisibility(View.VISIBLE);
+                        sr_second_icon.setVisibility(View.VISIBLE);
+                        if(StringUtils.isNotEmpty(sr.getPhoto())) {
+                            Picasso.with(this).load(sr.getPhoto()).fit()
+                                    .placeholder(R.drawable.img_default)
+                                    .error(R.drawable.img_default).into(cir_sr_two);
+                        }
+                        break;
+                    case 2:
+                        cir_sr_three.setVisibility(View.VISIBLE );
+                        sr_third_icon.setVisibility(View.VISIBLE);
+                        if(StringUtils.isNotEmpty(sr.getPhoto())) {
+                            Picasso.with(this).load(sr.getPhoto()).fit()
+                                    .placeholder(R.drawable.img_default)
+                                    .error(R.drawable.img_default).into(cir_sr_three);
+                        }
+                        break;
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
@@ -461,19 +465,23 @@ public class GradeHomeActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void getDynamicCallback(List<DynamicInfoModel> dynamicInfoModels) {
         lv_dynamic.onRefreshComplete();
-        if(dynamicInfoModels==null){
-            pageIndex=--pageIndex<1?1:pageIndex;
-            return;
+        try {
+            if(dynamicInfoModels==null){
+                pageIndex=--pageIndex<1?1:pageIndex;
+                return;
+            }
+            if(dynamicInfoModels.isEmpty()){
+                pageIndex=--pageIndex<1?1:pageIndex;
+                return;
+            }
+            if(pageIndex==1){
+             dynamicInfos.clear();
+            }
+            dynamicInfos.addAll(dynamicInfoModels);
+            adapter.notifyDataSetChanged();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        if(dynamicInfoModels.isEmpty()){
-            pageIndex=--pageIndex<1?1:pageIndex;
-            return;
-        }
-        if(pageIndex==1){
-         dynamicInfos.clear();
-        }
-        dynamicInfos.addAll(dynamicInfoModels);
-        adapter.notifyDataSetChanged();
     }
 
     @Override

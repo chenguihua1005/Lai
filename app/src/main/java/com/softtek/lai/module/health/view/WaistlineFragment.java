@@ -272,15 +272,19 @@ public class WaistlineFragment extends BaseFragment implements RadioGroup.OnChec
     @Override
     public void getHealthwaistlineRecords(HealthWaistlineModel healthWaistlineModel) {
         progressDialog.dismiss();
-        if(healthWaistlineModel==null){
-            return;
+        try {
+            if(healthWaistlineModel==null){
+                return;
+            }
+            System.out.println("健康记录腰围" + healthWaistlineModel.getFirstrecordtime());
+            int n=healthWaistlineModel.getWaistlinelist().size();
+            for (int i=0;i<=n-1;i++) {
+                dates.add(Float.parseFloat(healthWaistlineModel.getWaistlinelist().get(i).getWaistline()));
+            }
+            chartUtil.addData(dates,n,days);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
         }
-        System.out.println("健康记录腰围" + healthWaistlineModel.getFirstrecordtime());
-        int n=healthWaistlineModel.getWaistlinelist().size();
-        for (int i=0;i<=n-1;i++) {
-            dates.add(Float.parseFloat(healthWaistlineModel.getWaistlinelist().get(i).getWaistline()));
-        }
-        chartUtil.addData(dates,n,days);
     }
 
     @Override
