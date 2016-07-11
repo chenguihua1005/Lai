@@ -448,20 +448,11 @@ public class SportGroupManager {
                             getSportIndexCallBack.getNewMsgRemind("fail");
                         }
                         break;
-                    default:
-                        if (getSportIndexCallBack != null) {
-                            getSportIndexCallBack.getNewMsgRemind("fail");
-                        }
-                        Util.toastMsg(listResponseData.getMsg());
-                        break;
                 }
             }
 
             @Override
             public void failure(RetrofitError error) {
-                if (getSportIndexCallBack != null) {
-                    getSportIndexCallBack.getNewMsgRemind("fail");
-                }
                 ZillaApi.dealNetError(error);
             }
         });

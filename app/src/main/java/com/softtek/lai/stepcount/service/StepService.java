@@ -30,7 +30,6 @@ import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.ResponseData;
 import com.softtek.lai.common.UserInfoModel;
-import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.stepcount.db.StepUtil;
 import com.softtek.lai.stepcount.model.UserStep;
@@ -38,7 +37,6 @@ import com.softtek.lai.stepcount.net.StepNetService;
 import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.JCountDownTimer;
 import com.softtek.lai.utils.RequestCallback;
-import com.softtek.lai.utils.StringUtil;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -145,7 +143,7 @@ public class StepService extends Service implements SensorEventListener {
     private NotificationManager nm;
     private void updateNotification(String content) {
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                new Intent(this, HomeActviity.class), 0);
+                new Intent(), 0);
         builder = new NotificationCompat.Builder(this);
         builder.setPriority(Notification.PRIORITY_MIN)
                 .setContentIntent(contentIntent)
