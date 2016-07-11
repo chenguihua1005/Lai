@@ -413,7 +413,7 @@ public class JoinGameDetailActivity extends BaseActivity implements View.OnClick
 
     @Subscribe
     public void onEvent(Integer a) {
-        //rigstHX();
+        rigstHX();
         Intent intent = new Intent(JoinGameDetailActivity.this, HomeActviity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);

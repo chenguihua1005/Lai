@@ -208,22 +208,22 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
 
     @Subscribe
     public void onEvent(EMChatAccountModel model) {
-        if (model != null) {
-            String state = model.getState();
-            if ("0".equals(state)) {
-                Util.toastMsg("您的会话权限开通中，请稍候再试");
-            } else if ("-1".equals(state)) {
-                Util.toastMsg("开通会话功能需要身份认证");
-            } else {
-                Util.toastMsg("会话异常，请稍候再试");
-                UserModel userModel = UserInfoModel.getInstance().getUser();
-                userModel.setHasEmchat("1");
-                userModel.setHXAccountId(model.getHXAccountId());
-                UserInfoModel.getInstance().saveUserCache(userModel);
-            }
-        } else {
-            Util.toastMsg("会话异常，请稍候再试");
-        }
+//        if (model != null) {
+//            String state = model.getState();
+//            if ("0".equals(state)) {
+//                Util.toastMsg("您的会话权限开通中，请稍候再试");
+//            } else if ("-1".equals(state)) {
+//                Util.toastMsg("开通会话功能需要身份认证");
+//            } else {
+//                Util.toastMsg("会话异常，请稍候再试");
+//                UserModel userModel = UserInfoModel.getInstance().getUser();
+//                userModel.setHasEmchat("1");
+//                userModel.setHXAccountId(model.getHXAccountId());
+//                UserInfoModel.getInstance().saveUserCache(userModel);
+//            }
+//        } else {
+//            Util.toastMsg("会话异常，请稍候再试");
+//        }
     }
 
     @Subscribe
@@ -294,26 +294,26 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
 //            System.out.println("unreadNum:" + unreadNum);
 //            modelAdapter.update(unreadNum);
 //        }
-//        String hasEmchat = model.getHasEmchat();
-//        System.out.println("hasEmchat:" + hasEmchat);
-//        if ("1".equals(hasEmchat)) {
-//            timer = new Timer();
-//            TimerTask task = new TimerTask() {
-//
-//                @Override
-//                public void run() {
-//                    // 需要做的事:发送消息
-//                    if (!EMChat.getInstance().isLoggedIn()) {
-//                        loginChat(progressDialog, model.getHXAccountId());
-//                    } else {
-//                        if (timer != null) {
-//                            timer.cancel();
-//                        }
-//                    }
-//                }
-//            };
-//            timer.schedule(task, 0, 10000);
-//        }
+        String hasEmchat = model.getHasEmchat();
+        System.out.println("hasEmchat:" + hasEmchat);
+        if ("1".equals(hasEmchat)) {
+            timer = new Timer();
+            TimerTask task = new TimerTask() {
+
+                @Override
+                public void run() {
+                    // 需要做的事:发送消息
+                    if (!EMChat.getInstance().isLoggedIn()) {
+                        loginChat(progressDialog, model.getHXAccountId());
+                    } else {
+                        if (timer != null) {
+                            timer.cancel();
+                        }
+                    }
+                }
+            };
+            timer.schedule(task, 0, 10000);
+        }
 
     }
 

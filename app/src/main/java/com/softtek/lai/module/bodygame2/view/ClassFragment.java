@@ -87,7 +87,11 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
         rel_title.setAlpha(0);
         scroll.setScrollViewListener(this);
     }
-
+    @Override
+    protected void onVisible() {
+        isPrepared = false;
+        super.onVisible();
+    }
     @Override
     protected void initDatas() {
         student_list = new ArrayList<ClassMainStudentModel>();
@@ -113,6 +117,13 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
         }
         ClassMainStudentAdapter adapter = new ClassMainStudentAdapter(getContext(), student_list);
         list_student.setAdapter(adapter);
+        scroll.post(
+                new Runnable() {
+                    public void run() {
+                        //sv_container.fullScroll(ScrollView.FOCUS_UP);
+                        scroll.smoothScrollTo(0, 0);
+                    }
+                });
     }
 
     private void initSelectTypePop() {
@@ -140,6 +151,10 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
     @Override
     protected void lazyLoad() {
         Log.i("ClassFragment 加载数据");
+        rel_title_more.setFocusable(true);
+        rel_title_more.setFocusableInTouchMode(true);
+        rel_title_more.requestFocus();
+        scroll.setFocusable(false);
     }
 
     @Override
@@ -262,22 +277,22 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
     @Override
     public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
         if (oldy < y && scrollView.getScrollY() >= 300) {
-            alapa = alapa + (y-oldy)/100.0f;
+            alapa = alapa + (y - oldy) / 100.0f;
             if (alapa >= 1) {
                 alapa = 1;
             }
             rel_title.setAlpha(alapa);
         } else if (scrollView.getScrollY() < 300 && oldy > y) {
-            alapa = alapa - (oldy-y)/100.0f;
+            alapa = alapa - (oldy - y) / 100.0f;
             if (alapa <= 0) {
                 alapa = 0;
             }
             rel_title.setAlpha(alapa);
         }
-        if(scrollView.getScrollY()==0){
+        if (scrollView.getScrollY() == 0) {
             rel_title.setAlpha(0);
         }
-        if(scrollView.getScrollY()>500){
+        if (scrollView.getScrollY() > 500) {
             rel_title.setAlpha(1);
         }
     }

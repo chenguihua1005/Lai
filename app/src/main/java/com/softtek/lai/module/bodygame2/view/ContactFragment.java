@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.easemob.EMCallBack;
 import com.easemob.EMConnectionListener;
 import com.easemob.EMError;
+import com.easemob.chat.EMChat;
 import com.easemob.chat.EMChatManager;
 import com.github.snowdream.android.util.Log;
 import com.mobsandgeeks.saripaar.Rule;
@@ -187,13 +188,19 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
         list_contant.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ChatContactInfoModel model = list.get(position);
-                Intent intent = new Intent(getActivity(), ChatActivity.class);
-                String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-                intent.putExtra(Constant.EXTRA_USER_ID, model.getHXAccountId().toLowerCase());
-                intent.putExtra("name", model.getUserName());
-                intent.putExtra("photo", path + model.getPhoto());
-                startActivity(intent);
+                boolean isLogin = EMChat.getInstance().isLoggedIn();
+                System.out.println("isLogin:" + isLogin);
+                if (isLogin) {
+                    ChatContactInfoModel model = list.get(position);
+                    Intent intent = new Intent(getActivity(), ChatActivity.class);
+                    String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+                    intent.putExtra(Constant.EXTRA_USER_ID, model.getHXAccountId().toLowerCase());
+                    intent.putExtra("name", model.getUserName());
+                    intent.putExtra("photo", path + model.getPhoto());
+                    startActivity(intent);
+                }else {
+                    Util.toastMsg("会话异常，请稍候再试");
+                }
             }
         });
     }

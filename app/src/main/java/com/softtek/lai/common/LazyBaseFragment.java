@@ -24,7 +24,7 @@ public abstract class LazyBaseFragment extends Fragment{
     private boolean isCreatedView=false;//是否加载完成试图
 
     protected View contentView;
-    protected ProgressDialog progressDialog;
+    protected ProgressDialog progressDialogs;
 
 
     @Nullable
@@ -56,18 +56,18 @@ public abstract class LazyBaseFragment extends Fragment{
         super.onDestroyView();
     }
     public void dialogShow(String value) {
-        if (progressDialog == null) {
-            progressDialog = new ProgressDialog(getContext());
-            progressDialog.setCanceledOnTouchOutside(false);
-            progressDialog.setCancelable(false);
-            progressDialog.setMessage(value);
-            progressDialog.show();
+        if (progressDialogs == null) {
+            progressDialogs = new ProgressDialog(getContext());
+            progressDialogs.setCanceledOnTouchOutside(false);
+            progressDialogs.setCancelable(false);
+            progressDialogs.setMessage(value);
+            progressDialogs.show();
         }
     }
     public void dialogDissmiss() {
-        if (progressDialog != null) {
-            progressDialog.dismiss();
-            progressDialog = null;
+        if (progressDialogs != null) {
+            progressDialogs.dismiss();
+            progressDialogs = null;
         }
     }
     @Override
