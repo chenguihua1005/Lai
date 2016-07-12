@@ -508,7 +508,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void getMineResult(String type, MineResultModel model) {
-
+        dialogDissmiss();
         try {
             if ("success".equals(type)) {
                 String TodayStepCnt = model.getTodayStepCnt();
