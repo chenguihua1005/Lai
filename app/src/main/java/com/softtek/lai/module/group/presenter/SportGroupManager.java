@@ -436,7 +436,6 @@ public class SportGroupManager {
         service.getNewMsgRemind(token, accountid, new RequestCallback<ResponseData>() {
             @Override
             public void success(ResponseData listResponseData, Response response) {
-                Log.e("jarvis", listResponseData.toString());
                 int status = listResponseData.getStatus();
                 switch (status) {
                     case 200:
@@ -449,20 +448,11 @@ public class SportGroupManager {
                             getSportIndexCallBack.getNewMsgRemind("fail");
                         }
                         break;
-                    default:
-                        if (getSportIndexCallBack != null) {
-                            getSportIndexCallBack.getNewMsgRemind("fail");
-                        }
-                        Util.toastMsg(listResponseData.getMsg());
-                        break;
                 }
             }
 
             @Override
             public void failure(RetrofitError error) {
-                if (getSportIndexCallBack != null) {
-                    getSportIndexCallBack.getNewMsgRemind("fail");
-                }
                 ZillaApi.dealNetError(error);
             }
         });

@@ -173,7 +173,6 @@ public class WelcomeActivity extends BaseActivity implements Runnable{
                     }
                 });
             }
-            //checks();
         }
     }
 

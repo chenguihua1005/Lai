@@ -114,20 +114,24 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void getRunTeamName(RunTeamModel runTeamModel) {
-        if (runTeamModel!=null) {
-            runTeamModels = runTeamModel;
-            if (!runTeamModel.getRgName().isEmpty()) {
-                tv_runteamname.setText(runTeamModels.getRgName());
-                tv_runteamnum.setText(runTeamModel.getRgNum());
-            }
-            if (!runTeamModels.getIsHasMsg().isEmpty()) {
-                if (runTeamModel.getIsHasMsg().equals("True")) {
-                    im_news_flag.setVisibility(View.VISIBLE);
-                } else {
-                    im_news_flag.setVisibility(View.GONE);
+        try {
+            if (runTeamModel!=null) {
+                runTeamModels = runTeamModel;
+                if (!runTeamModel.getRgName().isEmpty()) {
+                    tv_runteamname.setText(runTeamModels.getRgName());
+                    tv_runteamnum.setText(runTeamModel.getRgNum());
+                }
+                if (!runTeamModels.getIsHasMsg().isEmpty()) {
+                    if (runTeamModel.getIsHasMsg().equals("True")) {
+                        im_news_flag.setVisibility(View.VISIBLE);
+                    } else {
+                        im_news_flag.setVisibility(View.GONE);
+                    }
                 }
             }
-        }
+
+        }catch (Exception e)
+        {e.printStackTrace();}
 
     }
     public void doSignOutRG(long accountid)

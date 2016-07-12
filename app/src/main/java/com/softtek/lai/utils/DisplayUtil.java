@@ -9,15 +9,16 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Rect;
 import android.util.DisplayMetrics;
+
+import com.github.snowdream.android.util.Log;
 
 /**
  * dp、sp 转换为 px 的工具类
- *
  * @author fxsky 2012.11.12
  */
 public class DisplayUtil {
-
 
     /**
      * get screen height of this cellphone
@@ -47,6 +48,54 @@ public class DisplayUtil {
     }
 
     /**
+     * 返回状态栏高度
+     * @param activity
+     * @return
+     */
+    public static int getStatusHeight(Activity activity){
+        int statusHeight = 0;
+        Rect localRect = new Rect();
+        activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(localRect);
+        statusHeight = localRect.top;
+        if (0 == statusHeight){
+            Class<?> localClass;
+            try {
+                localClass = Class.forName("com.android.internal.R$dimen");
+                Object localObject = localClass.newInstance();
+                int i5 = Integer.parseInt(localClass.getField("status_bar_height").get(localObject).toString());
+                statusHeight = activity.getResources().getDimensionPixelSize(i5);
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            } catch (SecurityException e) {
+                e.printStackTrace();
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            }
+        }
+        return statusHeight;
+    }
+
+    /**
+     * 状态栏高度
+     * @param activity
+     * @return
+     */
+    public static int getStatusHeight2(Activity activity){
+        Rect frame = new Rect();
+        activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
+
+        return frame.top;
+    }
+
+  /**
      * 将px值转换为dip或dp值，保证尺寸大小不变
      *
      * @param pxValue
@@ -94,6 +143,11 @@ public class DisplayUtil {
         return (int) (spValue * fontScale + 0.5f);
     }
 
+    /**
+     * 获取app的版本名称
+     * @param context
+     * @return
+     */
     public static String getAppVersionName(Context context){
         PackageManager pm=context.getPackageManager();
         try {

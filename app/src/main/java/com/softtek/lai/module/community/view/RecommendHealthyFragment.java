@@ -122,25 +122,29 @@ public class RecommendHealthyFragment extends BaseFragment implements AdapterVie
     public void getRecommendDynamic(HealthyRecommendModel model) {
         Log.i("推荐记录请求结束");
         ptrlv.onRefreshComplete();
-        if(model==null){
-            pageIndex=--pageIndex<1?1:pageIndex;
-            return;
+        try {
+            if(model==null){
+                pageIndex=--pageIndex<1?1:pageIndex;
+                return;
+            }
+            if(model.getTotalPage()==null||model.getHealthList()==null){
+                pageIndex=--pageIndex<1?1:pageIndex;
+                return;
+            }
+            totalPage=Integer.parseInt(model.getTotalPage());
+            List<HealthyCommunityModel> models=model.getHealthList();
+            if(models==null||models.isEmpty()){
+                pageIndex=--pageIndex<1?1:pageIndex;
+                return;
+            }
+            if(pageIndex==1){
+                this.communityModels.clear();
+            }
+            this.communityModels.addAll(models);
+            adapter.notifyDataSetChanged();
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
         }
-        if(model.getTotalPage()==null||model.getHealthList()==null){
-            pageIndex=--pageIndex<1?1:pageIndex;
-            return;
-        }
-        totalPage=Integer.parseInt(model.getTotalPage());
-        List<HealthyCommunityModel> models=model.getHealthList();
-        if(models==null||models.isEmpty()){
-            pageIndex=--pageIndex<1?1:pageIndex;
-            return;
-        }
-        if(pageIndex==1){
-            this.communityModels.clear();
-        }
-        this.communityModels.addAll(models);
-        adapter.notifyDataSetChanged();
     }
 
     private LossWeightStoryModel copyModel(HealthyCommunityModel model){

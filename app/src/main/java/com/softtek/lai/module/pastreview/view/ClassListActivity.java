@@ -70,17 +70,21 @@ public class ClassListActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void getClassList(List<ClassListModel> classListModels) {
-        if (classListModels==null||classListModels.isEmpty())
-        {
-            re_back.setBackgroundColor(Color.parseColor("#ffffff"));
-            listview_classlist.setVisibility(View.GONE);
+        try {
+            if (classListModels==null||classListModels.isEmpty())
+            {
+                re_back.setBackgroundColor(Color.parseColor("#ffffff"));
+                listview_classlist.setVisibility(View.GONE);
 
-        }
-        else {
-            im_nomessage.setVisibility(View.GONE);
-            classListModelList.clear();
-            classListModelList.addAll(classListModels);
-            classListAdapter.notifyDataSetChanged();
+            }
+            else {
+                im_nomessage.setVisibility(View.GONE);
+                classListModelList.clear();
+                classListModelList.addAll(classListModels);
+                classListAdapter.notifyDataSetChanged();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }

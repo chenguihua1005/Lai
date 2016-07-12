@@ -90,39 +90,43 @@ public class StudentBaseDateActivity extends BaseActivity implements BaseFragmen
     @Override
     public void getClassMemberInfo(StudentBaseInfoModel studentBaseInfoModel) {
         dialogDissmiss();
-        if(studentBaseInfoModel!=null){
-            Log.i("基础数据"+studentBaseInfoModel);
-            tv_title.setText(studentBaseInfoModel.getClassName());
-            StringBuffer strDate=new StringBuffer();
-            StringBuffer endDate=new StringBuffer();
-            String start=studentBaseInfoModel.getStartDate();
-            String end=studentBaseInfoModel.getEndDate();
-            if(StringUtils.isNotEmpty(start)){
-                strDate.append(DateUtil.getInstance().getYear(start));
-                strDate.append("年");
-                strDate.append(DateUtil.getInstance().getMonth(start));
-                strDate.append("月");
+        try {
+            if(studentBaseInfoModel!=null){
+                Log.i("基础数据"+studentBaseInfoModel);
+                tv_title.setText(studentBaseInfoModel.getClassName());
+                StringBuffer strDate=new StringBuffer();
+                StringBuffer endDate=new StringBuffer();
+                String start=studentBaseInfoModel.getStartDate();
+                String end=studentBaseInfoModel.getEndDate();
+                if(StringUtils.isNotEmpty(start)){
+                    strDate.append(DateUtil.getInstance().getYear(start));
+                    strDate.append("年");
+                    strDate.append(DateUtil.getInstance().getMonth(start));
+                    strDate.append("月");
+                }
+                if(StringUtils.isNotEmpty(end)){
+                    endDate.append(DateUtil.getInstance().getYear(end));
+                    endDate.append("年");
+                    endDate.append(DateUtil.getInstance().getMonth(end));
+                    endDate.append("月");
+                }
+                tv_title_date.setText(strDate.toString()+"-"+endDate.toString());
+                tv_name.setText(studentBaseInfoModel.getUserName());
+                if(StringUtils.isNotEmpty(studentBaseInfoModel.getBanner())){
+                    Picasso.with(this).load(studentBaseInfoModel.getBanner()).fit()
+                            .placeholder(R.drawable.default_icon_rect).centerCrop()
+                            .error(R.drawable.default_icon_rect).centerCrop().into(banner);
+                }
+                if(StringUtils.isNotEmpty(studentBaseInfoModel.getUserPhoto())){
+                    Picasso.with(this).load(studentBaseInfoModel.getUserPhoto()).fit()
+                            .placeholder(R.drawable.img_default)
+                            .error(R.drawable.img_default).into(cir_header_image);
+                }
+                ((BaseDateFragment)fragments.get(0)).updateData(studentBaseInfoModel);
+                ((ClassDynamicFragment)fragments.get(1)).loadDynamic(studentBaseInfoModel.getClassId());
             }
-            if(StringUtils.isNotEmpty(end)){
-                endDate.append(DateUtil.getInstance().getYear(end));
-                endDate.append("年");
-                endDate.append(DateUtil.getInstance().getMonth(end));
-                endDate.append("月");
-            }
-            tv_title_date.setText(strDate.toString()+"-"+endDate.toString());
-            tv_name.setText(studentBaseInfoModel.getUserName());
-            if(StringUtils.isNotEmpty(studentBaseInfoModel.getBanner())){
-                Picasso.with(this).load(studentBaseInfoModel.getBanner()).fit()
-                        .placeholder(R.drawable.default_icon_rect).centerCrop()
-                        .error(R.drawable.default_icon_rect).centerCrop().into(banner);
-            }
-            if(StringUtils.isNotEmpty(studentBaseInfoModel.getUserPhoto())){
-                Picasso.with(this).load(studentBaseInfoModel.getUserPhoto()).fit()
-                        .placeholder(R.drawable.img_default)
-                        .error(R.drawable.img_default).into(cir_header_image);
-            }
-            ((BaseDateFragment)fragments.get(0)).updateData(studentBaseInfoModel);
-            ((ClassDynamicFragment)fragments.get(1)).loadDynamic(studentBaseInfoModel.getClassId());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
