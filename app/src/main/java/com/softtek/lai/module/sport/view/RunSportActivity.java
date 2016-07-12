@@ -196,7 +196,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
 
         //初始化polyline
         polylineOptions = new PolylineOptions();
-        polylineOptions.width(15);
+        polylineOptions.width(30);
         polylineOptions.color(Color.GREEN);
         polylineOptions.zIndex(3);
 
@@ -632,7 +632,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                 listener.onLocationChanged(location);
             }
             float accuracy=location.getAccuracy();
-            if (accuracy <= 60 && accuracy > 0) {
+            if (accuracy <= 30 && accuracy > 0) {
                 //当坐标改变之后开始添加标记 画线
                 Log.i("获取位置");
                 LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
