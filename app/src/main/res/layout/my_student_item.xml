@@ -16,16 +16,32 @@
         android:text="1"
         android:textColor="#333333"
         android:textSize="22sp" />
-
-    <com.softtek.lai.widgets.CircleImageView
-        android:id="@+id/civ_header"
-        android:layout_width="57dp"
-        android:layout_height="57dp"
-        android:layout_centerInParent="true"
+    <RelativeLayout
+        android:id="@+id/rl"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginLeft="5dp"
-        android:layout_toRightOf="@id/tv_order"
-        android:scaleType="centerCrop"
-        android:src="@drawable/img_default" />
+        android:layout_centerInParent="true"
+        android:layout_toRightOf="@id/tv_order">
+        <com.softtek.lai.widgets.CircleImageView
+            android:id="@+id/civ_header"
+            android:layout_width="57dp"
+            android:layout_height="57dp"
+            android:layout_centerInParent="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img_default" />
+        <TextView
+            android:id="@+id/tv_start_weight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="7sp"
+            android:textColor="#333333"
+            android:text="初始体重：201斤"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="2dp"/>
+
+    </RelativeLayout>
 
     <ImageView
         android:id="@+id/iv_arrow1"
@@ -42,7 +58,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_toLeftOf="@id/iv_arrow"
-        android:layout_toRightOf="@id/civ_header"
+        android:layout_toRightOf="@id/rl"
         android:gravity="center|left"
         android:orientation="vertical">
 
@@ -78,7 +94,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:text="(助教)：David"
+                android:text=" David"
                 android:textSize="12sp" />
 
             <ImageView

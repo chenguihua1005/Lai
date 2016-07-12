@@ -113,8 +113,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
 
     @InjectView(R.id.tv_title)
     TextView tv_title;
-    /*@InjectView(R.id.tv_right)
-    TextView tv_right;*/
+
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
     @InjectView(R.id.iv_email)

@@ -27,7 +27,15 @@ public class SPBodyGameInfo {
     private String Tips_video_url;
 
     //咨询
+    private List<Tips> Tips_content;
 
+    public List<Tips> getTips_content() {
+        return Tips_content;
+    }
+
+    public void setTips_content(List<Tips> tips_content) {
+        Tips_content = tips_content;
+    }
 
     public String getTotalPc() {
         return TotalPc;

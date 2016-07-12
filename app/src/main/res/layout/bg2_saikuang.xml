@@ -32,7 +32,6 @@
             android:textColor="#333333"
             android:textSize="13sp" />
     </RelativeLayout>
-
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
