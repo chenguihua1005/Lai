@@ -11,6 +11,7 @@ import com.softtek.lai.utils.RequestCallback;
 
 import retrofit.http.GET;
 import retrofit.http.Header;
+import retrofit.http.POST;
 import retrofit.http.Query;
 
 /**
@@ -57,5 +58,12 @@ public interface BodyGameService {
             @Query("AccountId")String AccountId,
             @Query("Key")String Key,
             RequestCallback<ResponseData<SearchMemberModel>>callback
+    );
+    @POST("/NewClass/ClmemberExit")
+    void doClmemberExit(
+            @Header("token")String token,
+            @Query("accountid")String accountid,
+            @Query("classid")String classid,
+            RequestCallback<ResponseData>callback
     );
 }
