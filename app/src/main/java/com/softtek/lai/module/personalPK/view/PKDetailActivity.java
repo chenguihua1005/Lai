@@ -312,137 +312,141 @@ public class PKDetailActivity extends BaseActivity implements OnClickListener {
 
     public void getPKDetail(PKDetailMold model,int resultCode) {
         dialogDissmiss();
-        if (model == null&&resultCode==-1) {
-            return;
-        }else if(model==null&&resultCode==100){
-            rl_load.setVisibility(View.VISIBLE);
-            sv_pk.setVisibility(View.GONE);
-            return;
-        }
-        rl_load.setVisibility(View.GONE);
-        sv_pk.setVisibility(View.VISIBLE);
-        this.model=model;
-        //更新数据
-        tv_pk_name1.setText(StringUtil.showName(model.getUserName(),model.getMobile()));
-        tv_pk_name2.setText(StringUtil.showName(model.getBUserName(),model.getBMobile()));
-        cb_zan_left.setText(model.getChpcou() + "");
-        cb_zan_right.setText(model.getBchpcou() + "");
-        tv_time.setText(DateUtil.getInstance().convertDateStr(model.getStart(), "yyyy年MM月dd日") + " — " +
-                DateUtil.getInstance().convertDateStr(model.getEnd(), "yyyy年MM月dd日"));
-        if(model.getPraiseStatus()==0){//可已点咱
-            cb_zan_left.setEnabled(true);
-            cb_zan_left.setChecked(false);
-        }else{//不可已
-            cb_zan_left.setEnabled(false);
-            cb_zan_left.setChecked(true);
-        }
-        if(model.getBPraiseStatus()==0){//可已点咱
-            cb_zan_right.setEnabled(true);
-            cb_zan_right.setChecked(false);
-        }else{//不可已
-            cb_zan_right.setEnabled(false);
-            cb_zan_right.setChecked(true);
-        }
-
-        if (model.getStatus() == NOCHALLENGE) {
-            tv_is_accept.setText("未应战");
-        } else if (model.getStatus() == CHALLENGING) {
-            tv_is_accept.setText("已应战");
-        } else if (model.getStatus() == REFUSE) {
-            tv_is_accept.setText("已拒绝");
-        }
-        if(model.getTStatus()==PKListAdapter.NOSTART){
-            tv_status.setBackgroundResource(R.drawable.pk_list_weikaishi);
-            tv_status.setText("未开始");
-        }else if(model.getTStatus()==PKListAdapter.PROCESSING){
-            tv_status.setBackgroundResource(R.drawable.pk_list_jingxingzhong);
-            tv_status.setText("进行中");
-        }else if(model.getTStatus()==PKListAdapter.Completed){
-            tv_status.setBackgroundResource(R.drawable.pk_list_yijieshu);
-            tv_status.setText("已结束");
-        }
-        if (model.getChipType() == Constants.NAIXI) {
-            iv_type.setBackgroundResource(R.drawable.pk_naixi);
-            tv_content.setText(R.string.naixi);
-        } else if (model.getChipType() == Constants.NAIXICAO) {
-            iv_type.setBackgroundResource(R.drawable.pk_list_naixicao);
-            tv_content.setText(R.string.naixicao);
-        } else if (model.getChipType() == Constants.ZIDINGYI) {
-            iv_type.setBackgroundResource(R.drawable.pk_chouma);
-            tv_content.setText(model.getChip());
-        }
-        //判断当前是步数比赛还是公里数比赛
-        int targetType = model.getTargetType();
-        if (targetType == 1) {//公里
-            iv_target_icon.setBackgroundResource(R.drawable.pk_km);
-            tv_target_content.setText("目标公里数：");
-            tv_target.setText((int)Double.parseDouble(model.getTarget()) + "公里");
-            tv_unit1.setText("公里");
-            tv_unit2.setText("公里");
-            zongbushu.setText("当前公里数");
-            //1公里是1428步
-            double gongli=1.0*model.getChaTotal()/1428;
-            double bgongli=1.0*model.getBchaTotal()/1428;
-            DecimalFormat format=new DecimalFormat("#0.00");
-            tv_bushu1.setText(format.format(gongli));
-            tv_bushu2.setText(format.format(bgongli));
-        } else {//步数
-            iv_target_icon.setBackgroundResource(R.drawable.pk_bushu);
-            tv_target_content.setText("目标步数：");
-            tv_target.setText("在PK期限内，达成更多步数的人即为赢家");
-            tv_unit1.setText("步");
-            tv_unit2.setText("步");
-            zongbushu.setText("当前步数");
-            tv_bushu1.setText(model.getChaTotal() + "");
-            tv_bushu2.setText(model.getBchaTotal() + "");
-        }
-
-        //载入头像
-        String path = AddressManager.get("photoHost");
-        if (StringUtils.isNotEmpty(model.getPhoto())) {
-            Picasso.with(this).load(path + model.getPhoto()).fit()
-                    .placeholder(R.drawable.img_default)
-                    .error(R.drawable.img_default)
-                    .into(sender1_header);
-        }
-        if (StringUtils.isNotEmpty(model.getBPhoto())) {
-            Picasso.with(this).load(path + model.getBPhoto()).fit()
-                    .placeholder(R.drawable.img_default)
-                    .error(R.drawable.img_default)
-                    .into(sender2_header);
-        }
-        if(model.getTStatus()==PKListAdapter.Completed){//如果这个PK是已经结束的就什么操作都不需要显示
-            if(StringUtils.isEmpty(model.getWinnerId())){
+        try {
+            if (model == null&&resultCode==-1) {
+                return;
+            }else if(model==null&&resultCode==100){
+                rl_load.setVisibility(View.VISIBLE);
+                sv_pk.setVisibility(View.GONE);
                 return;
             }
-            if (Long.parseLong(model.getWinnerId())==model.getChallenged()){
-                //发起方胜利
-                sender1.setVisibility(View.GONE);//隐藏发起者标识
-                //显示胜利者表示
-                iv_winner1.setVisibility(View.VISIBLE);
-                iv_winner2.setVisibility(View.GONE);
-            }else{
-                //接受方胜利
-                sender1.setVisibility(View.VISIBLE);//显示发起者标识
-                iv_winner2.setVisibility(View.VISIBLE);
-                iv_winner1.setVisibility(View.GONE);
+            rl_load.setVisibility(View.GONE);
+            sv_pk.setVisibility(View.VISIBLE);
+            this.model=model;
+            //更新数据
+            tv_pk_name1.setText(StringUtil.showName(model.getUserName(),model.getMobile()));
+            tv_pk_name2.setText(StringUtil.showName(model.getBUserName(),model.getBMobile()));
+            cb_zan_left.setText(model.getChpcou() + "");
+            cb_zan_right.setText(model.getBchpcou() + "");
+            tv_time.setText(DateUtil.getInstance().convertDateStr(model.getStart(), "yyyy年MM月dd日") + " — " +
+                    DateUtil.getInstance().convertDateStr(model.getEnd(), "yyyy年MM月dd日"));
+            if(model.getPraiseStatus()==0){//可已点咱
+                cb_zan_left.setEnabled(true);
+                cb_zan_left.setChecked(false);
+            }else{//不可已
+                cb_zan_left.setEnabled(false);
+                cb_zan_left.setChecked(true);
             }
-            return;
-        }else{
-            sender1.setVisibility(View.VISIBLE);//显示发起者标识
-            //隐藏胜利者标识
-            iv_winner1.setVisibility(View.GONE);
-            iv_winner2.setVisibility(View.GONE);
-        }
-        long userId=Long.parseLong(UserInfoModel.getInstance().getUser().getUserid());
-        if ( userId== model.getChallenged()) {
-            //发起方当前PK状态
-            changeStatus(model.getTStatus(),model.getStatus());
-        }else if(userId==model.getBeChallenged()){
-            //接受方逻辑
-            beChangeStatus(model.getTStatus(),model.getStatus());
-        }else{//其他用户
-            other(model.getTStatus());
+            if(model.getBPraiseStatus()==0){//可已点咱
+                cb_zan_right.setEnabled(true);
+                cb_zan_right.setChecked(false);
+            }else{//不可已
+                cb_zan_right.setEnabled(false);
+                cb_zan_right.setChecked(true);
+            }
+
+            if (model.getStatus() == NOCHALLENGE) {
+                tv_is_accept.setText("未应战");
+            } else if (model.getStatus() == CHALLENGING) {
+                tv_is_accept.setText("已应战");
+            } else if (model.getStatus() == REFUSE) {
+                tv_is_accept.setText("已拒绝");
+            }
+            if(model.getTStatus()==PKListAdapter.NOSTART){
+                tv_status.setBackgroundResource(R.drawable.pk_list_weikaishi);
+                tv_status.setText("未开始");
+            }else if(model.getTStatus()==PKListAdapter.PROCESSING){
+                tv_status.setBackgroundResource(R.drawable.pk_list_jingxingzhong);
+                tv_status.setText("进行中");
+            }else if(model.getTStatus()==PKListAdapter.Completed){
+                tv_status.setBackgroundResource(R.drawable.pk_list_yijieshu);
+                tv_status.setText("已结束");
+            }
+            if (model.getChipType() == Constants.NAIXI) {
+                iv_type.setBackgroundResource(R.drawable.pk_naixi);
+                tv_content.setText(R.string.naixi);
+            } else if (model.getChipType() == Constants.NAIXICAO) {
+                iv_type.setBackgroundResource(R.drawable.pk_list_naixicao);
+                tv_content.setText(R.string.naixicao);
+            } else if (model.getChipType() == Constants.ZIDINGYI) {
+                iv_type.setBackgroundResource(R.drawable.pk_chouma);
+                tv_content.setText(model.getChip());
+            }
+            //判断当前是步数比赛还是公里数比赛
+            int targetType = model.getTargetType();
+            if (targetType == 1) {//公里
+                iv_target_icon.setBackgroundResource(R.drawable.pk_km);
+                tv_target_content.setText("目标公里数：");
+                tv_target.setText((int)Double.parseDouble(model.getTarget()) + "公里");
+                tv_unit1.setText("公里");
+                tv_unit2.setText("公里");
+                zongbushu.setText("当前公里数");
+                //1公里是1428步
+                double gongli=1.0*model.getChaTotal()/1428;
+                double bgongli=1.0*model.getBchaTotal()/1428;
+                DecimalFormat format=new DecimalFormat("#0.00");
+                tv_bushu1.setText(format.format(gongli));
+                tv_bushu2.setText(format.format(bgongli));
+            } else {//步数
+                iv_target_icon.setBackgroundResource(R.drawable.pk_bushu);
+                tv_target_content.setText("目标步数：");
+                tv_target.setText("在PK期限内，达成更多步数的人即为赢家");
+                tv_unit1.setText("步");
+                tv_unit2.setText("步");
+                zongbushu.setText("当前步数");
+                tv_bushu1.setText(model.getChaTotal() + "");
+                tv_bushu2.setText(model.getBchaTotal() + "");
+            }
+
+            //载入头像
+            String path = AddressManager.get("photoHost");
+            if (StringUtils.isNotEmpty(model.getPhoto())) {
+                Picasso.with(this).load(path + model.getPhoto()).fit()
+                        .placeholder(R.drawable.img_default)
+                        .error(R.drawable.img_default)
+                        .into(sender1_header);
+            }
+            if (StringUtils.isNotEmpty(model.getBPhoto())) {
+                Picasso.with(this).load(path + model.getBPhoto()).fit()
+                        .placeholder(R.drawable.img_default)
+                        .error(R.drawable.img_default)
+                        .into(sender2_header);
+            }
+            if(model.getTStatus()==PKListAdapter.Completed){//如果这个PK是已经结束的就什么操作都不需要显示
+                if(StringUtils.isEmpty(model.getWinnerId())){
+                    return;
+                }
+                if (Long.parseLong(model.getWinnerId())==model.getChallenged()){
+                    //发起方胜利
+                    sender1.setVisibility(View.GONE);//隐藏发起者标识
+                    //显示胜利者表示
+                    iv_winner1.setVisibility(View.VISIBLE);
+                    iv_winner2.setVisibility(View.GONE);
+                }else{
+                    //接受方胜利
+                    sender1.setVisibility(View.VISIBLE);//显示发起者标识
+                    iv_winner2.setVisibility(View.VISIBLE);
+                    iv_winner1.setVisibility(View.GONE);
+                }
+                return;
+            }else{
+                sender1.setVisibility(View.VISIBLE);//显示发起者标识
+                //隐藏胜利者标识
+                iv_winner1.setVisibility(View.GONE);
+                iv_winner2.setVisibility(View.GONE);
+            }
+            long userId=Long.parseLong(UserInfoModel.getInstance().getUser().getUserid());
+            if ( userId== model.getChallenged()) {
+                //发起方当前PK状态
+                changeStatus(model.getTStatus(),model.getStatus());
+            }else if(userId==model.getBeChallenged()){
+                //接受方逻辑
+                beChangeStatus(model.getTStatus(),model.getStatus());
+            }else{//其他用户
+                other(model.getTStatus());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

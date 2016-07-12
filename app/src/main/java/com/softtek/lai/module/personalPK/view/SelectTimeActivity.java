@@ -234,10 +234,14 @@ public class SelectTimeActivity extends BaseActivity implements View.OnClickList
                     Util.toastMsg(savePKResponseData.getMsg());
                     return;
                 }
-                Intent intent=new Intent(SelectTimeActivity.this,PKDetailActivity.class);
-                intent.putExtra("pkType",Constants.CREATE_PK);
-                intent.putExtra("pkId",savePKResponseData.getData().getPKId());
-                startActivity(intent);
+                try {
+                    Intent intent=new Intent(SelectTimeActivity.this,PKDetailActivity.class);
+                    intent.putExtra("pkType",Constants.CREATE_PK);
+                    intent.putExtra("pkId",savePKResponseData.getData().getPKId());
+                    startActivity(intent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override

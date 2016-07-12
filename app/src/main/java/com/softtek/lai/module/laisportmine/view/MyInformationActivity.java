@@ -150,7 +150,6 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
                         UserInfoModel.getInstance().saveUserCache(model);
                         stopService(new Intent(getApplicationContext(), StepService.class));
                         Intent inten=new Intent(MyInformationActivity.this,HomeActviity.class);
-                        inten.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(inten);
                         break;
                     case 100:

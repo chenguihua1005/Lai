@@ -90,8 +90,12 @@ public class SelectOpponentActivity extends BaseActivity implements View.OnClick
         if(models==null||models.isEmpty()){
             return;
         }
-        modelList.clear();
-        modelList.addAll(models);
-        adapter.notifyDataSetChanged();
+        try {
+            modelList.clear();
+            modelList.addAll(models);
+            adapter.notifyDataSetChanged();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

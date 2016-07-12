@@ -16,8 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.mobsandgeeks.saripaar.Rule;
-import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
@@ -29,8 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
-import zilla.libcore.lifecircle.LifeCircleInject;
-import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 
 /**
@@ -38,10 +34,7 @@ import zilla.libcore.ui.InjectLayout;
  * 加入跑团 二级
  */
 @InjectLayout(R.layout.activity_group)
-public class GroupFifthActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener, SportGroupManager.GetRGListCallBack {
-
-    @LifeCircleInject
-    ValidateLife validateLife;
+public class GroupFifthActivity extends BaseActivity implements View.OnClickListener, BaseFragment.OnFragmentInteractionListener, SportGroupManager.GetRGListCallBack {
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -64,7 +57,7 @@ public class GroupFifthActivity extends BaseActivity implements View.OnClickList
     @InjectView(R.id.lin)
     LinearLayout lin;
 
-    List<GroupModel> group_list = new ArrayList<GroupModel>();
+    List<GroupModel> group_list = new ArrayList<>();
     GroupAdapter adapter;
 
     String select_name;
@@ -119,17 +112,6 @@ public class GroupFifthActivity extends BaseActivity implements View.OnClickList
     protected void onStop() {
         super.onStop();
     }
-
-    @Override
-    public void onValidationSucceeded() {
-
-    }
-
-    @Override
-    public void onValidationFailed(View failedView, Rule<?> failedRule) {
-        validateLife.onValidationFailed(failedView, failedRule);
-    }
-
 
     @Override
     public void onFragmentInteraction(Uri uri) {
