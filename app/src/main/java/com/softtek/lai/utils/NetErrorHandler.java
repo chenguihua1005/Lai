@@ -91,6 +91,7 @@ public class NetErrorHandler implements IApiErrorHandler {
                             ResponseData data = (ResponseData) error.getBody();
                             customCode = data.getStatus();
                         }
+                        System.out.println("customCode:"+customCode);
                         Log.i("return code====="+customCode);
                         switch (customCode) {
                             case 401:

@@ -295,24 +295,24 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
 //        }
         String hasEmchat = model.getHasEmchat();
         System.out.println("hasEmchat:" + hasEmchat);
-        if ("1".equals(hasEmchat)) {
-            timer = new Timer();
-            TimerTask task = new TimerTask() {
-
-                @Override
-                public void run() {
-                    // 需要做的事:发送消息
-                    if (!EMChat.getInstance().isLoggedIn()) {
-                        loginChat(progressDialog, model.getHXAccountId());
-                    } else {
-                        if (timer != null) {
-                            timer.cancel();
-                        }
-                    }
-                }
-            };
-            timer.schedule(task, 0, 10000);
-        }
+//        if ("1".equals(hasEmchat)) {
+//            timer = new Timer();
+//            TimerTask task = new TimerTask() {
+//
+//                @Override
+//                public void run() {
+//                    // 需要做的事:发送消息
+//                    if (!EMChat.getInstance().isLoggedIn()) {
+//                        loginChat(progressDialog, model.getHXAccountId());
+//                    } else {
+//                        if (timer != null) {
+//                            timer.cancel();
+//                        }
+//                    }
+//                }
+//            };
+//            timer.schedule(task, 0, 10000);
+//        }
 
     }
 
@@ -373,7 +373,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
                 chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
                 EMChatManager.getInstance().updateCurrentUserNick(model.getNickname());
                 ChatUserInfoModel.getInstance().setUser(chatUserModel);
-                handler.sendEmptyMessage(0);
+                //handler.sendEmptyMessage(0);
                 EMChatManager.getInstance().loadAllConversations();
 
                 if (timer != null) {
@@ -507,6 +507,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
 
     /**
      * 根据角色进入相应的体管赛页面
+     *
      * @param role
      * @return
      */
@@ -580,7 +581,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         } else if (role == Constants.SP) {
             //进入踢馆赛顾问版
 //            Intent intent = new Intent(getContext(), PersonalDataActivity.class);
-//            Intent intent = new Intent(getContext(), CounselorActivity.class);
+            //           Intent intent = new Intent(getContext(), CounselorActivity.class);
             Intent intent = new Intent(getContext(), BodyGameSPActivity.class);
             startActivity(intent);
 
@@ -625,7 +626,7 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         IntentFilter filter = new IntentFilter();
         filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
         filter.addAction(Constants.MESSAGE_RECEIVED_ACTION);
-        filter.addAction(Constants.MESSAGE_CHAT_ACTION);
+        //filter.addAction(Constants.MESSAGE_CHAT_ACTION);
         getContext().registerReceiver(mMessageReceiver, filter);
 
     }
@@ -636,10 +637,11 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         public void onReceive(Context context, Intent intent) {
             if (Constants.MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {
                 img_red.setVisibility(View.VISIBLE);
-            } else {
-                int unreadNum = intent.getIntExtra("count", 0);
-                modelAdapter.update(unreadNum);
             }
+//            else {
+//                int unreadNum = intent.getIntExtra("count", 0);
+//                modelAdapter.update(unreadNum);
+//            }
         }
     }
 

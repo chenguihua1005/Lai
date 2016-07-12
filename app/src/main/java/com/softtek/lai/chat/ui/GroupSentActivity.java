@@ -7,6 +7,7 @@ package com.softtek.lai.chat.ui;
 
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -134,8 +135,11 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
                             startActivity(intent);
                         }
                     }).setCancelable(false);
-            if (!isFinishing()) {
-                builder.create().show();
+            Dialog dialog=builder.create();
+            if(!isFinishing()){
+                if(dialog!=null && !dialog.isShowing()){
+                    dialog.show();
+                }
             }
 
         }
@@ -165,29 +169,31 @@ public class GroupSentActivity extends BaseActivity implements View.OnClickListe
         connectionListener = new EMConnectionListener() {
             @Override
             public void onDisconnected(final int error) {
-                if (!isFinishing()) {
-                    EMChatManager.getInstance().logout(true, new EMCallBack() {
+                System.out.println("GroupSentActivity onDisconnected-------");
+                if (error == EMError.CONNECTION_CONFLICT) {
+                    if (!isFinishing()) {
+                        EMChatManager.getInstance().logout(true, new EMCallBack() {
 
-                        @Override
-                        public void onSuccess() {
-                            // TODO Auto-generated method stub
-                            if (error == EMError.CONNECTION_CONFLICT) {
+                            @Override
+                            public void onSuccess() {
+                                // TODO Auto-generated method stub
+                                System.out.println("GroupSentActivity onSuccess-------");
                                 handler.sendEmptyMessage(0);
                             }
-                        }
 
-                        @Override
-                        public void onProgress(int progress, String status) {
-                            // TODO Auto-generated method stub
+                            @Override
+                            public void onProgress(int progress, String status) {
+                                // TODO Auto-generated method stub
 
-                        }
+                            }
 
-                        @Override
-                        public void onError(int code, String message) {
-                            // TODO Auto-generated method stub
+                            @Override
+                            public void onError(int code, String message) {
+                                // TODO Auto-generated method stub
 
-                        }
-                    });
+                            }
+                        });
+                    }
                 }
             }
 

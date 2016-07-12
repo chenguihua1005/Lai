@@ -1,5 +1,6 @@
 package com.softtek.lai.common;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -25,6 +26,7 @@ public abstract class LazyBaseFragment extends Fragment{
 
     protected View contentView;
     protected ProgressDialog progressDialogs;
+    protected Dialog dialog;
 
 
     @Nullable
