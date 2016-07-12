@@ -40,16 +40,12 @@ public class GradesImpl implements IGradesPresenter {
                     case 200:
                         EventBus.getDefault().post(new GradesEvent(listResponseData.getData()));
                         break;
-                    case 500:
-                        Util.toastMsg("我的成绩--查询出bug");
-                        break;
                 }
             }
 
             @Override
             public void failure(RetrofitError error) {
                 ZillaApi.dealNetError(error);
-                error.printStackTrace();
 
             }
         });
