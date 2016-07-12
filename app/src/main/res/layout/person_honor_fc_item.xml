@@ -16,11 +16,11 @@
         android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/img"
+            android:id="@+id/img_fuce"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:src="@drawable/img_student_honor_tong" />
+            />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -45,16 +45,5 @@
 
         </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="复测铜牌"
-            android:gravity="center"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:paddingTop="120dp"
-            android:textColor="#666666"
-            android:textSize="9sp"
-            />
     </RelativeLayout>
 </RelativeLayout>

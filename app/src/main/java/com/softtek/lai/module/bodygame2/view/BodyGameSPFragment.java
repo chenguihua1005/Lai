@@ -1,5 +1,6 @@
 package com.softtek.lai.module.bodygame2.view;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -52,7 +53,7 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
     @InjectView(R.id.rl_student_more)
     RelativeLayout rl_student_more;
     @InjectView(R.id.mlv)
-    private MyListView mlv;
+    MyListView mlv;
     private List<SPPCMoldel> pcModels=new ArrayList<>();
     //adapter
 
@@ -94,7 +95,8 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ll_left:
-                getActivity().finish();
+//                getActivity().finish();
+                startActivity(new Intent(getContext(),PersonalDataActivity.class));
                 break;
             case R.id.iv_refresh:
                 //刷新

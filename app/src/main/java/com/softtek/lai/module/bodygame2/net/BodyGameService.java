@@ -5,6 +5,7 @@ import com.softtek.lai.module.bodygame2.model.ClassChangeModel;
 import com.softtek.lai.module.bodygame2.model.ClassMainModel;
 import com.softtek.lai.module.bodygame2.model.MemberChangeModel;
 import com.softtek.lai.module.bodygame2.model.SPBodyGameInfo;
+import com.softtek.lai.module.bodygame2.model.SearchMemberModel;
 import com.softtek.lai.module.bodygame2.model.memberDetialModel;
 import com.softtek.lai.utils.RequestCallback;
 
@@ -30,7 +31,7 @@ public interface BodyGameService {
             @Query("classid")String classid,
             RequestCallback<ResponseData<ClassChangeModel>>callback
     );
-    //切换班级
+    //获取班级学员列表
     @GET("/NewClass/ClMemberChange")
     void  doClMemberChange(
             @Header("token")String token,
@@ -43,11 +44,18 @@ public interface BodyGameService {
             @Header("token")String token,
             @Query("accountid")String accountid,
             @Query("classid")String classid,
-            RequestCallback<RequestCallback<memberDetialModel>>callback
+            RequestCallback<ResponseData<memberDetialModel>>callback
     );
     //顾问首页
     @GET("/HerbNewUser/GetSPIndexInformation")
     void getSPIndexInformation(@Header("token")String token,
                                RequestCallback<ResponseData<SPBodyGameInfo>> callback);
-
+    //首页检索
+    @GET("/HerbNewUser/SearchMember")
+    void doSearchMember(
+            @Header("token")String token,
+            @Query("AccountId")String AccountId,
+            @Query("Key")String Key,
+            RequestCallback<ResponseData<SearchMemberModel>>callback
+    );
 }

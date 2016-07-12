@@ -64,7 +64,6 @@
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="8dp"
                             android:layout_toRightOf="@+id/im_gender"
-                            android:text="好莱坞大片正"
                             android:textColor="#333333"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -84,7 +83,6 @@
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="15dp"
-                            android:text="13811015468"
                             android:textColor="#333333"
                             android:textSize="12sp"
                             android:textStyle="bold" />
@@ -185,11 +183,11 @@
                         android:id="@+id/tv_personclassname"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="班级：小康康健身班"
                         android:textColor="#333333"
                         android:textSize="12sp" />
 
                     <TextView
+                        android:id="@+id/tv_classdate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="2dp"
@@ -199,11 +197,11 @@
                         android:textSize="12sp" />
 
                     <TextView
+                        android:id="@+id/tv_SuperName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/tv_personclassname"
                         android:layout_marginTop="13dp"
-                        android:text="助教：David"
                         android:textColor="#333333"
                         android:textSize="12sp" />
                 </RelativeLayout>
@@ -258,7 +256,6 @@
                         android:id="@+id/tv_weightday"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="13"
                         android:layout_centerHorizontal="true"
                         android:textSize="14sp"
                         android:textColor="#333333"
@@ -267,7 +264,6 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="三月"
                         android:layout_centerHorizontal="true"
                         android:layout_below="@+id/tv_weightday"
                         android:textColor="#333333"
@@ -276,7 +272,6 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="如果你无法简洁的表达你的想法，那么说明你还不够了解它刘恺威金额累计跌幅理解为克服了几点思考放假快递费就是看了看就是地方了多少坤敬府考试的减肥克里斯蒂交付考虑到附近疯了看电视剧kjsdf是的风口浪尖了宽带计费"
                         android:layout_toRightOf="@+id/re_date"
                         android:layout_marginLeft="10dp"
                         android:textSize="12sp"
@@ -356,9 +351,9 @@
                             android:layout_marginTop="8dp"
                             >
                     <TextView
+                        android:id="@+id/tv_valuetext"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="复测铜牌"
                         android:textColor="#666666"
                         android:textSize="9sp"/>
                         </LinearLayout>
@@ -388,9 +383,9 @@
                             android:layout_marginTop="8dp"
                             >
                             <TextView
+                                android:id="@+id/tv_valuetext2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="减重100斤奖章"
                                 android:textColor="#666666"
                                 android:textSize="9sp"/>/>
                         </LinearLayout>
@@ -420,9 +415,9 @@
                             android:layout_marginTop="8dp"
                             >
                             <TextView
+                                android:id="@+id/tv_valuetext3"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="月冠军"
                                 android:textColor="#666666"
                                 android:textSize="9sp"/>/>
                         </LinearLayout>
@@ -474,9 +469,11 @@
                         >
 
                         <ImageView
+                            android:id="@+id/im_pict1"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:src="@drawable/default_icon_square" />
+                            android:src="@drawable/default_icon_square"
+                            android:visibility="gone"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -488,9 +485,11 @@
                         android:layout_marginRight="5dp">
 
                         <ImageView
+                            android:id="@+id/im_pict2"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:src="@drawable/default_icon_square" />
+                            android:src="@drawable/default_icon_square"
+                            android:visibility="gone"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -500,9 +499,11 @@
                         android:gravity="center">
 
                         <ImageView
+                            android:id="@+id/im_pict3"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:src="@drawable/default_icon_square" />
+                            android:src="@drawable/default_icon_square"
+                            android:visibility="gone"/>
                     </LinearLayout>
 
                 </LinearLayout>
@@ -521,9 +522,11 @@
                         android:gravity="center">
 
                         <ImageView
+                            android:id="@+id/im_pict4"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:src="@drawable/default_icon_square" />
+                            android:src="@drawable/default_icon_square"
+                            android:visibility="gone"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -535,9 +538,11 @@
                         android:layout_marginRight="5dp">
 
                         <ImageView
+                            android:id="@+id/im_pict5"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:src="@drawable/default_icon_square" />
+                            android:src="@drawable/default_icon_square"
+                            android:visibility="gone"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -547,9 +552,11 @@
                         android:gravity="center">
 
                         <ImageView
+                            android:id="@+id/im_pict6"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:src="@drawable/default_icon_square" />
+                            android:src="@drawable/default_icon_square"
+                            android:visibility="gone"/>
                     </LinearLayout>
 
                 </LinearLayout>
