@@ -3,7 +3,7 @@ package com.softtek.lai.module.sport.view;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -16,7 +16,6 @@ import com.amap.api.maps.model.LatLngBounds;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.PolygonOptions;
 import com.amap.api.maps.model.PolylineOptions;
-import com.github.snowdream.android.util.Log;
 import com.google.gson.Gson;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
@@ -51,8 +50,8 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
     @InjectView(R.id.tv_distance)
     TextView tv_distance;
 
-    @InjectView(R.id.btn)
-    Button btn;
+    @InjectView(R.id.cb_map_switch)
+    CheckBox cb_map_switch;
 
     //平均速度和GPS信号量
     @InjectView(R.id.tv_avg_speed)
@@ -69,7 +68,7 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void initViews() {
         ll_left.setOnClickListener(this);
-        btn.setOnClickListener(this);
+        cb_map_switch.setOnClickListener(this);
         tv_title.setText("运动记录");
     }
     @Override
@@ -97,7 +96,6 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
             aMap.addPolyline(polylineOptions);
             LatLng start=list.get(0);
             LatLng end=list.get(list.size()-1);
-            //给中国区添加遮罩不支持国外
             polygonOptions=new PolygonOptions().addAll(createRectangle(start,5,5)).fillColor(color).strokeColor(color).strokeWidth(1);
             polygonOptions.visible(false);
             polygonOptions.zIndex(100);
@@ -175,12 +173,14 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
             case R.id.ll_left:
                 finish();
                 break;
-            case R.id.btn:
+            case R.id.cb_map_switch:
                 aMap.clear();
                 if(polygonOptions.isVisible()){
                     polygonOptions.visible(false);
+                    cb_map_switch.setChecked(false);
                 }else{
                     polygonOptions.visible(true);
+                    cb_map_switch.setChecked(true);
                 }
                 aMap.addPolygon(polygonOptions);
                 aMap.addPolyline(polylineOptions);

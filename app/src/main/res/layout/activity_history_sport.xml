@@ -209,12 +209,16 @@
             android:textSize="9sp" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btn"
+    <CheckBox
+        android:id="@+id/cb_map_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/ll_panel"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:button="@null"
         android:layout_marginBottom="10dp"
-        android:text="隐藏"/>
+        android:drawableLeft="@drawable/cb_map"
+        android:checked="false"/>
 
 </RelativeLayout>
