@@ -140,6 +140,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/ll_remove_class"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
@@ -216,6 +217,7 @@
                 android:orientation="vertical"
                 >
                 <RelativeLayout
+                    android:id="@+id/re_jianzh"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:gravity="center_vertical">
@@ -262,6 +264,7 @@
                         android:textStyle="bold"
                         />
                     <TextView
+                        android:id="@+id/tv_mon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
@@ -270,6 +273,7 @@
                         android:textSize="12sp"/>
                     </RelativeLayout>
                     <TextView
+                        android:id="@+id/tv_storycontent"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@+id/re_date"
@@ -293,6 +297,7 @@
                 >
 
                 <RelativeLayout
+                    android:id="@+id/re_xunzhang"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:gravity="center_vertical">
@@ -436,9 +441,11 @@
                 >
 
                 <RelativeLayout
+                    android:id="@+id/Re_personphoto"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    >
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -566,14 +573,15 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:orientation="vertical"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
                 android:paddingBottom="10dp"
-                android:layout_marginTop="14dp">
+                android:layout_marginTop="14dp"
+                >
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
                     android:layout_marginLeft="5dp"
                     >
                     <TextView
@@ -587,14 +595,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#E5E5E5"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"/>
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:gravity="left|center"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
 
                     <View
                         android:layout_width="0dp"
@@ -609,7 +620,8 @@
                         android:gravity="center"
                         android:orientation="horizontal"
                         android:paddingLeft="10dp"
-                        android:paddingRight="10dp">
+                        android:paddingRight="10dp"
+                        >
 
                         <TextView
                             android:id="@+id/tv_total_loss_tip"
@@ -642,7 +654,9 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp">
                         <FrameLayout
                             android:layout_width="0dp"
                             android:layout_height="160dp"
@@ -750,13 +764,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="#e5e5e5"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
                         />
                     <android.support.design.widget.TabLayout
                         android:id="@+id/tablayout"
                         style="@style/myTabLayout1"
                         app:tabBackground="@drawable/tab_selornor"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"/>
 
                     <android.support.v4.view.ViewPager
                         android:id="@+id/tabcontent"

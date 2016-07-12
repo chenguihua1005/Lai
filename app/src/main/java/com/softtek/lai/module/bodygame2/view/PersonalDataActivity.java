@@ -10,38 +10,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
 import com.softtek.lai.module.bodygame2.model.memberDetialModel;
+import com.softtek.lai.module.bodygame2.present.ClemeberExitManager;
 import com.softtek.lai.module.bodygame2.present.PersonDateManager;
-import com.softtek.lai.module.studentbasedate.adapter.BaseDataFragmentAdapter;
-import com.softtek.lai.module.studentbasedate.model.StudentBaseInfoModel;
-import com.softtek.lai.module.studentbasedate.presenter.IStudentBaseDate;
-import com.softtek.lai.module.studentbasedate.presenter.StudentBaseDateImpl;
-import com.softtek.lai.module.studentbasedate.view.BaseDateFragment;
-import com.softtek.lai.module.studentbasedate.view.ClassDynamicFragment;
-import com.softtek.lai.module.studentbasedate.view.DimensionChartFragmentPC;
-import com.softtek.lai.module.studentbasedate.view.LossWeightChartFragmentPC;
+import com.softtek.lai.module.bodygamest.view.StudentHonorGridActivity;
+import com.softtek.lai.module.bodygamest.view.UploadPhotoActivity;
+import com.softtek.lai.module.health.view.DateForm;
 import com.softtek.lai.module.studetail.adapter.StudentDetailFragmentAdapter;
-import com.softtek.lai.module.studetail.model.MemberModel;
-import com.softtek.lai.module.studetail.presenter.IMemberInfopresenter;
-import com.softtek.lai.module.studetail.presenter.MemberInfoImpl;
 import com.softtek.lai.module.studetail.view.DimensionChartFragment;
 import com.softtek.lai.module.studetail.view.LossWeightChartFragment;
 import com.softtek.lai.module.studetail.view.LossWeightLogActivity;
-import com.softtek.lai.utils.DateUtil;
+import com.softtek.lai.utils.ChMonth;
 import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringUtils;
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,6 +41,7 @@ import java.util.Map;
 import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.activity_personal_data)
 public class PersonalDataActivity extends BaseActivity implements View.OnClickListener, BaseFragment.OnFragmentInteractionListener {
@@ -99,6 +90,10 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     TextView tv_classdate;
     @InjectView(R.id.tv_weightday)
     TextView tv_weightday;
+    @InjectView(R.id.tv_mon)
+    TextView tv_mon;
+    @InjectView(R.id.tv_storycontent)
+    TextView tv_storycontent;
     @InjectView(R.id.im_pict1)
     ImageView im_pict1;
     @InjectView(R.id.im_pict2)
@@ -117,17 +112,30 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     TextView tv_valuetext2;
     @InjectView(R.id.tv_valuetext3)
     TextView tv_valuetext3;
+    @InjectView(R.id.ll_remove_class)
+    LinearLayout ll_remove_class;
+    @InjectView(R.id.re_xunzhang)
+    RelativeLayout re_xunzhang;
+    @InjectView(R.id.re_jianzh)
+    RelativeLayout re_jianzh;
+    @InjectView(R.id.Re_personphoto)
+    RelativeLayout Re_personphoto;
     private long accountId = 0;
     private long classId = 0;
     private String review_flag = "1";
-
-    private IMemberInfopresenter memberInfopresenter;
+    ChMonth chMonth;
     private List<Fragment> fragmentList = new ArrayList<>();
     PersonDateManager persondatemanager;
+    ClemeberExitManager clemberExitmanager;
 
     @Override
     protected void initViews() {
         ll_left.setOnClickListener(this);
+        ll_remove_class.setOnClickListener(this);
+        re_xunzhang.setOnClickListener(this);
+        re_jianzh.setOnClickListener(this);
+        Re_personphoto.setOnClickListener(this);
+        tv_title.setText("个人资料");
         accountId = getIntent().getLongExtra("userId", 72);
         classId = getIntent().getLongExtra("classId", 15);
         review_flag = getIntent().getStringExtra("review");
@@ -148,7 +156,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     protected void initDatas() {
 
         persondatemanager = new PersonDateManager();
-        persondatemanager.doGetClmemberDetial(this, "301", "15");
+        persondatemanager.doGetClmemberDetial(this, "72", "15");
     }
 
 
@@ -169,6 +177,24 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                 intent.putExtra("review", Integer.parseInt(review_flag));
                 startActivity(intent);
                 break;
+            case R.id.ll_remove_class:
+                clemberExitmanager=new ClemeberExitManager();
+                clemberExitmanager.doClmemberExit(this,accountId+"",classId+"");
+                break;
+            case R.id.re_xunzhang:
+                startActivity(new Intent(this, StudentHonorGridActivity.class));
+                break;
+            case R.id.re_jianzh:
+                Intent intent1=new Intent(this,LossWeightLogActivity.class);
+                intent1.putExtra("accountId",accountId);
+                intent1.putExtra("review",Integer.parseInt(review_flag));
+                startActivity(intent1);
+                break;
+            case R.id.Re_personphoto:
+                Intent intent2=new Intent(this,UploadPhotoActivity.class);
+                intent2.putExtra("accountId",accountId);
+                startActivity(intent2);
+                break;
         }
     }
 
@@ -177,7 +203,6 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
             String path = AddressManager.get("photoHost");
             if (!TextUtils.isEmpty(data.getClmInfo().getPhoto())) {
                 Picasso.with(this).load(path + data.getClmInfo().getPhoto()).fit().error(R.drawable.default_icon_square).into(cir_headim);
-                android.util.Log.i(">>>头像图片", path + data.getClmInfo().getPhoto());
             }
             tv_username.setText(data.getClmInfo().getUserName());
             tv_tel.setText(data.getClmInfo().getMobile());
@@ -191,32 +216,19 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
             if (data.getLossStory() == null) {
 
             } else {
+                if (!TextUtils.isEmpty(data.getLossStory().getCreateDate())) {
+                    String[] day = data.getLossStory().getCreateDate().split(" ");
+                    String[] date = day[0].split("-");
+                    tv_weightday.setText(date[2]);
+                    chMonth = new ChMonth();
+                    tv_mon.setText(chMonth.tomonth(date[1]));
+                    tv_storycontent.setText(data.getLossStory().getLogContent());
+                }
+            }
+            for (int i = 0; i < data.getHonorList().size(); i++) {
+                getview(data.getHonorList().get(i).getHonorType(), i, data.getHonorList().get(i).getValue());
 
             }
-            for (int i=0;i<data.getHonorList().size();i++)
-            {
-                    getview(data.getHonorList().get(i).getHonorType(), i, data.getHonorList().get(i).getValue());
-
-            }
-//            for (int i = 0; i < data.getHonorList().size(); i++) {
-//                if (data.getHonorList().get(i).getHonorStatus().equals("true")) {
-//                    if (data.getHonorList().get(i).getHonorType().equals("1")) {
-//                        if (data.getHonorList().get(i).getValue().equals("1")) {
-//                            LayoutInflater.from(this).inflate(R.layout.person_honor_fc_item, ll_honorn1);
-//                            ImageView img_fuce = (ImageView) findViewById(R.id.img_fuce);
-//                            img_fuce.setImageResource(R.drawable.img_student_honor_tong);
-//                        } else if (data.getHonorList().get(i).getValue().equals("2")) {
-//                            LayoutInflater.from(this).inflate(R.layout.person_honor_fc_item, ll_honorn1);
-//                            ImageView img_fuce = (ImageView) findViewById(R.id.img_fuce);
-//                            img_fuce.setImageResource(R.drawable.img_student_honor_yin);
-//                        } else if (data.getHonorList().get(i).getValue().equals("3")) {
-//                            LayoutInflater.from(this).inflate(R.layout.person_honor_fc_item, ll_honorn1);
-//                            ImageView img_fuce = (ImageView) findViewById(R.id.img_fuce);
-//                            img_fuce.setImageResource(R.drawable.img_student_honor_jin);
-//                        }
-//                    }
-//                }
-//            }
             for (int j = 0; j < data.getPhotoList().size(); j++) {
                 if (!TextUtils.isEmpty(data.getPhotoList().get(j).getImgUrl())) {
                     if (j == 0) {
@@ -258,11 +270,9 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
 
             if (!StringUtils.isEmpty(data.getClmInfo().getBeforeImage())) {
                 Picasso.with(this).load(path + data.getClmInfo().getBeforeImage()).fit().placeholder(R.drawable.default_icon_rect).error(R.drawable.default_icon_rect).into(iv_loss_before);
-                android.util.Log.i(">>>>减重前图片", path + data.getClmInfo().getBeforeImage());
             }
             if (!StringUtils.isEmpty(data.getClmInfo().getAfterImage())) {
                 Picasso.with(this).load(path + data.getClmInfo().getAfterImage()).fit().placeholder(R.drawable.default_icon_rect).error(R.drawable.default_icon_rect).into(iv_loss_after);
-                android.util.Log.i(">>>>减重后图片", path + data.getClmInfo().getAfterImage());
             }
 
         }
@@ -270,158 +280,99 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
 
     public void getview(String type, int num, String value) {
         if (type.equals("0")) {
-
-            LayoutInflater.from(this).inflate(R.layout.person_honor_jz_item, getview1(num,type,value));
+            LayoutInflater.from(this).inflate(R.layout.person_honor_jz_item, getview1(num, type, value));
             TextView tv_jz_value = (TextView) findViewById(R.id.tv_jz_value);
             tv_jz_value.setText(value);
 
         } else if (type.equals("1")) {
-            LayoutInflater.from(this).inflate(R.layout.person_honor_fc_item, getview1(num,type,value));
-            ImageView img_fuce= (ImageView) findViewById(R.id.img_fuce);
-            if (value.equals("1"))
-            {
-                if (num==0)
-                {
-                    tv_valuetext.setText("复测铜牌");
-                }
-                else if (num==1)
-                {
-                    tv_valuetext2.setText("复测铜牌");
-                }
-                else {
-                    tv_valuetext3.setText("复测铜牌");
-                }
-            }
-            else if (value.equals("2")){
+            LayoutInflater.from(this).inflate(R.layout.person_honor_fc_item, getview1(num, type, value));
+            ImageView img_fuce = (ImageView) findViewById(R.id.img_fuce);
+            if (value.equals("1")) {
+                img_fuce.setImageResource(R.drawable.img_student_honor_tong
+                );
+            } else if (value.equals("2")) {
                 img_fuce.setImageResource(R.drawable.img_student_honor_yin);
-                if (num==0)
-                {
-                    tv_valuetext.setText("复测银牌");
-                }
-                else if (num==1)
-                {
-                    tv_valuetext2.setText("复测银牌");
-                }
-                else {
-                    tv_valuetext3.setText("复测银牌");
-                }
-            }
-            else {
+
+            } else {
                 img_fuce.setImageResource(R.drawable.img_student_honor_jin);
-                if (num==0)
-                {
-                    tv_valuetext.setText("复测银牌");
-                }
-                else if (num==1)
-                {
-                    tv_valuetext2.setText("复测银牌");
-                }
-                else {
-                    tv_valuetext3.setText("复测银牌");
-                }
+
             }
         } else if (type.equals("2")) {
-            LayoutInflater.from(this).inflate(R.layout.person_honor_ygj_item, getview1(num,type,value));
+            LayoutInflater.from(this).inflate(R.layout.person_honor_ygj_item, getview1(num, type, value));
             TextView tv_yuegj_value = (TextView) findViewById(R.id.tv_yuegj_value);
-            tv_yuegj_value.setText("2016年7月");
+            tv_yuegj_value.setText(value);
 
         } else if (type.equals("3")) {
-            LayoutInflater.from(this).inflate(R.layout.person_honor_star_item,getview1(num,type,value));
-            TextView tv_jzstar_value= (TextView) findViewById(R.id.tv_jzstar_value);
-            tv_jzstar_value.setText("20");
+            LayoutInflater.from(this).inflate(R.layout.person_honor_star_item, getview1(num, type, value));
+            TextView tv_jzstar_value = (TextView) findViewById(R.id.tv_jzstar_value);
+            tv_jzstar_value.setText(value);
         }
     }
 
-    public LinearLayout getview1(int n,String ty,String value) {
+    public LinearLayout getview1(int n, String ty, String value) {
         LinearLayout view = ll_honorn1;
         if (n == 0) {
             view = ll_honorn1;
-            if (ty.equals("1"))
-            {
-                if (value.equals("1"))
-                {
+            if (ty.equals("1")) {
+                if (value.equals("1")) {
                     tv_valuetext.setText("复测铜牌");
-                }
-                else if (value.equals("2"))
-                {
+                } else if (value.equals("2")) {
                     tv_valuetext.setText("复测银牌");
-                }
-                else if (value.equals("3"))
-                {
+                } else if (value.equals("3")) {
                     tv_valuetext.setText("复测金牌");
                 }
-            }
-            else if (ty.equals("0"))
-            {
-                tv_valuetext.setText("减重"+value+"斤奖章");
-            }
-            else if (ty.equals("2"))
-            {
-                tv_valuetext.setText("月冠军"+value+"名奖章");
-            }
-            else if (ty.equals(""))
-            {
-                tv_valuetext.setText("全国排名第"+value+"名奖章");
+            } else if (ty.equals("0")) {
+                tv_valuetext.setText("减重" + value + "斤奖章");
+            } else if (ty.equals("2")) {
+                tv_valuetext.setText("月冠军" + value + "名奖章");
+            } else if (ty.equals("")) {
+                tv_valuetext.setText("全国排名第" + value + "名奖章");
             }
         } else if (n == 1) {
             view = ll_honorn2;
-            if (ty.equals("1"))
-            {
-                if (value.equals("1"))
-                {
+            if (ty.equals("1")) {
+                if (value.equals("1")) {
                     tv_valuetext2.setText("复测铜牌");
-                }
-                else if (value.equals("2"))
-                {
+                } else if (value.equals("2")) {
                     tv_valuetext2.setText("复测银牌");
-                }
-                else if (value.equals("3"))
-                {
+                } else if (value.equals("3")) {
                     tv_valuetext2.setText("复测金牌");
                 }
-            }
-            else if (ty.equals("0"))
-            {
-                tv_valuetext2.setText("减重"+value+"斤奖章");
-            }
-            else if (ty.equals("2"))
-            {
-                tv_valuetext2.setText("月冠军"+value+"名奖章");
-            }
-            else if (ty.equals(""))
-            {
-                tv_valuetext2.setText("全国排名第"+value+"名奖章");
+            } else if (ty.equals("0")) {
+                tv_valuetext2.setText("减重" + value + "斤奖章");
+            } else if (ty.equals("2")) {
+                tv_valuetext2.setText("月冠军" + value + "名奖章");
+            } else if (ty.equals("")) {
+                tv_valuetext2.setText("全国排名第" + value + "名奖章");
             }
         } else {
             view = ll_honorn3;
-            if (ty.equals("1"))
-            {
-                if (value.equals("1"))
-                {
+            if (ty.equals("1")) {
+                if (value.equals("1")) {
                     tv_valuetext3.setText("复测铜牌");
-                }
-                else if (value.equals("2"))
-                {
+                } else if (value.equals("2")) {
                     tv_valuetext3.setText("复测银牌");
-                }
-                else if (value.equals("3"))
-                {
+                } else if (value.equals("3")) {
                     tv_valuetext3.setText("复测金牌");
                 }
-            }
-            else if (ty.equals("0"))
-            {
-                tv_valuetext3.setText("减重"+value+"斤奖章");
-            }
-            else if (ty.equals("2"))
-            {
-                tv_valuetext3.setText("月冠军"+value+"名奖章");
-            }
-            else if (ty.equals(""))
-            {
-                tv_valuetext3.setText("全国排名第"+value+"名奖章");
+            } else if (ty.equals("0")) {
+                tv_valuetext3.setText("减重" + value + "斤奖章");
+            } else if (ty.equals("2")) {
+                tv_valuetext3.setText("月冠军" + value + "名奖章");
+            } else if (ty.equals("")) {
+                tv_valuetext3.setText("全国排名第" + value + "名奖章");
             }
         }
         return view;
+    }
+
+    public void onExitompleted(String aTrue) {
+        if (aTrue.equals("true"))
+        {
+         finish();
+        }
+        else {
+            Util.toastMsg("移出班级失败");
+        }
     }
 }

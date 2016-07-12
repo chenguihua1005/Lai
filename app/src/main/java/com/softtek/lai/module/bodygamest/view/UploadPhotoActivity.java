@@ -105,7 +105,7 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     private CircleImageView cir_downphoto_head_list;
     private ImageView imtest_list;
     private TextView tv_downphoto_nick;
-    //private ImageFileSelector imageFileSelector;
+    String accountid="0";
     boolean flag = true;
 
     String url;
@@ -155,12 +155,6 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
         iv_email.setVisibility(View.VISIBLE);
         iv_email.setImageResource(R.drawable.img_share_bt);
         iv_email.setOnClickListener(this);
-        /*imageFileSelector = new ImageFileSelector(this);
-        imageFileSelector.setOutPutImageSize(DisplayUtil.dip2px(this, 600),
-                DisplayUtil.dip2px(this, 400));
-        imageFileSelector.setQ2uality(80);
-        imageFileSelector.setCallback(this);*/
-        //监听点击事件
         ll_left.setOnClickListener(this);
 
         fl_right.setOnClickListener(this);
