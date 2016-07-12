@@ -6,6 +6,7 @@
 package com.softtek.lai.chat.ui;
 
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -78,8 +79,11 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                             startActivity(intent);
                         }
                     }).setCancelable(false);
-            if (!isFinishing()) {
-                builder.create().show();
+            Dialog dialog=builder.create();
+            if(!isFinishing()){
+                if(dialog!=null && !dialog.isShowing()){
+                    dialog.show();
+                }
             }
 
         }
@@ -107,30 +111,29 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         connectionListener = new EMConnectionListener() {
             @Override
             public void onDisconnected(final int error) {
-                if (!isFinishing()) {
-                    EMChatManager.getInstance().logout(true,new EMCallBack() {
+                if (error == EMError.CONNECTION_CONFLICT) {
+                    if (!isFinishing()) {
+                        EMChatManager.getInstance().logout(true, new EMCallBack() {
 
-                        @Override
-                        public void onSuccess() {
-                            // TODO Auto-generated method stub
-                            if (error == EMError.CONNECTION_CONFLICT) {
+                            @Override
+                            public void onSuccess() {
+                                // TODO Auto-generated method stub
                                 handler.sendEmptyMessage(0);
                             }
-                        }
 
-                        @Override
-                        public void onProgress(int progress, String status) {
-                            // TODO Auto-generated method stub
+                            @Override
+                            public void onProgress(int progress, String status) {
+                                // TODO Auto-generated method stub
 
-                        }
+                            }
 
-                        @Override
-                        public void onError(int code, String message) {
-                            // TODO Auto-generated method stub
+                            @Override
+                            public void onError(int code, String message) {
+                                // TODO Auto-generated method stub
 
-                        }
-
-                    });
+                            }
+                        });
+                    }
                 }
             }
 

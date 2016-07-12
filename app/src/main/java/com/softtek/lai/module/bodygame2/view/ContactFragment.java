@@ -1,5 +1,6 @@
 package com.softtek.lai.module.bodygame2.view;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -93,8 +94,11 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
                             startActivity(intent);
                         }
                     }).setCancelable(false);
+            dialog=builder.create();
             if(!getActivity().isFinishing()){
-                builder.create().show();
+                if(dialog!=null && !dialog.isShowing()){
+                    dialog.show();
+                }
             }
 
         }
@@ -150,29 +154,30 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
         connectionListener = new EMConnectionListener() {
             @Override
             public void onDisconnected(final int error) {
-                if (!getActivity().isFinishing()) {
-                    EMChatManager.getInstance().logout(true,new EMCallBack() {
+                if (error == EMError.CONNECTION_CONFLICT) {
+                    if (!getActivity().isFinishing()) {
+                        EMChatManager.getInstance().logout(true, new EMCallBack() {
 
-                        @Override
-                        public void onSuccess() {
-                            // TODO Auto-generated method stub
-                            if (error == EMError.CONNECTION_CONFLICT) {
+                            @Override
+                            public void onSuccess() {
+                                // TODO Auto-generated method stub
+                                System.out.println("ContactFragment onSuccess-------");
                                 handler.sendEmptyMessage(0);
                             }
-                        }
 
-                        @Override
-                        public void onProgress(int progress, String status) {
-                            // TODO Auto-generated method stub
+                            @Override
+                            public void onProgress(int progress, String status) {
+                                // TODO Auto-generated method stub
 
-                        }
+                            }
 
-                        @Override
-                        public void onError(int code, String message) {
-                            // TODO Auto-generated method stub
+                            @Override
+                            public void onError(int code, String message) {
+                                // TODO Auto-generated method stub
 
-                        }
-                    });
+                            }
+                        });
+                    }
                 }
             }
 
@@ -183,7 +188,7 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
 
             }
         };
-        EMChatManager.getInstance().addConnectionListener(connectionListener);
+        //EMChatManager.getInstance().addConnectionListener(connectionListener);
 
         list_contant.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -220,9 +225,15 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
                 break;
 
             case R.id.lin_group_send:
-                Intent intent = new Intent(getActivity(), SeceltGroupSentActivity.class);
-                intent.putExtra("list", (Serializable) list);
-                startActivity(intent);
+                boolean isLogin = EMChat.getInstance().isLoggedIn();
+                if (isLogin) {
+                    Intent intent = new Intent(getActivity(), SeceltGroupSentActivity.class);
+                    intent.putExtra("list", (Serializable) list);
+                    startActivity(intent);
+                }else {
+                    Util.toastMsg("会话异常，请稍候再试");
+                }
+
                 break;
         }
     }

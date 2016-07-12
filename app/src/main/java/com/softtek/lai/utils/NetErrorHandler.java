@@ -18,6 +18,7 @@ import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.home.view.HomeFragment;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
+import com.softtek.lai.module.login.view.RegistActivity;
 import com.softtek.lai.stepcount.net.StepNetService;
 import com.softtek.lai.stepcount.service.StepService;
 
@@ -91,6 +92,7 @@ public class NetErrorHandler implements IApiErrorHandler {
                             ResponseData data = (ResponseData) error.getBody();
                             customCode = data.getStatus();
                         }
+                        System.out.println("customCode:"+customCode);
                         Log.i("return code====="+customCode);
                         switch (customCode) {
                             case 401:

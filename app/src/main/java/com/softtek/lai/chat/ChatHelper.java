@@ -28,6 +28,7 @@ import com.softtek.lai.LaiApplication;
 import com.softtek.lai.chat.ui.ConversationListActivity;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.contants.Constants;
+import com.softtek.lai.module.bodygame2.view.BodyGameSPActivity;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.stepcount.service.StepService;
 
@@ -179,7 +180,7 @@ public class ChatHelper {
             @Override
             public Intent getLaunchIntent(EMMessage message) {
                 //设置点击通知栏跳转事件
-                Intent intent = new Intent(appContext, ConversationListActivity.class);
+                Intent intent = new Intent(appContext, BodyGameSPActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 return intent;
             }
@@ -241,7 +242,6 @@ public class ChatHelper {
                         Intent msgIntent = new Intent(Constants.MESSAGE_CHAT_ACTION);
                         msgIntent.putExtra("count", unreadMsgCountTotal);
                         appContext.sendBroadcast(msgIntent);
-                        System.out.println("EventNewMessage-----");
                         if (!easeUI.hasForegroundActivies()) {
                             getNotifier().onNewMsg(message);
                         }

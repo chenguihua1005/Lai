@@ -1,5 +1,6 @@
 package com.softtek.lai.module.bodygame2.view;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -104,8 +105,11 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
                                 startActivity(intent);
                             }
                         }).setCancelable(false);
-                if (!getActivity().isFinishing()) {
-                    builder.create().show();
+                dialog=builder.create();
+                if(!getActivity().isFinishing()){
+                    if(dialog!=null && !dialog.isShowing()){
+                        dialog.show();
+                    }
                 }
             } else {
                 img_mo_message.setVisibility(View.GONE);
@@ -133,29 +137,30 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
         connectionListener = new EMConnectionListener() {
             @Override
             public void onDisconnected(final int error) {
-                if (!getActivity().isFinishing()) {
-                    EMChatManager.getInstance().logout(true, new EMCallBack() {
+                if (error == EMError.CONNECTION_CONFLICT) {
+                    if (!getActivity().isFinishing()) {
+                        EMChatManager.getInstance().logout(true, new EMCallBack() {
 
-                        @Override
-                        public void onSuccess() {
-                            // TODO Auto-generated method stub
-                            if (error == EMError.CONNECTION_CONFLICT) {
+                            @Override
+                            public void onSuccess() {
+                                // TODO Auto-generated method stub
+                                System.out.println("ChatFragment onSuccess-------");
                                 handler.sendEmptyMessage(0);
                             }
-                        }
 
-                        @Override
-                        public void onProgress(int progress, String status) {
-                            // TODO Auto-generated method stub
+                            @Override
+                            public void onProgress(int progress, String status) {
+                                // TODO Auto-generated method stub
 
-                        }
+                            }
 
-                        @Override
-                        public void onError(int code, String message) {
-                            // TODO Auto-generated method stub
+                            @Override
+                            public void onError(int code, String message) {
+                                // TODO Auto-generated method stub
 
-                        }
-                    });
+                            }
+                        });
+                    }
                 }
             }
 
@@ -164,7 +169,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
                 // 当连接到服务器之后，这里开始检查是否有没有发送的ack回执消息，
             }
         };
-        EMChatManager.getInstance().addConnectionListener(connectionListener);
+        //EMChatManager.getInstance().addConnectionListener(connectionListener);
         registerMessageReceiver();
         registerBroadcastReceiver();
         EaseUI.getInstance().getNotifier().reset();
