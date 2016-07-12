@@ -103,22 +103,26 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
 
     public void loadData(PKObjRequest data){
         dialogDissmiss();
-        lv.onRefreshComplete();
-        if(data==null){
-            return;
-        }
-        totalPage=data.getPageCount();
-        List<PKObjModel> models=data.getData();
-        if(models==null||models.isEmpty()){
-            lv.setMode(PullToRefreshBase.Mode.DISABLED);
+        try {
+            lv.onRefreshComplete();
+            if(data==null){
+                return;
+            }
+            totalPage=data.getPageCount();
+            List<PKObjModel> models=data.getData();
+            if(models==null||models.isEmpty()){
+                lv.setMode(PullToRefreshBase.Mode.DISABLED);
+                modelList.clear();
+                adapter.notifyDataSetChanged();
+                return;
+            }
+            lv.setMode(PullToRefreshBase.Mode.PULL_FROM_END);
             modelList.clear();
+            modelList.addAll(models);
             adapter.notifyDataSetChanged();
-            return;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        lv.setMode(PullToRefreshBase.Mode.PULL_FROM_END);
-        modelList.clear();
-        modelList.addAll(models);
-        adapter.notifyDataSetChanged();
     }
 
     @Override

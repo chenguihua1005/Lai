@@ -20,8 +20,6 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.mobsandgeeks.saripaar.Rule;
-import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
@@ -36,8 +34,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
-import zilla.libcore.lifecircle.LifeCircleInject;
-import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 
 /**
@@ -45,11 +41,7 @@ import zilla.libcore.ui.InjectLayout;
  * 加入跑团
  */
 @InjectLayout(R.layout.activity_join_group)
-public class JoinGroupActivity extends BaseActivity implements View.OnClickListener, Validator.ValidationListener, BaseFragment.OnFragmentInteractionListener, SportGroupManager.GetGroupListCallBack {
-
-    @LifeCircleInject
-    ValidateLife validateLife;
-
+public class JoinGroupActivity extends BaseActivity implements View.OnClickListener, BaseFragment.OnFragmentInteractionListener, SportGroupManager.GetGroupListCallBack {
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -96,7 +88,7 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
     @InjectView(R.id.list_group)
     ListView list_group;
 
-    List<GroupModel> group_list = new ArrayList<GroupModel>();
+    List<GroupModel> group_list = new ArrayList<>();
     GroupAdapter adapter;
 
     SportGroupManager sportGroupManager;
@@ -168,9 +160,9 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
     protected void initDatas() {
         sportGroupManager = new SportGroupManager(this);
         dialogShow("加载中");
-        dq_name_list = new ArrayList<String>();
-        dq_id_list = new ArrayList<String>();
-        dq_is_head_list = new ArrayList<String>();
+        dq_name_list = new ArrayList<>();
+        dq_id_list = new ArrayList<>();
+        dq_is_head_list = new ArrayList<>();
         sportGroupManager.getBregionList();
     }
 
@@ -210,23 +202,6 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onValidationSucceeded() {
-
-    }
-
-    @Override
-    public void onValidationFailed(View failedView, Rule<?> failedRule) {
-        validateLife.onValidationFailed(failedView, failedRule);
-    }
-
-
     @Override
     public void onFragmentInteraction(Uri uri) {
 
@@ -237,8 +212,8 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
         text_cs.setText("选择城市");
         img_cs.setImageResource(R.drawable.img_join_group_select);
 
-        city_name_list = new ArrayList<String>();
-        city_id_list = new ArrayList<String>();
+        city_name_list = new ArrayList<>();
+        city_id_list = new ArrayList<>();
         select_city_name = "";
         select_city_id = "";
         select_city_posion = 0;
@@ -335,7 +310,6 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
                             text_dq.setText(select_dq_name);
                             resetXQCity();
                             dialogShow("加载中");
-                            // sportGroupManager.getSregionList(select_dq_id);
                             if ("1".equals(select_is_head)) {
                                 sportGroupManager.getHQRGlist(select_dq_id);
                                 rel_xq.setVisibility(View.GONE);
@@ -347,7 +321,6 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
                             text_dq.setText(select_dq_name);
                             resetXQCity();
                             dialogShow("加载中");
-                            // sportGroupManager.getSregionList(select_dq_id);
                             if ("1".equals(select_is_head)) {
                                 sportGroupManager.getHQRGlist(select_dq_id);
                                 rel_xq.setVisibility(View.GONE);

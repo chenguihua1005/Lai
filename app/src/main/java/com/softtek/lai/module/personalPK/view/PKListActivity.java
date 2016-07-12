@@ -152,21 +152,25 @@ public class PKListActivity extends BaseActivity implements View.OnClickListener
     }
 
     public void getModels(ResponseData<List<PKListModel>> model){
-        ptrlv.onRefreshComplete();
-        if(model==null){
-            pageIndex=--pageIndex<1?1:pageIndex;
-            return;
+        try {
+            ptrlv.onRefreshComplete();
+            if(model==null){
+                pageIndex=--pageIndex<1?1:pageIndex;
+                return;
+            }
+            totalPage=model.getPageCount();
+            List<PKListModel> list=model.getData();
+            if(list==null||list.isEmpty()){
+                pageIndex=--pageIndex<1?1:pageIndex;
+                return;
+            }
+            if(pageIndex==1){
+                this.models.clear();
+            }
+            this.models.addAll(list);
+            adapter.notifyDataSetChanged();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        totalPage=model.getPageCount();
-        List<PKListModel> list=model.getData();
-        if(list==null||list.isEmpty()){
-            pageIndex=--pageIndex<1?1:pageIndex;
-            return;
-        }
-        if(pageIndex==1){
-            this.models.clear();
-        }
-        this.models.addAll(list);
-        adapter.notifyDataSetChanged();
     }
 }
