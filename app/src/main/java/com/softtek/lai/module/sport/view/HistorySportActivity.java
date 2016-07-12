@@ -177,10 +177,10 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
                 aMap.clear();
                 if(polygonOptions.isVisible()){
                     polygonOptions.visible(false);
-                    cb_map_switch.setChecked(false);
+                    cb_map_switch.setChecked(true);
                 }else{
                     polygonOptions.visible(true);
-                    cb_map_switch.setChecked(true);
+                    cb_map_switch.setChecked(false);
                 }
                 aMap.addPolygon(polygonOptions);
                 aMap.addPolyline(polylineOptions);

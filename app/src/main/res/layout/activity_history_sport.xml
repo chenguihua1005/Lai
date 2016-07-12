@@ -219,6 +219,6 @@
         android:button="@null"
         android:layout_marginBottom="10dp"
         android:drawableLeft="@drawable/cb_map"
-        android:checked="false"/>
+        android:checked="true"/>
 
 </RelativeLayout>
