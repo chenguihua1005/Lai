@@ -8,14 +8,14 @@ import android.hardware.SensorManager;
 
 /**
  * 这是一个实现了信号监听的记步的类
- * 这是从谷歌找来的一个记步的算法，看不太懂
+ * 这是从谷歌找来的一个记步的算法
  * @author Jerry Date:2016-6-24
  *
  */
 public class StepDetector implements SensorEventListener {
 
     public static int CURRENT_SETP = 0;
-    public static float SENSITIVITY = 6; // SENSITIVITY灵敏度
+    public static float SENSITIVITY = 4; // SENSITIVITY灵敏度
     private float mLastValues[] = new float[3 * 2];
     private float mScale[] = new float[2];
     private float mYOffset;
