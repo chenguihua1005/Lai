@@ -5,6 +5,7 @@ import com.softtek.lai.module.act.model.ActivityModel;
 import com.softtek.lai.module.bodygame2.model.ClassChangeModel;
 import com.softtek.lai.module.bodygame2.model.ClassMainModel;
 import com.softtek.lai.module.bodygame2.model.MemberChangeModel;
+import com.softtek.lai.module.bodygame2.model.memberDetialModel;
 import com.softtek.lai.utils.RequestCallback;
 
 import java.util.List;
@@ -37,5 +38,13 @@ public interface BodyGameService {
             @Header("token")String token,
             @Query("classid")String classid,
             RequestCallback<ResponseData<MemberChangeModel>>callback
+    );
+    //获取个人资料
+    @GET("/NewClass/GetClmemberDetial")
+    void doGetClmemberDetial(
+            @Header("token")String token,
+            @Query("accountid")String accountid,
+            @Query("classid")String classid,
+            RequestCallback<RequestCallback<memberDetialModel>>callback
     );
 }
