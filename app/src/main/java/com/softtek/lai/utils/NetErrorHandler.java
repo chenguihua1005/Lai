@@ -18,6 +18,7 @@ import com.softtek.lai.module.home.view.HomeActviity;
 import com.softtek.lai.module.home.view.HomeFragment;
 import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
+import com.softtek.lai.module.login.view.RegistActivity;
 import com.softtek.lai.stepcount.net.StepNetService;
 import com.softtek.lai.stepcount.service.StepService;
 

@@ -242,7 +242,6 @@ public class ChatHelper {
                         Intent msgIntent = new Intent(Constants.MESSAGE_CHAT_ACTION);
                         msgIntent.putExtra("count", unreadMsgCountTotal);
                         appContext.sendBroadcast(msgIntent);
-                        System.out.println("EventNewMessage-----");
                         if (!easeUI.hasForegroundActivies()) {
                             getNotifier().onNewMsg(message);
                         }

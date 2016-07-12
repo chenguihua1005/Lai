@@ -19,12 +19,15 @@ import com.easemob.EMCallBack;
 import com.easemob.EMConnectionListener;
 import com.easemob.EMError;
 import com.easemob.chat.EMChatManager;
+import com.easemob.easeui.domain.ChatUserInfoModel;
+import com.easemob.easeui.domain.ChatUserModel;
 import com.ggx.jerryguan.widget_lib.SimpleButton;
 import com.softtek.lai.R;
 import com.softtek.lai.chat.ui.ConversationListFragment;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.home.adapter.MainPageAdapter;
+import com.softtek.lai.module.login.model.UserModel;
 import com.softtek.lai.module.login.view.LoginActivity;
 import com.softtek.lai.stepcount.service.StepService;
 import com.softtek.lai.widgets.NoSlidingViewPage;
@@ -33,6 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
 @InjectLayout(R.layout.activity_bodygame)
@@ -146,6 +150,18 @@ public class BodyGameSPActivity extends BaseActivity implements View.OnClickList
             }
         };
         EMChatManager.getInstance().addConnectionListener(connectionListener);
+
+        UserModel model = UserInfoModel.getInstance().getUser();
+        if (model == null) {
+            return;
+        }
+
+        String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+        ChatUserModel chatUserModel = new ChatUserModel();
+        chatUserModel.setUserName(model.getNickname());
+        chatUserModel.setUserPhone(path + model.getPhoto());
+        chatUserModel.setUserId(model.getHXAccountId().toLowerCase());
+        ChatUserInfoModel.getInstance().setUser(chatUserModel);
 
     }
 
