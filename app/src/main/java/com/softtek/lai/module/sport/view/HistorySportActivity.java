@@ -59,7 +59,7 @@ public class HistorySportActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void initViews() {
         ll_left.setOnClickListener(this);
-        tv_title.setText("运动");
+        tv_title.setText("运动记录");
     }
     @Override
     protected void initDatas() {

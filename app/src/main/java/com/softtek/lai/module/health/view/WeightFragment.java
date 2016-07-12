@@ -243,18 +243,22 @@ public class WeightFragment extends BaseFragment implements RadioGroup.OnChecked
     @Override
     public void getHealthWeightRecords(HealthWeightModel healthWeightModel) {
         progressDialog.dismiss();
-        if(healthWeightModel==null){
-            return;
-        }
-        System.out.println("健康记录体重" + healthWeightModel.getFirstrecordtime());
-        int n=healthWeightModel.getweightlist().size();
-        Log.i("n等于多少？="+n);
-        for (int i=0;i<=n-1;i++) {
-            dates.add(Float.parseFloat(healthWeightModel.getweightlist().get(i).getWeight()));
-        }
+        try {
+            if(healthWeightModel==null){
+                return;
+            }
+            System.out.println("健康记录体重" + healthWeightModel.getFirstrecordtime());
+            int n=healthWeightModel.getweightlist().size();
+            Log.i("n等于多少？="+n);
+            for (int i=0;i<=n-1;i++) {
+                dates.add(Float.parseFloat(healthWeightModel.getweightlist().get(i).getWeight()));
+            }
 
 
-        chartUtil.addData(dates,n,days);
+            chartUtil.addData(dates,n,days);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

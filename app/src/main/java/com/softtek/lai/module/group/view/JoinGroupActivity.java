@@ -480,12 +480,16 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void getBregionList(String type, List<DxqModel> list) {
         dialogDissmiss();
-        if ("success".equals(type)) {
-            for (int i = 0; i < list.size(); i++) {
-                dq_name_list.add(list.get(i).getRegionName());
-                dq_id_list.add(list.get(i).getRegionId());
-                dq_is_head_list.add(list.get(i).getIsHeadOffice());
+        try {
+            if ("success".equals(type)) {
+                for (int i = 0; i < list.size(); i++) {
+                    dq_name_list.add(list.get(i).getRegionName());
+                    dq_id_list.add(list.get(i).getRegionId());
+                    dq_is_head_list.add(list.get(i).getIsHeadOffice());
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
@@ -493,62 +497,78 @@ public class JoinGroupActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void getSregionList(String type, List<DxqModel> list) {
         dialogDissmiss();
-        if ("success".equals(type)) {
-            for (int i = 0; i < list.size(); i++) {
-                xq_name_list.add(list.get(i).getRegionName());
-                xq_id_list.add(list.get(i).getRegionId());
+        try {
+            if ("success".equals(type)) {
+                for (int i = 0; i < list.size(); i++) {
+                    xq_name_list.add(list.get(i).getRegionName());
+                    xq_id_list.add(list.get(i).getRegionId());
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     @Override
     public void getCityList(String type, List<CityModel> list) {
         dialogDissmiss();
-        if ("success".equals(type)) {
-            for (int i = 0; i < list.size(); i++) {
-                city_name_list.add(list.get(i).getCityName());
-                city_id_list.add(list.get(i).getCityId());
+        try {
+            if ("success".equals(type)) {
+                for (int i = 0; i < list.size(); i++) {
+                    city_name_list.add(list.get(i).getCityName());
+                    city_id_list.add(list.get(i).getCityId());
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     @Override
     public void getRGListByCity(String type, List<GroupModel> list) {
         dialogDissmiss();
-        if ("success".equals(type)) {
-            group_list = list;
-            if (group_list.size() > 0) {
-                img_mo_message.setVisibility(View.GONE);
+        try {
+            if ("success".equals(type)) {
+                group_list = list;
+                if (group_list.size() > 0) {
+                    img_mo_message.setVisibility(View.GONE);
+                } else {
+                    img_mo_message.setVisibility(View.VISIBLE);
+                }
+                list_group.setVisibility(View.VISIBLE);
+                adapter = new GroupAdapter(this, group_list);
+                list_group.setAdapter(adapter);
             } else {
+                group_list = new ArrayList<GroupModel>();
+                list_group.setVisibility(View.GONE);
                 img_mo_message.setVisibility(View.VISIBLE);
             }
-            list_group.setVisibility(View.VISIBLE);
-            adapter = new GroupAdapter(this, group_list);
-            list_group.setAdapter(adapter);
-        } else {
-            group_list = new ArrayList<GroupModel>();
-            list_group.setVisibility(View.GONE);
-            img_mo_message.setVisibility(View.VISIBLE);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     @Override
     public void getHQRGlist(String type, List<GroupModel> list) {
         dialogDissmiss();
-        if ("success".equals(type)) {
-            group_list = list;
-            if (group_list.size() > 0) {
-                img_mo_message.setVisibility(View.GONE);
+        try {
+            if ("success".equals(type)) {
+                group_list = list;
+                if (group_list.size() > 0) {
+                    img_mo_message.setVisibility(View.GONE);
+                } else {
+                    img_mo_message.setVisibility(View.VISIBLE);
+                }
+                list_group.setVisibility(View.VISIBLE);
+                adapter = new GroupAdapter(this, group_list);
+                list_group.setAdapter(adapter);
             } else {
+                group_list = new ArrayList<GroupModel>();
+                list_group.setVisibility(View.GONE);
                 img_mo_message.setVisibility(View.VISIBLE);
             }
-            list_group.setVisibility(View.VISIBLE);
-            adapter = new GroupAdapter(this, group_list);
-            list_group.setAdapter(adapter);
-        } else {
-            group_list = new ArrayList<GroupModel>();
-            list_group.setVisibility(View.GONE);
-            img_mo_message.setVisibility(View.VISIBLE);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

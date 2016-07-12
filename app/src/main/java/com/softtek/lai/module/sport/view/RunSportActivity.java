@@ -4,25 +4,31 @@ import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
+import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.location.GpsSatellite;
-import android.location.GpsStatus;
-import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.PersistableBundle;
+import android.os.Handler.Callback;
+import android.os.IBinder;
+import android.os.Message;
+import android.os.Messenger;
+import android.os.RemoteException;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
@@ -35,13 +41,18 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.AMapUtils;
 import com.amap.api.maps.CameraUpdateFactory;
+import com.amap.api.maps.CustomRenderer;
 import com.amap.api.maps.LocationSource;
 import com.amap.api.maps.MapView;
+import com.amap.api.maps.model.AMapGLOverlay;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
+import com.amap.api.maps.model.GroundOverlayOptions;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
+import com.amap.api.maps.model.PolygonOptions;
 import com.amap.api.maps.model.PolylineOptions;
+import com.autonavi.amap.mapcore.MapCore;
 import com.github.snowdream.android.util.Log;
 import com.google.gson.Gson;
 import com.softtek.lai.R;
@@ -52,12 +63,15 @@ import com.softtek.lai.module.sport.model.LatLon;
 import com.softtek.lai.module.sport.model.SportData;
 import com.softtek.lai.module.sport.model.Trajectory;
 import com.softtek.lai.module.sport.presenter.SportManager;
+import com.softtek.lai.stepcount.service.StepService;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.JCountDownTimer;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Iterator;
+
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.opengles.GL10;
 
 import butterknife.InjectView;
 import zilla.libcore.ui.InjectLayout;
@@ -70,7 +84,7 @@ import zilla.libcore.ui.InjectLayout;
  */
 @InjectLayout(R.layout.activity_run_sport)
 public class RunSportActivity extends BaseActivity implements LocationSource
-        , View.OnClickListener, GpsStatus.Listener {
+        , View.OnClickListener,Callback{
 
     @InjectView(R.id.ll_left)
     LinearLayout ll_left;
@@ -147,13 +161,6 @@ public class RunSportActivity extends BaseActivity implements LocationSource
     }
 
 
-    @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
-
-    }
-
-
     private static final int LOCATION_PREMISSION = 100;
     private Intent intent;
 
@@ -187,7 +194,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
         //初始化polyline
         polylineOptions = new PolylineOptions();
         polylineOptions.width(15);
-        polylineOptions.color(Color.RED);
+        polylineOptions.color(Color.GREEN);
         polylineOptions.zIndex(3);
 
         /**
@@ -229,7 +236,18 @@ public class RunSportActivity extends BaseActivity implements LocationSource
         mapView.setLayoutParams(params);
     }
 
+    @Override
+    protected void initDatas() {
+        tv_title.setText("运动");
+        manager = new SportManager();
+        //绑定步数服务
+        bindService(new Intent(this,StepService.class),connection,Context.BIND_AUTO_CREATE);
+        locationReceiver = new LocationReceiver();
+        IntentFilter locationFilter = new IntentFilter();
+        locationFilter.addAction(LocationService.LOCATION_SERIVER);
+        LocalBroadcastManager.getInstance(this).registerReceiver(locationReceiver, locationFilter);
 
+    }
     //6.0权限回调方法
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -253,36 +271,81 @@ public class RunSportActivity extends BaseActivity implements LocationSource
 
     }
 
-    LocationManager locationManager;
-    StepReceive receive;
     LocationReceiver locationReceiver;
     int startStep = 0;
     long aDay = 3600 * 24000;
 
-    @Override
-    protected void initDatas() {
-        tv_title.setText("运动");
-        manager = new SportManager();
-        //注册步数接收器
-        receive = new StepReceive();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction("com.softtek.lai.StepService.StepCount");
-        LocalBroadcastManager.getInstance(this).registerReceiver(receive, filter);
-        locationReceiver = new LocationReceiver();
-        IntentFilter locationFilter = new IntentFilter();
-        locationFilter.addAction(LocationService.LOCATION_SERIVER);
-        LocalBroadcastManager.getInstance(this).registerReceiver(locationReceiver, locationFilter);
-        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            locationManager.addGpsStatusListener(this);
+    private static final int REQUEST_DELAY=-1;
+    private Messenger getReplyMessenger=new Messenger(new Handler(this));
+    private Messenger messenger;
+    private Handler delayHandler=new Handler(this);
+
+    private ServiceConnection connection=new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            messenger=new Messenger(service);
+            Message message=Message.obtain(null,StepService.MSG_FROM_CLIENT);
+            //告诉服务端用什么回复我
+            message.replyTo=getReplyMessenger;
+            try {
+                messenger.send(message);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
         }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    };
+
+
+    @Override
+    public boolean handleMessage(Message msg) {
+        switch (msg.what){
+            case StepService.MSG_FROM_SERVER:
+                //处理接收到的数据
+                Bundle bundle=msg.getData();
+                int tempStep = bundle.getInt("todayStep",0);
+                if (startStep == 0) startStep = tempStep;
+                int step = (tempStep - startStep) <= 0 ? 0 : (tempStep - startStep);
+                int calori = step / 35;
+                tv_step.setText(step + "");
+                tv_calorie.setText(calori + "");
+                if (coordinates.isEmpty()) {//如果还没有定位到则使用步数来计算公里数
+                    DecimalFormat format = new DecimalFormat("#0.00");
+                    previousDistance = step * 1000 / 1428f;
+                    double speed = (previousDistance / 1000) / (time * 1f / 3600);
+                    tv_avg_speed.setText(format.format(speed) + "km/h");
+                    tv_distance.setText(format.format((previousDistance) / (1000 * 1.0)));
+                }
+                //延迟
+                delayHandler.sendEmptyMessageDelayed(REQUEST_DELAY,400);
+                break;
+            case REQUEST_DELAY:
+                //继续请求服务端
+                Message message=Message.obtain(null,StepService.MSG_FROM_CLIENT);
+                //告诉服务端用什么回复我
+                message.replyTo=getReplyMessenger;
+                try {
+                    messenger.send(message);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+                break;
+        }
+        return false;
     }
+
+
 
     @Override
     protected void onDestroy() {
         //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
+        delayHandler.removeMessages(REQUEST_DELAY);
         if (intent != null) stopService(intent);
-        if (receive != null) LocalBroadcastManager.getInstance(this).unregisterReceiver(receive);
+        unbindService(connection);
         if (locationReceiver != null)
             LocalBroadcastManager.getInstance(this).unregisterReceiver(locationReceiver);
         mapView.onDestroy();
@@ -328,13 +391,15 @@ public class RunSportActivity extends BaseActivity implements LocationSource
 
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_location:
-                if (lastLatLon != null) {
+
+                /*if (lastLatLon != null) {
                     aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(lastLatLon, 15.5f));
-                }
+                }*/
                 break;
             case R.id.ll_left:
                 doBack();
@@ -455,47 +520,9 @@ public class RunSportActivity extends BaseActivity implements LocationSource
         }
     }
 
-    //GPS状态监听
-    @Override
-    public void onGpsStatusChanged(int event) {
-        if (locationManager == null) {
-            iv_gps.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.gps_empty));
-            return;
-        }
-        GpsStatus status = locationManager.getGpsStatus(null); //取当前状态
-        if (status == null) {//卫星数量为0
-            if (iv_gps != null)
-                iv_gps.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.gps_empty));
-        } else if (event == GpsStatus.GPS_EVENT_SATELLITE_STATUS) {
-            int maxSatellites = status.getMaxSatellites();
-            Iterator<GpsSatellite> it = status.getSatellites().iterator();
-            int count = 0;
-            while (it.hasNext() && count <= maxSatellites) {
-                count++;
-            }
-            if (count >= maxSatellites / 4) {//如果卫星数量大于最大卫星数量的一半则表示很强
-                if (iv_gps != null)
-                    iv_gps.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.gps_three));
-            } else if (count >= maxSatellites / 8) {
-                if (iv_gps != null)
-                    iv_gps.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.gps_two));
-            } else if (count >= 1) {
-                if (iv_gps != null)
-                    iv_gps.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.gps_one));
-            } else {
-                if (iv_gps != null)
-                    iv_gps.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.gps_empty));
-            }
-        } else if (event == GpsStatus.GPS_EVENT_STARTED) {
-            //定位启动
-            if (iv_gps != null)
-                iv_gps.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.gps_one));
-        } else if (event == GpsStatus.GPS_EVENT_STOPPED) {
-            //定位结束
-        }
-    }
-
     long time = 0;//总耗时
+
+
 
     private class RunSportCountDown extends JCountDownTimer {
 
@@ -587,28 +614,6 @@ public class RunSportActivity extends BaseActivity implements LocationSource
 
     }
 
-    //注册步数接收器
-    private class StepReceive extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            int tempStep = intent.getIntExtra("step", 0);
-            if (startStep == 0) startStep = tempStep;
-            int step = (tempStep - startStep) <= 0 ? 0 : (tempStep - startStep);
-            int calori = step / 35;
-            tv_step.setText(step + "");
-            tv_calorie.setText(calori + "");
-            if (coordinates.isEmpty()) {//如果还没有定位到则使用步数来计算公里数
-                DecimalFormat format = new DecimalFormat("#0.00");
-                previousDistance = step * 1000 / 1428f;
-                double speed = (previousDistance / 1000) / (time * 1f / 3600);
-                tv_avg_speed.setText(format.format(speed) + "km/h");
-                tv_distance.setText(format.format((previousDistance) / (1000 * 1.0)));
-            }
-
-        }
-    }
-
     double previousDistance;//旧的距离
     boolean isFirst = true;
     LatLng lastLatLon;
@@ -621,7 +626,8 @@ public class RunSportActivity extends BaseActivity implements LocationSource
             if (listener != null) {
                 listener.onLocationChanged(location);
             }
-            if (/*location.getErrorCode() == 0&&*/location.getAccuracy() <= 100 && location.getAccuracy() > 0) {
+            float accuracy=location.getAccuracy();
+            if (accuracy <= 60 && accuracy > 0) {
                 //当坐标改变之后开始添加标记 画线
                 Log.i("获取位置");
                 LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
@@ -651,6 +657,15 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                 double speed = (previousDistance / 1000) / (time * 1f / 3600);
                 tv_avg_speed.setText(format.format(speed) + "km/h");
                 tv_distance.setText(format.format((previousDistance) / (1000 * 1.0)));
+            }
+            if(accuracy<=0||accuracy>1000){
+                iv_gps.setImageDrawable(ContextCompat.getDrawable(RunSportActivity.this,R.drawable.gps_empty));
+            }else if(accuracy<=20){
+                iv_gps.setImageDrawable(ContextCompat.getDrawable(RunSportActivity.this,R.drawable.gps_three));
+            }else if(accuracy<60){
+                iv_gps.setImageDrawable(ContextCompat.getDrawable(RunSportActivity.this,R.drawable.gps_two));
+            }else{
+                iv_gps.setImageDrawable(ContextCompat.getDrawable(RunSportActivity.this,R.drawable.gps_one));
             }
         }
     }

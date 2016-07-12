@@ -104,31 +104,35 @@ public class ActListActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void activityList(String type, ActivityModel model) {
-        if ("true".equals(type)) {
-            if (act_list != null) {
-                act_list.onRefreshComplete();
-            }
-            String pages = model.getPageCount();
-            if (!"".equals(pages)) {
-                totalPage = Integer.parseInt(pages);
-            } else {
-                totalPage = 1;
-            }
+        try {
+            if ("true".equals(type)) {
+                if (act_list != null) {
+                    act_list.onRefreshComplete();
+                }
+                String pages = model.getPageCount();
+                if (!"".equals(pages)) {
+                    totalPage = Integer.parseInt(pages);
+                } else {
+                    totalPage = 1;
+                }
 
-            if (pageIndex == 1) {
-                list.clear();
-            }
-            list.addAll(model.getActlist());
-            adapter.notifyDataSetChanged();
-        } else {
-            if (act_list != null) {
-                act_list.onRefreshComplete();
-            }
-            if (pageIndex == 1) {
-                pageIndex = 1;
+                if (pageIndex == 1) {
+                    list.clear();
+                }
+                list.addAll(model.getActlist());
+                adapter.notifyDataSetChanged();
             } else {
-                pageIndex--;
+                if (act_list != null) {
+                    act_list.onRefreshComplete();
+                }
+                if (pageIndex == 1) {
+                    pageIndex = 1;
+                } else {
+                    pageIndex--;
+                }
             }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
         }
     }
 

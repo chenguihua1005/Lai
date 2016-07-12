@@ -5,6 +5,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">-->
     <RelativeLayout
+        android:id="@+id/rl_student_more"
         android:layout_width="match_parent"
         android:layout_height="31dp"
         android:layout_marginTop="10dp"
@@ -31,7 +32,6 @@
             android:textColor="#333333"
             android:textSize="13sp" />
     </RelativeLayout>
-
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -41,32 +41,33 @@
         android:id="@+id/re_student_one"
         android:layout_width="match_parent"
         android:layout_height="85dp"
+        android:layout_marginTop="4dp"
         android:background="@color/white"
         >
 
         <TextView
-            android:id="@+id/tv_order"
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_order1"
+            android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerInParent="true"
-            android:layout_marginLeft="15dp"
+            android:gravity="center"
             android:text="1"
             android:textColor="#333333"
             android:textSize="22sp" />
 
         <com.softtek.lai.widgets.CircleImageView
-            android:id="@+id/civ_header"
+            android:id="@+id/civ_header1"
             android:layout_width="57dp"
             android:layout_height="57dp"
             android:layout_centerInParent="true"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/tv_order"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/tv_order1"
             android:scaleType="centerCrop"
             android:src="@drawable/img_default" />
 
         <ImageView
-            android:id="@+id/iv_arrow"
+            android:id="@+id/iv_arrow1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -77,10 +78,10 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginLeft="17dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:layout_toLeftOf="@id/iv_arrow"
-            android:layout_toRightOf="@id/civ_header"
+            android:layout_toLeftOf="@id/iv_arrow1"
+            android:layout_toRightOf="@id/civ_header1"
             android:gravity="center|left"
             android:orientation="vertical">
 
@@ -92,7 +93,7 @@
                 android:orientation="horizontal">
 
                 <CheckBox
-                    android:id="@+id/cb_gender"
+                    android:id="@+id/cb_gender1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
@@ -105,12 +106,12 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:layout_marginLeft="7dp"
-                    android:layout_toRightOf="@id/cb_gender"
+                    android:layout_toRightOf="@id/cb_gender1"
                     android:text=""
                     android:textSize="15sp" />
 
                 <TextView
-                    android:id="@+id/tv_who"
+                    android:id="@+id/tv_who1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -121,7 +122,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:layout_toLeftOf="@id/tv_who"
+                    android:layout_toLeftOf="@id/tv_who1"
                     android:src="@drawable/bg2_zhujiao_icon" />
             </RelativeLayout>
 
@@ -180,15 +181,16 @@
         android:layout_width="match_parent"
         android:layout_height="85dp"
         android:layout_marginTop="4dp"
-        android:background="@color/white">
+        android:background="@color/white"
+        >
 
         <TextView
             android:id="@+id/tv_order2"
-            android:layout_width="wrap_content"
+            android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerInParent="true"
-            android:layout_marginLeft="15dp"
+            android:gravity="center"
             android:text="1"
             android:textColor="#333333"
             android:textSize="22sp" />
@@ -198,7 +200,7 @@
             android:layout_width="57dp"
             android:layout_height="57dp"
             android:layout_centerInParent="true"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="5dp"
             android:layout_toRightOf="@id/tv_order2"
             android:scaleType="centerCrop"
             android:src="@drawable/img_default" />
@@ -215,7 +217,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginLeft="17dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_toLeftOf="@id/iv_arrow2"
             android:layout_toRightOf="@id/civ_header2"
@@ -323,11 +325,11 @@
 
         <TextView
             android:id="@+id/tv_order3"
-            android:layout_width="wrap_content"
+            android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerInParent="true"
-            android:layout_marginLeft="15dp"
+            android:gravity="center"
             android:text="1"
             android:textColor="#333333"
             android:textSize="22sp" />
@@ -337,7 +339,7 @@
             android:layout_width="57dp"
             android:layout_height="57dp"
             android:layout_centerInParent="true"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="5dp"
             android:layout_toRightOf="@id/tv_order3"
             android:scaleType="centerCrop"
             android:src="@drawable/img_default" />
@@ -354,7 +356,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginLeft="17dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_toLeftOf="@id/iv_arrow3"
             android:layout_toRightOf="@id/civ_header3"

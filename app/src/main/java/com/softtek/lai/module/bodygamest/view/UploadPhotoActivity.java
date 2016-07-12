@@ -413,31 +413,35 @@ public class UploadPhotoActivity extends BaseActivity implements PullToRefreshBa
     @Override
     public void getStroyList(DownPhotoModel downPhotoModel) {
         ptrlvlist.onRefreshComplete();
-        if (downPhotoModel == null) {
-            pageIndex = --pageIndex < 1 ? 1 : pageIndex;
-            return;
-        }
-        String path = AddressManager.get("photoHost");
-        if (downPhotoModel.getUserName() != null) {
-            if (!TextUtils.isEmpty(downPhotoModel.getPhoto())) {
-                Picasso.with(this).load(path + downPhotoModel.getPhoto()).fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(cir_downphoto_head_list);
+        try {
+            if (downPhotoModel == null) {
+                pageIndex = --pageIndex < 1 ? 1 : pageIndex;
+                return;
+            }
+            String path = AddressManager.get("photoHost");
+            if (downPhotoModel.getUserName() != null) {
+                if (!TextUtils.isEmpty(downPhotoModel.getPhoto())) {
+                    Picasso.with(this).load(path + downPhotoModel.getPhoto()).fit().placeholder(R.drawable.img_default).error(R.drawable.img_default).into(cir_downphoto_head_list);
+                }
+
+                if (!TextUtils.isEmpty(downPhotoModel.getBanner())) {
+                    Picasso.with(this).load(path + downPhotoModel.getBanner()).fit().centerCrop().placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square).into(im_uploadphoto_banner_list);
+                }
             }
 
-            if (!TextUtils.isEmpty(downPhotoModel.getBanner())) {
-                Picasso.with(this).load(path + downPhotoModel.getBanner()).fit().centerCrop().placeholder(R.drawable.default_icon_square).error(R.drawable.default_icon_square).into(im_uploadphoto_banner_list);
+            List<LogListModel> models = downPhotoModel.getLogList();
+            if (models == null || models.isEmpty()) {
+                pageIndex = --pageIndex < 1 ? 1 : pageIndex;
+                return;
             }
+            if (pageIndex == 1) {
+                logListModelList.clear();
+            }
+            logListModelList.addAll(models);
+            downPhotoAdapter.notifyDataSetChanged();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        List<LogListModel> models = downPhotoModel.getLogList();
-        if (models == null || models.isEmpty()) {
-            pageIndex = --pageIndex < 1 ? 1 : pageIndex;
-            return;
-        }
-        if (pageIndex == 1) {
-            logListModelList.clear();
-        }
-        logListModelList.addAll(models);
-        downPhotoAdapter.notifyDataSetChanged();
 
     }
 

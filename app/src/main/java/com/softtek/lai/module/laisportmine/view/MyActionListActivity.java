@@ -93,14 +93,19 @@ public class MyActionListActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void getActionList(List<ActionModel> actionModelList) {
-        if (actionModelList==null||(actionModelList.isEmpty()))
-        {
-            ll_action_nomessage.setVisibility(View.VISIBLE);
+        try {
+            if (actionModelList==null||(actionModelList.isEmpty()))
+            {
+                ll_action_nomessage.setVisibility(View.VISIBLE);
+            }
+            else {
+                actionModelLists = actionModelList;
+                myActionAdapter.updateData(actionModelList);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        else {
-            actionModelLists = actionModelList;
-            myActionAdapter.updateData(actionModelList);
-        }
+
     }
 
     @Override

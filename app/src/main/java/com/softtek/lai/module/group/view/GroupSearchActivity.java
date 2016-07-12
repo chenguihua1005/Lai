@@ -147,10 +147,14 @@ public class GroupSearchActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void getRGByNameOrCode(String type, List<GroupModel> list) {
         dialogDissmiss();
-        list_group.setEmptyView(img_mo_message);
-        group_list = list;
-        adapter = new GroupAdapter(this, group_list);
-        list_group.setAdapter(adapter);
+        try {
+            list_group.setEmptyView(img_mo_message);
+            group_list = list;
+            adapter = new GroupAdapter(this, group_list);
+            list_group.setAdapter(adapter);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**

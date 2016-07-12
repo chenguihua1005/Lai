@@ -234,31 +234,35 @@ public class HealthyRecordFragment extends BaseFragment implements View.OnClickL
     @Override
     public void getModel(LaichModel laichModel) {
         healthy_refresh.onRefreshComplete();
-        if (laichModel == null) {
-            laichModel = new LaichModel();
+        try {
+            if (laichModel == null) {
+                laichModel = new LaichModel();
+            }
+            tv_health_weight.setText(StringUtils.isEmpty(laichModel.getWeight()) ? "" : Float.parseFloat(laichModel.getWeight()) + "斤");
+            tv_health_Pysical.setText(StringUtils.isEmpty(laichModel.getPysical()) ? "" : Float.parseFloat(laichModel.getPysical()) + "%");
+            tv_health_fat.setText(StringUtils.isEmpty(laichModel.getFat()) ? "" : Float.parseFloat(laichModel.getFat()) + "");
+            tv_health_circum.setText(StringUtils.isEmpty(laichModel.getCircum()) ? "" : Float.parseFloat(laichModel.getCircum()) + "cm");
+            tv_health_waistline.setText(StringUtils.isEmpty(laichModel.getWaistline()) ? "" : Float.parseFloat(laichModel.getWaistline()) + "cm");
+            tv_health_hiplie.setText(StringUtils.isEmpty(laichModel.getHiplie()) ? "" : Float.parseFloat(laichModel.getHiplie()) + "cm");
+            tv_health_upArmGirth.setText(StringUtils.isEmpty(laichModel.getUpArmGirth()) ? "" : Float.parseFloat(laichModel.getUpArmGirth()) + "cm");
+            tv_health_upLegGirth.setText(StringUtils.isEmpty(laichModel.getUpLegGirth()) ? "" : Float.parseFloat(laichModel.getUpLegGirth()) + "cm");
+            tv_health_doLegGirth.setText(StringUtils.isEmpty(laichModel.getDoLegGirth()) ? "" : Float.parseFloat(laichModel.getDoLegGirth()) + "cm");
+            String date = laichModel.getCreateDate();
+            if (StringUtils.isEmpty(date)) {
+                tv_healthdate.setText("");
+                tv_healthtime.setText("");
+                return;
+            }
+            DateUtil util = DateUtil.getInstance();
+            //int year = util.getYear(date);
+            int month = util.getMonth(date);
+            int day = util.getDay(date);
+            int hour = util.getHour(date);
+            int minutes = util.getMinute(date);
+            tv_healthdate.setText(/*year + "年" +*/ month + "月" + day + "日");
+            tv_healthtime.setText(hour + ":" + (minutes < 10 ? "0" + minutes : minutes));
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
         }
-        tv_health_weight.setText(StringUtils.isEmpty(laichModel.getWeight()) ? "" : Float.parseFloat(laichModel.getWeight()) + "斤");
-        tv_health_Pysical.setText(StringUtils.isEmpty(laichModel.getPysical()) ? "" : Float.parseFloat(laichModel.getPysical()) + "%");
-        tv_health_fat.setText(StringUtils.isEmpty(laichModel.getFat()) ? "" : Float.parseFloat(laichModel.getFat()) + "");
-        tv_health_circum.setText(StringUtils.isEmpty(laichModel.getCircum()) ? "" : Float.parseFloat(laichModel.getCircum()) + "cm");
-        tv_health_waistline.setText(StringUtils.isEmpty(laichModel.getWaistline()) ? "" : Float.parseFloat(laichModel.getWaistline()) + "cm");
-        tv_health_hiplie.setText(StringUtils.isEmpty(laichModel.getHiplie()) ? "" : Float.parseFloat(laichModel.getHiplie()) + "cm");
-        tv_health_upArmGirth.setText(StringUtils.isEmpty(laichModel.getUpArmGirth()) ? "" : Float.parseFloat(laichModel.getUpArmGirth()) + "cm");
-        tv_health_upLegGirth.setText(StringUtils.isEmpty(laichModel.getUpLegGirth()) ? "" : Float.parseFloat(laichModel.getUpLegGirth()) + "cm");
-        tv_health_doLegGirth.setText(StringUtils.isEmpty(laichModel.getDoLegGirth()) ? "" : Float.parseFloat(laichModel.getDoLegGirth()) + "cm");
-        String date = laichModel.getCreateDate();
-        if (StringUtils.isEmpty(date)) {
-            tv_healthdate.setText("");
-            tv_healthtime.setText("");
-            return;
-        }
-        DateUtil util = DateUtil.getInstance();
-        //int year = util.getYear(date);
-        int month = util.getMonth(date);
-        int day = util.getDay(date);
-        int hour = util.getHour(date);
-        int minutes = util.getMinute(date);
-        tv_healthdate.setText(/*year + "年" +*/ month + "月" + day + "日");
-        tv_healthtime.setText(hour + ":" + (minutes < 10 ? "0" + minutes : minutes));
     }
 }

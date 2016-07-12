@@ -89,16 +89,19 @@ public class MyPkListActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void getPkNotice(List<PkNoticeModel> pkNoticeModels) {
-        if (pkNoticeModels==null||pkNoticeModels.isEmpty())
-        {
-            ll_nomessage.setVisibility(View.VISIBLE);
-        }
-        else {
-            ll_nomessage.setVisibility(View.GONE);
-            pkNoticeModelList = pkNoticeModels;
-            myPkNoticeAdapter.updateData(pkNoticeModelList);
+        try {
+            if (pkNoticeModels==null||pkNoticeModels.isEmpty())
+            {
+                ll_nomessage.setVisibility(View.VISIBLE);
+            }
+            else {
+                ll_nomessage.setVisibility(View.GONE);
+                pkNoticeModelList = pkNoticeModels;
+                myPkNoticeAdapter.updateData(pkNoticeModelList);
 
-        }
+            }
+        }catch (Exception e){e.printStackTrace();}
+
 
     }
 

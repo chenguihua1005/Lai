@@ -1,5 +1,6 @@
 package com.softtek.lai.module.act.view;
 
+import android.content.res.Resources;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -77,74 +78,78 @@ public class ActDetailsFragment extends BaseFragment implements ActManager.GetAc
 
     @Override
     public void getActDetails(String type, ActDetailModel model) {
-        if ("true".equals(type)) {
-            img_no.setVisibility(View.GONE);
-            img_loss.setVisibility(View.GONE);
-            lin_have.setVisibility(View.VISIBLE);
-            String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-            if ("".equals(model.getActimg()) || "null".equals(model.getActimg()) || model.getActimg() == null) {
-                Picasso.with(getContext()).load("111").fit().error(R.drawable.default_icon_rect).into(img);
-            } else {
-                Picasso.with(getContext()).load(path + model.getActimg()).error(R.drawable.default_icon_rect).into(img);
-            }
-            text_title.setText(model.getActTitle().toString());
-            String status = model.getAcStatus();
-            if ("1".equals(status)) {
-                text_state.setText("进行中");
-                img_state.setImageResource(R.drawable.img_activity_1);
-                text_state.setTextColor(getResources().getColor(R.color.editorText));
-            } else if ("0".equals(status)) {
-                text_state.setText("已结束");
-                img_state.setImageResource(R.drawable.img_activity_3);
-                text_state.setTextColor(getResources().getColor(R.color.word16));
-            } else {
-                text_state.setText("未开始");
-                img_state.setImageResource(R.drawable.img_activity_2);
-                text_state.setTextColor(getResources().getColor(R.color.word15));
+        try {
+            if ("true".equals(type)) {
+                img_no.setVisibility(View.GONE);
+                img_loss.setVisibility(View.GONE);
+                lin_have.setVisibility(View.VISIBLE);
+                String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+                if ("".equals(model.getActimg()) || "null".equals(model.getActimg()) || model.getActimg() == null) {
+                    Picasso.with(getContext()).load("111").fit().error(R.drawable.default_icon_rect).into(img);
+                } else {
+                    Picasso.with(getContext()).load(path + model.getActimg()).error(R.drawable.default_icon_rect).into(img);
+                }
+                text_title.setText(model.getActTitle().toString());
+                String status = model.getAcStatus();
+                if ("1".equals(status)) {
+                    text_state.setText("进行中");
+                    img_state.setImageResource(R.drawable.img_activity_1);
+                    text_state.setTextColor(getResources().getColor(R.color.editorText));
+                } else if ("0".equals(status)) {
+                    text_state.setText("已结束");
+                    img_state.setImageResource(R.drawable.img_activity_3);
+                    text_state.setTextColor(getResources().getColor(R.color.word16));
+                } else {
+                    text_state.setText("未开始");
+                    img_state.setImageResource(R.drawable.img_activity_2);
+                    text_state.setTextColor(getResources().getColor(R.color.word15));
 
-            }
-            String activeType = model.getActiveType();
-            if ("1".equals(activeType)) {
-                text_lx.setText("团体赛");
-            } else {
-                text_lx.setText("个人赛");
-            }
-            String start = model.getStart();
-            String end = model.getEnd();
+                }
+                String activeType = model.getActiveType();
+                if ("1".equals(activeType)) {
+                    text_lx.setText("团体赛");
+                } else {
+                    text_lx.setText("个人赛");
+                }
+                String start = model.getStart();
+                String end = model.getEnd();
 
-            String start_time = "";
-            String end_time = "";
+                String start_time = "";
+                String end_time = "";
 
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            SimpleDateFormat format = new SimpleDateFormat("MM月dd号 HH:mm");
-            try {
-                Date start_date = sdf.parse(start);
-                Date end_date = sdf.parse(end);
-                start_time = format.format(start_date);
-                end_time = format.format(end_date);
-            } catch (ParseException e) {
-                e.printStackTrace();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                SimpleDateFormat format = new SimpleDateFormat("MM月dd号 HH:mm");
+                try {
+                    Date start_date = sdf.parse(start);
+                    Date end_date = sdf.parse(end);
+                    start_time = format.format(start_date);
+                    end_time = format.format(end_date);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                text_time.setText(start_time + " - " + end_time);
+                text_sm.setText(model.getActIntroduction().toString());
+                String targetType = model.getTargetType();
+                if ("1".equals(targetType)) {
+                    text_mb.setText("目标公里数： ");
+                    text_gz.setText("目标公里数");
+                    text_mb_value.setText(model.getTarget() + "公里");
+                } else {
+                    text_mb.setText("");
+                    text_gz.setText("总步数");
+                    text_mb_value.setText("总步数");
+                }
+            }else if ("102".equals(type)){
+                img_no.setVisibility(View.GONE);
+                img_loss.setVisibility(View.VISIBLE);
+                lin_have.setVisibility(View.GONE);
+            }else {
+                img_no.setVisibility(View.VISIBLE);
+                img_loss.setVisibility(View.GONE);
+                lin_have.setVisibility(View.GONE);
             }
-            text_time.setText(start_time + " - " + end_time);
-            text_sm.setText(model.getActIntroduction().toString());
-            String targetType = model.getTargetType();
-            if ("1".equals(targetType)) {
-                text_mb.setText("目标公里数： ");
-                text_gz.setText("目标公里数");
-                text_mb_value.setText(model.getTarget() + "公里");
-            } else {
-                text_mb.setText("");
-                text_gz.setText("总步数");
-                text_mb_value.setText("总步数");
-            }
-        }else if ("102".equals(type)){
-            img_no.setVisibility(View.GONE);
-            img_loss.setVisibility(View.VISIBLE);
-            lin_have.setVisibility(View.GONE);
-        }else {
-            img_no.setVisibility(View.VISIBLE);
-            img_loss.setVisibility(View.GONE);
-            lin_have.setVisibility(View.GONE);
+        } catch (Resources.NotFoundException e) {
+            e.printStackTrace();
         }
     }
 }

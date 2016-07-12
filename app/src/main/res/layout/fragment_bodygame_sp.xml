@@ -1,11 +1,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fitsSystemWindows="false"
         android:overScrollMode="never"
         android:scrollbars="none">
 
@@ -20,6 +20,7 @@
                 android:layout_height="173dp">
 
                 <ImageView
+                    android:id="@+id/iv_banner"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
@@ -87,7 +88,7 @@
                     </LinearLayout>
 
                     <ImageView
-                        android:id="@+id/im_refresh"
+                        android:id="@+id/iv_refresh"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="28dp"
@@ -137,6 +138,7 @@
                                 android:orientation="vertical">
 
                                 <TextView
+                                    android:id="@+id/tv_person_num"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="100"
@@ -172,6 +174,7 @@
                                 android:orientation="vertical">
 
                                 <TextView
+                                    android:id="@+id/tv_server_rank"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="100"
@@ -220,6 +223,7 @@
                                 android:orientation="vertical">
 
                                 <TextView
+                                    android:id="@+id/tv_loss_weight"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="100"
@@ -255,6 +259,7 @@
                                 android:orientation="vertical">
 
                                 <TextView
+                                    android:id="@+id/tv_loss_rank"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="100"
@@ -303,6 +308,7 @@
                                 android:orientation="vertical">
 
                                 <TextView
+                                    android:id="@+id/tv_fuce_per"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="100"
@@ -338,6 +344,7 @@
                                 android:orientation="vertical">
 
                                 <TextView
+                                    android:id="@+id/tv_fuce_rank"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="100"
@@ -386,6 +393,7 @@
                                 android:orientation="vertical">
 
                                 <TextView
+                                    android:id="@+id/tv_new_class"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="100"
@@ -421,6 +429,7 @@
                                 android:orientation="vertical">
 
                                 <TextView
+                                    android:id="@+id/tv_new_student"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="100"
@@ -549,7 +558,48 @@
                 </LinearLayout>
 
                 <!--我的学员-->
-                <include layout="@layout/bg2_my_student" />
+                <!--<include layout="@layout/bg2_my_student" />-->
+                <RelativeLayout
+                    android:id="@+id/rl_student_more"
+                    android:layout_width="match_parent"
+                    android:layout_height="31dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="15dp"
+                        android:text="我的学员"
+                        android:textColor="#333333"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginRight="15dp"
+                        android:text="查看更多"
+                        android:textColor="#333333"
+                        android:textSize="13sp" />
+                </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#e5e5e5" />
+                <com.softtek.lai.widgets.MyListView
+                    android:id="@+id/mlv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:overScrollMode="never"
+                    android:dividerHeight="2dp"
+                    android:divider="#f2f2f2">
+
+                </com.softtek.lai.widgets.MyListView>
 
                 <!--大赛赛况-->
                 <include layout="@layout/bg2_saikuang" />
@@ -562,21 +612,16 @@
         </RelativeLayout>
     </ScrollView>
 
-    <android.support.v7.widget.Toolbar
+    <RelativeLayout
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@android:color/transparent"
-        android:fitsSystemWindows="true"
-        android:minHeight="?attr/actionBarSize"
-        >
+        android:layout_height="50dp">
 
         <LinearLayout
             android:id="@+id/ll_left"
-            android:layout_width="30dp"
+            android:layout_width="50dp"
             android:layout_height="match_parent"
-            android:layout_gravity="left"
-            android:gravity="center|left">
+            android:gravity="center">
 
             <ImageView
                 android:id="@+id/iv_left"
@@ -584,11 +629,36 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/back" />
         </LinearLayout>
+        <LinearLayout
+            android:id="@+id/fl_right"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
 
+            <ImageView
+                android:id="@+id/iv_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/email" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:text="消息"
+                android:textColor="@color/white"
+                android:textSize="10sp" />
+        </LinearLayout>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="32dp"
-            android:layout_marginRight="50dp"
+            android:layout_centerInParent="true"
+            android:layout_toRightOf="@id/ll_left"
+            android:layout_toLeftOf="@id/fl_right"
             android:background="@drawable/search_bg">
 
             <TextView
@@ -610,30 +680,7 @@
                 android:src="@drawable/bg2_search" />
         </RelativeLayout>
 
-        <LinearLayout
-            android:id="@+id/fl_right"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="right"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/iv_email"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:src="@drawable/email" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="5dp"
-                android:text="消息"
-                android:textColor="@color/white"
-                android:textSize="10sp" />
-        </LinearLayout>
-
-    </android.support.v7.widget.Toolbar>
+    </RelativeLayout>
 </RelativeLayout>

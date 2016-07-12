@@ -585,14 +585,18 @@ public class StartSportActivity extends BaseActivity implements View.OnClickList
     @Override
     public void getHistoryTotalMovement(String type, TotalSportModel model) {
         dialogDissmiss();
-        if ("true".equals(type)) {
-            String km = StringUtils.isEmpty(model.getTotalKilometer()) ? "0" : model.getTotalKilometer();
-            if(text_total_distance!=null)
-                text_total_distance.setText(km);
-            if(text_total_time!=null)
-                text_total_time.setText(model.getTotalTime());
-            if(text_total_count!=null)
-                text_total_count.setText(model.getCount());
+        try {
+            if ("true".equals(type)) {
+                String km = StringUtils.isEmpty(model.getTotalKilometer()) ? "0" : model.getTotalKilometer();
+                if(text_total_distance!=null)
+                    text_total_distance.setText(km);
+                if(text_total_time!=null)
+                    text_total_time.setText(model.getTotalTime());
+                if(text_total_count!=null)
+                    text_total_count.setText(model.getCount());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

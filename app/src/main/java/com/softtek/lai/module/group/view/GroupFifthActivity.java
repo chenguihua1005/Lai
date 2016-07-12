@@ -139,10 +139,14 @@ public class GroupFifthActivity extends BaseActivity implements View.OnClickList
     @Override
     public void getRGList(String type, List<GroupModel> list) {
         dialogDissmiss();
-        if ("success".equals(type)) {
-            group_list = list;
-            adapter = new GroupAdapter(this, group_list);
-            list_group.setAdapter(adapter);
+        try {
+            if ("success".equals(type)) {
+                group_list = list;
+                adapter = new GroupAdapter(this, group_list);
+                list_group.setAdapter(adapter);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
