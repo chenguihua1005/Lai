@@ -95,8 +95,8 @@
             android:id="@+id/ll_content2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="34dp"
-            android:layout_marginTop="25dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="15dp"
             android:orientation="horizontal">
 
             <RelativeLayout
@@ -168,7 +168,7 @@
     <com.amap.api.maps.MapView
         android:id="@+id/map"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="match_parent"
         android:layout_above="@id/ll_panel"
         android:layout_below="@id/toolbar" />
 
@@ -208,5 +208,17 @@
             android:textColor="@color/white"
             android:textSize="9sp" />
     </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/cb_map_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/ll_panel"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:button="@null"
+        android:layout_marginBottom="10dp"
+        android:drawableLeft="@drawable/cb_map"
+        android:checked="true"/>
 
 </RelativeLayout>

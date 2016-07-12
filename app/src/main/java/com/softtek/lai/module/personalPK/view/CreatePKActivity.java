@@ -1,9 +1,7 @@
 package com.softtek.lai.module.personalPK.view;
 
-import android.annotation.TargetApi;
 import android.app.Instrumentation;
 import android.content.Intent;
-import android.os.Build;
 import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.View;
@@ -120,7 +118,6 @@ public class CreatePKActivity extends BaseActivity implements View.OnClickListen
 
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onClick(View v) {
         switch (v.getId()){

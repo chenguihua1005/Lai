@@ -33,8 +33,6 @@ import android.widget.TextView;
 import com.github.snowdream.android.util.Log;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
-import com.mobsandgeeks.saripaar.Rule;
-import com.mobsandgeeks.saripaar.Validator;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.UserInfoModel;
@@ -68,9 +66,6 @@ import java.util.List;
 
 import butterknife.InjectView;
 import zilla.libcore.file.AddressManager;
-import zilla.libcore.file.SharedPreferenceService;
-import zilla.libcore.lifecircle.LifeCircleInject;
-import zilla.libcore.lifecircle.validate.ValidateLife;
 import zilla.libcore.ui.InjectLayout;
 
 /**
@@ -506,46 +501,56 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
                     list_activity.setAdapter(adapter);
                 }
             }
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Override
     public void getMineResult(String type, MineResultModel model) {
-        if ("success".equals(type)) {
-            String TodayStepCnt = model.getTodayStepCnt();
-            if ("0".equals(TodayStepCnt)) {
-                text_step.setText("--");
-                text_rl.setText("--");
-                text3.setVisibility(View.GONE);
-            } else {
-                text_step.setText(model.getTodayStepCnt());
-                text3.setVisibility(View.VISIBLE);
-                int kaluli = Integer.parseInt(model.getTodayStepCnt()) / 35;
-                text_rl.setText(kaluli + "");
+
+        try {
+            if ("success".equals(type)) {
+                String TodayStepCnt = model.getTodayStepCnt();
+                if ("0".equals(TodayStepCnt)) {
+                    text_step.setText("--");
+                    text_rl.setText("--");
+                    text3.setVisibility(View.GONE);
+                } else {
+                    text_step.setText(model.getTodayStepCnt());
+                    text3.setVisibility(View.VISIBLE);
+                    int kaluli = Integer.parseInt(model.getTodayStepCnt()) / 35;
+                    text_rl.setText(kaluli + "");
+                }
+                String todayStepOdr = model.getTodayStepOdr();
+                if ("0".equals(todayStepOdr)) {
+                    text_pm.setText("--");
+                } else {
+                    text_pm.setText(model.getTodayStepOdr());
+                }
+                String medalCnt = model.getMedalCnt();
+                if ("0".equals(medalCnt)) {
+                    text_xzs.setText("--");
+                } else {
+                    text_xzs.setText(model.getMedalCnt());
+                }
             }
-            String todayStepOdr = model.getTodayStepOdr();
-            if ("0".equals(todayStepOdr)) {
-                text_pm.setText("--");
-            } else {
-                text_pm.setText(model.getTodayStepOdr());
-            }
-            String medalCnt = model.getMedalCnt();
-            if ("0".equals(medalCnt)) {
-                text_xzs.setText("--");
-            } else {
-                text_xzs.setText(model.getMedalCnt());
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     @Override
     public void getNewMsgRemind(String type) {
-        if ("success".equals(type)) {
-            iv_email.setImageResource(R.drawable.img_message_have);
-        } else {
-            iv_email.setImageResource(R.drawable.img_message_none);
+
+        try {
+            if ("success".equals(type)) {
+                iv_email.setImageResource(R.drawable.img_message_have);
+            } else {
+                iv_email.setImageResource(R.drawable.img_message_none);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -584,19 +589,7 @@ public class GroupMainActivity extends BaseActivity implements View.OnClickListe
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            /*if (StepService.STEP.equals(intent.getAction())) {
-                int step_count = intent.getIntExtra("currentStep", 0);
-                if (step_count == 0) {
-                    text_step.setText("--");
-                    text_rl.setText("--");
-                    text3.setVisibility(View.GONE);
-                } else {
-                    text_step.setText(step_count + "");
-                    text3.setVisibility(View.VISIBLE);
-                    int kaluli = step_count / 35;
-                    text_rl.setText(kaluli + "");
-                }
-            } else */if (StepService.UPLOAD_STEP.equals(intent.getAction())) {
+            if (StepService.UPLOAD_STEP.equals(intent.getAction())) {
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 Date curDate = new Date(System.currentTimeMillis());//获取当前时间
                 String time = formatter.format(curDate);

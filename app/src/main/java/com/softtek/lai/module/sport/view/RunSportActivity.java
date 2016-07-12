@@ -14,6 +14,7 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -39,6 +40,7 @@ import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.maps.AMap;
+import com.amap.api.maps.AMapOptions;
 import com.amap.api.maps.AMapUtils;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.CustomRenderer;
@@ -191,11 +193,14 @@ public class RunSportActivity extends BaseActivity implements LocationSource
         aMap.setMyLocationEnabled(true);
         aMap.setMyLocationType(AMap.LOCATION_TYPE_LOCATE);
 
+
         //初始化polyline
         polylineOptions = new PolylineOptions();
-        polylineOptions.width(15);
+        polylineOptions.width(30);
         polylineOptions.color(Color.GREEN);
         polylineOptions.zIndex(3);
+
+
 
         /**
          * Android 6.0动态权限申请
@@ -391,15 +396,15 @@ public class RunSportActivity extends BaseActivity implements LocationSource
 
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_location:
 
-                /*if (lastLatLon != null) {
+                if (lastLatLon != null) {
                     aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(lastLatLon, 15.5f));
-                }*/
+                }
                 break;
             case R.id.ll_left:
                 doBack();
@@ -627,7 +632,7 @@ public class RunSportActivity extends BaseActivity implements LocationSource
                 listener.onLocationChanged(location);
             }
             float accuracy=location.getAccuracy();
-            if (accuracy <= 60 && accuracy > 0) {
+            if (accuracy <= 30 && accuracy > 0) {
                 //当坐标改变之后开始添加标记 画线
                 Log.i("获取位置");
                 LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
