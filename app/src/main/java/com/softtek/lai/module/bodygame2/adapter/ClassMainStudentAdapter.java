@@ -95,7 +95,7 @@ public class ClassMainStudentAdapter extends BaseAdapter {
             holder.text_before_weight.setText("初始体重：" + model.getFirstweight() + "斤");
             String value = StringUtil.getFloatValue(model.getLoss());
             holder.text_value.setText(value + "斤");
-            //holder.img_type.setImageResource(R.drawable);
+            holder.img_type.setImageResource(R.drawable.img_bg_jzjs);
         } else if ("1".equals(type)) {
             holder.text_before_weight.setText("初始体重：" + model.getFirstweight() + "斤");
 
@@ -106,21 +106,21 @@ public class ClassMainStudentAdapter extends BaseAdapter {
             System.out.println("str:" + str);
             String value = StringUtil.getFloatValue(str);
             holder.text_value.setText(value + "%");
-            //holder.img_type.setImageResource(R.drawable);
+            holder.img_type.setImageResource(R.drawable.img_bg_jzbfb);
         } else if ("2".equals(type)) {
             holder.text_before_weight.setText("初始体脂：" + model.getFirstweight() + "%");
             String value = StringUtil.getFloatValue(model.getLoss());
             holder.text_value.setText(value + "%");
-            //holder.img_type.setImageResource(R.drawable);
+            holder.img_type.setImageResource(R.drawable.img_bg_tzl);
         } else if ("3".equals(type)) {
             holder.text_before_weight.setText("初始腰围：" + model.getFirstweight() + "cm");
             String value = StringUtil.getFloatValue(model.getLoss());
             holder.text_value.setText(value + "cm");
-           // holder.img_type.setImageResource(R.drawable);
+           holder.img_type.setImageResource(R.drawable.img_bg_ywbh);
         }
         holder.tv_order.setText(model.getOrdernum());
         holder.text_name.setText(model.getUsername());
-        holder.tv_who.setText("(助教)：" + model.getSuperName());
+        holder.tv_who.setText( model.getSuperName());
         holder.text_count.setText("x" + model.getHonorcnt());
 
         if (model.getGender().equals("1")) {
