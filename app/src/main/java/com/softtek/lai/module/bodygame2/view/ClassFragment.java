@@ -78,6 +78,8 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
 
     @InjectView(R.id.scroll)
     ObservableScrollView scroll;
+    @InjectView(R.id.text_more)
+    TextView text_more;
 
     @InjectView(R.id.rel_title_more)
     RelativeLayout rel_title_more;
@@ -134,6 +136,9 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
 
     @InjectView(R.id.img)
     ImageView img;
+
+    @InjectView(R.id.img_lb)
+    ImageView img_lb;
     @InjectView(R.id.text_value)
     TextView text_value;
     @InjectView(R.id.text_time)
@@ -213,6 +218,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
         lin_select_type.setOnClickListener(this);
         rel_add.setOnClickListener(this);
         rel_gg.setOnClickListener(this);
+        text_more.setOnClickListener(this);
         rel_xtxx.setOnClickListener(this);
         img_banner.setOnClickListener(this);
         rel_title.setAlpha(0f);
@@ -269,8 +275,8 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                         scroll.smoothScrollTo(0, 0);
                     }
                 });
-        if(getContext() instanceof BodyGameSPActivity){
-            BodyGameSPActivity activity=(BodyGameSPActivity)getContext();
+        if (getContext() instanceof BodyGameSPActivity) {
+            BodyGameSPActivity activity = (BodyGameSPActivity) getContext();
             activity.setAlpha(0);
         }
         classMainManager = new ClassMainManager(this);
@@ -312,6 +318,7 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
         rel_title_more.requestFocus();
         scroll.setFocusable(false);
     }
+
     private void takeP() {
         imageFileCropSelector.takePhoto(this);
     }
@@ -323,6 +330,11 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.text_more:
+                Intent intents=new Intent(getActivity(),DYActivity.class);
+                intents.putExtra("classId",select_class_id);
+                startActivity(intents);
+                break;
             case R.id.img_banner:
                 //点击编辑按钮
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -374,13 +386,9 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                 if (dySysModel != null) {
                     rel_no_message.setVisibility(View.GONE);
                     rel_message.setVisibility(View.VISIBLE);
-
-                    String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
-                    if ("".equals(dySysModel.getPhoto())) {
-                        Picasso.with(getContext()).load("111").fit().error(R.drawable.img_default).into(img);
-                    } else {
-                        Picasso.with(getContext()).load(path + dySysModel.getPhoto()).fit().error(R.drawable.img_default).into(img);
-                    }
+                    img_lb.setVisibility(View.VISIBLE);
+                    img.setVisibility(View.GONE);
+                    Picasso.with(getContext()).load(R.drawable.speaker).fit().error(R.drawable.img_default).into(img);
 
                     text_value.setText(dySysModel.getDyContent());
                     String time = DateUtil.getInstance().convertDateStr(dySysModel.getCreateDate(), "yyyy年MM月dd日");
@@ -396,6 +404,9 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                 if (dyNoticeModel != null) {
                     rel_no_message.setVisibility(View.GONE);
                     rel_message.setVisibility(View.VISIBLE);
+
+                    img_lb.setVisibility(View.GONE);
+                    img.setVisibility(View.VISIBLE);
 
                     String paths = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
                     if ("".equals(dyNoticeModel.getPhoto())) {
@@ -600,10 +611,10 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
 
     @Override
     public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
-        float alpha=(1f*y/1000);
+        float alpha = (1f * y / 1000);
 
-        if(getContext() instanceof BodyGameSPActivity){
-            BodyGameSPActivity activity=(BodyGameSPActivity)getContext();
+        if (getContext() instanceof BodyGameSPActivity) {
+            BodyGameSPActivity activity = (BodyGameSPActivity) getContext();
             activity.setAlpha(alpha);
             rel_title.setAlpha(alapa);
         }
@@ -667,6 +678,8 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                 if (dyNoticeModel != null) {
                     rel_no_message.setVisibility(View.GONE);
                     rel_message.setVisibility(View.VISIBLE);
+                    img_lb.setVisibility(View.GONE);
+                    img.setVisibility(View.VISIBLE);
                     if ("".equals(dyNoticeModel.getPhoto())) {
                         Picasso.with(getContext()).load("111").fit().error(R.drawable.img_default).into(img);
                     } else {
@@ -742,6 +755,8 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
             if (dyNoticeModel != null) {
                 rel_no_message.setVisibility(View.GONE);
                 rel_message.setVisibility(View.VISIBLE);
+                img_lb.setVisibility(View.GONE);
+                img.setVisibility(View.VISIBLE);
                 if ("".equals(dyNoticeModel.getPhoto())) {
                     Picasso.with(getContext()).load("111").fit().error(R.drawable.img_default).into(img);
                 } else {

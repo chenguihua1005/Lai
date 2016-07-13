@@ -209,16 +209,28 @@
                 <RelativeLayout
                     android:id="@+id/rel_message"
                     android:layout_width="fill_parent"
-                    android:layout_height="98dip"
-                    android:visibility="gone">
+                    android:layout_height="98dip">
 
-                    <com.softtek.lai.widgets.CircleImageView
-                        android:id="@+id/img"
-                        android:layout_width="39dip"
-                        android:layout_height="39dip"
-                        android:layout_marginLeft="15dip"
-                        android:layout_marginTop="23dip"
-                        android:src="@drawable/img_default" />
+                    <RelativeLayout
+                        android:id="@+id/rel_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="15dip">
+
+                        <com.softtek.lai.widgets.CircleImageView
+                            android:id="@+id/img"
+                            android:layout_width="39dip"
+                            android:layout_height="39dip"
+                            android:src="@drawable/img_default" />
+
+                        <ImageView
+                            android:id="@+id/img_lb"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/speaker"
+                            android:visibility="gone" />
+                    </RelativeLayout>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -226,7 +238,7 @@
                         android:layout_marginLeft="8dip"
                         android:layout_marginRight="15dip"
                         android:layout_marginTop="23dip"
-                        android:layout_toRightOf="@+id/img"
+                        android:layout_toRightOf="@+id/rel_1"
                         android:orientation="vertical">
 
                         <TextView
@@ -253,6 +265,7 @@
                                 android:textSize="11sp" />
 
                             <TextView
+                                android:id="@+id/text_more"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentRight="true"
@@ -266,7 +279,8 @@
                 <RelativeLayout
                     android:id="@+id/rel_no_message"
                     android:layout_width="fill_parent"
-                    android:layout_height="98dip">
+                    android:layout_height="98dip"
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="wrap_content"
