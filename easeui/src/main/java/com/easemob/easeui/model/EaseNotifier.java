@@ -53,8 +53,8 @@ public class EaseNotifier {
             "%1个联系人发来%2条消息"
     };
 
-    protected static int notifyID = 0; // start notification id
-    protected static int foregroundNotifyID = 0555;
+    protected static int notifyID = 1; // start notification id
+    protected static int foregroundNotifyID = 1;
     protected NotificationManager notificationManager = null;
 
     protected HashSet<String> fromUsers = new HashSet<String>();
@@ -249,8 +249,8 @@ public class EaseNotifier {
                 // 设置自定义的notification点击跳转intent
                 msgIntent = notificationInfoProvider.getLaunchIntent(message);
             }
-
-            PendingIntent pendingIntent = PendingIntent.getActivity(appContext, notifyID, msgIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            msgIntent = notificationInfoProvider.getLaunchIntent(message);
+            PendingIntent pendingIntent = PendingIntent.getActivity(appContext, notifyID, msgIntent,0);
 
             if (numIncrease) {
                 // prepare latest event info section
