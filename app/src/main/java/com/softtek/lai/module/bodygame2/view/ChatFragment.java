@@ -132,6 +132,11 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
         RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
         params.topMargin=status;
         toolbar.setLayoutParams(params);
+        if(getContext() instanceof BodyGameSPActivity){
+            BodyGameSPActivity activity=(BodyGameSPActivity)getContext();
+            activity.setAlpha(1);
+        }
+
         model = UserInfoModel.getInstance().getUser();
         if (model == null) {
             return;

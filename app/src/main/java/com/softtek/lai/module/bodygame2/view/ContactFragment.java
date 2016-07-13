@@ -117,6 +117,10 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
         LinearLayout.LayoutParams params= (LinearLayout.LayoutParams) toolbar.getLayoutParams();
         params.topMargin=status;
         toolbar.setLayoutParams(params);
+        if(getContext() instanceof BodyGameSPActivity){
+            BodyGameSPActivity activity=(BodyGameSPActivity)getContext();
+            activity.setAlpha(1);
+        }
     }
     private void setData() {
         dialogShow("加载中");
