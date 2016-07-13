@@ -224,7 +224,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                     Intent fucewrite=new Intent(this, WriteActivity.class);
                     fucewrite.putExtra("accountId",userId+"");
                     fucewrite.putExtra("classId",classId+"");
-                    startActivity(fucewrite);
+                    startActivityForResult(fucewrite,GET_BODY);
                 }
                 else if (AMStatus.equals("0")){
                     Intent fucewrite=new Intent(this, AuditActivity.class);
@@ -232,7 +232,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                     fucewrite.putExtra("classId",classId+"");
                     String[] date=typedate.split(" ");
                     fucewrite.putExtra("typeDate",date[0]);
-                    startActivity(fucewrite);
+                    startActivityForResult(fucewrite,GET_BODY);
                 }
                 else if (AMStatus.equals("1")){
                     Intent fucewrite=new Intent(this, FuceStActivity.class);
@@ -255,7 +255,12 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
             tv_username.setText(data.getClmInfo().getUserName());
             tv_tel.setText(data.getClmInfo().getMobile());
             tv_personclassname.setText("班级：" + data.getClmInfo().getClassName());
-            tv_SuperName.setText("助教：" + data.getClmInfo().getSuperName());
+            if (data.getClmInfo().getSuperType().equals("2")) {
+                tv_SuperName.setText("助教：" + data.getClmInfo().getSuperName());
+            }else if (data.getClmInfo().getSuperType().equals("2"))
+            {
+                tv_SuperName.setText("guwen：" + data.getClmInfo().getSuperName());
+            }
             String[] star = data.getClmInfo().getStartDate().split(" ");
             String[] stardate = star[0].split("-");
             String[] end = data.getClmInfo().getEndDate().split(" ");
@@ -361,8 +366,8 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == GET_BODY && resultCode == RESULT_OK) {
+            Log.i("adsasad","wo jinlai le a dsa ds ad a");
             AMStatus="1";
-
         }
     }
 
