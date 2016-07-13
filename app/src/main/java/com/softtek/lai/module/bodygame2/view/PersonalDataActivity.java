@@ -121,7 +121,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     RelativeLayout re_jianzh;
     @InjectView(R.id.Re_personphoto)
     RelativeLayout Re_personphoto;
-    private long accountId = 0;
+    private long userId = 0;
     private long classId = 0;
     private String review_flag = "1";
     ChMonth chMonth;
@@ -137,12 +137,12 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
         re_jianzh.setOnClickListener(this);
         Re_personphoto.setOnClickListener(this);
         tv_title.setText("个人资料");
-        accountId = getIntent().getLongExtra("userId", 72);
-        classId = getIntent().getLongExtra("classId", 15);
+        userId = getIntent().getLongExtra("userId", 0);
+        classId = getIntent().getLongExtra("classId", 0);
         review_flag = getIntent().getStringExtra("review");
         review_flag = review_flag == null ? "1" : review_flag;
         Map<String, String> params = new HashMap<>();
-        params.put("userId", accountId + "");
+        params.put("userId", userId + "");
         params.put("classId", classId + "");
         LossWeightChartFragment lwcf = LossWeightChartFragment.newInstance(params);
         DimensionChartFragment dcf = DimensionChartFragment.newInstance(params);
@@ -157,7 +157,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     protected void initDatas() {
 
         persondatemanager = new PersonDateManager();
-        persondatemanager.doGetClmemberDetial(this, "72", "15");
+        persondatemanager.doGetClmemberDetial(this, userId + "", classId + "");
     }
 
 
@@ -174,26 +174,27 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.ll:
                 Intent intent = new Intent(this, LossWeightLogActivity.class);
-                intent.putExtra("accountId", accountId);
+                intent.putExtra("accountId", userId);
                 intent.putExtra("review", Integer.parseInt(review_flag));
                 startActivity(intent);
                 break;
             case R.id.ll_remove_class:
-                clemberExitmanager=new ClemeberExitManager();
-                clemberExitmanager.doClmemberExit(this,accountId+"",classId+"");
+                clemberExitmanager = new ClemeberExitManager();
+                clemberExitmanager.doClmemberExit(this, userId + "", classId + "");
                 break;
             case R.id.re_xunzhang:
                 startActivity(new Intent(this, StudentHonorGridActivity.class));
                 break;
             case R.id.re_jianzh:
-                Intent intent1=new Intent(this,LossWeightLogActivity.class);
-                intent1.putExtra("accountId",accountId);
-                intent1.putExtra("review",Integer.parseInt(review_flag));
+                Intent intent1 = new Intent(this, LossWeightLogActivity.class);
+                intent1.putExtra("accountId", userId);
+                intent1.putExtra("review", Integer.parseInt(review_flag));
                 startActivity(intent1);
                 break;
             case R.id.Re_personphoto:
-                Intent intent2=new Intent(this,PassPhotoActivity.class);
-                intent2.putExtra("accountId",accountId);
+                Intent intent2 = new Intent(this, PassPhotoActivity.class);
+                intent2.putExtra("userId", userId);
+                intent2.putExtra("classId", classId);
                 startActivity(intent2);
                 break;
         }
@@ -326,7 +327,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                 tv_valuetext.setText("减重" + value + "斤奖章");
             } else if (ty.equals("2")) {
                 tv_valuetext.setText("月冠军" + value + "名奖章");
-            } else if (ty.equals("")) {
+            } else if (ty.equals("3")) {
                 tv_valuetext.setText("全国排名第" + value + "名奖章");
             }
         } else if (n == 1) {
@@ -343,7 +344,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                 tv_valuetext2.setText("减重" + value + "斤奖章");
             } else if (ty.equals("2")) {
                 tv_valuetext2.setText("月冠军" + value + "名奖章");
-            } else if (ty.equals("")) {
+            } else if (ty.equals("3")) {
                 tv_valuetext2.setText("全国排名第" + value + "名奖章");
             }
         } else {
@@ -360,7 +361,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                 tv_valuetext3.setText("减重" + value + "斤奖章");
             } else if (ty.equals("2")) {
                 tv_valuetext3.setText("月冠军" + value + "名奖章");
-            } else if (ty.equals("")) {
+            } else if (ty.equals("3")) {
                 tv_valuetext3.setText("全国排名第" + value + "名奖章");
             }
         }
@@ -368,11 +369,10 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     }
 
     public void onExitompleted(String aTrue) {
-        if (aTrue.equals("true"))
-        {
-         finish();
-        }
-        else {
+        if (aTrue.equals("true")) {
+            Util.toastMsg("移出班级成功");
+            finish();
+        } else {
             Util.toastMsg("移出班级失败");
         }
     }
