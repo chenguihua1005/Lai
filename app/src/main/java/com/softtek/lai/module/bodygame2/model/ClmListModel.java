@@ -5,10 +5,11 @@ package com.softtek.lai.module.bodygame2.model;
  */
 public class ClmListModel {
     private String AssistantId;
-    private String C_order;
+    private String ordernum;
     private String IsStar;
     private String IsTest;
     private String Photo;
+    private String Gender;
     private String SuperName;
     private String accountid;
     private String firstweight;
@@ -17,19 +18,40 @@ public class ClmListModel {
     private String loss;
     private String username;
 
-    public ClmListModel(String assistantId, String c_order, String isStar, String isTest, String photo, String superName, String accountid, String firstweight, String honorcnt, String lastweight, String loss, String username) {
-        AssistantId = assistantId;
-        C_order = c_order;
-        IsStar = isStar;
-        IsTest = isTest;
-        Photo = photo;
-        SuperName = superName;
-        this.accountid = accountid;
-        this.firstweight = firstweight;
-        this.honorcnt = honorcnt;
-        this.lastweight = lastweight;
-        this.loss = loss;
-        this.username = username;
+
+    public String getOrdernum() {
+        return ordernum;
+    }
+
+    @Override
+    public String toString() {
+        return "ClmListModel{" +
+                "AssistantId='" + AssistantId + '\'' +
+                ", ordernum='" + ordernum + '\'' +
+                ", IsStar='" + IsStar + '\'' +
+                ", IsTest='" + IsTest + '\'' +
+                ", Photo='" + Photo + '\'' +
+                ", Gender='" + Gender + '\'' +
+                ", SuperName='" + SuperName + '\'' +
+                ", accountid='" + accountid + '\'' +
+                ", firstweight='" + firstweight + '\'' +
+                ", honorcnt='" + honorcnt + '\'' +
+                ", lastweight='" + lastweight + '\'' +
+                ", loss='" + loss + '\'' +
+                ", username='" + username + '\'' +
+                '}';
+    }
+
+    public void setOrdernum(String ordernum) {
+        this.ordernum = ordernum;
+    }
+
+    public String getGender() {
+        return Gender;
+    }
+
+    public void setGender(String gender) {
+        Gender = gender;
     }
 
     public String getAssistantId() {
@@ -38,14 +60,6 @@ public class ClmListModel {
 
     public void setAssistantId(String assistantId) {
         AssistantId = assistantId;
-    }
-
-    public String getC_order() {
-        return C_order;
-    }
-
-    public void setC_order(String c_order) {
-        C_order = c_order;
     }
 
     public String getIsStar() {

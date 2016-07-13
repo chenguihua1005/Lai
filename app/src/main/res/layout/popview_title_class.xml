@@ -6,6 +6,6 @@
 
     <ListView
         android:id="@+id/list_class_select"
-        android:layout_width="141dip"
+        android:layout_width="155dip"
         android:layout_height="wrap_content"></ListView>
 </LinearLayout>

@@ -15,8 +15,11 @@ import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.module.bodygame2.model.ClassMainStudentModel;
+import com.softtek.lai.module.bodygame2.model.ClmListModel;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
+import com.softtek.lai.utils.StringUtil;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 /**
@@ -24,14 +27,15 @@ import java.util.List;
  */
 public class ClassMainStudentAdapter extends BaseAdapter {
     private LayoutInflater mInflater;//得到一个LayoutInfalter对象用来导入布局
-    private List<ClassMainStudentModel> list;
+    private List<ClmListModel> list;
     private Context context;
     private IAssistantPresenter assistantPresenter;
+    public String type;
 
     /**
      * 构造函数
      */
-    public ClassMainStudentAdapter(Context context, List<ClassMainStudentModel> list) {
+    public ClassMainStudentAdapter(Context context, List<ClmListModel> list) {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
         this.list = list;
@@ -79,27 +83,48 @@ public class ClassMainStudentAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();//取出ViewHolder对象
         }
         /**设置TextView显示的内容，即我们存放在动态数组中的数据*/
-        ClassMainStudentModel model = list.get(position);
-        holder.text_before_weight.setText("初始体重："+model.getWeight());
-        holder.tv_order.setText(model.getOrder());
-        holder.text_name.setText(model.getName());
-        holder.tv_who.setText(model.getZname());
-        holder.text_value.setText(model.getValue()+"斤");
-        holder.text_count.setText("x"+model.getCount());
+        ClmListModel model = list.get(position);
+        if ("0".equals(type)) {
+            holder.text_before_weight.setText("初始体重：" + model.getFirstweight() + "斤");
+            String value = StringUtil.getFloatValue(model.getLoss());
+            holder.text_value.setText(value + "斤");
+        } else if ("1".equals(type)) {
+            holder.text_before_weight.setText("初始体重：" + model.getFirstweight() + "斤");
 
-        if(model.getGender().equals("1")){
+            DecimalFormat fnum = new DecimalFormat("##0.00");
+            String dd = fnum.format(Float.parseFloat(model.getLoss()));
+            System.out.println("dd:" + dd);
+            String str = Float.parseFloat(dd) * 100 + "";
+            System.out.println("str:" + str);
+            String value = StringUtil.getFloatValue(str);
+            holder.text_value.setText(value + "%");
+        } else if ("2".equals(type)) {
+            holder.text_before_weight.setText("初始体脂：" + model.getFirstweight() + "%");
+            String value = StringUtil.getFloatValue(model.getLoss());
+            holder.text_value.setText(value + "%");
+        } else if ("3".equals(type)) {
+            holder.text_before_weight.setText("初始腰围：" + model.getFirstweight() + "cm");
+            String value = StringUtil.getFloatValue(model.getLoss());
+            holder.text_value.setText(value + "cm");
+        }
+        holder.tv_order.setText(model.getOrdernum());
+        holder.text_name.setText(model.getUsername());
+        holder.tv_who.setText(model.getSuperName());
+        holder.text_count.setText("x" + model.getHonorcnt());
+
+        if (model.getGender().equals("1")) {
             holder.cb_gender.setChecked(true);
-        }else {
+        } else {
             holder.cb_gender.setChecked(false);
         }
-        if(model.getType1().equals("1")){
+        if (model.getIsStar().equals("1")) {
             holder.cb_star.setChecked(true);
-        }else {
+        } else {
             holder.cb_star.setChecked(false);
         }
-        if(model.getType2().equals("1")){
+        if (model.getIsTest().equals("1")) {
             holder.cb_fc.setChecked(true);
-        }else {
+        } else {
             holder.cb_fc.setChecked(false);
         }
         return convertView;

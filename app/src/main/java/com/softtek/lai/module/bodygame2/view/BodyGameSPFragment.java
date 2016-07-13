@@ -52,7 +52,7 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
     @InjectView(R.id.rl_student_more)
     RelativeLayout rl_student_more;
     @InjectView(R.id.mlv)
-    private MyListView mlv;
+    MyListView mlv;
     private List<SPPCMoldel> pcModels=new ArrayList<>();
     //adapter
 
