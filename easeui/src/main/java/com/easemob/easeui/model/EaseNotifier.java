@@ -110,7 +110,8 @@ public class EaseNotifier {
 
     void cancelNotificaton() {
         if (notificationManager != null)
-            notificationManager.cancel(notifyID);
+            //notificationManager.cancel(notifyID);
+        notificationManager.cancelAll();
     }
 
     /**
