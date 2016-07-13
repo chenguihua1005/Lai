@@ -1,5 +1,9 @@
 package com.softtek.lai.module.bodygame2.model;
 
+import android.widget.ListView;
+
+import java.util.List;
+
 /**
  * Created by lareina.qiao on 7/11/2016.
  */
@@ -7,14 +11,8 @@ public class ClassChangeModel {
     private ClassDetailModel ClassDetail;
     private DyNoticeModel DyNotice;
     private DySysModel DySys;
-    private ClmListModel Clmlist;
+    private List<ClmListModel> Clmlist;
 
-    public ClassChangeModel(ClassDetailModel classDetail, DyNoticeModel dyNotice, DySysModel dySys, ClmListModel clmlist) {
-        ClassDetail = classDetail;
-        DyNotice = dyNotice;
-        DySys = dySys;
-        Clmlist = clmlist;
-    }
 
     public ClassDetailModel getClassDetail() {
         return ClassDetail;
@@ -40,11 +38,21 @@ public class ClassChangeModel {
         DySys = dySys;
     }
 
-    public ClmListModel getClmlist() {
+    @Override
+    public String toString() {
+        return "ClassChangeModel{" +
+                "ClassDetail=" + ClassDetail +
+                ", DyNotice=" + DyNotice +
+                ", DySys=" + DySys +
+                ", Clmlist=" + Clmlist +
+                '}';
+    }
+
+    public List<ClmListModel> getClmlist() {
         return Clmlist;
     }
 
-    public void setClmlist(ClmListModel clmlist) {
+    public void setClmlist(List<ClmListModel> clmlist) {
         Clmlist = clmlist;
     }
 }

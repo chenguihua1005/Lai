@@ -2,7 +2,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ScrollView
+    <com.softtek.lai.widgets.ObservableScrollView
+        android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:overScrollMode="never"
@@ -656,13 +657,18 @@
             </LinearLayout>
 
         </RelativeLayout>
-    </ScrollView>
+    </com.softtek.lai.widgets.ObservableScrollView>
 
     <RelativeLayout
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="50dp">
-
+        <RelativeLayout
+            android:id="@+id/rl_color"
+            android:background="@color/colorPrimaryDark"
+            android:alpha="0"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
         <LinearLayout
             android:id="@+id/ll_left"
             android:layout_width="50dp"
@@ -713,7 +719,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="12dp"
-                android:text="搜索学员/助教"
+                android:text="搜索学员姓名/手机号"
                 android:textColor="#b3b3b3"
                 android:textSize="12sp" />
 
@@ -725,8 +731,6 @@
                 android:layout_marginRight="10dp"
                 android:src="@drawable/bg2_search" />
         </RelativeLayout>
-
-
 
     </RelativeLayout>
 </RelativeLayout>

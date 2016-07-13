@@ -137,4 +137,8 @@ public class StringUtil {
         return StringUtils.isEmpty(value)?"未知":value;
     }
 
+    public static String convertValue1(String value){
+        return StringUtils.isEmpty(value)?"--":value;
+    }
+
 }

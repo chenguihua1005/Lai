@@ -1,8 +1,19 @@
 package com.softtek.lai.module.bodygame2.view;
 
+import android.Manifest;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -13,24 +24,54 @@ import android.widget.TextView;
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
+import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.common.UserInfoModel;
+import com.softtek.lai.contants.Constants;
 import com.softtek.lai.module.bodygame2.adapter.ClassMainStudentAdapter;
 import com.softtek.lai.module.bodygame2.adapter.ClassSelectAdapter;
+import com.softtek.lai.module.bodygame2.model.ClassChangeModel;
+import com.softtek.lai.module.bodygame2.model.ClassDetailModel;
+import com.softtek.lai.module.bodygame2.model.ClassListModel;
 import com.softtek.lai.module.bodygame2.model.ClassMainModel;
 import com.softtek.lai.module.bodygame2.model.ClassMainStudentModel;
 import com.softtek.lai.module.bodygame2.model.ClassSelectModel;
+import com.softtek.lai.module.bodygame2.model.ClmListModel;
+import com.softtek.lai.module.bodygame2.model.DyNoticeModel;
+import com.softtek.lai.module.bodygame2.model.DySysModel;
+import com.softtek.lai.module.bodygame2.model.MemberChangeModel;
 import com.softtek.lai.module.bodygame2.present.ClassMainManager;
+import com.softtek.lai.module.grade.model.BannerUpdateCallBack;
+import com.softtek.lai.module.grade.model.DynamicInfoModel;
+import com.softtek.lai.module.grade.model.GradeModel;
+import com.softtek.lai.module.grade.net.GradeService;
+import com.softtek.lai.module.grade.presenter.GradeImpl;
+import com.softtek.lai.module.grade.presenter.IGrade;
+import com.softtek.lai.utils.DateUtil;
 import com.softtek.lai.utils.DisplayUtil;
+import com.softtek.lai.utils.StringUtil;
+import com.softtek.lai.utils.SystemBarTintManager;
 import com.softtek.lai.widgets.CostomerListView;
 import com.softtek.lai.widgets.ObservableScrollView;
+import com.squareup.picasso.Picasso;
+import com.sw926.imagefileselector.ImageFileCropSelector;
 
+import org.greenrobot.eventbus.EventBus;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import zilla.libcore.api.ZillaApi;
+import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
+import zilla.libcore.util.Util;
 
 @InjectLayout(R.layout.fragment_class)
-public class ClassFragment extends LazyBaseFragment implements View.OnClickListener, ObservableScrollView.ScrollViewListener,ClassMainManager.ClassMainCallback {
+public class ClassFragment extends LazyBaseFragment implements View.OnClickListener, BannerUpdateCallBack, DialogInterface.OnClickListener,ImageFileCropSelector.Callback, TextWatcher, ObservableScrollView.ScrollViewListener, ClassMainManager.ClassMainCallback {
     @InjectView(R.id.lin_class_select)
     LinearLayout lin_class_select;
 
@@ -46,14 +87,53 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
     @InjectView(R.id.rel_title)
     RelativeLayout rel_title;
 
+    @InjectView(R.id.rel)
+    RelativeLayout rel;
+
+    @InjectView(R.id.rel_add)
+    RelativeLayout rel_add;
+
     @InjectView(R.id.list_student)
     CostomerListView list_student;
+    @InjectView(R.id.text_class_name)
+    TextView text_class_name;
 
     @InjectView(R.id.img_class_down)
     ImageView img_class_down;
 
     @InjectView(R.id.text_select_type)
     TextView text_select_type;
+
+    @InjectView(R.id.img_banner)
+    ImageView img_banner;
+
+    @InjectView(R.id.text_class_count)
+    TextView text_class_count;
+    @InjectView(R.id.text_loss)
+    TextView text_loss;
+    @InjectView(R.id.text_fcl)
+    TextView text_fcl;
+
+    @InjectView(R.id.rel_gg)
+    RelativeLayout rel_gg;
+    @InjectView(R.id.img_gg)
+    ImageView img_gg;
+    @InjectView(R.id.rel_xtxx)
+    RelativeLayout rel_xtxx;
+    @InjectView(R.id.img_xtxx)
+    ImageView img_xtxx;
+
+    @InjectView(R.id.rel_no_message)
+    RelativeLayout rel_no_message;
+    @InjectView(R.id.rel_message)
+    RelativeLayout rel_message;
+
+    @InjectView(R.id.img)
+    ImageView img;
+    @InjectView(R.id.text_value)
+    TextView text_value;
+    @InjectView(R.id.text_time)
+    TextView text_time;
 
     private PopupWindow popTitleMore;
     private PopupWindow popSelectType;
@@ -73,52 +153,86 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
     private ImageView img_tzl;
     private ImageView img_ywbh;
 
-    private int select_type = 1;         //1:减重斤数  2：减重百分比   3:体制率  4：腰围变化
+    private int select_type = 0;         //1:减重斤数  2：减重百分比   3:体制率  4：腰围变化
+    private String select_class_id;
 
-    private List<ClassSelectModel> select_class_list;
-    private List<ClassMainStudentModel> student_list;
+    private List<ClassListModel> select_class_list;
+    private List<ClmListModel> student_list;
 
     private float alapa = 0;
 
     ClassMainManager classMainManager;
+
+    DyNoticeModel dyNoticeModel;
+    DySysModel dySysModel;
+    protected SystemBarTintManager tintManager;
+
+    ClassMainStudentAdapter adapter;
+
+    View view;
+
+    private View viewDialog;
+    private EditText et_content;
+    private int count = 0;//计数器
+
+    UserInfoModel model;
+    private IGrade grade;
+
+    CharSequence[] items={"拍照","照片"};
+    private static final int CAMERA_PREMISSION=100;
+    private ImageFileCropSelector imageFileCropSelector;
+
     @Override
     protected void initViews() {
+        imageFileCropSelector=new ImageFileCropSelector(getActivity());
+        imageFileCropSelector.setQuality(80);
+        imageFileCropSelector.setOutPutAspect(1, 1);
+        imageFileCropSelector.setOutPut(DisplayUtil.getMobileWidth(getActivity()),DisplayUtil.dip2px(getActivity(),190));
+        imageFileCropSelector.setCallback(this);
+
+        tintManager = new SystemBarTintManager(getActivity());
+        tintManager.setStatusBarTintEnabled(true);
+        tintManager.setStatusBarTintResource(R.color.colorPrimaryDark);
+        tintManager.setStatusBarAlpha(0);
+        int status = DisplayUtil.getStatusHeight(getActivity());
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) rel.getLayoutParams();
+        params.topMargin = status;
+        rel.setLayoutParams(params);
+
         lin_class_select.setOnClickListener(this);
         rel_title_more.setOnClickListener(this);
         lin_select_type.setOnClickListener(this);
+        rel_add.setOnClickListener(this);
+        rel_gg.setOnClickListener(this);
+        rel_xtxx.setOnClickListener(this);
+        img_banner.setOnClickListener(this);
         rel_title.setAlpha(0);
         scroll.setScrollViewListener(this);
+
+        view = getActivity().getLayoutInflater().inflate(R.layout.popview_select_type, null);
+        rel_jzjs = (RelativeLayout) view.findViewById(R.id.rel_jzjs);
+        rel_jzbfb = (RelativeLayout) view.findViewById(R.id.rel_jzbfb);
+        rel_tzl = (RelativeLayout) view.findViewById(R.id.rel_tzl);
+        rel_ywbh = (RelativeLayout) view.findViewById(R.id.rel_ywbh);
+
+        img_jzjs = (ImageView) view.findViewById(R.id.img_jzjs);
+        img_jzbfb = (ImageView) view.findViewById(R.id.img_jzbfb);
+        img_tzl = (ImageView) view.findViewById(R.id.img_tzl);
+        img_ywbh = (ImageView) view.findViewById(R.id.img_ywbh);
+
+        grade = new GradeImpl(this,"1");
+
     }
+
     @Override
     protected void onVisible() {
         isPrepared = false;
         super.onVisible();
     }
+
     @Override
     protected void initDatas() {
-        student_list = new ArrayList<ClassMainStudentModel>();
-        for (int i = 0; i < 10; i++) {
-            ClassMainStudentModel m = new ClassMainStudentModel();
-            m.setOrder(i + "");
-            m.setImg(i + "");
-            m.setWeight(i + "");
-            m.setName("Tom" + i);
-            m.setZname("Jim" + i);
-            m.setValue(i + "");
-            m.setCount(i + "");
-            if (i % 2 == 0) {
-                m.setType1("1");
-                m.setType2("1");
-                m.setGender("1");
-            } else {
-                m.setType1("0");
-                m.setType2("0");
-                m.setGender("0");
-            }
-            student_list.add(m);
-        }
-        ClassMainStudentAdapter adapter = new ClassMainStudentAdapter(getContext(), student_list);
-        list_student.setAdapter(adapter);
+        model=UserInfoModel.getInstance();
         scroll.post(
                 new Runnable() {
                     public void run() {
@@ -126,8 +240,9 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                         scroll.smoothScrollTo(0, 0);
                     }
                 });
-        classMainManager=new ClassMainManager(this);
+        classMainManager = new ClassMainManager(this);
         classMainManager.doClassMainIndex("59");//固定值fanny帐号，作测试用
+
     }
 
     private void initSelectTypePop() {
@@ -136,13 +251,13 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
         img_tzl.setImageResource(R.drawable.img_bg_tzl_select);
         img_ywbh.setImageResource(R.drawable.img_bg_ywbh_select);
 
-        if (select_type == 1) {
+        if (select_type == 0) {
             img_jzjs.setImageResource(R.drawable.img_bg_jzjs_selected);
-        } else if (select_type == 2) {
+        } else if (select_type == 1) {
             img_jzbfb.setImageResource(R.drawable.img_bg_jzbfb_selected);
-        } else if (select_type == 3) {
+        } else if (select_type == 2) {
             img_tzl.setImageResource(R.drawable.img_bg_tzl_selected);
-        } else if (select_type == 4) {
+        } else if (select_type == 3) {
             img_ywbh.setImageResource(R.drawable.img_bg_ywbh_selected);
         }
 
@@ -164,25 +279,118 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.img_banner:
+                //点击编辑按钮
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(which==0){
+                            //拍照
+                            if(ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
+                                //可以得到一个是否需要弹出解释申请该权限的提示给用户如果为true则表示可以弹
+                                if(ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),Manifest.permission.ACCESS_COARSE_LOCATION)||
+                                        ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),Manifest.permission.ACCESS_FINE_LOCATION)){
+                                    //允许弹出提示
+                                    ActivityCompat.requestPermissions(getActivity(),
+                                            new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
+
+                                }else{
+                                    //不允许弹出提示
+                                    ActivityCompat.requestPermissions(getActivity(),
+                                            new String[]{Manifest.permission.CAMERA},CAMERA_PREMISSION);
+                                }
+                            }else {
+                                imageFileCropSelector.takePhoto(getActivity());
+                            }
+                        }else if(which==1){
+                            //照片
+                            imageFileCropSelector.selectImage(getActivity());
+                        }
+                    }
+                }).create().show();
+                break;
+            case R.id.rel_add:
+                /*
+                发布班级动态：打开dialog用户编辑输入
+                 */
+                viewDialog = getActivity().getLayoutInflater().inflate(R.layout.activity_input_dynamic_alert, null);
+                et_content = (EditText) viewDialog.findViewById(R.id.et_content);
+                //tv_dialog_title = (TextView) view.findViewById(R.id.tv__dialog_title);
+                et_content.addTextChangedListener(this);
+                AlertDialog.Builder alert = new AlertDialog.Builder(getActivity()).setView(viewDialog)
+                        .setPositiveButton("确认", this)
+                        .setNegativeButton("取消", this);
+                alert.create().show();
+                break;
+            case R.id.rel_xtxx://系统消息
+                System.out.println("dySysModel:" + dySysModel);
+                img_xtxx.setImageResource(R.drawable.img_bg_select);
+                img_gg.setImageResource(R.drawable.img_bg_unselect);
+                if (dySysModel != null) {
+                    rel_no_message.setVisibility(View.GONE);
+                    rel_message.setVisibility(View.VISIBLE);
+
+                    String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+                    if ("".equals(dySysModel.getPhoto())) {
+                        Picasso.with(getContext()).load("111").fit().error(R.drawable.img_default).into(img);
+                    } else {
+                        Picasso.with(getContext()).load(path + dySysModel.getPhoto()).fit().error(R.drawable.img_default).into(img);
+                    }
+
+                    text_value.setText(dySysModel.getDyContent());
+                    String time = DateUtil.getInstance().convertDateStr(dySysModel.getCreateDate(), "yyyy年MM月dd日");
+                    text_time.setText(time);
+                } else {
+                    rel_no_message.setVisibility(View.VISIBLE);
+                    rel_message.setVisibility(View.GONE);
+                }
+                break;
+            case R.id.rel_gg://公告
+                img_gg.setImageResource(R.drawable.img_bg_select);
+                img_xtxx.setImageResource(R.drawable.img_bg_unselect);
+                if (dyNoticeModel != null) {
+                    rel_no_message.setVisibility(View.GONE);
+                    rel_message.setVisibility(View.VISIBLE);
+
+                    String paths = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+                    if ("".equals(dyNoticeModel.getPhoto())) {
+                        Picasso.with(getContext()).load("111").fit().error(R.drawable.img_default).into(img);
+                    } else {
+                        Picasso.with(getContext()).load(paths + dyNoticeModel.getPhoto()).fit().error(R.drawable.img_default).into(img);
+                    }
+
+                    text_value.setText(dyNoticeModel.getDyContent());
+                    String times = DateUtil.getInstance().convertDateStr(dyNoticeModel.getCreateDate(), "yyyy年MM月dd日");
+                    text_time.setText(times);
+                } else {
+                    rel_no_message.setVisibility(View.VISIBLE);
+                    rel_message.setVisibility(View.GONE);
+                }
+                break;
             case R.id.rel_jzjs://减重斤数
                 popSelectType.dismiss();
-                select_type = 1;
+                select_type = 0;
                 text_select_type.setText("按减重斤数");
+                classMainManager.doClMemberChange(select_class_id, select_type + "");
                 break;
             case R.id.rel_jzbfb://减重百分比
                 popSelectType.dismiss();
-                select_type = 2;
+                select_type = 1;
                 text_select_type.setText("按减重百分比");
+                classMainManager.doClMemberChange(select_class_id, select_type + "");
                 break;
             case R.id.rel_tzl://体制率
                 popSelectType.dismiss();
-                select_type = 3;
+                select_type = 2;
                 text_select_type.setText("按体制率");
+                classMainManager.doClMemberChange(select_class_id, select_type + "");
                 break;
             case R.id.rel_ywbh://腰围变化
                 popSelectType.dismiss();
-                select_type = 4;
+                select_type = 3;
                 text_select_type.setText("按腰围变化");
+                classMainManager.doClMemberChange(select_class_id, select_type + "");
                 break;
             case R.id.lin_invite_student://邀请学员
                 popTitleMore.dismiss();
@@ -200,16 +408,6 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                 if (popSelectType != null && popSelectType.isShowing()) {
                     popSelectType.dismiss();
                 } else {
-                    View view = getActivity().getLayoutInflater().inflate(R.layout.popview_select_type, null);
-                    rel_jzjs = (RelativeLayout) view.findViewById(R.id.rel_jzjs);
-                    rel_jzbfb = (RelativeLayout) view.findViewById(R.id.rel_jzbfb);
-                    rel_tzl = (RelativeLayout) view.findViewById(R.id.rel_tzl);
-                    rel_ywbh = (RelativeLayout) view.findViewById(R.id.rel_ywbh);
-
-                    img_jzjs = (ImageView) view.findViewById(R.id.img_jzjs);
-                    img_jzbfb = (ImageView) view.findViewById(R.id.img_jzbfb);
-                    img_tzl = (ImageView) view.findViewById(R.id.img_tzl);
-                    img_ywbh = (ImageView) view.findViewById(R.id.img_ywbh);
 
                     initSelectTypePop();
 
@@ -227,16 +425,9 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                 } else {
                     View view = getActivity().getLayoutInflater().inflate(R.layout.popview_title_class, null);
                     ListView list_class_select = (ListView) view.findViewById(R.id.list_class_select);
-                    select_class_list = new ArrayList<ClassSelectModel>();
-                    for (int i = 0; i < 8; i++) {
-                        ClassSelectModel m = new ClassSelectModel();
-                        m.setClassId(i + "");
-                        m.setClassMonth(i + "");
-                        m.setClassName("测试测试小号班" + i);
-                        select_class_list.add(m);
-                    }
+
                     lin_class_select.setBackgroundColor(Color.WHITE);
-                    img_class_down.setVisibility(View.GONE);
+                    img_class_down.setVisibility(View.INVISIBLE);
                     ClassSelectAdapter adapter = new ClassSelectAdapter(getContext(), select_class_list);
                     list_class_select.setAdapter(adapter);
                     popTitleSelect = new PopupWindow(view, LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -251,7 +442,16 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                             img_class_down.setVisibility(View.VISIBLE);
                         }
                     });
-
+                    list_class_select.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            popTitleSelect.dismiss();
+                            ClassListModel classListModel = select_class_list.get(position);
+                            select_class_id = classListModel.getClassId();
+                            text_class_name.setText(classListModel.getClassName());
+                            classMainManager.doClassChangeById(select_class_id);
+                        }
+                    });
                 }
                 break;
             case R.id.rel_title_more://右上角更多按钮
@@ -286,23 +486,255 @@ public class ClassFragment extends LazyBaseFragment implements View.OnClickListe
                 alapa = 1;
             }
             rel_title.setAlpha(alapa);
+            tintManager.setStatusBarAlpha(alapa);
         } else if (scrollView.getScrollY() < 300 && oldy > y) {
             alapa = alapa - (oldy - y) / 100.0f;
             if (alapa <= 0) {
                 alapa = 0;
             }
             rel_title.setAlpha(alapa);
+            tintManager.setStatusBarAlpha(alapa);
         }
         if (scrollView.getScrollY() == 0) {
             rel_title.setAlpha(0);
+            tintManager.setStatusBarAlpha(0);
         }
         if (scrollView.getScrollY() > 500) {
             rel_title.setAlpha(1);
+            tintManager.setStatusBarAlpha(1);
         }
     }
 
     @Override
     public void getClassMain(ClassMainModel classMainModel) {
+        if (classMainModel != null) {
+            select_class_list = classMainModel.getClasslist();
+            text_class_name.setText(select_class_list.get(0).getClassName());
+            select_class_id = select_class_list.get(0).getClassId();
+            student_list = classMainModel.getClmlist();
+            adapter = new ClassMainStudentAdapter(getContext(), student_list);
+            adapter.type = select_type + "";
+            list_student.setAdapter(adapter);
 
+
+            ClassDetailModel details = classMainModel.getClassDetail();
+            String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+            if ("".equals(details.getClassBanner())) {
+                Picasso.with(getContext()).load("111").fit().error(R.drawable.default_icon_rect).into(img_banner);
+            } else {
+                Picasso.with(getContext()).load(path + details.getClassBanner()).fit().error(R.drawable.default_icon_rect).into(img_banner);
+            }
+            text_class_count.setText(details.getClmCnt());
+            text_loss.setText(details.getTotalloss() + "斤");
+            text_fcl.setText(details.getRtest() + "%");
+
+
+            dyNoticeModel = classMainModel.getDyNotice();
+            dySysModel = classMainModel.getDySys();
+
+            if (dySysModel.getPhoto() == null) {
+                dySysModel = null;
+            }
+            if (dyNoticeModel.getPhoto() == null) {
+                dyNoticeModel = null;
+            }
+            if (dyNoticeModel != null) {
+                rel_no_message.setVisibility(View.GONE);
+                rel_message.setVisibility(View.VISIBLE);
+                if ("".equals(dyNoticeModel.getPhoto())) {
+                    Picasso.with(getContext()).load("111").fit().error(R.drawable.img_default).into(img);
+                } else {
+                    Picasso.with(getContext()).load(path + dyNoticeModel.getPhoto()).fit().error(R.drawable.img_default).into(img);
+                }
+
+                text_value.setText(dyNoticeModel.getDyContent());
+                String time = DateUtil.getInstance().convertDateStr(dyNoticeModel.getCreateDate(), "yyyy年MM月dd日");
+                text_time.setText(time);
+            } else {
+                rel_no_message.setVisibility(View.VISIBLE);
+                rel_message.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    @Override
+    public void getStudentList(MemberChangeModel memberChangeModel) {
+        System.out.println("memberChangeModel:" + memberChangeModel);
+        if (memberChangeModel != null) {
+            student_list.clear();
+            System.out.println("memberChangeModel.getClmlist():" + memberChangeModel.getClmlist());
+            student_list.addAll(memberChangeModel.getClmlist());
+            System.out.println("student_list:" + student_list);
+            adapter.type = select_type + "";
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void getClassChange(ClassChangeModel classChangeModel) {
+        if (classChangeModel != null) {
+
+            select_type = 0;
+            text_select_type.setText("按减重斤数");
+            initSelectTypePop();
+
+            student_list = classChangeModel.getClmlist();
+            adapter = new ClassMainStudentAdapter(getContext(), student_list);
+            adapter.type = select_type + "";
+            list_student.setAdapter(adapter);
+
+
+            ClassDetailModel details = classChangeModel.getClassDetail();
+            String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+            System.out.println();
+            if ("".equals(details.getClassBanner())) {
+                Picasso.with(getContext()).load("111").fit().error(R.drawable.default_icon_rect).into(img_banner);
+            } else {
+                Picasso.with(getContext()).load(path + details.getClassBanner()).fit().error(R.drawable.default_icon_rect).into(img_banner);
+            }
+            text_class_count.setText(details.getClmCnt());
+            text_loss.setText(details.getTotalloss() + "斤");
+            text_fcl.setText(details.getRtest() + "%");
+
+
+            dyNoticeModel = classChangeModel.getDyNotice();
+            dySysModel = classChangeModel.getDySys();
+
+            if (dySysModel.getPhoto() == null) {
+                dySysModel = null;
+            }
+            if (dyNoticeModel.getPhoto() == null) {
+                dyNoticeModel = null;
+            }
+            img_gg.setImageResource(R.drawable.img_bg_select);
+            img_xtxx.setImageResource(R.drawable.img_bg_unselect);
+
+            if (dyNoticeModel != null) {
+                rel_no_message.setVisibility(View.GONE);
+                rel_message.setVisibility(View.VISIBLE);
+                if ("".equals(dyNoticeModel.getPhoto())) {
+                    Picasso.with(getContext()).load("111").fit().error(R.drawable.img_default).into(img);
+                } else {
+                    Picasso.with(getContext()).load(path + dyNoticeModel.getPhoto()).fit().error(R.drawable.img_default).into(img);
+                }
+
+                text_value.setText(dyNoticeModel.getDyContent());
+                String time = DateUtil.getInstance().convertDateStr(dyNoticeModel.getCreateDate(), "yyyy年MM月dd日");
+                text_time.setText(time);
+            } else {
+                rel_no_message.setVisibility(View.VISIBLE);
+                rel_message.setVisibility(View.GONE);
+            }
+        }
+    }
+
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        int surplus = ((100 - s.length()) < 0) ? 0 : 100 - s.length();
+        et_content.setSelection(s.length());
+        //tv_dialog_title.setText("请输入100字以内的文字(" + surplus + ")");
+        this.count = s.length();
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        if (count > 100) {
+            s.delete(100, et_content.getSelectionEnd());
+        }
+    }
+
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        dialog.dismiss();
+        if (which == DialogInterface.BUTTON_POSITIVE) {
+            final String content = et_content.getText().toString();
+            if (StringUtil.length(content) > 200) {
+                Util.toastMsg("动态字数不能超过100汉字");
+                return;
+            }
+
+            GradeService service = ZillaApi.NormalRestAdapter.create(GradeService.class);
+            String token = UserInfoModel.getInstance().getToken();
+            dialogShow("加载中");
+            service.senDynamic(token, Long.parseLong(select_class_id), "dsadas", content, Constants.SP_SEND, Long.parseLong(UserInfoModel.getInstance().getUser().getUserid()), new Callback<ResponseData>() {
+                @Override
+                public void success(ResponseData responseData, Response response) {
+                    dialogDissmiss();
+                    img_gg.setImageResource(R.drawable.img_bg_select);
+                    img_xtxx.setImageResource(R.drawable.img_bg_unselect);
+                    rel_no_message.setVisibility(View.GONE);
+                    rel_message.setVisibility(View.VISIBLE);
+                    String path = AddressManager.get("photoHost", "http://172.16.98.167/UpFiles/");
+                    if ("".equals(model.getUser().getPhoto())) {
+                        Picasso.with(getContext()).load("111").fit().error(R.drawable.img_default).into(img);
+                    } else {
+                        Picasso.with(getContext()).load(path + model.getUser().getPhoto()).fit().error(R.drawable.img_default).into(img);
+                    }
+
+                    text_value.setText(content);
+                    String time = DateUtil.getInstance().convertDateStr( DateUtil.getInstance().getCurrentDate(), "yyyy年MM月dd日");
+                    text_time.setText(time);
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    dialogDissmiss();
+                    ZillaApi.dealNetError(error);
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onSuccess(String file) {
+        System.out.println("-----------");
+        dialogShow("加载中");
+        grade.updateClassBanner(Long.parseLong(select_class_id), "2", new File(file));
+    }
+
+    @Override
+    public void onError() {
+
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode==CAMERA_PREMISSION) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // permission was granted, yay! Do the
+                // contacts-related task you need to do.
+                imageFileCropSelector.takePhoto(getActivity());
+
+            } else {
+
+                // permission denied, boo! Disable the
+                // functionality that depends on this permission.
+            }
+        }
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        System.out.println("=========");
+        imageFileCropSelector.onActivityResult(requestCode,resultCode,data);
+        imageFileCropSelector.getmImageCropperHelper().onActivityResult(requestCode,resultCode,data);
+    }
+    @Override
+    public void onSuccess(String bannerUrl, File image) {
+        dialogDissmiss();
+        Picasso.with(getActivity()).load(image).fit().centerCrop().placeholder(R.drawable.default_icon_rect)
+                .error(R.drawable.default_icon_rect).into(img_banner);
+    }
+
+    @Override
+    public void onFailed() {
+        dialogDissmiss();
     }
 }
