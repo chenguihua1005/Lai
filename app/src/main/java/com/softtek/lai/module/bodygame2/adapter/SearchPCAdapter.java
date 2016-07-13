@@ -61,7 +61,7 @@ public class SearchPCAdapter extends BaseAdapter{
         }
         MemberResultModel model=pc.get(position);
         holder.tv_start_weight.setText("初始体重："+model.getInitWt()+"斤");
-        /*if(model.getGender()==0){//男
+        if(model.getGender()==0){//男
             holder.cb_gender.setChecked(false);
         }else{
             holder.cb_gender.setChecked(true);
@@ -83,7 +83,7 @@ public class SearchPCAdapter extends BaseAdapter{
         if(StringUtils.isNotEmpty(model.getPCPhoto())){
             Picasso.with(context).load(AddressManager.get("photoHost")+model.getPCPhoto()).fit().placeholder(R.drawable.img_default)
                     .error(R.drawable.img_default).into(holder.civ_header);
-        }*/
+        }
         return convertView;
     }
 
