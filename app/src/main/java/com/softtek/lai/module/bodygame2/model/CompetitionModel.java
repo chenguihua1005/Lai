@@ -13,7 +13,16 @@ public class CompetitionModel {
     private String PCPhoto;
     private String PCUserName;
     private String UserName;
+    private int ClassId;
     private int rnum;
+
+    public int getClassId() {
+        return ClassId;
+    }
+
+    public void setClassId(int classId) {
+        ClassId = classId;
+    }
 
     public int getAccountId() {
         return AccountId;

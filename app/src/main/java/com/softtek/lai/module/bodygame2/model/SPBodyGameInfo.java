@@ -7,6 +7,7 @@ import java.util.List;
  */
 public class SPBodyGameInfo {
 
+    private String Banner;
     private String TotalPc;
     private String TotalLoss;
     private String Retest;
@@ -147,5 +148,13 @@ public class SPBodyGameInfo {
 
     public void setTips_video_url(String tips_video_url) {
         Tips_video_url = tips_video_url;
+    }
+
+    public String getBanner() {
+        return Banner;
+    }
+
+    public void setBanner(String banner) {
+        Banner = banner;
     }
 }
