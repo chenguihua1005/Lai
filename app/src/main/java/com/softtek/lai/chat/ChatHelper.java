@@ -181,7 +181,7 @@ public class ChatHelper {
             public Intent getLaunchIntent(EMMessage message) {
                 //设置点击通知栏跳转事件
                 Intent intent = new Intent(appContext, BodyGameSPActivity.class);
-                //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 return intent;
             }
         });
@@ -237,7 +237,6 @@ public class ChatHelper {
                 switch (event.getEvent()) {
                     case EventNewMessage:
                         //应用在后台，不需要刷新UI,通知栏提示新消息
-                        System.out.println("getMessage1111111111");
                         int unreadMsgCountTotal = EMChatManager.getInstance().getUnreadMsgsCount();
                         Intent msgIntent = new Intent(Constants.MESSAGE_CHAT_ACTION);
                         msgIntent.putExtra("count", unreadMsgCountTotal);
@@ -247,7 +246,6 @@ public class ChatHelper {
                         }
                         break;
                     case EventOfflineMessage:
-                        System.out.println("EventOfflineMessage--------");
                         List<EMMessage> messagess = (List<EMMessage>) event.getData();
                         for (int i = 0; i <messagess.size() ; i++) {
                             EMMessage m=messagess.get(i);

@@ -55,6 +55,12 @@ public class GradeImpl implements IGrade {
         service = ZillaApi.NormalRestAdapter.create(GradeService.class);
         token= UserInfoModel.getInstance().getToken();
     }
+
+    public GradeImpl(Context callBack,String type) {
+        this.cb= (GradeCalllback) callBack;
+        service = ZillaApi.NormalRestAdapter.create(GradeService.class);
+        token= UserInfoModel.getInstance().getToken();
+    }
     public GradeImpl(BannerUpdateCallBack callBack,String type) {
         this.callBack = callBack;
         service = ZillaApi.NormalRestAdapter.create(GradeService.class);
