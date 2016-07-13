@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -82,6 +83,7 @@ public class ClassMainStudentAdapter extends BaseAdapter {
             holder.cb_star = (CheckBox) convertView.findViewById(R.id.cb_star);
             holder.cb_fc = (CheckBox) convertView.findViewById(R.id.cb_fc);
             holder.rel = (RelativeLayout) convertView.findViewById(R.id.rel);
+            holder.img_type = (ImageView) convertView.findViewById(R.id.img_type);
 
             convertView.setTag(holder);//绑定ViewHolder对象
         } else {
@@ -93,6 +95,7 @@ public class ClassMainStudentAdapter extends BaseAdapter {
             holder.text_before_weight.setText("初始体重：" + model.getFirstweight() + "斤");
             String value = StringUtil.getFloatValue(model.getLoss());
             holder.text_value.setText(value + "斤");
+            //holder.img_type.setImageResource(R.drawable);
         } else if ("1".equals(type)) {
             holder.text_before_weight.setText("初始体重：" + model.getFirstweight() + "斤");
 
@@ -103,14 +106,17 @@ public class ClassMainStudentAdapter extends BaseAdapter {
             System.out.println("str:" + str);
             String value = StringUtil.getFloatValue(str);
             holder.text_value.setText(value + "%");
+            //holder.img_type.setImageResource(R.drawable);
         } else if ("2".equals(type)) {
             holder.text_before_weight.setText("初始体脂：" + model.getFirstweight() + "%");
             String value = StringUtil.getFloatValue(model.getLoss());
             holder.text_value.setText(value + "%");
+            //holder.img_type.setImageResource(R.drawable);
         } else if ("3".equals(type)) {
             holder.text_before_weight.setText("初始腰围：" + model.getFirstweight() + "cm");
             String value = StringUtil.getFloatValue(model.getLoss());
             holder.text_value.setText(value + "cm");
+           // holder.img_type.setImageResource(R.drawable);
         }
         holder.tv_order.setText(model.getOrdernum());
         holder.text_name.setText(model.getUsername());
@@ -149,6 +155,7 @@ public class ClassMainStudentAdapter extends BaseAdapter {
         public CheckBox cb_star;
         public CheckBox cb_fc;
         public RelativeLayout rel;
+        public ImageView img_type;
     }
 }
 
