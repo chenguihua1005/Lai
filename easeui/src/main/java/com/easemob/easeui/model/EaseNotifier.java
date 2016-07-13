@@ -14,6 +14,7 @@ package com.easemob.easeui.model;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -251,7 +252,7 @@ public class EaseNotifier {
                 msgIntent = notificationInfoProvider.getLaunchIntent(message);
             }
             msgIntent = notificationInfoProvider.getLaunchIntent(message);
-            PendingIntent pendingIntent = PendingIntent.getActivity(appContext, notifyID, msgIntent,0);
+            PendingIntent pendingIntent = PendingIntent.getActivity(appContext, new Random().nextInt(100000), msgIntent,PendingIntent.FLAG_UPDATE_CURRENT);
 
             if (numIncrease) {
                 // prepare latest event info section
@@ -284,6 +285,7 @@ public class EaseNotifier {
             mBuilder.setContentIntent(pendingIntent);
             // mBuilder.setNumber(notificationNum);
             Notification notification = mBuilder.build();
+            notificationManager = (NotificationManager)appContext .getSystemService(Context.NOTIFICATION_SERVICE);
             if (isForeground) {
                 notificationManager.notify(foregroundNotifyID, notification);
                 notificationManager.cancelAll();
