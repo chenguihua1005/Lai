@@ -68,7 +68,7 @@ public class SPPCAdapter extends BaseAdapter{
             holder.cb_gender.setChecked(true);
         }
         holder.tv_name.setText(model.getUserName());
-        holder.tv_who.setText(" "+model.getAssistantName());
+        holder.tv_who.setText(" "+StringUtil.withValue(model.getSuperName()));
         holder.tv_total_weight.setText(model.getLossW()+"斤");
         if(model.getStarCou()==0){//不是明星学员
             holder.cb_mingxing.setChecked(false);

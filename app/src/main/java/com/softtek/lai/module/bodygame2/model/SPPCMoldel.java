@@ -8,6 +8,7 @@ public class SPPCMoldel {
 
     private int AccountId;
     private String AssistantName;
+    private String superName;
     private int ClassId;
     private String ClassName;
     private int HonCou;
@@ -20,6 +21,14 @@ public class SPPCMoldel {
     private int acmCou;
     private int Gender;
     private String PCPhoto;
+
+    public String getSuperName() {
+        return superName;
+    }
+
+    public void setSuperName(String superName) {
+        this.superName = superName;
+    }
 
     public String getPCPhoto() {
         return PCPhoto;
