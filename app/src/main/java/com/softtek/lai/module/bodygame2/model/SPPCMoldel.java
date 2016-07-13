@@ -11,9 +11,9 @@ public class SPPCMoldel {
     private int ClassId;
     private String ClassName;
     private int HonCou;
-    private int InitWt;
-    private int LastWt;
-    private int LossW;
+    private float InitWt;
+    private float LastWt;
+    private float LossW;
     private int Num;
     private int StarCou;
     private String UserName;
@@ -77,27 +77,27 @@ public class SPPCMoldel {
         HonCou = honCou;
     }
 
-    public int getInitWt() {
+    public float getInitWt() {
         return InitWt;
     }
 
-    public void setInitWt(int initWt) {
+    public void setInitWt(float initWt) {
         InitWt = initWt;
     }
 
-    public int getLastWt() {
+    public float getLastWt() {
         return LastWt;
     }
 
-    public void setLastWt(int lastWt) {
+    public void setLastWt(float lastWt) {
         LastWt = lastWt;
     }
 
-    public int getLossW() {
+    public float getLossW() {
         return LossW;
     }
 
-    public void setLossW(int lossW) {
+    public void setLossW(float lossW) {
         LossW = lossW;
     }
 
