@@ -7,12 +7,16 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.github.snowdream.android.util.Log;
 import com.softtek.lai.R;
 import com.softtek.lai.common.LazyBaseFragment;
+import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.module.bodygame.model.TotolModel;
+import com.softtek.lai.module.bodygame.net.BodyGameService;
+import com.softtek.lai.module.bodygame.presenter.ITiGuanSai;
+import com.softtek.lai.module.bodygame.presenter.TiGuanSaiImpl;
 import com.softtek.lai.module.bodygame2.adapter.SPPCAdapter;
 import com.softtek.lai.module.bodygame2.adapter.SaiKuangAdapter;
 import com.softtek.lai.module.bodygame2.model.CompetitionModel;
@@ -20,6 +24,7 @@ import com.softtek.lai.module.bodygame2.model.SPBodyGameInfo;
 import com.softtek.lai.module.bodygame2.model.SPPCMoldel;
 import com.softtek.lai.module.bodygame2.model.Tips;
 import com.softtek.lai.module.bodygame2.present.SPManager;
+import com.softtek.lai.module.tips.view.TipsActivity;
 import com.softtek.lai.utils.DisplayUtil;
 import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.MyGridView;
@@ -33,6 +38,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import zilla.libcore.api.ZillaApi;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 
@@ -252,9 +261,31 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
                 break;
             case R.id.iv_refresh:
                 //刷新
+                dialogShow("数据刷新中...");
+                ZillaApi.NormalRestAdapter.create(BodyGameService.class).doGetTotal(new Callback<ResponseData<List<TotolModel>>>() {
+                    @Override
+                    public void success(ResponseData<List<TotolModel>> listResponseData, Response response) {
+                        dialogDissmiss();
+                        if(listResponseData.getStatus()==200){
+                            List<TotolModel> models=listResponseData.getData();
+                            try {
+                                tv_totalperson.setText(models.get(0).getTotal_person());
+                                tv_total_loss.setText(models.get(0).getTotal_loss());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        dialogDissmiss();
+                    }
+                });
                 break;
             case R.id.rl_student_more:
                 //我的学员 更多
+
                 break;
             case R.id.ll_tip1:
                 //第一个tip
@@ -264,6 +295,7 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
                 break;
             case R.id.rl_tip:
                 //tips更多
+                startActivity(new Intent(getContext(), TipsActivity.class));
                 break;
             case R.id.rl_saikuang:
                 //大赛更多
@@ -289,9 +321,9 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
     @Override
     public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
         float alpha=(1f*y/1000);
-        Context context=getContext();
-        if(context instanceof BodyGameSPActivity){
-            BodyGameSPActivity activity=(BodyGameSPActivity)context;
+
+        if(getContext() instanceof BodyGameSPActivity){
+            BodyGameSPActivity activity=(BodyGameSPActivity)getContext();
             activity.setAlpha(alpha);
             rl_color.setAlpha(alpha);
         }

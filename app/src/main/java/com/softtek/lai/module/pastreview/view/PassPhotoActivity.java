@@ -54,8 +54,8 @@ public class PassPhotoActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void initDatas() {
         Intent intent = getIntent();
-        userId = intent.getLongExtra("userId", 0) + "";
-        classId = intent.getLongExtra("classId", 0) + "";
+        userId = intent.getLongExtra("userId",0) + "";
+        classId = intent.getLongExtra("classId",0) + "";
         myPhotoListAdapter = new MyPhotoListAdapter(this, myPhotoListModelList);
         ptrlvpassclasslist.setAdapter(myPhotoListAdapter);
         myPhotoListManager = new MyPhotoListManager(this);

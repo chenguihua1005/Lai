@@ -6,6 +6,6 @@
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_checked="true" android:drawable="@drawable/bg2_mingxing"/>
-    <item android:state_checked="false" android:drawable="@drawable/bg2_mingxing"/>
-    <item android:drawable="@drawable/bg2_mingxing"/>
+    <item android:state_checked="false" android:drawable="@drawable/bg2_nomingxing"/>
+    <item android:drawable="@drawable/bg2_nomingxing"/>
 </selector>
