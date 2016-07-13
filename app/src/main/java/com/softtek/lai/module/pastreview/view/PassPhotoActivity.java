@@ -38,7 +38,6 @@ public class PassPhotoActivity extends BaseActivity implements View.OnClickListe
     MyPhotoListManager myPhotoListManager;
     String classId;
     String userId;
-    String accountId;
     MyPhotoListAdapter myPhotoListAdapter;
     List<MyPhotoListModel> myPhotoListModelList = new ArrayList<MyPhotoListModel>();
 
@@ -59,6 +58,7 @@ public class PassPhotoActivity extends BaseActivity implements View.OnClickListe
         myPhotoListAdapter = new MyPhotoListAdapter(this, myPhotoListModelList);
         ptrlvpassclasslist.setAdapter(myPhotoListAdapter);
         myPhotoListManager = new MyPhotoListManager(this);
+        myPhotoListManager.doGetMyPhotoList(userId,"1",classId);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

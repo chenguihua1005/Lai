@@ -118,6 +118,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/ll_persondatefuce"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
@@ -339,6 +340,7 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:orientation="vertical"
+                        android:layout_gravity="center"
                         >
                         <LinearLayout
                             android:orientation="vertical"
@@ -371,6 +373,7 @@
                         android:layout_weight="1"
                         android:orientation="vertical"
                         android:gravity="center"
+                        android:layout_gravity="center"
                         >
                         <LinearLayout
                             android:id="@+id/ll_honorn2"
@@ -402,6 +405,7 @@
                         android:layout_weight="1"
                         android:orientation="vertical"
                         android:gravity="center"
+                        android:layout_gravity="center"
                         >
 
                         <LinearLayout
