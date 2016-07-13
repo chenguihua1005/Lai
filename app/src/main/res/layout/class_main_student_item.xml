@@ -84,6 +84,8 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerInParent="true"
                     android:button="@null"
+                    android:clickable="false"
+                    android:enabled="false"
                     android:drawableLeft="@drawable/cb_gender" />
 
                 <TextView
@@ -144,6 +146,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:button="@null"
+                    android:clickable="false"
+                    android:enabled="false"
                     android:drawableLeft="@drawable/cb_mingxing" />
 
                 <CheckBox
@@ -152,6 +156,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="25dp"
                     android:button="@null"
+                    android:clickable="false"
+                    android:enabled="false"
                     android:drawableLeft="@drawable/cb_fuce" />
 
                 <ImageView
