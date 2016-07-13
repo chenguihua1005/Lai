@@ -128,6 +128,7 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
 
     @Override
     protected void initViews() {
+        ll_left.setVisibility(View.INVISIBLE);
         int status= DisplayUtil.getStatusHeight(getActivity());
         RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
         params.topMargin=status;
@@ -191,6 +192,10 @@ public class ChatFragment extends LazyBaseFragment implements View.OnClickListen
     @Override
     protected void onVisible() {
         isPrepared = false;
+        if(getContext() instanceof BodyGameSPActivity){
+            BodyGameSPActivity activity=(BodyGameSPActivity)getContext();
+            activity.setAlpha(1);
+        }
         super.onVisible();
     }
 

@@ -148,8 +148,8 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
     String gender="1";
     UserInfoModel userInfoModel=UserInfoModel.getInstance();
     long loginid=Long.parseLong(userInfoModel.getUser().getUserid());
-    String acountid;
-    String classid;
+    String acountid="0";
+    String classid="0";
     private static final int GET_BODY=2;
     private static final int BODY=3;
     private CharSequence[] items={"拍照","从相册选择照片"};
@@ -182,7 +182,6 @@ public class WriteActivity extends BaseActivity implements View.OnClickListener,
         progressDialog = new ProgressDialog(this);
         im_retestwrite_showphoto.setOnClickListener(this);
 
-//        android:enabled="false"
     }
 
 

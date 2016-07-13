@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
+import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,7 @@ import com.softtek.lai.module.retest.model.BanjiStudentModel;
 import com.softtek.lai.module.retest.present.RetestPre;
 import com.softtek.lai.module.retest.present.RetestclassImp;
 import com.softtek.lai.module.retest.view.QueryActivity;
+import com.softtek.lai.utils.DisplayUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -52,6 +54,8 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
     LinearLayout ll_left;
     @InjectView(R.id.iv_email)
     ImageView iv_email;
+    @InjectView(R.id.toolbar)
+    Toolbar toolbar;
 
     //班级列表、学员列表
     @InjectView(R.id.Iv_fold)
@@ -83,6 +87,11 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
     long ClassId;
     @Override
     protected void initViews() {
+        int status= DisplayUtil.getStatusHeight(getActivity());
+        RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
+        params.topMargin=status;
+        toolbar.setLayoutParams(params);
+
         bar_title.setText("复测");
         iv_email.setVisibility(View.VISIBLE);
         iv_email.setImageResource(R.drawable.retestsearch);
@@ -123,6 +132,15 @@ public class FuCeFragment extends LazyBaseFragment implements View.OnClickListen
         chuheight += ll_shousuolist.getHeight();
 //        Log.i("班级列表的高度为>>>>>" + chuheight);
 
+    }
+
+    @Override
+    protected void onVisible() {
+        super.onVisible();
+        if(getContext() instanceof BodyGameSPActivity){
+            BodyGameSPActivity activity=(BodyGameSPActivity)getContext();
+            activity.setAlpha(1);
+        }
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {

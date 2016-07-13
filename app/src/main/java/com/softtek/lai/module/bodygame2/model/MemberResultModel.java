@@ -6,30 +6,47 @@ package com.softtek.lai.module.bodygame2.model;
 public class MemberResultModel {
     private String AccountId;
     private String AssistantName;
+    private String superName;
     private String ClassId;
     private String ClassName;
     private String HonCou;
     private String InitWt;
     private String LastWt;
     private String LossW;
-    private String Num;
-    private String StarCou;
+    private int Num;
+    private int StarCou;
     private String UserName;
-    private String acmCou;
+    private int acmCou;
+    private int Gender;
+    private String PCPhoto;
 
-    public MemberResultModel(String accountId, String assistantName, String classId, String className, String honCou, String initWt, String lastWt, String lossW, String num, String starCou, String userName, String acmCou) {
-        AccountId = accountId;
-        AssistantName = assistantName;
-        ClassId = classId;
-        ClassName = className;
-        HonCou = honCou;
-        InitWt = initWt;
-        LastWt = lastWt;
-        LossW = lossW;
-        Num = num;
-        StarCou = starCou;
-        UserName = userName;
-        this.acmCou = acmCou;
+
+
+    public MemberResultModel() {
+    }
+
+    public String getSuperName() {
+        return superName;
+    }
+
+    public void setSuperName(String superName) {
+        this.superName = superName;
+    }
+
+    public int getGender() {
+        return Gender;
+    }
+
+    public void setGender(int gender) {
+        Gender = gender;
+    }
+
+    public String getPCPhoto() {
+        return PCPhoto;
+    }
+
+    public void setPCPhoto(String PCPhoto) {
+        this.PCPhoto = PCPhoto;
     }
 
     public String getAccountId() {
@@ -96,19 +113,19 @@ public class MemberResultModel {
         LossW = lossW;
     }
 
-    public String getNum() {
+    public int getNum() {
         return Num;
     }
 
-    public void setNum(String num) {
+    public void setNum(int num) {
         Num = num;
     }
 
-    public String getStarCou() {
+    public int getStarCou() {
         return StarCou;
     }
 
-    public void setStarCou(String starCou) {
+    public void setStarCou(int starCou) {
         StarCou = starCou;
     }
 
@@ -120,11 +137,11 @@ public class MemberResultModel {
         UserName = userName;
     }
 
-    public String getAcmCou() {
+    public int getAcmCou() {
         return acmCou;
     }
 
-    public void setAcmCou(String acmCou) {
+    public void setAcmCou(int acmCou) {
         this.acmCou = acmCou;
     }
 }

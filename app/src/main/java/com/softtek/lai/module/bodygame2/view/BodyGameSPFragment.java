@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -139,6 +140,10 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
     LinearLayout ll_honor;
     @InjectView(R.id.ll_zhujiao)
     LinearLayout ll_zhujiao;
+    @InjectView(R.id.et_person)
+    EditText et_person;
+    @InjectView(R.id.fl_search)
+    FrameLayout fl_search;
     //请求
     SPManager manager;
 
@@ -162,6 +167,7 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
         ll_zhujiao.setOnClickListener(this);
         scroll.setScrollViewListener(this);
         fl.setOnClickListener(this);
+        fl_search.setOnClickListener(this);
         //学员点击item
         mlv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -201,6 +207,15 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
 
     }
 
+    @Override
+    protected void onVisible() {
+        super.onVisible();
+        if(getContext() instanceof BodyGameSPActivity){
+            BodyGameSPActivity activity=(BodyGameSPActivity)getContext();
+            activity.setAlpha(0);
+        }
+
+    }
 
     @Override
     protected void lazyLoad() {
@@ -361,13 +376,20 @@ public class BodyGameSPFragment extends LazyBaseFragment implements View.OnClick
                 //助教管理
                 startActivity(new Intent(getContext(), AssistantActivity.class));
                 break;
+            case R.id.fl_search:
+                String text=et_person.getText().toString();
+                if(StringUtils.isNotEmpty(text)){
+                    Intent search=new Intent(getContext(),SearchPcActivity.class);
+                    search.putExtra("value",text);
+                    startActivity(search);
+                }
+                break;
         }
     }
 
     @Override
     public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
         float alpha=(1f*y/1000);
-
         if(getContext() instanceof BodyGameSPActivity){
             BodyGameSPActivity activity=(BodyGameSPActivity)getContext();
             activity.setAlpha(alpha);

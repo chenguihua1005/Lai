@@ -112,11 +112,16 @@ public class ContactFragment extends LazyBaseFragment implements View.OnClickLis
 
     @Override
     protected void initViews() {
+        ll_left.setVisibility(View.INVISIBLE);
         tv_title.setText("通讯录");
         int status= DisplayUtil.getStatusHeight(getActivity());
         LinearLayout.LayoutParams params= (LinearLayout.LayoutParams) toolbar.getLayoutParams();
         params.topMargin=status;
         toolbar.setLayoutParams(params);
+        if(getContext() instanceof BodyGameSPActivity){
+            BodyGameSPActivity activity=(BodyGameSPActivity)getContext();
+            activity.setAlpha(1);
+        }
     }
     private void setData() {
         dialogShow("加载中");

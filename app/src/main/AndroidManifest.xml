@@ -717,9 +717,11 @@
             android:exported="true" />
 
         <activity
-            android:name=".module.bodygame2.view.BodyGameSPActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".module.bodygame2.view.PersonalDataActivity"></activity>
+            android:name=".module.bodygame2.view.BodyGameSPActivity"/>
+        <activity android:name=".module.bodygame2.view.PersonalDataActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.bodygame2.view.SearchPcActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".module.bodygame2.view.DYActivity"
             android:screenOrientation="portrait" />

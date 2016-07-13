@@ -5,7 +5,9 @@ import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,7 +18,10 @@ import android.widget.TextView;
 import com.softtek.lai.R;
 import com.softtek.lai.common.BaseActivity;
 import com.softtek.lai.common.BaseFragment;
+import com.softtek.lai.common.ResponseData;
+import com.softtek.lai.common.UserInfoModel;
 import com.softtek.lai.module.bodygame2.model.memberDetialModel;
+import com.softtek.lai.module.bodygame2.net.BodyGameService;
 import com.softtek.lai.module.bodygame2.present.ClemeberExitManager;
 import com.softtek.lai.module.bodygame2.present.PersonDateManager;
 import com.softtek.lai.module.bodygamest.view.FuceStActivity;
@@ -24,16 +29,24 @@ import com.softtek.lai.module.bodygamest.view.StudentHonorGridActivity;
 import com.softtek.lai.module.bodygamest.view.UploadPhotoActivity;
 import com.softtek.lai.module.health.view.DateForm;
 import com.softtek.lai.module.pastreview.view.PassPhotoActivity;
+import com.softtek.lai.module.retest.AuditActivity;
+import com.softtek.lai.module.retest.WriteActivity;
+import com.softtek.lai.module.retest.eventModel.RetestAuditModelEvent;
+import com.softtek.lai.module.retest.present.RetestPre;
+import com.softtek.lai.module.retest.present.RetestclassImp;
 import com.softtek.lai.module.studetail.adapter.StudentDetailFragmentAdapter;
 import com.softtek.lai.module.studetail.view.DimensionChartFragment;
 import com.softtek.lai.module.studetail.view.LossWeightChartFragment;
 import com.softtek.lai.module.studetail.view.LossWeightLogActivity;
 import com.softtek.lai.utils.ChMonth;
+import com.softtek.lai.utils.RequestCallback;
 import com.softtek.lai.utils.StringUtil;
 import com.softtek.lai.widgets.CircleImageView;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringUtils;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,6 +54,7 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.InjectView;
+import retrofit.client.Response;
 import zilla.libcore.file.AddressManager;
 import zilla.libcore.ui.InjectLayout;
 import zilla.libcore.util.Util;
@@ -128,10 +142,14 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
     private long classId = 0;
     private String review_flag = "1";
     ChMonth chMonth;
+    String typedate="";
+    String AMStatus="";
+    RetestPre retestPre;
     private List<Fragment> fragmentList = new ArrayList<>();
     PersonDateManager persondatemanager;
     ClemeberExitManager clemberExitmanager;
-
+    BodyGameService service;
+    private static final int GET_BODY = 2;
     @Override
     protected void initViews() {
         ll_left.setOnClickListener(this);
@@ -159,7 +177,6 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     protected void initDatas() {
-
         persondatemanager = new PersonDateManager();
         persondatemanager.doGetClmemberDetial(this, userId + "", classId + "");
     }
@@ -187,7 +204,7 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                 clemberExitmanager.doClmemberExit(this, userId + "", classId + "");
                 break;
             case R.id.re_xunzhang:
-                startActivity(new Intent(this, StudentHonorGridActivity.class));
+//                startActivity(new Intent(this, StudentHonorGridActivity.class));
                 break;
             case R.id.re_jianzh:
                 Intent intent1 = new Intent(this, LossWeightLogActivity.class);
@@ -202,14 +219,35 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
                 startActivity(intent2);
                 break;
             case R.id.ll_persondatefuce:
-
-                startActivity(new Intent(this, FuceStActivity.class));
+                if(AMStatus.equals("-1"))
+                {
+                    Intent fucewrite=new Intent(this, WriteActivity.class);
+                    fucewrite.putExtra("accountId",userId+"");
+                    fucewrite.putExtra("classId",classId+"");
+                    startActivity(fucewrite);
+                }
+                else if (AMStatus.equals("0")){
+                    Intent fucewrite=new Intent(this, AuditActivity.class);
+                    fucewrite.putExtra("accountId",userId+"");
+                    fucewrite.putExtra("classId",classId+"");
+                    String[] date=typedate.split(" ");
+                    fucewrite.putExtra("typeDate",date[0]);
+                    startActivity(fucewrite);
+                }
+                else if (AMStatus.equals("1")){
+                    Intent fucewrite=new Intent(this, FuceStActivity.class);
+                    fucewrite.putExtra("accountId",userId+"");
+                    startActivity(fucewrite);
+                }
                 break;
         }
     }
 
     public void onloadCompleted(memberDetialModel data) {
         if (data != null) {
+            AMStatus=data.getClmInfo().getIstest();
+            Log.i("当前状态",AMStatus);
+            typedate=data.getClmInfo().getTypedate();
             String path = AddressManager.get("photoHost");
             if (!TextUtils.isEmpty(data.getClmInfo().getPhoto())) {
                 Picasso.with(this).load(path + data.getClmInfo().getPhoto()).fit().error(R.drawable.img_default).into(cir_headim);
@@ -316,6 +354,15 @@ public class PersonalDataActivity extends BaseActivity implements View.OnClickLi
             LayoutInflater.from(this).inflate(R.layout.person_honor_star_item, getview1(num, type, value));
             TextView tv_jzstar_value = (TextView) findViewById(R.id.tv_jzstar_value);
             tv_jzstar_value.setText(value);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GET_BODY && resultCode == RESULT_OK) {
+            AMStatus="1";
+
         }
     }
 
