@@ -15,13 +15,13 @@
 
             <RelativeLayout
                 android:id="@+id/rel_head_view"
-                android:layout_width="wrap_content"
-                android:layout_height="190dip">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
                 <ImageView
                     android:id="@+id/img_banner"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="190dip"
                     android:src="@drawable/default_icon_rect" />
 
                 <LinearLayout
@@ -267,13 +267,14 @@
                     android:id="@+id/rel_no_message"
                     android:layout_width="fill_parent"
                     android:layout_height="98dip">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
                         android:text="暂无消息"
-                        android:textSize="17sp"
                         android:textColor="@color/word13"
-                        android:layout_centerInParent="true"/>
+                        android:textSize="17sp" />
                 </RelativeLayout>
             </LinearLayout>
 
@@ -348,6 +349,13 @@
     </com.softtek.lai.widgets.ObservableScrollView>
 
     <RelativeLayout
+        android:id="@+id/rel_sy"
+        android:layout_width="fill_parent"
+        android:layout_height="50dip"
+        android:background="@drawable/img_sy"
+        android:orientation="horizontal"></RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/rel"
         android:layout_width="fill_parent"
         android:layout_height="50dip">
@@ -357,7 +365,7 @@
             android:layout_width="fill_parent"
             android:layout_height="50dip"
             android:background="@color/green"
-            android:orientation="horizontal" />
+            android:orientation="horizontal"></RelativeLayout>
 
         <LinearLayout
             android:id="@+id/lin_class_select"
@@ -372,11 +380,12 @@
                 android:layout_width="120dip"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:gravity="center"
-                android:text="小"
                 android:layout_marginLeft="10dip"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text="小"
+                android:textColor="@color/white"
                 android:textSize="17sp" />
 
             <ImageView

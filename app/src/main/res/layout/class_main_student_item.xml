@@ -7,9 +7,11 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@color/white"
+    android:descendantFocusability="blocksDescendants"
     android:orientation="horizontal">
 
     <RelativeLayout
+        android:id="@+id/rel"
         android:layout_width="match_parent"
         android:layout_height="85dp"
         android:background="@color/white">
@@ -101,6 +103,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:text="(助教)：David"
+                    android:layout_marginLeft="3dip"
                     android:layout_centerVertical="true"
                     android:textSize="12sp" />
 

@@ -43,7 +43,6 @@ public class StudentImpl implements IStudentPresenter {
         counselorService = ZillaApi.NormalRestAdapter.create(CounselorService.class);
     }
 
-
     @Override
     public void sendInviterMsg(String inviters, String classId, final ImageView img_invite) {
         String token = UserInfoModel.getInstance().getToken();
