@@ -717,7 +717,9 @@
             android:exported="true" />
 
         <activity
-            android:name=".module.bodygame2.view.BodyGameSPActivity"/>
+            android:name=".module.bodygame2.view.BodyGameSPActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity android:name=".module.bodygame2.view.PersonalDataActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".module.bodygame2.view.SearchPcActivity"
