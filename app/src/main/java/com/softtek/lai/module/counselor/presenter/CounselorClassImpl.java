@@ -165,6 +165,7 @@ public class CounselorClassImpl implements ICounselorClassPresenter {
                                         intent.putExtra("classId", classIdResponseData.getData().getClassId());
                                         intent.putExtra("type", "0");
                                         context.startActivity(intent);
+                                        context.finish();
                                     }
                                 });
                         Dialog dialog = dialogBuilder.create();

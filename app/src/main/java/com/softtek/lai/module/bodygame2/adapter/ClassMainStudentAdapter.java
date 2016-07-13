@@ -6,16 +6,20 @@
 package com.softtek.lai.module.bodygame2.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.softtek.lai.R;
 import com.softtek.lai.module.bodygame2.model.ClassMainStudentModel;
 import com.softtek.lai.module.bodygame2.model.ClmListModel;
+import com.softtek.lai.module.bodygame2.view.ClassFragment;
+import com.softtek.lai.module.bodygame2.view.PersonalDataActivity;
 import com.softtek.lai.module.counselor.presenter.IAssistantPresenter;
 import com.softtek.lai.utils.StringUtil;
 
@@ -77,13 +81,14 @@ public class ClassMainStudentAdapter extends BaseAdapter {
             holder.cb_gender = (CheckBox) convertView.findViewById(R.id.cb_gender);
             holder.cb_star = (CheckBox) convertView.findViewById(R.id.cb_star);
             holder.cb_fc = (CheckBox) convertView.findViewById(R.id.cb_fc);
+            holder.rel = (RelativeLayout) convertView.findViewById(R.id.rel);
 
             convertView.setTag(holder);//绑定ViewHolder对象
         } else {
             holder = (ViewHolder) convertView.getTag();//取出ViewHolder对象
         }
         /**设置TextView显示的内容，即我们存放在动态数组中的数据*/
-        ClmListModel model = list.get(position);
+        final ClmListModel model = list.get(position);
         if ("0".equals(type)) {
             holder.text_before_weight.setText("初始体重：" + model.getFirstweight() + "斤");
             String value = StringUtil.getFloatValue(model.getLoss());
@@ -109,7 +114,7 @@ public class ClassMainStudentAdapter extends BaseAdapter {
         }
         holder.tv_order.setText(model.getOrdernum());
         holder.text_name.setText(model.getUsername());
-        holder.tv_who.setText(model.getSuperName());
+        holder.tv_who.setText("(助教)：" + model.getSuperName());
         holder.text_count.setText("x" + model.getHonorcnt());
 
         if (model.getGender().equals("1")) {
@@ -143,6 +148,7 @@ public class ClassMainStudentAdapter extends BaseAdapter {
         public CheckBox cb_gender;
         public CheckBox cb_star;
         public CheckBox cb_fc;
+        public RelativeLayout rel;
     }
 }
 
